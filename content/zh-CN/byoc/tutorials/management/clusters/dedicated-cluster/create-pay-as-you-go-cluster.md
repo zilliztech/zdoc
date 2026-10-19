@@ -49,7 +49,7 @@ import Supademo from '@site/src/components/Supademo';
 | --- | --- |
 | **集群名称** | 请输入集群的名称。当前存在随机默认值，您可根据需要修改该名称 |
 | **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
-| **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](https://docs.zilliz.com.cn/docs/cu-types-explained)。如需选择分层存储型 CU，集群规格需至少为 8 Query CU。 |
+| **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。如需选择分层存储型 CU，集群规格需至少为 8 Query CU。 |
 | **Query CU** | 您可以使用[计算器](https://zilliz.com.cn/pricing#calculator)估算所需 Query CU 数量。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。<br/>默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅[手动扩缩容](./manual-scaling)。 |
 | **备份策略（可选）** | 设置定时创建备份的频率。更多详细信息，请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
 
@@ -61,7 +61,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <TabItem value="bash">
 
-以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](https://docs.zilliz.com.cn/reference/restful/create-dedicated-cluster-v2)。
+以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](/reference/restful/create-dedicated-cluster-v2)。
 
 ```bash
 curl --request POST \
@@ -87,9 +87,9 @@ curl --request POST \
 
 - `clusterName`：需要创建的集群名称。
 
-- `projectId`：需要创建的集群所属的项目的 ID。如需查看项目 ID，请使用[查看项目列表](https://docs.zilliz.com.cn/reference/restful/list-projects-v2)。
+- `projectId`：需要创建的集群所属的项目的 ID。如需查看项目 ID，请使用[查看项目列表](/reference/restful/list-projects-v2)。
 
-- `regionId`：需要创建的集群所部署的云服务地域 ID。如需查看所有 Zilliz Cloud 支持的云服务地域 ID，请使用[查看云服务区域](https://docs.zilliz.com.cn/reference/restful/list-cloud-regions-v2)。
+- `regionId`：需要创建的集群所部署的云服务地域 ID。如需查看所有 Zilliz Cloud 支持的云服务地域 ID，请使用[查看云服务区域](/reference/restful/list-cloud-regions-v2)。
 
 - `clusterType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）。
 

@@ -42,7 +42,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-该特性当前为**内测版**特性。请[联系我们](https://support.zilliz.com.cn/hc/zh-cn)为您开通访问权限。关于详细的 RESTful 参考文档，可以参考[合并数据](https://docs.zilliz.com.cn/reference/restful/merge-data-v2)。
+该特性当前为**内测版**特性。请[联系我们](https://support.zilliz.com.cn/hc/zh-cn)为您开通访问权限。关于详细的 RESTful 参考文档，可以参考[合并数据](/reference/restful/merge-data-v2)。
 
 ## 重磅推出 Stage：Zilliz Cloud 的数据层基础能力 | PRIVATE\{#introducing-stage-the-data-layer-of-zilliz-cloud}
 
@@ -52,13 +52,13 @@ Stage 提供了一个托管式、云原生的数据暂存区域，专为处理�
 
 在本次初始发布版本（内测版）中，用户可以：
 
-- 通过 RESTful API 管理 Stage，包括[创建](https://docs.zilliz.com.cn/reference/restful/create-volume-v2)、[查看列表](https://docs.zilliz.com.cn/reference/restful/list-volumes-v2)和[删除](https://docs.zilliz.com.cn/reference/restful/delete-volume-v2) Stage；
+- 通过 RESTful API 管理 Stage，包括[创建](/reference/restful/create-volume-v2)、[查看列表](/reference/restful/list-volumes-v2)和[删除](/reference/restful/delete-volume-v2) Stage；
 
 - 将 Stage 作为迁移（Migration）与导入（Import）服务共享的数据中转层，简化数据接入流程：
 
     - **迁移（Migration）**：只需一步即可将本地 Milvus 环境中的数据无缝迁移到 Zilliz Cloud。此前，用户需要手动创建备份、上传文件到 S3 并分别触发导入任务。有了 Stage，整个流程被统一化、加速且更少出错。详情请参阅[通过 Stage 从 Milvus 迁移至 Zilliz Cloud](./via-stage)。
 
-    - **导入（Import）**：导入任务现在支持将 Stage 作为暂存后端，减少了对对象存储的依赖，避免了 token 过期问题，使那些无法直接访问云存储的用户也能轻松将数据导入 Zilliz Cloud。详情请参阅[创建导入任务](https://docs.zilliz.com.cn/reference/restful/create-import-jobs-v2)并查看**请求体**中的**使用 Stage** 选项。
+    - **导入（Import）**：导入任务现在支持将 Stage 作为暂存后端，减少了对对象存储的依赖，避免了 token 过期问题，使那些无法直接访问云存储的用户也能轻松将数据导入 Zilliz Cloud。详情请参阅[创建导入任务](/reference/restful/create-import-jobs-v2)并查看**请求体**中的**使用 Stage** 选项。
 
 未来，Stage 将进一步集成备份（Backup）、导入（Import）及 ETL 服务，扩展对非结构化数据处理、数据共享以及管道化工作负载的支持，成为 Zilliz Cloud 中数据流动的核心基础设施。
 

@@ -158,7 +158,7 @@ Zilliz Cloud 不会在同一次扩缩容操作中同时修改 Query CU 和 Repli
 
 ### 通过 RESTful API\{#via-restful-api}
 
-使用 RESTful API 时，您可以在单个[修改集群配置](https://docs.zilliz.com.cn/reference/restful/modify-cluster-v2)请求中为 Query CU 和 Replica 配置自动扩缩容。
+使用 RESTful API 时，您可以在单个[修改集群配置](/reference/restful/modify-cluster-v2)请求中为 Query CU 和 Replica 配置自动扩缩容。
 
 ```bash
 export TOKEN="YOUR_API_KEY"

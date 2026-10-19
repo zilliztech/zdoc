@@ -72,7 +72,7 @@ import Supademo from '@site/src/components/Supademo';
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何为集群 `in01-xxxxxxxxxxxxxx` 创建集群备份。更多 API 参数细节，请参见[创建备份](https://docs.zilliz.com.cn/reference/restful/create-backup-v2)。
+以下示例展示如何为集群 `in01-xxxxxxxxxxxxxx` 创建集群备份。更多 API 参数细节，请参见[创建备份](/reference/restful/create-backup-v2)。
 
 ```bash
 curl --request POST \
@@ -109,7 +109,7 @@ curl --request POST \
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何为集群 `in01-xxxxxxxxxxxxxx` 中的 `medium_articles` Collection 创建备份。更多 API 参数细节，请参见[创建备份](https://docs.zilliz.com.cn/reference/restful/create-backup-v2)。
+以下示例展示如何为集群 `in01-xxxxxxxxxxxxxx` 中的 `medium_articles` Collection 创建备份。更多 API 参数细节，请参见[创建备份](/reference/restful/create-backup-v2)。
 
 ```bash
 curl --request POST \

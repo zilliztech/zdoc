@@ -70,7 +70,7 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何通过集群备份文件将集群恢复至名为 `Dedicated-01-backup` 的新集群。更多 API 参数细节，请参见[恢复集群备份](https://docs.zilliz.com.cn/reference/restful/restore-cluster-backup-v2)。
+以下示例展示如何通过集群备份文件将集群恢复至名为 `Dedicated-01-backup` 的新集群。更多 API 参数细节，请参见[恢复集群备份](/reference/restful/restore-cluster-backup-v2)。
 
 ```bash
 export API_KEY="YOUR_API_KEY"
@@ -146,7 +146,7 @@ curl --request POST \
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何将某个备份文件中的 Collection 恢复至已有集群 `in01-3e5ad8adc38xxxx`。更多 API 参数细节，请参见[恢复 Collection 备份](https://docs.zilliz.com.cn/reference/restful/restore-collection-backup-v2)。
+以下示例展示如何将某个备份文件中的 Collection 恢复至已有集群 `in01-3e5ad8adc38xxxx`。更多 API 参数细节，请参见[恢复 Collection 备份](/reference/restful/restore-collection-backup-v2)。
 
 ```bash
 curl --request POST \

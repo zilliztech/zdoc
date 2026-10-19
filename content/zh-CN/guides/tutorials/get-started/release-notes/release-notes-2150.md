@@ -46,4 +46,4 @@ Zilliz Cloud 的原生迁移流程确保：
 
 ## 其它增强\{#other-enhancements}
 
-新增了一个 RESTful API 接口，用于修改集群的副本数量。有关详细信息，请参阅[修改集群副本数量](https://docs.zilliz.com.cn/reference/restful/modify-cluster-replica-v2)。
+新增了一个 RESTful API 接口，用于修改集群的副本数量。有关详细信息，请参阅[修改集群副本数量](/reference/restful/modify-cluster-replica-v2)。

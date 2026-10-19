@@ -70,7 +70,7 @@ Zilliz Cloud 支持上传本地 JSON 或 Parquet 文件。如果您的数据格�
 
 - 亚马逊云科技：[使用预签名 URL 共享对象](https://docs.amazonaws.cn/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html)和[使用长期凭证进行身份验证](https://docs.amazonaws.cn/sdkref/latest/guide/access-iam-users.html)。
 
-根据您的数据安全需求，您也可以使用 [临时 Token](https://docs.zilliz.com.cn/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
+根据您的数据安全需求，您也可以使用 [临时 Token](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
 
 <Admonition type="info" title="说明">
 

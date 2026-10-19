@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## 功能增强（Enhancements）\{#enhancements}
 
-        - **BYOC 现已支持按需计费** - BYOC 组织在 vCPU 用量超限后可以继续扩容。这部分超限的用量将计入按需计费，并呈现在您的用量和账单中。更多内容，可参考[了解 BYOC 账单](https://docs.zilliz.com.cn/docs/byoc/understand-byoc-billing)。
+        - **BYOC 现已支持按需计费** - BYOC 组织在 vCPU 用量超限后可以继续扩容。这部分超限的用量将计入按需计费，并呈现在您的用量和账单中。更多内容，可参考[了解 BYOC 账单](/docs/byoc/understand-byoc-billing)。
 
     </div>
 
@@ -80,7 +80,7 @@ import Grid from '@site/src/components/Grid';
 
         现在您可以通过 RESTful API 以编程方式管理存储集成。该 API 支持创建、列出、查看、验证和删除集成，并可在 RESTful API、CLI 与 Terraform 之间统一自动化工作流。
 
-        更多内容，可以查看[存储集成操作](https://docs.zilliz.com.cn/reference/restful/storage-integration-operations-v2)及[阿里云对象存储](./integrate-with-alibaba-cloud-oss#create-storage-integration-programmatically)。
+        更多内容，可以查看[存储集成操作](/reference/restful/storage-integration-operations-v2)及[阿里云对象存储](./integrate-with-alibaba-cloud-oss#create-storage-integration-programmatically)。
 
         ## 用户和角色相关接口及操作界面提供描述字段\{#add-descriptions-to-users-and-roles}
 

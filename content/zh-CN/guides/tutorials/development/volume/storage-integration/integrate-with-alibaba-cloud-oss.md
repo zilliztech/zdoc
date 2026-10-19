@@ -264,7 +264,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[生成 Storage Integration 授权材料](https://docs.zilliz.com.cn/reference/restful/generate-storage-integration-authorization-materials-v2)。
+    关于请求及响应中各字段的说明，可以参考[生成 Storage Integration 授权材料](/reference/restful/generate-storage-integration-authorization-materials-v2)。
 
 1. 使用返回的 `readonly`、`readwrite`、`ramPolicy`、`trustPolicy` 及 `zillizAccount` 创建 RAM 角色，并为其添加必要的权限，使其可以操作您的 OSS 存储空间。
 
@@ -303,7 +303,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[校验 Storage Integration](https://docs.zilliz.com.cn/reference/restful/validate-storage-integration-v2)。
+    关于请求及响应中各字段的说明，可以参考[校验 Storage Integration](/reference/restful/validate-storage-integration-v2)。
 
 1. 创建存储集成。
 
@@ -340,7 +340,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[创建 Storage Integration](https://docs.zilliz.com.cn/reference/restful/create-storage-integration-v2)。
+    关于请求及响应中各字段的说明，可以参考[创建 Storage Integration](/reference/restful/create-storage-integration-v2)。
 
 </Procedures>
 
@@ -389,7 +389,7 @@ curl --request GET \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[列出 Storage Integration](https://docs.zilliz.com.cn/reference/restful/list-storage-integrations-v2)。
+关于请求及响应中各字段的说明，可以参考[列出 Storage Integration](/reference/restful/list-storage-integrations-v2)。
 
 ### 查看集成详情\{#view-integration-details}
 
@@ -427,7 +427,7 @@ curl --request GET \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[查看 Storage Integration](https://docs.zilliz.com.cn/reference/restful/describe-storage-integration-v2)。
+关于请求及响应中各字段的说明，可以参考[查看 Storage Integration](/reference/restful/describe-storage-integration-v2)。
 
 ### 删除集成\{#delete-storage-integration}
 
@@ -455,4 +455,4 @@ curl --request DELETE \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[删除 Storage Integration](https://docs.zilliz.com.cn/reference/restful/delete-storage-integration-v2)。
+关于请求及响应中各字段的说明，可以参考[删除 Storage Integration](/reference/restful/delete-storage-integration-v2)。

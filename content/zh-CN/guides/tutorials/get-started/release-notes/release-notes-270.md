@@ -40,7 +40,7 @@ Zilliz Cloud Pipelines 已经集成了 Rerankers，为需要提升搜索结果�
 
 ## 指标监控 API\{#query-metrics-api}
 
-在此次发布的众多特性中，Zilliz Cloud 还提供了一个用于监控集群各项指标的 API，并提供了一个多达 30 余项内容的指标矩阵，方便您实现对系统性能及效率进行全方位的监控。[点此了解更多](https://docs.zilliz.com.cn/reference/restful/query-metrics)。
+在此次发布的众多特性中，Zilliz Cloud 还提供了一个用于监控集群各项指标的 API，并提供了一个多达 30 余项内容的指标矩阵，方便您实现对系统性能及效率进行全方位的监控。[点此了解更多](/reference/restful/query-metrics)。
 
 主要监控指标包括：
 

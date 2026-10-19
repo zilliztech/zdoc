@@ -107,7 +107,7 @@ import Grid from '@site/src/components/Grid';
 
         - 定时扩缩容：支持基于 Cron 表达式的高级定时扩缩容能力。用户可以根据业务诉求自行编写 Cron 表达式，利用 Zilliz Cloud 的多级调度逻辑，在复杂、可预测的业务周期中实现精确的自动化资源调整。
 
-        更多内容，可参考 [Query CU 扩缩容](https://docs.zilliz.com.cn/docs/byoc/scale-cluster) and [Replica 扩缩容](https://docs.zilliz.com.cn/docs/byoc/manage-replica)。
+        更多内容，可参考 [Query CU 扩缩容](/docs/byoc/scale-cluster) and [Replica 扩缩容](/docs/byoc/manage-replica)。
 
         ## BYOC - 技术支持访问控制\{#support-troubleshooting-access-control}
 

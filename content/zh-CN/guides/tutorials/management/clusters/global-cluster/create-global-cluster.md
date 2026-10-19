@@ -94,7 +94,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **通过 RESTful API**
 
-    以下示例展示了如何创建全球集群。详情请参考[创建全球集群](https://docs.zilliz.com.cn/reference/restful/create-global-cluster-v2)。
+    以下示例展示了如何创建全球集群。详情请参考[创建全球集群](/reference/restful/create-global-cluster-v2)。
 
     ```bash
     curl --request POST \

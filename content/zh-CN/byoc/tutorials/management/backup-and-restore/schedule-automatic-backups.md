@@ -84,7 +84,7 @@ Zilliz Cloud 支持为集群**设置定时自动备份**，帮助您在发生异
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何为指定集群开启定时自动备份。更多 API 参数细节，请参见[创建备份策略](https://docs.zilliz.com.cn/reference/restful/set-backup-policy-v2)。
+以下示例展示如何为指定集群开启定时自动备份。更多 API 参数细节，请参见[创建备份策略](/reference/restful/set-backup-policy-v2)。
 
 ```bash
 export TOKEN="YOUR_API_KEY"
@@ -126,7 +126,7 @@ curl --request POST \
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何查询集群的定时自动备份策略。更多 API 参数细节，请参见[获取备份策略](https://docs.zilliz.com.cn/reference/restful/get-backup-policy-v2)。
+以下示例展示如何查询集群的定时自动备份策略。更多 API 参数细节，请参见[获取备份策略](/reference/restful/get-backup-policy-v2)。
 
 ```bash
 curl --request GET \
@@ -174,7 +174,7 @@ curl --request GET \
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何关闭指定集群的定时自动备份。更多 API 参数细节，请参见[创建备份策略](https://docs.zilliz.com.cn/reference/restful/set-backup-policy-v2)。
+以下示例展示如何关闭指定集群的定时自动备份。更多 API 参数细节，请参见[创建备份策略](/reference/restful/set-backup-policy-v2)。
 
 ```bash
 curl --request POST \

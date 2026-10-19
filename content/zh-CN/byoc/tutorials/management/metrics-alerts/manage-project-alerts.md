@@ -93,7 +93,7 @@ import Supademo from '@site/src/components/Supademo';
 </TabItem>
 <TabItem value="Bash">
 
-您可以查看项目内创建的告警列表。有关各参数具体含义，请参考 [List Alert Rules](https://docs.zilliz.com.cn/reference/restful/list-alert-rules-v2)。
+您可以查看项目内创建的告警列表。有关各参数具体含义，请参考 [List Alert Rules](/reference/restful/list-alert-rules-v2)。
 
 ```bash
 export BASE_URL=https://api.cloud.zilliz.com.cn
@@ -123,7 +123,7 @@ curl --request GET \
 </TabItem>
 <TabItem value="Bash">
 
-您可以为特定或全部 Dedicated 集群创建告警。有关各参数具体含义，请参考 [Create Alert Rule](https://docs.zilliz.com.cn/reference/restful/create-alert-rule-v2)。
+您可以为特定或全部 Dedicated 集群创建告警。有关各参数具体含义，请参考 [Create Alert Rule](/reference/restful/create-alert-rule-v2)。
 
 ```bash
 export BASE_URL=https://api.cloud.zilliz.com.cn
@@ -173,7 +173,7 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-您可以通过 RESTful API 管理告警。有关具体信息，请参考  [Update Alert Rule](https://docs.zilliz.com.cn/reference/restful/update-alert-rule-v2) 和 [Delete Alert Rule](https://docs.zilliz.com.cn/reference/restful/delete-alert-rule-v2)。
+您可以通过 RESTful API 管理告警。有关具体信息，请参考  [Update Alert Rule](/reference/restful/update-alert-rule-v2) 和 [Delete Alert Rule](/reference/restful/delete-alert-rule-v2)。
 
 </Admonition>
 

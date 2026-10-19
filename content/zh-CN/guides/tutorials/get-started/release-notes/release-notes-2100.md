@@ -106,7 +106,7 @@ Zilliz Cloud 现在提供全面的迁移服务，使用户能够轻松完成迁�
 
 这些 RESTful API 允许用户构建自己的自动化操作工作流，从而为其数据管理和维护流程提供更大的灵活性和控制力。
 
-[了解更多有关 API 的详细信息](https://docs.zilliz.com.cn/reference/restful)。
+[了解更多有关 API 的详细信息](/reference/restful)。
 
 ## 其它增强\{#other-enhancements}
 

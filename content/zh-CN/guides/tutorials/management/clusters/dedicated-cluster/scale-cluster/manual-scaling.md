@@ -80,7 +80,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 通过 RESTful API 手动扩缩容\{#manual-scaling-via-restful-api}
 
-使用 RESTful API 时，您可以在单个[修改集群配置](https://docs.zilliz.com.cn/reference/restful/modify-cluster-v2)请求中手动扩缩容 Query CU 和 Replica。
+使用 RESTful API 时，您可以在单个[修改集群配置](/reference/restful/modify-cluster-v2)请求中手动扩缩容 Query CU 和 Replica。
 
 ```bash
 export TOKEN="YOUR_API_KEY"

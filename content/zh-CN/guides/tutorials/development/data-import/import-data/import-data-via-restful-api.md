@@ -91,7 +91,7 @@ curl --request POST \
 
 - 亚马逊云科技：[使用预签名 URL 共享对象](https://docs.amazonaws.cn/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html)和[使用长期凭证进行身份验证](https://docs.amazonaws.cn/sdkref/latest/guide/access-iam-users.html)。
 
-根据您的数据安全需求，您也可以使用 [Session Token](https://docs.zilliz.com.cn/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
+根据您的数据安全需求，您也可以使用 [Session Token](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
 
 <Admonition type="info" title="说明">
 
@@ -134,7 +134,7 @@ curl --request POST \
     }'
 ```
 
-有关更多信息，请参见[导入](https://docs.zilliz.com.cn/reference/restful/import)和[查看导入进度](https://docs.zilliz.com.cn/reference/restful/get-import-progress)。
+有关更多信息，请参见[导入](/reference/restful/import)和[查看导入进度](/reference/restful/get-import-progress)。
 
 ## 结果验证\{#verify-the-result}
 
@@ -149,7 +149,7 @@ curl --request POST \
 }
 ```
 
-你也可以调用RESTful API获取[当前导入任务的进度](https://docs.zilliz.com.cn/reference/restful/get-import-job-progress-v2)，并[列出所有导入任务](https://docs.zilliz.com.cn/reference/restful/list-import-jobs-v2)以获取更多。作为替代方案，你也可以前往Zilliz Cloud控制台上的[任务中心](./job-center)查看结果和作业详情。
+你也可以调用RESTful API获取[当前导入任务的进度](/reference/restful/get-import-job-progress-v2)，并[列出所有导入任务](/reference/restful/list-import-jobs-v2)以获取更多。作为替代方案，你也可以前往Zilliz Cloud控制台上的[任务中心](./job-center)查看结果和作业详情。
 
 ## 常见问题 \{#faq}
 

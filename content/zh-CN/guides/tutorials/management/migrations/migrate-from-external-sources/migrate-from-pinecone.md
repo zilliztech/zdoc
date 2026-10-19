@@ -100,7 +100,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 ## 查看迁移进度\{#monitor-the-migration-process}
 
-生成迁移任务后，您可前往[任务中心](https://docs.zilliz.com.cn/docs/job-center)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
+生成迁移任务后，您可前往[任务中心](/docs/job-center)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
 
 <Admonition type="info" title="说明">
 

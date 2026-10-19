@@ -168,8 +168,6 @@ import Procedures from '@site/src/components/Procedures';
 
     ![SedPwGq1Zh6eQsbqLeucm0kvnBd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SedPwGq1Zh6eQsbqLeucm0kvnBd.png)
 
-<NextChannel action="include">
-
 ## 配置 keep-warm 策略\{#configure-keep-warm-schedule}
 
 Keep-warm schedule 可让按需集群在每周重复的时间窗口内保持运行。keep-warm 时间窗口开始时，如果按需集群处于已挂起状态，Zilliz Cloud 会恢复该按需集群。在该时间窗口内，自动挂起会被抑制。时间窗口结束后，按需集群会重新遵循现有的自动挂起策略。
@@ -415,8 +413,6 @@ curl --request PATCH \
 禁用 schedule 会保留所有已配置的规则。如果按需集群当前处于 keep-warm 时间窗口内，Zilliz Cloud 会立即退出 keep-warm 模式。该 schedule 不会挂起按需集群。如需禁用 keep-warm schedule，请关闭 Keep-warm Schedule，然后点击**保存**，如下所示。
 
 ![N3Smwp2sDhnmerbdPYJcdScInbc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/N3Smwp2sDhnmerbdPYJcdScInbc.png)
-
-</NextChannel>
 
 ## 删除 On-demand 集群\{#drop-an-on-demand-cluster}
 

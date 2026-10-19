@@ -100,7 +100,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 ## 查看任务详情\{#view-job-details}
 
-点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](https://docs.zilliz.com.cn/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
+点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
 
 ![view_job_details_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/viewjobdetailscn.png "view_job_details_cn")
 

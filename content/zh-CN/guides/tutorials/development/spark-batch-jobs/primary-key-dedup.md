@@ -2,7 +2,7 @@
 title: "主键去重 | Cloud"
 slug: /primary-key-dedup
 sidebar_label: "主键去重"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+此功能适用于所有云服务商及云地域。使用前需[联系我们](https://support.zilliz.com.cn/hc/zh-cn)开通。
 
 </FeatureNote>
 

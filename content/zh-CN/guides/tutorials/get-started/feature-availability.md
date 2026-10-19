@@ -74,10 +74,6 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [导出备份文件](./export-backup-files)
 
-- 托管模型
-
-- [Spark 批量任务](./spark-batch-jobs)
-
 <Admonition type="info" title="说明">
 
 如需使用上述功能，请[提交工单](http://support.zilliz.com.cn)申请开通功能。
@@ -92,7 +88,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [从 NumPy 文件导入数据](./data-import-numpy)
 
-- [RESTful API（V1 版本）](https://docs.zilliz.com.cn/reference/restful/v1)
+- [RESTful API（V1 版本）](/reference/restful/v1)
 
 - 合并数据
 

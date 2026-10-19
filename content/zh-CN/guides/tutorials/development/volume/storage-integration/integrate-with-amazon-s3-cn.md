@@ -95,7 +95,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
 
     <Admonition type="info" title="说明">
 
-    - 创建存储桶的云地域必须与 Zilliz Cloud 集群所在地域一致。Zilliz Cloud 支持的区域可参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。
+    - 创建存储桶的云地域必须与 Zilliz Cloud 集群所在地域一致。Zilliz Cloud 支持的区域可参考[云服务提供商和地域](/docs/cloud-providers-and-regions)。
     
     - 如果集群运行在不同区域，需要分别为每个区域创建集成。
 
@@ -335,7 +335,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[生成 Storage Integration 授权材料](https://docs.zilliz.com.cn/reference/restful/generate-storage-integration-authorization-materials-v2)。
+    关于请求及响应中各字段的说明，可以参考[生成 Storage Integration 授权材料](/reference/restful/generate-storage-integration-authorization-materials-v2)。
 
 1. 使用返回的 `readonly`、`readwrite`、`iamPolicy`、`trustPolicy` 及 `zillizAccount` 创建 IAM 角色，并为其添加必要的权限，使其可以操作您的存储桶。
 
@@ -374,7 +374,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[校验 Storage Integration](https://docs.zilliz.com.cn/reference/restful/validate-storage-integration-v2)。
+    关于请求及响应中各字段的说明，可以参考[校验 Storage Integration](/reference/restful/validate-storage-integration-v2)。
 
 1. 创建存储集成。
 
@@ -411,7 +411,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
-    关于请求及响应中各字段的说明，可以参考[创建 Storage Integration](https://docs.zilliz.com.cn/reference/restful/create-storage-integration-v2)。
+    关于请求及响应中各字段的说明，可以参考[创建 Storage Integration](/reference/restful/create-storage-integration-v2)。
 
 </Procedures>
 
@@ -460,7 +460,7 @@ curl --request GET \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[列出 Storage Integration](https://docs.zilliz.com.cn/reference/restful/list-storage-integrations-v2)。
+关于请求及响应中各字段的说明，可以参考[列出 Storage Integration](/reference/restful/list-storage-integrations-v2)。
 
 ### 查看集成详情\{#view-integration-details}
 
@@ -498,7 +498,7 @@ curl --request GET \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[查看 Storage Integration](https://docs.zilliz.com.cn/reference/restful/describe-storage-integration-v2)。
+关于请求及响应中各字段的说明，可以参考[查看 Storage Integration](/reference/restful/describe-storage-integration-v2)。
 
 ### 删除集成\{#delete-storage-integration}
 
@@ -526,5 +526,5 @@ curl --request DELETE \
 }
 ```
 
-关于请求及响应中各字段的说明，可以参考[删除 Storage Integration](https://docs.zilliz.com.cn/reference/restful/delete-storage-integration-v2)。
+关于请求及响应中各字段的说明，可以参考[删除 Storage Integration](/reference/restful/delete-storage-integration-v2)。
 

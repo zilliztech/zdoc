@@ -896,13 +896,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "sha256": "d5ce4b001ced71aae1f422ecf79ec798101e997ab34c1e6bd5e96ef08a1d9895",
+      "sha256": "60bbde7f6dc95030d342600e8f6dba189ee33106f8229d50620b18221db36d72",
       "docToken": "BXBvwZh9Yiis0Vk8LcdcjZSPnQd",
       "revisionId": "794"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-      "sha256": "d1923487b34b5a73cc1a5c1887886a5fd7add1776eebc5c84c68ef13f0d0c782",
+      "sha256": "d9d9e04b28aec480a3dab05d3aea18b0d588ab2567b7a8021df674acde33d6c1",
       "docToken": "FzANwnN8siARelkAp4vcJVJNnnf",
       "revisionId": "441"
     },
@@ -1478,7 +1478,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-backup-and-restore.md",
-      "sha256": "323e080e55577ab235000d1ca942cecdbb20c08067b65e1ffe5bb4801044a5f4",
+      "sha256": "d816f46a4ee6d5a4ee77b3a480403d9b8aee19ef330ced6483fd3a51b599392d",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
       "revisionId": "4849"
     },
@@ -1544,13 +1544,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
-      "sha256": "93b9cc0b474bfd5c23dbe67b38add86f373646f0865d9126f1566407c59988e2",
+      "sha256": "773bca22f045ac9d1da94bd95a486f5a61f109e726824ba51478a058b3af6b4d",
       "docToken": "WTHSwHKU0iriJtkhWC2cVHM2nud",
       "revisionId": "468"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/quick-start.md",
-      "sha256": "b0882658222cfb458f00ba8ae9eb6121bb473828f091ca45dd7cbedbad4df5d5",
+      "sha256": "75d79c02cafc07e311eb58bde0ab211422e287e41f7f015114bb3e4cbd6303a6",
       "docToken": "TwqiwuXRli0B1nk43AJcxjewnUc",
       "revisionId": "291"
     },
@@ -1562,7 +1562,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "787fbf8056400d0feaeddf44d7efb4cb0b97f13410f11ec56936482b817001fa",
+      "sha256": "57810a78478332f8a7575ef31eedb7a9f362d0e5c33dd121761f723abdccfa00",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1479"
     },
@@ -1586,7 +1586,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "sha256": "26a890b1323777fd17d96bd6007495ab69fe6961c3e9b7ec264d96e7231a8ac6",
+      "sha256": "80dd0b0dd142f57a46bf94fc25d707adea1fbefe082c8c041335db69394494cb",
       "docToken": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
       "revisionId": "662"
     },
@@ -1670,25 +1670,25 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/create-backup.md",
-      "sha256": "9b146ed77b0885b2a8b95938c4d5c4d089368eca6e162f1a823c1812f86e536a",
+      "sha256": "0eab28286f1a6d0b0522e7f88bd91fa7487109ab207d9aca893c82b5abadd267",
       "docToken": "GFFswc3z1iQtjQkpmyScL00dnSx",
       "revisionId": "846"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "sha256": "5a72e2708b821e737deda82dac6a51275fdaa09325c580b0968f581b05e1fb82",
+      "sha256": "11e1a2fed7e58cb70dd5c3cc1bf632fb6ba4b64dcfe6c0d1d987d8c7a2b18aa4",
       "docToken": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
       "revisionId": "167"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "8f0f2d700a191f0bdb1f0a6b9f136d2cb80de86d20c9300eca849b170453e4cd",
+      "sha256": "e3ac838336e103a88b54bfa4fbf73ea194af2288a294e791283d452d74088783",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
       "revisionId": "552"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "sha256": "8d4143281ec49c5e31608fddacb89c21634eca25ac1253d0ff0414629a398e20",
+      "sha256": "4dd4761ed80bfe29f6a875d5ff41c997dd9d09c049866aca82fce7947b61ba15",
       "docToken": "TXyTwrfxCiStfek4hc7c2nKwnJc",
       "revisionId": "598"
     },
@@ -1736,7 +1736,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "e767dfe45db39345120a3add55ee24a3391457fda8874415837ea1498f5279c8",
+      "sha256": "e9ccc2e84283a4f50853cd78620dcbfd329205d8efd2558c27d0af9b3a39a94d",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
       "revisionId": "3462"
     },
@@ -1754,19 +1754,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "cc135d7b94915547149421533d5f5b0ca19da3481d3c6dcd01285aa25c3b73fd",
+      "sha256": "d9fde01f310ba7db853b79fc812406e8000ec406372bb76e773fe7ce315362bf",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
       "revisionId": "1906"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "sha256": "9f1ccd61cb61651d6a40ef143380ea94ba04cb61c6987371b598aa3960754155",
+      "sha256": "c2a56568ce740f314cf70f383936383ac94d0fc6b0166b2e8708e7840e4221d5",
       "docToken": "IRirwe30tilo1qkJlR7ca2MUnvn",
       "revisionId": "3541"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "sha256": "0859520b73d1537e4133be40672835dc79ff58a60497af64a70bc38aa36e8653",
+      "sha256": "f648ad5089105985231ab0368638911eafde9fdc59444336838e5f31d2066822",
       "docToken": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
       "revisionId": "121"
     },
@@ -1784,7 +1784,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "sha256": "2dab1b3116374f80b218a06bd28b8460a4a0c2453f16389583208a303dcc0b7c",
+      "sha256": "6eda5b7023c8bf518c28947243aca18e8f040a042c6171ed8eeedbb36cdf1b5d",
       "docToken": "I64FwCeMBi2DmokaO2McbxTQn9f",
       "revisionId": "99"
     },
@@ -1796,13 +1796,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md",
-      "sha256": "7ba0443edd75fb5c0e3234695594943832849299ee0f8e7f8ce12828be544c3e",
+      "sha256": "ab40f9f125c573f803e52bcc530ff52de569179f994a51cf10d5f2431ab23c42",
       "docToken": "Dm7dwQQvxib74AkgoITcfy5Wnfe",
       "revisionId": "56"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/cost-management/analyze-cost.md",
-      "sha256": "13005bd4d500940dc8bb119e25107727e01f444ad03b99e973cf517d6e091cd9",
+      "sha256": "0f306380cacd0947ca34395fea63dbe5d8023c5aa1c488169068fb6a7dc0bc9e",
       "docToken": "DeRWwlqYKiH76okxiaBcVFPjnMg",
       "revisionId": "706"
     },
@@ -1868,13 +1868,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "sha256": "91094ae32f3105b85552f5484d74fd8e56d92f37cab62c7342c92d583ba192c2",
+      "sha256": "7b138728509be1eca39c40de1bcd1c2b8d8c9fe82f1770074c63b95d816cf658",
       "docToken": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
       "revisionId": "670"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "55c247a6cebd528fcb1aef859a21d57b78fc17eefb8b80788eaccf11a0ebcab9",
+      "sha256": "200c5eba61af080207fbc2c43637867510600374cdcca9ef348cf67f505ad141",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
       "revisionId": "2680"
     },
@@ -1916,7 +1916,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
-      "sha256": "249b6193e1ed004c87a5cccac466aba0a1915c57bdcee5a9fba0c6c7a021c4b8",
+      "sha256": "afb134c85562f14f6e75f05f9ecc3e8db920b0a52249160b7d4d6f7a00ec6cd3",
       "docToken": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
       "revisionId": "424"
     },
@@ -1934,13 +1934,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/projects/job-center.md",
-      "sha256": "23c2461d7311a39fd7c95e306631bdc62854893a71c2bdd4e644ea626c466332",
+      "sha256": "cb5111179e607fb7ead944b283307ebd113aacf3b629d87d9cbeec4742c49d5c",
       "docToken": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
       "revisionId": "246"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/projects/manage-projects.md",
-      "sha256": "6e6048517971e8d2aa201b096c38893a69e80ec7b3084fb08059ee7e94358a5e",
+      "sha256": "ea89de391d88240a5b7a2c3332470fe87690ae6029f1c875e2f082b88dc16ead",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "revisionId": "1057"
     },
@@ -2420,13 +2420,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "sha256": "ef78bbf65205ada920623ffe52fbb1b3dbc0b83400693149ea4c86a1513f9d7e",
+      "sha256": "660c0361389b68efdca59af3c3af439ac988eaa1303c36e4bf39c39af5d044b6",
       "docToken": "BXBvwZh9Yiis0Vk8LcdcjZSPnQd",
       "revisionId": "794"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-      "sha256": "43a544d0f308a470cdaae97ebb1a5497a58bfca654751a058a8765f89dce9966",
+      "sha256": "514ffc58e5c84f7c0e46a050d46d27f8261e5f0931d0eb11856b2d5881814c92",
       "docToken": "FzANwnN8siARelkAp4vcJVJNnnf",
       "revisionId": "441"
     },
@@ -2990,45 +2990,45 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "sha256": "7742fd1d0aad58f691b277cba03ff38ba860d05bf5f41d07c6074900d27d70a1",
+      "sha256": "1bb05af3e9fb821c8901dece8923e9286b1354ad1ec1cc2fc5e80b928ab1ec28",
       "docToken": "RDfLw6XYHiELxGkr2pucgQ1Snyh",
-      "revisionId": "1108"
+      "revisionId": "1110"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "sha256": "6f9779b4d848d83c12ad4d2946f53c51a2a9cefe2d78119245a1df2955ec05e8",
+      "sha256": "55cf64c14fd58963079c885f00caf4138a02d460589dfcab0788290837eca300",
       "docToken": "KYhxw6kczixgIMkFKOlc1srinPw",
-      "revisionId": "2175"
+      "revisionId": "2177"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "sha256": "0d2087983f01e2b89145a4dd8fab48d1a88adf68c7ea9fdcde3386ce74e69136",
+      "sha256": "42e9a847ce3ec22f0d3f4ca8d3e16f06dc797bae2d71e66b16f00b4d2a69d91d",
       "docToken": "VIyWwOfUFiQaNkkdsqVca9Gqnve",
-      "revisionId": "565"
+      "revisionId": "567"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "sha256": "21713c383868f9dabf4efc9347e3aafc9d0cb1d37551cd96ff7515e5912e1e9c",
+      "sha256": "cb04493f1828836dd4da8c963e4f3e00f4e33fa84564b3b5f7a4fa9ba98cfe58",
       "docToken": "VOt1wvC7jid1sOkWeFOct55Fn0e",
-      "revisionId": "1406"
+      "revisionId": "1414"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-      "sha256": "3d9b4d1f76f7027140f2fd5704c6b637ad4e388093187eeeeedbc72b4a41955a",
+      "sha256": "3f14eeb1e22d7647ed7af56296380eb25b1bee976806dcb75050bc0d904515a5",
       "docToken": "PLmWwXhMyiUErvkeRtAcL9kJnib",
-      "revisionId": "1461"
+      "revisionId": "1463"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "sha256": "5a0a5a86e1190cc7706fc5fb5ff1bed3873a5027b1860e3a2a3d2d5fdbe61236",
+      "sha256": "c0eb526a3888cffcd6e3c6ac4cd8e2902609434dbe7160f362a25f92c876d0e8",
       "docToken": "KQT0wFr1TiDE72ksEUDcJ1B8nyc",
-      "revisionId": "2744"
+      "revisionId": "2757"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-      "sha256": "1bc6a2070e09dde782232555e27ba41b40c01462a2d9f3e4352ba941af6f5876",
+      "sha256": "9ac6777554ed5c071796c8828a447079c0f61b452417951834431a6270327f85",
       "docToken": "XWOtw0B8zimLDAkc1AQcwIL0n7R",
-      "revisionId": "2019"
+      "revisionId": "2021"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/autoindex-explained.md",
@@ -3062,21 +3062,21 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss.md",
-      "sha256": "a43d9903b58450f5ddfb08ea90bba14ec02a3c34dbdda841cda20113aefbd3c0",
+      "sha256": "ce09c2c9bc44a597dbfac683cdd74696ffb9dbde31c8998c7d061eb81e3670a8",
       "docToken": "IwAbwxWzQiGVc0khATdcOoCbnCg",
       "revisionId": "1933"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn.md",
-      "sha256": "ec0e4199196ab25050d8ad0847d103c8c174e8e575dcc674684e220910d35822",
+      "sha256": "a647c1c42ce12c686085c69dcd7b1cfd03d8dde051e1b98ec98e16b57f0ee3cc",
       "docToken": "Bt3swdJKaigDQgkrzSwcoEEgnV4",
       "revisionId": "1069"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "7d3eb271a072e0fa4a7cccfe0f1c9725b5f74b4ed22d2308f50dfdb187c01d0c",
+      "sha256": "f77f00133e21455d75455c3a2690ff2fcfd01aa5d00cf418724c013ebeceb986",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
-      "revisionId": "432"
+      "revisionId": "448"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cu-types-explained.md",
@@ -3098,7 +3098,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-backup-and-restore.md",
-      "sha256": "d65779b517c21a17323620e10f1d7c409570d131fbea2dfccff2947b0195c147",
+      "sha256": "9dd70ba3f841b443671d83aeb1598cd27d3ea8cba575a46f6632249d515f17db",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
       "revisionId": "4849"
     },
@@ -3170,9 +3170,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "b353e355b5bc906c3c8ec3bc19bd34751a73ed006a130940ae5cf615393460f7",
+      "sha256": "cb0f2d15ea903a865e922c0880acfe3e44579215ddfb6a293f7d7ecc4d254265",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
-      "revisionId": "403"
+      "revisionId": "407"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/free-trials.md",
@@ -3182,7 +3182,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
-      "sha256": "d120baec33e634bd0e6f643e5549848f5934db6c5cfc7a99b37129ab1b594253",
+      "sha256": "91d27c1028e17dabbc90012904cce56eed4bc1ee04b6a195b00766629d33ac7d",
       "docToken": "WTHSwHKU0iriJtkhWC2cVHM2nud",
       "revisionId": "468"
     },
@@ -3212,7 +3212,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/changelogs.md",
-      "sha256": "0a91317de87f7c081b84a95dea9855431fea448c20321d514bb563bfe7cf661f",
+      "sha256": "0d711e33ca68b6e631924689e32db49694dc1bb2075a886dad691b567b1f0e90",
       "docToken": "JziCwn071iCV1tkX4NZcwGSDnmc",
       "revisionId": "2190"
     },
@@ -3224,13 +3224,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-210.md",
-      "sha256": "f50c454ae86235cee899a3ab5e7241aa770d702f873b996696d74f03d9be6161",
+      "sha256": "84a00cc70ad23dc515e335e4d78da9533d696ac52a9d66a9cca1dacf0a242fd5",
       "docToken": "DsIxwJXnJiM2k7klUY0cr5dunBh",
       "revisionId": "186"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2100.md",
-      "sha256": "42dd846b3eda8bca75f659a12e6d65f2f9a3a4e3c96568292df6de0e73e2a315",
+      "sha256": "f0632b32f38400932e69b368c83dda1456264fadb62a109b85d29f3d8f0b44d0",
       "docToken": "R8XCwgfEGiPOrLkI03WcdDVAnMg",
       "revisionId": "433"
     },
@@ -3260,19 +3260,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2150.md",
-      "sha256": "b1b080388bce6bc3ce700f5290a48e73f8bbf1718f7a52f1918b8787d2288ec2",
+      "sha256": "785b02d1b83b9b26107e447000d5fc3b283d49dc70102c63c904a25b94096ece",
       "docToken": "S53KwdOb8i9D3xkawDXcJnDGnZe",
       "revisionId": "168"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2170.md",
-      "sha256": "05d76d7a5582f6c6d46942aac785f02e119c447cb77f402002621cceef42913f",
+      "sha256": "923916ed43b62c0b39721479447c565b5c6878822d738341c31b10fcbb3fdfd9",
       "docToken": "TC2VwH24niqw5wk2S66ccMhxnFe",
       "revisionId": "990"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2180.md",
-      "sha256": "df8475eca0dc1cde86743632dbbcf67ebc452ceadfba9e70e802348b73fe5cc8",
+      "sha256": "0dfcf4fe0d2dcbe888973fccc732b5f4eabb172dc60abbc8985dc039bc3eb591",
       "docToken": "QxMewBHpRisntJkA1NncBNSZnQc",
       "revisionId": "698"
     },
@@ -3296,7 +3296,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-240.md",
-      "sha256": "b551ea04543a6086e862ad4a11558a0ec6e0726aed7021ce1c1858c17d424345",
+      "sha256": "94bd368d4eaebb86c2b87e7e1841eaf58f57428527a0a6c04ae4227dbb5f90fd",
       "docToken": "GKNPwvWhZi7D6mkag72cIDWqnbf",
       "revisionId": "357"
     },
@@ -3332,7 +3332,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2601.md",
-      "sha256": "3fbe60fec84e1d04dba2af8b251e11c857de15c20b69ae286122db06bb50b99d",
+      "sha256": "7d9082cbd08881a8be2280f209dcc0838433be2440e8c4b58b2bb52b78a45117",
       "docToken": "QIEew7qWOiHucGkw1qicgPUjnsc",
       "revisionId": "1588"
     },
@@ -3362,19 +3362,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2607.md",
-      "sha256": "ad5be73a05b7c18775056aea50111fad478a118fea7f9553cbfef1a10861900a",
+      "sha256": "5f1b17d4ae617e0ca96ad6be92d954ec193d7cd83a9a4fc47cdc3d2398ad93b2",
       "docToken": "F5GVwlcfjiYBK0kSxfDcpas7n8b",
       "revisionId": "456"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2609.md",
-      "sha256": "468facd2475bd959a5a05de993e72027ddb992728f4c1e745ac799fff877a0e3",
+      "sha256": "4af685ea5a90f55b95c83af4d9112f16aa352d4685cfd6cc099cc847c81f5fc4",
       "docToken": "ZVtsw12VCipuFNkRdrdcz9U2nKN",
       "revisionId": "167"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-270.md",
-      "sha256": "fa333b25caa5649b8afb734f94a2107b2595fc9a4820bbdfea33bd55fce6dd8e",
+      "sha256": "b5820eb2afa9cc66162c461ba9da33fb2c1f1ac3918907e729082bf920034421",
       "docToken": "Y9hnwYoyIi9xgZkGG7Ycexl4nlb",
       "revisionId": "748"
     },
@@ -3392,13 +3392,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-291.md",
-      "sha256": "bc675d9d01755c202ebbf10a99a5c2ed85dd3de2b7967c7f558295e8d67f5757",
+      "sha256": "10c2c700e0ac169a8c6da2bfb1d3505627c13b6ed82a20a9c66d2565f4c6e73c",
       "docToken": "MgXbwjdzeiJRpnkF562cE6cVnCf",
       "revisionId": "209"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "b72a629c5c649e30b72f4cdd52ee4583c5de684e769a66eee185e3bc22350f2a",
+      "sha256": "3c8af2d2412ae369023852cae130da210de8c598a4a740380dfec246ad7ea622",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1479"
     },
@@ -3416,7 +3416,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "sha256": "de5671b8cfba987bb3c2a5ae4a90e57533c1d6aa83bf970edc3faa31fe82224f",
+      "sha256": "4e32659212f558045dc036baee7f282f3552c61faa2194a516eaa483d8ad56a0",
       "docToken": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
       "revisionId": "662"
     },
@@ -3506,7 +3506,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/create-backup.md",
-      "sha256": "3cf36221b3dc2a15ba0e710dd7e81f6696e967b957319d6682740ced78afc5ec",
+      "sha256": "49d1dcb9f5420b345acc541f8a993e5d31f0dfd2a4c26fd15d5ca3f9c9feafdc",
       "docToken": "GFFswc3z1iQtjQkpmyScL00dnSx",
       "revisionId": "846"
     },
@@ -3518,19 +3518,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "sha256": "5e94a1265deeaa7402869bf49a1f3eabd8a7323c85a3a489387236bd273eca3a",
+      "sha256": "f84582bbdb430931af1a1a60f7ff15e0779a56cdc7f03c1dbd641e8bcff4797b",
       "docToken": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
       "revisionId": "167"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "2e292a153ae6b17ebaf03c4f1df70947cc26d38d16c7cdc2c4c471f011f5c97d",
+      "sha256": "2af76ce6076a2cb3e797d7810aeec1cb1fe81b3cecf7a075d4fafc340a956eba",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
       "revisionId": "552"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "sha256": "22ae5dd8942846726ff4fd7e301a215b05a4eabefa97020df684237f8e05f191",
+      "sha256": "bf8e5eedd6c2b9d9332d74e28266256088250d8b297f8313dc48c43b6e6ba1e3",
       "docToken": "TXyTwrfxCiStfek4hc7c2nKwnJc",
       "revisionId": "598"
     },
@@ -3548,7 +3548,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/manage-orders.md",
-      "sha256": "737a7aa0f15556b070bde23be1c01abd66eccaeb47c91117939840016731adaf",
+      "sha256": "45357fc196dcba8e0aff3654dfeb2c1dc18961c06bf6f9940fe851034cb7d3b3",
       "docToken": "FJU5wklQuiAJASkHAFlcQShDn9e",
       "revisionId": "167"
     },
@@ -3608,7 +3608,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "0f8fc62e842e5834cdb03b16191e7d6aacbab5dcd2a4610083885759b7223844",
+      "sha256": "55dad628b0966c0392d8c25c5b772073ca9aae23374218a2534ff66f99205505",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
       "revisionId": "3462"
     },
@@ -3620,7 +3620,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-annual-subscription-cluster.md",
-      "sha256": "3a5f81e3c77c4530ad3bc0727180366af91850d046c27cf45e7a8d142ccaf97e",
+      "sha256": "24771f35bd32f5dc6e30593096384f0d8c3eaab08dae4186cbd57c7f77acb345",
       "docToken": "RY1swXlbQilxR3k42SdczdL0ndc",
       "revisionId": "486"
     },
@@ -3632,19 +3632,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "6779c4336b952fe808b5eefb0f93837f664be4cbea2a8bdefb273f4c4e32b598",
+      "sha256": "a887ccca5117e6986b02e29ff74e6d66ca21e1c8a86d0c480f939b757f15c9ec",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
       "revisionId": "1906"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "sha256": "7e4e507da673b6e745f809d6dfaf3c5e0f48280d69ce7e6f5ae9aabf3b28d245",
+      "sha256": "a0bb89a8ae6084610f9b63eb711a13ba86ee9f9897a9dca7646b8746135f83eb",
       "docToken": "IRirwe30tilo1qkJlR7ca2MUnvn",
       "revisionId": "3541"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "sha256": "75b46286a48284427cbc082f37f918d162a20abacd5649074319b4633aef8208",
+      "sha256": "6bc7c22c260e78e005c5b8ee7e3f53edc6f831e0946e54d783c21a88940ce10b",
       "docToken": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
       "revisionId": "121"
     },
@@ -3662,7 +3662,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "sha256": "9c9df3a5f2751b3126e1b8704f6dbb2806f951c05d3f77b5545ca291bbe1bfbb",
+      "sha256": "ce5c130fde5d5e67d988ca5215bdd9c948f7c2da50e4de3639d7d09f2c2845e9",
       "docToken": "I64FwCeMBi2DmokaO2McbxTQn9f",
       "revisionId": "99"
     },
@@ -3674,7 +3674,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md",
-      "sha256": "4c56d0ea655c86f8e2f919726f69c706cd20c3ad02fa2ae21118bbb6d0fa3e00",
+      "sha256": "80a5b812f627d903c35e364ed057f03b14e2c58d56f147c8999c979f3162e901",
       "docToken": "Dm7dwQQvxib74AkgoITcfy5Wnfe",
       "revisionId": "56"
     },
@@ -3686,7 +3686,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "sha256": "824cc6eac1b972c7b1c424046a8dac049a64718b64727e4acee1a3d347fcdaa9",
+      "sha256": "e43c7bbf5dbabfb8b3a6374664f067d017dbe6d1ff5f8f16cd1394f83be9ad3e",
       "docToken": "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
       "revisionId": "403"
     },
@@ -3698,7 +3698,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "sha256": "ac210d4fba690b69345df1527ae5d4cca014d8f56eb4423930064f9a1b6e625d",
+      "sha256": "9a5f8e08de2a9976a8d25705ea734a09a7192ffda928405ee303b352696de57d",
       "docToken": "NpmyweSc9icYKak5XFvcP8iAnXd",
       "revisionId": "370"
     },
@@ -3710,21 +3710,21 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/scale-global-cluster.md",
-      "sha256": "a66fd7197801c89d27975876e69d1fa77f77ed7145be4a85d9e8bc9d989b5048",
+      "sha256": "2c0f3cae5b3db26e060bc635ad1bc5c5ecadfff193278bbf8dc901e812bda56e",
       "docToken": "ER5PwvwjIiBcG4kughjcE1GLnjh",
       "revisionId": "139"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "sha256": "97577a632a13e1982038bf77214c888a963f0a8dfe9f363a0ea860dcb905b368",
+      "sha256": "322b9428cbbaa2b5c164bc510f3613ce2f1c274699fc47a77228ed77e4326bea",
       "docToken": "GopSwoGT3iIQSOkD15tcWQ7Dn5e",
       "revisionId": "330"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "sha256": "c96c1a63528c62e8871942b9d3245880fb2dff5f51d71d7281c5b23c4821f18a",
+      "sha256": "7e4f37daa84455d1c516704c403fbc322a61f80d21c076e577fe9af7c684e1d5",
       "docToken": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
-      "revisionId": "223"
+      "revisionId": "225"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
@@ -3734,13 +3734,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/analyze-cost.md",
-      "sha256": "599a67e875d1bf98193bae8fa85b17362ab667d1e3a7f4b09cd294b93e0a4e55",
+      "sha256": "0f93a8f921d611004bb4dde883084135d8a39cc073ec43ebb701dba49d19a799",
       "docToken": "DeRWwlqYKiH76okxiaBcVFPjnMg",
       "revisionId": "706"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/cost-optimization.md",
-      "sha256": "ca1fda86c9ad398758cad35a98b20b601bad6e3ff0637845bfc837b22a07ce05",
+      "sha256": "976029f6b0dce5c84d8f5bf408c018c8137b17bb0507e520ec23c9e250b5dff8",
       "docToken": "ObcZwiYelidyeTk8HGaclpWTnFe",
       "revisionId": "821"
     },
@@ -3752,7 +3752,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md",
-      "sha256": "13d2d058a27ffed8d78cf0f9f361dd5b7c7bc4770a52fb99b226886d91385333",
+      "sha256": "a4f542681518514dcda311d19b50e06ab0daf71424800e0829fe0cf5bcf206c5",
       "docToken": "RZoSwcpJniF0ZxkfhaDcFUHin4A",
       "revisionId": "401"
     },
@@ -3854,13 +3854,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "sha256": "dc8365f6de4ad788b3a2da4c6d097e99261c5d50f59601a23d9b3b235b058f14",
+      "sha256": "55c367604bf0abfe5077fa6164154513c86c17900ffc790a8272c7579d15f91b",
       "docToken": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
       "revisionId": "670"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "1a8cedc467fb132c5f6af4830ec837cad31bb01acb8353a7897b6b9f588ee0a5",
+      "sha256": "3f50643aabe5af764b3195a4ac85b2038f3c4b4c1c389bfe5dd038bfebf9668a",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
       "revisionId": "2680"
     },
@@ -3914,7 +3914,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "sha256": "60d3c5c0abc00eae4bc45cb3980c47eaf65209021fc52bb7229aa4274ca29f7d",
+      "sha256": "73b528e317cbd1e9fb5263df69f3b61dd566be016c44f127c63d1eb590fe7e94",
       "docToken": "MjDcwfnLMiVRYVkFSqTckwQbnmc",
       "revisionId": "390"
     },
@@ -3944,7 +3944,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
-      "sha256": "042d02bb917173d3c31a2983fa8cf40648beb6a1d590c1a068af5bd9a4cf900c",
+      "sha256": "f98c9ce46062f8c0af1783b6069eecf1e3ea3d3efbf5e9157a800305fcfa115b",
       "docToken": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
       "revisionId": "424"
     },
@@ -3956,7 +3956,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-stage.md",
-      "sha256": "56227a5bc55be0fdffe86b45c1c32348f1e1b27d0608028f36299ae9304fea64",
+      "sha256": "42494bc7bbd2c396809639a011a7bf750ee6b1054d68750d3048703eb19da645",
       "docToken": "ZP6tw8jcQipDKrkY93DcYCetnJb",
       "revisionId": "628"
     },
@@ -3968,7 +3968,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/organizations/use-recycle-bin.md",
-      "sha256": "7fb20eed8331db9919a363b5df867b97f9d0b2ed7b0954116470763ce9a96d16",
+      "sha256": "29ef589e0e2877da6ca74241d817dd984c5d4cebe19ed602b306067de930c73b",
       "docToken": "FgDZw6JJuiICETkqrqHckN4pneb",
       "revisionId": "340"
     },
@@ -3992,13 +3992,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/job-center.md",
-      "sha256": "339854b011f642513b7fefdd51e77fe6f06f18a5afab348cb3785ec25b2c6bed",
+      "sha256": "7aaf4cfebcfe97648610288fad3a4f13f5bf406e88d71148b08cee0ee422a0f0",
       "docToken": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
       "revisionId": "246"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "4db34c9dca3f66f3f2420e14fe19fb6c94edb2f0858298d5cc3769d3a58781b3",
+      "sha256": "07c3cf5bb74859b307f1ec852ece92694c6dbcdf0eff50940377b97c321f504c",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "revisionId": "1057"
     },

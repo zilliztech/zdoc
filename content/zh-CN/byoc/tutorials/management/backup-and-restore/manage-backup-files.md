@@ -42,7 +42,7 @@ import Supademo from '@site/src/components/Supademo';
 
 - **查看所有备份文件**
 
-    以下示例展示如何查看备份文件。由于示例中未指定项目 ID 或集群 ID，因此将查看当前**组织**下的所有备份文件。如需查看某个项目或集群下的备份文件，请在请求中指定相应 ID。更多 API 参数细节，请参见[查看备份列表](https://docs.zilliz.com.cn/reference/restful/list-backups-v2)。
+    以下示例展示如何查看备份文件。由于示例中未指定项目 ID 或集群 ID，因此将查看当前**组织**下的所有备份文件。如需查看某个项目或集群下的备份文件，请在请求中指定相应 ID。更多 API 参数细节，请参见[查看备份列表](/reference/restful/list-backups-v2)。
 
     ```bash
     curl --request GET \
@@ -85,7 +85,7 @@ import Supademo from '@site/src/components/Supademo';
 
 - **查看备份详情**
 
-    以下示例展示如何查看某个备份文件的详细信息。更多 API 参数细节，请参见[查看备份详情](https://docs.zilliz.com.cn/reference/restful/describe-backup-v2)。
+    以下示例展示如何查看某个备份文件的详细信息。更多 API 参数细节，请参见[查看备份详情](/reference/restful/describe-backup-v2)。
 
     ```bash
     curl --request GET \
@@ -163,7 +163,7 @@ Zilliz Cloud 根据备份的创建方式采用不同的删除策略：
 
 ### 通过 RESTful API\{#via-restful-api}
 
-以下示例展示如何删除指定集群中的某个备份文件。更多 API 参数细节，请参见[删除备份](https://docs.zilliz.com.cn/reference/restful/delete-backup-v2)。
+以下示例展示如何删除指定集群中的某个备份文件。更多 API 参数细节，请参见[删除备份](/reference/restful/delete-backup-v2)。
 
 ```bash
 curl --request DELETE \

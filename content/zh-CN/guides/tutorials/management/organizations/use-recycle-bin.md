@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 前提条件\{#prerequisites}
 
-如需还原回收站中集群，请先添加[支付方式](https://docs.zilliz.com.cn/docs/payment-billing)。
+如需还原回收站中集群，请先添加[支付方式](/docs/payment-billing)。
 
 ## 恢复回收站中的按量计费集群\{#restore-a-dropped-usage-based-cluster-in-the-recycle-bin}
 

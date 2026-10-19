@@ -115,7 +115,7 @@ Zilliz Cloud 全球集群支持两种操作来更改主集群所在的区域：
 
 - **通过 RESTful API**
 
-    以下示例展示了如何执行优雅切换。详情请参考[切换全球集群](https://docs.zilliz.com.cn/reference/restful/switchover-global-cluster-v2)。
+    以下示例展示了如何执行优雅切换。详情请参考[切换全球集群](/reference/restful/switchover-global-cluster-v2)。
 
     ```bash
     curl --request POST \
@@ -193,7 +193,7 @@ Zilliz Cloud 全球集群支持两种操作来更改主集群所在的区域：
 
 - **通过 RESTful API**
 
-    以下示例展示了如何执行强切。详情请参考[故障转移全球集群](https://docs.zilliz.com.cn/reference/restful/failover-global-cluster-v2)。
+    以下示例展示了如何执行强切。详情请参考[故障转移全球集群](/reference/restful/failover-global-cluster-v2)。
 
     ```bash
     curl --request POST \

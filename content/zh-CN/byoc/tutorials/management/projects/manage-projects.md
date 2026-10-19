@@ -108,7 +108,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **通过 RESTful API**
 
-    以下示例查看当前组织下的全部项目。详情请参考[查看项目列表](https://docs.zilliz.com.cn/reference/restful/list-projects-v2)。
+    以下示例查看当前组织下的全部项目。详情请参考[查看项目列表](/reference/restful/list-projects-v2)。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -152,7 +152,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **通过 RESTful API**
 
-    以下示例查看项目 `proj-xxxxxxxxxxxxxxx` 的详细信息。详情请参考[查看项目详情](https://docs.zilliz.com.cn/reference/restful/describe-project-v2)。
+    以下示例查看项目 `proj-xxxxxxxxxxxxxxx` 的详细信息。详情请参考[查看项目详情](/reference/restful/describe-project-v2)。
 
     ```bash
     export TOKEN="YOUR_API_KEY"

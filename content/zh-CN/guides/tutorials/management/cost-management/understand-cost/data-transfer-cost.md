@@ -63,7 +63,7 @@ import Admonition from '@theme/Admonition';
 
 - [离线迁移](./offline-migration)
 
-- [跨地域备份](https://docs.zilliz.com.cn/docs/backup-to-other-regions)
+- [跨地域备份](/docs/backup-to-other-regions)
 
 - 使用第三方[模型](./function-and-model-inference-overview)进行数据 Ingest、Search、Query、Rerank
 

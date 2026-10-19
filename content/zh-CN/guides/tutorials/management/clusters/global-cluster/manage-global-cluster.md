@@ -58,7 +58,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **通过 RESTful API**
 
-    以下示例展示了如何添加从集群。详情请参考[创建全球集群](https://docs.zilliz.com.cn/reference/restful/create-global-cluster-v2)。
+    以下示例展示了如何添加从集群。详情请参考[创建全球集群](/reference/restful/create-global-cluster-v2)。
 
     ```bash
     curl --request POST \
@@ -107,7 +107,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **通过 RESTful API**
 
-    以下示例展示了如何删除从集群。详情请参考[删除全球集群成员集群](https://docs.zilliz.com.cn/reference/restful/delete-global-member-cluster-v2)。
+    以下示例展示了如何删除从集群。详情请参考[删除全球集群成员集群](/reference/restful/delete-global-member-cluster-v2)。
 
     ```bash
     curl --request DELETE \
@@ -145,7 +145,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-您还可以通过 RESTful API 移除全球 Endpoint。以下为示例代码，详情请参考[移除全球端点](https://docs.zilliz.com.cn/reference/restful/remove-global-endpoint-v2)。
+您还可以通过 RESTful API 移除全球 Endpoint。以下为示例代码，详情请参考[移除全球端点](/reference/restful/remove-global-endpoint-v2)。
 
 ```bash
 curl --request POST \

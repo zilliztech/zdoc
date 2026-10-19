@@ -98,7 +98,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 <Admonition type="info" title="说明">
 
-通过界面账单详情页和账单 API 接口[查看发票列表](https://docs.zilliz.com.cn/reference/restful/list-invoices-v2)和[查看发票详情](https://docs.zilliz.com.cn/reference/restful/describe-invoice-v2)获取的账单金额精度均为 2 位小数。
+通过界面账单详情页和账单 API 接口[查看发票列表](/reference/restful/list-invoices-v2)和[查看发票详情](/reference/restful/describe-invoice-v2)获取的账单金额精度均为 2 位小数。
 
 </Admonition>
 
@@ -335,7 +335,7 @@ API 返回的结果中，所有金额单位为分。
 
 Zilliz Cloud 的计费精度为 **10 位小数**，所有账单均按此精度计算。每日费用会先进行汇总，并在计费过程中四舍五入至 10 位小数。
 
-- **RESTful API**：所有数值（如单价、用量、用量金额）始终返回**精确到 10 位小数**。如果不足 10 位小数，则会在末尾补零以保持 10 位。更多关于如何使用 RESTful API 的信息，请参阅[查询日用量](https://docs.zilliz.com.cn/reference/restful/query-daily-usage-v2) 。
+- **RESTful API**：所有数值（如单价、用量、用量金额）始终返回**精确到 10 位小数**。如果不足 10 位小数，则会在末尾补零以保持 10 位。更多关于如何使用 RESTful API 的信息，请参阅[查询日用量](/reference/restful/query-daily-usage-v2) 。
 
 - **Web 控制台**：展示的数值与 API 保持一致，但为了便于阅读，界面会省略末尾的连续零。例如，`0.1234000000` 会在界面上显示为 `0.1234`。
 

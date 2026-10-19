@@ -102,7 +102,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 通过 RESTful API 配置定时扩缩容\{#configure-scheduled-scaling-via-restful-api}
 
-使用 RESTful API 时，您可以在单个[修改集群配置](https://docs.zilliz.com.cn/reference/restful/modify-cluster-v2)请求中为 Query CU 和 Replica 配置定时扩缩容。
+使用 RESTful API 时，您可以在单个[修改集群配置](/reference/restful/modify-cluster-v2)请求中为 Query CU 和 Replica 配置定时扩缩容。
 
 有关如何在高级模式中编写 Cron 表达式，请参阅[了解 Cron 表达式](./cron-expression)。
 

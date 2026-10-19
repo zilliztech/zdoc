@@ -156,7 +156,7 @@ import Admonition from '@theme/Admonition';
 
     - 您具备**组织管理员**或**项目管理员**权限。
 
-    - 您已绑定的云市场订阅，或者您的组织已完成[企业认证](https://docs.zilliz.com.cn/docs/enterprise-certification)且组织中[现金余额](./cash-recharge)充足。**为什么购买了预付费的包年包月集群，还有后付费账单产生？**
+    - 您已绑定的云市场订阅，或者您的组织已完成[企业认证](/docs/enterprise-certification)且组织中[现金余额](./cash-recharge)充足。**为什么购买了预付费的包年包月集群，还有后付费账单产生？**
 
         包年包月集群有部分服务对应的计费项是按量付费的，例如存储、备份服务。例如，您购买了包年包月集群后，使用备份功能时仍将产生备份存储的按量付费账单。
 

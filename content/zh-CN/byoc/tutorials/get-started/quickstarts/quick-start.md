@@ -35,7 +35,7 @@ Zilliz Cloud 提供 Bring-Your-Own-Cloud（BYOC）解决方案，使组织能够
 
 - 您已[注册 Zilliz Cloud 账号](https://cloud.zilliz.com.cn/signup)。
 
-    详情见[注册账号](https://docs.zilliz.com.cn/docs/byoc/register-with-zilliz-cloud)。
+    详情见[注册账号](/docs/byoc/register-with-zilliz-cloud)。
 
 - 您已经联系了 Zilliz Cloud 技术支持并向我们提供您的账号信息。
 

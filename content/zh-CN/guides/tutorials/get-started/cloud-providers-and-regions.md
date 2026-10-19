@@ -160,7 +160,13 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
      <th><p>亚马逊云科技</p></th>
    </tr>
    <tr>
-     <td><p>Volume</p></td>
+     <td><p>Managed Volume</p></td>
+     <td><p>✅ 全部地域</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅ 全部地域</p></td>
+   </tr>
+   <tr>
+     <td><p>External Volume</p></td>
      <td><p>✅ 全部地域</p></td>
      <td><p>❌</p></td>
      <td><p>✅ 全部地域</p></td>
@@ -197,9 +203,9 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
    </tr>
    <tr>
      <td><p>Spark 批量任务</p></td>
-     <td><p>部分地域：</p><ul><li><p>华东1（杭州）</p></li><li><p>华东2（上海）</p></li><li><p>华北2（北京）</p></li><li><p>华南1（深圳）</p></li><li><p>美国（弗吉尼亚）</p></li><li><p>新加坡</p></li></ul></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
+     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
+     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
    </tr>
 </table>
 

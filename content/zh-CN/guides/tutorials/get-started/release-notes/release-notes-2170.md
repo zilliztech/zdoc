@@ -52,7 +52,7 @@ import Admonition from '@theme/Admonition';
 
 - **无感迁移**：所有既有的告警都会无感迁移到新的告警框架。
 
-关于基于策略的告警规则，可以参考[管理项目告警](./manage-project-alerts)以及[创建](https://docs.zilliz.com.cn/reference/restful/create-alert-rule-v2)、[更新](https://docs.zilliz.com.cn/reference/restful/update-alert-rule-v2)、[查看](https://docs.zilliz.com.cn/reference/restful/list-alert-rules-v2)和[删除](https://docs.zilliz.com.cn/reference/restful/delete-alert-rule-v2)告警规则的相关 RESTful API 参考文档。
+关于基于策略的告警规则，可以参考[管理项目告警](./manage-project-alerts)以及[创建](/reference/restful/create-alert-rule-v2)、[更新](/reference/restful/update-alert-rule-v2)、[查看](/reference/restful/list-alert-rules-v2)和[删除](/reference/restful/delete-alert-rule-v2)告警规则的相关 RESTful API 参考文档。
 
 ## 控制台支持 mmap 设置\{#ui-support-for-mmap-settings}
 

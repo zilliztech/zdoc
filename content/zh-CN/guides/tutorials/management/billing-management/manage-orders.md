@@ -88,7 +88,7 @@ Zilliz Cloud 控制台提供专门的订单页面，方便您统一集中管理�
 
     - 您具备**组织管理员**或**项目管理员**权限。
 
-    - 您的组织已完成[企业认证](https://docs.zilliz.com.cn/docs/enterprise-certification)且组织中现金余额充足。详情请参考[企业认证](./enterprise-verification)和[现金充值（对公转账）](./cash-recharge)
+    - 您的组织已完成[企业认证](/docs/enterprise-certification)且组织中现金余额充足。详情请参考[企业认证](./enterprise-verification)和[现金充值（对公转账）](./cash-recharge)
 
 - **为什么购买了预付费的包年包月集群，还有后付费账单产生？**
 

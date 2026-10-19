@@ -31,7 +31,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - [Zilliz Cloud 账号](http://cloud.zilliz.com.cn)。
 
-- Claude Code，如果您想使用 [Claude Code Plugin](https://docs.zilliz.com.cn/docs/agents/zilliz-plugin)。
+- Claude Code，如果您想使用 [Claude Code Plugin](/docs/agents/zilliz-plugin)。
 
 - Codex，如果您想使用 [Codex Plugin](./zilliz-codex-plugin)。
 
@@ -61,7 +61,7 @@ npx codex-marketplace add zilliztech/zilliz-plugin --plugins
 
 ### 安装 Claude Code 插件\{#install-zilliz-plugin-for-claude-code}
 
-如果您想直接在 Claude Code 中操作 Zilliz Cloud，请使用[Claude Code Plugin](https://docs.zilliz.com.cn/docs/agents/zilliz-plugin) 。
+如果您想直接在 Claude Code 中操作 Zilliz Cloud，请使用[Claude Code Plugin](/docs/agents/zilliz-plugin) 。
 
 <Procedures>
 
@@ -103,7 +103,7 @@ npx skills add zilliztech/zilliz-skill
 
 ### 安装 Zilliz CLI\{#install-zilliz-cli}
 
-[Zilliz CLI](https://docs.zilliz.com.cn/reference/cli/overview) 是 Plugin 和 Skill 使用的基础命令行工具。
+[Zilliz CLI](/reference/cli/cli/overview) 是 Plugin 和 Skill 使用的基础命令行工具。
 
 <Procedures>
 

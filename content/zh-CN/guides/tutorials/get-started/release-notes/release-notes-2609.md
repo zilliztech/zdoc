@@ -40,7 +40,7 @@ import Grid from '@site/src/components/Grid';
 
         - **自定义项目角色**：可从基于预置模板创建自定义角色，组合平台、计算与数据访问权限，并将计算与数据访问范围限定为项目内全部集群或指定集群。更多内容，可以查看[管理平台角色](./manage-platform-roles)及[平台资源权限](./platform-privileges)。
 
-        - **通过 RESTful API 管理角色**：可通过 API 列出角色、创建自定义项目角色，以及为成员授予或撤销角色，让自动化流程与控制台使用同一套权限模型。更多内容，可以查看[角色管理 API 参考](https://docs.zilliz.com.cn/reference/restful/list-cloud-roles-v2)。
+        - **通过 RESTful API 管理角色**：可通过 API 列出角色、创建自定义项目角色，以及为成员授予或撤销角色，让自动化流程与控制台使用同一套权限模型。更多内容，可以查看[角色管理 API 参考](/reference/restful/list-cloud-roles-v2)。
 
         - **访问控制页面改版**：原成员页面改版为访问控制页面，新增项目角色，组织角色页签；邀请成员时可一步设置组织角色及可选的项目访问权限。更多内容，可以查看[管理平台用户](./manage-platform-users)。
 

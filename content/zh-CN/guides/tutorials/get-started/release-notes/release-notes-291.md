@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 在最近的 Milvus 2.4 更新中，推出了 RESTful API v2。随着本次发布，Zilliz Cloud 也开始支持这些 API 接口，并提供了一套与之匹配的控制面接口。
 
-与 RESTful API v1 相比，新的 v2 在 接口风格上更加一致，涵盖的功能范围也更广。 这些功能包括数据面上的向量操作、Collection 管理、Index 管理、Partition 管理、Role 和 User 管理以及 Alias 相关操作。在控制面上，API 接口涵盖了数据导入和集群管理。更多详情，请参阅 RESTful v2 [控制面 API](https://docs.zilliz.com.cn/reference/restful/control-plane-v2) 和[数据面 API](https://docs.zilliz.com.cn/reference/restful/data-plane-v2)。
+与 RESTful API v1 相比，新的 v2 在 接口风格上更加一致，涵盖的功能范围也更广。 这些功能包括数据面上的向量操作、Collection 管理、Index 管理、Partition 管理、Role 和 User 管理以及 Alias 相关操作。在控制面上，API 接口涵盖了数据导入和集群管理。更多详情，请参阅 RESTful v2 [控制面 API](/reference/restful/control-plane-v2) 和[数据面 API](/reference/restful/data-plane-v2)。
 
 ### 文档聊天机器人\{#chatbot}
 

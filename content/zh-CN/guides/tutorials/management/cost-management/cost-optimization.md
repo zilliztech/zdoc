@@ -321,9 +321,9 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 - <strong>联系销售获取自定义报价。</strong>企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
 
-- **云市场订阅：** 通过[阿里云](https://docs.zilliz.com.cn/docs/subscribe-on-aliyun-marketplace)、[亚马逊云科技](https://docs.zilliz.com.cn/docs/subscribe-on-amazon-marketplace)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
+- **云市场订阅：** 通过[阿里云](/docs/subscribe-on-aliyun-marketplace)、[亚马逊云科技](/docs/subscribe-on-amazon-marketplace)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
 
-- **现金充值：** 通过银行对公转账进行[现金充值](https://docs.zilliz.com.cn/docs/advance-pay)，扣费优先级为优惠券 > 现金充值> 云市场订阅，适合有预算管理需求的企业。
+- **现金充值：** 通过银行对公转账进行[现金充值](/docs/advance-pay)，扣费优先级为优惠券 > 现金充值> 云市场订阅，适合有预算管理需求的企业。
 
 ## 用量页面\{#monitor-usage-page}
 
@@ -347,7 +347,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 ### RESTful API\{#restful-api}
 
-[查询日用量](https://docs.zilliz.com.cn/reference/restful/query-daily-usage-v2) API 提供精确到 8 位小数的用量数据，可以编程化接入内部 FinOps 流程：
+[查询日用量](/reference/restful/query-daily-usage-v2) API 提供精确到 8 位小数的用量数据，可以编程化接入内部 FinOps 流程：
 
 - 自动生成成本报告
 
@@ -357,7 +357,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 ### 费用告警\{#usage-alerts}
 
-建议监控[费用指标](https://docs.zilliz.com.cn/docs/metrics-alerts-reference#organization-level-metrics)，设置费用告警阈值，及时发现异常消费。尤其是在以下场景：
+建议监控[费用指标](/docs/metrics-alerts-reference#organization-level-metrics)，设置费用告警阈值，及时发现异常消费。尤其是在以下场景：
 
 - 新上线的集群，验证实际成本是否符合预期
 

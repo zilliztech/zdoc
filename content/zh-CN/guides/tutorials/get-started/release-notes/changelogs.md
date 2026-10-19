@@ -80,7 +80,7 @@ import Grid from '@site/src/components/Grid';
 
         - 💳 按需计算和外部 Volume 开始计费。关于费用相关说明，可以参考[按需计算费用](./on-demand-compute-cost)及[存储费用](./storage-cost)。
 
-        - 💻 [可编程第三方存储集成](https://docs.zilliz.com.cn/reference/restful/storage-integration-operations-v2)支持通过 RESTful 接口进行创建。
+        - 💻 [可编程第三方存储集成](/reference/restful/storage-integration-operations-v2)支持通过 RESTful 接口进行创建。
 
     </div>
 
@@ -468,7 +468,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔄  不停机数据迁移
 
-        - [⚙️  修改集群副本数量](https://docs.zilliz.com.cn/reference/restful/modify-cluster-replica-v2)
+        - [⚙️  修改集群副本数量](/reference/restful/modify-cluster-replica-v2)
 
     </div>
 
@@ -712,7 +712,7 @@ import Grid from '@site/src/components/Grid';
 
         - [🛠️  Partition SDK](./manage-partitions) 上线
 
-        - [🛠️  集群管理 API 接口](https://docs.zilliz.com.cn/reference/restful/create-cluster)上线
+        - [🛠️  集群管理 API 接口](/reference/restful/create-cluster)上线
 
     </div>
 
@@ -796,7 +796,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [🛠️  ](./manage-partitions)[RESTful API 接口](https://docs.zilliz.com.cn/reference/restful)开放
+        - [🛠️  ](./manage-partitions)[RESTful API 接口](/reference/restful)开放
 
         - 🛒  Zilliz Cloud 在[阿里云云市场上线](./aliyun-marketplace)
 

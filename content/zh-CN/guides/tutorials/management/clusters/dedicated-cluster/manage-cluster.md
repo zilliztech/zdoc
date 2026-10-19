@@ -111,7 +111,7 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 需要挂起的 Dedicated 集群的 ID。
 
-更多详细信息，请参考[挂起集群](https://docs.zilliz.com.cn/reference/restful/suspend-cluster-v2)。
+更多详细信息，请参考[挂起集群](/reference/restful/suspend-cluster-v2)。
 
 </TabItem>
 
@@ -175,7 +175,7 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 需要恢复运行的集群的 ID。
 
-更多详细信息，请参考[恢复集群](https://docs.zilliz.com.cn/reference/restful/resume-cluster-v2)。
+更多详细信息，请参考[恢复集群](/reference/restful/resume-cluster-v2)。
 
 </TabItem>
 
@@ -257,7 +257,7 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 需要恢复运行的集群的 ID。
 
-更多详细信息，请参考[删除集群](https://docs.zilliz.com.cn/reference/restful/drop-cluster-v2)。
+更多详细信息，请参考[删除集群](/reference/restful/drop-cluster-v2)。
 
 </TabItem>
 
