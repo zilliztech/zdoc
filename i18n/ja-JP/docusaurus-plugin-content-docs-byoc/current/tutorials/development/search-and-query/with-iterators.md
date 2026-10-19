@@ -1,13 +1,13 @@
 ---
-title: "検索イテレーター | BYOC"
+title: "Search Iterator | BYOC"
 slug: /with-iterators
-sidebar_label: "検索イテレーター"
+sidebar_label: "Search Iterator"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。 | BYOC"
+description: "ANN Search では、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search のみでは、大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。 | BYOC"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
 sidebar_position: 18
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 検索イテレーター
+# Search Iterator
 
-ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。
+ANN Search では、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search のみでは、大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。
 
 ## 概要\{#overview}
 
-Search リクエストは検索結果を返しますが、SearchIterator はイテレーターを返します。このイテレーターの **next()** メソッドを呼び出すことで、検索結果を取得できます。
+Search リクエストは検索結果を返しますが、SearchIterator はイテレーターを返します。このイテレーターの **next()** メソッドを呼び出すと、検索結果を取得できます。
 
 具体的には、SearchIterator は次のように使用できます。
 
-1. SearchIterator を作成し、**1 回の検索リクエストごとに返すエンティティ数**と**返すエンティティの総数**を設定します。
+1. SearchIterator を作成し、**検索リクエストごとに返すエンティティ数**と**返すエンティティの総数**を設定します。
 
-1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページ分割された形で検索結果を取得します。
+1. ループ内で SearchIterator の **next()** メソッドを呼び出し、ページ単位で検索結果を取得します。
 
 1. **next()** メソッドが空の結果を返した場合は、イテレーターの **close()** メソッドを呼び出してループを終了します。
 
 ## SearchIterator を作成する\{#create-searchiterator}
 
-次のコードスニペットは、SearchIterator を作成する方法を示しています。
+SearchIterator を作成する方法を次のコードスニペットに示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -114,7 +114,7 @@ import (
 ctx := context.Background()
 
 c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+    Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
@@ -140,30 +140,25 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
-    let query_vectors = vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]];
-    let iterator = client
-        .search_iterator(
-            SearchIteratorRequest::builder()
-                .search(
-                    SearchRequest::builder()
-                        .collection_name("iterator_collection")
-                        .vector_field("vector")
-                        .vectors(SearchVectors::Float(query_vectors))
-                        .output_fields(["color"])
-                        .build()?,
-                )
-                .batch_size(50)
-                .limit(20000)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+let query_vectors = vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]];
+let iterator = client
+    .search_iterator(
+        SearchIteratorRequest::builder()
+            .search(
+                SearchRequest::builder()
+                    .collection_name("iterator_collection")
+                    .vector_field("vector")
+                    .vectors(SearchVectors::Float(query_vectors))
+                    .output_fields(["color"])
+                    .build()?,
+            )
+            .batch_size(50)
+            .limit(20000)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -216,15 +211,14 @@ const queryVectors = [
 ];
 const collectionName = 'iterator_collection';
 
-const iterator = milvusClient.searchIterator({
+const iterator = await milvusClient.searchIterator({
     collection_name: collectionName,
     vectors: queryVectors,
     anns_field: 'vector',
-    batch_size: 50,
+    batchSize: 50,
     output_fields: ['color'],
     limit: 20000,
 });
-
 ```
 
 </TabItem>
@@ -271,11 +265,11 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 </TabItem>
 </Tabs>
 
-上記の例では、検索ごとに返すエンティティ数 (**batch_size**/**batchSize**) を 50、返すエンティティの総数 (**topK**) を 20,000 に設定しています。
+上記の例では、1 回の検索で返すエンティティ数 (**batch_size**/**batchSize**) を 50 に、返すエンティティの総数 (**topK**) を 20,000 に設定しています。
 
 ## SearchIterator を使用する\{#use-searchiterator}
 
-SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページ分割された形で検索結果を取得できます。
+SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページ単位で検索結果を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -463,4 +457,4 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 </TabItem>
 </Tabs>
 
-上記のコード例では、無限ループを作成し、そのループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さなくなった時点でイテレーターを閉じています。
+上記のコード例では、無限ループを作成してループ内で **next()** メソッドを呼び出し、検索結果を変数に格納しています。また、**next()** が何も返さない場合はイテレーターを閉じています。

@@ -1,13 +1,13 @@
 ---
-title: "リコール率の調整 | BYOC"
+title: "Recall Rate を調整する | BYOC"
 slug: /tune-recall-rate
-sidebar_label: "リコール率の調整"
+sidebar_label: "Recall Rate を調整する"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、ユーザーが検索のリコール率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定リコール率を取得するための別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索のリコール率を調整できます。 | BYOC"
+description: "Zilliz Cloud は、検索の Recall Rate とパフォーマンスのバランスを取るための検索パラメーター `level` を提供しています。また、現在の検索の推定 Recall Rate を取得するための別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせて、ベクトル検索の Recall Rate を調整できます。 | BYOC"
 type: origin
 token: Fz9swr5WwixkH8kKHircWCejnye
 sidebar_position: 3
@@ -19,29 +19,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# リコール率の調整
+# Recall Rate を調整する
 
-Zilliz Cloud は、ユーザーが検索のリコール率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定リコール率を取得するための別の検索パラメーター `enable_recall_calculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索のリコール率を調整できます。
+Zilliz Cloud は、検索の Recall Rate とパフォーマンスのバランスを取るための検索パラメーター `level` を提供しています。また、現在の検索の推定 Recall Rate を取得するための別の検索パラメーター `enable_recall_calculation` も提供しています。これら 2 つのパラメーターを組み合わせて、ベクトル検索の Recall Rate を調整できます。
 
 <Admonition type="info" title="Notes">
 
-これは、基本的なベクトル検索、フィルタリング検索、範囲検索、グループ化検索、ハイブリッド検索、検索イテレーターなど、すべての検索に適用されます。
+これは、基本的なベクトル検索、フィルター検索、範囲検索、グループ化検索、ハイブリッド検索、検索イテレーターを含むすべての検索に適用されます。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-Zilliz Cloud におけるリコール率は通常、検索によって正常に取得された関連結果の割合を指します。これは、コレクションからすべての関連項目を回収するシステムの能力を測る指標です。
+Zilliz Cloud における Recall Rate は通常、検索によって正常に取得された関連結果の割合を指します。これは、コレクションからすべての関連項目を取得するシステムの能力を測るものです。
 
 ![OdMnbeHYOoAEqKxNEEnc9SwNnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/odmnbehyooaeqkxneenc9swnnmf.png "OdMnbeHYOoAEqKxNEEnc9SwNnmf")
 
-検索のリコール率を計算するには、取得された関連項目の数を、取得すべき対象項目の総数で割ります。たとえば、100 件の関連項目のうち 90 件を検索で取得した場合、リコール率は **0.9** または **90%** になります。
+検索の Recall Rate を計算するには、取得された関連項目の数を、取得されるべき該当項目の総数で割ります。たとえば、100 個の関連項目のうち 90 個が検索で取得された場合、Recall Rate は **0.9** または **90%** になります。
 
-リコール率が高いほど通常は検索結果がより正確になりますが、処理に時間がかかる場合があります。ベクトル検索の精度と効率のバランスを取るために、リコール率を調整するとよいでしょう。
+Recall Rate が高いほど通常は検索結果の精度が高くなりますが、時間がかかる場合があります。ベクトル検索の精度と効率のバランスを取るために、Recall Rate を調整することを検討してください。
 
-## 検索リクエストの設定\{#set-up-a-search-request}
+## 検索リクエストを設定する\{#set-up-a-search-request}
 
-リコール率を調整できる検索リクエストを設定するには、次のように検索パラメーター内に `level` パラメーターを含める必要があります。
+Recall Rate を調整可能な検索リクエストを設定するには、次のように検索パラメーター内に `level` パラメーターを含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -154,33 +154,30 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([("level".into(), "1".into())]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([("level".into(), "1".into())]))
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -276,19 +273,19 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`level` パラメーターは `1` から `10` の範囲で、デフォルトは `1` です。デフォルト値ではリコール率が 90% になり、これは通常、ほとんどのユースケースで十分です。 
+`level` パラメーターは `1` から `10` の範囲で、デフォルトは `1` です。デフォルト値では Recall Rate は 90% になり、通常はほとんどのユースケースで十分です。
 
-高いリコール率（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` の整数に設定してみてください。検索効率を気にしない場合は、このパラメーターを `10` に設定すると、最も正確な結果を得られます。
+高い Recall Rate（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` の間の整数に設定してみてください。検索効率を気にする必要がない場合は、このパラメーターを `10` に設定すると、最も精度の高い結果を得られます。
 
 <Admonition type="info" title="Notes">
 
-最上位のレベル設定でもまだ不十分な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
+最も高いレベルの設定でもまだ不十分な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
 </Admonition>
 
-## リコール率の調整\{#tune-recall-rate}
+## Recall Rate を調整する\{#tune-recall-rate}
 
-Zilliz Cloud は、調整作業を容易にするために `enable_recall_calculation` という別の検索パラメーターも導入しています。このパラメーターを `True` に設定すると、Zilliz Cloud が現在の検索のリコール率を推定し、その推定値を検索結果とともに含めることを示します。
+Zilliz Cloud は、調整プロセスを容易にするために、`enable_recall_calculation` という別の検索パラメーターも提供しています。このパラメーターを `True` に設定すると、Zilliz Cloud が現在の検索の Recall Rate を推定し、その推定値を検索結果と一緒に返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -408,37 +405,34 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([
+                ("level".into(), "6".into()),
+                ("enable_recall_calculation".into(), "true".into()),
+            ]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([
-                    ("level".into(), "6".into()),
-                    ("enable_recall_calculation".into(), "true".into()),
-                ]))
-                .build()?,
-        )
-        .await?;
-
-    println!("results: {:?}", res.results());
-    println!("recalls: {:?}", res.results().get_recalls());
-    Ok(())
-}
+println!("results: {:?}", res.results());
+println!("recalls: {:?}", res.results().get_recalls());
 ```
 
 </TabItem>
@@ -541,7 +535,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の検索リクエストを使用すると、次のように、現在の検索の推定リコール率を取得できます。
+上記の検索リクエストを使用すると、現在の検索の推定 Recall Rate を次のように取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -601,15 +595,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-推定プロセスでは、Zilliz Cloud は次のことを行います。
+推定プロセスでは、Zilliz Cloud は次の処理を行います。
 
-1. ユーザー定義の値に設定された `level` パラメーターで検索を実行し、
+1. `level` パラメーターをユーザーが定義した値に設定して検索します。
 
-1. 内部の高精度モードでもう 1 回検索を実行します。
+1. 内部の高精度モードで別の検索を実行します。
 
-1. 2 回目の検索をグラウンドトゥルースとして使用し、リコール率を推定します。
+1. 2 回目の検索をグラウンドトゥルースとして使用して、Recall Rate を推定します。
 
-`enable_recall_calculation` を `True` に設定したうえで、`level` パラメーターの値を調整すると、複数のリコール率を取得できます。これらの推定値と各検索の所要時間を考慮することで、適切な level 設定をおおよそ見積もることができます。
+`enable_recall_calculation` を `True` に設定した状態で `level` パラメーターの値を調整すると、複数の Recall Rate を取得できます。これらの推定値と各検索の所要時間を考慮することで、適切なレベル設定を概算できます。
 
 <Admonition type="info" title="Notes">
 
@@ -617,7 +611,6 @@ curl --request POST \
 
 </Admonition>
 
-## 制限事項\{#limits}
+## 制限\{#limits}
 
-現在、この機能は Zilliz Cloud クラスターの基本的なベクトル検索、フィルタリング検索、範囲検索でのみ利用できます。
-
+現在、この機能は Zilliz Cloud クラスターの基本ベクトル検索、フィルター検索、範囲検索でのみ使用できます。

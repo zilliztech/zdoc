@@ -1,13 +1,13 @@
 ---
-title: "StructArray によるフィルタリング検索 | BYOC"
+title: "StructArray によるフィルター検索 | BYOC"
 slug: /filtered-search-with-struct-arrays
-sidebar_label: "フィルタリング検索"
+sidebar_label: "フィルター検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray フィールドに対するベクトル検索にスカラーフィルタリングを追加する方法を説明します。StructArray フィルタリングには 2 つのレベルがあり、行レベルのフィルターは親エンティティを選択し、要素レベルのフィルターは要素レベルのベクトル検索に参加する Struct 要素を制限します。 | BYOC"
+description: "このページでは、StructArray フィールドに対するベクトル検索にスカラーフィルタリングを追加する方法を説明します。StructArray フィルタリングには 2 つのレベルがあります。行レベルのフィルターは親エンティティを選択し、要素レベルのフィルターは、要素レベルのベクトル検索に参加する Struct 要素を制限します。 | BYOC"
 type: origin
 token: WDjyw7hO3i26RckEgqIcf36snMh
 sidebar_position: 2
@@ -19,23 +19,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# StructArray によるフィルタリング検索
+# StructArray によるフィルター検索
 
-このページでは、StructArray フィールドに対するベクトル検索にスカラーフィルタリングを追加する方法を説明します。StructArray フィルタリングには 2 つのレベルがあります。行レベルのフィルターは親エンティティを選択し、要素レベルのフィルターは要素レベルのベクトル検索に参加する Struct 要素を制限します。
+このページでは、StructArray フィールドに対するベクトル検索にスカラーフィルタリングを追加する方法を説明します。StructArray フィルタリングには 2 つのレベルがあります。行レベルのフィルターは親エンティティを選択し、要素レベルのフィルターは、要素レベルのベクトル検索に参加する Struct 要素を制限します。
 
-このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには `chunks` という名前の StructArray フィールドがあり、`section`、`page`、`quality_score`、`has_code` などのスカラーサブフィールドと、検索用のベクトルサブフィールドを備えています。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには `chunks` という名前の StructArray フィールドがあり、`section`、`page`、`quality_score`、`has_code` などのスカラーサブフィールドと、検索用のベクトルサブフィールドがあります。
 
 ## フィルタータイプを選択する\{#choose-a-filter-type}
 
-| 目的 | 使用する機能 | 結果の動作 |
+| 目的 | 使用するもの | 結果の動作 |
 | --- | --- | --- |
 | `category` などのトップレベルのスカラーフィールドでフィルターします。 | 通常のフィルター式。 | 検索の前または検索中に親エンティティを選択します。 |
-| 要素レベルのベクトル検索を、スカラー条件に一致する Struct 要素に限定します。 | `element_filter`。 | 一致する Struct 要素のみを検索し、一致した要素のオフセットを返すことができます。 |
-| いずれか、すべて、または特定の数の Struct 要素が述語に一致するかどうかでエンティティを選択します。 | `MATCH_ANY`、`MATCH_ALL`、`MATCH_LEAST`、`MATCH_MOST`、または `MATCH_EXACT`。 | 行レベルのフィルタリングです。これらの演算子自体はオフセットを返しません。 |
+| 要素レベルのベクトル検索を、スカラー条件に一致する Struct 要素に制限します。 | `element_filter`。 | 一致する Struct 要素のみを検索し、一致した要素のオフセットを返すことができます。 |
+| いずれか、すべて、または指定した数の Struct 要素が述語に一致するかどうかでエンティティを選択します。 | `MATCH_ANY`、`MATCH_ALL`、`MATCH_LEAST`、`MATCH_MOST`、または `MATCH_EXACT`。 | 行レベルのフィルタリングです。これらの演算子自体はオフセットを返しません。 |
 
 <Admonition type="info" title="Notes">
 
-このページでは、検索ワークフローで StructArray フィルターを使用する方法を説明します。構文規則の全体、サポートされる述語タイプ、およびサポートされない述語のマトリックスについては、[StructArray 演算子](./struct-array-filtering) を参照してください。
+このページでは、検索ワークフローで StructArray フィルターを使用する方法を説明します。完全な構文ルール、サポートされる述語タイプ、およびサポートされない述語のマトリックスについては、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
 </Admonition>
 
@@ -120,8 +120,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -153,28 +156,23 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query = EmbeddingList::new()
-        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
-        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+let query = EmbeddingList::new()
+    .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+    .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb_list_vector]")
-        .vectors(SearchVectors::EmbeddingLists(vec![query]))
-        .filter("category == \"search\"")
-        .limit(3)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb_list_vector]")
+    .vectors(SearchVectors::EmbeddingLists(vec![query]))
+    .filter("category == \"search\"")
+    .limit(3)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -263,11 +261,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記のフィルターは、トップレベルの `category` フィールドが `"search"` であるエンティティのみを選択します。一致する 1 つの Struct 要素を特定するものではありません。
+上記のフィルターは、トップレベルの `category` フィールドが `"search"` であるエンティティのみを選択します。一致した 1 つの Struct 要素を特定するものではありません。
 
 ## 要素レベルのベクトル検索をフィルターする\{#filter-element-level-vector-search}
 
-スカラー条件を、要素レベルのベクトル検索に参加する同じ Struct 要素に適用する必要がある場合は、`element_filter(structArrayField, predicate)` を使用します。述語の内部では、`$[subfield]` を使用して現在の Struct 要素のスカラーサブフィールドを参照します。
+スカラー条件を、要素レベルのベクトル検索に参加する同じ Struct 要素に適用する必要がある場合は、`element_filter(structArrayField, predicate)` を使用します。述語内では、`$[subfield]` を使用して現在の Struct 要素のスカラーサブフィールドを参照します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -362,8 +360,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -394,28 +395,23 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9 && $[has_code] == true)";
+let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9 && $[has_code] == true)";
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .filter(filter_expr)
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .filter(filter_expr)
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -464,7 +460,7 @@ const filter_expr = 'category == "search" && element_filter(chunks, $[section] =
 
 const results = await client.search({
   collection_name: "tech_articles",
-  data: [query_vector],
+  data: query_vector,
   anns_field: "chunks[emb]",
   filter: filter_expr,
   limit: 5,
@@ -501,15 +497,15 @@ curl --request POST \
 
 <Admonition type="warning" title="Warning">
 
-トップレベルの述語と `element_filter` を組み合わせる場合は、`element_filter` を式の末尾に配置します。1 つのフィルター式に含めることができる `element_filter` は 1 つだけであり、`element_filter` や `MATCH_*` を別の StructArray 演算子の内部にネストすることはできません。
+トップレベルの述語と `element_filter` を組み合わせる場合は、`element_filter` を式の末尾に配置します。フィルター式に含めることができる `element_filter` は 1 つだけであり、別の StructArray 演算子の中に `element_filter` または `MATCH_*` をネストすることはできません。
 
 </Admonition>
 
 ## MATCH 演算子でエンティティをフィルターする\{#filter-entities-with-match-operators}
 
-フィルターが、親エンティティがその Struct 要素に基づいて条件を満たすかどうかを判定する必要がある場合は、`MATCH_*` 演算子を使用します。これらの演算子は行レベルのフィルターであり、エンティティを選択しますが、それ自体は要素のオフセットを返しません。
+フィルターが、親エンティティの Struct 要素に基づいてその親エンティティが条件を満たすかどうかを決定する必要がある場合は、`MATCH_*` 演算子を使用します。これらの演算子は行レベルのフィルターです。エンティティを選択しますが、要素のオフセット自体は返しません。
 
-| 演算子 | 使用する条件 | 例 |
+| 演算子 | 使用する場合 | 例 |
 | --- | --- | --- |
 | `MATCH_ANY` | 少なくとも 1 つの Struct 要素が述語を満たす必要があります。 | `MATCH_ANY(chunks, $[section] == "index")` |
 | `MATCH_ALL` | すべての Struct 要素が述語を満たす必要があります。 | `MATCH_ALL(chunks, $[quality_score] > 0.5)` |
@@ -596,8 +592,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -631,30 +630,25 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query = EmbeddingList::new()
-        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
-        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+let query = EmbeddingList::new()
+    .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+    .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
 
-    let filter_expr = "category == \"search\" && MATCH_ANY(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+let filter_expr = "category == \"search\" && MATCH_ANY(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb_list_vector]")
-        .vectors(SearchVectors::EmbeddingLists(vec![query]))
-        .filter(filter_expr)
-        .limit(3)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb_list_vector]")
+    .vectors(SearchVectors::EmbeddingLists(vec![query]))
+    .filter(filter_expr)
+    .limit(3)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -741,11 +735,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ここでは EmbeddingList 検索の結果がエンティティレベルであるため、`MATCH_ANY` を使用します。このフィルターでは、エンティティ内の少なくとも 1 つのチャンクが高品質の `"index"` チャンクである必要がありますが、検索結果自体は依然として親エンティティを表します。
+ここでは、EmbeddingList 検索結果がエンティティレベルであるため、`MATCH_ANY` を使用します。フィルターでは、エンティティ内の少なくとも 1 つのチャンクが高品質の `"index"` チャンクである必要がありますが、検索結果自体は引き続き親エンティティを表します。
 
 ## ハイブリッド検索でフィルターを使用する\{#use-filters-in-hybrid-search}
 
-ハイブリッド検索では、条件を適用すべき場所に StructArray フィルターを適用します。トップレベルのフィルターは、ハイブリッド検索全体で共有できます。`element_filter` は、要素レベルの制約が必要な StructArray の要素レベルリクエストに付加する必要があります。
+ハイブリッド検索では、条件を適用する場所に StructArray フィルターを適用します。トップレベルのフィルターは、ハイブリッド検索全体で共有できます。`element_filter` は、要素レベルの制約が必要な StructArray 要素レベルのリクエストにアタッチする必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -844,8 +838,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -879,39 +876,34 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let title_req = SubSearchRequest::builder()
-        .vector_field("title_vector")
-        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-        .limit(10)
-        .filter("category == \"search\"")
-        .build()?;
+let title_req = SubSearchRequest::builder()
+    .vector_field("title_vector")
+    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+    .limit(10)
+    .filter("category == \"search\"")
+    .build()?;
 
-    let chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .limit(10)
-        .filter("category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)")
-        .build()?;
+let chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .limit(10)
+    .filter("category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)")
+    .build()?;
 
-    let request = HybridSearchRequest::builder()
-        .collection_name("tech_articles")
-        .sub_requests(vec![title_req, chunk_req])
-        .rerank(RRFRerank::new().k(60))
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = HybridSearchRequest::builder()
+    .collection_name("tech_articles")
+    .sub_requests(vec![title_req, chunk_req])
+    .rerank(RRFRerank::new().k(60))
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.hybrid_search(request).await?;
-
-    Ok(())
-}
+let results = client.hybrid_search(request).await?;
 ```
 
 </TabItem>
@@ -973,7 +965,7 @@ const results = await client.search({
     { anns_field: "title_vector", data: [query_vector], limit: 10, expr: 'category == "search"' },
     {
       anns_field: "chunks[emb]",
-      data: [query_vector],
+      data: query_vector,
       limit: 10,
       expr: 'category == "search" && element_filter(chunks, $[section] == "index" && $[quality_score] > 0.9)',
     },
@@ -1021,43 +1013,42 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`filter` 引数はトップレベルのエンティティ条件を適用し、`chunk_req` の `expr` は StructArray の要素レベルベクトルリクエストのみを制限します。サポートされるハイブリッド検索の組み合わせとバージョン固有の制限については、[StructArray を使用したハイブリッド検索](./hybrid-search-with-struct-array) および [StructArray の制限](./struct-array-limits) を参照してください。
+`filter` 引数はトップレベルのエンティティ条件を適用し、`chunk_req` の `expr` は StructArray 要素レベルのベクトルリクエストのみを制限します。サポートされるハイブリッド検索の組み合わせとバージョン固有の制限については、[StructArray を使用したハイブリッド検索](./hybrid-search-with-struct-array) および [StructArray の制限](./struct-array-limits) を参照してください。
 
-## 述語サポートの概要\{#predicate-support-summary}
+## 述語のサポート概要\{#predicate-support-summary}
 
-StructArray の述語ではスカラーサブフィールドを使用します。ベクトルサブフィールドはスカラー述語の入力にはなりません。
+StructArray の述語ではスカラーサブフィールドを使用します。ベクトルサブフィールドはスカラー述語の入力ではありません。
 
-| サブフィールドタイプ | 一般的な述語の例 |
+| サブフィールドタイプ | 述語の一般的な例 |
 | --- | --- |
 | `BOOL` | `$[has_code] == true`, `!($[has_code] == true)` |
 | 整数型 | `$[page] >= 2`, `$[page] in [1, 2, 3]` |
 | `FLOAT`, `DOUBLE` | `$[quality_score] > 0.9`, `0.7 < $[quality_score] < 0.95` |
 | `VARCHAR` | `$[section] == "index"`, `$[text] like "range%"` |
-| ベクトルサブフィールド | `$[...]` のスカラー述語入力としてはサポートされません。代わりにベクトル検索を通じてベクトルサブフィールドを使用してください。 |
+| ベクトルサブフィールド | `$[...]` のスカラー述語入力としてはサポートされません。代わりに、ベクトル検索を通じてベクトルサブフィールドを使用します。 |
 
 JSON パス、配列コンテナ関数、テキスト一致関数、`$[...]` に対する null 述語、Geometry 関数、Timestamptz 式、汎用関数呼び出しなど、サポートされないケースについては、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
 ## よくある間違い\{#common-mistakes}
 
-- `element_filter` または `MATCH_*` の外で `$[subfield]` を使用している。
+- `element_filter` または `MATCH_*` の外で `$[subfield]` を使用しないでください。
 
-- `element_filter(chunks, $[section] == "index")` のような StructArray 演算子構文ではなく `chunks.section` を使用している。
+- `element_filter(chunks, $[section] == "index")` などの StructArray 演算子構文の代わりに `chunks.section` を使用しないでください。
 
-- 行レベルのフィルタリングのみが必要な場合に `element_filter` を使用している。エンティティの選択のみが必要な場合は、代わりに `MATCH_ANY` を使用してください。
+- 行レベルのフィルタリングのみが必要な場合は、`element_filter` を使用しないでください。エンティティを選択するだけでよい場合は、代わりに `MATCH_ANY` を使用します。
 
-- `MATCH_*` が要素のオフセットを返すことを期待している。これらの演算子はエンティティを選択するものであり、それ自体は一致する 1 つの要素を特定しません。
+- `MATCH_*` が要素のオフセットを返すと期待しないでください。これらの演算子はエンティティを選択するものであり、単独では一致した 1 つの要素を特定しません。
 
-- `$[has_code]` のような裸のブール述語を記述している。`$[has_code] == true` のような明示的な比較を使用してください。
+- `$[has_code]` のような裸のブール述語を記述しないでください。`$[has_code] == true` のような明示的な比較を使用します。
 
-- 同じフィルター式内で `element_filter` をトップレベルの述語より前に配置している。
+- 同じフィルター式内で、トップレベルの述語より前に `element_filter` を配置しないでください。
 
 ## 次のステップ\{#next-steps}
 
-1. StructArray フィルター構文の全体を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。
+1. StructArray フィルターの完全な構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
-1. まずフィルターなしのベクトル検索を実行するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
+1. 最初にフィルターなしのベクトル検索を実行するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. 頻繁に使用する StructArray フィルター用のスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
+1. 頻繁に使用する StructArray フィルターのスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
 1. バージョン固有のフィルターと検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
-

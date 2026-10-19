@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場所のままデータにアクセスできるようにします。 | BYOC"
+description: "外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でデータにアクセスできるようにします。 | BYOC"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -25,13 +25,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # 外部ボリューム
 
-<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
-
-この機能はすべての AWS リージョンで利用できます。Microsoft Azure では利用できません。Azure でボリュームを使用するには、[お問い合わせください](https://support.zilliz.com/)。
-
-</FeatureNote>
-
-外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場所のままデータにアクセスできるようにします。
+外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でデータにアクセスできるようにします。
 
 このページでは、Web コンソールおよび SDK を使用して外部ボリュームを作成および削除する方法について説明します。
 
@@ -39,11 +33,11 @@ import Procedures from '@site/src/components/Procedures';
 
 - ボリュームは、プロジェクトのクラウドプロバイダーとリージョンに制限されます。たとえば、プロジェクトが AWS us-west-2 にある場合、作成できるボリュームも AWS us-west-2 のみです。
 
-- クラスターでボリュームを使用するには、そのクラスターがボリュームと同じクラウドプロバイダーおよびリージョンに存在している必要があります。
+- ボリュームをクラスターで使用するには、そのクラスターがボリュームと同じクラウドプロバイダーおよびリージョンに存在している必要があります。
 
 - ボリュームを作成および管理するには、**Project Admin** である必要があります。
 
-- ボリュームは一度作成すると、その設定を編集できません。ボリュームの設定を変更したい場合は、代わりに希望する設定で新しいボリュームを作成してください。
+- ボリュームは一度作成すると、その設定を編集できません。ボリュームの設定を変更する場合は、代わりに希望する設定で新しいボリュームを作成してください。
 
 - 外部ボリュームの場合、データは自身のバケット内に保持されます。そのため、データファイルは外部ボリューム上ではなく、クラウドオブジェクトストレージ上で管理する必要があります。
 
@@ -51,7 +45,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 事前準備\{#before-you-start}
 
-外部ボリュームを作成する前に、[AWS S3 バケット](./integrate-with-aws-s3) を統合する必要があります。ストレージ統合は、作成したい外部ボリュームと同じクラウドプロバイダーおよびリージョン内にある必要がある点に注意してください。
+外部ボリュームを作成する前に、[AWS S3 バケット](./integrate-with-aws-s3) を統合する必要があります。ストレージ統合は、作成する外部ボリュームと同じクラウドプロバイダーおよびリージョン内に配置する必要がある点に注意してください。
 
 ## 外部ボリュームを作成する\{#create-an-external-volume}
 
@@ -127,7 +121,7 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -206,17 +200,17 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-    以下の表は、各パラメーターについて説明しています。
+    次の表に、各パラメーターの説明を示します。
 
     | **パラメーター** | **説明** |
     | --- | --- |
-    | `projectId` | ボリュームを作成したいプロジェクトの ID。 |
-    | `regionId` | 作成するボリュームのリージョンは、データをインポートまたは移行する予定の対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
-    | `volumeName` | 作成するボリュームの名前は組織全体で一意である必要があり、64 文字以内、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
+    | `projectId` | ボリュームを作成するプロジェクトの ID です。 |
+    | `regionId` | 作成するボリュームのリージョンは、データのインポートまたは移行先として予定しているターゲットクラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
+    | `volumeName` | 作成するボリュームの名前は組織内で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
     | `type` | 外部ボリュームを作成するには、このパラメーターを `EXTERNAL` に設定します。デフォルトは `MANAGED` です。 |
-    | `storageIntegrationId` | 参照するストレージ統合の ID。`type=EXTERNAL` の場合は必須です。選択するストレージ統合は、作成したい外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
-    | `path` | ストレージパス。`type=EXTERNAL` の場合は必須です。 |
-    | `description`（任意） | 作成するボリュームの説明。最大 255 文字です。 |
+    | `storageIntegrationId` | 参照するストレージ統合の ID です。`type=EXTERNAL` の場合に必須です。選択するストレージ統合は、作成する外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
+    | `path` | ストレージパスです。`type=EXTERNAL` の場合に必須です。 |
+    | `description`（任意） | 作成するボリュームの説明です。最大 255 文字です。 |
 
 - **Web コンソール経由**
 
@@ -226,19 +220,19 @@ import Procedures from '@site/src/components/Procedures';
 
     1. 左側のナビゲーションで **Volumes** をクリックします。
 
-    1. Volumes ページで **+ Volume** をクリックします。
+    1. ボリュームページで **+ Volume** をクリックします。
 
     1. ボリュームの設定を行います。
 
-        以下の表は、外部ボリュームの作成時に使用する各パラメーターを説明しています。
+        次の表に、外部ボリュームの作成時に使用する各パラメーターの説明を示します。
 
         | **パラメーター** | **説明** |
         | --- | --- |
-        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以内、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
-        | Description | このパラメーターは任意です。最大 255 文字です。 |
-        | Volume Type | ボリュームタイプとして "External" を選択します。 |
-        | Cloud Provider & Region | ボリュームのクラウドプロバイダーとリージョンは、データをインポートまたは移行する予定の対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
-        | Storage Integration & Path | ストレージ統合（[AWS S3 バケット](./integrate-with-aws-s3)）は、クラウドストレージへのアクセス設定をカプセル化した認証情報オブジェクトです。<br/>Path は、データが配置されている場所を指すポインターです。（例: `folder/`） |
+        | 名前 | ボリューム名は組織内で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
+        | 説明 | このパラメーターは任意です。最大 255 文字です。 |
+        | ボリュームタイプ | ボリュームタイプとして「External」を選択します。 |
+        | クラウドプロバイダーとリージョン | ボリュームのクラウドプロバイダーおよびリージョンは、データのインポートまたは移行先として予定しているターゲットクラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
+        | ストレージ統合とパス | ストレージ統合（[AWS S3 バケット](./integrate-with-aws-s3)）は、クラウドストレージへのアクセス設定をカプセル化する認証情報オブジェクトです。<br/>パスは、データが配置されている場所へのポインターです（例: `folder/`）。 |
 
     1. **Create** をクリックします。
 
@@ -303,7 +297,7 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -364,7 +358,7 @@ import Procedures from '@site/src/components/Procedures';
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
-## 外部ボリュームの詳細を確認する\{#describe-external-volume}
+## 外部ボリュームの詳細を表示する\{#describe-external-volume}
 
 特定のボリュームの詳細を確認できます。
 
@@ -425,7 +419,7 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -500,9 +494,9 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 外部ボリュームを削除する\{#delete-an-external-volume}
 
-不要になった外部ボリュームはいつでも削除できます。
+外部ボリュームが不要になったら、いつでも削除できます。
 
-外部ボリュームを削除すると、Zilliz Cloud から削除されるのはボリュームのメタデータのみであり、データ自体はクラウドオブジェクトストレージ内にそのまま保持されます。
+外部ボリュームを削除すると、Zilliz Cloud からボリュームのメタデータのみが削除されます。データはクラウドオブジェクトストレージ内にそのまま保持されます。
 
 - **SDK 経由**
 
@@ -560,7 +554,7 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -637,17 +631,17 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
-## FAQs\{#faqs}
+## よくある質問\{#faqs}
 
 **請求書の未払いにより組織が凍結された場合、ボリュームはどうなりますか？**
 
-組織が凍結されると、無料トライアルと従量課金制の両方を含むすべての管理対象ボリュームと、そこに保存されているすべてのファイルが削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、ご自身のバケット内のデータには影響ありません。
+組織が凍結されると、無料トライアルと従量課金制の両方を含むすべての管理対象ボリュームと、そこに保存されているすべてのファイルが削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、自身のバケット内のデータには影響ありません。
 
 ボリュームの使用を継続するには、まず未払いの請求書をすべて精算してください。
 
 **外部ボリュームと外部ストレージからの直接インポートの違いは何ですか？**
 
-どちらも、ご自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
+どちらも、自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
 
 - 外部ボリュームでは、認証情報管理のために [AWS S3 バケット](./integrate-with-aws-s3) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアはクラウドストレージキーへ直接アクセスする必要がありません。
 
@@ -687,4 +681,3 @@ import Procedures from '@site/src/components/Procedures';
      <td><p>ストレージ統合の検証に失敗しました。設定を確認して再試行してください。</p><p>該当するストレージ統合は次のとおりです。</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 バケット</a>,</li></ul></td>
    </tr>
 </table>
-

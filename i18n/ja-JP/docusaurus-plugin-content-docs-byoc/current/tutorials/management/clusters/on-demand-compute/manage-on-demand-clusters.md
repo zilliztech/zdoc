@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、検査、ドロップする方法について説明します。 | BYOC"
+description: "このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、検査、削除する方法について説明します。 | BYOC"
 type: origin
 token: L11Mw0GRTiKALikJaEycwj1wnKg
 sidebar_position: 3
@@ -28,23 +28,17 @@ import Procedures from '@site/src/components/Procedures';
 
 </FeatureNote>
 
-<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、検査、削除する方法について説明します。
 
-この機能は現在、AWS us-west-2 および Azure East US リージョンでのみ利用できます。他のリージョンでオンデマンドクラスターを使用するには、[お問い合わせ](http://zilliz.com/contact-sales)ください。
+オンデマンドクラスターは、オンデマンド検索ワークロード用のコンピュートを提供します。リクエストが到着すると起動し、アイドル状態になると、クラスター作成時に構成した自動サスペンドタイムアウトに基づいてゼロにスケールバックします。
 
-</FeatureNote>
-
-このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、検査、ドロップする方法について説明します。
-
-オンデマンドクラスターは、オンデマンド検索ワークロードにコンピュートを提供します。リクエストが到着すると起動し、アイドル状態になると、クラスターの作成時に構成された自動サスペンドタイムアウトに基づいて、ゼロにスケールバックします。
-
-オンデマンドクラスターを管理するには、対象プロジェクトの Project Admin である必要があります。ロールと権限の詳細については、[Manage Platform Users](./manage-platform-users#project-users) を参照してください。
+オンデマンドクラスターを管理するには、対象のプロジェクトで **Project Admin** である必要があります。ロールと権限の詳細については、[プラットフォームユーザーの管理](./manage-platform-users#project-users) を参照してください。
 
 ## すべてのオンデマンドクラスターを表示する\{#view-all-on-demand-clusters}
 
-この操作を使用して、プロジェクトおよびリージョン内のオンデマンドクラスターを一覧表示します。
+この操作では、プロジェクトおよびリージョン内のオンデマンドクラスターを一覧表示します。
 
-### RESTful API を使用する場合\{#via-restful-api}
+### RESTful API を使用する\{#via-restful-api}
 
 ```bash
 curl --request GET \
@@ -94,25 +88,25 @@ curl --request GET \
 }
 ```
 
-### Web コンソールを使用する場合\{#via-web-console}
+### Web コンソールを使用する\{#via-web-console}
 
 ![W3nYwPc0AhxRDWbjEsWceJGVnbh](https://zdoc-images.s3.us-west-2.amazonaws.com/W3nYwPc0AhxRDWbjEsWceJGVnbh.png)
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
-1. クラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成時間を含むオンデマンドクラスターの一覧を確認します。
+1. クラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成時刻など、オンデマンドクラスターの一覧を確認します。
 
 </Procedures>
 
 ## オンデマンドクラスターの詳細を確認する\{#check-the-details-of-an-on-demand-cluster}
 
-この操作を使用して、クラスター ID で 1 つのオンデマンドクラスターを検査します。
+この操作では、クラスター ID を指定して 1 つのオンデマンドクラスターを確認します。
 
-### RESTful API を使用する場合\{#via-restful-api}
+### RESTful API を使用する\{#via-restful-api}
 
 ```bash
 curl --request GET \
@@ -134,17 +128,17 @@ curl --request GET \
 }
 ```
 
-### Web コンソールを使用する場合\{#via-web-console}
+### Web コンソールを使用する\{#via-web-console}
 
 ![XiWTwTJ3mhgjHBbS5dycYi4bn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/XiWTwTJ3mhgjHBbS5dycYi4bn4c.png)
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
-1. 対象クラスターをクリックして詳細を表示します。
+1. 対象のクラスターをクリックして、詳細を表示します。
 
 </Procedures>
 
@@ -154,15 +148,15 @@ curl --request GET \
 
 | ステータス | 説明 |
 | --- | --- |
-| `RUNNING` | クラスターにはアクティブなコンピュートリソースがあり、検索またはクエリリクエストを処理できます。 |
-| `SUSPENDED` | クラスターは、構成されたアイドルタイムアウト後にゼロにスケールバックしました。サスペンド中はコンピュートコストが発生しなくなります。 |
-| `DELETING` | クラスターはドロップ中であり、使用できません。 |
+| `RUNNING` | クラスターにはアクティブなコンピュートリソースがあり、検索またはクエリのリクエストを処理できます。 |
+| `SUSPENDED` | 構成したアイドルタイムアウト後に、クラスターがゼロにスケールバックしました。サスペンド中はコンピュートコストが発生しません。 |
+| `DELETING` | クラスターは削除中であり、使用できません。 |
 
-サスペンドされたオンデマンドクラスターにリクエストが到着すると、Zilliz Cloud はワークロード用のコンピュートリソースを起動します。構成された `autoSuspend` 期間内にリクエストを受信しないと、クラスターはゼロにスケールバックします。
+サスペンドされたオンデマンドクラスターにリクエストが到着すると、Zilliz Cloud はそのワークロード用のコンピュートリソースを起動します。構成した `autoSuspend` 期間内にリクエストを受信しなかった場合、クラスターはゼロにスケールバックします。
 
 ## オンデマンドクラスターの名前を変更する\{#rename-an-on-demand-cluster}
 
-- **RESTful API を使用する場合**
+- **RESTful API を使用する**
 
     次の例では、クラスター名を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
@@ -177,7 +171,7 @@ curl --request GET \
     }'
     ```
 
-    以下は出力例です。
+    出力例は次のとおりです。
 
     ```json
     {
@@ -189,13 +183,13 @@ curl --request GET \
     }
     ```
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     <Procedures>
 
     1. 対象のオンデマンドクラスターに移動します。
 
-    1. **Actions** をクリックして **Rename** を選択します。
+    1. **Actions** をクリックし、**Rename** を選択します。
 
         ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
 
@@ -207,7 +201,7 @@ curl --request GET \
 
 ## オンデマンドクラスターの説明を編集する\{#edit-the-description-of-an-on-demand-cluster}
 
-- **RESTful API を使用する場合**
+- **RESTful API を使用する**
 
     次の例では、クラスターの説明を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
@@ -222,7 +216,7 @@ curl --request GET \
     }'
     ```
 
-    以下は出力例です。
+    出力例は次のとおりです。
 
     ```json
     {
@@ -234,13 +228,13 @@ curl --request GET \
     }
     ```
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     <Procedures>
 
     1. 対象のオンデマンドクラスターに移動します。
 
-    1. 説明にカーソルを合わせ、**Edit description** アイコンをクリックします。
+    1. 説明の上にカーソルを置き、**Edit description** アイコンをクリックします。
 
         ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
 
@@ -254,7 +248,7 @@ curl --request GET \
 
 オンデマンドクラスターの名前、説明、自動サスペンド設定などの設定を変更できます。
 
-- **RESTful API を使用する場合**
+- **RESTful API を使用する**
 
     既存のオンデマンドクラスターの名前、説明、自動サスペンド時間、クエリ CU 数を変更できます。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
@@ -275,7 +269,7 @@ curl --request GET \
           }'
     ```
 
-    以下は出力例です。
+    出力例は次のとおりです。
 
     ```bash
     {
@@ -287,101 +281,227 @@ curl --request GET \
     }
     ```
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
-    Web コンソールで、既存のオンデマンドクラスターのクラスター名、説明、自動サスペンド時間、クエリ CU 数を変更できます。
+    Web コンソールでは、既存のオンデマンドクラスターのクラスター名、説明、自動サスペンド時間、クエリ CU 数を変更できます。
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
-<NextChannel action="include">
+## キープウォームスケジュールを構成する\{#configure-a-keep-warm-schedule}
 
-## Keep-warm スケジュールを構成する\{#configure-a-keep-warm-schedule}
+キープウォームスケジュールを使用すると、毎週繰り返される時間枠の間、オンデマンドクラスターを実行状態に保つことができます。キープウォーム時間枠が開始されると、Zilliz Cloud はオンデマンドクラスターがサスペンドされている場合に再開します。時間枠の間は、`Auto Suspend` が抑止されます。時間枠が終了すると、オンデマンドクラスターは既存の自動サスペンドポリシーに再び従います。
 
-Keep-warm スケジュールは、毎週繰り返される時間帯にオンデマンドクラスターを実行状態に保ちます。Keep-warm の時間帯が始まると、Zilliz Cloud はオンデマンドクラスターがサスペンドされている場合に再開します。時間帯の間は、`Auto Suspend` が抑制されます。時間帯が終了すると、オンデマンドクラスターは既存の自動サスペンドポリシーに再び従います。
-
-Keep-warm スケジュールは `Auto Suspend` を永続的にオフにするものではなく、Keep-warm の時間帯が終了したときにオンデマンドクラスターをアクティブにサスペンドするものでもありません。
+キープウォームスケジュールは、`Auto Suspend` を永続的に無効化するものではなく、キープウォーム時間枠が終了したときにオンデマンドクラスターをアクティブにサスペンドするものでもありません。
 
 <Admonition type="info" title="Note">
 
-Keep-warm の時間帯にオンデマンドクラスターをサスペンドするには、先に Keep-warm スケジュールを無効化または削除してください。
+キープウォーム時間枠の間にオンデマンドクラスターをサスペンドするには、先にキープウォームスケジュールを無効化または削除します。
 
 </Admonition>
 
-各オンデマンドクラスターには、1 つの Keep-warm スケジュールを設定できます。スケジュールには 1〜5 個の週次ルールを含めることができます。各ルールは組織のシステムタイムゾーンを使用し、曜日、開始時刻、終了時刻を含みます。
+各オンデマンドクラスターには、1 つのキープウォームスケジュールを設定できます。スケジュールには 1〜10 個の週次ルールを含めることができます。各ルールは組織のシステムタイムゾーンを使用し、曜日、開始時刻、終了時刻を含みます。
 
-### RESTful API を使用する場合\{#via-restful-api}
+### RESTful API を使用する\{#via-restful-api}
 
-オンデマンドクラスターの Keep-warm スケジュールを作成、更新、表示、有効化、無効化、または削除できます。
+既存のオンデマンドクラスター API を使用して、キープウォームスケジュールを構成します。キープウォーム設定は、作成、詳細取得、更新の各 API の `keepWarm` オブジェクトで指定します。
 
-#### Keep-warm スケジュールを作成または更新する\{#create-or-update-a-keep-warm-schedule}
+#### キープウォームスケジュールを作成する\{#create-a-keep-warm-schedule}
 
-Keep-warm スケジュールを作成または更新するときは、ルールの完全なリストを送信します。Zilliz Cloud は、1 回の操作で既存のルールを送信されたルールに置き換えます。
+オンデマンドクラスターの作成時にキープウォームスケジュールを構成するには、作成リクエストに `keepWarm` を含めます。
 
-次の例では、平日の `09:00` から `18:00` までの Keep-warm スケジュールを作成します。
-
-```bash
-
-```
-
-レスポンス例:
+次の例では、平日の `09:00` から `18:00` までのキープウォームスケジュールを設定して、オンデマンドクラスターを作成します。
 
 ```bash
-
-```
-
-#### Keep-warm スケジュールを表示する\{#view-a-keep-warm-schedule}
-
-次の例では、オンデマンドクラスターの Keep-warm スケジュールを確認します。
-
-```bash
-
+curl --request POST \
+  --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "cuSize": 8,
+    "clusterName": "my-on-demand-cluster",
+    "autoSuspend": "5m",
+    "keepWarm": {
+      "enabled": true,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
 ```
 
 レスポンス例:
 
 ```json
-
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "prompt": "successfully submitted. Cluster is being created."
+  }
+}
 ```
 
-スケジュールが構成されていない場合、リクエストは成功し、`configured` として `false` を返します。
+#### キープウォームスケジュールを表示する\{#view-a-keep-warm-schedule}
 
-#### Keep-warm スケジュールを有効化または無効化する\{#enable-or-disable-a-keep-warm-schedule}
-
-Keep-warm スケジュールを有効化または無効化するには、完全なルールセットと目的の `enabled` 値を指定して PUT リクエストを送信します。
-
-<Admonition type="info" title="Note">
-
-スケジュールを無効化しても、構成されたすべてのルールは保持されます。オンデマンドクラスターが Keep-warm の時間帯にある場合、Zilliz Cloud は直ちに Keep-warm モードを終了します。スケジュールはオンデマンドクラスターをサスペンドしません。
-
-</Admonition>
-
-次の例では、既存の Keep-warm スケジュールを無効化します。
+次の例では、オンデマンドクラスターのキープウォームスケジュールを確認します。
 
 ```bash
-
-```
-
-レスポンス例:
-
-```bash
-
-```
-
-#### Keep-warm スケジュールを削除する\{#delete-a-keep-warm-schedule}
-
-Keep-warm スケジュールを削除すると、スケジュールとすべてのルールが削除されます。オンデマンドクラスター、データ、イベント、監査レコードは削除されません。
-
-```bash
-
+curl --request GET \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Accept: application/json"
 ```
 
 レスポンス例:
 
 ```json
-
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "clusterName": "my-on-demand-cluster",
+    "status": "RUNNING",
+    "autoSuspend": 300,
+    "keepWarmActive": true,
+    "keepWarm": {
+      "enabled": true,
+      "systemTimezone": "Asia/Shanghai",
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ],
+      "nextTransitionAt": "2026-09-15T10:00:00Z",
+      "nextTransitionType": "END"
+    }
+  }
+}
 ```
 
-### Web コンソールを使用する場合\{#via-web-console}
+スケジュールを構成していない場合、`keepWarm` は `null` になり、`keepWarmActive` は `false` になります。
+
+#### キープウォームスケジュールを更新する\{#update-a-keep-warm-schedule}
+
+キープウォームスケジュールを更新するには、完全な `keepWarm` オブジェクトを含む `PATCH` リクエストを送信します。Zilliz Cloud は既存のスケジュールを送信されたスケジュールに置き換えます。
+
+次の例では、既存のオンデマンドクラスターのキープウォームスケジュールを更新します。
+
+```bash
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": true,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
+```
+
+レスポンス例:
+
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
+```
+
+#### キープウォームスケジュールを無効化する\{#disable-a-keep-warm-schedule}
+
+キープウォームスケジュールを無効化するには、完全な `keepWarm` オブジェクトを含む `PATCH` リクエストを送信し、`enabled` を `false` に設定します。
+
+<Admonition type="info" title="Note">
+
+スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターがキープウォーム時間枠にある場合、Zilliz Cloud はキープウォームモードを直ちに終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。
+
+</Admonition>
+
+次の例では、既存のキープウォームスケジュールを無効化します。
+
+```bash
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": false,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
+```
+
+レスポンス例:
+
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
+```
+
+#### キープウォームスケジュールを削除する\{#delete-a-keep-warm-schedule}
+
+キープウォームスケジュールを削除すると、スケジュールとすべてのルールが削除されます。オンデマンドクラスター、データ、イベント、監査レコードは削除されません。
+
+キープウォームスケジュールを削除するには、空の `schedules` リストを含む `PATCH` リクエストを送信します。
+
+```bash
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": false,
+      "schedules": []
+    }
+  }'
+```
+
+レスポンス例:
+
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
+```
+
+### Web コンソールを使用する\{#via-web-console}
 
 ![EnHUwxZCUhT8hlbvMJRchiAQnfY](https://zdoc-images.s3.us-west-2.amazonaws.com/EnHUwxZCUhT8hlbvMJRchiAQnfY.png)
 
@@ -389,7 +509,7 @@ Keep-warm スケジュールを削除すると、スケジュールとすべて�
 
 1. 対象のオンデマンドクラスターに移動します。
 
-1. **Actions** メニューを開き、**Manage Keep-warm Schedule** をクリックします。
+1. **Actions** メニューを開き、**Manage Keep-warm** をクリックします。
 
 1. **Enable Keep-warm Schedule** をオンにします。
 
@@ -397,37 +517,31 @@ Keep-warm スケジュールを削除すると、スケジュールとすべて�
 
 1. 各ルールについて、繰り返し曜日、開始時刻、終了時刻を構成します。
 
-1. 次回の移行時刻を確認します。
+1. 次回の切り替え時刻を確認します。
 
 1. **Save** をクリックします。
 
 </Procedures>
 
-クラスターの詳細ページには、Keep-warm スケジュールのステータスが **On**、**Off**、**Not configured**、または **Schedule unavailable** として表示されます。スケジュールが構成されている場合は、ルール数、システムタイムゾーン、次回の移行時刻も表示されます。
+クラスターの詳細ページには、キープウォームスケジュールのステータスが表示されます。スケジュールが構成されている場合は、次回の切り替え時刻も表示されます。
 
-オンデマンドクラスターが現在 Keep-warm の時間帯にある場合、ページには主要なクラスターステータスの隣に二次的な **Keep-warm** タグが表示されます。
+オンデマンドクラスターが現在キープウォーム時間枠にある場合、ページには主要なクラスターステータスの横に補助的な **Keep-warm** タグが表示されます。
 
 ![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
 
-スケジュールを無効化しても、構成されたすべてのルールは保持されます。オンデマンドクラスターが Keep-warm の時間帯にある場合、Zilliz Cloud は直ちに Keep-warm モードを終了します。スケジュールはオンデマンドクラスターをサスペンドしません。Keep-warm スケジュールを無効化するには、以下に示すように **Enable Keep-warm Schedule** をオフにして **Save** をクリックします。
+スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターがキープウォーム時間枠にある場合、Zilliz Cloud はキープウォームモードを直ちに終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。キープウォームスケジュールを無効化するには、次に示すように **Enable Keep-warm Schedule** をオフにして **Save** をクリックします。
 
 ![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
 
-スケジュールを削除すると、すべてのルールが完全に削除されます。Keep-warm スケジュールを削除するには、以下に示すように **Delete Schedule** をクリックし、操作を確認します。
-
-![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
-
-</NextChannel>
-
-## オンデマンドクラスターをドロップする\{#drop-an-on-demand-cluster}
+## オンデマンドクラスターを削除する\{#drop-an-on-demand-cluster}
 
 <Admonition type="danger" title="Danger">
 
-オンデマンドクラスターをドロップすると、直ちに削除され、復元できません。この操作を元に戻すことはできません。
+オンデマンドクラスターを削除すると、直ちに削除され、復元できません。この操作は元に戻せません。
 
 </Admonition>
 
-### RESTful API を使用する場合\{#via-restful-api}
+### RESTful API を使用する\{#via-restful-api}
 
 ```bash
 curl --request DELETE \
@@ -448,25 +562,24 @@ curl --request DELETE \
 }
 ```
 
-### Web コンソールを使用する場合\{#via-web-console}
+### Web コンソールを使用する\{#via-web-console}
 
 ![H9p9wioiohNX3Ub6evBcWGTBnse](https://zdoc-images.s3.us-west-2.amazonaws.com/H9p9wioiohNX3Ub6evBcWGTBnse.png)
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
 1. 対象のオンデマンドクラスターを選択します。
 
-1. クラスターをドロップし、操作を確認します。
+1. クラスターを削除し、操作を確認します。
 
 </Procedures>
 
 ## 関連トピック\{#related-topics}
 
-- オンデマンドクラスターを作成するには、[Create On-Demand クラスター](./on-demand-cluster) を参照してください。
+- オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
-- プロジェクトエンドポイント経由で接続するには、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
-
+- プロジェクトエンドポイント経由で接続するには、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。

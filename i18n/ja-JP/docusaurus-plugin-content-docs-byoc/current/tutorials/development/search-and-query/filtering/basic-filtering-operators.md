@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、エンティティをフィルタリングするための比較、範囲、算術、論理、および NULL 演算子を提供します。各演算子は特定のフィールド型をサポートします。 | BYOC"
+description: "Zilliz Cloud は、エンティティをフィルタリングするための比較、範囲、算術、論理、および NULL 演算子を提供します。各演算子は特定のフィールドタイプをサポートしています。 | BYOC"
 type: origin
 token: LBbUwOGcwi1UMak3eE2cM1gvnUe
 sidebar_position: 2
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # 基本演算子
 
-Zilliz Cloud は、エンティティをフィルタリングするための比較、範囲、算術、論理、および NULL 演算子を提供します。各演算子は特定のフィールド型をサポートします。
+Zilliz Cloud は、エンティティをフィルタリングするための比較、範囲、算術、論理、および NULL 演算子を提供します。各演算子は特定のフィールドタイプをサポートしています。
 
 <Admonition type="info" title="Notes">
 
-フィルター式の左辺のリテラルには、以下の例で使用されている `status`、`color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
+フィルタリング式の左辺のリテラルには、以下の例で使用されている `status`、`color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
 
 StructArray フィールドでのスカラーフィルタリングの詳細については、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
@@ -33,9 +33,9 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 ## 比較演算子\{#comparison-operators}
 
-比較演算子は、等価性、非等価性、または大小に基づいてデータをフィルタリングするために使用します。数値フィールドとテキストフィールドに適用できます。
+比較演算子は、等値、非等値、または大小関係に基づいてデータをフィルタリングするために使用します。数値フィールドとテキストフィールドに適用できます。
 
-### サポートされる比較演算子：\{#supported-comparison-operators}
+### サポートされている比較演算子:\{#supported-comparison-operators}
 
 - `==`（等しい）
 
@@ -49,9 +49,9 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 - `<=`（以下）
 
-### 例 1: `==`（等しい）によるフィルタリング\{#example-1-filtering-with-equal-to}
+### 例 1: 等号（`==`）によるフィルタリング\{#example-1-filtering-with-equal-to}
 
-`status` という名前のフィールドがあり、`status` が "active" であるすべてのエンティティを検索する場合、等価演算子 `==` を使用できます：
+`status` という名前のフィールドがあり、`status` が "active" であるすべてのエンティティを検索するとします。この場合は、等号演算子 `==` を使用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -111,9 +111,9 @@ filter='status == "active"'
 </TabItem>
 </Tabs>
 
-### 例 2: `!=`（等しくない）によるフィルタリング\{#example-2-filtering-with-not-equal-to}
+### 例 2: 不等号（`!=`）によるフィルタリング\{#example-2-filtering-with-not-equal-to}
 
-`status` が "inactive" でないエンティティを検索するには、次のようにします：
+`status` が "inactive" ではないエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -173,9 +173,9 @@ filter='status != "inactive"'
 </TabItem>
 </Tabs>
 
-### 例 3: `>`（より大きい）によるフィルタリング\{#example-3-filtering-with-greater-than-greater}
+### 例 3: 大なり記号（`>`）によるフィルタリング\{#example-3-filtering-with-greater-than-greater}
 
-`age` が 30 より大きいすべてのエンティティを検索する場合は、次のようにします：
+`age` が 30 より大きいすべてのエンティティを検索する場合は、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -235,9 +235,9 @@ filter='age > 30'
 </TabItem>
 </Tabs>
 
-### 例 4: より小さい値によるフィルタリング\{#example-4-filtering-with-less-than}
+### 例 4: 小なり記号によるフィルタリング\{#example-4-filtering-with-less-than}
 
-`price` が 100 より小さいエンティティを検索するには、次のようにします：
+`price` が 100 より小さいエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -297,9 +297,9 @@ filter='price < 100'
 </TabItem>
 </Tabs>
 
-### 例 5: `>=`（以上）によるフィルタリング\{#example-5-filtering-with-greater-than-or-equal-to-greater}
+### 例 5: 以上演算子（`>=`）によるフィルタリング\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
-`rating` が 4 以上であるすべてのエンティティを検索する場合は、次のようにします：
+`rating` が 4 以上のすべてのエンティティを検索する場合は、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -359,9 +359,9 @@ filter='rating >= 4'
 </TabItem>
 </Tabs>
 
-### 例 6: 以下の値によるフィルタリング\{#example-6-filtering-with-less-than-or-equal-to}
+### 例 6: 以下演算子によるフィルタリング\{#example-6-filtering-with-less-than-or-equal-to}
 
-`discount` が 10% 以下であるエンティティを検索するには、次のようにします：
+`discount` が 10% 以下のエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -423,9 +423,9 @@ filter='discount <= 10'
 
 ## 範囲演算子\{#range-operators}
 
-範囲演算子は、特定の値のセットに基づいてデータをフィルタリングするのに役立ちます。Zilliz Cloud は、セットのメンバーシップを確認するための `IN` をサポートしています。
+範囲演算子は、特定の値のセットに基づいてデータをフィルタリングするのに役立ちます。Zilliz Cloud は、セットへの所属を確認するための `IN` をサポートしています。
 
-`color` が "red"、"green"、または "blue" のいずれかであるすべてのエンティティを検索する場合は、次のようにします：
+`color` が "red"、"green"、または "blue" のいずれかであるすべてのエンティティを検索する場合は、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -493,11 +493,11 @@ filter='color in ["red", "green", "blue"]'
 
 - `LIKE`: 文字列値に対して単純なワイルドカードパターンを照合するために使用します。たとえば、`name LIKE "Prod%"` は `Prod` で始まる値に一致します。
 
-- `=~`: RE2 正規表現で文字列値を照合するために使用します。たとえば、`code =~ "E[0-9]{4}"` は `E1001` のようなエラーコードを含む値に一致します。
+- `=~`: RE2 正規表現を使用して文字列値を照合するために使用します。たとえば、`code =~ "E[0-9]{4}"` は `E1001` などのエラーコードを含む値に一致します。
 
 - `!~`: RE2 正規表現に一致する文字列値を除外するために使用します。これは `NOT (field =~ "pattern")` と同等です。
 
-`name` が `Prod` で始まるエンティティを検索するには、次のようにします：
+`name` が `Prod` で始まるエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -557,7 +557,7 @@ filter='name LIKE "Prod%"'
 </TabItem>
 </Tabs>
 
-`code` に `E1001` のようなエラーコードが含まれるエンティティを検索するには、次のようにします：
+`code` に `E1001` などのエラーコードが含まれるエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -617,7 +617,7 @@ filter='code =~ "E[0-9]{4}"'
 </TabItem>
 </Tabs>
 
-`message` が `DEBUG` で始まるエンティティを除外するには、次のようにします：
+`message` が `DEBUG` で始まるエンティティを除外するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -677,13 +677,13 @@ filter='message !~ "^DEBUG"'
 </TabItem>
 </Tabs>
 
-`LIKE` と正規表現の選択、サポートされるフィールド型、正規表現の構文、エスケープ規則、およびパフォーマンスの詳細については、[パターンマッチング](./pattern-match) を参照してください。Zilliz Cloud では、条件を満たすパターンマッチングフィルターを高速化するために、`VARCHAR` フィールドまたは JSON 文字列パスに `NGRAM` インデックスを作成することもできます。詳細については、[NGRAM](./ngram-index-type) を参照してください。
+`LIKE` と正規表現のどちらを使用するか、サポートされているフィールドタイプ、正規表現の構文、エスケープルール、およびパフォーマンスの詳細については、[パターンマッチング](./pattern-match) を参照してください。Zilliz Cloud では、対象となるパターンマッチングフィルターを高速化するために、`VARCHAR` フィールドまたは JSON 文字列パスに `NGRAM` インデックスを構築することもできます。詳細については、[NGRAM](./ngram-index-type) を参照してください。
 
 ## 算術演算子\{#arithmetic-operators}
 
 算術演算子を使用すると、数値フィールドを含む計算に基づいて条件を作成できます。
 
-### サポートされる算術演算子：\{#supported-arithmetic-operators}
+### サポートされている算術演算子:\{#supported-arithmetic-operators}
 
 - `+`（加算）
 
@@ -699,7 +699,7 @@ filter='message !~ "^DEBUG"'
 
 ### 例 1: 剰余（`%`）の使用\{#example-1-using-modulus-percent}
 
-`id` が偶数（つまり 2 で割り切れる）であるエンティティを検索するには、次のようにします：
+`id` が偶数（つまり 2 で割り切れる）であるエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -761,13 +761,13 @@ filter='id % 2 == 0'
 
 ### 例 2: べき乗（`**`）の使用\{#example-2-using-exponentiation}
 
-`price` を 2 乗した値が 1000 より大きいエンティティを検索するには、次のようにします：
+`price` を 2 乗した値が 1000 より大きいエンティティを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'price ** 2 > 1000'
+filter = 'price > 1000'
 ```
 
 </TabItem>
@@ -823,32 +823,32 @@ filter='price ** 2 > 1000'
 
 ## ビット演算子\{#bitwise-operators}
 
-ビット演算子は、整数フィールドがパーミッション、機能フラグ、ステータスビットなどの複数のフラグをエンコードしている場合に便利です。これらの演算子をフィルター式で使用すると、整数値内の個々のビットを確認、結合、または比較できます。
+ビット演算子は、整数フィールドが権限、機能フラグ、ステータスビットなどの複数のフラグをエンコードしている場合に便利です。これらの演算子をフィルター式で使用すると、整数値の個々のビットを確認、結合、または比較できます。
 
-スカラーフィールドの場合、ビット演算子は `INT8`、`INT16`、`INT32`、`INT64` などの整数フィールド型に適用されます。
+スカラーフィールドでは、ビット演算子は `INT8`、`INT16`、`INT32`、`INT64` などの整数フィールドタイプに適用されます。
 
-### サポートされるビット演算子\{#supported-bitwise-operators}
+### サポートされているビット演算子\{#supported-bitwise-operators}
 
 | **演算子** | **名前** | **一般的な用途** |
 | --- | --- | --- |
-| `&` | ビット AND | 特定のビットが設定されているかを確認します。 |
-| `\|` | ビット OR | 比較の前にビットを結合します。 |
-| `^` | ビット XOR | 2 つの値のビットの違いを比較します。 |
+| `&` | ビット単位 AND | 特定のビットが設定されているかどうかを確認します。 |
+| `\|` | ビット単位 OR | 比較の前にビットを結合します。 |
+| `^` | ビット単位 XOR | 2 つの値間のビットの差異を比較します。 |
 
-### 例: パーミッションビットによるフィルタリング\{#example-filtering-by-permission-bits}
+### 例: 権限ビットによるフィルタリング\{#example-filtering-by-permission-bits}
 
-`permissions` という名前の整数フィールドがあり、整数の各ビットがパーミッションフラグを表しているとします：
+`permissions` という名前の整数フィールドがあり、整数内の各ビットが権限フラグを表しているとします。
 
-| **パーミッションフラグ** | **ビット値** |
+| **権限フラグ** | **ビット値** |
 | --- | --- |
 | `READ` | `1` |
 | `WRITE` | `2` |
 | `SHARE` | `4` |
 | `ADMIN` | `8` |
 
-たとえば、`permissions = 5` は `5 = 1 + 4` であるため、`READ` と `SHARE` のビットが設定されていることを意味します。
+たとえば、`permissions = 5` は、`5 = 1 + 4` であるため、`READ` ビットと `SHARE` ビットが設定されていることを意味します。
 
-`SHARE` ビットが設定されているエンティティを検索するには、ビット AND（`&`）を使用します：
+`SHARE` ビットが設定されているエンティティを検索するには、ビット単位 AND（`&`）を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -908,7 +908,7 @@ filter='(permissions & 4) == 4'
 </TabItem>
 </Tabs>
 
-`WRITE` ビットを設定すると `READ + WRITE + SHARE` のパーミッションセットになるエンティティを検索するには、ビット OR（`|`）を使用します：
+`WRITE` ビットを設定すると `READ + WRITE + SHARE` の権限セットになるエンティティを検索するには、ビット単位 OR（`|`）を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -968,7 +968,7 @@ filter='(permissions | 2) == 7'
 </TabItem>
 </Tabs>
 
-パーミッションビットが `READ + WRITE + SHARE` と `WRITE` ビットのみ異なるエンティティを検索するには、ビット XOR（`^`）を使用します：
+権限ビットが `READ + WRITE + SHARE` と `WRITE` ビットのみ異なるエンティティを検索するには、ビット単位 XOR（`^`）を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1028,23 +1028,23 @@ filter='(permissions ^ 7) == 2'
 </TabItem>
 </Tabs>
 
-注：ビット演算の結果を比較する前に、`(permissions & 4) == 4` のように必ず演算を括弧で囲んでください。
+注記: 結果を比較する前に、`(permissions & 4) == 4` のようにビット演算を必ず括弧で囲んでください。
 
 ## 論理演算子\{#logical-operators}
 
-論理演算子は、複数の条件を組み合わせてより複雑なフィルター式を作成するために使用します。これには `AND`、`OR`、`NOT` があります。
+論理演算子は、複数の条件をより複雑なフィルター式に結合するために使用します。これには `AND`、`OR`、`NOT` が含まれます。
 
-### サポートされる論理演算子：\{#supported-logical-operators}
+### サポートされている論理演算子:\{#supported-logical-operators}
 
-- `AND`: すべてが true でなければならない複数の条件を組み合わせます。
+- `AND`: すべてが true である必要がある複数の条件を結合します。
 
-- `OR`: 少なくとも 1 つが true でなければならない条件を組み合わせます。
+- `OR`: 少なくとも 1 つが true である必要がある条件を結合します。
 
 - `NOT`: 条件を否定します。
 
 ### 例 1: `AND` を使用した条件の結合\{#example-1-using-and-to-combine-conditions}
 
-`price` が 100 より大きく、`stock` が 50 より大きいすべての製品を検索するには、次のようにします：
+`price` が 100 より大きく、`stock` が 50 より大きいすべての製品を検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1106,7 +1106,7 @@ filter='price > 100 AND stock > 50'
 
 ### 例 2: `OR` を使用した条件の結合\{#example-2-using-or-to-combine-conditions}
 
-`color` が "red" または "blue" のいずれかであるすべての製品を検索するには、次のようにします：
+`color` が "red" または "blue" のいずれかであるすべての製品を検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1168,13 +1168,13 @@ filter='color == "red" OR color == "blue"'
 
 ### 例 3: `NOT` を使用した条件の除外\{#example-3-using-not-to-exclude-a-condition}
 
-`color` が "green" でないすべての製品を検索するには、次のようにします：
+`color` が "green" ではないすべての製品を検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'NOT color == "green"'
+filter = 'NOT (color == "green")'
 ```
 
 </TabItem>
@@ -1230,22 +1230,22 @@ filter='NOT color == "green"'
 
 ## IS NULL および IS NOT NULL 演算子\{#is-null-and-is-not-null-operators}
 
-`IS NULL` および `IS NOT NULL` を使用して、フィールド値が欠落しているまたは存在するエンティティを検索します。たとえば、カテゴリのない製品や、埋め込みが検索可能な状態にあるエンティティを検索できます。どちらの演算子も、サポートされているスカラーおよびベクトルフィールドで同じ意味で機能します：
+`IS NULL` および `IS NOT NULL` を使用すると、フィールド値が欠落している、または使用可能なエンティティを検索できます。たとえば、カテゴリのない製品や、検索の準備ができた埋め込みを持つエンティティを検索できます。どちらの演算子も、サポートされているスカラーフィールドとベクトルフィールドで同じ意味で動作します。
 
-| 演算子 | 一致するもの |
+| 演算子 | 一致するエンティティ |
 | --- | --- |
-| `<field> IS NULL` | 指定したフィールドに NULL 値があるエンティティ |
-| `<field> IS NOT NULL` | 指定したフィールドに NULL 以外の値があるエンティティ |
+| `<field> IS NULL` | 指定したフィールドの値が NULL であるエンティティ |
+| `<field> IS NOT NULL` | 指定したフィールドの値が NULL ではないエンティティ |
 
 サポートされるスカラーフィールドには、Boolean、数値、`VARCHAR`、`JSON`、`ARRAY` フィールドが含まれます。これらの演算子は [TEXT フィールド](./use-text-field) をサポートしていません。
 
-Milvus 3.0.3 以降では、これらの演算子は通常のベクトルフィールドもサポートしています：`FLOAT_VECTOR`、`BINARY_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`SPARSE_FLOAT_VECTOR`、`INT8_VECTOR`。
+Milvus 3.0.3 以降では、これらの演算子は通常のベクトルフィールド（`FLOAT_VECTOR`、`BINARY_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`SPARSE_FLOAT_VECTOR`、`INT8_VECTOR`）もサポートしています。
 
-これらの演算子では大文字と小文字が区別されません：`IS NULL` と `is null` は同等であり、`IS NOT NULL` と `is not null` も同等です。
+これらの演算子は大文字と小文字を区別しません。`IS NULL` と `is null`、`IS NOT NULL` と `is not null` はそれぞれ同等です。
 
-### 例: 値が欠落または存在するエンティティの検索\{#example-find-entities-with-missing-or-available-values}
+### 例: 値が欠落しているエンティティまたは使用可能なエンティティの検索\{#example-find-entities-with-missing-or-available-values}
 
-`products` という名前のコレクションがインデックス化され、ロードされているとします。コレクションには、`id` という名前の `INT64` プライマリキー、`category` という名前の NULL 許容 `VARCHAR` フィールド、および `embedding` という名前の NULL 許容の 3 次元 `FLOAT_VECTOR` フィールドがあります。すでに次のエンティティが含まれています：
+`products` という名前のコレクションがインデックス化され、ロードされているとします。このコレクションには、`id` という名前の `INT64` 主キー、`category` という名前の NULL 許容 `VARCHAR` フィールド、および `embedding` という名前の NULL 許容 3 次元 `FLOAT_VECTOR` フィールドがあります。次のエンティティがすでに含まれています。
 
 | `id` | `category` | `embedding` |
 | --- | --- | --- |
@@ -1255,7 +1255,7 @@ Milvus 3.0.3 以降では、これらの演算子は通常のベクトルフィ�
 
 コレクションの作成とデータの挿入は省略します。これらの手順については、[NULL 許容フィールド](./nullable-fields) を参照してください。
 
-まだ埋め込みが必要なエンティティを検索するには、`embedding IS NULL` でクエリを実行します。サーバーに合わせて接続設定を調整してください。
+まだ埋め込みが必要なエンティティを検索するには、`embedding IS NULL` をクエリします。サーバーに合わせて接続設定を調整してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1305,6 +1305,14 @@ System.out.println(queryResp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -1329,6 +1337,7 @@ for i := 0; i < ids.Len(); i++ {
     result = append(result, v)
 }
 fmt.Println(result)
+// Expected: [2]
 ```
 
 </TabItem>
@@ -1338,24 +1347,20 @@ fmt.Println(result)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
-    let request = QueryRequest::builder()
-        .collection_name("products")
-        .filter("category IS NULL")
-        .output_fields(["id"])
-        .limit(10)
-        .build()?;
-    let response = client.query(request).await?;
-    for row in response.results().rows()? {
-        println!("{:?}", row.get_i64("id")?);
-    }
-    Ok(())
+let request = QueryRequest::builder()
+    .collection_name("products")
+    .filter("category IS NULL")
+    .output_fields(["id"])
+    .limit(10)
+    .build()?;
+let response = client.query(request).await?;
+for row in response.results().rows()? {
+    println!("{:?}", row.get_i64("id")?);
 }
 ```
 
@@ -1428,50 +1433,50 @@ curl -X 'POST' \
 </TabItem>
 </Tabs>
 
-同じクエリの `filter` を置き換えて、いずれかのフィールドを確認したり、条件を組み合わせたりします：
+同じクエリ内の `filter` を置き換えて、いずれかのフィールドを確認するか、条件を組み合わせます。
 
 | フィルター式 | 一致する ID | 目的 |
 | --- | --- | --- |
-| `category IS NULL` | `2` | カテゴリのないエンティティを検索します |
-| `category IS NOT NULL` | `1`, `3` | カテゴリのあるエンティティを検索します |
-| `embedding IS NULL` | `3` | 埋め込みのないエンティティを検索します |
-| `embedding IS NOT NULL` | `1`, `2` | 埋め込みのあるエンティティを検索します |
-| `category IS NOT NULL AND embedding IS NOT NULL` | `1` | 両方の値があるエンティティを検索します |
+| `category IS NULL` | `2` | カテゴリのないエンティティを検索します。 |
+| `category IS NOT NULL` | `1`、`3` | カテゴリのあるエンティティを検索します。 |
+| `embedding IS NULL` | `3` | 埋め込みのないエンティティを検索します。 |
+| `embedding IS NOT NULL` | `1`、`2` | 埋め込みのあるエンティティを検索します。 |
+| `category IS NOT NULL AND embedding IS NOT NULL` | `1` | 両方の値を持つエンティティを検索します。 |
 
 ### フィールド値の扱い\{#how-field-values-are-treated}
 
-これらの演算子は、保存されているフィールド値を確認します。デフォルト値のない NULL 許容フィールドでは、挿入時にフィールドを省略するか明示的に NULL に設定すると、NULL が保存されます。設定されたデフォルト値は、保存される内容を変更する可能性があります。詳細については、[NULL 許容フィールド](./nullable-fields) および [デフォルト値](./default-fields) を参照してください。
+これらの演算子は、保存されているフィールド値を確認します。デフォルト値のない NULL 許容フィールドでは、挿入時にフィールドを省略するか、明示的に NULL を設定すると、NULL が保存されます。デフォルト値が設定されている場合は、保存される値が変わる可能性があります。詳細については、[NULL 許容フィールド](./nullable-fields) および [デフォルト値](./default-fields) を参照してください。
 
-| フィールド型 | NULL の動作 |
+| フィールドタイプ | NULL の動作 |
 | --- | --- |
-| `VARCHAR` | 空文字列 `""` は NULL 以外の値です。 |
-| `JSON` | フィールド全体の値が NULL の場合に `IS NULL` に一致します。`{"category": null}` のような JSON オブジェクトは、内部の値が NULL であっても NULL 以外です。 |
-| `ARRAY` | フィールド全体の値が NULL の場合に `IS NULL` に一致します。個々の要素は NULL にできず、`IS NULL` / `IS NOT NULL` は `tags[0]` のような配列要素へのアクセスをサポートしていません。詳細については、[配列フィールド](./use-array-fields) を参照してください。 |
-| 通常のベクトル型 | NULL はベクトル値が存在しないことを意味します。成分がゼロのベクトルは NULL ではありません。 |
+| `VARCHAR` | 空文字列 `""` は NULL ではない値です。 |
+| `JSON` | フィールド全体の値が NULL の場合に `IS NULL` に一致します。`{"category": null}` のような JSON オブジェクトは、内部の値が NULL であっても、NULL ではありません。 |
+| `ARRAY` | フィールド全体の値が NULL の場合に `IS NULL` に一致します。個々の要素を NULL にすることはできず、`IS NULL` / `IS NOT NULL` は `tags[0]` のような配列要素へのアクセスをサポートしていません。詳細については、[配列フィールド](./use-array-fields) を参照してください。 |
+| 通常のベクトルタイプ | NULL はベクトル値が存在しないことを意味します。成分がゼロのベクトルは NULL ではありません。 |
 
-`nullable=False` で定義されたサポート対象のフィールドでは、`IS NULL` はどのエンティティにも一致せず、`IS NOT NULL` はすべての可視エンティティに一致します。フィルター内の他の条件は引き続き適用されます。
+`nullable=False` で定義されたサポート対象のフィールドでは、`IS NULL` はどのエンティティにも一致せず、`IS NOT NULL` は表示可能なすべてのエンティティに一致します。フィルター内の他の条件は引き続き適用されます。
 
 ### ベクトル検索での NULL フィルターの使用\{#use-null-filters-in-vector-search}
 
-同じ演算子を検索フィルターで使用できますが、エンティティが類似検索に参加するには、検索対象のフィールドにベクトルも必要です。
+同じ演算子を検索フィルターで使用できますが、類似検索に参加するには、検索対象のフィールドにベクトルが含まれているエンティティである必要があります。
 
-上記のサンプルデータを使用して、`anns_field="embedding"` での検索を考えます：
+上記の例のデータを使用して、`anns_field="embedding"` を指定した検索を考えます。
 
 | フィルター式 | 類似検索の対象となるエンティティ | 理由 |
 | --- | --- | --- |
-| `category IS NULL` | `2` | エンティティ `2` にはカテゴリがありませんが、`embedding` ベクトルがあります。 |
+| `category IS NULL` | `2` | エンティティ `2` にはカテゴリはありませんが、`embedding` ベクトルがあります。 |
 | `embedding IS NULL` | なし | エンティティ `3` はフィルターに一致しますが、クエリベクトルと比較するための `embedding` ベクトルがありません。 |
-| `embedding IS NOT NULL` | `1`, `2` | どちらのエンティティにも `embedding` ベクトルがあります。 |
+| `embedding IS NOT NULL` | `1`、`2` | どちらのエンティティにも `embedding` ベクトルがあります。 |
 
-3 つのフィルターはすべて有効です。`embedding IS NULL` を指定した `embedding` の検索は、両方の要件を満たすエンティティがないため、ヒットを返しません。埋め込みが欠落しているエンティティを取得するには、上記のように `query()` を使用します。
+3 つのフィルターはすべて有効です。`embedding` に対する `embedding IS NULL` を使用した検索は、両方の要件を満たすエンティティがないため、ヒットを返しません。埋め込みが欠落しているエンティティを取得するには、上記のように `query()` を使用します。
 
-ベクトル検索は、検索対象のベクトルフィールドが NULL であるエンティティをすでにスキップするため、`embedding IS NOT NULL` を指定しても `embedding` の検索候補はさらに絞り込まれません。どの候補が返されるかは、ランキング、他のフィルター、および検索の制限によって決まります。
+ベクトル検索は、検索対象のベクトルフィールドが NULL であるエンティティをすでにスキップするため、`embedding IS NOT NULL` を使用しても、`embedding` に対する検索の候補はさらに絞り込まれません。どの候補が返されるかは、ランキング、他のフィルター、および検索制限によって決まります。
 
-## JSON および ARRAY フィールドで基本演算子を使用する際のヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
+## JSON フィールドおよび ARRAY フィールドで基本演算子を使用する際のヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-Zilliz Cloud クラスターの基本演算子は汎用性が高く、スカラーフィールドに適用できますが、JSON および ARRAY フィールドのキーやインデックスにも効果的に使用できます。
+Zilliz Cloud クラスターの基本演算子は汎用性が高く、スカラーフィールドに適用できますが、JSON フィールドおよび ARRAY フィールドのキーやインデックスにも効果的に使用できます。
 
-たとえば、`price`、`model`、`tags` などの複数のキーを含む `product` フィールドがある場合は、常にキーを直接参照してください：
+たとえば、`price`、`model`、`tags` などの複数のキーを含む `product` フィールドがある場合は、常にキーを直接参照します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1531,7 +1536,7 @@ filter='product["price"] > 1000'
 </TabItem>
 </Tabs>
 
-記録された気温の配列内の最初の気温が特定の値を超えるレコードを検索するには、次のようにします：
+記録された温度の配列内の最初の温度が特定の値を超えるレコードを検索するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1593,11 +1598,11 @@ filter='history_temperatures[0] > 30'
 
 ## まとめ\{#conclusion}
 
-Zilliz Cloud は、データのフィルタリングとクエリに柔軟性をもたらすさまざまな基本演算子を提供しています。比較、範囲、算術、論理の各演算子を組み合わせることで、強力なフィルター式を作成し、検索結果を絞り込んで必要なデータを効率的に取得できます。
+Zilliz Cloud は、データのフィルタリングとクエリに柔軟性をもたらすさまざまな基本演算子を提供します。比較、範囲、算術、および論理演算子を組み合わせることで、強力なフィルター式を作成し、検索結果を絞り込んで、必要なデータを効率的に取得できます。
 
 ## FAQ\{#faq}
 
-**フィルター条件内の一致値リストの長さに制限はありますか（例：`filter='color in ["red", "green", "blue"]'`）？リストが長すぎる場合はどうすればよいですか？**
+**フィルター条件（例: `filter='color in ["red", "green", "blue"]'`）の一致値リストの長さに制限はありますか？リストが長すぎる場合はどうすればよいですか？**
 
-Zilliz Cloud は、フィルター条件内の一致値リストの長さに制限を設けていません。ただし、リストが長すぎるとクエリのパフォーマンスに大きく影響する可能性があります。
-フィルター条件に長い一致値リストや多数の要素を含む複雑な式が含まれる場合は、クエリのパフォーマンスを向上させるために [フィルターテンプレート](./filtering-templating) を使用することをお勧めします。
+Zilliz Cloud は、フィルター条件の一致値リストに長さの制限を設けていません。ただし、リストが過度に長いと、クエリのパフォーマンスに大きな影響を与える可能性があります。
+フィルター条件に長い一致値リストや多数の要素を含む複雑な式が含まれる場合は、クエリのパフォーマンスを向上させるために [フィルターテンプレート](./filtering-templating) の使用をお勧めします。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "大規模なデータセットを扱う際、インサイトを得たりフィルタリングロジックをテストしたりするために、必ずしもすべてのデータを処理する必要はありません。ランダムサンプリングは、統計的に代表性のあるデータのサブセットを利用できるようにすることで、この課題を解決し、クエリ時間とリソース消費を大幅に削減します。 | BYOC"
+description: "大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要はありません。ランダムサンプリングを使用すると、データの統計的に代表的なサブセットを扱えるため、クエリ時間とリソース消費を大幅に削減できます。 | BYOC"
 type: origin
 token: ByJbwcpoCiBkDckR3VCcC4LTneg
 sidebar_position: 8
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # ランダムサンプリング
 
-大規模なデータセットを扱う際、インサイトを得たりフィルタリングロジックをテストしたりするために、必ずしもすべてのデータを処理する必要はありません。ランダムサンプリングは、統計的に代表性のあるデータのサブセットを利用できるようにすることで、この課題を解決し、クエリ時間とリソース消費を大幅に削減します。
+大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要はありません。ランダムサンプリングを使用すると、データの統計的に代表的なサブセットを扱えるため、クエリ時間とリソース消費を大幅に削減できます。
 
-Random sampling operates at the segment level, ensuring efficient performance while maintaining the randomness of the sample across your コレクション's data distribution.
+ランダムサンプリングはセグメントレベルで動作するため、コレクションのデータ分布全体でサンプルのランダム性を維持しながら、効率的なパフォーマンスを確保できます。
 
 **主なユースケース:**
 
-- **Data exploration**: Quickly preview コレクション structure and content with minimal resource usage
+- **データ探索**: 最小限のリソース使用量で、コレクションの構造と内容をすばやくプレビューできます。
 
-- **開発テスト**: 本番デプロイ前に、扱いやすいデータサンプルで複雑なフィルタリングロジックをテスト
+- **開発テスト**: 本番環境に完全にデプロイする前に、扱いやすいデータサンプルで複雑なフィルタリングロジックをテストできます。
 
-- **リソース最適化**: 探索的クエリや統計分析における計算コストを削減
+- **リソース最適化**: 探索的クエリや統計分析の計算コストを削減できます。
 
-## Syntax\{#syntax}
+## 構文\{#syntax}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -47,7 +47,7 @@ filter = "RANDOM_SAMPLE(sampling_factor)"
 <TabItem value='java'>
 
 ```java
-String filter = "RANDOM_SAMPLE(sampling_factor)"
+String filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
 </TabItem>
@@ -94,19 +94,19 @@ export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
 </TabItem>
 </Tabs>
 
-**パラメータ:**
+**パラメーター:**
 
-- `sampling_factor`: 境界値を含まない (0, 1) の範囲のサンプリング係数。たとえば、`RANDOM_SAMPLE(0.001)` は結果の約 0.1% を選択します。
+- `sampling_factor`: 境界値を含まない (0, 1) の範囲のサンプリング係数です。たとえば、`RANDOM_SAMPLE(0.001)` は結果の約 0.1% を選択します。
 
 **重要なルール:**
 
-- この式は大文字小文字を区別しません（`RANDOM_SAMPLE` または `random_sample`）
+- この式では大文字と小文字が区別されません（`RANDOM_SAMPLE` または `random_sample`）。
 
-- サンプリング係数は、境界値を含まない (0, 1) の範囲でなければなりません
+- サンプリング係数は、境界値を含まない (0, 1) の範囲内である必要があります。
 
-## Combine with other filters\{#combine-with-other-filters}
+## 他のフィルターとの組み合わせ\{#combine-with-other-filters}
 
-ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルタを組み合わせる場合、Milvus はまず他の条件を適用し、その後に結果セットに対してランダムサンプリングを実行します。
+ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせると、Milvus はまず他の条件を適用し、次に結果セットに対してランダムサンプリングを実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -131,7 +131,7 @@ String filter = "color == \"red\" AND RANDOM_SAMPLE(0.001)";
 // Processing: Find all red items → Sample 0.1% of those red items
 
 // Incorrect: OR doesn't make logical sense
-String filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logic
+String filterIncorrect = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
@@ -144,7 +144,7 @@ String filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logi
 filter := "color == \"red\" AND RANDOM_SAMPLE(0.001)"
 // Processing: Find all red items → Sample 0.1% of those red items
 
-filter := "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
+filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
@@ -203,11 +203,11 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 </TabItem>
 </Tabs>
 
-## Examples\{#examples}
+## 例\{#examples}
 
-### Example 1: Data exploration\{#example-1-data-exploration}
+### 例 1: データ探索\{#example-1-data-exploration}
 
-Quickly preview your コレクション structure:
+コレクションの構造をすばやくプレビューします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -306,25 +306,21 @@ fmt.Println("product_name: ", resultSet.GetColumn("product_name").FieldData().Ge
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
 
-    // Sample approximately 1% of the entire collection
-    let res = client
-        .query(
-            QueryRequest::builder()
-                .collection_name("product_catalog")
-                .filter("RANDOM_SAMPLE(0.01)")
-                .output_fields(["id", "product_name"])
-                .limit(10)
-                .build()?,
-        )
-        .await?;
+// Sample approximately 1% of the entire collection
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("product_catalog")
+            .filter("RANDOM_SAMPLE(0.01)")
+            .output_fields(["id", "product_name"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
 
-    println!("Sampled {} products from collection", res.results().len());
-    Ok(())
-}
+println!("Sampled {} products from collection", res.results().get_row_count());
 ```
 
 </TabItem>
@@ -401,9 +397,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Example 2: Combined filtering with random sampling\{#example-2-combined-filtering-with-random-sampling}
+### 例 2: ランダムサンプリングとの複合フィルタリング\{#example-2-combined-filtering-with-random-sampling}
 
-扱いやすいサブセットでフィルタリングロジックをテストします:
+扱いやすいサブセットでフィルタリングロジックをテストします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -428,6 +424,10 @@ print(f"Found {len(result)} electronics products in sample")
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)";
 
 QueryReq queryReq = QueryReq.builder()
@@ -445,9 +445,15 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)"
 
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("product_catalog").
+_, err := client.Query(ctx, milvusclient.NewQueryOption("product_catalog").
     WithFilter(filter).
     WithOutputFields("product_name", "price", "rating"))
 if err != nil {
@@ -475,7 +481,7 @@ let res = client
     )
     .await?;
 
-println!("Found {} electronics products in sample", res.results().len());
+println!("Found {} electronics products in sample", res.results().get_row_count());
 ```
 
 </TabItem>
@@ -541,9 +547,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Example 3: Quick analytics\{#example-3-quick-analytics}
+### 例 3: クイック分析\{#example-3-quick-analytics}
 
-フィルタリングされたデータに対して迅速な統計分析を実行します:
+フィルタリングされたデータに対して迅速な統計分析を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -575,6 +581,10 @@ if result:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)";
 
 QueryReq queryReq = QueryReq.builder()
@@ -592,9 +602,15 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)"
 
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("customer_profiles").
+_, err := client.Query(ctx, milvusclient.NewQueryOption("customer_profiles").
     WithFilter(filter).
     WithOutputFields("purchase_amount", "satisfaction_score", "last_purchase_date"))
 if err != nil {
@@ -622,7 +638,7 @@ let res = client
     )
     .await?;
 
-println!("Sample size: {}", res.results().len());
+println!("Sample size: {}", res.results().get_row_count());
 ```
 
 </TabItem>
@@ -699,9 +715,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Example 4: Combined with ベクトル search\{#example-4-combined-with-vector-search}
+### 例 4: ベクトル検索との組み合わせ\{#example-4-combined-with-vector-search}
 
-フィルタリングされた検索シナリオでランダムサンプリングを使用します:
+フィルタリングされた検索シナリオでランダムサンプリングを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -765,6 +781,13 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -846,7 +869,7 @@ const res = await client.search({
     output_fields: ["title", "author", "price"]
 });
 
-console.log(`Found ${res.results[0].length} similar books in sample`);
+console.log(`Found ${res.results.length} similar books in sample`);
 ```
 
 </TabItem>
@@ -875,13 +898,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Best practices\{#best-practices}
+## ベストプラクティス\{#best-practices}
 
-- **小さく始める**: 初期探索では、より小さいサンプリング係数（0.001〜0.01）から開始する
+- **小さく始める**: 初期の探索では、小さいサンプリング係数（0.001～0.01）から始めます。
 
-- **開発ワークフロー**: 開発中はサンプリングを使用し、本番クエリでは削除する
+- **開発ワークフロー**: 開発中はサンプリングを使用し、本番クエリでは削除します。
 
-- **統計的妥当性**: より大きなサンプルほど、より正確な統計的表現を得られる
+- **統計的妥当性**: サンプルが大きいほど、より正確な統計的表現が得られます。
 
-- **パフォーマンステスト**: クエリパフォーマンスを監視し、必要に応じてサンプリング係数を調整する
-
+- **パフォーマンステスト**: クエリのパフォーマンスを監視し、必要に応じてサンプリング係数を調整します。
