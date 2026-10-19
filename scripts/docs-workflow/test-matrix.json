@@ -117,17 +117,18 @@
       "id": "docs-ui-heading-tags",
       "paths": [
         "packages/docs-ui/src/shared/theme/Heading/**",
-        "packages/docs-ui/src/shared/components/DocTag/**"
+        "packages/docs-ui/src/shared/components/DocTag/**",
+        "packages/docs-ui/src/shared/utils/docHeadingTags*"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading/tagLinks.test.ts"
+        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading/tagLinks.test.ts packages/docs-ui/src/shared/utils/docHeadingTags.test.ts"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site."
+      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site; ON REQUEST links to the site-language support center, and the TOC heading-tag stripper must drop every registered suffix."
     },
     {
       "id": "docs-ui-analytics",

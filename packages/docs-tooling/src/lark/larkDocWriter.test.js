@@ -254,6 +254,10 @@ function testHeadingSlugDropsVisibilitySuffixes() {
     writer.__heading_slug('Sort search results by scalar fields | ONDEMAND'),
     'sort-search-results-by-scalar-fields'
   );
+  assert.equal(
+    writer.__heading_slug('Export dedicated clusters | ON REQUEST'),
+    'export-dedicated-clusters'
+  );
 }
 
 async function testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors() {

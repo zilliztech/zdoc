@@ -13,6 +13,7 @@ const TAG_REGISTRY: Record<string, TagDef> = {
   'NEAR DEPRECATE': { caption: 'Near Deprecation', color: '#FF9500' },
   'CONTACT SALES':  { caption: 'Contact Sales',    color: '#9C27B0' },
   PUBLIC:           { caption: 'Public Preview',   color: 'var(--zd-accent-bright)' },
+  'ON REQUEST':     { caption: 'On Request',       color: '#1565C0' },
   BYOC:             { caption: 'BYOC',             color: '#00897B' },
   DEPRECATED:       { caption: 'Deprecated',       color: '#9E9E9E' },
 };
@@ -22,6 +23,7 @@ const TAG_REGISTRY: Record<string, TagDef> = {
 const ZH_CAPTIONS: Record<string, string> = {
   PUBLIC: '公测版',
   PRIVATE: '内测版',
+  'ON REQUEST': '申请开通',
 };
 
 interface DocTagProps {
