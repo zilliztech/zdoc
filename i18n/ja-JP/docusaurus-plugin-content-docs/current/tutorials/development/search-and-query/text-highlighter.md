@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の Highlighter は、テキストフィールド内の一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチなレンダリングのサポートに役立ちます。 | Cloud"
+description: "Zilliz Cloud の Highlighter は、テキストフィールド内で一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性の向上、検索および RAG アプリケーションでのリッチレンダリングのサポートに役立ちます。 | Cloud"
 type: origin
 token: BJCjwpj8JizP0nkI11uci1pPndh
 sidebar_position: 14
@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # Lexical Highlighter
 
-Zilliz Cloud の Highlighter は、テキストフィールド内で一致した用語をカスタマイズ可能なタグで囲んで注釈付けします。ハイライトは、ドキュメントがクエリに一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチレンダリングのサポートに役立ちます。
+Zilliz Cloud の Highlighter は、テキストフィールド内で一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性の向上、検索および RAG アプリケーションでのリッチレンダリングのサポートに役立ちます。
 
-ハイライトは、最終的な検索結果セットに対する後処理ステップとして実行されます。候補取得、フィルタリングロジック、ランキング、スコアリングには影響しません。
+ハイライトは、最終的な検索結果セットに対する後処理ステップとして実行されます。候補の取得、フィルタリングロジック、ランキング、スコアリングには影響しません。
 
 Highlighter には、互いに独立した 3 つの制御軸があります。
 
-- **どの用語をハイライトするか**
+- **ハイライト対象となる用語**
 
-    ハイライト対象の用語の取得元を選択できます。たとえば、**BM25 full text search** で使用される検索語や、**テキストベースのフィルタリング式**（`TEXT_MATCH` 条件など）で指定されたクエリ語をハイライトできます。
+    ハイライト対象の用語をどこから取得するかを選択できます。たとえば、**BM25 full text search** で使用される検索語や、**テキストベースのフィルタリング式**（`TEXT_MATCH` 条件など）で指定されたクエリ語をハイライトできます。
 
-- **ハイライトされた用語をどのようにレンダリングするか**
+- **ハイライトされた用語のレンダリング方法**
 
-    一致ごとの前後に挿入されるタグを設定することで、ハイライト出力内で一致した用語がどのように表示されるかを制御できます。たとえば、`{}` のような単純なマーカーや、リッチレンダリング用の `<em></em>` のような HTML タグを使用できます。
+    一致ごとの前後に挿入するタグを設定することで、ハイライト出力内で一致した用語がどのように表示されるかを制御できます。たとえば、`{}` のような単純なマーカーや、リッチレンダリング用の `<em></em>` のような HTML タグを使用できます。
 
-- **ハイライトされたテキストをどのように返すか**
+- **ハイライトされたテキストの返し方**
 
-    フラグメントの開始位置、長さ、返されるフラグメント数などを含め、ハイライト結果をフラグメントとしてどのように返すかを制御できます。
+    フラグメントの開始位置、長さ、返されるフラグメント数など、ハイライト結果をフラグメントとして返す方法を制御できます。
 
 以下のセクションでは、これらのシナリオを順に説明します。
 
@@ -164,8 +164,9 @@ Highlighter オブジェクトを作成したら、その設定を BM25 full tex
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
     data=["BM25"],      # Search term used in BM25 full text search
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )
@@ -180,6 +181,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -189,11 +191,12 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -223,10 +226,11 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -245,7 +249,7 @@ highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -271,7 +275,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -449,15 +453,17 @@ const highlighter = {
 
 - `highlight_query` は、どのフィルタリング用語をハイライトするかを定義します。
 
-Highlighter オブジェクトを作成したら、同じフィルタリング式と highlighter 設定を検索リクエストに適用します。
+Highlighter オブジェクトを作成したら、同じフィルタリング式と Highlighter の設定を検索リクエストに適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
+    data=["BM25"],
     filter='TEXT_MATCH(text, "text filtering")',
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )
@@ -472,6 +478,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -481,12 +488,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .filter("TEXT_MATCH(text, \"text filtering\")")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -519,11 +527,12 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .filter(r#"TEXT_MATCH(text, "text filtering")"#)
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -542,7 +551,7 @@ highlighter->WithPostTags({"}"});
 highlighter->AddHighlightQuery("TextMatch", "text", "text filtering");
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithFilter(R"(TEXT_MATCH(text, "text filtering"))")
     .WithLimit(10)
@@ -571,7 +580,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     filter: 'TEXT_MATCH(text, "text filtering")',
@@ -621,7 +630,7 @@ const res = await client.search({
 
 ## フラグメントベースのハイライト出力\{#fragment-based-highlighting-output}
 
-デフォルトでは、Zilliz Cloud は最初に一致した用語から始まるフラグメントとしてハイライト済みテキストを返します。フラグメント関連の設定を使うことで、どの用語をハイライトするかを変更せずに、フラグメントの返し方をさらに制御できます。
+デフォルトでは、Zilliz Cloud は最初に一致した用語から始まるフラグメントとしてハイライト済みテキストを返します。フラグメント関連の設定を使用すると、どの用語をハイライトするかを変更せずに、フラグメントの返し方をさらに制御できます。
 
 次の内容がテキストフィールドに保存されているとします。
 
@@ -744,21 +753,22 @@ const highlighter = {
 
 この設定では次のようになります。
 
-- `fragment_offset` は、最初にハイライトされる用語の前に先行コンテキストを確保します。
+- `fragment_offset` は、最初のハイライト対象用語の前に先行コンテキストを確保します。
 
 - `fragment_size` は、各フラグメントに含めるテキスト量を制限します。
 
 - `num_of_fragments` は、返されるフラグメント数を制御します。
 
-Highlighter オブジェクトを作成したら、highlighter 設定を検索リクエストに適用します。
+Highlighter オブジェクトを作成したら、Highlighter の設定を検索リクエストに適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
     data=["BM25"],
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )
@@ -773,6 +783,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -782,11 +793,12 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -816,10 +828,11 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -838,7 +851,7 @@ highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -864,7 +877,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -894,7 +907,7 @@ const res = await client.search({
 
 **ハイライト出力**
 
-フラグメントベースのハイライトが有効な場合、Zilliz Cloud は `highlight` フィールド内でハイライト済みテキストをフラグメントとして返します。
+フラグメントベースのハイライトが有効な場合、Zilliz Cloud は `highlight` フィールドにハイライト済みテキストをフラグメントとして返します。
 
 ```json
 {
@@ -909,17 +922,17 @@ const res = await client.search({
 
 この出力では次のようになります。
 
-- `fragment_offset` が設定されているため、フラグメントは `{BM25}` ちょうどからは始まりません。
+- `fragment_offset` が設定されているため、フラグメントは `{BM25}` から正確に始まるわけではありません。
 
-- `num_of_fragments` が 1 のため、返されるフラグメントは 1 つだけです。
+- `num_of_fragments` が 1 であるため、返されるフラグメントは 1 つだけです。
 
 - フラグメントの長さは `fragment_size` によって上限が設定されます。
 
 ## 例\{#examples}
 
-### 準備\{#preparation}
+### 事前準備\{#preparation}
 
-highlighter を使用する前に、コレクションが適切に設定されていることを確認してください。
+Highlighter を使用する前に、コレクションが適切に設定されていることを確認してください。
 
 以下の例では、BM25 full text search と `TEXT_MATCH` クエリをサポートするコレクションを作成し、その後サンプルドキュメントを挿入します。
 
@@ -1004,10 +1017,14 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.FunctionType;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import com.google.gson.JsonObject;
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -1015,8 +1032,8 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .build());
 String COLLECTION_NAME = "highlighter_demo";
 
-if (client.hasCollection(COLLECTION_NAME)) {
-    client.dropCollection(COLLECTION_NAME);
+if (client.hasCollection(HasCollectionReq.builder().collectionName(COLLECTION_NAME).build())) {
+    client.dropCollection(DropCollectionReq.builder().collectionName(COLLECTION_NAME).build());
 }
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -1052,7 +1069,7 @@ IndexParam indexParam = IndexParam.builder()
 
 client.createCollection(CreateCollectionReq.builder()
         .collectionName(COLLECTION_NAME)
-        .schema(schema)
+        .collectionSchema(schema)
         .indexParams(Collections.singletonList(indexParam))
         .build());
 
@@ -1062,10 +1079,13 @@ List<String> docs = Arrays.asList(
         "my first test doc. Milvus is an open-source vector database built for GenAI applications.",
         "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."
 );
-client.insert(COLLECTION_NAME, docs);
-
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("params", new HashMap<String, Object>() {{ put("drop_ratio_search", 0.0); }});
+List<JsonObject> rows = new ArrayList<>();
+for (String doc : docs) {
+    JsonObject row = new JsonObject();
+    row.addProperty("text", doc);
+    rows.add(row);
+}
+client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).build());
 ```
 
 </TabItem>
@@ -1082,30 +1102,42 @@ searchParams.put("params", new HashMap<String, Object>() {{ put("drop_ratio_sear
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
-    const COLLECTION_NAME: &str = "highlighter_demo";
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+const COLLECTION_NAME: &str = "highlighter_demo";
 
-    if client.has_collection(COLLECTION_NAME).await? {
-        client.drop_collection(COLLECTION_NAME).await?;
-    }
-
-    let schema = CollectionSchema::new(
-        COLLECTION_NAME,
-        "highlighter demo collection",
-    )
-    .add_field(FieldSchema::new("id", DataType::Int64).with_primary_key(true).with_auto_id(true))
-    .add_field(FieldSchema::new("text", DataType::VarChar).with_max_length(2000).with_enable_analyzer(true).with_enable_match(true))
-    .add_field(FieldSchema::new("sparse_vector", DataType::SparseFloatVector))
-    .add_function(FunctionSchema::new("text_bm25", FunctionType::BM25).with_input_fields(vec!["text"]).with_output_fields(vec!["sparse_vector"]));
-
-    client.create_collection(schema).await?;
-
-    // index (SPARSE_INVERTED_INDEX / BM25) + insert + SEARCH_PARAMS (see full text search guide)
-    Ok(())
+if client.has_collection(HasCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?.exists() {
+    client.drop_collection(DropCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?;
 }
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(2000).enable_analyzer(true).enable_match(true))
+    .add_field(FieldSchema::new().name("sparse_vector").data_type(DataType::SparseFloatVector))
+    .add_function(Function::new().name("text_bm25").function_type(FunctionType::Bm25).input_fields(["text"]).output_fields(["sparse_vector"]));
+
+let index_param = IndexParam::new()
+    .field_name("sparse_vector")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        ("inverted_index_algo".into(), "DAAT_MAXSCORE".into()),
+        ("bm25_k1".into(), "1.2".into()),
+        ("bm25_b".into(), "0.75".into()),
+    ]));
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .schema(schema)
+            .index_param(index_param)
+            .build()?,
+    )
+    .await?;
+
+// insert + SEARCH_PARAMS (see full text search guide)
 ```
 
 </TabItem>
@@ -1216,7 +1248,7 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 
 - BM25 full text search は `"test"` を検索語として使用します
 
-- highlighter は "test" のすべての出現箇所を `{` と `}` タグで囲みます
+- Highlighter は "test" のすべての出現箇所を `{` と `}` タグで囲みます
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1255,7 +1287,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1270,6 +1304,7 @@ SearchReq searchReq = SearchReq.builder()
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1303,6 +1338,7 @@ let res = client
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -1393,13 +1429,13 @@ const res = await client.search({
 
 ### 例 2: フィルタリングでクエリ語をハイライトする\{#example-2-highlight-query-terms-in-filtering}
 
-この例では、`TEXT_MATCH` フィルタに一致した用語をハイライトする方法を示します。
+この例では、`TEXT_MATCH` フィルターに一致した用語をハイライトする方法を示します。
 
 - BM25 full text search は `"test"` をクエリ語として使用します
 
 - `queries` パラメーターは `"my doc"` をハイライト対象リストに追加します
 
-- highlighter は、一致したすべての用語（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます
+- Highlighter は、一致したすべての用語（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1441,7 +1477,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1457,6 +1495,7 @@ SearchReq searchReq = SearchReq.builder()
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1494,6 +1533,7 @@ let res = client
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -1636,7 +1676,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1653,6 +1695,7 @@ SearchReq searchReq = SearchReq.builder()
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1688,6 +1731,7 @@ let res = client
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["Milvus".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -1780,7 +1824,7 @@ Doc 2: ['my second test doc. {Milvus} is an open-source vector database']
 
 ### 例 4: マルチクエリのハイライト\{#example-4-multi-query-highlighting}
 
-BM25 full text search で複数クエリを使用して検索する場合、各クエリの結果はそれぞれ独立してハイライトされます。1 つ目のクエリの結果にはその検索語のハイライトが含まれ、2 つ目のクエリの結果にはその検索語のハイライトが含まれ、以降も同様です。各クエリは同じ `highlighter` 設定を使用しますが、独立して適用されます。
+BM25 full text search で複数のクエリを使用して検索する場合、各クエリの結果はそれぞれ独立してハイライトされます。1 つ目のクエリの結果にはその検索語のハイライトが含まれ、2 つ目のクエリの結果にはその検索語のハイライトが含まれ、以降も同様です。各クエリは同じ `highlighter` 設定を使用しますが、独立して適用されます。
 
 以下の例では次のようになります。
 
@@ -1828,7 +1872,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1843,6 +1889,7 @@ SearchReq searchReq = SearchReq.builder()
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1876,6 +1923,7 @@ let res = client
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string(), "Milvus".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,
@@ -2008,7 +2056,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -2023,6 +2073,7 @@ SearchReq searchReq = SearchReq.builder()
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -2056,6 +2107,7 @@ let res = client
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(10)
+            .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
             .build()?,

@@ -41,11 +41,11 @@ import TabItem from '@theme/TabItem';
 
 | メトリックタイプ | 意味 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `COSINE` | COSINE 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `JACCARD` | Jaccard 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `HAMMING` | Hamming 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
+| `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
+| `COSINE` | COSINE 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
+| `JACCARD` | Jaccard 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
+| `HAMMING` | Hamming 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
 
 ## 例\{#examples}
 
@@ -190,31 +190,27 @@ for _, resultSet := range resultSets {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
-    let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .radius(0.4)
-                .range_filter(0.6)
-                .build()?,
-        )
-        .await?;
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .radius(0.4)
+            .range_filter(0.6)
+            .build()?,
+    )
+    .await?;
 
-    println!("TopK results:");
-    for result in response.results() {
-        for row in result.rows()? {
-            println!("{:?}", row.to_entity_row()?);
-        }
+println!("TopK results:");
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
     }
-    Ok(())
 }
 ```
 
@@ -271,7 +267,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-res = await client.search({
+const res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,

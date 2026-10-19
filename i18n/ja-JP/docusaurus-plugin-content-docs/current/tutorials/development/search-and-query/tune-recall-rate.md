@@ -154,33 +154,30 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([("level".into(), "1".into())]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([("level".into(), "1".into())]))
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -276,7 +273,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`level` パラメーターは `1` から `10` までの範囲で、デフォルト値は `1` です。デフォルト値では再現率が 90% となり、通常はほとんどのユースケースで十分です。
+`level` パラメーターは `1` から `10` の範囲で、デフォルト値は `1` です。デフォルト値では再現率が 90% となり、通常はほとんどのユースケースで十分です。
 
 高い再現率（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` までの整数に設定してみてください。検索効率を気にしない場合は、このパラメーターを `10` に設定すると、最も精度の高い結果を得られます。
 
@@ -408,37 +405,34 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([
+                ("level".into(), "6".into()),
+                ("enable_recall_calculation".into(), "true".into()),
+            ]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([
-                    ("level".into(), "6".into()),
-                    ("enable_recall_calculation".into(), "true".into()),
-                ]))
-                .build()?,
-        )
-        .await?;
-
-    println!("results: {:?}", res.results());
-    println!("recalls: {:?}", res.results().get_recalls());
-    Ok(())
-}
+println!("results: {:?}", res.results());
+println!("recalls: {:?}", res.results().get_recalls());
 ```
 
 </TabItem>
@@ -620,4 +614,3 @@ curl --request POST \
 ## 制限事項\{#limits}
 
 現在、この機能は Zilliz Cloud クラスターの基本的なベクトル検索、フィルタリング検索、範囲検索でのみ利用できます。
-

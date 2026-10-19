@@ -134,6 +134,12 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -161,34 +167,29 @@ if err := loadTask.Await(ctx); err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::VarChar)
+            .primary_key(true)
+            .auto_id(true)
+            .max_length(100),
     )
-    .await?;
-
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(true)
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::VarChar)
-                .primary_key(true)
-                .auto_id(true)
-                .max_length(100),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("dense_vector")
-                .data_type(DataType::FloatVector)
-                .dimension(4),
-        );
-
-    Ok(())
-}
+    .add_field(
+        FieldSchema::new()
+            .name("dense_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    );
 ```
 
 </TabItem>
@@ -325,6 +326,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(index.MetricType(entity.IP))
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
 ```
@@ -334,6 +342,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector"
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![IndexParam::new()
     .field_name("dense_vector")
     .index_name("dense_vector_index")
@@ -425,6 +435,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -449,6 +465,8 @@ if err := loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -480,13 +498,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.createCollection({
+const createRes = await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
     index_params: indexParams
 });
 
-console.log(res);
+console.log(createRes);
 ```
 
 </TabItem>
@@ -514,7 +532,7 @@ curl --request POST \
 
 ### データの挿入\{#insert-data}
 
-コレクションを作成したら、`insert` メソッドを使用して、密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドを追加したときに定義した `dim` の値と一致していることを確認してください。
+コレクションを作成したら、`insert` メソッドを使用して密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドを追加したときに定義した `dim` の値と一致していることを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -557,6 +575,12 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithFloatVectorColumn("dense_vector", 4, [][]float32{
         {0.1, 0.2, 0.3, 0.7},
@@ -584,6 +608,8 @@ if err := flushTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let rows = vec![
     serde_json::json!({"dense_vector": [0.1, 0.2, 0.3, 0.7]}),
     serde_json::json!({"dense_vector": [0.2, 0.3, 0.4, 0.8]}),
@@ -633,12 +659,12 @@ const data = [
     { dense_vector: [0.2, 0.3, 0.4, 0.8] }
 ];
 
-const res = await client.insert({
+const insertRes = await client.insert({
     collection_name: "my_collection",
     data: data
 });
 
-console.log(res);
+console.log(insertRes);
 ```
 
 </TabItem>
@@ -668,9 +694,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 類似検索の実行\{#perform-similarity-search}
+### 類似検索を実行する\{#perform-similarity-search}
 
-密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核的な機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
+密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核機能の 1 つです。ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -728,6 +754,14 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.1, 0.2, 0.3, 0.7}
 
 annParam := index.NewCustomAnnParam()
@@ -756,6 +790,7 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let query_vector = vec![0.1, 0.2, 0.3, 0.7];
@@ -812,7 +847,7 @@ for (auto& result : search_results.Results()) {
 ```javascript
 const query_vector = [0.1, 0.2, 0.3, 0.7];
 
-const res = await client.search({
+const searchRes = await client.search({
     collection_name: "my_collection",
     data: query_vector,
     anns_field: "dense_vector",
@@ -823,7 +858,7 @@ const res = await client.search({
     }
 });
 
-console.log(res);
+console.log(searchRes);
 ```
 
 </TabItem>

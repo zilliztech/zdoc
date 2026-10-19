@@ -1,13 +1,13 @@
 ---
-title: "フィルタ付き検索 | Cloud"
+title: "フィルタリング検索 | Cloud"
 slug: /filtered-search
-sidebar_label: "フィルタ付き検索"
+sidebar_label: "フィルタリング検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN 検索は、指定されたベクトル埋め込みに最も類似したベクトル埋め込みを検索します。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタ条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から、指定されたフィルタ条件に一致するエンティティのみに絞り込むことができます。 | Cloud"
+description: "ANN 検索は、指定したベクトル埋め込みに最も類似するベクトル埋め込みを検索します。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行するため、検索範囲をコレクション全体から、指定したフィルタリング条件に一致するエンティティのみに絞り込めます。 | Cloud"
 type: origin
 token: CpBbwcJ87irHp0k9oCSc2RNIn3d
 sidebar_position: 4
@@ -19,43 +19,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# フィルタ付き検索
+# フィルタリング検索
 
-ANN 検索は、指定されたベクトル埋め込みに最も類似したベクトル埋め込みを検索します。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタ条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から、指定されたフィルタ条件に一致するエンティティのみに絞り込むことができます。
+ANN 検索は、指定したベクトル埋め込みに最も類似するベクトル埋め込みを検索します。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行するため、検索範囲をコレクション全体から、指定したフィルタリング条件に一致するエンティティのみに絞り込めます。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、フィルタ付き検索は、フィルタが適用される段階に応じて、**標準フィルタリング** と **反復フィルタリング** の 2 種類に分類されます。
+Zilliz Cloud では、フィルタリング検索は、フィルタリングを適用する段階に応じて、**標準フィルタリング**と**反復フィルタリング**の 2 種類に分類されます。
 
 ### 標準フィルタリング\{#standard-filtering}
 
-コレクションにベクトル埋め込みとそのメタデータの両方が含まれている場合は、ANN 検索の前にメタデータをフィルタリングすることで、検索結果の関連性を向上させることができます。Zilliz Cloud がフィルタ条件を含む検索リクエストを受信すると、検索範囲を、指定されたフィルタ条件に一致するエンティティ内に制限します。
+コレクションにベクトル埋め込みとそのメタデータの両方が含まれている場合は、ANN 検索の前にメタデータをフィルタリングして、検索結果の関連性を高めることができます。Zilliz Cloud は、フィルタリング条件を含む検索リクエストを受信すると、指定したフィルタリング条件に一致するエンティティ内に検索範囲を制限します。
 
 ![QIeKwvDN1h7lTnb9iJ7cPubknrb](https://zdoc-images.s3.us-west-2.amazonaws.com/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
-上の図に示すように、検索リクエストはフィルタ条件として `chunk like "%red%"` を持ち、これは Zilliz Cloud が `chunk` フィールドに `red` という語を含むすべてのエンティティを対象に ANN 検索を実行する必要があることを示しています。具体的には、Zilliz Cloud は次の処理を行います。
+上の図に示すように、検索リクエストにはフィルタリング条件として `chunk like "%red%"` が含まれており、Zilliz Cloud が `chunk` フィールドに `red` という語を含むすべてのエンティティ内で ANN 検索を実行する必要があることを示しています。具体的には、Zilliz Cloud は次の処理を行います。
 
-- 検索リクエストに含まれるフィルタ条件に一致するエンティティをフィルタリングします。
+- 検索リクエストに含まれるフィルタリング条件に一致するエンティティをフィルタリングします。
 
-- フィルタリングされたエンティティを対象に ANN 検索を実行します。
+- フィルタリングされたエンティティ内で ANN 検索を実行します。
 
-- top-K 件のエンティティを返します。
+- 上位 K 件のエンティティを返します。
 
 ### 反復フィルタリング\{#iterative-filtering}
 
-標準フィルタリングのプロセスは、検索範囲を効果的に小さな範囲に絞り込みます。ただし、フィルタ式が過度に複雑な場合、検索レイテンシが非常に高くなることがあります。そのような場合は、反復フィルタリングが代替手段となり、スカラーフィルタリングの負荷を軽減できます。
+標準フィルタリングのプロセスは、検索範囲を効果的に小さな範囲に絞り込みます。ただし、フィルタリング式が過度に複雑な場合、検索レイテンシが非常に高くなる可能性があります。そのような場合は、反復フィルタリングを代替手段として使用でき、スカラーフィルタリングのワークロードを削減できます。
 
 ![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
 
-上の図に示すように、反復フィルタリングを使用した検索では、ベクトル検索を反復的に実行します。イテレーターから返される各エンティティはスカラーフィルタリングを受け、このプロセスは、指定された topK 件の結果が得られるまで継続されます。
+上の図に示すように、反復フィルタリングを使用する検索では、ベクトル検索を反復して実行します。イテレーターから返される各エンティティに対してスカラーフィルタリングが実行され、指定した topK 件の結果が得られるまでこのプロセスが続きます。
 
-この方法は、スカラーフィルタリングの対象となるエンティティの数を大幅に削減するため、非常に複雑なフィルタ式を扱う場合に特に有効です。
+この方法は、スカラーフィルタリングの対象となるエンティティ数を大幅に削減するため、非常に複雑なフィルタリング式を処理する場合に特に有効です。
 
-ただし、イテレーターがエンティティを 1 件ずつ処理する点に注意が必要です。この逐次的なアプローチは、特に多数のエンティティがスカラーフィルタリングの対象となる場合、処理時間の長期化やパフォーマンス上の問題につながる可能性があります。
+ただし、イテレーターはエンティティを 1 つずつ処理することに注意してください。この順次処理のアプローチにより、特に多数のエンティティがスカラーフィルタリングの対象となる場合、処理時間が長くなったり、パフォーマンスの問題が発生したりする可能性があります。
 
 ## 例\{#examples}
 
-このセクションでは、フィルタ付き検索を実行する方法を説明します。このセクションのコードスニペットは、コレクションに次のエンティティがすでに存在していることを前提としています。各エンティティには、**id**、**ベクトル**、**color**、**likes** の 4つのフィールドがあります。
+このセクションでは、フィルタリング検索を実行する方法を説明します。このセクションのコードスニペットは、コレクションに以下のエンティティがすでに存在することを前提としています。各エンティティには、**id**、**vector**、**color**、**likes** の 4 つのフィールドがあります。
 
 ```json
 [
@@ -74,13 +74,13 @@ Zilliz Cloud では、フィルタ付き検索は、フィルタが適用され�
 
 <Admonition type="info" title="Notes">
 
-クエリベクトルが対象のコレクションにすでに存在している場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にクエリベクトルを取得する代わりに `ids` の使用を検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>
 
 ### 標準フィルタリングを使用した検索\{#search-with-standard-filtering}
 
-以下のコードスニペットは、標準フィルタリングを使用した検索を示しています。次のコードスニペットのリクエストには、フィルタ条件といくつかの出力フィールドが含まれています。
+以下のコードスニペットは、標準フィルタリングを使用した検索を示しています。以下のコードスニペットのリクエストには、フィルタリング条件といくつかの出力フィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -213,29 +213,25 @@ for _, resultSet := range resultSets {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .filter("color like \"red%\" and likes > 50")
-                .output_fields(["color", "likes"])
-                .build()?,
-        )
-        .await?;
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .filter("color like \"red%\" and likes > 50")
+            .output_fields(["color", "likes"])
+            .build()?,
+    )
+    .await?;
 
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -364,7 +360,7 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-検索リクエストに含まれるフィルタ条件は `color like "red%" and likes > 50` です。これは and 演算子を使用して 2つの条件を指定しています。1つ目は、`color` フィールドの値が `red` で始まるエンティティを要求し、もう 1つは、`likes` フィールドの値が `50` より大きいエンティティを要求します。これらの要件を満たすエンティティは 2つだけです。top-K を `3` に設定すると、Zilliz Cloud はこれら 2つのエンティティとクエリベクトルとの距離を計算し、それらを検索結果として返します。
+検索リクエストに含まれるフィルタリング条件は `color like "red%" and likes > 50` です。これは and 演算子を使用して 2 つの条件を含めています。1 つ目は、`color` フィールドの値が `red` で始まるエンティティを要求し、2 つ目は、`likes` フィールドの値が `50` より大きいエンティティを要求します。これらの要件を満たすエンティティは 2 つだけです。top-K を `3` に設定すると、Zilliz Cloud はこれら 2 つのエンティティとクエリベクトルとの距離を計算し、検索結果として返します。
 
 ```json
 [
@@ -393,7 +389,7 @@ zilliz vector search \
 
 ### 反復フィルタリングを使用した検索\{#search-with-iterative-filtering}
 
-反復フィルタリングを使用してフィルタ付き検索を実行するには、次のようにします。
+反復フィルタリングを使用してフィルタリング検索を実行するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -534,30 +530,26 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .filter("color like \"red%\" and likes > 50")
-                .output_fields(["color", "likes"])
-                .extra_params(HashMap::from([("hints".into(), "iterative_filter".into())]))
-                .build()?,
-        )
-        .await?;
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .filter("color like \"red%\" and likes > 50")
+            .output_fields(["color", "likes"])
+            .extra_params(HashMap::from([("hints".into(), "iterative_filter".into())]))
+            .build()?,
+    )
+    .await?;
 
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -609,15 +601,7 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-
-const res = await client.search({
+const filteredRes = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,

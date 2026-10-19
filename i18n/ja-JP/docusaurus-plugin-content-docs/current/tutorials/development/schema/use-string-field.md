@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` および `TEXT` フィールドで保存できます。本ページでは、名前、タグ、カテゴリ、外部 ID などの短く上限が定められた文字列メタデータ向けに設計された `VARCHAR` について説明します。 | Cloud"
+description: "Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` および `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く上限のある文字列メタデータを扱うために設計された `VARCHAR` について説明します。 | Cloud"
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # VarChar フィールド
 
-Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` および `TEXT` フィールドで保存できます。本ページでは、名前、タグ、カテゴリ、外部 ID などの短く上限が定められた文字列メタデータ向けに設計された `VARCHAR` について説明します。
+Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` および `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く上限のある文字列メタデータを扱うために設計された `VARCHAR` について説明します。
 
-エンティティとともに保存および返却する必要がある、より長いソーステキスト、ドキュメントの一節、記事本文、チケット、ログなどには、代わりに `TEXT` フィールドを使用します。詳細は、[TEXT フィールド](./use-text-field) を参照してください。
+エンティティとともに保存および返却する必要がある、より長いソーステキスト、ドキュメントの抜粋、記事本文、チケット、ログには、代わりに `TEXT` フィールドを使用します。詳細については、[TEXT フィールド](./use-text-field) を参照してください。
 
-`VARCHAR` フィールドを定義する際には、2 つのパラメーターが必須です。
+`VARCHAR` フィールドを定義する際、次の 2 つのパラメーターが必須です。
 
 - `datatype` を `DataType.VARCHAR` に設定します。
 
-- `max_length` を指定します。これは、`VARCHAR` フィールドが保存できる最大バイト数を定義します。`max_length` の有効範囲は 1～65,535 です。
+- `VARCHAR` フィールドが保存できる最大バイト数を定義する `max_length` を指定します。`max_length` の有効範囲は 1～65,535 です。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud は、`VARCHAR` フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を文字列値に設定します。詳細は、[Null 許容とデフォルト](./nullable-fields) を参照してください。
+Zilliz Cloud は、`VARCHAR` フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を文字列値に設定します。詳細については、[Null 許容とデフォルト値](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ## VARCHAR フィールドを追加する\{#add-varchar-field}
 
-Zilliz Cloud クラスターで短く上限が定められた文字列メタデータを保存するには、コレクションスキーマで `VARCHAR` フィールドを定義します。以下は、2 つの `VARCHAR` フィールドを持つコレクションスキーマを定義する例です。
+Zilliz Cloud クラスターに短く上限のある文字列メタデータを保存するには、コレクションスキーマで `VARCHAR` フィールドを定義します。以下は、2 つの `VARCHAR` フィールドを含むコレクションスキーマを定義する例です。
 
 - `varchar_field1`: 最大 100 バイトを保存し、null 値を許容し、デフォルト値は `"Unknown"` です。
 
@@ -47,7 +47,7 @@ Zilliz Cloud クラスターで短く上限が定められた文字列メタデ�
 
 <Admonition type="info" title="Notes">
 
-スキーマを定義する際に `enable_dynamic_field=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理が複雑になり、パフォーマンスに影響する可能性があります。詳細は、[動的フィールド](./enable-dynamic-field) を参照してください。
+スキーマを定義するときに `enable_dynamic_field=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[動的フィールド](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -184,46 +184,41 @@ schema.WithField(entity.NewField().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field1")
+            .data_type(DataType::VarChar)
+            .max_length(100)
+            .nullable(true)
+            .default_value(DefaultValue::String("Unknown".to_string())),
     )
-    .await?;
-
-    let schema = CollectionSchema::new()
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field1")
-                .data_type(DataType::VarChar)
-                .max_length(100)
-                .nullable(true)
-                .default_value(DefaultValue::String("Unknown".to_string())),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field2")
-                .data_type(DataType::VarChar)
-                .max_length(200)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-
-    Ok(())
-}
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field2")
+            .data_type(DataType::VarChar)
+            .max_length(200)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>
@@ -343,9 +338,9 @@ export schema="{
 
 ## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックス作成は、検索とクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、インデックス作成はベクトルフィールドでは必須ですが、スカラーフィールドでは任意です。
+インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` にインデックスを作成します。どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Milvus がデータタイプに基づいて最適なインデックスを自動的に選択します。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` に、いずれも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -397,6 +392,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
@@ -408,6 +410,8 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_fiel
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let indexes = vec![
     IndexParam::new()
         .field_name("varchar_field1")
@@ -494,6 +498,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -507,6 +513,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
@@ -527,6 +539,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -642,6 +656,13 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 column1, _ := column.NewNullableColumnVarChar("varchar_field1",
     []string{"Product A", "Product B", "Product C", "Unknown", ""},
     []bool{true, true, false, true, false, true, true})
@@ -673,6 +694,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .insert(
         InsertRequest::builder()
@@ -828,11 +851,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルター式を使用したクエリ\{#query-with-filter-expressions}
+## フィルター式を使用してクエリを実行する\{#query-with-filter-expressions}
 
 エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`varchar_field1` が文字列 `"Product A"` に一致するエンティティを取得するには、以下のとおりです。
+`varchar_field1` が文字列 `"Product A"` に一致するエンティティを取得するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -862,6 +885,9 @@ print(res)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
 
 String filter = "varchar_field1 == \"Product A\"";
 QueryResp resp = client.query(QueryReq.builder()
@@ -882,6 +908,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "varchar_field1 == \"Product A\""
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -904,6 +936,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData(
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -974,7 +1008,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`varchar_field2` が null であるエンティティを取得するには、以下のとおりです。
+`varchar_field2` が null であるエンティティを取得するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1005,6 +1039,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "varchar_field2 is null";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1029,6 +1067,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "varchar_field2 is null"
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1046,6 +1090,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -1116,7 +1162,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`varchar_field1` の値が `"Unknown"` であるエンティティを取得するには、以下の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、期待される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されたエンティティ、または `varchar_field1` が null に設定されたエンティティが含まれます。
+`varchar_field1` の値が `"Unknown"` であるエンティティを取得するには、次の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、期待される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されているエンティティ、または `varchar_field1` が null に設定されているエンティティが含まれます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1146,6 +1192,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "varchar_field1 == \"Unknown\"";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1169,6 +1219,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "varchar_field1 == \"Unknown\""
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1186,6 +1242,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -1294,6 +1352,8 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 String filter = "varchar_field2 == \"Best seller\"";
 SearchResp resp = client.search(SearchReq.builder()
@@ -1317,6 +1377,15 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "varchar_field2 == \"Best seller\""
 
@@ -1348,6 +1417,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .search(
         SearchRequest::builder()
