@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 ガウス減衰（正規減衰とも呼ばれます）は、検索結果に対して最も自然に感じられる調整を行います。距離が離れるにつれて徐々にぼやける人間の視覚のように、ガウス減衰は、アイテムが理想的なポイントから離れるにつれて関連性をやさしく低下させる、滑らかなベル型の曲線を作り出します。このアプローチは、好ましい範囲をわずかに外れたアイテムに厳しくペナルティを与えることなく、それでいて遠く離れたアイテムの関連性はしっかり下げたい場合に最適です。
 
-他の減衰ランカーとは異なり、次のとおりです。
+他の減衰ランカーとは次の点で異なります。
 
 - 指数減衰は最初に急激に低下し、より強い初期ペナルティを生み出します。
 
@@ -33,16 +33,16 @@ import TabItem from '@theme/TabItem';
 
 ## ガウス減衰を使用する場合\{#when-to-use-gaussian-decay}
 
-ガウス減衰は、特に次のような用途で効果を発揮します。
+ガウス減衰は、特に次の用途で効果を発揮します。
 
-| ユースケース | 例 | ガウス減衰が効果的な理由 |
+| ユースケース | 例 | ガウス減衰が効果を発揮する理由 |
 | --- | --- | --- |
 | 位置ベースの検索 | レストラン検索、店舗検索 | 距離の関連性に対する人間の自然な知覚を模倣します。 |
 | コンテンツ推薦 | 公開日に基づく記事の提案 | コンテンツが古くなるにつれて関連性が徐々に低下します。 |
 | 商品一覧 | 目標価格に近いアイテム | 価格が目標から外れるにつれて関連性が滑らかに低下します。 |
 | 専門性のマッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価します。 |
 
-厳しいペナルティや明確なカットオフを伴わずに自然な関連性の低下が必要なアプリケーションでは、ガウス減衰が最適な選択肢である可能性が高いです。
+アプリケーションで、厳しいペナルティや厳格なカットオフを伴わずに自然な関連性の低下が求められる場合、ガウス減衰が最適な選択肢となる可能性が高いです。
 
 ## ベルカーブの原理\{#bell-curve-principle}
 
@@ -54,11 +54,11 @@ import TabItem from '@theme/TabItem';
 
 - `origin`（0 km）：現在地であり、関連性が最大値（1.0）になる場所です。
 
-- `offset`（±300 m）：「満点ゾーン」です。300 メートル以内にあるすべてのレストランが完全な関連性スコア（1.0）を維持することで、非常に近い候補がわずかな距離差によって不必要にペナルティを受けないようにします。
+- `offset`（±300 m）：現在地の周囲の「満点ゾーン」です。300 メートル以内にあるすべてのレストランが完全な関連性スコア（1.0）を維持することで、非常に近い候補がわずかな距離差によって不必要にペナルティを受けないようにします。
 
 - `scale`（±2 km）：関連性が decay 値まで低下する距離です。ちょうど 2 キロメートル離れたレストランの関連性スコアは半分（0.5）になります。
 
-- `decay`（0.5）：scale 距離におけるスコアです。このパラメーターは、距離に応じてスコアがどれだけ速く低下するかを本質的に制御します。
+- `decay`（0.5）：scale 距離におけるスコアです。このパラメーターは、距離に応じてスコアがどの程度速く低下するかを本質的に制御します。
 
 曲線からわかるように、2 km を超えたレストランは関連性が引き続き低下しますが、完全にゼロになることはありません。4～5 キロメートル離れたレストランであっても最小限の関連性は維持されるため、優れていても遠いレストランも検索結果に表示され続けます（ただし順位は低くなります）。
 
@@ -78,11 +78,11 @@ $$
 \sigma^2 = -\frac{scale^2}{2 \cdot \ln(decay)}
 $$
 
-これを平易な言葉で分解すると、次のようになります。
+これを平易な言葉で説明すると、次のとおりです。
 
 1. フィールド値が origin からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$
 
-1. offset（存在する場合）を差し引きますが、ゼロを下回ることはありません：$\max(0, distance - offset)$
+1. offset を差し引きます（存在する場合）。ただし、ゼロを下回ることはありません：$\max(0, distance - offset)$
 
 1. この調整後の距離を二乗します：$(adjusted\_distance)^2$
 
@@ -90,21 +90,21 @@ $$
 
 1. 負の指数を取ります。これにより 0 から 1 の間の値が得られます：$\exp(-value)$
 
-$\sigma^2$ の計算は、scale と decay のパラメーターをガウス分布の分散（標準偏差の二乗）に変換します。これにより、この関数に特徴的なベル型の形状が得られます。
+$\sigma^2$ の計算は、scale と decay のパラメーターをガウス分布の標準偏差の二乗に変換します。これにより、この関数に特徴的なベル型の形状が得られます。
 
 ## ガウス減衰を使用する\{#use-gaussian-decay}
 
-ガウス減衰は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
+ガウス減衰は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
 <Admonition type="info" title="Notes">
 
-減衰関数を使用する前に、まず、減衰の計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データの挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking).
+減衰関数を使用する前に、減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションをまず作成する必要があります。コレクションの設定、スキーマ定義、データの挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
 ### 減衰ランカーを作成する\{#create-a-decay-ranker}
 
-コレクションに数値フィールド（この例では、ユーザーからの距離をメートル単位で表す `distance`）を設定したら、ガウス減衰ランカーを作成します。
+コレクションに数値フィールドを設定したら（この例では、ユーザーからの距離をメートル単位で表す `distance`）、ガウス減衰ランカーを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -134,6 +134,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("restaurant_distance_decay")
@@ -151,6 +152,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("restaurant_distance_decay").
     WithType(entity.FunctionTypeRerank).
@@ -294,7 +297,12 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "restaurant_db", 10,

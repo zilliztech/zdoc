@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Hugging Face の埋め込みモデルを使用するには、通常、アプリケーションが認証情報を管理し、モデルを個別に呼び出し、挿入データと検索クエリに対して一貫した埋め込みを生成する必要があります。Hugging Face モデルプロバイダー統合と Text Embedding Function を使用すると、Zilliz Cloud は挿入時と検索時に生テキストをベクトルに変換します。 | Cloud"
+description: "Hugging Face の埋め込みモデルを使用するには、通常、アプリケーション側で認証情報を管理し、モデルを個別に呼び出し、挿入データと検索クエリに対して一貫した埋め込みを生成する必要があります。Hugging Face モデルプロバイダーの統合とテキスト埋め込み関数を使用すると、Zilliz Cloud は挿入時と検索時に生のテキストをベクトルに変換します。 | Cloud"
 type: origin
 token: ETsNwO7T0iR5GDkvuMxcJG7JnIb
 sidebar_position: 4
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Hugging Face
 
-Hugging Face の埋め込みモデルを使用するには、通常、アプリケーションが認証情報を管理し、モデルを個別に呼び出し、挿入データと検索クエリに対して一貫した埋め込みを生成する必要があります。[Hugging Face モデルプロバイダー統合](./integrate-with-model-providers) と Text Embedding Function を使用すると、Zilliz Cloud は挿入時と検索時に生テキストをベクトルに変換します。
+Hugging Face の埋め込みモデルを使用するには、通常、アプリケーション側で認証情報を管理し、モデルを個別に呼び出し、挿入データと検索クエリに対して一貫した埋め込みを生成する必要があります。[Hugging Face モデルプロバイダーの統合](./integrate-with-model-providers)とテキスト埋め込み関数を使用すると、Zilliz Cloud は挿入時と検索時に生のテキストをベクトルに変換します。
 
 ## 仕組み\{#how-it-works}
 
@@ -29,19 +29,19 @@ Hugging Face の埋め込みモデルを使用するには、通常、アプリ�
 
 ワークフローは 3 つのステップで構成されます。
 
-1. **生テキストを送信します。** アプリケーションは、挿入リクエストまたは検索リクエストで生テキストを提供します。
+1. **生のテキストを送信します。** アプリケーションは、挿入または検索リクエストで生のテキストを提供します。
 
-1. **埋め込みを生成します。** Text Embedding Function は `integration_id` を使用して Hugging Face モデルプロバイダー統合を参照し、`model_name` でモデルを選択します。Zilliz Cloud は、[Feature Extraction](https://huggingface.co/docs/inference-providers/en/tasks/feature-extraction) タスクのために `hf-inference` を介してテキストを Hugging Face に送信します。
+1. **埋め込みを生成します。** テキスト埋め込み関数は、`integration_id` を使用して Hugging Face モデルプロバイダーの統合を参照し、`model_name` を使用してモデルを選択します。Zilliz Cloud は、[Feature Extraction](https://huggingface.co/docs/inference-providers/en/tasks/feature-extraction) タスクのために `hf-inference` を通じてテキストを Hugging Face に送信します。
 
-1. **埋め込みを使用します。** Hugging Face は浮動小数点の埋め込みベクトルを返します。挿入時には、Zilliz Cloud はそのベクトルを Function の出力フィールドに保存します。検索時には、Zilliz Cloud はそのベクトルをクエリベクトルとして使用します。
+1. **埋め込みを使用します。** Hugging Face は浮動小数点の埋め込みベクトルを返します。挿入時、Zilliz Cloud はベクトルを関数の出力フィールドに格納します。検索時、Zilliz Cloud はベクトルをクエリベクトルとして使用します。
 
-挿入と検索には同じ Function 構成が使用されるため、両方の操作でモデルと推論パラメーターが一貫します。
+挿入と検索には同じ関数構成が使用されるため、両方の操作でモデルと推論パラメーターが一貫した状態に保たれます。
 
 ## モデルの互換性\{#model-compatibility}
 
-Hugging Face モデルを Text Embedding Function で使用するには、モデルが [Feature Extraction](https://huggingface.co/docs/inference-providers/tasks/feature-extraction#api-specification) 機能を備え、構成済みの [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 統合を通じて埋め込みを正常に返す必要があります。Function の出力フィールドは、`dim` がモデルの埋め込み次元と一致する `FLOAT_VECTOR` フィールドである必要があります。
+Hugging Face モデルをテキスト埋め込み関数で使用するには、そのモデルに [Feature Extraction](https://huggingface.co/docs/inference-providers/tasks/feature-extraction#api-specification) 機能があり、構成された [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 統合を通じて埋め込みを正常に返す必要があります。関数の出力フィールドは、`dim` がモデルの埋め込み次元と一致する `FLOAT_VECTOR` フィールドである必要があります。
 
-以下のモデルは、記載された日付に Zilliz Cloud との互換性テストに合格しました。
+次のモデルは、記載された日付に Zilliz Cloud との互換性テストに合格しました。
 
 | モデル | 機能 | 次元 | 最終テスト日 |
 | --- | --- | --- | --- |
@@ -54,9 +54,9 @@ Hugging Face モデルを Text Embedding Function で使用するには、モデ
 
 <Admonition type="info" title="Notes">
 
-この表は、互換性のあるモデルの完全なリストではありません。記載されていないモデルでも、統合と互換性がある場合があります。
+この表は互換性のあるモデルの完全なリストではありません。記載されていないモデルでも、統合と互換性がある場合があります。
 
-互換性の結果は、記載された日付時点のテストを反映しています。Zilliz Cloud は、モデルが [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) を通じて引き続き利用可能かどうか、また、お客様の安定性、レイテンシ、出力品質の要件を満たすかどうかを管理するものではありません。Zilliz Cloud は、過去の結果を定期的に再テストすることを約束するものではありません。本番環境で使用する前に、選択したモデルを Hugging Face で確認し、ワークロードに対して評価してください。
+互換性の結果は、記載された日付のテストを反映しています。Zilliz Cloud は、モデルが引き続き [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 経由で利用可能であるか、安定性、レイテンシ、出力品質に関する要件を満たしているかを管理するものではありません。Zilliz Cloud は、過去の結果を定期的に再テストすることを約束するものではありません。実稼働環境で使用する前に、Hugging Face で選択したモデルを確認し、ワークロードに適しているか評価してください。
 
 </Admonition>
 
@@ -64,15 +64,15 @@ Hugging Face モデルを Text Embedding Function で使用するには、モデ
 
 Hugging Face のテキスト埋め込みを使用する前に、以下を確認してください。
 
-- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーすること。**Provider** を `hf-inference` に設定すること。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
+- Hugging Face モデルプロバイダーの統合を作成し、統合 ID をコピーして、**Provider** を `hf-inference` に設定すること。手順の詳細は [Integrate with Model Providers](./integrate-with-model-providers) に記載されていること。
 
-- モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認すること。`hf-inference` が現在そのモデルを `feature-extraction` タスク用に提供していることを確認すること。
+- モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認して、`hf-inference` が現在 `feature-extraction` タスク用にそのモデルを提供していることを検証すること。
 
-- モデルの出力次元を確認すること。Function の出力フィールドは、`dim` がモデルの出力と一致する `FLOAT_VECTOR` フィールドである必要があります。カスタム出力次元はサポートされていません。
+- カスタム出力次元はサポートされていないため、モデルの出力次元を確認し、関数の出力フィールドが `dim` とモデル出力が一致する `FLOAT_VECTOR` フィールドであることを検証すること。
 
-例では `BAAI/bge-small-en-v1.5` を使用しています。これは執筆時点で `hf-inference` を通じて 384 次元の埋め込みを生成します。このモデルは構成を説明するためにのみ使用されており、Zilliz Cloud による推奨や認定ではありません。
+この例では `BAAI/bge-small-en-v1.5` を使用しています。このモデルは執筆時点で `hf-inference` を通じて 384 次元の埋め込みを生成します。このモデルは構成を説明するためだけに使用されており、Zilliz Cloud による推奨または認定を示すものではありません。
 
-## Hugging Face テキスト埋め込みを使用する\{#use-hugging-face-text-embedding}
+## Hugging Face のテキスト埋め込みを使用する\{#use-hugging-face-text-embedding}
 
 ### ステップ 1: テキスト埋め込み関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
 
@@ -82,11 +82,11 @@ Hugging Face のテキスト埋め込みを使用する前に、以下を確認�
 
 - 各エンティティを一意に識別するプライマリフィールド。
 
-- 生テキストを保存する `VARCHAR` フィールド。
+- 生のテキストを格納する `VARCHAR` フィールド。
 
-- 次元が選択したモデルの出力次元と一致する `FLOAT_VECTOR` フィールド。
+- 選択したモデルの出力次元と一致する次元を持つ `FLOAT_VECTOR` フィールド。
 
-次の例では、384 次元のベクトルを生成する `BAAI/bge-small-en-v1.5` を使用します。
+次の例では `BAAI/bge-small-en-v1.5` を使用しています。このモデルは 384 次元のベクトルを生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -172,6 +172,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
     WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
@@ -306,6 +308,8 @@ schema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("hugging_face_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -404,18 +408,18 @@ FUNCTION='{
 </TabItem>
 </Tabs>
 
-次の表は、`params` でサポートされるすべてのエントリについて説明します。Hugging Face のリクエストオプションは [Feature Extraction API specification](https://huggingface.co/docs/inference-providers/en/tasks/feature-extraction#api-specification) に従います。`provider`、`model_name`、`integration_id`、および `max_client_batch_size` は Zilliz Cloud 統合を構成します。
+次の表は、`params` でサポートされるすべてのエントリを説明しています。Hugging Face のリクエストオプションは [Feature Extraction API specification](https://huggingface.co/docs/inference-providers/en/tasks/feature-extraction#api-specification) に従います。`provider`、`model_name`、`integration_id`、および `max_client_batch_size` は Zilliz Cloud 統合を構成します。
 
 | パラメーター | 必須 | 説明 |
 | --- | --- | --- |
 | `provider` | はい | Zilliz Cloud のモデルプロバイダーです。この値には `huggingface` を設定します。 |
-| `model_name` | はい | `hf-inference` を通じて `feature-extraction` タスク用に現在提供されているモデルの Hugging Face モデル ID です。 |
-| `integration_id` | はい | Hugging Face モデルプロバイダー統合の ID です。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。 |
-| `normalize` | いいえ | 正規化された埋め込みを要求するかどうかです。省略した場合、Zilliz Cloud は Hugging Face リクエストでこのオプションを設定しません。動作は選択したモデルに従います。 |
-| `prompt_name` | いいえ | 選択したモデルの Sentence Transformers 構成で定義されたプロンプトの名前です。Hugging Face は、エンコード前に、対応するプロンプトテキストを先頭に付加します。省略した場合、プロンプトは要求されません。 |
-| `truncate` | いいえ | 入力がモデルのサポートする長さを超えた場合に切り捨てを要求するかどうかです。省略した場合、Zilliz Cloud は Hugging Face リクエストでこのオプションを設定しません。動作は選択したモデルに従います。 |
+| `model_name` | はい | 現在 `feature-extraction` タスク用に `hf-inference` 経由で提供されているモデルの Hugging Face Model ID です。 |
+| `integration_id` | はい | Hugging Face モデルプロバイダー統合の ID です。手順の詳細は [Integrate with Model Providers](./integrate-with-model-providers) を参照してください。 |
+| `normalize` | いいえ | 正規化された埋め込みをリクエストするかどうかです。省略した場合、Zilliz Cloud は Hugging Face リクエストでこのオプションを設定しません。動作は選択したモデルに従います。 |
+| `prompt_name` | いいえ | 選択したモデルの Sentence Transformers 構成で定義されているプロンプトの名前です。Hugging Face はエンコード前に該当するプロンプトテキストを先頭に追加します。省略した場合、プロンプトはリクエストされません。 |
+| `truncate` | いいえ | 入力がモデルのサポートする長さを超えた場合に切り捨てをリクエストするかどうかです。省略した場合、Zilliz Cloud は Hugging Face リクエストでこのオプションを設定しません。動作は選択したモデルに従います。 |
 | `truncation_direction` | いいえ | Hugging Face が入力を切り捨てる方向です。サポートされる値は `left` と `right` です。 |
-| `max_client_batch_size` | いいえ | 1 回のリクエストで Hugging Face に送信される入力テキストの最大数です。デフォルト値は `128` です。値は `0` より大きい必要があります。 |
+| `max_client_batch_size` | いいえ | 1 回のリクエストで Hugging Face に送信する入力テキストの最大数です。デフォルト値は `128` です。値は `0` より大きい必要があります。 |
 
 #### インデックスを構成する\{#configure-the-index}
 
@@ -440,6 +444,8 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -454,6 +460,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption := milvusclient.NewCreateIndexOption("hugging_face_demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -462,6 +475,8 @@ indexOption := milvusclient.NewCreateIndexOption("hugging_face_demo", "dense", i
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -475,6 +490,9 @@ let index_params = vec![
 <TabItem value='c++'>
 
 ```c++
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
 };
@@ -511,7 +529,7 @@ indexParams='{
 
 #### コレクションを作成する\{#create-the-collection}
 
-スキーマとインデックスパラメーターを使用してコレクションを作成します。
+スキーマとインデックスパラメーターを指定してコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -544,6 +562,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("hugging_face_demo", schema).WithIndexOptions(indexOption))
 if err != nil {
     log.Fatal(err)
@@ -555,6 +579,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -571,6 +597,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("hugging_face_demo")
                                     .WithIndexes(std::move(indexes))
@@ -645,11 +675,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-コレクションは、`dense` フィールドに 384 次元のベクトルを書き込むテキスト埋め込み関数とともに作成されます。
+コレクションは、384 次元のベクトルを `dense` フィールドに書き込むテキスト埋め込み関数とともに作成されます。
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-ベクトルを指定せずに生テキストを挿入します。Zilliz Cloud は Hugging Face モデルを呼び出し、生成された埋め込みを `dense` フィールドに書き込みます。
+ベクトルを指定せずに生のテキストを挿入します。Zilliz Cloud は Hugging Face モデルを呼び出し、生成された埋め込みを `dense` フィールドに書き込みます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -682,12 +712,14 @@ client.insert(
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 1, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
         gson.fromJson("{\"id\": 2, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 3, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 3, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
 );
 
 client.insert(InsertReq.builder()
@@ -701,6 +733,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("hugging_face_demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -716,6 +754,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -739,6 +778,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::EntityRows data = {
     {{"id", 1}, {"document", "Milvus simplifies semantic search through embeddings."}},
     {{"id", 2}, {"document", "Vector embeddings convert text into searchable numeric data."}},
@@ -792,7 +835,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-挿入操作では生テキストを保存し、各エンティティに対して 1 つの埋め込みを生成します。
+挿入操作は生のテキストを格納し、各エンティティに対して 1 つの埋め込みを生成します。
 
 ### ステップ 3: テキストで検索する\{#step-3-search-with-text}
 
@@ -821,6 +864,8 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("hugging_face_demo")
@@ -842,6 +887,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "hugging_face_demo",
     3,
@@ -862,6 +915,8 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let response = client
     .search(
         SearchRequest::builder()
@@ -880,6 +935,9 @@ let response = client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto request = milvus::SearchRequest()
                    .WithCollectionName("hugging_face_demo")
                    .AddEmbeddedText("How does Milvus handle semantic search?")
@@ -930,20 +988,20 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-検索結果には、クエリテキストに最も関連するドキュメントが、コサイン類似度の順に含まれます。
+検索結果には、クエリテキストに最も関連するドキュメントがコサイン類似度順に含まれます。
 
 ## トラブルシューティング\{#troubleshooting}
 
 ### feature-extraction タスクでモデルを利用できない\{#the-model-is-unavailable-for-the-feature-extraction-task}
 
-Hugging Face でモデルページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在そのモデルを提供しており、モデルが `feature-extraction` をサポートしていることを確認してください。いずれかの要件が満たされていない場合は、別のモデルを選択し、そのモデルページで確認します。モデル互換性の表は完全なリストではなく、記載されていないモデルでも互換性がある場合があります。モデルを変更する場合は、Function の出力フィールドの次元が置き換え後のモデルと一致することを確認してください。
+Hugging Face でモデルページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在そのモデルを提供していること、およびモデルが `feature-extraction` をサポートしていることを確認してください。いずれかの要件が満たされていない場合は、別のモデルを選択し、そのモデルページで確認します。モデルの互換性の表は完全なリストではなく、記載されていないモデルでも互換性がある場合があります。モデルを変更する場合は、Function の出力フィールドの次元が置き換え後のモデルと一致していることを確認してください。
 
 ### 返されたベクトルの次元がスキーマと一致しない\{#the-returned-vector-dimension-does-not-match-the-schema}
 
-モデルの出力次元を確認し、Function の `FLOAT_VECTOR` 出力フィールドに構成されている `dim` と比較します。異なる次元のモデルを使用するには、互換性のあるベクトルフィールドまたはコレクションを作成します。カスタム出力次元はサポートされていません。
+モデルの出力次元を確認し、Function の `FLOAT_VECTOR` 出力フィールドに構成されている `dim` と比較します。次元が異なるモデルを使用するには、互換性のあるベクトルフィールドまたはコレクションを作成します。カスタム出力次元はサポートされていません。
 
 ## 次のステップ\{#next-steps}
 
-Functions の一般的な情報については、[Function の概要](./function-and-model-inference-overview) を参照してください。
+Functions の一般的な情報については、[Function Overview](./function-and-model-inference-overview) を参照してください。
 
 Hugging Face Sentence Similarity スコアを使用してベクトル検索の候補を再ランク付けするには、[Hugging Face Ranker](./hugging-face-ranker) を参照してください。

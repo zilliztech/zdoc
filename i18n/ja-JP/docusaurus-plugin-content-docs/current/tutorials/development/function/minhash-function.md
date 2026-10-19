@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "MinHash 関数は、生のテキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なニアデュプリケート検出とドキュメントの重複排除を可能にします。 | Cloud"
+description: "MinHash 関数は、生テキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なデータセットで高速な近似重複検出とドキュメントの重複排除を可能にします。 | Cloud"
 type: origin
 token: EAwdw2ZbtiBKttk66FTctUebn7f
 sidebar_position: 4
@@ -21,51 +21,51 @@ import TabItem from '@theme/TabItem';
 
 # MinHash 関数
 
-**MinHash 関数**は、生のテキストを、ドキュメント間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を近似する**バイナリベクトル**に変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なニアデュプリケート検出とドキュメントの重複排除を高速に実現します。
+**MinHash 関数**は、生テキストを、ドキュメント間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を近似する**バイナリベクトル**に変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なデータセットで高速な近似重複検出とドキュメントの重複排除を可能にします。
 
-組み込み関数として、MinHash は Zilliz Cloud 内で実行され、外部のモデル推論や前処理を必要としません。生のテキストを挿入すると、Zilliz Cloud が MinHash シグネチャベクトルを自動的に生成します。
+MinHash は組み込み関数として Zilliz Cloud 内で実行され、外部モデルによる推論や前処理は必要ありません。生テキストを挿入すると、Zilliz Cloud が MinHash シグネチャベクトルを自動的に生成します。
 
-## 制限事項\{#limits}
+## 制限\{#limits}
 
-- 出力フィールドは、各 MinHash シグネチャが 32 ビットのハッシュ値であるため、`dim % 32 == 0` を満たす次元の `BINARY_VECTOR` である必要があります。
+- 出力フィールドは `BINARY_VECTOR` であり、その次元が `dim % 32 == 0` を満たす必要があります。これは、各 MinHash シグネチャが 32 ビットのハッシュ値であるためです。
 
 - バイナリベクトルフィールドの `dim` は `32 * num_hashes` と等しくなければなりません。一致しない場合はエラーになります。
 
-- MinHash 関数の出力で `MINHASH_LSH` インデックスを使用する場合、`mh_element_bit_width` を `32` に設定する必要があります。
+- MinHash 関数の出力に `MINHASH_LSH` インデックスを使用する場合、`mh_element_bit_width` を `32` に設定する必要があります。
 
 ## MinHash の仕組み\{#how-minhash-works}
 
 <details>
 
-<summary>仕組みを確認するには展開してください</summary>
+<summary>展開して仕組みを確認する</summary>
 
-[MinHash](https://en.wikipedia.org/wiki/MinHash) は、集合間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を推定する局所性鋭敏型ハッシュ（LSH）手法です。Zilliz Cloud では、MinHash 関数は次のパイプラインに従います。入力として生のテキストを指定すると、Zilliz Cloud が出力としてバイナリベクトルを生成し、中間のすべてのステップを内部で処理します。
+[MinHash](https://en.wikipedia.org/wiki/MinHash) は、集合間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を推定する局所性鋭敏型ハッシュ手法です。Zilliz Cloud では、MinHash 関数は次のパイプラインに従います。入力として生テキストを指定すると、Zilliz Cloud が出力としてバイナリベクトルを生成し、すべての中間ステップを内部で処理します。
 
-ワークフロー全体は、ドキュメントの取り込みとクエリ処理の両方で使用される**共有テキスト処理パイプライン**と、それに続く保存と取得のフェーズ固有の操作で構成されます。
+全体のワークフローは、ドキュメントの取り込みとクエリ処理の両方で使用される**共有テキスト処理パイプライン**と、それに続く保存および取得のフェーズ固有の操作で構成されます。
 
 ![IaqkbFEh8oQgGSx6NsocFoSOnDo](https://zdoc-images.s3.us-west-2.amazonaws.com/iaqkbfeh8oqggsx6nsocfosondo.png "IaqkbFEh8oQgGSx6NsocFoSOnDo")
 
 ### 共有テキスト処理パイプライン\{#shared-text-processing-pipeline}
 
-ドキュメントの取り込みとクエリ処理はどちらも、同じ 4 段階の変換を通じて生のテキストを処理します。
+ドキュメントの取り込みとクエリ処理はどちらも、生テキストを同じ4段階の変換に通します。
 
-1. **テキスト分析**: テキストは [アナライザー](./analyzer-overview) によって処理されるか（`token_level` が `"word"` の場合）、そのまま使用されます（`token_level` が `"char"` の場合）。単語レベルのトークン化では、入力フィールドに構成されたアナライザーを適用してテキストをタームに分割します。たとえば、`"milvus is vector db"` は `["milvus", "is", "vector", "db"]` になります。
+1. **テキスト分析**: テキストは、（`token_level` が `"word"` の場合は）[アナライザー](./analyzer-overview) によって処理されるか、（`token_level` が `"char"` の場合は）そのまま使用されます。単語レベルのトークン化では、入力フィールドに設定されたアナライザーを適用してテキストを用語に分割します。たとえば、`"milvus is vector db"` は `["milvus", "is", "vector", "db"]` になります。
 
-1. **シングリング**: トークンは、`shingle_size` のサイズの重複する n-gram（シングル）に分割されます。たとえば、単語レベルで 3-gram の場合、トークン `["information", "retrieval", "is", "a", "field"]` は `["information retrieval is", "retrieval is a", "is a field"]` のようなシングルになります。
+1. **シングリング**: トークンは、サイズ `shingle_size` の重複する n-gram（シングル）に分割されます。たとえば、単語レベルで 3-gram を使用する場合、トークン `["information", "retrieval", "is", "a", "field"]` は `["information retrieval is", "retrieval is a", "is a field"]` のようなシングルになります。
 
-1. **MinHash シグネチャ生成**: 複数のハッシュ関数（H1、H2、...、Hn。ここで n = `num_hashes`）がシングルの集合に適用されます。各ハッシュ関数について、すべてのシングルにわたる最小のハッシュ値が選択されます。これらの最小値のコレクションが MinHash シグネチャを形成します。これは、元のドキュメントの Jaccard 類似度を近似する固定長の表現です。
+1. **MinHash シグネチャの生成**: 複数のハッシュ関数（H1、H2、...、Hn。ここで n = `num_hashes`）がシングルセットに適用されます。各ハッシュ関数について、すべてのシングルの中から最小のハッシュ値が選択されます。これらの最小値のコレクションが MinHash シグネチャを形成します。これは、元のドキュメントの Jaccard 類似度を近似する固定長の表現です。
 
-1. **バイナリベクトルエンコーディング**: 各シグネチャ値は 32 ビットのハッシュであり、シグネチャ全体は次元 `32 * num_hashes` の `BINARY_VECTOR` にパックされます。
+1. **バイナリベクトルエンコーディング**: 各シグネチャ値は 32 ビットのハッシュであり、シグネチャ全体が次元 `32 * num_hashes` の `BINARY_VECTOR` にパックされます。
 
 ### ドキュメントの取り込み\{#document-ingestion}
 
-挿入時には、共有パイプラインによって生成されたバイナリベクトルが `MINHASH_LSH` インデックスに保存されます。このインデックスは、類似したシグネチャを同じバケットにグループ化する LSH（Locality-Sensitive Hashing）テーブルを保持し、クエリ時に候補を高速に取得できるようにします。
+挿入時、共有パイプラインによって生成されたバイナリベクトルが `MINHASH_LSH` インデックスに保存されます。このインデックスは、類似したシグネチャを同じバケットにグループ化する LSH（Locality-Sensitive Hashing）テーブルを維持し、クエリ時に高速な候補の取得を可能にします。
 
 ### クエリ処理\{#query-processing}
 
-検索時には、クエリテキストが同じ共有パイプラインを経てバイナリベクトルを生成します。このベクトルは、`MINHASH_LSH` インデックスでの LSH ルックアップに使用され、類似している可能性の高い候補ペアを迅速に特定します。Jaccard リファインメントを使用しない場合、Zilliz Cloud は、推定 Jaccard 類似度でランク付けされていない LSH 候補を返します。Jaccard リファインメントを有効にすると、Zilliz Cloud は保存された生の MinHash シグネチャを使用して、推定 Jaccard 類似度で候補をランク付けし、上位 K 件の結果を返します。
+検索時、クエリテキストは同じ共有パイプラインを通ってバイナリベクトルを生成します。このベクトルは `MINHASH_LSH` インデックスでの LSH ルックアップに使用され、類似している可能性が高い候補ペアが迅速に特定されます。Jaccard リファインメントを使用しない場合、Zilliz Cloud は推定 Jaccard 類似度でランク付けされていない LSH 候補を返します。Jaccard リファインメントを有効にすると、Zilliz Cloud は保存された生の MinHash シグネチャを使用して、候補を推定 Jaccard 類似度でランク付けし、上位 K 件の結果を返します。
 
-両方のパスが同じ変換ロジックを共有しているため、内容が大きく重複する 2 つのドキュメントは類似した MinHash シグネチャを生成します。このため、ドキュメントの語順、書式、わずかな表現が異なる場合でも、この関数はニアデュプリケートの検出に効果を発揮します。
+両方のパスが同じ変換ロジックを共有するため、内容が大幅に重複する2つのドキュメントは類似した MinHash シグネチャを生成します。これにより、ドキュメントの単語順、書式、または軽微な表現が異なる場合でも、近似重複を見つけるための関数として効果を発揮します。
 
 </details>
 
@@ -73,29 +73,29 @@ import TabItem from '@theme/TabItem';
 
 MinHash 関数を使用する前に、コレクションスキーマに以下を含めるよう計画してください。
 
-- **生のコンテンツ用のテキストフィールド**
+- **生コンテンツ用のテキストフィールド**
 
-    コレクションには、生のテキストを格納する `VARCHAR` フィールドを含める必要があります。このフィールドは、MinHash 関数への入力として機能します。
+    コレクションには、生テキストを格納する `VARCHAR` フィールドを含める必要があります。このフィールドは、MinHash 関数への入力として機能します。
 
 - **テキストフィールド用のアナライザー**（単語レベルのトークン化を使用する場合）
 
-    `token_level` が `"word"`（デフォルト）に設定されている場合、テキストフィールドでアナライザーを有効にする必要があります。アナライザーは、シングリングの前にテキストをどのようにトークン化するかを定義します。デフォルトでは、Zilliz Cloud は `standard` アナライザーを使用します。別のアナライザーを構成するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
+    `token_level` が `"word"`（デフォルト）に設定されている場合、テキストフィールドでアナライザーを有効にする必要があります。アナライザーは、シングリングの前にテキストをトークン化する方法を定義します。デフォルトでは、Zilliz Cloud は `standard` アナライザーを使用します。別のアナライザーを設定するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
 
 - **MinHash 出力用のバイナリベクトルフィールド**
 
     コレクションには、MinHash 関数によって生成されたバイナリベクトルを格納する `BINARY_VECTOR` フィールドを含める必要があります。次元は `32 * num_hashes` と等しくなければなりません。
 
-## ステップ 1: MinHash 関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-minhash-function}
+## ステップ 1: MinHash 関数を使用したコレクションの作成\{#step-1-create-a-collection-with-a-minhash-function}
 
-MinHash 関数を使用するには、コレクションの作成時に定義します。この関数はコレクションスキーマの一部となり、データの挿入時と検索時に自動的に適用されます。
+MinHash 関数を使用するには、コレクションの作成時に定義します。関数はコレクションスキーマの一部となり、データの挿入時および検索時に自動的に適用されます。
 
-### スキーマフィールドを定義する\{#define-schema-fields}
+### スキーマフィールドの定義\{#define-schema-fields}
 
-コレクションスキーマには、少なくとも 3 つのフィールドを含める必要があります。
+コレクションスキーマには、少なくとも3つのフィールドを含める必要があります。
 
 - **プライマリフィールド**: コレクション内の各エンティティを一意に識別します。
 
-- **テキストフィールド**（`VARCHAR`）: 生のテキストドキュメントを格納します。Zilliz Cloud が MinHash シグネチャ生成のためにテキストを処理できるように、`enable_analyzer=True` を設定します。デフォルトでは、Zilliz Cloud はテキスト分析に `standard` アナライザーを使用します。別のアナライザーを構成するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
+- **テキストフィールド**（`VARCHAR`）: 生のテキストドキュメントを格納します。Zilliz Cloud が MinHash シグネチャの生成のためにテキストを処理できるよう、`enable_analyzer=True` を設定します。デフォルトでは、Zilliz Cloud はテキスト分析に `standard` アナライザーを使用します。別のアナライザーを設定するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
 
 - **バイナリベクトルフィールド**（`BINARY_VECTOR`）: MinHash 関数によって自動的に生成されたバイナリベクトルを格納します。次元は `32 * num_hashes` と等しくなければなりません。
 
@@ -246,11 +246,11 @@ fields='[
 </TabItem>
 </Tabs>
 
-### MinHash 関数を定義する\{#define-the-minhash-function}
+### MinHash 関数の定義\{#define-the-minhash-function}
 
 MinHash 関数は、分析済みのテキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。
 
-関数を定義してスキーマに追加します。
+関数を定義し、スキーマに追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -276,6 +276,7 @@ schema.add_function(minhash_function)
 
 ```java
 import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Collections;
 
 schema.addFunction(CreateCollectionReq.Function.builder()
@@ -293,6 +294,8 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("minhash_function").
     WithType(entity.FunctionTypeMinHash).
@@ -309,6 +312,8 @@ schema = schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema.add_function(
     Function::new()
         .name("minhash_function")
@@ -338,6 +343,8 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
 const functions = [
   {
     name: "minhash_function",
@@ -366,52 +373,52 @@ function='{
 </TabItem>
 </Tabs>
 
-**構成オプション**
+**設定オプション**
 
-MinHash 関数の `params` 辞書は、次のパラメーターを受け付けます。すべてのパラメーター名は**大文字と小文字を区別しません**。
+MinHash 関数の `params` ディクショナリは、次のパラメーターを受け入れます。すべてのパラメーター名は**大文字と小文字を区別しません**。
 
 <table>
    <tr>
      <th><p><strong>パラメーター</strong></p></th>
-     <th><p><strong>型</strong></p></th>
+     <th><p><strong>タイプ</strong></p></th>
      <th><p><strong>デフォルト</strong></p></th>
      <th><p><strong>説明</strong></p></th>
    </tr>
    <tr>
      <td><p><code>num_hashes</code></p></td>
      <td><p>int</p></td>
-     <td><p><code>dim / 32</code> から導出</p></td>
-     <td><p>シグネチャ生成用のハッシュ関数の数です。出力バイナリベクトルの次元は <code>32 &ast; num_hashes</code> と等しくなります。値を大きくすると類似度推定の分散が減少しますが、計算量が増加します。推奨: <code>256</code>（dim = 8192）。</p></td>
+     <td><p><code>dim / 32</code> から算出されます</p></td>
+     <td><p>シグネチャ生成に使用するハッシュ関数の数です。出力バイナリベクトルの次元は <code>32 &ast; num_hashes</code> と等しくなります。値を大きくすると類似度推定の分散が減少しますが、計算量が増加します。推奨値は <code>256</code>（dim = 8192）です。</p></td>
    </tr>
    <tr>
      <td><p><code>shingle_size</code></p></td>
      <td><p>int</p></td>
      <td><p><code>3</code></p></td>
-     <td><p>シングリングの N-gram サイズです。単語レベル: 通常 1〜3。文字レベル: 通常 2〜6。</p></td>
+     <td><p>シングリングに使用する N-gram のサイズです。単語レベルの場合は 1〜3 が一般的です。文字レベルの場合は 2〜6 が一般的です。</p></td>
    </tr>
    <tr>
      <td><p><code>hash_function</code></p></td>
      <td><p>str</p></td>
      <td><p><code>&quot;xxhash&quot;</code></p></td>
-     <td><p>使用するハッシュ関数です。オプション:</p><ul><li><p><code>&quot;xxhash&quot;</code>（高速）</p></li><li><p><code>&quot;sha1&quot;</code>（低速ですが衝突耐性が高くなります）。</p></li></ul></td>
+     <td><p>使用するハッシュ関数です。オプションは次のとおりです。</p><ul><li><p><code>&quot;xxhash&quot;</code>（高速）</p></li><li><p><code>&quot;sha1&quot;</code>（低速ですが、衝突耐性が高くなります）。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>token_level</code></p></td>
      <td><p>str</p></td>
      <td><p><code>&quot;word&quot;</code></p></td>
-     <td><p>トークン化のレベルです。オプション:</p><ul><li><p><code>&quot;word&quot;</code>: フィールドのアナライザーを使用してトークン化し、その後 n-gram シングリングを適用します。</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code>: 生の文字に直接 n-gram シングリングを適用します（アナライザーは使用しません）。</p></li></ul><p>単語レベルはより強力なセマンティクスと高い効率を提供しますが、言語固有のトークン化に依存します。文字レベルは言語に依存しませんが、より高次元のシングルを生成し、セマンティクスは弱くなります。</p></td>
+     <td><p>トークン化のレベルです。オプションは次のとおりです。</p><ul><li><p><code>&quot;word&quot;</code>: フィールドのアナライザーを使用してトークン化してから、n-gram シングリングを適用します。</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code>: 生の文字に対して直接 n-gram シングリングを適用します（アナライザーを使用しません）。</p></li></ul><p>単語レベルでは、より強い意味論と高い効率が得られますが、言語固有のトークン化に依存します。文字レベルは言語に依存しませんが、より高次元のシングルを生成し、意味論は弱くなります。</p></td>
    </tr>
    <tr>
      <td><p><code>seed</code></p></td>
      <td><p>int</p></td>
      <td><p><code>1234</code></p></td>
-     <td><p>MinHash 関数の初期化用のランダムシードです。</p></td>
+     <td><p>MinHash 関数の初期化に使用するランダムシードです。</p></td>
    </tr>
 </table>
 
-### インデックスを構成する\{#configure-the-index}
+### インデックスの設定\{#configure-the-index}
 
-MinHash バイナリベクトルに推奨されるインデックスタイプは `MINHASH_LSH` で、メトリクスタイプは `MHJACCARD` です。
+MinHash バイナリベクトルに推奨されるインデックスタイプは `MINHASH_LSH` で、メトリックタイプは `MHJACCARD` です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -474,6 +481,7 @@ indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vec
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let index_param = IndexParam::new()
@@ -504,6 +512,8 @@ index.AddExtraParam("with_raw_data", "true");
 <TabItem value='javascript'>
 
 ```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
 const indexParam = {
   field_name: "binary_vector",
   index_type: IndexType.MINHASH_LSH,
@@ -525,11 +535,11 @@ indexParams='[
 </TabItem>
 </Tabs>
 
-検索で Jaccard リファインメントを使用する場合は、`with_raw_data` を `True` に設定します。LSH ルックアップによって返された候補について推定 Jaccard 類似度を計算するには、生の MinHash シグネチャが必要です。
+検索で Jaccard リファインメントを使用する場合は、`with_raw_data` を `True` に設定します。LSH ルックアップによって返された候補の推定 Jaccard 類似度を計算するには、生の MinHash シグネチャが必要です。
 
-### コレクションを作成する\{#create-the-collection}
+### コレクションの作成\{#create-the-collection}
 
-上で定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
+上記で定義したスキーマとインデックスパラメーターを使用して、コレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -547,6 +557,7 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Collections;
 
 client.createCollection(CreateCollectionReq.builder()
@@ -561,6 +572,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("dedup_collection", schema).
     WithIndexOptions(indexOption))
 if err != nil {
@@ -573,6 +590,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("dedup_collection")
     .schema(schema)
@@ -645,9 +664,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 2: ドキュメントを挿入する\{#step-2-insert-documents}
+## ステップ 2: ドキュメントの挿入\{#step-2-insert-documents}
 
-コレクションを設定したら、テキストデータを挿入します。生のテキストを指定するだけで、MinHash 関数が各ドキュメントのバイナリベクトルを自動的に生成します。
+コレクションを設定したら、テキストデータを挿入します。生テキストを指定するだけで、MinHash 関数が各ドキュメントのバイナリベクトルを自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -698,6 +717,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("dedup_collection").
     WithVarcharColumn("document_content", []string{
         "information retrieval is a field of study that helps users find relevant information in large datasets",
@@ -714,6 +739,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let insert_req = InsertRequest::builder()
@@ -788,9 +814,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 3: MinHash で検索する\{#step-3-search-with-minhash}
+## ステップ 3: MinHash による検索\{#step-3-search-with-minhash}
 
-データを挿入したら、生のテキストクエリを指定してニアデュプリケートドキュメントを検索します。Zilliz Cloud は各クエリを MinHash バイナリベクトルに自動的に変換します。推定 Jaccard 類似度で LSH 候補をランク付けするには、Jaccard リファインメントを有効にします。
+データを挿入したら、生テキストのクエリを指定して近似重複ドキュメントを検索します。Zilliz Cloud は各クエリを MinHash バイナリベクトルに自動的に変換します。Jaccard リファインメントを有効にして、推定 Jaccard 類似度によって LSH 候補をランク付けします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -858,8 +884,10 @@ for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
 ```go
 import (
     "fmt"
+    "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -884,6 +912,7 @@ for _, rs := range results {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let search_req = SearchRequest::builder()
@@ -968,13 +997,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`mh_search_with_jaccard` を `True` に設定すると、Jaccard リファインメントが有効になります。`refine_k` は、リファインメントに使用される候補プールの容量を制御します。Zilliz Cloud は `max(refine_k, limit)` を容量として使用しますが、LSH ルックアップが返す一致数が少ない場合は、より少ない候補のみをリファインすることがあります。`refine_k` を大きくすると、追加の計算と引き換えに結果の品質を向上させることができます。
+Jaccard リファインメントを有効にするには、`mh_search_with_jaccard` を `True` に設定します。`refine_k` は、リファインメントに使用する候補プールの容量を制御します。Zilliz Cloud は `max(refine_k, limit)` を容量として使用しますが、LSH ルックアップで一致する候補が少ない場合は、リファインメント対象の候補が少なくなることがあります。`refine_k` を大きくすると、追加の計算コストと引き換えに結果の品質を向上させることができます。
 
 ## 次のステップ\{#whats-next}
 
-- [全文検索](./full-text-search): ニアデュプリケート検出の代わりに、字句的な関連性ランキングに BM25 を使用します。
+- [Full Text Search](./full-text-search): 近似重複検出の代わりに、BM25 を字句関連性のランキングに使用します。
 
-- [アナライザーの概要](./analyzer-overview): テキストのトークン化用のカスタムアナライザーを構成します。
+- [アナライザーの概要](./analyzer-overview): テキストのトークン化用にカスタムアナライザーを設定します。
 
-- [MINHASH_LSH インデックス](./minhash-lsh): 再現率とパフォーマンスのために LSH パラメーターをチューニングする方法を説明します。
-
+- [MINHASH_LSH インデックス](./minhash-lsh): 再現率とパフォーマンスのために LSH パラメーターを調整する方法について説明します。

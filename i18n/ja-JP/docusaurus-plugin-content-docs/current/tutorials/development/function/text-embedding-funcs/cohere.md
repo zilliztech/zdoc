@@ -151,6 +151,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
     WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
@@ -200,16 +202,15 @@ import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 // Define the collection schema
-const schema = {
-  fields: [
-    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
-    { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
-    { name: 'dense', data_type: DataType.FloatVector, dim: 1024 },
-  ],
-};
+const schema = [
+  { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
+  { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
+  { name: 'dense', data_type: DataType.FloatVector, dim: 1024 },
+];
 ```
 
 </TabItem>
@@ -287,6 +288,8 @@ schema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("cohere_func").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -294,7 +297,7 @@ function := entity.NewFunction().
     WithOutputFields("dense").
     WithParam("provider", "cohere").
     WithParam("model_name", "embed-english-v3.0")
-function = function.WithParam("integration_id", "YOUR_INTEGRATION_ID")
+// Zilliz Cloud only: function = function.WithParam("integration_id", "YOUR_INTEGRATION_ID")
 
 schema.WithFunction(function)
 ```
@@ -340,9 +343,11 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
-const cohereFunc = {
+import { FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const functions = [{
   name: 'cohere_func',
-  type: 'TextEmbedding',
+  type: FunctionType.TEXTEMBEDDING,
   input_field_names: ['document'],
   output_field_names: ['dense'],
   params: {
@@ -350,7 +355,7 @@ const cohereFunc = {
     model_name: 'embed-english-v3.0',
     integration_id: 'YOUR_INTEGRATION_ID',
   },
-};
+}];
 ```
 
 </TabItem>
@@ -416,6 +421,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -424,6 +436,8 @@ indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoI
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -508,6 +522,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo", schema).WithIndexOptions(indexOption))
 if err != nil {
     log.Fatal(err)
@@ -519,6 +539,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -651,6 +673,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -666,6 +694,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -792,6 +821,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "demo",
     1,
@@ -812,6 +849,8 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let response = client
     .search(
         SearchRequest::builder()

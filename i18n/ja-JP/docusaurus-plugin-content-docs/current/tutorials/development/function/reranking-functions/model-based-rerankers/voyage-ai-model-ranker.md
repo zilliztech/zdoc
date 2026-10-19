@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Voyage AI Ranker は、Voyage AI のものと検索アプリケーションを活用します。 | Cloud"
+description: "Voyage AI Ranker は、Voyage AI の機能と検索アプリケーションを活用します。 | Cloud"
 type: origin
 token: PpGlwYU6PiSsfVkZ7doco50vnKg
 sidebar_position: 2
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Voyage AI Ranker
 
-Voyage AI Ranker は、[Voyage AI](https://www.voyageai.com/) の特化型 reranker を活用し、セマンティック reranking によって検索の関連性を向上させます。retrieval-augmented generation（RAG）と検索アプリケーション向けに最適化された高性能な reranking 機能を提供します。
+Voyage AI Ranker は、[Voyage AI](https://www.voyageai.com/) の特化型リランカーを活用し、セマンティックリランキングによって検索の関連性を向上させます。retrieval-augmented generation（RAG）および検索アプリケーション向けに最適化された高性能なリランキング機能を提供します。
 
 Voyage AI Ranker は、次のようなアプリケーションで特に有用です。
 
-- reranking タスク向けに特別にトレーニングされたモデルによる高度なセマンティック理解
+- リランキングタスク向けに特別にトレーニングされたモデルによる高度なセマンティック理解
 
 - 本番ワークロード向けに最適化された推論による高性能な処理
 
 - 多様なドキュメント長に対応する柔軟な切り捨て制御
 
-- 異なるモデルバリアント（rerank-2、rerank-lite など）にわたる微調整された性能
+- さまざまなモデルバリアント（rerank-2、rerank-lite など）にわたる微調整済みの性能
 
 ## 事前準備\{#before-you-start}
 
@@ -39,13 +39,13 @@ Voyage AI Ranker を使用する前に、次の前提条件を満たしている
 
 - **rerank モデルを選択する**
 
-    `rerank-2.5` など、使用する Cohere rerank モデルを決定します。選択したモデルによって、reranking 時にセマンティックな関連性をどのように評価するかが決まります。詳細については、[Voyage AI 公式ドキュメント](https://docs.voyageai.com/docs/reranker) を参照してください。
+    `rerank-2.5` など、使用する Cohere rerank モデルを決定します。選択したモデルによって、リランキング時にセマンティックな関連性をどのように評価するかが決まります。詳細については、[Voyage AI 公式ドキュメント](https://docs.voyageai.com/docs/reranker) を参照してください。
 
-- **Voyage AI と統合し、integration ID を取得する**
+- **Voyage AI と統合して integration ID を取得する**
 
     Voyage AI Ranker を使用するには、まず [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で Voyage AI をモデルプロバイダーとして統合する必要があります。
 
-    統合後、Zilliz Cloud は **integration ID** を生成します。これは rerank 関数を定義する際に参照するものです。詳細な手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
+    統合後、Zilliz Cloud によって **integration ID** が生成されます。これは、rerank 関数を定義する際に参照します。詳細な手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
 - **rerank 可能なテキストフィールドを含むコレクションスキーマを計画する**
 
@@ -55,11 +55,11 @@ Voyage AI Ranker を使用する前に、次の前提条件を満たしている
 
 このセクションでは、検索時に Voyage AI Ranker を適用して、取得した結果を rerank する方法を説明します。
 
-rerank 関数は検索時に定義および適用されるため、クエリごとに reranking の動作を有効化、無効化、または変更できます。
+rerank 関数は検索時に定義および適用されるため、クエリごとにリランキングの動作を有効化、無効化、または変更できます。
 
 ### 準備\{#preparations}
 
-次のセットアップでは、検索および reranking に使用するコレクションとサンプルデータを準備します。
+次のセットアップでは、検索およびリランキングに使用するコレクションとサンプルデータを準備します。
 
 <details>
 
@@ -389,6 +389,11 @@ await client.createIndex({
   metric_type: "COSINE",
 });
 
+// Load the collection
+await client.loadCollection({
+  collection_name,
+});
+
 const data = [
   { id: 1, document: "Recent renewable energy developments include improved solar efficiency.", dense: [0.10, 0.20, 0.30, 0.40] },
   { id: 2, document: "Climate policy and carbon markets have evolved rapidly in recent years.", dense: [0.11, 0.19, 0.28, 0.39] },
@@ -508,6 +513,8 @@ CreateCollectionReq.Function voyage_ranker = CreateCollectionReq.Function.builde
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 voyage_ranker := entity.NewFunction().
     WithName("voyage_semantic_ranker").
     WithType(entity.FunctionTypeRerank).
@@ -525,6 +532,8 @@ voyage_ranker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let voyage_ranker = Function::new()
     .name("voyage_semantic_ranker")
     .function_type(FunctionType::Rerank)
@@ -534,7 +543,7 @@ let voyage_ranker = Function::new()
     .param("model_name", "rerank-2.5")
     .param("queries", "[\"renewable energy developments\"]")
     .param("truncation", "true")
-    .param("integration_id", "YOUR_INTEGRATION_ID")
+    .param("integration_id", "YOUR_INTEGRATION_ID");
 ```
 
 </TabItem>
@@ -645,6 +654,13 @@ System.out.println(results.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 results, err := cli.Search(ctx, milvusclient.NewSearchOption("voyage_rerank_demo", 3,
     []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
     WithANNSField("dense").
@@ -662,6 +678,8 @@ fmt.Println(results)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.12, 0.21, 0.29, 0.41];
 
 let results = client
@@ -774,8 +792,8 @@ curl --request POST \
 
 Voyage AI Ranker はハイブリッド検索と組み合わせて使用することもできます。
 
-検索とハイブリッド検索では、同じ方法で ranker を適用します。
+検索とハイブリッド検索では、同じ方法でランカーを適用します。
 
-どちらの場合も、検索時に `ranker` パラメータを介して rerank 関数を渡します。
+どちらの場合も、検索時に `ranker` パラメーターを介して rerank 関数を渡します。
 
 詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。

@@ -1,13 +1,13 @@
 ---
-title: "Iterators を使用したデータのエクスポート | Cloud"
+title: "イテレーターを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
-sidebar_label: "Iterators の使用"
+sidebar_label: "イテレーターの使用"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を示します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
@@ -19,23 +19,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Iterators を使用したデータのエクスポート
+# イテレーターを使用したデータのエクスポート
 
-このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を示します。
+このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を紹介します。
 
 ## 概要\{#overview}
 
-Milvus の Python SDK と Java SDK はどちらも、メモリ効率の良い方法でコレクション内の entity を反復処理するための一連の iterator API を提供しています。詳細については、[Search Iterator](./with-iterators) を参照してください。
+Milvus の Python SDK と Java SDK はどちらも、コレクション内のエンティティをメモリ効率よく反復処理するための一連のイテレーター API を提供しています。詳細については、[検索イテレーター](./with-iterators) を参照してください。
 
-iterator を使用すると、以下の利点があります。
+イテレーターを使用すると、次の利点があります。
 
-- **シンプルさ**: 複雑な **offset** と **limit** の設定が不要になります。
+- **シンプル**: 複雑な **offset** と **limit** の設定が不要になります。
 
 - **効率性**: 必要なデータのみを取得することで、スケーラブルなデータ取得を実現します。
 
-- **一貫性**: boolean フィルターによって一貫したデータセットサイズを確保します。
+- **一貫性**: ブールフィルターを使用して、データセットのサイズを一定に保ちます。
 
-これらの API を利用して、Zilliz Cloud コレクションから特定の entity またはすべての entity をエクスポートできます。
+これらの API を使用すると、Zilliz Cloud コレクションから一部またはすべてのエンティティをエクスポートできます。
 
 <Admonition type="info" title="Notes">
 
@@ -43,13 +43,13 @@ iterator を使用すると、以下の利点があります。
 
 </Admonition>
 
-## 準備\{#preparations}
+## 事前準備\{#preparations}
 
-以下の手順では、コードを流用して Zilliz Cloud クラスターに接続し、コレクションをすばやくセットアップして、10,000 を超えるランダムに生成された entity をコレクションに挿入します。
+以下の手順では、コードを再利用して Zilliz Cloud クラスターに接続し、コレクションをすばやくセットアップし、10,000 を超えるランダムに生成されたエンティティをコレクションに挿入します。
 
 ### ステップ 1: コレクションを作成する\{#step-1-create-a-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -207,11 +207,20 @@ await client.createCollection({
 ```
 
 </TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
+```
+
+</TabItem>
 </Tabs>
 
-### ステップ 2: ランダムに生成された entity を挿入する\{#step-2-insert-randomly-generated-entities}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+### ステップ 2: ランダムに生成されたエンティティを挿入する\{#step-2-insert-randomly-generated-entities}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -502,25 +511,33 @@ await client.insert({
 ```
 
 </TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
+```
+
+</TabItem>
 </Tabs>
 
-## iterator を使用してデータをエクスポートする\{#export-data-using-iterators}
+## イテレーターを使用したデータのエクスポート\{#export-data-using-iterators}
 
-iterator を使用してデータをエクスポートするには、以下のようにします。
+イテレーターを使用してデータをエクスポートするには、次の手順を実行します。
 
-1. search iterator を初期化して、検索パラメータと出力フィールドを定義します。`batch_size` パラメータを設定することで、1 回の反復でエクスポートする entity 数を制限できます。
+1. 検索イテレーターを初期化し、検索パラメーターと出力フィールドを定義します。`batch_size` パラメーターを設定すると、イテレーションごとにエクスポートするエンティティの数を制限できます。
 
-1. ループ内で `next()` メソッドを使用して、検索結果をページネーションします。
+1. ループ内で `next()` メソッドを使用して、検索結果をページングします。
 
-    - このメソッドが空の配列を返した場合、ループは終了します。
+    - メソッドが空の配列を返した場合、ループは終了します。
 
-    - それ以外の場合は、返された結果を任意の方法で保存します。たとえば、返された結果をファイルに追記したり、データベースに保存したり、ほかの consumer program に渡したりできます。
+    - それ以外の場合は、適切な方法で返されたデータを保存します。たとえば、返されたデータをファイルに追加したり、データベースに保存したり、他のコンシューマープログラムに渡したりできます。
 
-1. すべてのデータを取得し終えたら、`close()` メソッドを呼び出して iterator を閉じます。
+1. すべてのデータを取得したら、`close()` メソッドを呼び出してイテレーターを閉じます。
 
-以下のコードスニペットは、**QueryIterator** API を使用して、エクスポートしたデータをファイルに追記する方法を示しています。  
+次のコードスニペットでは、**QueryIterator** API を使用して、エクスポートしたデータをファイルに追加する方法を示します。  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,5 +829,12 @@ console.log("exported " + count + " rows");
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
+```
+
+</TabItem>
+</Tabs>

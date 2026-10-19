@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "埋め込みモデルを選択し、テキスト埋め込み関数を備えたコレクションを作成することで、Zilliz Cloud で OpenAI の埋め込みモデルを使用できます。 | Cloud"
+description: "OpenAI の埋め込みモデルを Zilliz Cloud で使用するには、埋め込みモデルを選択し、テキスト埋め込み関数を使用するコレクションを作成します。 | Cloud"
 type: origin
 token: IrQ2wm2oaiAWl4kqQhkc303Rnlg
 sidebar_position: 1
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # OpenAI
 
-埋め込みモデルを選択し、テキスト埋め込み関数を備えたコレクションを作成することで、Zilliz Cloud で OpenAI の埋め込みモデルを使用できます。
+埋め込みモデルを選択し、テキスト埋め込み関数を使用するコレクションを作成して、OpenAI の埋め込みモデルを Zilliz Cloud で使用します。
 
 ## モデルの選択肢\{#model-choices}
 
-Zilliz Cloud は OpenAI が提供するすべての埋め込みモデルをサポートしています。以下は、すぐに参照できるように利用可能な OpenAI 埋め込みモデルをまとめたものです。
+Zilliz Cloud は、OpenAI が提供するすべての埋め込みモデルをサポートしています。すぐに参照できるよう、利用可能な OpenAI 埋め込みモデルを以下に示します。
 
 | モデル名 | 次元数 | 最大トークン数 | 説明 |
 | --- | --- | --- | --- |
-| text-embedding-3-small | デフォルト：1,536（1,536 未満の次元サイズに短縮可能） | 8,191 | コスト重視でスケーラブルなセマンティック検索に最適で、低価格でも高いパフォーマンスを発揮します。 |
-| text-embedding-3-large | デフォルト：3,072（3,072 未満の次元サイズに短縮可能） | 8,191 | 検索精度の向上とより豊かなセマンティック表現を必要とするアプリケーションに最適です。 |
-| text-embedding-ada-002 | 固定：1,536（短縮不可） | 8,191 | レガシーパイプラインや後方互換性が必要なシナリオに適した旧世代のモデルです。 |
+| text-embedding-3-small | デフォルト: 1,536（1,536 未満の次元数に短縮可能） | 8,191 | コスト重視でスケーラブルなセマンティック検索に最適で、低価格ながら優れたパフォーマンスを提供します。 |
+| text-embedding-3-large | デフォルト: 3,072（3,072 未満の次元数に短縮可能） | 8,191 | 検索精度の向上とより豊かなセマンティック表現を必要とするアプリケーションに最適です。 |
+| text-embedding-ada-002 | 固定: 1,536（短縮不可） | 8,191 | 旧世代のモデルで、レガシーパイプラインや後方互換性が必要なシナリオに適しています。 |
 
-第3世代の埋め込みモデル（**text-embedding-3**）は、`dim` パラメータを使用して埋め込みのサイズを縮小できます。一般に、埋め込みが大きいほど、計算、メモリ、ストレージの観点でコストが高くなります。次元数を調整できるため、全体のコストとパフォーマンスをより細かく制御できます。各モデルの詳細については、[Embedding models](https://platform.openai.com/docs/guides/embeddings#embedding-models) および [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates) を参照してください。
+第 3 世代の埋め込みモデル（**text-embedding-3**）は、`dim` パラメーターを使用して埋め込みのサイズを縮小できます。一般に、埋め込みが大きいほど、コンピューティング、メモリ、ストレージの観点でコストが高くなります。次元数を調整できるため、全体のコストとパフォーマンスをより細かく制御できます。各モデルの詳細については、[埋め込みモデル](https://platform.openai.com/docs/guides/embeddings#embedding-models) および [OpenAI の発表ブログ記事](https://openai.com/blog/new-embedding-models-and-api-updates) を参照してください。
 
 ## 事前準備\{#before-you-start}
 
@@ -41,37 +41,37 @@ Zilliz Cloud は OpenAI が提供するすべての埋め込みモデルをサ�
 
 - **埋め込みモデルを選択する**
 
-    使用する埋め込みモデルを決定してください。この選択により、埋め込みの動作と出力形式が決まります。詳細については、[埋め込みモデルの選択](./openai#model-choices) を参照してください。
+    使用する埋め込みモデルを決定してください。この選択により、埋め込みの動作と出力形式が決まります。詳細は、[埋め込みモデルを選択する](./openai#model-choices) を参照してください。
 
-- **OpenAI と統合して統合 ID を取得する**
+- **OpenAI と統合し、統合 ID を取得する**
 
-    OpenAI が提供する埋め込みモデルを使用する前に、OpenAI とのモデルプロバイダー統合を作成し、統合 ID を取得する必要があります。詳細については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
+    OpenAI でモデルプロバイダーの統合を作成し、統合 ID を取得してから、OpenAI が提供する埋め込みモデルを使用する必要があります。詳細は、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
 - **互換性のあるコレクションスキーマを設計する**
 
-    コレクションスキーマに次の項目を含めるよう計画してください。
+    コレクションスキーマに次の項目を含めるよう計画します。
 
     - 生の入力テキスト用のテキストフィールド（`VARCHAR`）
 
-    - データ型と次元数が選択した埋め込みモデルと一致する高密度ベクトルフィールド
+    - 選択した埋め込みモデルとデータ型および次元数が一致する密ベクトルフィールド
 
 - **挿入時と検索時に生テキストを扱う準備をする**
 
     テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動的に生成されます。
 
-## ステップ 1: テキスト埋め込み関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
+## ステップ 1: テキスト埋め込み関数を使用するコレクションを作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
 
 ### スキーマフィールドを定義する\{#define-schema-fields}
 
-埋め込み関数を使用するには、特定のスキーマを持つコレクションを作成します。このスキーマには、少なくとも次の3つの必須フィールドを含める必要があります。
+埋め込み関数を使用するには、特定のスキーマを持つコレクションを作成します。このスキーマには、少なくとも 3 つの必須フィールドを含める必要があります。
 
 - コレクション内の各エンティティを一意に識別するプライマリフィールド。
 
 - 埋め込み対象の生データを格納する `VARCHAR` フィールド。
 
-- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する高密度ベクトル埋め込みを格納するために予約されたベクトルフィールド。
+- テキスト埋め込み関数が `VARCHAR` フィールド用に生成する密ベクトル埋め込みを格納するために予約されたベクトルフィールド。
 
-次の例では、テキストデータを格納するための `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数によって生成される高密度埋め込みを格納するためのベクトルフィールド `"dense"` を持つスキーマを定義します。ベクトルの次元数（`dim`）を、選択した埋め込みモデルの出力に一致するように設定してください。
+次の例では、テキストデータを格納するための `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数が生成する密ベクトル埋め込みを格納するためのベクトルフィールド `"dense"` を 1 つずつ含むスキーマを定義します。選択した埋め込みモデルの出力に一致するよう、ベクトルの次元数（`dim`）を設定してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -149,6 +149,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
     WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
@@ -231,9 +233,9 @@ SCHEMA='{
 
 ### テキスト埋め込み関数を定義する\{#define-the-text-embedding-function}
 
-テキスト埋め込み関数は、`VARCHAR` フィールドに格納された生データを自動的に埋め込みに変換し、明示的に定義されたベクトルフィールドに格納します。
+The text embedding function automatically converts raw data stored in a `VARCHAR` field into embeddings and stores them into the explicitly defined ベクトル field.
 
-次の例では、スカラーフィールド `"document"` を埋め込みに変換し、得られたベクトルを先に定義した `"dense"` ベクトルフィールドに格納する Function モジュール（`openai_embedding`）を追加します。
+The example below adds a Function module (`openai_embedding`) that converts the スカラー field `"document"` into embeddings, storing the resulting ベクトル in the `"dense"` vector field defined earlier.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -285,6 +287,8 @@ schema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("openai_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -316,7 +320,7 @@ let function = Function::new()
         ("integration_id".into(), "YOUR_INTEGRATION_ID".into()),
     ]));
 
-schema.add_function(function);
+let schema = schema.add_function(function);
 ```
 
 </TabItem>
@@ -373,9 +377,9 @@ FUNCTION='{
 </TabItem>
 </Tabs>
 
-### インデックスを構成する\{#configure-the-index}
+### インデックスを設定する\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
+必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡略化するには、`index_type` に `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して設定できるようにするオプションです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -414,6 +418,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -422,6 +433,8 @@ indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoI
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -472,7 +485,7 @@ indexParams='{
 
 ### コレクションを作成する\{#create-the-collection}
 
-定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
+次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -506,6 +519,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo", schema).WithIndexOptions(indexOption))
 if err != nil {
     log.Fatal(err)
@@ -517,6 +536,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -606,7 +627,7 @@ curl --request POST \
 
 ## ステップ 2: データを挿入する\{#step-2-insert-data}
 
-コレクションとインデックスを設定したら、生データを挿入する準備が整います。このプロセスでは、生テキストを指定するだけで済みます。先ほど定義した Function モジュールが、各テキストエントリに対応するスパースベクトルを自動的に生成します。
+コレクションとインデックスを設定したら、生データを挿入する準備ができました。このプロセスでは、生テキストを提供するだけで済みます。先ほど定義した Function モジュールが、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -649,6 +670,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -664,6 +691,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -742,7 +770,7 @@ curl --request POST \
 
 ## ステップ 3: テキストで検索する\{#step-3-search-with-text}
 
-データを挿入した後、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似度に基づいて関連するドキュメントを取得して、最も一致する結果を返します。
+データを挿入したら、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似性に基づいて関連するドキュメントを取得して、上位の一致結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -790,6 +818,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "demo",
     1,
@@ -810,6 +846,8 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let response = client
     .search(
         SearchRequest::builder()
@@ -878,4 +916,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-検索操作およびクエリ操作の詳細については、[基本的なベクトル検索](./single-vector-search) および [クエリ](./get-and-scalar-query) を参照してください。
+検索およびクエリ操作の詳細については、[基本的なベクトル検索](./single-vector-search) および [クエリ](./get-and-scalar-query) を参照してください。

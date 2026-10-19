@@ -387,6 +387,11 @@ await client.createIndex({
     ...index_params,
 });
 
+// Load the collection
+await client.loadCollection({
+    collection_name: collection_name,
+});
+
 // Insert sample data
 const data = [
     { id: 1, document: "Recent renewable energy developments include improved solar efficiency.", dense: [0.10, 0.20, 0.30, 0.40] },
@@ -872,5 +877,4 @@ Cohere Ranker はハイブリッド検索でも使用できます。
 
 どちらの場合も、検索時に `ranker` パラメータを介して rerank 関数を渡します。
 
-詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。
-
+詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
