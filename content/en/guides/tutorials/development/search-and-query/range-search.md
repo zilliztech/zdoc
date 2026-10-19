@@ -190,31 +190,27 @@ for _, resultSet := range resultSets {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
-    let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .radius(0.4)
-                .range_filter(0.6)
-                .build()?,
-        )
-        .await?;
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .radius(0.4)
+            .range_filter(0.6)
+            .build()?,
+    )
+    .await?;
 
-    println!("TopK results:");
-    for result in response.results() {
-        for row in result.rows()? {
-            println!("{:?}", row.to_entity_row()?);
-        }
+println!("TopK results:");
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
     }
-    Ok(())
 }
 ```
 

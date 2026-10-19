@@ -1347,24 +1347,20 @@ fmt.Println(result)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
-    let request = QueryRequest::builder()
-        .collection_name("products")
-        .filter("category IS NULL")
-        .output_fields(["id"])
-        .limit(10)
-        .build()?;
-    let response = client.query(request).await?;
-    for row in response.results().rows()? {
-        println!("{:?}", row.get_i64("id")?);
-    }
-    Ok(())
+let request = QueryRequest::builder()
+    .collection_name("products")
+    .filter("category IS NULL")
+    .output_fields(["id"])
+    .limit(10)
+    .build()?;
+let response = client.query(request).await?;
+for row in response.results().rows()? {
+    println!("{:?}", row.get_i64("id")?);
 }
 ```
 

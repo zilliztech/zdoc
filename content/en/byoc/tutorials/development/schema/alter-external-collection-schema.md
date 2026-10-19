@@ -95,28 +95,24 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.add_collection_field(
-        sdk::request::collection::AddCollectionFieldRequest::builder()
-            .collection_name("product_embeddings")
-            .field(
-                sdk::FieldSchema::new()
-                    .name("score")
-                    .data_type(sdk::DataType::Double)
-                    .nullable(true)
-                    .external_field("score"),
-            )
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.add_collection_field(
+    sdk::request::collection::AddCollectionFieldRequest::builder()
+        .collection_name("product_embeddings")
+        .field(
+            sdk::FieldSchema::new()
+                .name("score")
+                .data_type(sdk::DataType::Double)
+                .nullable(true)
+                .external_field("score"),
+        )
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -223,29 +219,25 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.add_collection_field(
-        sdk::request::collection::AddCollectionFieldRequest::builder()
-            .collection_name("product_embeddings")
-            .field(
-                sdk::FieldSchema::new()
-                    .name("image_embedding_v2")
-                    .data_type(sdk::DataType::FloatVector)
-                    .dimension(768)
-                    .nullable(true)
-                    .external_field("image_embedding_v2"),
-            )
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.add_collection_field(
+    sdk::request::collection::AddCollectionFieldRequest::builder()
+        .collection_name("product_embeddings")
+        .field(
+            sdk::FieldSchema::new()
+                .name("image_embedding_v2")
+                .data_type(sdk::DataType::FloatVector)
+                .dimension(768)
+                .nullable(true)
+                .external_field("image_embedding_v2"),
+        )
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -385,27 +377,23 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.create_index(
-        sdk::request::index::CreateIndexRequest::builder()
-            .collection_name("product_embeddings")
-            .index_param(
-                sdk::IndexParam::new()
-                    .field_name("image_embedding_v2")
-                    .index_type(sdk::IndexType::AutoIndex)
-                    .metric_type(sdk::MetricType::Cosine),
-            )
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_index(
+    sdk::request::index::CreateIndexRequest::builder()
+        .collection_name("product_embeddings")
+        .index_param(
+            sdk::IndexParam::new()
+                .field_name("image_embedding_v2")
+                .index_type(sdk::IndexType::AutoIndex)
+                .metric_type(sdk::MetricType::Cosine),
+        )
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -551,22 +539,18 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    let response = client.refresh_external_collection(
-        sdk::request::utility::RefreshExternalCollectionRequest::builder()
-            .collection_name("product_embeddings")
-            .build()?,
-    ).await?;
-    println!("job_id: {}", response.job_id());
-    Ok(())
-}
+let response = client.refresh_external_collection(
+    sdk::request::utility::RefreshExternalCollectionRequest::builder()
+        .collection_name("product_embeddings")
+        .build()?,
+).await?;
+println!("job_id: {}", response.job_id());
 ```
 
 </TabItem>

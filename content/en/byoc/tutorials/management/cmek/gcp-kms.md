@@ -7,9 +7,6 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-channel: next
-sidebar_custom_props:
-  channel: next
 description: "Google Cloud Key Management Service (KMS) is a Google Cloud-managed service that makes it easy for you to create and control the keys used to encrypt and sign your data. | BYOC"
 type: origin
 token: MKAJwmebRiSsOrkgShUcaHS9nhe

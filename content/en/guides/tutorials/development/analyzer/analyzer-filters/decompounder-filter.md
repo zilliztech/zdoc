@@ -380,28 +380,24 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = json!({
-        "tokenizer": "standard",
-        "filter": [{
-            "type": "decompounder",
-            "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
-        }]
-    });
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "decompounder",
+        "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
+    }]
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["dampfschifffahrt brotbackautomat".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("{:?}", result.results());
-    Ok(())
-}
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["dampfschifffahrt brotbackautomat".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("{:?}", result.results());
 ```
 
 </TabItem>

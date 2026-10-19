@@ -187,35 +187,30 @@ for _, result := range results {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query = EmbeddingList::new().vectors(vec![
-        vec![0.12, 0.21, 0.32, 0.44],
-        vec![0.18, 0.23, 0.29, 0.36],
-    ]);
+let query = EmbeddingList::new().vectors(vec![
+    vec![0.12, 0.21, 0.32, 0.44],
+    vec![0.18, 0.23, 0.29, 0.36],
+]);
 
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("tech_articles")
-                .vector_field("chunks[emb_list_vector]")
-                .vectors(SearchVectors::EmbeddingLists(vec![query]))
-                .output_fields(["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
-                .limit(3)
-                .build()?,
-        )
-        .await?;
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("chunks[emb_list_vector]")
+            .vectors(SearchVectors::EmbeddingLists(vec![query]))
+            .output_fields(["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
+            .limit(3)
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for row in result.rows()? {
-            println!("{:?}", row.to_entity_row()?);
-        }
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
     }
-
-    Ok(())
 }
 ```
 
@@ -467,36 +462,31 @@ for _, result := range results {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19, 0.24, 0.30, 0.37];
 
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("tech_articles")
-                .vector_field("chunks[emb]")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .output_fields(["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"])
-                .limit(5)
-                .build()?,
-        )
-        .await?;
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("chunks[emb]")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .output_fields(["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"])
+            .limit(5)
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for row in result.rows()? {
-            let entity = row.to_entity_row()?;
-            println!(
-                "doc_id: {:?} distance: {:?} offset: {:?} entity: {:?}",
-                row.get("doc_id")?, row.get("score")?, row.element_offset(), entity
-            );
-        }
+for result in response.results() {
+    for row in result.rows()? {
+        let entity = row.to_entity_row()?;
+        println!(
+            "doc_id: {:?} distance: {:?} offset: {:?} entity: {:?}",
+            row.get("doc_id")?, row.get("score")?, row.element_offset(), entity
+        );
     }
-
-    Ok(())
 }
 ```
 

@@ -276,46 +276,40 @@ if err != nil {
 
 ```rust
 use std::collections::HashMap;
-
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
-        .add_field(FieldSchema::new().name("vector").data_type(DataType::FloatVector).dimension(5))
-        .add_field(
-            FieldSchema::new()
-                .name("doc_chunk")
-                .data_type(DataType::VarChar)
-                .max_length(512)
-                .type_params(HashMap::from([("mmap.enabled".to_string(), "false".to_string())])),
-        );
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
+    .add_field(FieldSchema::new().name("vector").data_type(DataType::FloatVector).dimension(5))
+    .add_field(
+        FieldSchema::new()
+            .name("doc_chunk")
+            .data_type(DataType::VarChar)
+            .max_length(512)
+            .type_params(HashMap::from([("mmap.enabled".to_string(), "false".to_string())])),
+    );
 
-    client
-        .create_collection(
-            CreateCollectionRequest::builder()
-                .collection_name("my_collection")
-                .schema(schema)
-                .build()?,
-        )
-        .await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
 
-    client
-        .alter_collection_field_properties(
-            AlterCollectionFieldPropertiesRequest::builder()
-                .collection_name("my_collection")
-                .field_name("doc_chunk")
-                .properties(HashMap::from([("mmap.enabled".to_string(), "true".to_string())]))
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+client
+    .alter_collection_field_properties(
+        AlterCollectionFieldPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .field_name("doc_chunk")
+            .properties(HashMap::from([("mmap.enabled".to_string(), "true".to_string())]))
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>

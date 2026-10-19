@@ -246,25 +246,20 @@ rerank := entity.NewFunction().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rerank = DecayRerank::new()
-        .function(Function::new()
-            .name("time_decay")
-            .input_fields(["timestamp"])
-            .function_type(FunctionType::Rerank)
-            .param("reranker", "decay"))
-        .decay_function("gauss")
-        .origin(1735689600)
-        .scale(7 * 24 * 60 * 60)
-        .offset(24 * 60 * 60)
-        .decay(0.5);
-
-    Ok(())
-}
+let rerank = DecayRerank::new()
+    .function(Function::new()
+        .name("time_decay")
+        .input_fields(["timestamp"])
+        .function_type(FunctionType::Rerank)
+        .param("reranker", "decay"))
+    .decay_function("gauss")
+    .origin(1735689600)
+    .scale(7 * 24 * 60 * 60)
+    .offset(24 * 60 * 60)
+    .decay(0.5);
 ```
 
 </TabItem>

@@ -1335,13 +1335,21 @@ def print_search_results(results, title):
 
 ```java
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 private static void printSearchResults(SearchResp resp, String title) {
     System.out.println("\n=== " + title + " ===");
+    long currentTime = System.currentTimeMillis() / 1000;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     int rank = 1;
     for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
+        long publishDate = ((Number) hit.getEntity().get("publish_date")).longValue();
+        long daysFromNow = (currentTime - publishDate) / (24 * 60 * 60);
         System.out.println((rank++) + ". " + hit.getEntity().get("headline"));
-        System.out.println("   Score: " + hit.getScore());
+        System.out.println("   Published: " + sdf.format(new Date(publishDate * 1000)) + " (" + daysFromNow + " days ago)");
+        System.out.printf("   Score: %.4f%n", hit.getScore());
+        System.out.println();
     }
 }
 ```
@@ -1360,12 +1368,15 @@ import (
 
 func printSearchResults(results []milvusclient.ResultSet, title string) {
     fmt.Printf("\n=== %s ===\n", title)
+    currentTime := time.Now().Unix()
     for _, rs := range results {
         for j := 0; j < rs.ResultCount; j++ {
             headline, _ := rs.GetColumn("headline").GetAsString(j)
             publishDate, _ := rs.GetColumn("publish_date").GetAsInt64(j)
+            daysFromNow := (currentTime - publishDate) / (24 * 60 * 60)
+
             fmt.Printf("%d. %s\n", j+1, headline)
-            fmt.Printf("   Published: %s\n", time.Unix(publishDate, 0).Format("2006-01-02"))
+            fmt.Printf("   Published: %s (%d days ago)\n", time.Unix(publishDate, 0).Format("2006-01-02"), daysFromNow)
             fmt.Printf("   Score: %.4f\n", rs.Scores[j])
         }
     }
@@ -1377,10 +1388,27 @@ func printSearchResults(results []milvusclient.ResultSet, title string) {
 <TabItem value='rust'>
 
 ```rust
+use chrono::{DateTime, Utc};
+
 fn print_search_results(results: &[SingleResult], title: &str) {
     println!("\n=== {} ===", title);
-    for hit in results {
-        println!("Score: {:?}", hit.get_scores());
+    let current_time = Utc::now().timestamp();
+    for result in results {
+        for (i, row) in result.rows().unwrap().enumerate() {
+            let headline = row.get_str("headline").unwrap();
+            let publish_date = row.get_i64("publish_date").unwrap();
+            let days_from_now = (current_time - publish_date) / (24 * 60 * 60);
+
+            println!("{}. {}", i + 1, headline);
+            println!(
+                "   Published: {} ({} days ago)",
+                DateTime::from_timestamp(publish_date, 0)
+                    .unwrap()
+                    .format("%Y-%m-%d"),
+                days_from_now
+            );
+            println!("   Score: {:.4}", result.get_scores()[i]);
+        }
     }
 }
 ```
@@ -1390,10 +1418,28 @@ fn print_search_results(results: &[SingleResult], title: &str) {
 <TabItem value='c++'>
 
 ```c++
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 void PrintSearchResults(const milvus::SearchResponse& resp, const std::string& title) {
-    std::cout << "\n=== " << title << " ===" << std::endl;
+    std::cout << "\n=== " << title << " ===\n";
+    std::time_t current_time = std::time(nullptr);
     for (const auto& result : resp.Results().Results()) {
-        std::cout << "Score: " << result.Score() << std::endl;
+        auto headlines = result.OutputField<milvus::VarCharFieldData>("headline");
+        auto publish_dates = result.OutputField<milvus::Int64FieldData>("publish_date");
+        for (size_t i = 0; i < result.GetRowCount(); ++i) {
+            std::time_t ts = publish_dates->Data()[i];
+            long days_from_now = (current_time - ts) / (24 * 60 * 60);
+            std::tm tmv = *std::localtime(&ts);
+            char buf[11];
+            std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tmv);
+            std::cout << i + 1 << ". " << headlines->Data()[i] << std::endl;
+            std::cout << "   Published: " << buf << " (" << days_from_now << " days ago)" << std::endl;
+            std::cout << "   Score: " << std::fixed << std::setprecision(4) << result.Scores()[i] << std::endl;
+            std::cout << std::endl;
+        }
     }
 }
 ```
@@ -1406,9 +1452,15 @@ void PrintSearchResults(const milvus::SearchResponse& resp, const std::string& t
 function printSearchResults(results, title) {
   console.log(`
 === ${title} ===`);
+  const current_time = Math.floor(Date.now() / 1000);
   results.forEach((hit, i) => {
+    const publish_date = Number(hit.publish_date);
+    const days_from_now = Math.floor((current_time - publish_date) / (24 * 60 * 60));
+    const d = new Date(publish_date * 1000);
+    const publish_str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     console.log(`${i + 1}. ${hit.headline}`);
-    console.log(`   Score: ${hit.score}`);
+    console.log(`   Published: ${publish_str} (${days_from_now} days ago)`);
+    console.log(`   Score: ${Number(hit.score).toFixed(4)}`);
   });
 }
 ```
@@ -1418,7 +1470,24 @@ function printSearchResults(results, title) {
 <TabItem value='bash'>
 
 ```bash
-# Note: result display is handled directly by the curl response; see the search steps below.
+print_search_results() {
+    local title="$1"
+    local json="$2"
+    local current_time=$(date +%s)
+    local rank=1
+
+    echo ""
+    echo "=== $title ==="
+    echo "$json" | jq -r '.data[] | [.headline, .publish_date, .distance] | @tsv' |
+    while IFS=$'\t' read -r headline publish_date distance; do
+        local days=$(( (current_time - publish_date) / (24 * 60 * 60) ))
+        echo "$rank. $headline"
+        echo "   Published: $(date -d "@$publish_date" +%Y-%m-%d) ($days days ago)"
+        printf "   Score: %.4f\n" "$distance"
+        echo ""
+        ((rank++))
+    done
+}
 ```
 
 </TabItem>

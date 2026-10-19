@@ -167,34 +167,29 @@ if err := loadTask.Await(ctx); err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::VarChar)
+            .primary_key(true)
+            .auto_id(true)
+            .max_length(100),
     )
-    .await?;
-
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(true)
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::VarChar)
-                .primary_key(true)
-                .auto_id(true)
-                .max_length(100),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("dense_vector")
-                .data_type(DataType::FloatVector)
-                .dimension(4),
-        );
-
-    Ok(())
-}
+    .add_field(
+        FieldSchema::new()
+            .name("dense_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    );
 ```
 
 </TabItem>

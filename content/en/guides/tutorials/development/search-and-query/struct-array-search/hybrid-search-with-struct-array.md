@@ -205,41 +205,36 @@ fmt.Printf("hybrid search returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let query_list = EmbeddingList::new()
-        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
-        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+let query_list = EmbeddingList::new()
+    .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+    .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
 
-    let title_req = SubSearchRequest::builder()
-        .vector_field("title_vector")
-        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-        .limit(10)
-        .build()?;
+let title_req = SubSearchRequest::builder()
+    .vector_field("title_vector")
+    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+    .limit(10)
+    .build()?;
 
-    let chunk_list_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb_list_vector]")
-        .vectors(SearchVectors::EmbeddingLists(vec![query_list]))
-        .limit(10)
-        .build()?;
+let chunk_list_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb_list_vector]")
+    .vectors(SearchVectors::EmbeddingLists(vec![query_list]))
+    .limit(10)
+    .build()?;
 
-    let request = HybridSearchRequest::builder()
-        .collection_name("tech_articles")
-        .sub_requests(vec![title_req, chunk_list_req])
-        .rerank(RRFRerank::new().k(60))
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
-        .build()?;
+let request = HybridSearchRequest::builder()
+    .collection_name("tech_articles")
+    .sub_requests(vec![title_req, chunk_list_req])
+    .rerank(RRFRerank::new().k(60))
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
+    .build()?;
 
-    let results = client.hybrid_search(request).await?;
-
-    Ok(())
-}
+let results = client.hybrid_search(request).await?;
 ```
 
 </TabItem>
@@ -514,40 +509,35 @@ fmt.Printf("hybrid search returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
-    let code_query_vector = vec![0.20f32, 0.25, 0.31, 0.38];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let code_query_vector = vec![0.20f32, 0.25, 0.31, 0.38];
 
-    let index_chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .limit(10)
-        .filter("element_filter(chunks, $[section] == \"index\")")
-        .build()?;
+let index_chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .limit(10)
+    .filter("element_filter(chunks, $[section] == \"index\")")
+    .build()?;
 
-    let code_chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[code_emb]")
-        .vectors(SearchVectors::Float(vec![code_query_vector]))
-        .limit(10)
-        .filter("element_filter(chunks, $[has_code] == true)")
-        .build()?;
+let code_chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[code_emb]")
+    .vectors(SearchVectors::Float(vec![code_query_vector]))
+    .limit(10)
+    .filter("element_filter(chunks, $[has_code] == true)")
+    .build()?;
 
-    let request = HybridSearchRequest::builder()
-        .collection_name("tech_articles")
-        .sub_requests(vec![index_chunk_req, code_chunk_req])
-        .rerank(RRFRerank::new().k(60))
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = HybridSearchRequest::builder()
+    .collection_name("tech_articles")
+    .sub_requests(vec![index_chunk_req, code_chunk_req])
+    .rerank(RRFRerank::new().k(60))
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.hybrid_search(request).await?;
-
-    Ok(())
-}
+let results = client.hybrid_search(request).await?;
 ```
 
 </TabItem>
@@ -804,39 +794,34 @@ fmt.Printf("hybrid search returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let title_req = SubSearchRequest::builder()
-        .vector_field("title_vector")
-        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-        .limit(10)
-        .build()?;
+let title_req = SubSearchRequest::builder()
+    .vector_field("title_vector")
+    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+    .limit(10)
+    .build()?;
 
-    let chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .limit(30)
-        .filter("element_filter(chunks, $[quality_score] > 0.8)")
-        // Note: element_scope collapse is not yet supported in milvus-sdk-rust as of v3.0.2.
-        .build()?;
+let chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .limit(30)
+    .filter("element_filter(chunks, $[quality_score] > 0.8)")
+    // Note: element_scope collapse is not yet supported in milvus-sdk-rust as of v3.0.2.
+    .build()?;
 
-    let request = HybridSearchRequest::builder()
-        .collection_name("tech_articles")
-        .sub_requests(vec![title_req, chunk_req])
-        .rerank(RRFRerank::new().k(60))
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = HybridSearchRequest::builder()
+    .collection_name("tech_articles")
+    .sub_requests(vec![title_req, chunk_req])
+    .rerank(RRFRerank::new().k(60))
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.hybrid_search(request).await?;
-
-    Ok(())
-}
+let results = client.hybrid_search(request).await?;
 ```
 
 </TabItem>

@@ -27,7 +27,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-This feature is available in all AWS, Google Cloud, and Azure regions. To use volumes in Azure, [contact us](https://support.zilliz.com/).
+This feature is available in all AWS and Google Cloud regions. To use managed volumes in Azure, [contact us](https://support.zilliz.com/).
 
 </FeatureNote>
 

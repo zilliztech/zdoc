@@ -199,34 +199,29 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19, 0.24, 0.30, 0.37];
 
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("tech_articles")
-                .vector_field("chunks[emb]")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .radius(0.80)
-                .range_filter(0.95)
-                .limit(10)
-                .output_fields(["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"])
-                .build()?,
-        )
-        .await?;
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("chunks[emb]")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .radius(0.80)
+            .range_filter(0.95)
+            .limit(10)
+            .output_fields(["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"])
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for row in result.rows()? {
-            println!("{:?}", row.to_entity_row()?);
-        }
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
     }
-
-    Ok(())
 }
 ```
 
@@ -476,32 +471,27 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19, 0.24, 0.30, 0.37];
 
-    let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
 
-    let response = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("tech_articles")
-                .vector_field("chunks[emb]")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .radius(0.80)
-                .range_filter(0.95)
-                .filter(filter_expr)
-                .limit(10)
-                .output_fields(["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("chunks[emb]")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .radius(0.80)
+            .range_filter(0.95)
+            .filter(filter_expr)
+            .limit(10)
+            .output_fields(["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -772,42 +762,37 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19, 0.24, 0.30, 0.37];
 
-    let title_req = SubSearchRequest::builder()
-        .vector_field("title_vector")
-        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-        .limit(10)
-        .build()?;
+let title_req = SubSearchRequest::builder()
+    .vector_field("title_vector")
+    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+    .limit(10)
+    .build()?;
 
-    let chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .radius(0.80)
-        .range_filter(0.95)
-        .filter("element_filter(chunks, $[section] == \"index\")")
-        .limit(10)
-        .build()?;
+let chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .radius(0.80)
+    .range_filter(0.95)
+    .filter("element_filter(chunks, $[section] == \"index\")")
+    .limit(10)
+    .build()?;
 
-    let response = client
-        .hybrid_search(
-            HybridSearchRequest::builder()
-                .collection_name("tech_articles")
-                .sub_requests(vec![title_req, chunk_req])
-                .rerank(RRFRerank::new().k(60))
-                .limit(5)
-                .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+let response = client
+    .hybrid_search(
+        HybridSearchRequest::builder()
+            .collection_name("tech_articles")
+            .sub_requests(vec![title_req, chunk_req])
+            .rerank(RRFRerank::new().k(60))
+            .limit(5)
+            .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>

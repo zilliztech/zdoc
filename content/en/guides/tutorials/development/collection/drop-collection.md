@@ -118,25 +118,20 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client
+    .drop_collection(
+        DropCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
-
-    client
-        .drop_collection(
-            DropCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
 ```
 
 </TabItem>

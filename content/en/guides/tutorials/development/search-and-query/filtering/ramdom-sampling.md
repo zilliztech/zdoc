@@ -306,25 +306,21 @@ fmt.Println("product_name: ", resultSet.GetColumn("product_name").FieldData().Ge
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
 
-    // Sample approximately 1% of the entire collection
-    let res = client
-        .query(
-            QueryRequest::builder()
-                .collection_name("product_catalog")
-                .filter("RANDOM_SAMPLE(0.01)")
-                .output_fields(["id", "product_name"])
-                .limit(10)
-                .build()?,
-        )
-        .await?;
+// Sample approximately 1% of the entire collection
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("product_catalog")
+            .filter("RANDOM_SAMPLE(0.01)")
+            .output_fields(["id", "product_name"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
 
-    println!("Sampled {} products from collection", res.results().get_row_count());
-    Ok(())
-}
+println!("Sampled {} products from collection", res.results().get_row_count());
 ```
 
 </TabItem>

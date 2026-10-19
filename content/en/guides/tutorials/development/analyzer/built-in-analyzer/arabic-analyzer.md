@@ -515,26 +515,22 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let texts = ["كِتَابٌ عـــربي ١٢٣".to_string()];
-    let analyzer_params = serde_json::json!({
-        "type": "arabic"
-    });
+let texts = ["كِتَابٌ عـــربي ١٢٣".to_string()];
+let analyzer_params = serde_json::json!({
+    "type": "arabic"
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(texts)
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(texts)
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
 
-    println!("{:?}", result.results());
-    Ok(())
-}
+println!("{:?}", result.results());
 ```
 
 </TabItem>

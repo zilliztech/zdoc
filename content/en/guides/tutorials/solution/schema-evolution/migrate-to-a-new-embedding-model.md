@@ -2,7 +2,7 @@
 title: "Migrate to a New Embedding Model | Cloud"
 slug: /migrate-to-a-new-embedding-model
 sidebar_label: "Migrate to a New Embedding Model"
-beta: FALSE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

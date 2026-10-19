@@ -2,7 +2,7 @@
 title: "Vector Similarity Deduplication | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "Vector Similarity Deduplication"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+This feature is only available in all applicable AWS regions. It is not available on Google Cloud and Microsoft Azure. To enable it, [contact us](https://support.zilliz.com/hc/en-us).
 
 </FeatureNote>
 

@@ -71,12 +71,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba"}
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
 ```
 
 </TabItem>

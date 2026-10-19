@@ -213,29 +213,25 @@ for _, resultSet := range resultSets {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .filter("color like \"red%\" and likes > 50")
-                .output_fields(["color", "likes"])
-                .build()?,
-        )
-        .await?;
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .filter("color like \"red%\" and likes > 50")
+            .output_fields(["color", "likes"])
+            .build()?,
+    )
+    .await?;
 
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -534,30 +530,26 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("my_collection")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(5)
-                .filter("color like \"red%\" and likes > 50")
-                .output_fields(["color", "likes"])
-                .extra_params(HashMap::from([("hints".into(), "iterative_filter".into())]))
-                .build()?,
-        )
-        .await?;
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .filter("color like \"red%\" and likes > 50")
+            .output_fields(["color", "likes"])
+            .extra_params(HashMap::from([("hints".into(), "iterative_filter".into())]))
+            .build()?,
+    )
+    .await?;
 
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>

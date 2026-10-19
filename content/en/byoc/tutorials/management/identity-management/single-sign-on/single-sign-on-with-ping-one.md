@@ -7,9 +7,6 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-channel: next
-sidebar_custom_props:
-  channel: next
 description: "This topic describes how to configure single sign-on (SSO) with Ping Identity (PingOne) using the SAML 2.0 protocol. | BYOC"
 type: origin
 token: KIPiw0RqSieKkjkACwGcvgfLnSe

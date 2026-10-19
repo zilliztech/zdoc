@@ -167,36 +167,31 @@ fmt.Println(state)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+// 7. Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    // 7. Load the collection
-    client
-        .load_collection(
-            LoadCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
 
-    let res = client
-        .get_load_state(
-            GetLoadStateRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.state());
-
-    Ok(())
-}
+println!("{:?}", res.state());
 ```
 
 </TabItem>

@@ -110,20 +110,15 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let request = DeleteRequest::builder()
-        .collection_name("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976']")
-        .build()?;
-    let response = client.delete(request).await?;
-    println!("{:?}", response.delete_count());
-
-    Ok(())
-}
+let request = DeleteRequest::builder()
+    .collection_name("quick_setup")
+    .filter("color in ['red_7025', 'purple_4976']")
+    .build()?;
+let response = client.delete(request).await?;
+println!("{:?}", response.delete_count());
 ```
 
 </TabItem>

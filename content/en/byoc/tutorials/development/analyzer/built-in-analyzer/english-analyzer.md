@@ -542,31 +542,27 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "type": "english",
-        "stop_words": ["a", "an", "the"]
-    });
+let analyzer_params = serde_json::json!({
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+});
 
-    let response = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(["Milvus is a vector database built for scale!"])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["Milvus is a vector database built for scale!"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for token in result.get_tokens() {
-            println!("English analyzer output: {}", token.get_text());
-        }
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("English analyzer output: {}", token.get_text());
     }
-    Ok(())
 }
 ```
 

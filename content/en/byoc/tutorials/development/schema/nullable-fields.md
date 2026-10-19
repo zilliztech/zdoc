@@ -190,35 +190,31 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .add_field(
-            FieldSchema::new()
-                .name("id")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(4)
-                // highlight-next-line
-                .nullable(true),
-        );
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(4)
+            // highlight-next-line
+            .nullable(true),
+    );
 
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name("my_collection")
-            .schema(schema)
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .build()?,
+).await?;
 ```
 
 </TabItem>

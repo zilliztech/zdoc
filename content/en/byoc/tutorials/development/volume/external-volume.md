@@ -25,12 +25,6 @@ import Procedures from '@site/src/components/Procedures';
 
 # External Volumes
 
-<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
-
-This feature is available in all AWS, Google Cloud, and Azure regions. To use volumes in Azure, [contact us](https://support.zilliz.com/).
-
-</FeatureNote>
-
 An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3), allowing Zilliz Cloud to access your data in place without copying or moving it. 
 
 This page explains how to create and delete external volumes via the web console and SDKs.                      

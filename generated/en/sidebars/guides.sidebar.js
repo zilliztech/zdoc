@@ -400,6 +400,12 @@ module.exports = [
             "id": "tutorials/get-started/release-notes/release-notes-008",
             "label": "November 18, 2022",
             "key": "doc:tutorials/get-started/release-notes/release-notes-008"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2610",
+            "label": "Oct, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2610"
           }
         ]
       }
@@ -1966,6 +1972,12 @@ module.exports = [
                 "id": "tutorials/management/migrations/migrate-between-clusters/offline-migration",
                 "label": "Offline Migration",
                 "key": "doc:tutorials/management/migrations/migrate-between-clusters/offline-migration"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration",
+                "label": "Zero Downtime Migration",
+                "key": "doc:tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration"
               }
             ]
           },
@@ -2184,10 +2196,7 @@ module.exports = [
                 "type": "doc",
                 "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one",
                 "label": "PingOne (SAML 2.0)",
-                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one",
-                "customProps": {
-                  "channel": "next"
-                }
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one"
               },
               {
                 "type": "doc",
@@ -2387,10 +2396,7 @@ module.exports = [
             "type": "doc",
             "id": "tutorials/management/cmek/gcp-kms",
             "label": "Google Cloud KMS",
-            "key": "doc:tutorials/management/cmek/gcp-kms",
-            "customProps": {
-              "channel": "next"
-            }
+            "key": "doc:tutorials/management/cmek/gcp-kms"
           }
         ]
       },

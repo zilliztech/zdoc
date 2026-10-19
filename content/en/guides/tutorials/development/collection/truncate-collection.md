@@ -139,27 +139,22 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client
+    .truncate_collection(
+        TruncateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    client
-        .truncate_collection(
-            TruncateCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("collection truncated successfully");
-
-    Ok(())
-}
+println!("collection truncated successfully");
 ```
 
 </TabItem>

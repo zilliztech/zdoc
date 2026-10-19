@@ -1104,44 +1104,40 @@ client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).bui
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
-    const COLLECTION_NAME: &str = "highlighter_demo";
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+const COLLECTION_NAME: &str = "highlighter_demo";
 
-    if client.has_collection(HasCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?.exists() {
-        client.drop_collection(DropCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?;
-    }
-
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
-        .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(2000).enable_analyzer(true).enable_match(true))
-        .add_field(FieldSchema::new().name("sparse_vector").data_type(DataType::SparseFloatVector))
-        .add_function(Function::new().name("text_bm25").function_type(FunctionType::Bm25).input_fields(["text"]).output_fields(["sparse_vector"]));
-
-    let index_param = IndexParam::new()
-        .field_name("sparse_vector")
-        .index_type(IndexType::SparseInvertedIndex)
-        .metric_type(MetricType::Bm25)
-        .extra_params(HashMap::from([
-            ("inverted_index_algo".into(), "DAAT_MAXSCORE".into()),
-            ("bm25_k1".into(), "1.2".into()),
-            ("bm25_b".into(), "0.75".into()),
-        ]));
-
-    client
-        .create_collection(
-            CreateCollectionRequest::builder()
-                .collection_name(COLLECTION_NAME)
-                .schema(schema)
-                .index_param(index_param)
-                .build()?,
-        )
-        .await?;
-
-    // insert + SEARCH_PARAMS (see full text search guide)
-    Ok(())
+if client.has_collection(HasCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?.exists() {
+    client.drop_collection(DropCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?;
 }
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(2000).enable_analyzer(true).enable_match(true))
+    .add_field(FieldSchema::new().name("sparse_vector").data_type(DataType::SparseFloatVector))
+    .add_function(Function::new().name("text_bm25").function_type(FunctionType::Bm25).input_fields(["text"]).output_fields(["sparse_vector"]));
+
+let index_param = IndexParam::new()
+    .field_name("sparse_vector")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        ("inverted_index_algo".into(), "DAAT_MAXSCORE".into()),
+        ("bm25_k1".into(), "1.2".into()),
+        ("bm25_b".into(), "0.75".into()),
+    ]));
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .schema(schema)
+            .index_param(index_param)
+            .build()?,
+    )
+    .await?;
+
+// insert + SEARCH_PARAMS (see full text search guide)
 ```
 
 </TabItem>

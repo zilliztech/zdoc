@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Sept 22, 2026 | Cloud"
+description: "Last updated Oct 19, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Sept 22, 2026
+**Last updated:** Oct 19, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,34 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[Oct](./release-notes-2610#zero-downtime-migration)[ 19, 2026](./release-notes-2610#zero-downtime-migration)**
+
+    </div>
+
+    <div>
+
+        - 🚚 [Zero Downtime Migration](./zero-downtime-migration) migrates collections into an existing Dedicated cluster with no downtime, syncing incremental changes for up to 7 days before cutover.
+
+        - 📥 [Data Backfill](./data-backfill) bulk-updates selected fields of existing entities from Parquet files by primary key, with `coalesce`, `overwrite`, and `replace` modes plus a no-change precheck.
+
+        - 🔐 [CMEK with Google Cloud clusters](./gcp-kms): `Business Critical` projects can select a Google Cloud KMS key when creating a Dedicated cluster or restoring an encrypted backup.
+
+        - 🌍 Two [more BYOC regions](./cloud-providers-and-regions): Google Cloud europe-west9 (Paris) and AWS ap-southeast-7 (Thailand).
+
+        - 🔑 SSO enforcement can now [exempt Organization Owners](./enforce-sso-in-your-organization), and [Ping Identity (PingOne)](./single-sign-on-with-ping-one) joins the SSO options via SAML 2.0.
+
+        - ⏱️ [Keep-warm schedules for On-Demand Clusters](./manage-on-demand-clusters) hold weekly running windows, managed in the console or through the `keepWarm` API object.
+
+        - 📦 [Migrating from Milvus](./via-endpoint) can now skip index creation per collection and build the indexes later.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

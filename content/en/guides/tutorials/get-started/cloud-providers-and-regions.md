@@ -204,7 +204,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>BYOC</p></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li><p>ap-east-1 (Hong Kong SAR)</p></li><li><p>ap-southeast-7 (Thailand)</p></li></ul></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li>europe-west9 (Paris, France)</li></ul></td>
-     <td><p>✅ All regions</p> <NextChannel action="include"><p>Plus:</p><ul><li>Malaysia West (Kuala Lumpur, Malaysia)</li></ul> </NextChannel></td>
+     <td><p>✅ All regions</p><p>Plus:</p><ul><li>Malaysia West (Kuala Lumpur, Malaysia)</li></ul></td>
    </tr>
 </table>
 
@@ -224,10 +224,16 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p><a href="./managed-volume">Volume</a></p></td>
+     <td><p><a href="./managed-volume">Managed Volume</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>✅ All regions</p><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Azure regions.</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./external-volume">External Volume</a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
    </tr>
    <tr>
      <td><p><a href="./manage-external-collections-console">External collection</a></p></td>
@@ -255,9 +261,15 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
    <tr>
      <td><p><a href="/docs/spark-batch-jobs">Spark Batch Jobs</a></p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li>us-west-2</li></ul></td>
+     <td><p>✅ All regions (<a href="http://support.zilliz.com">On request</a>)</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Zero downtime migration</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
    </tr>
 </table>
 

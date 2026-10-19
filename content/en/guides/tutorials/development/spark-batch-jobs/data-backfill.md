@@ -2,7 +2,7 @@
 title: "Data Backfill  | Cloud"
 slug: /data-backfill
 sidebar_label: "Data Backfill "
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -20,7 +20,13 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Data Backfill
+# Data Backfill 
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in all applicable AWS regions. It is not available on Google Cloud and Microsoft Azure. To enable it, [contact us](https://support.zilliz.com/hc/en-us).
+
+</FeatureNote>
 
 Data backfill lets you update selected fields of existing entities in a Zilliz Cloud collection using data stored in Parquet files on a Zilliz Cloud volume. The backfill job matches input records to existing entities by primary key and writes the specified field values back to the collection. You can use it to populate newly added fields, fill missing values, or replace existing field values at scale.
 

@@ -140,30 +140,25 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
-    let query_vectors = vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]];
-    let iterator = client
-        .search_iterator(
-            SearchIteratorRequest::builder()
-                .search(
-                    SearchRequest::builder()
-                        .collection_name("iterator_collection")
-                        .vector_field("vector")
-                        .vectors(SearchVectors::Float(query_vectors))
-                        .output_fields(["color"])
-                        .build()?,
-                )
-                .batch_size(50)
-                .limit(20000)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+let query_vectors = vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]];
+let iterator = client
+    .search_iterator(
+        SearchIteratorRequest::builder()
+            .search(
+                SearchRequest::builder()
+                    .collection_name("iterator_collection")
+                    .vector_field("vector")
+                    .vectors(SearchVectors::Float(query_vectors))
+                    .output_fields(["color"])
+                    .build()?,
+            )
+            .batch_size(50)
+            .limit(20000)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>

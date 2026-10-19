@@ -201,32 +201,28 @@ schema.WithField(entity.NewField().
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .add_field(
-            FieldSchema::new()
-                .name("id")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("document")
-                .data_type(DataType::VarChar)
-                .max_length(9000),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("dense")
-                .data_type(DataType::FloatVector)
-                .dimension(1024),
-        );
-    Ok(())
-}
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("document")
+            .data_type(DataType::VarChar)
+            .max_length(9000),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("dense")
+            .data_type(DataType::FloatVector)
+            .dimension(1024),
+    );
 ```
 
 </TabItem>

@@ -384,93 +384,88 @@ fmt.Printf("inserted %d rows\n", result.InsertCount)
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rows = vec![
-        json!({
-            "doc_id": 1,
-            "title": "StructArray indexing patterns",
-            "category": "index",
-            "title_vector": [0.12, 0.08, 0.32, 0.48],
-            "chunks": [
-                {
-                    "text": "Create one index for each vector subfield.",
-                    "section": "index",
-                    "page": 1,
-                    "quality_score": 0.96,
-                    "has_code": false,
-                    "emb_list_vector": [0.1, 0.2, 0.3, 0.4],
-                    "emb": [0.1, 0.2, 0.3, 0.4],
-                },
-                {
-                    "text": "Use MAX_SIM metrics for EmbeddingList search.",
-                    "section": "index",
-                    "page": 2,
-                    "quality_score": 0.91,
-                    "has_code": true,
-                    "emb_list_vector": [0.16, 0.24, 0.35, 0.45],
-                    "emb": [0.16, 0.24, 0.35, 0.45],
-                },
-            ],
-        }),
-        json!({
-            "doc_id": 2,
-            "title": "Filtered StructArray search",
-            "category": "filter",
-            "title_vector": [0.2, 0.18, 0.22, 0.4],
-            "chunks": [
-                {
-                    "text": "Use element_filter to match scalar conditions within the same Struct element.",
-                    "section": "filter",
-                    "page": 1,
-                    "quality_score": 0.93,
-                    "has_code": true,
-                    "emb_list_vector": [0.21, 0.18, 0.33, 0.44],
-                    "emb": [0.21, 0.18, 0.33, 0.44],
-                },
-                {
-                    "text": "MATCH_LEAST checks how many elements satisfy a predicate.",
-                    "section": "filter",
-                    "page": 2,
-                    "quality_score": 0.88,
-                    "has_code": false,
-                    "emb_list_vector": [0.24, 0.22, 0.31, 0.39],
-                    "emb": [0.24, 0.22, 0.31, 0.39],
-                },
-            ],
-        }),
-        json!({
-            "doc_id": 3,
-            "title": "Element-level search with offsets",
-            "category": "search",
-            "title_vector": [0.33, 0.11, 0.29, 0.37],
-            "chunks": [
-                {
-                    "text": "Element-level search can return the offset of the matched Struct element.",
-                    "section": "search",
-                    "page": 1,
-                    "quality_score": 0.95,
-                    "has_code": false,
-                    "emb_list_vector": [0.32, 0.14, 0.28, 0.41],
-                    "emb": [0.32, 0.14, 0.28, 0.41],
-                },
-            ],
-        }),
-    ];
+let rows = vec![
+    json!({
+        "doc_id": 1,
+        "title": "StructArray indexing patterns",
+        "category": "index",
+        "title_vector": [0.12, 0.08, 0.32, 0.48],
+        "chunks": [
+            {
+                "text": "Create one index for each vector subfield.",
+                "section": "index",
+                "page": 1,
+                "quality_score": 0.96,
+                "has_code": false,
+                "emb_list_vector": [0.1, 0.2, 0.3, 0.4],
+                "emb": [0.1, 0.2, 0.3, 0.4],
+            },
+            {
+                "text": "Use MAX_SIM metrics for EmbeddingList search.",
+                "section": "index",
+                "page": 2,
+                "quality_score": 0.91,
+                "has_code": true,
+                "emb_list_vector": [0.16, 0.24, 0.35, 0.45],
+                "emb": [0.16, 0.24, 0.35, 0.45],
+            },
+        ],
+    }),
+    json!({
+        "doc_id": 2,
+        "title": "Filtered StructArray search",
+        "category": "filter",
+        "title_vector": [0.2, 0.18, 0.22, 0.4],
+        "chunks": [
+            {
+                "text": "Use element_filter to match scalar conditions within the same Struct element.",
+                "section": "filter",
+                "page": 1,
+                "quality_score": 0.93,
+                "has_code": true,
+                "emb_list_vector": [0.21, 0.18, 0.33, 0.44],
+                "emb": [0.21, 0.18, 0.33, 0.44],
+            },
+            {
+                "text": "MATCH_LEAST checks how many elements satisfy a predicate.",
+                "section": "filter",
+                "page": 2,
+                "quality_score": 0.88,
+                "has_code": false,
+                "emb_list_vector": [0.24, 0.22, 0.31, 0.39],
+                "emb": [0.24, 0.22, 0.31, 0.39],
+            },
+        ],
+    }),
+    json!({
+        "doc_id": 3,
+        "title": "Element-level search with offsets",
+        "category": "search",
+        "title_vector": [0.33, 0.11, 0.29, 0.37],
+        "chunks": [
+            {
+                "text": "Element-level search can return the offset of the matched Struct element.",
+                "section": "search",
+                "page": 1,
+                "quality_score": 0.95,
+                "has_code": false,
+                "emb_list_vector": [0.32, 0.14, 0.28, 0.41],
+                "emb": [0.32, 0.14, 0.28, 0.41],
+            },
+        ],
+    }),
+];
 
-    let rows = rows.into_iter().map(|r| r.as_object().cloned().unwrap()).collect::<Vec<_>>();
-    let request = InsertRequest::builder()
-        .collection_name("tech_articles")
-        .rows(rows)
-        .build()?;
-    let resp = client.insert(request).await?;
-    println!("insert count: {}", resp.insert_count());
-
-    Ok(())
-}
+let rows = rows.into_iter().map(|r| r.as_object().cloned().unwrap()).collect::<Vec<_>>();
+let request = InsertRequest::builder()
+    .collection_name("tech_articles")
+    .rows(rows)
+    .build()?;
+let resp = client.insert(request).await?;
+println!("insert count: {}", resp.insert_count());
 ```
 
 </TabItem>

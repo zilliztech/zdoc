@@ -156,28 +156,23 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query = EmbeddingList::new()
-        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
-        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+let query = EmbeddingList::new()
+    .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+    .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb_list_vector]")
-        .vectors(SearchVectors::EmbeddingLists(vec![query]))
-        .filter("category == \"search\"")
-        .limit(3)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb_list_vector]")
+    .vectors(SearchVectors::EmbeddingLists(vec![query]))
+    .filter("category == \"search\"")
+    .limit(3)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -400,28 +395,23 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9 && $[has_code] == true)";
+let filter_expr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9 && $[has_code] == true)";
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .filter(filter_expr)
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .filter(filter_expr)
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -640,30 +630,25 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query = EmbeddingList::new()
-        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
-        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+let query = EmbeddingList::new()
+    .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+    .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
 
-    let filter_expr = "category == \"search\" && MATCH_ANY(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+let filter_expr = "category == \"search\" && MATCH_ANY(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
 
-    let request = SearchRequest::builder()
-        .collection_name("tech_articles")
-        .vector_field("chunks[emb_list_vector]")
-        .vectors(SearchVectors::EmbeddingLists(vec![query]))
-        .filter(filter_expr)
-        .limit(3)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = SearchRequest::builder()
+    .collection_name("tech_articles")
+    .vector_field("chunks[emb_list_vector]")
+    .vectors(SearchVectors::EmbeddingLists(vec![query]))
+    .filter(filter_expr)
+    .limit(3)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.search(request).await?;
-
-    Ok(())
-}
+let results = client.search(request).await?;
 ```
 
 </TabItem>
@@ -891,39 +876,34 @@ fmt.Printf("returned %d result sets\n", len(results))
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
 
-    let title_req = SubSearchRequest::builder()
-        .vector_field("title_vector")
-        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-        .limit(10)
-        .filter("category == \"search\"")
-        .build()?;
+let title_req = SubSearchRequest::builder()
+    .vector_field("title_vector")
+    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+    .limit(10)
+    .filter("category == \"search\"")
+    .build()?;
 
-    let chunk_req = SubSearchRequest::builder()
-        .vector_field("chunks[emb]")
-        .vectors(SearchVectors::Float(vec![query_vector]))
-        .limit(10)
-        .filter("category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)")
-        .build()?;
+let chunk_req = SubSearchRequest::builder()
+    .vector_field("chunks[emb]")
+    .vectors(SearchVectors::Float(vec![query_vector]))
+    .limit(10)
+    .filter("category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)")
+    .build()?;
 
-    let request = HybridSearchRequest::builder()
-        .collection_name("tech_articles")
-        .sub_requests(vec![title_req, chunk_req])
-        .rerank(RRFRerank::new().k(60))
-        .limit(5)
-        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-        .build()?;
+let request = HybridSearchRequest::builder()
+    .collection_name("tech_articles")
+    .sub_requests(vec![title_req, chunk_req])
+    .rerank(RRFRerank::new().k(60))
+    .limit(5)
+    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+    .build()?;
 
-    let results = client.hybrid_search(request).await?;
-
-    Ok(())
-}
+let results = client.hybrid_search(request).await?;
 ```
 
 </TabItem>

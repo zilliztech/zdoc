@@ -66,18 +66,13 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "jieba",
-        "filter": ["cncharonly"]
-    });
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({
+    "tokenizer": "jieba",
+    "filter": ["cncharonly"]
+});
 ```
 
 </TabItem>

@@ -148,23 +148,18 @@ multiAnalyzerParams := map[string]any{
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let multi_analyzer_params = serde_json::json!({
-        "analyzers": {
-            "english": {"type": "english"},
-            "chinese": {"type": "chinese"},
-            "default": {"tokenizer": "icu"}
-        },
-        "by_field": "language",
-        "alias": {"cn": "chinese", "en": "english"}
-    });
-
-    Ok(())
-}
+let multi_analyzer_params = serde_json::json!({
+    "analyzers": {
+        "english": {"type": "english"},
+        "chinese": {"type": "chinese"},
+        "default": {"tokenizer": "icu"}
+    },
+    "by_field": "language",
+    "alias": {"cn": "chinese", "en": "english"}
+});
 ```
 
 </TabItem>

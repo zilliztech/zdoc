@@ -377,95 +377,90 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Collection-level fields.
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(false)
-        .add_field(
-            FieldSchema::new()
-                .name("doc_id")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("title")
-                .data_type(DataType::VarChar)
-                .max_length(512),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("category")
-                .data_type(DataType::VarChar)
-                .max_length(128),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("title_vector")
-                .data_type(DataType::FloatVector)
-                .dimension(4),
-        )
-        // Struct schema used by each element in the StructArray field.
-        .add_struct_field(
-            StructFieldSchema::new()
-                .name("chunks")
-                .max_capacity(1000)
-                .add_field(
-                    FieldSchema::new()
-                        .name("text")
-                        .data_type(DataType::VarChar)
-                        .max_length(65535),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("section")
-                        .data_type(DataType::VarChar)
-                        .max_length(128),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("page")
-                        .data_type(DataType::Int64),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("quality_score")
-                        .data_type(DataType::Float),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("has_code")
-                        .data_type(DataType::Bool),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("emb_list_vector")
-                        .data_type(DataType::FloatVector)
-                        .dimension(4),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("emb")
-                        .data_type(DataType::FloatVector)
-                        .dimension(4),
-                ),
-        );
+// Collection-level fields.
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(
+        FieldSchema::new()
+            .name("doc_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("category")
+            .data_type(DataType::VarChar)
+            .max_length(128),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    )
+    // Struct schema used by each element in the StructArray field.
+    .add_struct_field(
+        StructFieldSchema::new()
+            .name("chunks")
+            .max_capacity(1000)
+            .add_field(
+                FieldSchema::new()
+                    .name("text")
+                    .data_type(DataType::VarChar)
+                    .max_length(65535),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("section")
+                    .data_type(DataType::VarChar)
+                    .max_length(128),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("page")
+                    .data_type(DataType::Int64),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("quality_score")
+                    .data_type(DataType::Float),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("has_code")
+                    .data_type(DataType::Bool),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb_list_vector")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            ),
+    );
 
-    client
-        .create_collection(
-            CreateCollectionRequest::builder()
-                .collection_name("tech_articles")
-                .schema(schema)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("tech_articles")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>

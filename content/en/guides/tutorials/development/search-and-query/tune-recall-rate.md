@@ -156,32 +156,28 @@ for _, resultSet := range resultSets {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([("level".into(), "1".into())]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([("level".into(), "1".into())]))
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.results());
-    Ok(())
-}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -411,36 +407,32 @@ for _, resultSet := range resultSets {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([
+                ("level".into(), "6".into()),
+                ("enable_recall_calculation".into(), "true".into()),
+            ]))
+            .build()?,
     )
     .await?;
 
-    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
-
-    let res = client
-        .search(
-            SearchRequest::builder()
-                .collection_name("quick_setup")
-                .vector_field("vector")
-                .vectors(SearchVectors::Float(vec![query_vector]))
-                .limit(3)
-                .extra_params(HashMap::from([
-                    ("level".into(), "6".into()),
-                    ("enable_recall_calculation".into(), "true".into()),
-                ]))
-                .build()?,
-        )
-        .await?;
-
-    println!("results: {:?}", res.results());
-    println!("recalls: {:?}", res.results().get_recalls());
-    Ok(())
-}
+println!("results: {:?}", res.results());
+println!("recalls: {:?}", res.results().get_recalls());
 ```
 
 </TabItem>

@@ -228,26 +228,21 @@ if err != nil {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let request = CreateIndexRequest::builder()
-        .collection_name("Documents")
-        .index_params(vec![IndexParam::new()
-            .field_name("text")
-            .index_name("ngram_index")
-            .index_type(IndexType::Ngram)
-            .extra_params(HashMap::from([
-                ("min_gram".to_string(), "2".to_string()),
-                ("max_gram".to_string(), "3".to_string()),
-            ]))])
-        .build()?;
-    client.create_index(request).await?;
-
-    Ok(())
-}
+let request = CreateIndexRequest::builder()
+    .collection_name("Documents")
+    .index_params(vec![IndexParam::new()
+        .field_name("text")
+        .index_name("ngram_index")
+        .index_type(IndexType::Ngram)
+        .extra_params(HashMap::from([
+            ("min_gram".to_string(), "2".to_string()),
+            ("max_gram".to_string(), "3".to_string()),
+        ]))])
+    .build()?;
+client.create_index(request).await?;
 ```
 
 </TabItem>

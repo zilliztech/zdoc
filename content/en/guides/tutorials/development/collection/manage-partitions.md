@@ -151,26 +151,21 @@ fmt.Println(partitionNames)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let partitions = client
+    .list_partitions(
+        ListPartitionsRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
-
-    let partitions = client
-        .list_partitions(
-            ListPartitionsRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-    println!("{:?}", partitions.partition_names());
-
-    Ok(())
-}
+println!("{:?}", partitions.partition_names());
 
 // Output
 //

@@ -194,44 +194,40 @@ schema.WithField(entity.NewField().
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(true)
-        .add_field(
-            FieldSchema::new()
-                .name("tags")
-                .data_type(DataType::Array)
-                .element_type(DataType::VarChar)
-                .max_capacity(10)
-                .max_length(65535)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("ratings")
-                .data_type(DataType::Array)
-                .element_type(DataType::Int64)
-                .max_capacity(5)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-    Ok(())
-}
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("tags")
+            .data_type(DataType::Array)
+            .element_type(DataType::VarChar)
+            .max_capacity(10)
+            .max_length(65535)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("ratings")
+            .data_type(DataType::Array)
+            .element_type(DataType::Int64)
+            .max_capacity(5)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>

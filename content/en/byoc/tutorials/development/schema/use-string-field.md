@@ -184,46 +184,41 @@ schema.WithField(entity.NewField().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field1")
+            .data_type(DataType::VarChar)
+            .max_length(100)
+            .nullable(true)
+            .default_value(DefaultValue::String("Unknown".to_string())),
     )
-    .await?;
-
-    let schema = CollectionSchema::new()
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field1")
-                .data_type(DataType::VarChar)
-                .max_length(100)
-                .nullable(true)
-                .default_value(DefaultValue::String("Unknown".to_string())),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field2")
-                .data_type(DataType::VarChar)
-                .max_length(200)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-
-    Ok(())
-}
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field2")
+            .data_type(DataType::VarChar)
+            .max_length(200)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>

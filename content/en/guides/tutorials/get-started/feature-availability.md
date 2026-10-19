@@ -74,10 +74,6 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - [Export backup files](./export-backup-files)
 
-- Hosted models
-
-- [Spark Batch Jobs](./spark-batch-jobs)
-
 - External Collections and External Volumes in Azure regions.
 
 <Admonition type="info" title="Notes">
