@@ -1,7 +1,7 @@
 ---
-title: "ASCII folding | Cloud"
+title: "ASCII フォールディング | Cloud"
 slug: /ascii-folding-filter
-sidebar_label: "ASCII folding"
+sidebar_label: "ASCII フォールディング"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,9 +19,9 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ASCII folding
+# ASCII フォールディング
 
-`asciifolding` フィルターは、[Basic Latin Unicode block](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいてテキスト処理をよりシンプルで一貫性のあるものにします。
+`asciifolding` フィルターは、[Basic Latin Unicode ブロック](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を、対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいてテキスト処理をよりシンプルで一貫性のあるものにします。
 
 ## 設定\{#configuration}
 
@@ -42,6 +42,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("asciifolding"));
@@ -132,6 +136,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("asciifolding"));
@@ -385,4 +393,3 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 ```python
 ['Cafe', 'Moller', 'serves', 'creme', 'brulee', 'and', 'pinatas']
 ```
-

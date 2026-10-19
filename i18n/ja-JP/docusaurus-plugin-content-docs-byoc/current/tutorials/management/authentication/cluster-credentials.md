@@ -1,13 +1,13 @@
 ---
-title: "クラスター Credentials | BYOC"
+title: "クラスター認証情報 | BYOC"
 slug: /cluster-credentials
-sidebar_label: "クラスター Credentials"
+sidebar_label: "クラスター認証情報"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud authenticates your identity using a token. A token can be either the クラスター credential or an API key. This guide introduces authentication with クラスター credentials. | BYOC"
+description: "Zilliz Cloud はトークンを使用して ID を認証します。トークンは、クラスター認証情報または API キーのいずれかです。このガイドでは、クラスター認証情報を使用した認証について説明します。 | BYOC"
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスター Credentials
+# クラスター認証情報
 
-Zilliz Cloud authenticates your identity using a token. A token can be either the クラスター credential or an API key. This guide introduces authentication with クラスター credentials.
+Zilliz Cloud はトークンを使用して ID を認証します。トークンは、クラスター認証情報または API キーのいずれかです。このガイドでは、クラスター認証情報を使用した認証について説明します。
 
-A クラスター credential consists of a username and password pair (`user:password`), utilized to authenticate and authorize your requests for クラスター interaction.
+クラスター認証情報は、ユーザー名とパスワードのペア（`user:password`）で構成され、クラスターとのやり取りに対するリクエストの認証と認可に使用されます。
 
-When setting up a クラスター, Zilliz Cloud creates the default クラスター user `db_admin` with the `Admin` role, granting full クラスター access. The password of the default user will only be shown once during クラスター creation, so it is crucial to note it down and securely store it in an appropriate location.
+クラスターを設定すると、Zilliz Cloud は `Admin` ロールを持つデフォルトのクラスターユーザー `db_admin` を作成し、クラスターへのフルアクセスを付与します。デフォルトユーザーのパスワードはクラスター作成時に一度だけ表示されるため、必ず控えて、適切な場所に安全に保管することが重要です。
 
-Beyond the default `db_admin` user, you can also [create](./cluster-users#create-a-cluster-user) more クラスター users with corresponding password for authentication.
+デフォルトの `db_admin` ユーザーに加えて、認証用の対応するパスワードを持つクラスターユーザーを [作成](./cluster-users#create-a-cluster-user) することもできます。
 
-## Reset Password\{#reset-password}
+## パスワードをリセットする\{#reset-password}
 
 ユーザーのパスワードを忘れた場合や、漏洩した可能性がある場合は、パスワードをリセットできます。
 
@@ -41,7 +41,7 @@ Beyond the default `db_admin` user, you can also [create](./cluster-users#create
 
     RESTful API または SDK を使用して、プログラムでユーザーパスワードをリセットできます。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -63,12 +63,90 @@ Beyond the default `db_admin` user, you can also [create](./cluster-users#create
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
     UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
             .userName("user_1")
             .password("P@ssw0rd")
             .newPassword("NewP@ssw0rd")
             .build();
     client.updatePassword(updatePasswordReq);
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    import (
+        "context"
+        "fmt"
+    
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
+    )
+    
+    ctx := context.Background()
+    
+    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+        APIKey:  "user:password",
+    })
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    defer client.Close(ctx)
+    
+    err = client.UpdatePassword(ctx, milvusclient.NewUpdatePasswordOption("user_1", "P@ssw0rd", "NewP@ssw0rd"))
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    use milvus::v2::prelude::*;
+    
+    let client = ClientV2::new(&ConnectConfig::new()
+        .uri("https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530")
+        .token("user:password")).await?;
+    
+    client.update_password(UpdatePasswordRequest::builder()
+        .username("user_1")
+        .old_password("P@ssw0rd")
+        .new_password("NewP@ssw0rd")
+        .build()?).await?;
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    #include <iostream>
+    #include "milvus/MilvusClientV2.h"
+    
+    auto client = milvus::MilvusClientV2::Create();
+    
+    milvus::ConnectParam connect_param{"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530", "user:password"};
+    auto status = client->Connect(connect_param);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    
+    status = client->UpdatePassword(
+        milvus::UpdatePasswordRequest()
+            .WithUserName("user_1")
+            .WithOldPassword("P@ssw0rd")
+            .WithNewPassword("NewP@ssw0rd")
+    );
+    
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
     ```
 
     </TabItem>
@@ -81,36 +159,6 @@ Beyond the default `db_admin` user, you can also [create](./cluster-users#create
        newPassword: 'NewP@ssw0rd',
        oldPassword: 'P@ssw0rd',
      })
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    import (
-       "context"
-    
-       "google.golang.org/grpc"
-       "github.com/milvus-io/milvus/v2/milvusclient"
-    )
-    
-    userName := "user_1"
-    oldpass := "P@ssw0rd"
-    newpass := "NewP@ssw0rd"
-    opts := client.NewUpdatePasswordOption(userName, oldpass, newpass)
-    
-    onFinish := func(ctx context.Context, err error) {
-        if err != nil {
-            fmt.Printf("gRPC call finished with error: %v\n", err)
-        } else {
-            fmt.Printf("gRPC call finished successfully")
-        }
-    }
-    
-    callOption := grpc.OnFinish(onFinish)
-    
-    err := mclient.UpdatePassword(context.Background(), opts, callOpts)
     ```
 
     </TabItem>

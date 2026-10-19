@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、ハイブリッド検索を含む完全なコレクション API が必要な場合は、Dedicated クラスターエンドポイントを使用します。 | BYOC"
+description: "アプリケーションで、スキーマ管理、挿入、upsert、削除、検索、クエリ、ハイブリッド検索を含むコレクション API 全体が必要な場合は、Dedicated クラスターのエンドポイントを使用します。 | BYOC"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -21,45 +21,45 @@ import TabItem from '@theme/TabItem';
 
 # クラスターへの接続
 
-アプリケーションでスキーマ管理、insert、upsert、delete、search、query、ハイブリッド検索を含む完全なコレクション API が必要な場合は、Dedicated クラスターエンドポイントを使用します。
+アプリケーションで、スキーマ管理、挿入、upsert、削除、検索、クエリ、ハイブリッド検索を含むコレクション API 全体が必要な場合は、Dedicated クラスターのエンドポイントを使用します。
 
 <Admonition type="info" title="Note">
 
-このページでは、Dedicated サービングクラスターに接続する方法を説明します。Free または Serverless クラスターに接続する場合は、[Free クラスターと Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービス用クラスターへの接続方法を説明します。Free または Serverless クラスターに接続する場合は、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## エンドポイント形式\{#endpoint-formats}
 
-| クラスタータイプ | エンドポイントパターン | 備考 |
+| クラスタータイプ | エンドポイントのパターン | 注記 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイムサービングエンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムのサービス提供エンドポイントを使用します。 |
 
 ## 事前準備\{#before-you-begin}
 
-Dedicated クラスターに接続する前に、以下を確認してください。
+Dedicated クラスターに接続する前に、以下を満たしていることを確認してください。
 
-- BYOC プロジェクトをデプロイ済みであること。詳細については、以下を参照してください。
+- BYOC プロジェクトをデプロイしていること。詳細については、以下を参照してください。
 
-    - [BYOC の AWS へのデプロイ](./deploy-byoc-aws)
+    - [AWS で BYOC をデプロイする](./deploy-byoc-aws)
 
-    - [BYOC-I の AWS へのデプロイ](./deploy-byoc-i-aws)
+    - [AWS で BYOC-I をデプロイする](./deploy-byoc-i-aws)
 
-    - [BYOC の GCP へのデプロイ](./deploy-byoc-gcp)
+    - [GCP で BYOC をデプロイする](./deploy-byoc-gcp)
 
-    - [BYOC-I の Microsoft Azure へのデプロイ](./deploy-byoc-i-azure)
+    - [Microsoft Azure で BYOC-I をデプロイする](./deploy-byoc-i-azure)
 
 - アプリケーションと BYOC プロジェクト内のクラスター間のネットワーク構成を完了していること。詳細については、[クラスター接続の準備](./prepare-for-cluster-connection) を参照してください。
 
-- クラスターを作成済みであること。
+- クラスターを作成していること。
 
-- ユースケースに応じた Milvus SDK をインストール済みであること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+- ユースケースに合った Milvus SDK をインストールしていること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-- クラスターのパブリックエンドポイントを取得済みであること。
+- クラスターのパブリックエンドポイントを取得していること。
 
-- 認証トークンを用意していること。これは、対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
+- 認証トークンを取得していること。これは、ターゲットクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
 
-クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールで取得できます。対象クラスターの **Cluster Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
+クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールから取得できます。対象のクラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
 
 <Admonition type="info" title="Note">
 
@@ -69,17 +69,17 @@ SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・�
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーションで使用する言語の SDK をインストールします。
+アプリケーションの言語に対応する SDK をインストールします。
 
 ```bash
 pip install pymilvus
 ```
 
-Java、Node.js、Go のプロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
+Java、Node.js、Go プロジェクトでは、以下の例を使用する前に、プロジェクトに対応する Milvus SDK をインストールしてください。
 
 ## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-SDK 間でクラスターエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
+SDK 間でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイントで、`YOUR_CLUSTER_TOKEN` はターゲットクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -120,12 +120,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    // handle error
+}
 ```
 
 </TabItem>
@@ -186,7 +195,7 @@ curl --request POST \
 
 ## 接続の確認\{#verify-the-connection}
 
-SDK で接続したら、コレクション一覧の取得などの軽量な操作を実行します。
+SDK で接続した後、コレクションの一覧表示などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -195,6 +204,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じクライアントインスタンスを使用して、コレクションを作成し、データをロードして、Dedicated クラスターに対してリアルタイムの検索またはクエリ操作を実行します。
+接続したら、同じクライアントインスタンスを使用して、Dedicated クラスターに対してコレクションの作成、データのロード、リアルタイムの検索またはクエリ操作を実行します。
 
-Free または Serverless のサービングクラスターについては、[Free クラスターと Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
+Free または Serverless のサービス用クラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。

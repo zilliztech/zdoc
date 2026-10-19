@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。 | BYOC"
+description: "Free クラスターと Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。 | BYOC"
 type: origin
 token: EO58wVRLpiTBXQkceRjccN28nrh
 sidebar_position: 1
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # Free & Serverless クラスター
 
-Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。
+Free クラスターと Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。
 
 <Admonition type="info" title="Note">
 
-Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
+Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイント経由のオンデマンド検索については、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## 作成\{#create}
 
-Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
+Free クラスターまたは Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
 
 <Admonition type="info" title="Note">
 
-各組織で作成できる Free クラスターは 1つだけです。追加のサービングクラスターが必要な場合は、Serverless または Dedicated を使用してください。
+各組織に作成できる Free クラスターは 1 つだけです。追加のサービングクラスターには、Serverless または Dedicated を使用してください。
 
 </Admonition>
 
-Free または Serverless クラスターは、Zilliz Cloud コンソールから作成できます。クラスターのステータスが **Running** に変わると、クラスターは使用可能です。作成時に表示されるクラスター認証情報は保存してください。パスワードは一度しか表示されません。
+Free クラスターまたは Serverless クラスターは、Zilliz Cloud コンソールから作成できます。クラスターのステータスが **Running** に変わると、クラスターを使用できる状態になります。パスワードは 1 回しか表示されないため、作成時に表示されるクラスターの認証情報を保存してください。
 
 RESTful API を使用してクラスターを作成することもできます。
 
@@ -82,13 +82,13 @@ curl --request POST \
 
 ## 接続\{#connect}
 
-Free および Serverless クラスターでは、以下のサービングエンドポイントパターンを使用します。
+Free クラスターと Serverless クラスターでは、次のサービングエンドポイントパターンを使用します。
 
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
-クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、そのクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
+クラスターの詳細ページにある **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -129,12 +129,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    panic(err)
+}
 ```
 
 </TabItem>
@@ -193,7 +202,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、コレクションの一覧表示などの軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示など、軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -202,16 +211,16 @@ print(collections)
 
 ## 管理\{#manage}
 
-Free および Serverless クラスターは、クラスターの詳細ページから管理できます。
+Free クラスターと Serverless クラスターは、クラスターの詳細ページから管理できます。
 
 | 操作 | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | 名前の変更 | サポートされています。 | サポートされています。 |
-| 再開 | Free クラスターは 7 日間連続で非アクティブになると自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは、一時停止および再開操作をサポートしていません。 |
-| デプロイオプションのアップグレード | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Free クラスターからデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Serverless クラスターからデータが移行されます。 |
-| 削除 | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
+| 再開 | Free クラスターは、7 日間連続でアクティビティがないと自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは、一時停止および再開操作をサポートしていません。 |
+| デプロイメントオプションのアップグレード | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Free クラスターからデータを移行します。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Serverless クラスターからデータを移行します。 |
+| 削除 | サポートされています。Free クラスターは、削除後にリサイクルビンから復元できません。 | サポートされています。 |
 
-アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
+アップグレードで新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを必ず更新してください。
 
 ## 削除\{#drop}
 

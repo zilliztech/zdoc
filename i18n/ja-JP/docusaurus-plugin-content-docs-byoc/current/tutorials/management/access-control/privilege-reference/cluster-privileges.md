@@ -1,13 +1,13 @@
 ---
 title: "クラスターリソースの権限と権限グループ | BYOC"
 slug: /cluster-privileges
-sidebar_label: "クラスター権限と権限グループ"
+sidebar_label: "クラスターの権限と権限グループ"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "権限とは、クラスター、データベース、コレクションなどの特定の Zilliz Cloud リソースに対して特定の操作を実行するための許可を指します。権限はロールに割り当てられ、そのロールがユーザーに付与されることで、ユーザーがリソース上で実行できる操作が定義されます。例えば、`collection01` という名前のコレクションにデータを挿入する許可も権限の一例です。 | BYOC"
+description: "権限とは、クラスター、データベース、コレクションなどの特定の Zilliz Cloud リソースに対して特定の操作を実行する許可を指します。権限はロールに割り当てられ、そのロールがユーザーに付与されることで、ユーザーがリソースに対して実行できる操作が定義されます。権限の例として、`collection01` という名前のコレクションにデータを挿入する許可が挙げられます。 | BYOC"
 type: origin
 token: NitBwKVzzi0hXBkjdDFcfwRsngb
 sidebar_position: 2
@@ -21,37 +21,37 @@ import TabItem from '@theme/TabItem';
 
 # クラスターリソースの権限と権限グループ
 
-**権限**とは、クラスター、データベース、コレクションなどの特定の Zilliz Cloud リソースに対して特定の操作を実行するための許可を指します。権限はロールに割り当てられ、そのロールがユーザーに付与されることで、ユーザーがリソース上で実行できる操作が定義されます。例えば、`collection_01` という名前のコレクションにデータを挿入する許可も権限の一例です。
+**権限**とは、クラスター、データベース、コレクションなどの特定の Zilliz Cloud リソースに対して、特定の操作を実行する許可を指します。権限はロールに割り当てられ、そのロールがユーザーに付与されることで、リソースに対してユーザーが実行できる操作が定義されます。権限の例として、`collection_01` という名前のコレクションにデータを挿入する許可が挙げられます。 
 
-**権限グループ**は、個別の権限を組み合わせたものです。よく使用する権限をまとめて権限グループを作成することで、ロール付与の手順を簡素化できます。利便性向上のため、Zilliz Cloud ではコレクション、データベース、クラスターの各レベルに合計9つの組み込み権限グループを用意しています。
+**権限グループ**は、個々の権限を組み合わせたものです。よく使用する権限をまとめた権限グループを作成すると、ロールの付与プロセスを簡素化できます。使いやすさのため、Zilliz Cloud では、コレクション、データベース、クラスターの各レベルで合計 9つの組み込み権限グループを提供しています。
 
-次の図は、個々の権限と権限グループそれぞれの付与プロセスの違いを示しています。
+次の図は、権限と権限グループの異なる付与プロセスを示しています。
 
 ![SsW6w8kaNhz4iQbEMYmcbUzsnOc](https://zdoc-images.s3.us-west-2.amazonaws.com/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
 
-このトピックでは、Zilliz Cloud で利用可能な組み込み権限グループおよび権限について詳しく説明します。
+このトピックでは、Zilliz Cloud で利用可能な組み込み権限グループと権限について詳しく説明します。 
 
 ## 権限グループ\{#privilege-group}
 
 ### 組み込み権限グループ\{#built-in-privilege-groups}
 
-Zilliz Cloud は、コレクション、データベース、クラスターの各レベルに合計9つの組み込み権限グループを提供しており、[ロールの作成](./cluster-roles)時に直接付与できます。
+Zilliz Cloud では、コレクション、データベース、クラスターの各レベルで合計 9つの組み込み権限グループを提供しており、[ロールを作成する](./cluster-roles) ときに直接付与できます。 
 
 <Admonition type="info" title="Notes">
 
-これら3つのレベルの組み込み権限グループの間にはカスケード関係はありません。クラスターレベルで権限グループを設定しても、そのインスタンス配下のすべてのデータベースやコレクションに自動的に権限が適用されるわけではありません。データベースレベルおよびコレクションレベルの権限は、それぞれ手動で設定する必要があります。
+3つのレベルの組み込み権限グループにはカスケード関係はありません。クラスターレベルで権限グループを設定しても、そのインスタンス配下のすべてのデータベースとコレクションに権限が自動的に設定されるわけではありません。データベースレベルとコレクションレベルの権限は手動で設定する必要があります。
 
 </Admonition>
 
 #### コレクションレベルの権限グループ\{#collection-level-privilege-groups}
 
-- **CollectionReadOnly (COLL_RO)**：コレクションデータの読み取り権限を含みます。
+- **CollectionReadOnly (COLL_RO)**: コレクションデータを読み取る権限が含まれます。
 
-- **CollectionReadWrite (COLL_RW)**：コレクションデータの読み取りおよび書き込み権限を含みます。
+- **CollectionReadWrite (COLL_RW)**: コレクションデータの読み取りと書き込みを行う権限が含まれます。
 
-- **CollectionAdmin (COLL_ADMIN)**：コレクションデータの読み取り・書き込み、およびコレクション管理の権限を含みます。
+- **CollectionAdmin (COLL_ADMIN)**: コレクションデータの読み取りと書き込み、およびコレクションの管理を行う権限が含まれます。
 
-次の表に、コレクションレベルの3つの組み込み権限グループに含まれる具体的な権限の一覧を示します。
+次の表は、コレクションレベルで 3つの組み込み権限グループに含まれる具体的な権限を示しています。
 
 | **権限** | **CollectionReadOnly** | **CollectionReadWrite** | **CollectionAdmin** |
 | --- | --- | --- | --- |
@@ -86,13 +86,13 @@ Zilliz Cloud は、コレクション、データベース、クラスターの�
 
 #### データベースレベルの権限グループ\{#database-level-privilege-groups}
 
-- **DatabaseReadOnly (DB_RO)**：データベースデータの読み取り権限を含みます。
+- **DatabaseReadOnly (DB_RO)**: データベースデータを読み取る権限が含まれます。
 
-- **DatabaseReadWrite (DB_RW)**：データベースデータの読み取りおよび書き込み権限を含みます。
+- **DatabaseReadWrite (DB_RW)**: データベースデータの読み取りと書き込みを行う権限が含まれます。
 
-- **DatabaseAdmin (DB_Admin)**：データベースデータの読み取り・書き込み、およびデータベース管理の権限を含みます。
+- **DatabaseAdmin (DB_Admin)**: データベースデータの読み取りと書き込み、およびデータベースの管理を行う権限が含まれます。
 
-次の表に、データベースレベルの3つの組み込み権限グループに含まれる具体的な権限の一覧を示します。
+次の表は、データベースレベルで 3つの組み込み権限グループに含まれる具体的な権限を示しています。
 
 | **権限** | **DatabaseReadOnly** | **DatabaseReadWrite** | **DatabaseAdmin** |
 | --- | --- | --- | --- |
@@ -104,13 +104,13 @@ Zilliz Cloud は、コレクション、データベース、クラスターの�
 
 #### クラスターレベルの権限グループ\{#cluster-level-privilege-groups}
 
-- **ClusterReadOnly (Cluster_RO)**：インスタンスデータの読み取り権限を含みます。
+- **ClusterReadOnly (Cluster_RO)**: インスタンスデータを読み取る権限が含まれます。
 
-- **ClusterReadWrite (Cluster_RW)**：インスタンスデータの読み取りおよび書き込み権限を含みます。
+- **ClusterReadWrite (Cluster_RW)**: インスタンスデータの読み取りと書き込みを行う権限が含まれます。
 
-- **ClusterAdmin (Cluster_Admin)**：インスタンスデータの読み取り・書き込み、およびインスタンス管理の権限を含みます。
+- **ClusterAdmin (Cluster_Admin)**: インスタンスデータの読み取りと書き込み、およびインスタンスの管理を行う権限が含まれます。
 
-次の表に、クラスターレベルの3つの組み込み権限グループに含まれる具体的な権限の一覧を示します。
+次の表は、クラスターレベルで 3つの組み込み権限グループに含まれる具体的な権限を示しています。
 
 | **権限** | **ClusterReadOnly** | **ClusterReadWrite** | **ClusterAdmin** |
 | --- | --- | --- | --- |
@@ -141,11 +141,11 @@ Zilliz Cloud は、コレクション、データベース、クラスターの�
 
 ### カスタム権限グループ | PRIVATE\{#custom-privilege-groups}
 
-組み込み権限で要件を満たせない場合は、SDKを使用してカスタム権限グループを作成し、任意の権限を追加できます。
+組み込みの権限でニーズを満たせない場合は、SDK を使用してカスタム権限グループを作成し、指定した権限を権限グループに追加できます。 
 
 <Admonition type="info" title="Notes">
 
-この機能は**Private Preview**として提供されています。ご利用をご希望の場合は、[サポートチケットを作成](http://support.zilliz.com)して有効化をリクエストしてください。
+これは **Private Preview** の機能です。この機能を利用するには、[サポートチケットを作成](http://support.zilliz.com) して、有効化を依頼してください。
 
 </Admonition>
 
@@ -244,11 +244,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-カスタム権限グループの作成後、そのグループに権限を追加できます。
+カスタム権限グループを作成したら、その権限グループに権限を追加できます。
 
 #### カスタム権限グループへの権限の追加\{#add-privileges-to-a-custom-privilege-group}
 
-次の例では、作成したばかりの権限グループ `privilege_group_1` に権限 `PrivilegeBackupRBAC` と `PrivilegeRestoreRBAC` を追加する方法を示します。Zilliz Cloud で利用可能なすべての権限の詳細については、[すべての権限](./cluster-privileges#all-privileges)を参照してください。
+次の例では、作成したばかりの権限グループ `privilege_group_1` に権限 `PrivilegeBackupRBAC` と `PrivilegeRestoreRBAC` を追加する方法を示します。Zilliz Cloud で利用可能なすべての権限の詳細については、[すべての権限](./cluster-privileges#all-privileges) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -264,6 +264,7 @@ client.add_privileges_to_group(group_name='privilege_group_1', privileges=['Quer
 
 ```java
 import io.milvus.v2.service.rbac.request.AddPrivilegesToGroupReq;
+import java.util.Arrays;
 
 client.addPrivilegesToGroup(AddPrivilegesToGroupReq.builder()
         .groupName("privilege_group_1")
@@ -348,7 +349,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-権限グループに権限を追加したら、その権限グループをロールに付与できます。詳細については、[クラスターロールの管理 (SDK)](./cluster-roles-sdk#grant-a-privilege-group-to-a-role)を参照してください。
+権限グループに権限を追加したら、その権限グループをロールに付与できます。詳細については、[クラスターロールの管理（SDK）](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) を参照してください。
 
 #### カスタム権限グループからの権限の削除\{#remove-privileges-from-a-custom-privilege-group}
 
@@ -368,6 +369,7 @@ client.remove_privileges_from_group(group_name='privilege_group_1', privileges=[
 
 ```java
 import io.milvus.v2.service.rbac.request.RemovePrivilegesFromGroupReq;
+import java.util.Collections;
 
 client.removePrivilegesFromGroup(RemovePrivilegesFromGroupReq.builder()
         .groupName("privilege_group_1")
@@ -471,6 +473,7 @@ client.list_privilege_groups()
 import io.milvus.v2.service.rbac.PrivilegeGroup;
 import io.milvus.v2.service.rbac.request.ListPrivilegeGroupsReq;
 import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
+import java.util.List;
 
 ListPrivilegeGroupsResp resp = client.listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
         .build());
@@ -547,7 +550,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下に出力例を示します。
+出力例は以下の通りです。
 
 ```bash
 PrivilegeGroupItem: <privilege_group:privilege_group_1>, <privileges:('Search', 'Query')>
@@ -648,99 +651,98 @@ curl --request POST \
 
 ## すべての権限\{#all-privileges}
 
-以下は、Zilliz Cloud で利用可能なすべての権限です。
+Zilliz Cloud で利用可能なすべての権限は以下の通りです。 
 
-以下の権限を使用して独自の権限グループを作成する場合や、特定の権限を持つカスタムロールを作成する場合は、[お問い合わせ](http://support.zilliz.com)ください。
+以下に示す権限を含む独自の権限グループを作成する場合、または権限を持つカスタムロールを作成する場合は、[お問い合わせください](http://support.zilliz.com)。
 
 ### データベース権限\{#database-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| ListDatabases | 現在のインスタンス内のすべてのデータベースを表示します |
-| DescribeDatabase | データベースの詳細を表示します |
-| CreateDatabase | データベースを作成します |
-| DropDatabase | データベースを削除します |
-| AlterDatabase | データベースのプロパティを変更します |
+| ListDatabases | 現在のインスタンス内のすべてのデータベースを表示します。 |
+| DescribeDatabase | データベースの詳細を表示します。 |
+| CreateDatabase | データベースを作成します。 |
+| DropDatabase | データベースを削除します。 |
+| AlterDatabase | データベースのプロパティを変更します。 |
 
 ### コレクション権限\{#collection-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| GetFlushState | コレクションのフラッシュ操作のステータスを確認します |
-| GetLoadState | コレクションのロード状態を確認します |
-| GetLoadingProgress | コレクションのロード進行状況を確認します |
-| ShowCollections | コレクション権限を持つすべてのコレクションを表示します |
-| ListAliases | コレクションのすべてのエイリアスを表示します |
-| DescribeCollection | コレクションの詳細を表示します |
-| DescribeAlias | エイリアスの詳細を表示します |
-| GetStatistics | コレクションの統計情報を取得します（例：コレクション内のエンティティ数） |
-| CreateCollection | コレクションを作成します |
-| DropCollection | コレクションを削除します |
-| Load | コレクションをロードします |
-| Release | コレクションをリリースします |
-| Flush | コレクション内のすべてのエンティティをシールド済みセグメントに永続化します。フラッシュ操作後に挿入されたエンティティは、新しいセグメントに格納されます。 |
-| Compaction | 手動で Compaction をトリガーします |
-| RenameCollection | コレクションの名前を変更します |
-| CreateAlias | コレクションのエイリアスを作成します |
-| DropAlias | コレクションのエイリアスを削除します |
-| FlushAll | データベース内のすべてのコレクションをフラッシュします |
-| AddCollectionField | 既存のコレクションにフィールドを追加します |
+| GetFlushState | コレクションのフラッシュ操作のステータスを確認します。 |
+| GetLoadState | コレクションのロードステータスを確認します。 |
+| GetLoadingProgress | コレクションのロード進行状況を確認します。 |
+| ShowCollections | コレクション権限を持つすべてのコレクションを表示します。 |
+| ListAliases | コレクションのすべてのエイリアスを表示します。 |
+| DescribeCollection | コレクションの詳細を表示します。 |
+| DescribeAlias | エイリアスの詳細を表示します。 |
+| GetStatistics | コレクションの統計情報を取得します（例：コレクション内のエンティティ数）。 |
+| CreateCollection | コレクションを作成します。 |
+| DropCollection | コレクションを削除します。 |
+| Load | コレクションをロードします。 |
+| Release | コレクションをリリースします。 |
+| Flush | コレクション内のすべてのエンティティをシールドセグメントに永続化します。フラッシュ操作の後に挿入されたエンティティは、新しいセグメントに格納されます。 |
+| Compaction | Compaction を手動でトリガーします。 |
+| RenameCollection | コレクションの名前を変更します。 |
+| CreateAlias | コレクションのエイリアスを作成します。 |
+| DropAlias | コレクションのエイリアスを削除します。 |
+| FlushAll | データベース内のすべてのコレクションをフラッシュします。 |
+| AddCollectionField | 既存のコレクションにフィールドを追加します。 |
 
 ### パーティション権限\{#partition-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| HasPartition | パーティションの存在を確認します |
-| ShowPartitions | コレクション内のすべてのパーティションを一覧表示します |
-| CreatePartition | パーティションを作成します |
-| DropPartition | パーティションを削除します |
+| HasPartition | パーティションが存在するかどうかを確認します。 |
+| ShowPartitions | コレクション内のすべてのパーティションを表示します。 |
+| CreatePartition | パーティションを作成します。 |
+| DropPartition | パーティションを削除します。 |
 
 ### インデックス権限\{#index-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| IndexDetail | インデックスの詳細を表示します |
-| CreateIndex | インデックスを作成します |
-| DropIndex | インデックスを削除します |
+| IndexDetail | インデックスの詳細を表示します。 |
+| CreateIndex | インデックスを作成します。 |
+| DropIndex | インデックスを削除します。 |
 
 ### リソース管理権限\{#resource-management-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| LoadBalance | 負荷分散を実行します |
-| CreateResourceGroup | リソースグループを作成します |
-| DropResourceGroup | リソースグループを削除します |
-| UpdateResourceGroups | リソースグループを更新します |
-| DescribeResourceGroup | リソースグループの詳細を表示します |
-| ListResourceGroups | 現在のインスタンスのすべてのリソースグループを一覧表示します |
-| TransferNode | リソースグループ間でノードを移動します |
-| TransferReplica | リソースグループ間でレプリカを移動します |
-| BackupRBAC | 現在のインスタンスにおけるすべての RBAC 関連操作のバックアップを作成します |
-| RestoreRBAC | 現在のインスタンスにおけるすべての RBAC 関連操作のバックアップを復元します |
+| LoadBalance | ロードバランスを実現します。 |
+| CreateResourceGroup | リソースグループを作成します。 |
+| DropResourceGroup | リソースグループを削除します。 |
+| UpdateResourceGroups | リソースグループを更新します。 |
+| DescribeResourceGroup | リソースグループの詳細を表示します。 |
+| ListResourceGroups | 現在のインスタンスのすべてのリソースグループを表示します。 |
+| TransferNode | リソースグループ間でノードを転送します。 |
+| TransferReplica | リソースグループ間でレプリカを転送します。 |
+| BackupRBAC | 現在のインスタンス内のすべての RBAC 関連操作のバックアップを作成します。 |
+| RestoreRBAC | 現在のインスタンス内のすべての RBAC 関連操作のバックアップを復元します。 |
 
 ### エンティティ権限\{#entity-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| Query | クエリを実行します |
-| Search | 検索を実行します |
-| Insert | エンティティを挿入します |
-| Delete | エンティティを削除します |
-| Upsert | エンティティを Upsert します |
-| Import | エンティティを一括挿入またはインポートします |
+| Query | クエリを実行します。 |
+| Search | 検索を実行します。 |
+| Insert | エンティティを挿入します。 |
+| Delete | エンティティを削除します。 |
+| Upsert | エンティティをアップサートします。 |
+| Import | エンティティを一括挿入またはインポートします。 |
 
 ### RBAC 権限\{#rbac-privileges}
 
 | **権限** | **説明** |
 | --- | --- |
-| CreateOwnership | ユーザーまたはロールを作成します |
-| UpdateUser | ユーザーのパスワードを更新します |
-| DropOwnership | ユーザーのパスワードまたはロールを削除します |
-| SelectOwnership | 特定のロールが付与されているすべてのユーザーを一覧表示します |
-| ManageOwnership | ユーザーやロールの管理、またはユーザーへのロール付与を行います |
-| SelectUser | ユーザーに付与されているすべてのロールを一覧表示します |
-| CreatePrivilegeGroup | 権限グループを作成します |
-| DropPrivilegeGroup | 権限グループを削除します |
-| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを一覧表示します |
-| OperatePrivilegeGroup | 権限グループに対して権限の追加または削除を行います |
-
+| CreateOwnership | ユーザーまたはロールを作成します。 |
+| UpdateUser | ユーザーのパスワードを更新します。 |
+| DropOwnership | ユーザーのパスワードまたはロールを削除します。 |
+| SelectOwnership | 特定のロールが付与されているすべてのユーザーを表示します。 |
+| ManageOwnership | ユーザーまたはロールを管理するか、ユーザーにロールを付与します。 |
+| SelectUser | ユーザーに付与されているすべてのロールを表示します。 |
+| CreatePrivilegeGroup | 権限グループを作成します。 |
+| DropPrivilegeGroup | 権限グループを削除します。 |
+| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します。 |
+| OperatePrivilegeGroup | 権限グループに権限を追加、または権限グループから権限を削除します。 |

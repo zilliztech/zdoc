@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stemmer` フィルターは単語を基本形または語幹（stemming と呼ばれる）に変換し、異なる活用形にまたがる類似した意味の単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | Cloud"
+description: "`stemmer` フィルターは、単語を基本形または語根形に還元します（これをステミングと呼びます）。これにより、異なる語形変化を持つ類似した意味の単語を一致させやすくなります。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。 | Cloud"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
 sidebar_position: 10
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Stemmer
 
-`stemmer` フィルターは単語を基本形または語幹（stemming と呼ばれる）に変換し、異なる活用形にまたがる類似した意味の単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。
+`stemmer` フィルターは、単語を基本形または語根形に還元します（これをステミングと呼びます）。これにより、異なる語形変化を持つ類似した意味の単語を一致させやすくなります。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。
 
 ## 設定\{#configuration}
 
-`stemmer` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "stemmer"` を指定し、stemming に使用する言語を選択するための `language` パラメーターをあわせて指定します。
+`stemmer` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "stemmer"` を指定し、ステミング対象の言語を選択する `language` パラメーターを指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -45,6 +45,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -134,21 +138,21 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`stemmer` フィルターでは、以下の設定可能なパラメーターを受け付けます。
+`stemmer` フィルターでは、以下の構成可能なパラメーターを使用できます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `language` | stemming 処理に使用する言語を指定します。サポートされている言語は次のとおりです: `"arabic"`, `"danish"`, `"dutch"`, `"english"`, `"finnish"`, `"french"`, `"german"`, `"greek"`, `"hungarian"`, `"italian"`, `"norwegian"`, `"portuguese"`, `"romanian"`, `"russian"`, `"spanish"`, `"swedish"`, `"tamil"`, `"turkish"` |
+| `language` | ステミング処理の言語を指定します。サポートされる言語は、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` です。 |
 
-`stemmer` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`stemmer` フィルターはトークナイザーが生成したタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用して動作を確認してください。
 
-### アナライザー構成\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -168,6 +172,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -257,7 +265,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -315,6 +323,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -429,4 +439,3 @@ curl --request POST \
 ```python
 ['run', 'run', 'look', 'ran', 'runner']
 ```
-
