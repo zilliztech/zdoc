@@ -1,13 +1,13 @@
 ---
-title: "Gaussian Decay | BYOC"
+title: "ガウス減衰 | BYOC"
 slug: /gaussian-decay
-sidebar_label: "Gaussian Decay"
+sidebar_label: "ガウス減衰"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Gaussian decay は normal decay とも呼ばれ、検索結果に対して最も自然に感じられる調整を実現します。距離が離れるにつれて徐々にぼやける人間の視覚と同じように、Gaussian decay は滑らかなベル型の曲線を作り、アイテムが理想的な位置から離れるにつれて関連性を緩やかに低下させます。このアプローチは、好みの範囲をわずかに超えたアイテムに厳しいペナルティを与えることなく、遠く離れたアイテムの関連性は大幅に下げたい場合に最適です。 | BYOC"
+description: "ガウス減衰（正規減衰とも呼ばれます）は、検索結果に対して最も自然な感覚の調整を実現します。距離に応じて徐々にぼやける人間の視覚と同様に、ガウス減衰は滑らかな釣鐘型の曲線を作成し、アイテムが理想的な地点から離れるにつれて関連性を穏やかに低下させます。このアプローチは、優先範囲のすぐ外にあるアイテムに厳しいペナルティを与えず、遠くにあるアイテムの関連性は大幅に低下させる、バランスの取れた減衰が必要な場合に最適です。 | BYOC"
 type: origin
 token: G39mw621Yi3iICkv69JcQ0J5nHf
 sidebar_position: 2
@@ -19,54 +19,54 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Gaussian Decay
+# ガウス減衰
 
-Gaussian decay は normal decay とも呼ばれ、検索結果に対して最も自然に感じられる調整を実現します。距離が離れるにつれて徐々にぼやける人間の視覚と同じように、Gaussian decay は滑らかなベル型の曲線を作り、アイテムが理想的な位置から離れるにつれて関連性を緩やかに低下させます。このアプローチは、好みの範囲をわずかに超えたアイテムに厳しいペナルティを与えることなく、遠く離れたアイテムの関連性は大幅に下げたい場合に最適です。
+ガウス減衰（正規減衰とも呼ばれます）は、検索結果に対して最も自然な感覚の調整を実現します。距離に応じて徐々にぼやける人間の視覚と同様に、ガウス減衰は滑らかな釣鐘型の曲線を作成し、アイテムが理想的な地点から離れるにつれて関連性を穏やかに低下させます。このアプローチは、優先範囲のすぐ外にあるアイテムに厳しいペナルティを与えず、遠くにあるアイテムの関連性は大幅に低下させる、バランスの取れた減衰が必要な場合に最適です。
 
-他の decay ranker とは異なり、次のような特徴があります。
+他の減衰ランカーとは次の点が異なります。
 
-- Exponential decay は最初に急激に低下するため、より強い初期ペナルティが発生します
+- 指数減衰は最初に急激に低下し、初期のペナルティがより強くなります。
 
-- Linear decay はゼロに達するまで一定の割合で減少するため、明確なカットオフが生じます
+- 線形減衰はゼロに達するまで一定の割合で低下し、明確なカットオフを作成します。
 
-Gaussian decay は、よりバランスが取れた直感的なアプローチを提供し、ユーザーにとって自然に感じられます。
+ガウス減衰は、ユーザーにとって自然に感じられる、よりバランスの取れた直感的なアプローチを提供します。
 
-## Gaussian decay を使用するタイミング\{#when-to-use-gaussian-decay}
+## ガウス減衰を使用する場面\{#when-to-use-gaussian-decay}
 
-Gaussian decay は、特に次のようなケースで効果的です。
+ガウス減衰は、次のような場面で特に効果を発揮します。
 
-| ユースケース | 例 | Gaussian が適している理由 |
+| ユースケース | 例 | ガウス減衰が適している理由 |
 | --- | --- | --- |
-| 位置ベースの検索 | レストラン検索、店舗検索 | 距離に対する人間の自然な知覚を模倣できる |
-| コンテンツ推薦 | 公開日に基づく記事の提案 | コンテンツの経年とともに関連性が緩やかに低下する |
-| 商品リスティング | ターゲット価格に近いアイテム | 価格がターゲットから外れるにつれて関連性が滑らかに低下する |
-| 専門知識のマッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価できる |
+| 位置情報に基づく検索 | レストラン検索アプリ、店舗ロケーター | 距離の関連性に対する人間の自然な知覚を模倣します。 |
+| コンテンツレコメンデーション | 記事の公開日時に基づく提案 | コンテンツの経過時間に応じて関連性が徐々に低下します。 |
+| 商品リスト | 目標価格に近い価格のアイテム | 価格が目標値から外れるにつれて関連性が滑らかに低下します。 |
+| 専門知識のマッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価します。 |
 
-厳しいペナルティや厳格なカットオフなしに、関連性が自然に低下する感覚を必要とするアプリケーションであれば、Gaussian decay が最適な選択肢である可能性が高いです。
+アプリケーションで、厳しいペナルティや厳格なカットオフなしに、関連性が自然に低下する感覚が必要な場合、ガウス減衰が最適な選択肢となる可能性があります。
 
-## ベルカーブの原理\{#bell-curve-principle}
+## 釣鐘型曲線の原理\{#bell-curve-principle}
 
-Gaussian decay は、理想的な位置からの距離が大きくなるにつれて関連性を緩やかに低下させる、滑らかなベル型の曲線を作ります。数学者 Carl Friedrich Gauss にちなんで名付けられたこの分布は、自然界や統計に頻繁に現れるため、人間の知覚にとって非常に直感的に感じられます。
+ガウス減衰は、理想的な地点からの距離が増すにつれて関連性を徐々に低下させる、滑らかな釣鐘型の曲線を作成します。数学者カール・フリードリヒ・ガウスにちなんで名付けられたこの分布は、自然界や統計で頻繁に見られるため、人間の知覚にとって非常に直感的に感じられる理由が説明できます。
 
 ![DP1AbcqZPoyfqhxpJ2icptjQnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/dp1abcqzpoyfqhxpj2icptjqnfc.png "DP1AbcqZPoyfqhxpJ2icptjQnfc")
 
-上のグラフは、モバイル検索アプリで Gaussian decay がレストランのランキングにどのように影響するかを示しています。
+上のグラフは、モバイル検索アプリでガウス減衰がレストランのランキングにどのように影響するかを示しています。
 
-- `origin`（0 km）: 現在地であり、関連性が最大（1.0）となる位置です。
+- `origin`（0 km）：現在地であり、関連性が最大（1.0）になる地点です。
 
-- `offset`（±300 m）: 周囲の「満点ゾーン」です。300 メートル以内のレストランはすべて完全な関連性スコア（1.0）を維持するため、ごく近い候補がわずかな距離差で不必要にペナルティを受けることはありません。
+- `offset`（±300 m）：周囲の「満点ゾーン」です。300 メートル以内のすべてのレストランは満点の関連性スコア（1.0）を維持するため、ごく近い選択肢がわずかな距離の違いだけで不必要にペナルティを受けることはありません。
 
-- `scale`（±2 km）: 関連性が decay 値まで低下する距離です。ちょうど 2 キロメートル離れたレストランは関連性スコアが半分（0.5）になります。
+- `scale`（±2 km）：関連性が減衰値まで下がる距離です。ちょうど 2 キロメートル離れたレストランの関連性スコアは半分（0.5）になります。
 
-- `decay`（0.5）: scale 距離におけるスコアです。このパラメータは、距離に応じてスコアがどれだけ速く減少するかを本質的に制御します。
+- `decay`（0.5）：スケール距離でのスコアです。このパラメーターは、距離に応じてスコアがどれだけ早く減少するかを本質的に制御します。
 
-曲線からわかるように、2 km を超えるレストランは関連性が下がり続けますが、完全にゼロに達することはありません。4～5 キロメートル離れたレストランであっても最小限の関連性は維持されるため、優れているものの遠方にあるレストランも検索結果に表示されます（ただし順位は下がります）。
+曲線からわかるように、2 km を超えるレストランは関連性が低下し続けますが、完全にゼロに達することはありません。4-5 キロメートル離れたレストランでも最小限の関連性は保持されるため、優れていても遠くにあるレストランは（ランキングは低くなりますが）検索結果に引き続き表示されます。
 
-この挙動は、人々が距離と関連性について自然に考える方法を模倣しています。近くの場所が好まれる一方で、特別に優れた選択肢のためにはより遠くまで移動することも厭いません。
+この動作は、人が距離と関連性について自然に考える方法を模倣しています。近くの場所が好まれますが、優れた選択肢のためなら遠くまで移動することも厭いません。
 
-## 数式\{#formula}
+## 計算式\{#formula}
 
-Gaussian decay スコアを計算するための数式は以下のとおりです。
+ガウス減衰スコアを計算する数式は次の通りです。
 
 $$
 S(doc) = \exp\left( -\frac{\left( \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)^2}{2\sigma^2} \right)
@@ -78,33 +78,33 @@ $$
 \sigma^2 = -\frac{scale^2}{2 \cdot \ln(decay)}
 $$
 
-これを平易な言葉で順に説明すると、次のようになります。
+これを平易な言葉で分解すると、次のようになります。
 
-1. フィールド値が origin からどれだけ離れているかを計算します:  $|fieldvalue_{doc} - origin|$
+1. フィールド値が原点からどれだけ離れているかを計算します:  $|fieldvalue_{doc} - origin|$
 
-1. offset がある場合はそれを差し引きますが、ゼロを下回らないようにします: $\max(0, distance - offset)$
+1. オフセットがある場合はそれを減算しますが、ゼロを下回らないようにします: $\max(0, distance - offset)$
 
-1. この調整後の距離を二乗します: $(adjusted\_distance)^2$
+1. この調整済み距離を二乗します: $(adjusted\_distance)^2$
 
-1. scale と decay パラメータから計算される &#36;2\sigma^2$ で割ります
+1. スケールと減衰パラメーターから計算される &#36;2\sigma^2$ で除算します。
 
-1. 負の指数を取ります。これにより 0 と 1 の間の値が得られます: $\exp(-value)$
+1. 負の指数を取ると、0 から 1 の間の値が得られます: $\exp(-value)$
 
-$\sigma^2$ の計算により、scale と decay パラメータが Gaussian 分布の標準偏差の二乗に変換されます。これが、この関数に特徴的なベル型の形状を与えます。
+$\sigma^2$ の計算では、スケールと減衰パラメーターがガウス分布の標準偏差の二乗に変換されます。これにより、この関数に特徴的な釣鐘型の形状が与えられます。
 
-## Gaussian decay を使用する\{#use-gaussian-decay}
+## ガウス減衰を使用する\{#use-gaussian-decay}
 
-Gaussian decay は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
+ガウス減衰は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
 <Admonition type="info" title="Notes">
 
-decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（timestamp や distance など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
+減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus での時間ベースのランキングの実装](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
-### decay ranker を作成する\{#create-a-decay-ranker}
+### 減衰ランカーを作成する\{#create-a-decay-ranker}
 
-コレクションに数値フィールド（この例では、ユーザーからの距離をメートルで表す `distance`）を設定したら、Gaussian decay ranker を作成します。
+コレクションに数値フィールド（この例では、ユーザーからの距離をメートル単位で表す `distance`）が設定されたら、ガウス減衰ランカーを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -134,6 +134,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("restaurant_distance_decay")
@@ -151,6 +152,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("restaurant_distance_decay").
     WithType(entity.FunctionTypeRerank).
@@ -241,9 +244,9 @@ rerank='{
 </TabItem>
 </Tabs>
 
-### 標準のベクトル検索に適用する\{#apply-to-standard-vector-search}
+### 標準ベクトル検索に適用する\{#apply-to-standard-vector-search}
 
-decay ranker を定義したら、検索操作中に `ranker` パラメータへ渡すことで適用できます。
+減衰ランカーを定義したら、検索操作時に `ranker` パラメーターに渡して適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -294,7 +297,12 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "restaurant_db", 10,

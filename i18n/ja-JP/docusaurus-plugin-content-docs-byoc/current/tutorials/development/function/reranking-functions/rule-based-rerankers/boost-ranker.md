@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル距離に基づく意味的類似度だけに依存するのではなく、Boost Ranker を使うことで検索結果に意図した影響を与えられます。メタデータフィルタリングを用いて検索結果を素早く調整したい場合に最適です。 | BYOC"
+description: "ベクトル距離に基づいて計算されるセマンティック類似度のみに依存するのではなく、Boost Ranker を使用すると、検索結果に有意義な影響を及ぼすことができます。メタデータフィルタリングを使用して検索結果をすばやく調整するのに適しています。 | BYOC"
 type: origin
 token: Qa60w2vDuiqNk0kclKLcZ0uQnkg
 sidebar_position: 1
@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 ベクトル距離に基づく意味的類似度だけに依存するのではなく、Boost Ranker を使うことで検索結果に意図した影響を与えられます。メタデータフィルタリングを用いて検索結果を素早く調整したい場合に最適です。
 
-検索リクエストに Boost Ranker 関数が含まれる場合、Milvus は関数内の任意のフィルタリング条件を使用して検索結果の候補から一致するものを特定し、指定された重みを適用してそれらのスコアをブーストすることで、最終結果における一致したエンティティの順位を上げ下げします。 
+検索リクエストに Boost Ranker 関数が含まれる場合、Milvus は関数内の任意のフィルタリング条件を使用して検索結果の候補から一致するものを特定し、指定された重みを適用してそれらのスコアをブーストすることで、最終結果における一致したエンティティの順位を上げ下げします。
 
 ## Boost Ranker の使用場面\{#when-to-use-boost-ranker}
 
@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 ![Hq0awfjC7h0Ty3bvsUEcasOHncb](https://zdoc-images.s3.us-west-2.amazonaws.com/Hq0awfjC7h0Ty3bvsUEcasOHncb.png)
 
-データを挿入すると、Zilliz Cloud はそれをセグメント全体に分散します。検索時には、各セグメントが候補セットを返し、Zilliz Cloud がすべてのセグメントの候補をランク付けして最終結果を生成します。検索リクエストに Boost Ranker が含まれる場合、Zilliz Cloud は潜在的な精度低下を防ぎ再現率を向上させるため、各セグメントの候補結果に Boost Ranker を適用します。 
+データを挿入すると、Zilliz Cloud はそれをセグメント全体に分散します。検索時には、各セグメントが候補セットを返し、Zilliz Cloud がすべてのセグメントの候補をランク付けして最終結果を生成します。検索リクエストに Boost Ranker が含まれる場合、Zilliz Cloud は潜在的な精度低下を防ぎ再現率を向上させるため、各セグメントの候補結果に Boost Ranker を適用します。
 
 結果を確定する前に、Milvus は Boost Ranker を使用してこれらの候補を次のように処理します。
 
@@ -72,7 +72,7 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
 
 以下の例では、最も関連性の高い上位 5 つのエンティティを返し、abstract ドキュメントタイプを持つエンティティのスコアに重みを加える単一ベクトル検索における Boost Ranker の使用方法を示します。
 
-1. **セグメント内の検索結果候補を収集します。** 
+1. **セグメント内の検索結果候補を収集します。**
 
     以下の表では、Milvus がエンティティを 2 つのセグメント（**0001** と **0002**）に分散し、各セグメントが 5 つの候補を返すことを想定しています。
 
@@ -108,7 +108,7 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
 
 1. **Boost Ranker で指定された重みを適用します**（`weight=0.5`）。
 
-    前のステップで特定されたすべてのエンティティには、Boost Ranker で指定された重みが乗算され、その結果、ランクが変化します。 
+    前のステップで特定されたすべてのエンティティには、Boost Ranker で指定された重みが乗算され、その結果、ランクが変化します。
 
     | ID | DocType | スコア | 重み付きスコア<br/>（= スコア × 重み） | ランク | セグメント |
     | --- | --- | --- | --- | --- | --- |
@@ -270,7 +270,7 @@ export RANKER='{
         "random_score": {"seed": 126, "field": "id"},
         "weight": 0.5
     }
-}' 
+}'
 ```
 
 </TabItem>
@@ -316,7 +316,7 @@ export RANKER='{
    <tr>
      <td><p><code>params.filter</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>検索結果のエンティティの中から一致するものを特定するために使用するフィルター式を指定します。<a href="./filtering-overview">フィルタリングの説明</a> に記載されている任意の有効な基本フィルター式を使用できます。</p><p><strong>注</strong>: 使用できるのは <code>==</code>、<code>&gt;</code>、<code>&lt;</code> などの基本演算子だけです。<code>text_match</code> や <code>phrase_match</code> などの高度な演算子を使用すると、検索パフォーマンスが低下します。</p></td>
+     <td><p>検索結果のエンティティの中から一致するものを特定するために使用するフィルター式を指定します。<a href="./filtering-overview">フィルタリングの説明</a> に記載されている任意の有効な基本フィルター式を使用できます。</p><p><strong>注</strong>：使用できるのは <code>==</code>、<code>&gt;</code>、<code>&lt;</code> などの基本演算子だけです。<code>text_match</code> や <code>phrase_match</code> などの高度な演算子を使用すると、検索パフォーマンスが低下します。</p></td>
      <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
    </tr>
    <tr>
@@ -329,7 +329,7 @@ export RANKER='{
 
 ### 単一の Boost Ranker を使用した検索\{#search-with-a-single-boost-ranker}
 
-Boost Ranker 関数の準備ができたら、検索リクエストでそれを参照できます。以下の例では、**id**、**vector**、**doctype** の各フィールド（**vector** はベクトルフィールド）を持つコレクションをすでに作成していることを前提としています。
+Boost Ranker 関数の準備ができたら、検索リクエストでそれを参照できます。次の例では、**id**、**vector**（ベクトル）、**doctype** のフィールドを持つコレクションがすでに作成されていることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -534,7 +534,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             }
         ]
     }
-  }' 
+  }'
 ```
 
 </TabItem>
@@ -544,7 +544,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 
 1 回の検索で複数の Boost Ranker を組み合わせて、検索結果に影響を与えることができます。そのためには、複数の Boost Ranker を作成し、それらを **FunctionScore** インスタンスで参照し、その **FunctionScore** インスタンスを検索リクエストの ranker として使用します。
 
-以下の例では、**0.8** から **1.2** の間の重みを適用して、特定されたすべてのエンティティのスコアを変更する方法を示します。 
+以下の例では、**0.8** から **1.2** の間の重みを適用して、特定されたすべてのエンティティのスコアを変更する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -869,13 +869,13 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             "function_mode": "Sum"
         }
     }
-  }' 
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-具体的には、2 つの Boost Ranker があります。一方は検出されたすべてのエンティティに固定の重みを適用し、もう一方はそれらにランダムな重みを割り当てます。次に、これら 2 つの ranker を **FunctionScore** で参照します。この **FunctionScore** では、重みが検出されたエンティティのスコアにどのように影響するかも定義します。 
+具体的には、2 つの Boost Ranker があります。一方は検出されたすべてのエンティティに固定の重みを適用し、もう一方はそれらにランダムな重みを割り当てます。次に、これら 2 つの ranker を **FunctionScore** で参照します。この **FunctionScore** では、重みが検出されたエンティティのスコアにどのように影響するかも定義します。
 
 以下の表に、**FunctionScore** インスタンスの作成に必要なパラメーターを示します。
 
@@ -895,14 +895,13 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>指定した重みが、一致するエンティティのスコアにどのように影響するかを指定します。</p><p>使用可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付けされた値が、一致するエンティティの元のスコアに指定された重みを乗算した値と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付けされた値が、一致するエンティティの元のスコアと指定された重みの合計と等しいことを示します</p></li></ul></td>
+     <td><p>指定された重みが一致するエンティティのスコアにどのように影響するかを指定します。</p><p>指定できる値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付きの値が、一致するエンティティの元のスコアに指定された重みを乗算した値と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付きの値が、一致するエンティティの元のスコアと指定された重みの合計と等しいことを示します。</p></li></ul></td>
      <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>各 Boost Ranker からの重み付けされた値がどのように処理されるかを指定します。</p><p>使用可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付けされた値の積と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付けされた値の合計と等しいことを示します。</p></li></ul></td>
+     <td><p>複数の Boost Ranker からの重み付き値をどのように処理するかを指定します。</p><p>指定できる値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の積と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の合計と等しいことを示します。</p></li></ul></td>
      <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
 </table>
-

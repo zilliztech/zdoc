@@ -23,21 +23,21 @@ import TabItem from '@theme/TabItem';
 
 コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
 
-このページでは、フィールドのプロパティ変更について説明します。フィールドの追加や削除などのスキーマ形状の変更は対象外です。既存のコレクションにスカラーフィールドを追加したり、フィールドを削除したりするには、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
+このページでは、フィールドのプロパティの変更について説明します。フィールドの追加や削除などのスキーマ構造の変更は対象外です。スカラーフィールドを追加したり、既存のコレクションからフィールドを削除したりする方法については、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
 <Admonition type="info" title="Notes">
 
-- 各コレクションにはプライマリフィールドが 1 つだけ存在します。コレクション作成時に設定した後は、プライマリフィールドを変更したり、そのプロパティを変更したりすることはできません。
+- 各コレクションは、プライマリフィールドを 1 つだけ持ちます。コレクションの作成時に設定したプライマリフィールドは、変更したり、そのプロパティを変更したりすることはできません。
 
-- 各コレクションに設定できるパーティションキーは 1 つだけです。コレクション作成時に設定した後は、パーティションキーを変更することはできません。
+- 各コレクションは、パーティションキーを 1 つだけ持つことができます。コレクションの作成時に設定したパーティションキーは変更できません。
 
 </Admonition>
 
 ## VarChar フィールドの変更\{#alter-varchar-field}
 
-VarChar フィールドには `max_length` というプロパティがあり、フィールド値に含めることができる最大文字数を制約します。`max_length` プロパティは変更できます。
+VarChar フィールドには `max_length` というプロパティがあり、フィールド値に含めることができる最大文字数を制限します。`max_length` プロパティは変更できます。
 
-次の例では、コレクションに `varchar` という名前の VarChar フィールドが存在することを前提とし、その `max_length` プロパティを設定します。
+次の例では、コレクションに `varchar` という名前の VarChar フィールドがあることを前提に、その `max_length` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -122,6 +122,9 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 client
     .alter_collection_field_properties(
         AlterCollectionFieldPropertiesRequest::builder()
@@ -199,9 +202,9 @@ curl --request POST \
 
 ## ARRAY フィールドの変更\{#alter-array-field}
 
-配列フィールドには `element_type` と `max_capacity` という 2 つのプロパティがあります。前者は配列内の要素のデータ型を決定し、後者は配列内の要素の最大数を制約します。変更できるのは `max_capacity` プロパティのみです。
+配列フィールドには、`element_type` と `max_capacity` という 2 つのプロパティがあります。前者は配列内の要素のデータ型を決定し、後者は配列内の要素の最大数を制限します。変更できるのは `max_capacity` プロパティだけです。
 
-次の例では、コレクションに `array` という名前の配列フィールドが存在することを前提とし、その `max_capacity` プロパティを設定します。
+次の例では、コレクションに `array` という名前の配列フィールドがあることを前提に、その `max_capacity` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -221,6 +224,8 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("array")
@@ -233,6 +238,13 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
     "my_collection", "array").WithProperty(common.MaxCapacityKey, 64))
 if err != nil {
@@ -264,6 +276,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
                                                 .WithCollectionName("my_collection")
                                                 .WithFieldName("array")
@@ -312,9 +327,9 @@ curl --request POST \
 
 ## フィールドレベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
 
-メモリマッピング（Mmap）は、ディスク上の大容量ファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。
+メモリマッピング（Mmap）を使用すると、ディスク上の大きなファイルに直接メモリアクセスできるようになり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えずにコレクションのストレージ容量を拡張するのに役立ちます。
 
-次の例では、コレクションに `doc_chunk` という名前のフィールドが存在することを前提とし、その `mmap_enabled` プロパティを設定します。
+次の例では、コレクションに `doc_chunk` という名前のフィールドがあることを前提に、その `mmap_enabled` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -332,6 +347,8 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("doc_chunk")
@@ -344,6 +361,13 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
     "my_collection", "doc_chunk").WithProperty(common.MmapEnabledKey, true))
 if err != nil {
@@ -375,6 +399,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
                                                     .WithCollectionName("my_collection")
                                                     .WithFieldName("doc_chunk")

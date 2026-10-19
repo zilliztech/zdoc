@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple ベクトル fields or modalities where certain fields should contribute more significantly to the final ranking than others. | BYOC"
+description: "Weighted Ranker は、各検索パスに異なる重要度の重みを割り当てることで、複数の検索パスから得られた結果をインテリジェントに統合して優先順位を付けます。熟練したシェフが複数の材料を調整して完璧な料理を作るのと同じように、Weighted Ranker は異なる検索結果のバランスを取り、最も関連性の高い統合結果を実現します。このアプローチは、複数のベクトルフィールドやモダリティを横断して検索し、特定のフィールドを最終順位で他のフィールドよりも大きく貢献させる必要がある場合に最適です。 | BYOC"
 type: origin
 token: Oyy6w5DYJiVCMYkdduEc6eD9nZg
 sidebar_position: 1
@@ -21,41 +21,41 @@ import TabItem from '@theme/TabItem';
 
 # Weighted Ranker
 
-Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple ベクトル fields or modalities where certain fields should contribute more significantly to the final ranking than others.
+Weighted Ranker は、各検索パスに異なる重要度の重みを割り当てることで、複数の検索パスから得られた結果をインテリジェントに統合して優先順位を付けます。熟練したシェフが複数の材料を調整して完璧な料理を作るのと同じように、Weighted Ranker は異なる検索結果のバランスを取り、最も関連性の高い統合結果を実現します。このアプローチは、複数のベクトルフィールドやモダリティを横断して検索し、特定のフィールドを最終順位で他のフィールドよりも大きく貢献させる必要がある場合に最適です。
 
-## Weighted Ranker を使用するタイミング\{#when-to-use-weighted-ranker}
+## Weighted Ranker を使用する場合\{#when-to-use-weighted-ranker}
 
-Weighted Ranker is specifically designed for hybrid search scenarios where you need to combine results from multiple ベクトル search paths. It's particularly effective for:
+Weighted Ranker は、複数のベクトル検索パスから得られた結果を統合する必要があるハイブリッド検索シナリオ向けに特別に設計されています。特に次のような場合に効果的です。
 
-| ユースケース | 例 | Weighted Ranker が適している理由 |
+| ユースケース | 例 | Weighted Ranker が効果を発揮する理由 |
 | --- | --- | --- |
-| E コマース検索 | 画像の類似性とテキスト説明を組み合わせた商品検索 | 小売業者が、ファッションアイテムでは視覚的な類似性を優先し、技術製品ではテキスト説明を重視できるようにします |
-| メディアコンテンツ検索 | 視覚的特徴と音声文字起こしの両方を用いた動画検索 | クエリの意図に応じて、視覚コンテンツと話し言葉の対話の重要度をバランスできます |
-| ドキュメント検索 | 異なるセクション向けの複数の埋め込みを使用する企業向けドキュメント検索 | フルテキスト埋め込みも考慮しつつ、タイトルや要約の埋め込みにより高い重みを与えられます |
+| E コマース検索 | 画像の類似性とテキスト説明を組み合わせた商品検索 | 小売業者は、ファッション商品では視覚的な類似性を優先し、技術製品ではテキスト説明を重視できます。 |
+| メディアコンテンツ検索 | 視覚的特徴と音声文字起こしの両方を使用した動画検索 | クエリの意図に基づいて、視覚コンテンツと会話音声の重要度をバランスできます。 |
+| ドキュメント検索 | 異なるセクションに対して複数の埋め込みを使用する企業向けドキュメント検索 | タイトルと要約の埋め込みにより高い重みを与えながら、全文の埋め込みも考慮します。 |
 
-ハイブリッド検索アプリケーションで、複数の検索パスを組み合わせつつその相対的重要度を制御する必要がある場合、Weighted Ranker は理想的な選択肢です。
+ハイブリッド検索アプリケーションで、複数の検索パスを組み合わせつつ、それらの相対的な重要度を制御する必要がある場合は、Weighted Ranker が理想的な選択肢です。
 
 ## Weighted Ranker の仕組み\{#mechanism-of-weighted-ranker}
 
 WeightedRanker 戦略の主なワークフローは次のとおりです。
 
-1. **Collect Search Scores**: Gather the results and scores from each path of ベクトル search (score_1, score_2).
+1. **検索スコアの収集**: ベクトル検索の各パスから結果とスコア（score_1、score_2）を収集します。
 
-1. **スコアの正規化**: 各検索では異なる類似度メトリクスを使用する場合があり、その結果スコア分布も異なります。たとえば、類似度タイプとして Inner Product (IP) を使用するとスコア範囲は [−∞,+∞] になる可能性があり、Euclidean distance (L2) を使用するとスコア範囲は [0,+∞] になります。異なる検索から得られるスコア範囲は異なり、直接比較できないため、各検索パスからのスコアを正規化する必要があります。通常は、`arctan` 関数を適用してスコアを [0, 1] の範囲に変換します（score_1_normalized、score_2_normalized）。1 に近いスコアほど高い類似性を示します。
+1. **スコアの正規化**: 各検索では異なる類似度メトリックを使用する可能性があるため、スコア分布が異なります。たとえば、類似度タイプとして内積（IP）を使用するとスコアの範囲が [−∞,+∞] になる可能性がある一方、ユークリッド距離（L2）を使用するとスコアの範囲は [0,+∞] になります。異なる検索のスコア範囲は異なり、直接比較できないため、各検索パスのスコアを正規化する必要があります。通常は `arctan` 関数を適用してスコアを [0, 1] の範囲に変換します（score_1_normalized、score_2_normalized）。1 に近いスコアほど、類似度が高いことを示します。
 
-1. **Assign Weights**: Based on the importance assigned to different ベクトル fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between [0,1]. The resulting weighted scores are score_1_weighted and score_2_weighted.
+1. **重みの割り当て**: 異なるベクトルフィールドに割り当てられた重要度に基づいて、正規化されたスコア（score_1_normalized、score_2_normalized）に重み（**wi**）を割り当てます。各パスの重みは [0,1] の範囲にする必要があります。得られる重み付きスコアは score_1_weighted と score_2_weighted です。
 
-1. **スコアのマージ**: 重み付きスコア（score_1_weighted、score_2_weighted）を高い順に並べて、最終的なスコアセット（score_final）を生成します。
+1. **スコアの統合**: 重み付きスコア（score_1_weighted、score_2_weighted）を高い順にランク付けし、最終的なスコアセット（score_final）を生成します。
 
 ![GdmNwbkN8haZO8bpQkOc2NIWnqF](https://zdoc-images.s3.us-west-2.amazonaws.com/GdmNwbkN8haZO8bpQkOc2NIWnqF.png)
 
 ## Weighted Ranker の例\{#example-of-weighted-ranker}
 
-この例では、画像とテキストを含むマルチモーダル Hybrid Search（topK=5）を示し、WeightedRanker 戦略が 2 つの ANN 検索結果をどのように再ランキングするかを説明します。
+この例では、画像とテキストを対象とするマルチモーダルハイブリッド検索（topK=5）を示し、WeightedRanker 戦略が 2 つの ANN 検索の結果をどのように再ランキングするかを説明します。
 
 - 画像に対する ANN 検索の結果（topK=5）：
 
-    | **ID** | **Score (image)** |
+    | **ID** | **スコア（画像）** |
     | --- | --- |
     | 101 | 0.92 |
     | 203 | 0.88 |
@@ -65,7 +65,7 @@ WeightedRanker 戦略の主なワークフローは次のとおりです。
 
 - テキストに対する ANN 検索の結果（topK=5）：
 
-    | **ID** | **Score (text)** |
+    | **ID** | **スコア（テキスト）** |
     | --- | --- |
     | 198 | 0.91 |
     | 101 | 0.87 |
@@ -73,21 +73,21 @@ WeightedRanker 戦略の主なワークフローは次のとおりです。
     | 175 | 0.82 |
     | 250 | 0.78 |
 
-- WeightedRanker を使用して、画像検索結果とテキスト検索結果に重みを割り当てます。たとえば、画像 ANN 検索の重みが 0.6、テキスト検索の重みが 0.4 であるとします。
+- WeightedRanker を使用して、画像検索とテキスト検索の結果に重みを割り当てます。画像 ANN 検索の重みを 0.6、テキスト検索の重みを 0.4 とします。
 
-    | **ID** | **Score (image)** | **Score (text)** | **Weighted Score** |
+    | **ID** | **スコア（画像）** | **スコア（テキスト）** | **重み付きスコア** |
     | --- | --- | --- | --- |
     | 101 | 0.92 | 0.87 | 0.6×0.92+0.4×0.87=0.90 |
     | 203 | 0.88 | N/A | 0.6×0.88+0.4×0=0.528 |
     | 150 | 0.85 | N/A | 0.6×0.85+0.4×0=0.51 |
     | 198 | 0.83 | 0.91 | 0.6×0.83+0.4×0.91=0.86 |
     | 175 | 0.80 | 0.82 | 0.6×0.80+0.4×0.82=0.81 |
-    | 110 | Not in Image | 0.85 | 0.6×0+0.4×0.85=0.34 |
-    | 250 | Not in Image | 0.78 | 0.6×0+0.4×0.78=0.312 |
+    | 110 | 画像に含まれない | 0.85 | 0.6×0+0.4×0.85=0.34 |
+    | 250 | 画像に含まれない | 0.78 | 0.6×0+0.4×0.78=0.312 |
 
 - 再ランキング後の最終結果（topK=5）：
 
-    | **Rank** | **ID** | **Final Score** |
+    | **ランク** | **ID** | **最終スコア** |
     | --- | --- | --- |
     | 1 | 101 | 0.90 |
     | 2 | 198 | 0.86 |
@@ -97,11 +97,11 @@ WeightedRanker 戦略の主なワークフローは次のとおりです。
 
 ## Weighted Ranker の使用方法\{#usage-of-weighted-ranker}
 
-WeightedRanker 戦略を使用する際は、重みの値を入力する必要があります。入力する重みの値の数は、Hybrid Search における基本 ANN 検索リクエストの数に対応している必要があります。入力する重みの値は [0,1] の範囲内である必要があり、1 に近い値ほど重要度が高いことを示します。
+WeightedRanker 戦略を使用する場合、重みの値を入力する必要があります。入力する重みの値の数は、ハイブリッド検索の基本 ANN 検索リクエストの数に対応している必要があります。入力する重みの値は [0,1] の範囲内である必要があり、1 に近い値ほど重要度が高いことを示します。
 
-### Weighted Ranker を作成する\{#create-a-weighted-ranker}
+### Weighted Ranker の作成\{#create-a-weighted-ranker}
 
-たとえば、Hybrid Search に 2 つの基本 ANN 検索リクエスト（テキスト検索と画像検索）があるとします。テキスト検索の方が重要と見なされる場合は、より大きい重みを割り当てる必要があります。
+たとえば、ハイブリッド検索にテキスト検索と画像検索という 2 つの基本 ANN 検索リクエストがあるとします。テキスト検索の重要度が高いと見なされる場合は、より大きな重みを割り当てる必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -167,7 +167,7 @@ use std::collections::HashMap;
 let rerank = Function::new()
     .name("weight")
     .function_type(FunctionType::Rerank)
-    .input_fields([])
+    .input_fields(Vec::<String>::new())
     .params(HashMap::from([
         ("reranker".into(), "weighted".into()),
         ("weights".into(), "[0.1, 0.9]".into()),
@@ -196,7 +196,7 @@ import { FunctionType } from '@zilliz/milvus2-sdk-node';
 const rerank = {
     name: "weight",
     input_field_names: [],
-    function_type: FunctionType.RERANK,
+    type: FunctionType.RERANK,
     params: {
         reranker: "weighted",
         weights: [0.1, 0.9],
@@ -226,18 +226,18 @@ export rerank='{
 </TabItem>
 </Tabs>
 
-| Parameter | Required? | Description | Value/Example |
+| パラメーター | 必須 | 説明 | 値/Example |
 | --- | --- | --- | --- |
-| `name` | Yes | この Function の一意の識別子 | `"weight"` |
-| `input_field_names` | Yes | List of ベクトル fields to apply the function to (must be empty for Weighted Ranker) | [] |
-| `function_type` | Yes | 呼び出す Function のタイプ。再ランキング戦略を指定するには `RERANK` を使用します | `FunctionType.RERANK` |
-| `params.reranker` | Yes | 使用する再ランキング手法を指定します。<br/>Weighted Ranker を使用するには `weighted` に設定する必要があります。 | `"weighted"` |
-| `params.weights` | Yes | 各検索パスに対応する重みの配列。値 ∈ [0,1]。<br/>詳細については、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker)を参照してください。 | `[0.1, 0.9]` |
-| `params.norm_score` | No | 重み付けの前に生のスコアを正規化（arctan を使用）するかどうか。<br/>詳細については、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker)を参照してください。 | `True` |
+| `name` | はい | この Function の一意な識別子です。 | `"weight"` |
+| `input_field_names` | はい | 関数を適用するベクトルフィールドのリストです（Weighted Ranker の場合は空にする必要があります）。 | [] |
+| `function_type` | はい | 呼び出す Function のタイプです。再ランキング戦略を指定するには `RERANK` を使用します。 | `FunctionType.RERANK` |
+| `params.reranker` | はい | 使用する再ランキング手法を指定します。<br/>Weighted Ranker を使用するには `weighted` に設定する必要があります。 | `"weighted"` |
+| `params.weights` | はい | 各検索パスに対応する重みの配列です。値 ∈ [0,1]。<br/>詳細については、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker) を参照してください。 | `[0.1, 0.9]` |
+| `params.norm_score` | いいえ | 重み付けの前に生のスコアを正規化するかどうかです（arctan を使用）。<br/>詳細については、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker) を参照してください。 | `True` |
 
 ### ハイブリッド検索に適用する\{#apply-to-hybrid-search}
 
-Weighted Ranker is designed specifically for hybrid search operations that combine multiple ベクトル fields. When performing hybrid search, you must specify the weights for each search path:
+Weighted Ranker は、複数のベクトルフィールドを組み合わせるハイブリッド検索操作向けに特別に設計されています。ハイブリッド検索を実行する際は、各検索パスの重みを指定する必要があります：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -327,6 +327,7 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```go
 import (
     "context"
+    "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -487,4 +488,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For more information on hybrid search, refer to [Multi-ベクトル Hybrid Search](./hybrid-search).
+ハイブリッド検索の詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
