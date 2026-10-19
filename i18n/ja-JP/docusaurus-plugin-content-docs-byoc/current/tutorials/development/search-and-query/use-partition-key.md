@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Partition Key は、コレクションの名前空間として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定のスカラーフィールド（テナント ID やプロジェクト名など）を Partition Key に指定すると、単一のコレクション内でデータを個別の名前空間に効果的に分割できます。これにより、フィルタリング条件を通じて検索リクエストを特定の名前空間に限定でき、検索範囲を大幅に絞り込んで全体的な効率を向上させることができます。本記事では、この名前空間ベースの最適化を実装する方法と、Partition Key を使用する際の注意事項を紹介します。 | BYOC"
+description: "Partition Key は、コレクションの名前空間として機能し、論理的なデータ分離を実現する検索最適化ソリューションです。テナント ID やプロジェクト名などの特定のスカラーフィールドを Partition Key に指定すると、単一のコレクション内でデータを複数の名前空間に効果的に分割できます。これにより、フィルター条件を使用して検索リクエストを特定の名前空間に限定できるため、検索範囲を大幅に狭め、全体的な効率を向上できます。この記事では、この名前空間ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項について説明します。 | BYOC"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
 sidebar_position: 19
@@ -19,43 +19,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Partition Key の使用
+# Partition Key を使用する
 
-**Partition Key** は、コレクションの**名前空間**として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定のスカラーフィールド（テナント ID やプロジェクト名など）を Partition Key に指定すると、単一のコレクション内でデータを個別の名前空間に効果的に分割できます。これにより、フィルタリング条件を通じて検索リクエストを特定の名前空間に限定でき、検索範囲を大幅に絞り込んで全体的な効率を向上させることができます。本記事では、この名前空間ベースの最適化を実装する方法と、Partition Key を使用する際の注意事項を紹介します。
+**Partition Key** は、コレクションの**名前空間**として機能し、論理的なデータ分離を実現する検索最適化ソリューションです。テナント ID やプロジェクト名などの特定のスカラーフィールドを Partition Key に指定すると、単一のコレクション内でデータを複数の名前空間に効果的に分割できます。これにより、フィルター条件を使用して検索リクエストを特定の名前空間に限定できるため、検索範囲を大幅に狭め、全体的な効率を向上できます。この記事では、この名前空間ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項について説明します。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、パーティションを使用してデータ分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理する場合、1 つのコレクションに最大 1,024 個のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入することで、検索を特定の数のパーティション内に制限して検索範囲を絞り込むことができます。
+Zilliz Cloud では、パーティションを使用してデータ分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上できます。パーティションを手動で管理する場合、コレクション内に最大 1,024 個のパーティションを作成し、特定のルールに基づいてエンティティをこれらのパーティションに挿入することで、特定の数のパーティション内に検索を制限して検索範囲を狭めることができます。
 
-Zilliz Cloud は、コレクションに作成できるパーティション数の制限を克服するために、データ分離でパーティションを再利用できるよう Partition Key を導入しました。コレクションを作成する際に、スカラーフィールドを Partition Key として使用できます。コレクションの準備が完了すると、Zilliz Cloud はコレクション内に指定された数のパーティションを作成します。挿入されたエンティティを受け取ると、Zilliz Cloud はそのエンティティの Partition Key 値を使用してハッシュ値を計算し、ハッシュ値とコレクションの `partitions_num` プロパティに基づいて剰余演算を実行して対象のパーティション ID を取得し、そのエンティティを対象のパーティションに格納します。
+Zilliz Cloud では、コレクション内に作成できるパーティション数の制限を克服するために、データ分離でパーティションを再利用できる Partition Key を提供しています。コレクションを作成する際、スカラーフィールドを Partition Key として使用できます。コレクションの準備が完了すると、Zilliz Cloud はコレクション内に指定された数のパーティションを作成します。挿入されたエンティティを受信すると、Zilliz Cloud はエンティティの Partition Key 値を使用してハッシュ値を計算し、そのハッシュ値とコレクションの `partitions_num` プロパティに基づいて剰余演算を実行して対象のパーティション ID を取得し、エンティティを対象のパーティションに保存します。
 
 ![IXXIwZdOYhRFXmbTMdwcaN6fnPe](https://zdoc-images.s3.us-west-2.amazonaws.com/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
-次の図は、Partition Key 機能が有効な場合と無効な場合に、Zilliz Cloud がコレクション内で検索リクエストを処理する方法を示しています。
+次の図は、Partition Key 機能が有効なコレクションと無効なコレクションで、Zilliz Cloud が検索リクエストを処理する方法を示しています。
 
-- Partition Key が無効な場合、Zilliz Cloud はコレクション内でクエリベクトルに最も類似するエンティティを検索します。最も関連性の高い結果を含むパーティションがわかっている場合は、検索範囲を絞り込むことができます。
+- Partition Key が無効な場合、Zilliz Cloud はコレクション内でクエリベクトルに最も類似するエンティティを検索します。最も関連性の高い結果を含むパーティションがわかっている場合は、検索範囲を狭めることができます。
 
 - Partition Key が有効な場合、Zilliz Cloud は検索フィルターで指定された Partition Key 値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
 
 ![RTaqwdaWXhRWPTb4uJTc9Uknn5c](https://zdoc-images.s3.us-west-2.amazonaws.com/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
 
-## Partition Key の使用\{#use-partition-key}
+## Partition Key を使用する\{#use-partition-key}
 
-Partition Key を使用するには、以下を行う必要があります。
+Partition Key を使用するには、次の手順を実行します。
 
 - [Partition Key を設定する](./use-partition-key#set-partition-key)、
 
-- [作成するパーティション数を設定する](./use-partition-key#set-partition-numbers)（任意）、
+- [作成するパーティション数を設定する](./use-partition-key#set-partition-numbers)（オプション）、および
 
-- [Partition Key に基づくフィルタリング条件を作成する](./use-partition-key#create-filtering-condition)。
+- [Partition Key に基づくフィルター条件を作成する](./use-partition-key#create-filtering-condition)。
 
 ### Partition Key を設定する\{#set-partition-key}
 
-スカラーフィールドを Partition Key に指定するには、そのスカラーフィールドを追加するときに `is_partition_key` 属性を `true` に設定する必要があります。
+スカラーフィールドを Partition Key として指定するには、スカラーフィールドを追加するときに、その `is_partition_key` 属性を `true` に設定する必要があります。
 
 <Admonition type="info" title="Notes">
 
-スカラーフィールドを Partition Key に設定すると、そのフィールドの値は空または null にできません。
+スカラーフィールドを Partition Key に設定した場合、フィールドの値は空または null にできません。
 
 </Admonition>
 
@@ -311,9 +311,9 @@ export schema='{
 
 ### パーティション数を設定する\{#set-partition-numbers}
 
-コレクション内のスカラーフィールドを Partition Key に指定すると、Zilliz Cloud はコレクション内に自動的に 16 個のパーティションを作成します。エンティティを受け取ると、Zilliz Cloud はそのエンティティの Partition Key 値に基づいてパーティションを選択し、そのエンティティをパーティションに格納します。その結果、一部またはすべてのパーティションに異なる Partition Key 値を持つエンティティが保持されます。
+コレクション内のスカラーフィールドを Partition Key に指定すると、Zilliz Cloud はコレクション内に 16 個のパーティションを自動的に作成します。エンティティを受信すると、Zilliz Cloud はそのエンティティの Partition Key 値に基づいてパーティションを選択し、エンティティをそのパーティションに保存します。その結果、一部またはすべてのパーティションに、異なる Partition Key 値を持つエンティティが格納されます。
 
-コレクションとあわせて、作成するパーティション数を指定することもできます。これは、Partition Key として指定されたスカラーフィールドがある場合にのみ有効です。
+コレクションの作成時に、作成するパーティション数を決定することもできます。これは、Partition Key として指定されたスカラーフィールドがある場合にのみ有効です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -347,6 +347,12 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithNumPartitions(128))
@@ -361,6 +367,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -376,6 +384,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -432,13 +443,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### フィルタリング条件を作成する\{#create-filtering-condition}
+### フィルター条件を作成する\{#create-filtering-condition}
 
-Partition Key 機能が有効なコレクションで ANN 検索を実行する場合は、検索リクエストに Partition Key が関係するフィルタリング式を含める必要があります。フィルタリング式では Partition Key 値を特定の範囲内に制限でき、Zilliz Cloud は対応するパーティション内に検索範囲を制限します。
+Partition Key 機能が有効なコレクションで ANN 検索を実行する場合、検索リクエストに Partition Key を含むフィルター式を含める必要があります。フィルター式で Partition Key 値を特定の範囲に制限すると、Zilliz Cloud は対応するパーティション内に検索範囲を制限します。
 
-削除操作を実行する場合は、より効率的な削除を実現するために、単一の Partition Key を指定するフィルター式を含めることをおすすめします。この方法では削除操作が特定のパーティションに限定されるため、Compaction 中の書き込み増幅が減少し、Compaction とインデックス作成のためのリソースを節約できます。
+削除操作を実行する場合は、より効率的な削除を実現するために、単一の Partition Key を指定するフィルター式を含めることをお勧めします。この方法では、削除操作が特定のパーティションに限定されるため、Compaction 中の書き込み増幅が抑制され、Compaction とインデックス作成のためのリソースが節約されます。
 
-次の例は、特定の Partition Key 値と一連の Partition Key 値に基づく Partition Key ベースのフィルタリングを示しています。
+次の例では、特定の Partition Key 値と複数の Partition Key 値に基づく、Partition Key ベースのフィルタリングを示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -540,13 +551,13 @@ export filter='my_varchar in ["x", "y", "z"] && <other conditions>'
 
 </Admonition>
 
-## Partition Key Isolation の使用\{#use-partition-key-isolation}
+## Partition Key Isolation を使用する\{#use-partition-key-isolation}
 
-マルチテナンシーのシナリオでは、テナントの識別情報に関連するスカラーフィールドを Partition Key に指定し、このスカラーフィールド内の特定の値に基づいてフィルターを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloud は Partition Key Isolation 機能を導入しました。
+マルチテナンシーのシナリオでは、テナントの識別情報に関連するスカラーフィールドを Partition Key に指定し、このスカラーフィールドの特定の値に基づくフィルターを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloud は Partition Key Isolation 機能を提供しています。
 
 ![BVotwv5BvhBWXXbvotUccowZnng](https://zdoc-images.s3.us-west-2.amazonaws.com/BVotwv5BvhBWXXbvotUccowZnng.png)
 
-上の図に示すように、Zilliz Cloud は Partition Key 値に基づいてエンティティをグループ化し、これらのグループごとに個別のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloud はフィルタリング条件で指定された Partition Key 値に基づいてインデックスを特定し、そのインデックスに含まれるエンティティ内に検索範囲を制限します。これにより、検索中に関係のないエンティティをスキャンすることを避け、検索パフォーマンスを大幅に向上させます。
+上の図に示すように、Zilliz Cloud は Partition Key 値に基づいてエンティティをグループ化し、各グループに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルター条件で指定された Partition Key 値に基づいてインデックスを特定し、そのインデックスに含まれるエンティティ内に検索範囲を制限します。これにより、検索中に関係のないエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
 
 Partition Key Isolation を有効にした後は、Zilliz Cloud が一致するインデックスに含まれるエンティティ内に検索範囲を制限できるように、Partition Key ベースのフィルターに特定の値を 1 つだけ含める必要があります。
 
@@ -591,6 +602,12 @@ client.createCollection(createCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty("partitionkey.isolation", true))
@@ -605,6 +622,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 client.create_collection(
@@ -625,6 +643,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -683,4 +704,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Partition Key Isolation を有効にした後も、[パーティション数を設定する](./use-partition-key#set-partition-numbers) で説明されているように、Partition Key とパーティション数を設定できます。Partition Key ベースのフィルターには、特定の Partition Key 値を 1 つだけ含める必要があることに注意してください。
+Partition Key Isolation を有効にした後も、[パーティション数を設定する](./use-partition-key#set-partition-numbers)で説明されているように Partition Key とパーティション数を設定できます。Partition Key ベースのフィルターには、特定の Partition Key 値を 1 つだけ含める必要があることに注意してください。

@@ -59,7 +59,7 @@ EC プラットフォームでは、ユーザーがキーワードを入力す�
 
 基本的な主キー検索を実行するには、クエリベクトルを主キーに置き換えるだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -117,30 +117,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({
-    address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN",
-});
-
-const res = await client.search({
-    collection_name: "my_collection",
-    anns_field: "vector",
-    // highlight-start
-    ids: [551, 296, 43], // a list of primary keys
-    // highlight-end
-    limit: 3,
-});
-
-console.log(res.results);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -185,24 +161,6 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "my_collection",
-    "annsField": "vector",
-    "ids": [551, 296, 43],
-    "limit": 3
-  }'
-```
-
-</TabItem>
-
 <TabItem value='c++'>
 
 ```c++
@@ -231,6 +189,48 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
+const res = await client.search({
+    collection_name: "my_collection",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43], // a list of primary keys
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "my_collection",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3
+  }'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -255,7 +255,7 @@ zilliz vector search \
 
 以下の例では、`color` と `likes` が対象コレクションにスキーマ定義された 2 つのフィールドであることを前提としています。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -294,24 +294,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "my_collection",
-    // highlight-start
-    ids: [551, 296, 43],
-    filter: 'color like "red%" and likes > 50',
-    output_fields: ["id", "color", "likes"],
-    // highlight-end
-    limit: 3,
-});
-
-console.log(res.results);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -335,26 +317,6 @@ for _, resultSet := range resultSets {
     fmt.Println("color: ", resultSet.GetColumn("color"))
     fmt.Println("likes: ", resultSet.GetColumn("likes"))
 }
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "my_collection",
-    "annsField": "vector",
-    "ids": [551, 296, 43],
-    "filter": "color like \"red%\" and likes > 50",
-    "outputFields": ["color", "likes"],
-    "limit": 3
-  }'
 ```
 
 </TabItem>
@@ -393,6 +355,44 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    filter: 'color like "red%" and likes > 50',
+    output_fields: ["id", "color", "likes"],
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "my_collection",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "filter": "color like \"red%\" and likes > 50",
+    "outputFields": ["color", "likes"],
+    "limit": 3
+  }'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -417,7 +417,7 @@ zilliz vector search \
 
 ### 例 3: 主キーを使用した範囲検索\{#example-3-range-search-using-primary-keys}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -465,28 +465,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "my_collection",
-    // highlight-start
-    ids: [551, 296, 43],
-    // highlight-end
-    limit: 3,
-    params: {
-        // highlight-start
-        radius: 0.4,
-        range_filter: 0.6,
-        // highlight-end
-    },
-});
-
-console.log(res.results);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -514,30 +492,6 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
 }
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "my_collection",
-    "annsField": "vector",
-    "ids": [551, 296, 43],
-    "limit": 3,
-    "searchParams": {
-      "params": {
-        "radius": 0.4,
-        "range_filter": 0.6
-      }
-    }
-  }'
 ```
 
 </TabItem>
@@ -572,6 +526,52 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    params: {
+        // highlight-start
+        radius: 0.4,
+        range_filter: 0.6,
+        // highlight-end
+    },
+});
+
+console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "my_collection",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "searchParams": {
+      "params": {
+        "radius": 0.4,
+        "range_filter": 0.6
+      }
+    }
+  }'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -602,7 +602,7 @@ zilliz vector search \
 
 以下の例では、`docId` が対象コレクションにスキーマ定義されたフィールドであることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -641,24 +641,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "my_collection",
-    // highlight-start
-    ids: [551, 296, 43],
-    // highlight-end
-    limit: 3,
-    group_by_field: "docId",
-    output_fields: ["id", "docId"],
-});
-
-console.log(res.results);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -681,26 +663,6 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId"))
 }
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "my_collection",
-    "annsField": "vector",
-    "ids": [551, 296, 43],
-    "limit": 3,
-    "groupingField": "docId",
-    "outputFields": ["docId"]
-  }'
 ```
 
 </TabItem>
@@ -738,6 +700,44 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    group_by_field: "docId",
+    output_fields: ["id", "docId"],
+});
+
+console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "my_collection",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "groupingField": "docId",
+    "outputFields": ["docId"]
+  }'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -759,3 +759,4 @@ zilliz vector search \
 
 </TabItem>
 </Tabs>
+

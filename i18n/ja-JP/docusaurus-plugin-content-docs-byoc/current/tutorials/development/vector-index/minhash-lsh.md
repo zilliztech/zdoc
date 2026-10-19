@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "効率的な重複排除と類似検索は、大規模な機械学習データセット、特に大規模言語モデル（LLM）の学習コーパスをクリーニングするようなタスクにとって重要です。数百万から数十億のドキュメントを扱う場合、従来の完全一致は遅すぎてコストがかかります。 | BYOC"
+description: "大規模な機械学習データセット、特に大規模言語モデル（LLM）のトレーニングコーパスをクリーニングするようなタスクでは、効率的な重複排除と類似性検索が重要です。数百万または数十億のドキュメントを扱う場合、従来の完全一致検索は遅すぎてコストが高くなります。 | BYOC"
 type: origin
 token: BYtDwHuOXiG7imkyIjHcWa6fnlb
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # MINHASH_LSH
 
-効率的な重複排除と類似検索は、大規模な機械学習データセット、特に大規模言語モデル（LLM）向けの学習コーパスをクリーニングするようなタスクにとって重要です。数百万から数十億のドキュメントを扱う場合、従来の完全一致は遅すぎてコストがかかります。
+大規模な機械学習データセット、特に大規模言語モデル（LLM）のトレーニングコーパスをクリーニングするようなタスクでは、効率的な重複排除と類似性検索が重要です。数百万または数十億のドキュメントを扱う場合、従来の完全一致検索は遅すぎてコストが高くなります。
 
-Zilliz Cloud の **MINHASH_LSH** インデックスは、2 つの強力な手法を組み合わせることで、高速でスケーラブルかつ正確な近似重複排除を実現します：
+Zilliz Cloud の **MINHASH_LSH** インデックスは、2 つの強力な手法を組み合わせることで、高速でスケーラブルかつ正確な近似重複排除を可能にします。
 
-- [MinHash](https://en.wikipedia.org/wiki/MinHash)：ドキュメントの類似度を見積もるために、コンパクトな署名（「フィンガープリント」）をすばやく生成します。
+- [MinHash](https://en.wikipedia.org/wiki/MinHash): ドキュメントの類似性を推定するためのコンパクトなシグネチャ（「フィンガープリント」）をすばやく生成します。
 
-- [Locality-Sensitive Hashing (LSH)](https://en.wikipedia.org/wiki/Locality-sensitive_hashing)：MinHash 署名に基づいて、類似するドキュメントのグループをすばやく見つけます。
+- [Locality-Sensitive Hashing（LSH）](https://en.wikipedia.org/wiki/Locality-sensitive_hashing): MinHash シグネチャに基づいて、類似するドキュメントのグループをすばやく見つけます。
 
 このガイドでは、Zilliz Cloud で MINHASH_LSH を使用するための概念、事前準備、セットアップ、ベストプラクティスについて説明します。
 
@@ -35,179 +35,179 @@ Zilliz Cloud の **MINHASH_LSH** インデックスは、2 つの強力な手法
 
 <details>
 
-<summary>仕組みを確認するには展開してください</summary>
+<summary>展開して仕組みを確認する</summary>
 
 ### Jaccard 類似度\{#jaccard-similarity}
 
-Jaccard 類似度は、2 つの集合 A と B の重なりを測るもので、次のように正式に定義されます：
+Jaccard 類似度は、2 つの集合 A と B の重なりを測定するもので、次のように定義されます。
 
 $$
 J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 $$
 
-値は 0（完全に重なりのない状態）から 1（同一）までの範囲を取ります。
+値の範囲は 0（完全に重複がない状態）から 1（同一）です。
 
-ただし、大規模データセット内のすべてのドキュメントペア間で Jaccard 類似度を正確に計算するには、計算コストが高くなります。**n** が大きい場合、時間とメモリの両方で **O(n²)** となります。このため、LLM の学習コーパスのクリーニングやウェブ規模のドキュメント分析などのユースケースには現実的ではありません。
+ただし、大規模なデータセット内のすべてのドキュメントペア間で Jaccard 類似度を正確に計算するには、計算コストが高くなります。**n** が大きい場合、時間とメモリの両方で **O(n²)** となります。そのため、LLM トレーニングコーパスのクリーニングや Web 規模のドキュメント分析などのユースケースには適していません。
 
-### MinHash 署名：Jaccard 類似度の近似\{#minhash-signatures-approximate-jaccard-similarity}
+### MinHash シグネチャ: Jaccard 類似度の近似\{#minhash-signatures-approximate-jaccard-similarity}
 
-[MinHash](https://en.wikipedia.org/wiki/MinHash) は、Jaccard 類似度を効率的に見積もる確率的な手法です。各集合をコンパクトな **署名ベクトル** に変換し、集合の類似度を効率的に近似するのに十分な情報を保持します。
+[MinHash](https://en.wikipedia.org/wiki/MinHash) は、Jaccard 類似度を効率的に推定するための確率的な手法です。各集合をコンパクトな **シグネチャベクトル** に変換し、集合の類似性を効率的に近似するのに十分な情報を保持します。
 
 **基本的な考え方**:
 
-2 つの集合が似ているほど、それらの MinHash 署名が同じ位置で一致する可能性が高くなります。この性質により、MinHash は集合間の Jaccard 類似度を近似できます。
+2 つの集合が類似しているほど、それらの MinHash シグネチャが同じ位置で一致する可能性が高くなります。この性質により、MinHash は集合間の Jaccard 類似度を近似できます。
 
 この性質により、MinHash は集合全体を直接比較することなく、集合間の **Jaccard 類似度を近似** できます。
 
-MinHash の処理は次のとおりです：
+MinHash のプロセスは次のとおりです。
 
-1. **Shingling**: ドキュメントを、重複するトークンシーケンス（shingle）の集合に変換します。
+1. **シングリング**: ドキュメントを、重複するトークンシーケンス（シングル）の集合に変換します。
 
-1. **Hashing**: 各 shingle に複数の独立したハッシュ関数を適用します。
+1. **ハッシュ**: 各シングルに複数の独立したハッシュ関数を適用します。
 
-1. **Min Selection**: 各ハッシュ関数について、すべての shingle にわたる **最小** ハッシュ値を記録します。
+1. **最小値の選択**: 各ハッシュ関数について、すべてのシングルにわたる **最小** ハッシュ値を記録します。
 
-プロセス全体を以下に示します：
+プロセス全体を以下に示します。
 
 ![CCzEwT7uchMqI6bsxRJcK1qenEh](https://zdoc-images.s3.us-west-2.amazonaws.com/CCzEwT7uchMqI6bsxRJcK1qenEh.png)
 
 <Admonition type="info" title="Notes">
 
-使用するハッシュ関数の数によって、MinHash 署名の次元数が決まります。次元を大きくすると近似精度が向上しますが、ストレージと計算コストが増加します。
+使用するハッシュ関数の数によって、MinHash シグネチャの次元数が決まります。次元数が大きいほど近似精度は向上しますが、ストレージと計算のコストが増加します。
 
 </Admonition>
 
-### MinHash 向けの LSH\{#lsh-for-minhash}
+### MinHash 用の LSH\{#lsh-for-minhash}
 
-MinHash 署名はドキュメント間で正確な Jaccard 類似度を計算するコストを大幅に削減しますが、すべての署名ベクトルのペアを総当たりで比較するのは、大規模になると依然として非効率です。
+MinHash シグネチャは、ドキュメント間で正確な Jaccard 類似度を計算するコストを大幅に削減しますが、すべてのシグネチャベクトルのペアを網羅的に比較すると、大規模な環境では依然として非効率です。
 
-これを解決するために [LSH](https://zilliz.com/learn/Local-Sensitivity-Hashing-A-Comprehensive-Guide) が使用されます。LSH は、類似する項目が高い確率で同じ「バケット」にハッシュされるようにすることで高速な近似類似検索を可能にし、すべてのペアを直接比較する必要をなくします。
+この問題を解決するために、[LSH](https://zilliz.com/learn/Local-Sensitivity-Hashing-A-Comprehensive-Guide) を使用します。LSH は、類似するアイテムが高い確率で同じ「バケット」にハッシュされるようにすることで、すべてのペアを直接比較する必要をなくし、高速な近似類似性検索を可能にします。
 
-処理は次のとおりです：
+プロセスは次のとおりです。
 
-1. **署名の分割:**
+1. **シグネチャの分割:**
 
-    *n* 次元の MinHash 署名は *b* 個のバンドに分割されます。各バンドには *r* 個の連続するハッシュ値が含まれるため、署名全体の長さは *n = b × r* を満たします。
+    *n* 次元の MinHash シグネチャを *b* 個のバンドに分割します。各バンドには *r* 個の連続するハッシュ値が含まれるため、シグネチャの全長は *n = b × r* を満たします。
 
-    たとえば、128 次元の MinHash 署名（*n = 128*）を 32 個のバンド（*b = 32*）に分割すると、各バンドには 4 個のハッシュ値（*r = 4*）が含まれます。
+    たとえば、128 次元の MinHash シグネチャ（*n = 128*）を 32 個のバンド（*b = 32*）に分割すると、各バンドには 4 個のハッシュ値（*r = 4*）が含まれます。
 
 1. **バンド単位のハッシュ:**
 
-    分割後、各バンドは標準的なハッシュ関数を用いて個別に処理され、バケットに割り当てられます。2 つの署名がバンド内で同じハッシュ値を生成した場合、つまり同じバケットに入った場合、それらは一致候補と見なされます。
+    分割後、各バンドは標準のハッシュ関数を使用して個別に処理され、バケットに割り当てられます。2 つのシグネチャが同じバンド内で同じハッシュ値を生成する場合、つまり同じバケットに分類される場合、それらは一致候補と見なされます。
 
 1. **候補の選択:**
 
-    少なくとも 1 つのバンドで衝突したペアが類似候補として選択されます。
+    少なくとも 1 つのバンドで衝突するペアが、類似性の候補として選択されます。
 
 <Admonition type="info" title="Notes">
 
 なぜ機能するのか
 
-数学的には、2 つの署名の Jaccard 類似度が $s$ であるとき、
+数学的には、2 つのシグネチャの Jaccard 類似度が $s$ である場合、次のようになります。
 
-- 1 つの行（ハッシュ位置）で一致する確率は $s$ です
+- 1 つの行（ハッシュ位置）で一致する確率は $s$ です。
 
-- バンドの $r$ 個の行すべてで一致する確率は $s^r$ です
+- 1 つのバンドの *r* 個の行すべてで一致する確率は $s^r$ です。
 
-- **少なくとも 1 つのバンド** で一致する確率は &#36;1 - (1 - s^r)^b$ です
+- **少なくとも 1 つのバンド** で一致する確率は &#36;1 - (1 - s^r)^b$ です。
 
-詳細については、[Locality-sensitive hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing) を参照してください。
+詳細は、[Locality-sensitive hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing) を参照してください。
 
 </Admonition>
 
-128 次元の MinHash 署名を持つ 3 つのドキュメントを考えます：
+128 次元の MinHash シグネチャを持つ 3 つのドキュメントを考えます。
 
 ![E1dewMnqshua0ib7aHmcL10lnIe](https://zdoc-images.s3.us-west-2.amazonaws.com/E1dewMnqshua0ib7aHmcL10lnIe.png)
 
-まず、LSH は 128 次元の署名を、それぞれ 4 つの連続する値からなる 32 個のバンドに分割します：
+まず、LSH は 128 次元のシグネチャを、それぞれ 4 個の連続する値からなる 32 個のバンドに分割します。
 
 ![PhSMwS74rh25oybv9Docmfionze](https://zdoc-images.s3.us-west-2.amazonaws.com/PhSMwS74rh25oybv9Docmfionze.png)
 
-次に、各バンドはハッシュ関数を用いて異なるバケットにハッシュされます。同じバケットを共有するドキュメントペアが類似候補として選択されます。以下の例では、Document A と Document B のハッシュ結果が **Band 0** で衝突するため、これらが類似候補として選択されます：
+次に、各バンドはハッシュ関数を使用して異なるバケットにハッシュされます。同じバケットを共有するドキュメントペアが類似性の候補として選択されます。次の例では、ドキュメント A とドキュメント B のハッシュ結果が **Band 0** で衝突するため、両者が類似性の候補として選択されます。
 
 ![RfmMwNkIvhlUFSb11alcP8fqnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/RfmMwNkIvhlUFSb11alcP8fqnmf.png)
 
 <Admonition type="info" title="Notes">
 
-バンドの数は `mh_lsh_band` パラメーターで制御されます。詳細については、[インデックス構築パラメーター](./minhash-lsh#index-building-params) を参照してください。
+バンドの数は `mh_lsh_band` パラメーターで制御されます。詳細は、[インデックス構築パラメーター](./minhash-lsh#index-building-params) を参照してください。
 
 </Admonition>
 
-### MHJACCARD：MinHash 署名の比較\{#mhjaccard-comparing-minhash-signatures}
+### MHJACCARD: MinHash シグネチャの比較\{#mhjaccard-comparing-minhash-signatures}
 
-MinHash 署名は、固定長のバイナリベクトルを用いて集合間の Jaccard 類似度を近似します。ただし、これらの署名は元の集合を保持しないため、`JACCARD`、`L2`、`COSINE` などの標準的なメトリックを直接適用して比較することはできません。
+MinHash シグネチャは、固定長のバイナリベクトルを使用して集合間の Jaccard 類似度を近似します。ただし、これらのシグネチャは元の集合を保持しないため、`JACCARD`、`L2`、`COSINE` などの標準的なメトリクスを直接適用して比較することはできません。
 
-これに対応するため、Zilliz Cloud は MinHash 署名の比較専用に設計された `MHJACCARD` という特殊なメトリックタイプを導入しています。
+この問題に対応するため、Zilliz Cloud では、MinHash シグネチャの比較専用に設計された `MHJACCARD` という特殊なメトリクスタイプを導入しています。
 
-Zilliz Cloud で MinHash を使用する場合：
+Zilliz Cloud で MinHash を使用する場合は、次の点に注意してください。
 
-- ベクトルフィールドは `BINARY_VECTOR` 型である必要があります。
+- ベクトルフィールドの型は `BINARY_VECTOR` である必要があります。
 
 - `index_type` は `MINHASH_LSH`（または `BIN_FLAT`）である必要があります。
 
 - `metric_type` は `MHJACCARD` に設定する必要があります。
 
-他のメトリックを使用すると、無効になるか、誤った結果が返されます。
+他のメトリクスを使用すると、無効になるか、誤った結果が生成されます。
 
-このメトリックタイプの詳細については、[MHJACCARD](./search-metrics-explained#mhjaccard) を参照してください。
+このメトリクスタイプの詳細は、[MHJACCARD](./search-metrics-explained#mhjaccard) を参照してください。
 
-### 重複排除ワークフロー\{#deduplication-workflow}
+### 重複排除のワークフロー\{#deduplication-workflow}
 
-MinHash LSH を利用した重複排除プロセスにより、Zilliz Cloud はコレクションに挿入する前に、ほぼ重複するテキストや構造化レコードを効率的に識別して除外できます。
+MinHash LSH を活用した重複排除プロセスにより、Zilliz Cloud はコレクションに挿入する前に、ほぼ重複するテキストや構造化レコードを効率的に特定して除外できます。
 
 ![It9wwbCFwhfT0RbwosAcGltZneb](https://zdoc-images.s3.us-west-2.amazonaws.com/It9wwbCFwhfT0RbwosAcGltZneb.png)
 
-1. **Chunk & preprocess**: 受信したテキストデータまたは構造化データ（レコード、フィールドなど）をチャンクに分割し、テキストを正規化して（小文字化、句読点の削除）、必要に応じてストップワードを削除します。
+1. **チャンク分割と前処理**: 受信したテキストデータまたは構造化データ（レコード、フィールドなど）をチャンクに分割し、テキストを正規化（小文字化、句読点の削除）して、必要に応じてストップワードを削除します。
 
-1. **Feature construction**: MinHash に使用するトークンセットを構築します（例：テキストの shingle、構造化データの連結されたフィールドトークン）。
+1. **特徴量の構築**: MinHash に使用するトークンセットを構築します（テキストからはシングル、構造化データからは連結されたフィールドトークンなど）。
 
-1. **MinHash signature generation**: 各チャンクまたはレコードの MinHash 署名を計算します。
+1. **MinHash シグネチャの生成**: 各チャンクまたはレコードの MinHash シグネチャを計算します。
 
-1. **Binary ベクトル conversion**: 署名を Milvus と互換性のあるバイナリベクトルに変換します。
+1. **バイナリベクトルへの変換**: シグネチャを Milvus と互換性のあるバイナリベクトルに変換します。
 
-1. **Search before insert**: MinHash LSH インデックスを使用して、対象のコレクションで受信項目のほぼ重複を検索します。
+1. **挿入前の検索**: MinHash LSH インデックスを使用して、対象のコレクション内で受信アイテムのほぼ重複を検索します。
 
-1. **Insert & store**: 一意の項目のみをコレクションに挿入します。挿入された項目は、今後の重複排除チェックで検索可能になります。
+1. **挿入と保存**: 一意のアイテムのみをコレクションに挿入します。これらのアイテムは、今後の重複チェックで検索可能になります。
 
 </details>
 
 ## 事前準備\{#prerequisites}
 
-Zilliz Cloud で MinHash LSH を使用する前に、まず **MinHash 署名** を生成する必要があります。このコンパクトなバイナリ署名は集合間の Jaccard 類似度を近似し、Zilliz Cloud での `MHJACCARD` ベースの検索に必要です。
+Zilliz Cloud で MinHash LSH を使用する前に、まず **MinHash シグネチャ** を生成する必要があります。このコンパクトなバイナリシグネチャは集合間の Jaccard 類似度を近似するものであり、Zilliz Cloud で `MHJACCARD` ベースの検索を行うために必要です。
 
 <Admonition type="info" title="Notes">
 
-`MINHASH_LSH` インデックス用の MinHash 署名は、次の 2 つの方法で準備できます：
+`MINHASH_LSH` インデックス用の MinHash シグネチャは、次の 2 つの方法で準備できます。
 
-- 外部ツールを使用して自分で署名を生成し、BINARY_VECTOR フィールドに挿入する、または
+- 外部ツールを使用してシグネチャを生成し、BINARY_VECTOR フィールドに挿入する、または
 
-- 組み込みの MinHash 関数を使用して、テキストから互換性のあるバイナリベクトルを自動的に生成します。MinHash 関数のエンドツーエンドのワークフローと構成オプションについては、[MinHash 関数](./minhash-function) を参照してください。
+- 組み込みの MinHash 関数を使用して、テキストから互換性のあるバイナリベクトルを自動的に生成します。MinHash 関数のエンドツーエンドのワークフローと構成オプションについては、[MinHash Function](./minhash-function) を参照してください。
 
 </Admonition>
 
-### MinHash 署名を生成する方法を選択する\{#choose-a-method-to-generate-minhash-signatures}
+### MinHash シグネチャの生成方法を選択する\{#choose-a-method-to-generate-minhash-signatures}
 
-ワークロードに応じて、次のいずれかを選択できます：
+ワークロードに応じて、次の方法から選択できます。
 
-- シンプルにするために Python の [`datasketch`](https://ekzhu.github.io/datasketch/) を使用する（プロトタイピングに推奨）
+- シンプルにするために Python の [`datasketch`](https://ekzhu.github.io/datasketch/) を使用します（プロトタイピングに推奨）。
 
-- 大規模データセットには分散ツール（Spark、Ray など）を使用する
+- 大規模なデータセットには分散ツール（Spark、Ray など）を使用します。
 
-- パフォーマンスチューニングが重要な場合は、カスタムロジック（NumPy、C++ など）を実装する
+- パフォーマンスのチューニングが重要な場合は、カスタムロジック（NumPy、C++ など）を実装します。
 
-このガイドでは、シンプルさと Zilliz Cloud の入力形式との互換性のために `datasketch` を使用します。
+このガイドでは、シンプルさと Zilliz Cloud の入力形式との互換性のため、`datasketch` を使用します。
 
 ### 必要なライブラリをインストールする\{#install-required-libraries}
 
-この例に必要なパッケージをインストールします：
+この例に必要なパッケージをインストールします。
 
 ```bash
 pip install pymilvus datasketch numpy
 ```
 
-### MinHash 署名を生成する\{#generate-minhash-signatures}
+### MinHash シグネチャを生成する\{#generate-minhash-signatures}
 
-256 次元の MinHash 署名を生成し、各ハッシュ値は 64 ビット整数として表現します。これは `MINHASH_LSH` で想定されるベクトル形式と一致します。
+256 次元の MinHash シグネチャを生成します。各ハッシュ値は 64 ビット整数で表されます。これは、`MINHASH_LSH` で想定されるベクトル形式と一致します。
 
 ```python
 from datasketch import MinHash
@@ -223,21 +223,21 @@ def generate_minhash_signature(text, num_perm=MINHASH_DIM) -> bytes:
     return m.hashvalues.astype('>u8').tobytes()  # Returns 2048 bytes
 ```
 
-各署名は 256 × 64 ビット = 2048 バイトです。このバイト文字列は `BINARY_VECTOR` フィールドに直接挿入できます。Zilliz Cloud で使用されるバイナリベクトルの詳細については、[バイナリベクトル](./use-binary-vector) を参照してください。
+各シグネチャは 256 × 64 ビット = 2048 バイトです。このバイト文字列は、`BINARY_VECTOR` フィールドに直接挿入できます。Zilliz Cloud で使用されるバイナリベクトルの詳細は、[Binary ベクトル](./use-binary-vector) を参照してください。
 
-### （任意）生のトークンセットを準備する（絞り込み検索用）\{#optional-prepare-raw-token-sets-for-refined-search}
+### （オプション）生のトークンセットを準備する（詳細検索用）\{#optional-prepare-raw-token-sets-for-refined-search}
 
-既定では、Zilliz Cloud は MinHash 署名と LSH インデックスのみを使用して近似近傍を検索します。これは高速ですが、偽陽性を返したり、近い一致を見逃したりする可能性があります。
+デフォルトでは、Zilliz Cloud は MinHash シグネチャと LSH インデックスのみを使用して近似近傍を検索します。これは高速ですが、誤検出が返されたり、近い一致が見逃されたりする可能性があります。
 
-**正確な Jaccard 類似度** が必要な場合、Zilliz Cloud は元のトークンセットを使用する絞り込み検索をサポートしています。これを有効にするには：
+**正確な Jaccard 類似度** が必要な場合、Zilliz Cloud は元のトークンセットを使用する詳細検索をサポートしています。これを有効にするには、次のようにします。
 
-- トークンセットを別の `VARCHAR` フィールドとして保存する
+- トークンセットを別の `VARCHAR` フィールドに保存します。
 
-- [インデックスパラメーターを構築する](./minhash-lsh#build-index-parameters-and-create-collection) ときに `"with_raw_data": True` を設定する
+- [インデックスパラメーターを構築する](./minhash-lsh#build-index-parameters-and-create-collection) ときに `"with_raw_data": True` を設定します。
 
-- また、[類似検索を実行する](./minhash-lsh#perform-similarity-search) ときに `"mh_search_with_jaccard": True` を有効にする
+- また、[類似性検索を実行する](./minhash-lsh#perform-similarity-search) ときに `"mh_search_with_jaccard": True` を有効にします。
 
-**トークンセットの抽出例**:
+**トークンセット抽出の例**:
 
 ```python
 def extract_token_set(text: str) -> str:
@@ -247,7 +247,7 @@ def extract_token_set(text: str) -> str:
 
 ## MinHash LSH を使用する\{#use-minhash-lsh}
 
-MinHash ベクトルと元のトークンセットの準備ができたら、`MINHASH_LSH` を使用して Zilliz Cloud でそれらを保存、インデックス作成、検索できます。
+MinHash ベクトルと元のトークンセットを準備したら、Zilliz Cloud で `MINHASH_LSH` を使用して保存、インデックス作成、検索を行うことができます。
 
 ### クラスターに接続する\{#connect-to-your-cluster}
 
@@ -349,15 +349,15 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 
 ### コレクションスキーマを定義する\{#define-collection-schema}
 
-次の要素を持つスキーマを定義します：
+次の項目を含むスキーマを定義します。
 
 - プライマリキー
 
-- MinHash 署名用の `BINARY_VECTOR` フィールド
+- MinHash シグネチャ用の `BINARY_VECTOR` フィールド
 
-- 元のトークンセット用の `VARCHAR` フィールド（絞り込み検索を有効にする場合）
+- 元のトークンセット用の `VARCHAR` フィールド（詳細検索が有効な場合）
 
-- 任意で、元のテキスト用の `document` フィールド
+- オプションで、元のテキスト用の `document` フィールド
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -450,6 +450,8 @@ schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).With
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from '@zilliz/milvus2-sdk-node';
+
 const VECTOR_DIM = 256 * 64; // 256 × 64 = 16384 bits
 
 const schema = [
@@ -482,7 +484,7 @@ SCHEMA='{
 
 ### インデックスパラメーターを構築してコレクションを作成する\{#build-index-parameters-and-create-collection}
 
-Jaccard 絞り込みを有効にして `MINHASH_LSH` インデックスを構築します：
+Jaccard リファインメントを有効にして `MINHASH_LSH` インデックスを構築します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -645,17 +647,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-インデックス構築パラメーターの詳細については、[インデックス構築パラメーター](./minhash-lsh#index-building-params) を参照してください。
+インデックス構築パラメーターの詳細は、[インデックス構築パラメーター](./minhash-lsh#index-building-params) を参照してください。
 
 ### データを挿入する\{#insert-data}
 
-各ドキュメントについて、次のものを準備します：
+各ドキュメントについて、次の項目を準備します。
 
-- バイナリの MinHash 署名
+- バイナリの MinHash シグネチャ
 
 - シリアル化されたトークンセット文字列
 
-- （任意）元のテキスト
+- （オプション）元のテキスト
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -889,17 +891,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 類似検索を実行する\{#perform-similarity-search}
+### 類似性検索を実行する\{#perform-similarity-search}
 
-Zilliz Cloud は、MinHash LSH を使用した 2 つの類似検索モードをサポートしています：
+Zilliz Cloud は、MinHash LSH を使用した 2 つのモードの類似性検索をサポートしています。
 
-- **近似検索** — MinHash 署名と LSH のみを使用し、高速ですが確率的な結果を返します。
+- **近似検索** — MinHash シグネチャと LSH のみを使用し、高速ですが確率的な結果を返します。
 
-- **絞り込み検索** — 元のトークンセットを使用して Jaccard 類似度を再計算し、精度を向上させます。
+- **詳細検索** — 元のトークンセットを使用して Jaccard 類似度を再計算し、精度を向上させます。
 
 #### 5.1 クエリを準備する\{#51-prepare-the-query}
 
-類似検索を実行するには、クエリドキュメントの MinHash 署名を生成します。この署名は、データ挿入時に使用したものと同じ次元とエンコード形式に一致している必要があります。
+類似性検索を実行するには、クエリドキュメントの MinHash シグネチャを生成します。このシグネチャは、データ挿入時に使用したものと同じ次元数とエンコード形式に一致する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -981,7 +983,7 @@ curl --request POST \
 
 #### 5.2 近似検索（LSH のみ）\{#52-approximate-search-lsh-only}
 
-これは高速でスケーラブルですが、近い一致を見逃したり、偽陽性が含まれたりする可能性があります：
+これは高速でスケーラブルですが、近い一致が見逃されたり、誤検出が含まれたりする可能性があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1172,9 +1174,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 5.3 絞り込み検索（精度重視の場合に推奨）：\{#53-refined-search-recommended-for-accuracy}
+#### 5.3 詳細検索（精度重視の場合に推奨）\{#53-refined-search-recommended-for-accuracy}
 
-これは、Zilliz Cloud に保存された元のトークンセットを使用して正確な Jaccard 比較を可能にします。やや低速ですが、品質が重視されるタスクに推奨されます：
+これにより、Zilliz Cloud に保存された元のトークンセットを使用して、正確な Jaccard 比較が可能になります。やや低速ですが、品質が重要なタスクに推奨されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1363,26 +1365,26 @@ curl --request POST \
 
 ## インデックスパラメーター\{#index-params}
 
-このセクションでは、インデックスの構築とインデックスでの検索に使用されるパラメーターの概要を説明します。
+このセクションでは、インデックスの構築とインデックスに対する検索に使用するパラメーターの概要を説明します。
 
 ### インデックス構築パラメーター\{#index-building-params}
 
-次の表は、[インデックスを構築する](./minhash-lsh#build-index-parameters-and-create-collection) ときに `params` で構成できるパラメーターを一覧表示します。
+次の表は、[インデックスを構築する](./minhash-lsh#build-index-parameters-and-create-collection) ときに `params` で設定できるパラメーターを一覧にしたものです。
 
-| パラメーター | 説明 | 値の範囲 | チューニングの提案 |
+| パラメーター | 説明 | 値の範囲 | チューニングの推奨事項 |
 | --- | --- | --- | --- |
-| `mh_element_bit_width` | MinHash 署名内の各ハッシュ値のビット幅。8 で割り切れる必要があります。 | 8, 16, 32, 64 | パフォーマンスと精度のバランスを取るには `32` を使用します。より大きなデータセットで精度を高めるには `64` を使用します。許容できる精度低下と引き換えにメモリを節約するには `16` を使用します。 |
-| `mh_lsh_band` | LSH のために MinHash 署名を分割するバンド数。再現率とパフォーマンスのトレードオフを制御します。 | [1, *signature_length*] | 128 次元の署名の場合：32 バンド（4 values/band). から開始します。再現率を高めるには 64 に増やし、パフォーマンスを高めるには 16 に減らします。署名長を均等に分割できる必要があります。 |
-| `mh_lsh_code_in_mem` | LSH ハッシュコードを匿名メモリに保存するか（`true`）、メモリマッピングを使用するか（`false`）。 | true, false | メモリ使用量を削減するには、大規模データセット（100 万セット超）に `false` を使用します。最大の検索速度が必要な小規模データセットには `true` を使用します。 |
-| `with_raw_data` | 絞り込みのために、元の MinHash 署名を LSH コードと一緒に保存するかどうか。 | true, false | 高い精度が必要でストレージコストが許容できる場合は `true` を使用します。わずかな精度低下と引き換えにストレージオーバーヘッドを最小限に抑えるには `false` を使用します。 |
-| `mh_lsh_bloom_false_positive_prob` | LSH バケット最適化で使用されるブルームフィルターの偽陽性確率。 | [0.001, 0.1] | メモリ使用量と精度のバランスを取るには `0.01` を使用します。値を小さくすると（`0.001`）偽陽性が減りますが、メモリが増加します。値を大きくすると（`0.05`）メモリを節約できますが、精度が低下する可能性があります。 |
+| `mh_element_bit_width` | MinHash シグネチャ内の各ハッシュ値のビット幅です。8 で割り切れる必要があります。 | 8, 16, 32, 64 | パフォーマンスと精度のバランスを取るには `32` を使用します。大規模なデータセットで高い精度を得るには `64` を使用します。許容できる精度低下と引き換えにメモリを節約するには `16` を使用します。 |
+| `mh_lsh_band` | LSH のために MinHash シグネチャを分割するバンド数です。再現率とパフォーマンスのトレードオフを制御します。 | [1, *signature_length*] | 128 次元のシグネチャの場合は、32 個のバンド（4 個の値/band). から始めます。再現率を高めるには 64 に増やし、パフォーマンスを向上させるには 16 に減らします。シグネチャの長さを均等に分割できる必要があります。 |
+| `mh_lsh_code_in_mem` | LSH ハッシュコードを匿名メモリに保存する（`true`）か、メモリマッピングを使用する（`false`）かを指定します。 | true, false | 大規模なデータセット（100 万セット超）では、メモリ使用量を削減するために `false` を使用します。最大の検索速度が必要な小規模なデータセットでは `true` を使用します。 |
+| `with_raw_data` | リファインメントのために、LSH コードと一緒に元の MinHash シグネチャを保存するかどうかを指定します。 | true, false | 高い精度が必要で、ストレージコストを許容できる場合は `true` を使用します。わずかな精度低下と引き換えにストレージのオーバーヘッドを最小限に抑える場合は `false` を使用します。 |
+| `mh_lsh_bloom_false_positive_prob` | LSH バケットの最適化に使用されるブルームフィルターの偽陽性確率です。 | [0.001, 0.1] | メモリ使用量と精度のバランスを取るには `0.01` を使用します。値を小さくする（`0.001`）と偽陽性は減少しますが、メモリ使用量が増加します。値を大きくする（`0.05`）とメモリを節約できますが、精度が低下する可能性があります。 |
 
 ### インデックス固有の検索パラメーター\{#index-specific-search-params}
 
-次の表は、[インデックスで検索する](./minhash-lsh#perform-similarity-search) ときに `search_params.params` で構成できるパラメーターを一覧表示します。
+次の表は、[インデックスを検索する](./minhash-lsh#perform-similarity-search) ときに `search_params.params` で設定できるパラメーターを一覧にしたものです。
 
-| パラメーター | 説明 | 値の範囲 | チューニングの提案 |
+| パラメーター | 説明 | 値の範囲 | チューニングの推奨事項 |
 | --- | --- | --- | --- |
-| `mh_search_with_jaccard` | 絞り込みのために、候補結果に対して正確な Jaccard 類似度計算を実行するかどうか。 | true, false | 高い精度が求められるアプリケーション（重複排除など）には `true` を使用します。わずかな精度低下が許容される場合に、より高速な近似検索を行うには `false` を使用します。 |
-| `refine_k` | Jaccard 絞り込みの前に取得する候補の数。`mh_search_with_jaccard` が `true` の場合にのみ有効です。 | [*top_k*, *top_k &ast; 10*] | 再現率とパフォーマンスのバランスを取るには、目的の *top_k* の 2〜5 倍に設定します。値を大きくすると再現率は向上しますが、計算コストが増加します。 |
-| `mh_lsh_batch_search` | 複数の同時クエリに対してバッチ最適化を有効にするかどうか。 | true, false | スループットを向上させるために、複数のクエリで同時に検索する場合は `true` を使用します。メモリオーバーヘッドを削減するために、単一クエリのシナリオでは `false` を使用します。 |
+| `mh_search_with_jaccard` | リファインメントのために、候補結果に対して正確な Jaccard 類似度計算を実行するかどうかを指定します。 | true, false | 高い精度が必要なアプリケーション（重複排除など）には `true` を使用します。わずかな精度低下を許容できる場合に高速な近似検索を行うには `false` を使用します。 |
+| `refine_k` | Jaccard リファインメントの前に取得する候補の数です。`mh_search_with_jaccard` が `true` の場合にのみ有効です。 | [*top_k*, *top_k &ast; 10*] | 再現率とパフォーマンスのバランスを取るには、希望する *top_k* の 2〜5 倍に設定します。値を大きくすると再現率は向上しますが、計算コストが増加します。 |
+| `mh_lsh_batch_search` | 同時に複数のクエリを実行する場合のバッチ最適化を有効にするかどうかを指定します。 | true, false | 複数のクエリを同時に検索してスループットを向上させる場合は `true` を使用します。メモリのオーバーヘッドを削減するため、単一クエリのシナリオでは `false` を使用します。 |

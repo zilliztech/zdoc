@@ -1,5 +1,5 @@
 ---
-title: "マルチベクターハイブリッド検索 | BYOC"
+title: "マルチベクトルハイブリッド検索 | BYOC"
 slug: /hybrid-search
 sidebar_label: "ハイブリッド検索"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報、あるいはテキスト、画像、音声といった複数のモダリティによって検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリのセマンティクスに一致する場合に検索される必要があります。ハイブリッド検索は、こうした多様なフィールドにまたがる検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor（ANN）検索を同時に実行することでこれをサポートします。マルチベクターハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、あるいは検索品質を向上させるために高密度ベクトルとスパースベクトルを使用したい場合に特に有用です。 | BYOC"
+description: "多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報、あるいはテキスト、画像、音声といった複数のモダリティによって検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリのセマンティクスに一致する場合に検索される必要があります。ハイブリッド検索は、こうした多様なフィールドにまたがる検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor（ANN）検索を同時に実行することでこれをサポートします。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、あるいは検索品質を向上させるために密ベクトルとスパースベクトルを使用したい場合に特に有用です。 | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
 sidebar_position: 9
@@ -19,15 +19,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# マルチベクターハイブリッド検索
+# マルチベクトルハイブリッド検索
 
-多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報、あるいはテキスト、画像、音声といった複数のモダリティによって検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリのセマンティクスに一致する場合に検索される必要があります。ハイブリッド検索は、こうした多様なフィールドにまたがる検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor（ANN）検索を同時に実行することでこれをサポートします。マルチベクターハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、あるいは検索品質を向上させるために高密度ベクトルとスパースベクトルを使用したい場合に特に有用です。 
+多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報、あるいはテキスト、画像、音声といった複数のモダリティによって検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリのセマンティクスに一致する場合に検索される必要があります。ハイブリッド検索は、こうした多様なフィールドにまたがる検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor（ANN）検索を同時に実行することでこれをサポートします。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、あるいは検索品質を向上させるために密ベクトルとスパースベクトルを使用したい場合に特に有用です。 
 
 ![Qx7UwgI6jhrku8bAxZqcYxZMnSe](https://zdoc-images.s3.us-west-2.amazonaws.com/Qx7UwgI6jhrku8bAxZqcYxZMnSe.png)
 
-マルチベクターハイブリッド検索は、異なる検索手法を統合したり、さまざまなモダリティの埋め込みを横断的に扱ったりします。
+マルチベクトルハイブリッド検索は、異なる検索手法を統合したり、さまざまなモダリティの埋め込みを横断したりします。
 
-- **Sparse-Dense ベクトル検索**: [Dense ベクトル](./use-dense-vector) はセマンティックな関係を捉えるのに優れており、[Sparse ベクトル](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広範な概念理解と厳密な用語の関連性の両方を提供し、検索結果を改善します。各手法の強みを活かすことで、ハイブリッド検索は個別のアプローチの限界を克服し、複雑なクエリに対してより優れたパフォーマンスを実現します。セマンティック検索と全文検索を組み合わせたハイブリッド検索の詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)はこちらです。
+- **スパース・密ベクトル検索**: [密ベクトル](./use-dense-vector) はセマンティックな関係を捉えるのに優れており、[スパースベクトル](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広範な概念理解と厳密な用語の関連性の両方を提供し、検索結果を改善します。各手法の強みを活かすことで、ハイブリッド検索は個別のアプローチの限界を克服し、複雑なクエリに対してより優れたパフォーマンスを実現します。セマンティック検索と全文検索を組み合わせたハイブリッド検索については、より詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)を参照してください。
 
 - **マルチモーダルベクトル検索**: マルチモーダルベクトル検索は、テキスト、画像、音声など、さまざまなデータ型を横断して検索できる強力な手法です。このアプローチの主な利点は、異なるモダリティをシームレスで一貫性のある検索体験に統合できることです。たとえば商品検索では、ユーザーがテキストクエリを入力して、テキストと画像の両方で説明された商品を探すことがあります。ハイブリッド検索手法によってこれらのモダリティを組み合わせることで、検索精度を高めたり、検索結果をより豊かにしたりできます。
 
@@ -35,21 +35,21 @@ import TabItem from '@theme/TabItem';
 
 各商品にテキストによる説明と画像が含まれる、実際のユースケースを考えてみましょう。利用可能なデータに基づいて、次の 3 種類の検索を実行できます。
 
-- **セマンティックテキスト検索:** これは、高密度ベクトルを使用して商品のテキスト説明をクエリするものです。テキスト埋め込みは、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使用して生成できます。
+- **セマンティックテキスト検索:** これは、密ベクトルを使用して商品のテキスト説明をクエリするものです。テキスト埋め込みは、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使用して生成できます。
 
 - **全文検索**: ここでは、スパースベクトルを使用したキーワードマッチによって商品のテキスト説明をクエリします。[BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus) のようなアルゴリズムや、[BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*1cde1oq*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#BGE-M3) や [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*ov2die*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#SPLADE) のようなスパース埋め込みモデルをこの目的に使用できます。
 
-- **マルチモーダル画像検索:** この手法では、高密度ベクトルを使用したテキストクエリで画像を検索します。画像埋め込みは、[CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
+- **マルチモーダル画像検索:** この手法では、密ベクトルを使用したテキストクエリで画像を検索します。画像埋め込みは、[CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
 
-このガイドでは、商品の生のテキスト説明と画像埋め込みを前提として、上記の検索手法を組み合わせたマルチモーダルハイブリッド検索の例を順を追って説明します。マルチベクターデータを保存し、再ランキング戦略を使用してハイブリッド検索を実行する方法を示します。
+このガイドでは、商品の生のテキスト説明と画像埋め込みを前提として、上記の検索手法を組み合わせたマルチモーダルハイブリッド検索の例を順を追って説明します。マルチベクトルデータを保存し、再ランキング戦略を使用してハイブリッド検索を実行する方法を示します。
 
 ## 複数のベクトルフィールドを持つコレクションを作成する\{#create-a-collection-with-multiple-vector-fields}
 
-コレクションの作成プロセスには、コレクションスキーマの定義、インデックスパラメータの設定、コレクションの作成という 3つの重要なステップがあります。
+コレクションの作成プロセスには、コレクションスキーマの定義、インデックスパラメータの設定、コレクションの作成という 3 つの重要なステップがあります。
 
 ### スキーマを定義する\{#define-schema}
 
-マルチベクターハイブリッド検索では、コレクションスキーマ内に複数のベクトルフィールドを定義する必要があります。コレクションで許可されるベクトルフィールド数の制限について詳しくは、[Zilliz Cloud Limits](./limits#fields) を参照してください。 
+マルチベクトルハイブリッド検索では、コレクションスキーマ内に複数のベクトルフィールドを定義する必要があります。コレクションで許可されるベクトルフィールド数の制限について詳しくは、[Zilliz Cloud Limits](./limits#fields) を参照してください。 
 
 この例では、次のフィールドをスキーマに追加します。
 
@@ -57,15 +57,15 @@ import TabItem from '@theme/TabItem';
 
 - `text`: テキストコンテンツを保存するために使用します。このフィールドのデータ型は `VARCHAR` で、最大長は 1000 バイトです。全文検索を容易にするため、`enable_analyzer` オプションは `True` に設定されています。
 
-- `text_dense`: テキストの高密度ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VECTOR` で、ベクトル次元は 768 です。
+- `text_dense`: テキストの密ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VECTOR` で、ベクトル次元は 768 です。
 
 - `text_sparse`: テキストのスパースベクトルを保存するために使用します。このフィールドのデータ型は `SPARSE_FLOAT_VECTOR` です。
 
-- `image_dense`: 商品画像の高密度ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VETOR` で、ベクトル次元は 512 です。
+- `image_dense`: 商品画像の密ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VETOR` で、ベクトル次元は 512 です。
 
 テキストフィールドに対して全文検索を実行するために組み込みの BM25 アルゴリズムを使用するため、Milvus の `Function` をスキーマに追加する必要があります。詳細については、[全文検索](./full-text-search) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -168,10 +168,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -220,10 +220,38 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25, "text bm25 function");
+function->AddInputFieldName("text");
+function->AddOutputFieldName("text_sparse");
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
+schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -241,7 +269,7 @@ const fields = [
         name: "text",
         data_type: DataType.VarChar,
         max_length: 1000,
-        enable_match: true
+        enable_analyzer: true
     },
     {
         name: "text_dense",
@@ -326,34 +354,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25, "text bm25 function");
-function->AddInputFieldName("text");
-function->AddOutputFieldName("text_sparse");
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
-schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -390,13 +390,13 @@ EOF
 
 コレクションスキーマを定義したら、次のステップではベクトルインデックスを構成し、類似度メトリクスを指定します。この例では次のとおりです。
 
-- `text_dense_index`: テキストの高密度ベクトルフィールドに対して、タイプが `AUTOINDEX`、メトリクスタイプが `IP` のインデックスを作成します。
+- `text_dense_index`: テキストの密ベクトルフィールドに対して、タイプが `AUTOINDEX`、メトリクスタイプが `IP` のインデックスを作成します。
 
 - `text_sparse_index`: テキストのスパースベクトルフィールドに対して、タイプが `SPARSE_INVERTED_INDEX`、メトリクスタイプが `BM25` のインデックスを使用します。
 
-- `image_dense_index`: 画像の高密度ベクトルフィールドに対して、タイプが `AUTOINDEX`、メトリクスタイプが `IP` のインデックスを作成します。
+- `image_dense_index`: 画像の密ベクトルフィールドに対して、タイプが `AUTOINDEX`、メトリクスタイプが `IP` のインデックスを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -482,6 +482,18 @@ indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense"
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("text_dense", "text_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+    milvus::IndexDesc("text_sparse", "text_sparse_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25),
+    milvus::IndexDesc("image_dense", "image_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -493,10 +505,10 @@ const index_params = [{
 },{
     field_name: "text_sparse",
     index_name: "text_sparse_index",
-    index_type: "IndexType.SPARSE_INVERTED_INDEX",
+    index_type: "SPARSE_INVERTED_INDEX",
     metric_type: "BM25",
     params: {
-      inverted_index_algo: "DAAT_MAXSCORE", 
+      inverted_index_algo: "DAAT_MAXSCORE",
     }
 },{
     field_name: "image_dense",
@@ -536,18 +548,6 @@ export indexParams='[
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("text_dense", "text_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
-    milvus::IndexDesc("text_sparse", "text_sparse_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25),
-    milvus::IndexDesc("image_dense", "image_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
-};
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -566,9 +566,9 @@ EOF
 
 ### コレクションを作成する\{#create-collection}
 
-前の 2つのステップで構成したコレクションスキーマとインデックスを使用して、`demo` という名前のコレクションを作成します。
+前の 2 つのステップで構成したコレクションスキーマとインデックスを使用して、`demo` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -608,10 +608,24 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithCollectionSchema(schema)
+                                        .WithIndexes(std::move(indexes));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.createCollection({
+const res = await client.createCollection({
     collection_name: "my_collection",
     fields: fields,
     index_params: index_params,
@@ -636,20 +650,6 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithCollectionSchema(schema)
-                                        .WithIndexes(std::move(indexes));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -696,15 +696,15 @@ zilliz collection create --body file://collection.json
 
 - `text`: 商品の説明を含む文字列
 
-- `text_dense`: テキスト説明の高密度埋め込みを表す 768 個の浮動小数点値のリスト
+- `text_dense`: テキスト説明の密埋め込みを表す 768 個の浮動小数点値のリスト
 
-- `image_dense`: 商品画像の高密度埋め込みを表す 512 個の浮動小数点値のリスト
+- `image_dense`: 商品画像の密埋め込みを表す 512 個の浮動小数点値のリスト
 
-各フィールドの高密度埋め込みの生成には、同じモデルを使用しても、異なるモデルを使用してもかまいません。この例では、2つの高密度埋め込みの次元数が異なるため、異なるモデルによって生成されたことがわかります。後で各検索を定義する際は、必ず対応するモデルを使用して適切なクエリ埋め込みを生成してください。
+各フィールドの密埋め込みの生成には、同じモデルを使用しても、異なるモデルを使用してもかまいません。この例では、2 つの密埋め込みの次元数が異なるため、異なるモデルによって生成されたことがわかります。後で各検索を定義する際は、必ず対応するモデルを使用して適切なクエリ埋め込みを生成してください。
 
-この例では、組み込みの BM25 関数を使用してテキストフィールドからスパース埋め込みを生成するため、スパースベクトルを手動で指定する必要はありません。ただし、BM25 を使用しない場合は、スパース埋め込みを事前に計算して自分で指定する必要があります。
+この例では、組み込みの BM25 Function を使用してテキストフィールドからスパース埋め込みを生成するため、スパースベクトルを手動で指定する必要はありません。ただし、BM25 を使用しない場合は、スパース埋め込みを事前に計算して自分で指定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -808,45 +808,6 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-var data = [
-    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], image_dense: [0.6366019600530924, -0.09323198122475052, ...]},
-    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], image_dense: [0.6414180010301553, 0.8976979978567611, ...]},
-    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], image_dense: [-0.6901259768402174, 0.6100500332193755, ...]}
-]
-
-var res = await client.insert({
-    collection_name: "my_collection",
-    data: data,
-})
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "data": [
-        {"id": 0, "text": "Red cotton t-shirt with round neck" , "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], "image_dense": [0.6366019600530924, -0.09323198122475052, ...]},
-        {"id": 1, "text": "Wireless noise-cancelling over-ear headphones" , "text_dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], "image_dense": [0.6414180010301553, 0.8976979978567611, ...]},
-        {"id": 2, "text": "Stainless steel water bottle, 500ml" , "text_dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], "image_dense": [-0.6901259768402174, 0.6100500332193755, ...]}
-    ],
-    "collectionName": "my_collection"
-}'
-```
-
-</TabItem>
-
 <TabItem value='c++'>
 
 ```c++
@@ -882,6 +843,45 @@ if (!status.IsOk()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+var data = [
+    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
+    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597 /* ...remaining dims */], image_dense: [0.6414180010301553, 0.8976979978567611 /* ...remaining dims */]},
+    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682 /* ...remaining dims */], image_dense: [-0.6901259768402174, 0.6100500332193755 /* ...remaining dims */]}
+]
+
+var res = await client.insert({
+    collection_name: "my_collection",
+    data: data,
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "data": [
+        {"id": 0, "text": "Red cotton t-shirt with round neck" , "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], "image_dense": [0.6366019600530924, -0.09323198122475052, ...]},
+        {"id": 1, "text": "Wireless noise-cancelling over-ear headphones" , "text_dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], "image_dense": [0.6414180010301553, 0.8976979978567611, ...]},
+        {"id": 2, "text": "Stainless steel water bottle, 500ml" , "text_dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], "image_dense": [-0.6901259768402174, 0.6100500332193755, ...]}
+    ],
+    "collectionName": "my_collection"
+}'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -898,7 +898,7 @@ zilliz vector insert --collection my_collection --body file://insert.json
 
 ハイブリッド検索は、`hybrid_search()` 関数内で複数の `AnnSearchRequest` を作成することによって実装されます。各 `AnnSearchRequest` は、特定のベクトルフィールドに対する基本的な ANN 検索リクエストを表します。そのため、ハイブリッド検索を実行する前に、ベクトルフィールドごとに `AnnSearchRequest` を作成する必要があります。
 
-また、`AnnSearchRequest` の `expr` パラメータを構成することで、ハイブリッド検索のフィルタ条件を設定できます。詳しくは、[フィルタ付き検索](./filtered-search) および [フィルタリングの解説](./filtering-overview) を参照してください。
+また、`AnnSearchRequest` の `expr` パラメータを構成することで、ハイブリッド検索のフィルタ条件を設定できます。詳しくは、[フィルタ付き検索](./filtered-search) および [フィルタリングの仕組み](./filtering-overview) を参照してください。
 
 <Admonition type="info" title="Notes">
 
@@ -906,7 +906,7 @@ zilliz vector insert --collection my_collection --body file://insert.json
 
 </Admonition>
 
-さまざまな検索ベクトルフィールドの機能を示すために、サンプルクエリを使用して 3つの `AnnSearchRequest` 検索リクエストを作成します。また、この処理では、そのクエリに対して事前に計算された高密度ベクトルを使用します。検索リクエストは、次のベクトルフィールドを対象とします。
+さまざまな検索ベクトルフィールドの機能を示すために、サンプルクエリを使用して 3 つの `AnnSearchRequest` 検索リクエストを作成します。また、この処理では、そのクエリに対して事前に計算された密ベクトルを使用します。検索リクエストは、次のベクトルフィールドを対象とします。
 
 - `text_dense` はセマンティックテキスト検索用で、キーワードの直接一致ではなく意味に基づく文脈の理解と取得を可能にします。
 
@@ -914,7 +914,7 @@ zilliz vector insert --collection my_collection --body file://insert.json
 
 - `image_dense` はマルチモーダルのテキストから画像への検索用で、クエリのセマンティックな内容に基づいて関連する商品画像を取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -928,6 +928,7 @@ query_multimodal_vector = generate_dense_vector(512)
 search_param_1 = {
     "data": [query_dense_vector],
     "anns_field": "text_dense",
+    "param": {},
     "limit": 2
 }
 request_1 = AnnSearchRequest(**search_param_1)
@@ -936,6 +937,7 @@ request_1 = AnnSearchRequest(**search_param_1)
 search_param_2 = {
     "data": [query_text],
     "anns_field": "text_sparse",
+    "param": {},
     "limit": 2
 }
 request_2 = AnnSearchRequest(**search_param_2)
@@ -944,6 +946,7 @@ request_2 = AnnSearchRequest(**search_param_2)
 search_param_3 = {
     "data": [query_multimodal_vector],
     "anns_field": "image_dense",
+    "param": {},
     "limit": 2
 }
 request_3 = AnnSearchRequest(**search_param_3)
@@ -1010,12 +1013,37 @@ request3 := milvusclient.NewAnnRequest("image_dense", 2, entity.FloatVector(quer
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto query_text = "white headphones, quiet and comfortable";
+auto query_dense_vector = generate_dense_vector(768);
+auto query_multimodal_vector = generate_dense_vector(512);
+
+auto sub_req1 = milvus::SubSearchRequest()
+                    .AddFloatVector(query_dense_vector)
+                    .WithAnnsField("text_dense")
+                    .WithLimit(2);
+
+auto sub_req2 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_text)
+                    .WithAnnsField("text_sparse")
+                    .WithLimit(2);
+                    
+auto sub_req3 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_multimodal_vector)
+                    .WithAnnsField("image_dense")
+                    .WithLimit(2);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const query_text = "white headphones, quiet and comfortable"
-const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...]
-const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488, ...]
+const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */]
+const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488 /* ...remaining dims */]
 
 const search_param_1 = {
     "data": query_vector, 
@@ -1062,31 +1090,6 @@ export req='[
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto query_text = "white headphones, quiet and comfortable";
-auto query_dense_vector = generate_dense_vector(768);
-auto query_multimodal_vector = generate_dense_vector(512);
-
-auto sub_req1 = milvus::SubSearchRequest()
-                    .AddFloatVector(query_dense_vector)
-                    .WithAnnsField("text_dense")
-                    .WithLimit(2);
-
-auto sub_req2 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_text)
-                    .WithAnnsField("text_sparse")
-                    .WithLimit(2);
-                    
-auto sub_req3 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_multimodal_vector)
-                    .WithAnnsField("image_dense")
-                    .WithLimit(2);
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1104,7 +1107,7 @@ EOF
 </TabItem>
 </Tabs>
 
-`limit` パラメータが 2 に設定されているため、各 `AnnSearchRequest` は 2 件の検索結果を返します。この例では 3つの `AnnSearchRequest` インスタンスが作成され、合計 6 件の検索結果が得られます。
+`limit` パラメータが 2 に設定されているため、各 `AnnSearchRequest` は 2 件の検索結果を返します。この例では 3 つの `AnnSearchRequest` インスタンスが作成され、合計 6 件の検索結果が得られます。
 
 ### ステップ 2: 再ランキング戦略を構成する\{#step-2-configure-a-reranking-strategy}
 
@@ -1112,7 +1115,7 @@ ANN 検索結果のセットをマージして再ランキングするには、�
 
 この例では、特定の検索クエリを特に重視する必要がないため、RRFRanker 戦略を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1145,6 +1148,30 @@ Function ranker = Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+ranker := entity.NewFunction().
+    WithName("rrf").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "rrf").
+    WithParam("k", "100")
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto ranker = std::make_shared<milvus::RRFRerank>(100);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1158,22 +1185,6 @@ const ranker = {
       "k": 100
   },
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-)
-
-ranker := entity.NewFunction().
-    WithName("rrf").
-    WithType(entity.FunctionTypeRerank).
-    WithParam("reranker", "rrf").
-    WithParam("k", "100")
 ```
 
 </TabItem>
@@ -1199,14 +1210,6 @@ export ranker='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto ranker = std::make_shared<milvus::RRFRerank>(100);
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1223,7 +1226,7 @@ EOF
 
 ハイブリッド検索を開始する前に、コレクションがロードされていることを確認してください。コレクション内のベクトルフィールドにインデックスがない場合や、メモリにロードされていない場合、ハイブリッド検索メソッドの実行時にエラーが発生します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1283,16 +1286,43 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::HybridSearchRequest()
+                .WithCollectionName("my_collection")
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
+                .WithRerank(ranker)
+                .WithLimit(2);
+                
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-res = await client.loadCollection({
+await client.loadCollection({
     collection_name: "my_collection"
 })
-
-import { MilvusClient, RRFRanker, WeightedRanker } from '@zilliz/milvus2-sdk-node';
 
 const search = await client.search({
   collection_name: "my_collection",
@@ -1321,35 +1351,6 @@ curl --request POST \
     },
     \"limit\": 2
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::HybridSearchRequest()
-                .WithCollectionName("my_collection")
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
-                .WithRerank(ranker)
-                .WithLimit(2);
-                
-milvus::SearchResponse response;
-auto status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
 ```
 
 </TabItem>

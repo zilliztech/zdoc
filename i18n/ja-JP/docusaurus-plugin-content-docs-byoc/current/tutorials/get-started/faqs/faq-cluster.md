@@ -1,7 +1,7 @@
 ---
-title: "FAQ: Cluster | BYOC"
+title: "FAQ: クラスター | BYOC"
 slug: /faq-cluster
-sidebar_label: "FAQ: Cluster"
+sidebar_label: "FAQ: クラスター"
 beta: FALSE
 notebook: FALSE
 description: "このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策を一覧で示します。 | BYOC"
@@ -12,37 +12,37 @@ displayed_sidebar: default
 
 ---
 
-# FAQ: Cluster
+# FAQ: クラスター
 
 このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策を一覧で示します。
 
 ## 目次
 
-- ["quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーを受け取った場合はどうすればよいですか？](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
+- ["quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーが発生した場合はどうすればよいですか？](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
 - [サービングクラスターのクエリ CU をスケールダウンするにはどうすればよいですか？](#how-can-i-scale-down-the-query-cus-of-my-serving-cluster)
-- [Zilliz Cloud への接続を試みた際に接続タイムアウトエラーが発生した場合、どのように対処できますか？](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
-- [クラスター作成後にクラスターに接続できないのはなぜですか？](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
+- [Zilliz Cloud に接続しようとしたときに接続タイムアウトエラーが発生した場合はどう対処すればよいですか？](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
+- [クラスターの作成後にクラスターに接続できないのはなぜですか？](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
 - [Node.js SDK で Zilliz Cloud に接続できない場合はどうすればよいですか？](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
 - [クラスターを一時停止した場合、料金は発生しますか？](#will-i-be-charged-if-i-suspend-my-cluster)
 
-## FAQs
+## FAQ
 
 
 
 
-### "quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーを受け取った場合はどうすればよいですか？\{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+### "quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーが発生した場合はどうすればよいですか？\{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
-データを挿入または upsert するときに、データ量がサービングクラスターの CU 容量を超えているため、このエラーが発生します。クラスターの容量は、その [クラスタータイプと CU サイズ](./cu-types-explained#assess-capacity) によって異なります。
+データの挿入または upsert を行うと、データがサービングクラスターの CU 容量を超えるため、このエラーが発生します。クラスターの容量は、[クラスタータイプと CU サイズ](./cu-types-explained#assess-capacity) によって異なります。
 
 この問題に対処するには、以下の手順に従ってください。
 
-このような場合は、クエリ CU を増やして [サービングクラスターをスケールアップ](./auto-scaling) することをお勧めします。
+このような場合は、クエリ CU を増やして[サービングクラスターをスケールアップ](./auto-scaling)することをお勧めします。
 
 ### サービングクラスターのクエリ CU をスケールダウンするにはどうすればよいですか？\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
 クラスターをスケールダウンする必要がある場合は、[リクエストを送信](https://support.zilliz.com/hc/en-us) してください。
 
-### Zilliz Cloud への接続を試みた際に接続タイムアウトエラーが発生した場合、どのように対処できますか？\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
+### Zilliz Cloud に接続しようとしたときに接続タイムアウトエラーが発生した場合はどう対処すればよいですか？\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
 Zilliz Cloud クラスターへの接続を確立するには、いくつかの関連パラメーターを指定する必要があります。たとえば、PyMilvus SDK の connect メソッドは以下のように使用できます。
 
@@ -62,27 +62,27 @@ conn = Connections.connect(
 
 接続タイムアウトエラーは、次のような状況で発生する可能性があります。
 
-- ネットワーク状態が不安定な場合
+- ネットワーク状態が悪い場合
 
-    ネットワーク状態が不安定な場合に対処するには、接続操作のタイムアウト時間を延長することをお勧めします。上記のコードでは、`timeout` は `30` 秒に設定されており、これはリクエスト送信後 30 秒以内に応答がない場合、接続操作がタイムアウトすることを意味します。
+    ネットワーク状態が悪い場合に対処するには、接続操作のタイムアウト時間を延長することをお勧めします。上記のコードでは、`timeout` は `30` 秒に設定されています。これは、リクエストの送信後 30 秒以内に応答を受信できない場合、接続操作がタイムアウトすることを意味します。
 
 - 接続パラメーターが正しくない場合
 
-    Zilliz Cloud クラスターでは TLS が有効になっているため、クラスターに正常に接続するには、上記の例のように接続パラメーターに `secure` を含めて `true` に設定してください。これを行わないと、接続に失敗し、タイムアウトエラーが表示される可能性があります。
+    Zilliz Cloud クラスターでは TLS が有効になっているため、クラスターに正常に接続するには、上記の例に示すように、接続パラメーターに `secure` を含めて `true` に設定してください。これを行わない場合、接続に失敗し、タイムアウトエラーが表示される可能性があります。
 
-- VPC セキュリティグループルール
+- VPC セキュリティグループのルール
 
-    接続タイムアウトが発生する場合は、VPC セキュリティグループルールを確認し、送信元 IP が許可されていることを確認してください。
+    接続タイムアウトが発生する場合は、VPC セキュリティグループのルールを確認し、送信元 IP が許可されていることを確認してください。
 
-### クラスター作成後にクラスターに接続できないのはなぜですか？\{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
+### クラスターの作成後にクラスターに接続できないのはなぜですか？\{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
 
-以下の手順に従って問題を特定できます。
+以下の手順で問題を特定できます。
 
-1. クラスターのステータスが RUNNING であることを確認します。クラスターの作成中、削除中、または IP 許可リストの更新中はクラスターに接続できません。
+1. クラスターのステータスが RUNNING であることを確認します。クラスターの作成中、削除中、または IP 許可リストの更新中は、クラスターに接続できません。
 
-1. 接続元の IP アドレスが IP 許可リストに含まれているか確認します。
+1. 接続元の IP アドレスが IP 許可リストに含まれていることを確認します。
 
-1. クラスターエンドポイント URI 内のポートが正しいか確認します。必ず Zilliz Cloud Web コンソールからエンドポイント URI をコピーしてください。以下の表は、異なるクラウドプロバイダーにデプロイされたクラスターのポートを示しています。
+1. クラスターエンドポイント URI のポートが正しいことを確認します。Zilliz Cloud Web コンソールからエンドポイント URI をコピーしてください。次の表に、各種クラウドプロバイダーにデプロイされたクラスターのポートを示します。
 
     | **クラウドプロバイダー** | **ポート** |
     | --- | --- |
@@ -96,19 +96,19 @@ conn = Connections.connect(
 
 ### Node.js SDK で Zilliz Cloud に接続できない場合はどうすればよいですか？\{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
-Node.js SDK で Zilliz Cloud への接続に失敗する場合は、次を試してください。
+Node.js SDK で Zilliz Cloud に接続できない場合は、次を試してください。
 
-1. 最新バージョンの [Node.js SDK](https://github.com/milvus-io/milvus-sdk-node) をインストールしていることを確認してください。
+1. 最新バージョンの [Node.js SDK](https://github.com/milvus-io/milvus-sdk-node) がインストールされていることを確認します。
 
-1. クライアントが正しく初期化されていることを確認してください。
+1. クライアントが正しく初期化されていることを確認します。
 
-    ```bash
+    ```javascript
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
 
-1. クラスターエンドポイントとトークンが正しいことを確認してください。クラスターエンドポイントには必ずプロトコル `https://` を含めてください。
+1. クラスターエンドポイントとトークンが正しいことを確認します。クラスターエンドポイントには、必ずプロトコル `https://` を含めてください。
 
-1. クラスターエンドポイント URI 内のポートが正しいか確認します。必ず Zilliz Cloud Web コンソールからエンドポイント URI をコピーしてください。以下の表は、異なるクラウドプロバイダーにデプロイされたクラスターのポートを示しています。
+1. クラスターエンドポイント URI のポートが正しいことを確認します。Zilliz Cloud Web コンソールからエンドポイント URI をコピーしてください。次の表に、各種クラウドプロバイダーにデプロイされたクラスターのポートを示します。
 
     | **クラウドプロバイダー** | **ポート** |
     | --- | --- |
