@@ -1,13 +1,13 @@
 ---
-title: "クラスター Credentials | Cloud"
+title: "クラスターの認証情報 | Cloud"
 slug: /cluster-credentials
-sidebar_label: "クラスター Credentials"
+sidebar_label: "クラスターの認証情報"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はトークンを使用してユーザーのIDを認証します。トークンはクラスター認証情報または API キーのいずれかです。このガイドではクラスター認証情報を使用した認証について紹介します。 | Cloud"
+description: "Zilliz Cloud はトークンを使用して ID を認証します。トークンにはクラスターの認証情報または API キーを使用できます。このガイドでは、クラスターの認証情報を使用した認証について説明します。 | Cloud"
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
@@ -19,29 +19,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスター Credentials
+# クラスターの認証情報
 
-Zilliz Cloud はトークンを使用してユーザーのIDを認証します。トークンはクラスター認証情報または API キーのいずれかです。このガイドではクラスター認証情報を使用した認証について紹介します。
+Zilliz Cloud はトークンを使用して ID を認証します。トークンにはクラスターの認証情報または API キーを使用できます。このガイドでは、クラスターの認証情報を使用した認証について説明します。
 
-クラスター認証情報は、クラスターとのやり取りに対するリクエストの認証と認可に使用される、ユーザー名とパスワードの組み合わせ（`user:password`）で構成されます。
+クラスターの認証情報はユーザー名とパスワードのペア（`user:password`）で構成され、クラスターを操作するリクエストの認証と認可に使用されます。
 
-クラスターをセットアップすると、Zilliz Cloud はデフォルトのクラスター ユーザー `db_admin` を `Admin` ロール付きで作成し、クラスターへのフルアクセスを付与します。デフォルト ユーザーのパスワードはクラスター作成時に一度だけ表示されるため、必ず控えて安全な場所に保管することが重要です。
+クラスターを設定すると、Zilliz Cloud は `Admin` ロールを持つデフォルトのクラスターユーザー `db_admin` を作成し、クラスターへのフルアクセス権を付与します。デフォルトユーザーのパスワードはクラスターの作成時に一度だけ表示されるため、必ず控えて適切な場所に安全に保管してください。
 
-デフォルトの `db_admin` ユーザーに加えて、認証用の対応するパスワードを持つ追加のクラスター ユーザーを[作成](./cluster-users#create-a-cluster-user)することもできます。
+デフォルトの `db_admin` ユーザーに加えて、[クラスターユーザーを作成](./cluster-users#create-a-cluster-user)し、認証用のパスワードをそれぞれ設定することもできます。
 
-## パスワードをリセットする\{#reset-password}
+## パスワードのリセット\{#reset-password}
 
-ユーザーのパスワードを忘れた場合や、漏洩した疑いがある場合は、パスワードをリセットできます。
+ユーザーのパスワードを忘れた場合、またはパスワードが漏えいした疑いがある場合は、パスワードをリセットできます。
 
-- **コンソールでユーザー パスワードをリセットする**
+- **コンソールでユーザーパスワードをリセットする**
 
     ![reset-クラスター-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-クラスター-user-password")
 
-- **プログラムでユーザー パスワードをリセットする**
+- **プログラムでユーザーパスワードをリセットする**
 
-    RESTful API または SDK を使用して、プログラムでユーザー パスワードをリセットできます。
+    RESTful API または SDK を使用して、プログラムでユーザーパスワードをリセットできます。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -63,12 +63,90 @@ Zilliz Cloud はトークンを使用してユーザーのIDを認証します�
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
     UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
             .userName("user_1")
             .password("P@ssw0rd")
             .newPassword("NewP@ssw0rd")
             .build();
     client.updatePassword(updatePasswordReq);
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    import (
+        "context"
+        "fmt"
+    
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
+    )
+    
+    ctx := context.Background()
+    
+    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+        APIKey:  "user:password",
+    })
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    defer client.Close(ctx)
+    
+    err = client.UpdatePassword(ctx, milvusclient.NewUpdatePasswordOption("user_1", "P@ssw0rd", "NewP@ssw0rd"))
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    use milvus::v2::prelude::*;
+    
+    let client = ClientV2::new(&ConnectConfig::new()
+        .uri("https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530")
+        .token("user:password")).await?;
+    
+    client.update_password(UpdatePasswordRequest::builder()
+        .username("user_1")
+        .old_password("P@ssw0rd")
+        .new_password("NewP@ssw0rd")
+        .build()?).await?;
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    #include <iostream>
+    #include "milvus/MilvusClientV2.h"
+    
+    auto client = milvus::MilvusClientV2::Create();
+    
+    milvus::ConnectParam connect_param{"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530", "user:password"};
+    auto status = client->Connect(connect_param);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    
+    status = client->UpdatePassword(
+        milvus::UpdatePasswordRequest()
+            .WithUserName("user_1")
+            .WithOldPassword("P@ssw0rd")
+            .WithNewPassword("NewP@ssw0rd")
+    );
+    
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
     ```
 
     </TabItem>
@@ -81,36 +159,6 @@ Zilliz Cloud はトークンを使用してユーザーのIDを認証します�
        newPassword: 'NewP@ssw0rd',
        oldPassword: 'P@ssw0rd',
      })
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    import (
-       "context"
-    
-       "google.golang.org/grpc"
-       "github.com/milvus-io/milvus/v2/milvusclient"
-    )
-    
-    userName := "user_1"
-    oldpass := "P@ssw0rd"
-    newpass := "NewP@ssw0rd"
-    opts := client.NewUpdatePasswordOption(userName, oldpass, newpass)
-    
-    onFinish := func(ctx context.Context, err error) {
-        if err != nil {
-            fmt.Printf("gRPC call finished with error: %v\n", err)
-        } else {
-            fmt.Printf("gRPC call finished successfully")
-        }
-    }
-    
-    callOption := grpc.OnFinish(onFinish)
-    
-    err := mclient.UpdatePassword(context.Background(), opts, callOpts)
     ```
 
     </TabItem>

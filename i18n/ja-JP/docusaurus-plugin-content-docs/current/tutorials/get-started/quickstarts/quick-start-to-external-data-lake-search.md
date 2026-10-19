@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "外部データレイク検索を使用すると、コンピューティングリソースを常時稼働させることなく、外部ストレージ内のデータまたは Zilliz Cloud にインポートしたデータにゼロコピーでアクセスして、大規模なデータセットを検索できます。外部ボリュームまたはインポートしたファイルからコレクションを作成し、プロジェクトのデータプレーンエンドポイント経由でインデックスを構築してメタデータを更新し、検索やクエリのワークロードを実行する必要がある場合にのみオンデマンドクラスターを起動できます。 | Cloud"
+description: "外部データレイク検索を使用すると、コンピュートリソースを継続的に稼働させることなく、外部ストレージ内のデータまたは Zilliz Cloud にインポートしたデータにゼロコピーでアクセスし、大規模なデータセットを検索できます。外部ボリュームまたはインポートしたファイルからコレクションを作成し、プロジェクトのデータプレーンエンドポイント経由でインデックスを構築してメタデータを更新しながら、検索またはクエリのワークロードを実行する場合にのみオンデマンドクラスターを起動できます。 | Cloud"
 type: origin
 token: KdwFwQnDNisT4skHH6Hc16uInji
 sidebar_position: 4
@@ -21,27 +21,27 @@ import TabItem from '@theme/TabItem';
 
 # 外部データレイク検索のクイックスタート
 
-外部データレイク検索を使用すると、コンピューティングリソースを常時稼働させることなく、外部ストレージ内のデータまたは Zilliz Cloud にインポートしたデータにゼロコピーでアクセスして、大規模なデータセットを検索できます。外部ボリュームまたはインポートしたファイルからコレクションを作成し、プロジェクトのデータプレーンエンドポイント経由でインデックスを構築してメタデータを更新し、検索やクエリのワークロードを実行する必要がある場合にのみオンデマンドクラスターを起動できます。
+外部データレイク検索を使用すると、コンピュートリソースを継続的に稼働させることなく、外部ストレージ内のデータまたは Zilliz Cloud にインポートしたデータにゼロコピーでアクセスし、大規模なデータセットを検索できます。外部ボリュームまたはインポートしたファイルからコレクションを作成し、プロジェクトのデータプレーンエンドポイント経由でインデックスを構築してメタデータを更新しながら、検索またはクエリのワークロードを実行する場合にのみオンデマンドクラスターを起動できます。
 
-これを行う手順は以下の通りです。
+手順は以下の通りです。
 
 ## 事前準備\{#before-you-start}
 
-- **ストレージ統合を作成すること。**
+- **ストレージ統合を作成する**
 
-    ストレージ統合は、アクセス資格情報とともにデータの場所を記録するプロファイルです。ストレージ統合を設定するには、[AWS S3](./integrate-with-aws-s3)、[Google GCS](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ統合作成手順に従って、ストレージ統合 ID を取得してください。
+    ストレージ統合は、アクセス認証情報と共にデータの場所を記録するプロファイルです。ストレージ統合を設定するには、手順に従って [AWS S3](./integrate-with-aws-s3)、[Google GCS](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ統合を作成し、ストレージ統合 ID を取得してください。
 
-- **外部ボリュームを作成すること。**
+- **外部ボリュームを作成する**
 
-    外部ボリュームは、ストレージ統合内のパスです。生データがそのパス上にあることを確認してください。同じストレージ統合から複数の外部ボリュームを作成できます。外部ボリュームを作成するには、[External Volumes](./external-volume#create-an-external-volume) を参照してください。
+    外部ボリュームは、ストレージ統合内のパスです。未加工のデータがそのパスにあることを確認してください。同じストレージ統合から複数の外部ボリュームを作成できます。外部ボリュームの作成方法については、[外部ボリューム](./external-volume#create-an-external-volume) を参照してください。
 
-## ステップ 1: プロジェクトエンドポイントに接続する。\{#step-1-connect-to-a-project-endpoint}
+## ステップ 1: プロジェクトエンドポイントに接続する\{#step-1-connect-to-a-project-endpoint}
 
-データベースを操作する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にした後、クイックスタートページで取得できます。
+データベースで作業する前に、プロジェクトエンドポイントに接続します。Zilliz Cloud コンソールでオンデマンドコンピュートを有効にすると、クイックスタートページでプロジェクトエンドポイントを取得できます。
 
 <Admonition type="info" title="Notes">
 
-外部コレクションの操作には、認証用の **API キー**が必要です。このフローでは `username:password` 認証はサポートされていません。
+外部コレクションの操作では、認証に **API キー**が必要です。このフローでは、`username:password` 認証はサポートされていません。
 
 </Admonition>
 
@@ -79,6 +79,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```go
 import (
     "context"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -148,9 +149,9 @@ export TOKEN="YOUR_API_KEY"
 </TabItem>
 </Tabs>
 
-## ステップ 2: （任意）データベースを作成する。\{#step-2-optional-create-a-database}
+## ステップ 2: データベースを作成する（任意）\{#step-2-optional-create-a-database}
 
-Zilliz Cloud にはデフォルトのデータベースが付属しています。それを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
+Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -178,6 +179,8 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -189,6 +192,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(CreateDatabaseRequest::builder()
         .database_name("my_database")
@@ -232,13 +237,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 3: 外部コレクションを作成する。\{#step-3-create-an-external-collection}
+## ステップ 3: 外部コレクションを作成する\{#step-3-create-an-external-collection}
 
-データベースの準備ができたら、その中に外部コレクションを作成できます。外部コレクションは、その列を指定したデータファイルにマッピングし、そのコレクション内の検索用にオンデマンドコンピューティングリソースをアタッチします。
+データベースの準備ができたら、その中に外部コレクションを作成できます。外部コレクションは、その列を指定したデータファイルにマッピングし、そのコレクションでの検索用にオンデマンドコンピュートリソースをアタッチします。
 
-生データをコレクションにインポートする必要があるマネージドコレクションとは異なり、外部コレクションは、1 秒未満のリフレッシュ操作によって生データからメタデータを生成します。
+未加工のデータをコレクションにインポートする必要があるマネージドコレクションとは異なり、外部コレクションは 1 秒未満の更新操作によって未加工のデータからメタデータを生成します。
 
-次の例では、コレクションのフィールドとデータファイルの間のマッピング関係を設定する方法を示します。スキーマを作成するときは、ボリュームパスとデータ形式を指定します。このクイックスタートでは Iceberg テーブルを使用します。サポートされているデータソースと形式の完全なリストについては、[Supported data sources and formats](./create-external-collection#support-data-sources) を参照してください。
+次の例は、コレクションフィールドとデータファイルの間のマッピング関係を設定する方法を示しています。スキーマを作成するときは、ボリュームパスとデータ形式を指定します。このクイックスタートでは Iceberg テーブルを使用します。サポートされているデータソースと形式の完全な一覧については、[サポートされているデータソースと形式](./create-external-collection#support-data-sources) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -637,7 +642,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-次に、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを省略しても問題ありません。
+その後、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを安全に省略できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -675,6 +680,8 @@ client.createCollection(createReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -691,6 +698,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.use_database("my_database").await?;
 
 client
@@ -756,9 +765,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 4: インデックスを作成してコレクションをリフレッシュする。\{#step-4-create-indexes-and-refresh-the-collection}
+## ステップ 4: インデックスを作成してコレクションを更新する\{#step-4-create-indexes-and-refresh-the-collection}
 
-マネージドコレクションと同様に、外部データベースでもインデックスを作成できます。すべてのベクトルフィールドにインデックスを作成する必要があり、高速なメタデータフィルタリングのために一部のスカラーフィールドにインデックスを作成することを選択できます。ただし、インデックスを構築するにはリフレッシュを呼び出す必要があります。
+外部データベースでは、マネージドコレクションの場合と同じようにインデックスを作成できます。すべてのベクトルフィールドにインデックスを作成する必要があり、高速なメタデータフィルタリングのために一部のスカラーフィールドを選択してインデックスを作成できます。ただし、インデックスを構築するには refresh を呼び出す必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -818,6 +827,7 @@ client.createIndex(CreateIndexReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -851,6 +861,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(CreateIndexRequest::builder()
         .collection_name("my_collection")
@@ -931,7 +943,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-次に、外部コレクションをリフレッシュします。`externalSource` と `externalSpec` を省略してコレクションスキーマを再利用するか、両方を指定して新しいソースからコレクションスキーマをリフレッシュできます。
+次に、外部コレクションを更新します。コレクションスキーマを再利用するには `externalSource` と `externalSpec` を省略できます。新しいソースからコレクションスキーマを更新するには、両方を指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -963,6 +975,8 @@ long jobId = refreshResp.getJobId();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 refreshResult, err := client.RefreshExternalCollection(ctx,
     milvusclient.NewRefreshExternalCollectionOption("my_collection"))
 if err != nil {
@@ -976,6 +990,8 @@ jobID := refreshResult.JobID
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let resp = client
     .refresh_external_collection(RefreshExternalCollectionRequest::builder()
         .collection_name("my_collection")
@@ -1029,7 +1045,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-次に、進行状況監視の呼び出しをラップしてリフレッシュ操作の進行状況を追跡するループを作成できます。
+その後、進捗監視の呼び出しをループでラップして、更新操作の進捗を追跡できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1057,6 +1073,8 @@ GetRefreshExternalCollectionProgressResp progressResp = client.getRefreshExterna
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 progress, err := client.GetRefreshExternalCollectionProgress(ctx,
     milvusclient.NewGetRefreshExternalCollectionProgressOption(jobID))
 if err != nil {
@@ -1069,6 +1087,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let progress = client
     .get_refresh_external_collection_progress(GetRefreshExternalCollectionProgressRequest::builder()
         .job_id(job_id)
@@ -1117,7 +1137,7 @@ curl -s --request POST \
 
 ## ステップ 5: オンデマンドクラスターを作成する\{#step-5-create-an-on-demand-cluster}
 
-外部コレクションの準備ができたら、オンデマンド検索のためにそれをオンデマンドクラスターにアタッチする必要があります。次のコマンドはクラスターを作成し、その ID を返します。
+外部コレクションの準備ができたら、オンデマンド検索用にオンデマンドクラスターにアタッチする必要があります。次のコマンドは、クラスターを作成してその ID を返します。
 
 ```bash
 export CONTROL_PLANE_ENDPOINT="https://api.cloud.zilliz.com"
@@ -1137,11 +1157,11 @@ curl --request POST \
 # inxx-xxxxxxxxxxxxx
 ```
 
-デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的にサスペンドされ、ユースケースに適した値に設定できます。
+デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的に一時停止します。ユースケースに合わせてこの値を設定できます。
 
-## ステップ 6: 検索を実行する。\{#step-6-conduct-searches}
+## ステップ 6: 検索を実行する\{#step-6-conduct-searches}
 
-検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、セッションを通じて前のステップで作成したオンデマンドクラスターにアタッチできます。
+検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、前のステップで作成したオンデマンドクラスターにセッション経由で接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1201,7 +1221,7 @@ SearchResp searchResp = session.search(SearchReq.builder()
 
 ```go
 // Note: session-based search (client.session + cluster-scoped search) is not
-// supported in the Go SDK as of client/v3.0.0-beta.
+// supported in the Go SDK as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -1209,6 +1229,8 @@ SearchResp searchResp = session.search(SearchReq.builder()
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let session = client.session("inxx-xxxxxxxxxxxxx")?;
 
 let query_vector = vec![
@@ -1318,4 +1340,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-その後、データを探索して最も価値のあるサブセットを見つけることができます。次に、サービングクラスターに接続し、データをインポートして、本番環境で提供できます。
+その後、データを探索して最も価値のあるサブセットを見つけることができます。次に、サービングクラスターに接続し、データをインポートして本番環境で提供できます。

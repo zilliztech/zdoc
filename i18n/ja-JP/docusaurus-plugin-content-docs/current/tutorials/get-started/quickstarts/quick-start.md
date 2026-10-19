@@ -1,13 +1,13 @@
 ---
-title: "Quickstart to Serving クラスター | Cloud"
+title: "Serving クラスターのクイックスタート | Cloud"
 slug: /quick-start
-sidebar_label: "Quickstart to Serving クラスター"
+sidebar_label: "Serving クラスターのクイックスタート"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A serving クラスター is a self-contained server that combines both compute and storage for real-time production serving. Once you have cleaned your data through your Extract-Transform-Load (ETL) pipelines, you can import it into a serving クラスター to deliver significant performance gains. | Cloud"
+description: "Serving クラスターは、リアルタイムの本番サービング向けにコンピューティングとストレージの両方を兼ね備えた自己完結型のサーバーです。Extract-Transform-Load（ETL）パイプラインを通じてデータをクレンジングしたら、そのデータを Serving クラスターにインポートすることで、大幅なパフォーマンス向上を実現できます。 | Cloud"
 type: origin
 token: B1XTwQgNRizAMTkZQvrclGSonyc
 sidebar_position: 2
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart to Serving クラスター
+# Serving クラスターのクイックスタート
 
-A serving クラスター is a self-contained server that combines both compute and storage for real-time production serving. Once you have cleaned your data through your Extract-Transform-Load (ETL) pipelines, you can import it into a serving クラスター to deliver significant performance gains.
+Serving クラスターは、リアルタイムの本番サービング向けにコンピューティングとストレージの両方を兼ね備えた自己完結型のサーバーです。Extract-Transform-Load（ETL）パイプラインを通じてデータをクレンジングしたら、そのデータを Serving クラスターにインポートすることで、大幅なパフォーマンス向上を実現できます。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-The following procedure assumes that you have already created a serving クラスター and obtained its endpoint and access credentials.
+以下の手順では、Serving クラスターをすでに作成し、そのエンドポイントとアクセス認証情報を取得していることを前提としています。
 
-## ステップ 1: 接続を設定する\{#step-1-set-up-connection}
+## ステップ 1: 接続をセットアップする\{#step-1-set-up-connection}
 
-Once you have obtained the クラスター credentials or an API key, you can use it to connect to your クラスター.
+クラスターの認証情報または API キーを取得したら、それを使用してクラスターに接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -77,6 +77,7 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 SERVING_CLUSTER_ENDPOINT := "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
 TOKEN := "YOUR_ZILLIZ_API_KEY"
 
@@ -157,9 +158,9 @@ export TOKEN="YOUR_ZILLIZ_API_KEY"
 </TabItem>
 </Tabs>
 
-## ステップ 2: （任意）データベースを作成する。\{#step-2-optional-create-a-database}
+## ステップ 2: （任意）データベースを作成する\{#step-2-optional-create-a-database}
 
-A serving クラスター ships with a default データベース. If you choose that, skip this step. You can also create a データベース as follows:
+Serving クラスターにはデフォルトのデータベースが付属しています。これを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -194,6 +195,8 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     panic(err)
@@ -205,6 +208,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(
         CreateDatabaseRequest::builder()
@@ -255,11 +260,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Step 3: Create a コレクション.\{#step-3-create-a-collection}
+## ステップ 3: コレクションを作成する\{#step-3-create-a-collection}
 
-Once the データベース is ready, you can create managed コレクション in it. Unlike an external コレクション that maps コレクション columns to external data files, a managed コレクション asks you to import data for significant performance gains. 
+データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションの列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは、大幅なパフォーマンス向上を得るためにデータをインポートする必要があります。
 
-The following example demonstrates how to set up the コレクション スキーマ and create a コレクション.
+次の例では、コレクションスキーマを設定してコレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -334,6 +339,8 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -415,7 +422,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-Then you can create a コレクション with the above スキーマ. If you decide to use the default データベース, you can safely skip the `db_name` parameter.
+その後、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを安全に省略できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -437,6 +444,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 client.useDatabase("my_database");
 
 client.createCollection(CreateCollectionReq.builder()
@@ -450,6 +459,8 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     panic(err)
@@ -466,6 +477,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .use_database("my_database")
     .await?;
@@ -533,9 +546,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Step 4: Create インデックス.\{#step-4-create-indexes}
+## ステップ 4: インデックスを作成する\{#step-4-create-indexes}
 
-You need to create インデックス for all ベクトル fields and, optionally, for selected スカラー fields.
+すべてのベクトルフィールドに対してインデックスを作成する必要があります。また、任意で選択したスカラーフィールドにもインデックスを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -595,7 +608,12 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/index"
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "prod_collection",
@@ -627,6 +645,8 @@ if err = task.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -720,9 +740,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Step 5: Load the コレクション.\{#step-5-load-the-collection}
+## ステップ 5: コレクションをロードする\{#step-5-load-the-collection}
 
-Once インデックス are ready, load the コレクション into memory.
+インデックスの準備ができたら、コレクションをメモリにロードします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -752,6 +772,8 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("prod_collection"))
 if err != nil {
     panic(err)
@@ -766,6 +788,8 @@ if err = loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -819,11 +843,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 6: データをインポートする。\{#step-6-import-data}
+## ステップ 6: データをインポートする\{#step-6-import-data}
 
-すべての設定が完了したら、処理済みデータをインポートできます。次の例では、処理済みデータが外部 storage bucket に保存されていることを前提としています。
+すべての設定が完了したら、処理済みのデータをインポートできます。次の例では、処理済みのデータを外部ストレージバケットに保存していることを前提としています。
 
-bucket 内のデータ形式または storage integration については、[フォーマットオプション](./data-import-format-options) を参照してください。
+バケットまたはストレージ統合でのデータ形式については、[フォーマットオプション](./data-import-format-options) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1009,7 +1033,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-返されたジョブ ID を使用して、進行状況を監視できます。
+返されたジョブ ID を使用して、その進行状況を監視できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1142,9 +1166,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 7: データを提供する。\{#step-7-serve-your-data}
+## ステップ 7: データを提供する\{#step-7-serve-your-data}
 
-インポートが完了したら、検索、クエリ、ハイブリッド検索を通じてユーザーがデータを利用できるようにできます。
+インポートが完了したら、検索、クエリ、ハイブリッド検索を通じてデータを利用するようユーザーに案内できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1189,6 +1213,12 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385 /* ...remaining dims */}
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     "prod_collection",
@@ -1206,6 +1236,8 @@ _ = resultSets
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
 
 let search = client

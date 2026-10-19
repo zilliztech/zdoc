@@ -25,15 +25,15 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Note">
 
-このページでは、Dedicated serving クラスターへの接続方法を説明します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービングクラスターへの接続方法を説明します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## エンドポイント形式\{#endpoint-formats}
 
-| クラスタータイプ | エンドポイントのパターン | 備考 |
+| クラスタータイプ | エンドポイントパターン | 備考 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイム serving エンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイムサービングエンドポイントを使用します。 |
 
 ## 事前準備\{#before-you-begin}
 
@@ -110,12 +110,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    // handle error
+}
 ```
 
 </TabItem>
@@ -185,6 +194,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じクライアントインスタンスを使用して、コレクションの作成、データのロード、Dedicated クラスターに対するリアルタイムの search または query 操作を実行します。
+接続後は、同じクライアントインスタンスを使用して、コレクションの作成、データのロード、および Dedicated クラスターに対するリアルタイムの search または query 操作を実行します。
 
-Free または Serverless の serving クラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
+Free または Serverless のサービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。

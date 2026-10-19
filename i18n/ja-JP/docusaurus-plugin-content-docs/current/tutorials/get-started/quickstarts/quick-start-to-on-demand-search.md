@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はオンデマンドのコンピュートリソースを提供し、類似検索やクエリをオンデマンドで実行できます。以下の図に示すように、コンピュートリソースはリクエストがないときに自動的に一時停止し、一時停止中のコンピュートリソースには料金が発生しません。 | Cloud"
+description: "Zilliz Cloud はオンデマンドのコンピューティングリソースを提供し、類似検索やクエリをオンデマンドで実行できます。次の図に示すように、リクエストがない場合はコンピューティングリソースが自動的に一時停止し、一時停止中のコンピューティングリソースには料金が発生しません。 | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
 sidebar_position: 3
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド検索のクイックスタート
 
-Zilliz Cloud はオンデマンドのコンピュートリソースを提供し、類似検索やクエリをオンデマンドで実行できます。以下の図に示すように、コンピュートリソースはリクエストがないときに自動的に一時停止し、一時停止中のコンピュートリソースには料金が発生しません。
+Zilliz Cloud はオンデマンドのコンピューティングリソースを提供し、類似検索やクエリをオンデマンドで実行できます。次の図に示すように、リクエストがない場合はコンピューティングリソースが自動的に一時停止し、一時停止中のコンピューティングリソースには料金が発生しません。
 
 ![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
 
 ## ステップ 1: プロジェクトエンドポイントに接続する\{#step-1-connect-to-a-project-endpoint}
 
-データベースを操作する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピュートを有効にした後、クイックスタートページで取得できます。
+データベースを使用する前に、プロジェクトエンドポイントに接続します。Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にすると、クイックスタートページでプロジェクトエンドポイントを取得できます。
 
 <Admonition type="info" title="Notes">
 
-- マネージドコレクションの操作には、認証用の **API キー** が必要です。このフローでは `username:password` 認証はサポートされていません。
+- マネージドコレクションの操作では、認証に **API キー** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
-- オンデマンドコンピュート用のデータベース内のマネージドコレクションは、ロード操作が不要です。
+- オンデマンドコンピューティング用データベース内のマネージドコレクションでは、ロード操作は必要ありません。
 
 </Admonition>
 
@@ -70,6 +70,13 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -141,9 +148,9 @@ export TOKEN="YOUR_API_KEY"
 </TabItem>
 </Tabs>
 
-## ステップ 2: （オプション）データベースを作成する\{#step-2-optional-create-a-database}
+## ステップ 2: データベースを作成する（任意）\{#step-2-optional-create-a-database}
 
-Zilliz Cloud にはデフォルトのデータベースが付属しています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。データベースは次のようにして作成することもできます。
+Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -171,6 +178,12 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -182,6 +195,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(
         CreateDatabaseRequest::builder()
@@ -196,6 +211,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::CreateDatabaseRequest request;
 request.WithDatabaseName("my_database");
 
@@ -242,9 +260,9 @@ zilliz database create --name my_database
 
 ## ステップ 3: マネージドコレクションを作成する\{#step-3-create-a-managed-collection}
 
-データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションの列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは、大幅なパフォーマンス向上のためにデータをインポートする必要があります。
+データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションの列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは、パフォーマンスを大幅に向上させるためにデータをインポートする必要があります。
 
-次の例では、コレクションスキーマを設定してコレクションを作成する方法を示します。
+次の例では、コレクションスキーマを設定し、コレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -330,6 +348,8 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -356,6 +376,9 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto schema = std::make_shared<milvus::CollectionSchema>();
 
 schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64)
@@ -457,7 +480,7 @@ JSON
 </TabItem>
 </Tabs>
 
-次に、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを省略しても問題ありません。
+次に、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターは省略しても問題ありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -479,6 +502,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 client.useDatabase("my_database");
 
 client.createCollection(CreateCollectionReq.builder()
@@ -492,6 +517,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -509,6 +540,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .use_database("my_database")
     .await?;
@@ -528,6 +561,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->UseDatabase("my_database");
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -590,7 +626,7 @@ zilliz collection create \
 
 ## ステップ 4: インデックスを作成する\{#step-4-create-indexes}
 
-すべてのベクトルフィールドにインデックスを作成する必要があります。また、必要に応じて、選択したスカラーフィールドにもインデックスを作成します。
+すべてのベクトルフィールドにインデックスを作成する必要があります。また、必要に応じて、選択したスカラーフィールドにもインデックスを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -655,8 +691,11 @@ client.createIndex(CreateIndexReq.builder()
 
 ```go
 import (
+    "log"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 vectorIndex := index.NewAutoIndex(entity.COSINE)
@@ -686,6 +725,8 @@ if err := scalarIndexTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -709,6 +750,8 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 milvus::CreateIndexRequest request;
 request.WithDatabaseName("my_database")
        .WithCollectionName("prod_collection")
@@ -793,9 +836,9 @@ zilliz index create \
 
 ## ステップ 5: データをインポートする\{#step-5-import-data}
 
-すべての設定が完了したら、処理済みのデータをインポートできます。次の例では、処理済みのデータを外部ストレージバケットに保存していることを前提としています。
+すべての設定が完了したら、処理済みのデータをインポートできます。次の例では、処理済みのデータが外部ストレージのバケットに保存されていることを前提としています。
 
-バケットまたはストレージ統合のデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+バケットまたはストレージ統合におけるデータ形式については、[Format Options](./data-import-format-options) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -988,7 +1031,7 @@ zilliz import start \
 </TabItem>
 </Tabs>
 
-返されたジョブ ID を使用して、ジョブの進行状況を監視できます。
+返されたジョブ ID を使用して、その進行状況を監視できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1122,7 +1165,7 @@ zilliz import status \
 
 ## ステップ 6: オンデマンドクラスターを作成する\{#step-6-create-an-on-demand-cluster}
 
-コレクションの準備ができたら、オンデマンド検索のために、そのコレクションをオンデマンドクラスターにアタッチする必要があります。次のコマンドはクラスターを作成し、その ID を返します。
+コレクションの準備ができたら、オンデマンド検索を行うために、そのコレクションをオンデマンドクラスターにアタッチする必要があります。次のコマンドは、クラスターを作成し、その ID を返します。
 
 ```bash
 export CONTROL_PLANE_ENDPOINT="https://api.cloud.zilliz.com"
@@ -1142,7 +1185,7 @@ curl --request POST \
 # inxx-xxxxxxxxxxxxx
 ```
 
-デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的に一時停止します。ユースケースに合った値に設定できます。
+デフォルトでは、最後のリクエストから 60 秒後にクラスターが自動的に一時停止します。この値は、ユースケースに合わせて設定できます。
 
 ## ステップ 7: 検索を実行する\{#step-7-conduct-searches}
 
@@ -1209,6 +1252,13 @@ SearchResp res = session.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // Note: on-demand sessions (client.session) are not supported in
 // milvus-sdk-go as of client/v3.0.0; the search below runs on the
 // default connection of the client.
@@ -1230,6 +1280,8 @@ _ = resultSets
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let session = client.session("inxx-xxxxxxxxxxxxxxx")?;
 
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
@@ -1252,6 +1304,11 @@ let search = session
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
 milvus::MilvusClientV2SessionPtr session;
 auto status = client->Session("inxx-xxxxxxxxxxxxxxx", session);
 if (!status.IsOk()) {
@@ -1367,4 +1424,4 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-その後、データを探索して、最も価値のあるサブセットを見つけることができます。次に、サービングクラスターに接続し、データをそのクラスターにインポートして、本番環境で提供できます。
+その後、データを探索し、最も価値の高いサブセットを見つけることができます。次に、配信用クラスターに接続し、そこにデータをインポートして、本番環境で配信できます。

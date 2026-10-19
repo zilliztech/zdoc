@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、スナップショットの作成と管理の方法について説明します。以下を含みます | Cloud"
+description: "このガイドでは、スナップショットの作成と管理の方法について説明します。 | Cloud"
 type: origin
 token: J0jDwYQb8il1biknRo4cazHPn5d
 sidebar_position: 1
@@ -21,33 +21,33 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットの管理
 
-このガイドでは、スナップショットの作成と管理の方法について説明します。以下を含みます。
+このガイドでは、スナップショットの作成と管理の方法について説明します。内容は次のとおりです。
 
-- [スナップショットを作成する](./manage-snapshots#create-snapshot),
+- [スナップショットを作成する](./manage-snapshots#create-snapshot)、
 
-- [スナップショットを一覧表示する](./manage-snapshots#list-snapshots),
+- [スナップショットを一覧表示する](./manage-snapshots#list-snapshots)、
 
-- [スナップショットの詳細を取得する](./manage-snapshots#describe-snapshot),
+- [スナップショットを詳細表示する](./manage-snapshots#describe-snapshot)、
 
-- [Pin/unpin スナップショット](./manage-snapshots#pinunpin-snapshot-data),
+- [Pin/unpin スナップショットデータ](./manage-snapshots#pinunpin-snapshot-data)、
 
-- [スナップショットをリストアする](./manage-snapshots#restore-snapshot),
+- [スナップショットを復元する](./manage-snapshots#restore-snapshot)、
 
-- [スナップショットをドロップする](./manage-snapshots#drop-snapshot),
+- [スナップショットを削除する](./manage-snapshots#drop-snapshot)、
 
-- [リストアジョブを一覧表示する](./manage-snapshots#list-restoration-jobs), および
+- [復元ジョブを一覧表示する](./manage-snapshots#list-restoration-jobs)、および
 
-- [リストア状態を取得する](./manage-snapshots#get-restoration-state).
+- [復元状態を取得する](./manage-snapshots#get-restoration-state)。
 
 ## スナップショットを作成する\{#create-snapshot}
 
-スナップショットを作成する前に、データ損失の可能性を回避するため、対象コレクションへのデータの書き込みを停止して `flush()` を呼び出すことをお勧めします。
+スナップショットを作成する前に、データ損失の可能性を避けるため、対象コレクションへのデータ書き込みを停止し、`flush()` を呼び出すことをお勧めします。
 
-`flush()` の呼び出しは必須ではありませんが、データ損失を回避するために強く推奨されます。これを省略した場合、スナップショットにはすでにフラッシュされたデータのみが含まれます。
+`flush()` の呼び出しは必須ではありませんが、データ損失を避けるために強くお勧めします。これを省略した場合、スナップショットにはすでにフラッシュされたデータのみが含まれます。
 
-スナップショットに名前を付けるときは、`"daily_backup_20240101"` や `"v2.1_production_release"` のような明確で説明的な名前を使用し、`"backup1"` や `"test"` のような一般的な用語は避けてください。バージョン、環境、ステージをまたいでスナップショットを区別できるよう、スナップショット名を賢く使用してください。
+スナップショットに名前を付ける際は、`"daily_backup_20240101"` や `"v2.1_production_release"` など、明確で説明的な名前を使用し、`"backup1"` や `"test"` などの一般的な用語は避けてください。バージョン、環境、ステージ間でスナップショットを区別できるよう、スナップショット名を適切に使用してください。
 
-以下に示すコード例では、`my_collection` という名前のコレクションがすでに存在することを前提としています。
+以下のコード例では、`my_collection` という名前のコレクションがすでに作成されていることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -237,7 +237,7 @@ curl --request POST \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   -d '{
-    "collectionNames": ["my_collection"]
+    "collectionName": "my_collection"
   }'
 
 curl --request POST \
@@ -286,6 +286,13 @@ client.listSnapshots(ListSnapshotsReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // List snapshots for collection
 listOpt := milvusclient.NewListSnapshotsOption("my_collection")
 
@@ -300,6 +307,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // List all snapshots for a collection
 let snapshots = client.list_snapshots(
     ListSnapshotsRequest::builder()
@@ -355,7 +364,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## スナップショットの詳細を取得する\{#describe-snapshot}
+## スナップショットを詳細表示する\{#describe-snapshot}
 
 特定のスナップショットの詳細情報を取得できます。
 
@@ -366,7 +375,6 @@ curl --request POST \
 snapshot_info = client.describe_snapshot(
     snapshot_name="backup_20240101",
     collection_name="my_collection",
-    include_collection_info=True
 )
 
 print(f"Snapshot name: {snapshot_info.name}")
@@ -418,6 +426,8 @@ fmt.Printf("Collection: %s\n", resp.GetCollectionName())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Describe a snapshot
 let snapshot_info = client.describe_snapshot(
     DescribeSnapshotRequest::builder()
@@ -479,9 +489,9 @@ curl --request POST \
 
 ## Pin/unpin スナップショットデータ\{#pinunpin-snapshot-data}
 
-リストア中にスナップショットをピン留めすると、基になるデータをガベージコレクションから一時的に保護でき、ピン留めを解除するとデータが解放されます。
+復元中にスナップショットをピン留めすると、その基盤データをガベージコレクションから一時的に保護できます。ピン留めを解除すると、データが解放されます。
 
-また、ピン操作に time-to-live（TTL）の期間を設定すると、期間の満了時にピン留めされたデータが解放されます。
+また、ピン操作に有効期限（TTL）を設定すると、期限が切れたときにピン留めされたデータが解放されるようにできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -522,6 +532,13 @@ client.unpinSnapshotData(UnpinSnapshotDataReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 pinID, err := client.PinSnapshotData(
     context.Background(),
     milvusclient.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTL(3600),
@@ -542,6 +559,8 @@ defer func() {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Pin snapshot data
 let pin_id = client.pin_snapshot_data(
     PinSnapshotDataRequest::builder()
@@ -622,21 +641,21 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## スナップショットをリストアする\{#restore-snapshot}
+## スナップショットを復元する\{#restore-snapshot}
 
-スナップショットを新しいコレクションにリストアできます。この操作は非同期で実行され、リストアの進行状況を追跡するためのジョブ ID を返します。
+スナップショットを新しいコレクションに復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブ ID を返します。
 
-リストアでは、データインポートではなく **copy-segment** メカニズムが使用され、次の理由からより効率的です。
+復元では、データインポートではなく **copy-segment** メカニズムが使用されます。このメカニズムは、次の理由からより効率的です。
 
 - スナップショットストレージからセグメントファイル（binlog、deltalog、インデックスファイル）を直接コピーします。
 
-- 既存のデータファイルとの互換性を確保するために、フィールド ID とインデックス ID を保持します。
+- フィールド ID とインデックス ID を保持し、既存のデータファイルとの互換性を確保します。
 
-- データの書き換えとインデックスの再構築を回避し、リストア時間を大幅に短縮します。
+- データの書き換えとインデックスの再構築を回避するため、復元時間が大幅に短縮されます。
 
-- 従来のバックアップおよびリストア方法と比較して、10～100 倍のパフォーマンス向上を実現します。
+- 従来のバックアップおよび復元方法と比較して、10〜100 倍のパフォーマンス向上を実現します。
 
-スナップショットをリストアするには、次のように操作します。
+スナップショットを復元するには、次の手順に従います。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -670,6 +689,13 @@ client.restoreSnapshot(RestoreSnapshotReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 restoreOpt := milvusclient.NewRestoreSnapshotOption(
     "backup_20240101",
     "my_collection",
@@ -687,6 +713,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Restore snapshot to new collection
 let job_id = client.restore_snapshot(
     RestoreSnapshotRequest::builder()
@@ -750,11 +778,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For details on monitoring the progress of a restoration job, refer to Monitor restoration progress.
+復元ジョブの進行状況の監視について詳しくは、復元の進行状況の監視を参照してください。
 
-## スナップショットをドロップする\{#drop-snapshot}
+## スナップショットを削除する\{#drop-snapshot}
 
-不要になったスナップショットはドロップできます。ストレージを節約するために、古いスナップショットを定期的に削除することをお勧めします。
+スナップショットが不要になった場合は削除できます。ストレージを節約するため、古いスナップショットを定期的に削除することをお勧めします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -784,6 +812,13 @@ client.dropSnapshot(DropSnapshotReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101", "my_collection")
 
 err := client.DropSnapshot(context.Background(), dropOpt)
@@ -797,6 +832,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.drop_snapshot(
     DropSnapshotRequest::builder()
         .collection_name("my_collection")
@@ -849,7 +886,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## リストアジョブを一覧表示する\{#list-restoration-jobs}
+## 復元ジョブを一覧表示する\{#list-restoration-jobs}
 
 この API を使用すると、対象コレクションに対してすでに作成されたスナップショットの一覧を取得できます。
 
@@ -886,27 +923,11 @@ client.listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 <TabItem value='go'>
 
 ```go
-// List all restore jobs
-listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
-
-jobs, err := client.ListRestoreSnapshotJobs(context.Background(), listOpt)
-if err != nil {
-    log.Fatal(err)
-}
-
 for _, job := range jobs {
-    fmt.Printf("Job %d: %s -> Collection %d\n",
+    fmt.Printf("Job %d: %s -> Collection %s\n",
         job.GetJobId(), job.GetSnapshotName(), job.GetCollectionName())
     fmt.Printf("  State: %s, Progress: %d%%\n",
-        job.GetState(), job.GetProgress())
-}
-
-// List restore jobs for a specific collection
-listOpt = milvusclient.NewListRestoreSnapshotJobsOption().
-    WithCollectionName("my_collection")
-jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
-if err != nil {
-    log.Fatal(err)
+        job.GetState().String(), job.GetProgress())
 }
 ```
 
@@ -915,15 +936,17 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // List all restore jobs
 let jobs = client.list_restore_snapshot_jobs(
     ListRestoreSnapshotJobsRequest::builder()
         .collection_name("my_collection")
         .build()?,
 ).await?;
-for job in &jobs {
-    println!("Job {}: {} -> Collection {}", job.job_id(), job.snapshot_name(), job.collection_name());
-    println!("  State: {}, Progress: {}%", job.state(), job.progress());
+for job in jobs.jobs() {
+    println!("Job {}: {} -> Collection {}", job.get_job_id(), job.get_snapshot_name(), job.get_collection_name());
+    println!("  State: {:?}, Progress: {}%", job.get_state(), job.get_progress());
 }
 ```
 
@@ -973,9 +996,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## リストア状態を取得する\{#get-restoration-state}
+## 復元状態を取得する\{#get-restoration-state}
 
-リストアジョブ ID を取得したら、それを使用してリストアの進行状況を取得できます。
+復元ジョブ ID を取得したら、それを使用して復元の進行状況を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1039,16 +1062,18 @@ fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Get restoration state
 let state = client.get_restore_snapshot_state(
     GetRestoreSnapshotStateRequest::builder()
         .job_id(12345)
         .build()?,
 ).await?;
-println!("Job ID: {}", state.job_id());
-println!("Snapshot Name: {}", state.snapshot_name());
-println!("State: {:?}", state.state());
-println!("Progress: {}%", state.progress());
+println!("Job ID: {}", state.job_info().get_job_id());
+println!("Snapshot Name: {}", state.job_info().get_snapshot_name());
+println!("State: {:?}", state.job_info().get_state());
+println!("Progress: {}%", state.job_info().get_progress());
 ```
 
 </TabItem>
@@ -1059,7 +1084,7 @@ println!("Progress: {}%", state.progress());
 // Get restoration state
 milvus::GetRestoreSnapshotStateResponse state;
 status = client->GetRestoreSnapshotState(milvus::GetRestoreSnapshotStateRequest()
-                                              .WithJobId(12345),
+                                              .WithJobID(12345),
                                           state);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1090,7 +1115,7 @@ curl --request POST \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   -d '{
-    "jobId": 12345
+    "jobId": "12345"
   }'
 ```
 
