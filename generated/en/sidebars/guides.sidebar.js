@@ -175,6 +175,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2610",
+            "label": "Oct, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2610"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/get-started/release-notes/release-notes-2609",
             "label": "Sept, 2026",
             "key": "doc:tutorials/get-started/release-notes/release-notes-2609"
@@ -400,12 +406,6 @@ module.exports = [
             "id": "tutorials/get-started/release-notes/release-notes-008",
             "label": "November 18, 2022",
             "key": "doc:tutorials/get-started/release-notes/release-notes-008"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/get-started/release-notes/release-notes-2610",
-            "label": "Oct, 2026",
-            "key": "doc:tutorials/get-started/release-notes/release-notes-2610"
           }
         ]
       }
