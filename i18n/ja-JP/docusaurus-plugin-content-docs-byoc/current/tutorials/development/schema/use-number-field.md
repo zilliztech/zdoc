@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud は、ブール値フィールドおよび数値フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
+Zilliz Cloud は、ブール値フィールドおよび数値フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細については、[NULL 許容フィールドとデフォルト値](./nullable-fields) を参照してください。
 
 </Admonition>
 
@@ -55,7 +55,7 @@ Zilliz Cloud は、ブール値フィールドおよび数値フィールドの 
 
 <Admonition type="info" title="Notes">
 
-スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、[動的フィールド](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -114,7 +114,7 @@ schema.addField(AddFieldReq.builder()
 
 schema.addField(AddFieldReq.builder()
         .fieldName("broken")
-        .dataType(DataType.BOOL)
+        .dataType(DataType.Bool)
         .isNullable(true)
         .build());
 
@@ -147,6 +147,7 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -225,7 +226,8 @@ schema = schema
         FieldSchema::new()
             .name("age")
             .data_type(DataType::Int64)
-            .nullable(true),
+            .nullable(true)
+            .default_value(DefaultValue::Int64(18)),
     )
     .add_field(
         FieldSchema::new()
@@ -351,7 +353,7 @@ export schema="{
 
 インデックスを作成すると、検索とクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、インデックスはベクトルフィールドには必須ですが、スカラーフィールドには任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細については、[AUTOINDEX の解説](./autoindex-explained) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -402,6 +404,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(entity.COSINE))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
@@ -413,6 +422,8 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("age")
@@ -499,6 +510,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -512,6 +525,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
@@ -526,6 +545,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -638,16 +659,23 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-priceValues := []float32{99.99, 149.50, 199.99, 0, 59.99, 0}
-priceValid := []bool{true, true, true, false, true, false}
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+priceValues := []float32{99.99, 59.99}
+priceValid := []bool{true, false, false, false, true, false}
 priceCol, _ := column.NewNullableColumnFloat("price", priceValues, priceValid)
 
-ageValues := []int64{25, 30, 0, 45, 0, 60}
+ageValues := []int64{25, 30, 45, 60}
 ageValid := []bool{true, true, false, true, false, true}
 ageCol, _ := column.NewNullableColumnInt64("age", ageValues, ageValid)
 
-brokenValues := []bool{false, true, false, true, false, false}
-brokenValid := []bool{true, true, true, true, true, true}
+brokenValues := []bool{}
+brokenValid := []bool{false, false, false, false, false, false}
 brokenCol, _ := column.NewNullableColumnBool("broken", brokenValues, brokenValid)
 
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
@@ -673,18 +701,14 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-let price_col = FieldData::float(
-    "price",
-    vec![99.99, 149.50, 199.99, 0.0, 59.99, 0.0],
-).nullable(vec![true, true, true, false, true, false]);
-let age_col = FieldData::int64(
-    "age",
-    vec![25, 30, 0, 45, 0, 60],
-).nullable(vec![true, true, false, true, false, true]);
-let broken_col = FieldData::bool(
-    "broken",
-    vec![false, true, false, true, false, false],
-).nullable(vec![true, true, true, true, true, true]);
+use milvus::v2::prelude::*;
+
+let price_col = FieldData::float("price", vec![99.99, 59.99])
+    .with_validity(vec![true, false, false, false, true, false])?;
+let age_col = FieldData::int64("age", vec![25, 30, 45, 60])
+    .with_validity(vec![true, true, false, true, false, true])?;
+let broken_col = FieldData::boolean("broken", vec![false, true, false, true, false, false])
+    .with_validity(vec![true, true, true, true, true, true])?;
 
 client
     .insert(
@@ -740,8 +764,8 @@ if (!status.IsOk()) {
 ```javascript
 const data = [
   { age: 25, price: 99.99, pk: 1, embedding: [0.1, 0.2, 0.3] },
-  { age: 30, price: 149.5, pk: 2, embedding: [0.4, 0.5, 0.6] },
-  { age: 35, price: 199.99, pk: 3, embedding: [0.2, 0.3, 0.1] },
+  { age: 30, pk: 2, embedding: [0.4, 0.5, 0.6] },
+  { age: null, price: null, pk: 3, embedding: [0.2, 0.3, 0.1] },
   { age: 45, price: null, pk: 4, embedding: [0.9, 0.1, 0.4] },
   { age: null, price: 59.99, pk: 5, embedding: [0.8, 0.5, 0.3] },
   { age: 60, price: null, pk: 6, embedding: [0.1, 0.6, 0.9] },
@@ -836,6 +860,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "age > 30"
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -854,6 +884,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -863,7 +895,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```
@@ -896,11 +928,21 @@ for (const auto& row : response.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.query({
-    collection_name: 'my_collection',
-    filter: 'age > 30',
-    output_fields: ['age', 'price', 'pk']
+const filter = 'age > 30';
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: filter,
+    output_fields: ["age", "price", "pk"]
 });
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "{'age': 45, 'price': None, 'pk': 4}",
+//     "{'age': 60, 'price': None, 'pk': 6}"
+// ]
 ```
 
 </TabItem>
@@ -955,6 +997,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "price is null";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -978,6 +1024,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "price is null"
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -996,6 +1048,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -1005,7 +1059,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1098,6 +1152,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "age == 18";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -1119,6 +1177,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "age == 18"
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1137,6 +1201,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -1146,7 +1212,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1183,9 +1249,9 @@ for (const auto& row : response.Results()) {
 const filter = 'age == 18';
 
 const res = await client.query({
-    collection_name:"my_collection",
-    filter:filter,
-    output_fields=["age", "price", "pk"]
+    collection_name: "my_collection",
+    filter: filter,
+    output_fields: ["age", "price", "pk"]
 });
 
 console.log(res);
@@ -1253,6 +1319,8 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 String filter = "25 <= age <= 35";
 
@@ -1282,6 +1350,14 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "25 <= age <= 35"
 
@@ -1313,6 +1389,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .search(
         SearchRequest::builder()
@@ -1363,13 +1441,22 @@ for (auto& result : search_results.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search({
-    collection_name: 'my_collection',
+const filter = '25 <= age <= 35';
+
+const res = await client.search({
+    collection_name: "my_collection",
     data: [0.3, -0.6, 0.1],
     limit: 5,
-    output_fields: ['age', 'price'],
-    filter: '25 <= age <= 35'
+    output_fields: ["age", "price"],
+    filter: filter
 });
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "[{'id': 2, 'distance': -0.2016308456659317, 'entity': {'age': 30, 'price': None}}, {'id': 1, 'distance': -0.23643313348293304, 'entity': {'age': 25, 'price': 99.98999786376953}}]"
+// ]
 ```
 
 </TabItem>
@@ -1398,4 +1485,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定した年齢範囲も満たすことが保証されます。詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定した年齢範囲も満たすことが保証されます。詳細については、[フィルタリングの仕組み](./filtering-overview) を参照してください。

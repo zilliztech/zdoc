@@ -25,11 +25,11 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-スパースベクトルは、ほとんどの要素がゼロで、一部の次元のみが非ゼロ値を持つ特殊な高次元ベクトルです。以下の図に示すように、密ベクトルは通常、各位置が値を持つ連続的な配列として表現されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、スパースベクトルは非ゼロ要素とその次元のインデックスのみを格納し、多くの場合 `{ index: value}` のキーと値のペアとして表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。
+スパースベクトルは、ほとんどの要素がゼロで、一部の次元のみが非ゼロ値を持つ特殊な高次元ベクトルです。以下の図に示すように、密ベクトルは通常、各位置が値を持つ連続的な配列として表現されます（例：`[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、スパースベクトルは非ゼロ要素とその次元のインデックスのみを格納し、多くの場合 `{ index: value}` のキーと値のペアとして表現されます（例：`[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。
 
 ![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
-トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメントに含まれる単語のみが非ゼロ値を持ち、スパースベクトル表現が生成されます。スパースベクトルは、次の2つのアプローチで生成できます。
+トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメントに含まれる単語のみが非ゼロ値を持ち、スパースベクトル表現が生成されます。スパースベクトルは、次の 2 つのアプローチで生成できます。
 
 - **従来の統計手法**は、[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）などの手法で、コーパス全体における単語の頻度と重要度に基づいて単語に重みを割り当てます。これらの手法は、トークンを表す各次元のスコアとして単純な統計量を計算します。Zilliz Cloud は、BM25 方式によるビルトインの**全文検索**を提供しており、テキストを自動的にスパースベクトルに変換するため、手動での前処理が不要になります。このアプローチは、精度と完全一致が重要となるキーワードベースの検索に最適です。詳細については、[全文検索](./full-text-search) を参照してください。
 
@@ -47,9 +47,9 @@ import TabItem from '@theme/TabItem';
 
 ## データ形式\{#data-formats}
 
-以降のセクションでは、SPLADE のような学習済みスパース埋め込みモデルのベクトルを保存する方法を説明します。密ベクトルベースのセマンティック検索を補完するものをお探しの場合は、簡便さの観点から SPLADE よりも [全文検索](./full-text-search) と BM25 の組み合わせをおすすめします。品質評価を実施したうえで SPLADE を使用することを決定した場合は、SPLADE でスパースベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
+以降のセクションでは、SPLADE のような学習済みスパース埋め込みモデルのベクトルを格納する方法を説明します。密ベクトルベースのセマンティック検索を補完するものをお探しの場合は、簡便さの観点から SPLADE よりも [全文検索](./full-text-search) と BM25 の組み合わせをおすすめします。品質評価を実施したうえで SPLADE を使用することを決定した場合は、SPLADE でスパースベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
-Zilliz Cloud は、次の形式のスパースベクトル入力をサポートしています。
+Zilliz Cloud は、次の形式でスパースベクトル入力を受け付けます。
 
 - **辞書のリスト（形式は** `{dimension_index: value, ...}`**）**
 
@@ -58,7 +58,7 @@ Zilliz Cloud は、次の形式のスパースベクトル入力をサポート�
     sparse_vectors = [{27: 0.5, 100: 0.3, 5369: 0.6} , {100: 0.1, 3: 0.8}]
     ```
 
-- **スパース行列（**`scipy.sparse` **クラスを使用）**
+- **スパース行列（** `scipy.sparse` **クラスを使用）**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -377,6 +377,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewSparseInvertedIndex(entity.IP, 0.2)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector", idx)
 ```
@@ -414,6 +421,8 @@ milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::Ind
 <TabItem value='javascript'>
 
 ```javascript
+import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
+
 const indexParams = {
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
@@ -466,6 +475,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -479,6 +490,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -654,6 +671,14 @@ InsertResp insertResp = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 texts := []string{
     "information retrieval is a field of study.",
     "information retrieval focuses on finding relevant information in large datasets.",
@@ -816,6 +841,12 @@ SparseFloatVec queryData = new SparseFloatVec(sparse);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+)
+
 // Prepare search parameters
 annSearchParams := index.NewCustomAnnParam()
 annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
@@ -933,6 +964,13 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection",
     3, // limit
@@ -1051,4 +1089,3 @@ curl --request POST \
 </Tabs>
 
 類似検索パラメーターの詳細については、[基本的なベクトル検索](./single-vector-search) を参照してください。
-

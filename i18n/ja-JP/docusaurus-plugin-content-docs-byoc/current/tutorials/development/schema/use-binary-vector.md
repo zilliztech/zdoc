@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に高い精度が不要な場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | BYOC"
+description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に精度が求められない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | BYOC"
 type: origin
 token: NTwawtvYdiXTkukbss7ccw2RnXc
 sidebar_position: 4
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # バイナリベクトル
 
-バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に高い精度が不要な場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
+バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に精度が求められない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
 
-バイナリベクトルは幅広い用途があり、特に計算効率とストレージ最適化が重要となる場面で役立ちます。検索エンジンやレコメンデーションシステムといった大規模な AI システムでは、膨大なデータをリアルタイムで処理することが鍵となります。ベクトルのサイズを削減することで、バイナリベクトルは精度を大きく犠牲にすることなく、レイテンシと計算コストの低減に役立ちます。さらに、バイナリベクトルは、モバイルデバイスや組み込みシステムのようにメモリや処理能力が限られたリソース制約の厳しい環境でも有用です。バイナリベクトルを利用することで、こうした制約のある環境でも高いパフォーマンスを維持しながら複雑な AI 機能を実装できます。
+バイナリベクトルは幅広い用途があり、特に計算効率とストレージの最適化が重要となる場面で役立ちます。検索エンジンやレコメンデーションシステムといった大規模な AI システムでは、膨大なデータをリアルタイムで処理することが鍵となります。ベクトルのサイズを削減することで、バイナリベクトルは精度を大きく犠牲にすることなく、レイテンシと計算コストの低減に役立ちます。さらに、バイナリベクトルは、メモリや処理能力が限られたモバイルデバイスや組み込みシステムといったリソース制約の厳しい環境でも有用です。バイナリベクトルを利用することで、こうした制約のある環境でも高いパフォーマンスを維持しながら複雑な AI 機能を実装できます。
 
 ## 概要\{#overview}
 
@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 - **効率的なストレージ:** 各次元に必要なストレージはわずか 1 ビットで、ストレージ容量を大幅に削減できます。
 
-- **高速な計算:** ベクトル間の類似度は、XOR のようなビット演算を使用してすばやく計算できます。
+- **高速な計算:** ベクトル間の類似度は、XOR などのビット演算を使用してすばやく計算できます。
 
 - **固定長:** ベクトルの長さは元のテキストの長さに関係なく一定であるため、インデックス作成や検索が容易になります。
 
@@ -51,13 +51,13 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Notes">
 
-バイナリベクトルは特定のシナリオでは優れていますが、表現能力に制限があるため、複雑な意味関係を捉えることは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルが他のベクトル型と併用されることがよくあります。詳細については、[密ベクトル](./use-dense-vector) および [スパースベクトル](./use-sparse-vector) を参照してください。
+バイナリベクトルは特定のシナリオでは優れていますが、表現能力に制限があるため、複雑な意味関係を捉えることは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルが他のベクトル型と併用されることがよくあります。詳細については、[Dense ベクトル](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
 ## バイナリベクトルを使用する\{#use-binary-vectors}
 
-### ベクトルフィールドの追加\{#add-vector-field}
+### ベクトルフィールドを追加する\{#add-vector-field}
 
 Zilliz Cloud クラスターでバイナリベクトルを使用するには、まずコレクションの作成時に、バイナリベクトルを保存するためのベクトルフィールドを定義します。このプロセスには、以下が含まれます。
 
@@ -141,7 +141,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema().WithEnableDynamicField(true).
+schema := entity.NewSchema().WithDynamicFieldEnabled(true).
     WithField(entity.NewField().
         WithName("pk").
         WithDataType(entity.FieldTypeVarChar).
@@ -213,13 +213,26 @@ schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_V
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-schema.push({
-  name: "binary_vector",
-  data_type: DataType.BinaryVector,
-  dim: 128,
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
 });
+
+const schema = [
+  {
+    name: "pk",
+    data_type: DataType.VarChar,
+    is_primary_key: true,
+    autoID: true,
+    max_length: 100,
+  },
+  {
+    name: "binary_vector",
+    data_type: DataType.BinaryVector,
+    dim: 128,
+  },
+];
 ```
 
 </TabItem>
@@ -261,7 +274,7 @@ export schema="{
 
 ### ベクトルフィールドのインデックスパラメーターを設定する\{#set-index-params-for-vector-field}
 
-検索を高速化するには、バイナリベクトルフィールドにインデックスを作成する必要があります。インデックス作成により、大規模なベクトルデータの検索効率を大幅に向上させることができます。
+検索を高速化するには、バイナリベクトルフィールドにインデックスを作成する必要があります。インデックスを作成すると、大規模なベクトルデータの検索効率を大幅に向上させることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -300,6 +313,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(entity.HAMMING)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector", idx)
 ```
@@ -309,6 +328,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![IndexParam::new()
     .field_name("binary_vector")
     .index_name("binary_vector_index")
@@ -334,7 +355,7 @@ std::vector<milvus::IndexDesc> indexes = {
 import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 
 const indexParams = [{
-  indexName: "binary_vector_index",
+  index_name: "binary_vector_index",
   field_name: "binary_vector",
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
@@ -363,7 +384,7 @@ export indexParams='[
 
 さらに、Zilliz Cloud はバイナリベクトルに対して他の類似度メトリクスもサポートしています。詳細については、[Metric Types](./search-metrics-explained) を参照してください。
 
-### コレクションの作成\{#create-collection}
+### コレクションを作成する\{#create-collection}
 
 バイナリベクトルとインデックスの設定が完了したら、バイナリベクトルを含むコレクションを作成します。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
@@ -398,6 +419,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -412,6 +439,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -471,7 +500,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### データの挿入\{#insert-data}
+### データを挿入する\{#insert-data}
 
 コレクションを作成した後、`insert` メソッドを使用して、バイナリベクトルを含むデータを追加します。バイナリベクトルはバイト配列の形式で指定する必要があり、各バイトは 8 個の boolean 値を表す点に注意してください。
 
@@ -550,6 +579,12 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithBinaryVectorColumn("binary_vector", 128, [][]byte{
         {0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -566,6 +601,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Binary vectors (128 bits = 16 bytes)
 let binary_vectors: Vec<Vec<u8>> = vec![
     vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -649,7 +686,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 類似検索の実行\{#perform-similarity-search}
+### 類似検索を実行する\{#perform-similarity-search}
 
 類似検索は Zilliz Cloud クラスターの中核機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。バイナリベクトルを使用して類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
@@ -717,6 +754,14 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []byte{0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 annSearchParams := index.NewCustomAnnParam()
@@ -745,6 +790,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // query vector = vector1
 let query_vector: Vec<u8> = vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -841,4 +888,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-類似検索パラメーターの詳細については、[基本的な ANN 検索](./single-vector-search) を参照してください。
+類似検索パラメーターの詳細については、[Basic ANN Search](./single-vector-search) を参照してください。

@@ -1,13 +1,13 @@
 ---
-title: "ジオメトリフィールド | BYOC"
+title: "Geometry フィールド | BYOC"
 slug: /use-geometry-field
-sidebar_label: "ジオメトリ"
+sidebar_label: "Geometry フィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Geographic Information Systems（GIS）、マッピングツール、位置情報ベースサービスなどのアプリケーションを構築する際には、幾何データを保存してクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。 | BYOC"
+description: "GIS、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何データを格納およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを格納およびクエリするネイティブな手段を提供し、この課題を解決します。 | BYOC"
 type: origin
 token: H2GHwE8umiuP6WkwjxPcQOfGn0e
 sidebar_position: 12
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ジオメトリフィールド
+# Geometry フィールド
 
-Geographic Information Systems（GIS）、マッピングツール、位置情報ベースサービスなどのアプリケーションを構築する際には、幾何データを保存してクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。
+GIS、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何データを格納およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを格納およびクエリするネイティブな手段を提供し、この課題を解決します。
 
-ベクトル類似度を空間制約と組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。例:
+ベクトル類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。例：
 
-- Location-Base Service（LBS）:「この街区**内**にある類似した POI を検索する」
+- 位置情報サービス（LBS）：「この街区**内**にある類似の POI を検索する」
 
-- マルチモーダル検索:「この地点から **1km 以内**にある類似した写真を取得する」
+- マルチモーダル検索：「この地点から **1 km** 以内にある類似の写真を取得する」
 
-- 地図と物流:「領域**内**の資産」または「パスと**交差する**ルート」
+- 地図・物流：「地域**内**の資産」または「パスと**交差する**ルート」
 
 <Admonition type="info" title="Notes">
 
@@ -39,31 +39,31 @@ GEOMETRY フィールドを使用するには、SDK を最新バージョンに�
 
 ## GEOMETRY フィールドとは？\{#what-is-a-geometry-field}
 
-GEOMETRY フィールドは、幾何データを格納する Zilliz Cloud のスキーマ定義データ型（`DataType.GEOMETRY`）です。GEOMETRY フィールドを扱うときは、データの挿入とクエリの両方で使用される、人間が読みやすい表現形式である [Well-Known Text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud は WKT を [Well-Known Binary（WKB）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換して効率的に保存および処理しますが、WKB を直接扱う必要はありません。
+GEOMETRY フィールドは、Zilliz Cloud のスキーマで定義されたデータ型（`DataType.GEOMETRY`）で、幾何データを格納します。ジオメトリフィールドを扱う場合、データの挿入とクエリの両方に使用される人間が読める形式である [Well-Known Text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud は効率的な格納と処理のために WKT を [Well-Known Binary（WKB）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、WKB を直接処理する必要はありません。
 
-`GEOMETRY` データ型は、次の幾何オブジェクトをサポートしています。
+`GEOMETRY` データ型は、次の幾何オブジェクトをサポートします：
 
-- **POINT**: `POINT (x y)`。例: `POINT (13.403683 52.520711)`。ここで `x` は経度、`y` は緯度です。
+- **POINT**: `POINT (x y)`。例：`POINT (13.403683 52.520711)`。ここで、`x` は経度、`y` は緯度です。
 
-- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`。例: `LINESTRING (13.40 52.52, 13.41 52.51)`
+- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`。例：`LINESTRING (13.40 52.52, 13.41 52.51)`
 
-- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`。例: `POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
+- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`。例：`POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
 
-- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`。例: `MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
+- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`。例：`MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
 
-- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`。例: `MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
+- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`。例：`MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
 
-- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`。例: `MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
+- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`。例：`MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
 
-- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`。例: `GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
+- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`。例：`GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
 
-## 基本操作\{#basic-operations}
+## 基本的な操作\{#basic-operations}
 
-`GEOMETRY` フィールドを使用するワークフローは、コレクションスキーマでのフィールドの定義、幾何データの挿入、そして特定のフィルター式を使用したデータのクエリという流れになります。
+`GEOMETRY` フィールドを使用するワークフローでは、コレクションスキーマでフィールドを定義し、幾何データを挿入してから、特定のフィルター式を使用してデータをクエリします。
 
 ### ステップ 1: GEOMETRY フィールドを定義する\{#step-1-define-a-geometry-field}
 
-`GEOMETRY` フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例は、`DataType.GEOMETRY` 型の `geo` フィールドを持つコレクションを作成する方法を示しています。
+`GEOMETRY` フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例では、型が `DataType.GEOMETRY` の `geo` フィールドを持つコレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -247,7 +247,7 @@ const schema = [
   { name: 'id', data_type: DataType.Int64, is_primary_key: true },
   { name: 'embeddings', data_type: DataType.FloatVector, dim: 8 },
   // highlight-next-line
-  { name: 'geo', data_type: DataType.Geometry, is_nullable: true },
+  { name: 'geo', data_type: DataType.Geometry, nullable: true },
   { name: 'name', data_type: DataType.VarChar, max_length: 128 },
 ];
 
@@ -313,13 +313,13 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` を指定して null 値を許可します。詳細については、[Nullable フィールド](./nullable-fields) を参照してください。
+この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` により null 値を許可します。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の幾何データを持つエンティティを挿入します。以下は、複数の geo ポイントを使用した例です。
+幾何データを含むエンティティを [WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で挿入します。以下は、複数の地理ポイントを使用した例です：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -620,7 +620,7 @@ curl --request POST \
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`GEOMETRY` フィールドに対してフィルタリング操作を実行する前に、次の点を確認してください。
+`GEOMETRY` フィールドでフィルタリング操作を実行する前に、次のことを確認してください：
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -837,25 +837,25 @@ sleep 3
 
 #### フィルター式を定義する\{#define-filter-expressions}
 
-`GEOMETRY` フィールドをフィルタリングするには、式でジオメトリ演算子を使用します。
+`GEOMETRY` フィールドでフィルタリングするには、式でジオメトリ演算子を使用します：
 
-- 一般: `{operator}(geo_field, '{wkt}')`
+- 一般：`{operator}(geo_field, '{wkt}')`
 
-- 距離ベース: `ST_DWITHIN(geo_field, '{wkt}', distance)`
+- 距離ベース：`ST_DWITHIN(geo_field, '{wkt}', distance)`
 
-各要素の意味は次のとおりです。
+ここで：
 
-- `operator` は、サポートされているジオメトリ演算子のいずれかです（例: `ST_CONTAINS`、`ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字で指定する必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators) を参照してください。
+- `operator` は、サポートされているジオメトリ演算子の 1 つです（例：`ST_CONTAINS`、`ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字である必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators) を参照してください。
 
-- `geo_field` は `GEOMETRY` フィールドの名前です。
+- `geo_field` は、`GEOMETRY` フィールドの名前です。
 
 - `'{wkt}'` は、クエリ対象のジオメトリの WKT 表現です。
 
-- `distance` は `ST_DWITHIN` 専用のしきい値です。
+- `distance` は、`ST_DWITHIN` 専用のしきい値です。
 
-次の例では、フィルター式でさまざまなジオメトリ専用演算子を使用する方法を示します。
+次の例では、フィルター式でさまざまなジオメトリ固有の演算子を使用する方法を示します：
 
-#### 例 1: 長方形領域内のエンティティを検索する\{#example-1-find-entities-within-a-rectangular-area}
+#### 例 1: 矩形領域内のエンティティを検索する\{#example-1-find-entities-within-a-rectangular-area}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1059,7 +1059,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 2: 中心点から 1km 以内のエンティティを検索する\{#example-2-find-entities-within-1km-of-a-central-point}
+#### 例 2: 中心点から 1 km 以内のエンティティを検索する\{#example-2-find-entities-within-1km-of-a-central-point}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1262,7 +1262,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 3: ベクトル類似度と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
+#### 例 3: ベクトル類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1497,20 +1497,20 @@ curl --request POST \
 
 ## 次のステップ: クエリを高速化する\{#next-accelerate-queries}
 
-デフォルトでは、インデックスがない `GEOMETRY` フィールドに対するクエリはすべての行をフルスキャンするため、大規模なデータセットでは低速になる可能性があります。ジオメトリクエリを高速化するには、`AUTOINDEX` インデックスを GEOMETRY フィールドに作成します。
+デフォルトでは、インデックスのない `GEOMETRY` フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。幾何クエリを高速化するには、GEOMETRY フィールドに `AUTOINDEX` インデックスを作成します。
 
-詳細については、[RTREE](./rtree-index-type) を参照してください。
+詳細は、[RTREE](./rtree-index-type) を参照してください。
 
-## FAQ\{#faq}
+## よくある質問\{#faq}
 
-### コレクションで動的フィールド機能を有効にしている場合、動的フィールドのキーに幾何データを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
+### コレクションで動的フィールド機能を有効にしている場合、動的フィールドキーに幾何データを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
 
-いいえ、幾何データを動的フィールドに挿入することはできません。幾何データを挿入する前に、コレクションスキーマで `GEOMETRY` フィールドが明示的に定義されていることを確認してください。
+いいえ、幾何データは動的フィールドに挿入できません。幾何データを挿入する前に、`GEOMETRY` フィールドがコレクションスキーマで明示的に定義されていることを確認してください。
 
 ### GEOMETRY フィールドは mmap 機能をサポートしていますか？\{#does-the-geometry-field-support-the-mmap-feature}
 
-はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細については、[mmap を使用する](./use-mmap) を参照してください。
+はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細は、[mmap の使用](./use-mmap) を参照してください。
 
-### GEOMETRY フィールドを nullable として定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
+### GEOMETRY フィールドを nullable に定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
 
-はい、GEOMETRY フィールドは `nullable` 属性と WKT 形式のデフォルト値をサポートしています。詳細については、[Nullable フィールド](./nullable-fields) を参照してください。
+はい、GEOMETRY フィールドは `nullable` 属性と WKT 形式のデフォルト値をサポートしています。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。

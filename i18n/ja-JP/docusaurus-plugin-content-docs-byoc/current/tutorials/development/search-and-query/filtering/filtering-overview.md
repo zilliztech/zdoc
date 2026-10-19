@@ -1,5 +1,5 @@
 ---
-title: "フィルタリングの仕組み | BYOC"
+title: "フィルタリングの概要 | BYOC"
 slug: /filtering-overview
 sidebar_label: "概要"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、データを正確にクエリするための強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込むことができます。本ガイドでは、クエリ操作を中心とした例を用いて、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。 | BYOC"
+description: "Zilliz Cloud は強力なフィルタリング機能を提供し、データを正確にクエリできます。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込むことができます。本ガイドでは、Zilliz Cloud クラスターでフィルター式を使用する方法を、クエリ操作に焦点を当てた例を交えて説明します。これらのフィルターは検索リクエストと削除リクエストでも適用できます。 | BYOC"
 type: origin
 token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
 sidebar_position: 1
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# フィルタリングの仕組み
+# フィルタリングの概要
 
-Zilliz Cloud は、データを正確にクエリするための強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込むことができます。本ガイドでは、クエリ操作を中心とした例を用いて、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。
+Zilliz Cloud は強力なフィルタリング機能を提供し、データを正確にクエリできます。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込むことができます。本ガイドでは、Zilliz Cloud クラスターでフィルター式を使用する方法を、クエリ操作に焦点を当てた例を交えて説明します。これらのフィルターは検索リクエストと削除リクエストでも適用できます。
 
 ## 基本演算子\{#basic-operators}
 
-Zilliz Cloud は、データのフィルタリングに使用するいくつかの基本演算子をサポートしています。
+Zilliz Cloud は、データのフィルタリングに使用できるいくつかの基本演算子をサポートしています。
 
 - **比較演算子**: `==`、`!=`、`>`、`<`、`>=`、`<=` を使用すると、数値フィールドまたはテキストフィールドに基づいてフィルタリングできます。
 
-- **範囲とパターンのフィルター**: `IN`、`LIKE`、`=~`、`!~` は、値、ワイルドカードパターン、または正規表現パターンに一致します。文字列パターンの詳細については、[Pattern Matching](https://milvus.io/docs/pattern-matching.md) を参照してください。
+- **範囲フィルターとパターンフィルター**: `IN`、`LIKE`、`=~`、`!~` は、値、ワイルドカードパターン、または正規表現パターンに一致します。文字列パターンの詳細については、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
 
-- **算術演算子**: `+`、`-`、`*`、`/`、`%`、`**` は、数値フィールドを含む計算に使用します。
+- **算術演算子**: `+`、`-`、`*`、`/`、`%`、`**` は、数値フィールドに関する計算に使用します。
 
-- **ビット演算子**: 以降では、`&`、`|`、`^` は、権限やステータスビットなど、複数のフラグをエンコードする整数フィールドをフィルタリングします。詳細については、[Basic Operators](https://milvus.io/docs/basic-operators.md#Bitwise-operators) を参照してください。
+- **ビット演算子**: 以降では、`&`、`|`、`^` が、権限やステータスビットなど複数のフラグをエンコードする整数フィールドをフィルタリングします。詳細については、[基本演算子](https://milvus.io/docs/basic-operators.md#Bitwise-operators) を参照してください。
 
 - **論理演算子**: `AND`、`OR`、`NOT` は、複数の条件を組み合わせて複雑な式を作成します。
 
-- **IS NULL および IS NOT NULL 演算子**: `IS NULL` を使用してフィールド値が NULL であるエンティティを選択するか、`IS NOT NULL` を使用してフィールド値が NULL でないエンティティを選択します。これらの演算子はスカラーフィールドをサポートしています。サポートされている型、構文、例については、[IS NULL および IS NOT NULL 演算子](./basic-filtering-operators#is-null-and-is-not-null-operators) を参照してください。
+- **IS NULL 演算子と IS NOT NULL 演算子**: `IS NULL` を使用してフィールド値が NULL のエンティティを選択するか、`IS NOT NULL` を使用してフィールド値が NULL 以外のエンティティを選択します。これらの演算子はスカラーフィールドをサポートしています。 サポートされている型、構文、例については、[IS NULL 演算子と IS NOT NULL 演算子](./basic-filtering-operators#is-null-and-is-not-null-operators) を参照してください。
 
 ### 例: 色によるフィルタリング\{#example-filtering-by-color}
 
@@ -101,9 +101,9 @@ filter='color in ["red", "green", "blue"]'
 </TabItem>
 </Tabs>
 
-### 例: 権限ビットによるフィルタリング\{#example-filtering-by-permission-bits}
+### 例: パーミッションビットによるフィルタリング\{#example-filtering-by-permission-bits}
 
-整数 `permissions` フィールドで `SHARE` ビットが設定されているエンティティを検索するには、ビット単位の AND 演算子（`&`）を使用します。
+整数の `permissions` フィールドで `SHARE` ビットが設定されているエンティティを検索するには、ビット単位の AND 演算子（`&`）を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -225,7 +225,7 @@ filter='message =~ "E[0-9]{4}"'
 </TabItem>
 </Tabs>
 
-正規表現フィルターでは部分文字列の一致を使用します。フィールド値全体をパターンに一致させる必要がある場合は、`^` と `$` のアンカーを追加します。詳細については、[Pattern Matching](https://milvus.io/docs/pattern-matching.md) を参照してください。
+正規表現フィルターは部分文字列の一致を使用します。フィールド値全体がパターンに一致する必要がある場合は、`^` と `$` のアンカーを追加します。詳細については、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
 
 ### 例: JSON フィールドのフィルタリング\{#example-filtering-json-fields}
 
@@ -291,7 +291,7 @@ filter='product["model"] == "JSN-087" AND product["price"] < 1850'
 
 ### 例: 配列フィールドのフィルタリング\{#example-filtering-array-fields}
 
-2000 年以降に天文台が報告した平均気温の記録を含む配列フィールド `history_temperatures` があり、2009 年の気温（10 番目の記録）が 23°C を超える天文台を検索する場合は、次の式を使用します。
+2000 年以降に観測所が報告した平均気温の記録を含む配列フィールド `history_temperatures` があり、2009 年（10 番目の記録）の気温が 23°C を超える観測所を検索する場合は、次の式を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -351,15 +351,15 @@ filter='history_temperatures[10] > 23'
 </TabItem>
 </Tabs>
 
-これらの基本演算子の詳細については、[Basic Operators](https://milvus.io/docs/basic-operators.md) を参照してください。
+これらの基本演算子の詳細については、[基本演算子](https://milvus.io/docs/basic-operators.md) を参照してください。
 
 ## フィルター式テンプレート\{#filter-expression-templates}
 
-CJK 文字を使用してフィルタリングする場合、文字セットが大きくエンコーディングも異なるため、処理がより複雑になる可能性があります。その結果、特に `IN` 演算子を使用する場合にパフォーマンスが低下することがあります。
+CJK 文字を使用してフィルタリングすると、文字セットが大きく、エンコーディングも異なるため、処理がより複雑になることがあります。特に `IN` 演算子では、パフォーマンスが低下する可能性があります。
 
-Zilliz Cloud は、CJK 文字を扱う際のパフォーマンスを最適化するために、フィルター式のテンプレート化を導入しています。動的な値をフィルター式から分離することで、クエリエンジンがパラメーターの挿入をより効率的に処理します。
+Zilliz Cloud は、CJK 文字を扱う際のパフォーマンスを最適化するために、フィルター式テンプレートを導入しています。動的な値をフィルター式から分離することで、クエリエンジンがパラメーターの挿入をより効率的に処理します。
 
-`25` 歳を超える、`"北京"`（北京）または `"上海"`（上海）に住む個人を検索するには、次のテンプレート式を使用します。
+`"北京"`（Beijing）または`"上海"`（Shanghai）に住む `25` 歳を超える個人を検索するには、次のテンプレート式を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -448,7 +448,10 @@ filterTemplateValues.put("city", Arrays.asList("北京", "上海"));
 
 ```go
 filter := "age > {age} AND city in {city}"
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+filterTemplates := map[string]any{
+    "age":  25,
+    "city": []string{"北京", "上海"},
+}
 ```
 
 </TabItem>
@@ -499,17 +502,17 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 </TabItem>
 </Tabs>
 
-この方法により、解析のオーバーヘッドが削減され、クエリ速度が向上します。詳細については、[フィルターのテンプレート化](./filtering-templating) を参照してください。
+このアプローチにより、解析のオーバーヘッドが減少し、クエリ速度が向上します。詳細については、[フィルターテンプレート](./filtering-templating) を参照してください。
 
 ## データ型固有の演算子\{#data-type-specific-operators}
 
-Zilliz Cloud は、JSON、ARRAY、VARCHAR フィールドなど、特定のデータ型向けの高度なフィルタリング演算子を提供します。
+Zilliz Cloud は、JSON、ARRAY、VARCHAR フィールドなど、特定のデータ型向けの高度なフィルタリング演算子を提供しています。
 
 ### JSON フィールド固有の演算子\{#json-field-specific-operators}
 
-Zilliz Cloud は、JSON フィールドをクエリするための高度な演算子を提供し、複雑な JSON 構造内で正確なフィルタリングを可能にします。
+Zilliz Cloud は JSON フィールドをクエリするための高度な演算子を提供し、複雑な JSON 構造内で正確なフィルタリングを可能にします。
 
-**`JSON_CONTAINS(identifier, jsonExpr)`**: JSON 式がフィールドに存在するかどうかを確認します。
+**`JSON_CONTAINS(identifier, jsonExpr)`**: フィールド内に JSON 式が存在するかどうかを確認します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -576,7 +579,7 @@ filter='json_contains(tags, "sale")'
 </TabItem>
 </Tabs>
 
-**`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: JSON 式のすべての要素が存在することを確認します。
+**`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: JSON 式のすべての要素が存在することを保証します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -643,7 +646,7 @@ filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 </TabItem>
 </Tabs>
 
-**`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: JSON 式の少なくとも 1 つの要素が存在するエンティティをフィルタリングします。
+**`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: JSON 式内に少なくとも 1 つの要素が存在するエンティティをフィルタリングします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -714,7 +717,7 @@ JSON 演算子の詳細については、[JSON 演算子](./json-filtering-opera
 
 ### ARRAY フィールド固有の演算子\{#array-field-specific-operators}
 
-Zilliz Cloud は、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` など、配列フィールド向けの高度なフィルタリング演算子を提供し、配列データをきめ細かく制御できます。
+Zilliz Cloud は、配列フィールド向けに `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度なフィルタリング演算子を提供し、配列データをきめ細かく制御できます。
 
 **`ARRAY_CONTAINS`**: 特定の要素を含むエンティティをフィルタリングします。
 
@@ -960,7 +963,7 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 
 ### VARCHAR フィールド固有の演算子\{#varchar-field-specific-operators}
 
-Zilliz Cloud は、VARCHAR フィールドでの正確なテキスト検索用の専用演算子を提供します。
+Zilliz Cloud は、VARCHAR フィールドでの正確なテキストベース検索用に特化した演算子を提供しています。
 
 #### パターンマッチング演算子\{#pattern-matching-operators}
 
@@ -970,9 +973,9 @@ Zilliz Cloud は、VARCHAR フィールドでの正確なテキスト検索用�
 
 #### `TEXT_MATCH` 演算子\{#textmatch-operator}
 
-`TEXT_MATCH` 演算子は、特定のクエリ用語に基づいてドキュメントを正確に取得できます。これは、スカラーフィルターとベクトル類似検索を組み合わせたフィルター検索に特に役立ちます。セマンティック検索とは異なり、Text Match は用語の完全一致に焦点を当てます。
+`TEXT_MATCH` 演算子を使用すると、特定のクエリ用語に基づいてドキュメントを正確に取得できます。これは、スカラーフィルターとベクトル類似検索を組み合わせたフィルター検索に特に便利です。セマンティック検索とは異なり、Text Match は用語の完全一致に焦点を当てます。
 
-Zilliz Cloud は、転置インデックスと用語ベースのテキスト検索をサポートするために Tantivy を使用しています。プロセスは次のとおりです。
+Zilliz Cloud は Tantivy を使用して、転置インデックスと用語ベースのテキスト検索をサポートしています。プロセスは次のとおりです。
 
 1. **アナライザー**: 入力テキストをトークン化して処理します。
 
@@ -982,6 +985,6 @@ Zilliz Cloud は、転置インデックスと用語ベースのテキスト検�
 
 #### `PHRASE_MATCH` 演算子\{#phrasematch-operator}
 
-**PHRASE_MATCH** 演算子は、クエリ用語の順序と隣接性の両方を考慮して、完全なフレーズ一致に基づいてドキュメントを正確に取得できます。
+**PHRASE_MATCH** 演算子は、クエリ用語の順序と隣接性の両方を考慮して、正確なフレーズ一致に基づいてドキュメントを正確に取得できるようにします。
 
-詳細については、[フレーズマッチ](./phrase-match) を参照してください。
+詳細については、[フレーズマッチング](./phrase-match) を参照してください。
