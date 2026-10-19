@@ -3,6 +3,7 @@ const DOC_HEADING_TAGS = [
   'NEAR DEPRECATE',
   'CONTACT SALES',
   'PUBLIC',
+  'ON REQUEST',
   'BYOC',
   'DEPRECATED',
 ];

@@ -1855,7 +1855,7 @@ class larkDocWriter {
     __clean_heading_title_for_slug(content) {
         return String(content || '')
             .replace(/\\?\{#[^}]+}/g, '')
-            .replace(/\s*\|\s*(PRIVATE|ONDEMAND|BYOC|CLOUD)\s*$/i, '')
+            .replace(/\s*\|\s*(PRIVATE|ONDEMAND|ON REQUEST|BYOC|CLOUD)\s*$/i, '')
             .trim()
     }
 
