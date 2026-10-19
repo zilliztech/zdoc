@@ -10,7 +10,7 @@ notebook: FALSE
 description: "今回の Zilliz Cloud のアップデートでは、BETA 版の Serverless プランが導入されます。これは、クエリ量が変動するアプリケーション向けに設計されており、最小限の設定でシームレスなスケーラビリティを提供します。このプランは現在 GCP us-west1 (Oregon) で利用可能で、BETA 期間中は無料トライアルが含まれます。さらに、Dedicated クラスター向けの新しいリージョンとして、Azure では Germany West Central (Frankfurt)、GCP では europe-west3 (Frankfurt) および us-east-4 (Virginia) がサポートされます。このリリースでは、監視メトリクス、検索精度制御、インポートジョブに関するいくつかの機能強化も導入されます。 | Cloud"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 24
+sidebar_position: 25
 displayed_sidebar: releasesSidebar
 
 ---

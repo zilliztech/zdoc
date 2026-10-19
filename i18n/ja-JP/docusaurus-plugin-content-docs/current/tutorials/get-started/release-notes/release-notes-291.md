@@ -10,7 +10,7 @@ notebook: FALSE
 description: "今回のアップデートで、Zilliz Cloud は Milvus の新しい RESTful API v2 をサポートし、一貫したインターフェースと拡張された機能を提供します。新しいドキュメントチャットボットにより、ユーザーサポートが強化されます。**Job Center** では、バックアップ、リストア、移行、インポート、コレクションのクローンなどのタスクを管理・追跡するための直感的なインターフェースが導入されます。プライベートプレビューで利用可能な Dedicated クラスター向けの **Auto-scaling** は、Compute Unit（CU）Capacity Threshold をトリガーとして、需要に応じて容量を動的に調整します。その他の機能強化には、クラスター監視メトリクスの追加、刷新されたクラスター管理インターフェース、改善されたユーザーメールテンプレートが含まれます。 | Cloud"
 type: origin
 token: RlhDw3Fr9iCpWSkylfAcyes1nLh
-sidebar_position: 22
+sidebar_position: 23
 displayed_sidebar: releasesSidebar
 
 ---

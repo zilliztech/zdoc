@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(プレースホルダー) | Cloud"
 type: origin
 token: NRF1wGr3AiWWC1kVfWucZD6Xneb
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: releasesSidebar
 
 ---

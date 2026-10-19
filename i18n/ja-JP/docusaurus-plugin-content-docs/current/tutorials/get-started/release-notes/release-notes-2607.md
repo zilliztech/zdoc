@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(プレースホルダー) | Cloud"
 type: origin
 token: CUuywySLVil4MKkmYZecUl9snLg
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: releasesSidebar
 
 ---
@@ -141,3 +141,4 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
+

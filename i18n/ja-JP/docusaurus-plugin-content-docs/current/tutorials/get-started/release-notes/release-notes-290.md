@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースでは、Zilliz Cloud は Milvus 2.4 に支えられた一連の新機能を公開しました。これには、スパースベクトルのサポート、強化されたマルチベクトル検索とハイブリッド検索、クエリを高速化する転置インデックスとファジーマッチング、ドキュメントレベルのリコールを実現するグループ化検索が含まれます。また、検索効率を向上させる Float16 および BFloat16 データ型も導入されています。さらに、Pipelines 機能では、すべてのデータ取り込みリクエストと検索リクエストでトークン使用量の統計が追跡されるようになり、パフォーマンス監視が効率化されました。詳細な統計は請求書ページで確認できます。 | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 23
+sidebar_position: 24
 displayed_sidebar: releasesSidebar
 
 ---
