@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`cncharonly` フィルターは、中国語以外の文字を含むトークンを除去します。このフィルターは、中国語のテキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。 | BYOC"
+description: "`cncharonly` フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語のテキストのみに注目し、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。 | BYOC"
 type: origin
 token: X16rw3C4giUT6bkPLXAcsBapnpe
 sidebar_position: 5
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Cncharonly
 
-`cncharonly` フィルターは、中国語以外の文字を含むトークンを除去します。このフィルターは、中国語のテキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。
+`cncharonly` フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語のテキストのみに注目し、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。
 
 ## 設定\{#configuration}
 
@@ -42,6 +42,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cncharonly"));
@@ -62,18 +66,13 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "jieba",
-        "filter": ["cncharonly"]
-    });
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({
+    "tokenizer": "jieba",
+    "filter": ["cncharonly"]
+});
 ```
 
 </TabItem>
@@ -92,7 +91,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cncharonly"],
 };
@@ -115,15 +114,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`cncharonly` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
+`cncharonly` フィルターはトークナイザーが生成した用語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、コレクションスキーマを定義する際に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -140,6 +139,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cncharonly"));
@@ -180,7 +183,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
 };
@@ -263,6 +266,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -274,7 +279,7 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
-option := milvusclient.NewRunAnalyzerOption(texts).
+option := milvusclient.NewRunAnalyzerOption(texts...).
     WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
@@ -328,7 +333,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
 };

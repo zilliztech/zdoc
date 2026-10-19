@@ -1,13 +1,13 @@
 ---
-title: "English | BYOC"
+title: "英語 | BYOC"
 slug: /english-analyzer
-sidebar_label: "English"
+sidebar_label: "英語"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `english` analyzer は、英語テキストを処理するために設計されており、tokenization と filtering に言語固有のルールを適用します。 | BYOC"
+description: "Zilliz Cloud の `english` アナライザーは、英語のテキストを処理するように設計されており、トークン化とフィルタリングに言語固有のルールを適用します。 | BYOC"
 type: origin
 token: W0WhwqRyciRMRLklcsdca1U2nae
 sidebar_position: 2
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# English
+# 英語
 
-Zilliz Cloud の `english` analyzer は、英語テキストを処理するために設計されており、tokenization と filtering に言語固有のルールを適用します。
+Zilliz Cloud の `english` アナライザーは、英語のテキストを処理するように設計されており、トークン化とフィルタリングに言語固有のルールを適用します。
 
 ## 定義\{#definition}
 
-`english` analyzer は以下のコンポーネントを使用します。
+`english` アナライザーは、次のコンポーネントを使用します。
 
-- **Tokenizer**: [`standard`](./standard-tokenizer)[ tokenizer](./standard-tokenizer) を使用して、テキストを個別の単語単位に分割します。
+- **トークナイザー**：テキストを個別の単語単位に分割するために、[`standard`](./standard-tokenizer)[ トークナイザー](./standard-tokenizer)を使用します。
 
-- **Filters**: 包括的なテキスト処理のために複数の filter を含みます。
+- **フィルター**：包括的なテキスト処理のための複数のフィルターが含まれています。
 
-    - [`lowercase`](./lowercase-filter): すべての token を小文字に変換し、大文字と小文字を区別しない検索を可能にします。
+    - [`lowercase`](./lowercase-filter)：すべてのトークンを小文字に変換し、大文字と小文字を区別しない検索を可能にします。
 
-    - [`stemmer`](./stemmer-filter): より広い一致をサポートするために単語を語幹形に変換します（例: "running" は "run" になります）。
+    - [`stemmer`](./stemmer-filter)：より広範な一致をサポートするために、単語を語根形に還元します（例：「running」は「run」になります）。
 
-    - [`stop_words`](./stop-filter): 一般的な英語の stop words を削除し、テキスト内の重要な語に焦点を当てます。
+    - [`stop_words`](./stop-filter)：テキスト内の重要な用語に焦点を当てるために、一般的な英語のストップワードを削除します。
 
-`english` analyzer の機能は、次のカスタム analyzer 設定と同等です。
+`english` アナライザーの機能は、次のカスタムアナライザー構成と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -63,6 +63,11 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -131,7 +136,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter": [
         "lowercase",
@@ -168,9 +173,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-`english` analyzer を field に適用するには、`analyzer_params` で `type` を `english` に設定し、必要に応じてオプションのパラメータを含めるだけです。
+`english` アナライザーをフィールドに適用するには、`analyzer_params` で `type` を `english` に設定し、必要に応じてオプションパラメーターを含めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -186,6 +191,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 ```
@@ -225,7 +233,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
 }
 ```
@@ -244,13 +252,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`english` analyzer は次のオプションパラメータを受け入れます。 
+`english` アナライザーは、次のオプションパラメーターを受け入れます。
 
-| Parameter | Description |
+| パラメーター | 説明 |
 | --- | --- |
-| `stop_words` | stop words のリストを含む配列で、tokenization から削除されます。デフォルトは `_english_` で、一般的な英語の stop words の組み込みセットです。 |
+| `stop_words` | トークン化から削除するストップワードのリストを含む配列です。デフォルトは `_english_` で、一般的な英語のストップワードの組み込みセットです。 |
 
-カスタム stop words を使用した設定例:
+カスタムストップワードを使用した構成例は次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -267,6 +275,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
@@ -309,7 +321,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
     "stop_words": ["a", "an", "the"]
 }
@@ -334,13 +346,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a コレクション スキーマ. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-Before applying the analyzer configuration to your コレクション スキーマ, verify its behavior using the `run_analyzer` method.
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### Analyzer 設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -357,6 +369,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
@@ -399,7 +415,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
     "stop_words": ["a", "an", "the"]
 }
@@ -490,6 +506,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -524,31 +542,27 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "type": "english",
-        "stop_words": ["a", "an", "the"]
-    });
+let analyzer_params = serde_json::json!({
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+});
 
-    let response = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(["Milvus is a vector database built for scale!"])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["Milvus is a vector database built for scale!"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for token in result.get_tokens() {
-            println!("English analyzer output: {}", token.get_text());
-        }
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("English analyzer output: {}", token.get_text());
     }
-    Ok(())
 }
 ```
 
@@ -625,4 +639,3 @@ curl --request POST \
 ```python
 English analyzer output: ['milvus', 'vector', 'databas', 'built', 'scale']
 ```
-

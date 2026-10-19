@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に役立ちます。 | BYOC"
+description: "`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に便利です。 | BYOC"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
 sidebar_position: 9
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Decompounder
 
-`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に役立ちます。
+`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に便利です。
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-`decompounder` フィルターは、`word_list` パラメーターによるインライン、または `word_list_file` パラメーターによる登録済みファイルリソースのいずれかから、構成要素の辞書を受け取ります。
+`decompounder` フィルターは、構成要素の辞書を `word_list` パラメーターでインライン指定するか、`word_list_file` パラメーターで登録済みのファイルリソースから指定できます。
 
 ### インライン単語リスト\{#inline-word-list}
 
-`decompounder` フィルターは、Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを併せて指定します。
+`decompounder` フィルターは、Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター構成で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを併せて指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -71,7 +71,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -114,7 +114,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -150,21 +150,21 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`decompounder` フィルターは、以下の設定可能なパラメーターを受け取ります。
+`decompounder` フィルターは、次の構成可能なパラメーターを受け入れます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `word_list` | 複合語を分割するために使用する単語構成要素のリストです。この辞書は、複合語を個々の単語に分解する方法を決定します。 |
+| `word_list` | 複合語を分割するために使用する単語構成要素のリストです。この辞書により、複合語を個々の用語に分解する方法が決まります。 |
 
-`decompounder` フィルターはトークナイザーによって生成された単語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
+`decompounder` フィルターは、トークナイザーによって生成されたトークンを処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に、これらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときに、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的にトークン化およびフィルタリングできます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
+アナライザーの構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザーの構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -206,7 +206,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -249,7 +249,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -347,6 +347,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -378,28 +380,24 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = json!({
-        "tokenizer": "standard",
-        "filter": [{
-            "type": "decompounder",
-            "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
-        }]
-    });
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "decompounder",
+        "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
+    }]
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["dampfschifffahrt brotbackautomat".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("{:?}", result.results());
-    Ok(())
-}
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["dampfschifffahrt brotbackautomat".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("{:?}", result.results());
 ```
 
 </TabItem>

@@ -54,6 +54,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -94,7 +98,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
@@ -135,6 +139,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 ```
@@ -172,7 +179,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
 }
 ```
@@ -214,6 +221,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("of"));
@@ -300,6 +311,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("for"));
@@ -430,6 +445,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -459,27 +476,23 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let texts = ["The Milvus vector database is built for scale!".to_string()];
-    let analyzer_params = serde_json::json!({
-        "type": "standard",
-        "stop_words": ["for"]
-    });
+let texts = ["The Milvus vector database is built for scale!".to_string()];
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["for"]
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(texts)
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(texts)
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
 
-    println!("{:?}", result.results());
-    Ok(())
-}
+println!("{:?}", result.results());
 ```
 
 </TabItem>
@@ -516,7 +529,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
 const res = await client.runAnalyzer({
     text: 'The Milvus vector database is built for scale!',
     analyzer_params: analyzer_params

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に対して単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語で必要となる、大きく異なるトークン化およびステミングのルールにうまく対応できず、再現率が低下します。たとえば、スペイン語の単語「teléfono」（「phone」を意味する）を検索すると、英語に特化したアナライザーはつまずきます。アクセント記号を削除し、スペイン語固有のステミングを適用しない可能性があるため、関連する結果が見落とされることがあります。 | BYOC"
+description: "Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語に必要な、大きく異なるトークン化およびステミングのルールに対応できず、再現率が低下します。たとえば、スペイン語の \"teléfono\"（\"phone\" を意味します）を検索すると、英語向けアナライザーではアクセント記号が削除され、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。 | BYOC"
 type: origin
 token: BnYLwepruiGNpwkJfBHcdrrOnOh
 sidebar_position: 5
@@ -21,37 +21,37 @@ import TabItem from '@theme/TabItem';
 
 # 多言語アナライザー
 
-Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に対して単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語で必要となる、大きく異なるトークン化およびステミングのルールにうまく対応できず、再現率が低下します。たとえば、スペイン語の単語 *"teléfono"*（「phone」を意味する）を検索すると、英語に特化したアナライザーはつまずきます。アクセント記号を削除し、スペイン語固有のステミングを適用しない可能性があるため、関連する結果が見落とされることがあります。
+Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語に必要な、大きく異なるトークン化およびステミングのルールに対応できず、再現率が低下します。たとえば、スペイン語の *「teléfono」*（*「phone」* を意味します）を検索すると、英語向けアナライザーではアクセント記号が削除され、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。
 
-多言語アナライザーは、1 つのコレクション内のテキストフィールドに対して複数のアナライザーを構成できるようにすることで、この問題を解決します。このようにして、多言語のドキュメントをテキストフィールドに格納でき、Zilliz Cloud は各ドキュメントに適した言語ルールに従ってテキストを分析します。
+多言語アナライザーは、単一のコレクション内のテキストフィールドに複数のアナライザーを構成できるようにすることで、この問題を解決します。これにより、テキストフィールドに多言語のドキュメントを格納し、Zilliz Cloud が各ドキュメントに適した言語ルールに従ってテキストを分析できます。
 
 ## 制限事項\{#limits}
 
-- この機能は、BM25 ベースのテキスト検索とスパースベクトルでのみ動作します。詳細については、[全文検索](./full-text-search) を参照してください。
+- この機能は、BM25 ベースのテキスト検索とスパースベクトルでのみ機能します。詳細については、[全文検索](./full-text-search) を参照してください。
 
-- 単一のコレクション内の各ドキュメントは、言語識別子フィールドの値によって決定される 1 つのアナライザーのみを使用できます。
+- 単一のコレクション内の各ドキュメントで使用できるアナライザーは、言語識別子フィールドの値によって決まる 1 つのみです。
 
-- パフォーマンスは、アナライザーの複雑さとテキストデータのサイズによって異なる場合があります。
+- パフォーマンスは、アナライザーの複雑さとテキストデータのサイズによって変わる可能性があります。
 
 ## 概要\{#overview}
 
-次の図は、Zilliz Cloud で多言語アナライザーを構成して使用するワークフローを示しています：
+次の図は、Zilliz Cloud で多言語アナライザーを構成して使用するワークフローを示しています。
 
 ![ZDYIwC1HwhTrdlbfOgNcOZ4OnWg](https://zdoc-images.s3.us-west-2.amazonaws.com/ZDYIwC1HwhTrdlbfOgNcOZ4OnWg.png)
 
-1. **多言語アナライザーを構成する**: 
+1. **多言語アナライザーを構成する**：
 
-    - `<analyzer_name>: <analyzer_config>` という形式を使用して、複数の言語固有のアナライザーを設定します。各 `analyzer_config` は、[アナライザーの概要](./analyzer-overview#analyzer-types) で説明されている標準の `analyzer_params` 構成に従います。
+    - `<analyzer_name>: <analyzer_config>` 形式を使用して、言語固有の複数のアナライザーを設定します。各 `analyzer_config` は、[アナライザーの概要](./analyzer-overview#analyzer-types) で説明されている標準の `analyzer_params` 構成に従います。
 
-    - 各ドキュメントのアナライザー選択を決定する特別な識別子フィールドを定義します。
+    - 各ドキュメントのアナライザー選択を決定する専用の識別子フィールドを定義します。
 
-    - 未知の言語を処理するための `default` アナライザーを構成します。
+    - 不明な言語を処理するための `default` アナライザーを構成します。
 
-1. **コレクションを作成する**: 
+1. **コレクションを作成する**：
 
     - 必須フィールドを含むスキーマを定義します：
 
-        - **primary_key**: 一意のドキュメント識別子。
+        - **primary_key**: ドキュメントの一意の識別子です。
 
         - **text_field**: 元のテキストコンテンツを格納します。
 
@@ -59,15 +59,15 @@ Zilliz Cloud がテキスト分析を実行する場合、通常はコレクシ�
 
         - **vector_field**: BM25 関数によって生成されるスパース埋め込みを格納します。
 
-    - BM25 関数とインデックス作成パラメーターを構成します。
+    - BM25 関数とインデックスパラメーターを構成します。
 
-1. **言語識別子を含むデータを挿入する**:
+1. **言語識別子を含むデータを挿入する**：
 
-    - さまざまな言語のテキストを含むドキュメントを追加します。各ドキュメントには、使用するアナライザーを指定する識別子の値が含まれます。
+    - さまざまな言語のテキストを含むドキュメントを追加します。各ドキュメントには、使用するアナライザーを指定する識別子値が含まれている必要があります。
 
-    - Zilliz Cloud は識別子フィールドに基づいて適切なアナライザーを選択し、未知の識別子を持つドキュメントは `default` アナライザーを使用します。
+    - Zilliz Cloud は識別子フィールドに基づいて適切なアナライザーを選択し、不明な識別子を持つドキュメントには `default` アナライザーを使用します。
 
-1. **言語固有のアナライザーで検索する**:
+1. **言語固有のアナライザーを使用して検索する**：
 
     - アナライザー名を指定したクエリテキストを渡すと、Zilliz Cloud は指定されたアナライザーを使用してクエリを処理します。
 
@@ -75,7 +75,7 @@ Zilliz Cloud がテキスト分析を実行する場合、通常はコレクシ�
 
 ## ステップ 1: multi_analyzer_params を構成する\{#step-1-configure-multianalyzerparams}
 
-`multi_analyzer_params` は、Zilliz Cloud が各エンティティに適切なアナライザーを選択する方法を決定する単一の JSON オブジェクトです：
+`multi_analyzer_params` は、Zilliz Cloud が各エンティティに適切なアナライザーを選択する方法を決定する単一の JSON オブジェクトです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -148,23 +148,18 @@ multiAnalyzerParams := map[string]any{
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let multi_analyzer_params = serde_json::json!({
-        "analyzers": {
-            "english": {"type": "english"},
-            "chinese": {"type": "chinese"},
-            "default": {"tokenizer": "icu"}
-        },
-        "by_field": "language",
-        "alias": {"cn": "chinese", "en": "english"}
-    });
-
-    Ok(())
-}
+let multi_analyzer_params = serde_json::json!({
+    "analyzers": {
+        "english": {"type": "english"},
+        "chinese": {"type": "chinese"},
+        "default": {"tokenizer": "icu"}
+    },
+    "by_field": "language",
+    "alias": {"cn": "chinese", "en": "english"}
+});
 ```
 
 </TabItem>
@@ -243,38 +238,38 @@ export multi_analyzer_params='{
    <tr>
      <td><p><code>analyzers</code></p></td>
      <td><p>はい</p></td>
-     <td><p>Zilliz Cloud がテキストの処理に使用できるすべての言語固有のアナライザーを一覧表示します。</p><p><code>analyzers</code> 内の各アナライザーは、<code>&lt;analyzer_name&gt;: &lt;analyzer_params&gt;</code> という形式に従います。</p></td>
-     <td><ul><li><p>各アナライザーは、標準の <code>analyzer_params</code> 構文で定義します（<a href="./analyzer-overview#analyzer-types">アナライザーの概要</a> を参照）。</p></li><li><p>キーが <code>default</code> のエントリを追加します。<code>by_field</code> に格納された値が他のどのアナライザー名とも一致しない場合、Zilliz Cloud はこのアナライザーにフォールバックします。</p></li></ul></td>
+     <td><p>Zilliz Cloud がテキスト処理に使用できる言語固有のすべてのアナライザーを一覧表示します。</p><p><code>analyzers</code> 内の各アナライザーは次の形式に従います。<code>&lt;analyzer_name&gt;: &lt;analyzer_params&gt;</code>。</p></td>
+     <td><ul><li><p>標準の <code>analyzer_params</code> 構文を使用して各アナライザーを定義します（<a href="./analyzer-overview#analyzer-types">アナライザーの概要</a> を参照）。</p></li><li><p>キーが <code>default</code> のエントリを追加します。<code>by_field</code> に格納された値が他のどのアナライザー名とも一致しない場合、Zilliz Cloud はこのアナライザーにフォールバックします。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>by_field</code></p></td>
      <td><p>はい</p></td>
-     <td><p>すべてのドキュメントについて、Zilliz Cloud が適用すべき言語（つまり、アナライザー名）を格納するフィールドの名前です。</p></td>
-     <td><ul><li><p>コレクションで定義された <code>VARCHAR</code> フィールドである必要があります。</p></li><li><p>すべての行の値は、<code>analyzers</code> に一覧表示されているアナライザー名（またはエイリアス）のいずれかと完全に一致する必要があります。</p></li><li><p>行の値が欠落しているか見つからない場合、Zilliz Cloud は自動的に <code>default</code> アナライザーを適用します。</p></li></ul></td>
+     <td><p>各ドキュメントについて Zilliz Cloud が適用する言語（つまりアナライザー名）を格納するフィールドの名前です。</p></td>
+     <td><ul><li><p>コレクションで定義された <code>VARCHAR</code> フィールドである必要があります。</p></li><li><p>各行の値は、<code>analyzers</code> に一覧表示されているアナライザー名（またはエイリアス）のいずれかと完全に一致する必要があります。</p></li><li><p>行の値が欠落しているか見つからない場合、Zilliz Cloud は自動的に <code>default</code> アナライザーを適用します。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>alias</code></p></td>
      <td><p>いいえ</p></td>
      <td><p>アナライザーのショートカットまたは代替名を作成し、コード内で参照しやすくします。各アナライザーには 1 つ以上のエイリアスを設定できます。</p></td>
-     <td><p>各エイリアスは既存のアナライザーキーにマップする必要があります。</p></td>
+     <td><p>各エイリアスは既存のアナライザーキーにマッピングする必要があります。</p></td>
    </tr>
 </table>
 
 ## ステップ 2: コレクションを作成する\{#step-2-create-collection}
 
-多言語サポートを備えたコレクションを作成するには、特定のフィールドとインデックスを構成する必要があります：
+多言語サポートを備えたコレクションを作成するには、特定のフィールドとインデックスを構成する必要があります。
 
 ### ステップ 1: フィールドを追加する\{#step-1-add-fields}
 
-このステップでは、4 つの必須フィールドを含むコレクションスキーマを定義します：
+このステップでは、4 つの必須フィールドを備えたコレクションスキーマを定義します。
 
-- **主キーフィールド**（`id`）: コレクション内の各エンティティの一意の識別子です。`auto_id=True` を設定すると、Zilliz Cloud がこれらの ID を自動的に生成できるようになります。
+- **プライマリキーフィールド** (`id`): コレクション内の各エンティティの一意の識別子です。`auto_id=True` を設定すると、Zilliz Cloud がこれらの ID を自動的に生成できるようになります。
 
-- **言語インジケーターフィールド**（`language`）: この VARCHAR フィールドは、`multi_analyzer_params` で指定した `by_field` に対応します。各エンティティの言語識別子を格納し、Zilliz Cloud に使用するアナライザーを指示します。
+- **言語インジケーターフィールド** (`language`): この VARCHAR フィールドは、`multi_analyzer_params` で指定された `by_field` に対応します。各エンティティの言語識別子を格納し、Zilliz Cloud に使用するアナライザーを示します。
 
-- **テキストコンテンツフィールド**（`text`）: この VARCHAR フィールドは、分析および検索する実際のテキストデータを格納します。`enable_analyzer=True` の設定は、このフィールドのテキスト分析機能を有効にするため重要です。`multi_analyzer_params` 構成はこのフィールドに直接適用され、テキストデータと言語固有のアナライザーとの間の接続を確立します。
+- **テキストコンテンツフィールド** (`text`): この VARCHAR フィールドは、分析および検索する実際のテキストデータを格納します。`enable_analyzer=True` を設定することは、このフィールドのテキスト分析機能を有効にするため非常に重要です。`multi_analyzer_params` 構成はこのフィールドに直接アタッチされ、テキストデータと言語固有のアナライザーの間の接続を確立します。
 
-- **ベクトルフィールド**（`sparse`）: このフィールドは、BM25 関数によって生成されるスパースベクトルを格納します。これらのベクトルは、テキストデータを分析可能な形式で表したものであり、Zilliz Cloud が実際に検索する対象です。
+- **ベクトルフィールド** (`sparse`): このフィールドは、BM25 関数によって生成されるスパースベクトルを格納します。これらのベクトルは、テキストデータを分析可能な形式で表したものであり、Zilliz Cloud が実際に検索する対象です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -435,6 +430,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let schema = CollectionSchema::new()
         .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
         .add_field(FieldSchema::new().name("language").data_type(DataType::VarChar).max_length(255))
@@ -557,7 +554,7 @@ export sparseField='{
 
 ### ステップ 2: BM25 関数を定義する\{#step-2-define-bm25-function}
 
-生のテキストデータからスパースベクトル表現を生成する BM25 関数を定義します：
+生のテキストデータからスパースベクトル表現を生成する BM25 関数を定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -580,6 +577,10 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Collections;
+
 CreateCollectionReq.Function function = CreateCollectionReq.Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_to_vector")
@@ -594,6 +595,8 @@ collectionSchema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction()
 schema.WithFunction(function.WithName("text_to_vector").
     WithType(entity.FunctionTypeBM25).
@@ -606,6 +609,8 @@ schema.WithFunction(function.WithName("text_to_vector").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let function = Function::new()
         .name("text_to_vector")
         .function_type(FunctionType::Bm25)
@@ -672,11 +677,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-この関数は、各テキストエントリの言語識別子に基づいて適切なアナライザーを自動的に適用します。BM25 ベースのテキスト検索の詳細については、[全文検索](./full-text-search) を参照してください。
+この関数は、言語識別子に基づいて、各テキストエントリに適切なアナライザーを自動的に適用します。BM25 ベースのテキスト検索の詳細については、[全文検索](./full-text-search) を参照してください。
 
 ### ステップ 3: インデックスパラメーターを構成する\{#step-3-configure-index-params}
 
-効率的な検索を可能にするために、スパースベクトルフィールドにインデックスを作成します：
+効率的な検索を可能にするには、スパースベクトルフィールドにインデックスを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -698,6 +703,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
+
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
@@ -711,6 +720,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(index.MetricType(entity.BM25))
 indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "sparse", idx)
 ```
@@ -720,6 +735,8 @@ indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "spar
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let index_params = vec![IndexParam::new()
         .field_name("sparse")
         .index_type(IndexType::AutoIndex)
@@ -765,11 +782,11 @@ export IndexParams='[
 </TabItem>
 </Tabs>
 
-このインデックスは、効率的な BM25 類似度計算のためにスパースベクトルを整理することで、検索パフォーマンスを向上させます。
+インデックスは、効率的な BM25 類似度計算のためにスパースベクトルを整理することで、検索パフォーマンスを向上させます。
 
 ### ステップ 4: コレクションを作成する\{#step-4-create-the-collection}
 
-この最後の作成ステップでは、これまでのすべての構成をまとめます：
+この最後の作成ステップでは、これまでのすべての構成をまとめます。
 
 - `collection_name="multilang_demo"` は、後で参照できるようにコレクションに名前を付けます。
 
@@ -804,6 +821,10 @@ client.load_collection(COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
 client.dropCollection(DropCollectionReq.builder()
         .collectionName("multilingual_documents")
         .build());
@@ -824,6 +845,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
         WithIndexOptions(indexOption))
@@ -844,6 +871,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let _ = client.drop_collection(DropCollectionRequest::builder()
         .collection_name("multilingual_documents").build()?).await;
     client.create_collection(CreateCollectionRequest::builder()
@@ -922,11 +951,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この時点で、Zilliz Cloud は多言語アナライザーサポートを備えた空のコレクションを作成し、データを受け取る準備が整います。
+この時点で、Zilliz Cloud は多言語アナライザーをサポートする空のコレクションを作成し、データを受け取る準備ができています。
 
 ## ステップ 3: サンプルデータを挿入する\{#step-3-insert-example-data}
 
-多言語コレクションにドキュメントを追加する場合、各ドキュメントにはテキストコンテンツと言語識別子の両方を含める必要があります：
+多言語コレクションにドキュメントを追加する場合、各ドキュメントにはテキストコンテンツと言語識別子の両方を含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -972,6 +1001,12 @@ print("Documents by language: 2 English, 2 Chinese")
 <TabItem value='java'>
 
 ```java
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 List<String> texts = Arrays.asList(
         "Artificial intelligence is transforming technology",
         "Machine learning models require large datasets",
@@ -1024,6 +1059,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let documents = vec![
         serde_json::json!({"text": "Artificial intelligence is transforming technology", "language": "english"}),
         serde_json::json!({"text": "Machine learning models require large datasets", "language": "en"}),
@@ -1140,11 +1177,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-挿入時、Zilliz Cloud は次の処理を実行します：
+挿入中、Zilliz Cloud は次の処理を行います。
 
 1. 各ドキュメントの `language` フィールドを読み取ります
 
-1. `text` フィールドに対応するアナライザーを適用します
+1. 対応するアナライザーを `text` フィールドに適用します
 
 1. BM25 関数を介してスパースベクトル表現を生成します
 
@@ -1160,11 +1197,11 @@ curl --request POST \
 
 ### 英語アナライザーを使用する\{#use-english-analyzer}
 
-多言語アナライザーで検索する場合、`search_params` には重要な構成が含まれます：
+多言語アナライザーを使用して検索する場合、`search_params` には重要な構成が含まれます。 
 
 - `metric_type="BM25"` は、インデックス構成と一致する必要があります。
 
-- `analyzer_name="english"` は、クエリテキストに適用するアナライザーを指定します。これは、保存されたドキュメントで使用されるアナライザーとは独立しています。
+- `analyzer_name="english"` は、クエリテキストに適用するアナライザーを指定します。これは、格納されているドキュメントに使用されるアナライザーとは独立しています。
 
 - `params={"drop_ratio_search": "0"}` は BM25 固有の動作を制御します。ここでは、検索内のすべての用語を保持します。詳細については、[スパースベクトル](./use-sparse-vector) を参照してください。
 
@@ -1204,6 +1241,11 @@ for i, hit in enumerate(english_results[0]):
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
+
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("analyzer_name", "english");
@@ -1231,6 +1273,13 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "multilingual_documents", // collectionName
     3,                        // limit
@@ -1259,6 +1308,9 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
     let request = SearchRequest::builder()
         .collection_name("multilingual_documents")
         .vectors(SearchVectors::EmbeddedText(vec!["artificial intelligence".to_string()]))

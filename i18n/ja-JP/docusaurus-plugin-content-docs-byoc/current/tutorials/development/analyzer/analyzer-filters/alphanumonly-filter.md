@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連するテキストを扱う際に、特殊文字や記号を除外するのに役立ちます。 | BYOC"
+description: "`alphanumonly` フィルターは、ASCII 以外の文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な英字と数字のみが対象で、特殊文字や記号を除外するテキストの処理に役立ちます。 | BYOC"
 type: origin
 token: BZkiw99tkiDkLXktLhqcJtjKnmb
 sidebar_position: 3
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Alphanumonly
 
-`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連するテキストを扱う際に、特殊文字や記号を除外するのに役立ちます。
+`alphanumonly` フィルターは、ASCII 以外の文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な英字と数字のみが対象で、特殊文字や記号を除外するテキストの処理に役立ちます。
 
 ## 設定\{#configuration}
 
-`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションにその名前を指定するだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -111,15 +111,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`alphanumonly` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
+`alphanumonly` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後は、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、そのフィールド内のテキストを指定されたアナライザーを使用して処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときに、それを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザーの構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザーの構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -284,24 +284,18 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
 texts := []string{"Milvus 2.0 @ Scale! #AI #Vector_Databasé"}
-
 option := milvusclient.NewRunAnalyzerOption(texts...).
-
     WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
@@ -320,30 +314,26 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "standard",
-        "filter": ["alphanumonly"]
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["alphanumonly"]
+});
 
-    let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
+let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
 
-    let result = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(vec![sample_text])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec![sample_text])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    println!("Standard analyzer output: {:?}", result.results());
-    Ok(())
-}
+println!("Standard analyzer output: {:?}", result.results());
 ```
 
 </TabItem>
@@ -421,4 +411,3 @@ curl --request POST \
 ```python
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']
 ```
-

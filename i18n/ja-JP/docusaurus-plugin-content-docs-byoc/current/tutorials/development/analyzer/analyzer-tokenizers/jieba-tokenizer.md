@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。 | BYOC"
+description: "`jieba` トークナイザーは、中国語のテキストを構成する単語に分割して処理します。 | BYOC"
 type: origin
 token: JGURwBQNOijp2DkspFFctbAGnLh
 sidebar_position: 3
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # Jieba
 
-`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
+`jieba` トークナイザーは、中国語のテキストを構成する単語に分割して処理します。
 
 <Admonition type="info" title="Notes">
 
-`jieba` トークナイザーは、出力時に句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
+`jieba` トークナイザーは、出力内で句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
 ## 設定\{#configuration}
 
-Milvus では、`jieba` トークナイザーに対してシンプル設定とカスタム設定の 2 通りの設定方法がサポートされています。
+Milvus は、`jieba` トークナイザーに対して、シンプル設定とカスタム設定の 2つの構成方法をサポートしています。
 
 ### シンプル設定\{#simple-configuration}
 
-シンプル設定では、トークナイザーを `"jieba"` に設定するだけで済みます。例：
+シンプル設定では、トークナイザーを `"jieba"` に設定するだけで済みます。例は次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -71,12 +71,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba"}
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
 ```
 
 </TabItem>
@@ -113,7 +108,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-このシンプル設定は、以下のカスタム設定と同等です。
+このシンプル設定は、次のカスタム設定と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -227,7 +222,7 @@ export analyzerParams='{
 
 ### カスタム設定\{#custom-configuration}
 
-より詳細な制御を行うには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model（HMM）の有効化・無効化が可能なカスタム設定を利用できます。例：
+より詳細に制御するには、カスタム辞書の指定、分割モードの選択、隠れマルコフモデル（HMM）の有効化または無効化が可能なカスタム設定を提供できます。例は次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -341,7 +336,7 @@ export analyzerParams='{
    <tr>
      <th><p>パラメーター</p></th>
      <th><p>説明</p></th>
-     <th><p>デフォルト値</p></th>
+     <th><p>既定値</p></th>
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
@@ -350,26 +345,26 @@ export analyzerParams='{
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプションは以下のとおりです。</p><ul><li><p><code>&quot;_default_&quot;</code>：エンジンに組み込まれた簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>：<code>&quot;_default_&quot;</code> に加えて、繁体字中国語の補足辞書も読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を併用することもできます。例：<code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
+     <td><p>アナライザーが語彙のソースとして読み込む辞書のリストです。組み込みオプションは次のとおりです。</p><ul><li><p><code>&quot;_default_&quot;</code>: エンジンに組み込まれた簡体字中国語辞書を読み込みます。詳細については、<a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: <code>&quot;_default_&quot;</code> 内のすべてに加えて、繁体字中国語の補足辞書を読み込みます。詳細については、<a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と、任意の数のカスタム辞書を組み合わせることもできます。例：<code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
      <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>分割モードです。指定可能な値は以下のとおりです。</p><ul><li><p><code>&quot;exact&quot;</code>：文を最も正確に分割しようとするモードで、テキスト分析に適しています。</p></li><li><p><code>&quot;search&quot;</code>：exact モードを基に、長い単語をさらに分割して再現率を向上させるモードで、検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
+     <td><p>分割モードです。指定できる値は次のとおりです。</p><ul><li><p><code>&quot;exact&quot;</code>: 文を可能な限り正確に分割しようとし、テキスト分析に最適です。</p></li><li><p><code>&quot;search&quot;</code>: exact モードを基に、長い単語をさらに分割して再現率を向上させ、検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
      <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に見つからない単語を確率的に分割するために Hidden Markov Model（HMM）を有効にするかどうかを示すブール値フラグです。</p></td>
+     <td><p>辞書にない単語を確率的に分割するために、隠れマルコフモデル（HMM）を有効にするかどうかを示すブール値のフラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`analyzer_params` を定義したら、コレクションスキーマを定義する際に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用して動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### アナライザー設定\{#analyzer-configuration}
 
@@ -480,7 +475,7 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -544,6 +539,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -570,6 +567,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["milvus结巴分词器中文测试"])
         .analyzer_params(analyzer_params)
@@ -582,6 +581,8 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <string>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
