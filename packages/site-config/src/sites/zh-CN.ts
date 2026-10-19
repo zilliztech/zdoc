@@ -47,7 +47,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
       {label: '版本说明书', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
     ],
   },
-  markdown: {remarkPlugins: ['math', 'math-brace-fix'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
+  markdown: {remarkPlugins: ['math', 'math-brace-fix', 'doc-links'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
   publicationAdapters: ['zh-CN.markdown-normalizer', 'zh-CN.rest-replacements', 'zh-CN.aliyun-oss'],
   integrations: {
     searchProvider: 'local',

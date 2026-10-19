@@ -2,16 +2,21 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import {visit} from 'unist-util-visit';
 import type {DeepReadonly, MarkdownProfile} from '@zilliz/site-config';
+import {rewriteDocHref, rewriteHtmlHrefAttributes, type DocsLinkLocale} from '@zilliz/docs-ui/links';
 
 type AstNode = {
   type?: string;
   name?: string;
   tagName?: string;
   value?: string;
+  url?: string;
+  attributes?: Array<{name?: string; value?: unknown}>;
   properties?: {className?: unknown[]; [key: string]: unknown};
   children?: AstNode[];
   data?: {hChildren?: AstNode[]};
 };
+
+type SiteId = 'en' | 'zh-CN';
 
 function restoreMathBraces(value: string): string {
   return value.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
@@ -123,6 +128,44 @@ export function rehypeEmojiMarks() {
   return (tree: AstNode): void => walk(tree);
 }
 
+// Locale used by the doc-links rewriter: ja-JP content lives under i18n/ja-JP
+// in the English site build; the Chinese site build has no ja-JP locale.
+function docLinksLocale(site: SiteId, filePath: string | undefined): DocsLinkLocale {
+  if (filePath && /i18n[\\/]ja-JP[\\/]/.test(filePath)) return 'ja-JP';
+  return site === 'zh-CN' ? 'zh-CN' : 'en';
+}
+
+// Absolute docs.zilliz.com(.cn) and milvus.io links in prose must stay
+// in-language: docs hosts become relative links (Japanese gets /ja-JP),
+// milvus.io links point at the localized trees. See
+// packages/docs-ui/src/shared/links/rewriteDocLinks.ts for the URL rules.
+export function remarkRewriteDocLinks({site}: {site: SiteId}) {
+  return (tree: AstNode, file?: {path?: string}): void => {
+    const locale = docLinksLocale(site, file?.path);
+    visit(tree as never, 'link', (node: AstNode) => {
+      if (typeof node.url === 'string') {
+        node.url = rewriteDocHref(node.url, locale);
+      }
+    });
+    // SDK reference tables embed hand-authored HTML anchors, which remark
+    // keeps as raw `html` nodes; MDX JSX anchors carry href as an attribute.
+    visit(tree as never, 'html', (node: AstNode) => {
+      if (typeof node.value === 'string') {
+        node.value = rewriteHtmlHrefAttributes(node.value, locale);
+      }
+    });
+    for (const jsxType of ['mdxJsxTextElement', 'mdxJsxFlowElement'] as const) {
+      visit(tree as never, jsxType, (node: AstNode) => {
+        for (const attribute of node.attributes ?? []) {
+          if (attribute?.name === 'href' && typeof attribute.value === 'string') {
+            attribute.value = rewriteDocHref(attribute.value, locale);
+          }
+        }
+      });
+    }
+  };
+}
+
 const remarkPolicies = {
   math: remarkMath,
   'math-brace-fix': remarkMathFix,
@@ -134,8 +177,9 @@ const rehypePolicies = {
   'emoji-marks': rehypeEmojiMarks,
 } as const;
 
-export function resolveMarkdownPolicy(markdown: DeepReadonly<MarkdownProfile>) {
+export function resolveMarkdownPolicy(markdown: DeepReadonly<MarkdownProfile>, site: SiteId) {
   const remarkPlugins = markdown.remarkPlugins.map(name => {
+    if (name === 'doc-links') return () => remarkRewriteDocLinks({site});
     const plugin = remarkPolicies[name as keyof typeof remarkPolicies];
     if (!plugin) throw new Error(`Unsupported remark Markdown policy: ${name}`);
     return plugin;
