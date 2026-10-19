@@ -10,7 +10,7 @@ notebook: FALSE
 description: "EU における AWS Frankfurt リージョンの提供開始をお知らせします。この拡張にあわせて、検索機能とデータ管理の効率を向上させるベータ機能として、Range Search、Upsert、Cosine Metric Type を導入します。さらに、API Key Access、Retrieve Raw ベクトル、JSONCONTAINS Filter、Entity Count などの機能も追加されています。また、RBAC、課金、価格計算、アカウント管理、サービス安定性に関する注目すべき改善も実施し、ユーザー体験を向上させています。 | Cloud"
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 29
+sidebar_position: 30
 displayed_sidebar: releasesSidebar
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(プレースホルダー) | Cloud"
 type: origin
 token: PmaowiSUaiTa8ckPMYJcqdRYnQg
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: releasesSidebar
 
 ---
@@ -76,9 +76,9 @@ import Grid from '@site/src/components/Grid';
 
         詳細については、[他のリージョンへのコピー](./backup-to-other-regions) を参照してください。
 
-        ## Index Build Level\{#index-build-level}
+        ## インデックス Build Level\{#index-build-level}
 
-        Milvus 2.6.x と次世代の量子化エンジンにより、アプリケーションの要件に合わせて検索精度（リコール）とデータ容量のトレードオフを細かく調整できます。Zilliz Cloud の新しい Index Build Level 機能では、インデックス作成時にベクトル検索パフォーマンスを制御でき、次の 3 つのレベルが提供されます。
+        With Milvus 2.6.x and our next-generation quantization engine, you can fine-tune the trade-off between search accuracy (recall) and data capacity to suit your application's needs. The new Index Build Level feature in Zilliz Cloud gives you control over ベクトル search performance, offering three levels when creating an index:
 
         - **Precision-first:** 精度が最重要となるミッションクリティカルなアプリケーション向けに、検索精度を最大化します。
 

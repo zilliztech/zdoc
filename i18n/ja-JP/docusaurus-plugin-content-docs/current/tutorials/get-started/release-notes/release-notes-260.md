@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は最新リリースで 2 つの主要な機能強化を導入しました。まず、Pipelines が 6 つの最先端（SOTA）埋め込みモデルをサポートするようになり、データ処理機能が拡張されました。もう 1 つの主要な機能強化は、オンボーディング体験を簡素化するためにコレクション Playground 機能が追加されたことです。この機能により、Zilliz Cloud コンソールから直接、基本的な Create、Run、Update、Delete（CRUD）操作を簡単に実行でき、データ操作プロセスをより効率化できます。これらの新機能を今すぐ試して、より効率的で効果的なワークフローを体験してください。 | Cloud"
 type: origin
 token: NmolwVTkCiQ2yZkXsJhcftyTnhc
-sidebar_position: 26
+sidebar_position: 27
 displayed_sidebar: releasesSidebar
 
 ---

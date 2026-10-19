@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は、データインポート機能のユーザー体験を最適化し、階層的な権限を持つ API Key を改良し、メトリクスとアラートの仕組みを強化しました。 | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 27
+sidebar_position: 28
 displayed_sidebar: releasesSidebar
 
 ---
@@ -90,3 +90,4 @@ Data Layer では、Zilliz Cloud は、データの管理、書き込み、読�
   <br/>
   <br/>
   <br/>
+

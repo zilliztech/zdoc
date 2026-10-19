@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースでは、Zilliz Cloud の複数の機能にわたって、より洗練された直感的なユーザーエクスペリエンスを提供します。再設計された移行コンソールから、ポリシーベースのアラート、改善された mmap 制御まで、ワークフローをより迅速かつ柔軟で管理しやすくすることに注力しました。新しい AI アシスタント機能と GCP での BYOC のサポートにより、インフラストラクチャの管理、環境の監視、サポートの利用など、どのような場面でもプラットフォームの能力と使いやすさがさらに拡張されます。 | Cloud"
 type: origin
 token: DF8HwUTD6iScNQkVzs8cZTr8n8b
-sidebar_position: 14
+sidebar_position: 15
 displayed_sidebar: releasesSidebar
 
 ---
@@ -89,3 +89,4 @@ Zilliz Cloud の **Bring Your Own Cloud（BYOC）** が **Google Cloud Platform�
 - アラート設定とアラート履歴の表示を改善しました。
 
 - **招待登録** と **パスワード復旧** のワークフローを簡素化しました。
+

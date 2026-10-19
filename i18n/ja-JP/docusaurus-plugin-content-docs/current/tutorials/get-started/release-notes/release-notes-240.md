@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のサービスが Azure で利用できるようになりました。まずは米国東部リージョンから提供を開始します。さらに、非構造化データをベクトル埋め込みに変換して取り込みと検索を可能にする Zilliz Cloud Pipelines（Beta）を導入します。今回のリリースでは、クラスター内の RBAC と認証情報管理も改善され、ユーザー管理用に 3 つの事前定義ロール（admin、read-write、read-only）が提供されます。その他の更新には、エラーメッセージの内容の強化や、より信頼性の高いサービスに向けた安定性の向上が含まれます。 | Cloud"
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 28
+sidebar_position: 29
 displayed_sidebar: releasesSidebar
 
 ---
@@ -57,3 +57,4 @@ Zilliz Cloud Pipelines は、Ingestion、Search、Deletion という 3 つの特
 - 一部のエラーメッセージの内容を改善しました。
 
 - 安定性の強化：既知の問題に対処し、サービスの信頼性をさらに高めました。
+

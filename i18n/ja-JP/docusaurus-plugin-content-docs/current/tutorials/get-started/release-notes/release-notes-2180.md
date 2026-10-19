@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースでは、Zilliz Cloud は、運用効率、柔軟性、ユーザーエクスペリエンスの向上を目的とした複数の強力な機能強化を導入します。これには、クラスターレベルのスケジュールされたオートスケーリングのサポート、新しい Merge Data API によるスキーマ進化、データ取り込みを効率化するクラウドネイティブなデータレイヤーである Stage の導入、クロスデータベース選択によるクラスターレベルのバックアップからの部分リストア、および JSON Path インデックスの UI サポートが含まれます。これらの機能により、ユーザーは複雑なワークロードをより効果的に管理し、メンテナンスのオーバーヘッドを削減し、GenAI 時代における開発サイクルを加速できます。 | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: releasesSidebar
 
 ---
@@ -76,7 +76,7 @@ Zilliz Cloud は、**クラスターレベル** で **スケジュールされ�
 
 - **プロアクティブな監査:** 透過的なメール通知システムと監査証跡を提供し、リソースの提供とコストについて安心していただけます。
 
-詳細については、[Auto-scaling](./auto-scaling) を参照してください。
+For details, refer to [クラスター Auto-scaling](./auto-scaling).
 
 ## クロスデータベース選択によるクラスターレベルのバックアップからの部分リストア\{#partial-restore-from-cluster-level-backups-with-cross-database-selection}
 
@@ -127,3 +127,4 @@ JSON path インデックスの詳細については、[JSON フィールド内�
 - インポートリクエストごとの合計ファイルサイズが、100 GB から 1 TB に引き上げられました。
 
 - 手動で作成されたバックアップの保持期間は、組織が凍結状態になると、永続のままではなく 30 日に変更されるようになり、ストレージコストの削減に役立ちます。
+

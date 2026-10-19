@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のローンチを発表できることを大変うれしく思います。このリリースでは、新しい CU サイズオプションによる柔軟性の向上、前払いのサポート、さらに多くの AWS リージョンなど、さまざまな改善と機能を導入しています。 | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 30
+sidebar_position: 31
 displayed_sidebar: releasesSidebar
 
 ---

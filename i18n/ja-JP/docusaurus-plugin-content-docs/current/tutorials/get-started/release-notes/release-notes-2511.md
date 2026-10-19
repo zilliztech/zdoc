@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(プレースホルダー) | Cloud"
 type: origin
 token: CK0ewQWC2iz6lakP0kscqogbnGh
-sidebar_position: 10
+sidebar_position: 11
 displayed_sidebar: releasesSidebar
 
 ---
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 import Grid from '@site/src/components/Grid';
 
-#  2025年11月 リリースノート
+#  2025年11月 リリースノート 
 
 <Grid columnSize="2" widthRatios="16,83">
 

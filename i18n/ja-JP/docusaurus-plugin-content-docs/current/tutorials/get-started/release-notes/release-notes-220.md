@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のリリースをお知らせします。ユーザー体験を向上させるために設計された多数の新機能を備えており、Zilliz Cloud クラスター間および ElasticSearch からのデータ移行、新しいチケットシステムの稼働開始、強化されたデータインポート機能などが含まれます。 | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 31
+sidebar_position: 32
 displayed_sidebar: releasesSidebar
 
 ---
