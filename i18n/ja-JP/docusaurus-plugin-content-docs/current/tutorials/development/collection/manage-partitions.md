@@ -1,13 +1,13 @@
 ---
-title: "Partitions の管理 | Cloud"
+title: "パーティションの管理 | Cloud"
 slug: /manage-partitions
-sidebar_label: "Partitions"
+sidebar_label: "パーティション"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。 | Cloud"
+description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションを管理する方法について説明します。 | Cloud"
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
 sidebar_position: 9
@@ -19,33 +19,33 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Partitions の管理
+# パーティションの管理
 
-パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。
+パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションを管理する方法について説明します。
 
 <Admonition type="info" title="Notes">
 
-この機能はマネージドコレクションにのみ適用されます。
+この機能は、マネージドコレクションにのみ適用されます。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに入り、すべての検索とクエリもデフォルトパーティション内で実行されます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに格納され、すべての検索とクエリもデフォルトパーティション内で実行されます。
 
-さらにパーティションを追加し、特定の条件に基づいてエンティティをそれらに挿入できます。その後、検索とクエリを特定のパーティション内に制限することで、検索パフォーマンスを向上させることができます。
+特定の条件に基づいてさらにパーティションを追加し、それらにエンティティを挿入できます。その後、検索とクエリを特定のパーティション内に制限することで、検索パフォーマンスを向上させることができます。
 
 1 つのコレクションには最大 1,024 個のパーティションを作成できます。
 
 <Admonition type="info" title="Notes">
 
-**Partition Key** 機能はパーティションに基づく検索最適化であり、特定のスカラーフィールドの値に基づいて Zilliz Cloud がエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーを実装し、検索パフォーマンスを向上させるのに役立ちます。
+**Partition Key** 機能はパーティションに基づく検索最適化であり、特定のスカラーフィールドの値に基づいて Zilliz Cloud がエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーの実装と検索パフォーマンスの向上に役立ちます。
 
-この機能については、このページでは説明しません。詳細については、[Partition Key を使用する](./use-partition-key)を参照してください。
+この機能についてはこのページでは説明しません。詳細については、[Partition Key を使用する](./use-partition-key) を参照してください。
 
 </Admonition>
 
-## Partitions の一覧表示\{#list-partitions}
+## パーティションの一覧表示\{#list-partitions}
 
 コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションは次のように一覧表示できます。
 
@@ -151,26 +151,21 @@ fmt.Println(partitionNames)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let partitions = client
+    .list_partitions(
+        ListPartitionsRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
-
-    let partitions = client
-        .list_partitions(
-            ListPartitionsRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-    println!("{:?}", partitions.partition_names());
-
-    Ok(())
-}
+println!("{:?}", partitions.partition_names());
 
 // Output
 //
@@ -255,9 +250,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Partition の作成\{#create-partition}
+## パーティションの作成\{#create-partition}
 
-コレクションにさらにパーティションを追加し、特定の条件に基づいてこれらのパーティションにエンティティを挿入できます。
+特定の条件に基づいて、コレクションにさらにパーティションを追加し、これらのパーティションにエンティティを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -285,6 +280,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
+import io.milvus.v2.service.partition.request.ListPartitionsReq;
+import java.util.List;
 
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("my_collection")
@@ -337,6 +334,8 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_partition(
         CreatePartitionRequest::builder()
@@ -447,7 +446,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 特定の Partition の確認\{#check-for-a-specific-partition}
+## 特定のパーティションの確認\{#check-for-a-specific-partition}
 
 次のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
 
@@ -491,6 +490,12 @@ System.out.println(hasPartitionRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -508,6 +513,8 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let has = client
     .has_partition(
         HasPartitionRequest::builder()
@@ -581,13 +588,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Partitions の読み込みと解放\{#load-and-release-partitions}
+## パーティションのロードとリリース\{#load-and-release-partitions}
 
-1 つまたは特定のパーティションを個別に読み込んだり解放したりできます。
+1 つまたは特定のパーティションを個別にロードまたはリリースできます。
 
-### Partitions の読み込み\{#load-partitions}
+### パーティションのロード\{#load-partitions}
 
-コレクション内の特定のパーティションを個別に読み込むことができます。コレクション内に読み込まれていないパーティションがある場合、コレクションの読み込み状態は未ロードのままになる点に注意してください。
+コレクション内の特定のパーティションを個別にロードできます。コレクション内にロードされていないパーティションがある場合、そのコレクションのロード状態は未ロードのままになることに注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -618,6 +625,7 @@ print(res)
 ```java
 import io.milvus.v2.service.partition.request.LoadPartitionsReq;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Collections;
 
 LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
         .collectionName("my_collection")
@@ -642,6 +650,12 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -668,6 +682,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_partitions(
         LoadPartitionsRequest::builder()
@@ -727,15 +743,15 @@ await client.loadPartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_name: "partitionA"
+    partition_names: ["partitionA"]
 })
 
 console.log(res)
 
 // Output
-// 
+//
 // LoadStateLoaded
-// 
+//
 ```
 
 </TabItem>
@@ -784,9 +800,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Partitions の解放\{#release-partitions}
+### パーティションのリリース\{#release-partitions}
 
-特定のパーティションを解放することもできます。
+特定のパーティションをリリースすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -817,6 +833,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Collections;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -841,6 +859,12 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -860,6 +884,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()
@@ -919,15 +945,15 @@ await client.releasePartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_name: "partitionA"
+    partition_names: ["partitionA"]
 })
 
 console.log(res)
 
 // Output
-// 
+//
 // LoadStateNotLoad
-// 
+//
 ```
 
 </TabItem>
@@ -976,29 +1002,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Partitions 内のデータ操作\{#data-operations-within-partitions}
+## パーティション内のデータ操作\{#data-operations-within-partitions}
 
 ### エンティティの挿入と削除\{#insert-and-delete-entities}
 
-特定のパーティションで insert、upsert、delete 操作を実行できます。詳細については、以下を参照してください。
+特定のパーティション内で挿入、upsert、削除の操作を実行できます。詳細については、以下を参照してください。
 
-- [Partition へのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
+- [パーティションへのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
 
-- [Partition へのエンティティの Upsert](./upsert-entities#upsert-entities-in-a-partition)
+- [パーティションへのエンティティの Upsert](./upsert-entities#upsert-entities-in-a-partition)
 
-- [Partition からのエンティティの削除](./delete-entities#delete-entities-from-partitions)
+- [パーティションからのエンティティの削除](./delete-entities#delete-entities-from-partitions)
 
 ### 検索とクエリ\{#search-and-query}
 
-特定のパーティション内で検索とクエリを実行できます。詳細については、以下を参照してください。 
+特定のパーティション内で検索とクエリを実行できます。詳細については、以下を参照してください。
 
-- [Partition 内で ANN 検索を実行する](./single-vector-search#ann-search-in-partition)
+- [パーティション内での ANN 検索の実行](./single-vector-search#ann-search-in-partition)
 
-- [Partition 内で Metadata Filtering を実行する](./get-and-scalar-query#queries-in-partitions)
+- [パーティション内でのメタデータフィルタリングの実行](./get-and-scalar-query#queries-in-partitions)
 
-## Partition の削除\{#drop-partition}
+## パーティションの削除\{#drop-partition}
 
-不要になったパーティションを削除できます。パーティションを削除する前に、パーティションが解放されていることを確認してください。
+不要になったパーティションは削除できます。パーティションを削除する前に、そのパーティションがリリース済みであることを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1031,6 +1057,8 @@ print(res)
 import io.milvus.v2.service.partition.request.DropPartitionReq;
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
+import java.util.Collections;
+import java.util.List;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -1062,6 +1090,12 @@ System.out.println(partitionNames);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1087,6 +1121,8 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()

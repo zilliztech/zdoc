@@ -31,7 +31,7 @@ Linear decay は、検索結果において絶対的なゼロ点で終了する�
 
 Linear decay は独自に明確な終了点を作成するため、自然な境界や期限を持つアプリケーションに特に効果的です。
 
-## Linear decay を使用する場合\{#when-to-use-linear-decay}
+## Linear Decay を使用する場合\{#when-to-use-linear-decay}
 
 Linear decay は、次のような場合に特に効果的です。
 
@@ -106,7 +106,7 @@ $$
 
 $s$ の計算は、scale と decay のパラメーターを、スコアがゼロに達するポイントに変換します。たとえば、decay=0.5 および scale=7 の場合、スコアは distance=14（scale 値の 2 倍）で正確にゼロに達します。
 
-## Linear decay の使用方法\{#use-linear-decay}
+## Linear Decay の使用方法\{#use-linear-decay}
 
 Linear decay は、Zilliz Cloud の標準のベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
@@ -159,6 +159,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("event_relevance")
@@ -176,7 +177,11 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
-import "time"
+import (
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
 currentTime := time.Now().Unix()
 
@@ -199,25 +204,20 @@ rerank := entity.NewFunction().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rerank = DecayRerank::new()
-        .function(Function::new()
-            .name("event_relevance")
-            .input_fields(["event_date"])
-            .function_type(FunctionType::Rerank)
-            .param("reranker", "decay"))
-        .decay_function("linear")
-        .origin(std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
-        .scale(7 * 24 * 60 * 60)
-        .offset(12 * 60 * 60)
-        .decay(0.5);
-
-    Ok(())
-}
+let rerank = DecayRerank::new()
+    .function(Function::new()
+        .name("event_relevance")
+        .input_fields(["event_date"])
+        .function_type(FunctionType::Rerank)
+        .param("reranker", "decay"))
+    .decay_function("linear")
+    .origin(std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
+    .scale(7 * 24 * 60 * 60)
+    .offset(12 * 60 * 60)
+    .decay(0.5);
 ```
 
 </TabItem>
@@ -294,9 +294,12 @@ result = milvus_client.search(
 
 ```java
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -317,6 +320,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -337,6 +347,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let function_score = FunctionScore::new().add_function(rerank);
     let request = SearchRequest::builder()
         .collection_name(collection_name)

@@ -1,13 +1,13 @@
 ---
-title: "StructArray フィールドの作成 | Cloud"
+title: "StructArray フィールドを作成する | Cloud"
 slug: /create-struct-array
-sidebar_label: "StructArray フィールドの作成"
+sidebar_label: "StructArray フィールドを作成する"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "1 つのエンティティに構造化された要素の順序付きリストを格納する必要がある場合は、StructArray フィールドを作成します。StructArray フィールドは、要素型が Struct である Array フィールドです。各 Struct 要素は同じスキーマに従い、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。 | Cloud"
+description: "1 つのエンティティに構造化要素の順序付きリストを格納する必要がある場合は、StructArray フィールドを作成します。StructArray フィールドは、要素型が Struct である Array フィールドです。各 Struct 要素は同じスキーマに従い、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。 | Cloud"
 type: origin
 token: RzSBwW7dUizQeekka9CcZ3Etnyg
 sidebar_position: 2
@@ -19,47 +19,47 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# StructArray フィールドの作成
+# StructArray フィールドを作成する
 
-1 つのエンティティに構造化された要素の順序付きリストを格納する必要がある場合は、StructArray フィールドを作成します。StructArray フィールドは、要素型が Struct である Array フィールドです。各 Struct 要素は同じスキーマに従い、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。
+1 つのエンティティに構造化要素の順序付きリストを格納する必要がある場合は、StructArray フィールドを作成します。StructArray フィールドは、要素型が Struct である Array フィールドです。各 Struct 要素は同じスキーマに従い、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。
 
-このページでは、Struct スキーマを定義して StructArray フィールドとして追加する方法、後で検索やフィルタリングに使用するサブフィールドを選択する方法、およびデータを挿入またはインデックス作成する前に適用されるスキーマルールについて説明します。
+このページでは、Struct スキーマを定義し、それを StructArray フィールドとして追加し、後で検索やフィルタリングに使用するサブフィールドを選択する方法、およびデータを挿入またはインデックス作成する前に適用されるスキーマルールについて説明します。
 
 ## 事前準備\{#before-you-begin}
 
-このページでは、`tech_articles` という名前のコレクションを使用します。各エンティティは 1 つの技術記事を表し、`chunks` フィールドはチャンクレベルのデータを Struct 要素として格納します。
+このページでは、`tech_articles` という名前のコレクションを使用します。各エンティティは 1 つの技術記事を表し、`chunks` フィールドにはチャンクレベルのデータが Struct 要素として格納されます。
 
 | フィールド | 型 | 目的 |
 | --- | --- | --- |
-| `doc_id` | `INT64` | 記事のプライマリキーです。 |
-| `title` | `VARCHAR` | 記事のタイトルです。 |
-| `category` | `VARCHAR` | 記事レベルのカテゴリです。 |
-| `title_vector` | `FLOAT_VECTOR` | 記事レベルのベクトルフィールドで、後続のハイブリッド検索の例で使用します。 |
-| `chunks` | `ARRAY<STRUCT>` | チャンクレベルのテキスト、メタデータ、埋め込みを格納する StructArray フィールドです。 |
+| `doc_id` | `INT64` | 記事の主キー。 |
+| `title` | `VARCHAR` | 記事のタイトル。 |
+| `category` | `VARCHAR` | 記事レベルのカテゴリ。 |
+| `title_vector` | `FLOAT_VECTOR` | 記事レベルのベクトルフィールド。後のハイブリッド検索の例で使用します。 |
+| `chunks` | `ARRAY<STRUCT>` | チャンクレベルのテキスト、メタデータ、および埋め込みを格納する StructArray フィールド。 |
 
-`chunks` StructArray フィールドには、以下のサブフィールドが含まれます。
+`chunks` StructArray フィールドには、次のサブフィールドが含まれます。
 
 | サブフィールド | 型 | 目的 |
 | --- | --- | --- |
-| `text` | `VARCHAR` | チャンクのテキストです。 |
-| `section` | `VARCHAR` | `index`、`search`、`filter` などのセクション名です。 |
-| `page` | `INT64` | チャンクのページ番号または論理位置です。 |
-| `quality_score` | `FLOAT` | スカラーフィルタリングと範囲の例で使用するチャンクレベルのスコアです。 |
-| `has_code` | `BOOL` | チャンクにコードが含まれているかどうかです。 |
-| `emb_list_vector` | `FLOAT_VECTOR` | `MAX_SIM*` メトリクスを使用した EmbeddingList 検索用のベクトルサブフィールドです。 |
-| `emb` | `FLOAT_VECTOR` | 通常のベクトルメトリクスを使用した要素レベルの検索用のベクトルサブフィールドです。 |
+| `text` | `VARCHAR` | チャンクのテキスト。 |
+| `section` | `VARCHAR` | `index`、`search`、`filter` などのセクション名。 |
+| `page` | `INT64` | チャンクのページ番号または論理位置。 |
+| `quality_score` | `FLOAT` | スカラーフィルタリングおよび範囲の例で使用されるチャンクレベルのスコア。 |
+| `has_code` | `BOOL` | チャンクにコードが含まれているかどうか。 |
+| `emb_list_vector` | `FLOAT_VECTOR` | `MAX_SIM*` メトリクスを使用する EmbeddingList 検索用のベクトルサブフィールド。 |
+| `emb` | `FLOAT_VECTOR` | 通常のベクトルメトリクスを使用する要素レベルの検索用のベクトルサブフィールド。 |
 
 <Admonition type="info" title="Notes">
 
-ベクトルフィールドまたはベクトルサブフィールドは、1 つのインデックスのみを受け入れます。EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを定義します。この例では、`chunks[emb_list_vector]` は EmbeddingList 検索用で、`chunks[emb]` は要素レベルの検索用です。
+ベクトルフィールドまたはベクトルサブフィールドは、1 つのインデックスのみを受け入れます。EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、2 つの個別のベクトルサブフィールドを定義します。この例では、`chunks[emb_list_vector]` は EmbeddingList 検索用、`chunks[emb]` は要素レベルの検索用です。
 
 </Admonition>
 
 ## サポートされるサブフィールドのデータ型\{#supported-subfield-data-types}
 
-StructArray フィールドは、各 Struct サブフィールドに 1 つの配列値を格納します。Struct スキーマを定義するときは、サポートされているスカラー系およびベクトル系の中からサブフィールドの型を選択します。
+StructArray フィールドは、各 Struct サブフィールドに対して 1 つの配列値を格納します。Struct スキーマを定義する場合は、サポートされているスカラー型およびベクトル型のファミリーからサブフィールド型を選択します。
 
-| Struct サブフィールドの物理型 | サポート | 備考 |
+| Struct サブフィールドの物理型 | サポート | 注記 |
 | --- | --- | --- |
 | `Array<Bool>` | サポート対象 | サブフィールドを `DataType.BOOL` として定義します。 |
 | `Array<Int8/Int16/Int32/Int64>` | サポート対象 | サブフィールドを `DataType.INT8`、`DataType.INT16`、`DataType.INT32`、または `DataType.INT64` として定義します。 |
@@ -70,15 +70,15 @@ StructArray フィールドは、各 Struct サブフィールドに 1 つの配
 | `ArrayOfVector<BFloat16Vector>` | サポート対象 | サブフィールドを `DataType.BFLOAT16_VECTOR` として定義し、`dim` を設定します。 |
 | `ArrayOfVector<Int8Vector>` | サポート対象 | サブフィールドを `DataType.INT8_VECTOR` として定義し、`dim` を設定します。 |
 | `ArrayOfVector<BinaryVector>` | サポート対象 | サブフィールドを `DataType.BINARY_VECTOR` として定義し、`dim` を設定します。 |
-| `ArrayOfVector<SparseFloatVector>` | サポート対象外 | スパースベクトルのサブフィールドは StructArray フィールドではサポートされていません。 |
+| `ArrayOfVector<SparseFloatVector>` | サポート対象外 | StructArray フィールドでは、スパースベクトルのサブフィールドはサポートされていません。 |
 | `Array<String>` | サポート対象外 | `String` ではなく `VARCHAR` を使用します。 |
-| `Array<JSON>` | サポート対象外 | JSON サブフィールドは StructArray フィールドではサポートされていません。 |
-| `Array<Geometry>` | サポート対象外 | Geometry サブフィールドと GIS 関数は StructArray フィールドではサポートされていません。 |
-| `Array<Text>` | サポート対象外 | Text サブフィールドは StructArray フィールドではサポートされていません。 |
-| `Array<Timestamptz>` | サポート対象外 | Timestamptz サブフィールドと時刻固有の式は StructArray フィールドではサポートされていません。 |
-| ネストされた `Array`、`ArrayOfVector`、`Struct`、または `ArrayOfStruct` | サポート対象外 | StructArray フィールドに、ネストされた配列、ネストされたベクトル配列、ネストされた Struct フィールド、またはネストされた Array-of-Struct フィールドを含めることはできません。 |
+| `Array<JSON>` | サポート対象外 | StructArray フィールドでは、JSON サブフィールドはサポートされていません。 |
+| `Array<Geometry>` | サポート対象外 | StructArray フィールドでは、Geometry サブフィールドおよび GIS 関数はサポートされていません。 |
+| `Array<Text>` | サポート対象外 | StructArray フィールドでは、Text サブフィールドはサポートされていません。 |
+| `Array<Timestamptz>` | サポート対象外 | StructArray フィールドでは、Timestamptz サブフィールドおよび時刻固有の式はサポートされていません。 |
+| ネストされた `Array`、`ArrayOfVector`、`Struct`、または `ArrayOfStruct` | サポート対象外 | StructArray フィールドには、ネストされた配列、ネストされたベクトル配列、ネストされた Struct フィールド、またはネストされた Array-of-Struct フィールドを含めることはできません。 |
 
-バージョン固有のサポート、nullable の動作、その他の制限については、[StructArray Limits](./struct-array-limits) を参照してください。
+バージョン固有のサポート、null 許容動作、およびその他の制限については、[StructArray Limits](./struct-array-limits) を参照してください。
 
 ## StructArray フィールドを持つコレクションを作成する\{#create-a-collection-with-a-structarray-field}
 
@@ -86,17 +86,17 @@ StructArray フィールドを作成するには、まず各要素で使用す�
 
 1. コレクションスキーマを作成します。
 
-1. プライマリキーや記事レベルのフィールドなど、コレクションレベルのフィールドを追加します。
+1. 主キーや記事レベルのフィールドなど、コレクションレベルのフィールドを追加します。
 
 1. StructArray フィールド内に格納する要素の Struct スキーマを作成します。
 
-1. Struct スキーマにスカラーサブフィールドとベクトルサブフィールドを追加します。
+1. Struct スキーマにスカラーサブフィールドおよびベクトルサブフィールドを追加します。
 
 1. `element_type=DataType.STRUCT` を指定して Array フィールドを追加します。
 
 1. `struct_schema` に Struct スキーマを設定します。
 
-1. `max_capacity` を設定して、各エンティティがそのフィールドに格納できる Struct 要素の数を制限します。
+1. `max_capacity` を設定して、各エンティティがフィールドに格納できる Struct 要素の数を制限します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -377,95 +377,90 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Collection-level fields.
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(false)
-        .add_field(
-            FieldSchema::new()
-                .name("doc_id")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("title")
-                .data_type(DataType::VarChar)
-                .max_length(512),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("category")
-                .data_type(DataType::VarChar)
-                .max_length(128),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("title_vector")
-                .data_type(DataType::FloatVector)
-                .dimension(4),
-        )
-        // Struct schema used by each element in the StructArray field.
-        .add_struct_field(
-            StructFieldSchema::new()
-                .name("chunks")
-                .max_capacity(1000)
-                .add_field(
-                    FieldSchema::new()
-                        .name("text")
-                        .data_type(DataType::VarChar)
-                        .max_length(65535),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("section")
-                        .data_type(DataType::VarChar)
-                        .max_length(128),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("page")
-                        .data_type(DataType::Int64),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("quality_score")
-                        .data_type(DataType::Float),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("has_code")
-                        .data_type(DataType::Bool),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("emb_list_vector")
-                        .data_type(DataType::FloatVector)
-                        .dimension(4),
-                )
-                .add_field(
-                    FieldSchema::new()
-                        .name("emb")
-                        .data_type(DataType::FloatVector)
-                        .dimension(4),
-                ),
-        );
+// Collection-level fields.
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(
+        FieldSchema::new()
+            .name("doc_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("category")
+            .data_type(DataType::VarChar)
+            .max_length(128),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    )
+    // Struct schema used by each element in the StructArray field.
+    .add_struct_field(
+        StructFieldSchema::new()
+            .name("chunks")
+            .max_capacity(1000)
+            .add_field(
+                FieldSchema::new()
+                    .name("text")
+                    .data_type(DataType::VarChar)
+                    .max_length(65535),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("section")
+                    .data_type(DataType::VarChar)
+                    .max_length(128),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("page")
+                    .data_type(DataType::Int64),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("quality_score")
+                    .data_type(DataType::Float),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("has_code")
+                    .data_type(DataType::Bool),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb_list_vector")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            ),
+    );
 
-    client
-        .create_collection(
-            CreateCollectionRequest::builder()
-                .collection_name("tech_articles")
-                .schema(schema)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("tech_articles")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -597,19 +592,19 @@ curl --request POST \
 
 ## StructArray フィールドのパスを理解する\{#understand-structarray-field-paths}
 
-StructArray フィールドを作成したら、`structArray[subfield]` というパス構文でそのサブフィールドを参照します。この構文は、インデックスの作成、ベクトルサブフィールドの検索、サブフィールドの出力、スカラーフィルターの構築を行うときに使用します。
+StructArray フィールドを作成した後は、`structArray[subfield]` パス構文を使用してそのサブフィールドを参照します。この構文は、インデックスを作成するとき、ベクトルサブフィールドを検索するとき、サブフィールドを出力するとき、またはスカラーフィルターを構築するときに使用します。
 
 | パス | 意味 | 一般的な用途 |
 | --- | --- | --- |
-| `chunks[text]` | 各 Struct 要素内の `text` サブフィールド | 出力フィールドまたはスカラーフィルタリング |
-| `chunks[section]` | 各チャンクのセクションラベル | スカラーフィルタリング |
-| `chunks[quality_score]` | チャンクレベルの品質スコア | スカラーフィルタリングまたはスカラーインデックス |
-| `chunks[emb_list_vector]` | 埋め込みリストとして使用するベクトルサブフィールド | `MAX_SIM*` を使用した EmbeddingList 検索 |
-| `chunks[emb]` | 各 Struct 要素が個別に使用するベクトルサブフィールド | 要素レベルのベクトル検索 |
+| `chunks[text]` | 各 Struct 要素内の `text` サブフィールド。 | 出力フィールドまたはスカラーフィルタリング。 |
+| `chunks[section]` | 各チャンクのセクションラベル。 | スカラーフィルタリング。 |
+| `chunks[quality_score]` | チャンクレベルの品質スコア。 | スカラーフィルタリングまたはスカラーインデックス。 |
+| `chunks[emb_list_vector]` | 埋め込みリストとして使用されるベクトルサブフィールド。 | `MAX_SIM*` を使用する EmbeddingList 検索。 |
+| `chunks[emb]` | 各 Struct 要素が個別に使用するベクトルサブフィールド。 | 要素レベルのベクトル検索。 |
 
-## StructArray フィールドを nullable にする\{#make-a-structarray-field-nullable}
+## StructArray フィールドを null 許容にする\{#make-a-structarray-field-nullable}
 
-Milvus v3.0.x と互換性のあるクラスターは、nullable な StructArray フィールドをサポートします。nullable な StructArray フィールドでは、エンティティが StructArray フィールド全体に `null` を格納できます。
+Milvus v3.0.x と互換性のあるクラスターは、null 許容の StructArray フィールドをサポートしています。null 許容の StructArray フィールドでは、エンティティは StructArray フィールド全体に `null` を格納できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -630,12 +625,15 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("chunks")
         .dataType(DataType.Array)
         .elementType(DataType.Struct)
         .maxCapacity(1000)
-        .nullable(Boolean.TRUE)
+        .isNullable(Boolean.TRUE)
         .addStructField(AddFieldReq.builder()
                 .fieldName("text")
                 .dataType(DataType.VarChar)
@@ -649,6 +647,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().
         WithName("chunks").
         WithDataType(entity.FieldTypeArray).
@@ -663,6 +663,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 StructFieldSchema::new()
     .name("chunks")
     .max_capacity(1000)
@@ -675,6 +677,9 @@ StructFieldSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::StructFieldSchema struct_schema =
     milvus::StructFieldSchema()
         .WithName("chunks")
@@ -689,6 +694,8 @@ collection_schema->AddStructField(std::move(struct_schema));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const chunksField = {
   name: "chunks",
   data_type: DataType.Array,
@@ -746,13 +753,13 @@ curl --request POST \
 
 <Admonition type="warning" title="Warning">
 
-nullable な StructArray フィールドは、Milvus v3.0.x と互換性のあるクラスターでのみ使用できます。nullable な StructArray フィールドでは、エンティティは有効な StructArray 値を指定するか、フィールド全体を `null` に設定できます。有効な StructArray 値を挿入する場合、すべてのサブフィールドが null であるか、有効な値を持つ必要があります。一部のサブフィールドを null に設定し、他を有効な値に設定したエンティティを挿入すると、エラーになります。詳細については、[StructArray Limits](./struct-array-limits) を参照してください。
+null 許容の StructArray フィールドは、Milvus v3.0.x と互換性のあるクラスターでのみ使用できます。null 許容の StructArray フィールドでは、エンティティは有効な StructArray 値を提供するか、フィールド全体を `null` に設定できます。有効な StructArray 値を挿入する場合、すべてのサブフィールドは null であるか、有効な値を持つ必要があります。一部のサブフィールドを null に設定し、他のサブフィールドを有効な値に設定したエンティティを挿入すると、エラーになります。詳細については、[StructArray Limits](./struct-array-limits) を参照してください。
 
 </Admonition>
 
 ## 既存のコレクションに StructArray フィールドを追加する\{#add-a-structarray-field-to-an-existing-collection}
 
-Milvus v3.0.x と互換性のあるクラスターは、既存のコレクションへの StructArray フィールドの追加をサポートします。追加する StructArray フィールドは nullable である必要があります。これは、コレクションに既に存在するエンティティが新しいフィールドの値を持たないためです。
+Milvus v3.0.x と互換性のあるクラスターは、既存のコレクションへの StructArray フィールドの追加をサポートしています。コレクションに既に存在するエンティティには新しいフィールドの値がないため、追加する StructArray フィールドは null 許容である必要があります。
 
 既存のコレクションに StructArray フィールドを追加するには、まず Struct スキーマを定義します。次に、`add_collection_struct_field()` を呼び出し、`nullable=True` を設定します。
 
@@ -808,7 +815,9 @@ client.add_collection_struct_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 
 client.addCollectionStructField(AddCollectionStructFieldReq.builder()
         .collectionName("tech_articles")
@@ -830,6 +839,13 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 chunkSchema := entity.NewStructSchema()
 chunkSchema.WithField(entity.NewField().
         WithName("text").
@@ -877,6 +893,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let chunk_schema = StructFieldSchema::new()
     .name("chunks")
     .max_capacity(1000)
@@ -904,6 +922,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::StructFieldSchema struct_schema =
     milvus::StructFieldSchema()
         .WithName("chunks")
@@ -984,9 +1006,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-StructArray フィールドを追加すると、既存のエンティティは新しいフィールドのすべてのサブフィールドに対して `null` を返します。
+StructArray フィールドが追加された後、既存のエンティティは、新しいフィールドのすべてのサブフィールドに対して `null` を返します。
 
-StructArray フィールドを作成した後は、その既存の StructArray フィールドに新しいサブフィールドを追加することはできません。後で追加の要素属性が必要になった場合は、`drop_collection_field()` を呼び出して StructArray フィールドを削除し、更新した Struct スキーマで新しい StructArray フィールドを追加します。
+StructArray フィールドを作成した後は、その既存の StructArray フィールドに新しいサブフィールドを追加できません。後で要素属性を追加する必要がある場合は、`drop_collection_field()` を呼び出して StructArray フィールドを削除し、更新した Struct スキーマで新しい StructArray フィールドを追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1011,6 +1033,9 @@ client.add_collection_struct_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.DropCollectionFieldReq;
 
 client.dropCollectionField(DropCollectionFieldReq.builder()
@@ -1038,6 +1063,12 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("tech_articles", "chunks"))
 if err != nil {
     fmt.Println(err)
@@ -1056,6 +1087,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_collection_field(
         DropCollectionFieldRequest::builder()
@@ -1080,6 +1113,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("tech_articles")
                                          .WithFieldName("chunks"));
@@ -1172,45 +1209,44 @@ curl --request POST \
 
 | ルール | 説明 |
 | --- | --- |
-| Struct は Array の要素型として使用します。 | `element_type=STRUCT` を指定して、StructArray フィールドを Array フィールドとして作成します。Struct をトップレベルのコレクションフィールドとして作成しないでください。 |
+| Struct は Array の要素型として使用されます。 | StructArray フィールドを、`element_type=STRUCT` を指定した Array フィールドとして作成します。Struct をトップレベルのコレクションフィールドとして作成しないでください。 |
 | すべての要素が 1 つのスキーマを共有します。 | 同じ StructArray フィールド内のすべての Struct 要素は、そのフィールドに定義された Struct スキーマに従います。 |
 | `max_capacity` は必須です。 | 各エンティティが StructArray フィールドに格納できる Struct 要素の数を制限します。 |
-| サポートされているサブフィールド型のみを使用できます。 | StructArray でサポートされているスカラーおよびベクトルのサブフィールド型を使用します。JSON、Geometry、Text、Timestamptz、SparseFloatVector、またはネストされた Struct / Array サブフィールドを定義しないでください。 |
-| ベクトルサブフィールドは検索前にインデックスが必要です。 | ベクトル検索を実行する前に、`chunks[emb_list_vector]` や `chunks[emb]` などのパスにインデックスを作成します。 |
-| 1 つのベクトルサブフィールドには 1 つのインデックスがあります。 | EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを作成します。 |
-| 既存の StructArray サブフィールドは固定です。 | StructArray フィールドを作成した後は、同じ StructArray フィールドにそれ以上サブフィールドを追加することはできません。 |
-| Struct 内では関数はサポートされていません。 | StructArray フィールド内のフィールドまたはサブフィールドに対して関数を定義しないでください。 |
-| スカラーサブフィールドはフィルターのニーズに合わせる必要があります。 | `section`、`quality_score`、`has_code` などのフィールドは、後でフィルタリング、グループ化、または出力する必要がある場合にのみ追加します。 |
+| サポートされているサブフィールド型のみ使用できます。 | StructArray でサポートされているスカラーおよびベクトルのサブフィールド型を使用します。JSON、Geometry、Text、Timestamptz、SparseFloatVector、またはネストされた Struct / Array サブフィールドを定義しないでください。 |
+| ベクトルサブフィールドには検索前のインデックスが必要です。 | ベクトル検索を実行する前に、`chunks[emb_list_vector]` や `chunks[emb]` などのパスにインデックスを作成します。 |
+| 1 つのベクトルサブフィールドには 1 つのインデックスがあります。 | EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、2 つの個別のベクトルサブフィールドを作成します。 |
+| 既存の StructArray サブフィールドは固定されます。 | StructArray フィールドを作成した後、同じ StructArray フィールドにさらにサブフィールドを追加できるとは想定しないでください。 |
+| Struct 内では関数はサポートされていません。 | StructArray フィールド内のフィールドまたはサブフィールドに関数を定義しないでください。 |
+| スカラーサブフィールドはフィルターのニーズに合わせる必要があります。 | `section`、`quality_score`、`has_code` などのフィールドは、後でフィルタリング、グループ化、または出力する必要がある場合にのみ追加してください。 |
 
 ## よくある間違い\{#common-mistakes}
 
-- `DataType.STRUCT` を Array フィールドの要素型として使用せず、トップレベルのコレクションフィールドとして作成すること。
+- `DataType.STRUCT` を Array フィールドの要素型として使用せず、トップレベルのコレクションフィールドとして作成する。
 
-- StructArray フィールドで `max_capacity` の設定を忘れること。
+- StructArray フィールドに `max_capacity` を設定し忘れる。
 
-- JSON、Geometry、Text、Timestamptz、SparseFloatVector、ネストされた Array、ネストされた Struct、Array-of-Struct など、サポートされていないサブフィールド型を定義すること。
+- JSON、Geometry、Text、Timestamptz、SparseFloatVector、ネストされた Array、ネストされた Struct、または Array-of-Struct など、サポートされていないサブフィールド型を定義する。
 
-- サブフィールド型として `String` を使用すること。`VARCHAR` を使用し、`max_length` を設定してください。
+- サブフィールド型として `String` を使用する。`VARCHAR` を使用し、`max_length` を設定してください。
 
-- EmbeddingList 検索と要素レベルの検索の両方に 1 つのベクトルサブフィールドを使用すること。
+- 1 つのベクトルサブフィールドを EmbeddingList 検索と要素レベルの検索の両方に使用する。
 
-- ベクトルサブフィールドのみを追加し、`section`、`quality_score`、`has_code` などフィルタリングに必要なスカラーサブフィールドを忘れること。
+- ベクトルサブフィールドのみを追加し、`section`、`quality_score`、`has_code` など、フィルタリングに必要なスカラーサブフィールドを忘れる。
 
-- ベクトルサブフィールドを `$[...]` スカラー述語の入力として扱うこと。ベクトル検索にはベクトルサブフィールドを、スカラー述語にはスカラーサブフィールドを使用してください。
+- ベクトルサブフィールドを `$[...]` スカラー述語の入力として扱う。ベクトル検索にはベクトルサブフィールドを、スカラー述語にはスカラーサブフィールドを使用してください。
 
-- フィールドの作成後に、既存の StructArray フィールドに新しいサブフィールドを追加できると想定すること。
+- フィールドの作成後に、既存の StructArray フィールドへ新しいサブフィールドを追加できると想定する。
 
-- 必須のパス構文 `chunks[emb]` または `chunks[emb_list_vector]` の代わりに `chunks.emb` または `chunks.emb_list_vector` を使用すること。
+- 必須のパス構文 `chunks[emb]` または `chunks[emb_list_vector]` の代わりに、`chunks.emb` または `chunks.emb_list_vector` を使用する。
 
-- nullable な StructArray の動作がすべてのターゲットバージョンで利用可能であると扱うこと。
+- null 許容の StructArray の動作がすべてのターゲットバージョンで利用可能であると見なす。
 
 ## 次のステップ\{#next-steps}
 
 1. StructArray フィールドにネストされたデータを挿入するには、[Insert Data into StructArray Fields](./insert-struct-array) を参照してください。
 
-1. ベクトルインデックスとスカラーインデックスを作成するには、[Index StructArray Fields](./index-struct-array) を参照してください。
+1. ベクトルおよびスカラーのインデックスを作成するには、[インデックス StructArray Fields](./index-struct-array) を参照してください。
 
 1. StructArray のベクトルサブフィールドを検索するには、[Basic ベクトル Search with StructArray](./search-with-struct-array) を参照してください。
 
-1. サポートされるデータ型、nullable の動作、バージョン固有の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
-
+1. サポートされるデータ型、null 許容動作、およびバージョン固有の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。

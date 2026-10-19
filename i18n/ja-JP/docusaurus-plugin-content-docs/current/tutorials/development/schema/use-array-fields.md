@@ -1,13 +1,13 @@
 ---
-title: "Array フィールド | Cloud"
+title: "ARRAY フィールド | Cloud"
 slug: /use-array-fields
-sidebar_label: "Array"
+sidebar_label: "ARRAY"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ARRAY フィールドは、同じデータ型の要素を順序付きリストとして格納します。 | Cloud"
+description: "ARRAY フィールドは、同じデータ型の要素からなる順序付きリストを格納します。 | Cloud"
 type: origin
 token: N0RmwUtmqinQvokWdYLc3yV5nJh
 sidebar_position: 10
@@ -19,11 +19,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Array フィールド
+# ARRAY フィールド
 
-ARRAY フィールドは、同じデータ型の要素を順序付きリストとして格納します。
+ARRAY フィールドは、同じデータ型の要素からなる順序付きリストを格納します。
 
-ARRAY フィールドがデータを格納する方法の例を次に示します。
+ARRAY フィールドがデータを格納する方法の例は次のとおりです。
 
 ```json
 {
@@ -34,29 +34,29 @@ ARRAY フィールドがデータを格納する方法の例を次に示しま�
 
 ## 制限\{#limits}
 
-- **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を許可できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
+- **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を使用できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
-- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメータで定義される同じデータ型を共有する必要があります。`element_type` が `VARCHAR` に設定されている場合は、配列要素の `max_length` も指定する必要があります。`element_type` は任意のスカラーデータ型、`JSON`、および `STRUCT` を受け入れます。
+- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型である必要があります。`element_type` を `VARCHAR` に設定する場合は、配列要素の `max_length` も指定する必要があります。`element_type` は、任意のスカラーデータ型、`JSON`、`STRUCT` を受け入れます。
 
-- **配列容量**: ARRAY フィールド内の要素数は、Array の作成時に `max_capacity` で定義された最大容量以下である必要があります。値は **1** から **4096** の範囲内の整数である必要があります。
+- **配列の容量**: ARRAY フィールドの要素数は、ARRAY の作成時に定義された最大容量以下である必要があり、この値は `max_capacity` で指定します。値は **1** から **4096** までの範囲の整数である必要があります。
 
-- **文字列の扱い**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
+- **文字列の扱い**: ARRAY フィールドの文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
 ## ARRAY フィールドを追加する\{#add-array-field}
 
-Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に関連するフィールド型を定義します。このプロセスには以下が含まれます。
+Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に関連するフィールド型を定義します。このプロセスには次のものが含まれます。
 
-1. `datatype` を、サポートされている Array データ型 `ARRAY` に設定します。
+1. `datatype` を、サポートされている ARRAY データ型 `ARRAY` に設定します。
 
-1. `element_type` パラメータを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は同じデータ型である必要があります。
+1. `element_type` パラメーターを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は、同じデータ型である必要があります。
 
-1. `max_capacity` パラメータを使用して、配列の最大容量、つまり含めることができる要素の最大数を定義します。
+1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり配列に含めることができる要素の最大数を定義します。
 
-ARRAY フィールドを含むコレクションスキーマを定義する方法を次に示します。
+ARRAY フィールドを含むコレクションスキーマを定義する方法は次のとおりです。
 
 <Admonition type="info" title="Notes">
 
-スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理が複雑になり、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマの定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、クエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -76,7 +76,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add `tags` and `ratings` ARRAY fields with nullable=True
@@ -161,7 +161,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema()
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
 schema.WithField(entity.NewField().
     WithName("tags").
     WithDataType(entity.FieldTypeArray).
@@ -194,44 +194,40 @@ schema.WithField(entity.NewField().
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(true)
-        .add_field(
-            FieldSchema::new()
-                .name("tags")
-                .data_type(DataType::Array)
-                .element_type(DataType::VarChar)
-                .max_capacity(10)
-                .max_length(65535)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("ratings")
-                .data_type(DataType::Array)
-                .element_type(DataType::Int64)
-                .max_capacity(5)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-    Ok(())
-}
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("tags")
+            .data_type(DataType::Array)
+            .element_type(DataType::VarChar)
+            .max_capacity(10)
+            .max_length(65535)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("ratings")
+            .data_type(DataType::Array)
+            .element_type(DataType::Int64)
+            .max_capacity(5)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>
@@ -358,11 +354,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## インデックスパラメータを設定する\{#set-index-params}
+## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックスの作成は、検索とクエリのパフォーマンスの向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
+インデックス作成は、検索およびクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプを使用すると、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
+次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成し、どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -420,7 +416,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewInvertedIndex()).WithIndexName("tags_index")
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewAutoIndex(entity.COSINE)).WithIndexName("tags_index")
 indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -429,6 +425,8 @@ indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", ind
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let tags_index = IndexParam::new()
     .field_name("tags")
     .index_name("tags_index")
@@ -537,6 +535,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_collection", schema).
     WithIndexOptions(indexOpt1, indexOpt2))
 if err != nil {
@@ -556,6 +560,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -734,6 +740,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -857,11 +864,11 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-完全な配列を挿入するだけでなく、`ARRAY` フィールドは `upsert` API 上の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらの演算子を使用すると、既存の配列の現在値を取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+`ARRAY` フィールドは、配列全体を挿入するだけでなく、`upsert` API で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在の値を取得せずに、要素を追加したり、一致する要素を削除したりできるため、クライアント側の読み取り・変更・書き込みパターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 </Admonition>
 
-## フィルター式を使ったクエリ\{#query-with-filter-expressions}
+## フィルター式を使用したクエリ\{#query-with-filter-expressions}
 
 エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
@@ -926,6 +933,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -960,7 +969,7 @@ if (!status.IsOk()) {
 milvus::EntityRows output_rows;
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1020,6 +1029,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "ratings[0] > 4";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -1045,9 +1058,9 @@ if err != nil {
     // handle error
 }
 
-fmt.Println("pk", rs.GetColumn("pk").FieldData().GetScalars())
 fmt.Println("tags", rs.GetColumn("tags").FieldData().GetScalars())
 fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
+fmt.Println("embedding", rs.GetColumn("embedding").FieldData().GetVectors())
 ```
 
 </TabItem>
@@ -1055,6 +1068,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -1087,7 +1102,7 @@ if (!status.IsOk()) {
 
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1128,9 +1143,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルター式を使ったベクトル検索\{#vector-search-with-filter-expressions}
+## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似度検索とスカラーフィールドフィルターを組み合わせることもできます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1178,6 +1193,14 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "tags[0] == \"pop\""
 
@@ -1210,6 +1233,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let search_results = client
     .search(
         SearchRequest::builder()
@@ -1255,7 +1280,7 @@ for (const auto& result : search_results.Results()) {
     milvus::EntityRows result_rows;
     status = result.OutputRows(result_rows);
     for (const auto& row : result_rows) {
-        std::cout << "	" << row << std::endl;
+        std::cout << "        " << row << std::endl;
     }
 }
 ```
@@ -1299,4 +1324,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-また、Zilliz Cloud は、クエリ機能をさらに強化するために、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な Array フィルタリング演算子をサポートしています。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
+さらに、Zilliz Cloud は `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な ARRAY フィルタリング演算子をサポートし、クエリ機能をさらに強化します。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。

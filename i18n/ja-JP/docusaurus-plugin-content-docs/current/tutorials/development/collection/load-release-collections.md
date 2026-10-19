@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Loading a コレクション is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a コレクション. | Cloud"
+description: "コレクションをロードすることは、その中で類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードと解放の手順に焦点を当てます。 | Cloud"
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
 sidebar_position: 8
@@ -21,30 +21,30 @@ import TabItem from '@theme/TabItem';
 
 # ロードと解放
 
-Loading a コレクション is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a コレクション.
+コレクションをロードすることは、その中で類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードと解放の手順に焦点を当てます。
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
-Before loading a コレクション, verify the following:
+コレクションをロードする前に、以下を確認してください。
 
-- For external コレクション, ensure you have called the sub-second refresh to synchronize data between the コレクション and the volume before creating インデックス.
+- 外部コレクションの場合は、インデックスを作成する前に sub-second refresh を呼び出し、コレクションとボリューム間のデータを同期していること。
 
-- You have at least indexed all ベクトル fields, and optionally certain スカラー fields.
+- 少なくともすべてのベクトルフィールドにインデックスを作成しており、必要に応じて一部のスカラーフィールドにもインデックスを作成していること。
 
-## ロード動作\{#loading-behaviors}
+## ロードの挙動\{#loading-behaviors}
 
-Although the same load request applies to both external and managed コレクション, the strategy for loading external コレクション depends on the target architecture:
+同じロードリクエストが外部コレクションとマネージドコレクションの両方に適用されますが、外部コレクションのロード戦略は対象アーキテクチャによって異なります。
 
-| 環境 | メモリ動作 | 実行の詳細 |
+| 環境 | メモリの挙動 | 実行の詳細 |
 | --- | --- | --- |
-| Managed コレクション in serving クラスター | フルロード | Loads all インデックス and data (ベクトル and スカラー fields) directly into memory for high-performance access. |
-| External コレクション in standalone データベース | インデックス-only Load | Loads only the インデックス into memory. Raw data is retrieved from disk on demand during active searches or queries. |
+| サービングクラスター内のマネージドコレクション | 完全ロード | 高パフォーマンスでアクセスできるように、すべてのインデックスとデータ（ベクトルフィールドとスカラーフィールド）を直接メモリにロードします。 |
+| スタンドアロンデータベース内の外部コレクション | インデックスのみのロード | インデックスのみをメモリにロードします。生データは、実際の検索やクエリ時に必要に応じてディスクから取得されます。 |
 
-## Load コレクション\{#load-collection}
+## コレクションのロード\{#load-collection}
 
-When you load a コレクション, Zilliz Cloud loads the インデックス files and the raw data of all fields into memory for rapid response to searches and queries. Entities inserted after a コレクション load are automatically indexed and loaded.
+コレクションをロードすると、Zilliz Cloud は検索およびクエリに迅速に応答できるよう、インデックスファイルとすべてのフィールドの生データをメモリにロードします。コレクションのロード後に挿入されたエンティティは、自動的にインデックス化され、ロードされます。
 
-The following code snippets demonstrate how to load a コレクション.
+以下のコードスニペットは、コレクションをロードする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -167,36 +167,31 @@ fmt.Println(state)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+// 7. Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    // 7. Load the collection
-    client
-        .load_collection(
-            LoadCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
 
-    let res = client
-        .get_load_state(
-            GetLoadStateRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.state());
-
-    Ok(())
-}
+println!("{:?}", res.state());
 ```
 
 </TabItem>
@@ -311,11 +306,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 特定フィールドのロード\{#load-specific-fields}
+
+## 特定のフィールドをロードする\{#load-specific-fields}
 
 Zilliz Cloud は、検索やクエリに関与するフィールドのみをロードできるため、メモリ使用量を削減し、検索パフォーマンスを向上させます。
 
-The following code snippet assumes that you have created a コレクション named **my_collection**, and there are two fields named **my_id** and **my_vector** in the コレクション.
+以下のコードスニペットは、**my_collection** という名前のコレクションをすでに作成しており、そのコレクションに **my_id** と **my_vector** という名前の 2 つのフィールドがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -346,6 +342,8 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import java.util.Arrays;
 
 // Load the collection
@@ -371,6 +369,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
         WithLoadFields("my_id", "my_vector").
         WithSkipLoadDynamicField(true))
@@ -399,6 +403,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -477,17 +483,17 @@ console.log(res.state);
 </TabItem>
 </Tabs>
 
-If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one ベクトル field in `load_fields`.
+特定のフィールドをロードする場合、検索およびクエリでフィルターや出力フィールドとして使用できるのは、`load_fields` に含まれるフィールドのみである点に注意してください。`load_fields` には、プライマリフィールドの名前と少なくとも 1 つのベクトルフィールドの名前を必ず含める必要があります。
 
-また、`skip_load_dynamic_field` を使用して、dynamic field をロードするかどうかを決定できます。dynamic field は **\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。dynamic field をロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できるようになります。dynamic field 内のすべてのキーがメタデータのフィルタリングと出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定します。
+また、`skip_load_dynamic_field` を使用して動的フィールドをロードするかどうかを決定できます。動的フィールドは **\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、そのフィールド内のすべてのキーがロードされ、フィルタリングおよび出力に使用可能になります。動的フィールド内のすべてのキーがメタデータのフィルタリングや出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定してください。
 
-To load more fields after the コレクション load, you need to release the コレクション first to avoid possible errors prompted because of インデックス changes.
+コレクションのロード後にさらに多くのフィールドをロードするには、インデックス変更によって発生する可能性のあるエラーを避けるため、まずコレクションを解放する必要があります。
 
-## Release コレクション\{#release-collection}
+## コレクションの解放\{#release-collection}
 
-Searches and queries are memory-intensive operations. To save the cost, you are advised to release the コレクション that are currently not in use.
+検索とクエリはメモリ集約型の操作です。コストを節約するため、現在使用していないコレクションは解放することをお勧めします。
 
-The following code snippet demonstrates how to release a コレクション.
+以下のコードスニペットは、コレクションを解放する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -516,6 +522,7 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 // 8. Release the collection
@@ -540,6 +547,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -559,6 +572,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // 8. Release the collection
 client
     .release_collection(
@@ -670,4 +685,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

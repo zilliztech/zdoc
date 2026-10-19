@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションを Truncate すると、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティが削除されます。これはエンティティを削除するよりも効率的です。現在のタイムスタンプより前に flush されたすべてのエンティティを検索やクエリから隠し、バックグラウンドで削除するためです。 | Cloud"
+description: "コレクションを Truncate すると、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティが削除されます。現在のタイムスタンプより前に flush されたすべてのエンティティを検索およびクエリから隠し、バックグラウンドで削除するため、エンティティを削除するよりも効率的です。 | Cloud"
 type: origin
 token: JMtVw2kCYiunF9khkmHcFWbFnxf
 sidebar_position: 11
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # コレクションの Truncate
 
-コレクションを Truncate すると、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティが削除されます。これはエンティティを削除するよりも効率的です。現在のタイムスタンプより前に flush されたすべてのエンティティを検索やクエリから隠し、バックグラウンドで削除するためです。
+コレクションを Truncate すると、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティが削除されます。現在のタイムスタンプより前に flush されたすべてのエンティティを検索およびクエリから隠し、バックグラウンドで削除するため、エンティティを削除するよりも効率的です。
 
 <Admonition type="info" title="Notes">
 
@@ -31,19 +31,19 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-コレクションの Truncate は、スキーマ、制約、インデックスなどの構造定義を完全に保持しながら、コレクションからすべてのエンティティを削除する高性能な操作です。これにより、再設定やインデックスの再構築を必要とせず、コレクションはすぐに新しいデータの取り込みに使用できる状態に保たれます。
+コレクションの Truncate は、スキーマ、制約、インデックスを含む構造定義を完全に保持しながら、コレクションからすべてのエンティティを削除する高性能な操作です。これにより、再設定やインデックスの再構築を行わなくても、コレクションをすぐに新しいデータの取り込みに使用できる状態に保つことができます。
 
-レコードを個別に処理し、大量のトランザクションログを生成する従来の削除方法とは異なり、Truncate は最適化された 2 段階のメカニズムで動作します。
+レコードを個別に処理して大量のトランザクションログを生成する従来の削除方法とは異なり、Truncate は最適化された 2 段階のメカニズムで動作します。
 
 1. **即時の論理削除**
 
-    Truncate のタイムスタンプより前に挿入または削除されたすべてのエンティティは即座に flush され、検索やクエリから隠されるため、以降の操作からは実質的に見えなくなります。
+    Truncate のタイムスタンプより前に挿入または削除されたすべてのエンティティは即座に flush され、検索およびクエリから隠されるため、以降の操作からは実質的に見えなくなります。
 
 1. **効率的な物理クリーンアップ**
 
     システムは影響を受けたすべてのデータセグメントをバックグラウンドでガベージコレクションし、エンティティごとの削除処理によるオーバーヘッドを排除します。
 
-Truncate は、テスト環境の更新、パイプラインステージのクリーンアップ、定期的なデータライフサイクル管理など、データセット全体の迅速なリセットが必要で、性能とリソース効率が重要なユースケースに最適です。
+Truncate は、テスト環境の更新、パイプラインステージのクリーンアップ、定期的なデータライフサイクル管理など、データセット全体の迅速なリセットが必要で、パフォーマンスとリソース効率が重要なユースケースに最適です。
 
 ## 例\{#example}
 
@@ -115,17 +115,17 @@ func main() {
     ctx := context.Background()
 
     client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-            Address: "YOUR_CLUSTER_ENDPOINT",
-            APIKey: "YOUR_CLUSTER_TOKEN",
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
     })
     if err != nil {
-            log.Fatal("failed to connect:", err)
+        log.Fatal("failed to connect:", err)
     }
     defer client.Close(ctx)
 
     err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
     if err != nil {
-            log.Fatal("failed to truncate:", err)
+        log.Fatal("failed to truncate:", err)
     }
 
     fmt.Println("collection truncated successfully")
@@ -139,27 +139,22 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client
+    .truncate_collection(
+        TruncateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    client
-        .truncate_collection(
-            TruncateCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("collection truncated successfully");
-
-    Ok(())
-}
+println!("collection truncated successfully");
 ```
 
 </TabItem>
