@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "不要になったエンティティは、フィルタリング条件または主キーによって削除できます。 | BYOC"
+description: "不要になったエンティティは、フィルター条件またはプライマリキーを使用して削除できます。 | BYOC"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
 sidebar_position: 4
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの削除
 
-不要になったエンティティは、フィルタリング条件または主キーによって削除できます。
+不要になったエンティティは、フィルター条件またはプライマリキーを使用して削除できます。
 
-## フィルタリング条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
+## フィルター条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
 
-共通の属性を持つ複数のエンティティを一括で削除する場合は、フィルター式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red** および **purple** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルター式を構築するために、他の演算子も使用できます。フィルター式の詳細については、[フィルタリングの説明](./filtering-overview) を参照してください。
+属性を共有する複数のエンティティを一括で削除する場合は、フィルター式を使用できます。以下のサンプルコードでは、**in** 演算子を使用して、**color** フィールドが **red** および **purple** に設定されているすべてのエンティティを一括削除します。要件に合わせて他の演算子を使用し、フィルター式を構築することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -110,20 +110,15 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let request = DeleteRequest::builder()
-        .collection_name("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976']")
-        .build()?;
-    let response = client.delete(request).await?;
-    println!("{:?}", response.delete_count());
-
-    Ok(())
-}
+let request = DeleteRequest::builder()
+    .collection_name("quick_setup")
+    .filter("color in ['red_7025', 'purple_4976']")
+    .build()?;
+let response = client.delete(request).await?;
+println!("{:?}", response.delete_count());
 ```
 
 </TabItem>
@@ -172,9 +167,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
-// 3
-// 
+//
+// 2
+//
 ```
 
 </TabItem>
@@ -199,9 +194,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 主キーによるエンティティの削除\{#delete-entities-by-primary-keys}
+## プライマリキーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
-ほとんどの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを設定することで、エンティティを削除できます。以下のコード例は、主キー **18** と **19** を持つ 2つのエンティティを削除する方法を示しています。
+ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定すると、エンティティを削除できます。以下のサンプルコードは、プライマリキーが **18** と **19** の2つのエンティティを削除する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -240,6 +235,12 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
     WithInt64IDs("id", []int64{18, 19}))
 if err != nil {
@@ -253,6 +254,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DeleteRequest::builder()
         .collection_name("quick_setup")
         .ids(Ids::Int64(vec![18, 19]))
@@ -321,7 +324,7 @@ curl --request POST \
 
 ## パーティションからのエンティティの削除\{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -361,6 +364,12 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
     WithInt64IDs("id", []int64{18, 19}).
     WithPartition("partitionA"))
@@ -375,6 +384,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DeleteRequest::builder()
         .collection_name("quick_setup")
         .ids(Ids::Int64(vec![18, 19]))

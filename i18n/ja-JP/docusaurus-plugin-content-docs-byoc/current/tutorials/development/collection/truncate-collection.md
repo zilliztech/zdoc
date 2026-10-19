@@ -109,17 +109,17 @@ func main() {
     ctx := context.Background()
 
     client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-            Address: "YOUR_CLUSTER_ENDPOINT",
-            APIKey: "YOUR_CLUSTER_TOKEN",
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
     })
     if err != nil {
-            log.Fatal("failed to connect:", err)
+        log.Fatal("failed to connect:", err)
     }
     defer client.Close(ctx)
 
     err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
     if err != nil {
-            log.Fatal("failed to truncate:", err)
+        log.Fatal("failed to truncate:", err)
     }
 
     fmt.Println("collection truncated successfully")
@@ -133,27 +133,22 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client
+    .truncate_collection(
+        TruncateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    client
-        .truncate_collection(
-            TruncateCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("collection truncated successfully");
-
-    Ok(())
-}
+println!("collection truncated successfully");
 ```
 
 </TabItem>

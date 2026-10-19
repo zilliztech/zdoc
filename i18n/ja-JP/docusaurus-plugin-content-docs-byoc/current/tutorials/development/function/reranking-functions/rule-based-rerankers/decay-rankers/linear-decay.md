@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Linear decay は、検索結果内で絶対的なゼロ地点で終わる直線的な減衰を作成します。今後予定されているイベントのカウントダウンのように、イベントが過ぎるまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想点から離れるにつれて、完全に消えるまで予測可能で一定の関連性低下を適用します。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に理想的であり、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。 | BYOC"
+description: "Linear decay は、検索結果内で絶対的なゼロ地点に達して終了する直線的な減少を作成します。今後開催されるイベントのカウントダウンのように、イベントが終了するまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想的な地点から離れるにつれて、関連性を予測可能かつ一定の割合で低下させ、完全に消えるまで続けます。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に適しており、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。 | BYOC"
 type: origin
 token: M7xHwZSIuiAP4Fkfm67cBU7Pn8g
 sidebar_position: 4
@@ -21,26 +21,26 @@ import TabItem from '@theme/TabItem';
 
 # Linear Decay
 
-Linear decay は、検索結果内で絶対的なゼロ地点で終わる直線的な減衰を作成します。今後予定されているイベントのカウントダウンのように、イベントが過ぎるまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想点から離れるにつれて、完全に消えるまで予測可能で一定の関連性低下を適用します。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に理想的であり、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。
+Linear decay は、検索結果内で絶対的なゼロ地点に達して終了する直線的な減少を作成します。今後開催されるイベントのカウントダウンのように、イベントが終了するまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想的な地点から離れるにつれて、関連性を予測可能かつ一定の割合で低下させ、完全に消えるまで続けます。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に適しており、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。
 
 他の decay 関数とは次の点が異なります。
 
-- Gaussian decay は、徐々にゼロに近づくものの決してゼロにはならないベルカーブに従います
+- Gaussian decay は、徐々にゼロに近づくものの、決してゼロには達しないベルカーブに従います。
 
-- Exponential decay は、最小限の関連性を持つ長いテールを維持し、それが無期限に続きます
+- Exponential decay は、最小限の関連性からなる長いテールを維持し、それが無期限に続きます。
 
-Linear decay は明確な終点を一意に作り出すため、自然な境界や締め切りがあるアプリケーションで特に効果的です。
+Linear decay は明確な終点を一意に作り出すため、自然な境界や締め切りがあるアプリケーションで特に効果を発揮します。
 
-## Linear decay を使用するタイミング\{#when-to-use-linear-decay}
+## Linear decay を使用する場合\{#when-to-use-linear-decay}
 
-Linear decay が特に効果的なのは次のような場合です。
+Linear decay は、次のような場合に特に効果を発揮します。
 
 | ユースケース | 例 | Linear が効果的な理由 |
 | --- | --- | --- |
-| イベント一覧 | コンサートチケットプラットフォーム | 未来すぎるイベントに対して明確なカットオフを作成できる |
-| 期間限定オファー | フラッシュセール、プロモーション | 期限切れまたはまもなく期限切れになるオファーが表示されないようにできる |
-| 配達半径 | フードデリバリー、宅配サービス | 厳密な地理的境界を適用できる |
-| 年齢制限コンテンツ | マッチングプラットフォーム、メディアサービス | 厳格な年齢しきい値を設定できる |
+| イベント一覧 | コンサートチケットプラットフォーム | 将来あまりに先のイベントに対して明確なカットオフを作成します。 |
+| 期間限定オファー | フラッシュセール、プロモーション | 期限切れまたはまもなく期限切れになるオファーが表示されないようにします。 |
+| 配達範囲 | フードデリバリー、宅配サービス | 厳格な地理的境界を適用します。 |
+| 年齢制限コンテンツ | マッチングプラットフォーム、メディアサービス | 厳格な年齢しきい値を設定します。 |
 
 次のような場合は Linear decay を選択してください。
 
@@ -48,17 +48,17 @@ Linear decay が特に効果的なのは次のような場合です。
 
 - 特定の地点を超えたアイテムを結果から完全に除外する必要がある
 
-- 予測可能で一貫した関連性低下率が必要である
+- 予測可能で一貫した関連性の低下率が必要である
 
 - ユーザーが関連性のあるアイテムと関連性のないアイテムを明確に区別できる
 
 ## 一定の低下の原理\{#steady-decline-principle}
 
-Linear decay は、一定の割合で低下し、最終的に正確にゼロに到達する直線的な下降を作り出します。このパターンは、カウントダウンタイマー、在庫の減少、締め切りの接近など、関連性に明確な有効期限がある多くの日常的なシナリオに見られます。
+Linear decay は、一定の割合で低下し、正確にゼロに達するまで続く直線的な低下を作成します。このパターンは、カウントダウンタイマー、在庫の減少、締め切りの接近など、関連性に明確な有効期限がある多くの日常的なシナリオに見られます。
 
 <Admonition type="info" title="Notes">
 
-すべての時間パラメータ（`origin`、`offset`、`scale`）は、コレクションデータと同じ単位を使用する必要があります。コレクションが異なる単位（ミリ秒、マイクロ秒）でタイムスタンプを保存している場合は、すべてのパラメータをそれに応じて調整してください。
+すべての時間パラメーター（`origin`、`offset`、`scale`）は、コレクションデータと同じ単位を使用する必要があります。コレクションがタイムスタンプを異なる単位（ミリ秒、マイクロ秒）で保存している場合は、すべてのパラメーターをそれに応じて調整してください。
 
 </Admonition>
 
@@ -66,17 +66,17 @@ Linear decay は、一定の割合で低下し、最終的に正確にゼロに�
 
 上のグラフは、Linear decay がチケット販売プラットフォームのイベント一覧にどのように影響するかを示しています。
 
-- `origin`（現在日時）：現在の時点であり、関連性が最大（1.0）になるポイントです。
+- `origin`（現在の日付）：現在の時点であり、関連性が最大（1.0）になる地点です。
 
-- `offset`（1 日）：「直近イベントウィンドウ」—翌日までに開催されるすべてのイベントは完全な関連性スコア（1.0）を維持し、非常に差し迫ったイベントがわずかな時間差によって不利益を受けないようにします。
+- `offset`（1 日）：「直近イベントウィンドウ」です。翌日までに開催されるすべてのイベントは完全な関連性スコア（1.0）を維持するため、非常に差し迫ったイベントがわずかな時間差によって不利益を受けることはありません。
 
-- `decay`（0.5）：scale 距離におけるスコア—このパラメータは関連性の低下率を制御します。
+- `decay`（0.5）：scale 距離におけるスコアです。このパラメーターは関連性の低下率を制御します。
 
-- `scale`（10 日）：関連性が decay 値まで低下する時間期間—10 日後のイベントは関連性スコアが半分（0.5）になります。
+- `scale`（10 日）：関連性が decay 値まで低下する期間です。10 日先のイベントは関連性スコアが半分（0.5）になります。
 
-直線的なカーブから分かるように、およそ 16 日以上先のイベントは関連性が正確にゼロとなり、検索結果にはまったく表示されません。これにより明確な境界が作られ、ユーザーには定義された期間内の関連性のある今後のイベントのみが表示されます。
+直線的なカーブから分かるように、およそ 16 日以上先のイベントは関連性が正確にゼロになり、検索結果にはまったく表示されません。これにより明確な境界が作成され、ユーザーには定義された期間内の関連性のある今後のイベントのみが表示されます。
 
-この挙動は、イベント計画が通常どのように機能するかを反映しています。直近のイベントが最も関連性が高く、今後数週間のイベントは重要性が徐々に低下し、遠すぎる未来のイベント（またはすでに終了したイベント）はまったく表示されるべきではありません。
+この動作は、イベント計画が通常どのように機能するかを反映しています。直近のイベントが最も関連性が高く、今後数週間のイベントは重要性が徐々に低下し、将来あまりに先のイベント（またはすでに終了したイベント）はまったく表示されるべきではありません。
 
 ## 数式\{#formula}
 
@@ -98,31 +98,31 @@ $$
 
 1. offset（存在する場合）を差し引きますが、ゼロ未満にはしません：$\max(0, distance - offset)$。
 
-1. scale と decay の値からパラメータ $s$ を求めます。
+1. scale と decay の値からパラメーター $s$ を求めます。
 
-1. 調整後の距離を $s$ から引き、その結果を $s$ で割ります。
+1. 調整後の距離を $s$ から差し引き、その結果を $s$ で割ります。
 
 1. 結果がゼロ未満にならないようにします：$\max(result, 0)$。
 
-$s$ の計算では、scale と decay のパラメータを、スコアがゼロに到達する地点に変換します。たとえば、decay=0.5 かつ scale=7 の場合、スコアは distance=14（scale 値の 2 倍）で正確にゼロに達します。
+$s$ の計算では、scale と decay のパラメーターを、スコアがゼロに達する地点に変換します。たとえば、decay=0.5 かつ scale=7 の場合、スコアは distance=14（scale 値の 2 倍）で正確にゼロに達します。
 
 ## Linear decay を使用する\{#use-linear-decay}
 
-Linear decay は、Zilliz Cloud における標準的なベクトル検索とハイブリッド検索の両方の操作に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
+Linear decay は、Zilliz Cloud の標準的なベクトル検索とハイブリッド検索の両方の操作に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
 <Admonition type="info" title="Notes">
 
-decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
+decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker Tutorial](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
-### decay ranker を作成する\{#create-a-decay-ranker}
+### Decay ranker を作成する\{#create-a-decay-ranker}
 
 数値フィールド（この例では、現在からの秒数としての `event_date`）を使ってコレクションをセットアップした後、Linear decay ranker を作成します。
 
 <Admonition type="info" title="Notes">
 
-**時間単位の一貫性**：時間ベースの decay を使用する場合、`origin`、`scale`、`offset` の各パラメータがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメータに秒を使用してください。ミリ秒を使用している場合は、すべてのパラメータにミリ秒を使用してください。
+**時間単位の一貫性**：時間ベースの decay を使用する場合、`origin`、`scale`、`offset` の各パラメーターがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメーターに秒を使用してください。ミリ秒を使用している場合は、すべてのパラメーターにミリ秒を使用してください。
 
 </Admonition>
 
@@ -159,6 +159,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("event_relevance")
@@ -176,7 +177,11 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
-import "time"
+import (
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
 currentTime := time.Now().Unix()
 
@@ -199,25 +204,20 @@ rerank := entity.NewFunction().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rerank = DecayRerank::new()
-        .function(Function::new()
-            .name("event_relevance")
-            .input_fields(["event_date"])
-            .function_type(FunctionType::Rerank)
-            .param("reranker", "decay"))
-        .decay_function("linear")
-        .origin(std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
-        .scale(7 * 24 * 60 * 60)
-        .offset(12 * 60 * 60)
-        .decay(0.5);
-
-    Ok(())
-}
+let rerank = DecayRerank::new()
+    .function(Function::new()
+        .name("event_relevance")
+        .input_fields(["event_date"])
+        .function_type(FunctionType::Rerank)
+        .param("reranker", "decay"))
+    .decay_function("linear")
+    .origin(std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
+    .scale(7 * 24 * 60 * 60)
+    .offset(12 * 60 * 60)
+    .decay(0.5);
 ```
 
 </TabItem>
@@ -267,9 +267,9 @@ const rerank = {
 </TabItem>
 </Tabs>
 
-### 標準ベクトル検索に適用する\{#apply-to-standard-vector-search}
+### 標準のベクトル検索に適用する\{#apply-to-standard-vector-search}
 
-decay ranker を定義した後、それを `ranker` パラメータに渡すことで検索操作中に適用できます。
+decay ranker を定義した後、それを `ranker` パラメーターに渡すことで、検索操作中に適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -294,9 +294,12 @@ result = milvus_client.search(
 
 ```java
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -317,6 +320,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -337,6 +347,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let function_score = FunctionScore::new().add_function(rerank);
     let request = SearchRequest::builder()
         .collection_name(collection_name)

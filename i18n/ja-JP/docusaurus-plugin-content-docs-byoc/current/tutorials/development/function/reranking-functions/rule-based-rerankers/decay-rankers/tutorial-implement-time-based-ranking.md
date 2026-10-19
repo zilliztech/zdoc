@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文は、いずれも意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、減衰ランカーを使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。 | BYOC"
+description: "多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文はすべて、意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、Decay Ranker を使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。 | BYOC"
 type: origin
 token: Dj2NwrlqTiYlmDkwfAbcJNWSntd
 sidebar_position: 5
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # チュートリアル: 時間ベースのランキングを実装する
 
-多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文は、いずれも意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、減衰ランカーを使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。
+多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文はすべて、意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、Decay Ranker を使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。
 
-## 減衰ランカーを理解する\{#understand-decay-rankers}
+## Decay Ranker を理解する\{#understand-decay-rankers}
 
-減衰ランカーを使用すると、基準点に対する数値（タイムスタンプなど）に基づいてドキュメントをブーストまたはペナルティ処理できます。時間ベースのランキングでは、意味的な関連性が同程度であっても、新しいドキュメントが古いドキュメントよりも高いスコアを受け取ることができます。
+Decay Ranker を使用すると、基準点からの相対的な数値（タイムスタンプなど）に基づいてドキュメントをブーストまたはペナルティできます。時間ベースのランキングでは、これにより、意味的な関連性が同程度であっても、新しいドキュメントが古いドキュメントより高いスコアを受け取ることができます。
 
-Zilliz Cloud は 3 種類の減衰ランカーをサポートしています。
+Zilliz Cloud は 3 種類の Decay Ranker をサポートしています。
 
-- **Gaussian**（`gauss`）: 滑らかで緩やかな減衰を提供するベル型の曲線
+- **Gaussian**（`gauss`）：滑らかで緩やかな減衰を提供するベル型曲線です。
 
-- **Exponential**（`exp`）: 最近のコンテンツを強く重視するために、より急峻な初期の低下を生み出します
+- **Exponential**（`exp`）：最近のコンテンツを強く重視するために、初期の低下をより急峻にします。
 
-- **Linear**（`linear`）: 予測しやすく理解しやすい直線的な減衰
+- **Linear**（`linear`）：予測可能で理解しやすい直線的な減衰です。
 
-各ランカーはそれぞれ異なる特性を持ち、さまざまなユースケースに適しています。詳細については、[減衰ランカーの概要](./decay-ranker-oveview) を参照してください。
+各 Decay Ranker には異なる特性があり、さまざまなユースケースに適しています。詳細については、[Decay Ranker の概要](./decay-ranker-oveview) を参照してください。
 
 ## 時間を考慮した検索システムを構築する\{#build-a-time-aware-search-system}
 
-関連性と時間の両方に基づいてコンテンツを効果的にランク付けする方法を示す、ニュース記事の検索システムを作成します。まずは実装から始めます。
+関連性と時間の両方に基づいてコンテンツを効果的にランキングする方法を示すニュース記事検索システムを作成します。まずは実装を始めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -88,6 +88,13 @@ client.dropCollection(DropCollectionReq.builder().collectionName(collectionName)
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -106,6 +113,8 @@ _ = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionNa
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 
@@ -168,7 +177,7 @@ curl --request POST \
 
 ## ステップ 1: スキーマを設計する\{#step-1-design-the-schema}
 
-時間ベースの検索では、コンテンツと一緒に公開タイムスタンプを保存する必要があります。
+時間ベースの検索では、コンテンツとともに公開タイムスタンプを保存する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -285,7 +294,7 @@ fields='[
 
 ## ステップ 2: 埋め込み関数を設定する\{#step-2-set-up-embedding-functions}
 
-密（セマンティック）と疎（キーワード）の両方の埋め込み関数を構成します。
+密（セマンティック）と疎（キーワード）の両方の埋め込み関数を設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -347,6 +356,8 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 textEmbeddingFunction := entity.NewFunction().
     WithName("siliconflow_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -372,6 +383,7 @@ schema = schema.WithFunction(bm25Function)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let schema = schema.add_function(
@@ -418,6 +430,8 @@ schema->AddFunction(bm25_function);
 <TabItem value='javascript'>
 
 ```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
 const functions = [
   {
     name: "siliconflow_embedding",
@@ -461,9 +475,9 @@ functions='[
 </TabItem>
 </Tabs>
 
-## ステップ 3: インデックスパラメータを構成する\{#step-3-configure-index-parameters}
+## ステップ 3: インデックスパラメーターを設定する\{#step-3-configure-index-parameters}
 
-高速なベクトル検索に適したインデックスパラメータを設定します。
+高速なベクトル検索に適したインデックスパラメーターを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -497,6 +511,7 @@ milvus_client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Arrays;
@@ -528,9 +543,11 @@ client.createCollection(CreateCollectionReq.builder()
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v3/entity"
+    "log"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 denseIndex := milvusclient.NewCreateIndexOption(collectionName, "dense", index.NewAutoIndex(entity.L2)).
@@ -552,6 +569,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new().field_name("dense").index_type(IndexType::AutoIndex).metric_type(MetricType::L2),
     IndexParam::new().field_name("sparse_vector").index_name("sparse_inverted_index").index_type(IndexType::AutoIndex).metric_type(MetricType::Bm25),
@@ -592,6 +611,8 @@ if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
 <TabItem value='javascript'>
 
 ```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
 const denseIndex = {
   field_name: "dense",
   index_type: IndexType.AUTOINDEX,
@@ -656,7 +677,7 @@ curl --request POST \
 
 ## ステップ 4: サンプルデータを準備する\{#step-4-prepare-sample-data}
 
-このチュートリアルでは、公開日が異なるニュース記事のセットを作成します。減衰ランキングの効果を明確に示すために、ほぼ同一のコンテンツでありながら日付が異なる記事のペアを含めている点に注目してください。
+このチュートリアルでは、公開日の異なるニュース記事のセットを作成します。減衰ランキングの効果を明確に示すために、内容がほぼ同じで日付の異なる記事のペアを含めている点に注目してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -743,18 +764,54 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 currentTime := time.Now().Unix()
 
-articles := []map[string]any{
-    {
+articles := []any{
+    map[string]any{
         "headline":     "AI Breakthrough Enables Medical Diagnosis Advancement",
         "content":      "Researchers announced a major breakthrough in AI-based medical diagnostics, enabling faster and more accurate detection of rare diseases.",
-        "publish_date": currentTime - 120*24*60*60,
+        "publish_date": currentTime - 120*24*60*60, // ~4 months ago
     },
-    // ... add the other sample articles the same way
+    map[string]any{
+        "headline":     "Tech Giants Compete in New AI Race",
+        "content":      "Major technology companies are investing billions in a new race to develop the most advanced artificial intelligence systems.",
+        "publish_date": currentTime - 60*24*60*60, // ~2 months ago
+    },
+    map[string]any{
+        "headline":     "AI Ethics Guidelines Released by International Body",
+        "content":      "A consortium of international organizations has released new guidelines addressing ethical concerns in artificial intelligence development and deployment.",
+        "publish_date": currentTime - 30*24*60*60, // 1 month ago
+    },
+    map[string]any{
+        "headline":     "Latest Deep Learning Models Show Remarkable Progress",
+        "content":      "The newest generation of deep learning models demonstrates unprecedented capabilities in language understanding and generation.",
+        "publish_date": currentTime - 15*24*60*60, // 15 days ago
+    },
+    map[string]any{
+        "headline":     "AI Research Advancements Published in January",
+        "content":      "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.",
+        "publish_date": currentTime - 90*24*60*60, // ~3 months ago
+    },
+    map[string]any{
+        "headline":     "New AI Research Results Released This Week",
+        "content":      "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.",
+        "publish_date": currentTime - 5*24*60*60, // Very recent - 5 days ago
+    },
+    map[string]any{
+        "headline":     "AI Development Updates Released Yesterday",
+        "content":      "Recent developments in artificial intelligence research are showing promising results across various applications.",
+        "publish_date": currentTime - 1*24*60*60, // Just yesterday
+    },
 }
 
-_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName, articles))
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName, articles...))
 if err != nil {
     log.Fatal(err)
 }
@@ -766,6 +823,8 @@ if err != nil {
 
 ```rust
 use chrono::Utc;
+use milvus::v2::prelude::*;
+use serde_json::json;
 
 let current_time = Utc::now().timestamp();
 
@@ -846,9 +905,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: さまざまな減衰ランカーを構成する\{#step-5-configure-different-decay-rankers}
+## ステップ 5: 異なる Decay Ranker を設定する\{#step-5-configure-different-decay-rankers}
 
-次に、それぞれ異なるパラメータを持つ 3 つの減衰ランカーを作成し、その違いを明確にします。
+次に、それぞれの違いを明確にするために、異なるパラメーターを持つ 3 つの Decay Ranker を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -949,9 +1008,11 @@ DecayRanker linearRanker = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "fmt"
 
-currentTime := time.Now().Unix()
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
 gaussianRanker := entity.NewFunction().
     WithName("time_decay_gaussian").
@@ -993,6 +1054,7 @@ linearRanker := entity.NewFunction().
 
 ```rust
 use chrono::Utc;
+use milvus::v2::prelude::*;
 
 let current_time = Utc::now().timestamp();
 
@@ -1069,6 +1131,8 @@ linear_ranker->SetScale(14 * 24 * 60 * 60);
 <TabItem value='javascript'>
 
 ```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
 const current_time = Math.floor(Date.now() / 1000);
 
 const gaussian_ranker = {
@@ -1119,25 +1183,25 @@ gaussian_ranker='{
 </TabItem>
 </Tabs>
 
-上記のコードでは、次のとおりです。
+上記のコードの内容は次のとおりです。
 
-- `reranker`: 時間ベースの減衰関数には `decay` を設定します
+- `reranker`: 時間ベースの減衰関数では `decay` に設定します。
 
-- `function`: 減衰関数の種類（gauss、exp、linear のいずれか）
+- `function`: 減衰関数の種類（gauss、exp、linear）です。
 
-- `origin`: 基準点（通常は現在時刻）
+- `origin`: 基準点（通常は現在時刻）です。
 
-- `offset`: ドキュメントが完全な関連性を維持する期間
+- `offset`: ドキュメントが完全な関連性を維持する期間です。
 
-- `scale`: オフセットを超えて関連性がどの程度急速に低下するかを制御します
+- `scale`: offset を超えた後に関連性が低下する速度を制御します。
 
-- `decay`: offset+scale の時点における減衰係数（例: 0.5 は関連性が半分になることを意味します）
+- `decay`: offset+scale における減衰係数です（例：0.5 は関連性が半分であることを意味します）。
 
-異なる動作を得られるようにこれらの関数を調整する方法を示すため、Exponential ランカーを異なるパラメータで構成している点に注目してください。
+異なる動作を得るためにこれらの関数をどのように調整できるかを示すため、Exponential Ranker を異なるパラメーターで設定している点に注目してください。
 
-## ステップ 6: 減衰ランカーを可視化する\{#step-6-visualize-the-decay-rankers}
+## ステップ 6: Decay Ranker を可視化する\{#step-6-visualize-the-decay-rankers}
 
-検索を実行する前に、このように構成の異なる減衰ランカーがどのように動作するかを視覚的に比較します。
+検索を実行する前に、設定の異なる Decay Ranker の動作を視覚的に比較する図を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1229,7 +1293,7 @@ for days in [0, 3, 7, 10, 14, 21, 30, 60, 90]:
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === TIME DECAY EFFECT VISUALIZATION ===
@@ -1270,12 +1334,22 @@ def print_search_results(results, title):
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 private static void printSearchResults(SearchResp resp, String title) {
     System.out.println("\n=== " + title + " ===");
+    long currentTime = System.currentTimeMillis() / 1000;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     int rank = 1;
     for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
+        long publishDate = ((Number) hit.getEntity().get("publish_date")).longValue();
+        long daysFromNow = (currentTime - publishDate) / (24 * 60 * 60);
         System.out.println((rank++) + ". " + hit.getEntity().get("headline"));
-        System.out.println("   Score: " + hit.getScore());
+        System.out.println("   Published: " + sdf.format(new Date(publishDate * 1000)) + " (" + daysFromNow + " days ago)");
+        System.out.printf("   Score: %.4f%n", hit.getScore());
+        System.out.println();
     }
 }
 ```
@@ -1285,11 +1359,25 @@ private static void printSearchResults(SearchResp resp, String title) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 func printSearchResults(results []milvusclient.ResultSet, title string) {
     fmt.Printf("\n=== %s ===\n", title)
-    for i, rs := range results {
+    currentTime := time.Now().Unix()
+    for _, rs := range results {
         for j := 0; j < rs.ResultCount; j++ {
-            fmt.Printf("%d. %v\n", i+1, rs.Scores[j])
+            headline, _ := rs.GetColumn("headline").GetAsString(j)
+            publishDate, _ := rs.GetColumn("publish_date").GetAsInt64(j)
+            daysFromNow := (currentTime - publishDate) / (24 * 60 * 60)
+
+            fmt.Printf("%d. %s\n", j+1, headline)
+            fmt.Printf("   Published: %s (%d days ago)\n", time.Unix(publishDate, 0).Format("2006-01-02"), daysFromNow)
+            fmt.Printf("   Score: %.4f\n", rs.Scores[j])
         }
     }
 }
@@ -1300,10 +1388,27 @@ func printSearchResults(results []milvusclient.ResultSet, title string) {
 <TabItem value='rust'>
 
 ```rust
+use chrono::{DateTime, Utc};
+
 fn print_search_results(results: &[SingleResult], title: &str) {
     println!("\n=== {} ===", title);
-    for hit in results {
-        println!("Score: {:?}", hit.scores());
+    let current_time = Utc::now().timestamp();
+    for result in results {
+        for (i, row) in result.rows().unwrap().enumerate() {
+            let headline = row.get_str("headline").unwrap();
+            let publish_date = row.get_i64("publish_date").unwrap();
+            let days_from_now = (current_time - publish_date) / (24 * 60 * 60);
+
+            println!("{}. {}", i + 1, headline);
+            println!(
+                "   Published: {} ({} days ago)",
+                DateTime::from_timestamp(publish_date, 0)
+                    .unwrap()
+                    .format("%Y-%m-%d"),
+                days_from_now
+            );
+            println!("   Score: {:.4}", result.get_scores()[i]);
+        }
     }
 }
 ```
@@ -1313,10 +1418,28 @@ fn print_search_results(results: &[SingleResult], title: &str) {
 <TabItem value='c++'>
 
 ```c++
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 void PrintSearchResults(const milvus::SearchResponse& resp, const std::string& title) {
-    std::cout << "\n=== " << title << " ===" << std::endl;
+    std::cout << "\n=== " << title << " ===\n";
+    std::time_t current_time = std::time(nullptr);
     for (const auto& result : resp.Results().Results()) {
-        std::cout << "Score: " << result.Score() << std::endl;
+        auto headlines = result.OutputField<milvus::VarCharFieldData>("headline");
+        auto publish_dates = result.OutputField<milvus::Int64FieldData>("publish_date");
+        for (size_t i = 0; i < result.GetRowCount(); ++i) {
+            std::time_t ts = publish_dates->Data()[i];
+            long days_from_now = (current_time - ts) / (24 * 60 * 60);
+            std::tm tmv = *std::localtime(&ts);
+            char buf[11];
+            std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tmv);
+            std::cout << i + 1 << ". " << headlines->Data()[i] << std::endl;
+            std::cout << "   Published: " << buf << " (" << days_from_now << " days ago)" << std::endl;
+            std::cout << "   Score: " << std::fixed << std::setprecision(4) << result.Scores()[i] << std::endl;
+            std::cout << std::endl;
+        }
     }
 }
 ```
@@ -1329,9 +1452,15 @@ void PrintSearchResults(const milvus::SearchResponse& resp, const std::string& t
 function printSearchResults(results, title) {
   console.log(`
 === ${title} ===`);
+  const current_time = Math.floor(Date.now() / 1000);
   results.forEach((hit, i) => {
+    const publish_date = Number(hit.publish_date);
+    const days_from_now = Math.floor((current_time - publish_date) / (24 * 60 * 60));
+    const d = new Date(publish_date * 1000);
+    const publish_str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     console.log(`${i + 1}. ${hit.headline}`);
-    console.log(`   Score: ${hit.score}`);
+    console.log(`   Published: ${publish_str} (${days_from_now} days ago)`);
+    console.log(`   Score: ${Number(hit.score).toFixed(4)}`);
   });
 }
 ```
@@ -1341,7 +1470,24 @@ function printSearchResults(results, title) {
 <TabItem value='bash'>
 
 ```bash
-# Note: result display is handled directly by the curl response; see the search steps below.
+print_search_results() {
+    local title="$1"
+    local json="$2"
+    local current_time=$(date +%s)
+    local rank=1
+
+    echo ""
+    echo "=== $title ==="
+    echo "$json" | jq -r '.data[] | [.headline, .publish_date, .distance] | @tsv' |
+    while IFS=$'\t' read -r headline publish_date distance; do
+        local days=$(( (current_time - publish_date) / (24 * 60 * 60) ))
+        echo "$rank. $headline"
+        echo "   Published: $(date -d "@$publish_date" +%Y-%m-%d) ($days days ago)"
+        printf "   Score: %.4f\n" "$distance"
+        echo ""
+        ((rank++))
+    done
+}
 ```
 
 </TabItem>
@@ -1349,7 +1495,7 @@ function printSearchResults(results, title) {
 
 ## ステップ 8: 標準検索と減衰ベースの検索を比較する\{#step-8-compare-standard-vs-decay-based-search}
 
-次に、検索クエリを実行し、減衰ランキングありとなしの結果を比較します。
+次に、検索クエリを実行し、減衰ランキングありの場合となしの場合の結果を比較します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1478,6 +1624,13 @@ SearchResp linear = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 query := "artificial intelligence advancements"
 
 // 1. Search without decay ranking
@@ -1486,6 +1639,7 @@ standard, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName,
     WithOutputFields("headline", "content", "publish_date").
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(standard, "SEARCH RESULTS WITHOUT DECAY RANKING")
 
 // 2. Search with Gaussian decay
 gaussian, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1494,6 +1648,7 @@ gaussian, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName,
     WithFunctionReranker(gaussianRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(gaussian, "SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
 
 // 3. Search with exponential decay
 exponential, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1502,6 +1657,7 @@ exponential, err := client.Search(ctx, milvusclient.NewSearchOption(collectionNa
     WithFunctionReranker(exponentialRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(exponential, "SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING")
 
 // 4. Search with linear decay
 linear, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1510,6 +1666,7 @@ linear, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7
     WithFunctionReranker(linearRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(linear, "SEARCH RESULTS WITH LINEAR DECAY RANKING")
 ```
 
 </TabItem>
@@ -1517,6 +1674,8 @@ if err != nil { log.Fatal(err) }
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query = "artificial intelligence advancements";
 
 let search_req = |ranker: Function| {
@@ -1635,7 +1794,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === SEARCH RESULTS WITHOUT DECAY RANKING ===
@@ -1755,7 +1914,7 @@ curl --request POST \
    Score: 0.2158
 ```
 
-## ステップ 9: スコアの計算を理解する\{#step-9-understand-score-calculation}
+## ステップ 9: スコア計算を理解する\{#step-9-understand-score-calculation}
 
 元の関連性と減衰係数を組み合わせて最終スコアがどのように計算されるかを詳しく見ていきます。
 
@@ -1803,13 +1962,45 @@ System.out.println("Expected final score = Original x Decay: " + expectedScore);
 <TabItem value='go'>
 
 ```go
-daysAgo := (currentTime - publishDate) / (24 * 60 * 60)
-decayFactor := 1.0
-if daysAgo > 7 {
-    decayFactor = math.Pow(0.5, float64(daysAgo-7)/14.0)
+import (
+    "fmt"
+    "math"
+    "time"
+)
+
+// Collect the original relevance scores from the standard search results
+originalScores := make(map[string]float32)
+for _, rs := range standard {
+    for j := 0; j < rs.ResultCount; j++ {
+        headline, _ := rs.GetColumn("headline").GetAsString(j)
+        originalScores[headline] = rs.Scores[j]
+    }
 }
-expectedScore := originalScore * decayFactor
-fmt.Printf("Expected final score = Original x Decay: %.4f\n", expectedScore)
+
+// Add a detailed breakdown for the first 3 results from Gaussian decay
+fmt.Println("\n=== SCORE CALCULATION BREAKDOWN (GAUSSIAN DECAY) ===")
+for _, rs := range gaussian[:1] {
+    for j := 0; j < rs.ResultCount && j < 3; j++ {
+        headline, _ := rs.GetColumn("headline").GetAsString(j)
+        publishDate, _ := rs.GetColumn("publish_date").GetAsInt64(j)
+        daysAgo := (currentTime - publishDate) / (24 * 60 * 60)
+
+        originalScore := float64(originalScores[headline])
+
+        decayFactor := 1.0
+        if daysAgo > 7 {
+            decayFactor = math.Pow(0.5, float64(daysAgo-7)/14.0)
+        }
+
+        fmt.Printf("Item: %s\n", headline)
+        fmt.Printf("  Published: %s (%d days ago)\n", time.Unix(publishDate, 0).Format("2006-01-02"), daysAgo)
+        fmt.Printf("  Original relevance score: %.4f\n", originalScore)
+        fmt.Printf("  Decay factor (Gaussian): %.4f\n", decayFactor)
+        fmt.Printf("  Expected final score = Original x Decay: %.4f\n", originalScore*decayFactor)
+        fmt.Printf("  Actual final score: %.4f\n", rs.Scores[j])
+        fmt.Println()
+    }
+}
 ```
 
 </TabItem>
@@ -1856,7 +2047,7 @@ console.log(`Expected final score = Original x Decay: ${expected_score.toFixed(4
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === SCORE CALCULATION BREAKDOWN (GAUSSIAN DECAY) ===
@@ -1933,8 +2124,12 @@ print_search_results(hybrid_exponential_results, "HYBRID SEARCH RESULTS WITH EXP
 
 ```java
 import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.Arrays;
+import java.util.Collections;
 
 HybridSearchReq hybridReq = HybridSearchReq.builder()
         .collectionName(collectionName)
@@ -1955,7 +2150,15 @@ SearchResp hybridResp = client.hybridSearch(hybridReq);
 <TabItem value='go'>
 
 ```go
-hybrid, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Set up hybrid search (combining dense and sparse vectors)
+hybridGaussian, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     collectionName, 7,
     milvusclient.NewAnnRequest("dense", 7, entity.Text(query)),
     milvusclient.NewAnnRequest("sparse_vector", 7, entity.Text(query)),
@@ -1963,6 +2166,18 @@ hybrid, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     WithOutputFields("headline", "content", "publish_date").
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(hybridGaussian, "HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
+
+// Exponential decay
+hybridExponential, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+    collectionName, 7,
+    milvusclient.NewAnnRequest("dense", 7, entity.Text(query)),
+    milvusclient.NewAnnRequest("sparse_vector", 7, entity.Text(query)),
+).WithFunctionRerankers(exponentialRanker).
+    WithOutputFields("headline", "content", "publish_date").
+    WithConsistencyLevel(entity.ClStrong))
+if err != nil { log.Fatal(err) }
+printSearchResults(hybridExponential, "HYBRID SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING")
 ```
 
 </TabItem>
@@ -1970,6 +2185,8 @@ if err != nil { log.Fatal(err) }
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let hybrid_req = HybridSearchRequest::builder()
     .collection_name(collection_name)
     .sub_requests(vec![
@@ -1984,7 +2201,7 @@ let hybrid_req = HybridSearchRequest::builder()
             .limit(7)
             .build()?,
     ])
-    .rerank(FunctionScore::new().add_function(gaussian_ranker))
+    .rerank(gaussian_ranker.clone())
     .limit(7)
     .output_fields(vec!["headline", "content", "publish_date"])
     .build()?;
@@ -2068,7 +2285,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING ===
@@ -2130,9 +2347,9 @@ curl --request POST \
    Score: 0.0000
 ```
 
-## ステップ 11: さまざまなパラメータ値を試す\{#step-11-experiment-with-different-parameter-values}
+## ステップ 11: さまざまなパラメーター値を試す\{#step-11-experiment-with-different-parameter-values}
 
-scale パラメータを調整すると Gaussian 減衰関数がどのように変化するかを見てみましょう。
+scale パラメーターを調整すると Gaussian 減衰関数にどのような影響があるかを確認します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2174,6 +2391,14 @@ for scale_days in [7, 14, 30]:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.FunctionScore;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 for (int scaleDays : new int[]{7, 14, 30}) {
     DecayRanker scaledRanker = DecayRanker.builder()
             .name("time_decay_gaussian_" + scaleDays)
@@ -2201,6 +2426,14 @@ for (int scaleDays : new int[]{7, 14, 30}) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 for _, scaleDays := range []int{7, 14, 30} {
     scaledRanker := entity.NewFunction().
         WithName(fmt.Sprintf("time_decay_gaussian_%d", scaleDays)).
@@ -2227,6 +2460,8 @@ for _, scaleDays := range []int{7, 14, 30} {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 for scale_days in [7, 14, 30] {
     let scaled_ranker = Function::new()
         .name(format!("time_decay_gaussian_{}", scale_days))
@@ -2288,6 +2523,8 @@ for (int scale_days : {7, 14, 30}) {
 <TabItem value='javascript'>
 
 ```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
 for (const scale_days of [7, 14, 30]) {
   const scaled_ranker = {
     name: `time_decay_gaussian_${scale_days}`,
@@ -2317,7 +2554,7 @@ for (const scale_days of [7, 14, 30]) {
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === PARAMETER VARIATION EXPERIMENT: SCALE ===
@@ -2410,9 +2647,9 @@ for (const scale_days of [7, 14, 30]) {
    Score: 0.0000
 ```
 
-## ステップ 12: 異なるクエリでテストする\{#step-12-testing-with-different-queries}
+## ステップ 12: さまざまなクエリでテストする\{#step-12-testing-with-different-queries}
 
-さまざまな検索クエリで減衰ランキングがどのように機能するかを見てみましょう。
+減衰ランキングがさまざまな検索クエリでどのように機能するかを確認します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2438,6 +2675,13 @@ for test_query in ["machine learning", "neural networks", "ethics in AI"]:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.FunctionScore;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 for (String testQuery : Arrays.asList("machine learning", "neural networks", "ethics in AI")) {
     SearchResp resp = client.search(SearchReq.builder()
             .collectionName(collectionName)
@@ -2459,6 +2703,14 @@ for (String testQuery : Arrays.asList("machine learning", "neural networks", "et
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 for _, testQuery := range []string{"machine learning", "neural networks", "ethics in AI"} {
     results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 4, []entity.Vector{entity.Text(testQuery)}).
         WithANNSField("dense").
@@ -2477,6 +2729,8 @@ for _, testQuery := range []string{"machine learning", "neural networks", "ethic
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 for test_query in ["machine learning", "neural networks", "ethics in AI"] {
     let res = client.search(SearchRequest::builder()
         .collection_name(collection_name)
@@ -2539,7 +2793,7 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 </TabItem>
 </Tabs>
 
-期待される出力:
+期待される出力：
 
 ```plaintext
 === TESTING QUERY: 'machine learning' WITH GAUSSIAN DECAY ===
@@ -2602,13 +2856,13 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 
 ## まとめ\{#conclusion}
 
-Milvus の減衰関数を使用した時間ベースのランキングは、意味的な関連性と新しさのバランスを取るための強力な手段を提供します。適切な減衰関数とパラメータを構成することで、意味的な関連性を保ちながら新しいコンテンツを強調する検索エクスペリエンスを作成できます。
+Milvus で減衰関数を使用した時間ベースのランキングは、意味的な関連性と新しさのバランスを取る強力な方法を提供します。適切な減衰関数とパラメーターを設定すると、意味的な関連性を維持しながら新しいコンテンツを強調する検索体験を作成できます。
 
-このアプローチは、特に次のような用途に役立ちます。
+このアプローチは、特に次のような場合に役立ちます。
 
 - ニュースおよびメディアプラットフォーム
 
-- Eコマースの商品リスト
+- E コマースの商品リスト
 
 - ソーシャルメディアのコンテンツフィード
 
@@ -2616,4 +2870,4 @@ Milvus の減衰関数を使用した時間ベースのランキングは、意�
 
 - 研究論文リポジトリ
 
-減衰関数の背後にある数学を理解し、さまざまなパラメータを試すことで、特定のユースケースに対して関連性と鮮度の最適なバランスを提供するように検索システムを微調整できます。
+減衰関数の背後にある数学を理解し、さまざまなパラメーターを試すことで、特定のユースケースに合わせて関連性と鮮度の最適なバランスを実現するように検索システムを微調整できます。

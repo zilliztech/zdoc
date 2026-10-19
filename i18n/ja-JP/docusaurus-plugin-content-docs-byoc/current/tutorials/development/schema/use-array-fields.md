@@ -38,7 +38,7 @@ ARRAY フィールドがデータを格納する方法の例を次に示しま�
 
 - <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメータで定義される同じデータ型を共有する必要があります。`element_type` が `VARCHAR` に設定されている場合は、配列要素の `max_length` も指定する必要があります。`element_type` は任意のスカラーデータ型、`JSON`、および `STRUCT` を受け入れます。
 
-- **配列容量**: ARRAY フィールド内の要素数は、Array の作成時に `max_capacity` で定義された最大容量以下である必要があります。値は **1** から **4096** の範囲内の整数である必要があります。
+- **配列容量**: ARRAY フィールド内の要素数は、Array の作成時に `max_capacity` で指定された最大容量以下である必要があります。値は **1** から **4096** の範囲内の整数である必要があります。
 
 - **文字列の扱い**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
@@ -76,7 +76,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add `tags` and `ratings` ARRAY fields with nullable=True
@@ -161,7 +161,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema()
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
 schema.WithField(entity.NewField().
     WithName("tags").
     WithDataType(entity.FieldTypeArray).
@@ -194,44 +194,40 @@ schema.WithField(entity.NewField().
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let schema = CollectionSchema::new()
-        .enable_dynamic_field(true)
-        .add_field(
-            FieldSchema::new()
-                .name("tags")
-                .data_type(DataType::Array)
-                .element_type(DataType::VarChar)
-                .max_capacity(10)
-                .max_length(65535)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("ratings")
-                .data_type(DataType::Array)
-                .element_type(DataType::Int64)
-                .max_capacity(5)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-    Ok(())
-}
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("tags")
+            .data_type(DataType::Array)
+            .element_type(DataType::VarChar)
+            .max_capacity(10)
+            .max_length(65535)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("ratings")
+            .data_type(DataType::Array)
+            .element_type(DataType::Int64)
+            .max_capacity(5)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>
@@ -420,7 +416,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewInvertedIndex()).WithIndexName("tags_index")
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewAutoIndex(entity.COSINE)).WithIndexName("tags_index")
 indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -429,6 +425,8 @@ indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", ind
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let tags_index = IndexParam::new()
     .field_name("tags")
     .index_name("tags_index")
@@ -537,6 +535,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_collection", schema).
     WithIndexOptions(indexOpt1, indexOpt2))
 if err != nil {
@@ -556,6 +560,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -734,6 +740,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -857,7 +864,7 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-完全な配列を挿入するだけでなく、`ARRAY` フィールドは `upsert` API 上の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらの演算子を使用すると、既存の配列の現在値を取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+完全な配列を挿入するだけでなく、`ARRAY` フィールドは `upsert` API の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらの演算子を使用すると、既存の配列の現在値を先に取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 </Admonition>
 
@@ -926,6 +933,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -960,7 +969,7 @@ if (!status.IsOk()) {
 milvus::EntityRows output_rows;
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1020,6 +1029,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "ratings[0] > 4";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -1045,9 +1058,9 @@ if err != nil {
     // handle error
 }
 
-fmt.Println("pk", rs.GetColumn("pk").FieldData().GetScalars())
 fmt.Println("tags", rs.GetColumn("tags").FieldData().GetScalars())
 fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
+fmt.Println("embedding", rs.GetColumn("embedding").FieldData().GetVectors())
 ```
 
 </TabItem>
@@ -1055,6 +1068,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -1087,7 +1102,7 @@ if (!status.IsOk()) {
 
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1178,6 +1193,14 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "tags[0] == \"pop\""
 
@@ -1210,6 +1233,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let search_results = client
     .search(
         SearchRequest::builder()
@@ -1255,7 +1280,7 @@ for (const auto& result : search_results.Results()) {
     milvus::EntityRows result_rows;
     status = result.OutputRows(result_rows);
     for (const auto& row : result_rows) {
-        std::cout << "	" << row << std::endl;
+        std::cout << "        " << row << std::endl;
     }
 }
 ```

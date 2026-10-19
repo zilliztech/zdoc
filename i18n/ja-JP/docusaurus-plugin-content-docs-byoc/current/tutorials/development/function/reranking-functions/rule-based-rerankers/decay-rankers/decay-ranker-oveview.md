@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "従来のベクトル検索では、結果はベクトルの類似性だけでランク付けされます。つまり、数学空間でベクトルがどれだけ近いかによって決まります。しかし、実際のアプリケーションでは、コンテンツが真に関連性の高いものになるかどうかは、意味的な類似性だけでは決まらないことがよくあります。 | BYOC"
+description: "従来のベクトル検索では、結果はベクトルの類似性だけでランク付けされます。つまり、数学空間でベクトルがどれだけ一致するかによって決まります。しかし、実際のアプリケーションでは、コンテンツが真に関連性の高いものになるかどうかは、意味的な類似性だけでは決まらないことがよくあります。 | BYOC"
 type: origin
 token: QZYhwcQhWigYTVkLnHeczkwYnZb
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Decay Ranker の概要
 
-従来のベクトル検索では、結果はベクトルの類似性だけでランク付けされます。つまり、数学空間でベクトルがどれだけ近いかによって決まります。しかし、実際のアプリケーションでは、コンテンツが真に関連性の高いものになるかどうかは、意味的な類似性だけでは決まらないことがよくあります。
+従来のベクトル検索では、結果はベクトルの類似性だけでランク付けされます。つまり、数学空間でベクトルがどれだけ一致するかによって決まります。しかし、実際のアプリケーションでは、コンテンツが真に関連性の高いものになるかどうかは、意味的な類似性だけでは決まらないことがよくあります。
 
 次のような日常的なシナリオを考えてみましょう。
 
@@ -45,11 +45,11 @@ Zilliz Cloud の Decay Ranker は、数値フィールドの値に基づいて�
 
 - **時間単位の一貫性**: 時間ベースの Decay ランキングを使用する場合、`origin`、`scale`、`offset` パラメーターの単位は、コレクションデータで使用されている単位と一致している必要があります。
 
-    - コレクションがタイムスタンプを **秒** で保存している場合は、すべてのパラメーターに秒を使用します
+    - コレクションがタイムスタンプを **秒** で保存している場合は、すべてのパラメーターに秒を使用します。
 
-    - コレクションがタイムスタンプを **ミリ秒** で保存している場合は、すべてのパラメーターにミリ秒を使用します
+    - コレクションがタイムスタンプを **ミリ秒** で保存している場合は、すべてのパラメーターにミリ秒を使用します。
 
-    - コレクションがタイムスタンプを **マイクロ秒** で保存している場合は、すべてのパラメーターにマイクロ秒を使用します
+    - コレクションがタイムスタンプを **マイクロ秒** で保存している場合は、すべてのパラメーターにマイクロ秒を使用します。
 
 ## 仕組み\{#how-it-works}
 
@@ -107,10 +107,10 @@ final_score = max([normalized_score₁, normalized_score₂, ..., normalized_sco
 
 | 論文 | ベクトル類似度 | 正規化類似度スコア | 公開日 | Decay スコア | 最終スコア | 最終ランク |
 | --- | --- | --- | --- | --- | --- | --- |
-| 論文 A | 高 | 0.85 (`COSINE`) | 2 週間前 | 0.80 | 0.68 | #2 |
-| 論文 B | 非常に高い | 0.92 (`COSINE`) | 6 か月前 | 0.45 | 0.41 | #3 |
-| 論文 C | 中 | 0.75 (`COSINE`) | 1 日前 | 0.98 | 0.74 | #1 |
-| 論文 D | 中～高 | 0.76 (`COSINE`) | 3 週間前 | 0.70 | 0.53 | #4 |
+| 論文 A | 高 | 0.85（`COSINE`） | 2 週間前 | 0.80 | 0.68 | #2 |
+| 論文 B | 非常に高い | 0.92（`COSINE`） | 6 か月前 | 0.45 | 0.41 | #3 |
+| 論文 C | 中 | 0.75（`COSINE`） | 1 日前 | 0.98 | 0.74 | #1 |
+| 論文 D | 中～高 | 0.76（`COSINE`） | 3 週間前 | 0.70 | 0.53 | #4 |
 
 Decay リランキングを行わない場合、純粋なベクトル類似度（0.92）に基づくと論文 B が最も上位にランク付けされます。しかし、Decay リランキングを適用すると次のようになります。
 
@@ -161,11 +161,11 @@ Zilliz Cloud では、それぞれ特定のユースケース向けに設計さ�
 
 ## 実装例\{#implementation-example}
 
-Decay Ranker は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
+Decay Ranker は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
 <Admonition type="info" title="Notes">
 
-Decay 関数を使用する前に、まず Decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking) を参照してください。
+Decay 関数を使用する前に、まず Decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: 時間ベースのランキングを Milvus で実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -203,9 +203,9 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 
 ZonedDateTime zdt = ZonedDateTime.of(2025, 1, 25, 0, 0, 0, 0, ZoneId.systemDefault());
 
@@ -225,6 +225,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("time_decay").
     WithInputFields("timestamp").
@@ -244,25 +246,20 @@ rerank := entity.NewFunction().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rerank = DecayRerank::new()
-        .function(Function::new()
-            .name("time_decay")
-            .input_fields(["timestamp"])
-            .function_type(FunctionType::Rerank)
-            .param("reranker", "decay"))
-        .decay_function("gauss")
-        .origin(1735689600)
-        .scale(7 * 24 * 60 * 60)
-        .offset(24 * 60 * 60)
-        .decay(0.5);
-
-    Ok(())
-}
+let rerank = DecayRerank::new()
+    .function(Function::new()
+        .name("time_decay")
+        .input_fields(["timestamp"])
+        .function_type(FunctionType::Rerank)
+        .param("reranker", "decay"))
+    .decay_function("gauss")
+    .origin(1735689600)
+    .scale(7 * 24 * 60 * 60)
+    .offset(24 * 60 * 60)
+    .decay(0.5);
 ```
 
 </TabItem>
@@ -289,7 +286,7 @@ import {FunctionType } from "@zilliz/milvus2-sdk-node";
 const rerank = {
   name: "time_decay",
   input_field_names: ["timestamp"],
-  function_type: FunctionType.RERANK,
+  type: FunctionType.RERANK,
   params: {
     reranker: "decay",
     function: "gauss",
@@ -352,8 +349,8 @@ const rerank = {
    <tr>
      <td><p><code>params.origin</code></p></td>
      <td><p>はい</p></td>
-     <td><p>Decay スコアの計算の基準となる参照点です。この値にある項目は最大の関連性スコアを受け取ります。</p><p>時間ベースの Decay では、時間単位をコレクションデータと一致させる必要があります。</p></td>
-     <td><ul><li><p>タイムスタンプの場合: 現在時刻（例: <code>int(time.time())</code>）</p></li><li><p>地理位置の場合: ユーザーの現在の座標</p></li></ul></td>
+     <td><p>Decay スコアの計算の基準となる参照点です。この値を持つ項目は最大の関連性スコアを受け取ります。</p><p>時間ベースの Decay では、時間単位をコレクションデータと一致させる必要があります。</p></td>
+     <td><ul><li><p>タイムスタンプの場合: 現在時刻（例: <code>int(time.time())</code>）</p></li><li><p>位置情報の場合: ユーザーの現在の座標</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.scale</code></p></td>
@@ -401,9 +398,12 @@ results = milvus_client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -423,6 +423,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -443,16 +450,18 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let function_score = FunctionScore::new().add_function(rerank);
-    let request = SearchRequest::builder()
-        .collection_name(collection_name)
-        .vectors(SearchVectors::Float(vec![your_query_vector]))
-        .vector_field("vector_field")
-        .limit(10)
-        .output_fields(vec!["document", "timestamp"])
-        .rerank(function_score)
-        .build()?;
-    let resp = client.search(request).await?;
+use milvus::v2::prelude::*;
+
+let function_score = FunctionScore::new().add_function(rerank);
+let request = SearchRequest::builder()
+    .collection_name(collection_name)
+    .vectors(SearchVectors::Float(vec![your_query_vector]))
+    .vector_field("vector_field")
+    .limit(10)
+    .output_fields(vec!["document", "timestamp"])
+    .rerank(function_score)
+    .build()?;
+let resp = client.search(request).await?;
 ```
 
 </TabItem>
