@@ -71,12 +71,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba"}
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
 ```
 
 </TabItem>
@@ -415,6 +410,12 @@ client.addFileResource(AddFileResourceReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AddFileResource(ctx, milvusclient.NewAddFileResourceOption("zh_terms", "file/zh_terms.txt"))
 if err != nil {
     fmt.Println(err.Error())
@@ -427,6 +428,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     client.add_file_resource(AddFileResourceRequest::builder()
         .name("zh_terms")
         .path("file/zh_terms.txt")
@@ -438,6 +441,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::AddFileResourceRequest add_file_request;
 add_file_request.WithName("zh_terms");
 add_file_request.WithPath("file/zh_terms.txt");
@@ -498,6 +504,13 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
   put("type", "jieba");
@@ -524,6 +537,13 @@ client.runAnalyzer(RunAnalyzerReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "encoding/json"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"milvus结巴分词器中文测试"}
 option := milvusclient.NewRunAnalyzerOption(texts...).
@@ -541,6 +561,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let analyzer_params = serde_json::json!({
         "tokenizer": {
             "type": "jieba",
@@ -566,6 +588,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 nlohmann::json analyzer_params = {
     {"tokenizer", {
         {"type", "jieba"},
@@ -822,6 +847,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -848,6 +875,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["milvus结巴分词器中文测试"])
         .analyzer_params(analyzer_params)
@@ -860,6 +889,8 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <string>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -926,4 +957,3 @@ curl --request POST \
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']
 ```
-

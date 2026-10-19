@@ -106,7 +106,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
@@ -242,7 +242,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
@@ -373,30 +373,26 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = json!({
-        "tokenizer": "standard",
-        "filter": [
-            {
-                "type": "length",
-                "max": 10
-            }
-        ]
-    });
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [
+        {
+            "type": "length",
+            "max": 10
+        }
+    ]
+});
 
-    let run_analyzer_req = RunAnalyzerRequest::builder()
-        .texts(vec!["The length filter allows control over token length requirements for text processing."])
-        .analyzer_params(analyzer_params)
-        .build()?;
+let run_analyzer_req = RunAnalyzerRequest::builder()
+    .texts(vec!["The length filter allows control over token length requirements for text processing."])
+    .analyzer_params(analyzer_params)
+    .build()?;
 
-    let res = client.run_analyzer(run_analyzer_req).await?;
-    println!("{:?}", res.results());
-    Ok(())
-}
+let res = client.run_analyzer(run_analyzer_req).await?;
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -446,7 +442,7 @@ const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
 });
 
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length",
@@ -489,4 +485,3 @@ curl --request POST \
 ```python
 ['The', 'length', 'filter', 'allows', 'control', 'over', 'token', 'length', 'for', 'text', 'processing']
 ```
-

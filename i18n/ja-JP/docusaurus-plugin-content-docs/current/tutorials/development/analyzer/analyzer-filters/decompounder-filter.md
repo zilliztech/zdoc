@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に有用です。 | Cloud"
+description: "`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語など、複合語を頻繁に使用する言語に特に役立ちます。 | Cloud"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
 sidebar_position: 9
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Decompounder
 
-`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に有用です。
+`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語など、複合語を頻繁に使用する言語に特に役立ちます。
 
 ## 設定\{#configuration}
 
-`decompounder` フィルターは、`word_list` パラメーターを介してインラインで構成要素辞書を受け取るか、`word_list_file` パラメーターを介して登録済みのファイルリソースから受け取ります。
+`decompounder` フィルターは、`word_list` パラメーターでインラインに指定するか、`word_list_file` パラメーターで登録済みのファイルリソースから指定した構成要素辞書を受け入れます。
 
-### インラインの単語リスト\{#inline-word-list}
+### インライン単語リスト\{#inline-word-list}
 
-`decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターをあわせて指定します。
+`decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを併せて指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -71,7 +71,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -114,7 +114,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -150,15 +150,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`decompounder` フィルターは、以下の設定可能なパラメーターを受け入れます。
+`decompounder` フィルターは、次の設定可能なパラメーターを受け入れます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `word_list` | 複合語を分割するために使用される単語構成要素のリストです。この辞書によって、複合語をどのように個別の語に分解するかが決まります。 |
+| `word_list` | 複合語を分割するために使用する単語構成要素のリストです。この辞書は、複合語を個々のトークンに分解する方法を決定します。 |
 
-`decompounder` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+`decompounder` フィルターはトークナイザーが生成したトークンに作用するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定したアナライザーを使用して効率的にトークン化およびフィルタリングできます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -206,7 +206,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -249,7 +249,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -347,6 +347,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -378,28 +380,24 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = json!({
-        "tokenizer": "standard",
-        "filter": [{
-            "type": "decompounder",
-            "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
-        }]
-    });
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "decompounder",
+        "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
+    }]
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["dampfschifffahrt brotbackautomat".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("{:?}", result.results());
-    Ok(())
-}
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["dampfschifffahrt brotbackautomat".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("{:?}", result.results());
 ```
 
 </TabItem>

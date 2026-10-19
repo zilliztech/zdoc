@@ -63,6 +63,11 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -131,7 +136,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter": [
         "lowercase",
@@ -186,6 +191,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 ```
@@ -225,7 +233,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
 }
 ```
@@ -248,7 +256,7 @@ analyzerParams='{
 
 | パラメーター | 説明 |
 | --- | --- |
-| `stop_words` | ストップワードのリストを含む配列で、トークン化から削除されます。デフォルトは `_english_` で、一般的な英語ストップワードの組み込みセットです。 |
+| `stop_words` | ストップワードのリストを含む配列で、これらのストップワードはトークン化から削除されます。デフォルトは、一般的な英語のストップワードの組み込みセットである `_english_` です。 |
 
 カスタムストップワードを使用した設定例:
 
@@ -267,6 +275,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
@@ -309,7 +321,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
     "stop_words": ["a", "an", "the"]
 }
@@ -334,13 +346,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a コレクション スキーマ. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-Before applying the analyzer configuration to your コレクション スキーマ, verify its behavior using the `run_analyzer` method.
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### Analyzer 設定\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -357,6 +369,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
@@ -399,7 +415,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "english",
     "stop_words": ["a", "an", "the"]
 }
@@ -490,6 +506,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -524,31 +542,27 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "type": "english",
-        "stop_words": ["a", "an", "the"]
-    });
+let analyzer_params = serde_json::json!({
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+});
 
-    let response = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(["Milvus is a vector database built for scale!"])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["Milvus is a vector database built for scale!"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    for result in response.results() {
-        for token in result.get_tokens() {
-            println!("English analyzer output: {}", token.get_text());
-        }
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("English analyzer output: {}", token.get_text());
     }
-    Ok(())
 }
 ```
 

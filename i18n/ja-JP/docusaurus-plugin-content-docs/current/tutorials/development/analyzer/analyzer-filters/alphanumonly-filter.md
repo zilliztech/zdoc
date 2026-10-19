@@ -284,24 +284,18 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
 texts := []string{"Milvus 2.0 @ Scale! #AI #Vector_Databasé"}
-
 option := milvusclient.NewRunAnalyzerOption(texts...).
-
     WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
@@ -320,30 +314,26 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "standard",
-        "filter": ["alphanumonly"]
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["alphanumonly"]
+});
 
-    let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
+let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
 
-    let result = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(vec![sample_text])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec![sample_text])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    println!("Standard analyzer output: {:?}", result.results());
-    Ok(())
-}
+println!("Standard analyzer output: {:?}", result.results());
 ```
 
 </TabItem>
@@ -421,4 +411,3 @@ curl --request POST \
 ```python
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']
 ```
-

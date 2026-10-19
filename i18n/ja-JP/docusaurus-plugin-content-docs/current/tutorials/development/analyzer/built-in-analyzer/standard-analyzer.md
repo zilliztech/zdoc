@@ -1,5 +1,5 @@
 ---
-title: "Standard Analyzer | Cloud"
+title: "Standard アナライザー | Cloud"
 slug: /standard-analyzer
 sidebar_label: "標準"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。standard tokenizer と lowercase filter を組み合わせたものです。 | Cloud"
+description: "`standard` アナライザーは Zilliz Cloud のデフォルトのアナライザーであり、アナライザーが指定されていない場合はテキストフィールドに自動的に適用されます。standard トークナイザーと lowercase フィルターを組み合わせています。 | Cloud"
 type: origin
 token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
 sidebar_position: 1
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard Analyzer
+# Standard アナライザー
 
-`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。standard tokenizer と lowercase filter を組み合わせています。
+`standard` アナライザーは Zilliz Cloud のデフォルトのアナライザーであり、アナライザーが指定されていない場合はテキストフィールドに自動的に適用されます。standard トークナイザーと lowercase フィルターを組み合わせています。
 
 <Admonition type="info" title="Notes">
 
-`standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を使用する言語に適しています。ただし、中国語、日本語、韓国語などの言語では辞書ベースのトークン化が必要です。そのような場合は、正確なトークン化とより良い検索結果を得るために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer、または専用の tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）と filter を組み合わせたカスタム analyzer の使用を強く推奨します。
+`standard` アナライザーは、単語境界に区切り文字（スペースや句読点など）を使用する言語に適しています。ただし、中国語、日本語、韓国語などの言語では辞書ベースのトークン化が必要です。そのような場合は、正確なトークン化とより良い検索結果を得るために、[`chinese`](./chinese-analyzer) のような言語固有のアナライザー、または専用のトークナイザー（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）とフィルターを組み合わせたカスタムアナライザーを使用することを強く推奨します。
 
 </Admonition>
 
 ## 定義\{#definition}
 
-`standard` analyzer は次のコンポーネントで構成されています。
+`standard` アナライザーは、次のコンポーネントで構成されています。
 
-- **Tokenizer**: `standard` tokenizer を使用して、連続する Unicode の英字と数字を 1つのトークンとして保持し、それ以外の文字で分割します。正確な文字ルールについては、[Standard Tokenizer](./standard-tokenizer) を参照してください。
+- **Tokenizer**: `standard` トークナイザーを使用して、連続する Unicode の文字と数字をトークンに保持し、それ以外の文字で分割します。正確な文字ルールについては、[Standard Tokenizer](./standard-tokenizer) を参照してください。
 
-- **Filter**: `lowercase` filter を使用してすべてのトークンを小文字に変換し、大文字と小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
+- **Filter**: `lowercase` フィルターを使用してすべてのトークンを小文字に変換し、大文字と小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
-`standard` analyzer の機能は、次のカスタム analyzer 設定と同等です。
+`standard` アナライザーの機能は、次のカスタムアナライザー構成と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -54,6 +54,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -94,7 +98,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
@@ -119,7 +123,7 @@ analyzerParams='{
 
 ## 設定\{#configuration}
 
-`standard` analyzer をフィールドに適用するには、`analyzer_params` で `type` を `standard` に設定し、必要に応じてオプションのパラメーターを含めます。
+`standard` アナライザーをフィールドに適用するには、`analyzer_params` で `type` を `standard` に設定し、必要に応じてオプションパラメーターを含めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -135,6 +139,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 ```
@@ -172,7 +179,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
 }
 ```
@@ -191,13 +198,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`standard` analyzer は、次のオプションのパラメーターを受け付けます。
+`standard` アナライザーは、次のオプションパラメーターを受け付けます。
 
 | パラメーター | 説明 |
 | --- | --- |
 | `stop_words` | トークン化から削除されるストップワードのリストを含む配列です。 |
 
-カスタムストップワードの設定例：
+カスタムストップワードの設定例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -214,6 +221,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("of"));
@@ -277,13 +288,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定した analyzer を使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、これらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使って動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザーの設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -300,6 +311,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("for"));
@@ -364,7 +379,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -430,6 +445,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -459,27 +476,23 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let texts = ["The Milvus vector database is built for scale!".to_string()];
-    let analyzer_params = serde_json::json!({
-        "type": "standard",
-        "stop_words": ["for"]
-    });
+let texts = ["The Milvus vector database is built for scale!".to_string()];
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["for"]
+});
 
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(texts)
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(texts)
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
 
-    println!("{:?}", result.results());
-    Ok(())
-}
+println!("{:?}", result.results());
 ```
 
 </TabItem>
@@ -516,7 +529,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
 const res = await client.runAnalyzer({
     text: 'The Milvus vector database is built for scale!',
     analyzer_params: analyzer_params

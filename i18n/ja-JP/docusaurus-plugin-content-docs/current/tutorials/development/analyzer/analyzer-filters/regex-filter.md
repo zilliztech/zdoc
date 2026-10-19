@@ -356,32 +356,28 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "standard",
-        "filter": [{
-            "type": "regex",
-            "expr": "^(?!test)"
-        }]
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "regex",
+        "expr": "^(?!test)"
+    }]
+});
 
-    let sample_text = "testItem apple testCase banana";
-    let result = client
-        .run_analyzer(
-            RunAnalyzerRequest::builder()
-                .texts(vec![sample_text])
-                .analyzer_params(analyzer_params)
-                .build()?,
-        )
-        .await?;
+let sample_text = "testItem apple testCase banana";
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec![sample_text])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-    println!("Standard analyzer output: {:?}", result);
-    Ok(())
-}
+println!("Standard analyzer output: {:?}", result);
 ```
 
 </TabItem>

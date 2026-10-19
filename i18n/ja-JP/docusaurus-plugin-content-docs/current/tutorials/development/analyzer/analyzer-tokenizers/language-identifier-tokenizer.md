@@ -572,6 +572,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 // Configuration
 analyzerParams := map[string]any{
     "tokenizer": map[string]any{
@@ -625,43 +627,39 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Configuration
-    let analyzer_params = json!({
-        "tokenizer": {
-            "type": "language_identifier",
-            "identifier": "whatlang",
-            "analyzers": {
-                "default": {"tokenizer": "standard"},
-                "English": {"type": "english"},
-                "Mandarin": {"tokenizer": "jieba"}
-            }
+// Configuration
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "language_identifier",
+        "identifier": "whatlang",
+        "analyzers": {
+            "default": {"tokenizer": "standard"},
+            "English": {"type": "english"},
+            "Mandarin": {"tokenizer": "jieba"}
         }
-    });
+    }
+});
 
-    // English text
-    let result_en = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["The Milvus vector database is built for scale!".to_string()])
-            .analyzer_params(analyzer_params.clone())
-            .build()?,
-    ).await?;
-    println!("English: {:?}", result_en.results());
+// English text
+let result_en = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["The Milvus vector database is built for scale!".to_string()])
+        .analyzer_params(analyzer_params.clone())
+        .build()?,
+).await?;
+println!("English: {:?}", result_en.results());
 
-    // Chinese text
-    let result_cn = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["Milvus向量数据库专为大规模应用而设计".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("Chinese: {:?}", result_cn.results());
-    Ok(())
-}
+// Chinese text
+let result_cn = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["Milvus向量数据库专为大规模应用而设计".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("Chinese: {:?}", result_cn.results());
 ```
 
 </TabItem>
@@ -886,6 +884,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 // Configuration for French, German, Spanish, etc.
 analyzerParams := map[string]any{
     "tokenizer": map[string]any{
@@ -932,37 +932,33 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Configuration for French, German, Spanish, etc.
-    let analyzer_params = json!({
-        "tokenizer": {
-            "type": "language_identifier",
-            "identifier": "lingua",
-            "analyzers": {
-                "default": {"tokenizer": "standard"},
-                "English": {"type": "english"},
-                "French": {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase", "asciifolding"]
-                }
+// Configuration for French, German, Spanish, etc.
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "language_identifier",
+        "identifier": "lingua",
+        "analyzers": {
+            "default": {"tokenizer": "standard"},
+            "English": {"type": "english"},
+            "French": {
+                "tokenizer": "standard",
+                "filter": ["lowercase", "asciifolding"]
             }
         }
-    });
+    }
+});
 
-    // Test with accented text
-    let result_fr = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["Café français très délicieux".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("French: {:?}", result_fr.results());
-    Ok(())
-}
+// Test with accented text
+let result_fr = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["Café français très délicieux".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("French: {:?}", result_fr.results());
 ```
 
 </TabItem>

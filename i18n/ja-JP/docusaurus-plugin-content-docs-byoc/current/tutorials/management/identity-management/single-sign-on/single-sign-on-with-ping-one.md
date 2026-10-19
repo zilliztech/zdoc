@@ -7,9 +7,6 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-channel: next
-sidebar_custom_props:
-  channel: next
 description: "このトピックでは、SAML 2.0 プロトコルを使用して Ping Identity（PingOne）とのシングルサインオン（SSO）を構成する方法について説明します。 | BYOC"
 type: origin
 token: KIPiw0RqSieKkjkACwGcvgfLnSe
@@ -112,7 +109,7 @@ Zilliz Cloud は、PingOne で SAML アプリケーションを作成する際�
     <Admonition type="info" title="Notes">
 
     両方のメールマッピングを構成してください。NameID 形式を設定するだけでは、`email` 属性は設定されません。
-
+    
     Zilliz Cloud にメタデータをインポートする前に、PingOne アプリケーションを有効にしてください。無効なアプリケーションのメタデータ URL は `404` を返し、インポートが失敗する可能性があります。
 
     </Admonition>
@@ -142,7 +139,7 @@ PingOne のアプリケーション設定の詳細については、[Adding an a
     <Admonition type="info" title="Notes">
 
     手動で構成する場合は、`-----BEGIN CERTIFICATE-----` と `-----END CERTIFICATE-----` を含む完全な PEM 証明書を指定してください。
-
+    
     Zilliz Cloud では、拡張子が `.pem`、`.cer`、または `.cert` の証明書をアップロードできます。PingOne が X509 PEM 証明書を `.crt` としてダウンロードする場合は、その内容を貼り付けるか、アップロード前に拡張子を `.pem` に変更してください。バイナリ証明書の拡張子を変更しても、PEM に変換されるわけではありません。
 
     </Admonition>
