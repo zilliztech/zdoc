@@ -846,7 +846,7 @@ describe('createDocusaurusConfig', () => {
   it('maps every declared content field and named English Markdown policy exactly once', () => {
     const config = createDocusaurusConfig(profile());
     const plugins = docsPlugins(config);
-    const markdownPolicy = resolveMarkdownPolicy(profile().markdown);
+    const markdownPolicy = resolveMarkdownPolicy(profile().markdown, 'en');
 
     expect(plugins[0][1]).toMatchObject({
       id: 'default',

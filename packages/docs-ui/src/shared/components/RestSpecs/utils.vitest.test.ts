@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder} from './utils.js';
+import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -107,5 +107,36 @@ describe('RestSpecs localized operation description', () => {
 
   it('falls back to the source description when the locale is absent', () => {
     expect(getLocalizedDescription(operation, 'en-US')).toBe('Import prepared data files into a collection.');
+  });
+});
+
+describe('RestSpecs textFilter link localization', () => {
+  const markdownDescription = '关于 CU 大小的增量规则，请参阅 [详细计划对比](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment)。';
+
+  it('keeps Chinese pages on the Chinese site and routes Milvus links to the Chinese tree', () => {
+    const html = textFilter(markdownDescription, 'zilliz', 'zh-CN');
+    expect(html).toContain('href="/docs/select-zilliz-cloud-service-plans#deployment"');
+    expect(html).toContain('详细计划对比');
+  });
+
+  it('prefixes Japanese pages with /ja-JP and localizes Milvus doc links', () => {
+    const html = textFilter('詳細は[パターンマッチング](https://milvus.io/docs/pattern-matching.md)を参照。', 'zilliz', 'ja-JP');
+    expect(html).toContain('href="https://milvus.io/docs/ja/pattern-matching.md"');
+  });
+
+  it('rewrites inline HTML anchors and keeps English links on the English site', () => {
+    const html = textFilter('<ul><li><a href="https://docs.zilliz.com/docs/data-import-parquet#import-data">Parquet</a></li></ul>', 'zilliz', 'en-US');
+    expect(html).toContain('href="/docs/data-import-parquet#import-data"');
+  });
+
+  it('drops include blocks for other targets before rewriting the remaining links', () => {
+    const text = '<include target="milvus">see [guide](https://milvus.io/docs/index.md)</include><exclude target="milvus">see [guide](https://docs.zilliz.com/docs/limits)</exclude>';
+    expect(textFilter(text, 'zilliz', 'zh-CN')).toContain('href="/docs/limits"');
+    expect(textFilter(text, 'zilliz', 'zh-CN')).not.toContain('milvus.io');
+  });
+
+  it('keeps enum rendering and unknown locales on English behavior', () => {
+    const html = textFilter('Supported values: `CU_1`', 'zilliz', undefined);
+    expect(html).toContain('CU_1');
   });
 });

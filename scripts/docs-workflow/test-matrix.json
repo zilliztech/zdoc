@@ -80,6 +80,21 @@
       "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks."
     },
     {
+      "id": "docs-ui-doc-links",
+      "paths": [
+        "packages/docs-ui/src/shared/links/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/links/rewriteDocLinks.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Absolute docs.zilliz.com(.cn) and milvus.io links must rewrite to in-language targets (relative site paths with /ja-JP for Japanese; localized milvus.io trees) for both the RestSpecs renderer and the doc-links remark policy."
+    },
+    {
       "id": "docs-ui-layout",
       "paths": [
         "packages/docs-ui/src/en/theme/Navbar/Content/**",
@@ -436,6 +451,7 @@
         "packages/docs-tooling/src/lark/larkDocWriter.js",
         "packages/docs-tooling/src/lark/larkDocWriter.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
+        "packages/docs-tooling/src/lark/regression.test.js",
         "scripts/docs-workflow/generate-guides-sidebars*",
         "scripts/docs-workflow/prepare-guides-bootstrap-stage*",
         "scripts/docs-workflow/render-guides-table*",
@@ -456,7 +472,8 @@
         "node --test packages/docs-tooling/src/lark/requestedGuidesFetchPlanner.test.js",
         "pnpm test:guides-workflow",
         "node --test packages/docs-tooling/src/lark/guidesBaseRecordSemantics.test.js packages/docs-tooling/src/lark/guidesBasePreflight.test.js packages/docs-tooling/src/lark/sourceSnapshot.test.js packages/docs-tooling/src/lark/incrementalFetchPlanner.test.js packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js",
-        "node packages/docs-tooling/src/lark/larkDocWriter.beta.test.js"
+        "node packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
+        "node packages/docs-tooling/src/lark/regression.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:fetch"

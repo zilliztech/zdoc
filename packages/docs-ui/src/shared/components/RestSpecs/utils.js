@@ -1,6 +1,7 @@
 import { capitalize } from 'lodash';
 import { i18n } from './i18n.js'
 import { renderMarkdownHtml } from '../../markdown/renderMarkdownHtml.js'
+import { normalizeDocsLinkLocale, rewriteHtmlHrefAttributes } from '../../links/rewriteDocLinks'
 // planeConfig is passed from callers that read it via useDocusaurusContext
 
 export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
@@ -34,7 +35,7 @@ export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
     }
 }
 
-export const textFilter =  (text, targets) => {
+export const textFilter =  (text, targets, lang) => {
     const matches = text ? matchFilterTags(text) : []
 
     if (matches.length > 0) {
@@ -53,12 +54,14 @@ export const textFilter =  (text, targets) => {
             matchText = ""
         }
 
-        text = textFilter(preText + matchText + postText, targets)
+        text = textFilter(preText + matchText + postText, targets, lang)
     }
 
     text = renderMarkdownHtml(text);
 
-    return sanitizeHtmlBlockParagraphs(text);
+    // Rendered descriptions carry absolute docs.zilliz.com(.cn)/milvus.io links
+    // authored against the English site; keep readers in their own language.
+    return rewriteHtmlHrefAttributes(sanitizeHtmlBlockParagraphs(text), normalizeDocsLinkLocale(lang));
 }
 
 export const getLocalizedDescription = (value, lang) => {
