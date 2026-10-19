@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz BYOC に複数の機能強化が導入され、BYOC プロジェクトのインスタンス設定を構成できるようになり、クラスターで AWS PrivateLink を有効化できるようになったことをお知らせします。 | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: releasesSidebar
 
 ---

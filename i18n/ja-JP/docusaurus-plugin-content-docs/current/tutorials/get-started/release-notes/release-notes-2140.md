@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースでは、PRIVATE PREVIEW の2つの新機能として、BYOC-I と呼ばれる新しい BYOC デプロイオプションと、データプレーン監査ログ機能が導入されます。前者はクロスアカウント IAM 認可なしで完全なデータ主権を確保するよう設計されており、後者はデータプレーン上で実行されたアクションの詳細なログを提供することでデータセキュリティの強化を目的としています。これらの機能の提供開始に加えて、Zilliz Cloud はクレジット戦略も改定しました。 | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
-sidebar_position: 16
+sidebar_position: 17
 displayed_sidebar: releasesSidebar
 
 ---

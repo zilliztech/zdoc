@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、Zilliz Cloud サービス向けの新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクによる安全なクラスターアクセスが可能になりました。 | Cloud"
 type: origin
 token: QZXVwFVH3i1p08kal8vcAmmxnie
-sidebar_position: 38
+sidebar_position: 39
 displayed_sidebar: releasesSidebar
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "今回のリリースでは、Zilliz Cloud にいくつかの重要なアップデートが導入されています。まず、Zilliz Cloud Serverless の GA により、自動スケーリングが提供され、最大 50 倍のコスト削減が可能になります。Milvus 2.4 の機能も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、あいまい一致に対応した転置インデックスなどの機能が導入されました。また、このリリースにはパブリックプレビューのマルチレプリカ機能が含まれており、複数の Availability Zones（AZ）にまたがるレプリカにワークロードを分散することで、クエリスループットと可用性を向上できます。さらに、Zilliz Cloud の新しい Migration Service は、オープンソース Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理向けに拡張された RESTful API により、ユーザーは自動化された運用ワークフローを構築できます。その他の機能強化として、Project Read-only ロールのサポートや、クラスターとスナップショットの名前変更が含まれています。 | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 21
+sidebar_position: 22
 displayed_sidebar: releasesSidebar
 
 ---

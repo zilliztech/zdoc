@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、メール通知機能と初心者向けのインラインガイダンスが追加されました。 | Cloud"
 type: origin
 token: E76ywex6GiUKUKkgbFAc95Q0nxe
-sidebar_position: 36
+sidebar_position: 37
 displayed_sidebar: releasesSidebar
 
 ---

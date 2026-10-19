@@ -10,7 +10,7 @@ notebook: FALSE
 description: "コスト見積もり用の料金計算ツール、データセキュリティを強化するデータのバックアップと復元プロセス、グローバルユーザー向けにカスタマイズ可能なタイムゾーン設定、整理を容易にするコレクション名変更ツール、制限のない利用を可能にするストレージクォータの撤廃、非アクティブなデータベースのクレジット節約の改善を備えた、最新の Zilliz Cloud アップデートを発表できることを嬉しく思います。 | Cloud"
 type: origin
 token: ZvSOwB7zkir7PjkzrOPciC5WnTe
-sidebar_position: 34
+sidebar_position: 35
 displayed_sidebar: releasesSidebar
 
 ---
@@ -59,3 +59,4 @@ import Admonition from '@theme/Admonition';
     - Billing の UI を改善しました。
 
     - CU タイプの名称を更新しました。"High Performance" は "Performance-optimized" に、"Big Data" は "Capacity-optimized" に変更されました。
+

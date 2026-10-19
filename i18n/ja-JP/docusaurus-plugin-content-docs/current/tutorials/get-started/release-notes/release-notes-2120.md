@@ -10,7 +10,7 @@ notebook: FALSE
 description: "今回のリリースでは、Zilliz Cloud は BYOC ソリューション全体のセキュリティ、パフォーマンス、使いやすさを向上させるための重要な機能強化を導入します。グローバルな mmap 戦略が実装され、フィールドレベルとインデックスレベルの両方でカスタマイズ可能な構成を提供することで、検索パフォーマンスを維持しながらコレクション容量を拡張できるようになりました。Milvus を基盤として、Zilliz Cloud はクラスター内でのデータベース作成をサポートし、より優れたデータ管理とマルチテナンシーを実現するコレクションレベルのロールベースアクセス制御（RBAC）を提供します。さらに、検索精度設定が改善され、検索精度とパフォーマンスを効果的に最適化するのに役立つリコール率推定機能と組み合わせて使用できるようになりました。 | Cloud"
 type: origin
 token: OJVrwOiE4i3fFjk2J3NcneLznfh
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: releasesSidebar
 
 ---

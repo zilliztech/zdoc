@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、使いやすさ、セキュリティ、パフォーマンス、機能性におけるベクトルデータベースサービスの基準を新たな段階へ引き上げ、すべての人のために構築された最先端のベクトルデータベース体験を提供します。 | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 35
+sidebar_position: 36
 displayed_sidebar: releasesSidebar
 
 ---

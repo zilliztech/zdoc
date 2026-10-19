@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は現在、Public Preview で Milvus 2.5 をサポートしており、セマンティック検索を補完する全文検索を導入しています。効率的な保存と検索のために BM25 メトリックとスパースベクトルを使用することで、この機能によりユーザーは変換なしで直接テキストをクエリできます。このアップデートでは、Private Link により BYOC デプロイメントも強化され、セキュリティの向上、コンプライアンス対応の容易化、ネットワーク設定の簡素化が実現されています。さらに、AWS CloudFormation による自動デプロイもサポートされ、大規模な小容量ファイルのインポート処理が最適化されて、より高速なデータ取り込みが可能になりました。 | Cloud"
 type: origin
 token: LRRVwYzxKioMiMk7cf6czQuhn7d
-sidebar_position: 17
+sidebar_position: 18
 displayed_sidebar: releasesSidebar
 
 ---

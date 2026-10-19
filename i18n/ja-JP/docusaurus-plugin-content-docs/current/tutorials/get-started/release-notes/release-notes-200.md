@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のリリースは、ベクトルデータベース管理に新たな標準を打ち立てます。初心者にとってのユーザー体験を大幅に向上させ、より手頃で柔軟な料金オプションを提供し、チームのシームレスなコラボレーションを可能にし、柔軟なスキーマ管理を実現します。今回のアップデートの主な機能には、Serverless クラスター、多様な階層プラン、組織とコラボレーションのサポート、RBAC のサポート、パーティションキー、動的スキーマ、JSON 型のサポートが含まれます。この革新的なアップデートを今すぐお試しください！ | Cloud"
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 33
+sidebar_position: 34
 displayed_sidebar: releasesSidebar
 
 ---

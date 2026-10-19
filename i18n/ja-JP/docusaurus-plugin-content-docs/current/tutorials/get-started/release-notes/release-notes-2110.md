@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースには、新しい Web コンソールのユーザーインターフェース、Qdrant、Pinecone Serverless、Tencent VectorDB からのデータ移行のサポート、よりスムーズな支払いプロセス、詳細な支払い情報を備えた刷新された Invoice ページが含まれます。 | Cloud"
 type: origin
 token: HwWfwN9SViqU0Ukcv68cufBAnBe
-sidebar_position: 19
+sidebar_position: 20
 displayed_sidebar: releasesSidebar
 
 ---

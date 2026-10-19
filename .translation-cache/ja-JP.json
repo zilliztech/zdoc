@@ -2356,79 +2356,79 @@
       "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
-      "sourceHash": "b6adc041c8ac8abfa04f0fda237b0a4c249624d58ecfa3ef620910458b44dd27",
+      "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-008.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-009.md": {
-      "sourceHash": "cfe59dceceb5e8a0b6db8d217e678b72bf296b335d4123682fb54a32f2c407d5",
+      "sourceHash": "120f57d7c09ab823b29570f762fb18549c47599236aa82b64bea6bf267074c61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-009.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-010.md": {
-      "sourceHash": "cee037efb3dea81ff596f9217fe9adf0a17f11a9331f711402a84e819521307d",
+      "sourceHash": "fff56716d5b97922521a15eb8c4e2e68e0eeb6b01634d5acce16358670b996c2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-010.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-011.md": {
-      "sourceHash": "bc60495c74ef9e6f9ccc8ac4c87d4bc672861c1b16c44f7e0072ec7fa3ff0ce0",
+      "sourceHash": "9aa208b29803482de41d9a9d7eac554d117e7c76c62c2b763790b6ed2442bb6b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-011.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-100.md": {
-      "sourceHash": "511fe96e215236fb013e56ba52516e798ff1f491555650f89b09fde428adf02e",
+      "sourceHash": "3965869b67da15fff634f740258a99875fce00ae20ab1c05ca4a41cf0dde9565",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-100.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-110.md": {
-      "sourceHash": "6d708ea07916ed80771ba2c636aae4b76f3363fb0e46b51f99e566fedc19a5c0",
+      "sourceHash": "eecaa909527ce653d5bd6e4589c3858b65b4e563e3e700cdb8e2a135c9baa006",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-110.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-200.md": {
-      "sourceHash": "7a85055acf6e40f591cc8965fdda2792060705944072dbff8c20dbd97cc74258",
+      "sourceHash": "869ac907b8e11acd5b460b8f5e55eab879cf49fbb69bb53e2f56d8cd32f03a31",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-200.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-210.md": {
-      "sourceHash": "f4a5e5d5084652c47ace21cee9594397871d92cd025d4d65f9dbff2b18dff28e",
+      "sourceHash": "44539a6299065ebf166f510e4416c9e4e809b369f91f7d07a62c2c7440cdd078",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-210.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2100.md": {
-      "sourceHash": "569f35d1d5d34cb98d53826019ea820c5469c5a179a4851e10830ad78e284a08",
+      "sourceHash": "506dcb335d38f062cc10fd896d96a756a01af6c5c9d3a5b74efa3d7e5d4852e9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2100.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2102.md": {
-      "sourceHash": "40bc893329dbfa93fb4f3a505ddfd6ba4d8884a552c4aae4caceb2a0edb9b6e4",
+      "sourceHash": "c3f443a2c0df14201dac66ba9760e2c5a02de47db457d0c113be8cd2c47912d4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2102.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2110.md": {
-      "sourceHash": "cf467e0e6d0897711b9450abc52f65ee51e2297cc5348ddf3ba7c263fe9a6a72",
+      "sourceHash": "11ae45424a454d3e3280b373ad7a723bb2bf491fe772d2e5c040ddb29c163050",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2110.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2120.md": {
-      "sourceHash": "b6ed823037424ab19b311fae6ec24bb777e23b0d3a89f11e0dd083d36de1d832",
+      "sourceHash": "92864f6309642220a1bb3570822dc17e460d9332d6e51504cdf5cdf5549284e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2120.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2130.md": {
-      "sourceHash": "2bfd0bec60a6efe4dc1e85b9be2ce8a2d14be68e43862254baa6613a62d17f0f",
+      "sourceHash": "5030232643b0dad76108a4bc9aa7f9871022c967073ea847b716367ad9bdb4a6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2130.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2140.md": {
-      "sourceHash": "66572f8bbf5894d056221a1aa00a2ef92bdb30f01bb2fd2d407bb184aca587f8",
+      "sourceHash": "9252c919e6bec94951bd09ca4ae4f18875e497a86cf7eb786b45e1ab711d6da6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2140.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2150.md": {
-      "sourceHash": "bf55d6b562bac0ec21eb641e127c61fb0632bd50f11b047b7d1a27def5019ffd",
+      "sourceHash": "ed40cb78df0dbf844847900f613140f41be9a0396bec892f014b2349b7914909",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2150.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2170.md": {
       "sourceHash": "3f980dd53e995ceeb9c1151b934404e4622598b675a7b99b0d52fb2c1db4d5c9",

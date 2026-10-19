@@ -10,7 +10,7 @@ notebook: FALSE
 description: "今回の Zilliz Cloud リリースでは、RAG、埋め込み、マルチモーダル検索などの高度な機能の例を提供する Notebook Gallery、容量が 50% 増加して CU あたり最大 150 万個の 768 次元ベクトルを収容できるようになり、大規模なデータ量ではコストを約 30% 削減できる可能性がある Performance-optimized CU の容量改善、Availability Zones（AZ）全体にワークロードとレプリカを分散することでクエリ性能と信頼性を高める Multi-replica Availability など、いくつかの重要なアップデートが導入されています。さらに、Zilliz Cloud は、アジア太平洋地域での性能向上のための AWS Tokyo Region、リアルタイムの監視とトラブルシューティングのための Prometheus Integration、および SSO を含む複数のログイン方法を提供する Auth0 による刷新された Authentication and Login System をサポートするようになりました。最後に、ユーザーは AWS Marketplace Free Trial を通じて Zilliz 製品を評価でき、性能とスケーラビリティのテストのためにコア機能にリスクなくアクセスできます。 | Cloud"
 type: origin
 token: PyrrwqrGbirtGTkh4oacaov7nHh
-sidebar_position: 20
+sidebar_position: 21
 displayed_sidebar: releasesSidebar
 
 ---
