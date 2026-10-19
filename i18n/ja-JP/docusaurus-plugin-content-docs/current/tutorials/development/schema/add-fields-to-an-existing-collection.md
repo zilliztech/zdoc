@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションが開発から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジックのために `sourceuri` や `reviewstatus` などのスカラーフィールドを追加したり、アプリケーションが生成する埋め込み用の新しいベクトルフィールドを追加したり、既存のテキストに対する字句検索のために BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。Alter コレクション スキーマ を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで実行できます。 | Cloud"
+description: "コレクションが開発段階から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジック用に `sourceuri` や `reviewstatus` などのスカラーフィールドを追加したり、アプリケーションが生成した埋め込み用に新しいベクトルフィールドを追加したり、既存テキストに対する字句検索用に BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。コレクションスキーマの変更を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで適用できます。 | Cloud"
 type: origin
 token: UR9SwucAIiQ2TYkc9EucsgvSnng
 sidebar_position: 18
@@ -21,85 +21,85 @@ import TabItem from '@theme/TabItem';
 
 # コレクションスキーマの変更
 
-コレクションが開発から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジックのために `source_uri` や `review_status` などのスカラーフィールドを追加したり、アプリケーションが生成する埋め込み用の新しいベクトルフィールドを追加したり、既存のテキストに対する字句検索のために BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。Alter コレクション スキーマ を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで実行できます。
+コレクションが開発段階から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジック用に `source_uri` や `review_status` などのスカラーフィールドを追加したり、アプリケーションが生成した埋め込み用に新しいベクトルフィールドを追加したり、既存テキストに対する字句検索用に BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。コレクションスキーマの変更を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで適用できます。
 
 <Admonition type="info" title="Notes">
 
-- このガイドでは、マネージドコレクションにおけるユーザー定義フィールド、およびその生成ベクトルフィールドを伴う Function のスキーマ変更について説明します。`VARCHAR` フィールドの `max_length` や `ARRAY` フィールドの `max_capacity` の変更など、フィールドプロパティの変更については、[コレクションフィールドの変更](./alter-collection-field) を参照してください。動的フィールドの動作については、[動的フィールド](./enable-dynamic-field) および [コレクションの変更](./modify-collections) を参照してください。
+- このガイドでは、マネージドコレクション内のユーザー定義フィールド、および生成ベクトルフィールドを持つ Function のスキーマ変更について説明します。`VARCHAR` フィールドの `max_length` や `ARRAY` フィールドの `max_capacity` の変更など、フィールドプロパティの変更については、[Alter コレクション Field](./alter-collection-field) を参照してください。ダイナミックフィールドの動作については、[Dynamic Field](./enable-dynamic-field) と [Modify コレクション](./modify-collections) を参照してください。
 
-- このページでは、マネージドコレクションにフィールドを追加する方法について説明します。外部コレクションにフィールドを追加する場合は、[外部コレクションスキーマの変更](./alter-external-collection-schema) を参照してください。
+- このページでは、マネージドコレクションにフィールドを追加する方法について説明します。外部コレクションにフィールドを追加するには、[Alter External コレクション スキーマ](./alter-external-collection-schema) を参照してください。
 
 </Admonition>
 
 ## 制限事項\{#limits}
 
-**ユーザー定義フィールドの追加**
+**ユーザー定義フィールドを追加する**
 
-- 追加するユーザー定義フィールドは nullable である必要があります。`add_collection_field()` を呼び出すときに `nullable=True` を設定します。既存のエンティティの場合、`default_value` を指定したスカラーフィールドを追加しない限り、追加されたフィールドは `NULL` になります。
+- 追加するユーザー定義フィールドは nullable である必要があります。`add_collection_field()` を呼び出すときは `nullable=True` を設定します。既存のエンティティでは、`default_value` を持つスカラーフィールドを追加しない限り、追加されたフィールドは NULL になります。
 
-- ユーザー定義のスカラーフィールドの追加は、Milvus 2.6.x 以降でサポートされています。ユーザー定義のベクトルフィールドの追加は、Milvus 2.6.18 以降でサポートされています。
+- ユーザー定義スカラーフィールドの追加は、Milvus 2.6.x 以降でサポートされています。ユーザー定義ベクトルフィールドの追加は、Milvus 2.6.18 以降でサポートされています。
 
 - フィールド名は、コレクション内のフィールド間で一意である必要があります。
 
-**Function とその生成ベクトルフィールドの追加**
+**Function とその生成ベクトルフィールドを追加する**
 
-- 1 回のスキーマ更新で追加できる Function と生成ベクトルフィールドはそれぞれ 1 つだけです。
+- スキーマの更新ごとに追加できる Function と生成ベクトルフィールドは、それぞれ 1 つだけです。
 
 - サポートされている Function によって、生成されるベクトルフィールドの型が決まります。`BM25` は `SPARSE_FLOAT_VECTOR` フィールドを生成し、`MINHASH` は `BINARY_VECTOR` フィールドを生成します。
 
-- 生成されるベクトルフィールドは新しいフィールドである必要があります。コレクションスキーマにすでに存在するフィールドを指定することはできません。
+- 生成されるベクトルフィールドは新しいフィールドである必要があります。コレクションスキーマにすでに存在するフィールドを指すことはできません。
 
 - 生成されるベクトルフィールドは nullable にできません。
 
-- Function が使用する入力フィールドは、コレクションにすでに存在している必要があります。この既存コレクション向けのワークフローでは、BM25 と MinHash の入力は `VARCHAR` である必要があります。`TEXT` を使用する BM25 Function は、コレクションの作成時に定義してください。
+- Function が使用する入力フィールドは、すでにコレクションに存在している必要があります。この既存コレクション向けのワークフローでは、BM25 と MinHash の入力は `VARCHAR` である必要があります。コレクションを作成するときに、`TEXT` を使用する BM25 Function を定義してください。
 
-**ユーザー定義フィールドの削除**
+**ユーザー定義フィールドを削除する**
 
-- コレクションの主キーフィールド、パーティションキーフィールド、クラスタリングキーフィールド、または最後のベクトルフィールドは削除できません。
+- コレクション内の主キーフィールド、パーティションキーフィールド、クラスタリングキーフィールド、または最後のベクトルフィールドは削除できません。
 
 - `ARRAY<STRUCT>` フィールド全体は削除できますが、`ARRAY<STRUCT>` フィールド内の個々のサブフィールドは削除できません。
 
-- Function の入力フィールドとして使用されているフィールド、または Function の出力フィールドとして生成されたフィールドを直接削除することはできません。Function の出力フィールドを削除するには、それを生成する Function を削除します。
+- Function の入力フィールドとして使用されているフィールド、または Function の出力として生成されたフィールドは、直接削除できません。Function の出力フィールドを削除するには、そのフィールドを生成する Function を削除します。
 
-**Function とその生成ベクトルフィールドの削除**
+**Function とその生成ベクトルフィールドを削除する**
 
-- このスキーマ変更ワークフローでは、Function を削除すると、その Function、生成されたベクトルフィールド、および関連するインデックスが削除されます。Function の入力フィールドはコレクションスキーマに残ります。
+- このスキーマ変更ワークフローでは、Function を削除すると、その Function、生成ベクトルフィールド、および関連するインデックスが削除されます。Function の入力フィールドはコレクションスキーマに残ります。
 
-- 生成されたベクトルフィールドを削除するとコレクションにベクトルフィールドが 1 つも残らなくなる場合、Function の削除は拒否されます。
+- 生成ベクトルフィールドを削除するとコレクションにベクトルフィールドがなくなってしまう場合、その Function の削除は拒否されます。
 
 <Admonition type="info" title="Notes">
 
-サポートされている追加および削除操作以外のスキーマ変更を行う場合は、コレクションを再作成または移行してください。
+サポートされている追加および削除操作以外のスキーマ変更については、コレクションを再作成または移行してください。
 
 </Admonition>
 
-## 既存のコレクションへのフィールドと Function の追加\{#add-fields-and-functions-to-an-existing-collection}
+## 既存コレクションにフィールドと Function を追加する\{#add-fields-and-functions-to-an-existing-collection}
 
-ユーザー定義フィールドを追加するのか、ベクトルフィールドを生成する Function を追加するのかに応じて、ワークフローを選択してください。
+ユーザー定義フィールドを追加するか、ベクトルフィールドを生成する Function を追加するかに応じて、ワークフローを選択します：
 
-- フィルタリング、クエリ出力、またはアプリケーションロジック用の新しいメタデータが必要な場合は、[ユーザー定義のスカラーフィールドの追加](./add-fields-to-an-existing-collection#add-user-defined-scalar-fields) を行います。
+- フィルタリング、クエリ出力、またはアプリケーションロジック用の新しいメタデータが必要な場合は、[Add user-defined スカラー fields](./add-fields-to-an-existing-collection#add-user-defined-scalar-fields) を使用します。
 
-- アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、[ユーザー定義のベクトルフィールドの追加](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) を行います。
+- アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、[Add user-defined ベクトル fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) を使用します。
 
-- テキストからの BM25 スパースベクトルや MinHash シグネチャなど、既存のフィールドから Zilliz Cloud にベクトル値を生成させる場合は、[Function とその生成ベクトルフィールドの追加](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field) を行います。
+- Zilliz Cloud が既存のフィールドからベクトル値を生成する必要がある場合（テキストからの BM25 スパースベクトルや MinHash シグネチャなど）は、[Add a Function and its generated ベクトル field](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field) を使用します。
 
-これらの場合、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud の制限事項](./limits#fields) を参照してください。
+これらの場合、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。
 
-### ユーザー定義のスカラーフィールドの追加\{#add-user-defined-scalar-fields}
+### ユーザー定義スカラーフィールドを追加する\{#add-user-defined-scalar-fields}
 
-`add_collection_field()` を使用して、既存のコレクションにユーザー定義のスカラーフィールドを追加します。
+既存のコレクションにユーザー定義スカラーフィールドを追加するには、`add_collection_field()` を使用します。
 
-これは、動的フィールドに任意のキーを格納する場合とは異なります。スキーマの更新が有効になった後は、新しいスカラーフィールドはコレクションスキーマの通常の一部になります。これに対して値の挿入や upsert を実行し、サポートされている場合はインデックスを作成し、クエリや検索フィルターで使用し、クエリまたは検索の出力で返すことができます。
+これは、動的フィールドに任意のキーを保存する場合とは異なります。スキーマ更新が利用可能になった後、新しいスカラーフィールドはコレクションスキーマの通常の一部になります。このフィールドに値を挿入または upsert し、サポートされている場合はインデックスを作成し、クエリや検索フィルターで使用し、クエリまたは検索の出力で返すことができます。
 
-既存のエンティティは新しいフィールドが存在する前に挿入されているため、追加するすべてのユーザー定義スカラーフィールドは nullable である必要があります。
+既存のエンティティは新しいフィールドが存在する前に挿入されているため、追加するすべてのユーザー定義スカラーフィールドは nullable である必要があります：
 
-- `nullable=True` を指定し、`default_value` を指定せずにスカラーフィールドを追加すると、既存のエンティティは新しいフィールドに対して `NULL` を返します。
+- `nullable=True` を指定し、`default_value` を指定せずにスカラーフィールドを追加した場合、既存のエンティティでは新しいフィールドに対して `NULL` が返されます。
 
-- `nullable=True` と `default_value` を指定してスカラーフィールドを追加すると、既存のエンティティは `NULL` の代わりにデフォルト値を返します。
+- `nullable=True` と `default_value` を指定してスカラーフィールドを追加した場合、既存のエンティティでは `NULL` の代わりにデフォルト値が返されます。
 
-スカラーフィルター式は `NULL` のスカラー値には一致しません。詳細については、[Nullable フィールド](./nullable-fields) を参照してください。
+スカラーフィルター式は `NULL` のスカラー値と一致しません。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 
-**例: nullable なスカラーフィールドの追加**
+**例：nullable なスカラーフィールドを追加する**
 
 次の例では、`product_catalog` という名前の既存のコレクションに、nullable な `source` フィールドを追加します。
 
@@ -179,13 +179,9 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("source").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(128)
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -313,11 +309,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-フィールドの追加後、コレクションにすでに存在していたエンティティは `source` に対して `NULL` を返します。新しいエンティティは、挿入または upsert の際に `source` を設定できます。
+フィールドの追加後、コレクションにすでに存在していたエンティティでは、`source` に対して `NULL` が返されます。新しいエンティティでは、insert または upsert の際に `source` を設定できます。
 
-**例: デフォルト値を指定したスカラーフィールドの追加**
+**例：デフォルト値を持つスカラーフィールドを追加する**
 
-既存のエンティティが `NULL` ではなく具体的な値を返すようにする場合は、フィールドの追加時に `default_value` を指定します。次の例では、`review_status` フィールドを追加し、デフォルト値として `"unreviewed"` を使用します。
+既存のエンティティで `NULL` ではなく具体的な値を返す必要がある場合は、フィールドの追加時に `default_value` を指定します。次の例では、`review_status` フィールドを追加し、デフォルト値として `"unreviewed"` を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -398,15 +394,10 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("review_status").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(32).
-
     WithDefaultValueString("unreviewed")
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -540,19 +531,19 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-フィールドの追加後、コレクションにすでに存在していたエンティティは `review_status` に対して `"unreviewed"` を返します。新しいエンティティは、別の値を設定するか、値を指定しない場合にデフォルト値を使用できます。
+フィールドの追加後、コレクションにすでに存在していたエンティティでは、`review_status` に対して `"unreviewed"` が返されます。新しいエンティティでは、別の値を設定するか、値が指定されていない場合にデフォルト値を使用できます。
 
-### StructArray フィールドの追加\{#add-structarray-fields}
+### StructArray フィールドを追加する\{#add-structarray-fields}
 
-`add_collection_struct_field()` を使用して、構造体の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次のようにします。
+`add_collection_struct_field()` を使用して、構造体の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次の手順に従います：
 
-1. サポートされているデータ型の必要なサブフィールドを含む StructSchema を作成します。該当するデータ型については、[データ型のサポート](./use-array-of-structs) を参照してください。
+1. サポートされているデータ型の必要なサブフィールドを含む StructSchema を作成します。該当するデータ型については、[Data type support](./use-array-of-structs) を参照してください。
 
 1. 上で作成した StructSchema を参照し、`add_collection_struct_field()` でフィールドの最大容量を設定します。
 
 1. リクエストで `nullable` を `True` に設定します。
 
-**例: nullable な StructArray フィールドの追加**
+**例：nullable な StructArray フィールドを追加する**
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -667,27 +658,17 @@ if err != nil {
 // add a vector subfield with mmap enabled
 
 structSchema := entity.NewStructSchema().
-
     WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
-
     WithField(entity.NewField().WithName("chapter").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
-
     WithField(entity.NewField().WithName("text_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true")).
-
     WithField(entity.NewField().WithName("chapter_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true"))
 
 newField := entity.NewField().
-
     WithName("chunks").
-
     WithDataType(entity.FieldTypeArray).
-
     WithElementType(entity.FieldTypeStruct).
-
     WithNullable(true).
-
     WithMaxCapacity(1024).
-
     WithStructSchema(structSchema)
 
 err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))
@@ -874,15 +855,15 @@ await client.addCollectionField({
 </TabItem>
 </Tabs>
 
-StructArray フィールドの追加後、コレクションにすでに存在するエンティティは、`chunks` のすべてのサブフィールドに対して null を返します。新しいエンティティを挿入する際は、すべてのサブフィールドが null であるか、有効な値を持つようにしてください。一部のサブフィールドを null に設定し、その他を有効な値に設定してエンティティを挿入すると、エラーが発生します。
+StructArray フィールドの追加後、コレクションにすでに存在するエンティティでは、`chunks` のすべてのサブフィールドに対して null が返されます。新しいエンティティを挿入するときは、すべてのサブフィールドが null であるか、有効な値を持つことを確認してください。一部のサブフィールドを null にし、他のサブフィールドに有効な値を設定してエンティティを挿入すると、エラーになります。
 
-### ユーザー定義のベクトルフィールドの追加\{#add-user-defined-vector-fields}
+### ユーザー定義ベクトルフィールドを追加する\{#add-user-defined-vector-fields}
 
-アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、`add_collection_field()` を使用してユーザー定義のベクトルフィールドを追加します。
+アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、`add_collection_field()` を使用してユーザー定義ベクトルフィールドを追加します。
 
-追加するすべてのユーザー定義ベクトルフィールドは nullable である必要があります。upsert またはバックフィルのワークフローでベクトル値を書き込むまで、既存のエンティティは新しいベクトルフィールドに対して `NULL` を持ちます。新しいエンティティは、挿入の際にそのベクトルフィールドを含めることができます。ベクトル検索は、ベクトル値が `NULL` であるエンティティをスキップします。詳細については、[Nullable フィールド](./nullable-fields) を参照してください。
+追加するすべてのユーザー定義ベクトルフィールドは nullable である必要があります。既存のエンティティは、upsert またはバックフィルワークフローを通じてベクトル値を書き込むまで、新しいベクトルフィールドに対して `NULL` を持ちます。新しいエンティティは、insert の際にベクトルフィールドを含めることができます。ベクトル検索では、ベクトル値が `NULL` のエンティティはスキップされます。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 
-**例: nullable なベクトルフィールドの追加**
+**例：nullable なベクトルフィールドを追加する**
 
 次の例では、`embedding_v2` という名前の nullable な密ベクトルフィールドを既存のコレクションに追加します。`dim` には、アプリケーションが生成する埋め込みの次元数を設定します。
 
@@ -1096,7 +1077,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-フィールドの追加後、検索する前に新しいベクトルフィールドにインデックスを作成します。
+フィールドの追加後、新しいベクトルフィールドを検索する前に、そのフィールドにインデックスを作成します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1293,34 +1274,34 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索する際はスキップされます。`embedding_v2` を通じて既存のエンティティを検索可能にするには、upsert ワークフローで非 NULL のベクトル値を書き込みます。新しいエンティティは、挿入の際に `embedding_v2` を含めることができます。
+既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索するときはスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert ワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティは、insert の際に `embedding_v2` を含めることができます。
 
-### Function とその生成ベクトルフィールドの追加\{#add-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドを追加する\{#add-a-function-and-its-generated-vector-field}
 
-この Milvus 3.0 のスキーマ変更ワークフローは、現在 Zilliz Cloud のオンデマンドクラスター向けに文書化されています。このページは、最初にサポートされる Cloud パッチや Serving クラスター の提供可否を示すものではありません。
+この Milvus 3.0 のスキーマ変更ワークフローは、現在 Zilliz Cloud のオンデマンドクラスター向けに文書化されています。このページは、Cloud で最初にサポートされるパッチや Serving クラスター の可用性を示すものではありません。
 
-このワークフローを使用すると、既存のコレクションにすでに格納されているデータから新しいベクトルフィールドを生成できます。たとえば、BM25 Function は既存の `VARCHAR` フィールドを読み取り、字句検索用の `SPARSE_FLOAT_VECTOR` フィールドを生成します。一方、MinHash Function はニアデュプリケート検出用の `BINARY_VECTOR` フィールドを生成します。このワークフローは、Function の入力フィールドを追加または置換しません。
+このワークフローを使用して、既存のコレクションにすでに保存されているデータから新しいベクトルフィールドを生成します。たとえば、BM25 Function は既存の `VARCHAR` フィールドを読み取り、字句検索用の `SPARSE_FLOAT_VECTOR` フィールドを生成します。一方、MinHash Function は近似重複検出用の `BINARY_VECTOR` フィールドを生成します。このワークフローでは、Function の入力フィールドは追加も置換もされません。
 
-この操作では、Function 定義、新しいベクトル出力フィールド、およびバインドされたインデックス定義を追加します。
+この操作では、Function 定義、新しいベクトル出力フィールド、およびバインドされたインデックス定義を追加します：
 
 - 既存の入力フィールドから読み取る、`text_bm25` などの Function 定義。
 
-- Function の出力を格納する、`text_sparse` などの新しいベクトル出力フィールド、およびそのフィールドにバインドされたインデックス定義。
+- Function の出力を保存する、`text_sparse` などの新しいベクトル出力フィールドと、そのフィールドにバインドされたインデックス定義。
 
-サポートされている Function によって、生成されるベクトルフィールドの型が決まります。
+サポートされている Function によって、生成されるベクトルフィールドの型が決まります：
 
 | **Function** | **生成されるベクトルフィールドの型** | **一般的な入力フィールド** |
 | --- | --- | --- |
 | `BM25` | `SPARSE_FLOAT_VECTOR` | アナライザーが有効な `VARCHAR` フィールド |
 | `MINHASH` | `BINARY_VECTOR` | `VARCHAR` フィールド |
 
-各 Function の動作の詳細については、[BM25 Function](./bm25-function) および [MinHash Function](./minhash-function) を参照してください。
+各 Function の動作の詳細については、[BM25 Function](./bm25-function) と [MinHash Function](./minhash-function) を参照してください。
 
-生成されるベクトルフィールドはコレクションにまだ存在していてはならず、nullable にすることもできません。Function の入力フィールドはすでに存在している必要があります。この既存コレクション向けのワークフローでは、`VARCHAR` の入力を使用します。`TEXT` 入力を使用する BM25 Function は、コレクションの作成時に定義する必要があります。そうでない場合は、その Function をスキーマに含めた状態でコレクションを再作成または移行してください。
+生成されるベクトルフィールドはコレクションにまだ存在していてはならず、nullable にできません。Function の入力フィールドはすでに存在している必要があります。この既存コレクション向けのワークフローでは、`VARCHAR` 入力を使用します。`TEXT` 入力を使用する BM25 Function は、コレクションの作成時に定義する必要があります。そうでない場合は、Function をスキーマに含めた状態でコレクションを再作成または移行してください。
 
-**例: BM25 Function とその生成スパースベクトルフィールドの追加**
+**例：BM25 Function とその生成スパースベクトルフィールドを追加する**
 
-次の例では、`text_bm25` という名前の BM25 Function と、`text_sparse` という名前のその生成スパースベクトルフィールドを既存のコレクションに追加します。コレクションには、アナライザーが有効な `text` という名前の `VARCHAR` フィールドがすでに存在している必要があります。
+次の例では、`text_bm25` という名前の BM25 Function と、その生成スパースベクトルフィールドである `text_sparse` を既存のコレクションに追加します。コレクションには、アナライザーが有効な `text` という名前の `VARCHAR` フィールドがすでに存在している必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1629,9 +1610,9 @@ await client.addFunctionField({
 </TabItem>
 </Tabs>
 
-`index_params` オブジェクトには、新しい Function 出力フィールド用のインデックス定義を正確に 1 つ含める必要があります。Function、その生成ベクトルフィールド、およびバインドされたインデックス定義は、同じスキーマ変更で送信されます。`add_function_field()` の後に `create_index()` を別途呼び出さないでください。
+`index_params` オブジェクトには、新しい Function 出力フィールドのインデックス定義を正確に 1 つ含める必要があります。Function、その生成ベクトルフィールド、およびバインドされたインデックス定義は、同じスキーマ変更で送信されます。`add_function_field()` の後に `create_index()` を別途呼び出さないでください。
 
-概念的には、この操作は次の Function、生成出力フィールド、およびバインドされたインデックス定義を追加します。
+概念的には、この操作では次の Function、生成出力フィールド、およびバインドされたインデックス定義を追加します：
 
 ```plaintext
 New Function:
@@ -1651,29 +1632,29 @@ Bound index:
   metric_type: BM25
 ```
 
-リクエストが成功すると、`describe_collection()` は新しい `text_bm25` Function とその生成 `text_sparse` ベクトルフィールドの両方をコレクションスキーマに返します。BM25 検索の完全なワークフローについては、[全文検索](./full-text-search) を参照してください。
+リクエストが成功すると、`describe_collection()` は新しい `text_bm25` Function とその生成済みの `text_sparse` ベクトルフィールドの両方をコレクションスキーマに返します。完全な BM25 検索ワークフローについては、[Full Text Search](./full-text-search) を参照してください。
 
-MinHash Function とその生成バイナリベクトルフィールドは、ニアデュプリケート検出をサポートします。MinHash Function は `FunctionType.MINHASH` を使用し、新しい `BINARY_VECTOR` 出力フィールドに書き込みます。構成の詳細については、[MinHash Function](./minhash-function) を参照してください。
+MinHash Function とその生成バイナリベクトルフィールドは、近似重複検出をサポートします。MinHash Function は `FunctionType.MINHASH` を使用し、新しい `BINARY_VECTOR` 出力フィールドに書き込みます。構成の詳細については、[MinHash Function](./minhash-function) を参照してください。
 
-## 既存のコレクションからのフィールドと Function の削除\{#drop-fields-and-functions-from-an-existing-collection}
+## 既存コレクションからフィールドと Function を削除する\{#drop-fields-and-functions-from-an-existing-collection}
 
-ユーザー定義フィールドがコレクションモデルの一部でなくなった場合は、それらを直接削除できます。Function とその生成ベクトルフィールドを削除するには、その Function を削除します。生成フィールドとそのインデックスは、同じスキーマ変更で削除されます。
+ユーザー定義フィールドは、コレクションモデルの一部でなくなったときに直接削除できます。Function とその生成ベクトルフィールドを削除するには、その Function を削除します。生成フィールドとそのインデックスは、同じスキーマ変更で削除されます。
 
-### ユーザー定義フィールドの削除\{#drop-user-defined-fields}
+### ユーザー定義フィールドを削除する\{#drop-user-defined-fields}
 
-`drop_collection_field()` を使用して、コレクションモデルの一部でなくなったユーザー定義のスカラーまたはベクトルフィールドを削除します。
+コレクションモデルの一部でなくなったユーザー定義スカラーまたはベクトルフィールドを削除するには、`drop_collection_field()` を使用します。
 
-フィールドを削除すると、まずコレクションスキーマとフィールドの可視性が変更されます。
+フィールドを削除すると、まずコレクションスキーマとフィールドの可視性が変更されます：
 
-- `drop_collection_field()` が成功すると、コレクションスキーマが更新されます。`describe_collection()` は削除されたフィールドを返さなくなり、クエリや検索はそのフィールドを `output_fields` で返したり、式で使用したりできなくなります。
+- `drop_collection_field()` が成功すると、コレクションスキーマが更新されます。`describe_collection()` は削除されたフィールドを返さなくなり、クエリや検索では、そのフィールドを `output_fields` で返したり、式で使用したりできなくなります。
 
 - 削除されたフィールドに構築されたインデックスは、スキーマ更新の一部としてクリーンアップされます。
 
-ストレージのクリーンアップはスキーマのクリーンアップとは別に処理されます。詳細については、[フィールドの削除後、ストレージ領域はいつ解放されますか？](./add-fields-to-an-existing-collection) を参照してください。
+ストレージのクリーンアップは、スキーマのクリーンアップとは別に処理されます。詳細については、[When is storage space reclaimed after dropping a field?](./add-fields-to-an-existing-collection) を参照してください。
 
-**例: ユーザー定義スカラーフィールドの削除**
+**例：ユーザー定義スカラーフィールドを削除する**
 
-次の例では、`experiment_tag` が `product_catalog` 内のユーザー定義スカラーフィールドであると仮定し、それをコレクションから削除します。
+次の例では、`experiment_tag` が `product_catalog` 内のユーザー定義スカラーフィールドであることを前提とし、これをコレクションから削除します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1828,9 +1809,9 @@ await client.dropCollectionField({
 
 フィールドを削除した後、`describe_collection()` を呼び出して、そのフィールドがスキーマの一部でなくなったことを確認できます。
 
-**例: StructArray フィールドの削除**
+**例：StructArray フィールドを削除する**
 
-次の例では、`chunks` フィールドが `my_collection` 内の StructArray フィールドであると仮定し、それをコレクションから削除します。
+次の例では、`chunks` フィールドが `my_collection` 内の StructArray フィールドであることを前提とし、これをコレクションから削除します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1983,11 +1964,11 @@ await client.dropCollectionField({
 </TabItem>
 </Tabs>
 
-**例: ユーザー定義ベクトルフィールドの削除**
+**例：ユーザー定義ベクトルフィールドを削除する**
 
-同じ `drop_collection_field()` メソッドでベクトルフィールドを削除できますが、削除後もコレクションに少なくとも 1 つのベクトルフィールドが含まれている必要があります。これは、一時的に複数のベクトル表現を持ち、後でそのうちの 1 つに統一するコレクションに役立ちます。
+同じ `drop_collection_field()` メソッドでベクトルフィールドを削除できますが、削除後もコレクションに少なくとも 1 つのベクトルフィールドが含まれている必要があります。これは、一時的に複数のベクトル表現を保持し、後でそのうちの 1 つに統一するコレクションに役立ちます。
 
-次の例では、`image_vector` が `hybrid_catalog` 内のユーザー定義ベクトルフィールドであり、コレクションに `text_vector` などの別のベクトルフィールドがまだ保持されていると仮定します。
+次の例では、`image_vector` が `hybrid_catalog` 内のユーザー定義ベクトルフィールドであり、コレクションに `text_vector` などの別のベクトルフィールドがまだ残っていることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2142,15 +2123,15 @@ await client.dropCollectionField({
 
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
-### Function とその生成ベクトルフィールドの削除\{#drop-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドを削除する\{#drop-a-function-and-its-generated-vector-field}
 
-BM25 Function とその生成スパースベクトルフィールドなど、Function やその生成ベクトルフィールドが不要になった場合は、この操作を使用します。
+Function またはその生成ベクトルフィールド（BM25 Function とその生成スパースベクトルフィールドなど）が不要になった場合は、この操作を使用します。
 
 Function 名を指定して `drop_function_field()` を呼び出します。この操作では、Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスを削除します。
 
-**例: BM25 Function とその生成スパースベクトルフィールドの削除**
+**例：BM25 Function とその生成スパースベクトルフィールドを削除する**
 
-次の例では、`text_bm25` が `product_catalog` 内の BM25 Function であり、`text_sparse` という名前のスパースベクトル出力フィールドを生成すると仮定します。
+次の例では、`text_bm25` が `product_catalog` 内の BM25 Function であり、`text_sparse` という名前のスパースベクトル出力フィールドを生成することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2309,56 +2290,56 @@ await client.dropFunctionField({
 </TabItem>
 </Tabs>
 
-操作が成功すると、`describe_collection()` は削除された Function やその生成ベクトルフィールドを返さなくなります。Function の入力フィールドはスキーマに残ります。
+操作が成功すると、`describe_collection()` は削除された Function またはその生成ベクトルフィールドを返さなくなります。Function の入力フィールドはスキーマに残ります。
 
-Function の出力フィールドを削除するとコレクションにベクトルフィールドが 1 つも残らなくなる場合、操作は拒否されます。
+Function 出力フィールドを削除するとコレクションにベクトルフィールドがなくなってしまう場合、その操作は拒否されます。
 
 ## FAQ\{#faq}
 
-### フィールドまたは Function を追加するにはどのメソッドを使用すべきですか？\{#which-method-should-i-use-to-add-a-field-or-function}
+### フィールドまたは Function を追加するにはどの方法を使用すればよいですか？\{#which-method-should-i-use-to-add-a-field-or-function}
 
-アプリケーションがフィルタリング、クエリ出力、またはアプリケーションロジック用のスカラー値を提供する場合は、`add_collection_field()` を使用してユーザー定義のスカラーフィールドを追加します。
+アプリケーションがフィルタリング、クエリ出力、またはアプリケーションロジック用のスカラー値を提供する場合は、`add_collection_field()` を使用してユーザー定義スカラーフィールドを追加します。
 
-アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、`add_collection_field()` を使用してユーザー定義のベクトルフィールドを追加します。
+アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、`add_collection_field()` を使用してユーザー定義ベクトルフィールドを追加します。
 
-既存のフィールドからベクトル値を生成する場合は、`add_function_field()` を使用します。これは、同じスキーマ変更で Function、その生成ベクトルフィールド、およびバインドされたインデックス定義を追加します。このガイドでは字句検索用の BM25 のパスを示します。MinHash Function は、ニアデュプリケート検出用のバイナリベクトルフィールドを生成します。
+既存のフィールドからベクトル値を生成する必要がある場合は、`add_function_field()` を使用します。これは、Function、その生成ベクトルフィールド、およびバインドされたインデックス定義を同じスキーマ変更で追加します。このガイドでは字句検索用の BM25 の手順を示します。MinHash Function は近似重複検出用のバイナリベクトルフィールドを生成します。
 
-### 追加するユーザー定義フィールドはなぜ nullable でなければならないのですか？\{#why-must-added-user-defined-fields-be-nullable}
+### 追加するユーザー定義フィールドはなぜ nullable である必要がありますか？\{#why-must-added-user-defined-fields-be-nullable}
 
-既存のエンティティは新しいフィールドが存在する前に挿入されているため、そのフィールドの値を持っていません。`nullable=True` を設定すると、アプリケーションが値を書き込むまで、またはスカラーフィールドの場合はデフォルト値が適用されるまで、Zilliz Cloud は欠損値を `NULL` として表現できます。
+既存のエンティティは新しいフィールドが存在する前に挿入されているため、そのフィールドの値を持っていません。`nullable=True` を設定すると、アプリケーションが値を書き込むまで、またはスカラーフィールドの場合はデフォルト値が適用されるまで、Zilliz Cloud は欠落値を `NULL` として表すことができます。
 
 このルールは、`add_collection_field()` で追加するユーザー定義スカラーフィールドとユーザー定義ベクトルフィールドに適用されます。nullable にできない Function の生成ベクトルフィールドには適用されません。
 
 ### ユーザー定義フィールドを追加した後、既存のエンティティはどうなりますか？\{#what-happens-to-existing-entities-after-i-add-a-user-defined-field}
 
-ユーザー定義スカラーフィールドの場合、`default_value` を設定しない限り、既存のエンティティは `NULL` を返します。`default_value` を設定した場合、既存のエンティティはそのデフォルト値を返します。
+ユーザー定義スカラーフィールドの場合、`default_value` を設定しない限り、既存のエンティティは `NULL` を返します。`default_value` を設定した場合は、既存のエンティティはそのデフォルト値を返します。
 
-ユーザー定義ベクトルフィールドの場合、既存のエンティティは新しいベクトルフィールドに対して `NULL` を持ちます。追加されたフィールドに対するベクトル検索は、ベクトル値が `NULL` であるエンティティをスキップします。新しいベクトルフィールドを通じて既存のエンティティを検索可能にするには、upsert またはバックフィルのワークフローで非 NULL のベクトル値を書き込みます。新しいエンティティは、挿入の際に新しいベクトルフィールドを含めることができます。
+ユーザー定義ベクトルフィールドの場合、既存のエンティティは新しいベクトルフィールドに対して `NULL` を持ちます。追加されたフィールドでのベクトル検索では、ベクトル値が `NULL` のエンティティはスキップされます。既存のエンティティを新しいベクトルフィールドで検索可能にするには、upsert またはバックフィルワークフローを通じて `NULL` 以外のベクトル値を書き込みます。新しいエンティティは、insert の際に新しいベクトルフィールドを含めることができます。
 
 ### 既存のコレクションに BM25 Function とその生成スパースベクトルフィールドを追加できますか？\{#can-i-add-a-bm25-function-and-its-generated-sparse-vector-field-to-an-existing-collection}
 
-はい。コレクションにアナライザーが有効な `VARCHAR` フィールドがすでにある場合は、字句検索用の BM25 Function とその生成スパースベクトルフィールドを追加できます。この操作では、Function、新しい `SPARSE_FLOAT_VECTOR` 出力フィールド、およびバインドされたインデックス定義を同じスキーマ変更で追加します。このスキーマ変更ワークフローでは、既存の `TEXT` フィールドを BM25 の入力として使用することはできません。`TEXT` を使用するには、コレクションの作成時にフィールドと BM25 Function を定義してください。そうでない場合は、その Function をスキーマに含めた状態でコレクションを再作成または移行してください。
+はい。コレクションにアナライザーが有効な `VARCHAR` フィールドがすでに存在する場合は、字句検索用の BM25 Function とその生成スパースベクトルフィールドを追加できます。この操作では、Function、新しい `SPARSE_FLOAT_VECTOR` 出力フィールド、およびバインドされたインデックス定義を同じスキーマ変更で追加します。このスキーマ変更ワークフローでは、既存の `TEXT` フィールドを BM25 の入力として使用できません。`TEXT` を使用するには、コレクションの作成時にフィールドと BM25 Function を定義してください。そうでない場合は、Function をスキーマに含めた状態でコレクションを再作成または移行してください。
 
-`add_function_field()` を呼び出すときは、新しい出力フィールド用に `metric_type="BM25"` を持つ 1 つの `SPARSE_INVERTED_INDEX` インデックスを含む `index_params` オブジェクトを指定します。インデックス定義は、同じスキーマ変更の一部として生成フィールドにバインドされます。
+`add_function_field()` を呼び出すときは、新しい出力フィールド用に、`metric_type="BM25"` を指定した 1 つの `SPARSE_INVERTED_INDEX` インデックスを含む `index_params` オブジェクトを指定します。インデックス定義は、同じスキーマ変更の一部として生成フィールドにバインドされます。
 
 ### Function とその生成ベクトルフィールドを削除するにはどうすればよいですか？\{#how-do-i-drop-a-function-and-its-generated-vector-field}
 
 Function 名を指定して `drop_function_field()` を呼び出します。この操作では、Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスをまとめて削除します。
 
-### コレクションスキーマの変更後に待機する必要はありますか？\{#do-i-need-to-wait-after-altering-a-collection-schema}
+### コレクションスキーマを変更した後、待機する必要がありますか？\{#do-i-need-to-wait-after-altering-a-collection-schema}
 
-通常、手動で待機する必要はありません。次の操作が更新されたスキーマに依存する場合は、先に `describe_collection()` を呼び出して、Zilliz Cloud が現在返すスキーマを確認できます。
+通常、手動で待機する必要はありません。次の操作が更新後のスキーマに依存する場合は、まず `describe_collection()` を呼び出して、Zilliz Cloud が現在返すスキーマを確認できます。
 
-分散デプロイでは、Zilliz Cloud のコンポーネントがコレクションメタデータを更新する間に、短い伝播ウィンドウが存在することがあります。スキーマ変更の直後の操作がスキーマ関連のエラーで失敗した場合は、スキーマを更新して操作を再試行してください。
+分散デプロイでは、Zilliz Cloud のコンポーネントがコレクションメタデータを更新する間、短い伝播期間が発生することがあります。スキーマ変更直後の操作がスキーマ関連のエラーで失敗した場合は、スキーマを更新して操作を再試行してください。
 
-### フィールドの削除後、ストレージ領域はいつ解放されますか？\{#when-is-storage-space-reclaimed-after-dropping-a-field}
+### フィールドを削除した後、ストレージ容量はいつ解放されますか？\{#when-is-storage-space-reclaimed-after-dropping-a-field}
 
-フィールドを削除すると、そのフィールドは現在のスキーマおよび通常のクエリ/search の可視性から削除されますが、そのフィールドの履歴データはオブジェクトストレージから直ちに物理的に削除されるわけではありません。
+フィールドを削除すると、そのフィールドは現在のスキーマおよび通常の query/search の可視性から削除されますが、そのフィールドの履歴データがオブジェクトストレージから直ちに物理削除されるわけではありません。
 
-ストレージ領域は、後で Compaction の実行中に解放されることがあります。Compaction は、既存のデータファイルをよりコンパクトな新しいファイルに再編成するバックグラウンドプロセスです。フィールドが削除されると、新しく Compaction されたファイルは現在のスキーマに従い、削除されたフィールドを含みません。Zilliz Cloud は、フィールドの削除後にストレージ領域が即座に、または一定の時間で削減されることを保証しません。
+ストレージ容量は、後で Compaction 中に解放される場合があります。Compaction は、既存のデータファイルを再編成して新しい、よりコンパクトなファイルにするバックグラウンドプロセスです。フィールドを削除した後、新しく Compaction されたファイルは現在のスキーマに従い、削除されたフィールドを除外します。Zilliz Cloud は、フィールド削除後にストレージ容量が即座に、または一定時間で削減されることを保証しません。
 
-### 動的フィールドのキーと同じ名前のスカラーフィールドを追加するとどうなりますか？\{#what-happens-if-i-add-a-scalar-field-with-the-same-name-as-a-dynamic-field-key}
+### ダイナミックフィールドのキーと同じ名前のスカラーフィールドを追加するとどうなりますか？\{#what-happens-if-i-add-a-scalar-field-with-the-same-name-as-a-dynamic-field-key}
 
-動的フィールドが有効な場合、既存の動的フィールドのキーと同じ名前のスカラーフィールドを追加できます。新しいスカラーフィールドは通常のクエリ出力で動的フィールドのキーをマスクしますが、元の動的データは `$meta` に保持されます。
+ダイナミックフィールドが有効な場合、既存のダイナミックフィールドキーと同じ名前のスカラーフィールドを追加できます。新しいスカラーフィールドは通常のクエリ出力でダイナミックフィールドキーをマスクしますが、元のダイナミックデータは `$meta` に保持されます。
 
-たとえば、既存のエンティティが `source` という名前の動的キーを格納しており、後で `source` という名前のスカラーフィールドを追加すると、`source` の通常の出力はそのスカラーフィールドを参照します。元の動的な値にアクセスするには、`$meta["source"]` などの &#36;meta パス構文を使用します。
+たとえば、既存のエンティティが `source` という名前のダイナミックキーを保存しており、後で `source` という名前のスカラーフィールドを追加した場合、`source` の通常の出力はスカラーフィールドを参照します。元のダイナミック値にアクセスするには、`$meta["source"]` など、&#36;meta パス構文を使用します。

@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
 | EmbeddingList 検索 | `chunks[emb_list_vector]` | `MAX_SIM*` メトリクスファミリー |
 | 要素レベルのベクトル検索 | `chunks[emb]` | `COSINE`、`IP`、`L2` などの通常のベクトルメトリクスファミリー |
 | 文字列またはカテゴリによるフィルタリング | `chunks[section]` | 対象でサポートされているスカラーインデックス |
-| 数値範囲によるフィルタリング | `chunks[quality_score]`, `chunks[page]` | 対象でサポートされているスカラーインデックス |
+| 数値範囲によるフィルタリング | `chunks[quality_score]`、`chunks[page]` | 対象でサポートされているスカラーインデックス |
 | ブール値によるフィルタリング | `chunks[has_code]` | 対象でサポートされているスカラーインデックス |
 
 EmbeddingList 検索では、StructArray のベクトルサブフィールド内のベクトルを埋め込みリストとして扱い、エンティティレベルの結果を返します。要素レベルの検索では、各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。
@@ -119,6 +119,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb_list_vector]", index.NewAutoIndex(entity.MaxSimCosine)).WithIndexName("chunks_emb_list_auto"))
 if err != nil {
     fmt.Println(err.Error())
@@ -135,6 +143,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
@@ -156,6 +166,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc emb_list_index("chunks[emb_list_vector]", "chunks_emb_list_auto",
     milvus::IndexType::AUTOINDEX, milvus::MetricType::MAX_SIM_COSINE);
 milvus::IndexDesc emb_index("chunks[emb]", "chunks_emb_auto",
@@ -226,7 +239,7 @@ curl --request POST \
 
 <Admonition type="warning" title="Warning">
 
-同じベクトルサブフィールドに `MAX_SIM*` インデックスと通常のベクトルメトリクスインデックスを作成しないでください。両方の検索モードが必要な場合は、2 つの個別のベクトルサブフィールドにベクトルを書き込み、各サブフィールドに 1 つずつインデックスを作成します。
+同じベクトルサブフィールドに対して、`MAX_SIM*` インデックスと通常のベクトルメトリクスインデックスを作成しないでください。両方の検索モードが必要な場合は、2 つの個別のベクトルサブフィールドにベクトルを書き込み、各サブフィールドに 1 つずつインデックスを作成します。
 
 </Admonition>
 
@@ -300,6 +313,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[section]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_section_auto"))
 if err != nil {
     fmt.Println(err.Error())
@@ -326,6 +347,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
@@ -343,6 +366,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc section_index("chunks[section]", "chunks_section_auto",
     milvus::IndexType::AUTOINDEX);
 milvus::IndexDesc has_code_index("chunks[has_code]", "chunks_has_code_auto",
@@ -449,16 +475,16 @@ StructArray のベクトルサブフィールドには `AUTOINDEX` を使用し�
 
 | 検索モード | ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
 | --- | --- | --- | --- |
-| EmbeddingList 検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`, `MAX_SIM_COSINE`, `MAX_SIM_IP`, `MAX_SIM_L2` |
-| EmbeddingList 検索 | `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`, `MAX_SIM_JACCARD` |
-| 要素レベルの検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `L2`, `IP`, `COSINE` |
-| 要素レベルの検索 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`, `JACCARD` |
+| EmbeddingList 検索 | `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`、`MAX_SIM_COSINE`、`MAX_SIM_IP`、`MAX_SIM_L2` |
+| EmbeddingList 検索 | `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`、`MAX_SIM_JACCARD` |
+| 要素レベルの検索 | `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` | `AUTOINDEX` | `L2`、`IP`、`COSINE` |
+| 要素レベルの検索 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`、`JACCARD` |
 
-バージョン固有のサポート状況やその他の制限については、[StructArray の制限事項](./struct-array-limits) を参照してください。
+バージョン固有のサポート状況とその他の制限については、[StructArray の制限事項](./struct-array-limits) を参照してください。
 
 ## インデックスを確認する\{#verify-indexes}
 
-インデックスを作成した後、コレクションを describe するかインデックスを一覧表示して、期待どおりのサブフィールドパスにインデックスが作成されていることを確認します。
+インデックスを作成した後、コレクションを describe するか、インデックスを一覧表示して、想定したサブフィールドパスにインデックスが作成されていることを確認します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -477,6 +503,7 @@ print(indexes)
 
 ```java
 import io.milvus.v2.service.index.request.ListIndexesReq;
+import java.util.List;
 
 List<String> indexes = client.listIndexes(ListIndexesReq.builder()
         .collectionName("tech_articles")
@@ -489,6 +516,12 @@ System.out.println(indexes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexes, err := cli.ListIndexes(ctx, milvusclient.NewListIndexOption("tech_articles"))
 if err != nil {
     fmt.Println(err.Error())
@@ -501,6 +534,8 @@ fmt.Println(indexes)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.list_indexes(ListIndexesRequest::builder()
         .collection_name("tech_articles").build()?).await?;
     println!("{:?}", resp.index_names());
@@ -511,6 +546,9 @@ fmt.Println(indexes)
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::ListIndexesResponse list_resp;
 status = client->ListIndexes(milvus::ListIndexesRequest()
                                 .WithCollectionName("tech_articles"),
@@ -582,6 +620,12 @@ System.out.println(index);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexDesc, err := cli.DescribeIndex(ctx, milvusclient.NewDescribeIndexOption("tech_articles", "chunks_emb_cosine"))
 if err != nil {
     fmt.Println(err.Error())
@@ -594,6 +638,8 @@ fmt.Println(indexDesc.IndexType())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.describe_index(DescribeIndexRequest::builder()
         .collection_name("tech_articles").index_name("chunks_emb_cosine").build()?).await?;
     println!("{:?}", resp.indexes()[0].get_index_type());
@@ -604,6 +650,9 @@ fmt.Println(indexDesc.IndexType())
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::DescribeIndexResponse desc_resp;
 status = client->DescribeIndex(milvus::DescribeIndexRequest()
                                    .WithCollectionName("tech_articles")
@@ -653,7 +702,7 @@ curl --request POST \
 | EmbeddingList 検索には `MAX_SIM*` メトリクスを使用します。 | EmbeddingList のクエリデータには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
 | 要素レベルの検索には通常のベクトルメトリクスを使用します。 | 要素レベルの検索では、通常のベクトルクエリデータと `COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
 | フィルターに出現するスカラーサブフィールドにインデックスを作成します。 | 対象でサポートされているスカラーインデックスタイプを使用します。 |
-| ベクトルフィールドの制限に注意してください。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、「StructArray の制限事項」を参照してください。 |
+| ベクトルフィールドの制限に注意してください。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、StructArray の制限事項を参照してください。 |
 
 ## よくある間違い\{#common-mistakes}
 
@@ -676,3 +725,4 @@ curl --request POST \
 1. 検索時に StructArray のスカラーサブフィールドをフィルタリングするには、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
 
 1. インデックスとメトリクスの制限を確認するには、[StructArray の制限事項](./struct-array-limits) を参照してください。
+

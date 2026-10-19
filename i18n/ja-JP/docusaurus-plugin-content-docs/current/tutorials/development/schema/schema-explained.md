@@ -1,5 +1,5 @@
 ---
-title: "スキーマの説明 | Cloud"
+title: "スキーマの概要 | Cloud"
 slug: /schema-explained
 sidebar_label: "概要"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるよう支援します。 | Cloud"
+description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるようにします。 | Cloud"
 type: origin
 token: Vs4YwNnvzitoQ8kunlGcWMJInbf
 sidebar_position: 1
@@ -19,23 +19,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# スキーマの説明
+# スキーマの概要
 
-スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるよう支援します。
+スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるようにします。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、コレクションスキーマはリレーショナルデータベースのテーブルに相当し、Zilliz Cloud がコレクション内のデータをどのように整理するかを定義します。
+Zilliz Cloud では、コレクションスキーマはリレーショナルデータベースのテーブルを構成し、Zilliz Cloud がコレクション内でデータをどのように整理するかを定義します。
 
-適切に設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するため、不可欠です。さらに、コレクションに挿入されるすべてのデータ行はスキーマに従う必要があるため、データの一貫性と長期的な品質の維持に役立ちます。技術的な観点では、適切に定義されたスキーマは、整理された列データストレージとよりクリーンなインデックス構造をもたらし、検索パフォーマンスを向上させます。
+適切に設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するため、不可欠です。さらに、コレクションに挿入されるデータの各行はスキーマに従う必要があるため、データの一貫性と長期的な品質の維持に役立ちます。技術的な観点では、適切に定義されたスキーマにより、列データのストレージが整理され、インデックス構造がよりクリーンになり、検索パフォーマンスが向上します。
 
-コレクションスキーマには、主キー、少なくとも 1 つのベクトルフィールド、およびいくつかのスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
+コレクションスキーマには、プライマリキー、少なくとも 1 つのベクトルフィールド、および複数のスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
 
 ![RoJFbyTsuoY8mHxoBBicgBH9nTc](https://zdoc-images.s3.us-west-2.amazonaws.com/rojfbytsuoy8mhxobbicgbh9ntc.png "RoJFbyTsuoY8mHxoBBicgBH9nTc")
 
-検索システムのデータモデル設計では、ビジネスニーズを分析し、情報をスキーマで表現されたデータモデルに抽象化します。たとえば、一連のテキストを検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を有効にして「インデックス化」する必要があります。この必須要件に加えて、公開タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、フィルタリングを通じてセマンティック検索を絞り込み、特定の日付以降に公開されたテキストや特定の著者によるテキストのみを返すことができます。また、これらのスカラーを本文とともに取得して、アプリケーションで検索結果をレンダリングすることもできます。これらのテキストを整理するには、各テキストに一意の識別子を割り当て、整数または文字列として表現する必要があります。これらの要素は、高度な検索ロジックを実現するために不可欠です。
+検索システムのデータモデル設計では、ビジネスニーズを分析し、情報をスキーマで表現されるデータモデルに抽象化します。たとえば、テキストを検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を有効にして「インデックス付け」する必要があります。この必須要件に加えて、公開タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、フィルタリングを通じてセマンティック検索を絞り込み、特定の日付以降に公開されたテキストや特定の著者によるテキストのみを返すことができます。また、これらのスカラーをメインテキストとともに取得して、アプリケーションで検索結果をレンダリングできます。これらのテキストを整理するには、それぞれに整数または文字列として表現される一意の識別子を割り当てる必要があります。これらの要素は、高度な検索ロジックを実現するために不可欠です。
 
-適切に設計されたスキーマを作成する方法については、[スキーマ設計ハンズオン](./schema-design-hands-on) を参照してください。
+適切に設計されたスキーマを作成する方法については、[スキーマ設計の実践](./schema-design-hands-on) を参照してください。
 
 ## スキーマを作成する\{#create-schema}
 
@@ -114,9 +114,9 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## 主フィールドを追加する\{#add-primary-field}
+## プライマリフィールドを追加する\{#add-primary-field}
 
-コレクションの主フィールドは、エンティティを一意に識別します。**Int64** または **VarChar** の値のみを受け付けます。次のコードスニペットは、主フィールドを追加する方法を示しています。
+コレクションのプライマリフィールドは、エンティティを一意に識別します。**Int64** または **VarChar** の値のみを受け入れます。次のコードスニペットは、プライマリフィールドを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -155,6 +155,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_id").
     WithDataType(entity.FieldTypeInt64).
     // highlight-start
@@ -169,6 +171,8 @@ schema.WithField(entity.NewField().WithName("my_id").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_id")
@@ -191,6 +195,8 @@ schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true,
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_id",
     data_type: DataType.Int64,
@@ -223,21 +229,21 @@ export schema="{
 </TabItem>
 </Tabs>
 
-フィールドを追加する際、その `is_primary` プロパティを `True` に設定することで、フィールドを明示的に主フィールドとして指定できます。主フィールドはデフォルトで **Int64** 値を受け付けます。この場合、主フィールドの値は `12345` のような整数である必要があります。主フィールドで **VarChar** 値を使用する場合、値は `my_entity_1234` のような文字列である必要があります。
+フィールドを追加する際、`is_primary` プロパティを `True` に設定することで、そのフィールドがプライマリフィールドであることを明示できます。プライマリフィールドはデフォルトで **Int64** 値を受け入れます。この場合、プライマリフィールドの値は `12345` のような整数である必要があります。プライマリフィールドで **VarChar** 値を使用する場合は、値は `my_entity_1234` のような文字列である必要があります。
 
-また、`autoId` プロパティを `True` に設定すると、データ挿入時に Zilliz Cloud が主フィールドの値を自動的に割り当てるようにできます。
+また、`autoId` プロパティを `True` に設定すると、データ挿入時に Zilliz Cloud がプライマリフィールドの値を自動的に割り当てるようにできます。
 
 <Admonition type="info" title="Notes">
 
-手動で主キーを設定することが有益な場合を除き、常に `autoId` に依存することをお勧めします。
+手動でプライマリキーを設定することが有益な場合を除き、すべての場合で `autoId` に依存することをお勧めします。
 
 </Admonition>
 
-詳細については、[主キーと AutoId](./primary-field-auto-id) を参照してください。
+詳細については、[プライマリフィールドと AutoId](./primary-field-auto-id) を参照してください。
 
 ## ベクトルフィールドを追加する\{#add-vector-fields}
 
-ベクトルフィールドは、さまざまなスパースおよびデンスのベクトル埋め込みを受け付けます。Zilliz Cloud では、コレクションに 4 つのベクトルフィールドを追加できます。次のコードスニペットは、ベクトルフィールドを追加する方法を示しています。
+ベクトルフィールドは、さまざまなスパースおよびデンスのベクトル埋め込みを受け入れます。Zilliz Cloud では、コレクションに 4 つのベクトルフィールドを追加できます。次のコードスニペットは、ベクトルフィールドを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -256,6 +262,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_vector")
         .dataType(DataType.FloatVector)
@@ -269,6 +278,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_vector").
     WithDataType(entity.FieldTypeFloatVector).
     // highlight-next-line
@@ -281,6 +292,8 @@ schema.WithField(entity.NewField().WithName("my_vector").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_vector")
@@ -302,6 +315,8 @@ schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_vector",
     data_type: DataType.FloatVector,
@@ -335,35 +350,35 @@ export schema="{
 </TabItem>
 </Tabs>
 
-上記のコードスニペットの `dim` パラメーターは、ベクトルフィールドに保持されるベクトル埋め込みの次元数を示します。`FLOAT_VECTOR` 値は、ベクトルフィールドが 32 ビットの浮動小数点数のリストを保持することを示します。これらは通常、反対数を表すために使用されます。さらに、Zilliz Cloud は次の種類のベクトル埋め込みもサポートしています：
+上記のコードスニペットの `dim` パラメーターは、ベクトルフィールドに格納されるベクトル埋め込みの次元数を示します。`FLOAT_VECTOR` 値は、ベクトルフィールドが 32 ビット浮動小数点数のリストを保持することを示します。これらは通常、逆対数を表すために使用されます。さらに、Zilliz Cloud は次の種類のベクトル埋め込みもサポートしています。
 
 - `FLOAT16_VECTOR`
 
-    このタイプのベクトルフィールドは、16 ビットの半精度浮動小数点数のリストを保持し、通常、メモリまたは帯域幅が制限されたディープラーニングや GPU ベースのコンピューティングのシナリオに適用されます。
+    このタイプのベクトルフィールドは、16 ビット半精度浮動小数点数のリストを保持し、通常、メモリまたは帯域幅が制限された深層学習や GPU ベースのコンピューティングシナリオに適用されます。
 
 - `BFLOAT16_VECTOR`
 
-    このタイプのベクトルフィールドは、精度が低減されていますが Float32 と同じ指数範囲を持つ 16 ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えずにメモリ使用量を削減できるため、ディープラーニングのシナリオで一般的に使用されます。
+    このタイプのベクトルフィールドは、精度は低いものの Float32 と同じ指数範囲を持つ 16 ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えることなくメモリ使用量を削減できるため、深層学習のシナリオで一般的に使用されます。
 
 - `INT8_VECTOR`
 
-    このタイプのベクトルフィールドは、8 ビットの符号付き整数（int8）で構成されるベクトルを格納し、各コンポーネントの範囲は –128 から 127 です。ResNet や EfficientNet などの量子化されたディープラーニングアーキテクチャ向けに調整されており、精度の低下を最小限に抑えながら、モデルサイズを大幅に削減し、推論速度を向上させます。**注意**：このベクトルタイプは HNSW インデックスでのみサポートされています。
+    このタイプのベクトルフィールドは、8 ビット符号付き整数（int8）で構成されるベクトルを格納し、各コンポーネントの範囲は –128 から 127 です。ResNet や EfficientNet などの量子化された深層学習アーキテクチャ向けに調整されており、精度の損失を最小限に抑えながら、モデルサイズを大幅に縮小し、推論速度を向上させます。**注記**: このベクトルタイプは HNSW インデックスでのみサポートされています。
 
 - `BINARY_VECTOR`
 
-    このタイプのベクトルフィールドは、0 と 1 のリストを保持します。これらは、画像処理や情報検索のシナリオでデータを表現するためのコンパクトな特徴量として機能します。
+    このタイプのベクトルフィールドは、0 と 1 のリストを保持します。これらは、画像処理や情報検索のシナリオでデータを表すためのコンパクトな特徴として機能します。
 
 - `SPARSE_FLOAT_VECTOR`
 
-    このタイプのベクトルフィールドは、スパースなベクトル埋め込みを表すために、非ゼロの数値とそのシーケンス番号のリストを保持します。
+    このタイプのベクトルフィールドは、非ゼロの数値とそのシーケンス番号のリストを保持して、スパースなベクトル埋め込みを表します。
 
 ## スカラーフィールドを追加する\{#add-scalar-fields}
 
-一般的には、スカラーフィールドを使用して Zilliz Cloud クラスターに格納されたベクトル埋め込みのメタデータを保存し、メタデータフィルタリングを使用して ANN 検索を実行することで、検索結果の正確性を向上させることができます。Zilliz Cloud は、**VarChar**、**TEXT**、**Boolean**、**Int**、**Float**、**Double** など、複数のスカラーフィールドタイプをサポートしています。
+一般的なケースでは、スカラーフィールドを使用して、Zilliz Cloud クラスターに格納されているベクトル埋め込みのメタデータを保存し、メタデータフィルタリングを伴う ANN 検索を実行して、検索結果の正確性を向上させることができます。Zilliz Cloud は、**VarChar**、**TEXT**、**Boolean**、**Int**、**Float**、**Double** など、複数のスカラーフィールドタイプをサポートしています。
 
 ### VarChar フィールドを追加する\{#add-varchar-fields}
 
-Zilliz Cloud クラスターでは、VarChar フィールドを使用して文字列を保存できます。VarChar フィールドの詳細については、[文字列フィールド](./use-string-field) を参照してください。
+Zilliz Cloud クラスターでは、VarChar フィールドを使用して文字列を格納できます。VarChar フィールドの詳細については、[文字列フィールド](./use-string-field) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -382,6 +397,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_varchar")
         .dataType(DataType.VarChar)
@@ -395,6 +413,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_varchar").
     WithDataType(entity.FieldTypeVarChar).
     WithMaxLength(512),
@@ -406,6 +426,8 @@ schema.WithField(entity.NewField().WithName("my_varchar").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_varchar")
@@ -427,6 +449,8 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_varchar",
     data_type: DataType.VarChar,
@@ -463,7 +487,7 @@ export schema="{
 
 ### TEXT フィールドを追加する\{#add-text-fields}
 
-Milvus 3.0 以降では、`TEXT` フィールドを使用して、ドキュメントのテキスト、パッセージ、ログ、その他の長いテキストコンテンツを保存できます。`VARCHAR` とは異なり、`TEXT` フィールドには `max_length` は不要です。`TEXT` フィールドの詳細については、[TEXT フィールド](./use-text-field) を参照してください。
+Milvus 3.0 以降では、`TEXT` フィールドを使用して、ドキュメントテキスト、パッセージ、ログ、その他の長いテキストコンテンツを格納できます。`VARCHAR` とは異なり、`TEXT` フィールドには `max_length` は必要ありません。`TEXT` フィールドの詳細については、[TEXT フィールド](./use-text-field) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -480,6 +504,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_text")
         .dataType(DataType.Text)
@@ -491,6 +518,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_text").
     WithDataType(entity.FieldTypeText),
 )
@@ -517,6 +546,8 @@ schema->AddField(milvus::FieldSchema("my_text", milvus::DataType::TEXT));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_text",
     data_type: DataType.Text
@@ -566,6 +597,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_int64")
         .dataType(DataType.Int64)
@@ -577,6 +611,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_int64").
     WithDataType(entity.FieldTypeInt64),
 )
@@ -587,6 +623,8 @@ schema.WithField(entity.NewField().WithName("my_int64").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_int64")
@@ -607,6 +645,8 @@ schema->AddField(milvus::FieldSchema("my_int64", milvus::DataType::INT64));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_int64",
     data_type: DataType.Int64,
@@ -657,6 +697,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_bool")
         .dataType(DataType.Bool)
@@ -668,6 +711,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_bool").
     WithDataType(entity.FieldTypeBool),
 )
@@ -678,6 +723,8 @@ schema.WithField(entity.NewField().WithName("my_bool").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_bool")
@@ -698,6 +745,8 @@ schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_bool",
     data_type: DataType.Bool
@@ -732,11 +781,11 @@ export schema="{
 
 ## 複合フィールドを追加する\{#add-composite-fields}
 
-Zilliz Cloud では、複合フィールドとは、JSON フィールドのキーや配列フィールドのインデックスなど、より小さなサブフィールドに分割できるフィールドです。
+Zilliz Cloud では、複合フィールドは、JSON フィールドのキーや Array フィールドのインデックスなど、より小さなサブフィールドに分割できるフィールドです。
 
 ### JSON フィールドを追加する\{#add-json-fields}
 
-JSON フィールドは通常、半構造化 JSON データを保存します。JSON フィールドの詳細については、[JSON フィールドの概要](./json-field-overview) を参照してください。
+JSON フィールドは通常、半構造化 JSON データを格納します。JSON フィールドの詳細については、[JSON Field Overview](./json-field-overview) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -753,6 +802,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_json")
         .dataType(DataType.JSON)
@@ -764,6 +816,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_json").
     WithDataType(entity.FieldTypeJSON),
 )
@@ -774,6 +828,8 @@ schema.WithField(entity.NewField().WithName("my_json").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_json")
@@ -794,6 +850,8 @@ schema->AddField(milvus::FieldSchema("my_json", milvus::DataType::JSON));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_json",
     data_type: DataType.JSON,
@@ -829,7 +887,7 @@ export schema="{
 
 ### 配列フィールドを追加する\{#add-array-fields}
 
-配列フィールドは要素のリストを保存します。配列フィールド内のすべての要素のデータ型は同じである必要があります。配列フィールドの詳細については、[配列フィールド](./use-array-fields) を参照してください。
+配列フィールドは要素のリストを格納します。配列フィールド内のすべての要素のデータ型は同じである必要があります。配列フィールドの詳細については、[Array Field](./use-array-fields) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -849,6 +907,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_array")
         .dataType(DataType.Array)
@@ -863,6 +924,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_array").
     WithDataType(entity.FieldTypeArray).
     WithElementType(entity.FieldTypeVarChar).
@@ -876,6 +939,8 @@ schema.WithField(entity.NewField().WithName("my_array").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_array")
@@ -902,6 +967,8 @@ schema->AddField(milvus::FieldSchema("my_array", milvus::DataType::ARRAY)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_array",
     data_type: DataType.Array,

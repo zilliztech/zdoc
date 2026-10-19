@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`RTREE` インデックスは、Zilliz Cloud における `GEOMETRY` フィールドのクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、ポリゴンなどのジオメトリオブジェクトが Well-known text (WKT) 形式で保存されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択です。 | Cloud"
+description: "`RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、ポリゴンなどの幾何学オブジェクトが Well-known text（WKT）形式で格納されており、空間フィルタリングを高速化する場合は、`RTREE` が理想的な選択肢です。 | Cloud"
 type: origin
 token: RlY2wylVQiZswikT0G2cBHVznTf
 sidebar_position: 4
@@ -21,31 +21,31 @@ import TabItem from '@theme/TabItem';
 
 # RTREE
 
-`RTREE` インデックスは、Zilliz Cloud における `GEOMETRY` フィールドのクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、ポリゴンなどのジオメトリオブジェクトが [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で保存されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択です。
+`RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、ポリゴンなどの幾何学オブジェクトが [Well-known text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で格納されており、空間フィルタリングを高速化する場合は、`RTREE` が理想的な選択肢です。
 
 ## 仕組み\{#how-it-works}
 
-Zilliz Cloud は `RTREE` インデックスを使用してジオメトリデータを効率的に整理・フィルタリングし、次の 2 段階のプロセスに従います。
+Zilliz Cloud は `RTREE` インデックスを使用してジオメトリデータを効率的に整理およびフィルタリングします。このプロセスは 2 段階で構成されます。
 
-### フェーズ 1: インデックスの構築\{#phase-1-build-the-index}
+### フェーズ 1: インデックスを構築する\{#phase-1-build-the-index}
 
-1. **リーフノードを作成する:** 各ジオメトリオブジェクトについて、そのオブジェクトを完全に含む最小の矩形である [Minimum Bounding Rectangle](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle)（MBR）を計算し、リーフノードとして保存します。
+1. **リーフノードを作成する:** 各幾何学オブジェクトについて、そのオブジェクトを完全に包含する最小の矩形である [最小外接矩形](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle)（MBR）を計算し、リーフノードとして格納します。
 
-1. **より大きなボックスにグループ化する:** 近接するリーフノードをまとめてクラスター化し、各グループを新しい MBR で包んで内部ノードを形成します。たとえば、グループ **B** には **D** と **E** が含まれ、グループ **C** には **F** と **G** が含まれます。
+1. **より大きなボックスにグループ化する:** 近接するリーフノードをクラスター化し、各グループを新しい MBR で囲んで内部ノードを形成します。たとえば、グループ **B** には **D** と **E** が含まれ、グループ **C** には **F** と **G** が含まれます。
 
-1. **ルートノードを追加する:** すべての内部グループを覆う MBR を持つルートノードを追加し、高さバランスの取れたツリー構造を作成します。
+1. **ルートノードを追加する:** すべての内部グループを包含する MBR を持つルートノードを追加し、高さのバランスが取れたツリー構造にします。
 
 ![Asy8w0umqh9jJ1biNUHcialonfd](https://zdoc-images.s3.us-west-2.amazonaws.com/Asy8w0umqh9jJ1biNUHcialonfd.png)
 
-### フェーズ 2: クエリの高速化\{#phase-2-accelerate-queries}
+### フェーズ 2: クエリを高速化する\{#phase-2-accelerate-queries}
 
 1. **クエリ MBR を形成する:** クエリジオメトリの MBR を計算します。
 
-1. **ブランチを枝刈りする:** ルートから開始し、クエリ MBR を各内部ノードと比較します。MBR がクエリ MBR と交差しないブランチはスキップします。
+1. **ブランチを枝刈りする:** ルートから開始し、クエリ MBR を各内部ノードと比較します。クエリ MBR と交差しない MBR を持つブランチはスキップします。
 
-1. **候補を収集する:** 交差するブランチへ降下し、候補となるリーフノードを集めます。
+1. **候補を収集する:** 交差するブランチを下って、候補のリーフノードを収集します。
 
-1. **完全一致:** 各候補に対して正確な空間述語を実行し、真の一致を判定します。
+1. **完全一致:** 各候補について、正確な空間述語を実行して真の一致を判定します。
 
 ## RTREE インデックスを作成する\{#create-an-rtree-index}
 
@@ -239,15 +239,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## RTREE を使ってクエリする\{#query-with-rtree}
+## RTREE を使用したクエリ\{#query-with-rtree}
 
-`filter` 式でジオメトリ演算子を使用してフィルタリングします。対象の `GEOMETRY` フィールドに `RTREE` が存在する場合、Zilliz Cloud は自動的にそれを使用して候補を枝刈りします。インデックスがない場合、フィルターはフルスキャンにフォールバックします。
+`filter` 式でジオメトリ演算子を使用してフィルタリングします。対象の `GEOMETRY` フィールドに `RTREE` が存在する場合、Zilliz Cloud はそれを使用して候補を自動的に枝刈りします。インデックスがない場合、フィルターはフルスキャンにフォールバックします。
 
-利用可能なジオメトリ専用演算子の完全な一覧については、[ジオメトリ演算子](./geometry-operators) を参照してください。
+利用可能なジオメトリ固有の演算子の完全なリストについては、[ジオメトリ演算子](./geometry-operators) を参照してください。
 
-### 例 1: フィルタのみ\{#example-1-filter-only}
+### 例 1: フィルターのみ\{#example-1-filter-only}
 
-指定したポリゴン内にあるすべてのジオメトリオブジェクトを検索します。
+指定したポリゴン内にあるすべての幾何学オブジェクトを検索します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -289,6 +289,13 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter_expr := "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 _, err = cli.Query(ctx, milvusclient.NewQueryOption("geo_demo").
@@ -385,7 +392,7 @@ EOF
 
 ### 例 2: ベクトル検索 + 空間フィルター\{#example-2-vector-search-spatial-filter}
 
-ラインと交差する最も近いベクトルを検索します。
+ラインと交差する最近傍ベクトルを検索します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -434,7 +441,13 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 query_vec := []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}
 filter_expr := "ST_INTERSECTS(geo, 'LINESTRING (1 1, 2 2)')"
@@ -546,11 +559,11 @@ EOF
 
 ## インデックスを削除する\{#drop-an-index}
 
-`drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
+コレクションから既存のインデックスを削除するには、`drop_index()` メソッドを使用します。
 
 <Admonition type="info" title="Notes">
 
-**Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。事前にコレクションをリリースする必要はありません。
+**Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先に解放する必要はありません。
 
 </Admonition>
 
@@ -582,6 +595,13 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("geo_demo", "rtree_geo"))
 if err != nil {
     fmt.Println(err.Error())

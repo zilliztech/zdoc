@@ -61,17 +61,17 @@ Zilliz Cloud では、**動的フィールド**と呼ばれる特別な機能を
 
 一般的なユースケースには次のものがあります。
 
-- オプションのフィールドや取得頻度の低いフィールドを格納する
+- オプションのフィールドや取得頻度の低いフィールドを格納できます。
 
-- エンティティごとに異なるメタデータをキャプチャする
+- エンティティごとに異なるメタデータをキャプチャできます。
 
-- 特定の動的フィールドキーのインデックスを介して柔軟なフィルタリングをサポートする
+- 特定の動的フィールドキーのインデックスを介して柔軟なフィルタリングを実現できます。
 
 ## サポートされているデータ型\{#supported-data-types}
 
 動的フィールドは、Zilliz Cloud が提供するすべてのスカラーデータ型をサポートしており、単純な値と複雑な値の両方を含みます。これらのデータ型は、**`$meta` に格納されるキーの値**に適用されます。
 
-**サポートされている型は次のとおりです:**
+**サポートされている型は次のとおりです。**
 
 - 文字列（`VARCHAR`）
 
@@ -85,7 +85,7 @@ Zilliz Cloud では、**動的フィールド**と呼ばれる特別な機能を
 
 - JSON オブジェクト（`JSON`）
 
-**例:**
+**例：**
 
 ```json
 {
@@ -456,11 +456,13 @@ let insert = client
             .columns(vec![
                 FieldData::int64("my_id", vec![1]),
                 FieldData::float_vector("my_vector", vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]),
-                FieldData::varchar("overview", vec!["Great product".to_string()]),
-                FieldData::int32("words", vec![150]),
                 FieldData::json(
-                    "dynamic_json",
-                    vec![json!({"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"})],
+                    "$meta",
+                    vec![json!({
+                        "overview": "Great product",
+                        "words": 150,
+                        "dynamic_json": {"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"},
+                    })],
                 ),
             ])
             .build()?,
@@ -588,7 +590,7 @@ JSON パスインデックスを作成するには、次の項目を指定しま
 
 動的フィールドは JSON フィールドであるため、JSON パス構文を使用してその中の任意のキーにインデックスを作成できます。これは、単純なスカラー値と複雑なネスト構造の両方で機能します。
 
-**JSON パスの例:**
+**JSON パスの例：**
 
 - 単純なキーの場合: `overview`、`words`
 
@@ -599,6 +601,13 @@ JSON パスインデックスを作成するには、次の項目を指定しま
 
 ```python
 index_params = client.prepare_index_params()
+
+# Add a vector index on the vector field so the collection can be loaded
+index_params.add_index(
+    field_name="my_vector",
+    index_type="AUTOINDEX",
+    metric_type="COSINE",
+)
 
 # Index a simple string key
 index_params.add_index(
@@ -890,7 +899,7 @@ export varcharIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json["varchar"]"
+    "json_path": "dynamic_json[\"varchar\"]"
   }
 }'
 
@@ -900,7 +909,7 @@ export nestedIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-    "json_path": "dynamic_json["nested"]["value"]"
+    "json_path": "dynamic_json[\"nested\"][\"value\"]"
   }
 }'
 ```
@@ -935,6 +944,7 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -955,6 +965,11 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`).
     WithIndexName("json_string_price_index")
 // Note: json_cast_function (STRING_TO_DOUBLE) is not supported in milvus-sdk-go as of client/v3.0.0.
@@ -966,6 +981,7 @@ indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", 
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 index_params.push(
@@ -1054,6 +1070,9 @@ client.create_index(
     collection_name="my_collection",
     index_params=index_params
 )
+
+# Load the collection before searching
+client.load_collection(collection_name="my_collection")
 ```
 
 </TabItem>
@@ -1061,11 +1080,25 @@ client.create_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+
+// Add a vector index on the vector field so the collection can be loaded
+indexParams.add(IndexParam.builder()
+        .fieldName("my_vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build());
 
 client.createIndex(CreateIndexReq.builder()
         .collectionName("my_collection")
         .indexParams(indexParams)
+        .build());
+
+// Load the collection before searching
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
         .build());
 ```
 
@@ -1074,6 +1107,16 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Add a vector index on the vector field so the collection can be loaded
+indexOptVec := milvusclient.NewCreateIndexOption("my_collection", "my_vector", index.NewAutoIndex(entity.COSINE))
+
 indexTask1, err := client.CreateIndex(ctx, indexOpt1)
 if err != nil {
     return err
@@ -1094,6 +1137,16 @@ indexTask5, err := client.CreateIndex(ctx, indexOpt5)
 if err != nil {
     return err
 }
+indexTaskVec, err := client.CreateIndex(ctx, indexOptVec)
+if err != nil {
+    return err
+}
+
+// Load the collection before searching
+err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    return err
+}
 ```
 
 </TabItem>
@@ -1101,11 +1154,31 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
+// Add a vector index on the vector field so the collection can be loaded
+index_params.push(
+    IndexParam::new()
+        .field_name("my_vector")
+        .index_name("my_vector_index")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+);
+
 client
     .create_index(
         CreateIndexRequest::builder()
             .collection_name("my_collection")
             .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+
+// Load the collection before searching
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
             .build()?,
     )
     .await?;
@@ -1116,13 +1189,22 @@ client
 <TabItem value='c++'>
 
 ```c++
+milvus::IndexDesc my_vector_index("my_vector", "my_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+
 auto status = client->CreateIndex(milvus::CreateIndexRequest()
                                      .WithCollectionName("my_collection")
                                      .AddIndex(std::move(overview_index))
                                      .AddIndex(std::move(words_index))
                                      .AddIndex(std::move(json_varchar_index))
                                      .AddIndex(std::move(json_nested_index))
-                                     .AddIndex(std::move(string_price_index)));
+                                     .AddIndex(std::move(string_price_index))
+                                     .AddIndex(std::move(my_vector_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Load the collection before searching
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("my_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1133,7 +1215,19 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-  await client.createIndex(indexParams);
+// Add a vector index on the vector field so the collection can be loaded
+indexParams.push({
+  collection_name: 'my_collection',
+  field_name: 'my_vector',
+  index_name: 'my_vector_index',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE',
+});
+
+await client.createIndex(indexParams);
+
+// Load the collection before searching
+await client.loadCollection({ collection_name: 'my_collection' });
 ```
 
 </TabItem>
@@ -1142,12 +1236,22 @@ if (!status.IsOk()) {
 
 ```bash
 # restful
+export myVectorIndex='{
+  "fieldName": "my_vector",
+  "indexName": "my_vector_index",
+  "params": {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE"
+  }
+}'
+
 export indexParams="[
   $varcharIndex,
   $nestedIndex,
   $overviewIndex,
   $wordsIndex,
-  $stringPriceIndex
+  $stringPriceIndex,
+  $myVectorIndex
 ]"
 
 curl --request POST \
@@ -1158,6 +1262,16 @@ curl --request POST \
 --data "{
   \"collectionName\": \"my_collection\",
   \"indexParams\": $indexParams
+}"
+
+# Load the collection before searching
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+  \"collectionName\": \"my_collection\"
 }"
 ```
 
@@ -1247,7 +1361,7 @@ export filter='dynamic_json["nested"]["value"] < 50'
 </TabItem>
 </Tabs>
 
-**動的フィールドキーの取得**: 検索またはクエリの結果で動的フィールドキーを返すには、フィルタリングと同じ JSON パス構文を使用して、`output_fields` パラメーターで明示的に指定する必要があります。
+**動的フィールドキーの取得：** 検索またはクエリの結果で動的フィールドキーを返すには、フィルタリングと同じ JSON パス構文を使用して、`output_fields` パラメーターで明示的に指定する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1348,6 +1462,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let search = client
     .search(
         SearchRequest::builder()
@@ -1445,7 +1561,7 @@ curl --request POST \
 
 </Admonition>
 
-サポートされている演算子とフィルター式の完全なリストについては、[フィルター検索](./filtered-search) を参照してください。
+サポートされている演算子とフィルター式の完全なリストについては、[フィルタ付き検索](./filtered-search) を参照してください。
 
 ## まとめ\{#put-it-all-together}
 
@@ -1459,11 +1575,11 @@ curl --request POST \
 
 - **コレクションをロードする**
 
-    [ロードとリリース](./load-release-collections) を参照してください。
+    [ロードと解放](./load-release-collections) を参照してください。
 
 - **JSON パスフィルターを使用して検索またはクエリを実行する**
 
-    [フィルター検索](./filtered-search) と [JSON オペレーター](./json-filtering-operators) を参照してください。
+    [フィルタ付き検索](./filtered-search) と [JSON 演算子](./json-filtering-operators) を参照してください。
 
 ## FAQ\{#faq}
 
@@ -1471,15 +1587,15 @@ curl --request POST \
 
 次の場合は、動的フィールドキーを使用する代わりに、スキーマでフィールドを明示的に定義する必要があります。
 
-- **フィールドが output_fields に頻繁に含まれる場合**: `output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義されたフィールドだけです。動的フィールドキーは高頻度の取得に最適化されていないため、パフォーマンスのオーバーヘッドが発生する可能性があります。
+- **フィールドが output_fields に頻繁に含まれる場合**：`output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義されたフィールドだけです。動的フィールドキーは高頻度の取得に最適化されていないため、パフォーマンスのオーバーヘッドが発生する可能性があります。
 
-- **フィールドへのアクセスやフィルタリングが頻繁に行われる場合**: 動的フィールドキーにインデックスを作成すると、固定スキーマのフィールドと同様のフィルタリングパフォーマンスが得られますが、明示的に定義されたフィールドの方が構造が明確で保守性にも優れています。
+- **フィールドへのアクセスやフィルタリングが頻繁に行われる場合**：動的フィールドキーにインデックスを作成すると、固定スキーマのフィールドと同様のフィルタリングパフォーマンスが得られますが、明示的に定義されたフィールドの方が構造が明確で保守性にも優れています。
 
-- **フィールドの動作を完全に制御する必要がある場合**: 明示的なフィールドは、スキーマレベルの制約、検証、より明確な型指定をサポートしており、データの整合性と一貫性の管理に役立ちます。
+- **フィールドの動作を完全に制御する必要がある場合**：明示的なフィールドは、スキーマレベルの制約、検証、より明確な型指定をサポートしており、データの整合性と一貫性の管理に役立ちます。
 
-- **インデックス作成の不整合を回避したい場合**: 動的フィールドキーのデータは、型や構造の不整合が発生しやすくなります。固定スキーマを使用すると、特にインデックス作成やキャストを使用する予定がある場合に、データ品質を確保しやすくなります。
+- **インデックス作成の不整合を回避したい場合**：動的フィールドキーのデータは、型や構造の不整合が発生しやすくなります。固定スキーマを使用すると、特にインデックス作成やキャストを使用する予定がある場合に、データ品質を確保しやすくなります。
 
-既存のコレクションで動的フィールドキーを明示的なスカラーフィールドにする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。既存のコレクションレベルの動的フィールド設定は、コレクションプロパティを通じて管理されます。詳細については、[コレクションの変更](./modify-collections) を参照してください。
+既存のコレクションで動的フィールドキーを明示的なスカラーフィールドにする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。既存のコレクションレベルの動的フィールド設定は、コレクションプロパティを通じて管理されます。詳細については、[コレクションを変更する](./modify-collections) を参照してください。
 
 ### 同じ動的フィールドキーに対して、異なるデータ型で複数のインデックスを作成できますか？\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
 
@@ -1491,11 +1607,11 @@ curl --request POST \
 
 これにはいくつかの重要な意味があります。
 
-- **フルスキャンへのフォールバックはない**: 大部分のエンティティのインデックス作成が成功した場合、フィルタリングクエリは完全にインデックスに依存します。キャストが失敗したエンティティは、論理的にフィルター条件に一致していても、結果セットから除外されます。
+- **フルスキャンへのフォールバックはない**：大部分のエンティティのインデックス作成が成功した場合、フィルタリングクエリは完全にインデックスに依存します。キャストが失敗したエンティティは、論理的にフィルター条件に一致していても、結果セットから除外されます。
 
-- **検索精度のリスク**: データ品質が一貫していない大規模なデータセット（特に動的フィールドキー）では、この動作によって予期しない結果の欠落が生じる可能性があります。インデックスを作成する前に、一貫性のある有効なデータ形式を確保することが重要です。
+- **検索精度のリスク**：データ品質が一貫していない大規模なデータセット（特に動的フィールドキー）では、この動作によって予期しない結果の欠落が生じる可能性があります。インデックスを作成する前に、一貫性のある有効なデータ形式を確保することが重要です。
 
-- **キャスト関数は慎重に使用する**: インデックス作成時に `json_cast_function` を使用して文字列を数値に変換する場合は、文字列の値が確実に変換可能であることを確認してください。`json_cast_type` と実際に変換された型が一致しない場合、エラーが発生したり、エントリがスキップされたりします。
+- **キャスト関数は慎重に使用する**：インデックス作成時に `json_cast_function` を使用して文字列を数値に変換する場合は、文字列の値が確実に変換可能であることを確認してください。`json_cast_type` と実際に変換された型が一致しない場合、エラーが発生したり、エントリがスキップされたりします。
 
 ### クエリで使用するデータ型が、インデックス作成時のキャスト型と異なる場合はどうなりますか？\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
 
