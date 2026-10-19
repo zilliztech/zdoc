@@ -133,7 +133,7 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
                 <span className={styles.label}>{inProp}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
                 { admonitions && admonitions.length > 0 && <Admonitions admonitions={admonitions} lang={lang} /> }
                 { enums.length > 0 && <Enums enums={enums} lang={lang} target={target} /> }
@@ -155,7 +155,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                     <span className={styles.label}>object</span>
                     { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
                 </div> }
-                { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
+                { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
             </div> }
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
                 { properties && Object.keys(properties).filter(key => {
@@ -172,7 +172,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <Properties key={index} 
                                 name={propName} 
-                                description={textFilter(desc, target)}
+                                description={textFilter(desc, target, lang)}
                                 properties={prop.properties} 
                                 requiredFields={prop.required} 
                                 required={requireds.includes(propName)}
@@ -183,7 +183,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <Items key={index} 
                                 name={propName} 
-                                description={textFilter(desc, target)} 
+                                description={textFilter(desc, target, lang)}
                                 obj={prop} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -193,7 +193,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <AnyOf key={index} 
                                 name={propName} 
-                                description={textFilter(desc, target)} 
+                                description={textFilter(desc, target, lang)}
                                 arr={prop.anyOf} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -203,7 +203,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                         return (
                             <OneOf key={index} 
                                 name={propName} 
-                                description={textFilter(desc, target)} 
+                                description={textFilter(desc, target, lang)}
                                 arr={prop.oneOf} 
                                 required={requireds.includes(propName)}
                                 lang={lang}
@@ -235,7 +235,7 @@ const Items = ({ name, description, obj, required, lang, target }) => {
                     <span className={styles.label}>array</span>
                     { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
                 </div> }
-                { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
+                { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
             </div> }
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
                 { obj.items && Object.keys(obj.items).includes('anyOf') && <AnyOf name={`[]${name}`} description={obj.items["x-i18n"]?.[lang]?.description ? obj.items["x-i18n"][lang].description : obj.items.description}
@@ -283,7 +283,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
                 { admonitions && admonitions.length > 0 && <Admonitions admonitions={admonitions} lang={lang} /> }
                 { (minimum || maximum) && <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -317,7 +317,7 @@ const Enums = ({ enums, defaultValue, lang, target }) => {
             <label htmlFor="enumSelect" className={styles.paramExample}>{i18n[lang]['label.possible.values']}</label>
             <div className={styles.enumSelectWrapper}>
                 <select id="enumSelect" className={styles.enumSelect} value={enumItem} onChange={handleEnumChange}>
-                    {enums.map((enumValue) => textFilter(enumValue, target))
+                    {enums.map((enumValue) => textFilter(enumValue, target, lang))
                         .filter(enumValue => enumValue !== '').map((enumValue, index) => {
                             enumValue = enumValue.replace(/<\/?p>/g, "").replace(/<\/?em>/g, "_")
                             return (
@@ -424,7 +424,7 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
                 <span className={styles.label}>anyOf</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
@@ -491,7 +491,7 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
                 <span className={styles.label}>oneOf</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
@@ -703,7 +703,7 @@ export default function RestSpecs(props) {
         return true
     }) : []
 
-    const short = textFilter(getLocalizedDescription(props.specs, lang), target)
+    const short = textFilter(getLocalizedDescription(props.specs, lang), target, lang)
     const headerParams = validParams ? validParams.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = validParams ? validParams.filter(param => param.in === 'path') : []
@@ -898,7 +898,7 @@ export default function RestSpecs(props) {
                                 {label && <span className={styles.responseStatusLabel}>{label}</span>}
                             </button>)}
                         </div> }
-                        { responseDescription && <div className={styles.responseDescription} dangerouslySetInnerHTML={{__html: textFilter(responseDescription, target)}} /> }
+                        { responseDescription && <div className={styles.responseDescription} dangerouslySetInnerHTML={{__html: textFilter(responseDescription, target, lang)}} /> }
                         { responseSchema?.anyOf && <AnyOf name="responses"
                             arr={responseSchema.anyOf}
                             lang={lang}
