@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` トークナイザーは、ソフトウェアの国際化に不可欠なツールを提供する Internationalization Components of Unicode オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
+description: "`icu` トークナイザーは、ソフトウェアの国際化に向けた主要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` トークナイザーは、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。
+`icu` トークナイザーは、ソフトウェアの国際化に向けた主要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。
 
 <Admonition type="info" title="Notes">
 
-`icu` トークナイザーは、句読点とスペースを出力内で個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。こうした単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
+`icu` トークナイザーは、句読点とスペースを出力内の個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。こうした単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
 ## 設定\{#configuration}
 
-`icu` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` 内で `tokenizer` を `icu` に設定します。
+`icu` トークナイザーを使用するアナライザーを構成するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -185,7 +185,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときに、これらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -325,6 +325,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -353,6 +355,9 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 let analyzer_params = json!({ "tokenizer": "icu" });
 let result = client
     .run_analyzer(
@@ -362,6 +367,8 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("ICU analyzer output: {:?}", result.results());
 ```
 
 </TabItem>
@@ -430,4 +437,3 @@ curl --request POST \
 ```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']
 ```
-

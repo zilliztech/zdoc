@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, an alias is a secondary, mutable name for a コレクション. Using aliases provides a layer of abstraction that allows you to dynamically switch between コレクション without modifying your application code. This is particularly useful in production environments for seamless data updates, A/B testing, and other operational tasks. | Cloud"
+description: "Zilliz Cloud では、エイリアスはコレクションに付ける変更可能な副次的な名前です。エイリアスを使用すると抽象化のレイヤーが提供され、アプリケーションコードを変更せずにコレクションを動的に切り替えられます。これは、シームレスなデータ更新、A/B テスト、その他の運用タスクに特に役立つため、本番環境に適しています。 | Cloud"
 type: origin
 token: OLn1wMgW0iceBlkuey2cBD91neb
 sidebar_position: 10
@@ -21,35 +21,35 @@ import TabItem from '@theme/TabItem';
 
 # エイリアスの管理
 
-In Zilliz Cloud, an alias is a secondary, mutable name for a コレクション. Using aliases provides a layer of abstraction that allows you to dynamically switch between コレクション without modifying your application code. This is particularly useful in production environments for seamless data updates, A/B testing, and other operational tasks.
+Zilliz Cloud では、エイリアスはコレクションに付ける変更可能な副次的な名前です。エイリアスを使用すると抽象化のレイヤーが提供され、アプリケーションコードを変更せずにコレクションを動的に切り替えられます。これは、シームレスなデータ更新、A/B テスト、その他の運用タスクに特に役立つため、本番環境に適しています。
 
-This page demonstrates how to create, list, reassign, and drop コレクション aliases.
+このページでは、コレクションのエイリアスを作成、一覧表示、再割り当て、削除する方法を説明します。
 
 ## エイリアスを使用する理由\{#why-use-an-alias}
 
-The primary benefit of using an alias is to decouple your client application from a specific, physical コレクション name.
+エイリアスを使用する主な利点は、クライアントアプリケーションを特定の物理的なコレクション名から切り離せることです。
 
-Imagine you have a live application that queries a コレクション with an alias named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
+`prod_data` というエイリアスでコレクションをクエリする稼働中のアプリケーションがあるとします。基になるデータを更新する必要がある場合でも、サービスを中断せずに更新を実行できます。ワークフローは次の通りです。
 
-1. **Create a New コレクション**: Create a new コレクション, for instance, `prod_data_v2`.
+1. **新しいコレクションを作成する**: 新しいコレクション（たとえば `prod_data_v2`）を作成します。
 
-1. **Prepare Data**: インデックス and load the new data in `prod_data_v2`.
+1. **データを準備する**: `prod_data_v2` で新しいデータのインデックスを作成してロードします。
 
-1. **Switch the Alias**: Once the new コレクション is ready for service, atomically reassign the alias `prod_data` from the old コレクション to `prod_data_v2`.
+1. **エイリアスを切り替える**: 新しいコレクションがサービスを提供できる状態になったら、エイリアス `prod_data` を古いコレクションから `prod_data_v2` にアトミックに再割り当てします。
 
-Your application continues to send requests to the alias `prod_data`, experiencing zero downtime. This mechanism enables seamless updates and simplifies operations like blue-green deployments for your ベクトル search service.
+アプリケーションは引き続きエイリアス `prod_data` にリクエストを送信し、ダウンタイムは発生しません。この仕組みによりシームレスな更新が可能になり、ベクトル検索サービスのブルーグリーンデプロイなどの運用が簡素化されます。
 
 **エイリアスの主な特性:**
 
-- A コレクション can have multiple aliases.
+- 1 つのコレクションに複数のエイリアスを設定できます。
 
-- An alias can only point to one コレクション at a time.
+- エイリアスは一度に 1 つのコレクションのみを指すことができます。
 
-- When processing a request, Zilliz Cloud first checks if a コレクション with the provided name exists. If not, it then checks if the name is an alias for a コレクション.
+- リクエストを処理するとき、Zilliz Cloud はまず指定された名前のコレクションが存在するかどうかを確認します。存在しない場合は、その名前がコレクションのエイリアスかどうかを確認します。
 
-## エイリアスの作成\{#create-alias}
+## エイリアスを作成する\{#create-alias}
 
-The following code snippet demonstrates how to create an alias for a コレクション.
+次のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -124,6 +124,7 @@ import (
 
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
@@ -294,9 +295,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの一覧表示\{#list-aliases}
+## エイリアスを一覧表示する\{#list-aliases}
 
-The following code snippet demonstrates the procedure to list the aliases allocated to a specific コレクション.
+次のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -347,6 +348,12 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -360,6 +367,8 @@ fmt.Println(aliases)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aliases = client
     .list_aliases(
         ListAliasesRequest::builder()
@@ -434,9 +443,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの説明\{#describe-alias}
+## エイリアスを詳細表示する\{#describe-alias}
 
-The following code snippet describes a specific alias in detail, including the name of the コレクション to which it has been allocated.
+次のコードスニペットは、割り当て先のコレクション名を含め、特定のエイリアスの詳細を表示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -484,6 +493,12 @@ System.out.println(describeAliasRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -497,6 +512,8 @@ fmt.Println(alias)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let alias = client
     .describe_alias(
         DescribeAliasRequest::builder()
@@ -583,9 +600,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの変更\{#alter-alias}
+## エイリアスを変更する\{#alter-alias}
 
-You can reallocate the alias already allocated to a specific コレクション to another.
+特定のコレクションにすでに割り当てられているエイリアスを、別のコレクションに再割り当てできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -636,6 +653,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.utility.request.AlterAliasReq;
+import io.milvus.v2.service.utility.request.ListAliasesReq;
+import io.milvus.v2.service.utility.response.ListAliasResp;
 
 // 9.4 Reassign alias to other collections
 AlterAliasReq alterAliasReq = AlterAliasReq.builder()
@@ -671,6 +690,12 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
 if err != nil {
     fmt.Println(err.Error())
@@ -697,6 +722,8 @@ fmt.Println(aliases)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .alter_alias(
         AlterAliasRequest::builder()
@@ -861,7 +888,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの削除\{#drop-alias}
+## エイリアスを削除する\{#drop-alias}
 
 次のコードスニペットは、エイリアスを削除する手順を示しています。
 
@@ -905,6 +932,12 @@ client.dropAlias(dropAliasReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -923,6 +956,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_alias(
         DropAliasRequest::builder()

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。 | Cloud"
+description: "`chinese` アナライザーは中国語テキストを処理するために設計されており、効果的なセグメンテーションとトークン化を提供します。 | Cloud"
 type: origin
 token: Of8PwuunCihBfxksNJJcSCRYnsf
 sidebar_position: 3
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # 中国語
 
-`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
+`chinese` アナライザーは、中国語のテキストを処理するために特化して設計されており、効果的なセグメンテーションとトークン化を提供します。
 
 ### 定義\{#definition}
 
-`chinese` analyzer は次のコンポーネントで構成されています。
+`chinese` アナライザーは、次の要素で構成されています：
 
-- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストをトークンに分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
+- **トークナイザー**: `jieba` トークナイザーを使用して、語彙とコンテキストに基づいて中国語のテキストをトークンに分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
 
-- **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+- **フィルター**: `cnalphanumonly` フィルターを使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-`chinese` analyzer の機能は、次のカスタム analyzer 設定と同等です。
+`chinese` アナライザーの機能は、次のカスタムアナライザー構成と同等です：
 
 <Admonition type="info" title="Notes">
 
-組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin クエリ用語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用したカスタム analyzer を使用してください。
+組み込みの `chinese` アナライザーは、Pinyin トークンを出力しません。中国語のテキストを Pinyin のクエリ用語と一致させるには、`jieba` トークナイザーと [Pinyin フィルター](./pinyin-filter) を使用したカスタムアナライザーを使用してください。
 
 </Admonition>
 
@@ -54,6 +54,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -96,7 +100,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cnalphanumonly"]
 };
@@ -119,9 +123,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### 設定\{#configuration}
+### 構成\{#configuration}
 
-フィールドに `chinese` analyzer を適用するには、`analyzer_params` の `type` を `chinese` に設定するだけです。
+`chinese` アナライザーをフィールドに適用するには、`analyzer_params` で `type` を `chinese` に設定するだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -137,6 +141,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -176,7 +183,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "chinese",
 }
 ```
@@ -197,15 +204,15 @@ analyzerParams='{
 
 <Admonition type="info" title="Notes">
 
-`chinese` analyzer はオプションのパラメーターを受け付けません。
+`chinese` アナライザーは、オプションのパラメーターを受け付けません。
 
 </Admonition>
 
 ## 例\{#examples}
 
-analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer 設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -221,6 +228,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -305,6 +315,8 @@ print("Chinese analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -427,7 +439,7 @@ const client = new MilvusClient({
 });
 
 const result = await client.runAnalyzer({
-  analyzer_params: analyzerParams,
+  analyzer_params: analyzer_params,
   text: sampleText,
 });
 ```

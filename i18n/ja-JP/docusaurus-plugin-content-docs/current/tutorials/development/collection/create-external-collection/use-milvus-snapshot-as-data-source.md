@@ -1,13 +1,13 @@
 ---
-title: "Snapshot をデータソースとして使用 | Cloud"
+title: "スナップショットをデータソースとして使用する | Cloud"
 slug: /use-milvus-snapshot-as-data-source
-sidebar_label: "ソースとしての Snapshot"
+sidebar_label: "スナップショットをソースとして使用"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "You can create an external コレクション from a Milvus snapshot by using the snapshot metadata JSON path as `externalsource` and setting `externalspec.format` to `\"milvus-table\"`. | Cloud"
+description: "スナップショットのメタデータ JSON パスを `externalsource` として使用し、`externalspec.format` を `\"milvus-table\"` に設定すると、Milvus スナップショットから外部コレクションを作成できます。 | Cloud"
 type: origin
 token: JfJvwdGz0iD9LpkrCMccZ2ypn0g
 sidebar_position: 1
@@ -19,35 +19,35 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Snapshot をデータソースとして使用
+# スナップショットをデータソースとして使用する
 
-You can create an external コレクション from a Milvus snapshot by using the snapshot metadata JSON path as `external_source` and setting `external_spec.format` to `"milvus-table"`. 
+スナップショットのメタデータ JSON パスを `external_source` として使用し、`external_spec.format` を `"milvus-table"` に設定すると、Milvus スナップショットから外部コレクションを作成できます。
 
-After you refresh the external コレクション, Milvus maps the source segment manifests into target external segments. The main column data remains referenced from the snapshot source, while target-owned data such as generated function outputs and converted delete logs is written under the target コレクション.
+外部コレクションを更新すると、Milvus はソースのセグメントマニフェストをターゲットの外部セグメントにマッピングします。メイン列のデータはスナップショットソースから参照されたままになりますが、生成された関数出力や変換された削除ログなど、ターゲットが所有するデータはターゲットコレクションの下に書き込まれます。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-Before you create the external コレクション, make sure that
+外部コレクションを作成する前に、以下の条件を満たしていることを確認してください。
 
-- the source snapshot was created from a コレクション in a Zilliz Cloud クラスター compatible with Milvus v3.0.x server;
+- ソーススナップショットが、Milvus v3.0.x サーバーと互換性のある Zilliz Cloud クラスター内のコレクションから作成されていること。
 
-- the source コレクション is not itself an external コレクション;
+- ソースコレクション自体が外部コレクションではないこと。
 
-- `external_source` が具体的な snapshot metadata JSON file を指していること。例: `s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json`
+- `external_source` が、具体的なスナップショットメタデータ JSON ファイル（たとえば `s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json`）を指していること。
 
-- 各ターゲット data field が、対応するソース field name に `external_field` を設定していること。
+- 各ターゲットデータフィールドの `external_field` が、対応するソースフィールド名に設定されていること。
 
-- the target スキーマ matches the source snapshot スキーマ for mapped data fields.
+- ターゲットスキーマが、マッピングされたデータフィールドについてソーススナップショットのスキーマと一致していること。
 
-If the source snapshot is not from a コレクション created on a Zilliz Cloud クラスター compatible with Milvus instance of the v3.0.x release, the source スキーマ does not match the target スキーマ, the snapshot metadata JSON is missing manifest information, or the source is another external コレクション, creation or refresh fails.
+ソーススナップショットが、v3.0.x リリースの Milvus インスタンスと互換性のある Zilliz Cloud クラスターで作成されたコレクションからのものではない場合、ソーススキーマがターゲットスキーマと一致しない場合、スナップショットメタデータ JSON にマニフェスト情報がない場合、またはソースが別の外部コレクションである場合、作成または更新は失敗します。
 
-## Create an external コレクション from a Milvus snapshot\{#create-an-external-collection-from-a-milvus-snapshot}
+## Milvus スナップショットから外部コレクションを作成する\{#create-an-external-collection-from-a-milvus-snapshot}
 
-In the following example, you will create a `milvus-table` external コレクション from an existing snapshot and refreshes it.
+次の例では、既存のスナップショットから `milvus-table` 外部コレクションを作成し、更新します。
 
-### Step 1: snapshot metadata path を取得する\{#step-1-get-the-snapshot-metadata-path}
+### ステップ 1: スナップショットのメタデータパスを取得する\{#step-1-get-the-snapshot-metadata-path}
 
-Create or choose a snapshot from a normal Milvus コレクション, and then describe it to get its object-storage location.
+通常の Milvus コレクションからスナップショットを作成するか選択し、そのスナップショットの詳細を取得してオブジェクトストレージのロケーションを取得します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -103,6 +103,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -209,9 +211,9 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/snapshots/describe' \
 </TabItem>
 </Tabs>
 
-### Step 2: Create and refresh a `milvus-table` external コレクション\{#step-2-create-and-refresh-a-milvus-table-external-collection}
+### ステップ 2: `milvus-table` 外部コレクションを作成して更新する\{#step-2-create-and-refresh-a-milvus-table-external-collection}
 
-Create an external コレクション whose スキーマ matches the snapshot source コレクション. Set `external_spec.format` to `"milvus-table"`, and set each target data field's `external_field` to the corresponding source field name.
+スナップショットのソースコレクションとスキーマが一致する外部コレクションを作成します。`external_spec.format` を `"milvus-table"` に設定し、各ターゲットデータフィールドの `external_field` を対応するソースフィールド名に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -288,6 +290,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -461,7 +465,6 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
-## データを refresh する\{#refresh-data}
+## データを更新する\{#refresh-data}
 
-Once the コレクション is ready, refresh it to create the metadata and インデックス for your data. For details, refer to [Create an External コレクション](./create-external-collection#step-5-refresh-data).
-
+コレクションの準備ができたら、それを更新してデータのメタデータとインデックスを作成します。詳細については、[Create an External コレクション](./create-external-collection#step-5-refresh-data) を参照してください。

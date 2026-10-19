@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションの名前を変更したり、その設定を変更したりできます。このページでは、コレクションを変更する方法について説明します。 | Cloud"
+description: "コレクションの名前を変更したり、設定を変更したりできます。このページでは、コレクションを変更する方法について説明します。 | Cloud"
 type: origin
 token: WMh8w3tbKiBhukk3ICMc4ctznEg
 sidebar_position: 5
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # コレクションを変更する
 
-コレクションの名前を変更したり、その設定を変更したりできます。このページでは、コレクションを変更する方法について説明します。
+コレクションの名前を変更したり、設定を変更したりできます。このページでは、コレクションを変更する方法について説明します。
 
 ## コレクションの名前を変更する\{#rename-collection}
 
-コレクションの名前は次のようにして変更します。
+コレクションの名前は次のように変更できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -81,7 +81,6 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -185,17 +184,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## コレクションプロパティを設定する\{#set-collection-properties}
+## コレクションのプロパティを設定する\{#set-collection-properties}
 
-コレクションの作成後に、コレクションレベルのプロパティを変更できます。
+コレクションの作成後、コレクションレベルのプロパティを変更できます。
 
 <Admonition type="info" title="Notes">
 
-このセクションに記載されているすべてのプロパティは、マネージドコレクションにのみ適用されます。
+このセクションに記載されているプロパティはすべて、マネージドコレクションにのみ適用されます。
 
 </Admonition>
 
-### サポートされているプロパティ\{#supported-properties}
+### サポートされるプロパティ\{#supported-properties}
 
 <table>
    <tr>
@@ -204,37 +203,37 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>コレクションのデータを特定の期間後に削除する必要がある場合は、Time-To-Live（TTL）を秒単位で設定することを検討してください。TTL がタイムアウトすると、Zilliz Cloud はコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で行われるため、削除が完了するまでは検索とクエリを引き続き実行できます。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">コレクションレベルの TTL を設定する</a>を参照してください。</p></td>
+     <td><p>コレクションのデータを特定の期間後に削除する必要がある場合は、秒単位の Time-To-Live（TTL）を設定することを検討してください。TTL がタイムアウトすると、Zilliz Cloud はコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で実行されるため、削除が完了する前に検索やクエリを実行できます。</p><p>詳細は、<a href="./set-collection-ttl#set-collection-level-ttl">コレクション単位の TTL を設定する</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドの値が <code>NULL</code> の場合は、そのエンティティが期限切れになることはありません。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL を設定する</a>を参照してください。</p></td>
+     <td><p>各エンティティの絶対的な有効期限タイムスタンプ（<strong>エンティティ単位の TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合、エンティティは期限切れになりません。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細は、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティ単位の TTL を設定する</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング（Mmap）は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えずにコレクションのストレージ容量を拡張するのに役立ちます。</p><p>Zilliz Cloud は、クラスターに対して<a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a>を実装します。特定のフィールドまたはそのインデックスの設定を変更できます。</p><p>詳細については、<a href="./use-mmap">mmap の使用</a>を参照してください。</p></td>
+     <td><p>メモリマッピング（Mmap）を使用すると、ディスク上の大きなファイルに直接メモリでアクセスできるようになり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えずにコレクションのストレージ容量を拡張できます。</p><p>Zilliz Cloud は、クラスターに<a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a>を実装します。特定のフィールドまたはそのインデックスで設定を変更できます。</p><p>詳細は、<a href="./use-mmap">mmap を使用する</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>
-     <td><p>Partition Key Isolation を有効にすると、Zilliz Cloud は Partition Key の値に基づいてエンティティをグループ化し、これらのグループごとに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルター条件で指定された Partition Key の値に基づいてインデックスを特定し、そのインデックスに含まれるエンティティ内に検索スコープを制限します。これにより、検索時に無関係なエンティティをスキャンせずに済み、検索パフォーマンスが大幅に向上します。</p><p>詳細については、<a href="./use-partition-key#use-partition-key-isolation">Partition Key Isolation の使用</a>を参照してください。</p></td>
+     <td><p>Partition Key Isolation を有効にすると、Zilliz Cloud は Partition Key の値に基づいてエンティティをグループ化し、各グループに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルタリング条件で指定された Partition Key の値に基づいてインデックスを特定し、検索範囲をそのインデックスに含まれるエンティティ内に制限します。これにより、検索時に無関係なエンティティのスキャンを回避し、検索パフォーマンスを大幅に向上させます。</p><p>詳細は、<a href="./use-partition-key#use-partition-key-isolation">Partition Key Isolation を使用する</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>dynamicfield.enabled</code></p></td>
-     <td><p>動的フィールドを有効にせずに作成されたコレクションに対して、動的フィールドを有効にします。有効にすると、元のスキーマで定義されていないフィールドを持つエンティティを挿入できます。詳細については、<a href="./enable-dynamic-field">動的フィールド</a>を参照してください。</p></td>
+     <td><p>動的フィールドを有効にせずに作成されたコレクションに対して、動的フィールドを有効にします。有効にすると、元のスキーマで定義されていないフィールドを持つエンティティを挿入できます。詳細は、<a href="./enable-dynamic-field">動的フィールド</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>allow_insert_auto_id</code></p></td>
-     <td><p>コレクションで AutoID が有効になっている場合に、ユーザーが指定した主キー値を受け入れるかどうか。</p><ul><li><p><strong>&quot;true&quot;</strong> に設定した場合：挿入、アップサート、および一括インポートでは、ユーザーが指定した主キーが存在すればそれが使用され、存在しなければ主キー値が自動生成されます。</p></li><li><p><strong>&quot;false&quot;</strong> に設定した場合：ユーザーが指定した主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>&quot;false&quot;</strong> です。</p></li></ul></td>
+     <td><p>コレクションで AutoID が有効になっている場合に、コレクションがユーザー指定の主キー値を受け入れるかどうかを指定します。</p><ul><li><p><strong>&quot;true&quot;</strong> に設定した場合、挿入、アップサート、一括インポートでは、ユーザー指定の主キーがあればそれを使用し、ない場合は主キー値が自動生成されます。</p></li><li><p><strong>&quot;false&quot;</strong> に設定した場合、ユーザー指定の主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>&quot;false&quot;</strong> です。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>timezone</code></p></td>
-     <td><p>時間に関連する操作、特に <code>TIMESTAMPTZ</code> フィールドを処理する際に、このコレクションのデフォルトのタイムゾーンを指定します。タイムスタンプは内部的に UTC で保存され、Milvus はこの設定に従って表示と比較のために値を変換します。設定した場合、コレクションのタイムゾーンはデータベースのデフォルトタイムゾーンを上書きします。クエリの timezone パラメーターは、その両方を一時的に上書きできます。値は有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（たとえば <strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、または <strong>UTC</strong>）である必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法については、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a>を参照してください。</p></td>
+     <td><p>このコレクションで時間に関連する操作、特に <code>TIMESTAMPTZ</code> フィールドを処理する際のデフォルトタイムゾーンを指定します。タイムスタンプは内部で UTC に保存され、Milvus はこの設定に従って表示および比較用の値を変換します。設定した場合、コレクションのタイムゾーンはデータベースのデフォルトタイムゾーンを上書きします。クエリのタイムゾーンパラメーターは、その両方を一時的に上書きできます。値は有効な<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（たとえば、<strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、<strong>UTC</strong>）である必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細は、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a>を参照してください。</p></td>
    </tr>
 </table>
 
-### 例 1: コレクションレベルの TTL を設定する\{#example-1-set-collection-level-ttl}
+### 例 1: コレクション単位の TTL を設定する\{#example-1-set-collection-level-ttl}
 
-次のコードスニペットは、コレクションの TTL を設定する方法を示しています。
+次のコードスニペットは、コレクション TTL を設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -269,6 +268,13 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
 if err != nil {
     fmt.Println(err.Error())
@@ -340,11 +346,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 例 2: エンティティレベルの TTL を設定する | PRIVATE\{#example-2-set-entity-level-ttl}
+### 例 2: エンティティ単位の TTL を設定する | PRIVATE\{#example-2-set-entity-level-ttl}
 
-次のコードスニペットは、既存の `TIMESTAMPTZ` フィールド（`expire_at`）を、エンティティレベルの TTL の TTL フィールドとして指定します。コレクションには、その名前の `TIMESTAMPTZ` フィールドがすでに含まれている必要があり、`collection.ttl.seconds` を設定してはなりません。2 つの TTL モードは相互に排他的です。
+次のコードスニペットは、既存の `TIMESTAMPTZ` フィールド（`expire_at`）をエンティティ単位の TTL 用の TTL フィールドとして指定します。コレクションには、その名前の `TIMESTAMPTZ` フィールドがすでに含まれている必要があり、`collection.ttl.seconds` を設定してはいけません。2 つの TTL モードは相互に排他的です。
 
-エンティティレベルの TTL のワークフロー全体（スキーマの設定、挿入、クエリ、更新、削除）については、[エンティティレベルの TTL を設定する](./modify-collections#example-2-set-entity-level-ttl) を参照してください。
+エンティティ単位の TTL のワークフロー全体（スキーマ設定、挿入、クエリ、リフレッシュ、削除）については、[エンティティ単位の TTL を設定する](./modify-collections#example-2-set-entity-level-ttl) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -379,6 +385,12 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("ttl_field", "expire_at"))
 if err != nil {
     fmt.Println(err.Error())
@@ -487,6 +499,13 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.MmapEnabledKey, true))
 if err != nil {
     fmt.Println(err.Error())
@@ -594,6 +613,12 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("partitionkey.isolation", true))
 if err != nil {
     fmt.Println(err.Error())
@@ -701,6 +726,12 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("dynamicfield.enabled", true))
 if err != nil {
     fmt.Println(err.Error())
@@ -774,9 +805,9 @@ curl --request POST \
 
 ### 例 6: allow_insert_auto_id を有効にする\{#example-6-enable-allowinsertautoid}
 
-`allow_insert_auto_id` プロパティを使用すると、AutoID が有効なコレクションが、挿入、アップサート、および一括インポートの際に、ユーザーが指定した主キー値を受け入れることができます。**"true"** に設定した場合、Zilliz Cloud はユーザーが指定した主キー値が存在すればそれを使用し、存在しなければ自動生成します。デフォルトは **"false"** です。
+`allow_insert_auto_id` プロパティを使用すると、AutoID が有効なコレクションが、挿入、アップサート、一括インポート時にユーザー指定の主キー値を受け入れられるようになります。**"true"** に設定すると、Zilliz Cloud はユーザー指定の主キー値があればそれを使用し、ない場合は自動生成します。デフォルトは **"false"** です。
 
-次の例では、`allow_insert_auto_id` を有効にする方法を示します。
+次の例は、`allow_insert_auto_id` を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -812,6 +843,12 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("allow_insert_auto_id", "true"))
 if err != nil {
     fmt.Println(err.Error())
@@ -885,11 +922,11 @@ curl --request POST \
 
 ### 例 7: コレクションのタイムゾーンを設定する\{#example-7-set-collection-time-zone}
 
-`timezone` プロパティを使用して、コレクションのデフォルトのタイムゾーンを設定できます。これは、データの挿入、クエリ、結果の表示など、コレクション内のすべての操作で時間関連データがどのように解釈および表示されるかを決定します。
+`timezone` プロパティを使用すると、コレクションのデフォルトタイムゾーンを設定できます。これは、データの挿入、クエリ、結果の表示など、コレクション内のすべての操作で時間関連データを解釈および表示する方法を決定します。
 
 `timezone` の値は、`Asia/Shanghai`、`America/Chicago`、`UTC` など、有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります。無効または非標準の値を使用すると、コレクションプロパティの変更時にエラーが発生します。
 
-次の例では、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示します。
+次の例は、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -924,6 +961,12 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("timezone", "Asia/Shanghai"))
 if err != nil {
     fmt.Println(err.Error())
@@ -997,7 +1040,7 @@ curl --request POST \
 
 ## コレクションプロパティを削除する\{#drop-collection-properties}
 
-次のようにコレクションプロパティを削除してリセットすることもできます。
+コレクションプロパティを削除してリセットすることもできます。方法は次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1032,6 +1075,13 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
 if err != nil {
     fmt.Println(err.Error())
@@ -1071,8 +1121,8 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.dropCollectionProperties({
-    collection_name:"my_collection",
+await client.dropCollectionProperties({
+    collection_name: "my_collection",
     properties: ['collection.ttl.seconds'],
 });
 ```

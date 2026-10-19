@@ -49,6 +49,11 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -66,7 +71,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "stop",
         "stop_words": []string{"of", "to", "_english_"},
@@ -108,7 +113,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -150,7 +155,7 @@ analyzerParams='{
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化から削除する単語のリストです。デフォルトでは、フィルターは組み込みの <code>_english_</code> 辞書を使用します。上書きまたは拡張する方法は3つあります：</p><ul><li><p><strong>組み込み辞書</strong> – これらの言語エイリアスのいずれかを指定すると、定義済みの辞書を使用できます：</p><p><code>&quot;_english_&quot;</code>, <code>&quot;_danish_&quot;</code>, <code>&quot;_dutch_&quot;</code>, <code>&quot;_finnish_&quot;</code>, <code>&quot;_french_&quot;</code>, <code>&quot;_german_&quot;</code>, <code>&quot;_hungarian_&quot;</code>, <code>&quot;_italian_&quot;</code>, <code>&quot;_norwegian_&quot;</code>, <code>&quot;_portuguese_&quot;</code>, <code>&quot;_russian_&quot;</code>, <code>&quot;_spanish_&quot;</code>, <code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します（例：<code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>）。</p></li><li><p><strong>混在リスト</strong> – エイリアスとカスタム用語を組み合わせます（例：<code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>）。</p></li></ul><p>各定義済み辞書の正確な内容の詳細については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
+     <td><p>トークン化から削除する単語のリストです。デフォルトでは、フィルターは組み込みの <code>_english_</code> 辞書を使用します。上書きまたは拡張する方法は3つあります：</p><ul><li><p><strong>組み込み辞書</strong> – これらの言語エイリアスのいずれかを指定すると、定義済みの辞書を使用できます：</p><p><code>&quot;_english_&quot;</code>, <code>&quot;_danish_&quot;</code>, <code>&quot;_dutch_&quot;</code>, <code>&quot;_finnish_&quot;</code>, <code>&quot;_french_&quot;</code>, <code>&quot;_german_&quot;</code>, <code>&quot;_hungarian_&quot;</code>, <code>&quot;_italian_&quot;</code>, <code>&quot;_norwegian_&quot;</code>, <code>&quot;_portuguese_&quot;</code>, <code>&quot;_russian_&quot;</code>, <code>&quot;_spanish_&quot;</code>, <code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します（例：<code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>）。</p></li><li><p><strong>混在リスト</strong> – エイリアスとカスタム用語を組み合わせます（例：<code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>）。</p></li></ul><p>各定義済み辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
    </tr>
 </table>
 
@@ -182,6 +187,11 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -199,7 +209,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "stop",
         "stop_words": []string{"of", "to", "_english_"},
@@ -241,7 +251,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -274,7 +284,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -335,6 +345,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -353,6 +365,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+fmt.Println(result)
 ```
 
 </TabItem>
@@ -362,6 +375,9 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let analyzer_params = json!({
     "tokenizer": "standard",
@@ -414,6 +430,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
 const sample_text = "The stop filter allows control over common stop words for text processing.";
 
 // Run the standard analyzer with the defined configuration

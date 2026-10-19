@@ -1,5 +1,5 @@
 ---
-title: "Large TopK を使用する | Cloud"
+title: "Large TopK の使用 | Cloud"
 slug: /use-large-topk
 sidebar_label: "Large TopK"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のコレクションでは、検索またはクエリの結果で最大 16,384 件のエンティティを取得できます。topK の制限を超えてさらに多くのエンティティを取得するには、複雑で時間のかかるイテレーターを使用する代わりに、クエリモードを設定して、1 回の検索またはクエリ結果に Zilliz Cloud が数百万件のエンティティを含められるようにすることができます。 | Cloud"
+description: "Zilliz Cloud のコレクションでは、検索またはクエリの結果として最大 16,384 件のエンティティを取得できます。topK の上限を超えてさらに多くのエンティティを取得するには、複雑で時間のかかるイテレーターを使用する代わりに、クエリモードを設定して、Zilliz Cloud が 1 回の検索またはクエリの結果に数百万件のエンティティを含められるようにします。 | Cloud"
 type: origin
 token: RH6MwFlaCig6LRkR6Qec206OnUc
 sidebar_position: 7
@@ -19,45 +19,45 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Large TopK を使用する
+# Large TopK の使用方法
 
-Zilliz Cloud のコレクションでは、検索またはクエリの結果で最大 16,384 件のエンティティを取得できます。topK の制限を超えてさらに多くのエンティティを取得するには、複雑で時間のかかるイテレーターを使用する代わりに、クエリモードを設定して、1 回の検索またはクエリ結果に Zilliz Cloud が数百万件のエンティティを含められるようにすることができます。
+Zilliz Cloud のコレクションでは、検索またはクエリの結果として最大 16,384 件のエンティティを取得できます。topK の上限を超えてさらに多くのエンティティを取得するには、複雑で時間のかかるイテレーターを使用する代わりに、クエリモードを設定して、Zilliz Cloud が 1 回の検索またはクエリの結果に数百万件のエンティティを含められるようにします。
 
 <Admonition type="info" title="Notes">
 
-この機能は、Milvus v2.6.x と互換性のある Zilliz Cloud クラスターで利用できます。この機能を試したい場合は、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
+この機能は、Milvus v2.6.x と互換性のある Zilliz Cloud クラスターで利用できます。この機能を試す場合は、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-デフォルトでは、Zilliz Cloud のコレクションは検索またはクエリ操作で最大 topK **16,384** をサポートします。バッチ類似検索やデータマイニングなどのシナリオのように、1 回のリクエストでさらに多くのエンティティを取得する必要がある場合は、コレクションで `query_mode` プロパティを `large_topk` に設定して **Large TopK** モードを有効にできます。これにより、topK の上限が **1,000,000**（100 万）件のエンティティに引き上げられます。
+デフォルトでは、Zilliz Cloud のコレクションは、検索またはクエリ操作で最大 **16,384** の topK をサポートします。バッチ類似検索やデータマイニングなどのシナリオで、1 回のリクエストでより多くのエンティティを取得する必要がある場合は、コレクションの `query_mode` プロパティを `large_topk` に設定して、**Large TopK** モードを有効にできます。これにより、topK の上限が **1,000,000**（100 万）件のエンティティに引き上げられます。
 
-Large TopK を有効にすると、基盤となるインデックス戦略が、デフォルトのインデックスである Auto Index から、**RaBitQ** によるディープ圧縮を備えた **IVF（転置ファイルインデックス）** に変わります。これは、小規模な K のクエリ性能と引き換えに、高い再現率での大規模範囲検索に最適化されています。
+Large TopK を有効にすると、基盤となるインデックス戦略がデフォルトの Auto インデックス から、**RaBitQ** のディープ圧縮を備えた **IVF（Inverted File インデックス）** に変更されます。この戦略は、小規模な K のクエリ性能と引き換えに、高い再現率での大規模範囲検索に最適化されています。
 
-## Large TopK を使用する場面\{#when-to-use-large-topk}
+## Large TopK を使用する場合\{#when-to-use-large-topk}
 
-Large TopK は、1 回の検索で非常に多くの類似エンティティを取得する必要があるシナリオ向けに設計されています。たとえば、次のような場合です。
+Large TopK は、1 回の検索で非常に多くの類似エンティティを取得する必要があるシナリオ向けに設計されています。例えば、次のような場合です。
 
-- **バッチ類似検索**: 指定したクエリベクトルに対して、類似度の高い上位 100,000 件または 1,000,000 件のアイテムを検索します。
+- **バッチ類似検索**: 指定したクエリベクトルに対して、最も類似する上位 100,000 件または 1,000,000 件の項目を検索します。
 
 - **データマイニングと分析**: 後続の処理、フィルタリング、またはモデルトレーニング用に大規模な候補セットを抽出します。
 
-- **リグレッションテストの準備**: シミュレーションチーム用のテストコーパスを構築するために、大規模な結果セットを取得します。
+- **リグレッションテストの準備**: 大規模な結果セットを取得し、シミュレーションチーム用のテストコーパスを構築します。
 
-topK が小さい（例：top 10 や top 100）対話型の低レイテンシなオンラインクエリには、デフォルトのクエリモードをお勧めします。
+topK が小さい（例: 上位 10 件または上位 100 件）対話型のレイテンシー重視のオンラインクエリには、デフォルトのクエリモードをお勧めします。
 
-## 事前準備とトレードオフ\{#prerequisites-and-trade-offs}
+## 前提条件とトレードオフ\{#prerequisites-and-trade-offs}
 
 Large TopK を有効にする前に、次のトレードオフに注意してください。
 
-- **Small-K の性能低下**: `large_topk` に切り替えると、小規模な K のクエリ（K < 16,384）は、デフォルトモードと比べてレイテンシが増加し、再現率が低下します。
+- **小規模な K の性能低下**: `large_topk` に切り替えると、小規模な K のクエリ（K < 16,384）は、デフォルトモードと比較してレイテンシーが増加し、再現率が低下します。
 
-- **クエリレイテンシ**: Large TopK のクエリは、標準的なクエリよりもレイテンシが大幅に高くなります。topK が 100,000 の場合は数秒、topK が 1,000,000 の場合は数分かかることがあります。
+- **クエリレイテンシー**: Large TopK クエリは、標準のクエリよりもレイテンシーが大幅に高くなります。topK が 100,000 の場合は数秒、topK が 1,000,000 の場合は数分かかることがあります。
 
-- **リソース使用量**: 1 回の大規模な TopK クエリでは、結果の並べ替えのために数ギガバイトのメモリを消費する可能性があります。Perf クラスターでは、同じクラスター上で実行されている他のクエリに影響を与える可能性があります。
+- **リソース使用量**: 1 回の大規模な TopK クエリは、結果の並べ替えに数ギガバイトのメモリを消費する場合があります。Perf クラスターでは、同じクラスターで実行されている他のクエリに影響する可能性があります。
 
-- **オフラインでの利用を推奨**: バッチワークロードには、On-demand Compute データベースの使用を検討してください。データベースはオンデマンド CU を使用し、オンラインサービスには影響しません。
+- **オフラインの使用**: バッチワークロードには、On-demand Compute データベースの使用を検討してください。データベースはオンデマンドの CU を使用し、オンラインサービスに影響しません。
 
 - **インデックスの再構築が必要**: コレクションにすでにベクトルインデックスがある場合は、Large TopK を有効にする前に、既存のインデックスをリリースして削除する必要があります。再構築中は検索を利用できません。
 
@@ -65,7 +65,7 @@ Large TopK を有効にする前に、次のトレードオフに注意してく
 
 ### コレクション作成時（推奨）\{#during-collection-creation-recommended}
 
-コレクションで Large TopK が必要になるとわかっている場合は、後から切り替える手間を避けるため、作成時に指定してください。
+コレクションで Large TopK が必要になることがわかっている場合は、後から切り替えるコストを避けるため、作成時に指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -286,9 +286,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 既存のコレクションの場合\{#on-an-existing-collection}
+### 既存のコレクション\{#on-an-existing-collection}
 
-ベクトルインデックスがない既存のコレクションでは、Large TopK を直接有効にできます。
+ベクトルインデックスのない既存のコレクションでは、Large TopK を直接有効にできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -320,7 +320,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateIndexReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 
 import java.util.Arrays;
@@ -519,7 +519,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ベクトルインデックスが**ある**既存のコレクションでは、まずインデックスを削除し、次にモードを有効にし、最後にインデックスを再作成する必要があります。
+ベクトルインデックスの**ある**既存のコレクションでは、最初にインデックスを削除し、次にモードを有効にして、最後にインデックスを再作成する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -907,7 +907,7 @@ curl --request POST \
 
 ### Large TopK を無効にする\{#disable-large-topk}
 
-デフォルトのクエリモードに戻すには、`query_mode` プロパティを削除します。この場合も、先に既存のインデックスをリリースして削除する必要があることに注意してください。
+デフォルトのクエリモードに戻すには、`query_mode` プロパティを削除します。この場合も、最初に既存のインデックスをリリースして削除する必要があることに注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1167,7 +1167,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
 
 ## Large TopK 検索を実行する\{#perform-a-large-topk-search}
 
-Large TopK を有効にしたら、標準の `search` メソッドに大きな `limit` 値を指定して使用します。
+Large TopK を有効にしたら、標準の `search` メソッドで大きな `limit` 値を使用します。
 
 ### オンライン検索（Serving クラスター）\{#online-search-serving-cluster}
 
@@ -1526,7 +1526,26 @@ volume_file_manager.upload_file_to_volume(
 <TabItem value='java'>
 
 ```java
-Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as of v3.0.10.
+import io.milvus.bulkwriter.VolumeFileManager;
+import io.milvus.bulkwriter.VolumeFileManagerParam;
+import io.milvus.bulkwriter.common.clientenum.ConnectType;
+import io.milvus.bulkwriter.model.UploadFilesResult;
+import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+
+// Configure a Zilliz Cloud Managed Volume client as volumeFileManager.
+VolumeFileManagerParam param = VolumeFileManagerParam.newBuilder()
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
+        .withApiKey("YOUR_API_KEY")
+        .withVolumeName("YOUR_VOLUME_NAME")
+        .withConnectType(ConnectType.AUTO)
+        .build();
+VolumeFileManager volumeFileManager = new VolumeFileManager(param);
+
+UploadFilesRequest request = UploadFilesRequest.builder()
+        .sourceFilePath("/tmp/results.parquet")
+        .targetVolumePath("results/batch.parquet")
+        .build();
+UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
 ```
 
 </TabItem>
@@ -1534,7 +1553,7 @@ Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as 
 <TabItem value='go'>
 
 ```go
-// Note: Zilliz Cloud Managed Volume upload is not available in the Go SDK as of client/v3.0.0-beta.
+// Note: Zilliz Cloud Managed Volume upload is not available in the Go SDK as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -1572,31 +1591,31 @@ Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as 
 </TabItem>
 </Tabs>
 
-## パフォーマンスの目安\{#performance-expectations}
+## パフォーマンスの見積もり\{#performance-expectations}
 
-次の表に、Large TopK クエリのパフォーマンス特性をまとめます。
+次の表は、Large TopK クエリのパフォーマンス特性をまとめたものです。
 
 | メトリクス | デフォルトモード | Large TopK モード |
 | --- | --- | --- |
-| topK の上限 | 16,384 | 1,000,000 |
-| Small-K のレイテンシ | ミリ秒 | より高い（低下） |
-| Large-K のレイテンシ | 未サポート | 数秒から数分 |
-| クエリごとのメモリ | 少ない | 最大数 GB |
-| 同時実行数 | 高い | 制限あり（キューイング） |
+| TopK の上限 | 16,384 | 1,000,000 |
+| 小規模な K のレイテンシー | ミリ秒 | 高くなる（低下） |
+| 大規模な K のレイテンシー | 非サポート | 数秒から数分 |
+| クエリあたりのメモリ | 低 | 最大数 GB |
+| 同時実行性 | 高 | 制限あり（キューイング） |
 | 最適な用途 | オンラインでの対話 | バッチ、データマイニング |
 
-Zilliz Cloud は、リソースの枯渇を防ぐために Large TopK クエリに同時実行制御を適用します。同時実行数の上限を超えたリクエストはキューに入れられ、リソースが利用可能になったときに処理されます。
+Zilliz Cloud は、リソースの枯渇を防ぐため、Large TopK クエリに同時実行制御を適用します。同時実行数の上限を超えたリクエストはキューに入り、リソースが利用可能になったときに処理されます。
 
 ## 制限事項\{#limitations}
 
-- クエリモードを切り替えるには、ベクトルインデックスを再構築する必要があります。再構築中は、そのコレクションで検索を利用できません。
+- クエリモードを切り替えるには、ベクトルインデックスを再構築する必要があります。再構築中は、コレクションの検索を利用できません。
 
 - Large TopK はコレクションレベルの設定です。コレクション上のすべてのインデックスが影響を受けます。
 
-- 3つのクラスタータイプ（Performance-optimized、Capacity-optimized、Tiered Storage）はすべて Large TopK をサポートしています。
+- 3 つのクラスタータイプ（Performance-optimized、Capacity-optimized、Tiered Storage）はすべて Large TopK をサポートします。
 
 ## FAQ\{#faq}
 
 **Q: 頻繁に切り替えることはできますか？**
 
-技術的には可能ですが、お勧めしません。切り替えのたびにインデックスのリリース、削除、再作成が必要で、その間は検索を利用できません。オンデマンドクラスターでは、再構築のたびにインデックス構築 CU の料金も発生します。
+技術的には可能ですが、お勧めしません。切り替えるたびにインデックスのリリース、削除、再作成が必要になり、その間は検索を利用できません。オンデマンドクラスターでは、再構築のたびに インデックス Build CU の料金も発生します。

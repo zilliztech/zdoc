@@ -259,6 +259,8 @@ System.out.println(results.getSearchResults());
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = session
     .search(SearchRequest::builder()
         .collection_name("my_collection")

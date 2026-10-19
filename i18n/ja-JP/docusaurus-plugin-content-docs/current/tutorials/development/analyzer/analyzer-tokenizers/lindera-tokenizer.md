@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。 | Cloud"
+description: "`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付く日本語と韓国語向けに設計されています。 | Cloud"
 type: origin
 token: PvwZwtu3FiBQNqkPa5VcqH6qnmg
 sidebar_position: 4
@@ -21,55 +21,55 @@ import TabItem from '@theme/TabItem';
 
 # Lindera
 
-`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。
+`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付く日本語と韓国語向けに設計されています。
 
 <Admonition type="info" title="Notes">
 
-**中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用を推奨します。Jieba は中国語の単語分割に特化して設計されており、より良い結果が得られます。
+**中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしていますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用をお勧めします。Jieba は中国語の単語分割専用に設計されており、より優れた結果を提供します。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-日本語と韓国語は膠着語であり、助詞と呼ばれる文法標識が名詞に直接付着して多様な組み合わせを形成します。例:
+日本語と韓国語は膠着語です。助詞と呼ばれる文法標識が名詞に直接付き、多数の組み合わせを形成します。次に例を示します。
 
 <table>
    <tr>
      <th><p>言語</p></th>
-     <th><p>語幹</p></th>
+     <th><p>語根</p></th>
      <th><ul><li>助詞</li></ul></th>
      <th><p>= 結合形</p></th>
      <th><p>意味</p></th>
    </tr>
    <tr>
      <td><p>韓国語</p></td>
-     <td><p>서울 (Seoul)</p></td>
+     <td><p>서울（ソウル）</p></td>
      <td><p>에서</p></td>
      <td><p>서울에서</p></td>
      <td><p>ソウルで</p></td>
    </tr>
    <tr>
      <td><p>日本語</p></td>
-     <td><p>東京 (Tokyo)</p></td>
+     <td><p>東京（Tokyo）</p></td>
      <td><p>に</p></td>
      <td><p>東京に</p></td>
      <td><p>東京へ</p></td>
    </tr>
 </table>
 
-`lindera` トークナイザーは以下の処理を行います。
+`lindera` トークナイザーは、次の処理を行います。
 
-1. テキストを個々の形態素（単語や助詞）に**分割します**
+1. **テキストを分割**し、個々の形態素（単語と助詞）にします。
 
-1. 辞書の品詞（POS）情報に基づいて各トークンに**タグを付与します**
+1. **各トークンにタグを付け**、辞書の品詞（POS）情報を付与します。
 
-1. 不要なトークン（助詞や句読点など）を除去する**フィルターを適用します**
+1. **フィルターを適用**して、不要なトークン（助詞、句読点など）を削除します。
 
-この「分割→POS ベースのフィルタリング」という 2 段階の処理により、検索対象としてインデックスに登録するトークンを精密に制御できます。
+この 2 段階のプロセス（分割の後に品詞ベースのフィルタリングを行う）により、検索用にインデックス化するトークンを正確に制御できます。
 
 ## 設定\{#configuration}
 
-`lindera` トークナイザーを使用するアナライザーを設定するには、`tokenizer.type` を `lindera` に指定し、`dict_kind` で辞書を選択します。必要に応じてフィルターも適用できます。
+`lindera` トークナイザーを使用するアナライザーを設定するには、`tokenizer.type` を `lindera` に設定し、`dict_kind` で辞書を選択し、必要に応じてフィルターを適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -116,22 +116,24 @@ Map<String, Object> analyzerParams = new HashMap<>();
 <TabItem value='go'>
 
 ```go
-analyzerParams := map[string]interface{}{                                             
-      "tokenizer": map[string]interface{}{     
-          "type":      "lindera",                                                       
-          "dict_kind": "ko-dic",                                  
-          "filter": []interface{}{                                                      
-              map[string]interface{}{                             
-                  "kind": "korean_stop_tags",
-                  "tags": []string{
-                      "SP", "SSC", "SSO", "SC", "SE", "SF",
-                      "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
-                      "JX", "JC", "UNK", "EP", "ETM",
-                  },
-              },
-          },
-      },
-  }
+import "fmt"
+
+analyzerParams := map[string]interface{}{
+    "tokenizer": map[string]interface{}{
+        "type":      "lindera",
+        "dict_kind": "ko-dic",
+        "filter": []interface{}{
+            map[string]interface{}{
+                "kind": "korean_stop_tags",
+                "tags": []string{
+                    "SP", "SSC", "SSO", "SC", "SE", "SF",
+                    "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
+                    "JX", "JC", "UNK", "EP", "ETM",
+                },
+            },
+        },
+    },
+}
 
 fmt.Println(analyzerParams)
 ```
@@ -221,23 +223,23 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>トークナイザーの種類です。<code>&quot;lindera&quot;</code> に固定されています。</p></td>
+     <td><p>トークナイザーのタイプです。これは <code>&quot;lindera&quot;</code> に固定されています。</p></td>
    </tr>
    <tr>
      <td><p><code>dict_kind</code></p></td>
-     <td><p>語彙の定義に使用する辞書です。指定可能な値は次のとおりです。</p><ul><li><p><code>ko-dic</code>: 韓国語 - 韓国語形態素辞書（<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>）</p></li><li><p><code>ipadic</code>: 日本語 - 標準形態素辞書（<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>）</p></li></ul></td>
+     <td><p>語彙を定義するために使用する辞書です。使用可能な値：</p><ul><li><p><code>ko-dic</code>：韓国語 - 韓国語の形態素辞書（<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>）</p></li><li><p><code>ipadic</code>：日本語 - 標準形態素辞書（<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>filter</code></p></td>
-     <td><p>分割後に適用するトークナイザーレベルのフィルター一覧です。各フィルターは以下のプロパティを持つオブジェクトです。</p><ul><li><p><code>kind</code>: フィルターの種類です。指定可能な値は次のとおりです。</p><ul><li><p><code>korean_stop_tags</code>: 指定した韓国語 POS タグに一致するトークンを除去します。</p></li><li><p><code>japanese_stop_tags</code>: 指定した日本語 POS タグに一致するトークンを除去します。</p></li></ul></li><li><p><code>tags</code>: 除外対象の POS タグ一覧です。利用可能なタグは <code>kind</code> によって異なります。</p><ul><li><p><code>korean_stop_tags</code> の場合: 正確なタグコード（例: <code>JKS</code>、<code>JKO</code>、<code>SF</code>）を指定します。韓国語タグは完全一致が必要です。Sejong タグセットに基づく全タグ一覧は、<a href="https://docs.rs/lindera/latest/src/lindera/token_filter/korean_stop_tags.rs.html">Lindera Korean stop tags source</a> を参照してください。</p></li><li><p><code>japanese_stop_tags</code> の場合: 正確なタグコード（例: <code>助詞,格助詞</code>、<code>助詞,係助詞</code>、<code>助動詞</code>）を指定します。日本語タグは完全一致が必要です。IPADIC の全タグ一覧は、<a href="https://github.com/taku910/mecab/blob/master/mecab-ipadic/pos-id.def">Japanese POS tags reference</a> を参照してください。</p></li></ul></li></ul></td>
+     <td><p>分割後に適用するトークナイザーレベルのフィルターのリストです。各フィルターは次の項目を持つオブジェクトです：</p><ul><li><p><code>kind</code>：フィルターのタイプです。サポートされる値：</p><ul><li><p><code>korean_stop_tags</code>：指定された韓国語の品詞タグに一致するトークンを削除します。</p></li><li><p><code>japanese_stop_tags</code>：指定された日本語の品詞タグに一致するトークンを削除します。</p></li></ul></li><li><p><code>tags</code>：除外する品詞タグのリストです。使用可能なタグは <code>kind</code> によって異なります：</p><ul><li><p><code>korean_stop_tags</code> の場合：完全なタグコード（<code>JKS</code>、<code>JKO</code>、<code>SF</code> など）を使用します。韓国語のタグは完全一致が必要です。Sejong タグセットに基づく完全なリストについては、<a href="https://docs.rs/lindera/latest/src/lindera/token_filter/korean_stop_tags.rs.html">Lindera Korean stop tags source</a> を参照してください。</p></li><li><p><code>japanese_stop_tags</code> の場合：完全なタグコード（<code>助詞,格助詞</code>、<code>助詞,係助詞</code>、<code>助動詞</code> など）を使用します。日本語のタグは完全一致が必要です。完全なリスト（IPADIC）については、<a href="https://github.com/taku910/mecab/blob/master/mecab-ipadic/pos-id.def">Japanese POS tags reference</a> を参照してください。</p></li></ul></li></ul></td>
    </tr>
 </table>
 
-`analyzer_params` を定義したら、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使って当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は [使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に、それを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は、指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザーの設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### 韓国語の例\{#korean-example}
 
@@ -505,13 +507,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-**期待される出力**:
+**期待される出力**：
 
 ```plaintext
 ['서울', '맛있', '음식', '먹', '습니다']
 ```
 
-`korean_stop_tags` を使用しない場合、出力には `에서`（in）、`는`（topic marker）、`을`（object marker）などの助詞が含まれますが、これらは通常検索に有用ではありません。
+`korean_stop_tags` を使用しない場合、出力には `에서`（〜で）、`는`（主題マーカー）、`을`（目的語マーカー）などの助詞が含まれます。これらは通常、検索には役立ちません。
 
 ### 日本語の例\{#japanese-example}
 
@@ -756,10 +758,10 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-**期待される出力:**
+**期待される出力**：
 
 ```plaintext
 ['東京', 'スカイ', 'ツリー', '最寄り駅', 'とう', 'きょう', 'スカイ', 'ツリー', '駅']
 ```
 
-`japanese_stop_tags` を使用しない場合、出力には `の`（possessive）、`は`（topic marker）、`です`（copula）などの助詞が含まれます。
+`japanese_stop_tags` を使用しない場合、出力には `の`（所有格）、`は`（主題マーカー）、`です`（コピュラ）などの助詞が含まれます。

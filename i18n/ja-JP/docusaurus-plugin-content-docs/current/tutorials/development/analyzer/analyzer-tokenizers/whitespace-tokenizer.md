@@ -35,11 +35,11 @@ import TabItem from '@theme/TabItem';
 | `\r` | キャリッジリターン | U+000D |
 | `' '` | スペース | U+0020 |
 
-これらの区切り文字は破棄され、連続する区切り文字は空のトークンを生成しません。句読点やその他の文字はトークンに残ります。特に、垂直タブ（`\x0B`、U+000B）、ノーブレークスペース（`\u00A0`）、および全角スペース（`\u3000`）は分割のトリガーにはなりません。
+これらの区切り文字は破棄され、連続する区切り文字から空のトークンは生成されません。句読点やその他の文字はトークンに残ります。特に、垂直タブ（`\x0B`、U+000B）、ノーブレークスペース（`\u00A0`）、および全角スペース（`\u3000`）は分割のトリガーにはなりません。
 
-このセットは Rust の [`char::is_ascii_whitespace()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii_whitespace) に従っており、他の Unicode 空白文字は除外されます。
+この文字セットは Rust の [`char::is_ascii_whitespace()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii_whitespace) に従っており、他の Unicode 空白文字は除外されます。
 
-次の例では、`{"tokenizer": "whitespace"}` をフィルターなしで使用します。入力と出力は Python の文字列表記を使用します。`\t` や `\u00A0` などのエスケープシーケンスは実際の文字を表します。
+次の例では、フィルターを指定せずに `{"tokenizer": "whitespace"}` を使用します。入力と出力は Python の文字列表記を使用しており、`\t` や `\u00A0` などのエスケープシーケンスは実際の文字を表します。
 
 | 入力 | 出力トークン |
 | --- | --- |
@@ -122,7 +122,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-whitespace トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[ フィルター](./lowercase-filter) を使用するアナライザーを定義しています。
+whitespace トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[ フィルター](./lowercase-filter) を使用するアナライザーを定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -199,11 +199,11 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときに、これらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使ってその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### アナライザーの設定\{#analyzer-configuration}
 
@@ -282,7 +282,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -433,6 +433,8 @@ const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params: analyzer_params
 });
+
+console.log("Whitespace analyzer output:", result);
 ```
 
 </TabItem>
@@ -460,4 +462,3 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 ```sql
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']
 ```
-
