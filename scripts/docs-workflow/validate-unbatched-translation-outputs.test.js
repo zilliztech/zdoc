@@ -8,6 +8,7 @@ const path = require('node:path')
 const test = require('node:test')
 
 const {validateUnbatchedTranslationOutputs} = require('./validate-unbatched-translation-outputs')
+const {createReconciliationPlan, createReconciliationResult} = require('../translation/reconciliation-plan')
 
 const SOURCE_COMMIT = 'b'.repeat(40)
 const OLD_SOURCE_COMMIT = 'a'.repeat(40)
@@ -101,7 +102,7 @@ function report(target, results) {
   }
 }
 
-function validate(root, counts) {
+function validate(root, counts, reconciliationPaths = {}) {
   return validateUnbatchedTranslationOutputs({
     workspace: root,
     baseline: path.join(root, 'baseline'),
@@ -111,6 +112,8 @@ function validate(root, counts) {
     translatedCount: counts.translated,
     failedCount: counts.failed,
     remainingCount: counts.remaining ?? 0,
+    ...(reconciliationPaths.plan ? {reconciliationPlanPath: reconciliationPaths.plan} : {}),
+    ...(reconciliationPaths.result ? {reconciliationResultPath: reconciliationPaths.result} : {}),
   })
 }
 
@@ -588,4 +591,165 @@ test('accepts the Guides home as a guides-type Chinese reference-landings candid
   writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(mistyped)]))
   assert.throws(() => validate(root, {translated: 1, failed: 0}), /type mismatch|candidate identity is invalid/i)
   fs.rmSync(root, {recursive: true, force: true})
+})
+
+// Reproduces the 2026-10-20 zh-CN-reference/java dispatcher incident in
+// miniature: a source-side folder reorg leaves orphaned zh files behind, the
+// applied reconciliation plan deletes the unregistered one (its successor was
+// translated at the new flat path) and keeps the registered retirement, and
+// the apply-step rebuild regenerates the whole translation state. The
+// validator must replay that regeneration instead of comparing the raw
+// baseline, while still rejecting mutations the plan and manifest do not
+// explain.
+function referenceReconciliationFixture() {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-reconciled-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const flatSourcePath = 'content/en/reference/api/python/python/v2-Create.md'
+  const flatTargetPath = 'content/zh-CN/reference/api/python/python/v2-Create.md'
+  const folderOverviewSourcePath = 'content/en/reference/api/python/python/v2-Collection/v2-Create.md'
+  const folderOverviewTargetPath = 'content/zh-CN/reference/api/python/python/v2-Collection/v2-Create.md'
+  const folderDataSourcePath = 'content/en/reference/api/python/python/v2-Collection/v2-GetData.md'
+  const folderDataTargetPath = 'content/zh-CN/reference/api/python/python/v2-Collection/v2-GetData.md'
+  const keepSourcePath = 'content/en/reference/api/python/python/keep.md'
+  const keepTargetPath = 'content/zh-CN/reference/api/python/python/keep.md'
+
+  const flatSource = '# Create collection v2\n'
+  const flatTarget = '# 创建集合 v2\n'
+  const folderOverviewBaselineTarget = '# 创建集合 v1\n'
+  const folderDataTarget = '# 获取数据\n'
+  const keepSource = '# Keep\n'
+  const keepTarget = '# 保留\n'
+
+  write(root, flatSourcePath, flatSource)
+  write(root, keepSourcePath, keepSource)
+  write(root, flatTargetPath, flatTarget)
+  write(root, folderDataTargetPath, folderDataTarget)
+  write(root, keepTargetPath, keepTarget)
+  // folderOverview's target existed at the baseline and was deleted by the
+  // applied plan (its successor is the translated flat target above).
+  write(baseline, folderOverviewTargetPath, folderOverviewBaselineTarget)
+  write(baseline, folderDataTargetPath, folderDataTarget)
+  write(baseline, keepTargetPath, keepTarget)
+
+  const flat = item({sourcePath: flatSourcePath, targetPath: flatTargetPath, source: flatSource})
+  const sourceManifest = {
+    schemaVersion: 1,
+    sourceCommit: SOURCE_COMMIT,
+    records: [
+      {manual: 'python', sourcePath: keepSourcePath, sourceHash: sha256(keepSource)},
+      {manual: 'python', sourcePath: flatSourcePath, sourceHash: flat.sourceHash},
+    ],
+  }
+  writeJson(root, 'generated/en/manifests/reference.json', sourceManifest)
+  writeJson(baseline, 'generated/en/manifests/reference.json', sourceManifest)
+  writeJson(root, 'config/reference-retirements.json', {
+    schemaVersion: 2,
+    retirements: [{
+      manual: 'python', sourcePath: folderDataSourcePath, targetPath: folderDataTargetPath,
+      changeKind: 'source_deleted', rationale: 'upstream removed the GetData page',
+    }],
+  })
+
+  // Retired records always carry the empty-bytes source hash: the generator
+  // recomputes it for the vanished source at every regeneration.
+  const retiredSourceHash = sha256('')
+  const folderOverviewRecord = {
+    manual: 'python', sourcePath: folderOverviewSourcePath, targetPath: folderOverviewTargetPath,
+    sourceCommit: OLD_SOURCE_COMMIT, sourceHash: retiredSourceHash, targetHash: sha256(folderOverviewBaselineTarget),
+    status: 'retired', retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: OLD_SOURCE_COMMIT},
+  }
+  const folderDataRecord = {
+    manual: 'python', sourcePath: folderDataSourcePath, targetPath: folderDataTargetPath,
+    sourceCommit: SOURCE_COMMIT, sourceHash: retiredSourceHash, targetHash: sha256(folderDataTarget),
+    status: 'retired', retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: OLD_SOURCE_COMMIT},
+  }
+  const keepRecord = {
+    manual: 'python', sourcePath: keepSourcePath, targetPath: keepTargetPath,
+    sourceCommit: OLD_SOURCE_COMMIT, sourceHash: sha256(keepSource), targetHash: sha256(keepTarget),
+    status: 'translated',
+  }
+  const flatRecord = {
+    manual: 'python', sourcePath: flatSourcePath, targetPath: flatTargetPath,
+    sourceCommit: SOURCE_COMMIT, sourceHash: flat.sourceHash, targetHash: sha256(flatTarget),
+    status: 'translated',
+  }
+  const baselineState = {
+    schemaVersion: 1,
+    records: [folderOverviewRecord, folderDataRecord, keepRecord].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
+    // The flat successor was awaiting translation at the baseline: the state
+    // regeneration re-emits this pending before the agents convert it.
+    pendingRecords: [{
+      manual: 'python', sourcePath: flatSourcePath, targetPath: flatTargetPath,
+      sourceCommit: SOURCE_COMMIT, sourceHash: flat.sourceHash,
+    }],
+  }
+  const workspaceState = {
+    schemaVersion: 1,
+    records: [folderDataRecord, keepRecord, flatRecord].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
+    pendingRecords: [],
+  }
+  writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', baselineState)
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', workspaceState)
+
+  const operation = (sourcePath, targetPath) => ({
+    kind: 'delete_target', sourcePath, targetPath,
+    replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
+    evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+    authorization: {status: 'approved', method: 'automatic', ruleId: 'test', receiptSha256: null},
+  })
+  const plan = createReconciliationPlan({
+    schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'zh-CN-reference', group: 'python',
+    toolingSha: '1'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: SOURCE_COMMIT,
+    targetBaselineSha: SOURCE_COMMIT, policyId: 'test-v1',
+    operations: [operation(folderOverviewSourcePath, folderOverviewTargetPath), operation(folderDataSourcePath, folderDataTargetPath)],
+  })
+  const result = createReconciliationResult({
+    schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256,
+    targetBaselineSha: SOURCE_COMMIT, status: 'applied',
+    operations: [
+      {operationId: plan.operations.find(entry => entry.sourcePath === folderOverviewSourcePath).operationId, status: 'applied', removedPaths: [folderOverviewTargetPath], removedStateKeys: [folderOverviewSourcePath]},
+      {operationId: plan.operations.find(entry => entry.sourcePath === folderDataSourcePath).operationId, status: 'applied', removedPaths: [], removedStateKeys: [folderDataSourcePath]},
+    ],
+  }, plan)
+  writeJson(root, 'tmp/reconciliation-plan.json', plan)
+  writeJson(root, 'tmp/reconciliation-result.json', result)
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [flat], 'python'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(flat)]))
+  return {root, keepRecord}
+}
+
+test('accepts an applied source-reorg reconciliation with registry-kept retirements and translated successors', () => {
+  const fixture = referenceReconciliationFixture()
+  try {
+    const outcome = validate(fixture.root, {translated: 1, failed: 0}, {plan: 'tmp/reconciliation-plan.json', result: 'tmp/reconciliation-result.json'})
+    assert.equal(outcome.target, 'zh-CN-reference')
+    assert.equal(outcome.candidateCount, 1)
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects a reconciled workspace that mutates records beyond the plan and the manifest results', () => {
+  const fixture = referenceReconciliationFixture()
+  try {
+    const state = JSON.parse(fs.readFileSync(path.join(fixture.root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
+    state.records = state.records.filter(record => record.sourcePath !== fixture.keepRecord.sourcePath)
+    writeJson(fixture.root, 'generated/zh-CN/manifests/reference-translations.json', state)
+    assert.throws(
+      () => validate(fixture.root, {translated: 1, failed: 0}, {plan: 'tmp/reconciliation-plan.json', result: 'tmp/reconciliation-result.json'}),
+      /does not preserve authenticated failed and unrelated records/i,
+    )
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects a reconciled workspace when the validation is not told about the reconciliation', () => {
+  const fixture = referenceReconciliationFixture()
+  try {
+    assert.throws(() => validate(fixture.root, {translated: 1, failed: 0}), /does not preserve authenticated failed and unrelated records|Reference path requires an explicit retirement/i)
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
 })

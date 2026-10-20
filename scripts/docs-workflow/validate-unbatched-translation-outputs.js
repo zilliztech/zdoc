@@ -8,10 +8,17 @@ const path = require('node:path')
 
 const {loadTypeScript} = require('../lib/load-typescript')
 const {
+  buildReferenceManifests,
   captureReferenceTree,
+  parseReferenceRetirementRegistry,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const {
+  REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
+  defaultReferenceManualForPath,
+} = loadTypeScript('../../packages/docs-tooling/src/cli.ts')
+const {validateReconciliationPlan, validateReconciliationResult} = require('../translation/reconciliation-plan')
 const {sharedValidation} = require('./validate-translation-batch-outputs')
 
 const {
@@ -24,6 +31,7 @@ const {
   validateTerminalResultSet,
 } = sharedValidation
 
+const OPTIONAL_OPTION_KEYS = Object.freeze(['reconciliationPlanPath', 'reconciliationResultPath'])
 const OPTION_KEYS = Object.freeze([
   'workspace',
   'baseline',
@@ -33,8 +41,10 @@ const OPTION_KEYS = Object.freeze([
   'translatedCount',
   'failedCount',
   'remainingCount',
+  ...OPTIONAL_OPTION_KEYS,
 ])
-const INPUT_KEYS = Object.freeze([
+const REQUIRED_OPTION_KEYS = Object.freeze(OPTION_KEYS.filter(key => !OPTIONAL_OPTION_KEYS.includes(key)))
+const REQUIRED_INPUT_KEYS = Object.freeze([
   'manifest',
   'report',
   'workspace',
@@ -44,13 +54,15 @@ const INPUT_KEYS = Object.freeze([
   'failed-count',
   'remaining-count',
 ])
+const OPTIONAL_INPUT_KEYS = Object.freeze(['reconciliation-plan', 'reconciliation-result'])
+const INPUT_KEYS = Object.freeze([...REQUIRED_INPUT_KEYS, ...OPTIONAL_INPUT_KEYS])
 
 function fail(message) {
   throw new Error(`Unbatched translation output validation failed: ${message}`)
 }
 
 function usage() {
-  return 'Usage: validate-unbatched-translation-outputs.js --manifest <file> --report <file> --workspace <absolute-dir> --baseline <absolute-dir> --agents-outcome <success|skipped> --translated-count <n> --failed-count <n> --remaining-count <n>'
+  return 'Usage: validate-unbatched-translation-outputs.js --manifest <file> --report <file> --workspace <absolute-dir> --baseline <absolute-dir> --agents-outcome <success|skipped> --translated-count <n> --failed-count <n> --remaining-count <n> [--reconciliation-plan <file> --reconciliation-result <file>]'
 }
 
 function nonNegativeInteger(value, label) {
@@ -72,7 +84,7 @@ function parseArgs(argv) {
     if (Object.hasOwn(values, key)) throw new Error(`Duplicate argument: ${flag}`)
     values[key] = value
   }
-  if (INPUT_KEYS.some(key => !Object.hasOwn(values, key))) throw new Error(usage())
+  if (REQUIRED_INPUT_KEYS.some(key => !Object.hasOwn(values, key))) throw new Error(usage())
   return {
     manifestPath: values.manifest,
     reportPath: values.report,
@@ -82,16 +94,24 @@ function parseArgs(argv) {
     translatedCount: nonNegativeInteger(values['translated-count'], 'translated count'),
     failedCount: nonNegativeInteger(values['failed-count'], 'failed count'),
     remainingCount: nonNegativeInteger(values['remaining-count'], 'remaining count'),
+    reconciliationPlanPath: values['reconciliation-plan'],
+    reconciliationResultPath: values['reconciliation-result'],
   }
 }
 
 function assertOptions(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) fail('options must be an object with an exact schema')
-  const missing = OPTION_KEYS.filter(key => !Object.hasOwn(options, key))
+  const missing = REQUIRED_OPTION_KEYS.filter(key => !Object.hasOwn(options, key))
   const unknown = Object.keys(options).filter(key => !OPTION_KEYS.includes(key))
   if (missing.length || unknown.length) fail(`options has invalid keys (missing: ${missing.join(', ') || 'none'}; unknown: ${unknown.join(', ') || 'none'})`)
+  if (Object.hasOwn(options, 'reconciliationPlanPath') !== Object.hasOwn(options, 'reconciliationResultPath')) {
+    fail('reconciliation plan and result options must be provided together')
+  }
   for (const key of ['workspace', 'baseline', 'manifestPath', 'reportPath']) {
     if (typeof options[key] !== 'string' || options[key].length === 0) fail(`${key} must be a non-empty string`)
+  }
+  for (const key of OPTIONAL_OPTION_KEYS) {
+    if (options[key] !== undefined && (typeof options[key] !== 'string' || options[key].length === 0)) fail(`${key} must be a non-empty string`)
   }
   if (!['success', 'skipped'].includes(options.agentsOutcome)) fail('agents outcome must be success or skipped')
   for (const [label, value] of [
@@ -163,7 +183,71 @@ function assertReferenceSourceCommitMatchesBaseline(workspace, baseline) {
   }
 }
 
-function validateReferenceState({workspace, baseline, manifest, resultBySource}) {
+// An applied reconciliation plan mutates the target tree (delete_target
+// removals) and then regenerates the whole Reference translation state from
+// the workspace trees, the retirement registry, and the authenticated
+// baseline state (apply-reconciliation-plan's rebuild). The expected state is
+// therefore not "baseline plus this run's results": it is the same
+// regeneration replayed against the pre-agent target tree, followed by this
+// run's results. Inputs are authenticated documents (checksum-verified plan
+// bound to its result), so a workspace that mutates records beyond the plan
+// and the manifest still fails the deep-equal below.
+function referenceStateAfterAppliedReconciliation({workspace, baseline, manifest, baselineState, plan, result}) {
+  let validatedPlan
+  let validatedResult
+  try {
+    validatedPlan = validateReconciliationPlan(plan, {repositoryRoot: workspace})
+    validatedResult = validateReconciliationResult(result, validatedPlan)
+  } catch (error) {
+    fail(`applied reconciliation plan or result failed authentication: ${String(error?.message || error)}`)
+  }
+  const baselineSourceManifest = parseReferenceSourceManifest(readPinnedJson(baseline, 'generated/en/manifests/reference.json', 'baseline Reference source manifest'))
+  if (validatedPlan.target !== 'zh-CN-reference' || validatedPlan.group !== manifest.group) {
+    fail('applied reconciliation plan does not match the translated unit')
+  }
+  if (validatedPlan.sourceCheckpointSha !== manifest.sourceCheckpointSha) {
+    fail('applied reconciliation plan checkpoint does not match the translation manifest')
+  }
+  if (validatedPlan.targetBaselineSha !== baselineSourceManifest.sourceCommit) {
+    fail('applied reconciliation plan baseline does not match the target baseline source manifest')
+  }
+  for (const operation of validatedResult.operations) {
+    for (const removedPath of operation.removedPaths) {
+      if (readOptionalPinnedBytes(workspace, removedPath, 'reconciled target removal') !== null) {
+        fail(`reconciliation result claims a target removal that is still present: ${removedPath}`)
+      }
+    }
+  }
+  // The run's rebuild ran before the agents wrote any candidate target, so
+  // replay it against the workspace target tree with every manifest item's
+  // target restored to its baseline bytes (or absence for created targets).
+  const targetSnapshot = new Map(captureReferenceTree(workspace, 'content/zh-CN/reference'))
+  for (const item of manifest.items) {
+    if (!item.targetPath.startsWith('content/zh-CN/reference/')) continue
+    const baselineBytes = readOptionalPinnedBytes(baseline, item.targetPath, 'reconciliation baseline target')
+    if (baselineBytes === null) targetSnapshot.delete(item.targetPath)
+    else targetSnapshot.set(item.targetPath, sha256(baselineBytes))
+  }
+  try {
+    return buildReferenceManifests({
+      repositoryRoot: workspace,
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceCommit: baselineSourceManifest.sourceCommit,
+      manualForPath: defaultReferenceManualForPath,
+      retirementRegistry: parseReferenceRetirementRegistry(readPinnedJson(workspace, 'config/reference-retirements.json', 'Reference retirement registry')),
+      previousSourceManifest: baselineSourceManifest,
+      previousTranslationManifest: baselineState,
+      sourceSnapshot: captureReferenceTree(workspace, 'content/en/reference'),
+      targetSnapshot,
+      supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
+    }).translationManifest
+  } catch (error) {
+    fail(`applied reconciliation state regeneration failed: ${String(error?.message || error)}`)
+  }
+}
+
+function validateReferenceState({workspace, baseline, manifest, resultBySource, reconciliation}) {
   let sourceManifest
   try {
     sourceManifest = parseReferenceSourceManifest(readPinnedJson(workspace, 'generated/en/manifests/reference.json', 'Reference source manifest'))
@@ -176,7 +260,11 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
   const currentState = parsedReferenceManifest(workspace, 'generated/zh-CN/manifests/reference-translations.json', 'workspace Reference translation state')
   const sourceByPath = new Map(sourceManifest.records.map(record => [record.sourcePath, record]))
   const baselineRecordByPath = new Map(baselineState.records.map(record => [record.sourcePath, record]))
-  const expected = JSON.parse(JSON.stringify(baselineState))
+  let stateBeforeResults = baselineState
+  if (reconciliation) {
+    stateBeforeResults = referenceStateAfterAppliedReconciliation({workspace, baseline, manifest, baselineState, plan: reconciliation.plan, result: reconciliation.result})
+  }
+  const expected = JSON.parse(JSON.stringify(stateBeforeResults))
 
   for (const item of manifest.items) {
     // The Guides home is the single declared landing seed that joins the zh
@@ -308,7 +396,14 @@ function validateUnbatchedTranslationOutputs(options) {
     }),
   })
 
-  if (manifest.target === 'zh-CN-reference') validateReferenceState({workspace, baseline, manifest, resultBySource: terminal.resultBySource})
+  let reconciliation = null
+  if (options.reconciliationPlanPath) {
+    reconciliation = {
+      plan: readPinnedJson(workspace, options.reconciliationPlanPath, 'reconciliation plan'),
+      result: readPinnedJson(workspace, options.reconciliationResultPath, 'reconciliation result'),
+    }
+  }
+  if (manifest.target === 'zh-CN-reference') validateReferenceState({workspace, baseline, manifest, resultBySource: terminal.resultBySource, reconciliation})
   return Object.freeze({candidateCount: manifest.items.length, target: manifest.target})
 }
 

@@ -171,7 +171,7 @@ const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-tran
 const JAPANESE_REFERENCE_TRANSLATION_MANIFEST = 'generated/ja-JP/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
 const REFERENCE_RECONCILIATION_LEDGER = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json';
-const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
+export const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
   Object.freeze({
     manual: 'guides',
     sourcePath: 'content/en/guides/tutorials/home.md',

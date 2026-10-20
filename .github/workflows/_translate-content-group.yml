@@ -555,6 +555,13 @@ jobs:
           ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_checkpoint_sha }}
         run: |
           set -euo pipefail
+          reconciliation_validation_args=()
+          if [[ -f tmp/reconciliation-plan.json ]]; then
+            reconciliation_validation_args+=(--reconciliation-plan tmp/reconciliation-plan.json)
+          fi
+          if [[ -f tmp/reconciliation-result.json ]]; then
+            reconciliation_validation_args+=(--reconciliation-result tmp/reconciliation-result.json)
+          fi
           node scripts/docs-workflow/validate-unbatched-translation-outputs.js \
             --manifest tmp/translation-manifest.json \
             --report tmp/translation-report.json \
@@ -563,7 +570,8 @@ jobs:
             --agents-outcome "$AGENTS_OUTCOME" \
             --translated-count "$TRANSLATED_COUNT" \
             --failed-count "$FAILED_COUNT" \
-            --remaining-count "$REMAINING_COUNT"
+            --remaining-count "$REMAINING_COUNT" \
+            ${reconciliation_validation_args[@]+"${reconciliation_validation_args[@]}"}
           if [[ "$TRANSLATION_TARGET" == ja-JP && "$FAILED_COUNT" != 0 ]]; then
             node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP" --allow-pending
           else
