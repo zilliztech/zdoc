@@ -62,10 +62,13 @@ test('master tooling sync validates exact ownership, both sites, and dev identit
   assert.ok(indexOf('Generate and verify candidate-derived files') < indexOf('Run focused candidate validation'));
   assert.ok(indexOf('Run focused candidate validation') < indexOf('Push immutable candidate and create PR'));
   assert.doesNotMatch(compose.run, /master-tooling-sync\.js verify|candidate_sha=/);
-  assert.match(derived.run, /pnpm install --frozen-lockfile[\s\S]*pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/);
-  assert.match(derived.run, /git add -- deploy\/contracts\/localization-inputs\.inventory\.json[\s\S]*git commit --amend --no-edit/);
-  assert.ok(derived.run.indexOf('git commit --amend --no-edit') < derived.run.indexOf('candidate_sha=$(git rev-parse HEAD)'));
+  assert.match(derived.run, /pnpm install --frozen-lockfile[\s\S]*regenerate-sync-candidate\.js[\s\S]*--dev-sha "\$DEV_SHA"[\s\S]*--tooling-sha "\$TOOLING_SHA"[\s\S]*pnpm check:localization-input-inventory/);
+  assert.doesNotMatch(derived.run, /git add|git commit/);
+  assert.ok(derived.run.indexOf('regenerate-sync-candidate.js') < derived.run.indexOf('candidate_sha=$(git rev-parse HEAD)'));
   assert.match(derived.run, /candidate_sha=\$\(git rev-parse HEAD\)[\s\S]*master-tooling-sync\.js verify[\s\S]*--candidate-sha "\$candidate_sha"/);
+  assert.equal(derived.env.DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER, 'packages/docs-tooling/providers/aliyun-oss-validator.mjs');
+  assert.equal(derived.env.IMAGE_BED_URL, '${{ vars.ZH_CN_IMAGE_BED_URL }}');
+  assert.match(focused.run, /regenerate-sync-candidate\.test\.js/);
   assert.match(focused.run, /pnpm check:localization-input-inventory/);
   assert.match(source, /validate-revision-inventory --site en/);
   assert.equal(push.env.CANDIDATE_SHA, '${{ steps.candidate.outputs.candidate_sha }}');
@@ -107,14 +110,34 @@ test('the ownership contract covers every generated publication root and keeps r
     'content/en/reference/api/restful/restful/versioning.md',
     'content/en/reference/cli/cli/Overview.md',
   ]);
-  assert.deepEqual(contract.candidateDerivedPaths, ['deploy/contracts/localization-inputs.inventory.json']);
+  assert.deepEqual(contract.candidateDerivedPaths, [
+    'content/en/reference/api/restful/restful',
+    'content/zh-CN/reference/api/restful/restful',
+    'deploy/contracts/localization-inputs.inventory.json',
+    'generated/en/manifests/reference.json',
+    'generated/en/manifests/rest-derivation.json',
+    'generated/en/sidebars/restful.sidebar.js',
+    'generated/ja-JP/manifests/rest-derivation.json',
+    'generated/zh-CN/manifests/reference-translations.json',
+    'generated/zh-CN/manifests/rest-derivation.json',
+    'generated/zh-CN/sidebars/restful.sidebar.js',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful',
+  ]);
+  // Preserved REST landing pages sit inside a candidate-derived directory and
+  // must stay master-authoritative so regeneration can never rewrite them.
+  for (const preserved of contract.masterAuthoritativePaths.filter(entry => entry.startsWith('content/en/reference/api/restful/restful/'))) {
+    assert.ok(contract.candidateDerivedPaths.includes('content/en/reference/api/restful/restful'), preserved);
+  }
 });
 
 test('the synchronization specification defines candidate-derived ownership and final candidate identity', async () => {
   const specification = await readFile(path.join(repositoryRoot, '.claude/specs/2026-08-03-master-tooling-dev-sync.md'), 'utf8');
   assert.match(specification, /candidate-derived/i);
   assert.match(specification, /localization-inputs\.inventory\.json/);
+  assert.match(specification, /rest-derivation\.json/);
+  assert.match(specification, /regenerate-sync-candidate\.js/);
   assert.match(specification, /regenerat[ei][\s\S]*exact merge candidate/i);
   assert.match(specification, /amend[\s\S]*merge commit/i);
+  assert.match(specification, /reference-manifest[\s\S]*--source-commit/i);
   assert.match(specification, /final candidate SHA/i);
 });

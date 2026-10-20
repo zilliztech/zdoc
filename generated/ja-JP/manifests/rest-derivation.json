@@ -20,7 +20,7 @@
     "18-cloud-meta-v2.json": "609c133e649e60a88509cee62d01a0721e82171bbd89269dd9f295f71d82171a",
     "19-extract-load-and-transform-v2.json": "c810ea38198b624f30bd3419b750fcbee97e8953d055bbed46baee4e4718a6f6",
     "20-volume-operations-v2.json": "1f75cd29ea11c05608f64a5cda076935d1b7bbe6f35e4a4bf9b3e361a79c4ead",
-    "21-project-operations-v2.json": "445ede89d229f04e8f4c78554c7876fa49ccae8dc7ba16d668d1d1ce6c7a2593",
+    "21-project-operations-v2.json": "86834972500e31375c3e77d7514060261a1109bd86d06969833b64c45eda127b",
     "22-cluster-operations-v2.json": "b09008bbc301aa8398f502da362f4a8b5b52f9ad63deb1a5c9c1f661a1ec5b18",
     "23-cloud-migration-v2.json": "0c955f38f5789984a487f9ef40cfa97358128b42fb816c1c0db58533dda343fe",
     "24-backup-and-restore-v2.json": "b6aa8c8680ba2c7b1ee72db236d1080ce1e96d605c89472aad40262b324c3230",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
     "38-snapshot-operations-v2.json": "dd6bb190299dffe91f7ccd922e7c0cc5e8d7f9b2da7bd1ed43757f4dd3990921"
   },
-  "generatedAt": "2026-10-20T02:25:55.768Z",
+  "generatedAt": "2026-10-20T14:17:55.878Z",
   "locale": "ja-JP",
   "schemaVersion": 1,
-  "toolingSha": "a3e7b0e450120e060d1ec83bcbc2ff47e8c38996"
+  "toolingSha": "6fca026645a8470bb4daf31c42fb9da539ed8d8f"
 }
