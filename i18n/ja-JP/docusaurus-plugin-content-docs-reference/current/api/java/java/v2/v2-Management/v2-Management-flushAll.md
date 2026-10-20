@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、データベース内のすべての collection に対して挿入バッファをフラッシュします。バックアップ、検証、または直近のすべての書き込みが永続化されている必要があるワークフローの前に使用します。 | Java | v2"
+description: "この操作は、データベース内のすべてのコレクションの挿入バッファをフラッシュします。バックアップ、検証、または直近のすべての書き込みが永続化されている必要があるワークフローの前に使用してください。 | Java | v2"
 type: docx
 token: KQqgduahOo13yOxiRMgcfXQxnxd
 sidebar_position: 22
 keywords: 
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - スパースベクトル
+  - ベクトル次元
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flushAll()
 
-この操作は、データベース内のすべての collection に対して挿入バッファをフラッシュします。バックアップ、検証、または直近のすべての書き込みが永続化されている必要があるワークフローの前に使用します。
+この操作は、データベース内のすべてのコレクションの挿入バッファをフラッシュします。バックアップ、検証、または直近のすべての書き込みが永続化されている必要があるワークフローの前に使用してください。
 
 ```java
 public FlushAllResp flushAll(FlushAllReq request)
@@ -46,25 +46,35 @@ flushAll(FlushAllReq.builder()
     .build());
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    フラッシュ対象の collection が含まれるデータベースです。省略すると、現在のデータベースコンテキストが使用されます。
+    フラッシュ対象のコレクションを含むデータベースです。省略すると、現在のデータベースコンテキストが使用されます。
 
 - `waitFlushedTimeoutMs(Long waitFlushedTimeoutMs)`
 
     flush-all 操作の完了を待機する時間です。0 より大きい値を指定すると、同期的な待機が有効になります。
 
-**戻り値:**
+**戻り値の型：**
 
 *FlushAllResp*
 
-**例外:**
+**戻り値：**
+
+flush-all 操作のタイムスタンプを含む **FlushAllResp** オブジェクトです。
+
+**パラメーター：**
+
+- **flushAllTs** (*Long*) -
+
+    flush-all 操作を識別するタイムスタンプです。flush-all 操作が完了したかどうかをポーリングするには、このタイムスタンプを `getFlushAllState` に渡します。
+
+**例外：**
 
 - **MilvusClientException**
 
-    バリデーションに失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -80,5 +90,3 @@ FlushAllResp resp = client.flushAll(FlushAllReq.builder()
     .build());
 System.out.println(resp.getFlushAllTs());
 ```
-
-{/* category: Management; action: CREATE; addedSince: v3.0.x */}

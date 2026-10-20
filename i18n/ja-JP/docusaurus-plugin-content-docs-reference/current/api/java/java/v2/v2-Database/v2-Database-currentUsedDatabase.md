@@ -12,13 +12,13 @@ type: docx
 token: UCpTdpkNEoHDyjxxCqqcZLSXnAe
 sidebar_position: 8
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ベクトルデータベースの比較
+  - openai ベクトルデータベース
+  - 自然言語処理データベース
+  - 低コストのベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - currentUsedDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -37,11 +37,19 @@ import Admonition from '@theme/Admonition';
 public String currentUsedDatabase()
 ```
 
-**返り値:**
+**戻り値の型：**
 
 *String*
 
-現在アクティブなデータベースの名前。
+**戻り値：**
+
+現在アクティブなデータベースの名前です。
+
+**パラメーター：**
+
+- **databaseName**（*String*）-
+
+    このクライアントが現在使用しているデータベースの名前です。データベースが構成されていない場合は `default` を返します。
 
 ## 例\{#example}
 

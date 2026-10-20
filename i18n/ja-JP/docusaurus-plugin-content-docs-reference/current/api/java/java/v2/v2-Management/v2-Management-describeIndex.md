@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-describeIndex
 sidebar_label: "describeIndex()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は特定のインデックスの詳細を取得します。 | Java | v2"
+description: "この操作は、特定のインデックスの詳細を取得します。 | Java | v2"
 type: docx
-token: SgJ7dKfisomLkqx1E3BccMO7nqf
+token: HH9bdZvbuoblNfxXeLycoHsSn9g
 sidebar_position: 4
 keywords: 
-  - vector db の比較
-  - openai vector db
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
   - 自然言語処理データベース
-  - 安価な vector データベース
+  - 低コストのベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describeIndex()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-この操作は特定のインデックスの詳細を取得します。
+この操作は、特定のインデックスの詳細を取得します。
 
 ```java
 public DescribeIndexResp describeIndex(DescribeIndexReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 describeIndex(DescribeIndexReq.builder()
@@ -50,47 +50,104 @@ describeIndex(DescribeIndexReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象コレクションの名前。
+    対象のコレクションの名前です。
 
 - `fieldName(String fieldName)` -
 
-    対象フィールドの名前。
+    対象のフィールドの名前です。
 
 - `indexName(String indexName)` -
 
-    対象インデックスの名前。
+    対象のインデックスの名前です。
 
 - `timestamp(Long timestamp)` -
 
-    タイムトラベルクエリ用のタイムスタンプ。デフォルトは `0L` です。
+    タイムトラベルクエリ用のタイムスタンプです。デフォルトは `0L` です。
 
-**RETURNS:**
+**戻り値の型:**
 
 *DescribeIndexResp*
 
-指定されたインデックスの詳細を含む **DescribeIndexResp** オブジェクト。
+**戻り値:**
 
-**EXCEPTIONS:**
+指定したインデックスの詳細を含む **DescribeIndexResp** オブジェクトです。
+
+**パラメーター:**
+
+- **indexDescriptions** (*List&lt;IndexDesc&gt;*) -
+
+    インデックス記述のリストです。各要素は、以下のフィールドを含む **IndexDesc** オブジェクトです。
+
+    - **fieldName** (*String*) -
+
+        インデックスを作成するフィールドの名前です。
+
+    - **indexName** (*String*) -
+
+        インデックスの名前です。
+
+    - **id** (*long*) -
+
+        インデックスの ID です。
+
+    - **indexType** (*IndexParam.IndexType*) -
+
+        インデックスの種類です。
+
+    - **metricType** (*IndexParam.MetricType*) -
+
+        このインデックスでベクトルの類似度を測定するために使用するメトリックタイプです。
+
+    - **extraParams** (*Map&lt;String, String&gt;*) -
+
+        インデックスの追加パラメーターです。
+
+    - **indexedRows** (*long*) -
+
+        インデックスが作成された行数です。
+
+    - **totalRows** (*long*) -
+
+        対象フィールドの総行数です。
+
+    - **pendingIndexRows** (*long*) -
+
+        インデックス作成待ちの行数です。
+
+    - **indexState** (*IndexBuildState*) -
+
+        インデックス作成タスクの状態です。有効な値は `IndexStateNone`、`Unissued`、`InProgress`、`Finished`、`Failed`、`Retry` です。
+
+    - **indexFailedReason** (*String*) -
+
+        インデックス作成タスクが失敗した理由です。
+
+    - **properties** (*Map&lt;String, String&gt;*) -
+
+        インデックスのプロパティです。非推奨: インデックスプロパティは現在、`extraParams` に転送されます。
+
+**例外:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DescribeIndexReq;
 import io.milvus.v2.service.index.response.DescribeIndexResp;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

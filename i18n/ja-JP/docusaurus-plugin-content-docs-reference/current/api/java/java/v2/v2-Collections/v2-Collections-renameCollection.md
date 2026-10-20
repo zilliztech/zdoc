@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存のコレクションの名前を変更します。 | Java | v2"
+description: "この操作では、既存のコレクションの名前を変更します。 | Java | v2"
 type: docx
 token: U7Ipdm0FTo8FCVxaxbZcwMygnWd
-sidebar_position: 21
+sidebar_position: 19
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 検索拡張生成
+  - 大規模言語モデル
+  - ベクトル化
+  - k 近傍法アルゴリズム
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - renameCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # renameCollection()
 
-この操作は既存のコレクションの名前を変更します。
+この操作では、既存のコレクションの名前を変更します。
 
 ```java
 public void renameCollection(RenameCollectionReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 renameCollection(RenameCollectionReq.builder()
@@ -49,15 +49,15 @@ renameCollection(RenameCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前です。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象のコレクションの名前です。
+    対象コレクションの名前です。
 
 - `newCollectionName(String newCollectionName)` -
 
@@ -65,24 +65,21 @@ renameCollection(RenameCollectionReq.builder()
 
 - `targetDbName(String targetDbName)` -
 
-    対象データベースの名前です。名前変更後のコレクションを別のデータベースに移動する場合に設定します。
+    対象データベースの名前です。コレクションを別のデータベースに移動する場合に設定します。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    この操作中にエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.RenameCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

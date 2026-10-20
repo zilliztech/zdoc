@@ -7,17 +7,17 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "既存の Milvus 3.0 collection に、関数に基づく field と明示的に設定されたそのバインド index を追加します。 | Java | v2"
+description: "この操作では、既存の Milvus 3.0 コレクションに、関数ベースのフィールドと、明示的に設定されたバインド済みインデックスを追加します。 | Java | v2"
 type: docx
 token: GTZHdG3fMoBZi0x23BNctsO7nEE
 sidebar_position: 38
 keywords: 
-  - ベクターストア
-  - オープンソースベクトルデータベース
+  - ベクトルストア
+  - オープンソースのベクトルデータベース
   - ベクトルインデックス
-  - オープンソースベクトルデータベース
+  - オープンソースのベクトルデータベース
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - クラウド
   - addFunctionField()
   - javaV230
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # addFunctionField()
 
-既存の Milvus 3.0 collection に、関数に基づく field と明示的に設定されたそのバインド index を追加します。
+この操作では、既存の Milvus 3.0 コレクションに、関数ベースのフィールドと、明示的に設定されたバインド済みインデックスを追加します。
 
 ```java
 public void addFunctionField(AddFunctionFieldReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 AddFunctionFieldReq.builder()
@@ -61,89 +61,83 @@ AddFunctionFieldReq.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `collectionName(String collectionName)`
 
-    対象の collection の名前です。
+    対象コレクションの名前です。
 
 - `databaseName(String databaseName)`
 
-    database の名前です。省略した場合、現在の database がデフォルトで使用されます。
+    データベースの名前です。省略した場合は、現在のデータベースがデフォルトになります。
 
 - `fieldName(String fieldName)`
 
-    追加する関数出力 field の名前です。
+    追加する関数出力フィールドの名前です。
 
 - `description(String description)`
 
-    新しい field の人間が読める説明です。
+    新しいフィールドの人間が読める形式の説明です。
 
 - `dataType(DataType dataType)`
 
-    新しい関数出力 field のデータ型です。
+    新しい関数出力フィールドのデータ型です。
 
 - `maxLength(Integer maxLength)`
 
-    可変長 field の最大長です。
+    可変長フィールドの最大長です。
 
 - `dimension(Integer dimension)`
 
-    vector field の次元数です。
+    ベクトルフィールドの次元です。
 
 - `elementType(DataType elementType)`
 
-    array field の要素型です。
+    配列フィールドの要素型です。
 
 - `maxCapacity(Integer maxCapacity)`
 
-    array field 内の要素の最大数です。
+    配列フィールド内の要素の最大数です。
 
 - `isNullable(Boolean isNullable)`
 
-    field が null 値を受け入れるかどうかです。
+    フィールドが null 値を受け入れるかどうかです。
 
 - `defaultValue(Object defaultValue)`
 
-    scalar field のデフォルト値です。
+    スカラーフィールドのデフォルト値です。
 
 - `enableAnalyzer(Boolean enableAnalyzer)`
 
-    field でテキスト解析を有効にするかどうかです。
+    フィールドでテキスト分析を有効にするかどうかです。
 
 - `analyzerParams(Map<String, Object> analyzerParams)`
 
-    field の analyzer 設定です。
+    フィールドのアナライザー構成です。
 
 - `enableMatch(Boolean enableMatch)`
 
-    field でテキストマッチを有効にするかどうかです。
+    フィールドでテキストマッチを有効にするかどうかです。
 
 - `typeParams(Map<String, String> typeParams)`
 
-    追加の field 型パラメータです。
+    追加のフィールド型パラメーターです。
 
 - `function(CreateCollectionReq.Function function)`
 
-    関数定義です。`fieldName` に一致する出力をちょうど 1 つ持っている必要があります。
+    関数定義です。fieldName に一致する出力を 1 つだけ持つ必要があります。
 
 - `indexParam(IndexParam indexParam)`
 
-    バインド index の設定です。同じ field を使用し、`None` または `AUTOINDEX` 以外の明示的な index type を使用する必要があります。
+    バインドされたインデックス構成です。同じフィールドを使用し、None または AUTOINDEX 以外の明示的なインデックスタイプを使用する必要があります。
 
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    リクエスト検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
+    リクエストの検証、転送、またはサーバーでの実行に失敗した場合にスローされます。正確な失敗理由については、例外メッセージを確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 CreateCollectionReq.Function bm25Function = CreateCollectionReq.Function.builder()

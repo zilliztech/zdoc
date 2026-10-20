@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この getter は、collection schema から名前で struct field schema を返します。 | Java | v2"
+description: "この操作では、コレクションスキーマから名前で構造体フィールドのスキーマを返します。 | Java | v2"
 type: docx
 token: KJSvdrks9o6WOsxr0rZcPXe5ngn
 sidebar_position: 7
@@ -31,29 +31,59 @@ import Admonition from '@theme/Admonition';
 
 # getStructField()
 
-この getter は、collection schema から名前で struct field schema を返します。
+この操作では、コレクションスキーマから名前で構造体フィールドのスキーマを返します。
 
 ```java
 public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **fieldName** (*String*) -
 
-    struct field の名前。
+    構造体フィールドの名前です。
 
-**RETURNS:**
+**戻り値の型:**
 
 *CreateCollectionReq.StructFieldSchema*
 
-**EXCEPTIONS:**
+**戻り値:**
+
+**CreateCollectionReq.StructFieldSchema** オブジェクトには、以下のフィールドが含まれます。
+
+**パラメーター:**
+
+- **name** (*String*) -
+
+    構造体フィールドの名前です。
+
+- **description** (*String*) -
+
+    構造体フィールドの説明です。デフォルトは空の文字列です。
+
+- **fields** (*List&lt;CreateCollectionReq.FieldSchema&gt;*) -
+
+    構造体フィールドのサブフィールドです。サブフィールドでは、Array、ArrayOfVector、Struct の要素型はサポートされていません。
+
+- **maxCapacity** (*Integer*) -
+
+    構造体フィールドが保持できる要素の最大数です。
+
+- **nullable** (*Boolean*) -
+
+    構造体フィールドを null にできるかどうかです。デフォルトは `false` です。
+
+- **typeParams** (*Map&lt;String, String&gt;*) -
+
+    構造体フィールドの型パラメーターです。
+
+**例外:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 CollectionSchema schema = CollectionSchema.builder().build();

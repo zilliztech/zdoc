@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似性検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - スパースベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -50,10 +50,6 @@ localBulkWriter.commit(
 - **async** (*boolean*) -
 
     commit 操作が呼び出された直後に戻るかどうか。
-
-**戻り値の型:**
-
-*void*
 
 ## 例\{#examples}
 

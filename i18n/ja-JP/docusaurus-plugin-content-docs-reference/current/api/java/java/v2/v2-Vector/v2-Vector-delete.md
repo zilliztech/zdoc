@@ -4,17 +4,17 @@ slug: /java/java/v2-Vector-delete
 sidebar_label: "delete()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ID またはブール式を使って entity を削除します。 | Java | v2"
+description: "この操作は、ID またはブール式を使用してエンティティを削除します。 | Java | v2"
 type: docx
-token: NTCHdGKwNo9kl2xFzgKcjo8wndg
+token: FrMNdXnZYo0oZ9xfs0xcjbVmn2c
 sidebar_position: 1
 keywords: 
   - オーディオ検索
   - セマンティック検索とは
-  - Embedding model
+  - 埋め込みモデル
   - 画像類似検索
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-この操作は、ID またはブール式を使って entity を削除します。
+この操作は、ID またはブール式を使用してエンティティを削除します。
 
 ```java
 public DeleteResp delete(DeleteReq request)
@@ -51,19 +51,19 @@ delete(DeleteReq.builder()
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトとなります。
 
 - `collectionName(String collectionName)` -
 
-    対象の collection の名前です。
+    対象のコレクションの名前です。
 
 - `partitionName(String partitionName)` -
 
-    対象の partition の名前です。
+    対象のパーティションの名前です。
 
 - `filter(String filter)` -
 
@@ -71,23 +71,39 @@ delete(DeleteReq.builder()
 
 - `ids(List<Object> ids)` -
 
-    特定の entity を識別するための主キー値のリストです。
+    特定のエンティティを識別するための主キー値のリストです。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
 
-    パラメータ化された filter 用のテンプレート変数値のマップです。
+    パラメーター化されたフィルターのテンプレート変数値のマップです。
 
-**戻り値:**
+**戻り値の型：**
 
 *DeleteResp*
 
-**DeleteResp** オブジェクトには、削除された entity の数が含まれます。
+**戻り値：**
 
-**例外:**
+**DeleteResp** オブジェクトには、削除されたエンティティの数と操作コスト（`getCost()`）が含まれます。
+
+**パラメーター：**
+
+- **deleteCnt** (*long*) -
+
+    削除されたエンティティの数です。
+
+- **primaryKeys** (*List&lt;Object&gt;*) -
+
+    削除されたエンティティの主キーです。Milvus サーバー 2.3.2 以降では、削除レスポンスで削除された主キーが返されなくなりました。そのため、最新のサーバーではこのリストは空です。このリストは、接続先のサーバーがキーを返す古いリリースである場合にのみ設定されます。
+
+- **cost** (*Long*) -
+
+    操作の時間コストです。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

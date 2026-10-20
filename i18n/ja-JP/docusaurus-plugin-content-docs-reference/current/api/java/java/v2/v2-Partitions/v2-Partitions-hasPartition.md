@@ -4,21 +4,21 @@ slug: /java/java/v2-Partitions-hasPartition
 sidebar_label: "hasPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内に指定された partition が存在するかどうかを確認します。 | Java | v2"
+description: "この操作は、指定されたコレクション内に指定されたパーティションが存在するかどうかを確認します。 | Java | v2"
 type: docx
-token: KVSUdHV0ho7nnwxeQKMcEL47nKe
+token: NF0FdJbD7o5HHtx9kxwczbq0nwf
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Elastic ベクトルデータベース
+  - Pinecone と Milvus
+  - Chroma と Milvus
+  - Annoy ベクトル検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - hasPartition()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasPartition()
 
-この操作は、指定された collection 内に指定された partition が存在するかどうかを確認します。
+この操作は、指定されたコレクション内に指定されたパーティションが存在するかどうかを確認します。
 
 ```java
 public Boolean hasPartition(HasPartitionReq request)
@@ -48,33 +48,39 @@ hasPartition(HasPartitionReq.builder()
 )
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属するデータベースの名前。
+    対象のコレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - `partitionName(String partitionName)`
 
-    確認する partition の名前。
+    確認するパーティションの名前です。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *Boolean*
 
-**戻り値:**
+**戻り値：**
 
-指定された partition が存在するかどうかを示すブール値。
+指定されたパーティションが存在するかどうかを示すブール値です。
 
-**例外:**
+**パラメーター：**
 
-- **MilvusClientExceptions**
+- **value** (*Boolean*) -
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    指定されたコレクション内に指定されたパーティションが存在するかどうかを示します。
+
+**例外：**
+
+- **MilvusClientException**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -82,6 +88,7 @@ hasPartition(HasPartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.HasPartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,4 +105,3 @@ HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
         .build();
 Boolean res = client.hasPartition(hasPartitionReq);
 ```
-

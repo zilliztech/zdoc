@@ -12,13 +12,13 @@ type: docx
 token: QH3hdlzwDoxHjTxPj39c6qMSnbg
 sidebar_position: 7
 keywords: 
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 非構造化データとは
+  - ベクトル埋め込み
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getTotalRowCount()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -37,17 +37,27 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**戻り値:**
+**戻り値の型：**
 
 *Long*
 
-**例外:**
+**戻り値：**
+
+この RemoteBulkWriter インスタンスによって書き込まれた行の総数です。
+
+**パラメーター：**
+
+- **totalRowCount** (*Long*) -
+
+    これまでに追加された行数です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中にエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 RemoteBulkWriter writer = new RemoteBulkWriter(config);

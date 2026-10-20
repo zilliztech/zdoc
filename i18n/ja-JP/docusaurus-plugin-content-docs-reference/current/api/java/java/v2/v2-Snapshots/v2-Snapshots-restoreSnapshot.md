@@ -12,13 +12,13 @@ type: docx
 token: SF5wdcArioRIsxxVzNjcgIhJnrc
 sidebar_position: 8
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - LLM-as-a-Judge
+  - ハイブリッドベクトル検索
+  - 動画の重複排除
+  - 動画の類似検索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - restoreSnapshot()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,39 +50,47 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `snapshotName(String snapshotName)`
 
-    スナップショットの名前。
+    スナップショットの名前です。
 
 - `sourceCollectionName(String sourceCollectionName)`
 
-    スナップショットの作成元となったコレクションの名前。
+    スナップショットの作成元コレクションの名前です。
 
 - `targetCollectionName(String targetCollectionName)`
 
-    スナップショットを復元する先のコレクションの名前。
+    スナップショットの復元先コレクションの名前です。
 
 - `sourceDbName(String sourceDbName)`
 
-    ソースコレクションを含むデータベース。省略した場合、現在のデータベースが使用されます。
+    ソースコレクションを含むデータベースです。省略した場合は、現在のデータベースが使用されます。
 
 - `targetDbName(String targetDbName)`
 
-    復元されたコレクションを作成するデータベース。省略した場合、現在のデータベースが使用されます。
+    復元されたコレクションを作成するデータベースです。省略した場合は、現在のデータベースが使用されます。
 
-**戻り値:**
+**戻り値の型：**
 
 *RestoreSnapshotResp*
 
-スナップショット復元ジョブ ID を含むレスポンス。
+**戻り値：**
 
-**例外:**
+復元スナップショットジョブの ID を含むレスポンスです。
+
+**パラメーター：**
+
+- **jobId** (*Long*) -
+
+    復元スナップショットジョブの ID です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外の場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはサーバーがこの操作に対してエラーを返した場合に発生します。
 
 ## 例\{#example}
 

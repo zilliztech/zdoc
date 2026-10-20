@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-createIndex
 sidebar_label: "createIndex()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に対して index を作成します。 | Java | v2"
+description: "この操作は、特定のコレクションのインデックスを作成します。 | Java | v2"
 type: docx
-token: JLCudD7MYoQdxQxLwlpcbBnpn8c
+token: Mz7NdzJkfo3A17x7YAlc3m0Xnbc
 sidebar_position: 3
 keywords: 
-  - rag vector database
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - RAG ベクトルデータベース
+  - ベクトル DB とは
+  - ベクトルデータベースとは
+  - ベクトルデータベースの比較
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - createIndex()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-この操作は、特定の collection に対して index を作成します。
+この操作は、特定のコレクションのインデックスを作成します。
 
 ```java
 public void createIndex(CreateIndexReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 createIndex(CreateIndexReq.builder()
@@ -50,19 +50,19 @@ createIndex(CreateIndexReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    database の名前です。指定しない場合、現在の database がデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前です。
+    対象のコレクションの名前です。
 
 - `indexParams(List<IndexParam> indexParams)` -
 
-    index の構成を定義する IndexParam オブジェクトのリストです。
+    インデックスの構成を定義する IndexParam オブジェクトのリストです。
 
 - `sync(Boolean sync)` -
 
@@ -72,23 +72,21 @@ createIndex(CreateIndexReq.builder()
 
     タイムアウト時間をミリ秒単位で指定します。デフォルトは `60000L` です。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

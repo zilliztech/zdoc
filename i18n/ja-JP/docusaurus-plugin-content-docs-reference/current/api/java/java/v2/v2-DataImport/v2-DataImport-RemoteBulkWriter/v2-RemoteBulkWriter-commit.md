@@ -14,11 +14,11 @@ sidebar_position: 3
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトルデータベース
   - milvus db
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - commit()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -45,15 +45,11 @@ remoteBulkWriter.commit(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **async** (*boolean*) -
 
-    commit 操作が、呼び出し直後に即座に戻るかどうか。
-
-**戻り値の型:**
-
-*void*
+    commit 操作が呼び出された直後に戻るかどうか。
 
 ## 例\{#examples}
 

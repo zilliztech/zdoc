@@ -14,7 +14,7 @@ sidebar_position: 2
 keywords: 
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -54,14 +54,6 @@ deleteVolume(DeleteVolumeRequest.builder()
 
     削除するボリュームの名前。
 
-**戻り値の型**
-
-*void*
-
-**戻り値**
-
-なし
-
 ## 例\{#example}
 
 ```java
@@ -86,4 +78,3 @@ System.out.printf("\nVolume %s deleted%n", "my_volume");
 
 // Volume my_volume deleted
 ```
-

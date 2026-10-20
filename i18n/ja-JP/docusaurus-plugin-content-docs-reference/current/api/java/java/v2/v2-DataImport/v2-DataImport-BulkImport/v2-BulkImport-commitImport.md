@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "準備済みの bulk-import ジョブをコミットします。 | Java | v2"
+description: "この操作は、準備済みの一括インポートジョブをコミットします。 | Java | v2"
 type: docx
 token: DFyndL57goJMr0xAcMEcVq5Lnhh
 sidebar_position: 6
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - ニューラルネットワーク
+  - ディープラーニング
+  - ナレッジベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - commitImport()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # commitImport()
 
-準備済みの bulk-import ジョブをコミットします。
+この操作は、準備済みの一括インポートジョブをコミットします。
 
 ```java
 public static String commitImport(String url, BaseDescribeImportRequest request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 CloudDescribeImportRequest.builder()
@@ -51,43 +51,51 @@ CloudDescribeImportRequest.builder()
 
 ### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
-Zilliz Cloud では `CloudDescribeImportRequest` を使用します。Zilliz Cloud cluster デプロイメントでは `clusterId` を設定するか、project database デプロイメントでは `projectId` と `regionId` の両方を設定します。
+Zilliz Cloud では `CloudDescribeImportRequest` を使用します。`clusterId` を設定するか、プロジェクトデータベースデプロイメントでは `projectId` と `regionId` の両方を設定します。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `apiKey(String apiKey)`
 
-    認証資格情報です。Milvus には `userName:password` を、または Zilliz Cloud API key を使用します。
+    認証情報です。Milvus の場合は `userName:password` を、Zilliz Cloud の場合は API キーを使用します。
 
 - `clusterId(String clusterId)`
 
-    Zilliz Cloud cluster デプロイメントの cluster ID です。
+    Zilliz Cloud クラスターデプロイメントのクラスター ID です。
 
 - `projectId(String projectId)`
 
-    Zilliz Cloud project database デプロイメントの project ID です。
+    Zilliz Cloud プロジェクトデータベースデプロイメントのプロジェクト ID です。
 
 - `regionId(String regionId)`
 
-    Zilliz Cloud project database デプロイメントの region ID です。
+    Zilliz Cloud プロジェクトデータベースデプロイメントのリージョン ID です。
 
 - `jobId(String jobId)`
 
-    コミットする import ジョブ識別子です。
+    コミットするインポートジョブの識別子です。
 
-**RETURNS:**
+**戻り値の型:**
 
 *String*
 
-`import` エンドポイントから返される JSON レスポンス本文です。
+**戻り値:**
 
-**EXCEPTIONS:**
+インポートエンドポイントから返される JSON レスポンス本文です。
+
+**パラメーター:**
+
+- **response** (*String*) -
+
+    commit-import 呼び出しの JSON レスポンス本文です。
+
+**例外:**
 
 - **Exception**
 
-    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
+    リクエストの検証、トランスポート、またはサーバーでの実行に失敗した場合にスローされます。正確な失敗理由については、例外メッセージを確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 Zilliz Cloud に対する commitImport() の例を示します。
 

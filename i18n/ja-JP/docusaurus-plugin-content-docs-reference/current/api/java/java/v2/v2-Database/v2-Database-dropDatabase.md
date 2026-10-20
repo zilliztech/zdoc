@@ -4,21 +4,21 @@ slug: /java/java/v2-Database-dropDatabase
 sidebar_label: "dropDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、指定した名前のデータベースを削除します。 | Java | v2"
 type: docx
-token: LwqSdN6s5oZBhAxzQsxcnXswnah
+token: N4TUdZOmso4MVfxTYFbcVQ3Kn1c
 sidebar_position: 4
 keywords: 
   - コンテキストウィンドウ
   - 自然言語検索
-  - 類似度検索
-  - マルチモーダルRAG
+  - 類似検索
+  - マルチモーダル RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - dropDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-この操作は、指定した名前のデータベースを削除します。 
+この操作は、指定した名前のデータベースを削除します。
 
 ```java
 public void dropDatabase(DropDatabaseReq request)
@@ -46,21 +46,17 @@ dropDatabase(DropDatabaseReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    削除するデータベースの名前。
+    削除するデータベースの名前です。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientExceptions**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -68,6 +64,7 @@ dropDatabase(DropDatabaseReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DropDatabaseReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -83,4 +80,3 @@ DropDatabaseReq dropDatabaseReq = DropDatabaseReq.builder()
         .build();
 client.dropDatabase(dropDatabaseReq);
 ```
-

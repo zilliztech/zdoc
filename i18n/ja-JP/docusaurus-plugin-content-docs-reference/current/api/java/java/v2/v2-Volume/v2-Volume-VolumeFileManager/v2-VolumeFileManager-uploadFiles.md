@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "ファイルまたはディレクトリを、リトライ、並行処理、マルチパート、進捗制御付きで Zilliz Cloud volume に同期アップロードします。 | Java | v2"
+description: "この操作では、再試行、並行処理、マルチパート、進捗制御を使用して、ファイルまたはディレクトリを Zilliz Cloud ボリュームに同期的にアップロードします。 | Java | v2"
 type: docx
 token: FiyGdmoSHoDbrPxhSdncsMWbnhc
 sidebar_position: 4
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # uploadFiles()
 
-ファイルまたはディレクトリを、リトライ、並行処理、マルチパート、進捗制御付きで Zilliz Cloud volume に同期アップロードします。
+この操作では、再試行、並行処理、マルチパート、進捗制御を使用して、ファイルまたはディレクトリを Zilliz Cloud ボリュームに同期的にアップロードします。
 
 ```java
 public UploadFilesResult uploadFiles(UploadFilesRequest request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 UploadFilesRequest.builder()
@@ -51,7 +51,7 @@ UploadFilesRequest.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `sourceFilePath(String sourceFilePath)`
 
@@ -59,7 +59,7 @@ UploadFilesRequest.builder()
 
 - `targetVolumePath(String targetVolumePath)`
 
-    volume 内の宛先ディレクトリです。
+    ボリューム内の宛先ディレクトリです。
 
 - `uploadConcurrency(int uploadConcurrency)`
 
@@ -67,11 +67,11 @@ UploadFilesRequest.builder()
 
 - `maxRetries(int maxRetries)`
 
-    各ファイルの最大リトライ回数です。
+    各ファイルの最大再試行回数です。
 
 - `retryIntervalMillis(long retryIntervalMillis)`
 
-    リトライ試行間の待機時間（ミリ秒）です。
+    再試行間の遅延時間（ミリ秒）です。
 
 - `progressListener(ProgressListener progressListener)`
 
@@ -79,21 +79,33 @@ UploadFilesRequest.builder()
 
 - `partSizeBytes(long partSizeBytes)`
 
-    マルチパートアップロードのパートサイズ（バイト単位）です。0 以下の値を指定すると自動サイズ調整が有効になります。
+    マルチパートアップロードのパートサイズ（バイト単位）です。0 以下の値を指定すると、自動サイズ調整が有効になります。
 
-**RETURNS:**
+**戻り値の型:**
 
 *UploadFilesResult*
 
-対象の volume とアップロードされたパスを識別します。
+**戻り値:**
 
-**EXCEPTIONS:**
+対象のボリュームとアップロードされたパスを識別する **UploadFilesResult** オブジェクトです。以下のフィールドがあります。
+
+**パラメーター:**
+
+- **volumeName** (*String*) -
+
+    ファイルのアップロード先ボリュームの名前です。
+
+- **path** (*String*) -
+
+    アップロードされたファイルの、ボリューム内でのパスです。
+
+**例外:**
 
 - **Exception**
 
-    リクエストの検証、トランスポート、またはサーバー実行に失敗した場合に発生します。正確な失敗理由は例外メッセージを確認してください。
+    リクエストの検証、トランスポート、またはサーバーでの実行に失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 UploadFilesResult result = manager.uploadFiles(UploadFilesRequest.builder()

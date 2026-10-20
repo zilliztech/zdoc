@@ -4,12 +4,12 @@ slug: /java/java/v2-Management-refreshLoad
 sidebar_label: "refreshLoad()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は主に、bulkImport リクエストによって新しい segment が生成された際に使用され、新しい segment を強制的にメモリにロードします。 | Java | v2"
 type: docx
-token: TCw7d7brCovAUpxA5D8cjOIGn1b
+token: Njodd6A2romru0xEX3cckwPlnpb
 sidebar_position: 15
 keywords: 
   - 自然言語処理
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshLoad()
 
-この操作は主に、bulkImport リクエストによって新しい segment が生成された際に使用され、新しい segment を強制的にメモリにロードします。 
+この操作は主に、bulkImport リクエストによって新しい segment が生成された際に使用され、新しい segment を強制的にメモリにロードします。
 
 ```java
 public void refreshLoad(RefreshLoadReq request)
@@ -54,11 +54,11 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    database の名前です。指定しない場合は、現在の database がデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前です。
+    対象コレクションの名前です。
 
 - `async(Boolean async)` -
 
@@ -72,10 +72,6 @@ refreshLoad(RefreshLoadReq.builder()
 
     タイムアウト時間（ミリ秒単位）です。デフォルトは `60000L` です。
 
-**戻り値:**
-
-*void*
-
 **例外:**
 
 - **MilvusClientException**
@@ -88,6 +84,7 @@ refreshLoad(RefreshLoadReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.RefreshLoadReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -97,7 +94,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Refresh the load status of the collection `test`
+// 2. Refresh the load status of the collection \`test\`
 RefreshLoadReq refreshLoadReq = RefreshLoadReq.builder()
         .collectionName("test")
         .build();

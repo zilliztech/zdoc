@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-createDatabase
 sidebar_label: "createDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、名前を指定してデータベースを作成します。 | Java | v2"
 type: docx
-token: IqQudFVIKot4mVxWD4xclJymn8g
+token: LirKdHD5lomrfSxXrZzcOAWpnMf
 sidebar_position: 2
 keywords: 
   - 情報検索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-この操作は、名前を指定してデータベースを作成します。 
+この操作は、名前を指定してデータベースを作成します。
 
 ```java
 public void createDatabase(CreateDatabaseReq request)
@@ -47,7 +47,7 @@ createDatabase(CreateDatabaseReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
@@ -55,13 +55,9 @@ createDatabase(CreateDatabaseReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-データベースのプロパティです。たとえば、レプリカ数やリソースグループなどです。
+    データベースのプロパティです。たとえば、レプリカ数やリソースグループなどです。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientExceptions**
 
@@ -74,6 +70,9 @@ import io.milvus.param.Constant;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -92,4 +91,3 @@ CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
         .build();
 client.createDatabase(createDatabaseReq);
 ```
-

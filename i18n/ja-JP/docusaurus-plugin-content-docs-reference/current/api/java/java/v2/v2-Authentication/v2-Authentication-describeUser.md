@@ -12,13 +12,13 @@ type: docx
 token: TR9OdLX5PoMZbMx4l2tcWKVmn3b
 sidebar_position: 6
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - vector database とは
+  - AI チャットボット
+  - コサイン距離
+  - ベクトルデータベースとは
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describeUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,15 +50,31 @@ DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
 
 - `userName(String userName)`
 
-    **[REQUIRED]**
+    **[必須]**
 
-    説明を取得するユーザーの名前。
+    説明するユーザーの名前です。
 
-**戻り値:**
+**戻り値の型:**
 
 *DescribeUserResp*
 
-レスポンスには、`userName`、`roles`、`description` が含まれます。
+**戻り値:**
+
+**DescribeUserResp** オブジェクトには、以下のフィールドが含まれます。
+
+**パラメーター:**
+
+- **userName** (*String*) -
+
+    ユーザーの名前です。
+
+- **roles** (*List&lt;String&gt;*) -
+
+    ユーザーに付与されたロールのリストです。
+
+- **description** (*String*) -
+
+    ユーザーの説明です。
 
 **例外:**
 

@@ -4,21 +4,21 @@ slug: /java/java/v2-Database-describeDatabase
 sidebar_label: "describeDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、特定のデータベースに関する詳細情報を取得します。 | Java | v2"
 type: docx
-token: MJjHd3uGcoxEYBx0laKcAIKNnhg
+token: VZ64davS5osZHKxxbPac3Ixtnlc
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
+  - ベクトル埋め込みとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describeDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,15 +50,25 @@ describeDatabase(DescribeDatabaseReq.builder()
 
 - `databaseName(String databaseName)`
 
-    データベースの名前。
+    データベースの名前です。
 
-**RETURN TYPE**:
+**RETURN TYPE:**
 
 *DescribeDatabaseResp*
 
 **RETURNS:**
 
-指定されたデータベースに関する詳細情報を含む **DescribeDatabaseResp** オブジェクト。
+指定されたデータベースに関する詳細情報を含む **DescribeDatabaseResp** オブジェクトです。
+
+**PARAMETERS:**
+
+- **databaseName** (*String*) -
+
+    データベースの名前です。
+
+- **properties** (*Map&lt;String, String&gt;*) -
+
+    データベースのプロパティです。
 
 **EXCEPTIONS:**
 
@@ -74,6 +84,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DescribeDatabaseReq;
 import io.milvus.v2.service.database.response.DescribeDatabaseResp;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -90,4 +102,3 @@ DescribeDatabaseResp descResp = client.describeDatabase(DescribeDatabaseReq.buil
 Map<String,String> propertiesResp = descResp.getProperties();
 System.out.println(propertiesResp.get(Constant.DATABASE_REPLICA_NUMBER));
 ```
-

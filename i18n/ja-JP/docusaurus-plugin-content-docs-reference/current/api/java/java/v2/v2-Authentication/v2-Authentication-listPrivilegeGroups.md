@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての権限グループを一覧表示します。 | Java | v2"
+description: "この操作では、すべての権限グループを一覧表示します。 | Java | v2"
 type: docx
-token: TGsXduN5OoAjVyxZTvRc8HR2nse
+token: AxcldAxjAocxVVxW6WgcIu6Lnsd
 sidebar_position: 13
 keywords: 
   - AI チャットボット
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listPrivilegeGroups()
 
-この操作はすべての権限グループを一覧表示します。
+この操作では、すべての権限グループを一覧表示します。
 
 ```java
 public ListPrivilegeGroupsResp listPrivilegeGroups(ListPrivilegeGroupsReq request)
@@ -51,11 +51,13 @@ listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
 
 **戻り値:**
 
-**ListPrivilegeGroupsResp** オブジェクトには以下のフィールドが含まれます。
+**ListPrivilegeGroupsResp** オブジェクトには、以下のフィールドが含まれます。
+
+**パラメーター:**
 
 - **privilegeGroups** (*List&lt;PrivilegeGroup&gt;*) -
 
-    権限グループのリスト。各要素は **PrivilegeGroup** オブジェクトです。
+    権限グループのリストです。各項目は **PrivilegeGroup** オブジェクトです。
 
     - **groupName** (String) -
 
@@ -79,6 +81,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.PrivilegeGroup;
 import io.milvus.v2.service.rbac.request.ListPrivilegeGroupsReq;
 import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,4 +102,3 @@ for (PrivilegeGroup group : groups) {
     System.out.println(group.getGroupName() + group.getPrivileges());
 }
 ```
-

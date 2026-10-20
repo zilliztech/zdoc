@@ -4,17 +4,17 @@ slug: /java/java/v2-Partitions-createPartition
 sidebar_label: "createPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、対象の collection に partition を作成します。 | Java | v2"
+description: "この操作は、対象のコレクションにパーティションを作成します。 | Java | v2"
 type: docx
-token: WE4gduIjooCgQUxcKyLcwQe1n3g
+token: Un23d2Ac7ovfQsxFDIsczDYzn9d
 sidebar_position: 1
 keywords: 
-  - 類似性検索
+  - 類似検索
   - マルチモーダル RAG
-  - llm hallucinations
+  - LLM ハルシネーション
   - ハイブリッド検索
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createPartition()
 
-この操作は、対象の collection に partition を作成します。
+この操作は、対象のコレクションにパーティションを作成します。
 
 ```java
 public void createPartition(CreatePartitionReq request)
@@ -48,29 +48,25 @@ createPartition(CreatePartitionReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属するデータベースの名前です。
+    対象のコレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    （必須）既存の collection の名前です。
+    （必須）既存のコレクションの名前です。
 
 - `partitionName(String partitionName)`
 
-    （必須）作成する partition の名前です。
+    （必須）作成するパーティションの名前です。
 
-**RETURNS:**
+**例外：**
 
-*void*
+- **MilvusClientException**
 
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -78,6 +74,7 @@ createPartition(CreatePartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -94,4 +91,3 @@ CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .build();
 client.createPartition(createPartitionReq);
 ```
-

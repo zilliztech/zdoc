@@ -4,16 +4,16 @@ slug: /java/java/v2-Collections-alterCollectionField
 sidebar_label: "alterCollectionField()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection field のプロパティを変更します。 | Java | v2"
+description: "This operation modifies the properties of a specified コレクション field. | Java | v2"
 type: docx
-token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
+token: NRGzdPUvRoyltmxsdqKchWFTnTe
 sidebar_position: 2
 keywords: 
   - Milvus とは
-  - Milvus database
+  - milvus データベース
   - Milvus lite
   - Milvus benchmark
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionField()
 
-この操作は、指定された collection field のプロパティを変更します。
+This operation modifies the properties of a specified コレクション field.
 
 ```java
 public Void alterCollectionField(AlterCollectionFieldReq request)
@@ -53,13 +53,13 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
 - `databaseName(String databaseName)`
 
-    対象の collection を保持する database の名前。
+    The name of the データベース that holds the target コレクション.
 
 - `collectionName(String collectionName)`
 
     **[REQUIRED]**
 
-    対象の collection の名前。
+    The name of the target コレクション.
 
 - `fieldName(String fieldName)`
 
@@ -71,7 +71,7 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
     **[REQUIRED]**
 
-    変更するプロパティとその期待値です。プロパティ値は文字列である必要があることに注意してください。利用可能な database プロパティは次のとおりです。
+    The properties to modify and their expected values. Note that the property values should be strings. Available データベース properties are as follows:
 
     - **max_length** -
 
@@ -89,9 +89,9 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
         Milvus が field データを完全に読み込む代わりにメモリにマップするかどうか。詳細については、MMap-enabled Data Storage を参照してください。
 
-**戻り値:**
+- `property(String key, String value)`
 
-*void*
+    *void*
 
 **例外:**
 
@@ -105,6 +105,9 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -114,15 +117,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `max_length` property of a VarChar field named `varchar`
-Map<String, String> properties = new HashMap<>()
-properties.put("max_length", "512")
+// 2. Alter the \`max_length\` property of a VarChar field named \`varchar\`
+Map<String, String> properties = new HashMap<>();
+properties.put("max_length", "512");
 
 AlterCollectionFieldReq alterCollectionFieldReq = AlterCollectionFieldReq.builder()
         .collectionName("test")
         .fieldName("varchar")
         .properties(properties)
         .build();
-client.alterCollectionField(alterCollectionFieldReq)
+client.alterCollectionField(alterCollectionFieldReq);
 ```
-

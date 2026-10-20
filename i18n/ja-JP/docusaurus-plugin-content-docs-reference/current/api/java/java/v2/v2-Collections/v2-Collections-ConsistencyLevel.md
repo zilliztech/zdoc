@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "以下の定数を提供する列挙型です。 | Java | v2"
+description: "A ConsistencyLevel instance is an enumeration constant that sets the consistency level of search and query operations on a コレクション. | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - オープンソース vector database
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
+  - open source ベクトル データベース
+  - ベクトル インデックス
+  - ベクトル データベース open source
+  - open source ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-以下の定数を提供する列挙型です。
+A ConsistencyLevel instance is an enumeration constant that sets the consistency level of search and query operations on a コレクション.
 
 ## Constants\{#constants}
 
@@ -50,4 +50,3 @@ import Admonition from '@theme/Admonition';
 - **EVENTUALLY**
 
     一貫性レベルを **Eventually** に設定します。コード値は 3 です。
-

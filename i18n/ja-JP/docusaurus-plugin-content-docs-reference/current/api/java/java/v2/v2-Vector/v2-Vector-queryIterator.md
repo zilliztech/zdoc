@@ -7,17 +7,17 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(placeholder) | Java | v2"
+description: "この操作は、データを反復処理するクエリイテレーターを返します。 | Java | v2"
 type: docx
 token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
 keywords: 
-  - vector データベースとは
-  - vector データベースの比較
+  - ベクトルデータベースとは
+  - ベクトルデータベースの比較
   - Faiss
   - 動画検索
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - クラウド
   - queryIterator()
   - javaV230
@@ -31,21 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-# queryIterator()\{#queryiterator}
-
-このメソッドは、データを反復処理するための query iterator を返します。
+この操作は、データを反復処理するクエリイテレーターを返します。
 
 ```java
 public QueryIterator queryIterator(QueryIteratorReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 queryIterator(QueryIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
     .expr(String expr)
@@ -56,82 +53,99 @@ queryIterator(QueryIteratorReq.builder()
     .timezone(String timezone)
     .batchSize(long batchSize)
     .reduceStopForBest(boolean reduceStopForBest)
+    .cursor(QueryIteratorCursor cursor)
     .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    データベース名。指定しない場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前。
-
-- `clusterId(String clusterId)`
-
-    この vector 読み取りリクエストの対象 cluster ID。複数のリクエストで同じ cluster ID を共有する場合は、`session(String clusterId)` を使用します。
+    対象のコレクションの名前です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とする partition 名のリスト。
+    対象とするパーティション名のリストです。
 
 - `outputFields(List<String> outputFields)`
 
-    出力に含めるフィールド名のリスト。
+    出力に含めるフィールド名のリストです。
 
 - `expr(String expr)`
 
-    結果をフィルタリングするためのブール式。
+    結果をフィルタリングするブール式です。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    操作の整合性レベル。
+    操作の整合性レベルです。
 
 - `offset(long offset)`
 
-    返却前にスキップする結果の数。
+    返す前にスキップする結果の数です。
 
 - `limit(long limit)`
 
-    返す結果の最大数。
+    返す結果の最大数です。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作中に growing segment を無視するかどうか。
+    操作中に増加中のセグメントを無視するかどうかです。
 
 - `timezone(String timezone)`
 
-    時刻関連のフィルターに使用するタイムゾーン文字列。
+    時間関連のフィルターに使用するタイムゾーンの文字列です。
 
 - `batchSize(long batchSize)`
 
-    iterator 操作のバッチサイズ。
+    イテレーター操作のバッチサイズです。
 
 - `reduceStopForBest(boolean reduceStopForBest)`
 
-    最良の結果が見つかった時点で反復を停止するかどうか。
+    最適な結果が見つかったときに反復処理を停止するかどうかです。
+
+- `cursor(QueryIteratorCursor cursor)`
+
+    ページネーションを再開するために、以前に取得したカーソルです。設定すると、イテレーターは最初からやり直すのではなく、カーソルのセッションタイムスタンプと位置から処理を続行します。その場合、`offset()` は無視されます。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    パラメータ化フィルター用のテンプレート変数値のマップ。
+    パラメーター化されたフィルター用のテンプレート変数値のマップです。
 
-**RETURNS:**
-
-*QueryIterator*
+**戻り値の型：**
 
 *QueryIterator*
 
-**EXCEPTIONS:**
+**戻り値：**
+
+クエリ結果をページごとに反復処理する **QueryIterator** オブジェクトです。次のメソッドを提供します：
+
+**パラメーター：**
+
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
+
+    クエリ式に一致する行の次のバッチを返します。
+
+- **close()** -
+
+    イテレーターと、そのカーソルが保持するリソースを解放します。
+
+- **getCursor()** (*QueryIteratorCursor*) -
+
+    反復処理の進行状況を保持するカーソルを返します。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.orm.iterator.QueryIterator;
@@ -142,7 +156,7 @@ import io.milvus.v2.common.ConsistencyLevel;
 import java.util.Arrays;
 import java.util.List;
 
-// バッチで結果を取得するための query iterator を作成
+// Create a query iterator to retrieve results in batches
 QueryIterator queryIterator = client.queryIterator(QueryIteratorReq.builder()
         .collectionName("my_collection")
         .expr("userID < 3000")
@@ -153,7 +167,7 @@ QueryIterator queryIterator = client.queryIterator(QueryIteratorReq.builder()
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build());
 
-// すべての結果を反復処理
+// Iterate through all results
 int counter = 0;
 while (true) {
     List<QueryResultsWrapper.RowRecord> res = queryIterator.next();

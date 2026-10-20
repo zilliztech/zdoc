@@ -12,10 +12,10 @@ type: docx
 token: DMr4dKSItoNvtYx2XFscQA8RnWf
 sidebar_position: 4
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Serverless ベクトルデータベース
+  - milvus オープンソース
+  - milvus の仕組み
+  - Zilliz ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -65,12 +65,6 @@ client.createUser(CreateUserReq.builder()
 - `description(String description)`
 
     ユーザーの任意の説明です。デフォルトは空文字列です。
-
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
 
 **EXCEPTIONS:**
 

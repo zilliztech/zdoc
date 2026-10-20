@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "collection に行をアップサートします。部分更新ではフィールド操作を適用でき、各行は collection スキーマに対して検証されます。 | Java | v2"
+description: "この操作は、コレクションに行を upsert します。部分更新ではフィールド操作を適用でき、各行はコレクションのスキーマに対して検証されます。 | Java | v2"
 type: docx
 token: I7UWdVnAJobbSSxSPdHc024unMe
 sidebar_position: 9
 keywords: 
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
+  - ベクトルインデックス
+  - オープンソースのベクトルデータベース
+  - オープンソースのベクトル DB
+  - ベクトルデータベースの例
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - upsert()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-collection に行をアップサートします。部分更新ではフィールド操作を適用でき、各行は collection スキーマに対して検証されます。
+この操作は、コレクションに行を upsert します。部分更新ではフィールド操作を適用でき、各行はコレクションのスキーマに対して検証されます。
 
 ```java
 public UpsertResp upsert(UpsertReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 UpsertReq.builder()
@@ -50,45 +50,61 @@ UpsertReq.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `data(List<JsonObject> data)`
 
-    挿入または更新する行です。すべての部分更新行には主キーを含める必要があります。
+    挿入または更新する行です。部分更新の各行には、プライマリキーを含める必要があります。
 
 - `databaseName(String databaseName)`
 
-    database の名前です。省略した場合は現在の database がデフォルトで使用されます。
+    データベースの名前です。省略した場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前です。
+    対象コレクションの名前です。
 
 - `partitionName(String partitionName)`
 
-    対象 partition の名前です。
+    対象パーティションの名前です。
 
 - `partialUpdate(boolean partialUpdate)`
 
-    省略された非主キーフィールドを変更せずに保持するかどうかです。
+    省略された非プライマリフィールドを変更せずに保持するかどうかを指定します。
 
 - `fieldOps(List<FieldPartialUpdateOp> fieldOps)`
 
-    フィールドレベルの操作です。`ARRAY_APPEND` と `ARRAY_REMOVE` は部分更新セマンティクスを意味します。
+    フィールドレベルの操作です。`ARRAY_APPEND` と `ARRAY_REMOVE` は、部分更新のセマンティクスを暗黙的に示します。
 
-**RETURNS:**
+**戻り値の型：**
 
 *UpsertResp*
 
-挿入または更新された entity の数を含みます。
+**戻り値：**
 
-**EXCEPTIONS:**
+挿入または更新されたエンティティの数と、操作コスト（`getCost()`）が含まれます。
+
+**パラメーター：**
+
+- **upsertCnt** (*long*) -
+
+    upsert されたエンティティの数です。
+
+- **primaryKeys** (*List&lt;Object&gt;*) -
+
+    upsert されたエンティティのプライマリキーです。
+
+- **cost** (*Long*) -
+
+    操作の時間コストです。
+
+**例外：**
 
 - **MilvusClientException**
 
-    リクエストの検証、転送、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
+    リクエストの検証、トランスポート、またはサーバーでの実行に失敗すると発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 UpsertResp response = client.upsert(UpsertReq.builder()

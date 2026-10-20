@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection または partition の詳細なロード状態情報を取得します。現在のロード状態とロード進行状況の両方が必要な場合に使用します。 | Java | v2"
+description: "この操作は、コレクションまたはパーティションの詳細なロード状態情報を取得します。現在のロード状態とロード進行状況の両方が必要な場合に使用します。 | Java | v2"
 type: docx
 token: JEgudTxxYocs2VxLjgccpB7SnOb
-sidebar_position: 41
+sidebar_position: 43
 keywords: 
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
-  - vector db とは
+  - オープンソースのベクトルデータベース
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadStateV2()
 
-この操作は、collection または partition の詳細なロード状態情報を取得します。現在のロード状態とロード進行状況の両方が必要な場合に使用します。
+この操作は、コレクションまたはパーティションの詳細なロード状態情報を取得します。現在のロード状態とロード進行状況の両方が必要な場合に使用します。
 
 ```java
 public GetLoadStateResp getLoadStateV2(GetLoadStateReq request)
@@ -51,19 +51,33 @@ getLoadStateV2(GetLoadStateReq.builder()
 
 - `databaseName(String databaseName)`
 
-    collection を含むデータベースです。
+    コレクションを含むデータベースです。
 
 - `collectionName(String collectionName)`
 
-    ロード状態を確認する collection です。
+    ロード状態を確認するコレクションです。
 
 - `partitionName(String partitionName)`
 
-    オプションの partition 名です。collection レベルのロード状態を確認するには、これを省略します。
+    省略可能なパーティション名です。コレクションレベルのロード状態を確認するには、これを省略します。
+
+**戻り値の型:**
+
+*GetLoadStateResp*
 
 **戻り値:**
 
-*GetLoadStateResp*
+指定したコレクションまたはパーティションのロード状態とロード進行状況を含む **GetLoadStateResp** オブジェクトです。
+
+**パラメーター:**
+
+- **state** (*LoadState*) -
+
+    コレクションまたはパーティションの現在のロード状態です。
+
+- **progress** (*Long*) -
+
+    コレクションまたはパーティションのロード進行状況です。このフィールドに値が設定されるのは、ロード状態が **Loading** の場合のみです。
 
 **例外:**
 

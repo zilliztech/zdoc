@@ -4,21 +4,21 @@ slug: /java/java/v2-Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、特定のロールから権限または権限グループを取り消します。 | Java | v2"
 type: docx
-token: FZN8dtlIRoMSGBxF7b1cWX48n0b
+token: Ai9jdBRUdoOaD4xOrtAcrwj2nEe
 sidebar_position: 18
 keywords: 
   - 自然言語検索
   - 類似性検索
-  - マルチモーダルRAG
-  - llm hallucinations
+  - マルチモーダル RAG
+  - LLM ハルシネーション
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - revokePrivilegeV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -53,29 +53,25 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 - `roleName(String roleName)`
 
-    対象ロールの名前。
+    対象ロールの名前です。
 
 - `privilege(String privilege)`
 
-    指定されたロールから取り消す権限または権限グループ。利用可能な権限の詳細については、[権限](/docs/cluster-privileges) を参照してください。
+    指定したロールから取り消す権限または権限グループです。使用可能な権限の詳細については、Grant Privileges or Privilege Group to Roles を参照してください。
 
 - `dbName(String dbName)`
 
-    対象リソースのデータベース。この操作の後、指定されたロールは、指定されたデータベース内で指定された権限へのアクセスを失います。
+    対象リソースのデータベースです。この操作の後、指定したロールは、指定したデータベース内で指定した権限へのアクセスを失います。
 
 - `collectionName(String collectionName)`
 
-    指定されたデータベース内の対象リソースのコレクション。この操作の後、指定されたロールは、指定されたコレクション内で指定された権限へのアクセスを失います。
-
-**戻り値:**
-
-*void*
+    指定したデータベース内の対象リソースのコレクションです。この操作の後、指定したロールは、指定したコレクション内で指定した権限へのアクセスを失います。
 
 **例外:**
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 
@@ -83,6 +79,7 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,8 +95,7 @@ RevokePrivilegeReqV2 revokePrivilegeReqV2 = RevokePrivilegeReqV2.builder()
     .privilege("read_only")
     .dbName("my_db")
     .collectionName("my_collection")
-    .build()
-        
+    .build();
+
 client.revokePrivilegeV2(revokePrivilegeReqV2);
 ```
-

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection から snapshot を完全に削除します。 | Java | v2"
+description: "この操作は、コレクションからスナップショットを完全に削除します。 | Java | v2"
 type: docx
 token: EeWldhw4AoT5WqxO8GgcSfjEnpb
 sidebar_position: 3
 keywords: 
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - dropSnapshot()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropSnapshot()
 
-この操作は、collection から snapshot を完全に削除します。
+この操作は、コレクションからスナップショットを完全に削除します。
 
 ```java
 public void dropSnapshot(DropSnapshotReq request)
@@ -52,25 +52,21 @@ dropSnapshot(DropSnapshotReq.builder()
 
 - `databaseName(String databaseName)`
 
-    collection を含むデータベースの名前です。省略した場合、現在のデータベースが使用されます。
+    コレクションを含むデータベースの名前です。省略した場合、現在のデータベースが使用されます。
 
 - `collectionName(String collectionName)`
 
-    snapshot 操作に関連付けられた collection の名前です。
+    スナップショット操作に関連付けられたコレクションの名前です。
 
 - `snapshotName(String snapshotName)`
 
-    snapshot の名前です。
-
-**戻り値:**
-
-*void*
+    スナップショットの名前です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが欠けている場合、数値パラメーターが範囲外の場合、またはサーバーがこの操作に対してエラーを返した場合に、この例外が発生します。
 
 ## 例\{#example}
 

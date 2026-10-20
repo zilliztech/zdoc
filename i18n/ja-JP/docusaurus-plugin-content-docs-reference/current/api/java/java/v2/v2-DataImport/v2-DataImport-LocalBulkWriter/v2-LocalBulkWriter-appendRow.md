@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "1 行を検証して writer に追加します。バッファされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。 | Java | v2"
+description: "この操作では、1 行を検証してライターに追加します。バッファリングされたデータが設定済みの `chunkSize` を超えると、ライターは現在のファイルを自動的にコミットします。 | Java | v2"
 type: docx
 token: LzctdSxZ9ogGTwxx1yXcTc7ynvf
 sidebar_position: 6
 keywords: 
-  - milvus db
-  - milvus vector db
+  - milvus データベース
+  - milvus ベクトルデータベース
   - Zilliz Cloud
-  - what is milvus
+  - milvus とは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - appendRow()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,27 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-1 行を検証して writer に追加します。バッファされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。
+この操作では、1 行を検証してライターに追加します。バッファリングされたデータが設定済みの `chunkSize` を超えると、ライターは現在のファイルを自動的にコミットします。
 
-[`StructFieldSchema`](./v2-Collections-StructFieldSchema) フィールドには、binary、float16、bfloat16、および int8 の vector 値を含めることができます。
+`StructFieldSchema` のフィールドには、binary、float16、bfloat16、int8 のベクトル値を格納できます。
 
 ```java
 public void appendRow(JsonObject rowData)
 ```
 
-**戻り値:**
+**例外：**
 
-*void*
+- **例外**
 
-この操作は値を返しません。
+    リクエストの検証、トランスポート、またはサーバーでの実行に失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-**例外:**
-
-- **Exception**
-
-    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
-
-## Example\{#example}
+## 例\{#example}
 
 ```java
 JsonObject row = new JsonObject();

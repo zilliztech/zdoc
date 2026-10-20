@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、以前に開始された external collection のリフレッシュジョブの進行状況と現在の状態を返します。 | Java | v2"
+description: "この操作は、以前に開始された外部コレクションのリフレッシュジョブの進捗状況と現在の状態を返します。 | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
 sidebar_position: 29
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - レキシカル検索
+  - 最近傍検索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM アーキテクチャ
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getRefreshExternalCollectionProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-この操作は、以前に開始された external collection のリフレッシュジョブの進行状況と現在の状態を返します。
+この操作は、以前に開始された外部コレクションのリフレッシュジョブの進捗状況と現在の状態を返します。
 
 ```java
 public GetRefreshExternalCollectionProgressResp getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq request)
@@ -46,41 +46,69 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `jobId(long jobId)` -
 
-    **[REQUIRED]**
+    **［必須］**
 
-    `refreshExternalCollection()` によって返されるジョブ ID。
+    `refreshExternalCollection()` から返されるジョブ ID です。
 
-**戻り値:**
+**戻り値の型：**
 
 *GetRefreshExternalCollectionProgressResp*
 
-レスポンスは、`getJobInfo()` を介してアクセス可能な単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報のフィールド:
+**戻り値：**
 
-- `jobId` (*long*) - ジョブ識別子。
+**GetRefreshExternalCollectionProgressResp** オブジェクトは、`getJobInfo()` を介してアクセスできる単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報には次のフィールドが含まれます。
 
-- `collectionName` (*String*) - 対象 collection 名。
+**パラメーター：**
 
-- `state` (*String*) - 現在のジョブ状態（例: `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+- **jobInfo**（*RefreshExternalCollectionJobInfo*） -
 
-- `progress` (*int*) - 完了率（0～100）。
+    外部コレクションのリフレッシュジョブに関する情報で、次のフィールドが含まれます。
 
-- `reason` (*String*) - `state` が `"FAILED"` の場合の失敗理由。それ以外の場合は空です。
+    - **jobId**（*long*） -
 
-- `externalSource` (*String*) - ジョブで使用される external source。
+        リフレッシュジョブの ID です。
 
-- `startTime` (*long*) - ジョブ開始タイムスタンプ（epoch ミリ秒）。
+    - **collectionName**（*String*） -
 
-- `endTime` (*long*) - ジョブ終了タイムスタンプ（epoch ミリ秒）。まだ実行中の場合は 0。
+        対象コレクションの名前です。
 
-**例外:**
+    - **state**（*String*） -
+
+        現在のジョブ状態（例：`"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+
+    - **progress**（*int*） -
+
+        完了率（0-100）。
+
+    - **reason**（*String*） -
+
+        ジョブ状態が `"FAILED"` の場合は失敗理由、それ以外の場合は空です。
+
+    - **externalSource**（*String*） -
+
+        ジョブで使用される外部ソースです。
+
+    - **externalSpec**（*String*） -
+
+        外部データソースの仕様です。
+
+    - **startTime**（*long*） -
+
+        ジョブの開始タイムスタンプ（エポックミリ秒）。
+
+    - **endTime**（*long*） -
+
+        ジョブの終了タイムスタンプ（エポックミリ秒）。まだ実行中の場合は 0 です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

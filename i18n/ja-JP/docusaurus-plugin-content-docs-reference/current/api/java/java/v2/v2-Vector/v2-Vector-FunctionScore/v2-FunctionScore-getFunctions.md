@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この getter は、この FunctionScore オブジェクトで定義された関数のリストを返します。 | Java | v2"
+description: "この操作は、この FunctionScore オブジェクトで定義された関数のリストを返します。 | Java | v2"
 type: docx
 token: RsqKdZaMnoHbaRxYr1fcqRbRnth
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
+  - ベクトル次元
+  - ANN 検索
   - ベクトル埋め込みとは
-  - vector database tutorial
+  - ベクトルデータベースのチュートリアル
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getFunctions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,23 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # getFunctions()
 
-この getter は、この FunctionScore オブジェクトで定義された関数のリストを返します。
+この操作は、この FunctionScore オブジェクトで定義された関数のリストを返します。
 
 ```java
 public List<CreateCollectionReq.Function> getFunctions()
 ```
 
-**戻り値:**
+**戻り値の型:**
 
 *List&lt;CreateCollectionReq.Function&gt;*
+
+**戻り値:**
+
+この FunctionScore オブジェクトで定義された関数の **List&lt;CreateCollectionReq.Function&gt;** です。
+
+**パラメーター:**
+
+- **functions** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    この FunctionScore オブジェクトで定義された関数です。各関数は **CreateCollectionReq.Function** オブジェクトです。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 FunctionScore score = FunctionScore.builder()

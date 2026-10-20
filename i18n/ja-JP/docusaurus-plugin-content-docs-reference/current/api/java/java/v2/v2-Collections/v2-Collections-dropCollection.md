@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-dropCollection
 sidebar_label: "dropCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はコレクションを削除します。 | Java | v2"
 type: docx
-token: SW6Cdt9QeoY1J1x9SYQcZrc6nbg
-sidebar_position: 14
+token: WzKzdXYFxodRQqxqBu8cNihTnPc
+sidebar_position: 13
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - LLM ハルシネーション
+  - ハイブリッド検索
+  - 字句検索
+  - 最近傍検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - dropCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -61,15 +61,11 @@ dropCollection(DropCollectionReq.builder()
 
 - `async(Boolean async)` -
 
-    操作を非同期で実行するかどうかを指定します。
+    操作を非同期で実行するかどうかです。
 
 - `timeout(Long timeout)` -
 
     タイムアウト時間（ミリ秒）です。
-
-**戻り値:**
-
-*void*
 
 **例外:**
 
@@ -83,6 +79,7 @@ dropCollection(DropCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

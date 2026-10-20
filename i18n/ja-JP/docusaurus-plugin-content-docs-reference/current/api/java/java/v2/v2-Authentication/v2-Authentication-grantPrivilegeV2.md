@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-grantPrivilegeV2
 sidebar_label: "grantPrivilegeV2()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、特定のロールに権限または権限グループを付与します。 | Java | v2"
 type: docx
-token: MFv3drbbXouqVxxE1OicBBl5ndf
+token: FQqadrhPqoTo3zxCjRWc6ryUnne
 sidebar_position: 11
 keywords: 
   - ベクトルデータベース
@@ -57,7 +57,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    指定したロールに付与する権限または権限グループです。使用可能な権限の詳細については、[Privileges](/docs/cluster-privileges) を参照してください。
+    指定したロールに付与する権限または権限グループです。使用可能な権限の詳細については、[Manage クラスター Roles(SDK)](/docs/cluster-roles-sdk) を参照してください。
 
 - `dbName(String dbName)`
 
@@ -66,10 +66,6 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 - `collectionName(String collectionName)`
 
     指定したデータベース内の対象リソースコレクションです。指定したロールは、指定したコレクション内で指定した権限にアクセスできます。
-
-**戻り値:**
-
-*void*
 
 **例外:**
 
@@ -83,6 +79,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,8 +95,7 @@ GrantPrivilegeReqV2 grantPrivilegeReqV2 = GrantPrivilegeReqV2.builder()
     .privilege("Search")
     .dbName("my_db")
     .collectionName("my_collection")
-    .build()
-        
+    .build();
+
 client.grantPrivilegeV2(grantPrivilegeReqV2);
 ```
-

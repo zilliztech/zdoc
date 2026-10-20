@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-describeReplicas
 sidebar_label: "describeReplicas()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection の replicas に関する情報を返します。 | Java | v2"
+description: "This operation returns information about the replicas of a specific コレクション. | Java | v2"
 type: docx
-token: WRSYdEZwroNY1Txpk2DcI1sSnVg
-sidebar_position: 25
+token: E2hHdOb5BoCYhnxR9FWcerHrnsb
+sidebar_position: 22
 keywords: 
   - 動画重複排除
   - 動画類似検索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeReplicas()
 
-この操作は、特定の collection の replicas に関する情報を返します。
+This operation returns information about the replicas of a specific コレクション.
 
 ```java
 public DescribeReplicasResp describeReplicas(DescribeReplicasReq request)
@@ -51,11 +51,11 @@ describeReplicas(DescribeReplicasReq.builder()
 
 - `databaseName(String alias)`
 
-    対象 collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前。
+    The name of the target コレクション.
 
 **戻り値の型:**
 
@@ -63,7 +63,7 @@ describeReplicas(DescribeReplicasReq.builder()
 
 **戻り値:**
 
-指定した collection 内の replicas に関する詳細情報を含む DescribeReplicasResp。
+A DescribeReplicasResp that contains detailed information about the replicas in the specified コレクション.
 
 **パラメータ:**
 
@@ -77,7 +77,7 @@ describeReplicas(DescribeReplicasReq.builder()
 
     - **collectionID** (*Long*) -
 
-        指定された collection の ID。
+        The ID of the specified コレクション.
 
     - **partitionIDs** (*List&lt;Long&gt;*) -
 
@@ -129,6 +129,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.ReplicaInfo;
 import io.milvus.v2.service.collection.request.DescribeReplicasReq;
 import io.milvus.v2.service.collection.response.DescribeReplicasResp;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -138,7 +139,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// describe the replicas of a collection named `test`
+// describe the replicas of a collection named \`test\`
 DescribeReplicasReq describeReplicasReq = DescribeReplicasReq.builder()
         .collectionName("test")
         .build();
@@ -147,4 +148,3 @@ for (ReplicaInfo replica : descReplicaResp.getReplicas()) {
     System.out.println(replica.getReplicaID());
 }
 ```
-

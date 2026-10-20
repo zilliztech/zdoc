@@ -4,18 +4,18 @@ slug: /java/java/v2-Collections-describeAlias
 sidebar_label: "describeAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はエイリアスの詳細を表示します。 | Java | v2"
 type: docx
-token: BDqGdp4uqo3XRexslRNcts9knmd
-sidebar_position: 11
+token: VStqdo03iougInxoHwMc8SJKnCe
+sidebar_position: 10
 keywords: 
-  - rag ベクターデータベース
-  - ベクターデータベースとは
-  - ベクターデータベースとは何か
-  - ベクターデータベース比較
+  - rag ベクトルデータベース
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
+  - ベクトルデータベースの比較
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeAlias()
 
-この操作はエイリアスの詳細を表示します。
+この操作は、エイリアスの詳細を表示します。
 
 ```java
 public DescribeAliasResp describeAlias(DescribeAliasReq request)
@@ -51,17 +51,33 @@ describeAlias(DescribeAliasReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトになります。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `alias(String alias)` -
 
-    エイリアス名。
+    エイリアス名です。
 
-**戻り値:**
+**戻り値の型:**
 
 *DescribeAliasResp*
 
-エイリアスの詳細を含む **DescribeAliasResp** オブジェクト。
+**戻り値:**
+
+エイリアスの詳細を含む **DescribeAliasResp** オブジェクトです。
+
+**パラメータ:**
+
+- **databaseName** (*String*) -
+
+    エイリアスが属するデータベースの名前です。
+
+- **collectionName** (*String*) -
+
+    エイリアスが参照するコレクションの名前です。
+
+- **alias** (*String*) -
+
+    エイリアス名です。
 
 **例外:**
 
@@ -76,8 +92,9 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.DescribeAliasReq;
 import io.milvus.v2.service.utility.response.DescribeAliasResp;
+import java.util.Set;
 
-// 1. クライアントをセットアップします
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -85,7 +102,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. エイリアスの詳細を取得します
+// 2. Describe alias
 DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
         .databaseName("my_database")
         .collectionName("my_collection")

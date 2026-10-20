@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスをまとめて追加する必要がある場合は `addFunctionField()` を使用します。 | Java | v2"
+description: "この操作は、既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスを同時に追加する必要がある場合に addFunctionField() を使用します。 | Java | v2"
 type: docx
 token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
-sidebar_position: 30
+sidebar_position: 28
 keywords: 
   - sentence transformers
-  - レコメンダーシステム
-  - 情報検索
-  - 次元削減
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFunction()
 
-既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスをまとめて追加する必要がある場合は [`addFunctionField()`](./v2-Collections-addFunctionField) を使用します。
+この操作は、既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスを同時に追加する必要がある場合に [addFunctionField()](./v2-Collections-addFunctionField) を使用します。
 
 ```java
 public void addCollectionFunction(AddCollectionFunctionReq request)
@@ -49,29 +49,20 @@ AddCollectionFunctionReq.builder()
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)`<br/>
+  対象のコレクションの名前です。
 
-    対象のコレクションの名前。
+- `databaseName(String databaseName)`<br/>
+  データベースの名前です。省略した場合、現在のデータベースがデフォルトで使用されます。
 
-- `databaseName(String databaseName)`
-
-    データベースの名前。省略した場合は現在のデータベースがデフォルトで使用されます。
-
-- `function(CreateCollectionReq.Function function)`
-
-    既存のコレクションフィールドに追加する関数定義。
-
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
+- `function(CreateCollectionReq.Function function)`<br/>
+  既存のコレクションフィールドに追加する関数定義です。
 
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    リクエストの検証、トランスポート、またはサーバー実行が失敗したときに発生します。正確な失敗理由については例外メッセージを確認してください。
+    リクエスト検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
 
 ## Example\{#example}
 

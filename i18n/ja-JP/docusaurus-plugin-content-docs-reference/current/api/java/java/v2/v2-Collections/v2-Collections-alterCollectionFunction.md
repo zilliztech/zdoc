@@ -4,18 +4,18 @@ slug: /java/java/v2-Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクション内の既存の関数を新しい関数定義に置き換えることで変更します。 | Java | v2"
+description: "この操作は、既存の関数を新しい関数定義に置き換えることで、コレクション内の関数を変更します。 | Java | v2"
 type: docx
-token: A6Vld2dJToRXs8xhq0wcGdiRnDc
-sidebar_position: 31
+token: DfZadsub8olf6gx6HIKc3QIVnAg
+sidebar_position: 29
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 埋め込みモデル
+  - 画像類似検索
+  - コンテキストウィンドウ
+  - 自然言語検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-この操作は、コレクション内の既存の関数を新しい関数定義に置き換えることで変更します。
+この操作は、既存の関数を新しい関数定義に置き換えることで、コレクション内の関数を変更します。
 
 ```java
 public void alterCollectionFunction(AlterCollectionFunctionReq request)
@@ -52,29 +52,25 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 
 - `collectionName(String collectionName)` -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    コレクションの名前。
+    コレクションの名前です。
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前。指定しない場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `function(CreateCollectionReq.Function function)` -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の関数を置き換える新しい関数定義。
-
-**戻り値:**
-
-*void*
+    既存の関数定義を置き換える新しい関数定義です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -82,6 +78,7 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 import io.milvus.v2.service.collection.request.AlterCollectionFunctionReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.common.clientenum.FunctionType;
+import java.util.Arrays;
 
 CreateCollectionReq.Function updatedFunc = CreateCollectionReq.Function.builder()
     .name("bm25")

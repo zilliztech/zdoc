@@ -4,18 +4,18 @@ slug: /java/java/v2-Collections-hasCollection
 sidebar_label: "hasCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection が存在するかどうかを確認します。 | Java | v2"
+description: "この操作は、特定のコレクションが存在するかどうかを確認します。 | Java | v2"
 type: docx
-token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
-sidebar_position: 18
+token: NpcZdo5JooJWWnxh4RAcwPEOnOf
+sidebar_position: 16
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 密ベクトル
+  - 階層型ナビゲーション可能なスモールワールド
+  - 密埋め込み
+  - Faiss ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-この操作は、特定の collection が存在するかどうかを確認します。
+この操作は、特定のコレクションが存在するかどうかを確認します。
 
 ```java
 public Boolean hasCollection(HasCollectionReq request)
@@ -51,11 +51,11 @@ hasCollection(HasCollectionReq.builder()
 
 - `databaseName(String databaseName)`
 
-    ターゲット collection が属するデータベースの名前。
+    ターゲットコレクションが属するデータベースの名前。
 
 - `collectionName(String collectionName)`
 
-    collection の名前。
+    ターゲットコレクションの名前。
 
 **戻り値の型:**
 
@@ -63,13 +63,19 @@ hasCollection(HasCollectionReq.builder()
 
 **戻り値:**
 
-指定した collection が存在するかどうかを示すブール値。
+指定したコレクションが存在するかどうかを示すブール値。
+
+**パラメーター:**
+
+- **exists** (*Boolean*) -
+
+    指定したコレクションが存在するかどうか。
 
 **例外:**
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -77,6 +83,7 @@ hasCollection(HasCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -92,4 +99,3 @@ HasCollectionReq hasCollectionReq = HasCollectionReq.builder()
         .build();
 Boolean resp = client.hasCollection(hasCollectionReq);
 ```
-

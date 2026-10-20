@@ -1,24 +1,24 @@
 ---
 title: "addCollectionField() | Java | v2"
-slug: /java/java/v2-Collections/v2-Collections-addCollectionField
+slug: /java/java/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
 beta: false
 added_since: v2.6.x
 last_modified: v3.0.1
 deprecate_since: false
 notebook: false
-description: "この操作は、collection を再作成することなく、既存の collection に新しい scalar または vector フィールドを追加します。既存の行には新しいフィールドの値がないため、追加される vector フィールドは nullable である必要があります。 | Java | v2"
+description: "この操作では、コレクションを再作成せずに、既存のコレクションに新しいスカラーフィールドまたはベクトルフィールドを追加します。既存の行には新しいフィールドの値がないため、追加するベクトルフィールドは NULL 許容にする必要があります。 | Java | v2"
 type: docx
 token: LaHmdGNGZog0JbxA8amcblpsnDR
-sidebar_position: 23
+sidebar_position: 27
 keywords: 
-  - milvus open source
-  - Milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Milvus オープンソース
+  - Milvus の仕組み
+  - Zilliz ベクトルデータベース
+  - Zilliz データベース
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - addCollectionField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-この操作は、collection を再作成することなく、既存の collection に新しい scalar または vector フィールドを追加します。既存の行には新しいフィールドの値がないため、追加される vector フィールドは nullable である必要があります。
+この操作では、コレクションを再作成せずに、既存のコレクションに新しいスカラーフィールドまたはベクトルフィールドを追加します。既存の行には新しいフィールドの値がないため、追加するベクトルフィールドは NULL 許容にする必要があります。
 
 ```java
 public void addCollectionField(AddCollectionFieldReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 client.addCollectionField(AddCollectionFieldReq.builder()
@@ -65,89 +65,67 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)` -<br/>
+  対象コレクションの名前です。
 
-    対象 collection の名前。
+- `databaseName(String databaseName)` -<br/>
+  データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
-- `databaseName(String databaseName)` -
+- `fieldName(String fieldName)` -<br/>
+  追加するフィールドの名前です。
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+- `description(String description)` -<br/>
+  フィールドの人が読める説明です。
 
-- `fieldName(String fieldName)` -
+- `dataType(DataType dataType)` -<br/>
+  フィールドのデータ型です。スカラーフィールド、ベクトルフィールド、配列、JSON、および構造体関連のフィールド型は、コレクションを作成するときに使用するものと同じ `DataType` 値に従います。
 
-    追加するフィールドの名前。
+- `maxLength(Integer maxLength)` -<br/>
+  `DataType.VarChar` フィールドの最大文字数です。値が `typeParams` を使用して指定されている場合を除き、VarChar フィールドにはこのパラメーターが必要です。
 
-- `description(String description)` -
+- `dimension(Integer dimension)` -<br/>
+  ベクトルの次元です。これは、`DataType.FloatVector` などの固定次元のベクトルフィールドに必要です。
 
-    フィールドの人間が読める説明。
+- `elementType(DataType elementType)` -<br/>
+  配列フィールドの要素型です。
 
-- `dataType(DataType dataType)` -
+- `maxCapacity(Integer maxCapacity)` -<br/>
+  配列フィールドに格納できる要素の最大数です。
 
-    フィールドのデータ型。scalar、vector、array、JSON、および struct 関連のフィールド型は、collection 作成時に使用されるものと同じ `DataType` 値に従います。
+- `isNullable(Boolean isNullable)` -<br/>
+  追加するフィールドが `null` 値を受け入れるかどうかです。v3.0.1 以降では、既存のコレクションに追加するベクトルフィールドで、これを `true` に設定する必要があります。設定しない場合、SDK は `MilvusClientException` をスローします。
 
-- `maxLength(Integer maxLength)` -
+- `defaultValue(Object defaultValue)` -<br/>
+  追加するフィールドのデフォルト値です。実行時の型は `dataType` と一致する必要があります。
 
-    `DataType.VarChar` フィールドの最大文字数。`typeParams` を通じて値が指定されていない限り、VarChar フィールドでは必須です。
+- `enableAnalyzer(Boolean enableAnalyzer)` -<br/>
+  `DataType.VarChar` フィールドのテキスト分析を有効にするかどうかです。
 
-- `dimension(Integer dimension)` -
+- `analyzerParams(Map<String, Object> analyzerParams)` -<br/>
+  VarChar フィールドのアナライザー設定です。トークナイザーやフィルターの設定などが含まれます。
 
-    vector の次元数。`DataType.FloatVector` のような固定次元 vector フィールドでは必須です。
+- `enableMatch(Boolean enableMatch)` -<br/>
+  VarChar フィールドのキーワードマッチングを有効にするかどうかです。
 
-- `elementType(DataType elementType)` -
+- `typeParams(Map<String, String> typeParams)` -<br/>
+  追加のフィールド型パラメーターです。`dimension` や `maxLength` などの専用ビルダーメソッド（Dedicated）は、このマップの対応するエントリをオーバーライドします。
 
-    array フィールドの要素型。
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -<br/>
+  テキストフィールドの多言語アナライザー設定です。
 
-- `maxCapacity(Integer maxCapacity)` -
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -<br/>
+  構造体フィールドのネストされたフィールドスキーマです。
 
-    array フィールドで許可される要素の最大数。
+- `externalField(String externalField)` -<br/>
+  コレクションの基盤が外部ソースである場合、この Milvus フィールドにマッピングされる外部ソースフィールドです。
 
-- `isNullable(Boolean isNullable)` -
-
-    追加されるフィールドが `null` 値を受け入れるかどうか。v3.0.1 以降では、既存の collection に追加される vector フィールドはこれを `true` に設定する必要があります。そうしない場合、SDK は `MilvusClientException` を送出します。
-
-- `defaultValue(Object defaultValue)` -
-
-    追加されるフィールドのデフォルト値。実行時の型は `dataType` と一致している必要があります。
-
-- `enableAnalyzer(Boolean enableAnalyzer)` -
-
-    `DataType.VarChar` フィールドでテキスト解析を有効にするかどうか。
-
-- `analyzerParams(Map<String, Object> analyzerParams)` -
-
-    トークナイザーやフィルター設定など、VarChar フィールドの analyzer 構成。
-
-- `enableMatch(Boolean enableMatch)` -
-
-    VarChar フィールドでキーワードマッチングを有効にするかどうか。
-
-- `typeParams(Map<String, String> typeParams)` -
-
-    追加のフィールド型パラメータ。`dimension` や `maxLength` などの専用 builder メソッドは、このマップ内の対応するエントリを上書きします。
-
-- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
-
-    テキストフィールドの多言語 analyzer 構成。
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
-
-    struct フィールドのネストされたフィールドスキーマ。
-
-- `externalField(String externalField)` -
-
-    collection が外部ソースを基盤としている場合に、この Milvus フィールドにマッピングされる外部ソースフィールド。
-
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。これには、`isNullable(false)` で vector フィールドが追加された場合や、`isNullable(true)` を設定せずに追加された場合が含まれます。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。これには、`isNullable(false)` を指定してベクトルフィールドを追加した場合や、`isNullable(true)` を設定せずにベクトルフィールドを追加した場合が含まれます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.common.DataType;

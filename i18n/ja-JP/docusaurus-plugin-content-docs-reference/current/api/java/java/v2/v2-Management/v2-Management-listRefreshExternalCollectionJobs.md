@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、必要に応じて collection 名でフィルタリングしながら、すべての external-collection 更新ジョブを一覧表示します。 | Java | v2"
+description: "この操作は、すべての外部コレクションリフレッシュジョブを一覧表示し、必要に応じてコレクション名でフィルタリングできます。 | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
 sidebar_position: 30
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 検索拡張生成
+  - 大規模言語モデル
+  - ベクトル化
+  - k 近傍アルゴリズム
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listRefreshExternalCollectionJobs()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-この操作は、必要に応じて collection 名でフィルタリングしながら、すべての external-collection 更新ジョブを一覧表示します。
+この操作は、すべての外部コレクションリフレッシュジョブを一覧表示し、必要に応じてコレクション名でフィルタリングできます。
 
 ```java
 public ListRefreshExternalCollectionJobsResp listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq request)
@@ -51,23 +51,67 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    フィルタリング対象の collection 名です。空の場合、データベース内のすべての collection にまたがるジョブが返されます。
+    フィルタリングに使用するコレクション名です。空の場合、データベース内のすべてのコレクションにわたるジョブが返されます。
 
-**戻り値:**
+**戻り値の型:**
 
 *ListRefreshExternalCollectionJobsResp*
 
-レスポンスは `getJobs()` でアクセス可能な `List<RefreshExternalCollectionJobInfo>` をラップしています。各ジョブ情報エントリは `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime`、`endTime` を公開します。これは `getRefreshExternalCollectionProgress()` によって返されるエントリと同じ構造です。
+**戻り値:**
+
+**ListRefreshExternalCollectionJobsResp** オブジェクトは、`getJobs()` でアクセスできる `List<RefreshExternalCollectionJobInfo>` をラップします。各ジョブ情報エントリは、**RefreshExternalCollectionJobInfo** オブジェクトのフィールドを公開します。
+
+**パラメーター:**
+
+- **jobs** (*List&lt;RefreshExternalCollectionJobInfo&gt;*) -
+
+    外部コレクションのリフレッシュジョブのリストです。各ジョブは、次のフィールドを持つ **RefreshExternalCollectionJobInfo** オブジェクトです。
+
+    - **jobId** (*long*) -
+
+        リフレッシュジョブの ID です。
+
+    - **collectionName** (*String*) -
+
+        対象コレクションの名前です。
+
+    - **state** (*String*) -
+
+        現在のジョブ状態です（例：`"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+
+    - **progress** (*int*) -
+
+        完了率（0-100）です。
+
+    - **reason** (*String*) -
+
+        ジョブ状態が `"FAILED"` の場合は失敗理由、それ以外の場合は空です。
+
+    - **externalSource** (*String*) -
+
+        ジョブが使用する外部ソースです。
+
+    - **externalSpec** (*String*) -
+
+        外部データソースの仕様です。
+
+    - **startTime** (*long*) -
+
+        ジョブの開始タイムスタンプ（エポックミリ秒）です。
+
+    - **endTime** (*long*) -
+
+        ジョブの終了タイムスタンプ（エポックミリ秒）です。まだ実行中の場合は 0 です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作の実行中に何らかのエラーが発生した場合に送出されます。
+    この操作の実行中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

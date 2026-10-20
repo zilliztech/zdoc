@@ -4,17 +4,17 @@ slug: /java/java/v2-Database-useDatabase
 sidebar_label: "useDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は使用中のデータベースを変更します。 | Java | v2"
+description: "この操作は、使用中のデータベースを変更します。 | Java | v2"
 type: docx
-token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
+token: I0cddYcHmorxaYxChficr214nAf
 sidebar_position: 7
 keywords: 
-  - 類似性検索
-  - マルチモーダルRAG
-  - llm hallucinations
+  - 類似検索
+  - マルチモーダル RAG
+  - LLM ハルシネーション
   - ハイブリッド検索
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-この操作は使用中のデータベースを変更します。
+この操作は、使用中のデータベースを変更します。
 
 ```java
 public void useDatabase(String dbName)
@@ -43,27 +43,24 @@ public void useDatabase(String dbName)
 useDatabase(String dbName)
 ```
 
-**PARAMETERS**
+**パラメーター:**
 
 - **dbName** (*String*) -
 
-    対象データベースの名前。
+    対象データベースの名前です。
 
-**RETURNS**
+**例外:**
 
-*void*
+- **InterruptedException**
 
-**EXCEPTIONS**
-
-- InterruptedException
-
-    この例外は、Milvus からの切断中に何らかのエラーが発生した場合に発生します。
+    Milvus から切断する際に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -74,5 +71,5 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Switch the client to another database
-client.useDatabase("my_database")
+client.useDatabase("my_database");
 ```

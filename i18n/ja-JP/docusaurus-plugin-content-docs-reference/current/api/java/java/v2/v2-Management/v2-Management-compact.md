@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、小さなセグメントをより大きなセグメントにマージすることで collection を compact します。collection に大量のデータを挿入した後にこの操作を呼び出すことを推奨します。 | Java | v2"
+description: "この操作では、小さなセグメントをより大きなセグメントにマージすることで、コレクションの Compaction を実行します。コレクションに大量のデータを挿入した後で、この操作を呼び出すことをお勧めします。 | Java | v2"
 type: docx
 token: LDQsdzUJQotV2GxWGaqcFkDenuq
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - LLM のハルシネーション
+  - ハイブリッド検索
+  - レキシカル検索
+  - 最近傍検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - compact()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-この操作は、小さなセグメントをより大きなセグメントにマージすることで collection を compact します。collection に大量のデータを挿入した後にこの操作を呼び出すことを推奨します。
+この操作では、小さなセグメントをより大きなセグメントにマージすることで、コレクションの Compaction を実行します。コレクションに大量のデータを挿入した後で、この操作を呼び出すことをお勧めします。
 
 ```java
 public CompactResp compact(CompactReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 compact(CompactReq.builder()
@@ -45,41 +45,59 @@ compact(CompactReq.builder()
     .collectionName(String collectionName)
     .isClustering(Boolean isClustering)
     .isL0(Boolean isL0)
+    .targetSize(Long targetSize)
+    .targetSizeUnit(String targetSizeUnit)
     .build()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトになります。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前。
+    対象のコレクションの名前です。
 
 - `isClustering(Boolean isClustering)`
 
-    clustering compaction を実行するかどうか。デフォルトは `Boolean.FALSE` です。
+    クラスタリング Compaction を実行するかどうか。デフォルトは `Boolean.FALSE` です。
 
 - `isL0(Boolean isL0)`
 
-    L0 compaction をリクエストするかどうか。デフォルトは `Boolean.FALSE` で、clustering compaction とは独立しています。
+    L0 Compaction をリクエストするかどうか。デフォルトは Boolean.FALSE で、クラスタリング Compaction とは独立しています。
 
-**RETURNS:**
+- `targetSize(Long targetSize)`
+
+    `targetSizeUnit` で表されるターゲットセグメントサイズです。`null` 値の場合はサーバーのデフォルトが使用されます。
+
+- `targetSizeUnit(String targetSizeUnit)`
+
+    `targetSize` の単位です。サポートされる値は `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"`、`"pb"` です。デフォルトは `"mb"` です。
+
+**戻り値の型：**
 
 *CompactResp*
 
-**CompactResp** オブジェクトには compaction ID が含まれます。
+**戻り値：**
 
-**EXCEPTIONS:**
+**CompactResp** オブジェクトには、次のフィールドが含まれます。
+
+**パラメーター：**
+
+- **compactionID** (*Long*) -
+
+    Compaction タスクの ID です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合にスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

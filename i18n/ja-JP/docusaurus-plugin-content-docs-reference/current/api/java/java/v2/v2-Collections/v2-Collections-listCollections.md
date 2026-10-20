@@ -4,18 +4,18 @@ slug: /java/java/v2-Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存のすべての collection を一覧表示します。 | Java | v2"
+description: "This operation lists all existing コレクション. | Java | v2"
 type: docx
-token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
-sidebar_position: 20
+token: VtCvd8vpoo1P7hxhJltcAIldnDg
+sidebar_position: 18
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
+  - Faiss ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-この操作は既存のすべての collection を一覧表示します。
+This operation lists all existing コレクション.
 
 ```java
 public ListCollectionsResp listCollections()
@@ -49,13 +49,13 @@ listCollections()
 
 **RETURNS:**
 
-collection 名のリストを含む **ListCollectionsResp** オブジェクト。collection が1つも存在しない場合は、空のリストが返されます。
+A ListCollectionsResp object containing a list of コレクション names. If there are no コレクション, an empty list will be returned.
 
 **PARAMETERS:**
 
 - **collectionNames** (*List&lt;String&gt;*)
 
-    既存のすべての collection 名を含む文字列のリスト。
+    A list of strings containing the names of all existing コレクション.
 
 - **collectionInfos** (*List&lt;CollectionInfo&gt;*)
 
@@ -63,11 +63,11 @@ collection 名のリストを含む **ListCollectionsResp** オブジェクト�
 
     - **collectionName** (*String*)
 
-        collection の名前。
+        The name of a コレクション.
 
     - **shardNum** (*Integer*)
 
-        上記 collection 内の shard 数。
+        The number of shards in the コレクション.
 
 **EXCEPTIONS:**
 
@@ -81,6 +81,8 @@ collection 名のリストを含む **ListCollectionsResp** オブジェクト�
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.response.ListCollectionsResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -93,4 +95,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. List collections
 ListCollectionsResp listAliasResp = client.listCollections();
 ```
-

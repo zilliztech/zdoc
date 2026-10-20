@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ユーザーパスワードを変更せずに既存のユーザーの説明を更新します。 | Java | v2"
+description: "この操作では、ユーザーのパスワードを変更せずに、既存ユーザーの説明を更新します。 | Java | v2"
 type: docx
 token: AAudd8xDRoRfNLx6OpgcsfkpnVb
 sidebar_position: 22
 keywords: 
-  - オープンソースのベクトルデータベース
-  - Vector index
-  - オープンソースのベクトルデータベース
-  - open source vector db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
+  - オープンソースベクトルデータベース
+  - オープンソースベクトル DB
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
   - updateUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # updateUser()
 
-この操作は、ユーザーパスワードを変更せずに既存のユーザーの説明を更新します。
+この操作では、ユーザーのパスワードを変更せずに、既存ユーザーの説明を更新します。
 
 ```java
 public void updateUser(UpdateUserReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 client.updateUser(UpdateUserReq.builder()
@@ -47,31 +47,25 @@ client.updateUser(UpdateUserReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `userName(String userName)`
 
-    **[REQUIRED]**
+    **[必須]**
 
-    更新するユーザーの名前。
+    更新するユーザーの名前です。
 
 - `description(String description)`
 
-    ユーザーの新しい説明です。説明をクリアするには空文字列を使用します。
+    ユーザーの新しい説明です。説明をクリアするには、空の文字列を使用します。
 
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.service.rbac.request.UpdateUserReq;

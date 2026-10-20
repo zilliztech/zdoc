@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.4.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はデータベースのプロパティを変更します。 | Java | v2"
 type: docx
-token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
+token: HQXgddhkMoC3onxxjFjc46W3nNf
 sidebar_position: 1
 keywords: 
   - Machine Learning
@@ -57,33 +57,33 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
     レプリカ数、resource group などのデータベースのプロパティ。使用可能なデータベースプロパティは以下のとおりです。
 
-    - **database.replica.number** -
+    - **データベース.replica.number** -
 
         データベースのレプリカ数。
 
-    - **database.resource_groups**  -
+    - **データベース.resource_groups**  -
 
         データベース専用の resource group。
 
-    - **database.diskQuota.mb** -
+    - **データベース.diskQuota.mb** -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
 
-    - **database.max.collections** -
+    - **データベース.max.コレクション** -
 
-        データベースで許可される collection の最大数。
+        Maximum number of コレクション allowed in the データベース.
 
-    - **database.force.deny.writing** -
+    - **データベース.force.deny.writing** -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **database.force.deny.reading** -
+    - **データベース.force.deny.reading** -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
-**RETURNS:**
+- `property(String key, String value)`
 
-*void*
+    Adds a single property to the データベース.
 
 **EXCEPTIONS:**
 
@@ -97,6 +97,9 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -115,4 +118,3 @@ AlterDatabasePropertiesReq alterDatabasePropertiesReq = AlterDatabasePropertiesR
         .build();
 client.alterDatabaseProperties(alterDatabaseReq);
 ```
-

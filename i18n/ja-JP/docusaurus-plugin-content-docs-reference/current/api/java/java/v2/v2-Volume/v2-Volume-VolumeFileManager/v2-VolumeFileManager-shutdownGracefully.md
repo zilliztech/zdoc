@@ -7,18 +7,18 @@ added_since: false
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "現在の Volume ストレージセッションを閉じ、そのリソースを解放します。 | Java | v2"
+description: "この操作は、現在の Volume ストレージセッションを閉じ、そのリソースを解放します。 | Java | v2"
 type: docx
 token: F1GvdNp0rosDfCxonr7cJpzcn9w
 sidebar_position: 3
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz ベクトルデータベース
+  - Zilliz データベース
+  - 非構造化データ
+  - ベクトルデータベース
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - shutdownGracefully()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,17 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # shutdownGracefully()
 
-現在の Volume ストレージセッションを閉じ、そのリソースを解放します。
+この操作は、現在の Volume ストレージセッションを閉じ、そのリソースを解放します。
 
 ```java
 public void shutdownGracefully()
 ```
-
-**戻り値:**
-
-*void*
-
-この操作は値を返しません。
 
 **例外:**
 

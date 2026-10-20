@@ -4,18 +4,18 @@ slug: /java/java/v2-Authentication-dropUser
 sidebar_label: "dropUser()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はユーザーを削除します。 | Java | v2"
 type: docx
-token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
+token: KOkDdGDXQo1yA5x3lalcmtglnUe
 sidebar_position: 9
 keywords: 
-  - vector database はどのように動作するか
-  - vector db 比較
-  - openai vector db
-  - 自然言語処理 database
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
+  - 自然言語処理データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -52,10 +52,6 @@ dropUser(DropUserReq.builder()
 
     削除するユーザーの名前。
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**
@@ -68,6 +64,7 @@ dropUser(DropUserReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.DropUserReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

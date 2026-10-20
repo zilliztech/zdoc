@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "フィールド名またはフィールド ID で既存の collection field を削除します。 | Java | v2"
+description: "この操作は、フィールド名またはフィールド ID によって、既存のコレクションのフィールドを削除します。 | Java | v2"
 type: docx
 token: PcFWdgr7VoPK74xt1mmcmH8gndf
-sidebar_position: 39
+sidebar_position: 41
 keywords: 
-  - 動画重複排除
-  - 動画類似検索
+  - 動画の重複排除
+  - 動画の類似検索
   - ベクトル検索
-  - 音声類似検索
+  - 音声の類似検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionField()
 
-フィールド名またはフィールド ID を使用して、既存の collection field を削除します。
+この操作は、フィールド名またはフィールド ID によって、既存のコレクションのフィールドを削除します。
 
 ```java
 public void dropCollectionField(DropCollectionFieldReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 DropCollectionFieldReq.builder()
@@ -48,15 +48,15 @@ DropCollectionFieldReq.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前です。
+    対象のコレクションの名前です。
 
 - `databaseName(String databaseName)`
 
-    データベース名です。省略した場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。省略した場合は、現在のデータベースがデフォルトで使用されます。
 
 - `fieldName(String fieldName)`
 
@@ -66,19 +66,13 @@ DropCollectionFieldReq.builder()
 
     ID で識別する場合の、削除対象フィールドの数値 ID です。
 
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
+    リクエストの検証、トランスポート、またはサーバーでの実行が失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 client.dropCollectionField(DropCollectionFieldReq.builder()

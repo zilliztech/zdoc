@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-listIndexes
 sidebar_label: "listIndexes()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection 内の field の index を一覧表示します。 | Java | v2"
+description: "この操作は、特定のコレクション内のフィールドにあるインデックスを一覧表示します。 | Java | v2"
 type: docx
-token: LxwIdeFiGoYaRAxKS72cdjNkneh
+token: Lq2vdHAmAo7m6axzZOpcWdkcnzd
 sidebar_position: 12
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI ハルシネーション
+  - AI エージェント
+  - セマンティック検索
+  - 異常検知
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listIndexes()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listIndexes()
 
-この操作は、特定の collection 内の field の index を一覧表示します。
+この操作は、特定のコレクション内のフィールドに対するインデックスを一覧表示します。
 
 ```java
 public List<String> listIndexes(ListIndexesReq request)
@@ -48,29 +48,39 @@ listIndexes(ListIndexesReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属する database の名前。
+    対象のコレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    collection の名前。
+    対象のコレクションの名前です。
 
 - `fieldName(String fieldName)`
 
-    対象 field の名前。
+    対象のフィールドの名前です。
 
-**戻り値:**
+**戻り値の型:**
 
 *List&lt;String&gt;*
 
+**戻り値:**
+
+対象のフィールドに構築されたインデックス名のリストです。コレクションにそのフィールドのインデックスがない場合は、空のリストを返します。
+
+**パラメーター:**
+
+- **indexNames** (*List&lt;String&gt;*) -
+
+    対象のフィールドに構築されたインデックス名のリストです。
+
 **例外:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合に、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -78,8 +88,10 @@ listIndexes(ListIndexesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.ListIndexesReq;
+import java.util.List;
+import java.util.Set;
 
-// 1. クライアントを設定する
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -87,12 +99,11 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. `test` collection の `varchar` field にある index を一覧表示する
+// 2. List the indexes on the \`varchar\` field in the \`test\` collection
 ListIndexesReq listIndexesReq = ListIndexesReq.builder()
         .collectionName("test")
         .fieldName("varchar")
         .build();
         
-List<String> indexes = client.listIndexes(ListIndexesReq);
+List<String> indexes = client.listIndexes(listIndexesReq);
 ```
-

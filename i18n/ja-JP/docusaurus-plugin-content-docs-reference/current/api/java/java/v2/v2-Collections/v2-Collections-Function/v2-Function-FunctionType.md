@@ -7,10 +7,10 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "サポートされているサーバーサイド関数タイプを表し、名前または数値コードによる変換を提供します。 | Java | v2"
+description: "FunctionType インスタンスは、サポートされているサーバーサイド関数タイプの 1 つを表し、名前または数値コードによる変換を提供します。 | Java | v2"
 type: docx
 token: HShjdZsU3oknh2x1ezkcRqGqn6b
-sidebar_position: 4
+sidebar_position: 2
 keywords: 
   - 動画重複排除
   - 動画類似検索
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-サポートされているサーバーサイド関数タイプを表し、名前または数値コードによる変換を提供します。
+FunctionType インスタンスは、サポートされているサーバーサイド関数タイプの 1 つを表し、名前または数値コードによる変換を提供します。
 
 ```java
 public enum FunctionType
 ```
 
-## Constants\{#constants}
+## 定数\{#constants}
 
 ### UNKNOWN(0)\{#unknown0}
 
-不明または未サポートの関数タイプを表します。`fromName()` と `fromCode()` は、一致するものが見つからない場合にこの値を返します。
+不明な関数タイプまたはサポートされていない関数タイプを表します。`fromName()` と `fromCode()` は、一致するものが見つからない場合にこの値を返します。
 
 ### BM25(1)\{#bm251}
 
@@ -63,13 +63,25 @@ MinHash 関数を表します。
 
 分子フィンガープリント関数を表します。
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *FunctionType*
 
-サーバーサイド関数タイプを記述する enum 値。
+**RETURNS:**
 
-## Example\{#example}
+サーバーサイド関数タイプを表す enum 値です。
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    関数タイプの名前です。たとえば、`Rerank` または `BM25` です。
+
+- **code** (*int*) -
+
+    関数タイプのプロトコル数値コードです。
+
+## 例\{#example}
 
 ```java
 FunctionType byName = FunctionType.fromName("MinHash");

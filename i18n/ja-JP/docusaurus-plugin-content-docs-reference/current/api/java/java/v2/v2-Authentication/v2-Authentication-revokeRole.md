@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-revokeRole
 sidebar_label: "revokeRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、ユーザーに割り当てられたロールを取り消します。 | Java | v2"
 type: docx
-token: Znb7dcNoeobIkkxGLGfcpVfUnIX
+token: H5vPdKb4botW9IxeVC1cNyOJnSf
 sidebar_position: 19
 keywords: 
   - 動画検索
@@ -47,25 +47,21 @@ revokeRole(RevokeRoleReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `roleName(String roleName)`
 
-    取り消すロールの名前。
+    取り消すロールの名前です。
 
 - `userName(String userName)`
 
-    既存のユーザーの名前。
+    既存のユーザーの名前です。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientExceptions**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -73,6 +69,7 @@ revokeRole(RevokeRoleReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.RevokeRoleReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -89,4 +86,3 @@ RevokeRoleReq revokeRoleReq = RevokeRoleReq.builder()
         .build();
 client.revokeRole(revokeRoleReq);
 ```
-

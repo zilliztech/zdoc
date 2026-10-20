@@ -4,21 +4,21 @@ slug: /java/java/v2-Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、すべてのデータベース名を一覧表示します。 | Java | v2"
 type: docx
-token: IHoodknUJohFAbxMFg3c0q8un6f
+token: X2dbdeazuofnEVxVQtgcBHujnvf
 sidebar_position: 6
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - LLM 評価
+  - スパースベクトルと密ベクトル
+  - 密ベクトル
+  - 階層型ナビゲーブルスモールワールド
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listDatabases()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-この操作は、すべてのデータベース名を一覧表示します。 
+この操作は、すべてのデータベース名を一覧表示します。
 
 ```java
 public ListDatabasesResp listDatabases()
@@ -45,18 +45,26 @@ public ListDatabasesResp listDatabases()
 
 ListDatabasesResp オブジェクトには、すべてのデータベース名のリストが含まれます。
 
+**PARAMETERS:**
+
+- **databaseNames** (*List&lt;String&gt;*) -
+
+    すべてのデータベース名のリストです。
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**
 
     この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.response.ListDatabasesResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -70,4 +78,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ListDatabasesResp listDatabasesResp = client.listDatabases();
 List<String> dbNames = listDatabasesResp.getDatabaseNames();
 ```
-

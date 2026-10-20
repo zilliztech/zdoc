@@ -4,18 +4,18 @@ slug: /java/java/v2-Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection のプロパティを変更します。 | Java | v2"
+description: "This operation modifies the properties of a specified コレクション. | Java | v2"
 type: docx
-token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
+token: NzCuda5k8oJHOOxVLk0cg7HInMg
 sidebar_position: 3
 keywords: 
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
+  - ベクトル インデックス
+  - ベクトル データベース open source
+  - open source ベクトル db
+  - ベクトル データベース example
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionProperties()
 
-この操作は、指定された collection のプロパティを変更します。
+This operation modifies the properties of a specified コレクション.
 
 ```java
 public Void alterCollectionProperties(AlterCollectionPropertiesReq request)
@@ -52,27 +52,27 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    対象の collection を保持するデータベースの名前です。
+    The name of the データベース that holds the target コレクション.
 
 - `collectionName(String collectionName)`
 
-    対象の collection の名前です。
+    The name of the target コレクション.
 
 - `properties(Map<String, String> properties)`
 
     変更するプロパティとその期待値です。プロパティ値は文字列である必要があることに注意してください。使用可能なデータベースプロパティは次のとおりです。
 
-    - **collection.ttl.seconds** -
+    - **コレクション.ttl.seconds** -
 
-        collection の有効期限（TTL）を秒単位で指定します。
+        The time-to-live (TTL) of a コレクション in seconds.
 
     - **mmap.enabled** -
 
-        collection 内のすべてのフィールドの生データおよび index に対して mmap を有効にするかどうかを指定します。
+        Whether to enable mmap for the raw data and インデックス of all fields in the コレクション.
 
-**RETURNS:**
+- `property(String key, String value)`
 
-*void*
+    Adds a single property to the コレクション.
 
 **EXCEPTIONS:**
 
@@ -86,6 +86,9 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -95,14 +98,13 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `collection.ttl.seconds` property
-Map<String, String> properties = new HashMap<>()
-properties.put("collection.ttl.seconds", "86400")
+// 2. Alter the \`collection.ttl.seconds\` property
+Map<String, String> properties = new HashMap<>();
+properties.put("collection.ttl.seconds", "86400");
 
 AlterCollectionPropertiesReq alterCollectionFieldReq = AlterCollectionPropertiesReq.builder()
         .collectionName("test")
         .properties(properties)
         .build();
-client.alterCollectionProperties(alterCollectionFieldReq)
+client.alterCollectionProperties(alterCollectionFieldReq);
 ```
-

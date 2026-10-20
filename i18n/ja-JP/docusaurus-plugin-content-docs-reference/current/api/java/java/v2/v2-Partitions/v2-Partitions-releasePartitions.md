@@ -4,21 +4,21 @@ slug: /java/java/v2-Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたコレクション内のパーティションをメモリから解放します。 | Java | v2"
+description: "この操作では、指定したコレクションのパーティションをメモリから解放します。 | Java | v2"
 type: docx
-token: VsyQdDkXnoloWYxfjXNchc0dnng
+token: DykedGfgOo5JM7x6ZmncT5i9nVf
 sidebar_position: 7
 keywords: 
   - ANNS
   - ベクトル検索
-  - knn algorithm
+  - knn アルゴリズム
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - releasePartitions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-この操作は、指定されたコレクション内のパーティションをメモリから解放します。
+この操作では、指定したコレクションのパーティションをメモリから解放します。
 
 ```java
 public void releasePartitions(ReleasePartitionsReq request)
@@ -48,29 +48,25 @@ releasePartitions(ReleasePartitionsReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    コレクションが属するデータベースの名前。
+    コレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    既存のコレクションの名前。
+    既存のコレクションの名前です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    解放するパーティションの名前のリスト。
+    解放するパーティションの名前のリストです。
 
-**戻り値:**
+**例外：**
 
-*void*
+- **MilvusClientException**
 
-**例外:**
-
-- **MilvusClientExceptions**
-
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -78,6 +74,8 @@ releasePartitions(ReleasePartitionsReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -94,4 +92,3 @@ ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .build();
 client.releasePartitions(releasePartitionsReq);
 ```
-

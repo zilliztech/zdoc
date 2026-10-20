@@ -7,10 +7,10 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "以下の定数を提供する列挙型です。 | Java | v2"
+description: "A DataType instance is an enumeration constant that sets the data type of a field in a コレクション スキーマ. | Java | v2"
 type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - Serverless ベクトルデータベース
   - milvus オープンソース
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-以下の定数を提供する列挙型です。
+A DataType instance is an enumeration constant that sets the data type of a field in a コレクション スキーマ.
 
 ## Constants\{#constants}
 
@@ -89,27 +89,27 @@ import Admonition from '@theme/Admonition';
 
 - BinaryVector(100)
 
-    データ型を **Binary Vector** に設定します。
+    Sets the data type to **Binary ベクトル**.
 
 - FloatVector(101)
 
-    データ型を **Float Vector** に設定します。
+    Sets the data type to **Float ベクトル**.
 
 - Float16Vector(102)
 
-    データ型を **Float16 Vector** に設定します。
+    Sets the data type to **Float16 ベクトル**.
 
 - BFloat16Vector(103)
 
-    データ型を **BFloat16 Vector** に設定します。
+    Sets the data type to **BFloat16 ベクトル**.
 
 - SparseFloatVector(104)
 
-    データ型を **Sparse Vector** に設定します。
+    Sets the data type to **Sparse ベクトル**.
 
 - Inv8Vector(105)
 
-    データ型を **Int8 Vector** に設定します。
+    Sets the data type to **Int8 ベクトル**.
 
 - Struct(201)
 

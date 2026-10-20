@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションのスキーマにフィールドを追加します。 | Java | v2"
+description: "この操作では、コレクションのスキーマにフィールドを追加します。 | Java | v2"
 type: docx
 token: XB9idvIRPo2fEix50dvcAsQHnCg
 sidebar_position: 1
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # addField()
 
-この操作は、コレクションのスキーマにフィールドを追加します。
+この操作では、コレクションのスキーマにフィールドを追加します。
 
 ```java
 public void addField(AddFieldReq addFieldReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 CollectionSchema.addField(AddFieldReq.builder()
@@ -64,7 +64,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `fieldName(String fieldName)` -
 
@@ -78,103 +78,99 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     フィールドのデータ型です。
 
-    異なるフィールドのデータ型を選択する際には、次のオプションから選択できます。
+    異なるフィールドのデータ型を選択するときは、次のオプションから選択できます。
 
 - `maxLength(Integer maxLength)` -
 
     値に含めることができる最大文字数です。
 
-    このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.VarChar** に設定されている場合は必須です。
+    このフィールドの **dataType** が **DataType.VarChar** に設定されている場合、必須です。
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
-    現在のフィールドがプライマリフィールドであるかどうかを指定します。
+    現在のフィールドがプライマリフィールドであるかどうかです。
 
     これを **True** に設定すると、現在のフィールドがプライマリフィールドになります。
 
 - `isPartitionKey(Boolean isPartitionKey)` -
 
-    現在のフィールドがパーティションキーフィールドであるかどうかを指定します。
+    現在のフィールドが partitionKey フィールドであるかどうかです。
 
     これを **True** に設定すると、現在のフィールドがパーティションキーになります。
 
 - `autoID(Boolean autoID)` -
 
-    プライマリフィールドの自動インクリメントを許可するかどうかを指定します。
+    プライマリフィールドの自動インクリメントを許可するかどうかです。
 
-    これを **True** に設定すると、プライマリフィールドは自動インクリメントされます。この場合、エラーを避けるため、挿入するデータにプライマリフィールドを含めるべきではありません。
+    これを **True** に設定すると、プライマリフィールドが自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータにプライマリフィールドを含めないでください。
 
-    このパラメータは、**isPrimaryKey** が **True** に設定されたフィールドで設定してください。
+    このパラメーターは、**isPrimaryKey** が **True** に設定されたフィールドで設定します。
 
 - `dimension(int dimension)` -
 
-    ベクトルフィールドの次元数です。値は 1 より大きくする必要があり、通常は使用中の埋め込みモデルによって決まります。
+    ベクトルフィールドの次元数です。値は 1 より大きい必要があり、通常は使用中の埋め込みモデルによって決まります。
 
-    このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.FloatVector** に設定されている場合は必須です。
+    このフィールドの **dataType** が **DataType.FloatVector** に設定されている場合、必須です。
 
 - `elementType(DataType elementType)` -
 
     配列フィールド内の要素のデータ型です。
 
-    このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合は必須です。
+    このフィールドの **dataType** が **DataType.Array** に設定されている場合、必須です。
 
 - `maxCapacity(Integer maxCapacity)` -
 
     配列フィールドに含めることができる要素の最大数です。
 
-    このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合は必須です。
+    このフィールドの **dataType** が **DataType.Array** に設定されている場合、必須です。
 
 - `isNullable(Boolean isNullable)` -
 
-    フィールドが null 値を受け入れられるかどうかを指定する Boolean パラメータです。
+    フィールドが null 値を受け入れられるかどうかを指定する Boolean パラメーターです。
 
     詳細については、Nullable & Default を参照してください。
 
 - `defaultValue(DataType dataType)` -
 
-    コレクションスキーマの作成時に、特定のフィールドにデフォルト値を設定します。これは、データ挿入時に値が明示的に指定されない場合でも、特定のフィールドに初期値を持たせたいときに特に便利です。
+    作成時に、コレクションスキーマ内の特定のフィールドにデフォルト値を設定します。これは、データ挿入時に値を明示的に指定しなくても、特定のフィールドに初期値を持たせたい場合に特に便利です。
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
-    指定した `VARCHAR` フィールドに対してテキスト解析を有効にするかどうかを指定します。`true` に設定すると、Milvus はテキストアナライザーを使用し、フィールドのテキスト内容をトークン化してフィルタリングします。
+    指定された `VARCHAR` フィールドのテキスト分析を有効にするかどうかです。`true` に設定すると、Milvus にテキストアナライザーを使用するよう指示し、フィールドのテキストコンテンツをトークン化してフィルタリングします。
 
 - `enableMatch(Boolean enableMatch)` -
 
-    指定した `VARCHAR` フィールドに対してキーワードマッチングを有効にするかどうかを指定します。`true` に設定すると、Milvus はそのフィールドに反転インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enableMatch` は `enableAnalyzer` と組み合わせて動作し、構造化された用語ベースのテキスト検索を提供します。
+    指定された `VARCHAR` フィールドのキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はフィールドの転置インデックスを作成し、高速で効率的なキーワード検索を可能にします。`enableMatch` は `enableAnalyzer` と連携して、用語ベースの構造化テキスト検索を提供します。
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    テキスト処理用のアナライザーを設定します。特に `DataType.VarChar` フィールド向けです。このパラメータは、トークナイザーおよびフィルター設定を構成し、特にキーワードマッチングや全文検索に使用されるテキストフィールド向けです。
+    テキスト処理用のアナライザーを構成します。特に `DataType.VarChar` フィールドを対象とします。このパラメーターは、トークナイザーとフィルターの設定を構成します。特に、キーワードマッチングまたは全文検索で使用されるテキストフィールドが対象です。
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    追加する現在のフィールドのデータ型に固有のパラメータです。たとえば、`VarChar` フィールドに `maxLength` を設定できます。指定すると、上記で指定した対応するパラメータ値を上書きします。
+    追加する現在のフィールドのデータ型に固有のパラメーターです。たとえば、`VarChar` フィールドに `maxLength` を設定できます。指定すると、上で指定した対応するパラメーター値が上書きされます。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-    複数言語アナライザーであり、テキストフィールドに対して複数のアナライザーを設定し、このテキストフィールドに多言語ドキュメントを保存できます。
+    テキストフィールドに複数のアナライザーを構成し、多言語ドキュメントをこのテキストフィールドに保存できるようにする多言語アナライザーです。
 
 - `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
 
     Array of Structs フィールド内のフィールドのリストです。
 
-    このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定され、かつこのフィールドの **elementType** が **DataType.Struct** に設定されている場合は必須です。
+    このフィールドの **dataType** が **DataType.Array** で、**elementType** が **DataType.Struct** に設定されている場合、必須です。
 
 - `externalField(String externalField)` -
 
-    この Milvus フィールドがマッピングする外部フィールドの名前です。`CollectionSchema` 上の `externalSource` および `externalSpec` と一緒に使用して、外部データソースをバックエンドに持つコレクションを宣言します。更新時に、その外部フィールドの値がこの Milvus フィールドに取り込まれます。
+    この Milvus フィールドのマップ先となる外部フィールドの名前です。外部データソースを基盤とするコレクションを宣言するために、`CollectionSchema` の `externalSource` および `externalSpec` と組み合わせて使用します。リフレッシュ時に、外部フィールドの値がこの Milvus フィールドに取り込まれます。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.common.DataType;

@@ -7,13 +7,13 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "ローカルファイルを名前付きリソースとしてアップロードし、他の Milvus 操作（例: functions、analyzers）から参照できるようにします。名前はデータベースごとに一意で、同じ名前を再利用すると既存のリソースが上書きされます。 | Java | v2"
+description: "この操作は、ローカルファイルを名前付きリソースとしてアップロードし、他の Milvus 操作（関数、アナライザーなど）から参照できるようにします。名前はデータベースごとに一意です。同じ名前を再利用すると、既存のリソースが上書きされます。 | Java | v2"
 type: docx
 token: H0kadFay8oD1d0xserJcuL8wnhf
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - レキシカル検索
+  - 最近傍検索
   - Agentic RAG
   - rag llm architecture
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFileResource()
 
-ローカルファイルを名前付きリソースとしてアップロードし、他の Milvus 操作（例: functions、analyzers）から参照できるようにします。名前はデータベースごとに一意で、同じ名前を再利用すると既存のリソースが上書きされます。
+この操作は、ローカルファイルを名前付きリソースとしてアップロードし、他の Milvus 操作（関数、アナライザーなど）から参照できるようにします。名前はデータベースごとに一意です。同じ名前を再利用すると、既存のリソースが上書きされます。
 
 ```java
 public void addFileResource(AddFileResourceReq request)
@@ -47,29 +47,25 @@ addFileResource(AddFileResourceReq.builder()
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `name(String name)` -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    ファイルリソースの一意の名前。
+    ファイルリソースの一意の名前です。
 
 - `path(String path)` -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    アップロードするファイルのローカルファイルシステム上のパス。
+    アップロードするファイルのローカルファイルシステム上のパスです。
 
-**戻り値:**
-
-*void*
-
-**例外:**
+**例外：**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

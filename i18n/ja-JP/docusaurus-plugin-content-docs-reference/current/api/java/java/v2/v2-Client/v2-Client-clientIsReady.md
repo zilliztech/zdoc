@@ -12,13 +12,13 @@ type: docx
 token: I1sMd0t6qoNuIWx3mjecEfjwnyc
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus ベクトルデータベース
+  - Milvus DB
+  - Milvus ベクトル DB
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - clientIsReady()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -37,11 +37,19 @@ import Admonition from '@theme/Admonition';
 public boolean clientIsReady()
 ```
 
-**戻り値:**
+**戻り値の型:**
 
 *boolean*
 
-クライアントが接続され、準備ができている場合は **true**、そうでない場合は **false** を返します。
+**戻り値:**
+
+クライアントが接続され、準備ができている場合は **true**、それ以外の場合は **false** を返します。
+
+**パラメーター:**
+
+- **ready**（*boolean*） -
+
+    クライアント接続の準備ができているかどうかを示します。基盤となるチャネルが開いて使用可能な場合は **true**、それ以外の場合は **false** です。
 
 ## 例\{#example}
 

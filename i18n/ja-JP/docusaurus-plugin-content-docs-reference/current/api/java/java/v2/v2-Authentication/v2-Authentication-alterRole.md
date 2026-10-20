@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 public void alterRole(AlterRoleReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 client.alterRole(AlterRoleReq.builder()
@@ -59,19 +59,13 @@ client.alterRole(AlterRoleReq.builder()
 
     ロールの新しい説明です。説明をクリアするには空文字列を使用します。
 
-**RETURNS:**
-
-*void*
-
-この操作は値を返しません。
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
     この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.service.rbac.request.AlterRoleReq;

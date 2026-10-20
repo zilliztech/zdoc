@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-loadCollection
 sidebar_label: "loadCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のデータをメモリにロードします。 | Java | v2"
+description: "この操作は、特定のコレクションのデータをメモリにロードします。 | Java | v2"
 type: docx
-token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
+token: EHnydLjdkoNJCUxSM4ocd6Cfnrb
 sidebar_position: 13
 keywords: 
-  - milvus ベクターデータベース
-  - milvus db
-  - milvus vector db
+  - Milvus ベクトルデータベース
+  - Milvus データベース
+  - Milvus ベクトルデータベース
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - loadCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-この操作は、特定の collection のデータをメモリにロードします。
+この操作は、特定のコレクションのデータをメモリにロードします。
 
 ```java
 public void loadCollection(LoadCollectionReq request)
@@ -55,51 +55,47 @@ loadCollection(LoadCollectionReq.builder()
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - `numReplicas(Integer numReplicas)` -
 
-    ロードするレプリカ数。デフォルトは `1` です。
+    ロードするレプリカの数です。デフォルトは `1` です。
 
 - `async(Boolean async)` -
 
-    この操作を非同期で実行するかどうか。デフォルトは `Boolean.FALSE` です。
+    操作を非同期で実行するかどうかを指定します。デフォルトは `Boolean.FALSE` です。
 
 - `sync(Boolean sync)` -
 
-    操作が完了するまで同期的に待機するかどうか。デフォルトは `Boolean.TRUE` です。
+    操作が完了するまで同期的に待機するかどうかを指定します。デフォルトは `Boolean.TRUE` です。
 
 - `timeout(Long timeout)` -
 
-    タイムアウト時間（ミリ秒）。デフォルトは `60000L` です。
+    タイムアウト時間（ミリ秒）です。デフォルトは `60000L` です。
 
 - `refresh(Boolean refresh)` -
 
-    新しいフィールドを含めるためにロードを更新するかどうか。デフォルトは `Boolean.FALSE` です。
+    新しいフィールドを含めるためにロードを更新するかどうかを指定します。デフォルトは Boolean.FALSE です。
 
 - `loadFields(List<String> loadFields)` -
 
-    ロードする特定のフィールド名のリスト。デフォルトは `new ArrayList<>()` です。
+    ロードする特定のフィールド名のリストです。デフォルトは `new ArrayList<>()` です。
 
 - `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-    dynamic field のロードをスキップするかどうか。デフォルトは `Boolean.FALSE` です。
+    dynamic field のロードをスキップするかどうかを指定します。デフォルトは `Boolean.FALSE` です。
 
 - `resourceGroups(List<String> resourceGroups)` -
 
-    ロードバランシング用のリソースグループ名のリスト。デフォルトは `new ArrayList<>()` です。
-
-**戻り値:**
-
-*void*
+    ロードバランシング用のリソースグループ名のリストです。デフォルトは `new ArrayList<>()` です。
 
 **例外:**
 
@@ -113,6 +109,7 @@ loadCollection(LoadCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-createAlias
 sidebar_label: "createAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存の collection に対して alias を作成します。 | Java | v2"
+description: "この操作は、既存のコレクションのエイリアスを作成します。 | Java | v2"
 type: docx
-token: BujpdsEJnozVT4xY3NFczyfrnDe
+token: PA3Ad6PPYom1wexoyqgcGvNanyV
 sidebar_position: 6
 keywords: 
-  - オープンソース vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - オープンソースベクトルデータベース
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - createAlias()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createAlias()
 
-この操作は既存の collection に対して alias を作成します。
+この操作は、既存のコレクションのエイリアスを作成します。
 
 ```java
 public void createAlias(CreateAliasReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 createAlias(CreateAliasReq.builder()
@@ -48,36 +48,33 @@ createAlias(CreateAliasReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - `alias(String alias)` -
 
-    alias 名。
+    エイリアス名です。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.CreateAliasReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

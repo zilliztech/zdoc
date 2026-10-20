@@ -4,12 +4,12 @@ slug: /java/java/v2-Management-releaseCollection
 sidebar_label: "releaseCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のコレクションのデータをメモリから解放します。 | Java | v2"
+description: "この操作では、特定のコレクションのデータをメモリから解放します。 | Java | v2"
 type: docx
-token: K5t2dl0XloN4VHx1lcpc6Uq3nye
+token: AjbDdUJTuoB9MqxN5PDcyYeLnRe
 sidebar_position: 16
 keywords: 
   - IVF
@@ -18,7 +18,7 @@ keywords:
   - LLMs
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - releaseCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-この操作は、特定のコレクションのデータをメモリから解放します。
+この操作では、特定のコレクションのデータをメモリから解放します。
 
 ```java
 public void releaseCollection(ReleaseCollectionReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 releaseCollection(ReleaseCollectionReq.builder()
@@ -49,40 +49,37 @@ releaseCollection(ReleaseCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象のコレクション名。
+    対象のコレクションの名前です。
 
 - `async(Boolean async)` -
 
-    この操作を非同期で実行するかどうか。デフォルトは `Boolean.TRUE` です。
+    操作を非同期で実行するかどうかを指定します。デフォルトは `Boolean.TRUE` です。
 
 - `timeout(Long timeout)` -
 
-    タイムアウト時間（ミリ秒単位）。デフォルトは `60000L` です。
+    タイムアウト時間（ミリ秒）です。デフォルトは `60000L` です。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

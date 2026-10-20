@@ -7,10 +7,10 @@ added_since: v2.6.16
 last_modified: v2.6.16
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のスキーマ、index、alias を保持したまま、collection からすべてのデータを削除します。 | Java | v2"
+description: "この操作は、コレクションのスキーマ、インデックス、エイリアスを保持したまま、コレクションからすべてのデータを削除します。 | Java | v2"
 type: docx
 token: JiLLdfLlPoKWL6xEgOAcdCU3nol
-sidebar_position: 36
+sidebar_position: 35
 keywords: 
   - NLP
   - Neural Network
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # truncateCollection()
 
-この操作は、collection のスキーマ、index、alias を保持したまま、collection からすべてのデータを削除します。
+この操作は、コレクションのスキーマ、インデックス、エイリアスを保持したまま、コレクションからすべてのデータを削除します。
 
 ```java
 client.truncateCollection(TruncateCollectionReq request)
@@ -46,25 +46,21 @@ TruncateCollectionReq.builder()
     .build()
 ```
 
-**BUILDER メソッド:**
+**BUILDER METHODS:**
 
 - `collectionName(String collectionName)` -
 
     **[REQUIRED]**
 
-    truncate する collection の名前。
+    データを削除するコレクションの名前。
 
 - `databaseName(String databaseName)` -
 
-    collection を含む database の名前。指定しない場合は、デフォルトの database が使用されます。
+    コレクションを含むデータベースの名前。指定しない場合は、デフォルトのデータベースが使用されます。
 
-**戻り値:**
+**EXCEPTIONS:**
 
-*void*
-
-**例外:**
-
-- **MilvusClientException** - 指定された collection が存在しないか、サーバーに接続できません。
+- **MilvusClientException** - 指定されたコレクションが存在しないか、サーバーに到達できません。
 
 ## 例\{#example}
 

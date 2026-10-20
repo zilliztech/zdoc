@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection に対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。 | Java | v2"
+description: "この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。 | Java | v2"
 type: docx
 token: R1NDdFPnVo4wTuxvHjFcozc8nMa
 sidebar_position: 3
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - hybridSearch()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridSearch()
 
-この操作は、collection に対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。
+この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。
 
 ```java
 public SearchResp hybridSearch(HybridSearchReq request)
@@ -43,7 +43,6 @@ public SearchResp hybridSearch(HybridSearchReq request)
 hybridSearch(HybridSearchReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .searchRequests(List<AnnSearchReq> searchRequests)
     .topK(int topK)
@@ -60,35 +59,35 @@ hybridSearch(HybridSearchReq.builder()
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
     データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
-- `collectionName(String collectionName)`
-
-    対象 collection の名前です。
-
 - `clusterId(String clusterId)`
 
-    この vector 読み取りリクエストの対象 cluster ID です。複数のリクエストで同じ cluster ID を共有する場合は、`session(String clusterId)` を使用します。
+    **非推奨。** クエリの対象となるクラスターの ID です。グローバルクラスターのデプロイメントに適用されます。
+
+- `collectionName(String collectionName)`
+
+    対象コレクションの名前です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とする partition 名のリストです。
+    対象とするパーティション名のリストです。
 
 - `searchRequests(List<AnnSearchReq> searchRequests)`
 
-    hybrid search 用の AnnSearchReq オブジェクトのリストです。
+    ハイブリッド検索用の AnnSearchReq オブジェクトのリストです。
 
 - `topK(int topK)`
 
-    返す上位結果の件数です。
+    返す上位結果の数です。
 
 - `limit(long limit)`
 
-    返す結果の最大件数です。
+    返す結果の最大数です。
 
 - `outFields(List<String> outFields)`
 
@@ -96,23 +95,23 @@ hybridSearch(HybridSearchReq.builder()
 
 - `offset(long offset)`
 
-    返却前にスキップする結果数です。
+    返す前にスキップする結果の数です。
 
 - `roundDecimal(int roundDecimal)`
 
-    距離/スコアの丸めに使用する小数点以下の桁数です。
+    distance/score の丸めに使用する小数点以下の桁数です。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    この操作の整合性レベルです。
+    操作の整合性レベルです。
 
 - `groupByFieldName(String groupByFieldName)`
 
-    検索結果をグループ化するためのフィールド名です。
+    検索結果をグループ化するフィールド名です。
 
 - `groupSize(Integer groupSize)`
 
-    グループごとに返す結果数です。
+    グループごとに返す結果の数です。
 
 - `strictGroupSize(Boolean strictGroupSize)`
 
@@ -122,17 +121,81 @@ hybridSearch(HybridSearchReq.builder()
 
     カスタムスコアリング用の FunctionScore オブジェクトです。
 
+- `ranker(CreateCollectionReq.Function ranker)`
+
+    **非推奨。** 検索結果に適用される単一の再ランキング関数です。`functionScore()` を優先してください。
+
+**戻り値の型:**
+
+*SearchResp*
+
 **戻り値:**
 
-*SearchResp*
+すべてのクエリベクトルからのマージ結果を含み、再ランキング戦略に従って並べられた **SearchResp** オブジェクトです。
 
-*SearchResp*
+**パラメーター:**
+
+- **searchResults** (*List&lt;List&lt;SearchResult&gt;&gt;*) -
+
+    クエリベクトルごとに 1 つずつ含まれる検索結果バッチのリストです。各バッチには、次のフィールドを持つ **SearchResult** エントリが含まれます。
+
+    - **id** (*Object*) -
+
+        一致したエンティティの主キー値です。
+
+    - **score** (*Float*) -
+
+        再ランキング後の一致の関連性スコアです。
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        一致したエンティティのフィールド名と値を含むマップです。
+
+    - **primaryKey** (*String*) -
+
+        主キーフィールドの名前です。
+
+    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+
+        ハイライトが要求された場合の、フィールド名をキーとするハイライト結果です。
+
+    - **elementOffset** (*Long*) -
+
+        構造体配列の要素レベルの一致（`element_filter` 経由）の場合、配列内での一致した要素のインデックスです。通常の一致の場合は null です。
+
+- **sessionTs** (*long*) -
+
+    読み取りのセッションタイムスタンプです。
+
+- **recalls** (*List&lt;Float&gt;*) -
+
+    報告された場合の、各クエリベクトルの再現率です。
+
+- **cost** (*Long*) -
+
+    操作の時間コストです。
+
+- **scannedRemoteBytes** (*Long*) -
+
+    検索中にリモートでスキャンされたバイト数です。
+
+- **scannedTotalBytes** (*Long*) -
+
+    検索中にスキャンされた合計バイト数です。
+
+- **cacheHitRatio** (*Float*) -
+
+    検索のキャッシュヒット率です。
+
+- **aggregationBuckets** (*List&lt;List&lt;AggregationBucket&gt;&gt;*) -
+
+    集計が要求された場合の、クエリベクトルごとにグループ化された集計バケットです。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外が送出されます。
+    この操作中に何らかのエラーが発生した場合に、この例外が送出されます。
 
 ## 例\{#example}
 
@@ -148,7 +211,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// 複数の vector フィールドに対する ANN 検索リクエストを構築
+// Build ANN search requests for multiple vector fields
 List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectorFieldName("float_vector")
@@ -167,7 +230,7 @@ searchRequests.add(AnnSearchReq.builder()
         .limit(100)
         .build());
 
-// FunctionScore を介した WeightedRanker によるハイブリッド検索
+// Hybrid search with WeightedRanker via FunctionScore
 SearchResp searchResp = client.hybridSearch(HybridSearchReq.builder()
         .collectionName("my_collection")
         .searchRequests(searchRequests)

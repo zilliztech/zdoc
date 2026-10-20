@@ -12,13 +12,13 @@ type: docx
 token: AUQvd5EdFomWEWx3DrwcffYHnmb
 sidebar_position: 7
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - OpenAI ベクトルデータベース
+  - 自然言語処理データベース
+  - 低コストのベクトルデータベース
+  - マネージドベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getTotalRowCount()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -37,17 +37,27 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**戻り値:**
+**戻り値の型:**
 
 *Long*
+
+**戻り値:**
+
+この LocalBulkWriter インスタンスによって書き込まれた行の合計数です。
+
+**パラメーター:**
+
+- **totalRowCount** (*Long*) -
+
+    これまでにこのライターに追加された行の合計数です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作の実行中に何らかのエラーが発生した場合にスローされます。
+    この例外は、この操作中に何らかのエラーが発生するとスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 LocalBulkWriter writer = new LocalBulkWriter(config);

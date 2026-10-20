@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-dropCollectionFieldProperties
 sidebar_label: "dropCollectionFieldProperties()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、フィールドの指定されたプロパティを削除します。 | Java | v2"
+description: "この操作では、フィールドの指定されたプロパティを削除します。 | Java | v2"
 type: docx
-token: O3E9duLvfoMC26x8AmDcomlWneh
-sidebar_position: 26
+token: DU5gdncRGoDE0exDDUXcxAOsnIi
+sidebar_position: 23
 keywords: 
   - ANNS
   - ベクトル検索
-  - knn algorithm
+  - knn アルゴリズム
   - HNSW
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - dropCollectionFieldProperties()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFieldProperties()
 
-この操作は、フィールドの指定されたプロパティを削除します。
+この操作では、フィールドの指定されたプロパティを削除します。
 
 ```java
 public void dropCollectionFieldProperties(DropCollectionFieldPropertiesReq request)
@@ -49,31 +49,23 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `collectionName(String collectionName)`
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - `databaseName(String databaseName)`
 
-    上記の collection を含む database の名前。 
+    上記で指定したコレクションを含むデータベースの名前です。
 
 - `fieldName(String fieldName)`
 
-    指定された collection 内の対象フィールドの名前。
+    指定したコレクション内の対象フィールドの名前です。
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    指定されたフィールドから削除するプロパティの名前。
-
-**戻り値の型:**
-
-*void*
-
-**戻り値:** 
-
-なし
+    指定したフィールドから削除するプロパティの名前です。
 
 ## 例\{#example}
 
@@ -81,6 +73,8 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DropCollectionFieldPropertiesReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

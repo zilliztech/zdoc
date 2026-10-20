@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "現在のデータベース内でアップロード済みのすべてのファイルリソースを一覧表示します。 | Java | v2"
+description: "この操作は、現在のデータベースにあるアップロード済みのファイルリソースをすべて一覧表示します。 | Java | v2"
 type: docx
 token: JbG0d6GAdoOpkixsVUpcE0YMnPd
 sidebar_position: 2
 keywords: 
   - ベクトルデータベースとは
-  - ベクトルデータベース比較
+  - ベクトルデータベースの比較
   - Faiss
   - 動画検索
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - listFileResources()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listFileResources()
 
-現在のデータベース内でアップロード済みのすべてのファイルリソースを一覧表示します。
+この操作は、現在のデータベースにあるアップロード済みのファイルリソースをすべて一覧表示します。
 
 ```java
 public ListFileResourcesResp listFileResources(ListFileResourcesReq request)
@@ -43,23 +43,35 @@ public ListFileResourcesResp listFileResources(ListFileResourcesReq request)
 listFileResources(ListFileResourcesReq.builder().build());
 ```
 
-このリクエストはパラメータを取りません。
+このリクエストにはパラメーターはありません。
 
-**戻り値:**
+**戻り値の型：**
 
 *ListFileResourcesResp*
 
-レスポンスは `getResources()` を介してアクセス可能な `List<FileResourceInfo>` をラップしています。各 `FileResourceInfo` エントリには以下が含まれます。
+**戻り値：**
 
-- `name` (*String*) - リソースの一意な名前。
+登録済みのファイルリソースを含む **ListFileResourcesResp** オブジェクトです。
 
-- `path` (*String*) - アップロードされた元のローカルパス。
+**パラメーター：**
 
-**例外:**
+- **resources** (*List&lt;FileResourceInfo&gt;*) -
+
+    現在のデータベースに登録されているファイルリソースです。`getResources()` でアクセスできます。各 **FileResourceInfo** エントリには、次のフィールドが含まれます。
+
+    - **name** (*String*) -
+
+        リソースの一意の名前です。
+
+    - **path** (*String*) -
+
+        アップロードされた元のローカルパスです。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この例外は、この操作中にエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

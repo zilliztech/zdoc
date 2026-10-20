@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(プレースホルダー) | Java | v2"
+description: "この操作は、検索結果を反復処理するための検索イテレーターを返します。 | Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - LLM 評価
+  - スパースベクトルと密ベクトル
+  - 密ベクトル
   - Hierarchical Navigable Small Worlds
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
   - searchIterator()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,23 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-# searchIterator()\{#searchiterator}
-
-このメソッドは、検索結果を反復処理するための search iterator を返します。
+この操作は、検索結果を反復処理するための検索イテレーターを返します。
 
 ```java
 public SearchIterator searchIterator(SearchIteratorReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 searchIterator(SearchIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .vectorFieldName(String vectorFieldName)
+    .metricType(IndexParam.MetricType metricType)
     .topK(int topK)
     .limit(long limit)
     .expr(String expr)
@@ -67,23 +65,27 @@ searchIterator(SearchIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-    データベース名です。指定しない場合は現在のデータベースがデフォルトで使用されます。
-
-- `collectionName(String collectionName)`
-
-    対象の collection 名です。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `clusterId(String clusterId)`
 
-    この vector 読み取りリクエストの対象 cluster ID です。複数のリクエストで同じ cluster ID を共有する場合は `session(String clusterId)` を使用します。
+    **非推奨です。** クエリ対象のクラスターの ID です。グローバルクラスターデプロイメントに適用されます。
+
+- `collectionName(String collectionName)`
+
+    対象のコレクションの名前です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とする partition 名のリストです。
+    対象とするパーティション名のリストです。
 
 - `vectorFieldName(String vectorFieldName)`
 
-    vector フィールドの名前です。
+    ベクトルフィールドの名前です。
+
+- `metricType(IndexParam.MetricType metricType)`
+
+    ベクトル間の類似度を測定するために使用するメトリクスタイプです。
 
 - `topK(int topK)`
 
@@ -103,7 +105,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `vectors(List<BaseVector> vectors)`
 
-    検索に使用する vector のリストです。
+    検索に使用するベクトルのリストです。
 
 - `roundDecimal(int roundDecimal)`
 
@@ -111,7 +113,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `params(String params)`
 
-    JSON 文字列として指定する追加の検索パラメータです。
+    JSON 文字列として指定する追加の検索パラメーターです。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -119,7 +121,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作中に growing segment を無視するかどうかです。
+    操作中に増加中のセグメントを無視するかどうかです。
 
 - `groupByFieldName(String groupByFieldName)`
 
@@ -127,21 +129,33 @@ searchIterator(SearchIteratorReq.builder()
 
 - `batchSize(long batchSize)`
 
-    iterator 操作の batch size です。
+    イテレーター操作のバッチサイズです。
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *SearchIterator*
 
-検索結果を反復処理するための *SearchIterator* オブジェクトで、以下のメソッドを提供します。
+**RETURNS:**
+
+検索結果を反復処理する **SearchIterator** オブジェクトです。このオブジェクトは以下のメソッドを提供します。
+
+**PARAMETERS:**
+
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
+
+    検索式に一致する結果の次のバッチを返します。
+
+- **close()** -
+
+    イテレーターと、そのカーソルが保持するリソースを解放します。
 
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIterator;
@@ -152,6 +166,11 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

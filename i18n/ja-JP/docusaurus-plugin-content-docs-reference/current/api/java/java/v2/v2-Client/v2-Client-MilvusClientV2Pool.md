@@ -4,17 +4,17 @@ slug: /java/java/v2-Client-MilvusClientV2Pool
 sidebar_label: "MilvusClientV2Pool"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "MilvusClientV2Pool インスタンスは、MilvusClientV2 オブジェクト用の接続プールです。MilvusClientV2 オブジェクトの数は、接続の頻繁なオープンとクローズを避けるために自動的に増減し、アプリケーションのパフォーマンスを向上させます。 | Java | v2"
 type: docx
-token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
+token: Trm7dn8V2o4jEUxPJFmcuO15nkc
 sidebar_position: 2
 keywords: 
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - what is ベクトル db
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - Faiss
   - zilliz
   - zilliz cloud
@@ -83,15 +83,15 @@ MilvusClientV2Pool(PoolConfig poolConfig, ConnectConfig connectConfig);
 
 - `clear(String key)`
 
-    key group のアイドル状態の client を解放/切断します。
+    Release/disconnect idle clients of a key group.
 
 - `clear()`
 
-    すべての key group のアイドル状態の client を解放/切断します。
+    Release/disconnect idle clients of all key groups.
 
 - `close()`
 
-    すべての key group のすべての client を解放/切断し、プールを閉じます。
+    Release/disconnect all clients of all key groups, and close the pool.
 
 ## PoolConfig\{#poolconfig}
 
@@ -151,18 +151,20 @@ PoolConfig poolConfig = PoolConfig.builder()
 
 ## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
 
-**[MilvusClientV2](./v2-Client-MilvusClientV2#connectconfigv2-client-connectconfig)** ページの説明を参照してください。
+Read the description on the **[MilvusClientV2](https://zilliverse.feishu.cn/docx/IeOWd0yR2onm5Ex6XyqcrGjKnpS)** page.
 
 ## Examples\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.pool.PoolConfig;
 import io.milvus.pool.MilvusClientV2Pool;
+import java.time.Duration;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531")
-        .token("user:password") // replace this with your token
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN") // replace this with your token
         .build();
         
 PoolConfig poolConfig = PoolConfig.builder()
@@ -182,4 +184,3 @@ try {
     pool.returnClient("client_name", client); // make sure the client is returned after use
 }
 ```
-

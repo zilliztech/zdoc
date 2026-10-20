@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、snapshot データをコピーまたは調査している間にガベージコレクションされないよう、一定期間 pin します。 | Java | v2"
+description: "この操作では、スナップショットデータをコピーまたは検査している間にガベージコレクションされないよう、スナップショットデータを一定期間ピン留めします。 | Java | v2"
 type: docx
 token: BBYgdwIV5onkWxxowAhcCl5rnzc
 sidebar_position: 7
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - pinSnapshotData()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # pinSnapshotData()
 
-この操作は、snapshot データをコピーまたは調査している間にガベージコレクションされないよう、一定期間 pin します。
+この操作では、スナップショットデータをコピーまたは検査している間にガベージコレクションされないよう、スナップショットデータを一定期間ピン留めします。
 
 ```java
 public PinSnapshotDataResp pinSnapshotData(PinSnapshotDataReq request)
@@ -49,35 +49,43 @@ pinSnapshotData(PinSnapshotDataReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `snapshotName(String snapshotName)`
 
-    snapshot の名前。
+    スナップショットの名前です。
 
 - `databaseName(String databaseName)`
 
-    collection を含む database の名前。省略した場合は、現在の database が使用されます。
+    コレクションを含むデータベースの名前です。省略した場合は、現在のデータベースが使用されます。
 
 - `collectionName(String collectionName)`
 
-    snapshot 操作に関連付けられた collection の名前。
+    スナップショット操作に関連するコレクションの名前です。
 
 - `ttlSeconds(Long ttlSeconds)`
 
-    snapshot データの pin に対する有効期限（秒）。サーバーのデフォルト動作を使用するには `0L` を指定します。
+    スナップショットデータのピン留めの有効期間（秒）です。サーバーのデフォルト動作を使用するには、`0L` を使用します。
 
-**戻り値:**
+**戻り値の型：**
 
 *PinSnapshotDataResp*
 
-pin された snapshot データの pin ID を含むレスポンス。
+**戻り値：**
 
-**例外:**
+ピン留めされたスナップショットデータのピン ID を含むレスポンスです。
+
+**パラメーター：**
+
+- **pinId** (*Long*) -
+
+    作成されたピンの ID です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外の場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが欠落している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
 
 ## 例\{#example}
 

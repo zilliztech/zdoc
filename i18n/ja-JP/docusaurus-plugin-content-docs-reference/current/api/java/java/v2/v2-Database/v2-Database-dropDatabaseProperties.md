@@ -4,17 +4,17 @@ slug: /java/java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、データベースのプロパティをデフォルト値にリセットします。 | Java | v2"
 type: docx
-token: HSYzdg59FoBzeIxymrLc0EbBnyd
+token: IeNKdLhpKovMZ4x6sYtc6ZEsnqg
 sidebar_position: 5
 keywords: 
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
@@ -51,17 +51,11 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前。指定しない場合は、現在のデータベースがデフォルトになります。
+    データベース名。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `propertyKeys(List<String> propertyKeys)` -
 
     削除するプロパティキー名のリスト。
-
-**戻り値:**
-
-*void*
-
-*void*
 
 **例外:**
 
@@ -75,6 +69,9 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

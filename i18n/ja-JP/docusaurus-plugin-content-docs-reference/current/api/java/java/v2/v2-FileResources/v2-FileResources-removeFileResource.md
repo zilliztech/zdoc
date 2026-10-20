@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "以前にアップロードした file resource を名前で削除します。アクティブな function または analyzer からまだ参照されている resource を削除すると、エラーで失敗します。 | Java | v2"
+description: "この操作は、以前にアップロードしたファイルリソースを名前で削除します。アクティブな関数またはアナライザーからまだ参照されているリソースを削除すると、エラーで失敗します。 | Java | v2"
 type: docx
 token: I5yTdfJXNoHDICxSwWXcNjwxnoc
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 密ベクトル
+  - 階層型ナビゲーション可能なスモールワールド
+  - 密埋め込み
+  - Faiss ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - removeFileResource()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # removeFileResource()
 
-以前にアップロードした file resource を名前で削除します。アクティブな function または analyzer からまだ参照されている resource を削除すると、エラーで失敗します。
+この操作は、以前にアップロードしたファイルリソースを名前で削除します。アクティブな関数またはアナライザーからまだ参照されているリソースを削除すると、エラーで失敗します。
 
 ```java
 public void removeFileResource(RemoveFileResourceReq request)
@@ -52,11 +52,7 @@ removeFileResource(RemoveFileResourceReq.builder()
 
     **[必須]**
 
-    削除する file resource の名前。
-
-**戻り値:**
-
-*void*
+    削除するファイルリソースの名前です。
 
 **例外:**
 

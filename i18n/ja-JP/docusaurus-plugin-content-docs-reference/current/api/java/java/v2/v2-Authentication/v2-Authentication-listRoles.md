@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-listRoles
 sidebar_label: "listRoles()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はすべてのカスタムロールを一覧表示します。 | Java | v2"
 type: docx
-token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
+token: M4KYdO6CWofowQxFYDecYxjknEg
 sidebar_position: 14
 keywords: 
   - ベクトルデータベースの例
@@ -47,11 +47,17 @@ List<String> roles = client.listRoles();
 
 **戻り値の型:**
 
-*List\<String\>*
+*List&lt;String&gt;*
 
 **戻り値:**
 
-ロール名を含む文字列のリスト。
+ロール名を含む文字列のリストです。
+
+**パラメーター:**
+
+- **roleNames** (*List&lt;String&gt;*) -
+
+    すべてのカスタムロールの名前のリストです。
 
 **例外:**
 
@@ -64,6 +70,8 @@ List<String> roles = client.listRoles();
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -76,4 +84,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. List roles
 List<String> roles = client.listRoles();
 ```
-

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ID によって特定のエンティティを取得します。 | Java | v2"
+description: "この操作は、ID を指定して特定のエンティティを取得します。 | Java | v2"
 type: docx
 token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - LLM-as-a-Judge
+  - ハイブリッドベクトル検索
+  - 動画の重複排除
+  - 動画類似検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - get()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-この操作は、ID によって特定のエンティティを取得します。
+この操作は、ID を指定して特定のエンティティを取得します。
 
 ```java
 public GetResp get(GetReq request)
@@ -45,61 +45,94 @@ get(GetReq.builder()
     .collectionName(String collectionName)
     .clusterId(String clusterId)
     .partitionName(String partitionName)
+    .partitionNames(List<String> partitionNames)
     .ids(List<Object> ids)
     .outputFields(List<String> outputFields)
     .build()
 )
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属するデータベースの名前。
+    対象コレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - `clusterId(String clusterId)`
 
-    この vector 読み取りリクエストの対象 cluster ID。複数のリクエストで同じ cluster ID を共有する場合は、`session(String clusterId)` を使用します。
+    クエリ対象のクラスターの ID です。グローバルクラスターデプロイメントに適用されます。
 
 - `partitionName(String partitionName)`
 
-    partition の名前。
+    パーティションの名前です。
+
+- `partitionNames(List<String> partitionNames)`
+
+    クエリ対象のパーティション名のリストです。
 
 - `ids(List<Object> ids)`
 
-    特定のエンティティ ID、またはエンティティ ID のリスト。
+    特定のエンティティ ID またはエンティティ ID のリストです。
 
 - `outputFields(List<String> outputFields)`
 
-    クエリ結果に含めるフィールド名のリスト。
+    クエリ結果に含めるフィールド名のリストです。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *GetResp*
 
-**戻り値:**
+**戻り値：**
 
-1 つ以上のクエリ対象エンティティを表す **GetResp** オブジェクト。
+1 つ以上のクエリ対象エンティティを表す **GetResp** オブジェクトです。利用可能な場合は、操作コスト（`getCost()`）とスキャンされたバイト数のメトリクス（`getScannedRemoteBytes()`、`getScannedTotalBytes()`、`getCacheHitRatio()`）が含まれます。
 
-**パラメータ:**
+**パラメーター：**
 
-- **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
+- **getResults** (*List&lt;QueryResp.QueryResult&gt;*) -
 
-    **QueryResp.QueryResult** オブジェクトのリスト。
+    取得されたエンティティのリストです。各 **QueryResp.QueryResult** には次のフィールドが含まれます：
 
-- **fields** (*Map\\\&lt;String,Object\\\&gt;*)
+    - **entity** (*Map&lt;String,Object&gt;*) -
 
-    フィールド名とその値のキーと値のペアを含むマップ。
+        フィールド名とその値をキーと値のペアで格納するマップです。
 
-**例外:**
+    - **elementOffset** (*Long*) -
+
+        構造体配列の要素レベルのクエリでは、一致した要素の配列内のインデックスです。通常のクエリでは null です。
+
+- **sessionTs** (*long*) -
+
+    読み取りのセッションタイムスタンプです。
+
+- **cost** (*Long*) -
+
+    操作の時間コストです。
+
+- **scannedRemoteBytes** (*Long*) -
+
+    クエリ中にリモートでスキャンされたバイト数です。
+
+- **scannedTotalBytes** (*Long*) -
+
+    クエリ中にスキャンされた合計バイト数です。
+
+- **cacheHitRatio** (*Float*) -
+
+    クエリのキャッシュヒット率です。
+
+- **fields** (*Map&lt;String,Object&gt;*) -
+
+    フィールド名とその値をキーと値のペアで格納するマップです。
+
+**例外：**
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

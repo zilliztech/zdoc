@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`pinSnapshotData()` によって作成されたスナップショットデータのピンを解放する操作です。 | Java | v2"
+description: "この操作は、`pinSnapshotData()` によって作成されたスナップショットデータのピンを解放します。 | Java | v2"
 type: docx
 token: SachdJS5AopAZyxEfloceBnnnqg
 sidebar_position: 9
 keywords: 
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
-  - vector db とは
+  - オープンソースのベクトルデータベース
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - unpinSnapshotData()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -46,21 +46,17 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 )
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `pinId(Long pinId)`
 
-    `pinSnapshotData()` によって返されるピン ID。
+    `pinSnapshotData()` によって返されるピン ID です。
 
-**戻り値:**
-
-*void*
-
-**例外:**
+**例外：**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
 
 ## 例\{#example}
 

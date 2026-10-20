@@ -4,21 +4,21 @@ slug: /java/java/v2-DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "RemoteBulkWriter インスタンスは、Milvus が理解できる形式で生データを AWS S3 互換バケットに書き込みます。 | Java | v2"
+description: "RemoteBulkWriter インスタンスは、生データを Milvus が解釈できる形式で AWS S3 互換バケットに書き込みます。 | Java | v2"
 type: docx
-token: XAIndF6XWoQzvRxDvpLcgEE1nEb
+token: JETLdPGdboaeksx2o7acgo8lnMc
 sidebar_position: 5
 keywords: 
   - Zilliz データベース
   - 非構造化データ
-  - vector database
+  - ベクトルデータベース
   - IVF
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - RemoteBulkWriter
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,35 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-**RemoteBulkWriter** インスタンスは、Milvus が理解できる形式で生データを AWS S3 互換バケットに書き込みます。
+RemoteBulkWriter インスタンスは、生データを Milvus が解釈できる形式で AWS S3 互換バケットに書き込みます。
 
 ```java
 io.milvus.bulkwriter.RemoteBulkWriter
 ```
 
-## Constructor\{#constructor}
+## コンストラクター\{#constructor}
 
-**schema**、**remote_path**、**connect_param,** などのパラメータセットを使用して **RemoteBulkWriter** インスタンスを構築します。
+**RemoteBulkWriter** インスタンスを、**スキーマ**、**remote_path**、**connect_param、** などの一連のパラメーターで構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
-
-**RemoteBulkWriter** オブジェクトは、生データを Milvus が理解できる形式に変換して、AWS S3 互換または Microsoft Azure Blob Storage バケットに書き込むことを目的としています。
-
-</Admonition>
+**RemoteBulkWriter** オブジェクトは、生データを Milvus が解釈できる形式に書き換えて、AWS S3 互換バケットまたは Microsoft Azure Blob Storage バケットに格納することを目的としています。
 
 ```java
 public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **bulkWriterParam** (*RemoteBulkWriterParam*) -
 
-    [RemoteBulkWriterParam](./v2-DataImport-RemoteBulkWriter#remotebulkwriterparam) インスタンス。
+    RemoteBulkWriterParam のインスタンスです。
 
 ## RemoteBulkWriterParam\{#remotebulkwriterparam}
 
-**RemoteBulkWriterParam** を使用すると、**RemoteBulkWriter** クラスをインスタンス化できるように、**RemoteBulkWriter** インスタンスのプロパティを 1 か所で設定できます。
+**RemoteBulkWriterParam** を使用すると、**RemoteBulkWriter** インスタンスのプロパティを 1 か所で設定できるため、**RemoteBulkWriter** クラスをインスタンス化できます。
 
 ```java
 RemoteBulkWriterParam.newBuilder()
@@ -72,57 +68,51 @@ RemoteBulkWriterParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    CreateCollectionReq.CollectionSchema をインスタンス化して定義される、対象 collection の schema。
+    対象コレクションのスキーマです。CreateCollectionReq.CollectionSchema をインスタンス化して定義します。
 
 - `withConnectParam(StorageConnectParam connectParam)`
 
-    リモートバケットへの接続に使用するパラメータで、[StorageConnectParam](./v2-DataImport-RemoteBulkWriter#storageconnectparam) をインスタンス化して定義します。
+    リモートバケットへの接続に使用するパラメーターです。StorageConnectParam をインスタンス化して定義します。
 
 - `withRemotePath(String remotePath)`
 
-    変換後のデータを格納するディレクトリへのパス。
+    書き換え後のデータを格納するディレクトリのパスです。
 
 - `withChunkSize(long chunkSize)`
 
-    ファイルセグメントの最大サイズ。生データの変換中に、Milvus はそれを複数のセグメントに分割します。
+    ファイルセグメントの最大サイズです。生データを書き換える際、Milvus はデータをセグメントに分割します。
 
-    デフォルト値はバイト単位で **536,870,912**、つまり **512 MB** です。
+    値のデフォルトは **536,870,912** バイト（**512 MB**）です。
 
-    <Admonition type="info" icon="📘" title="**BulkWriter はどのようにデータをセグメント化しますか？**">
-
-    BulkWriter がデータをセグメント化する方法は、対象のファイルタイプによって異なります。
-    
-    生成されたファイルが指定されたセグメントサイズを超える場合、BulkWriter は複数のファイルを作成し、それぞれがセグメントサイズを超えないように連番で名前を付けます。
-
-    </Admonition>
+    BulkWriter によるデータのセグメント化方法は、対象ファイルの種類によって異なります。生成されたファイルが指定したセグメントサイズを超える場合、BulkWriter は複数のファイルを作成し、各ファイルがセグメントサイズを超えないように連番を付けます。
 
 - `withFileType(BulkFileType fileType)`
 
-    出力ファイルのタイプ。使用可能なオプションは [BulkFileType](./v2-DataImport-BulkFileType) に一覧があります。
+    出力ファイルの種類です。使用可能なオプションは BulkFileType に一覧されています。
 
 - `withConfig(String key, Object val)`
 
-    CSV ファイル処理用のオプション設定を指定する辞書。このパラメータは、`withFileType()` で `fileType` を `CSV` に設定した場合にのみ適用されます。辞書には次のフィールドが含まれます。
+    CSV ファイルを処理するためのオプション設定を指定するディクショナリーです。このパラメーターは、`withFileType()` で `fileType` を `CSV` に設定した場合にのみ適用されます。ディクショナリーには次のフィールドが含まれます:
 
     - **sep** (*string*) -
 
-        CSV ファイルの区切り文字。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`, `"\n"`, `"\r"`, `"""`。
+        CSV ファイルの区切り文字です。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`, `"\n"`, `"\r"`, `"""`。
 
     - **nullkey** (*string*) -
 
-        null 値を表す特別な文字列。デフォルト値は空文字列 `""` です。
+        null 値を表す特殊な文字列です。値のデフォルトは空の文字列 `""` です。
 
 ## StorageConnectParam\{#storageconnectparam}
 
-**StorageConnectParam** は **AzureConnectParam** および **S3ConnectParam** で実装されています。
+**StorageConnectParam** は、**AzureConnectParam** および **S3ConnectParam** で実装されています。
 
 ### AzureConnectParam\{#azureconnectparam}
 
-**AzureConnectParam** は、Microsoft Azure Blob Storage コンテナに接続するためのパラメータを準備します。
+**AzureConnectParam** は、Microsoft Azure Blob Storage コンテナーに接続するためのパラメーターを準備します。
 
 ```java
 AzureConnectParam.newBuilder()
@@ -133,27 +123,27 @@ AzureConnectParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `withContainerName(String containerName)`
 
-    接続先のリモート Azure Blob Storage コンテナの名前。
+    接続するリモート Azure Blob Storage コンテナーの名前です。
 
 - `withConnStr(String connStr)`
 
-    Azure Storage アカウントへの接続文字列で、account_url と credential に解析できます。接続文字列の生成方法については、[このリンク](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string) を参照してください。
+    Azure Storage アカウントへの接続文字列です。account_url と認証情報に解析できます。接続文字列を生成するには、このリンクを参照してください。
 
 - `withAccountUrl(String accountUrl)`
 
-    `https://<storage-account>.blob.core.windows.net` のような形式の文字列。詳細は [このリンク](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) を参照してください。
+    `https://<storage-account>.blob.core.windows.net` のような形式の文字列です。詳細については、このリンクを参照してください。
 
 - `withCredential(TokenCrendtial credential)`
 
-    アカウントのアクセスキー。詳細は [このリンク](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) を参照してください。
+    アカウントのアクセスキーです。詳細については、このリンクを参照してください。
 
 ### S3ConnectParam\{#s3connectparam}
 
-S3ConnectParam は、S3 互換オブジェクトストレージバケットに接続するためのパラメータを準備します
+S3ConnectParam は、S3 互換のオブジェクトストレージバケットに接続するためのパラメーターを準備します。
 
 ```java
 S3ConnectParam.newBuilder()
@@ -168,53 +158,53 @@ S3ConnectParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `withCloudName(String cloudName)`
 
-    S3 互換オブジェクトストレージサービスを提供するクラウドプロバイダ。使用可能なオプションは次のとおりです。
+    S3 互換のオブジェクトストレージサービスを提供するクラウドプロバイダーです。使用可能なオプションは次の通りです:
 
-    - **MINIO** (MinIO)
+    - **MINIO**（MinIO）
 
-    - **AWS** (AWS S3)
+    - **AWS**（AWS S3）
 
-    - **GCP** (GCP Cloud Storage)
+    - **GCP**（GCP Cloud Storage）
 
-    - **ALI** (Alibaba Cloud OSS)
+    - **ALI**（Alibaba Cloud OSS）
 
-    - **TC** (Tencent Cloud COS)
+    - **TC**（Tencent Cloud COS）
 
 - `withBucketName(String bucketName)`
 
-    接続先のリモートバケット名。
+    接続するリモートバケットの名前です。
 
 - `withEndpoint(String endpoint)`
 
-    AWS S3 互換サービスの URL。
+    AWS S3 互換サービスの URL です。
 
-    値には、MinIO サービスの URL、または任意の AWS S3 互換パブリックサービスの URL を指定できます。
+    値には、MinIO サービスの URL または任意の AWS S3 互換パブリックサービスの URL を指定できます。
 
 - `withAccessKey(String accessKey)`
 
-    指定したバケットへのアクセス認証に使用する access key（ユーザー ID）。
+    指定したバケットへのアクセスを認証するために使用するアクセスキー（ユーザー ID）です。
 
 - `withSecretKey(String secretKey)`
 
-    指定したバケットへのアクセス認証に使用する secret_key（パスワード）。
+    指定したバケットへのアクセスを認証するために使用する secret_key（パスワード）です。
 
 - `withSessionToken(String sessionToken)`
 
-    AWS S3 互換サービス内のアカウントのセッショントークン。
+    AWS S3 互換サービスにおけるアカウントのセッショントークンです。
 
 - `withRegion(String region)`
 
-    バケットが存在するリージョンの名前または ID。
+    バケットが存在するリージョンの名前または ID です。
 
 - `withHttpClient(OkHttpClient httpClient)`
 
-    OkHttp クライアントを使用して、AWS S3 互換サービスへのセキュアな（TLS）接続を設定するかどうか。
+    OkHttp クライアントを使用して、AWS S3 互換サービスへの安全な（TLS）接続を設定するかどうかです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import com.google.gson.JsonObject;
@@ -226,6 +216,7 @@ import io.milvus.bulkwriter.common.clientenum.CloudStorage;
 import io.milvus.bulkwriter.connect.S3ConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.List;
 
 private static List<List<String>> callRemoteWriter(CreateCollectionReq.CollectionSchema collectionSchema,
                                                    List<JsonObject> data) throws Exception {

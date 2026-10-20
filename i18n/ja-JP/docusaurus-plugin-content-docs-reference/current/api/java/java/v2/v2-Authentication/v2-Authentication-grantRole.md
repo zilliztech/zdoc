@@ -4,16 +4,16 @@ slug: /java/java/v2-Authentication-grantRole
 sidebar_label: "grantRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はユーザーにロールを付与します。 | Java | v2"
+description: "この操作は、ユーザーにロールを付与します。 | Java | v2"
 type: docx
-token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
+token: YjXDdG9vjoCXmJxnysrci2Y0nZd
 sidebar_position: 12
 keywords: 
   - オーディオ類似性検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grantRole()
 
-この操作はユーザーにロールを付与します。
+この操作は、ユーザーにロールを付与します。
 
 ```java
 public void grantRole(GrantRoleReq request)
@@ -47,25 +47,21 @@ grantRole(GrantRoleReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド:**
 
 - `roleName(String roleName)`
 
-    割り当てるロールの名前。
+    割り当てるロールの名前です。
 
 - `userName(String userName)`
 
-    既存ユーザーの名前。
-
-**戻り値:**
-
-*void*
+    既存のユーザーの名前です。
 
 **例外:**
 
 - **MilvusClientExceptions**
 
-    この操作の実行中にエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -73,6 +69,7 @@ grantRole(GrantRoleReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.GrantRoleReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -89,4 +86,3 @@ GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .build();
 client.grantRole(grantRoleReq);
 ```
-

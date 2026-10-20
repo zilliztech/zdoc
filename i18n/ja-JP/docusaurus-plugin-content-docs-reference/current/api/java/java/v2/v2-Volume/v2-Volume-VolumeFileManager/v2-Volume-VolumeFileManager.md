@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`VolumeFileManager` インスタンスは、Zilliz Cloud の Volume サービス上の特定の volume への接続を維持します。volume にデータファイルをアップロードする前に、`VolumeFileManager` インスタンスを初期化する必要があります。 | Java | v2"
+description: "`VolumeFileManager` インスタンスは、Zilliz Cloud のボリュームサービス上にある特定のボリュームへの接続を維持します。データファイルをボリュームにアップロードする前に、`VolumeFileManager` インスタンスを初期化する必要があります。 | Java | v2"
 type: docx
 token: DK7ZdxRCyoepyxx0odzcH66xnu3
 sidebar_position: 2
 keywords: 
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
-  - vector db とは
+  - オープンソースベクトルデータベース
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,21 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # VolumeFileManager
 
-`VolumeFileManager` インスタンスは、Zilliz Cloud の Volume サービス上の特定の volume への接続を維持します。volume にデータファイルをアップロードする前に、`VolumeFileManager` インスタンスを初期化する必要があります。
+`VolumeFileManager` インスタンスは、Zilliz Cloud のボリュームサービス上にある特定のボリュームへの接続を維持します。データファイルをボリュームにアップロードする前に、`VolumeFileManager` インスタンスを初期化する必要があります。
 
 ```java
 io.milvus.bulkwriter.VolumeFileManager
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+## コンストラクター\{#constructor}
 
-volume は、データのマージ、移行、インポートなど、後続の処理のためにデータを保持できる中間ストレージです。詳細については、[Volume](/docs/volume) を参照してください。
-
-</Admonition>
-
-## Constructor\{#constructor}
-
-このコンストラクタは、Zilliz Cloud の Volume サービス上の特定の volume への接続を維持するための、新しい `VolumeFileManager` インスタンスを初期化します。
+このコンストラクターは、Zilliz Cloud のボリュームサービス上にある特定のボリュームへの接続を維持するために設計された、新しい `VolumeFileManager` インスタンスを初期化します。
 
 ```java
 VolumeFileManager(
@@ -57,35 +51,53 @@ VolumeFileManager(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **cloudEndpoint** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    `https://api.cloud.zilliz.com` である Zilliz Cloud エンドポイント。
+    Zilliz Cloud のエンドポイント（`https://api.cloud.zilliz.com`）です。
 
 - **apiKey** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    Zilliz Cloud の Control Plane 上で volume を管理するための十分な権限を持つ、あなたの Zilliz Cloud API key。Zilliz Cloud API key を取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
+    Zilliz Cloud の Control Plane でボリュームを管理するための十分な権限を持つ Zilliz Cloud API キーです。Zilliz Cloud API キーを取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
 
 - **volumeName** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    この操作の対象 volume の名前。
+    この操作の対象ボリュームの名前です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-`VolumeFileManager`
+*VolumeFileManager*
 
-**RETURNS:**
+**戻り値:**
 
-`VolumeFileManager` インスタンス。
+対象ボリュームの接続設定を保持する `VolumeFileManager` インスタンスで、以下のフィールドを持ちます。
 
-## Examples\{#examples}
+**パラメーター:**
+
+- **cloudEndpoint** (*String*) -
+
+    ボリュームを申請し、一時ストレージ認証情報を更新するために使用される Zilliz Cloud エンドポイントです。
+
+- **apiKey** (*String*) -
+
+    ボリュームアクセスを認証するために使用される Zilliz Cloud API キーです。
+
+- **volumeName** (*String*) -
+
+    対象の Zilliz Cloud ボリュームの名前です。
+
+- **connectType** (*ConnectType*) -
+
+    ボリュームへのアクセスに使用される接続戦略です。値のデフォルトは `ConnectType.AUTO` です。
+
+## 例\{#examples}
 
 ```java
 import io.milvus.bulkwriter.VolumeFileManager;
@@ -99,4 +111,3 @@ VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilde
 
 VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
 ```
-

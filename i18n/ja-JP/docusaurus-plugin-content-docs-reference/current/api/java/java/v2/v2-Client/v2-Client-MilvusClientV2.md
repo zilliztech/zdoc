@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "MilvusClientV2 インスタンスは、特定の Zilliz Cloud cluster に接続する Java クライアントを表します。 | Java | v2"
+description: "MilvusClientV2 インスタンスは、特定の Zilliz Cloud クラスターに接続する Java クライアントを表します。 | Java | v2"
 type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
@@ -31,29 +31,25 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClientV2
 
-**MilvusClientV2** インスタンスは、特定の Zilliz Cloud cluster に接続する Java クライアントを表します。
+**MilvusClientV2** インスタンスは、特定の Zilliz Cloud クラスターに接続する Java クライアントを表します。
 
 ```java
 io.milvus.v2.client.MilvusClientV2
 ```
 
-## Constructor\{#constructor}
+## コンストラクター\{#constructor}
 
 一般的なユースケース向けのクライアントを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
-
 このクライアントは、Zilliz Cloud 上で Create、Read、Update、Delete（CRUD）操作を処理する現在の API セットに対する、使いやすい代替手段として機能します。
-
-</Admonition>
 
 ```java
 MilvusClientV2(ConnectConfig connectConfig);
 ```
 
-## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
+## ConnectConfig\{#connectconfig}
 
-**[ConnectConfig](./v2-Client-ConnectConfig)** を使用すると、接続プロパティを 1 か所で設定でき、**MilvusClientV2** はそれを参照して connection pool を作成および管理できます。
+**ConnectConfig** を使用すると、接続プロパティを 1 か所で設定でき、**MilvusClientV2** がそれを参照してコネクションプールを作成および管理できるようになります。
 
 ```java
 // use either token or username/password
@@ -81,139 +77,124 @@ ConnectConfig.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `uri(String uri)`
 
-    Zilliz Cloud cluster の URI。例:
+    Zilliz Cloud クラスターの URI です。例：
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
-    ```
+```plaintext
+https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
+```
 
 - `token(String token)`
 
-    指定した Zilliz Cloud cluster にアクセスするための有効な access token。 
+    指定した Zilliz Cloud クラスターにアクセスするための有効なアクセストークンです。
 
-    これは、**user** と **password** を個別に設定する代わりの推奨手段として使用できます。
+これは、**user** と **password** を個別に設定する代わりに推奨される方法として使用できます。
 
-    このフィールドを設定する際は、次の点に注意してください。
+このフィールドを設定する際は、次の点に注意してください。
 
-    有効な token は次のいずれかである必要があります。
+有効なトークンは、次のいずれかである必要があります。
 
-    - 十分な権限を持つ [API key](/docs/manage-api-keys)、または
+- 十分な権限を持つ API キー、または
 
-    - 対象 cluster へのアクセスに使用する [username and password ](/docs/cluster-credentials) をコロン (:) で連結したもの。たとえば、`username:p@ssw0rd` に設定できます。
+- コロン（:）で連結した、対象クラスターへのアクセスに使用するユーザー名とパスワードのペア。たとえば、`username:p@ssw0rd` に設定できます。
 
 - `username(String userName)`
 
-    指定した Zilliz Cloud cluster に接続するために使用する有効な username。
+    指定した Zilliz Cloud クラスターへの接続に使用する有効なユーザー名です。
 
-    これは **password** と一緒に使用する必要があります。
+これは **password** と組み合わせて使用する必要があります。
 
 - `password(String password)`
 
-    指定した Zilliz Cloud cluster に接続するために使用する有効な password。
+    指定した Zilliz Cloud クラスターへの接続に使用する有効なパスワードです。
 
-    これは **user** と一緒に使用する必要があります。
+これは **user** と組み合わせて使用する必要があります。
 
 - `connectTimeoutMs(long connectTimeout)`
 
-    この操作のタイムアウト時間（ミリ秒）。 
+    この操作のタイムアウト時間（ミリ秒）です。
 
-    デフォルト値は **10000** です。
+デフォルト値は **10000** です。
 
 - `keepAliveTimeMs(long keepAliveTime)`
 
-    クライアントがサーバーに keep-alive probe を送信する間隔の時間（ミリ秒）。
+    クライアントがサーバーにキープアライブプローブを送信する間隔（ミリ秒）です。
 
-    デフォルト値は **55000** です。
+デフォルト値は **55000** です。
 
 - `keepAliveTimeoutMs(long keepAliveTimeout)`
 
-    クライアントから送信された keep-alive probe にサーバーが応答するまでのタイムアウト時間（ミリ秒）。
+    クライアントから送信されたキープアライブプローブにサーバーが応答するまでのタイムアウト時間（ミリ秒）です。
 
-    デフォルト値は **20000** です。
+デフォルト値は **20000** です。
 
 - `keepAliveWithoutCalls(boolean enable)`
 
-    リクエストを行わずに keep-alive probe を送信するかどうか。
+    リクエストを行わずにキープアライブプローブを送信するかどうかです。
 
-    デフォルト値は **false** です。
+デフォルト値は **false** です。
 
 - `rpcDeadlineMs(long rpcDeadline)`
 
-    RPC 呼び出しの deadline（無効）。
+    RPC 呼び出しのデッドライン（無効）です。
 
-    デフォルト値は **0** で、deadline が無効であることを示します。
+デフォルト値は **0** で、デッドラインが無効であることを示します。
 
-- `clientKeyPath(String clientKeyPath)`
+- `clientKeyPath(String clientKeyPath)`<br/>
+  双方向認証用のクライアントキーファイルへのパスです。
 
-    双方向認証用の client key ファイルへのパス。
+- `clientPemPath(String clientPemPath)`<br/>
+  双方向認証用のクライアント PEM ファイルへのパスです。
 
-- `clientPemPath(String clientPemPath)`
+- `caPemPath(String caPemPath)`<br/>
+  双方向認証用の CA PEM ファイルへのパスです。
 
-    双方向認証用の client PEM ファイルへのパス。
+- `serverPemPath(String serverPemPath)`<br/>
+  双方向認証用のサーバー PEM ファイルへのパスです。
 
-- `caPemPath(String caPemPath)`
+- `serverName(String serverName)`<br/>
+  想定されるサーバー名です。
 
-    双方向認証用の CA PEM ファイルへのパス。
+- `proxyAddress(String proxyAddress)`<br/>
+  接続を確立するためのプロキシサーバーのアドレスです。
 
-- `serverPemPath(String serverPemPath)`
+- `secure(boolean enable)`<br/>
+  接続に TLS を使用するかどうかです。
 
-    双方向認証用の server PEM ファイルへのパス。
+デフォルト値は **true** です。
 
-- `serverName(String serverName)`
+- `idleTimeoutMs(long idleTimeout)`<br/>
+  接続のアイドルタイムアウトです。
 
-    想定される server 名。
+- `.clientRequestId(ThreadLocal<String> clientRequestId)`<br/>
+  クライアントリクエストの ID です。このパラメーターを使用すると、各スレッドが特定のリクエスト ID に対応するスレッドのマップを維持できます。
 
-- `proxyAddress(String proxyAddress)`
+リクエスト ID はサーバーに渡されるため、アクセスログから、どのクライアントがこのインターフェースを呼び出したかを確認できます。
 
-    接続の確立に使用する proxy server のアドレス。
+**パブリックメソッド：**
 
-- `secure(boolean enable)`
+- `getHost()`<br/>
+  現在接続している Milvus インスタンスのホスト名を返します。
 
-    接続に TLS を使用するかどうか。
+- `getPort()`<br/>
+  現在接続している Milvus インスタンスのポート番号を返します。
 
-    デフォルト値は **true** です。
+- `getAuthorization()`<br/>
+  現在の接続の設定に使用された認証情報を返します。
 
-- `idleTimeoutMs(long idleTimeout)`
+- `getDbName()`<br/>
+  現在使用中のデータベース名を返します。
 
-    接続のアイドルタイムアウト。
+- `isSecure()`<br/>
+  現在の接続が TLS 経由かどうかを返します。
 
-- `.clientRequestId(ThreadLocal<String> clientRequestId)`
+- `getProxyAddress()`<br/>
+  **ConnectConfig** で指定されたプロキシサーバーのアドレスを返します。
 
-    client request の ID。このパラメータを使用して、各スレッドが特定の request ID に対応するようなスレッドのマップを維持できます。 
-
-    request ID はサーバーに渡されるため、access log から、どのクライアントがこのインターフェースを呼び出したかを確認できます。
-
-**PUBLIC METHODS:**
-
-- `getHost()`
-
-    現在接続されている Milvus インスタンスのホスト名を返します。
-
-- `getPort()`
-
-    現在接続されている Milvus インスタンスのポート番号を返します。
-
-- `getAuthorization()`
-
-    現在の接続の設定に使用された認証情報を返します。
-
-- `getDbName()`
-
-    現在使用中のデータベース名を返します。
-
-- `isSecure()`
-
-    現在の接続が TLS 経由かどうかを返します。
-
-- `getProxyAddress()`
-
-    **[ConnectConfig](./v2-Client-ConnectConfig)** で指定された proxy server のアドレスを返します。
-
-## Examples\{#examples}
+## 例\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -227,9 +208,4 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-**uri** には cluster endpoint を設定してください。**token** パラメータには、十分な権限を持つ Zilliz Cloud API key、または `username:p@ssw0rd` 形式の cluster user の認証情報を指定できます。
-
-</Admonition>
-
+**uri** にはクラスターのエンドポイントを設定してください。**token** パラメーターには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスターユーザーの認証情報を指定できます。

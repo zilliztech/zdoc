@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この getter は、collection schema に対して dynamic field が有効になっているかどうかを返します。 | Java | v2"
+description: "この操作は、コレクションスキーマで動的フィールドが有効かどうかを返します。 | Java | v2"
 type: docx
 token: XoUqdHpskoe2mOxPtITcHpPUnHg
 sidebar_position: 9
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - エージェント型 RAG
+  - RAG LLM アーキテクチャ
+  - プライベート LLM
+  - NN 検索
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
   - isEnableDynamicField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,23 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # isEnableDynamicField()
 
-この getter は、collection schema に対して dynamic field が有効になっているかどうかを返します。
+この操作は、コレクションスキーマで動的フィールドが有効かどうかを返します。
 
 ```java
 public boolean isEnableDynamicField()
 ```
 
-**戻り値:**
+**戻り値の型：**
 
 *boolean*
 
-**例外:**
+**戻り値：**
+
+コレクションスキーマで動的フィールドが有効な場合は **true** を、それ以外の場合は **false** を返します。
+
+**パラメーター：**
+
+- **戻り値**（*boolean*） -
+
+    コレクションスキーマで動的フィールド（`$meta`）が有効かどうか。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 CollectionSchema schema = CollectionSchema.builder()

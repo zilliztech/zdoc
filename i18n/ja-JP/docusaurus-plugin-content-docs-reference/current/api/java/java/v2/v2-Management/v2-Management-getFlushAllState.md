@@ -12,10 +12,10 @@ type: docx
 token: U55Vd0IR9oz8m9xS76scr4KDnNh
 sidebar_position: 24
 keywords: 
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 非構造化データとは
+  - ベクトル埋め込み
   - zilliz
   - zilliz cloud
   - cloud
@@ -46,21 +46,31 @@ getFlushAllState(GetFlushAllStateReq.builder()
     .build());
 ```
 
-**BUILDER メソッド:**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
-    `flushAll` が呼び出されたときに使用されたデータベース。
+    `flushAll` の呼び出し時に使用されたデータベースです。
 
 - `flushAllTs(Long flushAllTs)`
 
-    `flushAll` によって返された flush-all タイムスタンプ。
+    `flushAll` によって返された flush-all タイムスタンプです。
 
-**戻り値:**
+**RETURN TYPE:**
 
 *GetFlushAllStateResp*
 
-**例外:**
+**RETURNS:**
+
+flush-all 操作が完了したかどうかを示す **GetFlushAllStateResp** オブジェクトです。
+
+**PARAMETERS:**
+
+- **flushed** (*Boolean*) -
+
+    flush-all 操作が完了したかどうか。完了した場合は `true`、それ以外の場合は `false` です。
+
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
@@ -83,5 +93,3 @@ GetFlushAllStateResp state = client.getFlushAllState(GetFlushAllStateReq.builder
     .build());
 System.out.println(state.getFlushed());
 ```
-
-{/* category: Management; action: CREATE; addedSince: v3.0.x */}

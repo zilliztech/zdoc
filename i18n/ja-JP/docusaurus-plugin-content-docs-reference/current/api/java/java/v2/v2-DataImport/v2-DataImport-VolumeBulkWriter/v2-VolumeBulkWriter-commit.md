@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は追加されたデータをコミットします。 | Java | v2"
+description: "この操作は、追加されたデータをコミットします。 | Java | v2"
 type: docx
 token: V39Ady6thoD9cCxBcopcquFKnzc
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commit()
 
-この操作は追加されたデータをコミットします。
+この操作は、追加されたデータをコミットします。
 
 ```java
  public void commit(boolean async)
@@ -49,15 +49,10 @@ volumeBulkWriter.commit(
 
 - **async** (*boolean*) -
 
-    commit 操作が呼び出された直後に即座に戻るかどうか。
-
-**戻り値の型:**
-
-*void*
+    commit 操作が呼び出された直後に戻るかどうか。
 
 ## 例\{#examples}
 
 ```java
 volumeBulkWriter.commit(false);
 ```
-

@@ -4,21 +4,21 @@ slug: /java/java/v2-Partitions-dropPartition
 sidebar_label: "dropPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection から指定された partition を削除します。 | Java | v2"
+description: "この操作は、現在のコレクションから指定されたパーティションを削除します。 | Java | v2"
 type: docx
-token: CSaVdr3zao9zFpxaJBgcCTCYnPd
+token: GfGfd7P5Aong4Fx4bctc4SQPn1g
 sidebar_position: 2
 keywords: 
   - セマンティック検索
   - 異常検知
-  - sentence transformers
+  - Sentence Transformers
   - レコメンダーシステム
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - dropPartition()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-この操作は、現在の collection から指定された partition を削除します。
+この操作は、現在のコレクションから指定されたパーティションを削除します。
 
-partition を削除する前に、まずそれを release する必要があります。
+パーティションを削除する前に、そのパーティションを解放する必要があります。
 
 ```java
 public void dropPartition(DropPartitionReq request)
@@ -50,29 +50,25 @@ dropPartition(DropPartitionReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属する database の名前。
+    対象コレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    （必須）既存の collection の名前。
+    （必須）既存のコレクションの名前です。
 
 - `partitionName(String partitionName)`
 
-    （必須）削除する partition の名前。
+    （必須）削除するパーティションの名前です。
 
-**戻り値:**
+**例外：**
 
-*void*
+- **MilvusClientException**
 
-**例外:**
-
-- **MilvusClientExceptions**
-
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -80,6 +76,7 @@ dropPartition(DropPartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.DropPartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -96,4 +93,3 @@ DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
         .build();
 client.dropPartition(dropPartitionReq);
 ```
-

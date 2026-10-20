@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "エンティティ数に加えて、完全なコレクション統計マップを返します。 | Java | v2"
+description: "この操作では、エンティティ数に加えて、コレクションの完全な統計マップを返します。 | Java | v2"
 type: docx
 token: RSNDdgCQ2oRIMWxeVafcNf8LnAc
-sidebar_position: 17
+sidebar_position: 15
 keywords: 
-  - 高密度埋め込み
-  - Faiss vector database
-  - Chroma vector database
-  - nlp 検索
-  - zilliz
-  - zilliz cloud
+  - 密な埋め込み
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
+  - NLP 検索
+  - Zilliz
+  - Zilliz Cloud
   - クラウド
   - getCollectionStats()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStats()
 
-エンティティ数に加えて、完全なコレクション統計マップを返します。
+この操作では、エンティティ数に加えて、コレクションの完全な統計マップを返します。
 
 ```java
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
@@ -50,23 +50,35 @@ GetCollectionStatsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    データベースの名前です。省略した場合は現在のデータベースがデフォルトで使用されます。
+    データベース名です。省略すると、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)`
 
-    対象コレクションの名前です。
+    対象コレクション名です。
 
-**戻り値:**
+**戻り値の型:**
 
 *GetCollectionStatsResp*
 
-Milvus によって返される `numOfEntities` と完全な stats マップを含みます。
+**戻り値:**
+
+指定したコレクションのエンティティ数と完全な統計マップを含む **GetCollectionStatsResp** オブジェクトです。
+
+**パラメーター:**
+
+- **numOfEntities** (*Long*) -
+
+    コレクション内のエンティティ数です。
+
+- **stats** (*Map&lt;String, String&gt;*) -
+
+    Milvus によってキーと値のペアとして返される、コレクションの完全な統計マップです。
 
 **例外:**
 
 - **MilvusClientException**
 
-    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
+    リクエストの検証、トランスポート、またはサーバーでの実行に失敗した場合にスローされます。正確な失敗理由については、例外メッセージを確認してください。
 
 ## 例\{#example}
 

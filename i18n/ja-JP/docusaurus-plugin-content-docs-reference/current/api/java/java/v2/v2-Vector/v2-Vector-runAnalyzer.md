@@ -4,21 +4,21 @@ slug: /java/java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は入力データを処理し、トークン化された出力を生成します。 | Java | v2"
 type: docx
-token: AXt2dvFmQoP04wx9zlVciuitnQf
+token: ZtsPdcamWoCjzhxZMnDc3aIZnxc
 sidebar_position: 10
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - runAnalyzer()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -57,47 +57,59 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `texts(List<String> texts)` -
 
-    分析するテキスト文字列のリスト。
+    分析対象のテキスト文字列のリストです。
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    analyzer パラメータのマップ。
+    analyzer パラメーターのマップです。
 
 - `withDetail(Boolean withDetail)` -
 
-    詳細なトークン情報を含めるかどうか。
+    詳細なトークン情報を含めるかどうかを指定します。
 
 - `withHash(Boolean withHash)` -
 
-    出力に hash 値を含めるかどうか。
+    出力に hash 値を含めるかどうかを指定します。
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - `fieldName(String fieldName)` -
 
-    対象 field の名前。
+    対象フィールドの名前です。
 
 - `analyzerNames(List<String> analyzerNames)` -
 
-    使用する analyzer 名のリスト。
+    使用する analyzer 名のリストです。
 
-**戻り値:**
+**戻り値の型:**
 
 *RunAnalyzerResp*
 
-**RunAnalyzerResp** には **AnalyzerResult** オブジェクトのリストが含まれ、各 **AnalyzerResult** は **AnalyzerToken** オブジェクトのリストです。 
+**戻り値:**
+
+**RunAnalyzerResp** には **AnalyzerResult** オブジェクトのリストが含まれ、各 **AnalyzerResult** は **AnalyzerToken** オブジェクトのリストです。
+
+**パラメーター:**
+
+- **results** (*List&lt;AnalyzerResult&gt;*) -
+
+    analyzer の結果のリストです。入力テキストごとに 1 つずつ含まれ、それぞれに以下のフィールドがあります。
+
+    - **tokens** (*List&lt;AnalyzerToken&gt;*) -
+
+        analyzer によって生成されたトークンです。それぞれに以下のフィールドがあります。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -106,6 +118,12 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

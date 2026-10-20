@@ -4,16 +4,16 @@ slug: /java/java/v2-Management-dropIndex
 sidebar_label: "dropIndex()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection から index を削除します。 | Java | v2"
+description: "この操作は、指定されたコレクションからインデックスを削除します。 | Java | v2"
 type: docx
-token: XHyydLsEAoPwB2xNhcwc9KBwn7g
+token: XFs1dqEocoNydExQDjicp4V2n7d
 sidebar_position: 5
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-この操作は、特定の collection から index を削除します。
+この操作は、指定されたコレクションからインデックスを削除します。
 
 ```java
 public void dropIndex(DropIndexReq request)
@@ -53,29 +53,25 @@ dropIndex(DropIndexReq.builder()
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属する database の名前。
+    対象のコレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - `fieldName(String fieldName)`
 
-    index が作成されている field の名前。
+    インデックスが作成されているフィールドの名前です。
 
 - `indexName(String indexName)`
 
-    削除する index の名前。
-
-**戻り値:**
-
-*void*
+    削除するインデックスの名前です。
 
 **例外:**
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 
@@ -83,6 +79,7 @@ dropIndex(DropIndexReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DropIndexReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -99,4 +96,3 @@ DropIndexReq dropIndexReq = DropIndexReq.builder()
         .build();
 client.dropIndex(dropIndexReq);
 ```
-

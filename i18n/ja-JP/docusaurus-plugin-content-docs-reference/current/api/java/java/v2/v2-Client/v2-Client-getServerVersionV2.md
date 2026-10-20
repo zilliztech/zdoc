@@ -51,9 +51,35 @@ getServerVersionV2(GetServerVersionReq.builder()
 
     詳細なサーバービルド情報を取得するかどうかを指定します。デフォルトは `Boolean.FALSE` です。
 
-**戻り値:**
+**戻り値の型:**
 
 *GetServerVersionResp*
+
+**戻り値:**
+
+サーバーのバージョン情報を含む **GetServerVersionResp** オブジェクトです。レスポンスには次のフィールドが含まれます。
+
+**パラメーター:**
+
+- **version** (*String*) -
+
+    接続先サーバーのバージョン文字列です。
+
+- **buildTime** (*String*) -
+
+    サーバーのビルド時刻です。`detail(true)` が設定されている場合に返されます。
+
+- **gitCommit** (*String*) -
+
+    サーバーのビルド元となった Git commit です。`detail(true)` が設定されている場合に返されます。
+
+- **goVersion** (*String*) -
+
+    サーバーのビルドに使用された Go version です。`detail(true)` が設定されている場合に返されます。
+
+- **deployMode** (*String*) -
+
+    サーバーの deploy mode です。`detail(true)` が設定されている場合に返されます。
 
 **例外:**
 

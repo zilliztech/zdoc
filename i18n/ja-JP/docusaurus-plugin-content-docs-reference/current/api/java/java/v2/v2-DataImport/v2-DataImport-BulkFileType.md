@@ -7,14 +7,14 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "以下の定数を提供する列挙型です。 | Java | v2"
+description: "BulkFileType インスタンスは、Milvus BulkWriter がサポートする一括データファイルタイプの 1 つを、その数値コードとファイル名の接尾辞とともに保持します。 | Java | v2"
 type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトルデータベース
   - milvus open source
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # BulkFileType
 
-以下の定数を提供する列挙型です。
+BulkFileType インスタンスは、Milvus BulkWriter がサポートする一括データファイルタイプの 1 つを、その数値コードとファイル名の接尾辞とともに保持します。
 
 ## 定数\{#constants}
 
 - **PARQUET**
 
-    ファイルタイプを [Parquet](https://parquet.apache.org/) (*.parquet*) に設定します。
+    ファイルタイプを Parquet (*.parquet*) に設定します。
 
 - **JSON**
 

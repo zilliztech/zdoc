@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-dropAlias
 sidebar_label: "dropAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.5.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection alias を削除します。 | Java | v2"
+description: "この操作は、指定したコレクションのエイリアスを削除します。 | Java | v2"
 type: docx
-token: ARw0dIb0hojCNbxKkOacs1K7nQf
-sidebar_position: 13
+token: OfL3da2p1oeJcRxMrxQcb1lbnd2
+sidebar_position: 12
 keywords: 
   - 機械学習
   - RAG
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-この操作は、指定された collection alias を削除します。 
+この操作は、指定したコレクションのエイリアスを削除します。
 
 ```java
 public void dropAlias(DropAliasReq request)
@@ -47,27 +47,23 @@ dropAlias(DropAliasReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
-    対象の alias が属する database の名前。
+    対象のエイリアスが属するデータベースの名前です。
 
 - `alias(String alias)`
 
-    collection の alias。 
+    コレクションのエイリアスです。
 
-    この操作を実行する前に、alias が存在することを確認してください。そうしないと、例外が発生します。
+    この操作を実行する前に、エイリアスが存在することを確認してください。存在しない場合は、例外がスローされます。
 
-**RETURNS:**
-
-*void*
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -75,6 +71,7 @@ dropAlias(DropAliasReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.DropAliasReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

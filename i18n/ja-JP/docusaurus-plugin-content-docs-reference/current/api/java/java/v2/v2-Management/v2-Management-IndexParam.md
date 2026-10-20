@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-IndexParam
 sidebar_label: "IndexParam"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "IndexParam は、コレクションフィールドのインデックスを設定するためのパラメータを定義します。 | Java | v2"
+description: "IndexParam インスタンスは、コレクションフィールドにインデックスを設定するためのパラメータを保持します。 | Java | v2"
 type: docx
-token: SXgodgq99ozZoHxfnakc0fpCnJh
+token: PpTcd5ptzoYJjZxRPdMcQvSjnDc
 sidebar_position: 10
 keywords: 
-  - milvus db
-  - milvus vector db
+  - Milvus データベース
+  - Milvus ベクトルデータベース
   - Zilliz Cloud
   - Milvus とは
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - IndexParam
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-IndexParam は、コレクションフィールドのインデックスを設定するためのパラメータを定義します。
+IndexParam インスタンスは、コレクションフィールドにインデックスを設定するためのパラメータを保持します。
 
 ```java
 IndexParam.builder()
@@ -60,25 +60,56 @@ IndexParam.builder()
 
     追加のインデックス固有パラメータをキーと値のペアとして指定します。たとえば、HNSW インデックスの場合は `{"M": 16, "efConstruction": 256}` です。
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *IndexParam*
+
+**RETURNS:**
+
+**IndexParam** オブジェクトには、以下のフィールドが含まれます。
+
+**PARAMETERS:**
+
+- **fieldName** (*String*) -
+
+    インデックスを作成するフィールドの名前です。
+
+- **indexName** (*String*) -
+
+    インデックスの名前です。
+
+- **indexType** (*IndexType*) -
+
+    フィールドに構築するインデックスの種類です。デフォルト：`AUTOINDEX`。
+
+- **metricType** (*MetricType*) -
+
+    ベクトル類似度を測定するためのメトリックタイプです。
+
+- **extraParams** (*Map&lt;String, Object&gt;*) -
+
+    追加のインデックス固有パラメータをキーと値のペアとして指定します。たとえば、`nlist` や `M` などです。
 
 **EXCEPTIONS:**
 
 *MilvusClientException*
 
-この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+この例外は、この操作中にエラーが発生した場合にスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.common.IndexParam;
+
+import java.util.HashMap;
 
 IndexParam indexParam = IndexParam.builder()
     .fieldName("vector")
     .indexType(IndexParam.IndexType.HNSW)
     .metricType(IndexParam.MetricType.COSINE)
-    .extraParams(Map.of("M", 16, "efConstruction", 256))
+    .extraParams(new HashMap<String, Object>() {{
+        put("M", 16);
+        put("efConstruction", 256);
+    }})
     .build();
 ```

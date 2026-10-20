@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-getLoadState
 sidebar_label: "getLoadState()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection または partition がロードされているかどうかを表示します。 | Java | v2"
+description: "この操作は、指定したコレクションまたはパーティションがロードされているかどうかを表示します。 | Java | v2"
 type: docx
-token: PAs7dwIIrop4OixCUr8ctHVLnXc
+token: UN0oddDrNoaIq2xDGCLcG9XCnob
 sidebar_position: 9
 keywords: 
-  - vector データベース チュートリアル
-  - vector データベースの仕組み
-  - vector db 比較
-  - openai vector db
+  - ベクトルデータベースチュートリアル
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getLoadState()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-この操作は、指定された collection または partition がロードされているかどうかを表示します。
+この操作は、指定したコレクションまたはパーティションがロードされているかどうかを表示します。
 
 ```java
 public Boolean getLoadState(GetLoadStateReq request)
@@ -48,39 +48,39 @@ getLoadState(GetLoadStateReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    対象の collection が属するデータベースの名前です。
+    対象のコレクションが属するデータベースの名前です。
 
 - `collectionName(String collectionName)`
 
-    collection の名前です。
+    コレクションの名前です。
 
 - `partitionName(String partitionName)`
 
-    partition の名前です。
+    パーティションの名前です。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *Boolean*
 
-**戻り値:**
+**戻り値：**
 
-指定された collection または partition の状態を示す Boolean 値です。 
+指定したコレクションまたはパーティションの状態を示す Boolean 値です。
 
-<Admonition type="info" icon="📘" title="注記">
+**パラメーター：**
 
-collection は、そのいずれかまたはすべての partition がロードされている場合、ロード済み状態とみなされます。
+- **loaded** (*Boolean*) -
 
-</Admonition>
+    指定したコレクションまたはパーティションがロードされているかどうかを示します。ロードされている場合は `true`、それ以外の場合は `false` です。
 
-**例外:**
+**例外：**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
@@ -88,6 +88,7 @@ collection は、そのいずれかまたはすべての partition がロード�
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

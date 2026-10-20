@@ -4,12 +4,12 @@ slug: /java/java/v2-Management-IndexType
 sidebar_label: "IndexType"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "以下の定数を提供する列挙型です。 | Java | v2"
+description: "IndexType インスタンスは列挙定数です。この列挙には、以下の定数が用意されています。 | Java | v2"
 type: docx
-token: RcJhdfB29okLpcx3w8KcvcL7nU9
+token: Zh6adGbCBoqXsPxnvGXcfrMwnhc
 sidebar_position: 11
 keywords: 
   - 異常検知
@@ -18,7 +18,7 @@ keywords:
   - 情報検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - IndexType
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,122 +31,126 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-これは、以下の定数を提供する列挙型です。
+IndexType インスタンスは列挙定数です。この列挙には、以下の定数が用意されています。
 
-## Constants\{#constants}
+## 定数\{#constants}
 
 ### FLAT\{#flat}
 
-index type を FLAT に設定します。
+インデックスタイプを FLAT に設定します。
 
 ### IVF_FLAT\{#ivfflat}
 
-index type を IVF_FLAT に設定します。
+インデックスタイプを IVF_FLAT に設定します。
 
 ### IVF_SQ8\{#ivfsq8}
 
-index type を IVF_SQ8 に設定します。
+インデックスタイプを IVF_SQ8 に設定します。
 
 ### IVF_PQ\{#ivfpq}
 
-index type を IVF_PQ に設定します。
+インデックスタイプを IVF_PQ に設定します。
 
 ### HNSW\{#hnsw}
 
-index type を HNSW に設定します。
+インデックスタイプを HNSW に設定します。
 
 ### HNSW_SQ\{#hnswsq}
 
-index type を HNSW に設定します。
+インデックスタイプを HNSW に設定します。
 
 ### HNSW_PQ\{#hnswpq}
 
-index type を HNSW_PQ に設定します。
+インデックスタイプを HNSW_PQ に設定します。
 
 ### HNSW_PRQ\{#hnswprq}
 
-index type を HNSW_PRQ に設定します。
+インデックスタイプを HNSW_PRQ に設定します。
 
 ### DISKANN\{#diskann}
 
-index type を DISKANN に設定します。
+インデックスタイプを DISKANN に設定します。
 
 ### AUTOINDEX\{#autoindex}
 
-index type を AUTOINDEX に設定します。
+インデックスタイプを AUTOINDEX に設定します。
 
 ### SCANN\{#scann}
 
-index type を SCANN に設定します。
+インデックスタイプを SCANN に設定します。
 
 ### IVF_RABITQ\{#ivfrabitq}
 
-index type を IVF_RABITQ に設定します。これは dense float vector に適用されます。
+インデックスタイプを IVF_RABITQ に設定します。これは密な float ベクトルに適用されます。
 
 ### AISAQ\{#aisaq}
 
-index type を AISAQ に設定します。これは GPU 上の dense float vector に適用されます。
+インデックスタイプを AISAQ に設定します。これは GPU 上の密な float ベクトルに適用されます。
 
 ### GPU_IVF_FLAT\{#gpuivfflat}
 
-index type を GPU_IVF_FLAT に設定します。これは GPU index にのみ適用されます。
+インデックスタイプを GPU_IVF_FLAT に設定します。これは GPU インデックスにのみ適用されます。
 
 ### GPU_IVF_PQ\{#gpuivfpq}
 
-index type を GPU_IVF_PQ に設定します。これは GPU index にのみ適用されます。
+インデックスタイプを GPU_IVF_PQ に設定します。これは GPU インデックスにのみ適用されます。
 
 ### GPU_BRUTE_FORCE\{#gpubruteforce}
 
-index type を GPU_BRUTE_FORCE に設定します。これは GPU index にのみ適用されます。
+インデックスタイプを GPU_BRUTE_FORCE に設定します。これは GPU インデックスにのみ適用されます。
 
 ### GPU_CAGRA\{#gpucagra}
 
-index type を GPU_CAGRA に設定します。これは GPU index にのみ適用されます。
+インデックスタイプを GPU_CAGRA に設定します。これは GPU インデックスにのみ適用されます。
 
 ### BIN_FLAT\{#binflat}
 
-index type を BIN_FLAT に設定します。これは binary vector にのみ適用されます。
+インデックスタイプを BIN_FLAT に設定します。これはバイナリベクトルにのみ適用されます。
 
 ### BIN_IVF_FLAT\{#binivfflat}
 
-index type を BIN_IVF_FLAT に設定します。これは binary vector にのみ適用されます。
+インデックスタイプを BIN_IVF_FLAT に設定します。これはバイナリベクトルにのみ適用されます。
 
 ### MINHASH_LSH\{#minhashlsh}
 
-index type を MINHASH_LSH に設定します。これは binary vector にのみ適用されます。
+インデックスタイプを MINHASH_LSH に設定します。これはバイナリベクトルにのみ適用されます。
 
 ### TRIE("Trie")\{#trietrie}
 
-index type を TRIE に設定します。これは VarChar field にのみ適用されます。
+インデックスタイプを TRIE に設定します。これは VarChar フィールドにのみ適用されます。
 
 ### NGRAM\{#ngram}
 
-index type を NGRAM に設定します。これは VarChar field および JSON Path index に適用されます。
+インデックスタイプを NGRAM に設定します。これは VarChar フィールドと JSON Path インデックスに適用されます。
+
+### FMINDEX\{#fmindex}
+
+インデックスタイプを FMINDEX に設定します。これは VarChar フィールドに適用されます。アンカー付き LIKE クエリ (prefix/infix/suffix) に、候補の再チェックなしで応答する正確なバイトレベルの部分文字列インデックスです。
 
 ### RTREE\{#rtree}
 
-index type を RTREE に設定します。これは geometry field にのみ適用されます。
+インデックスタイプを RTREE に設定します。これはジオメトリフィールドにのみ適用されます。
 
 ### STL_SORT\{#stlsort}
 
-index type を SLT_SORT に設定します。これは数値型の field にのみ適用されます。
+インデックスタイプを SLT_SORT に設定します。これは数値型のフィールドにのみ適用されます。
 
 ### INVERTED\{#inverted}
 
-index type を INVERTED に設定します。これは JSON field を除くすべての scalar field に適用されます。
+インデックスタイプを INVERTED に設定します。これは JSON フィールドを除くすべてのスカラーフィールドに適用されます。
 
 ### BITMAP\{#bitmap}
 
-index type を BITMAP に設定します。これは JSON、FLOAT、DOUBLE field を除くすべての scalar field に適用されます。
+インデックスタイプを BITMAP に設定します。これは JSON、FLOAT、DOUBLE フィールドを除くすべてのスカラーフィールドに適用されます。
 
 ### SPARSE_INVERTED_INDEX\{#sparseinvertedindex}
 
-index type を SPARSE_INVERTED_INDEX に設定します。これは sparse vector にのみ適用されます。
+インデックスタイプを SPARSE_INVERTED_INDEX に設定します。これは疎ベクトルにのみ適用されます。
 
 ### SPARSE_WAND\{#sparsewand}
 
-index type を SPARSE_WAND に設定します。これは sparse vector にのみ適用されます。
+インデックスタイプを SPARSE_WAND に設定します。これは疎ベクトルにのみ適用されます。
 
 ### EMB_LIST_HNSW\{#emblisthnsw}
 
-index type を EMB_LIST_HNSW に設定します。これは Array of Structs field に適用されます。
+インデックスタイプを EMB_LIST_HNSW に設定します。これは Struct の配列フィールドに適用されます。

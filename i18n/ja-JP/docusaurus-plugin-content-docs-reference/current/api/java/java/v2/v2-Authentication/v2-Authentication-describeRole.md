@@ -52,19 +52,63 @@ DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
 
     **[必須]**
 
-    説明対象のロールの名前。
+    説明するロールの名前です。
 
-**戻り値:**
+- `dbName(String dbName)`
+
+    ロールが適用されるデータベースの名前です。省略した場合は、現在のデータベースがデフォルトになります。
+
+**戻り値の型:**
 
 *DescribeRoleResp*
 
-レスポンスには `roleName`、`grantInfos`、`description` が含まれます。
+**戻り値:**
+
+**DescribeRoleResp** オブジェクトには、以下のフィールドが含まれます。
+
+**パラメーター:**
+
+- **roleName** (*String*) -
+
+    ロールの名前です。
+
+- **grantInfos** (*List&lt;GrantInfo&gt;*) -
+
+    ロールに付与された権限のリストです。各権限は、以下のフィールドを含む **GrantInfo** オブジェクトです。
+
+    - **objectType** (*String*) -
+
+        権限が適用されるオブジェクトの種類です。
+
+    - **objectName** (*String*) -
+
+        権限が適用されるオブジェクトの名前です。
+
+    - **roleName** (*String*) -
+
+        権限が付与されるロールの名前です。
+
+    - **grantor** (*String*) -
+
+        権限を付与したユーザーの名前です。
+
+    - **privilege** (*String*) -
+
+        付与された権限です。
+
+    - **dbName** (*String*) -
+
+        権限が付与されるデータベースの名前です。
+
+- **description** (*String*) -
+
+    ロールの説明です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

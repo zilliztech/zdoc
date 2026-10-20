@@ -4,21 +4,21 @@ slug: /java/java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内の partitions をメモリから解放します。 | Java | v2"
+description: "この操作は、指定したコレクション内のパーティションをメモリにロードします。 | Java | v2"
 type: docx
-token: MH8cdNxkgoliJ5xU0f9cBKqunYe
+token: QHhAd0ObroZgicxARuKcOqEmnfb
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
+  - ベクトルデータベースの比較
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - loadPartitions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-この操作は、指定された collection 内の partitions をメモリから解放します。
+この操作は、指定したコレクション内のパーティションをメモリにロードします。
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 loadPartitions(LoadPartitionsReq.builder()
@@ -55,23 +55,23 @@ loadPartitions(LoadPartitionsReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベース名です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)` -
 
-    対象の collection 名。
+    対象コレクションの名前です。
 
 - `partitionNames(List<String> partitionNames)` -
 
-    対象とする partition 名のリスト。
+    対象とするパーティション名のリストです。
 
 - `numReplicas(Integer numReplicas)` -
 
-    ロードするレプリカの数。
+    ロードするレプリカの数です。
 
 - `sync(Boolean sync)` -
 
@@ -79,42 +79,38 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `timeout(Long timeout)` -
 
-    タイムアウト時間（ミリ秒）。
+    タイムアウト時間をミリ秒単位で指定します。
 
 - `refresh(Boolean refresh)` -
 
-    新しい field を含めるためにロードを更新するかどうか。
+    新しいフィールドを含めるようにロードを更新するかどうか。
 
 - `loadFields(List<String> loadFields)` -
 
-    ロードする特定の field 名のリスト。
+    ロードする特定のフィールド名のリストです。
 
 - `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-    dynamic field のロードをスキップするかどうか。
+    動的フィールドのロードをスキップするかどうか。
 
 - `resourceGroups(List<String> resourceGroups)` -
 
-    ロードバランシングのための resource group 名のリスト。
+    ロードバランシング用のリソースグループ名のリストです。
 
-**RETURNS:**
-
-*void*
-
-*void*
-
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.LoadPartitionsReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

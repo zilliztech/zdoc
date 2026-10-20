@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、接続先サーバーのバージョン文字列を返します。 | Java | v2"
+description: "この操作は、接続先のバージョン文字列を返します。 | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
 sidebar_position: 26
 keywords: 
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル similarity search
   - approximate nearest neighbor search
   - DiskANN
   - zilliz
@@ -31,19 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getServerVersion()
 
-この操作は、接続先サーバーのバージョン文字列を返します。
+この操作は、接続先のバージョン文字列を返します。
 
 ```java
 public String getServerVersion()
 ```
 
-**戻り値:**
+**RETURN TYPE:**
 
 *String*
 
-サーバーのバージョン文字列（例: `"2.6.13"`）。
+**RETURNS:**
 
-**例外:**
+サーバーのバージョン文字列です（例: `"2.6.13"`）。
+
+**PARAMETERS:**
+
+- **version** (*String*) -
+
+    接続先の Milvus サーバーのバージョン文字列です。
+
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 

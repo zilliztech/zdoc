@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、restore snapshot ジョブの状態と進捗を取得します。 | Java | v2"
+description: "この操作は、スナップショット復元ジョブの状態と進捗を取得します。 | Java | v2"
 type: docx
 token: KXdUdGpt7oD3dkxHZcfcIAQBnNg
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRestoreSnapshotState()
 
-この操作は、restore snapshot ジョブの状態と進捗を取得します。
+この操作は、スナップショット復元ジョブの状態と進捗を取得します。
 
 ```java
 public GetRestoreSnapshotStateResp getRestoreSnapshotState(GetRestoreSnapshotStateReq request)
@@ -50,19 +50,63 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 
 - `jobId(Long jobId)`
 
-    `restoreSnapshot()` によって返される restore snapshot ジョブ ID。
+    `restoreSnapshot()` によって返されるスナップショット復元ジョブ ID です。
 
-**戻り値:**
+**戻り値の型:**
 
 *GetRestoreSnapshotStateResp*
 
-restore ジョブの状態、進捗、理由、タイミング、および collection メタデータを含むレスポンス。
+**戻り値:**
+
+復元ジョブの状態、進捗、理由、タイミング、およびコレクションメタデータを含むレスポンスです。
+
+**パラメーター:**
+
+- **jobInfo** (*RestoreSnapshotJobInfo*) -
+
+    スナップショット復元ジョブの情報です。ジョブ情報には以下のフィールドが含まれます。
+
+    - **jobId** (*Long*) -
+
+        スナップショット復元ジョブの ID です。
+
+    - **snapshotName** (*String*) -
+
+        復元するスナップショットの名前です。
+
+    - **dbName** (*String*) -
+
+        対象データベースの名前です。
+
+    - **collectionName** (*String*) -
+
+        対象コレクションの名前です。
+
+    - **state** (*String*) -
+
+        復元ジョブの現在の状態です。RestoreSnapshotNone、RestoreSnapshotPending、RestoreSnapshotExecuting、RestoreSnapshotCompleted、または RestoreSnapshotFailed のいずれかです。
+
+    - **progress** (*Integer*) -
+
+        復元ジョブの進捗をパーセンテージで表します。
+
+    - **reason** (*String*) -
+
+        ジョブが失敗した場合の失敗理由です。
+
+    - **startTime** (*Long*) -
+
+        復元ジョブの開始時刻です。
+
+    - **timeCost** (*Long*) -
+
+        復元ジョブの所要時間です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 

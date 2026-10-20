@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、必要に応じて database と collection を指定して snapshots を一覧表示します。 | Java | v2"
+description: "この操作は、必要に応じてデータベースとコレクションを指定して、スナップショットを一覧表示します。 | Java | v2"
 type: docx
 token: ZhiOdVH0uoMI0axpcYMcfhQXnkf
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listSnapshots()
 
-この操作は、必要に応じて database と collection を指定して snapshots を一覧表示します。
+この操作は、必要に応じてデータベースとコレクションを指定して、スナップショットを一覧表示します。
 
 ```java
 public ListSnapshotsResp listSnapshots(ListSnapshotsReq request)
@@ -47,27 +47,35 @@ listSnapshots(ListSnapshotsReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
-    collection を含む database の名前です。省略した場合は、現在の database が使用されます。
+    コレクションを含むデータベースの名前です。省略した場合、現在のデータベースが使用されます。
 
 - `collectionName(String collectionName)`
 
-    snapshot 操作に関連付けられた collection の名前です。
+    スナップショット操作に関連付けられたコレクションの名前です。
 
-**戻り値:**
+**戻り値の型:**
 
 *ListSnapshotsResp*
 
-リクエストフィルターに一致する snapshot 名を含むレスポンスです。
+**戻り値:**
+
+リクエストフィルターに一致するスナップショット名を含むレスポンスです。
+
+**パラメーター:**
+
+- **snapshots** (*List&lt;String&gt;*) -
+
+    リクエストフィルターに一致するスナップショットの名前です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    必須パラメータが不足している場合、数値パラメータが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に発生する例外です。
+    必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 

@@ -4,12 +4,12 @@ slug: /java/java/v2-Management-alterIndexProperties
 sidebar_label: "alterIndexProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、指定されたインデックスのプロパティを変更します。 | Java | v2"
 type: docx
-token: ITkydrfmroQyLLxusZtc6t1nnjf
+token: NNiQd9MxVocy3ux400jcUabhnsh
 sidebar_position: 1
 keywords: 
   - Zilliz ベクトルデータベース
@@ -71,9 +71,9 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 
         現在のインデックスに対して mmap を有効にするかどうか。
 
-**戻り値:**
+- `property(String key, String value)`
 
-*void*
+    Adds a single property to the インデックス.
 
 **例外:**
 
@@ -87,6 +87,9 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.AlterIndexPropertiesReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -96,15 +99,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `mmap.enabled` property
-Map<String, String> properties = new HashMap<>()
-properties.put("mmap.enabled", "true")
+// 2. Alter the \`mmap.enabled\` property
+Map<String, String> properties = new HashMap<>();
+properties.put("mmap.enabled", "true");
 
 AlterIndexPropertiesReq alterIndexPropertiesReq = AlterIndexPropertiesReq.builder()
         .collectionName("test")
         .indexName("vector")
         .properties(properties)
         .build();
-client.alterIndexProperties(alterCollectionFieldReq)
+client.alterIndexProperties(alterIndexPropertiesReq);
 ```
-

@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作では、検索結果を反復処理するためのイテレータを作成します。特に、検索結果に大量のデータが含まれる場合に便利です。 | Java | v2"
+description: "この操作では、検索結果を反復処理するためのイテレーターを作成します。検索結果に大量のデータが含まれる場合に特に便利です。 | Java | v2"
 type: docx
 token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ベクトルデータベース比較
+  - OpenAI ベクトルデータベース
+  - 自然言語処理データベース
+  - 低コストなベクトルデータベース
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - SearchIteratorV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # SearchIteratorV2()
 
-この操作では、検索結果を反復処理するためのイテレータを作成します。特に、検索結果に大量のデータが含まれる場合に便利です。
+この操作では、検索結果を反復処理するためのイテレーターを作成します。これは、検索結果に大量のデータが含まれる場合に特に便利です。
 
 ```java
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 searchIteratorV2(SearchIteratorReqV2.builder()
@@ -63,93 +63,101 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `databaseName(String databaseName)`
 
-    データベースの名前。指定しない場合は、現在のデータベースがデフォルトになります。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトになります。
 
 - `collectionName(String collectionName)`
 
-    対象の collection の名前。
+    対象のコレクションの名前です。
 
 - `clusterId(String clusterId)`
 
-    この vector 読み取りリクエストの対象 cluster ID。複数のリクエストで同じ cluster ID を共有する場合は `session(String clusterId)` を使用します。
+    このベクトル読み取りリクエストの対象クラスター ID です。複数のリクエストで同じクラスター ID を共有する場合は、`session(String clusterId)` を使用します。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とする partition 名のリスト。
+    対象とするパーティション名のリストです。
 
 - `vectorFieldName(String vectorFieldName)`
 
-    検索する vector フィールドの名前。
+    検索するベクトルフィールドの名前です。
 
 - `topK(int topK)`
 
-    返される上位結果の数。
+    返す上位結果の数です。
 
 - `limit(long limit)`
 
-    返される結果の最大数。
+    返す結果の最大数です。
 
 - `filter(String filter)`
 
-    結果をフィルタリングするためのブール式。
+    結果をフィルターするためのブール式です。
 
 - `outputFields(List<String> outputFields)`
 
-    出力に含めるフィールド名のリスト。
+    出力に含めるフィールド名のリストです。
 
 - `vectors(List<BaseVector> vectors)`
 
-    検索に使用する vector のリスト。
+    検索に使用するベクトルのリストです。
 
 - `roundDecimal(int roundDecimal)`
 
-    distance/score の丸めに使用する小数点以下の桁数。
+    distance/score の丸めに使用する小数点以下の桁数です。
 
 - `searchParams(Map<String, Object> searchParams)`
 
-    追加の検索パラメータ（キーと値のペア）。
+    キーと値のペアとして指定する追加の検索パラメーターです。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    この操作の整合性レベル。
+    操作の整合性レベルです。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作中に growing セグメントを無視するかどうか。
+    操作中に Growing セグメントを無視するかどうかです。
 
 - `timezone(String timezone)`
 
-    時間関連のフィルターに使用するタイムゾーン文字列。
+    時間に関連するフィルターに使用するタイムゾーン文字列です。
 
 - `groupByFieldName(String groupByFieldName)`
 
-    検索結果をグループ化するフィールド名。
+    検索結果をグループ化するフィールド名です。
 
 - `batchSize(long batchSize)`
 
-    イテレータ操作のバッチサイズ。
+    イテレーター操作のバッチサイズです。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    パラメータ化されたフィルター用のテンプレート変数値のマップ。
+    パラメーター化されたフィルターのテンプレート変数値のマップです。
 
-**RETURNS:**
-
-*SearchIteratorV2*
+**戻り値の型:**
 
 *SearchIteratorV2*
 
-**EXCEPTIONS:**
+**戻り値:**
+
+検索結果を反復処理するために使用できる **SearchIteratorV2** イテレーターです。
+
+**パラメーター:**
+
+- **searchIterator** (*SearchIteratorV2*) -
+
+    この操作から返されるイテレーターインスタンスです。次のバッチ結果を取得するには `next()` を呼び出します。空のリストが返されたら、`close()` を呼び出してイテレーターを解放します。
+
+**例外:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIteratorV2;

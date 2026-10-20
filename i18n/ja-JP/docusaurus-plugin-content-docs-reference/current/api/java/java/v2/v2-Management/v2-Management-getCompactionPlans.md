@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の compaction ジョブの compaction プランを返します。 | Java | v2"
+description: "この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。 | Java | v2"
 type: docx
 token: BDNBdbEOioqnlKxRd3DcY7wRncg
 sidebar_position: 23
 keywords: 
-  - vector database とは
-  - vector database の比較
+  - ベクトルデータベースとは
+  - ベクトルデータベースの比較
   - Faiss
   - 動画検索
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionPlans()
 
-この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の compaction ジョブの compaction プランを返します。
+この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。
 
 ```java
 public GetCompactionPlansResp getCompactionPlans(GetCompactionPlansReq request)
@@ -46,25 +46,49 @@ getCompactionPlans(GetCompactionPlansReq.builder()
 );
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `compactionID(Long compactionID)` -
 
     **[必須]**
 
-    `compact()` によって返される compaction ジョブの ID。
+    `compact()` によって返される Compaction ジョブの ID です。
 
-**戻り値:**
+**戻り値の型：**
 
 *GetCompactionPlansResp*
 
-レスポンスには、compaction の状態とマージプランが含まれます。
+**戻り値：**
 
-**例外:**
+レスポンスには、Compaction の状態とマージプランが含まれます。
+
+**パラメーター：**
+
+- **compactionId** (*Long*) -
+
+    Compaction ジョブの ID です。
+
+- **state** (*CompactionState*) -
+
+    Compaction ジョブの状態です。指定可能な値は、`UndefiedState(0)`、`Executing(1)`、`Completed(2)` です。
+
+- **plans** (*List&lt;CompactionPlan&gt;*) -
+
+    マージプランのリストです。各マージプランは、次のフィールドを含む **CompactionPlan** オブジェクトです。
+
+    - **target** (*Long*) -
+
+        ソースセグメントの結合先となるターゲットセグメントの ID です。
+
+    - **sources** (*List&lt;Long&gt;*) -
+
+        ターゲットセグメントに結合されるソースセグメントの ID です。
+
+**例外：**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

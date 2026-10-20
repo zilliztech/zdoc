@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-createCollection
 sidebar_label: "createCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、デフォルト設定またはカスタマイズ設定で collection を作成します。 | Java | v2"
+description: "この操作は、デフォルト設定またはカスタマイズ設定でコレクションを作成します。 | Java | v2"
 type: docx
-token: GEvkd6lHion0nUxgdIRcxtqqnHb
+token: LhrNdndqnoYPaZxCAMscINykno8
 sidebar_position: 7
 keywords: 
-  - milvus open source
+  - milvus オープンソース
   - milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトルデータベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - createCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createCollection()
 
-この操作は、デフォルト設定またはカスタマイズ設定で collection を作成します。 
+この操作は、デフォルト設定またはカスタマイズ設定でコレクションを作成します。 
 
 ```java
 public void createCollection(CreateCollectionReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 createCollection(CreateCollectionReq.builder()
@@ -62,87 +62,91 @@ createCollection(CreateCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)` -
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - `description(String description)` -
 
-    collection の説明。デフォルトは `""` です。
+    コレクションの説明です。デフォルトは `""` です。
 
 - `dimension(Integer dimension)` -
 
-    vector フィールドの次元数。
+    ベクトルフィールドの次元数です。
 
 - `primaryFieldName(String primaryFieldName)` -
 
-    主キー フィールドの名前。デフォルトは `"id"` です。
+    主キーフィールドの名前です。デフォルトは `"id"` です。
 
 - `idType(DataType idType)` -
 
-    主キー フィールドのデータ型。デフォルトは `DataType.Int64` です。
+    主キーフィールドのデータ型です。デフォルトは `DataType.Int64` です。
 
 - `maxLength(Integer maxLength)` -
 
-    varchar フィールドの最大長。デフォルトは `65535` です。
+    varchar フィールドの最大長です。デフォルトは `65535` です。
 
 - `vectorFieldName(String vectorFieldName)` -
 
-    vector フィールドの名前。デフォルトは `"vector"` です。
+    ベクトルフィールドの名前です。デフォルトは `"vector"` です。
 
 - `metricType(String metricType)` -
 
-    vector 類似度の metric type。デフォルトは `IndexParam.MetricType.COSINE.name()` です。
+    ベクトル類似度のメトリックタイプです。デフォルトは `IndexParam.MetricType.COSINE.name()` です。
 
 - `autoID(Boolean autoID)` -
 
-    主キー値を自動生成するかどうか。デフォルトは `Boolean.FALSE` です。
+    主キー値を自動生成するかどうかです。デフォルトは `Boolean.FALSE` です。
 
 - `enableDynamicField(Boolean enableDynamicField)` -
 
-    dynamic field を有効にするかどうか。デフォルトは `Boolean.TRUE` です。
+    動的フィールドを有効にするかどうかです。デフォルトは `Boolean.TRUE` です。
 
 - `numShards(Integer numShards)` -
 
-    collection の shard 数。デフォルトは `1` です。
+    コレクションのシャード数です。デフォルトは `1` です。
 
 - `collectionSchema(CollectionSchema collectionSchema)` -
 
-    collection の構造を定義する CollectionSchema オブジェクト。
+    コレクションの構造を定義する CollectionSchema オブジェクトです。
 
 - `indexParams(List<IndexParam> indexParams)` -
 
-    index 設定を定義する IndexParam オブジェクトのリスト。デフォルトは `new ArrayList<>()` です。
+    インデックス設定を定義する IndexParam オブジェクトのリストです。デフォルトは `new ArrayList<>()` です。
+
+- `indexParam(IndexParam indexParam)` -
+
+    コレクションとともにインデックスを作成するために、インデックスパラメーターを1つ追加します。
 
 - `numPartitions(Integer numPartitions)` -
 
-    partition の数。
+    コレクションのパーティション数です。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)` -
 
-    この操作の整合性レベル。デフォルトは `ConsistencyLevel.BOUNDED` です。
+    この操作の整合性レベルです。デフォルトは `ConsistencyLevel.BOUNDED` です。
 
 - `properties(final Map<String, String> properties)` -
 
-    collection プロパティのマップ。デフォルトは `new HashMap<>()` です。
+    コレクションプロパティのマップです。デフォルトは `new HashMap<>()` です。
 
-**RETURNS:**
+- `property(String key, String value)` -
 
-*void*
+    コレクションにプロパティを1つ追加します。
 
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -151,6 +155,8 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

@@ -12,13 +12,13 @@ type: docx
 token: JgY9doHQjoNBfMxVnpfcZeHongb
 sidebar_position: 5
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - milvus はどのように動作するか
+  - マネージド Milvus
+  - Serverless ベクトルデータベース
+  - Milvus オープンソース
+  - Milvus の仕組み
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getTotalRowCount()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -37,15 +37,25 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**戻り値:**
+**戻り値の型:**
 
 *Long*
+
+**戻り値:**
+
+これまでに追加された行の総数です。
+
+**パラメーター:**
+
+- **totalRowCount** (*Long*) -
+
+    これまでに追加された行の総数です。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 
@@ -55,4 +65,3 @@ VolumeBulkWriter writer = new VolumeBulkWriter(config);
 Long totalRows = writer.getTotalRowCount();
 System.out.println("Total rows written: " + totalRows);
 ```
-
