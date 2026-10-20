@@ -1360,6 +1360,24 @@ function larkGeneratorArgs(
   ];
 }
 
+function restToolingSha(repositoryRoot: string, environment: NodeJS.ProcessEnv): string {
+  const override = environment.ZDOC_REST_TOOLING_SHA;
+  if (override !== undefined) {
+    // The master-to-dev sync regenerates REST outputs on a merge commit that it
+    // amends afterwards, so the checkout HEAD would name an unreachable commit;
+    // it passes the exact master tooling SHA instead.
+    if (!/^[a-f0-9]{40}$/u.test(override)) throw new Error('ZDOC_REST_TOOLING_SHA must be an exact lowercase 40-character commit SHA');
+    return override;
+  }
+  try {
+    return execFileSync('git', ['rev-parse', 'HEAD'], {cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim();
+  } catch {
+    // Unit fixtures supply a repository-shaped directory without Git metadata;
+    // the executing checkout remains the authoritative generator identity.
+    return execFileSync('git', ['rev-parse', 'HEAD'], {cwd: process.cwd(), encoding: 'utf8'}).trim();
+  }
+}
+
 async function defaultFetch(context: CommandContext, runner: GeneratorRunner, environment: NodeJS.ProcessEnv): Promise<void> {
   const source = context.source as ManualSource;
   if (source.sourceType === 'local') {
@@ -1413,14 +1431,7 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   if (source.sourceType === 'rest') {
     const specifications = assertExistingSource(context.repositoryRoot, source);
     const staged = publicationStagePaths(context);
-    let toolingSha: string;
-    try {
-      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: context.repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim();
-    } catch {
-      // Unit fixtures supply a repository-shaped directory without Git metadata;
-      // the executing checkout remains the authoritative generator identity.
-      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: process.cwd(), encoding: 'utf8'}).trim();
-    }
+    const toolingSha = restToolingSha(context.repositoryRoot, environment);
     const generatedAt = new Date().toISOString();
     const derivationTargets = restDerivationManifestTargets(context.request.site, context.publication as ManualPublication);
     const primaryDerivation = derivationTargets.find(target => target.locale === context.request.site);

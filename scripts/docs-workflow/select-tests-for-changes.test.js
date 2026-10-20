@@ -61,6 +61,9 @@ test('branch policy derives master, dev, preserved exceptions, and candidate-der
   assert.equal(branchPolicy('content/en/reference/api/python/generated.md', contract).owner, 'dev-published-state')
   assert.equal(branchPolicy('content/en/reference/api/python/python/python.md', contract).owner, 'master-authoritative-exception')
   assert.equal(branchPolicy('deploy/contracts/localization-inputs.inventory.json', contract).owner, 'sync-candidate-derived')
+  assert.equal(branchPolicy('content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx', contract).owner, 'sync-candidate-derived')
+  assert.equal(branchPolicy('generated/ja-JP/manifests/rest-derivation.json', contract).owner, 'sync-candidate-derived')
+  assert.equal(branchPolicy('content/en/reference/api/restful/restful/restful.md', contract).owner, 'master-authoritative-exception')
 })
 
 test('selector maps shared contracts and recovery changes to focused, replay, and policy commands', () => {

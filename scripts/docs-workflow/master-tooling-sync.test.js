@@ -8,9 +8,12 @@ const test = require('node:test');
 const {execFileSync} = require('node:child_process');
 
 const {
+  SUPPORTED_CANDIDATE_DERIVED_PATHS,
   bootstrapStatus,
   inspectSync,
+  isCandidateDerived,
   isDevOwned,
+  isMasterAuthoritative,
   loadContract,
   pathMatches,
   validateContract,
@@ -101,6 +104,7 @@ test('matches repository roots without matching sibling prefixes', () => {
 test('validates the exact candidate-derived ownership contract', () => {
   const validated = validateContract(contractInput());
   assert.deepEqual(validated.candidateDerivedPaths, [inventoryPath]);
+  assert.deepEqual([...contract.candidateDerivedPaths].sort(), [...SUPPORTED_CANDIDATE_DERIVED_PATHS].sort());
 
   const missing = contractInput();
   delete missing.candidateDerivedPaths;
@@ -108,9 +112,66 @@ test('validates the exact candidate-derived ownership contract', () => {
   assert.throws(() => validateContract({...contractInput(), unexpected: true}), /keys must be exactly/);
   assert.throws(() => validateContract(contractInput({candidateDerivedPaths: [inventoryPath, inventoryPath]})), /must not contain duplicates/);
   assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['../inventory.json']})), /unsafe repository path/);
-  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['deploy/contracts']})), /explicitly supported candidate-derived files/);
-  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['content/generated.json']})), /overlaps dev ownership/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['deploy/contracts']})), /explicitly supported candidate-derived paths/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['content/generated.json']})), /explicitly supported candidate-derived paths/);
   assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['config/reference-retirements.json']})), /overlaps master-authoritative ownership/);
+  assert.throws(
+    () => validateContract(contractInput({candidateDerivedPaths: ['content/en/reference/api/restful/restful/restful.md']})),
+    /overlaps master-authoritative ownership/,
+  );
+});
+
+test('treats REST reference outputs as candidate-derived beneath dev-owned roots while preserved pages stay master-authoritative', () => {
+  const restPage = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+  const preserved = 'content/en/reference/api/restful/restful/restful.md';
+  assert.equal(isDevOwned(restPage, contract), true);
+  assert.equal(isCandidateDerived(restPage, contract), true);
+  assert.equal(isCandidateDerived('generated/ja-JP/manifests/rest-derivation.json', contract), true);
+  assert.equal(isCandidateDerived(preserved, contract), false);
+  assert.equal(isMasterAuthoritative(preserved, contract), true);
+  assert.equal(isCandidateDerived('content/en/reference/api/python/python/page.md', contract), false);
+
+  const {root} = fixture();
+  const dev = commit(root, 'dev', restPage, 'published page\n', 'publish rest');
+  const tooling = commit(root, 'master', 'packages/docs-tooling/src/reference/rest/meta/openapi/21.json', '{"plan":"BusinessCritical"}\n', 'change fragment');
+  assert.throws(
+    () => inspectSync({cwd: root, devSha: dev, toolingSha: commit(root, 'master', restPage, 'hand edit\n', 'edit output on master'), contract}),
+    /modifies dev-owned paths: content\/en\/reference\/api\/restful\/restful\/v2/,
+  );
+
+  git(root, 'switch', '-q', 'dev');
+  git(root, 'merge', '-q', '--no-ff', '--no-commit', tooling);
+  write(root, restPage, 'regenerated page\n');
+  write(root, 'generated/en/manifests/rest-derivation.json', '{"fragmentHashes":{"21.json":"new"}}\n');
+  git(root, 'add', '-A');
+  git(root, 'commit', '-qm', 'merge tooling with regenerated REST outputs');
+  const candidate = git(root, 'rev-parse', 'HEAD');
+  const verified = verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: candidate, contract});
+  assert.deepEqual(verified.changedDevOwned, []);
+  assert.deepEqual(verified.changedToolingOwned, []);
+  assert.deepEqual(verified.candidateVsDev, [
+    restPage,
+    'generated/en/manifests/rest-derivation.json',
+    'packages/docs-tooling/src/reference/rest/meta/openapi/21.json',
+  ]);
+
+  git(root, 'switch', '-q', '-c', 'tampered-preserved', candidate);
+  write(root, preserved, 'tampered landing\n');
+  git(root, 'add', preserved);
+  git(root, 'commit', '-qm', 'tamper preserved landing page');
+  assert.throws(
+    () => verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract}),
+    /does not match master outside dev-owned paths: content\/en\/reference\/api\/restful\/restful\/restful\.md/,
+  );
+
+  git(root, 'switch', '-q', '-c', 'other-reference', candidate);
+  write(root, 'content/en/reference/api/python/python/page.md', 'not candidate-derived\n');
+  git(root, 'add', '-A');
+  git(root, 'commit', '-qm', 'touch another reference manual');
+  assert.throws(
+    () => verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract}),
+    /changes dev-owned paths: content\/en\/reference\/api\/python\/python\/page\.md/,
+  );
 });
 
 test('accepts a normal tooling merge while preserving dev content byte-for-byte', () => {

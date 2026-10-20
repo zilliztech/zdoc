@@ -35,6 +35,16 @@
     "content/en/reference/cli/cli/Overview.md"
   ],
   "candidateDerivedPaths": [
-    "deploy/contracts/localization-inputs.inventory.json"
+    "content/en/reference/api/restful/restful",
+    "content/zh-CN/reference/api/restful/restful",
+    "deploy/contracts/localization-inputs.inventory.json",
+    "generated/en/manifests/reference.json",
+    "generated/en/manifests/rest-derivation.json",
+    "generated/en/sidebars/restful.sidebar.js",
+    "generated/ja-JP/manifests/rest-derivation.json",
+    "generated/zh-CN/manifests/reference-translations.json",
+    "generated/zh-CN/manifests/rest-derivation.json",
+    "generated/zh-CN/sidebars/restful.sidebar.js",
+    "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful"
   ]
 }

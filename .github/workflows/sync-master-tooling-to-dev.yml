@@ -133,20 +133,18 @@ jobs:
           DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
           SYNC_BRANCH: ${{ steps.compose.outputs.sync_branch }}
           TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+          # The Chinese REST lane runs the zh-CN publication adapters, whose
+          # Aliyun image validator needs the provider module and image-bed origin
+          # even though spec-generated REST pages carry no images.
+          DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: packages/docs-tooling/providers/aliyun-oss-validator.mjs
+          IMAGE_BED_URL: ${{ vars.ZH_CN_IMAGE_BED_URL }}
         run: |
           set -euo pipefail
-          derived_path=deploy/contracts/localization-inputs.inventory.json
           pnpm install --frozen-lockfile
-          pnpm generate:localization-input-inventory
+          node scripts/docs-workflow/regenerate-sync-candidate.js \
+            --dev-sha "$DEV_SHA" \
+            --tooling-sha "$TOOLING_SHA"
           pnpm check:localization-input-inventory
-          unexpected_paths=$(git diff --name-only -- . ":(exclude)$derived_path")
-          test -z "$unexpected_paths"
-          git add -- deploy/contracts/localization-inputs.inventory.json
-          staged_paths=$(git diff --cached --name-only)
-          if [[ -n "$staged_paths" ]]; then
-            test "$staged_paths" = "$derived_path"
-          fi
-          git commit --amend --no-edit
           candidate_sha=$(git rev-parse HEAD)
           node scripts/docs-workflow/master-tooling-sync.js verify \
             --dev-sha "$DEV_SHA" \
@@ -159,7 +157,7 @@ jobs:
       - name: Run focused candidate validation
         if: steps.inspect.outputs.needs_sync == 'true'
         run: |
-          node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/fetch-translation-workflow.test.mjs
+          node --test scripts/docs-workflow/master-tooling-sync.test.js scripts/docs-workflow/regenerate-sync-candidate.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/fetch-translation-workflow.test.mjs
           pnpm check:localization-input-inventory
           pnpm docs-tooling validate-revision-inventory --site en
 

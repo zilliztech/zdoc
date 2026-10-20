@@ -8,7 +8,17 @@ const {spawnSync} = require('node:child_process');
 const COMMIT_SHA = /^[0-9a-f]{40}$/;
 const DEFAULT_CONTRACT = 'deploy/contracts/master-tooling-sync.json';
 const SUPPORTED_CANDIDATE_DERIVED_PATHS = Object.freeze([
+  'content/en/reference/api/restful/restful',
+  'content/zh-CN/reference/api/restful/restful',
   'deploy/contracts/localization-inputs.inventory.json',
+  'generated/en/manifests/reference.json',
+  'generated/en/manifests/rest-derivation.json',
+  'generated/en/sidebars/restful.sidebar.js',
+  'generated/ja-JP/manifests/rest-derivation.json',
+  'generated/zh-CN/manifests/reference-translations.json',
+  'generated/zh-CN/manifests/rest-derivation.json',
+  'generated/zh-CN/sidebars/restful.sidebar.js',
+  'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful',
 ]);
 const CONTRACT_KEYS = Object.freeze([
   'schemaVersion',
@@ -30,10 +40,6 @@ function pathMatches(relativePath, root) {
   const relative = normalizedPath(relativePath);
   const normalizedRoot = normalizedPath(root);
   return relative === normalizedRoot || relative.startsWith(`${normalizedRoot}/`);
-}
-
-function pathsOverlap(left, right) {
-  return pathMatches(left, right) || pathMatches(right, left);
 }
 
 function exactKeys(value, expected, label) {
@@ -82,20 +88,20 @@ function validateContract(input, {allowLegacyCandidateDerivedPaths = false} = {}
     masterAuthoritativePaths: validatePathList(normalizedInput.masterAuthoritativePaths, 'masterAuthoritativePaths'),
     candidateDerivedPaths: validatePathList(normalizedInput.candidateDerivedPaths, 'candidateDerivedPaths'),
   });
-  // Master-authoritative paths may sit beneath a dev-owned root (e.g. preserved
-  // landing pages under `content/`). isDevOwned() treats them as master-owned, so
-  // no overlap rejection here; candidate-derived paths must still stay disjoint.
+  // Both master-authoritative and candidate-derived paths may sit beneath a
+  // dev-owned root (preserved landing pages, REST reference outputs regenerated
+  // on the sync candidate). Nested candidate-derived paths stay dev-owned for
+  // isDevOwned(), so master history still may not touch them; only
+  // verifySyncCandidate() exempts them. A candidate-derived directory may contain
+  // master-authoritative files, which keep winning, but may never be or sit
+  // below one.
   for (const derived of contract.candidateDerivedPaths) {
-    if (contract.devOwnedPaths.some(root => pathsOverlap(derived, root))) {
-      throw new Error(`Candidate-derived path overlaps dev ownership: ${derived}`);
-    }
-    if (contract.masterAuthoritativePaths.some(root => pathsOverlap(derived, root))) {
+    if (contract.masterAuthoritativePaths.some(root => pathMatches(derived, root))) {
       throw new Error(`Candidate-derived path overlaps master-authoritative ownership: ${derived}`);
     }
-  }
-  if (contract.candidateDerivedPaths.length !== SUPPORTED_CANDIDATE_DERIVED_PATHS.length ||
-      contract.candidateDerivedPaths.some(relative => !SUPPORTED_CANDIDATE_DERIVED_PATHS.includes(relative))) {
-    throw new Error(`candidateDerivedPaths must contain only explicitly supported candidate-derived files: ${SUPPORTED_CANDIDATE_DERIVED_PATHS.join(', ')}`);
+    if (!SUPPORTED_CANDIDATE_DERIVED_PATHS.includes(derived)) {
+      throw new Error(`candidateDerivedPaths must contain only explicitly supported candidate-derived paths: ${SUPPORTED_CANDIDATE_DERIVED_PATHS.join(', ')}`);
+    }
   }
   return contract;
 }
@@ -144,7 +150,8 @@ function isMasterAuthoritative(relativePath, contract) {
 }
 
 function isCandidateDerived(relativePath, contract) {
-  return contract.candidateDerivedPaths.includes(normalizedPath(relativePath));
+  if (isMasterAuthoritative(relativePath, contract)) return false;
+  return contract.candidateDerivedPaths.some(root => pathMatches(relativePath, root));
 }
 
 function inspectSync({cwd = process.cwd(), devSha, toolingSha, contract = loadContract({cwd})}) {
@@ -172,7 +179,7 @@ function verifySyncCandidate({cwd = process.cwd(), devSha, toolingSha, candidate
   if (!isAncestor(cwd, toolingSha, candidateSha)) throw new Error('Candidate does not contain the exact master tooling SHA');
 
   const candidateVsDev = changedPaths(cwd, devSha, candidateSha);
-  const changedDevOwned = candidateVsDev.filter(relative => isDevOwned(relative, contract));
+  const changedDevOwned = candidateVsDev.filter(relative => isDevOwned(relative, contract) && !isCandidateDerived(relative, contract));
   if (changedDevOwned.length) throw new Error(`Candidate changes dev-owned paths: ${changedDevOwned.join(', ')}`);
 
   const candidateVsTooling = changedPaths(cwd, toolingSha, candidateSha);
@@ -287,6 +294,7 @@ if (require.main === module) {
 
 module.exports = {
   DEFAULT_CONTRACT,
+  SUPPORTED_CANDIDATE_DERIVED_PATHS,
   bootstrapStatus,
   changedPaths,
   inspectSync,

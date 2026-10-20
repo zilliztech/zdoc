@@ -52,11 +52,11 @@ function pathMatchesRoot(file, root) {
 
 function branchPolicy(file, contract = loadOwnershipContract()) {
   const normalized = normalizeRepositoryPath(file)
-  if (contract.candidateDerivedPaths.some(candidate => normalized === candidate)) {
-    return Object.freeze({file: normalized, owner: 'sync-candidate-derived', targetBranch: 'dev', rule: 'Regenerate in the validated master-to-dev sync candidate; do not hand-edit.'})
-  }
   if (contract.masterAuthoritativePaths.some(root => pathMatchesRoot(normalized, root))) {
     return Object.freeze({file: normalized, owner: 'master-authoritative-exception', targetBranch: 'master', rule: 'Modify through a reviewed master PR, then use master-to-dev tooling sync.'})
+  }
+  if (contract.candidateDerivedPaths.some(root => pathMatchesRoot(normalized, root))) {
+    return Object.freeze({file: normalized, owner: 'sync-candidate-derived', targetBranch: 'dev', rule: 'Regenerate in the validated master-to-dev sync candidate; do not hand-edit.'})
   }
   if (contract.devOwnedPaths.some(root => pathMatchesRoot(normalized, root))) {
     return Object.freeze({file: normalized, owner: 'dev-published-state', targetBranch: 'dev', rule: 'Produced or reconciled by the serialized publication workflows; do not modify on master.'})

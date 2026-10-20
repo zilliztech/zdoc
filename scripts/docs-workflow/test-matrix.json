@@ -690,11 +690,12 @@
         "deploy/contracts/master-tooling-sync-workflow.test.mjs",
         "deploy/contracts/localization-inputs.inventory.json",
         "scripts/docs-workflow/master-tooling-sync*",
+        "scripts/docs-workflow/regenerate-sync-candidate*",
         ".github/workflows/sync-master-tooling-to-dev.yml",
         ".claude/specs/2026-08-03-master-tooling-dev-sync.md"
       ],
       "focusedTests": [
-        "node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs"
+        "node --test scripts/docs-workflow/master-tooling-sync.test.js scripts/docs-workflow/regenerate-sync-candidate.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs"
       ],
       "harnesses": [
         "pnpm test:replay:all"
@@ -702,7 +703,7 @@
       "gates": [
         "pnpm test:workflow-policy"
       ],
-      "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev and which runtime paths must be preserved."
+      "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev, which runtime paths must be preserved, and which REST derivation outputs the sync regenerates on the exact candidate."
     },
     {
       "id": "evidence-fetch-publication",
