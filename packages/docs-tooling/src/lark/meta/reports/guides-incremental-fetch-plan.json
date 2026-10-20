@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T18:34:51.091Z",
+  "generated_at": "2026-10-20T02:34:52.813Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -11,9 +11,7 @@
   "removed_tokens": [],
   "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -107,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-19T12:19:47.055Z",
+    "generated_at": "2026-10-19T18:34:55.780Z",
     "records": 402
   },
   "source_scope": "partial"
