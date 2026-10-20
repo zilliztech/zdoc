@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 本文档说明从 [OpenSearch](https://opensearch.org/) 迁移时，Zilliz Cloud 如何处理数据类型映射、Collection 命名规则及注意事项。
 
+索引设置和迁移后操作步骤，请参见[外部迁移概述](./external-migration-basics#index-settings)。
+
 ## 开始前\{#before-you-start}
 
 开始离线迁移前需满足：

@@ -28,7 +28,7 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
 ## 开始前\{#before-you-start}
 
-开始离线迁移前需满足：
+通过 Endpoint 从 Milvus 迁移至 Zilliz Cloud 前，请确认满足以下要求：
 
 ### Milvus 侧要求\{#milvus-requirements}
 
@@ -60,23 +60,43 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
 </Admonition>
 
+### 索引设置\{#index-settings}
+
+在最终确认步骤中，使用**索引设置**选择本次迁移任务如何为目标 Collection 创建索引。
+
+- **迁移后创建索引**默认开启。保持开启时，迁移任务会按照现有迁移规则自动创建索引。
+
+- 关闭该开关可跳过索引创建，稍后再手动创建，例如安排在维护窗口内创建。
+
+<Admonition type="info" title="Note">
+
+关闭迁移后创建索引后，迁移任务不会创建向量索引或标量索引。迁移后的 Collection 保持未加载状态。您需要手动创建索引并加载 Collection，才能执行搜索或查询。
+
+</Admonition>
+
+提交迁移任务前，请核对确认信息中的索引设置。
+
 ## 查看迁移进度\{#monitor-the-migration-process}
 
 生成迁移任务后，您可前往[任务中心](./view-activities)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
+
+如果跳过了索引创建，迁移成功后，任务详情中会显示**已跳过索引创建**。请按照[迁移后](./via-endpoint#post-migration)的步骤创建索引并加载 Collection。
 
 ![FJJubvyTcohYZXx6K0JcDs6Vnad](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/fjjubvytcohyzxx6k0jcds6vnad.png "FJJubvyTcohYZXx6K0JcDs6Vnad")
 
 ## 迁移后\{#post-migration}
 
-迁移任务完成后，请注意以下事项：
+迁移任务成功完成后，请先完成以下操作，再对目标 Collection 执行搜索或查询：
 
-- **索引创建**：迁移过程中会自动为迁移的 Collection 创建 AUTOINDEX。
+- <strong>开启自动索引创建：</strong>迁移任务会按照现有的 Milvus 迁移规则创建 [AUTOINDEX](./autoindex-explained)。请在任务详情中确认索引已创建成功。
 
-- **手动 Load Collection**：虽然索引已自动创建，但迁移后的 Collection 并不会立即支持搜索或查询操作。您必须手动 Load Collection，才能启用搜索和查询功能。详细信息请参阅 [Load 和 Release](./load-release-collections)。
+- <strong>跳过索引创建：</strong>迁移任务不会创建向量索引或标量索引。请手动为所有向量字段创建索引，并根据业务需要为标量字段创建索引。REST API 示例参见 [Create Index (V2)](/reference/restful/create-index-v2)。
+
+- <strong>手动加载 Collection：</strong>索引创建完成后，手动加载各个 Collection，并等待加载完成后再执行搜索或查询。无论索引是自动创建还是手动创建，都需要完成此步骤。详情参见 [Load 和 Release](./load-release-collections)。
 
 <Admonition type="info" title="说明">
 
-完成 Load 后，请检查目标集群中的 Collection 数量及 Entity 数是否与数据源保持一致。如果发现不符，请删除 Collection 并重新进行迁移任务。
+加载完成后，请检查目标集群中的 Collection 数量及 Entity 数量是否与数据源一致。如果发现不符，请删除缺少 Entity 的 Collection，并重新迁移。
 
 </Admonition>
 

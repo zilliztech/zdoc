@@ -71,7 +71,7 @@ Full Text Search 简化了基于文本数据的搜索流程，无需您提前将
 
 首先，创建 Schema 并添加必要字段：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -170,6 +170,40 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true))
+    .add_field(FieldSchema::new().name("sparse").data_type(DataType::SparseFloatVector));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -232,27 +266,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
-schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -287,6 +300,10 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
     <TabItem value='java'>
 
     ```java
+    import java.util.Collections;
+    import java.util.HashMap;
+    import java.util.Map;
+    
     Map<String, Object> analyzerParams = new HashMap<>();
     analyzerParams.put("tokenizer", "jieba");
     analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -329,7 +346,7 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
     <TabItem value='javascript'>
 
     ```javascript
-    const analyzer_params = {
+    let analyzer_params = {
         "tokenizer": "jieba",
         "filter": ["cnalphanumonly"]
     };
@@ -447,7 +464,7 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
 
 然后，创建一个将文本转换为稀疏向量的 Function，并将其添加到 Schema 中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -491,6 +508,33 @@ function := entity.NewFunction().
     WithOutputFields("sparse").
     WithType(entity.FunctionTypeBM25)
 schema.WithFunction(function)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let bm25_function = Function::new()
+    .name("text_bm25_emb")
+    .function_type(FunctionType::Bm25)
+    .input_fields(["text"])
+    .output_fields(["sparse"]);
+
+let schema = schema.add_function(bm25_function);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25);
+function->AddInputFieldName("text");
+function->AddOutputFieldName("sparse");
+schema->AddFunction(function);
 ```
 
 </TabItem>
@@ -551,17 +595,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25);
-function->AddInputFieldName("text");
-function->AddOutputFieldName("sparse");
-schema->AddFunction(function);
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -588,7 +621,7 @@ schema->AddFunction(function);
 
 在定义包含必要字段和内置 Function 的 Schema 后，需要为 Collection 设置向量索引以加速查询。本例中使用 `AUTOINDEX` 作为 `index_type`，表示让 Zilliz Cloud 根据数据结构自动选择和配置最适合的索引类型。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -636,6 +669,35 @@ indexOption.WithExtraParam("bm25_b", 0.75)
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+let index_params = IndexParam::new()
+    .field_name("sparse")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        ("inverted_index_algo".into(), "DAAT_MAXSCORE".into()),
+        ("bm25_k1".into(), "1.2".into()),
+        ("bm25_b".into(), "0.75".into()),
+    ]));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
+index_params.AddExtraParam("bm25_k1", "1.2");
+index_params.AddExtraParam("bm25_b", "0.75");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -670,17 +732,6 @@ export indexParams='[
             }
         }
     ]'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
-index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
-index_params.AddExtraParam("bm25_k1", "1.2");
-index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
 </TabItem>
@@ -733,7 +784,7 @@ index_params.AddExtraParam("bm25_b", "0.75");
 
 使用定义的 Schema 和索引参数创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -787,6 +838,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .index_param(index_params)
+        .build()?,
+)
+.await?;
+
+client.load_collection(LoadCollectionRequest::builder().collection_name("my_collection").build()?).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema)
+                                    .AddIndex(std::move(index_params)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -829,26 +919,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema)
-                                    .AddIndex(std::move(index_params)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest()
-                                    .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -862,7 +932,7 @@ if (!status.IsOk()) {
 
 在设置好 Collection 和索引后，即可插入文本数据。只需提供原始文本，之前定义的内置 Function 会自动为每条文本生成对应的稀疏向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -916,6 +986,48 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+client.insert(
+    InsertRequest::builder()
+        .collection_name("my_collection")
+        .rows(vec![
+            json!({"text": "information retrieval is a field of study."}),
+            json!({"text": "information retrieval focuses on finding relevant information in large datasets."}),
+            json!({"text": "data mining and information retrieval overlap in research."}),
+        ])
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"text", "information retrieval is a field of study."}},
+    {{"text", "information retrieval focuses on finding relevant information in large datasets."}},
+    {{"text", "data mining and information retrieval overlap in research."}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -951,27 +1063,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {
-    {{"text", "information retrieval is a field of study."}},
-    {{"text", "information retrieval focuses on finding relevant information in large datasets."}},
-    {{"text", "data mining and information retrieval overlap in research."}}
-};
-
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data))
-                                , response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -985,7 +1076,7 @@ if (!status.IsOk()) {
 
 在向 Collection 插入数据后，可以使用原始查询文本执行 Full Text Search。Milvus 会自动将查询文本转换为稀疏向量，并使用 BM25 算法对匹配的搜索结果进行相关性排序。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1059,6 +1150,48 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("sparse")
+        .vectors(SearchVectors::EmbeddedText(vec!["whats the focus of information retrieval?".to_string()]))
+        .metric_type(MetricType::Bm25)
+        .limit(3)
+        .output_fields(["text"])
+        .build()?,
+)
+.await?;
+
+println!("{:?}", res.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::SearchRequest()
+                       .WithCollectionName("my_collection")
+                       .AddEmbeddedText("whats the focus of information retrieval?")
+                       .WithLimit(3)
+                       .WithAnnsField("sparse")
+                       .AddExtraParam("metric_type", "BM25")
+                       .AddOutputField("text");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1101,26 +1234,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::SearchRequest()
-                       .WithCollectionName("my_collection")
-                       .AddEmbeddedText("whats the focus of information retrieval?")
-                       .WithLimit(3)
-                       .WithAnnsField("sparse")
-                       .AddExtraParam("metric_type", "BM25")
-                       .AddOutputField("text");
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1153,7 +1266,7 @@ if (!status.IsOk()) {
 
 示例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1215,6 +1328,39 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+let request = SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("sparse")
+    .vectors(SearchVectors::EmbeddedText(vec!["query text".to_string()]))
+    .limit(3)
+    .output_fields(["text"])
+    .build()?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+milvus::SearchRequest request = milvus::SearchRequest()
+    .WithCollectionName("my_collection")
+    .AddEmbeddedText("query text")
+    .WithLimit(3)
+    .WithAnnsField("sparse")
+    .AddOutputField("text");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1246,21 +1392,6 @@ curl --request POST \
     "limit": 3,
     "outputFields": ["text"]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// Searching with the sparse field in output_fields throws an error.
-// Only output the original text and metadata fields.
-milvus::SearchRequest request = milvus::SearchRequest()
-    .WithCollectionName("my_collection")
-    .AddEmbeddedText("query text")
-    .WithLimit(3)
-    .WithAnnsField("sparse")
-    .AddOutputField("text");
 ```
 
 </TabItem>

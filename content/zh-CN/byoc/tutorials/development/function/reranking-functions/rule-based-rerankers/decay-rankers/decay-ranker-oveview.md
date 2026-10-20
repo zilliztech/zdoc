@@ -178,6 +178,7 @@ Decay Ranker 可应用于 Zilliz Cloud 中的标准向量搜索和混合搜索�
 
 ```python
 from pymilvus import Function, FunctionType
+import datetime
 
 # Create a decay function for timestamp-based decay
 # Note: All time parameters must use the same unit as your collection data
@@ -202,9 +203,9 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 
 ZonedDateTime zdt = ZonedDateTime.of(2025, 1, 25, 0, 0, 0, 0, ZoneId.systemDefault());
 
@@ -224,6 +225,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("time_decay").
     WithInputFields("timestamp").
@@ -243,25 +246,20 @@ rerank := entity.NewFunction().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let rerank = DecayRerank::new()
-        .function(Function::new()
-            .name("time_decay")
-            .input_fields(["timestamp"])
-            .function_type(FunctionType::Rerank)
-            .param("reranker", "decay"))
-        .decay_function("gauss")
-        .origin(1735689600)
-        .scale(7 * 24 * 60 * 60)
-        .offset(24 * 60 * 60)
-        .decay(0.5);
-
-    Ok(())
-}
+let rerank = DecayRerank::new()
+    .function(Function::new()
+        .name("time_decay")
+        .input_fields(["timestamp"])
+        .function_type(FunctionType::Rerank)
+        .param("reranker", "decay"))
+    .decay_function("gauss")
+    .origin(1735689600)
+    .scale(7 * 24 * 60 * 60)
+    .offset(24 * 60 * 60)
+    .decay(0.5);
 ```
 
 </TabItem>
@@ -288,7 +286,7 @@ import {FunctionType } from "@zilliz/milvus2-sdk-node";
 const rerank = {
   name: "time_decay",
   input_field_names: ["timestamp"],
-  function_type: FunctionType.RERANK,
+  type: FunctionType.RERANK,
   params: {
     reranker: "decay",
     function: "gauss",
@@ -400,9 +398,12 @@ results = milvus_client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -422,6 +423,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -442,16 +450,18 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let function_score = FunctionScore::new().add_function(rerank);
-    let request = SearchRequest::builder()
-        .collection_name(collection_name)
-        .vectors(SearchVectors::Float(vec![your_query_vector]))
-        .vector_field("vector_field")
-        .limit(10)
-        .output_fields(vec!["document", "timestamp"])
-        .rerank(function_score)
-        .build()?;
-    let resp = client.search(request).await?;
+use milvus::v2::prelude::*;
+
+let function_score = FunctionScore::new().add_function(rerank);
+let request = SearchRequest::builder()
+    .collection_name(collection_name)
+    .vectors(SearchVectors::Float(vec![your_query_vector]))
+    .vector_field("vector_field")
+    .limit(10)
+    .output_fields(vec!["document", "timestamp"])
+    .rerank(function_score)
+    .build()?;
+let resp = client.search(request).await?;
 ```
 
 </TabItem>

@@ -375,6 +375,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewSparseInvertedIndex(entity.IP, 0.2)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector", idx)
 ```
@@ -412,6 +419,8 @@ milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::Ind
 <TabItem value='javascript'>
 
 ```javascript
+import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
+
 const indexParams = {
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
@@ -464,6 +473,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -477,6 +488,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -652,6 +669,14 @@ InsertResp insertResp = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 texts := []string{
     "information retrieval is a field of study.",
     "information retrieval focuses on finding relevant information in large datasets.",
@@ -814,6 +839,12 @@ SparseFloatVec queryData = new SparseFloatVec(sparse);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+)
+
 // Prepare search parameters
 annSearchParams := index.NewCustomAnnParam()
 annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
@@ -931,6 +962,13 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection",
     3, // limit

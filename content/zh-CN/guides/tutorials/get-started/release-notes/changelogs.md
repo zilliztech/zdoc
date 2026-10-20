@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最近更新：2026 年 9 月 3 日 | Cloud"
+description: "最近更新：2026 年 10 月 19 日 | Cloud"
 type: origin
 token: JziCwn071iCV1tkX4NZcwGSDnmc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # 变更日志
 
-**最近更新**：2026 年 9 月 3 日
+**最近更新**：2026 年 10 月 19 日
 
 <Grid columnSize="2" widthRatios="24,75">
 
@@ -41,6 +41,28 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="24,75">
+
+    <div>
+
+        **[2026 年 10 月 19 日](./release-notes-2610)**
+
+    </div>
+
+    <div>
+
+        - 🚚 [在线迁移](./undefined)（Zero Downtime Migration）可在不造成停机的情况下将 Collection 迁移至现有专用集群，并在切换前最长可同步 7 天的增量变更。
+
+        - 📥 [数据回填](./data-backfill)功能会基于主键，从 Parquet 文件中对现有实体的选定字段进行批量更新，支持 `coalesce`、`overwrite` 和 `replace` 模式，还附带无变更预检查功能。
+
+        - ⏱️ [按需集群的 Keep-warm 策略](./manage-on-demand-clusters#configure-keep-warm-schedule)采用每周运行窗口机制，可在控制台中管理，也可通过 `keepWarm` API 对象进行管理。
+
+        - 📦 从 Milvus 迁移数据时，现在可以[跳过为每个集合创建索引的步骤](./via-endpoint)，后续再统一构建索引。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="24,75">
 

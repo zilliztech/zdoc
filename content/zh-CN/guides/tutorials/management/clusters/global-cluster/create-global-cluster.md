@@ -164,5 +164,5 @@ import Procedures from '@site/src/components/Procedures';
             "replica": 1
           }
         ]
-      }
+      }'
     ```

@@ -182,17 +182,11 @@ print(res)
 
 ```java
 import com.google.gson.Gson;
-
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.vector.request.UpsertReq;
-
 import io.milvus.v2.service.vector.response.UpsertResp;
-
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -208,11 +202,8 @@ Gson gson = new Gson();
 List<JsonObject> data = Arrays.asList(
 
         gson.fromJson("{\"id\": 0, \"vector\": [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911], \"title\": \"Artificial Intelligence in Real Life\", \"issue\": \"vol.12\"}", JsonObject.class),
-
         gson.fromJson("{\"id\": 1, \"vector\": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], \"title\": \"Hollow Man\", \"issue\": \"vol.19\"}", JsonObject.class),
-
         gson.fromJson("{\"id\": 2, \"vector\": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], \"title\": \"Treasure Hunt in Missouri\", \"issue\": \"vol.12\"}", JsonObject.class)
-
 );
 
 UpsertReq upsertReq = UpsertReq.builder()
@@ -240,49 +231,35 @@ System.out.println(upsertResp);
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
 
 titleColumn := column.NewColumnVarChar("title", []string{
-
     "Artificial Intelligence in Real Life", "Hollow Man", "Treasure Hunt in Missouri",
-
 })
 
 issueColumn := column.NewColumnVarChar("issue", []string{
-
     "vol.12", "vol.19", "vol.12",
-
 })
 
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
@@ -290,25 +267,18 @@ _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
     WithInt64Column("id", []int64{0, 1, 2}).
 
     WithFloatVectorColumn("vector", 5, [][]float32{
-
         {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911},
-
         {0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965},
-
         {-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827},
-
     }).
 
     WithColumns(titleColumn, issueColumn),
-
 )
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle err
-
 }
 ```
 
@@ -338,61 +308,35 @@ client
                     .columns(vec![
 
                         FieldData::Int64 {
-
                             name: "id".into(),
-
                             values: vec![0i64, 1, 2],
-
                         },
-
                         FieldData::FloatVector {
-
                             name: "vector".into(),
-
                             values: vec![
-
                                 vec![-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911],
-
                                 vec![0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965],
-
                                 vec![-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827],
-
                             ],
-
                         },
-
                         FieldData::VarChar {
-
                             name: "title".into(),
-
                             values: vec![
-
                                 "Artificial Intelligence in Real Life".into(),
-
                                 "Hollow Man".into(),
-
                                 "Treasure Hunt in Missouri".into(),
-
                             ],
-
                         },
-
                         FieldData::VarChar {
-
                             name: "issue".into(),
-
                             values: vec!["vol.12".into(), "vol.19".into(), "vol.12".into()],
-
                         },
-
                     ])
 
                     .build()?,
-
             )
 
             .build()?,
-
     )
 
     .await?;
@@ -434,19 +378,19 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-data = [
+const data = [
     {id: 0, vector: [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911], title: "Artificial Intelligence in Real Life", issue: "vol.12"},
     {id: 1, vector: [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], title: "Hollow Man", issue: "vol.19"},
     {id: 2, vector: [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], title: "Treasure Hunt in Missouri", issue: "vol.12"},
 ]
 
-res = await client.upsert({
+const res = await client.upsert({
     collection_name: "my_collection",
     data: data,
 })
@@ -479,41 +423,24 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "data": [
-
         {"id": 0, "vector": [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911], "title": "Artificial Intelligence in Real Life", "issue": "vol.12"},
-
         {"id": 1, "vector": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], "title": "Hollow Man", "issue": "vol.19"},
-
         {"id": 2, "vector": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], "title": "Treasure Hunt in Missouri", "issue": "vol.12"}
-
     ],
-
     "collectionName": "my_collection"
-
 }'
 
 # {
-
 #     "code": 0,
-
 #     "data": {
-
 #         "upsertCount": 3,
-
 #         "upsertIds": [
-
 #             0,
-
 #             1,
-
 #             2,
-
 #         ]
-
 #     }
-
 # }
 ```
 
@@ -569,15 +496,10 @@ print(res)
 
 ```java
 import com.google.gson.Gson;
-
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.UpsertReq;
-
 import io.milvus.v2.service.vector.response.UpsertResp;
-
 import java.util.Arrays;
-
 import java.util.List;
 
 Gson gson = new Gson();
@@ -585,11 +507,8 @@ Gson gson = new Gson();
 List<JsonObject> data = Arrays.asList(
 
         gson.fromJson("{\"id\": 10, \"vector\": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], \"title\": \"Layour Design Reference\", \"issue\": \"vol.34\"}", JsonObject.class),
-
         gson.fromJson("{\"id\": 11, \"vector\": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], \"title\": \"Doraemon and His Friends\", \"issue\": \"vol.2\"}", JsonObject.class),
-
         gson.fromJson("{\"id\": 12, \"vector\": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], \"title\": \"Pikkachu and Pokemon\", \"issue\": \"vol.12\"}", JsonObject.class)
-
 );
 
 UpsertReq upsertReq = UpsertReq.builder()
@@ -619,49 +538,35 @@ System.out.println(upsertResp);
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
 
 titleColumn := column.NewColumnVarChar("title", []string{
-
     "Layour Design Reference", "Doraemon and His Friends", "Pikkachu and Pokemon",
-
 })
 
 issueColumn := column.NewColumnVarChar("issue", []string{
-
     "vol.34", "vol.2", "vol.12",
-
 })
 
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
@@ -671,25 +576,18 @@ _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
     WithInt64Column("id", []int64{10, 11, 12}).
 
     WithFloatVectorColumn("vector", 5, [][]float32{
-
         {0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576},
-
         {0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531},
-
         {-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011},
-
     }).
 
     WithColumns(titleColumn, issueColumn),
-
 )
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle err
-
 }
 ```
 
@@ -721,61 +619,35 @@ client
                     .columns(vec![
 
                         FieldData::Int64 {
-
                             name: "id".into(),
-
                             values: vec![10i64, 11, 12],
-
                         },
-
                         FieldData::FloatVector {
-
                             name: "vector".into(),
-
                             values: vec![
-
                                 vec![0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576],
-
                                 vec![0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531],
-
                                 vec![-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011],
-
                             ],
-
                         },
-
                         FieldData::VarChar {
-
                             name: "title".into(),
-
                             values: vec![
-
                                 "Layour Design Reference".into(),
-
                                 "Doraemon and His Friends".into(),
-
                                 "Pikkachu and Pokemon".into(),
-
                             ],
-
                         },
-
                         FieldData::VarChar {
-
                             name: "issue".into(),
-
                             values: vec!["vol.34".into(), "vol.2".into(), "vol.12".into()],
-
                         },
-
                     ])
 
                     .build()?,
-
             )
 
             .build()?,
-
     )
 
     .await?;
@@ -787,7 +659,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -797,19 +668,13 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 milvus::EntityRows data = {
-
     {{"id", 10}, {"vector", std::vector<float>{0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576}}, {"title", "Layour Design Reference"}, {"issue", "vol.34"}},
-
     {{"id", 11}, {"vector", std::vector<float>{0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531}}, {"title", "Doraemon and His Friends"}, {"issue", "vol.2"}},
-
     {{"id", 12}, {"vector", std::vector<float>{-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011}}, {"title", "Pikkachu and Pokemon"}, {"issue", "vol.12"}}
-
 };
 
 milvus::UpsertResponse resp_upsert;
@@ -821,13 +686,10 @@ status = client->Upsert(milvus::UpsertRequest()
                             .WithPartitionName("partitionA")
 
                             .WithRowsData(std::move(data)),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -836,16 +698,16 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 // 6. Upsert data in partitions
-data = [
+const data = [
     {id: 10, vector: [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], title: "Layour Design Reference", issue: "vol.34"},
     {id: 11, vector: [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], title: "Doraemon and His Friends", issue: "vol.2"},
     {id: 12, vector: [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], title: "Pikkachu and Pokemon", issue: "vol.12"},
 ]
 
-res = await client.upsert({
+const res = await client.upsert({
     collection_name: "my_collection",
     data: data,
     partition_name: "partitionA"
@@ -879,43 +741,25 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "data": [
-
         {"id": 10, "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], "title": "Layour Design Reference", "issue": "vol.34"},
-
         {"id": 11, "vector": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], "title": "Doraemon and His Friends", "issue": "vol.2"},
-
         {"id": 12, "vector": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], "title": "Pikkachu and Pokemon", "issue": "vol.12"}
-
     ],
-
     "collectionName": "my_collection",
-
     "partitionName": "partitionA"
-
 }'
 
 # {
-
 #     "code": 0,
-
 #     "data": {
-
 #         "upsertCount": 3,
-
 #         "upsertIds": [
-
 #             10,
-
 #             11,
-
 #             12,
-
 #         ]
-
 #     }
-
 # }
 ```
 
@@ -959,11 +803,8 @@ print(res)
 
 ```java
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.UpsertReq;
-
 import io.milvus.v2.service.vector.response.UpsertResp;
-
 import java.util.Arrays;
 
 JsonObject row1 = new JsonObject();
@@ -1005,35 +846,25 @@ System.out.println(upsertResp);
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
@@ -1041,9 +872,7 @@ defer client.Close(ctx)
 pkColumn := column.NewColumnInt64("id", []int64{1, 2})
 
 issueColumn := column.NewColumnVarChar("issue", []string{
-
     "vol.14", "vol.7",
-
 })
 
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
@@ -1051,15 +880,12 @@ _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
     WithColumns(pkColumn, issueColumn).
 
     WithPartialUpdate(true),
-
 )
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle err
-
 }
 ```
 
@@ -1089,31 +915,21 @@ client
                     .columns(vec![
 
                         FieldData::Int64 {
-
                             name: "id".into(),
-
                             values: vec![1i64, 2],
-
                         },
-
                         FieldData::VarChar {
-
                             name: "issue".into(),
-
                             values: vec!["vol.14".into(), "vol.7".into()],
-
                         },
-
                     ])
 
                     .build()?,
-
             )
 
             .partial_update(true)
 
             .build()?,
-
     )
 
     .await?;
@@ -1125,7 +941,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -1135,13 +950,10 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
-
                            {{"id", 2}, {"issue", "vol.7"}}};
 
 milvus::UpsertResponse resp_upsert;
@@ -1153,13 +965,10 @@ status = client->Upsert(milvus::UpsertRequest()
                             .WithRowsData(std::move(data))
 
                             .WithPartialUpdate(true),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -1263,17 +1072,16 @@ client.upsert(
 
 ```java
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.UpsertReq;
-
 import java.util.Collections;
-
 import java.util.List;
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
 
 List<JsonObject> replacementData = Collections.singletonList(
 
         gson.fromJson("{\"pk\": 1, \"tags\": [\"new\", \"trial\", \"premium\"]}", JsonObject.class)
-
 );
 
 client.upsert(UpsertReq.builder()
@@ -1297,35 +1105,25 @@ client.upsert(UpsertReq.builder()
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
@@ -1337,15 +1135,12 @@ _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
     WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new", "trial", "premium"}})).
 
     WithPartialUpdate(true),
-
 )
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle err
-
 }
 ```
 
@@ -1375,31 +1170,21 @@ client
                     .columns(vec![
 
                         FieldData::Int64 {
-
                             name: "pk".into(),
-
                             values: vec![1i64],
-
                         },
-
                         FieldData::ArrayVarChar {
-
                             name: "tags".into(),
-
                             values: vec![vec!["new".to_string(), "trial".to_string(), "premium".to_string()]],
-
                         },
-
                     ])
 
                     .build()?,
-
             )
 
             .partial_update(true)
 
             .build()?,
-
     )
 
     .await?;
@@ -1411,7 +1196,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -1421,9 +1205,7 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"new", "trial", "premium"}}}};
@@ -1437,13 +1219,10 @@ status = client->Upsert(milvus::UpsertRequest()
                             .WithRowsData(std::move(data))
 
                             .WithPartialUpdate(true),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -1452,7 +1231,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 
@@ -1461,13 +1240,9 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 await client.upsert({
-
     collection_name: "users",
-
     data: [{pk: 1, tags: ["new", "trial", "premium"]}],
-
     partial_update: true,
-
 });
 ```
 
@@ -1491,35 +1266,21 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "collectionName": "users",
-
     "data": [
-
         {"pk": 1, "tags": ["new", "trial", "premium"]}
-
     ],
-
     "partialUpdate": true
-
 }'
 
 # {
-
 #     "code": 0,
-
 #     "data": {
-
 #         "upsertCount": 1,
-
 #         "upsertIds": [
-
 #             1
-
 #         ]
-
 #     }
-
 # }
 ```
 
@@ -1537,11 +1298,8 @@ from pymilvus import FieldOp
 client.upsert(
 
     collection_name="users",
-
     data=[{"pk": 1, "tags": ["premium"]}],
-
     field_ops={"tags": FieldOp.array_append()},
-
 )
 ```
 
@@ -1551,17 +1309,16 @@ client.upsert(
 
 ```java
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.UpsertReq;
-
 import java.util.Collections;
-
 import java.util.List;
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
 
 List<JsonObject> appendData = Collections.singletonList(
 
         gson.fromJson("{\"pk\": 1, \"tags\": [\"premium\"]}", JsonObject.class)
-
 );
 
 UpsertReq.FieldPartialUpdateOp appendTags = UpsertReq.FieldPartialUpdateOp.builder()
@@ -1593,35 +1350,25 @@ client.upsert(UpsertReq.builder()
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
@@ -1633,15 +1380,12 @@ _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
     WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"premium"}})).
 
     WithArrayAppend("tags"),
-
 )
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle err
-
 }
 ```
 
@@ -1671,25 +1415,16 @@ client
                     .columns(vec![
 
                         FieldData::Int64 {
-
                             name: "pk".into(),
-
                             values: vec![1i64],
-
                         },
-
                         FieldData::ArrayVarChar {
-
                             name: "tags".into(),
-
                             values: vec![vec!["premium".to_string()]],
-
                         },
-
                     ])
 
                     .build()?,
-
             )
 
             .field_ops(vec![
@@ -1699,11 +1434,9 @@ client
                     .field_name("tags")
 
                     .op_type(FieldPartialUpdateOpType::ArrayAppend),
-
             ])
 
             .build()?,
-
     )
 
     .await?;
@@ -1715,7 +1448,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -1725,9 +1457,7 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"premium"}}}};
@@ -1741,13 +1471,10 @@ status = client->Upsert(milvus::UpsertRequest()
                             .WithRowsData(std::move(data))
 
                             .AddFieldOp(milvus::FieldPartialUpdateOp("tags", milvus::FieldPartialUpdateOp::OpType::ARRAY_APPEND)),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -1756,7 +1483,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 
@@ -1765,13 +1492,9 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 await client.upsert({
-
     collection_name: "users",
-
     data: [{pk: 1, tags: ["premium"]}],
-
     field_ops: [{field_name: "tags", op: "ARRAY_APPEND"}],
-
 });
 ```
 
@@ -1922,7 +1645,6 @@ import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.request.UpsertReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -2053,39 +1775,27 @@ System.out.println(res);
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
-
     "github.com/milvus-io/milvus/client/v3/entity"
-
     "github.com/milvus-io/milvus/client/v3/index"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: milvusAddr,
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 defer client.Close(ctx)
@@ -2105,11 +1815,8 @@ defer client.Close(ctx)
     if err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("users", schema).WithIndexOptions(
 
         milvusclient.NewCreateIndexOption("users", "embedding", index.NewAutoIndex(entity.L2)))); err != nil {
-
         fmt.Println(err.Error())
-
         // handle error
-
     }
 
     // 2. Seed two entities
@@ -2121,11 +1828,8 @@ defer client.Close(ctx)
         WithFloatVectorColumn("embedding", 5, [][]float32{{0.1, 0.2, 0.3, 0.4, 0.5}, {0.6, 0.7, 0.8, 0.9, 1.0}}).
 
         WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"new", "trial"}}))); err != nil {
-
         fmt.Println(err.Error())
-
         // handle error
-
     }
 
     // 3. Append tags without reading the existing ARRAY values
@@ -2137,17 +1841,15 @@ defer client.Close(ctx)
         WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"premium", "vip"}, {"premium"}})).
 
         WithArrayAppend("tags")); err != nil {
-
         fmt.Println(err.Error())
-
         // handle error
-
     }
+
+    client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("users"))
 
     res, err := client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
 
     if err != nil {
-
         fmt.Println(err.Error())
 
         // handle error
@@ -2171,17 +1873,13 @@ defer client.Close(ctx)
         WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"trial"}})).
 
         WithArrayRemove("tags")); err != nil {
-
         fmt.Println(err.Error())
-
         // handle error
-
     }
 
     res, err = client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
 
     if err != nil {
-
         fmt.Println(err.Error())
 
         // handle error
@@ -2229,7 +1927,6 @@ let client = ClientV2::new(&config).await?;
                 .max_capacity(8)
 
                 .max_length(32),
-
         );
 
     client
@@ -2237,7 +1934,6 @@ let client = ClientV2::new(&config).await?;
         .create_collection(
 
             CreateCollectionRequest::builder().collection_name("users").schema(schema).build()?,
-
         )
 
         .await?;
@@ -2259,13 +1955,15 @@ let client = ClientV2::new(&config).await?;
                         .index_type(IndexType::AutoIndex)
 
                         .metric_type(MetricType::L2),
-
                 )
 
                 .build()?,
-
         )
 
+        .await?;
+
+    client
+        .load_collection(LoadCollectionRequest::builder().collection_name("users").build()?)
         .await?;
 
     // 2. Seed two entities
@@ -2281,33 +1979,20 @@ let client = ClientV2::new(&config).await?;
                 .columns(vec![
 
                     FieldData::Int64 {
-
                         name: "pk".into(),
-
                         values: vec![1i64, 2],
-
                     },
-
                     FieldData::FloatVector {
-
                         name: "embedding".into(),
-
                         values: vec![vec![0.1, 0.2, 0.3, 0.4, 0.5], vec![0.6, 0.7, 0.8, 0.9, 1.0]],
-
                     },
-
                     FieldData::ArrayVarChar {
-
                         name: "tags".into(),
-
                         values: vec![vec!["new".to_string()], vec!["new".to_string(), "trial".to_string()]],
-
                     },
-
                 ])
 
                 .build()?,
-
         )
 
         .await?;
@@ -2329,31 +2014,19 @@ let client = ClientV2::new(&config).await?;
                         .columns(vec![
 
                             FieldData::Int64 {
-
                                 name: "pk".into(),
-
                                 values: vec![1i64, 2],
-
                             },
-
                             FieldData::ArrayVarChar {
-
                                 name: "tags".into(),
-
                                 values: vec![
-
                                     vec!["premium".to_string(), "vip".to_string()],
-
                                     vec!["premium".to_string()],
-
                                 ],
-
                             },
-
                         ])
 
                         .build()?,
-
                 )
 
                 .field_ops(vec![
@@ -2363,11 +2036,9 @@ let client = ClientV2::new(&config).await?;
                         .field_name("tags")
 
                         .op_type(FieldPartialUpdateOpType::ArrayAppend),
-
                 ])
 
                 .build()?,
-
         )
 
         .await?;
@@ -2385,7 +2056,6 @@ let client = ClientV2::new(&config).await?;
                 .output_fields(vec!["pk".to_string(), "tags".to_string()])
 
                 .build()?,
-
         )
 
         .await?;
@@ -2415,25 +2085,16 @@ let client = ClientV2::new(&config).await?;
                         .columns(vec![
 
                             FieldData::Int64 {
-
                                 name: "pk".into(),
-
                                 values: vec![1i64, 2],
-
                             },
-
                             FieldData::ArrayVarChar {
-
                                 name: "tags".into(),
-
                                 values: vec![vec!["new".to_string()], vec!["trial".to_string()]],
-
                             },
-
                         ])
 
                         .build()?,
-
                 )
 
                 .field_ops(vec![
@@ -2443,11 +2104,9 @@ let client = ClientV2::new(&config).await?;
                         .field_name("tags")
 
                         .op_type(FieldPartialUpdateOpType::ArrayRemove),
-
                 ])
 
                 .build()?,
-
         )
 
         .await?;
@@ -2465,7 +2124,6 @@ let client = ClientV2::new(&config).await?;
                 .output_fields(vec!["pk".to_string(), "tags".to_string()])
 
                 .build()?,
-
         )
 
         .await?;
@@ -2485,7 +2143,6 @@ let client = ClientV2::new(&config).await?;
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -2493,9 +2150,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 // 1. Create a collection with an ARRAY<VARCHAR> field
@@ -2511,27 +2166,25 @@ schema.AddField(milvus::FieldSchema("tags", milvus::DataType::ARRAY).WithElement
 status = client->CreateCollection(milvus::CreateCollectionRequest().WithCollectionName("users").WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema)));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("users").AddIndex(milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::L2)));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
+}
 
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("users"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 
 // 2. Seed two entities
 
 milvus::EntityRows seed = {
-
     {{"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}}, {"tags", std::vector<std::string>{"new"}}},
-
     {{"pk", 2}, {"embedding", std::vector<float>{0.6, 0.7, 0.8, 0.9, 1.0}}, {"tags", std::vector<std::string>{"new", "trial"}}},
-
 };
 
 milvus::InsertResponse insert_resp;
@@ -2539,19 +2192,14 @@ milvus::InsertResponse insert_resp;
 status = client->Insert(milvus::InsertRequest().WithCollectionName("users").WithRowsData(std::move(seed)), insert_resp);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 // 3. Append tags without reading the existing ARRAY values
 
 milvus::EntityRows append_data = {
-
     {{"pk", 1}, {"tags", std::vector<std::string>{"premium", "vip"}}},
-
     {{"pk", 2}, {"tags", std::vector<std::string>{"premium"}}},
-
 };
 
 milvus::UpsertResponse resp_upsert;
@@ -2559,35 +2207,26 @@ milvus::UpsertResponse resp_upsert;
 status = client->Upsert(milvus::UpsertRequest().WithCollectionName("users").WithRowsData(std::move(append_data))
 
                             .AddFieldOp(milvus::FieldPartialUpdateOp("tags", milvus::FieldPartialUpdateOp::OpType::ARRAY_APPEND)),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 // 4. Remove matching tags without replacing the full ARRAY field
 
 milvus::EntityRows remove_data = {
-
     {{"pk", 1}, {"tags", std::vector<std::string>{"new"}}},
-
     {{"pk", 2}, {"tags", std::vector<std::string>{"trial"}}},
-
 };
 
 status = client->Upsert(milvus::UpsertRequest().WithCollectionName("users").WithRowsData(std::move(remove_data))
 
                             .AddFieldOp(milvus::FieldPartialUpdateOp("tags", milvus::FieldPartialUpdateOp::OpType::ARRAY_REMOVE)),
-
                         resp_upsert);
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -2603,55 +2242,34 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 // 1. Create a collection with an ARRAY<VARCHAR> field
 
 await client.createCollection({
-
     collection_name: "users",
-
     schema: [
-
         { name: "pk", data_type: DataType.Int64, is_primary_key: true },
-
         { name: "embedding", data_type: DataType.FloatVector, dim: 5 },
-
         { name: "tags", data_type: DataType.Array, element_type: DataType.VarChar, max_capacity: 8, max_length: 32 },
-
     ],
-
     index_params: [{ field_name: "embedding", index_type: "AUTOINDEX", metric_type: "L2" }],
-
 });
 
 // 2. Seed two entities
 
 await client.insert({
-
     collection_name: "users",
-
     data: [
-
         { pk: 1, embedding: [0.1, 0.2, 0.3, 0.4, 0.5], tags: ["new"] },
-
         { pk: 2, embedding: [0.6, 0.7, 0.8, 0.9, 1.0], tags: ["new", "trial"] },
-
     ],
-
 });
 
 // 3. Append tags without reading the existing ARRAY values
 
 await client.upsert({
-
     collection_name: "users",
-
     data: [
-
         { pk: 1, tags: ["premium", "vip"] },
-
         { pk: 2, tags: ["premium"] },
-
     ],
-
     field_ops: [{ field_name: "tags", op: "ARRAY_APPEND" }],
-
 });
 
 let res = await client.query({ collection_name: "users", filter: "pk in [1, 2]", output_fields: ["pk", "tags"] });
@@ -2661,25 +2279,17 @@ console.log(res.data);
 // Example output:
 
 // [{ pk: 1, tags: ['new', 'premium', 'vip'] },
-
 //  { pk: 2, tags: ['new', 'trial', 'premium'] }]
 
 // 4. Remove matching tags without replacing the full ARRAY field
 
 await client.upsert({
-
     collection_name: "users",
-
     data: [
-
         { pk: 1, tags: ["new"] },
-
         { pk: 2, tags: ["trial"] },
-
     ],
-
     field_ops: [{ field_name: "tags", op: "ARRAY_REMOVE" }],
-
 });
 
 res = await client.query({ collection_name: "users", filter: "pk in [1, 2]", output_fields: ["pk", "tags"] });
@@ -2689,7 +2299,6 @@ console.log(res.data);
 // Example output:
 
 // [{ pk: 1, tags: ['premium', 'vip'] },
-
 //  { pk: 2, tags: ['new', 'premium'] }]
 ```
 

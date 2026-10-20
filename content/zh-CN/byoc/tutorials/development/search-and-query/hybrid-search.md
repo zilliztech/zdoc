@@ -65,7 +65,7 @@ import TabItem from '@theme/TabItem';
 
 由于我们将使用内置的 BM25 算法对文本字段执行全文搜索，因此有必要在模式中添加 Milvus `函数`。有关更多详细信息，请参阅 [Full Text Search](./full-text-search)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -168,10 +168,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -220,10 +220,38 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25, "text bm25 function");
+function->AddInputFieldName("text");
+function->AddOutputFieldName("text_sparse");
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
+schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -241,7 +269,7 @@ const fields = [
         name: "text",
         data_type: DataType.VarChar,
         max_length: 1000,
-        enable_match: true
+        enable_analyzer: true
     },
     {
         name: "text_dense",
@@ -326,34 +354,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25, "text bm25 function");
-function->AddInputFieldName("text");
-function->AddOutputFieldName("text_sparse");
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
-schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -396,7 +396,7 @@ EOF
 
 - `image_dense_index`：为图像密集向量字段创建了一个类型为 `AUTOINDEX`、度量类型为 `IP` 的索引。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -482,6 +482,18 @@ indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense"
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("text_dense", "text_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+    milvus::IndexDesc("text_sparse", "text_sparse_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25),
+    milvus::IndexDesc("image_dense", "image_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -493,10 +505,10 @@ const index_params = [{
 },{
     field_name: "text_sparse",
     index_name: "text_sparse_index",
-    index_type: "IndexType.SPARSE_INVERTED_INDEX",
+    index_type: "SPARSE_INVERTED_INDEX",
     metric_type: "BM25",
     params: {
-      inverted_index_algo: "DAAT_MAXSCORE", 
+      inverted_index_algo: "DAAT_MAXSCORE",
     }
 },{
     field_name: "image_dense",
@@ -536,18 +548,6 @@ export indexParams='[
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("text_dense", "text_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
-    milvus::IndexDesc("text_sparse", "text_sparse_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25),
-    milvus::IndexDesc("image_dense", "image_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
-};
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -568,7 +568,7 @@ EOF
 
 创建一个名为`demo`的 Collection，其 Schema 和索引已在前面两个步骤中配置。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -608,10 +608,24 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithCollectionSchema(schema)
+                                        .WithIndexes(std::move(indexes));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.createCollection({
+const res = await client.createCollection({
     collection_name: "my_collection",
     fields: fields,
     index_params: index_params,
@@ -636,20 +650,6 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithCollectionSchema(schema)
-                                        .WithIndexes(std::move(indexes));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -704,7 +704,7 @@ zilliz collection create --body file://collection.json
 
 由于此示例使用内置的 BM25 函数从文本字段生成稀疏向量，因此您无需手动提供稀疏向量。但是，如果您选择不使用 BM25，则必须自行预先计算并提供稀疏嵌入。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -808,45 +808,6 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-var data = [
-    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], image_dense: [0.6366019600530924, -0.09323198122475052, ...]},
-    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], image_dense: [0.6414180010301553, 0.8976979978567611, ...]},
-    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], image_dense: [-0.6901259768402174, 0.6100500332193755, ...]}
-]
-
-var res = await client.insert({
-    collection_name: "my_collection",
-    data: data,
-})
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "data": [
-        {"id": 0, "text": "Red cotton t-shirt with round neck" , "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], "image_dense": [0.6366019600530924, -0.09323198122475052, ...]},
-        {"id": 1, "text": "Wireless noise-cancelling over-ear headphones" , "text_dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], "image_dense": [0.6414180010301553, 0.8976979978567611, ...]},
-        {"id": 2, "text": "Stainless steel water bottle, 500ml" , "text_dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], "image_dense": [-0.6901259768402174, 0.6100500332193755, ...]}
-    ],
-    "collectionName": "my_collection"
-}'
-```
-
-</TabItem>
-
 <TabItem value='c++'>
 
 ```c++
@@ -878,6 +839,45 @@ auto status = client->Insert(milvus::InsertRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+var data = [
+    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
+    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597 /* ...remaining dims */], image_dense: [0.6414180010301553, 0.8976979978567611 /* ...remaining dims */]},
+    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682 /* ...remaining dims */], image_dense: [-0.6901259768402174, 0.6100500332193755 /* ...remaining dims */]}
+]
+
+var res = await client.insert({
+    collection_name: "my_collection",
+    data: data,
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "data": [
+        {"id": 0, "text": "Red cotton t-shirt with round neck" , "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...], "image_dense": [0.6366019600530924, -0.09323198122475052, ...]},
+        {"id": 1, "text": "Wireless noise-cancelling over-ear headphones" , "text_dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...], "image_dense": [0.6414180010301553, 0.8976979978567611, ...]},
+        {"id": 2, "text": "Stainless steel water bottle, 500ml" , "text_dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...], "image_dense": [-0.6901259768402174, 0.6100500332193755, ...]}
+    ],
+    "collectionName": "my_collection"
+}'
 ```
 
 </TabItem>
@@ -914,7 +914,7 @@ zilliz vector insert --collection my_collection --body file://insert.json
 
 - `image_dense` 用于多模态文本到图像搜索，根据查询的语义内容检索相关产品图像。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -928,6 +928,7 @@ query_multimodal_vector = generate_dense_vector(512)
 search_param_1 = {
     "data": [query_dense_vector],
     "anns_field": "text_dense",
+    "param": {},
     "limit": 2
 }
 request_1 = AnnSearchRequest(**search_param_1)
@@ -936,6 +937,7 @@ request_1 = AnnSearchRequest(**search_param_1)
 search_param_2 = {
     "data": [query_text],
     "anns_field": "text_sparse",
+    "param": {},
     "limit": 2
 }
 request_2 = AnnSearchRequest(**search_param_2)
@@ -944,6 +946,7 @@ request_2 = AnnSearchRequest(**search_param_2)
 search_param_3 = {
     "data": [query_multimodal_vector],
     "anns_field": "image_dense",
+    "param": {},
     "limit": 2
 }
 request_3 = AnnSearchRequest(**search_param_3)
@@ -1010,12 +1013,37 @@ request3 := milvusclient.NewAnnRequest("image_dense", 2, entity.FloatVector(quer
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto query_text = "white headphones, quiet and comfortable";
+auto query_dense_vector = generate_dense_vector(768);
+auto query_multimodal_vector = generate_dense_vector(512);
+
+auto sub_req1 = milvus::SubSearchRequest()
+                    .AddFloatVector(query_dense_vector)
+                    .WithAnnsField("text_dense")
+                    .WithLimit(2);
+
+auto sub_req2 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_text)
+                    .WithAnnsField("text_sparse")
+                    .WithLimit(2);
+                    
+auto sub_req3 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_multimodal_vector)
+                    .WithAnnsField("image_dense")
+                    .WithLimit(2);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const query_text = "white headphones, quiet and comfortable"
-const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...]
-const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488, ...]
+const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */]
+const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488 /* ...remaining dims */]
 
 const search_param_1 = {
     "data": query_vector, 
@@ -1062,31 +1090,6 @@ export req='[
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto query_text = "white headphones, quiet and comfortable";
-auto query_dense_vector = generate_dense_vector(768);
-auto query_multimodal_vector = generate_dense_vector(512);
-
-auto sub_req1 = milvus::SubSearchRequest()
-                    .AddFloatVector(query_dense_vector)
-                    .WithAnnsField("text_dense")
-                    .WithLimit(2);
-
-auto sub_req2 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_text)
-                    .WithAnnsField("text_sparse")
-                    .WithLimit(2);
-                    
-auto sub_req3 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_multimodal_vector)
-                    .WithAnnsField("image_dense")
-                    .WithLimit(2);
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1112,7 +1115,7 @@ EOF
 
 在这个例子中，由于没有特别强调特定的搜索查询，我们将采用 RRFRanker 策略。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1145,6 +1148,30 @@ Function ranker = Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+ranker := entity.NewFunction().
+    WithName("rrf").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "rrf").
+    WithParam("k", "100")
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto ranker = std::make_shared<milvus::RRFRerank>(100);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1158,22 +1185,6 @@ const ranker = {
       "k": 100
   },
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-)
-
-ranker := entity.NewFunction().
-    WithName("rrf").
-    WithType(entity.FunctionTypeRerank).
-    WithParam("reranker", "rrf").
-    WithParam("k", "100")
 ```
 
 </TabItem>
@@ -1199,14 +1210,6 @@ export ranker='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto ranker = std::make_shared<milvus::RRFRerank>(100);
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1223,7 +1226,7 @@ EOF
 
 在启动混合搜索之前，请确保已加载 Collection。如果 Collection 中的任何向量字段缺少索引或未加载到内存中，则在执行混合搜索方法时将发生错误。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1283,16 +1286,43 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::HybridSearchRequest()
+                .WithCollectionName("my_collection")
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
+                .WithRerank(ranker)
+                .WithLimit(2);
+                
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-res = await client.loadCollection({
+await client.loadCollection({
     collection_name: "my_collection"
 })
-
-import { MilvusClient, RRFRanker, WeightedRanker } from '@zilliz/milvus2-sdk-node';
 
 const search = await client.search({
   collection_name: "my_collection",
@@ -1321,35 +1351,6 @@ curl --request POST \
     },
     \"limit\": 2
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::HybridSearchRequest()
-                .WithCollectionName("my_collection")
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
-                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
-                .WithRerank(ranker)
-                .WithLimit(2);
-                
-milvus::SearchResponse response;
-auto status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
 ```
 
 </TabItem>
@@ -1384,7 +1385,7 @@ timezone 的值必须是有效的 **IANA 时区标识符**（例如 Asia/Shangha
 
 下面的示例展示了如何在一次混合搜索操作中临时指定时区：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1416,6 +1417,14 @@ res = client.hybrid_search(
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1428,14 +1437,6 @@ res = client.hybrid_search(
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
 ```
 
 </TabItem>

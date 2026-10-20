@@ -121,7 +121,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -297,7 +297,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>

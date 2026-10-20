@@ -55,7 +55,7 @@ Zilliz Cloud 在集群和 Collection 之间引入了一层 **Database**，可帮
 
 您可以使用 RESTful API 或 SDK 创建 Database。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -94,6 +94,74 @@ client.createDatabase(createDatabaseReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
+    APIKey: "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    // handle err
+}
+
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
+if err != nil {
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client.create_database(
+    CreateDatabaseRequest::builder()
+        .database_name("my_database_1")
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateDatabase(milvus::CreateDatabaseRequest()
+    .WithDatabaseName("my_database_1"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -106,25 +174,6 @@ const client = new MilvusClient({
 await client.createDatabase({
     db_name: "my_database_1"
  });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
-    APIKey: "YOUR_CLUSTER_TOKEN"
-})
-if err != nil {
-    // handle err
-}
-
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
-if err != nil {
-    // handle err
-}
 ```
 
 </TabItem>
@@ -149,7 +198,7 @@ curl --request POST \
 
 您还可以在创建 Database 时为其指定相应属性。如下示例中演示了如何在创建 Database 时设置副本数量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -166,6 +215,10 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, String> properties = new HashMap<>();
 properties.put("database.replica.number", "3");
 CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
@@ -173,6 +226,59 @@ CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
         .properties(properties)
         .build();
 client.createDatabase(createDatabaseReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+err := cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
+if err != nil {
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let mut properties = HashMap::new();
+properties.insert("database.replica.number".to_string(), "3".to_string());
+
+client.create_database(
+    CreateDatabaseRequest::builder()
+        .database_name("my_database_2")
+        .properties(properties)
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+status = client->CreateDatabase(milvus::CreateDatabaseRequest()
+    .WithDatabaseName("my_database_2")
+    .WithProperties({{"database.replica.number", "3"}}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -186,17 +292,6 @@ await client.createDatabase({
         "database.replica.number": 3
     }
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-err := cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
-if err != nil {
-    // handle err
-}
 ```
 
 </TabItem>
@@ -226,7 +321,7 @@ curl --request POST \
 
 您可以使用 RESTful API 或 SDK 查看所有已创建的 Database 及其详情。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,7 +345,9 @@ client.describe_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.response.*;
+import io.milvus.v2.service.database.request.DescribeDatabaseReq;
+import io.milvus.v2.service.database.response.DescribeDatabaseResp;
+import io.milvus.v2.service.database.response.ListDatabasesResp;
 
 ListDatabasesResp listDatabasesResp = client.listDatabases();
 
@@ -261,19 +358,15 @@ DescribeDatabaseResp descDBResp = client.describeDatabase(DescribeDatabaseReq.bu
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.describeDatabase({ 
-    db_name: 'default'
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // List all existing databases
 databases, err := cli.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
@@ -290,11 +383,71 @@ log.Println(db)
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let databases = client.list_databases(ListDatabasesRequest::builder().build()?).await?;
+println!("{:?}", databases.database_names());
+
+client.describe_database(
+    DescribeDatabaseRequest::builder()
+        .database_name("default")
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+milvus::ListDatabasesResponse databases_response;
+status = client->ListDatabases(milvus::ListDatabasesRequest(), databases_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::DescribeDatabaseResponse describe_response;
+status = client->DescribeDatabase(milvus::DescribeDatabaseRequest()
+    .WithDatabaseName("default"), describe_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// List all existing databases
+await client.listDatabases();
+
+// Check database details
+await client.describeDatabase({ 
+    db_name: 'default'
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 export CLUSTER_ENDPOINT="https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
 export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/list" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{}'
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/describe" \
@@ -326,7 +479,7 @@ curl --request POST \
 
 您可以参考如下示例修改指定 Database 的上述属性。如下示例演示了如何限制指定 Database 中可以创建的 Collection 数量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -343,6 +496,8 @@ client.alter_database_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
+
 client.alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .property("database.max.collections", "10")
@@ -351,25 +506,69 @@ client.alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='go'>
 
-```javascript
-await milvusClient.alterDatabaseProperties({
-  db_name: "my_database_1",
-  properties: {"database.max.collections", "10" },
-})
+```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+err := cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
+    WithProperty("database.max.collections", 10))
+if err != nil {
+    // handle err
+}
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='rust'>
 
-```go
-err := cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
-    WithProperty("database.max.collections", 1))
-if err != nil {
-    // handle err
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let mut properties = HashMap::new();
+properties.insert("database.max.collections".to_string(), "10".to_string());
+
+client.alter_database_properties(
+    AlterDatabasePropertiesRequest::builder()
+        .database_name("my_database_1")
+        .properties(properties)
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+status = client->AlterDatabaseProperties(milvus::AlterDatabasePropertiesRequest()
+    .WithDatabaseName("my_database_1")
+    .WithProperties({{"database.max.collections", "10"}}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterDatabaseProperties({
+  db_name: "my_database_1",
+  properties: {
+    "database.max.collections": 10,
+  },
+});
 ```
 
 </TabItem>
@@ -385,7 +584,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "dbName": "my_database",
+    "dbName": "my_database_1",
     "properties": {
         "database.max.collections": 10
     }
@@ -399,7 +598,7 @@ curl --request POST \
 
 您还可以参考如下示例重置 Database 某个属性的设置。如下示例演示了如何移除指定 Database 中可创建的 Collection 数量限制。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -416,6 +615,9 @@ client.drop_database_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
+import java.util.Collections;
+
 client.dropDatabaseProperties(DropDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .propertyKeys(Collections.singletonList("database.max.collections"))
@@ -424,24 +626,62 @@ client.dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await milvusClient.dropDatabaseProperties({
-  db_name: my_database_1,
-  properties: ["database.max.collections"],
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err := cli.DropDatabaseProperties(ctx, milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"))
 if err != nil {
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client.drop_database_properties(
+    DropDatabasePropertiesRequest::builder()
+        .database_name("my_database_1")
+        .property_keys(["database.max.collections".to_string()])
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+status = client->DropDatabaseProperties(milvus::DropDatabasePropertiesRequest()
+    .WithDatabaseName("my_database_1")
+    .WithPropertyKeys({"database.max.collections"}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.dropDatabaseProperties({
+  db_name: "my_database_1",
+  properties: ["database.max.collections"],
+});
 ```
 
 </TabItem>
@@ -453,11 +693,11 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/alter" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/drop_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "dbName": "my_database",
+    "dbName": "my_database_1",
     "propertyKeys": [
         "database.max.collections"
     ]
@@ -477,7 +717,7 @@ RESTful API 不支持该操作。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -496,23 +736,51 @@ client.useDatabase("my_database_2");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await milvusClient.useDatabase({
-  db_name: "my_database_2",
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.use_database("my_database_2").await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+status = client->UseDatabase("my_database_2");
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.useDatabase({
+  db_name: "my_database_2",
+});
 ```
 
 </TabItem>
@@ -545,7 +813,7 @@ if err != nil {
 
 您也可以使用 RESTful API 或 SDK 来删除 Database。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -559,6 +827,8 @@ client.drop_database(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.DropDatabaseReq;
+
 client.dropDatabase(DropDatabaseReq.builder()
         .databaseName("my_database_2")
         .build());
@@ -566,23 +836,59 @@ client.dropDatabase(DropDatabaseReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await milvusClient.dropDatabase({
-  db_name: "my_database_2",
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client.drop_database(
+    DropDatabaseRequest::builder()
+        .database_name("my_database_2")
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+status = client->DropDatabase(milvus::DropDatabaseRequest()
+    .WithDatabaseName("my_database_2"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.dropDatabase({
+  db_name: "my_database_2",
+});
 ```
 
 </TabItem>
@@ -598,7 +904,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "dbName": "my_database"
+    "dbName": "my_database_2"
 }'
 ```
 

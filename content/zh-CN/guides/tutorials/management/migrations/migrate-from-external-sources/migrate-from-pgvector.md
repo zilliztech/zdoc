@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 本文档说明从 [PostgreSQL](https://www.postgresql.org/) 迁移时，Zilliz Cloud 如何处理数据类型映射、Collection 命名规则及注意事项。
 
+索引设置和迁移后操作步骤，请参见[外部迁移概述](./external-migration-basics#index-settings)。
+
 ## 开始前\{#before-you-start}
 
 开始离线迁移前需满足：
@@ -115,11 +117,11 @@ import Admonition from '@theme/Admonition';
 
 ### Collection 命名规则\{#collection-naming-rules}
 
-PostgreSQL 索引名称将按以下规则迁移至 Zilliz Cloud：
+PostgreSQL 表名称将按以下规则迁移至 Zilliz Cloud：
 
 | 场景 | 影响 | 解决方案 |
 | --- | --- | --- |
-| 默认命名 | Collection 名称与源索引名称完全一致 | 保留原始名称 |
+| 默认命名 | Collection 名称与源表名称完全一致 | 保留原始名称 |
 | 名称冲突 | 目标 Database 存在同名 Collection 时无法提交迁移任务 | 删除现有 Collection / 选择其他目标 Database / 迁移配置时重命名 Collection |
 | 名称修改 | 迁移过程支持重命名 | 可在迁移配置阶段修改 Collection 名称 |
 
@@ -130,5 +132,5 @@ PostgreSQL 索引名称将按以下规则迁移至 Zilliz Cloud：
 | 限制项 | 影响 | 替代方案 |
 | --- | --- | --- |
 | 动态字段转固定字段 | 无法将现有动态字段转换为固定类型 | 字段保持原始动态特性 |
-| 迁移过程中添加新字段 | 仅迁移 Elasticsearch 已有字段 | 无法在迁移时新增字段 |
+| 迁移过程中添加新字段 | 仅迁移 PostgreSQL 已有字段 | 无法在迁移时新增字段 |
 

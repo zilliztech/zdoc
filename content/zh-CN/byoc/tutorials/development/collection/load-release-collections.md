@@ -79,14 +79,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 6. Load the collection
+// 7. Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build();
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -150,36 +150,31 @@ fmt.Println(state)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+// 7. Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
     )
     .await?;
 
-    // 7. Load the collection
-    client
-        .load_collection(
-            LoadCollectionRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
 
-    let res = client
-        .get_load_state(
-            GetLoadStateRequest::builder()
-                .collection_name("my_collection")
-                .build()?,
-        )
-        .await?;
-
-    println!("{:?}", res.state());
-
-    Ok(())
-}
+println!("{:?}", res.state());
 ```
 
 </TabItem>
@@ -227,7 +222,7 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 // 7. Load the collection
-res = await client.loadCollection({
+let res = await client.loadCollection({
     collection_name: "my_collection"
 })
 
@@ -329,9 +324,11 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import java.util.Arrays;
 
-// 6. Load the collection
+// Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .loadFields(Arrays.asList("my_id", "my_vector"))
@@ -340,7 +337,7 @@ LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -354,6 +351,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
         WithLoadFields("my_id", "my_vector").
         WithSkipLoadDynamicField(true))
@@ -382,6 +385,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -499,6 +504,7 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 // 8. Release the collection
@@ -523,6 +529,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -542,6 +554,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // 8. Release the collection
 client
     .release_collection(
@@ -589,7 +603,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ```javascript
 // 8. Release the collection
-res = await client.releaseCollection({
+let res = await client.releaseCollection({
     collection_name: "my_collection"
 })
 

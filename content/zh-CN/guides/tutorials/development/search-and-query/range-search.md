@@ -55,7 +55,7 @@ Range Search 是一种通过指定搜索结果的相似度得分范围的方式�
 
 示例 Search 请求中指定的 **radius** 为 0.4，**range_filter** 为 0.6。在收到此请求后，Zilliz Cloud 会返回所有与查询向量相似度得分在 0.4 到 0.6 之间的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -95,9 +95,13 @@ for hits in res:
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
- io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -139,10 +143,10 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 import (
     "context"
     "fmt"
-    
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -183,58 +187,33 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='rust'>
 
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+```rust
+use milvus::v2::prelude::*;
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
-var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(5)
+            .radius(0.4)
+            .range_filter(0.6)
+            .build()?,
+    )
+    .await?;
 
-res = await client.search({
-    collection_name: "my_collection",
-    data: [query_vector],
-    limit: 5,
-    // highlight-start
-    params: {
-        "radius": 0.4,
-        "range_filter": 0.6
+println!("TopK results:");
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
     }
-    // highlight-end
-})
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    ],
-    "annsField": "vector",
-    "limit": 5,
-    "searchParams": {
-        "params": {
-            "radius": 0.4,
-            "range_filter": 0.6
-        }
-    }
-}'
-# {"code":0,"cost":0,"data":[]}
+}
 ```
 
 </TabItem>
@@ -275,6 +254,62 @@ for (auto& result : response.Results().Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 5,
+    // highlight-start
+    params: {
+        "radius": 0.4,
+        "range_filter": 0.6
+    }
+    // highlight-end
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "annsField": "vector",
+    "limit": 5,
+    "searchParams": {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
+}'
+# {"code":0,"cost":0,"data":[]}
 ```
 
 </TabItem>

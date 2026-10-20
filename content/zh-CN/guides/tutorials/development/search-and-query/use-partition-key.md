@@ -339,6 +339,12 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithNumPartitions(128))
@@ -353,6 +359,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -368,6 +376,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -437,10 +448,10 @@ curl --request POST \
 
 ```python
 # Filter based on a single partition key value, or
-filter='partition_key == "x" && <other conditions>'
+filter='my_varchar == "x" && <other conditions>'
 
 # Filter based on multiple partition key values
-filter='partition_key in ["x", "y", "z"] && <other conditions>'
+filter='my_varchar in ["x", "y", "z"] && <other conditions>'
 ```
 
 </TabItem>
@@ -449,10 +460,10 @@ filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 ```java
 // Filter based on a single partition key value, or
-String filter = "partition_key == 'x' && <other conditions>";
+String filter = "my_varchar == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
-filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>";
 ```
 
 </TabItem>
@@ -461,10 +472,10 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 ```go
 // Filter based on a single partition key value, or
-filter := "partition_key == 'x' && <other conditions>"
+filter := "my_varchar == 'x' && <other conditions>"
 
 // Filter based on multiple partition key values
-filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
+filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>"
 ```
 
 </TabItem>
@@ -473,10 +484,10 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 
 ```rust
 // Filter based on a single partition key value, or
-let filter = "partition_key == 'x' && <other conditions>";
+let filter = "my_varchar == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
-let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+let filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>";
 ```
 
 </TabItem>
@@ -485,10 +496,10 @@ let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 ```c++
 // Filter based on a single partition key value, or
-std::string filter = R"(partition_key == 'x' && <other conditions>)";
+std::string filter = R"(my_varchar == 'x' && <other conditions>)";
 
 // Filter based on multiple partition key values
-filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
+filter = R"(my_varchar in ['x', 'y', 'z'] && <other conditions>)";
 ```
 
 </TabItem>
@@ -497,10 +508,10 @@ filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 
 ```javascript
 // Filter based on a single partition key value, or
-let filter = 'partition_key == "x" && <other conditions>'
+let filter = 'my_varchar == "x" && <other conditions>'
 
 // Filter based on multiple partition key values
-filter = 'partition_key in ["x", "y", "z"] && <other conditions>' 
+filter = 'my_varchar in ["x", "y", "z"] && <other conditions>' 
 ```
 
 </TabItem>
@@ -509,10 +520,10 @@ filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
 
 ```bash
 # Filter based on a single partition key value, or
-export filter='partition_key == "x" && <other conditions>'
+export filter='my_varchar == "x" && <other conditions>'
 
 # Filter based on multiple partition key values
-export filter='partition_key in ["x", "y", "z"] && <other conditions>'
+export filter='my_varchar in ["x", "y", "z"] && <other conditions>'
 ```
 
 </TabItem>
@@ -577,6 +588,12 @@ client.createCollection(createCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty("partitionkey.isolation", true))
@@ -591,6 +608,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 client.create_collection(
@@ -611,6 +629,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)

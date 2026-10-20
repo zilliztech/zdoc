@@ -767,7 +767,7 @@ filter='id % 2 == 0'
 <TabItem value='python'>
 
 ```python
-filter = 'price ** 2 > 1000'
+filter = 'price > 1000'
 ```
 
 </TabItem>
@@ -1174,7 +1174,7 @@ filter='color == "red" OR color == "blue"'
 <TabItem value='python'>
 
 ```python
-filter = 'NOT color == "green"'
+filter = 'NOT (color == "green")'
 ```
 
 </TabItem>
@@ -1305,6 +1305,14 @@ System.out.println(queryResp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -1329,6 +1337,7 @@ for i := 0; i < ids.Len(); i++ {
     result = append(result, v)
 }
 fmt.Println(result)
+// Expected: [2]
 ```
 
 </TabItem>
@@ -1338,24 +1347,20 @@ fmt.Println(result)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
-    let request = QueryRequest::builder()
-        .collection_name("products")
-        .filter("category IS NULL")
-        .output_fields(["id"])
-        .limit(10)
-        .build()?;
-    let response = client.query(request).await?;
-    for row in response.results().rows()? {
-        println!("{:?}", row.get_i64("id")?);
-    }
-    Ok(())
+let request = QueryRequest::builder()
+    .collection_name("products")
+    .filter("category IS NULL")
+    .output_fields(["id"])
+    .limit(10)
+    .build()?;
+let response = client.query(request).await?;
+for row in response.results().rows()? {
+    println!("{:?}", row.get_i64("id")?);
 }
 ```
 

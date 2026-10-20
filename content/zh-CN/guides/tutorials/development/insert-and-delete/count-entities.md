@@ -104,7 +104,6 @@ print(res[0]['count(*)'])
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-
 import java.util.*;
 
 // Count without the entities in growing segments
@@ -239,7 +238,6 @@ println!("count: {}", response.results().rows()?.next().unwrap().get_i64("count(
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -482,7 +480,6 @@ println!("row_count: {:?}", partition_stats.row_count());
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();

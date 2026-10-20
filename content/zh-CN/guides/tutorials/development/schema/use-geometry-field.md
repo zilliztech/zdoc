@@ -251,7 +251,7 @@ const schema = [
   { name: 'id', data_type: DataType.Int64, is_primary_key: true },
   { name: 'embeddings', data_type: DataType.FloatVector, dim: 8 },
   // highlight-next-line
-  { name: 'geo', data_type: DataType.Geometry, is_nullable: true },
+  { name: 'geo', data_type: DataType.Geometry, nullable: true },
   { name: 'name', data_type: DataType.VarChar, max_length: 128 },
 ];
 

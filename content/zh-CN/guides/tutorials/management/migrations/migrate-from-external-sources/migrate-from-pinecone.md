@@ -24,6 +24,8 @@ import Procedures from '@site/src/components/Procedures';
 
 Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone 迁移至 Zilliz Cloud，可以增强稠密和稀疏向量的管理能力，同时利用 Zilliz Cloud 高性能的搜索与分析能力。
 
+索引设置和迁移后操作步骤，请参见[外部迁移概述](./external-migration-basics#index-settings)。
+
 ## 注意事项\{#considerations}
 
 - 在将数据从 Pinecone 迁移至 Zilliz Cloud 时，向量字段会直接迁移，而 Pinecone 的元数据字段将以 JSON 格式存储在 Zilliz Cloud 的动态字段中。有关动态字段功能的详细信息，请参阅[Dynamic Field](./enable-dynamic-field)。

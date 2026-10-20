@@ -179,13 +179,9 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("source").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(128)
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -398,15 +394,10 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("review_status").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(32).
-
     WithDefaultValueString("unreviewed")
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -598,73 +589,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build();
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // Create a struct schema and add its subfields
-
 // add a vector subfield with mmap enabled
 
 Map<String, String> mmapParams = new HashMap<>();
-
 mmapParams.put("mmap.enabled", "true");
 
 client.addCollectionStructField(AddCollectionStructFieldReq.builder()
-
         .collectionName("books")
-
         .fieldName("chunks")
-
         .maxCapacity(1024)
-
+        .nullable(true)
         .addStructField(AddFieldReq.builder()
-
                 .fieldName("text")
-
                 .dataType(DataType.VarChar)
-
                 .maxLength(65535)
-
                 .build())
-
         .addStructField(AddFieldReq.builder()
-
                 .fieldName("chapter")
-
                 .dataType(DataType.VarChar)
-
                 .maxLength(512)
-
                 .build())
-
         .addStructField(AddFieldReq.builder()
-
                 .fieldName("text_vector")
-
                 .dataType(DataType.FloatVector)
-
                 .dimension(5)
-
                 .typeParams(mmapParams)
-
                 .build())
-
         .addStructField(AddFieldReq.builder()
-
                 .fieldName("chapter_vector")
-
                 .dataType(DataType.FloatVector)
-
                 .dimension(5)
-
                 .typeParams(mmapParams)
-
                 .build())
-
         .build());
 ```
 
@@ -696,27 +658,17 @@ if err != nil {
 // add a vector subfield with mmap enabled
 
 structSchema := entity.NewStructSchema().
-
     WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
-
     WithField(entity.NewField().WithName("chapter").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
-
     WithField(entity.NewField().WithName("text_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true")).
-
     WithField(entity.NewField().WithName("chapter_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true"))
 
 newField := entity.NewField().
-
     WithName("chunks").
-
     WithDataType(entity.FieldTypeArray).
-
     WithElementType(entity.FieldTypeStruct).
-
     WithNullable(true).
-
     WithMaxCapacity(1024).
-
     WithStructSchema(structSchema)
 
 err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))
@@ -872,7 +824,6 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
 // Create a struct schema and add its subfields
-
 // add a vector subfield with mmap enabled
 
 await client.addCollectionField({
@@ -886,8 +837,8 @@ await client.addCollectionField({
         fields: [
             { name: "text", data_type: "VarChar", max_length: 65535 },
             { name: "chapter", data_type: "VarChar", max_length: 512 },
-            { name: "text_vector", data_type: "FloatVector", dim: 5 },
-            { name: "chapter_vector", data_type: "FloatVector", dim: 5 },
+            { name: "text_vector", data_type: "FloatVector", dim: 5, "mmap.enabled": true },
+            { name: "chapter_vector", data_type: "FloatVector", dim: 5, "mmap.enabled": true },
         ],
     },
 });

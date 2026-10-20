@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 本文档说明[腾讯云向量数据库](https://cloud.tencent.com/product/vdb)迁移过程中 Zilliz Cloud 的数据类型映射规则、JSON 字段转换机制及 Collection 命名规范。
 
+索引设置和迁移后操作步骤，请参见[外部迁移概述](./external-migration-basics#index-settings)。
+
 ## 开始前\{#before-you-start}
 
 开始离线迁移前需满足：

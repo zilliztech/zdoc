@@ -161,7 +161,7 @@ export TOKEN="YOUR_API_KEY"
     <TabItem value='go'>
 
     ```go
-    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -348,7 +348,7 @@ export TOKEN="YOUR_API_KEY"
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>

@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 本文档介绍从 [Qdrant](https://qdrant.tech/) 迁移时，Zilliz Cloud 如何处理数据类型映射、Payload 字段转换及 Collection 命名规则。
 
+索引设置和迁移后操作步骤，请参见[外部迁移概述](./external-migration-basics#index-settings)。
+
 ## 开始前\{#before-you-start}
 
 开始离线迁移前需满足：
@@ -32,7 +34,7 @@ import Admonition from '@theme/Admonition';
 | --- | --- |
 | 网络连通性 | 源 Qdrant 集群必须可通过公网访问 |
 | API 访问权限 | 需提供 Qdrant Endpoint 及具备访问权限的 API 密钥 |
-| 数据可用性 | 源 Collection 必须包含数据，空 Collection 法迁移 |
+| 数据可用性 | 源 Collection 必须包含数据，空 Collection 无法迁移 |
 
 ### Zilliz Cloud 侧要求\{#zilliz-cloud-requirements}
 
