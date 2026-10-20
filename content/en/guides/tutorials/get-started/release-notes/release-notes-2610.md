@@ -56,7 +56,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Precheck:** You can run a precheck first to validate the input without changing the collection.
 
-        - **Spark batch job:** Data Backfill runs as a Spark batch job through the RESTful API and is available only in AWS us-west-2 (Oregon).
+        - **Spark batch job:** Data Backfill runs as a Spark batch job through the RESTful API and is available in all applicable AWS regions.
 
         This feature is available on request. To enable it, [contact us](https://support.zilliz.com/hc/en-us). For details, refer to [Data Backfill](./data-backfill).
 

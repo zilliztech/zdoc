@@ -169,7 +169,7 @@ To unlock for advanced features, you can upgrade the plan of your existing proje
 
 Upgrading the project will also upgrade all clusters in the project.
 
-If you need to upgrade a project to the **Business Critical** or **BYOC** plan, please [contact sales](https://zilliz.com/contact-sales).
+If you need to upgrade a project to the **Business Critical** or **BYOC** plan, please [contact us](http://support.zilliz.com).
 
 - **Via RESTful API**
 
