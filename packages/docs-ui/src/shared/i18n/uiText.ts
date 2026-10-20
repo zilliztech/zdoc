@@ -134,7 +134,7 @@ export interface DocsUiText {
     notHelpful: string;
     thanks: string;
   };
-  image: {preview: string; closePreview: string};
+  image: {preview: string; closePreview: string; loadFailed: string};
   docMeta: {versionInformation: string; minimumSdkVersion: string};
   releaseChannel: {
     /** Floating notice shown on NEXT-channel pages while the next deployment is open. */
@@ -322,7 +322,7 @@ const english: DocsUiText = {
     notHelpful: 'Not helpful',
     thanks: 'Thanks for your feedback!',
   },
-  image: {preview: 'Image preview', closePreview: 'Close image preview'},
+  image: {preview: 'Image preview', closePreview: 'Close image preview', loadFailed: 'Failed to load image'},
   docMeta: {versionInformation: 'Version information', minimumSdkVersion: 'Minimum SDK version'},
   releaseChannel: {
     banner:
@@ -507,7 +507,7 @@ const chinese: DocsUiText = {
     notHelpful: '没有帮助',
     thanks: '感谢您的反馈！',
   },
-  image: {preview: '图片预览', closePreview: '关闭图片预览'},
+  image: {preview: '图片预览', closePreview: '关闭图片预览', loadFailed: '图片加载失败'},
   docMeta: {versionInformation: '版本信息', minimumSdkVersion: '最低 SDK 版本'},
   releaseChannel: {
     banner: '本页文档对应的功能尚未正式上线，正式发布前内容可能调整。',
@@ -697,7 +697,7 @@ const japanese: DocsUiText = {
     notHelpful: '役に立たなかった',
     thanks: 'フィードバックありがとうございます！',
   },
-  image: {preview: '画像プレビュー', closePreview: '画像プレビューを閉じる'},
+  image: {preview: '画像プレビュー', closePreview: '画像プレビューを閉じる', loadFailed: '画像を読み込めませんでした'},
   docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
   releaseChannel: {
     banner: 'このページが説明する機能はまだ正式にリリースされていません。正式提供までに内容が変わる可能性があります。',

@@ -175,12 +175,36 @@ function buildFaqAccordions() {
     });
 
     h2.insertAdjacentElement('afterend', acc);
+    revealClonedImages(acc);
     // hide the original source elements (still owned by React — never remove/move
     // them, or React's removeChild on relocated nodes crashes the page). Hide via a
     // data attribute, NOT a class: React owns className on components like CodeBlock
     // and would overwrite our class on re-render, re-showing the source.
     els.forEach((el) => el.setAttribute('data-zd-faq-src', '1'));
     h2.setAttribute('data-zd-faq', '1');
+  });
+}
+
+/**
+ * MDXImg reveals images by flipping React state on load, and React's onLoad
+ * listener lives only on the ORIGINAL (React-owned) element — the accordion
+ * clones above would stay invisible (opacity:0 + skeleton) forever. The clones
+ * are ours, so listen for their load ourselves and tag the frame with a plain
+ * class that custom.css maps to the same reveal.
+ */
+function revealClonedImages(root) {
+  if (typeof document === 'undefined') return;
+  root.querySelectorAll('img').forEach((img) => {
+    const frame = img.parentElement;
+    if (!frame || frame.tagName !== 'SPAN' || frame.hasAttribute('data-zd-img-watch')) return;
+    frame.setAttribute('data-zd-img-watch', '1');
+    if (img.complete && img.naturalWidth > 0) {
+      frame.classList.add('zd-img-on');
+      return;
+    }
+    img.addEventListener('load', () => frame.classList.add('zd-img-on'), {once: true});
+    // a failed load must not leave a 16:9 skeleton shimmering forever either
+    img.addEventListener('error', () => frame.setAttribute('data-zd-img-failed', '1'), {once: true});
   });
 }
 

@@ -30,6 +30,28 @@
   animation: imgShimmer 1.25s ease-in-out infinite;
 }
 
+/* Load failure: no eternal skeleton — drop the reserved box and say so. */
+.frame.error {
+  width: fit-content;
+  aspect-ratio: auto;
+}
+
+.frame.error::after {
+  content: none;
+}
+
+.frame.error .img {
+  display: none;
+}
+
+.errorLabel {
+  display: block;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #8a8a8a;
+}
+
 .img {
   display: block;
   max-width: 100%;

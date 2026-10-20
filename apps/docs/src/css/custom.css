@@ -3588,6 +3588,30 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .zd-faq-a-inner p:last-child {
   margin-bottom: 0;
 }
+/* Cloned FAQ images (revealClonedImages in the tableRowHeaders client module):
+   React's MDXImg reveal never runs on clones, so mirror it with a plain class
+   once the image loads. Scoped under .zd-faq and typed as span/… to out-rank
+   the CSS-module skeleton rules (.frame:not(.loaded) width/aspect-ratio/shimmer). */
+.zd-faq span.zd-img-on {
+  width: fit-content;
+  aspect-ratio: auto;
+}
+.zd-faq span.zd-img-on::after {
+  content: none;
+}
+.zd-faq span.zd-img-on img {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+/* A clone whose load failed collapses instead of shimmering forever. */
+.zd-faq span[data-zd-img-failed] {
+  width: fit-content;
+  aspect-ratio: auto;
+}
+.zd-faq span[data-zd-img-failed]::after {
+  content: none;
+}
 
 /* Collapsible <details> disclosure arrow → same thin chevron as the sidebar nav
    caret, moved to the RIGHT of the summary, larger, vertically centered with the
