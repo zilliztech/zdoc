@@ -37,11 +37,6 @@ This operation creates a role for role-based access control.
 
 ```python
 create_role(
-    role_name: str,
-    timeout: Optional[float] = None,
-    description: str = "",
-    **kwargs
-)
 ```
 
 **PARAMETERS:**
@@ -56,20 +51,30 @@ create_role(
 
     The timeout duration for this operation.
 
+- **description** (*str*) -
+
+    The description of the role to create. Defaults to an empty string.
+
+**RETURN TYPE:**
+
+*None*
+
+**RETURNS:**
+
+This operation returns no value.
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
+
+- **ParamError**
+
+    This exception will be raised when a parameter value is invalid. This exception will be raised when a parameter value is invalid.
 
 ## Examples\{#examples}
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-client.create_role(
-    role_name="reader",
-    description="Read-only access",
-)
+client.create_role(role_name="analytics_reader")
 ```
