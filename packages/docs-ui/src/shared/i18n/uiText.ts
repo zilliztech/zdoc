@@ -142,6 +142,18 @@ export interface DocsUiText {
     /** Accessible label for the floating notice's close button. */
     dismiss: string;
   };
+  machineTranslation: {
+    /** Floating notice shown on machine-translated (ja-JP) pages; the contact
+     * segment renders as the only link, while ask stays plain text directing
+     * readers to the input box below the content. */
+    prefix: string;
+    ask: string;
+    middle: string;
+    contact: string;
+    suffix: string;
+    /** Accessible label for the floating notice's close button. */
+    dismiss: string;
+  };
   hero: {
     forHumans: string;
     forAgents: string;
@@ -329,6 +341,14 @@ const english: DocsUiText = {
       'The feature documented on this page has not been released yet. Content may change before general availability.',
     dismiss: 'Dismiss the unreleased-feature notice',
   },
+  machineTranslation: {
+    prefix: 'This page is machine translated. If anything looks off, ',
+    ask: 'type your question in the box below',
+    middle: ' or ',
+    contact: 'contact support',
+    suffix: '.',
+    dismiss: 'Dismiss the machine-translation notice',
+  },
   hero: {
     forHumans: 'For humans',
     forAgents: 'For agents',
@@ -512,6 +532,14 @@ const chinese: DocsUiText = {
   releaseChannel: {
     banner: '本页文档对应的功能尚未正式上线，正式发布前内容可能调整。',
     dismiss: '关闭未上线功能提示',
+  },
+  machineTranslation: {
+    prefix: '本页面内容为机器翻译。如有疑问，可在下方',
+    ask: '输入框',
+    middle: '中输入疑问进行确认，或',
+    contact: '联系我们',
+    suffix: '。',
+    dismiss: '关闭机器翻译提示',
   },
   hero: {
     forHumans: '开发者使用',
@@ -702,6 +730,14 @@ const japanese: DocsUiText = {
   releaseChannel: {
     banner: 'このページが説明する機能はまだ正式にリリースされていません。正式提供までに内容が変わる可能性があります。',
     dismiss: '未リリース機能の通知を閉じる',
+  },
+  machineTranslation: {
+    prefix: 'このページの内容は機械翻訳です。正確性に不安がある場合は、',
+    ask: '下の入力欄にご質問を入力して確認する',
+    middle: 'か、',
+    contact: 'サポート',
+    suffix: 'にお問い合わせください。',
+    dismiss: '機械翻訳の通知を閉じる',
   },
   hero: {
     forHumans: '人間向け',

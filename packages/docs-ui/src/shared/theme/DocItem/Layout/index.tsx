@@ -17,6 +17,7 @@ import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
 import DocFeedback from '../../DocFeedback';
 import {contactSalesUrl} from '../../Heading/tagLinks';
 import NextChannelToast from '../../../components/NextChannelToast';
+import MachineTranslationToast from '../../../components/MachineTranslationToast';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
 import {frontMatterReleaseChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 import ContentVisibility from '@theme/ContentVisibility';
@@ -228,12 +229,15 @@ export default function DocItemLayout({children}: Props): ReactNode {
         <div className={`${styles.docItemCol} ${!showDesktopTOC ? styles.docItemColCentered : ''}`}>
           <article>
             <DocVersionBadge />
-            {isNextChannelPage && (
-              <NextChannelToast
-                message={text.releaseChannel.banner}
-                dismissLabel={text.releaseChannel.dismiss}
-              />
-            )}
+            <div className={styles.floatingNotices}>
+              {isNextChannelPage && (
+                <NextChannelToast
+                  message={text.releaseChannel.banner}
+                  dismissLabel={text.releaseChannel.dismiss}
+                />
+              )}
+              <MachineTranslationToast />
+            </div>
             <PageBreadcrumbs text={text} />
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />

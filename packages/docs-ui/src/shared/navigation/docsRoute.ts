@@ -59,3 +59,19 @@ export function withLocalePrefix(href: string, context: DocsRouteContext): strin
 
   return `${context.localePrefix}${href}`;
 }
+
+/** URL of the same page under the other language-site locale, for the language
+ * switcher. The English build serves both locales from one route set — the
+ * ja-JP tree is the en tree under the /ja-JP prefix, with untranslated docs
+ * falling back to English content — so switching is a pure prefix swap and can
+ * never 404. `search` is carried verbatim (the Ask-AI handoff `?chat=...`);
+ * hashes are dropped: heading anchors are generated per locale and would not
+ * resolve across languages. */
+export function localeSwitchHref(pathname: string, target: 'en' | 'ja-JP', search = ''): string {
+  const pathOnly = pathname.split('#', 1)[0] || '/';
+  const unprefixed = pathOnly === '/ja-JP' ? '/' : pathOnly.replace(/^\/ja-JP(?=\/)/, '') || '/';
+  const base = target === 'ja-JP'
+    ? (unprefixed === '/' ? '/ja-JP/' : `/ja-JP${unprefixed}`)
+    : unprefixed;
+  return `${base}${search}`;
+}

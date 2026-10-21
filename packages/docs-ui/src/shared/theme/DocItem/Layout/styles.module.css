@@ -218,3 +218,44 @@
     flex: 1 1 0;
   }
 }
+
+/* ── Floating notices slot (NextChannelToast, MachineTranslationToast) ─────
+   One fixed anchor for every floating notice, so two active notices stack as
+   a column instead of painting over each other. Directly above the Ask-AI
+   dock: DocRoot/Layout fixes the dock at bottom 30px with a min-height 89px
+   composer whose white backdrop rises 89 + 30 + 24 = 143px from the viewport
+   floor, so the slot's bottom edge clears it with a 16px gap. Centered on the
+   viewport, it also stays clear of the sidebar (left) and the sticky desktop
+   TOC (right column, z-index 410). z-index 450 sits above the dock (400) and
+   TOC (410) but below the opened chat pane (1000). Items size to their text
+   (column flex + align-items: center gives shrink-to-fit, capped by the slot).
+   The slot ignores pointer events so its empty frame never blocks the page;
+   the notices opt back in. */
+.floatingNotices {
+  position: fixed;
+  bottom: calc(89px + 30px + 24px + 16px);
+  left: 50%;
+  z-index: 450;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(40rem, calc(100vw - 30rem));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.floatingNotices > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 996px) {
+  .floatingNotices {
+    right: 1rem;
+    left: 1rem;
+    bottom: calc(89px + 30px + 24px + 8px);
+    align-items: stretch;
+    max-width: none;
+    transform: none;
+  }
+}
