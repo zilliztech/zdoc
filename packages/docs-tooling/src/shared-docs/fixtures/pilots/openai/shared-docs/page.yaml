@@ -1,0 +1,8 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/embeddings-reranking/embedding-function/openai.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/function/text-embedding-funcs/openai

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": "fixture-1",
+      "slug": "delete-entities",
+      "placement_type": "git",
+      "release_channel": "CURRENT",
+      "publish_targets": [
+        "guides",
+        "guides-byoc"
+      ],
+      "output_paths": {
+        "guides": "tutorials/development/insert-and-delete/delete-entities",
+        "guides-byoc": "tutorials/development/insert-and-delete/delete-entities"
+      }
+    },
+    {
+      "record_id": "fixture-2",
+      "slug": "filtered-search",
+      "placement_type": "git",
+      "release_channel": "NEXT",
+      "publish_targets": [
+        "guides",
+        "guides-byoc"
+      ],
+      "output_paths": {
+        "guides": "tutorials/development/search-and-query/filtered-search",
+        "guides-byoc": "tutorials/development/search-and-query/filtered-search"
+      }
+    },
+    {
+      "record_id": "fixture-3",
+      "slug": "openai",
+      "placement_type": "git",
+      "release_channel": "RETIRE-IN-NEXT",
+      "publish_targets": [
+        "guides"
+      ],
+      "output_paths": {
+        "guides": "tutorials/development/function/text-embedding-funcs/openai"
+      }
+    }
+  ]
+}

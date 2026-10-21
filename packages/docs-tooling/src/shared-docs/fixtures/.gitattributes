@@ -1,0 +1,4 @@
+# Preserve upstream bytes (including trailing whitespace and final blank lines).
+# This exception covers imported Markdown only, never tooling or Cloud inputs.
+pilots/*/milvus-docs/** whitespace=-blank-at-eol,-blank-at-eof
+milvus-docs/commits/*/site/en/userGuide/** whitespace=-blank-at-eol,-blank-at-eof

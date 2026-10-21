@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/filtered-search.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtered-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtered-search
