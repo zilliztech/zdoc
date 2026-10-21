@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "aed8eacf82f4b476eb5651d7c3b796869d52124e",
+  "sourceCommit": "aea3b99504d970c64de6489a504cfab592d14efe",
   "records": [
     {
       "manual": "cli",
@@ -6670,7 +6670,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/usage-v2/query-daily-usage-v2.mdx",
-      "sourceHash": "7acbb07bf2d13d41fa3ae11d0b4b65bb04fa67eb539e862d5b303eef0324c1aa"
+      "sourceHash": "c67ebb2426ed7e9203e04e791e656537dbd81d54cb5ef58964343d23426e2746"
     },
     {
       "manual": "rest",
