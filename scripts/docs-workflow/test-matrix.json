@@ -101,17 +101,22 @@
         "packages/docs-ui/src/en/inkeep.config.ts",
         "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
         "packages/docs-ui/src/shared/components/Supademo/**",
+        "packages/docs-ui/src/shared/components/MachineTranslationToast/**",
+        "packages/docs-ui/src/shared/navigation/**",
         "packages/docs-ui/src/shared/theme/DocRoot/Layout/**",
         "packages/docs-ui/src/shared/theme/DocItem/Layout/**",
         "apps/docs/src/css/custom.css"
       ],
-      "focusedTests": [],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/components/MachineTranslationToast/index.test.tsx",
+        "pnpm vitest run packages/docs-ui/src/shared/navigation/docsRoute.test.ts packages/docs-ui/src/shared/navigation/manualReferenceNavigation.test.ts"
+      ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
+      "reason": "Shared docs navigation, mobile drawer, embedded demos, document shell, the floating-notice slot that stacks NextChannelToast and MachineTranslationToast without overlap, and the locale/route helpers behind the language switcher must preserve responsive controls, valid iframe markup, a bounded content scroller, and locale-scoped gating."
     },
     {
       "id": "docs-ui-heading-tags",

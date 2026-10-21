@@ -8,6 +8,7 @@ import {Search, LifeBuoy, LogIn, Menu, Globe, ChevronDown} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
 import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import {useDocsUiText} from '../../../../shared/i18n/uiText';
+import {localeSwitchHref} from '../../../../shared/navigation/docsRoute';
 import {trackEvent} from '../../../../shared/utils/analytics';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import LazyInkeepModal from './LazyInkeepModal';
@@ -95,6 +96,7 @@ function MediumActionsDropdown(): ReactNode {
 
 function LanguageDropdown(): ReactNode {
   const {siteConfig, i18n} = useDocusaurusContext();
+  const {pathname, search} = useLocation();
   // Only the English site serves the Japanese locale; the Chinese site is a
   // standalone hub with no Japanese entry.
   if (siteConfig.customFields?.site !== 'en') return null;
@@ -110,14 +112,14 @@ function LanguageDropdown(): ReactNode {
       <div className={styles.languageMenu} role="menu">
         <a
           role="menuitem"
-          href="/docs/home"
+          href={localeSwitchHref(pathname, 'en', search)}
           className={`${styles.languageItem} ${!isJapanese ? styles.languageItemActive : ''}`}
           onClick={() => trackEvent('lang_switch', {to_locale: 'en'})}>
           English
         </a>
         <a
           role="menuitem"
-          href="/ja-JP/docs/home"
+          href={localeSwitchHref(pathname, 'ja-JP', search)}
           className={`${styles.languageItem} ${isJapanese ? styles.languageItemActive : ''}`}
           onClick={() => trackEvent('lang_switch', {to_locale: 'ja-JP'})}>
           日本語

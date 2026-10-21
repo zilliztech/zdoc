@@ -1,23 +1,11 @@
-/* Floating directly above the Ask-AI dock, the notice's natural spot: the
- * dock (DocRoot/Layout) is fixed with bottom 30px and a min-height 89px
- * composer, its white backdrop rising 89 + 30 + 24 = 143px from the viewport
- * floor — so the toast's bottom edge clears it with a 16px gap. Centered on
- * the viewport, it also stays clear of the sidebar (left) and the sticky
- * desktop TOC (right column, z-index 410). z-index 450 sits above the dock
- * (400) and TOC (410) but below the opened chat pane (z-index 1000).
- * --toast-slide-x lets the mobile full-width variant drop the horizontal
- * centering translate used by the keyframes. */
+/* A stack item inside DocItem/Layout's .floatingNotices slot, which owns the
+ * fixed anchor above the Ask-AI dock, viewport centering, the z-index, and
+ * the mobile full-width variant. The slot's column flex gives this toast its
+ * shrink-to-fit width, so no width is set here. */
 .toast {
-  --toast-slide-x: -50%;
-  position: fixed;
-  bottom: calc(89px + 30px + 24px + 16px);
-  left: 50%;
-  z-index: 450;
   display: flex;
   align-items: flex-start;
   gap: 0.625rem;
-  max-width: min(40rem, calc(100vw - 30rem));
-  width: max-content;
   padding: 0.875rem 1rem;
   border: 1px solid var(--ifm-color-warning-dark, #b45309);
   border-radius: 0.75rem;
@@ -66,23 +54,12 @@
 @keyframes nextChannelToastIn {
   from {
     opacity: 0;
-    transform: translate(var(--toast-slide-x), 0.75rem);
+    transform: translateY(0.75rem);
   }
 
   to {
     opacity: 1;
-    transform: translate(var(--toast-slide-x), 0);
-  }
-}
-
-@media (max-width: 996px) {
-  .toast {
-    --toast-slide-x: 0px;
-    right: 1rem;
-    left: 1rem;
-    bottom: calc(89px + 30px + 24px + 8px);
-    width: auto;
-    max-width: none;
+    transform: translateY(0);
   }
 }
 

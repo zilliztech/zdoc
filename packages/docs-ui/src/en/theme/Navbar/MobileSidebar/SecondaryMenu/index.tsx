@@ -4,6 +4,7 @@ import {useHistory, useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {getRefSubnavLabel} from '../../../DocSidebar';
 import {
+  localeSwitchHref,
   parseDocsRoute,
   withLocalePrefix,
   type DocsRouteContext,
@@ -48,6 +49,7 @@ function IconChevronDown() {
    part that goes wrong on a phone. */
 function MobileLanguageRow() {
   const {i18n} = useDocusaurusContext();
+  const {pathname, search} = useLocation();
   const isJapanese = i18n.currentLocale === 'ja-JP';
   return (
     <div className="mobile-action-link mobile-language-row">
@@ -59,8 +61,8 @@ function MobileLanguageRow() {
         aria-label="Language"
         value={isJapanese ? 'ja-JP' : 'en'}
         onChange={event => {
-          const next = event.target.value === 'ja-JP' ? '/ja-JP/docs/home' : '/docs/home';
-          window.location.href = next;
+          const target = event.target.value === 'ja-JP' ? 'ja-JP' : 'en';
+          window.location.href = localeSwitchHref(pathname, target, search);
         }}>
         <option value="en">English</option>
         <option value="ja-JP">日本語</option>

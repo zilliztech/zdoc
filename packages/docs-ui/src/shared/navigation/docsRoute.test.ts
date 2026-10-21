@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {parseDocsRoute, withLocalePrefix} from './docsRoute';
+import {localeSwitchHref, parseDocsRoute, withLocalePrefix} from './docsRoute';
 
 describe('parseDocsRoute', () => {
   it('classifies an English Python reference route', () => {
@@ -65,5 +65,30 @@ describe('withLocalePrefix', () => {
 
   it('leaves external URLs unchanged', () => {
     expect(withLocalePrefix('https://zilliz.com/docs', japaneseContext)).toBe('https://zilliz.com/docs');
+  });
+});
+
+describe('localeSwitchHref', () => {
+  it('stays on the current English page when switching to Japanese', () => {
+    expect(localeSwitchHref('/docs/quickstart', 'ja-JP')).toBe('/ja-JP/docs/quickstart');
+  });
+
+  it('stays on the current Japanese page when switching to English', () => {
+    expect(localeSwitchHref('/ja-JP/docs/quickstart', 'en')).toBe('/docs/quickstart');
+  });
+
+  it('maps the site root to the localized root', () => {
+    expect(localeSwitchHref('/', 'ja-JP')).toBe('/ja-JP/');
+    expect(localeSwitchHref('/ja-JP', 'en')).toBe('/');
+  });
+
+  it('preserves the query string and drops the locale-specific hash', () => {
+    expect(localeSwitchHref('/docs/home?chat=how+to+index', 'ja-JP')).toBe('/ja-JP/docs/home?chat=how+to+index');
+    expect(localeSwitchHref('/ja-JP/docs/home?chat=1#prerequisites', 'en')).toBe('/docs/home?chat=1');
+  });
+
+  it('keeps trailing slashes untouched', () => {
+    expect(localeSwitchHref('/docs/quickstart/', 'ja-JP')).toBe('/ja-JP/docs/quickstart/');
+    expect(localeSwitchHref('/ja-JP/reference/python/', 'en')).toBe('/reference/python/');
   });
 });
