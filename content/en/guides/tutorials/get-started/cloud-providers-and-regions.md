@@ -118,9 +118,13 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>Iowa, USA</p></td>
    </tr>
    <tr>
-     <td><p>Europe</p></td>
+     <td rowspan="2"><p>Europe</p></td>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>europe-west4</p></td>
+     <td><p>Eemshaven, Netherlands</p></td>
    </tr>
    <tr>
      <td rowspan="2"><p>Asia</p></td>
@@ -204,7 +208,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>BYOC</p></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li><p>ap-east-1 (Hong Kong SAR)</p></li><li><p>ap-southeast-7 (Thailand)</p></li></ul></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li>europe-west9 (Paris, France)</li></ul></td>
-     <td><p>✅ All regions</p><p>Plus:</p><ul><li>Malaysia West (Kuala Lumpur, Malaysia)</li></ul></td>
+     <td><p>✅ All regions</p> <NextChannel action="include"><p>Plus:</p><ul><li>Malaysia West (Kuala Lumpur, Malaysia)</li></ul> </NextChannel></td>
    </tr>
 </table>
 
