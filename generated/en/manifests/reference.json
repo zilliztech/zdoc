@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "b5e6271b54c1358ee41c7d10e70b0ba390d88056",
+  "sourceCommit": "8b7e4d37055d90ae0e463bd8c2908bdfbcf1d418",
   "records": [
     {
       "manual": "cli",
@@ -4475,7 +4475,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md",
-      "sourceHash": "c5a21912db7a3e8b319aca9355cf458fa2c289d2bd541c727a1c9b78ed95ba17"
+      "sourceHash": "4d7b1e03e9d258cd4aeac0df445029990c553f9b92990f7965ca6caaa3976b1c"
     },
     {
       "manual": "python",
