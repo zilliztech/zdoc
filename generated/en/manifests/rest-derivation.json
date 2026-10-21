@@ -27,7 +27,7 @@
     "25-metrics-and-alerts-v2.json": "de199ae58b78c7c9d10be04117413085da4925a719bfedfc3d518d23f3e2ec61",
     "26-cloud-job-v2.json": "b70c40aaed4e40e0632cabbab30a1d248afadb37bb9b83948adc815a790266f7",
     "27-invoices-v2.json": "02abbfa503858460368e4a6a451d203544672207dfdb000543b954d073dffaa2",
-    "28-usage-v2.json": "c17ffed43fe775b1505f89f956ac6615209aec52ec3fe99f5774b97a91a102ea",
+    "28-usage-v2.json": "51056b261a6a523018815bdb9712cde5b958894fd70ab0a6cf20e0196501fb8b",
     "29-on-demand-compute-v2.json": "6e84721ed0ad433acc1a29c3dee28f795997880e698a993701cdea26278a9708",
     "30-global-clusters.json": "f83d2d57e9d9a3c08ac8ae4f24038f28725bbdd6098f6bd97c4459bbabbcbc15",
     "31-storage-integration-v2.json": "6fee998964b6df4617db8d9fa6d0887ab007b4c24d6647aed040093cb8b3f4a0",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
     "38-snapshot-operations-v2.json": "dd6bb190299dffe91f7ccd922e7c0cc5e8d7f9b2da7bd1ed43757f4dd3990921"
   },
-  "generatedAt": "2026-10-21T11:28:14.405Z",
+  "generatedAt": "2026-10-21T11:44:15.295Z",
   "locale": "en",
   "schemaVersion": 1,
-  "toolingSha": "5dd0e56a58054864eda231deeb76f1945be80fb0"
+  "toolingSha": "30dfa1a32d06234f0234b61edd7a3a68690a92c0"
 }
