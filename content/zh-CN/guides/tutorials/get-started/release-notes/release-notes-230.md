@@ -72,7 +72,7 @@ import Admonition from '@theme/Admonition';
 
 - 高级价格计算器
 
-    使用[价格计算器](https://zilliz.com.cn/pricing#calculator)，获取综合估计，结合主键、向量字段和字符串字段，以提供更准确的价格概览。
+    使用[价格计算器](https://zilliz.com/pricing#calculator)，获取综合估计，结合主键、向量字段和字符串字段，以提供更准确的价格概览。
 
 - 自助服务账户删除
 
