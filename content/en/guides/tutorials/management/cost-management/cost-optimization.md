@@ -51,7 +51,7 @@ Choosing the right deployment method is your most impactful decision. Selecting 
 | Serverless | Pay-per-RU | Auto-scaling | Auto | Medium | Unstable traffic, Dev/Test |
 | Dedicated (Performance-optimized) | &#126;&#36;65/M vectors/mo | 2M/CU | 500–1,500 | Low (&lt;10ms p99) | Latency-critical production |
 | Dedicated (Capacity-optimized) | &#126;&#36;20/M vectors/mo | 8M/CU | 100–300 | Medium | Large-scale, cost-sensitive |
-| Dedicated (Tiered-storage) | &#126;&#36;7/M vectors/mo | 40M/CU (≥8 CU) | 100–150 (Hot) | Higher | Massive data, cold/hot split |
+| Dedicated (Tiered-storage) | &#126;&#36;7/M vectors/mo | 40M/CU | 100–150 (Hot) | Higher | Massive data, cold/hot split |
 | BYOC | Custom | Custom | Custom | Custom | Compliance, Cloud discounts |
 
 ### Selection decision tree\{#selection-decision-tree}

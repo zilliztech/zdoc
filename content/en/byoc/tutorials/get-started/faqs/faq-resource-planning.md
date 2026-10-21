@@ -52,4 +52,4 @@ These estimates are based on vectors with primary keys only. Additional scalar f
 
 Select the Performance-optimized if you instant search results and high concurrent traffic for real-time applications.
 Choose the Capacity-optimized if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
+Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads.
