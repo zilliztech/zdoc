@@ -1,0 +1,10 @@
+[
+  {
+    "code": "CONFIG_FIELD_MISSING",
+    "message": "Missing source",
+    "file": "page.yaml",
+    "line": 1,
+    "page": "example",
+    "channel": "both"
+  }
+]

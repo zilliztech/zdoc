@@ -1193,6 +1193,22 @@
         "git diff --check"
       ],
       "reason": "The root vitest configuration owns which workspace packages contribute component tests and the shared jsdom setup (matchers, localStorage shim); a glob or setup change can silently exclude a package's tests, so the full frontend suite must run green from the changed checkout."
+    },
+    {
+      "id": "shared-docs",
+      "paths": [
+        "packages/docs-tooling/src/shared-docs/**"
+      ],
+      "focusedTests": [
+        "pnpm test:shared-docs"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Shared docs types, test helpers, fixtures and adapter contracts must stay isolated from external systems and keep the requirement coverage ledger complete."
     }
   ]
 }

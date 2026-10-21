@@ -21,6 +21,7 @@
     "typecheck": "tsc",
     "check:static-env": "node scripts/check-static-env-placeholder.js",
     "test:frontend": "vitest run",
+    "test:shared-docs": "vitest run packages/docs-tooling/src/shared-docs",
     "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
     "docs-tooling": "node scripts/docs-tooling.js",

@@ -115,6 +115,8 @@ jobs:
       - run: pnpm check:reconciliation-policy
       - run: pnpm test:translation
       - run: pnpm test:replay
+      - name: Test shared docs
+        run: pnpm test:shared-docs
 
   workflow_lint:
     name: Lint workflows with actionlint
