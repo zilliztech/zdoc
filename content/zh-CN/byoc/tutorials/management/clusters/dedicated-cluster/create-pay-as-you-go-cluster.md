@@ -49,7 +49,7 @@ import Supademo from '@site/src/components/Supademo';
 | --- | --- |
 | **集群名称** | 请输入集群的名称。当前存在随机默认值，您可根据需要修改该名称 |
 | **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
-| **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。如需选择分层存储型 CU，集群规格需至少为 8 Query CU。 |
+| **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。 |
 | **Query CU** | 您可以使用[计算器](https://zilliz.com.cn/pricing#calculator)估算所需 Query CU 数量。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。<br/>默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅[手动扩缩容](./manual-scaling)。 |
 | **备份策略（可选）** | 设置定时创建备份的频率。更多详细信息，请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
 
