@@ -146,7 +146,7 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
 
 <Admonition type="info" title="说明">
 
-如需 BYOC 部署，请[联系我们](http://zilliz.com.cn/contact-sales)。
+如需 BYOC 部署，请[联系我们](https://zilliz.com.cn/contact-sales)。
 
 </Admonition>
 

@@ -102,16 +102,16 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "start": "2024-01-01",
-    "end": "2024-02-01"
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-02-01T00:00:00Z"
 }'
 ```
 
 以下为参数说明：
 
-- `start`：查询时间段开始日期，格式为 `YYYY-MM-DD`。
+- `start`：查询时间段的开始时间，采用 RFC 3339 格式（例如 `2024-01-01T00:00:00Z`）。必须为 UTC 零点整。非 UTC 时区偏移会先被换算为 UTC，日期随之偏移。开始时间不是 UTC 零点时，接口不报错，静默返回当天 `items` 为空、`total` 为 `0` 的日区间。
 
-- `end`：查询时间段开始日期，格式为 `YYYY-MM-DD`。
+- `end`：查询时间段的结束时间，采用 RFC 3339 格式（例如 `2024-02-01T00:00:00Z`）。结束日期为包含边界：`end` 与 `start` 相同时仅返回一个日区间。
 
 ## 常见问题\{#faq}
 
