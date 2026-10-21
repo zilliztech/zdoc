@@ -88,16 +88,16 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "start": "2024-01-01",
-    "end": "2024-02-01"
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-02-01T00:00:00Z"
 }'
 ```
 
 In the command above,
 
-- `start`: The start time of the query period, in the format of `YYYY-MM-DD`.
+- `start`: The start of the query period, in RFC 3339 format (for example, `2024-01-01T00:00:00Z`). Must be midnight UTC. A non-UTC offset is converted to UTC first, which shifts the day. A start that is not midnight UTC returns that day's bucket with an empty `items` array and a `total` of `0`, without an error.
 
-- `end`: The end time of the query period, in the format of `YYYY-MM-DD`.
+- `end`: The end of the query period, in RFC 3339 format (for example, `2024-02-01T00:00:00Z`). The end date is inclusive: setting `end` equal to `start` returns a single daily bucket.
 
 ## FAQ\{#faq}
 

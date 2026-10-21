@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T10:29:14.512Z",
+  "generated_at": "2026-10-21T12:22:18.131Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -18,10 +18,25 @@
       "reasons": [
         "wiki node revision changed"
       ]
+    },
+    {
+      "record_id": "recvlW2CC3yvXZ",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Analyze Cost",
+      "labels": "Analyze Cost",
+      "slug": "analyze-cost",
+      "release_channel": "current",
+      "doc_token": "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/LJplw7Q9Gi09GMkiy8PcbYp6nrg",
+      "reasons": [
+        "wiki node revision changed"
+      ]
     }
   ],
   "changed_tokens": [
-    "CPLrwghdWiSvGBkdeEecGjgLnSb"
+    "CPLrwghdWiSvGBkdeEecGjgLnSb",
+    "LJplw7Q9Gi09GMkiy8PcbYp6nrg"
   ],
   "expanded_tokens": [
     "A33MwQX84iXyQNkzopece3oenye",
@@ -38,14 +53,20 @@
     "IojuwADAwiRK0hkl4pgcvC2QnQd",
     "JaLdw76LPiX003kLpKHcA0n8n2d",
     "K4F3wDpFciHWwJkZd5qc302OnWg",
+    "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
     "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "MYHwwhKtri4MMJku6BbcMjF4n1d",
     "MocQwCCItiHYEbkkJtOcROPTnod",
     "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
     "PAViwMSb3iVMzuk56z3c1zfRnwh",
     "PharwAysCiBzvgkuqqecmNzunQf",
+    "RLu1wO0FpiisJxkkViQcq039nff",
     "RoxawNJhki1vXXkFsEEc7laMnxe",
     "SIhBwKFJri4u2CkyD3ucnO7an3g",
     "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
+    "V7nZwzmpFiOokGksfTqcAcjcnXh",
+    "VsLcwDK6SiGs0CkJ7i0cmRYWnof",
     "W04nwxHqNiqyrykxMZOcu4ianle",
     "W2fZwrrhVibvpGkd0MbcQGJQnib"
   ],
@@ -53,6 +74,9 @@
   "removed_tokens": [],
   "reasons_by_token": {
     "CPLrwghdWiSvGBkdeEecGjgLnSb": [
+      "wiki node revision changed"
+    ],
+    "LJplw7Q9Gi09GMkiy8PcbYp6nrg": [
       "wiki node revision changed"
     ],
     "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
@@ -123,6 +147,21 @@
     ],
     "W2fZwrrhVibvpGkd0MbcQGJQnib": [
       "incoming reference to CPLrwghdWiSvGBkdeEecGjgLnSb"
+    ],
+    "V7nZwzmpFiOokGksfTqcAcjcnXh": [
+      "outgoing reference from LJplw7Q9Gi09GMkiy8PcbYp6nrg"
+    ],
+    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
+      "incoming reference to LJplw7Q9Gi09GMkiy8PcbYp6nrg"
+    ],
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
+      "incoming reference to LJplw7Q9Gi09GMkiy8PcbYp6nrg"
+    ],
+    "RLu1wO0FpiisJxkkViQcq039nff": [
+      "incoming reference to LJplw7Q9Gi09GMkiy8PcbYp6nrg"
+    ],
+    "VsLcwDK6SiGs0CkJ7i0cmRYWnof": [
+      "incoming reference to LJplw7Q9Gi09GMkiy8PcbYp6nrg"
     ]
   },
   "warnings": [],
@@ -225,7 +264,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-21T02:44:56.807Z",
+    "generated_at": "2026-10-21T10:30:57.636Z",
     "records": 402
   },
   "source_scope": "partial"
