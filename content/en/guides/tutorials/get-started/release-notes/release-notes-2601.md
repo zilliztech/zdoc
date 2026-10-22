@@ -88,7 +88,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Model-Based Reranking**: Choose the reranking model that best fits your needs, ensuring the most relevant search results are prioritized for your specific use case. For details, refer to [Cohere rerankers](./cohere-model-ranker) and its sibling pages.
 
-        - **Zilliz Hosted Models (Private Preview)**: Deploy fully managed model instances directly on Zilliz infrastructure to ensure stable, high-performance inference with zero data transfer fees. With models running in the Zilliz Cloud environment, your data stays within a private network, ensuring enhanced privacy and ultra-low latency. For details, refer to [Hosted Models](./hosted-models).
+        - **Zilliz Hosted Models (Private Preview)**: Deploy fully managed model instances directly on Zilliz infrastructure to ensure stable, high-performance inference with zero data transfer fees. With models running in the Zilliz Cloud environment, your data stays within a private network, ensuring enhanced privacy and ultra-low latency.
 
         Additionally, to streamline integration with third-party models, we’ve introduced **Third-Party Model Provider Integration**. This feature allows you to manage AI model credentials within Zilliz Cloud and rotate API keys at any time without modifying application code, ensuring flexible and secure integration. For details, refer to [Integrate with Model Providers](./integrate-with-model-providers).
 

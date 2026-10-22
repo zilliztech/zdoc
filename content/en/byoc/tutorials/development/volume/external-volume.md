@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3), allowing Zilliz Cloud to access your data in place without copying or moving it. | BYOC"
+description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 ), allowing Zilliz Cloud to access your data in place without copying or moving it. | BYOC"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -25,7 +25,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # External Volumes
 
-An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3), allowing Zilliz Cloud to access your data in place without copying or moving it. 
+An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 ), allowing Zilliz Cloud to access your data in place without copying or moving it. 
 
 This page explains how to create and delete external volumes via the web console and SDKs.                      
 
@@ -45,7 +45,7 @@ This page explains how to create and delete external volumes via the web console
 
 ## Before you start\{#before-you-start}
 
-Before creating an external volume, you need to integrate your [AWS S3 bucket](./integrate-with-aws-s3). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
+Before creating an external volume, you need to integrate your [Amazon S3 bucket](./integrate-with-aws-s3). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
 
 ## Create an external volume\{#create-an-external-volume}
 
@@ -232,7 +232,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
         | Description | This parameter is optional. Up to 255 characters. |
         | Volume Type | Select "External" as the volume type. |
         | Cloud Provider & Region | The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
-        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
+        | Storage Integration & Path | Storage integration ([Amazon S3 bucket](./integrate-with-aws-s3)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
 
     1. Click on **Create**.
 
@@ -643,7 +643,7 @@ To continue using volumes, first settle all outstanding invoices.
 
 Both allow you to import data from your own S3 or GCS bucket. The key differences are:
 
-- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+- External volume requires you to integrate an [Amazon S3 bucket](./integrate-with-aws-s3) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
 
 - Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
@@ -678,7 +678,7 @@ The following table lists the possible volume statuses.
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>The storage integration validation failed. Check the configuration and retry.</p><p>Application storage integrations are as follows:</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 bucket</a>,</li></ul></td>
+     <td><p>The storage integration validation failed. Check the configuration and retry.</p><p>Application storage integrations are as follows:</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 bucket</a></li></ul></td>
    </tr>
 </table>
 

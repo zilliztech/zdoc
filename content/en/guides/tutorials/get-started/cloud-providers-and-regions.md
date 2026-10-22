@@ -260,7 +260,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./cmek">CMEK</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
    </tr>
    <tr>

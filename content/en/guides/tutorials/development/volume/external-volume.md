@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. | Cloud"
+description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 , Google Cloud Storage, or Azure Blob Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. | Cloud"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -25,7 +25,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # External Volumes
 
-An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. 
+An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 , Google Cloud Storage, or Azure Blob Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. 
 
 This page explains how to create and delete external volumes via the web console and SDKs.                      
 
@@ -45,7 +45,7 @@ This page explains how to create and delete external volumes via the web console
 
 ## Before you start\{#before-you-start}
 
-Before creating an external volume, you need to integrate your [AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
+Before creating an external volume, you need to integrate your [AWS S3 bucket](./integrate-with-aws-s3), [Google GCS bucket](./integrate-with-gcp), and [Azure Storage Blob](./integrate-with-azure-blob-storage). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
 
 ## Create an external volume\{#create-an-external-volume}
 
@@ -232,7 +232,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
         | Description | This parameter is optional. Up to 255 characters. |
         | Volume Type | Select "External" as the volume type. |
         | Cloud Provider & Region | The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
-        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
+        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3), [Google GCS bucket](./integrate-with-gcp), [Azure Blob Storage](./integrate-with-azure-blob-storage)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
 
     1. Click on **Create**.
 
@@ -635,7 +635,7 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
 
 Creating and using an external volume incurs no Zilliz Cloud charges. No payment method is required.
 
-However, your cloud provider may charge data request fees when Zilliz Cloud reads from your bucket during import or migration. For details, see [Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) or [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.).
+However, your cloud provider may charge data request fees when Zilliz Cloud reads from your bucket during import or migration. For details, see [Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/), [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing), or [Azure Blob Storage Pricing](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/).
 
 ## FAQs\{#faqs}
 

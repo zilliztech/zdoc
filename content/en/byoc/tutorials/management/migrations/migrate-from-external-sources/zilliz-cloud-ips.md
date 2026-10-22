@@ -51,7 +51,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 | eu-west-1 | Ireland | `54.76.194.38`, `99.81.179.135`, `3.248.62.149`, `52.16.225.156` |
 | eu-west-2 | London, United Kingdom | `35.179.44.17`, `3.134.92.161`, `16.61.161.137`, `13.135.182.79` |
 | ca-central-1 | Canada (Central) | `15.157.245.36`, `52.60.120.239`, `15.157.14.152` |
-| ap-sourtheast-2 | Sydney, Australia | `13.210.191.123`, `52.62.215.167` |
+| ap-southeast-2 | Sydney, Australia | `13.210.191.123`, `52.62.215.167` |
 | ap-northeast-2 | Seoul, Korea | `43.200.197.223`, `54.116.65.71`, `43.200.30.237`, `13.125.81.204` |
 
 ### GCP\{#gcp}
@@ -64,6 +64,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 | asia-southeast1 | Singapore | `34.87.102.210`, `35.197.139.186` |
 | asia-northeast1 | Tokyo, Japan | `34.146.53.58`, `34.104.208.246` |
 | europe-west3 | Frankfurt, Germany | `34.107.41.158`, `34.141.61.171` |
+| europe-west4 | Eemshaven, Netherlands | `34.6.106.150`,`34.12.143.151` |
 
 ### Azure\{#azure}
 
