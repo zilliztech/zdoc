@@ -37,7 +37,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - Node.js，如果您想安装 [Zilliz Skill](https://github.com/zilliztech/zilliz-skill)。
 
-### 安装 Claude Code 插件\{#install-zilliz-plugin-for-claude-code}
+### 安装 OpenAI Codex 插件\{#install-zilliz-plugin-for-openai-codex}
 
 如果您想直接在 OpenAI Codex 中操作 Zilliz Cloud，请使用 [Zilliz Plugin](https://github.com/zilliztech/zilliz-plugin)。
 
@@ -61,7 +61,7 @@ npx codex-marketplace add zilliztech/zilliz-plugin --plugins
 
 ### 安装 Claude Code 插件\{#install-zilliz-plugin-for-claude-code}
 
-如果您想直接在 Claude Code 中操作 Zilliz Cloud，请使用[Claude Code Plugin](/docs/agents/zilliz-plugin) 。
+如果您想直接在 Claude Code 中操作 Zilliz Cloud，请使用[Claude Code Plugin](/docs/zilliz-plugin) 。
 
 <Procedures>
 
