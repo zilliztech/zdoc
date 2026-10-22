@@ -31,7 +31,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - [Zilliz Cloud 账号](http://cloud.zilliz.com.cn)。
 
-- Claude Code，如果您想使用 [Claude Code Plugin](/docs/agents/zilliz-plugin)。
+- Claude Code，如果您想使用 [Claude Code Plugin](/docs/zilliz-plugin)。
 
 - Codex，如果您想使用 [Codex Plugin](./zilliz-codex-plugin)。
 

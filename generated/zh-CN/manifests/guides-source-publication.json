@@ -807,7 +807,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "cde41db3e4e0f64107dfbf7f5d4e5ffefc7b7e7ed6d5f365216d3fbd184cf430",
+      "sha256": "1385a1db60d3fa45add03e029b7d986d15a79d6bf16131c9b286650373edd181",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": "3223"
     },
@@ -951,9 +951,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/function-and-model-inference-overview.md",
-      "sha256": "562649994e6b874a5af152fd6c895435c6ff24a5ee1695e49a41ae0c942ece02",
+      "sha256": "c424214577b8845a8b2f0ec4380268894e7305b1d695383089e8024020877c9e",
       "docToken": "LWMXw6sG3i0cogkIUa5ctndHnGb",
-      "revisionId": "725"
+      "revisionId": "728"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/minhash-function.md",
@@ -1545,9 +1545,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
-      "sha256": "773bca22f045ac9d1da94bd95a486f5a61f109e726824ba51478a058b3af6b4d",
+      "sha256": "4e4deb56cf8f7d575c29d5d736536cac44ba50a7e9f441c2a9262f4858a2a488",
       "docToken": "WTHSwHKU0iriJtkhWC2cVHM2nud",
-      "revisionId": "468"
+      "revisionId": "469"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/quick-start.md",
@@ -1563,9 +1563,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "57810a78478332f8a7575ef31eedb7a9f362d0e5c33dd121761f723abdccfa00",
+      "sha256": "e87f56c8a26a863f85e2074c44c607fd13fa20ea1f3e3d53b86f9026c01d09c0",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
-      "revisionId": "1479"
+      "revisionId": "1482"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/shared-responsibilities.md",
@@ -1875,9 +1875,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "200c5eba61af080207fbc2c43637867510600374cdcca9ef348cf67f505ad141",
+      "sha256": "41b420a744e22296398995461363bcbadc54006d742ccc6b920180c94cac0b60",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
-      "revisionId": "2680"
+      "revisionId": "2681"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
@@ -1911,9 +1911,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
-      "sha256": "ee75db50f71476d34661dc2ba8f0e34e834ddcf86ae6376bc692c960c3a9858f",
+      "sha256": "c6fd1fad7de3be5c218c46d264cced7d79c54ac350289cf0b4faf2429c213435",
       "docToken": "Eao0wFMCxiFiiikrZgScLW3LnZe",
-      "revisionId": "133"
+      "revisionId": "143"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
@@ -2319,7 +2319,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "92bdb8b63193605a37f8bd5b42f283f5e68626a938adbff8f6945de4def9f161",
+      "sha256": "d3709bbf926707e91daabbab638e27f82bb67ad26a19dbea3340322724da8d2d",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": "3223"
     },
@@ -2481,9 +2481,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/function-and-model-inference-overview.md",
-      "sha256": "1111dd40014089c284430652b0857ea8b64d3d00bb117c93004bb1a739eb7232",
+      "sha256": "0787f891677ac823ace59176070283f14fb11d1f4d922206b908facea58c5211",
       "docToken": "LWMXw6sG3i0cogkIUa5ctndHnGb",
-      "revisionId": "725"
+      "revisionId": "728"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/minhash-function.md",
@@ -3183,9 +3183,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
-      "sha256": "91d27c1028e17dabbc90012904cce56eed4bc1ee04b6a195b00766629d33ac7d",
+      "sha256": "708a830dd6b2782fddaade5fce8cd950dab392afdf8e63c3b43b9090526b9e37",
       "docToken": "WTHSwHKU0iriJtkhWC2cVHM2nud",
-      "revisionId": "468"
+      "revisionId": "469"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
@@ -3333,9 +3333,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2601.md",
-      "sha256": "efdb54277e91fb8118612176f8db361e9780cedcb3791873d09c88ce6417693c",
+      "sha256": "34a5aa47ead1f9ad9dc1d9a71987025876116680c64e4b1f901b2ddb4928bdc3",
       "docToken": "QIEew7qWOiHucGkw1qicgPUjnsc",
-      "revisionId": "1588"
+      "revisionId": "1607"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2602.md",
@@ -3405,9 +3405,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "3c8af2d2412ae369023852cae130da210de8c598a4a740380dfec246ad7ea622",
+      "sha256": "82fbf003069c3e182378b5c21d8ea63a864c9888a6ebfc3c4a48ac30799553be",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
-      "revisionId": "1479"
+      "revisionId": "1482"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/access-control-overview.md",
@@ -3555,9 +3555,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/manage-orders.md",
-      "sha256": "45357fc196dcba8e0aff3654dfeb2c1dc18961c06bf6f9940fe851034cb7d3b3",
+      "sha256": "8df29a5f160417abdb2665e8d481df0b9ff106811f8d225a92712138f804d5e4",
       "docToken": "FJU5wklQuiAJASkHAFlcQShDn9e",
-      "revisionId": "167"
+      "revisionId": "168"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/monitor-billing-alerts.md",
@@ -3627,9 +3627,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-annual-subscription-cluster.md",
-      "sha256": "24771f35bd32f5dc6e30593096384f0d8c3eaab08dae4186cbd57c7f77acb345",
+      "sha256": "7712a3af15e2423d528f3e557746ebcbcd1b996fb9f4d315dced9363508586ca",
       "docToken": "RY1swXlbQilxR3k42SdczdL0ndc",
-      "revisionId": "486"
+      "revisionId": "487"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
@@ -3747,9 +3747,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/cost-optimization.md",
-      "sha256": "b174699e29f2b14870a9f7afceec099a073666e7314175dbb80c38d814688c55",
+      "sha256": "42fa6fa04dbbbd6c557ea360bcaed3fc33eb0ec59a51959f630adf8c30a523e1",
       "docToken": "ObcZwiYelidyeTk8HGaclpWTnFe",
-      "revisionId": "821"
+      "revisionId": "824"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/audit-log-cost.md",
@@ -3867,9 +3867,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "3f50643aabe5af764b3195a4ac85b2038f3c4b4c1c389bfe5dd038bfebf9668a",
+      "sha256": "dc215d2d3908d4a34048df9b8ed07f9fb7ad6511548c27cb7ffed54125135c0a",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
-      "revisionId": "2680"
+      "revisionId": "2681"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
@@ -3945,9 +3945,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
-      "sha256": "18f0c110654986fe9d847aea5bf4310d91c81b13daeef84055d5e0bbf9d3e687",
+      "sha256": "c3c007af21609a88023866eaa80411fa75e279e4e6d2b2cba8d169d36c82b1ec",
       "docToken": "Eao0wFMCxiFiiikrZgScLW3LnZe",
-      "revisionId": "133"
+      "revisionId": "143"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",

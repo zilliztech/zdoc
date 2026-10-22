@@ -122,7 +122,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 | 数据脱敏（Tokenization） |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | 集群 IP 地址白名单 |  |  | ✔<br/>详情请参考[设置集群 IP 白名单](/docs/setup-whitelist)。 |  |
 | [控制台 IP 地址白名单](./setup-console-ip-allowlist) |  |  | ✔ | ✔ |
-| VPC 私网连接（Private Link） |  |  | ✔<br/>详情请参考[创建阿里云私网连接（Private Link）](/docs/setup-a-private-link-alicloud)、[创建腾讯云私有连接（Private Link）](/docs/setup-a-private-link-tencent-cloud)和[创建亚马逊云科技 PrivateLink](/docs/setup-a-private-link-amazon-cloud)。 | ✔ |
+| VPC 私网连接（Private Link） |  |  | ✔<br/>详情请参考[创建阿里云私网连接（Private Link）](/docs/aliyun-private-link)、[创建腾讯云私有连接（Private Link）](/docs/tencent-private-link)和[创建亚马逊云科技 PrivateLink](/docs/setup-a-private-link-aws)。 | ✔ |
 | ISO/ICE 27001、GDPR 合规与安全认证 | ✔ | ✔ | ✔ | ✔ |
 | HIPPA 合规 |  |  | ✔ | ✔ |
 

@@ -321,9 +321,9 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 - <strong>联系销售获取自定义报价。</strong>企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
 
-- **云市场订阅：** 通过[阿里云](/docs/subscribe-on-aliyun-marketplace)、[亚马逊云科技](/docs/subscribe-on-amazon-marketplace)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
+- **云市场订阅：** 通过[阿里云](/docs/aliyun-marketplace)、[亚马逊云科技](/docs/amazon-marketplace-cn)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
 
-- **现金充值：** 通过银行对公转账进行[现金充值](/docs/advance-pay)，扣费优先级为优惠券 > 现金充值> 云市场订阅，适合有预算管理需求的企业。
+- **现金充值：** 通过银行对公转账进行[现金充值](/docs/cash-recharge)，扣费优先级为优惠券 > 现金充值> 云市场订阅，适合有预算管理需求的企业。
 
 ## 用量页面\{#monitor-usage-page}
 
