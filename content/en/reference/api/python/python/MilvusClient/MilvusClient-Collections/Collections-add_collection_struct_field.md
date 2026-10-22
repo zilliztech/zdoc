@@ -4,10 +4,10 @@ slug: /python/python/Collections-add_collection_struct_field
 sidebar_label: "add_collection_struct_field()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation adds a struct (array-of-structs) field to an existing collection, declaring its element fields and maximum capacity. | Python | MilvusClient"
+description: "This operation adds a new nullable struct field to an existing collection. | Python | MilvusClient"
 type: docx
 token: M97RdhP3Co4QadxrDFGcpV8EnYe
 sidebar_position: 26
@@ -31,19 +31,30 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_struct_field()
 
-This operation adds a struct (array-of-structs) field to an existing collection, declaring its element fields and maximum capacity.
+This operation adds a new nullable struct field to an existing collection.
+
+<Admonition type="info" title="Note">
+
+Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-add_collection_struct_field(
+client.add_collection_struct_field(
     collection_name: str,
     field_name: str,
     struct_schema: StructFieldSchema,
     max_capacity: int,
     desc: Optional[str] = None,
-    timeout: Optional[float] = None,
-    **kwargs
+    timeout: Optional[float] = None
 )
 ```
 
@@ -51,51 +62,83 @@ add_collection_struct_field(
 
 - **collection_name** (*str*) -
 
-    The name of the target collection.
+    **[REQUIRED]**
+
+    The name of the collection.
 
 - **field_name** (*str*) -
 
-    The name of the struct field to add.
+    **[REQUIRED]**
 
-- **struct_schema** (StructFieldSchema) -
+    The name of the new struct field.
 
-    The schema of the struct field, defining its element fields.
+- **struct_schema** (*[StructFieldSchema](StructFieldSchema/StructFieldSchema.md*) -
+
+    **[REQUIRED]**
+
+    An option that &ast;) - The schema of the struct field to add. Its name is overridden by field_name.
 
 - **max_capacity** (*int*) -
 
-    The maximum number of struct elements per entity.
+    **[REQUIRED]**
 
-- **desc** (*str | None*) -
+    The maximum number of elements that the struct field can hold.
 
-    Default: `None`
+- **desc** (*Optional[str]*) -
 
-    A description of the struct field.
+    A short description of the field.
 
 - **timeout** (*float | None*) -
 
-    Default: `None`
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
-    The timeout in seconds for this operation.
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None.
 
 **EXCEPTIONS:**
 
+- **ParamError**
+
+    Raised when **struct_schema** is not a `StructFieldSchema` instance or when **nullable** is not set to **True**. Raised when **struct_schema** is not a `StructFieldSchema` instance or when **nullable** is not set to **True**.
+
 - **MilvusException**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType, StructFieldSchema
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-struct = client.create_struct_field_schema(
-    fields=[...],
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
+
+# The target collection must exist first
+client.create_collection(
+    collection_name="my_collection",
+    dimension=5,
+)
+
+# Build the struct field schema
+struct_schema = StructFieldSchema(nullable=True)
+struct_schema.add_field(
+    "name",
+    DataType.VARCHAR,
+    max_length=64,
+)
+struct_schema.add_field("age", DataType.INT32)
+
 client.add_collection_struct_field(
-    collection_name="docs",
-    field_name="authors",
-    struct_schema=struct,
+    collection_name="my_collection",
+    field_name="profile",
+    struct_schema=struct_schema,
     max_capacity=10,
 )
 ```

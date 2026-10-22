@@ -4,7 +4,7 @@ slug: /python/python/Collections-drop_collection_field
 sidebar_label: "drop_collection_field()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation removes a field from an existing collection schema by field name or field ID. | Python | MilvusClient"
@@ -37,13 +37,6 @@ This operation removes a field from an existing collection schema by field name 
 
 ```python
 drop_collection_field(
-    self,
-    collection_name: str,
-    field_name: str = "",
-    field_id: int = 0,
-    timeout: Optional[float] = None,
-    **kwargs,
-)
 ```
 
 **PARAMETERS:**
@@ -72,20 +65,25 @@ drop_collection_field(
 
 *NoneType*
 
+**RETURNS:**
+
 This operation does not return data.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the collection does not exist, the field cannot be resolved, or the request fails.
+    Raised when the collection does not exist, the field cannot be resolved, or the request fails. Raised when the collection does not exist, the field cannot be resolved, or the request fails.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 client.drop_collection_field(
     collection_name="products",

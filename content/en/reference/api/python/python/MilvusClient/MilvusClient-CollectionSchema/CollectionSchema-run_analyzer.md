@@ -4,12 +4,12 @@ slug: /python/python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Python | MilvusClient"
 type: docx
-token: TWzjdJ61ho613AxKSd7clQt9nrg
+token: X7tsd4oAxoqVEvxXRkNc1Exqnif
 sidebar_position: 6
 keywords: 
   - hybrid vector search
@@ -37,33 +37,39 @@ This operation processes the input data and generates tokenized output.
 
 ```python
 run_analyzer(
-    texts: Union[str, List[str]],
-    analyzer_params: Union[str, Dict, None] = None,
-    with_hash: bool = False,
-    with_detail: bool = False,
-    timeout: Optional[float] = None,
-)
 ```
 
 **PARAMETERS:**
 
-- `texts` (*Union[str, List[str]]*) -
+- **texts** (*Union[str, List[str]]*) -
 
     The input text or a list of texts to be analyzed.
 
-- `analyzer_params` (*Union[str, Dict, None]*) -
+- **analyzer_params** (*Union[str, Dict, None]*) -
 
-    The parameters for the analyzer. If set to `None`, defaults to an empty dictionary.
+    The parameters for the analyzer. If set to None, defaults to an empty dictionary.
 
-- `with_hash` (*bool*) -
+- **with_hash** (*bool*) -
 
-    Optional flag indicating whether to include hash-based processing.
+    An optional p.
 
-- `with_detail` (*bool*) -
+- **with_detail** (*bool*) -
 
-    Optional flag indicating whether to return detailed analysis output.
+    An optional p.
 
-- `timeout` (*float* | *None*) -
+- **collection_name** (*str | None*) -
+
+    The name of the collection on which to run the analyzer.
+
+- **field_name** (*str | None*) -
+
+    The name of the field whose analyzer settings are used to analyze the input text.
+
+- **analyzer_names** (*str | list[str] | None*) -
+
+    The name or a list of names of the built-in analyzers to run.
+
+- **timeout** (*float | None*) -
 
     The timeout duration for this operation. Setting this to *None* indicates that this operation timeouts when any response or error occurs.
 
@@ -73,15 +79,13 @@ run_analyzer(
 
 **RETURNS:**
 
-A tuple containing:
-
-- A list of strings representing the primary tokenized output.
-
-- A list of lists of strings representing detailed token information (if detailed output is enabled).
+A tuple containing: - A list of strings representing the primary tokenized output. - A list of lists of strings representing detailed token information (if detailed output is enabled).
 
 **EXCEPTIONS:**
 
-- `MilvusException` - Raised if any error occurs during this operation.
+- **MilvusException**
+
+    Raised if any error occurs during this operation. Raised if any error occurs during this operation.
 
 ## Examples\{#examples}
 

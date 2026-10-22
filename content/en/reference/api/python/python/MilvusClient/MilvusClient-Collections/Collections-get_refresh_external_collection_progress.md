@@ -4,7 +4,7 @@ slug: /python/python/Collections-get_refresh_external_collection_progress
 sidebar_label: "get_refresh_external_collection_progress()"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns the progress of a specified external collection refresh job. | Python | MilvusClient"
@@ -45,10 +45,6 @@ This requires a MilvusClient set up using the project endpoint as follows:
 
 ```python
 def get_refresh_external_collection_progress(
-    job_id: int,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> RefreshExternalCollectionJobInfo:
 ```
 
 **PARAMETERS:**
@@ -57,13 +53,11 @@ def get_refresh_external_collection_progress(
 
     **[REQUIRED]**
 
-    The job ID returned by `refresh_external_collection()`.
+    The job ID returned by refresh_external_collection().
 
-- **timeout** (*float*) - 
+- **timeout** (*float*) -
 
-    The timeout duration for this operation. 
-
-    Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation times out when any response arrives or any error occurs.
 
 **RETURN TYPE:**
 
@@ -71,7 +65,7 @@ def get_refresh_external_collection_progress(
 
 **RETURNS:**
 
-A **RefreshExternalCollectionJobInfo** object that records the details of the specified external collection refresh job.
+A RefreshExternalCollectionJobInfo object that records the details of the specified external collection refresh job.
 
 **PARAMETERS:**
 
@@ -119,7 +113,37 @@ A **RefreshExternalCollectionJobInfo** object that records the details of the sp
 
     The timestamp in milliseconds at which the specified job ends.
 
-## Example\{#example}
+## Examples\{#examples}
+
+```python
+import time
+
+from pymilvus import MilvusClient
+
+# 1. Set up a milvus client
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+job_id = client.refresh_external_collection(
+    collection_name="test_collection"
+)
+
+while True:
+    progress = client.get_refresh_external_collection_progress(job_id=job_id)
+    print(f"  {progress.state}: {progress.progress}%")
+
+    if progress.state == "RefreshCompleted":
+        elapsed = progress.end_time - progress.start_time
+        print(f"  Completed in {elapsed}ms")
+        break
+    elif progress.state == "RefreshFailed":
+        print(f"  Failed: {progress.reason}")
+        break
+
+    time.sleep(2)
+```
 
 ```python
 from pymilvus import MilvusClient

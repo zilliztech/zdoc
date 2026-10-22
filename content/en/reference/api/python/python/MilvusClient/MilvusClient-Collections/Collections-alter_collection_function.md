@@ -4,12 +4,12 @@ slug: /python/python/Collections-alter_collection_function
 sidebar_label: "alter_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation alters an existing function in the collection by replacing it with a new function schema. | Python | MilvusClient"
 type: docx
-token: N9d9df9IIojLZDxft1HcU0mkn0b
+token: TBe0dMVZlogHEdxUs97cHDownUd
 sidebar_position: 22
 keywords: 
   - vector database example
@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 This operation alters an existing function in the collection by replacing it with a new function schema.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
 
 This does not apply to external collections.
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 client.alter_collection_function(
@@ -65,15 +65,15 @@ client.alter_collection_function(
 
     The name of the function to modify.
 
-- **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
+- **function** (*[Function](Function/Function.md*) -
 
     **[REQUIRED]**
 
-    The new function schema to replace the existing one.
+    An option that &ast;) - The new function schema to replace the existing one.
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 - **kwargs** (*dict*) -
 
@@ -83,13 +83,17 @@ client.alter_collection_function(
 
 *NoneType*
 
+**RETURNS:**
+
+None.
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

@@ -4,12 +4,12 @@ slug: /python/python/Collections-add_collection_function
 sidebar_label: "add_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation adds a new function to the collection. Functions allow you to define custom processing logic such as BM25 scoring or embedding generation. | Python | MilvusClient"
 type: docx
-token: Qe3GdWZa9oAxjrx85tkct8ManRe
+token: SHnzddV1yo6yO3xCxJpcztCCnsw
 sidebar_position: 21
 keywords: 
   - What are vector embeddings
@@ -33,13 +33,19 @@ import Admonition from '@theme/Admonition';
 
 This operation adds a new function to the collection. Functions allow you to define custom processing logic such as BM25 scoring or embedding generation.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
+
+Deprecated in PyMilvus v3.0.2 or later. This method is deprecated because Milvus 3.0 and later do not support adding a function separately. Use add_function_field() instead, which adds the function together with its output field and index.
+
+</Admonition>
+
+<Admonition type="info" title="Note">
 
 This does not apply to external collections.
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 client.add_collection_function(
@@ -58,15 +64,15 @@ client.add_collection_function(
 
     The name of the collection.
 
-- **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
+- **function** (*[Function](Function/Function.md*) -
 
     **[REQUIRED]**
 
-    The function schema to add. This is a `Function` object that defines the function name, type, input fields, output fields, and parameters.
+    An option that &ast;) - The function schema to add. This is a Function object that defines the function name, type, input fields, output fields, and parameters.
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 - **kwargs** (*dict*) -
 
@@ -76,13 +82,17 @@ client.add_collection_function(
 
 *NoneType*
 
+**RETURNS:**
+
+None.
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

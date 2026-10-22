@@ -256,6 +256,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege",
+            "label": "revoke_privilege()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-revokeprivilege"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user",
             "label": "update_user()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updateuser"
@@ -435,6 +441,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function",
             "label": "drop_collection_function()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-dropcollectionfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection",
+            "label": "truncate_collection()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-truncatecollection"
           },
           {
             "type": "doc",
