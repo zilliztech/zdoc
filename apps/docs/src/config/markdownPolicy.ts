@@ -166,6 +166,28 @@ export function remarkRewriteDocLinks({site}: {site: SiteId}) {
   };
 }
 
+// Zero-width characters are invisible paste artifacts from source wikis. When
+// one lands after a hand-written `\{#anchor}`, Docusaurus's explicit-heading
+// -anchor parser no longer sees `}` as the heading text's last character, so
+// the anchor renders as literal text and the heading id degrades to a slug of
+// the full text (observed on content/*/…/json-fields/json-indexing.md). Runs
+// via beforeDefaultRemarkPlugins, ahead of the built-in headings/TOC plugins.
+const ZERO_WIDTH_CHARACTERS = /[\u200B-\u200D\u2060\uFEFF]/g;
+
+export function remarkStripHeadingZeroWidthChars() {
+  const strip = (node: AstNode): void => {
+    if (node.type === 'text' && typeof node.value === 'string') {
+      node.value = node.value.replace(ZERO_WIDTH_CHARACTERS, '');
+    }
+    for (const child of node.children ?? []) strip(child);
+  };
+  return (tree: AstNode): void => {
+    visit(tree as never, 'heading', (node: AstNode) => {
+      for (const child of node.children ?? []) strip(child);
+    });
+  };
+}
+
 const remarkPolicies = {
   math: remarkMath,
   'math-brace-fix': remarkMathFix,
@@ -190,6 +212,7 @@ export function resolveMarkdownPolicy(markdown: DeepReadonly<MarkdownProfile>, s
     return plugin;
   });
   return {
+    beforeDefaultRemarkPlugins: [remarkStripHeadingZeroWidthChars],
     remarkPlugins,
     rehypePlugins,
     stylesheets: markdown.rehypePlugins.includes('katex')
