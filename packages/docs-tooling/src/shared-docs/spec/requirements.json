@@ -5,7 +5,7 @@
     "prd": "docs/prd.md",
     "plan": "docs/phase-1.md",
     "errors": "docs/design/09-error-catalog.md",
-    "prd_commit": "9c67c36a1fad2006f63bc51296c41ee462c209cc"
+    "prd_commit": "80c3be2ba4685f3383cb33370b88087889e998da"
   },
   "behaviours": [
     {
@@ -649,6 +649,12 @@
       "code": "CONFIG_FIELD_MISSING",
       "area": "页面配置",
       "when": "缺少必填字段",
+      "area_id": "page-config"
+    },
+    {
+      "code": "CONFIG_SYNTAX_INVALID",
+      "area": "页面配置",
+      "when": "`page.yaml` 或 `source.yaml` 不是合法的 YAML",
       "area_id": "page-config"
     },
     {

@@ -1,0 +1,9 @@
+[
+  {
+    "code": "CONFIG_SYNTAX_INVALID",
+    "file": "shared-docs/pages/delete-entities/page.yaml",
+    "line": 2,
+    "page": "delete-entities",
+    "channel": "both"
+  }
+]

@@ -12,3 +12,32 @@ export interface SharedDocsError {
   channel?: Channel | 'both'
   fix?: string
 }
+
+export interface DiagnosticContext {
+  file?: string
+  page?: PageId
+  channel?: Channel | 'both'
+}
+export interface SourceConfig { schema_version: 1; repository: string; track: string }
+export interface PublishTarget { manual: string; path: string }
+export interface PageConfig {
+  schema_version: 1
+  source: { file: string }
+  publish: PublishTarget[]
+  metadata?: { title?: string; description?: string; beta?: string }
+  /** Opaque until WP10 supplies the transform schema. */
+  transforms?: unknown[]
+}
+export interface PageConfigContext extends DiagnosticContext {
+  manuals: readonly string[]
+  betaValues: readonly string[]
+}
+export interface PageLock { schema_version: 1; current: string; next: string }
+export type ConfigResult<T> = { config: T } | { errors: SharedDocsError[] }
+export type LockResult = { lock: PageLock } | { errors: SharedDocsError[] }
+export interface LockHistory {
+  current: 'on-branch' | 'off-branch' | 'missing'
+  next: 'on-branch' | 'off-branch' | 'missing'
+  /** Only observed when both commits exist on the tracking branch. */
+  ordered?: boolean
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "code": "LOCK_FORK_PR",
+    "file": "shared-docs/pages/delete-entities/lock.yaml",
+    "line": 1,
+    "page": "delete-entities",
+    "channel": "both"
+  }
+]
