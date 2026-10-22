@@ -1443,7 +1443,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "28b119de2893628635b20648bdf9664532ec59a06330330b843a0b4376f18539",
+      "sha256": "45dc4aa8667813ac79af78fe310e5df469e87cb01d3490f5da5ed7c040c85dc6",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -1749,7 +1749,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "24d7cafc2ceeae2d69695ab502b318d0d9b0756dfec7c9948f40d830b9b20cce",
+      "sha256": "c372894737a919b05221074c14dab0ae054e3984f040124197f8b0781a6746a5",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -3045,7 +3045,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "cdc0ea419f8ab82a6b5e5982622e5fd52d5af1305213f7d0f4d298794c3922e1",
+      "sha256": "28f8497b5784128c46bda6d26748c855a1c29a7e28eb8f099bd96d8fcb353676",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3561,7 +3561,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/monitor-billing-alerts.md",
-      "sha256": "1f6b6ca0af7061c1688d9d716e67bd56439e050775242148a4e74db02372d2de",
+      "sha256": "e1d9b888591830b28e8f8cf542368ac3b583b33e2a371cfd1c4d37cf780efb40",
       "docToken": "VHz6wyqArieXOpkujoRctW0hnng",
       "revisionId": "104"
     },
@@ -3633,7 +3633,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "2cda0f4da3d0babb60fd02338415a1ce159b79f7b9f95d0def9205de342192f1",
+      "sha256": "efc7fb657cb2fc0233e3b2a70fd55f0c08ceeff10c9765d640dc953c79c028fb",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -4005,7 +4005,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "c2c79f1df05ec2f5d1d82e0b58d38ebd6ba71ef51377128bf3ae90e18e23f0f3",
+      "sha256": "07c3cf5bb74859b307f1ec852ece92694c6dbcdf0eff50940377b97c321f504c",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "revisionId": "1057"
     },
