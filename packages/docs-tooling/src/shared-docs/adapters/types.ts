@@ -3,6 +3,10 @@ import type { PageId, SharedDocsError } from '../core/types'
 export interface MilvusDocsReader {
   /** Missing commits/files reject; paths are relative to the repository. */
   readFile(commit: string, path: string): Promise<string>
+  /** Local branch names; missing commits/branches reject instead of returning false. */
+  isOnBranch(commit: string, branch: string): Promise<boolean>
+  /** Includes self-ancestry; missing commits reject. */
+  isAncestor(ancestor: string, descendant: string): Promise<boolean>
 }
 
 export interface Variables { [key: string]: string | number | boolean | Variables }
@@ -53,7 +57,7 @@ export interface ImageStore {
   /** Stores already-digested content and returns its address. */
   upload(sha256: string, bytes: Uint8Array): Promise<string>
 }
-/** Normalized records required by design 04; WP3 owns production snapshot adaptation. */
+/** Normalized records required by design 04; WP8 owns production snapshot adaptation. */
 export interface GuidesRecord {
   record_id: string
   slug: PageId

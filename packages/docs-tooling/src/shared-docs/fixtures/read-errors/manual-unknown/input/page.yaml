@@ -1,0 +1,6 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/insert-and-delete/delete-entities.md
+publish:
+  - manual: missing
+    path: tutorials/development/insert-and-delete/delete-entities

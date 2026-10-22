@@ -1,18 +1,56 @@
 import { describe, expect, it } from 'vitest'
 import type { GitHost, GuidesBase, GuidesSnapshot, ImageStore, Md2md, MilvusDocsReader, PreprocessResult } from '../types'
 
-/** Factories are the seam for opt-in real adapter tests in L3/L4. */
+/** The same factory-driven assertions run against the fake and local Git reader. */
 export function readerContract(name: string, create: () => Promise<{
-  reader: MilvusDocsReader; before: string; after: string; path: string; original: string; changed: string
+  reader: MilvusDocsReader; before: string; after: string; side: string; merged: string; branch: string
+  path: string; original: string; changed: string
 }>) {
   describe(name, () => {
-    it('reads exactly the requested commit and rejects missing inputs', async () => {
+    it('reads exact committed bytes, independent of checkout contents', async () => {
       const { reader, before, after, path, original, changed } = await create()
       expect(await reader.readFile(before, path)).toBe(original)
       expect(await reader.readFile(after, path)).toBe(changed)
       expect(changed).not.toBe(original)
-      await expect(reader.readFile(before, 'missing.md')).rejects.toThrow()
-      await expect(reader.readFile('missing-commit', path)).rejects.toThrow()
+      expect(await reader.readFile(before, path)).toBe(original)
+    })
+    it('distinguishes missing commits, branches and regular files', async () => {
+      const { reader, before, path, branch } = await create()
+      const missing = '0'.repeat(40)
+      await expect(reader.readFile(before, 'missing.md')).rejects.toMatchObject({ code: 'MISSING_FILE' })
+      await expect(reader.readFile(before, 'site/en')).rejects.toMatchObject({ code: 'MISSING_FILE' })
+      await expect(reader.readFile(before, 'site/en/userGuide/insert-and-delete/*.md')).rejects.toMatchObject({ code: 'MISSING_FILE' })
+      await expect(reader.readFile(missing, path)).rejects.toMatchObject({ code: 'MISSING_COMMIT' })
+      await expect(reader.isOnBranch(missing, branch)).rejects.toMatchObject({ code: 'MISSING_COMMIT' })
+      await expect(reader.isOnBranch(before, 'missing-branch')).rejects.toMatchObject({ code: 'MISSING_BRANCH' })
+      await expect(reader.isAncestor(missing, before)).rejects.toMatchObject({ code: 'MISSING_COMMIT' })
+      await expect(reader.isAncestor(before, missing)).rejects.toMatchObject({ code: 'MISSING_COMMIT' })
+    })
+    it('checks branch reachability, self-ancestry, divergence and merge parents', async () => {
+      const { reader, before, after, side, merged, branch } = await create()
+      expect(await reader.isOnBranch(before, branch)).toBe(true)
+      expect(await reader.isOnBranch(after, branch)).toBe(true)
+      expect(await reader.isOnBranch(side, branch)).toBe(false)
+      expect(await reader.isOnBranch(side, 'preview')).toBe(true)
+      expect(await reader.isAncestor(before, after)).toBe(true)
+      expect(await reader.isAncestor(after, before)).toBe(false)
+      expect(await reader.isAncestor(after, after)).toBe(true)
+      expect(await reader.isAncestor(side, after)).toBe(false)
+      expect(await reader.isAncestor(after, side)).toBe(false)
+      expect(await reader.isAncestor(side, merged)).toBe(true)
+      expect(await reader.isAncestor(after, merged)).toBe(true)
+    })
+    it('rejects revision expressions, branch expressions and escaping file paths', async () => {
+      const { reader, before, path } = await create()
+      for (const commit of ['HEAD', '--help', before.slice(0, 7), before + '^']) {
+        await expect(reader.readFile(commit, path)).rejects.toMatchObject({ code: 'INVALID_INPUT' })
+      }
+      for (const path of ['', '../outside.md', '/etc/passwd', 'a/../b', 'a\\b', 'a//b', 'a:b']) {
+        await expect(reader.readFile(before, path)).rejects.toMatchObject({ code: 'INVALID_INPUT' })
+      }
+      for (const branch of ['--help', 'main^', 'main..preview', '../main', 'main@{1}', 'main.lock']) {
+        await expect(reader.isOnBranch(before, branch)).rejects.toMatchObject({ code: 'INVALID_INPUT' })
+      }
     })
   })
 }

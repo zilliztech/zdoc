@@ -1,0 +1,6 @@
+schema_version: 1
+source:
+  file: site/en/missing.md
+publish:
+  - manual: guides
+    path: tutorials/development/insert-and-delete/delete-entities
