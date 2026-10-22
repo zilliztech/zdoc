@@ -74,6 +74,7 @@ function contentPlugin(
         ? {lastVersion: 'current', versions: {current: {path: content.currentVersionPath}}}
         : {}),
       breadcrumbs: false,
+      beforeDefaultRemarkPlugins: [...markdownPolicy.beforeDefaultRemarkPlugins],
       remarkPlugins: [...markdownPolicy.remarkPlugins],
       rehypePlugins: [...markdownPolicy.rehypePlugins],
     },

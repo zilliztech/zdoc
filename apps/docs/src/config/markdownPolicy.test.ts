@@ -5,6 +5,7 @@ import {
   rehypeWrapTables,
   remarkMathFix,
   remarkRewriteDocLinks,
+  remarkStripHeadingZeroWidthChars,
   resolveMarkdownPolicy,
 } from './markdownPolicy';
 
@@ -77,6 +78,53 @@ $$`;
     });
     expect(tree.children[1].children.filter((node: {type: string}) => node.type === 'element')).toHaveLength(2);
     expect(tree.children[2].children).toEqual([{type: 'text', value: '✅'}]);
+  });
+});
+
+describe('heading zero-width normalization policy', () => {
+  it('registers the strip plugin as a before-default remark plugin on both sites', () => {
+    for (const site of ['en', 'zh-CN'] as const) {
+      const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, site);
+      expect(policy.beforeDefaultRemarkPlugins).toHaveLength(1);
+      expect(typeof policy.beforeDefaultRemarkPlugins[0]).toBe('function');
+    }
+  });
+
+  it('strips zero-width characters inside headings, including nested inline nodes', () => {
+    type TestNode = {type: string; depth?: number; value?: string; children?: TestNode[]};
+    const tree: {type: string; children: TestNode[]} = {
+      type: 'root',
+      children: [
+        {type: 'heading', depth: 2, children: [
+          {type: 'text', value: '索引类型概览{#json-index-syntax}\u200B'},
+        ]},
+        {type: 'heading', depth: 3, children: [
+          {type: 'emphasis', children: [{type: 'text', value: 'AUTO\u200BINDEX'}]},
+          {type: 'text', value: '\uFEFF'},
+        ]},
+        {type: 'paragraph', children: [{type: 'text', value: '正文\u200B保持原样'}]},
+      ],
+    };
+    remarkStripHeadingZeroWidthChars()(tree);
+
+    expect(tree.children[0].children[0].value).toBe('索引类型概览{#json-index-syntax}');
+    expect(tree.children[1].children[0].children[0].value).toBe('AUTOINDEX');
+    expect(tree.children[1].children[1].value).toBe('');
+    expect(tree.children[2].children[0].value).toBe('正文\u200B保持原样');
+  });
+
+  it('makes polluted anchors satisfy the Docusaurus explicit-anchor grammar', () => {
+    // Copied from @docusaurus/utils parseMarkdownHeadingId: the anchor only
+    // counts when `}` is the heading text's last character.
+    const docusaurusExplicitAnchor = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
+    const polluted = '索引类型概览{#json-index-syntax}\u200B';
+    expect(docusaurusExplicitAnchor.test(polluted)).toBe(false);
+
+    const tree = {type: 'heading', depth: 2, children: [{type: 'text', value: polluted}]};
+    remarkStripHeadingZeroWidthChars()(tree);
+
+    const cleaned = tree.children[0].value;
+    expect(docusaurusExplicitAnchor.exec(cleaned)?.groups?.id).toBe('json-index-syntax');
   });
 });
 

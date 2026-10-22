@@ -853,12 +853,14 @@ describe('createDocusaurusConfig', () => {
       routeBasePath: 'docs',
       include: ['**/*.md'],
       exclude: ['drafts/**'],
+      beforeDefaultRemarkPlugins: markdownPolicy.beforeDefaultRemarkPlugins,
       remarkPlugins: markdownPolicy.remarkPlugins,
       rehypePlugins: markdownPolicy.rehypePlugins,
     });
     expect(String(plugins[0][1].path)).toMatch(/content\/en\/guides$/);
     expect(String(plugins[0][1].sidebarPath)).toMatch(/config\/sidebars\/en\/guides\.ts$/);
     for (const [, options] of plugins) {
+      expect(options.beforeDefaultRemarkPlugins).toEqual(markdownPolicy.beforeDefaultRemarkPlugins);
       expect(options.remarkPlugins).toEqual(markdownPolicy.remarkPlugins);
       expect(options.rehypePlugins).toEqual(markdownPolicy.rehypePlugins);
     }
@@ -874,6 +876,7 @@ describe('createDocusaurusConfig', () => {
     });
     const config = createDocusaurusConfig(chinese);
     expect(docsPlugins(config).every(([, options]) => (
+      (options.beforeDefaultRemarkPlugins as unknown[]).length === 1 &&
       (options.remarkPlugins as unknown[]).length === 0 &&
       (options.rehypePlugins as unknown[]).length === 0
     ))).toBe(true);
