@@ -7,6 +7,10 @@ import { buildMilvusDocs } from '../../fixtures/milvus-docs/build'
 import { FakeLinkInputReader, GitLinkInputReader } from '../../adapters/links-input'
 import type { LinkInputReader } from '../../adapters/links-input'
 
+// These tests start Git or CLI subprocesses. A slow shared CI runner can run several
+// times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
+
 let fixture: Awaited<ReturnType<typeof buildMilvusDocs>>
 let before: string, after: string, original: Uint8Array, changed: Uint8Array
 const image = 'site/en/assets/wp5.png'
