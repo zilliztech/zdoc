@@ -969,49 +969,6 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "EmbeddingList",
-        "key": "category:api/python/python/MilvusClient/milvusclient-embeddinglist",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add",
-            "label": "add()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-add"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add_batch",
-            "label": "add_batch()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-addbatch"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-clear",
-            "label": "clear()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-clear"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList",
-            "label": "EmbeddingList",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/milvusclient-embeddinglist"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array",
-            "label": "to_flat_array()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-toflatarray"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_numpy",
-            "label": "to_numpy()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
-          }
-        ]
-      },
-      {
-        "type": "category",
         "label": "FieldSchema",
         "key": "category:api/python/python/MilvusClient/milvusclient-fieldschema",
         "items": [
@@ -1040,25 +997,6 @@ module.exports = [
         "id": "api/python/python/MilvusClient/MilvusClient-FunctionScore",
         "label": "FunctionScore",
         "key": "doc:api/python/python/MilvusClient/milvusclient-functionscore"
-      },
-      {
-        "type": "category",
-        "label": "Highlighter",
-        "key": "category:api/python/python/MilvusClient/milvusclient-highlighter",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter",
-            "label": "LexicalHighlighter",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-lexicalhighlighter"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query",
-            "label": "with_query()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-withquery"
-          }
-        ]
       },
       {
         "type": "category",
