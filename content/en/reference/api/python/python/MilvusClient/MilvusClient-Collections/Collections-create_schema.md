@@ -45,6 +45,18 @@ This is a class method. You should call this method like this: MilvusClient.crea
 
 </Admonition>
 
+<Admonition type="info" title="Note">
+
+This is a class method. You should call this method like this: MilvusClient.create_schema().
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+This is a class method. You should call this method like this: MilvusClient.create_schema().
+
+</Admonition>
+
 ## Request Syntax\{#request-syntax}
 
 ```python

@@ -1014,6 +1014,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema",
             "label": "FieldSchema",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/milvusclient-fieldschema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict",
+            "label": "construct_from_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/fieldschema-constructfromdict"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict",
+            "label": "to_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/fieldschema-todict"
           }
         ]
       },

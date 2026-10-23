@@ -4,12 +4,12 @@ slug: /python/python/Function-add_function
 sidebar_label: "add_function()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation adds a function to convert raw data into vector representations. | Python | MilvusClient"
 type: docx
-token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
+token: Mzq0dJGdSo4PBBxO3QLcjtjPnxf
 sidebar_position: 1
 keywords: 
   - natural language processing database
@@ -37,31 +37,29 @@ This operation adds a function to convert raw data into vector representations.
 
 ```python
 add_function(
-   function: Function
-)
 ```
 
 **PARAMETERS:**
 
-- `function` (*[Function](./MilvusClient-Function)*)
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    An instance of the `Function` class that converts data into vector embeddings. This function will be added to the schema of a collection.
+    An instance of the Function class that converts data into vector embeddings. This function will be added to the schema of a collection.
 
 **RETURN TYPE:**
 
-*[CollectionSchema](./MilvusClient-CollectionSchema)*
+*CollectionSchema*
 
 **RETURNS:**
 
-A `CollectionSchema` object
+A CollectionSchema object.
 
 **EXCEPTIONS:**
 
-- `FunctionIncorrectType`
+- **FunctionIncorrectType**
 
-    This exception will be raised when the `function` parameter is of the incorrect type.
+    This exception will be raised when the `function` parameter is of the incorrect type. This exception will be raised when the `function` parameter is of the incorrect type.
 
 ## Examples\{#examples}
 
@@ -79,4 +77,3 @@ bm25_function = Function(
 
 schema.add_function(bm25_function)
 ```
-

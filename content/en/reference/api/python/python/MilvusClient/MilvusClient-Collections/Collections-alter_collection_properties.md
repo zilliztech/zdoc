@@ -51,6 +51,18 @@ This does not apply to external collections.
 
 </Admonition>
 
+<Admonition type="info" title="Note">
+
+This does not apply to external collections.
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+This does not apply to external collections.
+
+</Admonition>
+
 <Admonition type="info" title="Notes">
 
 This does not apply to external collections.

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-22T10:49:31.977Z",
-  "sourceRunId": "39761955000",
+  "generatedAt": "2026-10-23T05:55:05.700Z",
+  "sourceRunId": "39905567760",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -27,6 +27,15 @@
       "canonicalToken": "AQ1ydMXbOog5VJxITgUc4GFvnVe",
       "title": "upsert()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Collection/Collection-upsert.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ASRmddh2eo3Q4axtV3RcLfvmnYU",
+      "title": "construct_from_dict()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -63,15 +72,6 @@
       "canonicalToken": "AjFZd2XYVoyAKPxokSHcoanRn5b",
       "title": "encode_documents()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "AmwJdW0z6opMPcxhMlBcYPIWn2M",
-      "title": "to_dict()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-to_dict.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -312,6 +312,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "CQawdFCJcodv5lx91kBck7rLnwh",
+      "title": "compact()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
       "title": "S3ConnectParam",
       "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-RemoteBulkWriter/RemoteBulkWriter-S3ConnectParam.md",
@@ -393,15 +402,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "DCLUdOpVjohl8HxPUx1cGjokngf",
-      "title": "construct_from_dict()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "DLsXdlRA3odugzx4sIccnBVKn0d",
       "title": "remove_file_resource()",
       "contentPath": "content/en/reference/api/python/python/FileResource/FileResource-remove_file_resource.md",
@@ -450,6 +450,15 @@
       "canonicalToken": "DhZRdYbfMoYIBtxrudGcwWjrngd",
       "title": "GeminiEmbeddingFunction",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/EmbeddingModels-GeminiEmbeddingFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DkqSdCSOJo5DI1xZ7z3cTZuUnAc",
+      "title": "to_dict()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -735,15 +744,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "G1gsdGWwuoPOPrxJdABcfa76nUd",
-      "title": "to_dict()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "G2jjdHvbBoko6BxBZj7csemWnFc",
       "title": "alter_collection_field()",
       "contentPath": null,
@@ -888,6 +888,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "GzNUdJIhVoWjgLxEimrctGvUnJg",
+      "title": "alter_index_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "H2zBdRHVtovNQGxvb0xcwpSKnBd",
       "title": "get_connection_addr()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-get_connection_addr.md",
@@ -978,6 +987,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "HR2Sd7RpWoy3Jrxt7zCcrUFjnmf",
+      "title": "verify()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "HRqudGOOnokInhxczclcADBDn8g",
       "title": "create_role()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md",
@@ -1041,6 +1059,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "HacudytI2olONTxEtofcuXLin1f",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "HbMMdqtQGoQqwixsyrjcTTh0nu5",
       "title": "hybridts_to_unixtime()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-hybridts_to_unixtime.md",
@@ -1062,6 +1089,15 @@
       "canonicalToken": "HrnndnWtKoPuenxvsXBchF1wnnh",
       "title": "search_iterator()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Collection/Collection-search_iterator.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I0EbdzommoeSo7xQSeXcRXeanfg",
+      "title": "construct_from_dict()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1196,15 +1232,6 @@
     {
       "canonicalToken": "JPkOda4UfoC5JlxUvlXc98IsnKf",
       "title": "transfer_replica()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "JRNidzqX4o6VtkxVB5RcNvmHnnb",
-      "title": "compact()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1770,6 +1797,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Mzq0dJGdSo4PBBxO3QLcjtjPnxf",
+      "title": "add_function()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "N13hd7jVjoA6B1xlgwic2GKRn5f",
       "title": "list_import_jobs()",
       "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md",
@@ -2151,15 +2187,6 @@
       "canonicalToken": "QXDxdv36FoVgjcxDV1gcDwWXnsd",
       "title": "insert()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Partition/Partition-insert.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "QejKdv2qKo97mQxEV0CcaSM5nLh",
-      "title": "flush_all()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2598,15 +2625,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TRFadKWOAofCVoxH3qYcdTvynHf",
-      "title": "alter_index_properties()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TWOxdwDYRo4CCHxDdZbc7IOznCg",
       "title": "has_collection()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-has_collection.md",
@@ -2736,15 +2754,6 @@
       "canonicalToken": "UknCdYmtRoVIZ9xWcLnc02b0ndZ",
       "title": "drop_snapshot()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Ulypd24byoDBOpxGnnJcbF3Nnkb",
-      "title": "construct_from_dict()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-construct_from_dict.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -3201,15 +3210,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "XhcVd1JXvoAgUfxSEpQcL2H6nVg",
-      "title": "add_function()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "XnCrdUF2MoACxExami4c5B5Hnph",
       "title": "get_compaction_plans()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
@@ -3273,9 +3273,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "YXogdv0Dpovi2Pxbyh2cdA4nnbe",
-      "title": "verify()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-verify.md",
+      "canonicalToken": "YaXGd43eqog2RExt8btcwxQOn0f",
+      "title": "flush_all()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
