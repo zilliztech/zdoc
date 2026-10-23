@@ -4,12 +4,12 @@ slug: /node/node/Authentication-createUser
 sidebar_label: "createUser()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はユーザーを作成します。 | Node.js"
+description: "この操作は、Milvus サーバーの新しいユーザーアカウントを作成します。 | Node.js"
 type: docx
-token: JNZxdKEX3ohBl2xud7Wckhq7nVh
+token: MtHHdvQ36oZcM8xEDpwcCUBynmb
 sidebar_position: 7
 keywords: 
   - 自然言語処理
@@ -31,74 +31,61 @@ import Admonition from '@theme/Admonition';
 
 # createUser()
 
-この操作はユーザーを作成します。
-
-```javascript
-await milvusClient.createUser(data)
-```
+この操作は、Milvus サーバーの新しいユーザーアカウントを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
-```javascript
-await milvusClient.createUser({
-   username: string,
-   password: string,
-   timeout?: number
- })
+```typescript
+milvusClient.createUser({ username, password, description?, timeout? })
 ```
 
 **パラメーター:**
 
 - **username** (*string*) -
 
-    **[必須]**
-
-    作成するユーザーの名前。
+    新しいユーザーのユーザー名です。
 
 - **password** (*string*) -
 
-    **[必須]**
+    新しいユーザーのパスワードです。
 
-    作成するユーザーのパスワード。
+- **description** (*string*) -
 
-- **timeout** (*number*)  -
+    新しいユーザーの説明です（任意）。
 
-    この操作のタイムアウト時間。 
+- **timeout** (*number*) -
 
-    これを **None** に設定すると、いずれかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    RPC に許可する時間をミリ秒単位で指定します（任意）。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値の型:**
 
-このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+*ResStatus*
 
-```javascript
-{
-    code: number,
-    error_code: string | number,
-    reason: string
-}
-```
+**戻り値:**
+
+レスポンスステータス：`{error_code, reason}`。
 
 **パラメーター:**
 
-- **code** (*number*) -
+- **error_code** (*number*) -
 
-    操作結果を示すコード。この操作が成功した場合は **0** のままです。
+    エラーコード番号です。0 は成功を意味します。
 
-- **error_code** (*string* | *number*) -
+- **reason** (*string*) -
 
-    発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。 
+    エラーの原因です（存在する場合）。
 
-- **reason** (*string*) - 
+**例外:**
 
-    報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+- **MilvusError**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.createUser({
-   username: 'exampleUser',
-   password: 'examplePassword',
- })
+  username: 'exampleUser',
+  password: 'examplePassword',
+});
 ```
-

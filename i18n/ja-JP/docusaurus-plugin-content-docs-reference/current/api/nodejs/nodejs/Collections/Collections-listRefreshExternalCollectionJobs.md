@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、external collection のすべてのリフレッシュジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。 | Node.js"
+description: "この操作では、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルターできます。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
-sidebar_position: 30
+sidebar_position: 34
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI エージェント
+  - セマンティック検索
+  - 異常検知
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listRefreshExternalCollectionJobs()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-この操作は、external collection のすべてのリフレッシュジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。
+この操作では、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルターできます。
 
 ```typescript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
@@ -51,20 +51,20 @@ await milvusClient.listRefreshExternalCollectionJobs({
 **パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  collection 名でのオプションのフィルターです。
+  コレクション名で絞り込むためのオプションのフィルターです。
 
 - **db_name** (*string*) -<br/>
-  データベース名でのオプションのフィルターです。
+  データベース名で絞り込むためのオプションのフィルターです。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可するオプションの時間（ミリ秒）です。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機を続けます。デフォルトは undefined です。
+  RPC の実行を許可する時間をミリ秒単位で指定する省略可能な期間です。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機を続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。オプションです。
+  リクエスト追跡用のトレース ID です。省略可能です。
 
 **戻り値** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
-このメソッドは、**ListRefreshExternalCollectionJobsResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**ListRefreshExternalCollectionJobsResponse** オブジェクトに解決される Promise を返します。
 
 ```typescript
 {
@@ -76,14 +76,14 @@ await milvusClient.listRefreshExternalCollectionJobs({
 **パラメーター:**
 
 - **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
-  要求されたデータベースおよび collection フィルターに一致するリフレッシュジョブのリストです。**RefreshExternalCollectionJobInfo** の完全なフィールドリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+  要求されたデータベースおよびコレクションのフィルターに一致するリフレッシュジョブのリストです。**RefreshExternalCollectionJobInfo** のフィールドの完全なリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
@@ -91,7 +91,7 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
 
 ## 例\{#example}
 

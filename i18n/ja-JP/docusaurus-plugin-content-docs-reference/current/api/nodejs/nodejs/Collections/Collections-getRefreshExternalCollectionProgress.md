@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された jobid を使用します。 | Node.js"
+description: "この操作は、外部コレクションのリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された jobid を使用します。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 29
+sidebar_position: 33
 keywords: 
   - 異常検知
   - sentence transformers
@@ -18,7 +18,7 @@ keywords:
   - 情報検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - getRefreshExternalCollectionProgress()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された job_id を使用します。
+この操作は、外部コレクションのリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された job_id を使用します。
 
 ```typescript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.getRefreshExternalCollectionProgress({
@@ -47,21 +47,21 @@ await milvusClient.getRefreshExternalCollectionProgress({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **job_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
-  refreshExternalCollection() によって返されるジョブ ID。
+  **[必須]**<br/>
+  refreshExternalCollection() によって返されるジョブ ID です。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可するミリ秒単位の任意の時間です。undefined に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+  RPC に許可するミリ秒単位の任意の時間です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。任意です。
+  リクエストを追跡するためのトレース ID です。任意です。
 
-**RETURNS** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
+**戻り値** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
-このメソッドは、**GetRefreshExternalCollectionProgressResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**GetRefreshExternalCollectionProgressResponse** オブジェクトに解決される Promise を返します。
 
 ```typescript
 {
@@ -70,59 +70,59 @@ await milvusClient.getRefreshExternalCollectionProgress({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
-  リフレッシュジョブの現在の状態。
+  リフレッシュジョブの現在の状態です。
 
     - **job_id** (*string*) -
 
-        ジョブ識別子。
+        ジョブ識別子です。
 
     - **collection_name** (*string*) -
 
-        リフレッシュ対象の external collection。
+        リフレッシュ対象の外部コレクションです。
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        現在のジョブ状態。指定可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、**RefreshFailed** です。
+        現在のジョブ状態です。指定可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、**RefreshFailed** です。
 
     - **progress** (*string*) -
 
-        **"0"** から **"100"** までの整数による完了率。
+        **"0"** から **"100"** までの整数で表される完了率です。
 
     - **reason** (*string*) -
 
-        **state** が **RefreshFailed** の場合の失敗理由。それ以外の場合は空文字列です。
+        **state** が **RefreshFailed** の場合の失敗理由です。それ以外の場合は空の文字列です。
 
     - **external_source** (*string*) -
 
-        ジョブによって記録された外部ソースパス。
+        ジョブによって記録された外部ソースパスです。
 
     - **start_time** (*string*) -
 
-        ジョブが開始された時刻。
+        ジョブが開始された時刻です。
 
     - **end_time** (*string*) -
 
-        ジョブが終了した時刻、またはジョブがまだ実行中の場合は空文字列。
+        ジョブが終了した時刻です。ジョブがまだ実行中の場合は空の文字列です。
 
 - **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

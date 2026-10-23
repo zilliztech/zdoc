@@ -4,12 +4,12 @@ slug: /node/node/Authentication-updateUser
 sidebar_label: "updateUser()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のユーザーのパスワードを更新します。 | Node.js"
+description: "この操作は、ユーザーアカウントのパスワード、説明、またはその両方を更新します。 | Node.js"
 type: docx
-token: BCGKdCttdotF32xUJTec8UFlndg
+token: L4tGd5KqLoLtp2xQRyhcaXjsnL5
 sidebar_position: 28
 keywords: 
   - 情報検索
@@ -31,82 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # updateUser()
 
-この操作は、特定のユーザーのパスワードを更新します。
-
-```javascript
-await milvusClient.updateUser(data)
-```
+この操作は、ユーザーアカウントのパスワード、説明、またはその両方を更新します。
 
 ## リクエスト構文\{#request-syntax}
 
-```javascript
-await milvusClient.updateUser({
-   username: string,
-   newPassword: string,
-   oldPassword: string,
-   timeout?: number
- })
+```typescript
+milvusClient.updateUser({ username, newPassword?, oldPassword?, description?, timeout? })
 ```
 
 **パラメーター:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
-    **[REQUIRED]**
+    更新するユーザーのユーザー名です。
 
-    既存ユーザーの名前。
+- **newPassword** (*string*) -
 
-- **oldPassword** (*str*) -
+    ユーザーの新しいパスワードです。パスワードを更新する場合にのみ必要です。
 
-    **[REQUIRED]**
+- **oldPassword** (*string*) -
 
-    ユーザーの元のパスワード。
+    ユーザーの旧パスワードです。パスワードの更新を要求する場合に必要です。
 
-- **newPassword** (*str*) -
+- **description** (*string*) -
 
-    **[REQUIRED]**
+    ユーザーの新しい説明です。
 
-    ユーザーの新しいパスワード。
+- **timeout** (*number*) -
 
-- **timeout** (*number*) -  
+    RPC に許可する時間をミリ秒単位で指定する任意の値です。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルト値は undefined です。
 
-    この操作のタイムアウト時間。 
+**戻り値の型:**
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
+*ResStatus*
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
 
-このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
-
-```javascript
-{
-    code: number,
-    error_code: string | number,
-    reason: string
-}
-```
+レスポンスステータスは `{error_code, reason}` です。
 
 **パラメーター:**
 
-- **code** (*number*) -
+- **error_code** (*number*) -
 
-    操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+    エラーコード番号です。0 は成功を意味します。
 
-- **error_code** (*string* | *number*) -
+- **reason** (*string*) -
 
-    発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。 
+    エラーが発生した場合、その原因です。
 
-- **reason** (*string*) - 
+**例外:**
 
-    報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+- **MilvusError**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合にスローされます。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.updateUser({
-   username: 'exampleUser',
-   newPassword: 'newPassword',
-   oldPassword: 'oldPassword',
- })
+  username: 'exampleUser',
+  description: 'new description',
+});
 ```
-

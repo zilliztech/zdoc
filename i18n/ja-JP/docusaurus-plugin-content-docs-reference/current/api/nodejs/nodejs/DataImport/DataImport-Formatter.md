@@ -4,12 +4,12 @@ slug: /node/node/DataImport-Formatter
 sidebar_label: "Formatter"
 beta: false
 added_since: v2.6.12
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "JSON または Parquet の formatter 実装を通じて、バッファされた BulkWriter の列を 1 つ以上のインポートファイルにシリアライズします。 | Node.js"
+description: "Formatter インスタンスは、バッファされた列データを、ライターが選択した出力形式にシリアライズします。 | Node.js"
 type: docx
-token: CkuWdW6EXo8o9nxZsIrcBiSGn4d
+token: BTfudvz2jojKXKx8KZ4c9LwpnUd
 sidebar_position: 14
 keywords: 
   - 字句検索
@@ -31,67 +31,97 @@ import Admonition from '@theme/Admonition';
 
 # Formatter
 
-JSON または Parquet の formatter 実装を通じて、バッファされた BulkWriter の列を 1 つ以上のインポートファイルにシリアライズします。
+Formatter インスタンスは、バッファされた列データを、ライターが選択した出力形式にシリアライズします。
 
 ```typescript
 interface Formatter
 ```
 
-**実装:**
+Formatter 基底クラスは、JSON 行ファイル用の JsonFormatter と Parquet 出力用の ParquetFormatter の 2 つのクラスによって実装されています。
 
-- `class JsonFormatter implements Formatter`
+## JsonFormatter\{#jsonformatter}
 
-    バッファされた行を JSON ファイルに書き込みます。トップレベルの `rows` プロパティには、動的フィールドが有効な場合はそれを含む、シリアライズされた entity が格納されます。
+Formatter インターフェースの JSON 実装です。各チャンクを単一の `data.json` 行ファイルにシリアライズし、ベクトルペイロードをワイヤ形式に正規化します。これはデフォルトの formatter です。`format` が `parquet` に設定されていない限り、BulkWriter はこれを使用します。
 
-    - `extension` -
+```typescript
+class JsonFormatter implements Formatter {
+  readonly extension = '.json';
 
-        **[必須]**
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
 
-        生成されるファイルに対して `.json` を返します。
+**PARAMETERS:**
 
-    - `persist` -
+- **columns** (*Map&lt;string, any[]&gt;*) -
 
-        **[必須]**
+    ライターがバッファした列指向バッチです。Milvus のフィールド名ごとに 1 つの配列があり、行位置によってインデックスが付けられます。
 
-        バッファされた列をシリアライズし、生成された JSON ファイルパスを返します。
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
 
-- `class ParquetFormatter implements Formatter`
+    チャンクの動的フィールド行です。スキーマで動的フィールドが有効になっている場合は、`$meta` 列としてシリアライズされます。
 
-    `@shanghaikid/parquetjs` を使用してバッファされた行を Parquet ファイルに書き込み、Milvus の scalar、vector、array、および動的フィールドの値を Parquet 互換の表現に変換します。
+- **rowCount** (*number*) -
 
-    - `extension` -
+    バッチ内の行数です。persist は、インデックス 0 から rowCount から 1 を引いた値まで、列配列を走査します。
 
-        **[必須]**
+- **dir** (*string*) -
 
-        生成されるファイルに対して `.parquet` を返します。
+    出力ディレクトリです。persist は、存在しない場合にこれを作成し、その下に `data.json` を書き込みます。
 
-    - `persist` -
+- **スキーマ** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
 
-        **[必須]**
+    ライターが行の検証に使用したコレクションスキーマです。autoID または関数出力としてフラグが設定されたフィールドはスキップされます。
 
-        バッファされた列をシリアライズし、生成された Parquet ファイルパスを返します。
+## ParquetFormatter\{#parquetformatter}
+
+Formatter インターフェースの Parquet 実装です。`persist(columns, dynamicRows, rowCount, dir, schema)` を使用して各チャンクを単一の `data.parquet` ファイルにシリアライズします。Milvus のフィールド型は、Python SDK の bulk writer がマッピングするのと同じ方法で Parquet 型にマッピングされ、動的フィールドは `$meta` 列に格納されます。
+
+```typescript
+class ParquetFormatter implements Formatter {
+  readonly extension = '.parquet';
+
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
+
+**PARAMETERS:**
+
+- **columns** (*Map&lt;string, any[]&gt;*) -
+
+    ライターがバッファした列指向バッチです。Milvus のフィールド名ごとに 1 つの配列があり、行位置によってインデックスが付けられます。
+
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
+
+    チャンクの動的フィールド行です。スキーマで動的フィールドが有効になっている場合は、`$meta` 列としてシリアライズされます。
+
+- **rowCount** (*number*) -
+
+    バッチ内の行数です。persist は、インデックス 0 から rowCount から 1 を引いた値まで、列配列を走査します。
+
+- **dir** (*string*) -
+
+    出力ディレクトリです。persist は、存在しない場合にこれを作成し、その下に `data.parquet` を書き込みます。
+
+- **スキーマ** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
+
+    ライターが行の検証に使用したコレクションスキーマです。autoID または関数出力としてフラグが設定されたフィールドはスキップされます。
 
 ## Example\{#example}
 
-### formatter 実装を選択する\{#choose-a-formatter-implementation}
-
-SDK によって公開されている JSON および Parquet 実装を作成します。
-
 ```javascript
-import { JsonFormatter, ParquetFormatter } from '@zilliz/milvus2-sdk-node';
-
-const jsonFormatter = new JsonFormatter();
-const parquetFormatter = new ParquetFormatter();
-
-console.log(jsonFormatter.extension); // .json
-console.log(parquetFormatter.extension); // .parquet
+const formatter = new ParquetFormatter();
+console.log(formatter.extension); // '.parquet'
 ```
-
-## Notes\{#notes}
-
-- Formatter インターフェースは、読み取り専用の `extension` フィールドと `persist(columns, dynamicRows, rowCount, dir, schema)` メソッドを公開しており、このメソッドは生成されたローカルファイルパスを返します。
-
-- BulkWriter は、`format` が `json` の場合に JsonFormatter を選択し、`format` が `parquet` の場合に ParquetFormatter を選択します。
-
-- Parquet 出力には SDK 依存関係 `@shanghaikid/parquetjs` が必要です。
-

@@ -4,18 +4,18 @@ slug: /node/node/Authentication-createRole
 sidebar_label: "createRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はカスタムロールを作成します。 | Node.js"
+description: "この操作は、Milvus サーバーに新しいロールを作成します。 | Node.js"
 type: docx
-token: SDoYdccLWo1W3PxkNFncibwDnch
+token: TR8xdMnzEo85sLxAtizcJWZdn6b
 sidebar_position: 6
 keywords: 
-  - milvus とは
-  - milvus database
+  - Milvus とは
+  - milvus データベース
   - milvus lite
-  - milvus benchmark
+  - milvus ベンチマーク
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,66 +31,56 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-この操作はカスタムロールを作成します。
-
-```javascript
-await milvusClient.createRole(data)
-```
+この操作は、Milvus サーバーに新しいロールを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
-```javascript
-await milvusClient.createRole({
-   roleName: string,
-   timeout?: number
- })
+```typescript
+milvusClient.createRole({ roleName, description?, timeout? })
 ```
 
 **PARAMETERS:**
 
 - **roleName** (*string*) -
 
-    **[REQUIRED]**
+    新しいロールの名前です。
 
-    作成するロールの名前。
+- **description** (*string*) -
+
+    新しいロールの説明です。任意で指定できます。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト期間。 
+    RPC の実行に許容する時間をミリ秒単位で指定します。任意で指定できます。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+**RETURN TYPE:**
 
-**RETURNS** *Promise\<ResStatus>*
+*ResStatus*
 
-このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+**RETURNS:**
 
-```javascript
-{
-    code: number,
-    error_code: string | number,
-    reason: string
-}
-```
+レスポンスステータスは `{error_code, reason}` です。
 
 **PARAMETERS:**
 
-- **code** (*number*) -
+- **error_code** (*number*) -
 
-    操作結果を示すコード。この操作が成功した場合は **0** のままです。
+    エラーコード番号です。0 は成功を意味します。
 
-- **error_code** (*string* | *number*) -
+- **reason** (*string*) -
 
-    発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。 
+    該当する場合は、エラーの原因です。
 
-- **reason** (*string*) - 
+**EXCEPTIONS:**
 
-    報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+- **MilvusError**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合にスローされます。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.createRole({
-   roleName: 'exampleRole',
- })
+  roleName: 'exampleRole',
+});
 ```
-
