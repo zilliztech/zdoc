@@ -4,17 +4,17 @@ slug: /python/python/EmbeddingList-clear
 sidebar_label: "clear()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の EmbeddingList インスタンスから vector embeddings をクリアします。 | Python | MilvusClient"
+description: "この操作は、現在の EmbeddingList インスタンスからベクトル埋め込みをクリアします。 | Python | MilvusClient"
 type: docx
-token: M6mrdinAjo8CwrxirOQcR6E1nUc
+token: DCf4dDSyMoclYrxrZoCcyqrrnhg
 sidebar_position: 3
 keywords: 
-  - 安価な vector database
-  - マネージド vector database
-  - Pinecone vector database
+  - 低コストのベクトルデータベース
+  - マネージドベクトルデータベース
+  - Pinecone ベクトルデータベース
   - 音声検索
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # clear()
 
-この操作は、現在の **[EmbeddingList](./MilvusClient-EmbeddingList)** インスタンスから vector embeddings をクリアします。
+この操作は、現在の **EmbeddingList** インスタンスからベクトル埋め込みをクリアします。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,13 +39,13 @@ import Admonition from '@theme/Admonition';
 clear()
 ```
 
-**RETURN TYPE:**
+**戻り値の型：**
 
-*[EmbeddingList](./MilvusClient-EmbeddingList)*
+*EmbeddingList*
 
-**RETURNS:**
+**戻り値：**
 
-空の **[EmbeddingList](./MilvusClient-EmbeddingList)** インスタンス。
+空の EmbeddingList インスタンスです。
 
 ## 例\{#examples}
 

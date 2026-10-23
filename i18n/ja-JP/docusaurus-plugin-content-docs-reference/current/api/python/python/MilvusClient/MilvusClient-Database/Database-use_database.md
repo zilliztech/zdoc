@@ -4,12 +4,12 @@ slug: /python/python/Database-use_database
 sidebar_label: "use_database()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、クライアントが使用するデータベースを別のデータベースに切り替えます。以降の操作では指定したデータベースが使用されます。このメソッドは、切り替える前にデータベースが存在することを検証します。 | Python | MilvusClient"
 type: docx
-token: AglQd68yqoEn8Ixkn9ociyqKnMx
+token: Y78mdDHzuoSOXoxMkUTcxF0nnWh
 sidebar_position: 8
 keywords: 
   - Faiss ベクトルデータベース
@@ -35,27 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-これは [`using_database()`](./Database-using_database) のエイリアスメソッドです。
-
-</Admonition>
-
-<Admonition type="info" title="Notes">
-
-このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。
-
-- Dedicated serving クラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
-
-    - **Free & Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
+これは `using_database()` のエイリアスメソッドです。
 
 </Admonition>
 
@@ -79,13 +59,17 @@ client.use_database(
 
 *NoneType*
 
+**戻り値:**
+
+なし。
+
 **例外:**
 
 - **MilvusException**
 
-    データベースが存在しない場合（エラーコード 800）に、この例外が発生します。
+    この例外は、データベースが存在しない場合（エラーコード 800）にスローされます。この例外は、データベースが存在しない場合（エラーコード 800）にスローされます。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

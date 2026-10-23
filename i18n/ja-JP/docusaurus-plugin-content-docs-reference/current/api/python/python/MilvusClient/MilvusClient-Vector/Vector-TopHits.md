@@ -10,7 +10,7 @@ notebook: false
 description: "TopHits インスタンスは、各 SearchAggregation バケットから返される代表エンティティを設定します。 | Python | MilvusClient"
 type: docx
 token: PszSdqvtRo4t96xrW0ycWlVAnfc
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - milvus オープンソース
   - milvus はどのように動作するか

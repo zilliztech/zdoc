@@ -10,7 +10,7 @@ notebook: false
 description: "SearchAggregation インスタンスは、ベクトル検索用のバケット集計の 1 レベルを定義します。 | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - ANNS
   - ベクトル検索

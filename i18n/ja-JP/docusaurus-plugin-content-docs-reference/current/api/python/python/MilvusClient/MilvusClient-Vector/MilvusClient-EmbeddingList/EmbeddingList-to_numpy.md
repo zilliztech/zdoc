@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-to_numpy
 sidebar_label: "to_numpy()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の EmbeddingList を、すべてのベクトル埋め込みを含む NumPy 配列に変換します。 | Python | MilvusClient"
+description: "この操作は、現在の EmbeddingList インスタンスを、すべてのベクトル埋め込みを含む 2 次元（2D）NumPy 配列に変換します。 | Python | MilvusClient"
 type: docx
-token: XQAQd2tPKon4JgxKEoAc0CCHnUg
+token: EDYMdVqgYoY5wuxcm5mcAwGsnWb
 sidebar_position: 6
 keywords: 
   - ナレッジベース
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-この操作は、現在の **[EmbeddingList](./MilvusClient-EmbeddingList)** インスタンスを、すべてのベクトル埋め込みを含む 2 次元（2D）NumPy 配列に変換します。
+この操作は、現在の **EmbeddingList** インスタンスを、すべてのベクトル埋め込みを含む 2 次元（2D）NumPy 配列に変換します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,19 +39,19 @@ import Admonition from '@theme/Admonition';
 to_numpy()
 ```
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *np.ndarray*
 
-**RETURNS:**
+**戻り値:**
 
-形状が **(num_embeddings, dim)** の、すべてのベクトル埋め込みを含む 2D NumPy 配列。
+すべてのベクトル埋め込みを含む、形状 (num_embeddings, dim) の 2 次元 NumPy 配列です。
 
-**EXCEPTIONS:**
+**例外:**
 
-- **ValueError**:
+- **ValueError**
 
-    現在の **[EmbeddingList](./MilvusClient-EmbeddingList)** インスタンスが空の場合、この例外が発生します。
+    現在の **EmbeddingList** インスタンスが空の場合、この例外が発生します。現在の **EmbeddingList** インスタンスが空の場合、この例外が発生します。
 
 ## 例\{#examples}
 
@@ -68,4 +68,3 @@ embeddingList.add_batch(
 
 embeddingList.to_numpy()
 ```
-
