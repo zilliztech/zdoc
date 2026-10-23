@@ -81,7 +81,7 @@ Choose the workflow based on whether you are adding a user-defined field or a Fu
 
 - [Add user-defined vector fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) when your application generates embeddings and writes vector values to Zilliz Cloud.
 
-- [Add a Function and its generated vector field](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field) when Zilliz Cloud should generate vector values from existing fields, such as BM25 sparse vectors or MinHash signatures from text.
+- [Add a Function and its generated vector field](./add-fields-to-an-existing-collection) when Zilliz Cloud should generate vector values from existing fields, such as BM25 sparse vectors or MinHash signatures from text.
 
 In these cases, the total number of fields cannot exceed the Zilliz Cloud field-count limit. For details, refer to [Zilliz Cloud Limits](./limits#fields).
 
@@ -533,7 +533,7 @@ curl --request POST \
 
 After the field is added, entities that already existed in the collection return `"unreviewed"` for `review_status`. New entities can set a different value or use the default value when no value is provided.
 
-### Add StructArray fields\{#add-structarray-fields}
+### Add StructArray fields | PUBLIC\{#add-structarray-fields-or-public}
 
 Use `add_collection_struct_field()` to add a StructArray field that accepts arrays of structs. To add a StructArray field, do as follows:
 
@@ -1276,7 +1276,7 @@ curl --request POST \
 
 Existing entities have `NULL` for `embedding_v2` and are skipped when you search on this field. To make existing entities searchable through `embedding_v2`, write non-NULL vector values through upsert workflows. New entities can include `embedding_v2` during insert.
 
-### Add a Function and its generated vector field\{#add-a-function-and-its-generated-vector-field}
+### Add a Function and its generated vector field | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
 
 This Milvus 3.0 schema-change workflow is currently documented for Zilliz Cloud On-Demand Clusters. This page does not establish the first supported Cloud patch or Serving Cluster availability.
 
@@ -1640,7 +1640,7 @@ MinHash Functions and their generated binary vector fields support near-duplicat
 
 You can remove user-defined fields directly when they are no longer part of your collection model. To remove a Function and its generated vector field, drop the Function; the generated field and its index are removed in the same schema change.
 
-### Drop user-defined fields\{#drop-user-defined-fields}
+### Drop user-defined fields | PUBLIC\{#drop-user-defined-fields-or-public}
 
 Use `drop_collection_field()` to remove a user-defined scalar or vector field that is no longer part of your collection model.
 
@@ -2123,7 +2123,7 @@ await client.dropCollectionField({
 
 If `image_vector` is the last vector field in the collection, the drop operation is rejected.
 
-### Drop a Function and its generated vector field\{#drop-a-function-and-its-generated-vector-field}
+### Drop a Function and its generated vector field | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Use this operation when you no longer need a Function or its generated vector field, such as a BM25 Function and its generated sparse vector field.
 

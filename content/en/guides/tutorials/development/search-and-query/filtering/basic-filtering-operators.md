@@ -821,7 +821,7 @@ filter='price ** 2 > 1000'
 </TabItem>
 </Tabs>
 
-## Bitwise operators\{#bitwise-operators}
+## Bitwise operators | PUBLIC\{#bitwise-operators-or-public}
 
 Bitwise operators are useful when an integer field encodes multiple flags, such as permissions, feature flags, or status bits. You can use these operators in filter expressions to check, combine, or compare individual bits in an integer value.
 

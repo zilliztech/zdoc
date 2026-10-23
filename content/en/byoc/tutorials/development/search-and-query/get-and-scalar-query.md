@@ -481,7 +481,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Sort Query Results | ONDEMAND\{#sort-query-results}
+### Sort Query Results | PUBLIC\{#sort-query-results-or-public}
 
 By default, Query returns results in an unspecified order. Use the `order_by` parameter to sort results by one or more scalar fields. When using `order_by`, note that:
 
@@ -1135,7 +1135,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Aggregate Query Results | ONDEMAND\{#aggregate-query-results}
+### Aggregate Query Results | PUBLIC\{#aggregate-query-results-or-public}
 
 You can group query results by one or more scalar fields and compute aggregations per group. The supported aggregation operators are `count`, `min`, `max`, `sum`, and `avg`.
 

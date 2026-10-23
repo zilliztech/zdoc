@@ -243,7 +243,7 @@ In a `LIKE` patterns, `%` matches any number of characters and `_` matches one c
 
 Raw string literals, written as `r"..."` or `r'...'`, keep backslashes verbatim in Zilliz Cloud filter expressions. They are recommended for `LIKE` and regex patterns that contain backslashes. Without a raw string, ordinary string literals still process escape sequences before the pattern is evaluated, so more backslashes may be required.
 
-## Use regex\{#use-regex}
+## Use regex | PUBLIC\{#use-regex-or-public}
 
 Use regex filters when the pattern requires regular expression features such as character classes, repetition, alternation, anchors, or case-insensitive matching. Zilliz Cloud applies an [RE2](https://github.com/google/re2/wiki/syntax) regular expression to a string value.
 

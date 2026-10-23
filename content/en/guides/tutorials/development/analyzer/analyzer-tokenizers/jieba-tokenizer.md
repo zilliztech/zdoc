@@ -360,11 +360,11 @@ export analyzerParams='{
    </tr>
 </table>
 
-To load a large custom vocabulary from an external file instead of inlining it via `dict`, see [Custom configuration with a dictionary file](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) below.
+To load a large custom vocabulary from an external file instead of inlining it via `dict`, see [Custom configuration with a dictionary file](./jieba-tokenizer) below.
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
-### Custom configuration with a dictionary file | PRIVATE\{#custom-configuration-with-a-dictionary-file}
+### Custom configuration with a dictionary file | PUBLIC\{#custom-configuration-with-a-dictionary-file-or-public}
 
 For large custom vocabularies — domain glossaries, product terminology, or proper-noun lists — store the words in a file and register the file as a remote file resource, then reference it from the tokenizer via the `extra_dict_file` parameter. The analyzer loads these words into its vocabulary on top of the built-in dictionary.
 

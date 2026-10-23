@@ -638,7 +638,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
     </TabItem>
     </Tabs>
 
-### TEXT_MATCH_FUZZY expression syntax\{#textmatchfuzzy-expression-syntax}
+### TEXT_MATCH_FUZZY expression syntax | PUBLIC\{#textmatchfuzzy-expression-syntax-or-public}
 
 Use `TEXT_MATCH_FUZZY` to tolerate spelling differences between query tokens and indexed tokens. Milvus analyzes the query text with the field’s analyzer and applies fuzzy matching to each resulting token. If the query produces multiple tokens, the expression matches an entity when any token satisfies the configured edit distance.
 

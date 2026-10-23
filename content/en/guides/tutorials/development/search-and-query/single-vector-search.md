@@ -1417,7 +1417,7 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## Sort Search Results by Scalar Fields | ONDEMAND\{#sort-search-results-by-scalar-fields}
+## Sort Search Results by Scalar Fields | PUBLIC\{#sort-search-results-by-scalar-fields-or-public}
 
 By default, Zilliz Cloud orders search results by their similarity score to the query vector. If you want the returned entities to follow a scalar field order, add `order_by_fields` to the search request.
 
