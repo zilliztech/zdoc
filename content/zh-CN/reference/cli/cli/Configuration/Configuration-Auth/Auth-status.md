@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作显示当前的身份验证状态。 | Cloud"
+description: "此操作显示当前身份验证状态。 | Cloud"
 type: docx
 token: CGY6dYpcfoZr3cxbXT5cis6UnZf
 sidebar_position: 3
 keywords: 
-  - 廉价向量 Database
+  - 低成本向量 Database
   - 托管向量 Database
   - Pinecone 向量 Database
   - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - status
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # status
 
-此操作显示当前的身份验证状态。
+此操作显示当前身份验证状态。
 
-**注意：**`zilliz auth status` 是为向后兼容而保留的已弃用别名。请在新脚本中使用 `zilliz whoami`（别名为 `zilliz info`）。
+<strong>注意：</strong> `zilliz auth status` 是出于向后兼容性而保留的已弃用别名。在新脚本中，请使用 `zilliz whoami`（别名 `zilliz info`）。
 
 ## 概要\{#synopsis}
 

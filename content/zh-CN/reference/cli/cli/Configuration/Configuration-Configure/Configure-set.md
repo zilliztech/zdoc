@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作用于设置配置值。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 您也可以改为运行 `zilliz configure`，并按照交互式指引进行操作。设置 `api_key` 可作为 `zilliz login` 的替代方案。
 
@@ -47,15 +47,15 @@ zilliz configure set <KEY> <VALUE>
 
 **选项：**
 
-- **KEY** (*string*) -
+- **KEY** （*string*） -
 
-    **[必填]**
+    **[必需]**
 
-    表示配置项的名称。目前，只有 `api_key` 适用。
+    指示配置项的名称。目前，只有 `api_key` 适用。
 
-- **VALUE** (*string*) -
+- **VALUE** （*string*） -
 
-    表示配置项的值。
+    指示配置项的值。
 
 ## 示例\{#example}
 

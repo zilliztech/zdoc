@@ -41,7 +41,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-export",
-            "label": "导出",
+            "label": "export",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Backup/backup-export"
           },
           {

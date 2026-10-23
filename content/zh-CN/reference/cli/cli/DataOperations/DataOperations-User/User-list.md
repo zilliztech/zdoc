@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有 Database 用户。 | Cloud"
+description: "此操作会列出所有 Database 用户。 | Cloud"
 type: docx
 token: RhYcd912ioVJNOxjy9kc3rnbnzK
 sidebar_position: 5
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出所有 Database 用户。
+此操作会列出所有 Database 用户。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在不同集群之间切换。
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## 简介\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz user list
@@ -50,25 +50,25 @@ zilliz user list
 
 ## 选项\{#options}
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    指示输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    指示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
     指示用于筛选输出的 JMESPath 表达式。
 

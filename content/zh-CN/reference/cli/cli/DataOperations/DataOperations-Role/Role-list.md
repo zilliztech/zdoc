@@ -12,14 +12,14 @@ type: docx
 token: BNH0dujcioUq4Px0EmncEqlOnVe
 sidebar_position: 5
 keywords: 
-  - 什么是向量数据库
   - 什么是向量 Database
+  - 有哪些向量 Database
   - 向量 Database 对比
   - Faiss
   - zilliz
   - zilliz cloud
-  - cloud
-  - 列出
+  - 云
+  - list
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出所有角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
@@ -51,9 +51,9 @@ zilliz role list
 
 ## 选项\{#options}
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    指示输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -65,15 +65,15 @@ zilliz role list
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
     指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
     指示用于筛选输出的 JMESPath 表达式。
 
-- **--database** (*string*) -
+- **--database** （*string*） -
 
     指示 Database 名称。该值默认为 `default`。
 

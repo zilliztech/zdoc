@@ -13,12 +13,12 @@ token: XvDzdZsb3ojqgXxhEjfcZBxbnNb
 sidebar_position: 8
 keywords: 
   - 向量数据库对比
-  - openai 向量数据库
+  - OpenAI 向量数据库
   - 自然语言处理 Database
   - 便宜的向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - restore-collection
   - cliv14
 displayed_sidebar: cliSidebar
@@ -35,11 +35,11 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是您数据的一个副本，可用于在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
+在 Zilliz Cloud 中，备份是您数据的副本，可用于在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-恢复集群会创建一个新集群，并将所有已备份的 Collection 复制到其中。在不带选项的情况下运行此命令，将触发一组交互式提示。
+恢复集群会创建一个新集群，并将所有已备份的 Collection 复制到其中。在不带选项的情况下运行此命令将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -60,29 +60,29 @@ zilliz backup restore-collection
 
 **选项：**
 
-- **--cluster-id** (*string*) -
+- **--cluster-id** （*string*） -
 
     **[必需]**
 
-    表示源集群 ID，格式类似于 `inxx-xxxxx`。
+    指示源集群 ID，其格式类似于 `inxx-xxxxx`。
 
-    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
-- **--backup-id** (*string*) -
-
-    **[必需]**
-
-    表示备份 ID，格式类似于 `backupx-xxxxx`。
-
-- **--dest-cluster-id** (*string*) -
+- **--backup-id** （*string*） -
 
     **[必需]**
 
-    表示目标集群 ID，格式类似于 `inxx-xxxxx`。
+    指示备份 ID，其格式类似于 `backupx-xxxxx`。
 
-- **--output, -o** (*string*) -
+- **--dest-cluster-id** （*string*） -
 
-    表示输出格式。可能的值包括：
+    **[必需]**
+
+    指示目标集群 ID，其格式类似于 `inxx-xxxxx`。
+
+- **--output, -o** （*string*） -
+
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -94,15 +94,15 @@ zilliz backup restore-collection
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--body** (*string*) -
+- **--body** （*string*） -
 
     与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见 [恢复 Collection 备份](/reference/restful/restore-collection-backup-v2)。
 

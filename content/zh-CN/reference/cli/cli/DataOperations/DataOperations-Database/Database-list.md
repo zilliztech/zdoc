@@ -18,7 +18,7 @@ keywords:
   - 推荐系统
   - Zilliz
   - Zilliz Cloud
-  - cloud
+  - 云
   - 列出
   - cliv14
 displayed_sidebar: cliSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出所有 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令适用于 Dedicated 集群。
 

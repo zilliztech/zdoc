@@ -1,13 +1,13 @@
 ---
-title: "导出 | Cloud"
+title: "export | Cloud"
 slug: /cli/cli/Backup-export
-sidebar_label: "导出"
+sidebar_label: "export"
 beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将备份导出到外部存储。 | Cloud"
+description: "此操作将备份导出到外部存储。 | Cloud"
 type: docx
 token: MqCqdE8mqotzaXxk8nfcOvHinX0
 sidebar_position: 5
@@ -18,7 +18,7 @@ keywords:
   - 近似最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - 导出
   - cliv14
 displayed_sidebar: cliSidebar
@@ -29,17 +29,17 @@ displayed_sidbar: cliSidebar
 import Admonition from '@theme/Admonition';
 
 
-# 导出
+# export
 
-此操作会将备份导出到外部存储。
+此操作将备份导出到外部存储。
 
 ## 说明\{#description}
 
 在 Zilliz Cloud 中，备份是您数据的副本，可用于在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-您可以将备份文件导出到通过其集成 ID 标识的集成存储服务。此操作为异步操作，并会创建一个作业。您可以运行 [`zilliz job describe`](./Job-describe) 以获取作业进度。
+您可以将备份文件导出到由集成 ID 标识的集成存储服务。此操作为异步操作，并会创建一个作业。您可以运行 [`zilliz job describe`](./Job-describe) 以获取作业进度。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -60,51 +60,51 @@ zilliz backup export
 
 **选项：**
 
-- **--cluster-id** (*string*) -
+- **--cluster-id** （*string*） -
 
     **[必需]**
 
-    表示集群 ID，类似于 `inxx-xxxxx`。
+    指示集群 ID，其格式类似于 `inxx-xxxxx`。
 
-    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用该配置。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
-- **--backup-id** (*string*) -
-
-    **[必需]**
-
-    表示备份 ID，类似于 `backupx-xxxxx`。
-
-- **--integration-id** (*string*) -
+- **--backup-id** （*string*） -
 
     **[必需]**
 
-    表示存储集成 ID，类似于 `integ-xxxxx`。
+    指示备份 ID，其格式类似于 `backupx-xxxxx`。
 
-- **--directory** (*string*) -
+- **--integration-id** （*string*） -
 
-    表示外部存储中的目标目录。
+    **[必需]**
 
-- **--output, -o** (*string*) -
+    指示存储集成 ID，其格式类似于 `integ-xxxxx`。
 
-    表示输出格式。可能的值包括：
+- **--directory** （*string*） -
 
-    - `json`,
+    指示外部存储中的目标目录。
 
-    - `table`,
+- **--output, -o** （*string*） -
 
-    - `text`,
+    指示输出格式。可选值：
 
-    - `yaml`,
+    - `json`，
+
+    - `table`，
+
+    - `text`，
+
+    - `yaml`，
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略标题行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

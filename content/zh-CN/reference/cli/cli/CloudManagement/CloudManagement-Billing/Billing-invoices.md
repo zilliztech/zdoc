@@ -39,7 +39,7 @@ Zilliz Cloud 在组织级别收费。要访问发票，您必须具有 **Organiz
 
 运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 发票上的税费将根据您提供的账单地址计算。对于需要填写 VAT 或 GST ID 的公司，请[联系我们](http://support.zilliz.com)。
 
@@ -60,27 +60,27 @@ zilliz billing invoices
 
 - **--invoice-id** (*string*) -
 
-    表示发票 ID。如果提供此参数，则显示该发票的详细信息。其值类似于 `inv-xxxxx`。
+    指示发票 ID。如果提供此值，将显示该发票的详细信息。该值类似于 `inv-xxxxx`。
 
 - **--page-size** (*integer*) -
 
-    表示每页的项目数。默认值为 **10**。
+    指示每页的项目数。该值默认为 **10**。
 
 - **--page** (*integer*) -
 
-    表示要获取的页码。默认值为 **1**。
+    指示要检索的页码。该值默认为 **1**。
 
 - **--all, -a** (*boolean*) -
 
-    表示是否获取所有页面。
+    指示是否获取所有页面。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值为：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
     - `text`。
 

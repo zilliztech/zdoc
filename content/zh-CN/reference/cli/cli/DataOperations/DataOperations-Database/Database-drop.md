@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除一个 Database。（仅 Dedicated）| Cloud"
+description: "此操作会删除 Database。（仅 Dedicated） | Cloud"
 type: docx
 token: WjbrdMFuXoR2etxfpMdcmIebnCh
 sidebar_position: 3
@@ -15,11 +15,11 @@ keywords:
   - 词法搜索
   - 最近邻搜索
   - Agentic RAG
-  - rag llm 架构
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - drop
+  - RAG LLM 架构
+  - Zilliz
+  - Zilliz Cloud
+  - 云
+  - 删除
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作用于删除一个 Database。（仅 Dedicated）
+此操作会删除 Database。（仅 Dedicated）
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令适用于 Dedicated 集群。
 
 </Admonition>
 
-## 摘要\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz database drop
@@ -51,15 +51,15 @@ zilliz database drop
 
 ## 选项\{#options}
 
-- **--name** (*string*) -
+- **--name** （*string*） -
 
     **[必需]**
 
-    指定要删除的 Database 名称。
+    指示要删除的 Database 名称。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可选值：
 
     - `json`,
 
@@ -71,17 +71,17 @@ zilliz database drop
 
     - `csv`.
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--yes, -y** (*boolean*) -
+- **--yes, -y** （*boolean*） -
 
-    指定是否跳过确认提示。
+    指示是否跳过确认提示。
 
 ## 示例\{#example}
 

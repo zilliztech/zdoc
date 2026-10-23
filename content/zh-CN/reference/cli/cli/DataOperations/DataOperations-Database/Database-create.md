@@ -7,19 +7,19 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将创建一个新的 Database。（仅 Dedicated） | Cloud"
+description: "此操作会创建一个新的 Database。（仅 Dedicated） | Cloud"
 type: docx
 token: DaK3dvUJpoKOLTxy1iRc4YZAnjf
 sidebar_position: 1
 keywords: 
   - 上下文窗口
   - 自然语言搜索
-  - 相似性搜索
+  - 相似度搜索
   - 多模态 RAG
   - zilliz
-  - zilliz cloud
-  - cloud
-  - create
+  - Zilliz Cloud
+  - 云
+  - 创建
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-此操作将创建一个新的 Database。（仅 Dedicated）
+此操作会创建一个新的 Database。（仅 Dedicated）
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，Database 是用于组织和管理数据的逻辑单元。为了增强数据安全性并支持多租户，您可以创建多个 Database，以便在逻辑上隔离不同应用程序或租户的数据。例如，您可以创建一个 Database 来存储用户 A 的数据，再创建另一个 Database 来存储用户 B 的数据。
+在 Zilliz Cloud 中，Database 是用于组织和管理数据的逻辑单元。为了增强数据安全性并支持多租户，您可以创建多个 Database，以逻辑方式隔离不同应用程序或租户的数据。例如，您创建一个 Database 来存储用户 A 的数据，并为用户 B 创建另一个 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令适用于 Dedicated 集群。
 
@@ -56,17 +56,17 @@ zilliz database create
 
 ## 选项\{#options}
 
-- **--name** (*string*) -
+- **--name** （*string*） -
 
     **[必需]**
 
-    表示 Database 名称。
+    指示 Database 名称。
 
-    该值应为不超过 255 个字符的字母数字字符串，并且**以下划线 (_) 或字母开头**。
+    该值应为不超过 255 个字符的字母数字字符串，且以**下划线（_）或字母**开头。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    表示输出格式。可选值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -78,19 +78,19 @@ zilliz database create
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略标题行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--body** (*json*) -
+- **--body** （*json*） -
 
-    表示原始 JSON 请求体（或 `file://path`）。
+    指示原始 JSON 请求体（或 `file://path`）。
 
-    JSON 应符合以下 Schema。具体示例请参见 [创建 Database](/reference/restful/create-database-v2)。
+    JSON 应匹配以下 Schema。具体示例请参见 [创建 Database](/reference/restful/create-database-v2)。
 
     ```json
     {

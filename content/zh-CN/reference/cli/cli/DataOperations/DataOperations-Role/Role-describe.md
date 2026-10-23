@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取角色的详细信息和权限。 | Cloud"
+description: "此操作会获取角色的详情和权限。 | Cloud"
 type: docx
 token: Fj9Yd4SOPoppxTx7K8WcyMd7ncd
 sidebar_position: 2
 keywords: 
   - 什么是向量数据库
-  - 什么是向量 Database
-  - 向量 Database 比较
+  - 有哪些向量数据库
+  - 向量数据库比较
   - Faiss
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-此操作获取角色的详细信息和权限。
+此操作会获取角色的详情和权限。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
@@ -52,37 +52,37 @@ zilliz role describe
 
 **选项：**
 
-- **--role** (*string*) -
+- **--role**（*string*）-
 
-    **[必填]**
+    **[必需]**
 
-    表示角色名称。
+    指示角色名称。
 
-- **--output, -o** (*string*) -
+- **--output, -o**（*string*）-
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值为：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
-    - `text`，
+    - `text`,
 
-    - `yaml`，
+    - `yaml`,
 
-    - `csv`。
+    - `csv`.
 
-- **--no-header** (*boolean*) -
+- **--no-header**（*boolean*）-
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q**（*string*）-
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--database** (*string*) -
+- **--database**（*string*）-
 
-    表示 Database 名称。该值默认为 `default`。
+    指示 Database 名称。该值默认为 `default`。
 
 ## 示例\{#example}
 

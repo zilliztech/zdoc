@@ -18,7 +18,7 @@ keywords:
   - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grant-privilege
   - cliv14
 displayed_sidebar: cliSidebar
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
 可用权限列在 [权限与权限组](/docs/cluster-privileges) 中。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在不同集群之间切换。
 
@@ -67,13 +67,13 @@ zilliz role grant-privilege
 
     **[必需]**
 
-    指定角色名称。
+    指示角色名称。
 
 - **--object-type** (*string*) -
 
     **[必需]**
 
-    指定对象类型。可能的值包括：
+    指示对象类型。可选值包括：
 
     - `Global`，
 
@@ -85,21 +85,21 @@ zilliz role grant-privilege
 
     **[必需]**
 
-    指定对象名称。您可以使用 `'*'` 来包含指定类型的所有对象。
+    指示对象名称。您可以使用 `'*'` 来包含指定类型的所有对象。
 
 - **--privilege** (*string*) -
 
     **[必需]**
 
-    指定权限名称。您可以使用 `'*'` 来包含所有权限。可用权限列在 [权限与权限组](/docs/cluster-privileges) 中。
+    指示权限名称。您可以使用 `'*'` 来包含所有权限。可用权限列在 [权限与权限组](/docs/cluster-privileges) 中。
 
 - **--database** (*string*) -
 
-    指定 Database 名称。
+    指示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -113,11 +113,11 @@ zilliz role grant-privilege
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

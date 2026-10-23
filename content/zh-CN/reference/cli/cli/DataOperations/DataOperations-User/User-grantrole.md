@@ -17,8 +17,8 @@ keywords:
   - 向量 Database 对比
   - Faiss
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - grant-role
   - cliv14
 displayed_sidebar: cliSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会为用户授予角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
@@ -52,21 +52,21 @@ zilliz user grant-role
 
 ## 选项\{#options}
 
-- **--user** (*string*) -
+- **--user** （*string*） -
 
     **[必需]**
 
-    表示用户名。
+    指示用户名。
 
-- **--role** (*string*) -
+- **--role** （*string*） -
 
     **[必需]**
 
-    表示要授予的角色名称。
+    指示要授予的角色名称。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -78,13 +78,13 @@ zilliz user grant-role
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

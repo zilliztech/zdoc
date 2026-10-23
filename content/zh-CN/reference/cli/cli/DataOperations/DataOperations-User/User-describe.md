@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作获取用户的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 

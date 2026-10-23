@@ -35,11 +35,11 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是您数据的一个副本，可在数据丢失或系统故障时帮助您恢复整个集群或特定 Collection。
+在 Zilliz Cloud 中，备份是您数据的一份副本，使您能够在数据丢失或系统故障时恢复整个集群或特定 Collection。
 
 恢复集群会创建一个新集群，并将所有已备份的 Collection 复制到其中。运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -67,35 +67,35 @@ zilliz backup restore-cluster
 
     **[必需]**
 
-    表示源集群 ID，类似于 `inxx-xxxxx`。
+    指示源集群 ID，类似于 `inxx-xxxxx`。
 
-    如果集群使用 `zilliz context set` 进行了配置，则在未配置此选项时会自动应用。
+    如果已使用 `zilliz context set` 配置了集群，则未配置此选项时会自动使用该集群。
 
 - **--backup-id** (*string*) -
 
     **[必需]**
 
-    表示要恢复的备份 ID，类似于 `backupx-xxxxx`。
+    指示要恢复的备份 ID，类似于 `backupx-xxxxx`。
 
 - **--project-id** (*string*) -
 
     **[必需]**
 
-    表示目标项目 ID，类似于 `proj-xxxxx`
+    指示目标项目 ID，类似于 `proj-xxxxx`。
 
 - **--name** (*string*) -
 
     **[必需]**
 
-    表示新集群名称。
+    指示新集群名称。
 
 - **--cu-size** (*integer*) -
 
     **[必需]**
 
-    表示新集群的计算单元（CU）。
+    指示新集群的计算单元（CU）。
 
-    CU 是用于并行处理数据的计算资源基本单位，不同类型的 CU 由不同组合的 CPU、内存和存储组成。CU 的概念仅适用于 **Dedicated** 集群。
+    CU 是用于并行处理数据的基本计算资源单位，不同类型的 CU 由 CPU、内存和存储的不同组合构成。CU 的概念仅适用于 **Dedicated** 集群。
 
     - 对于 **Standard** 项目中的 **Dedicated** 集群，其 CU 规格与副本数的乘积必须小于或等于 32。
 
@@ -105,13 +105,13 @@ zilliz backup restore-cluster
 
     **[必需]**
 
-    表示恢复后的 Collection 状态。
+    指示恢复后的 Collection 状态。
 
-    可能的值包括：`KEEP` 和 `RELEASE`。
+    可选值为 `KEEP` 和 `RELEASE`。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值为：
 
     - `json`，
 
@@ -125,15 +125,15 @@ zilliz backup restore-cluster
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 - **--restore-version-policy** (*string*) -
 
-    指定 DB 版本恢复策略。可能的值包括：`LATEST` 和 `ORIGINAL`。
+    指定 DB 版本恢复策略。可选值为 `LATEST` 和 `ORIGINAL`。
 
 ## 示例\{#example}
 

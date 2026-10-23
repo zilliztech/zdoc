@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
 
 运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 BYOC 项目中不可使用 Tiered-storage 集群。
 
@@ -79,19 +79,19 @@ zilliz cluster create
 
 ## 选项\{#options}
 
-- **--name** (*string*) -
+- **--name** （*string*） -
 
     **[必需]**
 
-    表示集群显示名称。
+    指示集群显示名称。
 
-    该值必须是以字母开头、长度不超过 **255** 个字符的字母数字字符串。
+    该值是以字母开头、长度不超过 **255** 个字符的字母数字字符串。
 
-- **--type** (*string*) -
+- **--type** （*string*） -
 
     **[必需]**
 
-    表示集群类型。
+    指示集群类型。
 
     可能的值：
 
@@ -101,13 +101,13 @@ zilliz cluster create
 
     - `dedicated`。
 
-- **--project-id** (*string*) -
+- **--project-id** （*string*） -
 
-    表示要在其中创建集群的项目。
+    指示要在其中创建集群的项目。
 
-- **--region** (*string*) -
+- **--region** （*string*） -
 
-    表示云区域。
+    指示云区域。
 
     可能的值：
 
@@ -149,15 +149,15 @@ zilliz cluster create
 
     - `az-centralindia`
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     如需了解您的 BYOC 项目中可用的区域，请咨询您的组织所有者。
 
     </Admonition>
 
-- **--cu-type** (*string*) -
+- **--cu-type** （*string*） -
 
-    表示计算单元类型（仅 Dedicated）。
+    指示计算单元类型（仅 Dedicated）。
 
     可能的值：
 
@@ -167,19 +167,19 @@ zilliz cluster create
 
     - `Tiered-storage`。
 
-- **--cu-size** (*integer*) -
+- **--cu-size** （*integer*） -
 
-    表示计算单元数量（仅 Dedicated）。
+    指示计算单元数量（仅 Dedicated）。
 
-    CU 是用于并行处理数据的计算资源基本单位，不同的 CU 类型由不同组合的 CPU、内存和存储构成。CU 的概念仅适用于 **Dedicated** 集群。
+    CU 是用于并行处理数据的计算资源的基本单位，不同的 CU 类型由 CPU、内存和存储的不同组合构成。CU 的概念仅适用于 **Dedicated** 集群。
 
     - 对于 **Standard** 项目中的 **Dedicated** 集群，其 CU 大小与副本数的乘积必须小于或等于 32。
 
     - 对于 **Enterprise** 项目中的 **Dedicated** 集群，其 CU 大小与副本数的乘积必须小于或等于 1,024。
 
-- **--plan** (*string*) -
+- **--plan** （*string*） -
 
-    表示订阅计划（仅 Dedicated）。
+    指示订阅计划（仅 Dedicated）。
 
     可能的值：
 
@@ -191,7 +191,7 @@ zilliz cluster create
 
     - `Enterprise`。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
     输出格式。
 

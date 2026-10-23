@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更新现有的告警规则。 | Cloud"
+description: "此操作会更新现有告警规则。 | Cloud"
 type: docx
 token: FxUedhePWogwX4xRxFucLvaqnGg
 sidebar_position: 6
@@ -16,10 +16,10 @@ keywords:
   - IVF
   - knn
   - 图像搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - update
+  - Zilliz
+  - Zilliz Cloud
+  - 云
+  - 更新
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update
 
-此操作会更新现有的告警规则。
+此操作会更新现有告警规则。
 
 ## 概要\{#synopsis}
 
@@ -57,19 +57,19 @@ zilliz alert update
 
 - **--id** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    表示要启用的告警规则 ID，例如 `alert-xxxxx`。如需获取现有告警规则的完整列表，请运行 `zilliz alert list`。
+    指示要启用的告警规则的 ID，例如 `alert-xxxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    表示项目 ID，例如 `proj-xxxx`。
+    指示 Project ID，例如 `proj-xxxx`。
 
-    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
+    如果使用 `zilliz context set` 配置了项目，而此选项未配置，则会自动应用该项目。
 
 - **--metric-name** (*string*) -
 
-    表示要监控的指标。可能的值包括：
+    指示要监控的指标。可选值：
 
     - `CU_COMPUTATION`
 
@@ -99,55 +99,55 @@ zilliz alert update
 
 - **--threshold** (*string*) -
 
-    表示阈值。
+    指示阈值。
 
 - **--comparison** (*string*) -
 
-    表示比较运算符。
+    指示比较运算符。
 
     可选值：`>`（或 `gt`）、`<`（或 `lt`）、`>=`（或 `gte`）、`<=`（或 `lte`）、`=`（或 `eq`）。
 
 - **--rule-name** (*string*) -
 
-    表示告警规则的显示名称。
+    指示告警规则的显示名称。
 
 - **--level** (*string*) -
 
-    表示告警严重级别。默认值为 `WARNING`。
+    指示告警严重级别。该值默认为 `WARNING`。
 
-    可能的值包括：`WARNING`、`CRITICAL`。
+    可选值：`WARNING`、`CRITICAL`。
 
 - **--window-size** (*string*) -
 
-    表示监控窗口。例如，`5m`、`15m`、`1h` 等。
+    指示监控窗口。例如 `5m`、`15m`、`1h` 等。
 
 - **--cluster-id** (*array*) -
 
-    表示目标集群 ID。
+    指示目标集群 ID。
 
-    您可以在同一命令中将此选项与不同的集群 ID 一起使用。如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
+    您可以在同一命令中将此选项与不同的集群 ID 一起使用。如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
 - **--action** (*array*) -
 
-    表示通知动作，格式如 `type:config`。例如，`email:user*@*example.com`。
+    指示通知操作，格式为 `type:config`。例如 `email:user<em>@</em>example.com`。
 
     您可以在同一命令中将此选项与不同的集群 ID 一起使用。
 
 - **--send-resolved** (*string*) -
 
-    表示在告警解除时是否发送通知。
+    指示告警解除时是否发送通知。
 
 - **--repeat-interval** (*integer*) -
 
-    表示发送通知的时间间隔，单位为秒。
+    指示发送通知的间隔，单位为秒。
 
 - **--enabled** (*string*) -
 
-    表示是否启用该规则。此选项默认为 true。
+    指示是否启用该规则。此选项默认为 true。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可选值：`json`、`table`、`text`。
+    指示输出格式。可选值：`json`、`table`、`text`。
 
 ## 示例\{#example}
 

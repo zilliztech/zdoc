@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作可获取备份的详细信息。 | Cloud"
+description: "此操作获取备份的详细信息。 | Cloud"
 type: docx
 token: OQIRdZ8iOoZxd1xNPHtcWPTBnye
 sidebar_position: 3
@@ -16,9 +16,9 @@ keywords:
   - 信息检索
   - 降维
   - hnsw 算法
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - describe
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-此操作可获取备份的详细信息。
+此操作获取备份的详细信息。
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是您数据的副本，可帮助您在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
+在 Zilliz Cloud 中，备份是您的数据副本，可用于在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-您可以运行此命令来获取备份的详细信息。
+您可以运行此命令获取备份的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -60,21 +60,21 @@ zilliz backup describe
 
 - **--cluster-id** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    表示集群 ID，类似于 `inxx-xxxxx`。
+    指示集群 ID，其格式类似于 `inxx-xxxxx`。
 
-    如果集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
 - **--backup-id** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    表示备份 ID，类似于 `backupx-xxxxx`。
+    指示备份 ID，其格式类似于 `backupx-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值：
 
     - `json`，
 
@@ -88,11 +88,11 @@ zilliz backup describe
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

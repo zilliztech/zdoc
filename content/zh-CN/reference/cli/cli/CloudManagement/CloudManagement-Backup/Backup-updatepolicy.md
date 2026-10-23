@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于更新集群的备份策略。| Cloud"
+description: "此操作会更新集群的备份策略。 | Cloud"
 type: docx
 token: PJsSdI8JBoUchVx1IkrcmakLnCc
 sidebar_position: 9
@@ -18,7 +18,7 @@ keywords:
   - 什么是向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - update-policy
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # update-policy
 
-此操作用于更新集群的备份策略。
+此操作会更新集群的备份策略。
 
 ## 说明\{#description}
 
-Zilliz Cloud 支持为您的集群启用**自动备份**，帮助您在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**，不支持自动备份单个 Collection。
+Zilliz Cloud 允许您为集群启用**自动备份**，帮助确保在出现意外问题时能够恢复数据。自动备份作用于**整个集群**，不支持自动备份单个 Collection。
 
-您可以运行此命令来更新自动备份策略。运行此命令时如果不带任何选项，将触发一组交互式提示。
+您可以运行此命令来更新自动备份策略。如果未使用任何选项运行此命令，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -62,23 +62,23 @@ zilliz backup update-policy
 
 ## 选项\{#options}
 
-- **--cluster-id** (*string*) -
+- **--cluster-id** （*string*） -
 
     **[必需]**
 
-    表示集群 ID，类似于 `inxx-xxxxx`。
+    指示集群 ID，其格式类似于 `inxx-xxxxx`。
 
-    如果集群使用 `zilliz context set` 进行了配置，则在未配置此选项时会自动生效。
+    如果已使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
-- **--auto-backup** (*boolean*) -
+- **--auto-backup** （*boolean*） -
 
     **[必需]**
 
-    表示是否启用或禁用自动备份。
+    指示启用还是禁用自动备份。
 
-- **--frequency** (*string*) -
+- **--frequency** （*string*） -
 
-    表示自动备份作业的运行频率。当 `--auto-backup` 为 `true` 时，此选项为必需。可能的值包括：
+    指示自动备份任务的运行频率。当 `--auto-backup` 为 `true` 时，此选项为必需项。可选值如下：
 
     - `daily`
 
@@ -86,19 +86,19 @@ zilliz backup update-policy
 
     - `weekends`，或
 
-    - `1-7`（1=周一，7=周日）。例如，`1,3,5`。
+    - `1-7`（1=周一，7=周日），例如 `1,3,5`。
 
-- **--start-time** (*string*) -
+- **--start-time** （*string*） -
 
-    表示 UTC 时区的开始小时，例如 `02:00`。当 `--auto-backup` 为 `true` 时，此选项为必需。
+    指示以 UTC 表示的开始时间（小时），例如 `02:00`。当 `--auto-backup` 为 `true` 时，此选项为必需项。
 
-- **--retention-days** (*integer*) -
+- **--retention-days** （*integer*） -
 
-    备份保留天数（1-30）。当 `--auto-backup` 为 `true` 时为必需。
+    备份保留天数（1 到 30）。当 `--auto-backup` 为 `true` 时为必需项。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值如下：
 
     - `json`，
 
@@ -110,17 +110,17 @@ zilliz backup update-policy
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出格式设置为 `table` 或 `csv` 时是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--body** (*string*) -
+- **--body** （*string*） -
 
-    与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见 [设置备份策略](/reference/restful/set-backup-policy-v2)。
+    与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见[设置备份策略](/reference/restful/set-backup-policy-v2)。
 
     ```json
     {

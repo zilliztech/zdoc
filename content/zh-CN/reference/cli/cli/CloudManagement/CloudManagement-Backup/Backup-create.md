@@ -13,12 +13,12 @@ token: RriNdfGjjofQL4x8XlhcHug6nvd
 sidebar_position: 1
 keywords: 
   - 自然语言搜索
-  - 相似性搜索
+  - 相似度搜索
   - 多模态 RAG
-  - llm 幻觉
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - LLM 幻觉
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - create
   - cliv14
 displayed_sidebar: cliSidebar
@@ -35,13 +35,13 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是您的数据副本，可在数据丢失或系统故障时帮助您恢复整个集群或特定 Collection。
+在 Zilliz Cloud 中，备份是您的数据副本，可让您在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-运行此命令时如果不带任何选项，系统会引导您完成一组交互式提示。
+在不使用任何选项的情况下运行此命令，将引导您完成一系列交互式提示。
 
-创建备份会产生额外费用，定价取决于备份存储所在的云区域。所有备份文件都存储在与源集群相同的云区域中。例如，位于 `AWS us-west-2` 的集群，其备份将存储在 `AWS us-west-2`。
+创建备份会产生额外费用，费用取决于存储备份的云区域。所有备份文件都存储在与源集群相同的云区域中。例如，位于 `AWS us-west-2` 的集群，其备份将存储在 `AWS us-west-2`。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -62,47 +62,47 @@ zilliz backup create
 
 ## 选项\{#options}
 
-- **--cluster-id** (*string*) -
+- **--cluster-id** （*string*） -
 
     **[必需]**
 
-    表示集群 ID，类似于 `inxx-xxxxx`。
+    指示集群 ID，其格式类似于 `inxx-xxxxx`。
 
-    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用该配置。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
-- **--database** (*string*) -
+- **--database** （*string*） -
 
-    表示用于 Collection 级备份的 Database 名称。
+    指示用于 Collection 级备份的 Database 名称。
 
-- **--collection** (*string*) -
+- **--collection** （*string*） -
 
-    表示 Collection 名称。进行完整集群备份时，您可以省略此项。
+    指示 Collection 名称。如果执行整个集群备份，可以省略此参数。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
-    - `json`，
+    - `json`、
 
-    - `table`，
+    - `table`、
 
-    - `text`，
+    - `text`、
 
-    - `yaml`，
+    - `yaml`、
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略表头行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
-- **--body** (*string*) -
+- **--body** （*string*） -
 
-    与以下 Schema 匹配的原始 JSON 字符串。有关具体示例，请参见 [创建备份](/reference/restful/create-backup-v2)。
+    与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见 [创建备份](/reference/restful/create-backup-v2)。
 
     ```json
     {

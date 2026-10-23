@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会切换到其他组织。
 
-**注意：**`zilliz auth switch` 是为向后兼容而保留的已弃用别名。在新脚本中，请使用顶层 `zilliz switch` 命令。
+<strong>注意：</strong> `zilliz auth switch` 是为向后兼容而保留的已弃用别名。在新脚本中，请使用顶层 `zilliz switch` 命令。
 
 ## 概要\{#synopsis}
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作可获取 Database 的详细信息。（仅 Dedicated）
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令适用于 Dedicated 集群。
 
@@ -51,33 +51,33 @@ zilliz database describe
 
 ## 选项\{#options}
 
-- **--name** (*string*) -
+- **--name** （*string*） -
 
     **[必需]**
 
-    指定 Database 名称。
+    指示 Database 名称。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时是否省略标题行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

@@ -15,10 +15,10 @@ keywords:
   - 推荐系统
   - 信息检索
   - 降维
-  - hnsw algorithm
+  - hnsw 算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete
   - cliv14
 displayed_sidebar: cliSidebar
@@ -35,11 +35,11 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是您数据的副本，可在发生数据丢失或系统故障时帮助您恢复整个集群或特定 Collection。
+在 Zilliz Cloud 中，备份是您数据的副本，使您能够在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-如果某个备份不再需要，您可以将其删除。删除后的备份会立即不可用。请谨慎操作。
+如果不再需要某个备份，您可以将其删除。删除后的备份将立即不可用。请谨慎操作。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -63,19 +63,19 @@ zilliz backup delete
 
     **[必需]**
 
-    表示集群 ID，格式类似于 `inxx-xxxx`。
+    指示集群 ID，其格式类似于 `inxx-xxxx`。
 
-    如果集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群。
 
 - **--backup-id** (*string*) -
 
     **[必需]**
 
-    表示要删除的备份 ID，格式类似于 `backupx-xxxxx`。
+    指示要删除的备份 ID，其格式类似于 `backupx-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -89,15 +89,15 @@ zilliz backup delete
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    表示用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    表示是否跳过交互式提示。
+    指示是否跳过交互式提示。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从用户撤销角色。 | Cloud"
+description: "此操作会撤销用户的角色。 | Cloud"
 type: docx
 token: W7NedO3aXoF3UdxWp51cPe0kn2b
 sidebar_position: 6
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # revoke-role
 
-此操作会从用户撤销角色。
+此操作会撤销用户的角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz user revoke-role
@@ -52,21 +52,21 @@ zilliz user revoke-role
 
 ## 选项\{#options}
 
-- **--user** (*string*) -
+- **--user** （*string*） -
 
     **[必需]**
 
-    指定用户名。
+    指示用户名。
 
-- **--role** (*string*) -
+- **--role** （*string*） -
 
     **[必需]**
 
-    指定要撤销的角色名称。
+    指示要撤销的角色名称。
 
-- **--output, -o** (*string*) -
+- **--output, -o** （*string*） -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -78,13 +78,13 @@ zilliz user revoke-role
 
     - `csv`。
 
-- **--no-header** (*boolean*) -
+- **--no-header** （*boolean*） -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
-- **--query, -q** (*string*) -
+- **--query, -q** （*string*） -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 
