@@ -72,18 +72,20 @@ For a precise calculation of the write vCU usage and cost, please refer to the f
 | **Operation** | **vCU Usage** |
 | --- | --- |
 | Insert | 1 KB of inserted data = 0.25 vCU |
-| Delete | 1 deleted entity = 1 vCU<br/>Deleting a non-existent entity will also consume 1 vCU. |
-| Upsert | Calculated based on the size of the data updated and the number of entities deleted.<br/>Deleting a non-existent entity will also consume 1 vCU. |
+| Delete | 1 vCU per entity. When deleting by primary key, each primary key in the request costs 1 vCU, even if no entity with that key exists. When deleting by filter expression, only the entities that match are counted. |
+| Upsert | Calculated based on the size of the data updated and the number of entities deleted.<br/>Deleting a non-existent entity will also consume 1 vCU.<br/>Upsert vCU usage = data KB x 0.25 + 1 vCU per upserted entity (whether or not the primary key already exists). For example, upserting 1 million 128-dim vectors uses about 0.125 + 1 = 1.125 million vCUs (&#36;4.50), compared with 0.125 million vCUs (&#36;0.50) to insert them. A partial upsert (partial_update) is still charged 1 vCU per entity. |
+
+*&ast;Data size is the size of the write request after the SDK or RESTful API encodes it, where 1 KB = 1,024 bytes. Usage is calculated per request and rounded up to the next whole vCU, so every write request costs at least 1 vCU. Batching rows into larger requests avoids this rounding overhead. RESTful API requests are charged the same as SDK (gRPC) requests for the same data, even though the JSON body is larger.*
 
 Suppose you inserted 3 GB (3,145,728 KB) of entities into a Serverless cluster and then deleted 100,000 entities.
 
-- `Insert operation vCU usage = 3,145,728 x 0.25 = 78,643 vCUs`
+- `Insert operation vCU usage = 3,145,728 x 0.25 = 786,432 vCUs`
 
 - `Delete operation vCU usage = 100,000 x 1 = 100,000 vCUs`
 
-- `Total vCU usage = 1,000 + 78,643 = 178,643 vCUs`
+- `Total vCU usage = 100,000 + 786,432 = 886,432 vCUs`
 
-- `Total vector database cost (write)  = 0.178643 x 4 = $0.72`
+- `Total vector database cost (write)  = 0.886432 x 4 = $3.55`
 
 ## Vector database costs (read)\{#vector-database-costs-read}
 

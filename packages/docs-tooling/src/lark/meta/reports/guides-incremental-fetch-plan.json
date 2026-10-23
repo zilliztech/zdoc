@@ -1,17 +1,88 @@
 {
-  "generated_at": "2026-10-22T18:32:13.217Z",
+  "generated_at": "2026-10-23T02:37:47.726Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlW2rFjP8Q1",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Serverless Cluster Cost",
+      "labels": "Serverless Cluster",
+      "slug": "serverless-cluster-cost",
+      "release_channel": "current",
+      "doc_token": "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+  ],
+  "expanded_tokens": [
+    "BClgwKlHaiushBkPPssclTkYnef",
+    "BaGlwzDmyiyVvVk6NurcFclInCd",
+    "EV41wG08BiOWW8kbo9xcTGoPnKd",
+    "GBfswoqhviHfTVk2qhHc4eGXnfh",
+    "L5jawEj7FiBXWZkGhLgcQCWQnDd",
+    "PNj2w5fY9ifr82kbX8ucKgXAn0r",
+    "QWqiwrgJViA5AJkv64VcgQX2nKd",
+    "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+    "RhKcwNACpi3WihkTzo8cr4BCnee",
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+    "WTsmwWdgOiKnwpkdZdScp093njh",
+    "YtJPwEVETiTaPMkWSfAccjXTnge"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
+      "wiki node revision changed"
+    ],
+    "BClgwKlHaiushBkPPssclTkYnef": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "GBfswoqhviHfTVk2qhHc4eGXnfh": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "L5jawEj7FiBXWZkGhLgcQCWQnDd": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "YtJPwEVETiTaPMkWSfAccjXTnge": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "RhKcwNACpi3WihkTzo8cr4BCnee": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "BaGlwzDmyiyVvVk6NurcFclInCd": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "WTsmwWdgOiKnwpkdZdScp093njh": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "R7F7wY8pCiJ5Q4kbntxcMsE6nLf": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "QWqiwrgJViA5AJkv64VcgQX2nKd": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "PNj2w5fY9ifr82kbX8ucKgXAn0r": [
+      "outgoing reference from Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ],
+    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
+      "incoming reference to Uk0Nw1ZdbiOEBtkAOKacLTf8nGe"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
