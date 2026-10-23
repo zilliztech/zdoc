@@ -1,0 +1,4 @@
+check:
+  - Milvus
+allow:
+  - Milvus

@@ -1,0 +1,6 @@
+check:
+  - Milvus
+  - localhost:19530
+  - root:Milvus
+allow:
+  - Zilliz Cloud is built on Milvus

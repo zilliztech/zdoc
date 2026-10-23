@@ -1,0 +1,9 @@
+{
+  "mdx": "# Cloud page\n\nMilvus\n",
+  "rules": { "check": ["Milvus"], "allow": [] },
+  "manual": "guides",
+  "sources": [
+    { "kind": "source", "file": "site/en/example.md", "text": "---\ntitle: Cloud\n---\nMilvus\n" }
+  ],
+  "context": { "page": "example", "channel": "current" }
+}
