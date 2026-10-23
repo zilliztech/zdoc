@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は現在の認証ステータスを表示します。
 
-**注:** `zilliz auth status` は後方互換性のために残されている非推奨のエイリアスです。新しいスクリプトでは `zilliz whoami`（エイリアス `zilliz info`）を使用してください。
+<strong>Note:</strong> `zilliz auth status` is a deprecated alias kept for backwards compatibility. Use `zilliz whoami` (alias `zilliz info`) in new scripts.
 
 ## Synopsis\{#synopsis}
 

@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 作成
+  - create
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud では、データベースはデータを整理および管理するための論理単位として機能します。データセキュリティを強化し、マルチテナンシーをサポートするために、複数のデータベースを作成して、異なるアプリケーションやテナントのデータを論理的に分離できます。たとえば、ユーザー A のデータを保存するためのデータベースを 1 つ作成し、ユーザー B のために別のデータベースを作成できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターに適用されます。
 
@@ -90,7 +90,7 @@ zilliz database create
 
     生の JSON ボディ（または `file://path`）を指定します。
 
-    JSON は次のスキーマに一致する必要があります。具体例については、[Create Database](/reference/restful/create-database-v2) を参照してください。
+    The JSON should match the following スキーマ. For concrete examples, refer to [Create データベース](/reference/restful/create-database-v2).
 
     ```json
     {

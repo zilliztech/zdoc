@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作はユーザーからロールを取り消します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このコマンドは Dedicated cluster でのみ使用できます。`zilliz context set` を実行して cluster を切り替えることができます。
+This command is available for Dedicated クラスター only. You can run `zilliz context set` to switch among クラスター.
 
 </Admonition>
 

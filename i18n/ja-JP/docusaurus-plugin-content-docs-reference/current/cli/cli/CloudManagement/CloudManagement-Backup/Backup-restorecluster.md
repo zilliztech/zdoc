@@ -1,7 +1,7 @@
 ---
-title: "restore-cluster | Cloud"
+title: "restore-クラスター | Cloud"
 slug: /cli/cli/Backup-restorecluster
-sidebar_label: "restore-cluster"
+sidebar_label: "restore-クラスター"
 beta: false
 added_since: v0.1.x
 last_modified: v1.4.x
@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - restore-cluster
+  - restore-クラスター
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: cliSidebar
 import Admonition from '@theme/Admonition';
 
 
-# restore-cluster
+# restore-クラスター
 
 この操作は、バックアップを新しいクラスターに復元します。
 
@@ -39,7 +39,7 @@ Zilliz Cloud では、バックアップはデータのコピーであり、デ�
 
 クラスターを復元すると、新しいクラスターが作成され、バックアップされたすべてのコレクションがそこにコピーされます。オプションを指定せずにこのコマンドを実行すると、一連の対話型プロンプトが開始されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ使用できます。
 
@@ -138,7 +138,7 @@ zilliz backup restore-cluster
 ## Example\{#example}
 
 ```bash
-# コレクションをロードした状態で復元
+# Restore with collections loaded
 zilliz backup restore-cluster --cluster-id in01-xxxx \
 --backup-id backup-xxxx \
 --project-id proj-xxxx \

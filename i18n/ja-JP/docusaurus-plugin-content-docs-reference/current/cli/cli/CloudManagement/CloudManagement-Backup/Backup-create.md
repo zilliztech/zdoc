@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 作成
+  - create
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -41,7 +41,7 @@ Zilliz Cloud では、バックアップはデータのコピーであり、デ�
 
 バックアップの作成には追加料金が発生し、料金はバックアップが保存されるクラウドリージョンに基づいて決まります。すべてのバックアップファイルは、ソースクラスターと同じクラウドリージョンに保存されます。たとえば、`AWS us-west-2` 内のクラスターのバックアップは `AWS us-west-2` に保存されます。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ使用できます。
 

@@ -41,7 +41,7 @@ Zilliz Cloud では、クラスター ユーザーを作成し、それらにク
 
 クラスター ユーザーを管理するには、**Organization Owner** または **Project Admin** であるか、**Cluster_Admin** 権限を持つロールが必要です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスター間を切り替えることができます。
 

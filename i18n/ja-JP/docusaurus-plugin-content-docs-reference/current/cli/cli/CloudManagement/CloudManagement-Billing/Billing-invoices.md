@@ -39,7 +39,7 @@ Zilliz Cloud は organization レベルで課金されます。請求書にア�
 
 オプションを指定せずにこのコマンドを実行すると、一連の対話型プロンプトが開始されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 請求書の税金は、提供された請求先住所に基づいて計算されます。VAT または GST ID の入力が必要な企業は、[お問い合わせください](http://support.zilliz.com)。
 

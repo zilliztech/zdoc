@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ロールから権限を取り消します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。
 

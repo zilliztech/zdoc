@@ -12,9 +12,9 @@ type: docx
 token: Fj9Yd4SOPoppxTx7K8WcyMd7ncd
 sidebar_position: 2
 keywords: 
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - what is ベクトル db
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - Faiss
   - zilliz
   - zilliz cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ロールの詳細と権限を取得します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスター間を切り替えることができます。
 

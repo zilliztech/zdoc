@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - Sparse ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は別の organization に切り替えます。
 
-**注:** `zilliz auth switch` は後方互換性のために残されている非推奨のエイリアスです。新しいスクリプトではトップレベルの `zilliz switch` コマンドを使用してください。
+<strong>Note:</strong> `zilliz auth switch` is a deprecated alias kept for backwards compatibility. Use the top-level `zilliz switch` command in new scripts.
 
 ## Synopsis\{#synopsis}
 

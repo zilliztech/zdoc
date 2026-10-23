@@ -13,7 +13,7 @@ token: RhYcd912ioVJNOxjy9kc3rnbnzK
 sidebar_position: 5
 keywords: 
   - Milvusとは
-  - Milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - zilliz
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作では、すべてのデータベースユーザーを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスターを切り替えることができます。
 

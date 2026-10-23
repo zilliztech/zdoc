@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - エクスポート
+  - export
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -39,7 +39,7 @@ Zilliz Cloud では、バックアップはデータのコピーであり、デ�
 
 バックアップファイルは、インテグレーション ID で識別される統合ストレージサービスにエクスポートできます。この操作は非同期であり、ジョブが作成されます。ジョブの進行状況を取得するには、[`zilliz job describe`](./Job-describe) を実行できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 

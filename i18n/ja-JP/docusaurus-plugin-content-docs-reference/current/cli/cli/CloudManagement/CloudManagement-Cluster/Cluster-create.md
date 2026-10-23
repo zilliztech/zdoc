@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - クラウド
-  - 作成
+  - create
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -57,7 +57,7 @@ Dedicated クラスターについて、Zilliz Cloud は次のクラスタータ
 
 このコマンドをオプションなしで実行すると、一連の対話型プロンプトが開始されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Tiered-storage クラスターは BYOC プロジェクトでは利用できません。
 
@@ -149,7 +149,7 @@ zilliz cluster create
 
     - `az-centralindia`
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     BYOC プロジェクトで利用可能なリージョンについては、組織のオーナーに確認してください。
 

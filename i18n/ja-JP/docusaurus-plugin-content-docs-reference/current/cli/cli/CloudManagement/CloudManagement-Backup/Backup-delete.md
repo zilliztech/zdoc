@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 削除
+  - delete
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -39,7 +39,7 @@ Zilliz Cloud では、バックアップはデータのコピーであり、デ�
 
 バックアップが不要になった場合は削除できます。削除されたバックアップは即座に利用できなくなります。十分に注意して操作してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 

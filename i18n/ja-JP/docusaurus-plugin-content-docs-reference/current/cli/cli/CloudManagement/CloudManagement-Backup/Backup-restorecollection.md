@@ -1,25 +1,25 @@
 ---
-title: "restore-collection | Cloud"
+title: "restore-コレクション | Cloud"
 slug: /cli/cli/Backup-restorecollection
-sidebar_label: "restore-collection"
+sidebar_label: "restore-コレクション"
 beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、バックアップから特定の collection を復元します。 | Cloud"
+description: "This operation restores specific コレクション from a backup. | Cloud"
 type: docx
 token: XvDzdZsb3ojqgXxhEjfcZBxbnNb
 sidebar_position: 8
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ベクトル db comparison
+  - openai ベクトル db
+  - natural language processing データベース
+  - cheap ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
-  - restore-collection
+  - restore-コレクション
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -29,17 +29,17 @@ displayed_sidbar: cliSidebar
 import Admonition from '@theme/Admonition';
 
 
-# restore-collection
+# restore-コレクション
 
-この操作は、バックアップから特定の collection を復元します。
+This operation restores specific コレクション from a backup.
 
 ## Description\{#description}
 
-Zilliz Cloud では、バックアップはデータのコピーであり、データ損失やシステム障害が発生した場合に、クラスター全体または特定の collection を復元できます。
+In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire クラスター or specific コレクション in the event of data loss or system failure.
 
-クラスターを復元すると、新しいクラスターが作成され、バックアップされたすべての collection がそこにコピーされます。オプションなしでこのコマンドを実行すると、一連の対話型プロンプトが開始されます。
+Restoring a クラスター creates a new クラスター and copies all backed-up コレクション to it. Running this command without options will trigger a set of interactive prompts.
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 
@@ -104,7 +104,7 @@ zilliz backup restore-collection
 
 - **--body** (*string*) -
 
-    次のスキーマに一致する生の JSON 文字列です。具体的な例については、[Restore Collection Backup](/reference/restful/restore-collection-backup-v2) を参照してください。
+    A raw JSON string that matches the following スキーマ. For concrete examples, refer to [Restore コレクション Backup](/reference/restful/restore-collection-backup-v2).
 
     ```json
     {

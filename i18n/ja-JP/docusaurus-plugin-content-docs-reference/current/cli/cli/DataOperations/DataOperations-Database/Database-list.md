@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作はすべてのデータベースを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このコマンドは Dedicated clusters に適用されます。
+This command applies to Dedicated クラスター.
 
 </Admonition>
 

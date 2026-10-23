@@ -142,7 +142,7 @@ zilliz alert create
 
 - **--action** (*array*) -
 
-    `type:config` 形式の通知アクションを示します。たとえば、`email:user*@*example.com` です。
+    Indicates the notification action as in `type:config`. For example, `email:user<em>@</em>example.com`.
 
     このオプションは、同じコマンド内で異なるクラスター ID とともに使用できます。
 

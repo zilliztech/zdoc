@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 インデックス設定を調整する手間を省くために、Zilliz Cloud は AUTOINDEX と呼ばれる自動適応型のインデックスタイプによってインデックスのチューニングを処理します。[インデックス構築レベル](/docs/tune-index-build-level)と[リコール率](/docs/tune-recall-rate)を調整することで、検索パフォーマンスと精度を簡単に最適化できます。
 
-スカラーフィールドについては、フィールドタイプに応じてインデックスタイプを設定できます。フィールドタイプと適用可能なインデックスタイプの対応については、[スカラーフィールドのインデックス作成](/docs/index-scalar-fields#overview)を参照してください。
+For スカラー fields, you can set インデックス types according to the field types. For the mapping of field types to applicable インデックス types, refer to [BITMAP](/docs/bitmap-index-type) and its sibling pages.
 
 ## Synposis\{#synposis}
 

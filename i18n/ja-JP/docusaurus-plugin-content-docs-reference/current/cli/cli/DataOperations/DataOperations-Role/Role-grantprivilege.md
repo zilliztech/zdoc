@@ -35,15 +35,15 @@ import Admonition from '@theme/Admonition';
 
 ## Description\{#description}
 
-**privilege** とは、clusters、databases、collections などの特定の Zilliz Cloud リソースに対する特定の操作の許可を指します。権限はロールに割り当てられ、そのロールがユーザーに付与されることで、ユーザーがリソースに対して実行できる操作が定義されます。権限の例としては、`collection_01` という名前の collection にデータを挿入する許可が挙げられます。
+A **privilege** refers to the permission of specific operations on certain Zilliz Cloud resources such as クラスター, データベース, and コレクション. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a コレクション named `collection_01`.
 
-**privilege group** は、個々の権限を組み合わせたものです。よく使用される権限の privilege group を作成することで、ロール付与のプロセスを簡素化できます。使いやすさのために、Zilliz Cloud は collection、database、cluster レベルで 9 個の組み込み privilege group を提供しています。
+A **privilege group** is a combination of individual privileges. You can create a privilege group of commonly used privileges to simplify the role-granting process. For ease of use, Zilliz Cloud provides 9 built-in privilege groups at the コレクション, データベース, and クラスター levels.
 
 利用可能な権限は [Privileges and Privilege Groups](/docs/cluster-privileges) に記載されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このコマンドは Dedicated clusters でのみ使用できます。`zilliz context set` を実行して clusters 間を切り替えることができます。
+This command is available for Dedicated クラスター only. You can run `zilliz context set` to switch among クラスター.
 
 </Admonition>
 
@@ -95,7 +95,7 @@ zilliz role grant-privilege
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

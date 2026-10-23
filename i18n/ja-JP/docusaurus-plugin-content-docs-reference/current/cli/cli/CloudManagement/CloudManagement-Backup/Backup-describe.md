@@ -39,7 +39,7 @@ Zilliz Cloud では、バックアップはデータのコピーであり、デ�
 
 このコマンドを実行して、バックアップの詳細を取得できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 

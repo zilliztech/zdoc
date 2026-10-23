@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作はロールを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスター間を切り替えることができます。
 

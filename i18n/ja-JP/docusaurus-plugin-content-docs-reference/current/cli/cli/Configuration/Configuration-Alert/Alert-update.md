@@ -12,14 +12,14 @@ type: docx
 token: FxUedhePWogwX4xRxFucLvaqnGg
 sidebar_position: 6
 keywords: 
-  - ベクターデータベース
+  - ベクトル データベース
   - IVF
   - knn
   - 画像検索
   - zilliz
   - zilliz cloud
   - cloud
-  - 更新
+  - update
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -123,15 +123,15 @@ zilliz alert update
 
 - **--cluster-id** (*array*) -
 
-    対象の cluster ID を示します。 
+    Indicates the target クラスター ID. 
 
-    同じコマンド内で、このオプションを異なる cluster ID とともに使用できます。`zilliz context set` を使用して cluster が設定されている場合、このオプションを指定しなくても自動的に適用されます。
+    You can use this option with different クラスター IDs in the same command. If a クラスター is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
 
 - **--action** (*array*) -
 
-    `type:config` 形式の通知アクションを示します。例: `email:user*@*example.com`。
+    Indicates the notification action as in `type:config`. For example, `email:user<em>@</em>example.com`.
 
-    同じコマンド内で、このオプションを異なる cluster ID とともに使用できます。
+    You can use this option with different クラスター IDs in the same command.
 
 - **--send-resolved** (*string*) -
 

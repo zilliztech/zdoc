@@ -14,7 +14,7 @@ sidebar_position: 4
 keywords: 
   - milvus ベクトルデータベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -39,7 +39,7 @@ Zilliz Cloud では、クラスターに対して **自動バックアップ** �
 
 このコマンドを実行すると、指定したクラスターに適用される現在の自動バックアップポリシーの設定を確認できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作はデータベースを削除します。（Dedicated のみ）
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターに適用されます。
 

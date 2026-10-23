@@ -13,7 +13,7 @@ token: A8XSdcz0UoXHnyxHPcOcaLExn3o
 sidebar_position: 2
 keywords: 
   - Milvus とは
-  - Milvus database
+  - milvus データベース
   - Milvus lite
   - Milvus benchmark
   - zilliz
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作はデータベースの詳細を取得します。（Dedicated のみ）
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターに適用されます。
 

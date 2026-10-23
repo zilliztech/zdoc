@@ -7955,6 +7955,176 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/v2.mdx",
       "translatedAt": "2026-08-04T05:52:47.126Z"
     },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md": {
+      "sourceHash": "e0c76b0b0751ae858c1d55eb732e4e5ca876c878a71b2db69ca02f80aac0d544",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md": {
+      "sourceHash": "29988e2b1a5440434eec66448e2e9285e6f484b33102d1deb3539c08ae989f2a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md": {
+      "sourceHash": "e0611b5fdc906718f0b388f684ec61e1b34498f41df0cc8d42f0dcbb082adf00",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md": {
+      "sourceHash": "10b53a292057bbcfd5d9b67d6a56fb625a44bbac682f8300c7a5265df85ac788",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md": {
+      "sourceHash": "66341f5c33f1225d92df7573102310f0da995cbad8465f9f364dd3344470423b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md": {
+      "sourceHash": "4e84262b15903014bf67f37cd46465ec284afd11362b1212df90c8c19c996168",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md": {
+      "sourceHash": "f6469de0502c4eb0b2c09e5f7e11057e9520bc2449a3341dcd8c0167c467f855",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md": {
+      "sourceHash": "6cab2aa0eca8e249d8d571eea6b6ca4b96ed14e12d52f5fa49f6358e2c7f18ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md": {
+      "sourceHash": "cdce569c0c6e99841a3c8775b6c9fa53297c331bd7c6fab44dc00e5ea0ccaae1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md": {
+      "sourceHash": "7214045d0b27c310c2bbe0e9915d633a71558f669f63aa303646822f54862eee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md": {
+      "sourceHash": "eb4c1db1ea76bec671e808cb0c20fefc6360ca386666ec88f0dfe7d134d4d862",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md": {
+      "sourceHash": "dec979fb141d46450f498224799aa0de9734051ad4a86ba36f65c94fc63c2fa2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Configuration/Configuration-Alert/Alert-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md": {
+      "sourceHash": "0503242fcc1d673d2dea0384a4344d4ee9822dea3ed089be7ea26cc72cae9d42",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Configuration/Configuration-Alert/Alert-update.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md": {
+      "sourceHash": "e58aefcf39fd4142b368e29837c3be6ef34c51fc878dee433d3c3eb2ddf454ac",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Configuration/Configuration-Auth/Auth-status.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md": {
+      "sourceHash": "37f3874caf7a9f4cdc0c047c45e6c85bb8e4dfd32421a8c6310ee3b2186cdc17",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Configuration/Configuration-Auth/Auth-switch.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md": {
+      "sourceHash": "bac1e601fef0b1d20bc6655ca514676470969c49dab543c6fb0e9aa2b036cdbd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Configuration/Configuration-Configure/Configure-set.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md": {
+      "sourceHash": "0918ae113435f6957c15057cccf75e267caacd03eb63f620d2a4437ef666deb4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Database/Database-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md": {
+      "sourceHash": "2975c4131c1b904e9567a6071f3305a2cddf2eb0447be0d9eaeffd8b417d7b59",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Database/Database-describe.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md": {
+      "sourceHash": "2912000938b1aad090ff215205d5a2d3f79020b1ea83e6479d20c26b3507094e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Database/Database-drop.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md": {
+      "sourceHash": "4edb11d8959d1a2a1593c1a2eb6608b80800410668ad91ee3af56c0c57478d01",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Database/Database-list.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md": {
+      "sourceHash": "9af0501609de5b73fb84d8ce03377a45bfc859315194d70db34dc7385cc45bf1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Index/Index-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md": {
+      "sourceHash": "62462fee3c6efebb347941adf4e81520aef8785bae7898e8c520f6844fcc7bd6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md": {
+      "sourceHash": "20434c6cf734e449b762712f09de2c03f6a52045d38481d59bf7b44d862635ba",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-describe.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md": {
+      "sourceHash": "e9a0de92a68d95031f93413cd7ad4ec4adb609544b9fc63e9d4b3d934d85a0e0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-drop.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md": {
+      "sourceHash": "b989a509a4753cbf070d01c1e29f3f906f644e89dd8885f77e00311eecaab7a6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md": {
+      "sourceHash": "8e6dafaa553ebfbef425242fb7726e4a2e1a618db7fdcfd1e3b1392ab688cbe6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-list.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md": {
+      "sourceHash": "556e9d5687c17561c22c1598b50f3bbfdbf723bf90d152377e147793f1aca933",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-create.md": {
+      "sourceHash": "dcf0c8df624940a28eac3227db929d997bcbce56b0b4c5fa64a37bec82a15ebc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-create.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md": {
+      "sourceHash": "2d78b22013d37b71d40ba51fb447c7f271486bbc78e7216354eeae4cedecf81d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-describe.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md": {
+      "sourceHash": "20730f22de0dfcd3a042d3d56673a431475f31f185e7850a35941f70d935154e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-drop.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md": {
+      "sourceHash": "3dd3d1b3dff9b35ef25e05465980fbb55e434a7a6ffe85b924389959e5ce43e3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-grantrole.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-list.md": {
+      "sourceHash": "f8a40c1278a13d54a00bb1fd307e3cd592137da51b0d8fc561176d2685715e12",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-list.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md": {
+      "sourceHash": "0ef71f68140c5cf9d0251defc0b2d1aac5b18816cbfb95fbe9c82cb62584c243",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-revokerole.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
+    "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md": {
+      "sourceHash": "965f8c9b833ce03c442af87a70cdea7221101dd8919ad29ec8a61b8b95d5e9a3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md",
+      "translatedAt": "2026-10-23T09:56:29.343Z"
+    },
     "content/en/reference/cli/cli/Overview.md": {
       "sourceHash": "a180c5ee20fb863ca6647094f68f5afe52a5f5186e68f3d57304bd2e5c873d3d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Overview.md",

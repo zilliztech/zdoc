@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作はデータベースユーザーを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスターを切り替えることができます。
 

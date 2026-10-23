@@ -13,7 +13,7 @@ token: Jp9VdKpVoooz9ix1vYMcAun4nwe
 sidebar_position: 4
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は構成値を設定します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 `zilliz configure` を代わりに実行し、対話型ガイダンスに従うこともできます。`api_key` の設定は、`zilliz login` の代替として使用できます。
 

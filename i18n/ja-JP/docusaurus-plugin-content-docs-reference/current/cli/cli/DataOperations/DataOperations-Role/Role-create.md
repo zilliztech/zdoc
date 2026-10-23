@@ -12,7 +12,7 @@ type: docx
 token: V9xIdjMEMowIh2xVJUUcvir6nUf
 sidebar_position: 1
 keywords: 
-  - ベクターデータベースの比較
+  - ベクトル データベース comparison
   - Faiss
   - 動画検索
   - AI Hallucination
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、クラスター レベルでアクセス制御を実装するためのクラスター ロールを提供します。詳細については、[アクセス制御の説明](/docs/access-control-overview) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このコマンドは Dedicated クラスターでのみ使用できます。`zilliz context set` を実行してクラスターを切り替えることができます。
 

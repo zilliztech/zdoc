@@ -39,7 +39,7 @@ Zilliz Cloud では、クラスターに対して **自動バックアップ** �
 
 このコマンドを実行して自動バックアップポリシーを更新できます。オプションを指定せずにこのコマンドを実行すると、一連の対話型プロンプトが開始されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 
@@ -172,14 +172,14 @@ zilliz backup update-policy
 ## Example\{#example}
 
 ```bash
-# UTC午前2時に毎日バックアップを有効化し、保持期間を7日に設定
+# Enable daily backup at 2am UTC with 7-day retention
 zilliz backup update-policy --cluster-id in01-xxxx \
 --auto-backup true \
 --frequency daily \
 --start-time 02:00 \
 --retention-days 7
 
-# 月/水/金のUTC午前3時にバックアップを有効化
+# Enable backup on Mon/Wed/Fri at 3am UTC
 zilliz backup update-policy \
 --cluster-id in01-xxxx \
 --auto-backup true \
@@ -187,6 +187,6 @@ zilliz backup update-policy \
 --start-time 03:00-05:00 \
 --retention-days 14
 
-# 自動バックアップを無効化
+# Disable auto-backup
 zilliz backup update-policy --cluster-id in01-xxxx --auto-backup false
 ```
