@@ -9671,7 +9671,7 @@
       "sourceHash": "c32839092085d9ed067b67f669a2203aa5d26bc2a722a6337978d1c9fa439ccc",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
       "status": "translated",
-      "targetHash": "2616ba1d237fcc6b0437eb3087a4f1e11d1f4337f14b14434df87be7a267628e",
+      "targetHash": "60cc4a9317cb54e85de749ec17458fa22ad687988c42eadd21872b509e17f403",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md"
     },
     {
@@ -9680,7 +9680,7 @@
       "sourceHash": "4f78467c7a47dbed2e5ede71bbc606a1485e847682a2fefb5eec21e3d8f03e6b",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
       "status": "translated",
-      "targetHash": "546b3b55f17d113c85f300d040fbadb66043c0db9c69ffcfc9192502521aa22e",
+      "targetHash": "966fe707058426fed7b55e4fd8de946b7c580f821f4378971ab3d1fc51054e8a",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md"
     },
     {
