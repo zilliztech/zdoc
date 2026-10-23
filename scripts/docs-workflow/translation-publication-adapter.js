@@ -17,8 +17,15 @@ const READY_KEYS = [
   'unitKey', 'producerJob', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha',
   'targetBranch', 'artifacts', 'outcome',
 ]
-const {translationSelectedGroups, TRANSLATION_UNIT_ORDER} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const {translationSelectedGroups, parseSelectedGroups, TRANSLATION_UNIT_ORDER} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 const TRANSLATION_SELECTED_GROUPS = translationSelectedGroups()
+// The dispatcher dispatches budgeted comma group sets (one handoff, several
+// groups), and reference-landings is a translation-only group selected on its
+// own; parseSelectedGroups covers source groups and 'all' but knows neither.
+function translationSelectedGroupTokens(value) {
+  if (value === 'reference-landings') return ['reference-landings']
+  return [...parseSelectedGroups(value)]
+}
 const RECOVERY_SOURCE_WORKFLOWS = new Set([
   '.github/workflows/translate-codex.yml',
   '.github/workflows/recover-translation.yml',
@@ -93,7 +100,12 @@ function validateTranslationSelection(value, helpers) {
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
   const inputKeys = ['selectedGroup', 'publish', 'runTranslations', ...(Object.hasOwn(value.inputs || {}, 'recoveryProvenance') ? ['recoveryProvenance'] : [])]
   helpers.exactKeys(value.inputs, inputKeys, 'inputs', document)
-  if (!TRANSLATION_SELECTED_GROUPS.includes(value.inputs.selectedGroup)) helpers.invalid(document, 'selectedGroup is invalid')
+  let selectedGroups
+  try {
+    selectedGroups = translationSelectedGroupTokens(value.inputs.selectedGroup)
+  } catch {
+    helpers.invalid(document, 'selectedGroup is invalid')
+  }
   if (typeof value.inputs.publish !== 'boolean' || typeof value.inputs.runTranslations !== 'boolean') helpers.invalid(document, 'input booleans are invalid')
   if (Object.hasOwn(value.inputs, 'recoveryProvenance')) {
     const recovery = value.inputs.recoveryProvenance
@@ -173,7 +185,7 @@ function validateTranslationSelection(value, helpers) {
   }
   if (!Array.isArray(value.units) || !value.units.length) helpers.invalid(document, 'units must be a non-empty array')
   value.units.forEach((unit, index) => validateTranslationUnit(unit, value, index, helpers))
-  if (value.inputs.selectedGroup !== 'all' && value.units.some(unit => unit.group !== value.inputs.selectedGroup)) {
+  if (value.inputs.selectedGroup !== 'all' && value.units.some(unit => !selectedGroups.includes(unit.group))) {
     helpers.invalid(document, 'selectedGroup units must match the selected group')
   }
   const unitKeys = value.units.map(unit => unit.unitKey)
