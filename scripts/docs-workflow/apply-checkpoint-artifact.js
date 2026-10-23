@@ -58,6 +58,20 @@ function canonicalize(value) {
   return value;
 }
 function equal(a, b) { return JSON.stringify(canonicalize(a)) === JSON.stringify(canonicalize(b)); }
+function evidenceRestampOnly(left, right) {
+  // Fetch Reference reconciliation re-stamps sourceCommit on every pending,
+  // retired, and language-excluded record at each generation, even when the
+  // record's sourceHash is unchanged. Such a stamp carries no content change,
+  // so it must not collide with an artifact-side resolution of the record.
+  if (!left || !right || typeof left !== 'object' || typeof right !== 'object' || Array.isArray(left) || Array.isArray(right)) return false;
+  let restamped = false;
+  for (const key of [...new Set([...Object.keys(left), ...Object.keys(right)])]) {
+    if (!Object.hasOwn(left, key) || !Object.hasOwn(right, key)) return false;
+    if (key === 'sourceCommit') { restamped ||= left.sourceCommit !== right.sourceCommit; continue; }
+    if (!equal(left[key], right[key])) return false;
+  }
+  return restamped;
+}
 function mergeRecord(baseline, artifact, target, prefix = '') {
   const missing = Symbol('missing'), result = {};
   for (const key of [...new Set([...Object.keys(baseline), ...Object.keys(artifact), ...Object.keys(target)])].sort()) {
@@ -113,6 +127,7 @@ function mergeRecordEntries(baseline, artifact, target, prefix) {
     const b = Object.hasOwn(baseline, key) ? baseline[key] : missing;
     const a = Object.hasOwn(artifact, key) ? artifact[key] : missing;
     const t = Object.hasOwn(target, key) ? target[key] : missing;
+    if (a === missing && b !== missing && t !== missing && evidenceRestampOnly(b, t)) continue;
     if ([b, a, t].every(value => value !== missing && value && typeof value === 'object' && !Array.isArray(value))) {
       result[key] = mergeRecord(b, a, t, `${prefix}${key}.`);
       continue;
