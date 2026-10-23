@@ -1,0 +1,23 @@
+schema_version: 1
+group_id: code
+default: python
+languages:
+  - value: python
+    label: Python
+    required: true
+  - value: java
+    label: Java
+  - value: go
+    label: Go
+  - value: rust
+    label: Rust
+  - value: c++
+    label: C++
+    aliases: [cpp]
+  - value: javascript
+    label: NodeJS
+  - value: bash
+    label: cURL
+    aliases: [curl]
+  - value: shell
+    label: Zilliz CLI

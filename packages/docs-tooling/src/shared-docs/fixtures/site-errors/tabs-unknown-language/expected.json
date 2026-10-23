@@ -1,0 +1,12 @@
+[
+  {
+    "code": "TABS_UNKNOWN_LANGUAGE",
+    "file": "page.md",
+    "line": 12,
+    "page": "example",
+    "channel": "current",
+    "detail": {
+      "text": "```scala"
+    }
+  }
+]

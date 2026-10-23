@@ -1,0 +1,504 @@
+{
+  "revision": "31a9b54176c9adc50515f84a559b4082700b6620",
+  "cases": [
+    {
+      "name": "WP3b basic",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n## Heading\n\nSome text\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "markdown",
+          "languages": [],
+          "summary": "## Heading Some text"
+        }
+      ]
+    },
+    {
+      "name": "WP3b basic",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n```python\nprint(1)\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python print(1) ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b basic",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n<div class=\"foo multipleCode bar\"><div><a>Wrong labels</a></div></div>\n\n```python\n1\n```\n\n~~~java\n2\n~~~\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 11,
+          "type": "code-group",
+          "languages": [
+            "python",
+            "java"
+          ],
+          "summary": "<div class=\"foo multipleCode bar\"><div><a>Wrong labels</a></div></div> ```python 1 ``` ~~~java 2 ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "- Item\n\n    <!-- doc:block:start id=\"example\" -->\n    ```python\n    print(1)\n    ```\n    <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 3,
+          "endLine": 7,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python print(1) ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "- Item\n\n    <!-- doc:block:start id=\"example\" -->\n    <div class=\"multipleCode\">\n    </div>\n    \n    ```python\n    1\n    ```\n    \n    ~~~java\n    2\n    ~~~\n    <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 3,
+          "endLine": 14,
+          "type": "code-group",
+          "languages": [
+            "python",
+            "java"
+          ],
+          "summary": "<div class=\"multipleCode\"> </div> ```python 1 ``` ~~~java 2 ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "1. Item\n\n    <!-- doc:block:start id=\"example\" -->\n    ```python\n    print(1)\n    ```\n    <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 3,
+          "endLine": 7,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python print(1) ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "1. Item\n\n    <!-- doc:block:start id=\"example\" -->\n    <div class=\"multipleCode\">\n    </div>\n    \n    ```python\n    1\n    ```\n    \n    ~~~java\n    2\n    ~~~\n    <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 3,
+          "endLine": 14,
+          "type": "code-group",
+          "languages": [
+            "python",
+            "java"
+          ],
+          "summary": "<div class=\"multipleCode\"> </div> ```python 1 ``` ~~~java 2 ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "- Outer\n  - Inner\n\n      <!-- doc:block:start id=\"example\" -->\n      ```python\n      print(1)\n      ```\n      <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 4,
+          "endLine": 8,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python print(1) ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b list",
+      "markdown": "- Outer\n  - Inner\n\n      <!-- doc:block:start id=\"example\" -->\n      <div class=\"multipleCode\">\n      </div>\n      \n      ```python\n      1\n      ```\n      \n      ~~~java\n      2\n      ~~~\n      <!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 4,
+          "endLine": 15,
+          "type": "code-group",
+          "languages": [
+            "python",
+            "java"
+          ],
+          "summary": "<div class=\"multipleCode\"> </div> ```python 1 ``` ~~~java 2 ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n~~~python\nx\n~~~~\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "~~~python x ~~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n````python\nx\n`````\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "````python x `````"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n ```python\nx\n ```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python x ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n   ~~~java\nx\n   ~~~\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "java"
+          ],
+          "summary": "~~~java x ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n```\nx\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            null
+          ],
+          "summary": "``` x ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n<div class=\"multipleCode\"></div>\n```Python title\nx\n```\n~~~Python\ny\n~~~\n```\nz\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 12,
+          "type": "code-group",
+          "languages": [
+            "Python",
+            "Python",
+            null
+          ],
+          "summary": "<div class=\"multipleCode\"></div> ```Python title x ``` ~~~Python y ~~~ ``` z ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\nExplanation\n```python\nx\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 6,
+          "type": "markdown",
+          "languages": [],
+          "summary": "Explanation ```python x ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n```python\nx\n```\nExplanation\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 6,
+          "type": "markdown",
+          "languages": [],
+          "summary": "```python x ``` Explanation"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n```python\nx\n```\n```java\ny\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 8,
+          "type": "markdown",
+          "languages": [],
+          "summary": "```python x ``` ```java y ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n    ```python\nx\n    ```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "markdown",
+          "languages": [],
+          "summary": "```python x ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b fence/content",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\nText <div class=\"multipleCode\"></div>\n```python\nx\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 6,
+          "type": "markdown",
+          "languages": [],
+          "summary": "Text <div class=\"multipleCode\"></div> ```python x ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b EOF",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\nText\n<!-- doc:block:end id=\"example\" -->\n\n```python\n<!-- doc:block:start id=\"example\" -->\nExample marker text\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 3,
+          "type": "markdown",
+          "languages": [],
+          "summary": "Text"
+        }
+      ]
+    },
+    {
+      "name": "WP3b CRLF",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\r\n~~~python\r\nx\r\n~~~\r\n<!-- doc:block:end id=\"example\" -->\r\n\r\nAfter\r\n",
+      "expected": [
+        {
+          "id": "example",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "~~~python x ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b unclosed",
+      "markdown": "<!-- doc:block:start id=\"example\" -->\n```python\nunclosed\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": null
+    },
+    {
+      "name": "WP3b partial group",
+      "markdown": "<div class=\"multipleCode\"></div>\n<!-- doc:block:start id=\"example\" -->\n```python\nx\n```\n<!-- doc:block:end id=\"example\" -->\n",
+      "expected": null
+    },
+    {
+      "name": "WP3b list limitation",
+      "markdown": "- Item\n\n    ```\n    <!-- doc:block:start id=\"x\" -->\n    ```",
+      "expected": null
+    },
+    {
+      "name": "Retained pilot",
+      "file": "pilots/delete-entities/milvus-docs/site/en/userGuide/insert-and-delete/delete-entities.md",
+      "expected": []
+    },
+    {
+      "name": "Retained pilot",
+      "file": "pilots/filtered-search/milvus-docs/site/en/userGuide/search-query-get/filtered-search.md",
+      "expected": []
+    },
+    {
+      "name": "Retained pilot",
+      "file": "pilots/openai/milvus-docs/site/en/userGuide/embeddings-reranking/embedding-function/openai.md",
+      "expected": []
+    },
+    {
+      "name": "WP3b contract crossed.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\na\n<!-- doc:block:end id=\"y\" -->",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract duplicate-id.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\na\n<!-- doc:block:end id=\"x\" -->\n<!-- doc:block:start id=\"x\" -->\nb\n<!-- doc:block:end id=\"x\" -->",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract empty.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n \t\n<!-- doc:block:end id=\"x\" -->",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract fenced-example.json",
+      "markdown": "~~~~md\n<!-- doc:block:start id=\"x\" -->\n<!-- doc:block:end id=X -->\n~~~~\n",
+      "expected": []
+    },
+    {
+      "name": "WP3b contract fragment.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\na\n<!-- doc:block:end id=\"x\" -->",
+      "expected": [
+        {
+          "id": "x",
+          "startLine": 1,
+          "endLine": 3,
+          "type": "markdown",
+          "languages": [],
+          "summary": "a"
+        }
+      ]
+    },
+    {
+      "name": "WP3b contract indented-markers.json",
+      "markdown": "    <!-- doc:block:start id=\"x\" -->\t\r\nbody\r\n\t<!-- doc:block:end id=\"x\" -->",
+      "expected": [
+        {
+          "id": "x",
+          "startLine": 1,
+          "endLine": 3,
+          "type": "markdown",
+          "languages": [],
+          "summary": "body"
+        }
+      ]
+    },
+    {
+      "name": "WP3b contract malformed.json",
+      "markdown": "<!-- doc:block:start id=X -->",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract markdown.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n# Heading\n\nBody\n<!-- doc:block:end id=\"x\" -->\n",
+      "expected": [
+        {
+          "id": "x",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "markdown",
+          "languages": [],
+          "summary": "# Heading Body"
+        }
+      ]
+    },
+    {
+      "name": "WP3b contract multiple-languages.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n<div class=\"multipleCode\">\n<a href=\"#python\">Python</a>\n<a href=\"#java\">Java</a>\n</div>\n\n```python\nprint(1)\n```\n\n~~~java\nhello();\n~~~\n<!-- doc:block:end id=\"x\" -->\n",
+      "expected": [
+        {
+          "id": "x",
+          "startLine": 1,
+          "endLine": 14,
+          "type": "code-group",
+          "languages": [
+            "python",
+            "java"
+          ],
+          "summary": "<div class=\"multipleCode\"> <a href=\"#python\">Python</a> <a href=\"#java\">Java</a> </div> ```python print(1) ``` ~~~java hello(); ~~~"
+        }
+      ]
+    },
+    {
+      "name": "WP3b contract nested.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n<!-- doc:block:start id=\"y\" -->\na\n<!-- doc:block:end id=\"y\" -->\n<!-- doc:block:end id=\"x\" -->",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract partial-code-group.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n<div class=\"multipleCode\">\n</div>\n```python\na\n```\n<!-- doc:block:end id=\"x\" -->\n```java\nb\n```",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract single-language.json",
+      "markdown": "<!-- doc:block:start id=\"x\" -->\n```python\nprint(1)\n```\n<!-- doc:block:end id=\"x\" -->\n",
+      "expected": [
+        {
+          "id": "x",
+          "startLine": 1,
+          "endLine": 5,
+          "type": "code-group",
+          "languages": [
+            "python"
+          ],
+          "summary": "```python print(1) ```"
+        }
+      ]
+    },
+    {
+      "name": "WP3b contract unclosed.json",
+      "markdown": "Text\n<!-- doc:block:start id=\"x\" -->\na",
+      "expected": null
+    },
+    {
+      "name": "WP3b contract unmarked.json",
+      "markdown": "# Heading\n",
+      "expected": []
+    },
+    {
+      "name": "WP3b contract unmatched-end.json",
+      "markdown": "Text\n<!-- doc:block:end id=\"x\" -->",
+      "expected": null
+    }
+  ]
+}
