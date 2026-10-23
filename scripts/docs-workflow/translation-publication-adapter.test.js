@@ -173,6 +173,36 @@ test('Translation selectedGroup is exact and binds concrete groups to selected u
   assert.throws(() => selection({inputs: {selectedGroup: 'python', publish: true, runTranslations: true}}), /selectedGroup.*unit|group.*mismatch/i)
 })
 
+test('Translation selectedGroup accepts dispatcher comma sets and keeps reference-landings single', () => {
+  // The dispatcher dispatches budgeted multi-group handoffs whose units span
+  // the whole comma set (producer run 39921182012 died at selection
+  // validation before this accepted canonical comma subsets).
+  const guidesUnit = unit()
+  const goUnit = unit({
+    unitKey: 'translation/ja-JP/go', producerJob: 'translate_ja_go', strategy: 'checkpoint',
+    target: 'ja-JP', group: 'go', sourceGroup: 'go',
+    artifacts: {checkpoint: 'translation-checkpoint-ja-go-123', baseline: null},
+  })
+  const pythonUnit = unit({
+    unitKey: 'translation/zh-CN-reference/python', producerJob: 'translate_zh_python', strategy: 'checkpoint',
+    target: 'zh-CN-reference', group: 'python', sourceGroup: 'python',
+    artifacts: {checkpoint: 'translation-checkpoint-zh-python-123', baseline: null},
+  })
+  const accepted = selection({
+    inputs: {selectedGroup: 'guides,go,python', publish: true, runTranslations: true},
+    units: [guidesUnit, goUnit, pythonUnit],
+  })
+  assert.equal(accepted.inputs.selectedGroup, 'guides,go,python')
+  assert.throws(() => selection({
+    inputs: {selectedGroup: 'guides,python', publish: true, runTranslations: true},
+    units: [guidesUnit, goUnit, pythonUnit],
+  }), /selectedGroup.*unit|group.*mismatch/i)
+  assert.throws(() => selection({inputs: {selectedGroup: 'guides,ruby', publish: true, runTranslations: true}}), /selectedGroup/i)
+  assert.throws(() => selection({inputs: {selectedGroup: 'all,go', publish: true, runTranslations: true}}), /selectedGroup/i)
+  // reference-landings stays a single-group selector outside comma sets.
+  assert.throws(() => selection({inputs: {selectedGroup: 'reference-landings,go', publish: true, runTranslations: true}}), /selectedGroup/i)
+})
+
 test('Translation ready payload binds source checkpoint and selected unit identity', () => {
   const selected = selection()
   const descriptor = ready(selected)
