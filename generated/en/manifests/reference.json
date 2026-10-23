@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "e49e287292cf16d8e8b8d575c144a2383d524d90",
+  "sourceCommit": "140df1dcabf25946b28759314a343aa90be15239",
   "records": [
     {
       "manual": "cli",
@@ -4630,7 +4630,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "sourceHash": "ad52f7b38f9206692297054e7ecc7743a56ea7aeec2f1aba5a72f9e6bef20f87"
+      "sourceHash": "029ddf41e758e057191877356de2866a9da49ee3dfd4e337cc7aca2ac8030332"
     },
     {
       "manual": "python",
@@ -4650,7 +4650,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md",
-      "sourceHash": "5c789ad8f7dba7a83a87f3e48922803e876c0a914e5300af8898ac8b5c97e3f8"
+      "sourceHash": "130d915f72e667af69e19122af00b56fb8bd2c1210ec3229b95611660194a33d"
     },
     {
       "manual": "python",
@@ -4665,7 +4665,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "0c67c1ef737d3198048f3bfa910a85dc0be98f47a42f735b3ae14fd51a4df673"
+      "sourceHash": "5c0b0791a6b20cc9d834e5ad22d93c98b2c6eca771058f22c2cd38d396d242c9"
     },
     {
       "manual": "python",
@@ -4819,13 +4819,23 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md",
+      "sourceHash": "f20eed774b9a2d0f0d0ec4c13f5f96ca7e8751a38917e2f8eb7162de10635ec4"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md",
+      "sourceHash": "cace68729bc3a5a35ee1548da376e72ed872850e2e7dcf17bc334ec25258048b"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md",
       "sourceHash": "6b2f160971fe3482ab0e2cee9ef53cc4d12e0799178d10a0c294c34d330c8adb"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md",
-      "sourceHash": "943197af5d08b3aa6397c102c51bb86b4e5f1a46e2aff7ecba3687220a0c8bb1"
+      "sourceHash": "ff28ed30ad9964908bd992d9c4425f2b117d47df6f9df0254422626155dfc5d9"
     },
     {
       "manual": "python",
