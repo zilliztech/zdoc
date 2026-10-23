@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在所有数据都插入到 Collection 后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。 | Node.js"
+description: "此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在所有数据都插入 Collection 后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。 | Node.js"
 type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # flushSync()
 
-此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在所有数据都插入到 Collection 后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。
+此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在所有数据都插入 Collection 后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。
 
 ```javascript
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus 会定期自动将数据 flush 到持久化存储中。建议您依赖这种自动数据持久化机制。
 
@@ -71,7 +71,7 @@ await milvusClient.flushSync({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise&lt;GetFlushStateResponse&gt;*
+**返回：** *Promise&lt;GetFlushStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetFlushStateResponse** 对象。
 

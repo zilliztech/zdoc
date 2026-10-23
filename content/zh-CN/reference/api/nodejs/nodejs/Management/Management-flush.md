@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.flush(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-Milvus 会按时间间隔自动将数据刷新到持久化存储中。建议您依赖这种自动数据持久化机制。
+Milvus 会定期自动将数据刷新到持久化存储中。建议您依赖此自动数据持久化机制。
 
 </Admonition>
 
@@ -100,7 +100,7 @@ await milvusClient.flush({
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+        用于说明所报告错误的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

@@ -4,12 +4,12 @@ slug: /node/node/Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会修改现有 Collection 中的自定义函数。 | Node.js"
+description: "此操作会修改 Collection 中的现有函数。 | Node.js"
 type: docx
-token: DBEFdVorMomen0x4xNEcKkM1n8O
+token: McjWdWlspoubE4x3atYc4Fn9n3c
 sidebar_position: 22
 keywords: 
   - knn
@@ -31,82 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-此操作会修改现有 Collection 中的自定义函数。
-
-```typescript
-await milvusClient.alterCollectionFunction(data: AlterCollectionFunctionReq)
-```
+此操作会修改 Collection 中的现有函数。
 
 ## 请求语法\{#request-syntax}
 
 ```typescript
-await milvusClient.alterCollectionFunction({
-    collection_name: string,
-    function_name: string,
-    function: FunctionObject,
-    db_name?: string,
-    timeout?: number,
-})
+milvusClient.alterCollectionFunction({ collection_name, function_name, function, db_name?, timeout? })
 ```
 
 **参数：**
 
-- **collection_name** (*string*) -
+- **collection_name** （*string*） -
 
-    **[必需]**
+    现有 Collection 的名称。
 
-    包含待修改函数的 Collection 名称。
-
-- **function_name** (*string*) -
-
-    **[必需]**
+- **function_name** （*string*） -
 
     要修改的函数名称。
 
-- **function** (*FunctionObject*) -
+- **function** （*FunctionObject*） -
 
-    **[必需]**
+    替换后的函数 Schema。
 
-    更新后的函数 Schema。有关完整的 FunctionObject 字段参考，请参见 `addCollectionFunction()`。
+- **db_name** （*string*） -
 
-- **db_name** (*string*) -
+    该 Collection 所在的 Database 名称。
 
-    Collection 所在的 Database 名称。
+- **timeout** （*number*） -
 
-- **timeout** (*number*) -
-
-    此操作的超时时长，以毫秒为单位。
+    允许 RPC 的可选时长，以毫秒为单位。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
 **返回：**
 
-*Promise\<ResStatus\>*
+*ResStatus*
+
+此操作的响应状态具有 `{error_code, reason}` 的结构。
+
+**参数：**
+
+- **error_code** （*number*） -
+
+    错误码编号：0 表示成功。
+
+- **reason** （*string*） -
+
+    错误原因（如有）。
 
 **异常：**
 
 - **MilvusError**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息，以确认确切的失败原因。
 
 ## 示例\{#example}
 
 ```javascript
-import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
-
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
-
-const resStatus = await milvusClient.alterCollectionFunction({
-    collection_name: 'my_collection',
-    function_name: 'my_bm25_function',
-    function: {
-        name: 'my_bm25_function',
-        description: 'Updated BM25 sparse embedding function',
-        type: FunctionType.BM25,
-        input_field_names: ['text'],
-        output_field_names: ['sparse_vector'],
-        params: {},
-    },
+await milvusClient.alterCollectionFunction({
+  collection_name: 'my_collection',
+  function_name: 'bm25_fn',
+  function: {
+    name: 'bm25_fn',
+    type: 'BM25',
+    input_field_names: ['text'],
+    output_field_names: ['sparse_vector'],
+    params: {},
+  },
 });
 ```

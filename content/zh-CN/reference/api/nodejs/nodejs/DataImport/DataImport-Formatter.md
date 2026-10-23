@@ -4,20 +4,20 @@ slug: /node/node/DataImport-Formatter
 sidebar_label: "Formatter"
 beta: false
 added_since: v2.6.12
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "通过 JSON 或 Parquet 格式化程序实现，将缓冲的 BulkWriter 列序列化为一个或多个导入文件。 | Node.js"
+description: "Formatter 实例将缓冲的列数据序列化为写入器所选的输出格式。 | Node.js"
 type: docx
-token: CkuWdW6EXo8o9nxZsIrcBiSGn4d
+token: BTfudvz2jojKXKx8KZ4c9LwpnUd
 sidebar_position: 14
 keywords: 
   - 词法搜索
   - 最近邻搜索
   - Agentic RAG
   - RAG LLM 架构
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - Formatter
   - nodejs30
@@ -31,67 +31,97 @@ import Admonition from '@theme/Admonition';
 
 # Formatter
 
-通过 JSON 或 Parquet 格式化程序实现，将缓冲的 BulkWriter 列序列化为一个或多个导入文件。
+Formatter 实例将缓冲的列数据序列化为写入器所选的输出格式。
 
 ```typescript
 interface Formatter
 ```
 
-**实现：**
+Formatter 基础接口由两个类实现：用于 JSON 行文件的 JsonFormatter，以及用于 Parquet 输出的 ParquetFormatter。
 
-- `class JsonFormatter implements Formatter`
+## JsonFormatter\{#jsonformatter}
 
-    将缓冲的行写入 JSON 文件，其顶层 rows 属性包含序列化后的 Entity，并在启用时包含动态字段。
+Formatter 接口的 JSON 实现：将每个数据块序列化为单个 `data.json` 行文件，并将向量载荷规范化为传输格式。这是默认的 Formatter，除非将 `format` 设置为 `parquet`，否则 BulkWriter 会使用它。
 
-    - `extension` -
+```typescript
+class JsonFormatter implements Formatter {
+  readonly extension = '.json';
 
-        **[必需]**
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
 
-        为生成的文件返回 .json。
+**参数：**
 
-    - `persist` -
+- **columns** (*Map&lt;string, any[]&gt;*) -
 
-        **[必需]**
+    写入器缓冲的列式批次：每个 Milvus 字段名对应一个数组，并按行位置建立索引。
 
-        将缓冲的列序列化，并返回生成的 JSON 文件路径。
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
 
-- `class ParquetFormatter implements Formatter`
+    该数据块的动态字段行；当 Schema 启用动态字段时，这些行会序列化为 `$meta` 列。
 
-    使用 @shanghaikid/parquetjs 将缓冲的行写入 Parquet 文件，并将 Milvus 的标量、向量、数组和动态字段值转换为与 Parquet 兼容的表示形式。
+- **rowCount** (*number*) -
 
-    - `extension` -
+    批次中的行数；persist 会从索引 0 遍历列数组，直到 rowCount 减 1。
 
-        **[必需]**
+- **dir** (*string*) -
 
-        为生成的文件返回 .parquet。
+    输出目录；如果该目录不存在，persist 会创建它，并在其中写入 `data.json`。
 
-    - `persist` -
+- **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
 
-        **[必需]**
+    写入器用于验证各行的 Collection Schema；标记为 autoID 或函数输出的字段会被跳过。
 
-        将缓冲的列序列化，并返回生成的 Parquet 文件路径。
+## ParquetFormatter\{#parquetformatter}
+
+Formatter 接口的 Parquet 实现：使用 `persist(columns, dynamicRows, rowCount, dir, schema)` 将每个数据块序列化为单个 `data.parquet` 文件；Milvus 字段类型到 Parquet 类型的映射方式与 Python SDK 批量写入器相同，动态字段则写入 `$meta` 列。
+
+```typescript
+class ParquetFormatter implements Formatter {
+  readonly extension = '.parquet';
+
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
+
+**参数：**
+
+- **columns** (*Map&lt;string, any[]&gt;*) -
+
+    写入器缓冲的列式批次：每个 Milvus 字段名对应一个数组，并按行位置建立索引。
+
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
+
+    该数据块的动态字段行；当 Schema 启用动态字段时，这些行会序列化为 `$meta` 列。
+
+- **rowCount** (*number*) -
+
+    批次中的行数；persist 会从索引 0 遍历列数组，直到 rowCount 减 1。
+
+- **dir** (*string*) -
+
+    输出目录；如果该目录不存在，persist 会创建它，并在其中写入 `data.parquet`。
+
+- **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
+
+    写入器用于验证各行的 Collection Schema；标记为 autoID 或函数输出的字段会被跳过。
 
 ## 示例\{#example}
 
-### 选择一种格式化程序实现\{#choose-a-formatter-implementation}
-
-创建 SDK 公开的 JSON 和 Parquet 实现。
-
 ```javascript
-import { JsonFormatter, ParquetFormatter } from '@zilliz/milvus2-sdk-node';
-
-const jsonFormatter = new JsonFormatter();
-const parquetFormatter = new ParquetFormatter();
-
-console.log(jsonFormatter.extension); // .json
-console.log(parquetFormatter.extension); // .parquet
+const formatter = new ParquetFormatter();
+console.log(formatter.extension); // '.parquet'
 ```
-
-## 说明\{#notes}
-
-- Formatter 接口公开只读的 `extension` 字段和 `persist(columns, dynamicRows, rowCount, dir, schema)` 方法，该方法返回生成的本地文件路径。
-
-- 当 `format` 为 `json` 时，BulkWriter 选择 JsonFormatter；当 `format` 为 `parquet` 时，选择 ParquetFormatter。
-
-- Parquet 输出需要 SDK 依赖 `@shanghaikid/parquetjs`。
-

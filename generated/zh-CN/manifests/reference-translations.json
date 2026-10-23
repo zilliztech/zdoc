@@ -535,69 +535,6 @@
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md"
     },
     {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "363834a66a1c7543e7b42c07629054551f193dd991d1e081ddea02195023ccf1",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "78b4b8957fabfb806de7261b2d59ffb19179fb9218d05af05b9122f5a836c8a3",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "2631636cae9798d453311040ef15e73e33d87639a6603528ea15496cabc431bc",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "75b261e700c7acba15b7311eb177a890f8132804fa25be8540ac3290eac6423a",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "759d89dfbb10bbc4d1f24312b2967fd8650e01cdb8077341866a0ddc4d279417",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "7159449cf3b673dc0354fdb9af1391d126a1acd318650f670c3b0cef735f343b",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "34cf4c8eea794c6f9db868fd34fa3b7bc8cd7d84a3742d4c86a036b12251690d",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "1d67c8579d182f1cf54e09bcdd31d82c1187310139e8c739426532995becca40",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "21dedc159e0f8eb7c9bbdcf397080f21f8a13e694cf1d0edaeeb085464b4520d",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md"
-    },
-    {
       "manual": "python",
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
       "sourceHash": "931826ce7373839a2360c6b6474c9f01c3e9e412a1b0283fd3b046b3b363e421",
@@ -6413,6 +6350,15 @@
     },
     {
       "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "363834a66a1c7543e7b42c07629054551f193dd991d1e081ddea02195023ccf1",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md",
+      "status": "translated",
+      "targetHash": "c549ea5f5f1b2574369769cb8b785724e664e32df47724d33cf0ab86c8a76a0e",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md"
+    },
+    {
+      "manual": "node",
       "sourceCommit": "f7efb1e7cbd5f9ba0144bd8c08a03646bf479673",
       "sourceHash": "881ba65e4ef0dbacfe2bfd7d80b2f0ad2afb470a4f77984635cafdd68bcc815c",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
@@ -6512,11 +6458,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "137e9f670c0be33af092784600748e713a117424ca55f69f51a1baff75534fad",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0001ca3995f89f49c340462f6a840102f7c3141832a3fc5a967fa184840cf46e",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md",
       "status": "translated",
-      "targetHash": "6964310081eb98e7497ba6e8060b1cf4adcc31a476ee451f1d985475e3759e62",
+      "targetHash": "269780aac3b901374dc55e94c70edcb52581f0c6a02cfdaa0ded4d56eb7f87f7",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md"
     },
     {
@@ -6602,11 +6548,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "c176f56b7397a3446687b864635ba21295faa28915e9885dd6010527bf485e74",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "06b15431d8f2f6fb887306fc2fd65818cc105324890a3f5a757ae60777996946",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md",
       "status": "translated",
-      "targetHash": "f37e6da94a00282645fef2ac423305bced29fd9e9d832dc9f8ecb1627d8fb18e",
+      "targetHash": "63dcbff0b4e62fdad2756b7969c4d6a0f30c2b06b2ee9b7b4b4c0d5d0f612a2b",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md"
     },
     {
@@ -6656,6 +6602,15 @@
     },
     {
       "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "78b4b8957fabfb806de7261b2d59ffb19179fb9218d05af05b9122f5a836c8a3",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md",
+      "status": "translated",
+      "targetHash": "47a616bdb3191525f88e1a48606e9921183fe6e0b151bd289b817b6e8fb8dfbd",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md"
+    },
+    {
+      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "1241f8dd097d628a8dc67beb9bde5c234f7e425206fe8fa429ee8c6e347fdb08",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-getVersion.md",
@@ -6701,38 +6656,47 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "bf0605192837fb62357f7eca423aa225559b1d01cbe46ffd861b44486f0749de",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7650035116c50551746c46f5c0c607b7dc0a436218a4144f943423e7952f618b",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
       "status": "translated",
-      "targetHash": "bc931becae96066d1e37098f1728da9276e9945c23ba1ca2f795e3f77c1a8cc7",
+      "targetHash": "e2f47d3f9f89dff449785178c7e23c17b157e732a673e60e95859d29dfd9051f",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "30f550628026ac10f0d6e22d24235b561019d01064d8c8d85cb7bf41677e0bdf",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0c279b88e2b5c56fff1a4525bdaee4a908e941885c2de67efb656a0402cb46d2",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
       "status": "translated",
-      "targetHash": "23835accdae2a4d5f49a259baac5aeeb5bf791fd105e184d2244c91254b068ef",
+      "targetHash": "afb67eafe98b4a1224a5cbfe4315bf99ea9b64525d4a5b2bcfb244f3e9cb3782",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2e1d4e1713f170dd53a87d5bcce42f8c3d8e36785a077f72ec0e93b499e9dd4b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "efa20ff355067dcd7c5f4b9eba7d62e3457958081c304d08aceaffbf4d785c72",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "status": "translated",
-      "targetHash": "25a1044b265cd531606723582fd8daa6127c59acbee437f8b2a5a5dcc01130b7",
+      "targetHash": "74e3af7619ad57b5658f704c44e554b68dd1a9b4fd7f01127f110513d5c06698",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "dbabf8ab687a34ed46b86f53aae7d4466d025eaf5cbbbbb300a5a33ae09c9f84",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2631636cae9798d453311040ef15e73e33d87639a6603528ea15496cabc431bc",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md",
+      "status": "translated",
+      "targetHash": "670f9cce365f002e1371cb91dd6c8674d3c24175cd1445f0ebc593e5cfd04bc7",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md"
+    },
+    {
+      "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d8262d5037788c27be93cba6aa23d7811fb9488e060d36a91602975b5da8d2a3",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md",
       "status": "translated",
-      "targetHash": "e5f7d93483d209f793dbc47ef0d44a72499e1500dc9520c85ba956e751d196f9",
+      "targetHash": "faa57f40bad73bc1f86a1587bb9cb62647d4dc1dde655821e144515fe25affd4",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md"
     },
     {
@@ -6746,11 +6710,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "9ca04e1bdfae5f99df3890c31768a504261ccdc44523722dfe950d60dd9be15e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "f5e7a951771a346a2b7481e76e2f06bf7dd245ad0a51ce5d3b024a3fafde24cc",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md",
       "status": "translated",
-      "targetHash": "e97ced3a2e1f8884dcd2710d6a7035d800fa19048d24070fb04c441069f65a0a",
+      "targetHash": "22a2184397e517e1607f5df1d0e52a7385d0c111fa95f002a9ec397b51942eb5",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md"
     },
     {
@@ -6764,6 +6728,15 @@
     },
     {
       "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "75b261e700c7acba15b7311eb177a890f8132804fa25be8540ac3290eac6423a",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md",
+      "status": "translated",
+      "targetHash": "8fd1e9aa9b0c1e38ebdfe3965d77c0f58e386c0ce99a5e590ad48cc6f3cb1d11",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md"
+    },
+    {
+      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "3f7244d9bf6b797637cf1dd9302d16bd994a366f86839220b67ff36ecf15e1f2",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md",
@@ -6773,29 +6746,29 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "e7a21e5040dd804181ef5d62ae02caae582f79d08d1c1651a333ca75f7dda7f4",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b1c91c8d0957155e5944c365c6ca84caf1135322dbc5cf553bda36a972e8986b",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createAlias.md",
       "status": "translated",
-      "targetHash": "bb4df66ab46a5da8a109f4b7f43f89fdd7cf6e7124411661724e673cb716ee0f",
+      "targetHash": "6a557f417799507276b162435f4a8ede29d0981eb43da17d0d912574f4718787",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-createAlias.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "65d3bc283145e5a96e0c707fc4cac6ef03941c349d083652fa1eb79b5d5b5ae3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "12fe8b4ae081ba86046ca0aa9282dd826007c19e5e8f6cf323476c4d6a9e8012",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
       "status": "translated",
-      "targetHash": "2e4647584dbab09bf90c88f74ddb2b9af0ccfaadc3be213a7223888c6d140d65",
+      "targetHash": "7ca6df8980fa79eed1da078c2066ba08971ef3ec33fd50883e4bb0e0c388acfa",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "aa1536a8f59347b387a58539ebc8b45aef21a4276121f2d8c26a9b57c4e55d40",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2e6aefd93d9167bc733dc0fd9f742d514c33c6728f012f2674110c696c64f62e",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md",
       "status": "translated",
-      "targetHash": "27a5c5a2eea04d1e638f5f0ee55cfa1f2f4139d0998e23d963f744a904ce190d",
+      "targetHash": "239601d76e6e08efb14a1fdaee5db5d1b5e348e64503c275a7be5f60d6756eb1",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md"
     },
     {
@@ -6827,6 +6800,15 @@
     },
     {
       "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "759d89dfbb10bbc4d1f24312b2967fd8650e01cdb8077341866a0ddc4d279417",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md",
+      "status": "translated",
+      "targetHash": "7f6aeb86b49904afaef45b4b4c457bd3aab0b205479f08ddb56812c0fc934759",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md"
+    },
+    {
+      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "4cd15e3a1c4b9da2f55ad2ea444545bb95f0e32eb4f212bc2aa914221a648bd4",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
@@ -6842,6 +6824,15 @@
       "status": "translated",
       "targetHash": "fef00ca4a3e41c1cba0aa33f65eded168aee019810aa0820e3acdf8205af79d5",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionProperties.md"
+    },
+    {
+      "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7159449cf3b673dc0354fdb9af1391d126a1acd318650f670c3b0cef735f343b",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md",
+      "status": "translated",
+      "targetHash": "0db09501ddbe947898237cbac24c529b16dbcaa83835391c5d6b5a9050531567",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md"
     },
     {
       "manual": "node",
@@ -6881,11 +6872,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "99dda266d5e49288ad67c435d74544a9daefb8e7167d84ee2dd68f5c0844b568",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ac39b0fcf8f8abeed95d9bd1ee5c317a10e654781f29a2b4cfb5a25a3707bf28",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
       "status": "translated",
-      "targetHash": "ff0969f81cd1156c465f25d2ba72543c07c1355363ab922fb2eaece8bd8a846b",
+      "targetHash": "ca0689136c5704f7cff754f63b54048bdb0f559a6f5c7fbc16ce281475f02360",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md"
     },
     {
@@ -6917,20 +6908,20 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d4ceb0bf980d5bc288d439f24c9984b567c39a33ca6eb2430816e94ae77e2446",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7f18bef3db500cd1ce7e487d38083b8117b6769a703f22b68b4fdda6cf93c361",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
       "status": "translated",
-      "targetHash": "37526e37e54ed7ea0ef56fcece4be8ad295497b1bae8d35f15632783a4eac3d3",
+      "targetHash": "801e46af7550d8e05f6f7b78e38395f6e6963186baea0ff3aaf47af20378e12b",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "56411cbadbca4e5a1b1440a52eca8a10fc0f781a84753ab62c34bc899eb28bf3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2fb71dae073df06d70f42393e4781d05ee60d0108b449a47f988b91328771c02",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "d93976cf15b944a5ed7042221ee92caee9239a3c239a41e444e828bbc0480fc8",
+      "targetHash": "79e2bb421ed24175e0f147a6c2e149b1ec5e01162490146a7098bc3fdd90f4bd",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
     },
     {
@@ -6953,11 +6944,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "adafd59ce438509d3db7995a66894ba3b50ad2345dcb96189d2913f5e92506e6",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e09779e78b039898a475caa6e5eb59f0128f02feeb5238da665e9eb968a1823f",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md",
       "status": "translated",
-      "targetHash": "3e8a38aa39a7e98ff1c78ffc1b36461be44e8c7c8df2696f031dbb664cb25731",
+      "targetHash": "4505723709e7204c18e9bef485c6b5c27362908b11702e3c0f24964521586545",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md"
     },
     {
@@ -6998,11 +6989,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "01c847c74b971b0a13c51f8dc29881276207f492516abd549050019a10ee9345",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cae84c9721dd23d47a8b683bef6d1ccc6e829e336d83cb1dc556f9c6745ea03b",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
       "status": "translated",
-      "targetHash": "5dfb6c43d4a29e748e7fd39a9c14984795d018549b5fb49cbee426e0b546d3bd",
+      "targetHash": "a07a4d3fb6bb72da5d5d44c1049cbd5b641ed92b2c5cafc2ae72e9cf140fac15",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md"
     },
     {
@@ -7115,20 +7106,20 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d0d337eb7c187d04ebb9c5f15a74e4f4692e7d5f60ecaa1dd859c0ba3da8cdd5",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cafbef0a4e00301a2b92f1678e0e7fb44303e717b2fc3205bf3d32f14a4d20a6",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "940ec8ef820a62f9e32e017c597be9b7270822237ca61e681e967110334a45a1",
+      "targetHash": "0d852859c693409c531c0341ce0a2564eefd52d5e521436b8ecb976e1832ccd5",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-alterDatabaseProperties.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "9c1d96df179ac23709a6755d274c8efc960ff9a05e500e715cb68c907ced5343",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c2d166dbdbd42497d29590e8b1eb38f47464abd11176afba8a72e7f3365e4a5b",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-createDatabase.md",
       "status": "translated",
-      "targetHash": "64a1773b0f14d4fb83ee7c899f05a5885472928a5214e6b7fdcfcd8c7007610d",
+      "targetHash": "e6c53c67f74e88c1db39ae96136689712b313a8f7c785b2c7e191359ed88f533",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-createDatabase.md"
     },
     {
@@ -7142,20 +7133,20 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "a4c9c988f3deb5229f1223eaef40cfc4a2f1708e961ac2d139c1f11b02eecf94",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d68e6eadef58b95045b3599c24f9af852f3e6dd9dabb40e1265657e89eb8f6ac",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-dropDatabase.md",
       "status": "translated",
-      "targetHash": "913db67e4b6bdab1fa8039627b36e6e8655f14512effd35b1ca2c39c365872c2",
+      "targetHash": "28a4dc5724ec609d47928ab64b4bf131fa8e46a14947905370286fbb74cc9717",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-dropDatabase.md"
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d85c37b1032840f09da94a16c175289e294b4c8c18f197d5416eeb90b7f4c3a9",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "8c56dcfff7af67f4a8a9d4c5e482ae47950c2efd589c3bcd5fa4244e96438ba0",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-dropDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "ea945721ab77d1fb44a0bac286e4b76e6447b10223bf7aca39da02a30cb2bec0",
+      "targetHash": "53dbc22243945c6d63376fa9a034b28e5b3baa01b36a733e006fe53a14907983",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-dropDatabaseProperties.md"
     },
     {
@@ -7175,6 +7166,33 @@
       "status": "translated",
       "targetHash": "3f481ddaf238794052ba680c2d7dc5e034df086d993d8b8596c0ca27d4cb5d9b",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-useDatabase.md"
+    },
+    {
+      "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "34cf4c8eea794c6f9db868fd34fa3b7bc8cd7d84a3742d4c86a036b12251690d",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md",
+      "status": "translated",
+      "targetHash": "2d54e7834d280334969d7755de3763ad70994a87afd427e950ad6bf7dc20db7d",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md"
+    },
+    {
+      "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1d67c8579d182f1cf54e09bcdd31d82c1187310139e8c739426532995becca40",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md",
+      "status": "translated",
+      "targetHash": "9ef6c778cca53fd75d6f74a370d14d9aa9611e0ed79a3a93feaf7e84a664622b",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md"
+    },
+    {
+      "manual": "node",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "21dedc159e0f8eb7c9bbdcf397080f21f8a13e694cf1d0edaeeb085464b4520d",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md",
+      "status": "translated",
+      "targetHash": "03d251c8536f2691d97e7794de3f444abdfe5044a6ad8945f8c6ed311ba4eafa",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md"
     },
     {
       "manual": "node",
@@ -7250,11 +7268,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2efe48c6233e8bba6c4a3391dca9a27923d63e29e90c95446fd374d1dd756604",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9b980f31a0f6b71c072e1450e99123a56c0e187b35b870cb6acda2bdc3f51ea7",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flush.md",
       "status": "translated",
-      "targetHash": "e55873592fd4b3a63d2ad73a3096b4898963860680b988d28abf808ae52c2d88",
+      "targetHash": "d10af39595769f4a63e2c5db8ff1cf571fcbe58a42a60c672eaad56f2effbf51",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management-flush.md"
     },
     {
@@ -7277,11 +7295,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2c1b7f9ba4f407b499a9ed799c01d76f872d48cdbe87bc774f4341920c5c2549",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "91b95c76d17510dc675e05c8b9e40e26404a7e880f2e4db8ce69d962c81cd543",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushSync.md",
       "status": "translated",
-      "targetHash": "53016f0c1a2869838a4359e33fa5e3c57057e9e9399c7e9fef537ea4f3219b52",
+      "targetHash": "66d1d102e0af32fb0109d9ab680ca6cb5e05c658f5c384784f13308f9f284b2f",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management-flushSync.md"
     },
     {
@@ -7304,11 +7322,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "f27db358d805e432d04e48020895a30ebe8fbe1e313814b7188be095d18aea3c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "952a39d54c33c87b4cf17e5bd0c1d64b895615a80b1e4d4d668c1718c0b47d44",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushState.md",
       "status": "translated",
-      "targetHash": "43444f57ce7d3d53c04cd0cf727a21c017b141ff284fd62793c51303107b1317",
+      "targetHash": "048530322663b804d8c93c4922ece0e5ccf28edc8dee594e046a42876ee2a07c",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management-getFlushState.md"
     },
     {
@@ -7592,11 +7610,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d152929ee9bb99ff24fd652bedf6239173ad8a771502a2e8b4cc853438248ffc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9ef85b55f7f49e7d105e2ff3000fbb5f44b82fe795a6921770fcbd14ec2e0580",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
       "status": "translated",
-      "targetHash": "84a815db268bbdf9865d9b302499bb8e96480479df004fde318400b5a7a245cf",
+      "targetHash": "03214cdf69209d42da0e4a8b99ee2c7bc34b5a6924099bc45d597775bb6343d5",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md"
     },
     {
@@ -7610,11 +7628,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "e2f843138f5316917875b4a6fb9cd75d38ed8e883cde2d85cd11a248854725a0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "212bffd422eb4e85e1aead0c6ae8ff1a490b7ca988825e34ae39a8f299df30fa",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
       "status": "translated",
-      "targetHash": "575125c886bd1a4cca8092fd6d9af08604798ac441400f71acb2f40926a729d8",
+      "targetHash": "660aaabe847848b59e8f9f49a90919c3078ba983a826e7c781da10dc509dda1e",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-query.md"
     },
     {
@@ -7628,11 +7646,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "ded3b9dae344032c6685e65cbdc1ec6fe0929b8e5884a234872b7127f9e1ad30",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "907b90cfcab3f1bca9ecfc1df02bd6f9c6e6e1f29d308990dbc0b335ff2f3f1c",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
       "status": "translated",
-      "targetHash": "60a3cb5de7ae30fc535a7d3b35c1949184b93e1a80a3f46be09f237d658f8013",
+      "targetHash": "69388311fc02768d2a62833d9b248e873db5262bc05dc1af25af00f8adacecf6",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-search.md"
     },
     {

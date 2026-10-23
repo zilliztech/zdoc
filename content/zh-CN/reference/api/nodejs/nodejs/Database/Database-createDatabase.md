@@ -14,11 +14,11 @@ sidebar_position: 2
 keywords: 
   - milvus Database
   - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - milvus 基准测试
+  - 托管 milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createDatabase()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.createDatabase(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 Dedicated 集群。
 
@@ -55,41 +55,41 @@ await milvusClient.createDatabase({
 
 **参数：**
 
-- **db_name** (*string*) -
+- **db_name** （*string*） -
 
     要创建的 Database 名称。
 
     不能存在与指定名称相同的 Database。否则将发生异常。
 
-- **properties** (*Object*) -
+- **properties** （*Object*） -
 
-    创建 Database 时一并设置的属性。可选的 Database 属性如下：
+    创建 Database 时随该 Database 一并设置的 Database 属性。可选的 Database 属性如下：
 
-    - **database.replica.number** (*int*) -
+    - **database.replica.number** （*int*） -
 
         Database 的副本数量。
 
-    - **database.resource_groups** (*[]str*) -
+    - **database.resource_groups** （*[]str*） -
 
         专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **database.diskQuota.mb** （*int*） -
 
         为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) -
+    - **database.max.collections** （*int*） -
 
         该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **database.force.deny.writing** （*bool*） -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **database.force.deny.reading** （*bool*） -
 
         是否拒绝该 Database 中的所有读取操作。
 
-- **timeout** (*number*) -
+- **timeout** （*number*） -
 
     此操作的超时时长。 
 
@@ -109,15 +109,15 @@ await milvusClient.createDatabase({
 
 **参数：**
 
-- **code** (*number*) -
+- **code** （*number*） -
 
     表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
-- **error_code** (*string* | *number*) -
+- **error_code** （*string* | *number*） -
 
     表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。 
 
-- **reason** (*string*) - 
+- **reason** （*string*） - 
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 

@@ -140,6 +140,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Authentication/Authentication-hasRole",
         "label": "hasRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-alterRole",
+        "label": "alterRole()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-alterrole"
       }
     ]
   },
@@ -201,6 +207,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Client/Client-use",
         "label": "use()",
         "key": "doc:api/nodejs/nodejs/Client/client-use"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-getTelemetry",
+        "label": "getTelemetry()",
+        "key": "doc:api/nodejs/nodejs/Client/client-gettelemetry"
       }
     ]
   },
@@ -379,6 +391,30 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-addFunctionField",
+        "label": "addFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-addfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-alterCollectionSchema",
+        "label": "alterCollectionSchema()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-altercollectionschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropCollectionField",
+        "label": "dropCollectionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropcollectionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropFunctionField",
+        "label": "dropFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropfunctionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress",
         "label": "getRefreshExternalCollectionProgress()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-getrefreshexternalcollectionprogress"
@@ -497,6 +533,31 @@ module.exports = [
         "id": "api/nodejs/nodejs/DataImport/DataImport-getImportState",
         "label": "getImportState()",
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportstate"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "FileResources",
+    "key": "category:api/nodejs/nodejs/fileresources",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-addFileResource",
+        "label": "addFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-addfileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-listFileResources",
+        "label": "listFileResources()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-listfileresources"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-removeFileResource",
+        "label": "removeFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-removefileresource"
       }
     ]
   },

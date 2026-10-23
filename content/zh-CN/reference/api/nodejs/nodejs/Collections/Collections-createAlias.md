@@ -50,47 +50,47 @@ await milvusClient.createAlias({
 
 **参数：**
 
-- **alias** (*str*) -
+- **alias** （*str*） -
 
     **[必需]**
 
     Collection 的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，则会发生异常。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection 别名？
     
-        Collection 别名是 Collection 的另一个名称。当您希望将应用切换到新的 Collection 而无需对代码进行任何更改时，Collection 别名会很有用。
+        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需对代码做任何更改时，Collection 别名会很有用。
     
         在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
     
-        下面是一个将某个 Collection 的别名重新分配给另一个 Collection 的示例：
+        以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，最初分配给了 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给 `collection_1`：
     
-        - `collection_1` 的 alias = ["bob"]
+        - `collection_1` 的别名 = ["bob"]
     
-        - `collection_2` 的 alias = []
+        - `collection_2` 的别名 = []
     
         调用 `alter_alias("collection_2", "bob")` 后：
     
-        - `collection_1` 的 alias = []
+        - `collection_1` 的别名 = []
     
-        - `collection_2` 的 alias = ["bob"]
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
-- **db_name** (*str*) -
+- **db_name** （*str*） -
 
-    持有目标 Collection 的 Database 名称。
+    保存目标 Collection 的 Database 名称。
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     **[必需]**
 
     要为其创建别名的 Collection 名称。
 
-- **timeout** (*number*)  
+- **timeout** （*number*）  
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
@@ -108,15 +108,15 @@ await milvusClient.createAlias({
 
 **参数：**
 
-- **code** (*number*) -
+- **code** （*number*） -
 
     表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
-- **error_code** (*string* | *number*) -
+- **error_code** （*string* | *number*） -
 
     表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。
 
-- **reason** (*string*) - 
+- **reason** （*string*） - 
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
@@ -132,4 +132,3 @@ const milvusClient = new MilvusClient({
    collection_name: 'my_collection',
  });
 ```
-

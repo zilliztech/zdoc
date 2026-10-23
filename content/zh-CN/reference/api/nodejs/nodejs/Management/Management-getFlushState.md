@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getFlushState(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus 会定期自动将数据 flush 到持久化存储中。建议您依赖这种自动数据持久化机制。
 
@@ -56,13 +56,13 @@ await milvusClient.getFlushState({
 
 - **segment_ids** (*number[]*) -
 
-    **[必填]**
+    **[必需]**
 
     目标 Segment ID 列表。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
@@ -80,7 +80,7 @@ await milvusClient.getFlushState({
 **参数：**
 
 - **flushed** (*boolean*) -<br/>
-  是否所有目标 Segment 都已 flush 到持久化存储中。当每个请求的 Segment ID 都已 sealed 且已持久化时，该值为 **true**；否则为 **false**。
+  是否所有目标 Segment 都已 flush 到持久化存储中。当每个请求的 Segment ID 都已封存并持久化时，该值为 **true**；否则为 **false**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
@@ -108,4 +108,3 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
-

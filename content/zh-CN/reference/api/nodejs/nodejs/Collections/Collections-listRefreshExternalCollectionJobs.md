@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会列出外部 Collection 的所有刷新作业。您可以按 Collection 名称和 Database 名称进行筛选。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
-sidebar_position: 30
+sidebar_position: 34
 keywords: 
   - AI Agent
   - 语义搜索

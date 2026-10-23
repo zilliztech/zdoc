@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.alterDatabaseProperties(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 Dedicated 集群。
 
@@ -68,19 +68,19 @@ await milvusClient.alterDatabaseProperties({
 
     - **database.replica.number** (*int*) -
 
-        Database 的副本数量。
+        Database 的副本数量，由 Database 属性 **database.replica.number** 指定。
 
     - **database.resource_groups** (*[]str*) -
 
-        专用于该 Database 的资源组。
+        专用于该 Database 的资源组，由 Database 属性 **database.resource_groups** 指定。
 
     - **database.diskQuota.mb** (*int*) -
 
-        为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
+        为该 Database 分配的磁盘配额，单位为兆字节（**MB**），由 Database 属性 **database.diskQuota.mb** 指定。
 
     - **database.max.collections** (*int*) -
 
-        该 Database 中允许的最大 Collection 数量。
+        该 Database 中允许的最大 Collection 数量，由 Database 属性 **database.max.collections** 指定。
 
     - **database.force.deny.writing** (*bool*) -
 
@@ -96,19 +96,19 @@ await milvusClient.alterDatabaseProperties({
 
     - **database.replica.number** (*int*) -
 
-        Database 的副本数量。
+        Database 的副本数量，由 Database 属性 **database.replica.number** 指定。
 
     - **database.resource_groups** (*[]str*) -
 
-        专用于该 Database 的资源组。
+        专用于该 Database 的资源组，由 Database 属性 **database.resource_groups** 指定。
 
     - **database.diskQuota.mb** (*int*) -
 
-        为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
+        为该 Database 分配的磁盘配额，单位为兆字节（**MB**），由 Database 属性 **database.diskQuota.mb** 指定。
 
     - **database.max.collections** (*int*) -
 
-        该 Database 中允许的最大 Collection 数量。
+        该 Database 中允许的最大 Collection 数量，由 Database 属性 **database.max.collections** 指定。
 
     - **database.force.deny.writing** (*bool*) -
 
@@ -120,7 +120,7 @@ await milvusClient.alterDatabaseProperties({
 
 - **timeout** (*number*) -
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
@@ -144,9 +144,9 @@ await milvusClient.alterDatabaseProperties({
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
-- **reason** (*string*) - 
+- **reason** (*string*) -
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
@@ -162,4 +162,3 @@ const resStatus = await milvusClient.alterDatabaseProperties({
     delete_properties: {'database.replica.number': 3} 
 });
 ```
-

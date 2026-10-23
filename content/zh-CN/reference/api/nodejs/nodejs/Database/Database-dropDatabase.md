@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作用于删除 Database。 | Node.js"
+description: "此操作会删除一个 Database。 | Node.js"
 type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-此操作用于删除 Database。
+此操作会删除一个 Database。
 
 ```javascript
 await milvusClient.dropDatabase(data?)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 Dedicated 集群。
 
@@ -101,4 +101,3 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
-

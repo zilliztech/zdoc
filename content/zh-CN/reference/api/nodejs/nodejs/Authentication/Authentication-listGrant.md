@@ -61,13 +61,13 @@ await milvusClient.listGrant(data)
 
 - **objectName** (*string*)
 
-    指定对象组中特定对象的名称。使用通配符 (*) 表示将授予指定组中的所有权限。
+    指定对象组中特定对象的名称。使用通配符 (&ast;) 表示将授予指定组中的所有权限。
 
 - **timeout** (*number*) 
 
     此操作的超时时长。
 
-*返回 Promise\<SelectGrantResponse>*
+***Returns** Promise\<SelectGrantResponse>*
 
 此方法返回一个 promise，该 promise 解析为 **SelectGrantResponse** 对象。
 
@@ -93,7 +93,7 @@ await milvusClient.listGrant(data)
 
     - **db_name** (*string*) -
 
-        已授予权限所在的 Database 名称。
+        已授予权限所在 Database 的名称。
 
     - **grantor** (*Grantor*) -
 
@@ -160,4 +160,3 @@ await milvusClient.listGrant(data)
    objectName: '*'
  });
 ```
-

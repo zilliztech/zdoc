@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.truncateCollection(data: TruncateCollectionRequest)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **不可逆操作**
 

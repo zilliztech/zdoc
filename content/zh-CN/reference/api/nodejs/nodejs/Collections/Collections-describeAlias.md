@@ -49,27 +49,27 @@ await milvusClient.describeAlias({
 
 **参数：**
 
-- **db_name** (*str*) -
+- **db_name** （*str*） -
 
-    持有目标 Collection 的 Database 名称。
+    包含目标 Collection 的 Database 名称。
 
-- **alias** (*str*) -
+- **alias** （*str*） -
 
     **[必需]**
 
-    Collection 的别名。请注意，该别名应预先存在。
+    Collection 的别名。请注意，该别名应事先存在。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection 别名？
     
-        Collection 别名是 Collection 的附加名称。当您想将应用程序切换到新的 Collection，而无需对代码进行任何更改时，Collection 别名会很有用。
+        Collection 别名是 Collection 的附加名称。当您希望在不更改代码的情况下将应用程序切换到新的 Collection 时，Collection 别名会很有用。
     
-        在 Zilliz Cloud 中，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以有多个别名。
+        在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以拥有多个别名。
     
-        下面是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
+        以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，最初分配给 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给了 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
@@ -83,15 +83,15 @@ await milvusClient.describeAlias({
 
     </Admonition>
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     **[必需]**
 
-    具有指定别名的 Collection 名称。
+    具有指定别名的 Collection 的名称。
 
-**返回值** *Promise&lt;DescribeAliasResponse&gt;*
+**返回：** *Promise&lt;DescribeAliasResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为 **DescribeAliasResponse** 对象。
+此方法返回一个 promise，该 promise 解析为 **DescribeAliasResponse** 对象。
 
 ```typescript
 {
@@ -104,29 +104,29 @@ await milvusClient.describeAlias({
 
 **参数：**
 
-- **db_name** (*string*) -<br/>
+- **db_name** （*string*） -<br/>
   拥有该别名的 Database。
 
-- **alias** (*string*) -<br/>
+- **alias** （*string*） -<br/>
   别名名称。
 
-- **collection** (*string*) -<br/>
+- **collection** （*string*） -<br/>
   该别名当前指向的 Collection 名称。
 
 - **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+  **ResStatus** 对象。
 
-    - **code** (*number*) -
+    - **code** （*number*） -
 
-        表示操作结果的代码。如果此操作成功，则其值为 **0**。
+        指示操作结果的代码。如果此操作成功，该值保持为 **0**。
 
-    - **error_code** (*string* | *number*) -
+    - **error_code** （*string* | *number*） -
 
-        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
+        指示所发生错误的错误码。如果此操作成功，该值保持为 **Success**。
 
-    - **reason** (*string*) -
+    - **reason** （*string*） -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
+        表示所报告错误的原因。如果此操作成功，该值保持为空字符串。
 
 ## 示例\{#example}
 

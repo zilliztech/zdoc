@@ -7,17 +7,17 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作可在多个向量字段上执行混合搜索，并可选择使用标量过滤表达式，返回合并并重排后的结果。 | Node.js"
+description: "此操作执行混合搜索，运行多个向量查询并返回聚合结果。 | Node.js"
 type: docx
 token: Ph9ldBswooKwebxKI9EcqSu4nlc
 sidebar_position: 4
 keywords: 
   - 音频相似性搜索
-  - 弹性向量 Database
-  - Pinecone 与 Milvus 对比
-  - Chroma 与 Milvus 对比
-  - zilliz
-  - zilliz cloud
+  - Elastic 向量 Database
+  - Pinecone 与 Milvus
+  - Chroma 与 Milvus
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - hybridSearch()
   - nodejs30
@@ -31,200 +31,111 @@ import Admonition from '@theme/Admonition';
 
 # hybridSearch()
 
-此操作可在多个向量字段上执行混合搜索，并可选择使用标量过滤表达式，返回合并并重排后的结果。
-
-```typescript
-await milvusClient.hybridSearch(data: HybridSearchReq)
-```
+此操作执行混合搜索，运行多个向量查询并返回聚合结果。
 
 ## 请求语法\{#request-syntax}
 
 ```typescript
-await milvusClient.hybridSearch({
-    collection_name: string,
-    data: HybridSearchSingleReq[],
-    limit?: number,
-    offset?: number,
-    output_fields?: string[],
-    filter?: string,
-    rerank?: RerankerObj | FunctionObject | FunctionScore,
-    partition_names?: string[],
-    consistency_level?: ConsistencyLevelEnum,
-    ignore_growing?: boolean,
-    group_by_field?: string,
-    group_size?: number,
-    strict_group_size?: boolean,
-    hints?: string,
-    round_decimal?: number,
-    transformers?: OutputTransformers,
-    db_name?: string,
-    timeout?: number,
-})
+milvusClient.hybridSearch(params: HybridSearchReq)
 ```
 
 **参数：**
 
-- **collection_name** (*string*) -
+- **collection_name**（*string*） -
 
-    **[必需]**
+    Collection 的名称。
 
-    要搜索的 Collection 名称。
+- **data**（*HybridSearchSingleReq[]*） -
 
-- **data** (*HybridSearchSingleReq[]*) -
+    搜索请求的数组。
 
-    **[必需]**
+- **output_fields**（*string[]*） -
 
-    子搜索请求列表，每个向量字段对应一个请求。每个元素都为单向量子搜索定义查询向量和目标字段。完整字段说明请参见下方的 HybridSearchSingleReq 部分。
+    要返回的字段（可选）。
 
-- **limit** (*number*) -
+- **partition_names**（*string[]*） -
 
-    要返回的 Entity 总数。此值与 `offset` 之和必须小于 16,384。
+    Partition 名称的数组（可选）。
 
-- **offset** (*number*) -
+- **filter**（*string*） -
 
-    搜索结果中要跳过的记录数。此值与 `limit` 之和必须小于 16,384。
+    过滤表达式（可选）。
 
-- **output_fields** (*string[]*) -
+- **expr**（*string*） -
 
-    每个返回 Entity 中要包含的字段名称列表。默认仅包含主字段。
+    过滤条件的别名（可选）。
 
-- **filter** (*string*) -
+- **limit**（*number*） -
 
-    在混合搜索结果合并后应用的顶层标量过滤条件。默认为空字符串。
+    要返回的结果数量（可选）。
 
-- **rerank** (*RerankerObj \| FunctionObject \| FunctionScore*) -
+- **offset**（*number*） -
 
-    用于合并多个子搜索结果的重排策略。完整的 rerank 参数 Schema 请参见 `search()`。
+    要跳过的结果数量（可选）。
 
-- **partition_names** (*string[]*) -
+- **rerank**（*RerankerObj | FunctionObject*） -
 
-    要搜索的 Partition 名称列表。
+    重排器配置（可选）。
 
-- **consistency_level** (*ConsistencyLevelEnum*) -
+- **consistency_level**（*ConsistencyLevelEnum*） -
 
-    目标 Collection 的一致性级别。可选值：`Strong` (0)、`Bounded` (1)、`Session` (2)、`Eventually` (3)。默认为 `Bounded`。
+    一致性级别（可选）。
 
-- **ignore_growing** (*boolean*) -
+- **ignore_growing**（*boolean*） -
 
-    是否在搜索期间跳过增长中的 Segment。
+    是否忽略正在增长的 Segment（可选）。
 
-- **group_by_field** (*string*) -
+- **timeout**（*number*） -
 
-    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同组中的多个结果。
+    允许 RPC 执行的可选时长，以毫秒为单位。该值默认为 undefined。
 
-- **group_size** (*number*) -
+**返回类型：**
 
-    分组搜索中每组目标返回的 Entity 数量。
-
-- **strict_group_size** (*boolean*) -
-
-    是否严格执行 `group_size`。当 `true` 时，系统会尝试让每组恰好填满 `group_size` 条结果。
-
-- **hints** (*string*) -
-
-    用于提升搜索性能的 hints 字符串。
-
-- **round_decimal** (*number*) -
-
-    最终分数保留的小数位数。
-
-- **transformers** (*OutputTransformers*) -
-
-    用于 BFloat16Vector 和 Float16Vector 等特殊向量数据类型的自定义转换器。
-
-- **db_name** (*string*) -
-
-    包含该 Collection 的 Database 名称。
-
-- **timeout** (*number*) -
-
-    此操作的超时时长，单位为毫秒。
-
-- **order_by_fields** (*OrderByFields*) -
-
-    用于对搜索结果排序的字段。可选。
+*SearchResults&lt;T&gt;*
 
 **返回：**
 
-*Promise\<SearchResults\>*
+包含状态、召回率和聚合结果条目的混合搜索结果。对于 HybridSearchReq 结构，hybridSearch 是 search() 的别名。
 
-此方法返回一个 promise，解析为 `SearchResults` 对象。
+**参数：**
+
+- **status**（*ResStatus*） -
+
+    响应状态：`{error_code, reason}`。
+
+- **recalls**（*number[]*） -
+
+    混合搜索的召回率。
+
+- **session_ts**（*number*） -
+
+    搜索会话的时间戳。
+
+- **collection_name**（*string*） -
+
+    所搜索的 Collection 的名称。
+
+- **results**（*DetermineResultsType&lt;T&gt;*） -
+
+    聚合后的搜索结果数组；其结构取决于输入参数。
 
 **异常：**
 
 - **MilvusError**
 
-    当此操作期间发生任何错误时，将引发此异常。
-
-## HybridSearchSingleReq\{#hybridsearchsinglereq}
-
-`data` 数组中的每个元素都是一个 **HybridSearchSingleReq** 对象，用于定义单向量子搜索请求。
-
-**参数：**
-
-- **data** (*SearchData*) -
-
-    **[必需]**
-
-    此子搜索的查询向量。可以是稠密向量（`number[]`）、稀疏向量（`SparseVectorDic`），或用于基于文本搜索的文本字符串。
-
-- **anns_field** (*string*) -
-
-    **[必需]**
-
-    此子请求中要搜索的向量字段名称。
-
-- **filter** (*string*) -
-
-    仅应用于此子搜索的标量过滤条件。
-
-- **exprValues** (*keyValueObj*) -
-
-    过滤表达式的模板值，采用键值对形式。
-
-- **params** (*keyValueObj*) -
-
-    索引特定的搜索参数，采用键值对形式。
-
-- **ignore_growing** (*boolean*) -
-
-    是否在此子搜索期间跳过增长中的 Segment。
-
-- **group_by_field** (*string*) -
-
-    按指定字段对结果进行分组，以确保此子搜索中的结果多样性。
-
-- **transformers** (*OutputTransformers*) -
-
-    用于 BFloat16Vector 和 Float16Vector 等特殊向量类型的自定义转换器。
+    当服务器拒绝请求或 RPC 失败时会引发此异常。请查看服务器错误消息以了解确切的失败原因。
 
 ## 示例\{#example}
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const results = await milvusClient.hybridSearch({
-    collection_name: 'my_collection',
-    data: [
-        {
-            anns_field: 'dense_vector',
-            data: [0.1, 0.2, 0.3, 0.4, 0.5],
-        },
-        {
-            anns_field: 'sparse_vector',
-            data: { 1: 0.5, 42: 0.8, 100: 0.3 },
-        },
-    ],
-    limit: 10,
-    rerank: { strategy: 'rrf', params: { k: 60 } },
-    output_fields: ['id', 'text'],
+  collection_name: 'my_collection',
+  data: [
+    {
+      data: [1, 2, 3, 4],
+      anns_field: 'float_vector',
+      limit: 10,
+    },
+  ],
 });
-
-console.log(results.results);
 ```
-

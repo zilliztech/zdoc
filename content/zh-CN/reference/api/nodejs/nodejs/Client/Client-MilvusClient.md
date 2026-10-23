@@ -16,8 +16,8 @@ keywords:
   - 最近邻搜索
   - Agentic RAG
   - RAG LLM 架构
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - MilvusClient
   - nodejs30
@@ -45,7 +45,7 @@ new MilvusClient(config: ClientConfig)
 
 **参数：**
 
-- **configOrAddress** (*string*) -
+- **configOrAddress** （*string*） -
 
     **[必需]**
 
@@ -55,9 +55,9 @@ new MilvusClient(config: ClientConfig)
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-- **configOrAddress** (*ClientConfig*)
+- **configOrAddress** （*ClientConfig*）
 
-    - **address** (*string*) -
+    - **address** （*string*） -
 
         **[必需]**
 
@@ -67,159 +67,159 @@ new MilvusClient(config: ClientConfig)
         https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
         ```
 
-    - **_SKIPCONNECT__** (*boolean*) -
+    - **_SKIPCONNECT__** （*boolean*） -
 
-        一个布尔值，用于指示是否跳过连接。
+        一个布尔值，指示是否跳过连接。
 
-    - **channelOptions** (*channelOptions*) -
+    - **channelOptions** （*channelOptions*） -
 
         gRPC 的附加通道选项。
 
-    - **database** (*string*) -
+    - **Database** （*string*） -
 
         要连接的集群 Database 名称。
 
-    - **id** (*string*) -
+    - **id** （*string*） -
 
         要连接的集群 ID。
 
-    - **loaderOptions** (*Options*) -
+    - **loaderOptions** （*Options*） -
 
-        将 int64 转换为 Long 格式的选项。可能的值包括：
+        将 int64 转换为 Long 格式的选项。可选值如下：
 
         - `{ longs: Function }`
 
-            这应是一个将 int64 转换为 Long.js 格式的函数。
+            该值应是一个将 int64 转换为 Long.js 格式的函数。
 
         - `{ longs: Number }`
 
-            这会将 int64 转换为 number，从而导致精度损失。
+            该值会将 int64 转换为数字，从而导致精度损失。
 
         - `{ longs: String }`
 
-            这会将 int64 转换为 string。这是默认行为。
+            该值会将 int64 转换为字符串。这是默认行为。
 
-    - **logLevel** (*string*) -
+    - **logLevel** （*string*） -
 
-        日志级别。可用选项包括：`debug`、`info`、`warn`、`error`、`panic` 和 `fatal`。
+        日志的级别。可选值包括：`debug`、`info`、`warn`、`error`、`panic` 和 `fatal`。
 
-        默认值为 `debug`。
+        该值默认为 `debug`。
 
         建议在测试和开发环境中使用 `debug` 级别，在生产环境中使用 `info` 级别。
 
-    - **logPrefix** (*string*) -
+    - **logPrefix** （*string*） -
 
-        每条日志记录的前缀。
+        每条日志条目的前缀。
 
-    - **maxRetries** (*number*) -
+    - **maxRetries** （*number*） -
 
-        当连接未成功时，重试连接的尝试次数。
+        连接不成功时重试连接的次数。
 
-    - **option** (*Record&lt;string, string&gt;*) -
+    - **option** （*Record&lt;string, string&gt;*） -
 
-        在初始握手期间，发送到 `ConnectRequest` 客户端信息中的保留连接选项。使用此项可向服务器传递任意键值对。
+        在 `ConnectRequest` 客户端信息中发送的保留连接选项。您可以使用此选项在初始握手期间向服务器传递任意键值对。
 
-    - **password** (*string*) -
+    - **password** （*string*） -
 
-        用于验证连接的用户密码。
+        用于对连接进行身份验证的用户密码。
 
-    - **pool** (*Options*) -
+    - **pool** （*Options*） -
 
-        通用的轮询选项，遵循 [此仓库](https://github.com/coopernurse/node-pool) 中指定的规则。
+        通用轮询选项，遵循[此仓库](https://github.com/coopernurse/node-pool)中规定的规则。
 
-    - **protoFilePath** (*protoFilePath*) -
+    - **protoFilePath** （*protoFilePath*） -
 
-        - **milvus** (*string*) -
+        - **milvus** （*string*） -
 
-        - **schema** (*string*) -
+        - **Schema** （*string*） -
 
-    - **retryDelay** (*number*) -
+    - **retryDelay** （*number*） -
 
         重试尝试之间的间隔。
 
-    - **ssl** (*boolean*) -
+    - **ssl** （*boolean*） -
 
-        一个布尔值，用于指示是否使用 SSL。在 Zilliz Cloud 上始终将其设置为 `true`。
+        一个布尔值，指示是否使用 SSL。在 Zilliz Cloud 上，请始终将其设置为 `true`。
 
-    - **timeout** (*string* | *number*) -
+    - **timeout** （*string* | *number*） -
 
-        此操作的超时时长。
+        此操作的超时持续时间。
 
-        将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+        将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
-    - **tls** (*tls*) -
+    - **tls** （*tls*） -
 
-        - **certChain** (*Buffer*) -
+        - **certChain** （*Buffer*） -
 
             缓冲区中的证书链。
 
-        - **certChainPath** (*string*) -
+        - **certChainPath** （*string*） -
 
             证书链的文件路径。
 
-        - **privateKey** (*Buffer*) -
+        - **privateKey** （*Buffer*） -
 
             缓冲区中的私钥。
 
-        - **privateKeyPath** (*string*) -
+        - **privateKeyPath** （*string*） -
 
             私钥的文件路径。
 
-        - **rootCert** (*Buffer*) -
+        - **rootCert** （*Buffer*） -
 
             缓冲区中的根证书。
 
-        - **rootCertPath** (*string*) -
+        - **rootCertPath** （*string*） -
 
             根证书的文件路径。
 
-        - **serverName** (*string*) -
+        - **serverName** （*string*） -
 
             服务器名称。
 
-        - **skipCertCheck** (*boolean*) -
+        - **skipCertCheck** （*boolean*） -
 
-            是否跳过对所提供证书的检查。将其设置为 `true` 表示跳过。
+            是否跳过对所提供的证书的检查。将其设置为 `true` 表示跳过。
 
-        - **verifyOptions** (*string*) -
+        - **verifyOptions** （*string*） -
 
             验证选项。
 
-    - **token** (*string*) -
+    - **token** （*string*） -
 
-        用于连接的令牌。该令牌可以是 API 密钥，也可以是用冒号连接的用户名和密码组合。
+        用于连接的访问令牌。该访问令牌可以是 API key，也可以是由用户名和密码组成并以冒号分隔的组合。
 
-    - **trace** (*boolean*) -
+    - **trace** （*boolean*） -
 
-        是否启用追踪。
+        是否启用跟踪。
 
-    - **username** (*string*) -
+    - **username** （*string*） -
 
         用于连接的用户名。
 
-- **ssl** (*boolean*) -
+- **ssl** （*boolean*） -
 
-    一个布尔值，用于指示是否使用 SSL。在 Zilliz Cloud 上始终将其设置为 `true`。
+    一个布尔值，指示是否使用 SSL。在 Zilliz Cloud 上，请始终将其设置为 `true`。
 
-- **username** (*string*) -
+- **username** （*string*） -
 
-    用于连接到指定 Zilliz Cloud 集群的有效用户名。
+    用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    应与 **password** 一起使用。
+    此参数应与 **password** 一起使用。
 
-- **password** (*string*) -
+- **password** （*string*） -
 
-    用于连接到指定 Zilliz Cloud 集群的有效密码。
+    用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    应与 **username** 一起使用。
+    此参数应与 **username** 一起使用。
 
-- **channelOptions** (*channelOptions*) -
+- **channelOptions** （*channelOptions*） -
 
     gRPC 的附加通道选项。
 
-**返回** *MilvusClient*
+**返回：** *MilvusClient*
 
-此方法返回一个 Milvus Client 实例，该实例扩展自 GRPC Client，并处理与 Zilliz Cloud 集群的通信。
+此方法返回一个扩展了 GRPC Client 并负责与 Zilliz Cloud 集群通信的 Milvus Client 实例。
 
 ## 示例\{#example}
 
@@ -227,9 +227,8 @@ new MilvusClient(config: ClientConfig)
 new MilvusClient(config: ClientConfig)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - 将 **configOrAddress** 设置为您的集群 Endpoint。您可以在 Zilliz Cloud 控制台的 Cluster details 中找到相关信息。
 
 </Admonition>
-

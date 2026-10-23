@@ -10,7 +10,7 @@ notebook: false
 description: "此操作检查外部 Collection 刷新作业的进度。请使用 refreshExternalCollection() 返回的 jobid。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 29
+sidebar_position: 33
 keywords: 
   - 异常检测
   - 句子转换器
@@ -50,7 +50,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 **参数：**
 
 - **job_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
+  **[必需]**<br/>
   refreshExternalCollection() 返回的作业 ID。
 
 - **timeout** (*number*) -<br/>
@@ -59,7 +59,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
-**返回** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
+**返回：** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetRefreshExternalCollectionProgressResponse** 对象。
 

@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会触发外部 Collection 的数据刷新。当外部数据源已更新且您希望 Milvus 重新加载数据时，请使用此操作。 | Node.js"
 type: docx
 token: JoiWdRIFcojRI4xVXnCclEoVnh2
-sidebar_position: 31
+sidebar_position: 35
 keywords: 
   - 音频相似性搜索
   - 弹性向量 Database
@@ -54,13 +54,13 @@ await milvusClient.refreshExternalCollection({
 
 - **collection_name** (*string*) -<br/>
   **[必需]**<br/>
-  要刷新的外部 Collection 名称。
+  要刷新的外部 Collection 的名称。
 
 - **external_source** (*string*) -<br/>
   可选的新外部数据源路径。如果提供，Collection 将从该新数据源刷新。
 
 - **external_spec** (*string*) -<br/>
-  可选的新 external spec 配置。如果提供，Collection 将使用此新 spec。
+  可选的新外部 spec 配置。如果提供，Collection 将使用此新 spec。
 
 - **db_name** (*string*) -<br/>
   Database 的名称。可选。
