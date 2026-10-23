@@ -11,6 +11,7 @@ const {readPublicationDocument} = require('./publication-contracts')
 const {validatePublicationHandoffMetadata} = require('./monitor-translation-progress')
 const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
 const {resolveAuthorityCheckpoint} = require('./translation-batch-set')
+const {ownedSourcePaths} = require('../translation/reconciliation-discovery')
 const {loadTypeScript} = require('../lib/load-typescript')
 const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 
@@ -485,7 +486,7 @@ function canonicalPlan(value) {
   return `${JSON.stringify(value)}\n`
 }
 
-async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client, forwardSourceAuthorityCheckpoints, sourceGenerationAudit}) {
+async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client, forwardSourceAuthorityCheckpoints, forwardReferenceManifestCheckpoints, sourceGenerationAudit}) {
   if (typeof repository !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository)) throw new Error('repository is invalid')
   if (typeof publish !== 'boolean') throw new Error('publish must be a boolean')
   const runId = positiveInteger(previousRunId, 'previous_translation_run_id')
@@ -676,6 +677,25 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       if (resolved !== unit.sourceCheckpointSha) sourceCheckpointShaOverrides[unit.target + '/' + unit.group] = resolved
     }
   }
+  if (forwardReferenceManifestCheckpoints) {
+    // Handoff units sharing a sourceGroup must carry one source publication
+    // identity, so the manifest-bound checkpoint is resolved once per group
+    // and applied to every scoped unit of that group, not just the zh track.
+    const referenceScopedGroups = new Set(scopedUnits
+      .filter(unit => unit.target === 'zh-CN-reference' && unit.group !== 'guides')
+      .map(unit => unit.sourceGroup))
+    const forwardedByGroup = new Map()
+    for (const unit of scopedUnits) {
+      if (!referenceScopedGroups.has(unit.sourceGroup)) continue
+      if (!forwardedByGroup.has(unit.sourceGroup)) {
+        const resolved = await forwardReferenceManifestCheckpoints(unit, queueOwnedTargetBaselineSha)
+        if (!SHA.test(resolved || '')) throw new Error(`Forwarded Reference manifest checkpoint for ${unit.sourceGroup} must be an exact commit SHA`)
+        forwardedByGroup.set(unit.sourceGroup, resolved)
+      }
+      const resolved = forwardedByGroup.get(unit.sourceGroup)
+      if (resolved !== unit.sourceCheckpointSha) sourceCheckpointShaOverrides[unit.target + '/' + unit.group] = resolved
+    }
+  }
   const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha, scopedUnits, sourceCheckpointShaOverrides)
 
   const provenance = {
@@ -822,6 +842,48 @@ function resolveQueueOwnedTarget(repositoryRoot, targetBranch) {
   return sha
 }
 
+// A zh-CN-reference recovery replays an immutable source checkpoint against a
+// queue-owned target baseline that the planner may have rebase-forwarded past
+// the original run. The baseline's Reference source manifest then binds a
+// newer sourceCommit than the checkpoint's tree, and the reconciliation
+// rebuild rejects that combination (the workspace source tree must match the
+// manifest's declared commit). Forwarding the checkpoint to the manifest-bound
+// commit restores the pairing, provided the recovered group's own source
+// content did not change in between; otherwise the retained translations are
+// no longer restorable and a fresh translation run is required.
+function resolveReferenceManifestCheckpoint({repository, sourceCheckpointSha, sourceBaselineSha, targetBaselineSha, group}) {
+  const manifestResult = spawnSync('git', ['show', `${targetBaselineSha}:generated/en/manifests/reference.json`], {cwd: repository, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024})
+  let manifestSourceCommit = null
+  if (manifestResult.status === 0) {
+    let manifest
+    try { manifest = JSON.parse(manifestResult.stdout) } catch { throw new Error('Reference source manifest at the target baseline is not valid JSON') }
+    manifestSourceCommit = manifest?.sourceCommit
+    if (typeof manifestSourceCommit !== 'string' || !SHA.test(manifestSourceCommit)) throw new Error('Reference source manifest at the target baseline has an invalid sourceCommit')
+  } else {
+    const stderr = String(manifestResult.stderr || '')
+    if (!/did not match any file|does not exist in|exists on disk, but not in/iu.test(stderr)) throw new Error(stderr.trim() || 'Unable to read the Reference source manifest at the target baseline')
+  }
+  if (manifestSourceCommit === null || manifestSourceCommit === sourceCheckpointSha) return sourceCheckpointSha
+  for (const [label, ancestor] of [['source checkpoint', sourceCheckpointSha], ['source baseline', sourceBaselineSha]]) {
+    const ancestry = spawnSync('git', ['merge-base', '--is-ancestor', ancestor, manifestSourceCommit], {cwd: repository, encoding: 'utf8'})
+    if (ancestry.status !== 0) {
+      throw new Error(`Reference source manifest commit is not a descendant of the ${label}; manual confirmation required`)
+    }
+  }
+  for (const sourcePath of ownedSourcePaths(group, 'zh-CN-reference')) {
+    const trees = [sourceCheckpointSha, manifestSourceCommit].map(commit => {
+      const resolved = spawnSync('git', ['ls-tree', commit, '--', sourcePath], {cwd: repository, encoding: 'utf8'})
+      if (resolved.status !== 0) throw new Error(String(resolved.stderr || '').trim() || `Unable to resolve ${sourcePath} at ${commit}`)
+      const entry = resolved.stdout.trim()
+      return entry === '' ? null : entry.split('\t')[0].split(/\s+/)[2]
+    })
+    if (trees[0] !== trees[1]) {
+      throw new Error(`Reference source for zh-CN-reference/${group} changed between the source checkpoint and the target baseline manifest commit; a fresh translation run is required`)
+    }
+  }
+  return manifestSourceCommit
+}
+
 function parseArgs(argv) {
   const allowed = new Set(['--repository', '--previous-run-id', '--previous-run-attempt', '--target-baseline-sha', '--execution-tooling-sha', '--output-root', '--publish'])
   const values = {}
@@ -854,6 +916,13 @@ async function main(argv = process.argv.slice(2), env = process.env) {
       sourceCheckpointSha: unit.sourceCheckpointSha,
       targetBaselineSha,
     }),
+    forwardReferenceManifestCheckpoints: (unit, targetBaselineSha) => resolveReferenceManifestCheckpoint({
+      repository: process.cwd(),
+      sourceCheckpointSha: unit.sourceCheckpointSha,
+      sourceBaselineSha: unit.sourceBaselineSha,
+      targetBaselineSha,
+      group: unit.group,
+    }),
   })
   const outputs = {
     handoff_json: JSON.stringify(result.handoff),
@@ -881,5 +950,6 @@ module.exports = {
   planTranslationRecovery,
   regressiveRetainedFile,
   resolveQueueOwnedTarget,
+  resolveReferenceManifestCheckpoint,
   validateDownloadedArtifactTree,
 }
