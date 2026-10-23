@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-to_numpy
 sidebar_label: "to_numpy()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation converts the current EmbeddingList NumPy array containing all vector embeddings. | Python | MilvusClient"
+description: "This operation converts the current EmbeddingList instance into a two-dimensional (2D) NumPy array containing all vector embeddings. | Python | MilvusClient"
 type: docx
-token: XQAQd2tPKon4JgxKEoAc0CCHnUg
+token: EDYMdVqgYoY5wuxcm5mcAwGsnWb
 sidebar_position: 6
 keywords: 
   - Knowledge base
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-This operation converts the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance into a two-dimensional (2D) NumPy array containing all vector embeddings.
+This operation converts the current **EmbeddingList** instance into a two-dimensional (2D) NumPy array containing all vector embeddings.
 
 ## Request Syntax\{#request-syntax}
 
@@ -45,13 +45,13 @@ to_numpy()
 
 **RETURNS:**
 
-A 2D NumPy array containing all vector embeddings in the shape **(num_embeddings, dim)**.
+A 2D NumPy array containing all vector embeddings in the shape (num_embeddings, dim).
 
 **EXCEPTIONS:**
 
-- **ValueError**:
+- **ValueError**
 
-    This exception will be raised if the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance is empty.
+    This exception will be raised if the current **EmbeddingList** instance is empty. This exception will be raised if the current **EmbeddingList** instance is empty.
 
 ## Examples\{#examples}
 
@@ -68,4 +68,3 @@ embeddingList.add_batch(
 
 embeddingList.to_numpy()
 ```
-

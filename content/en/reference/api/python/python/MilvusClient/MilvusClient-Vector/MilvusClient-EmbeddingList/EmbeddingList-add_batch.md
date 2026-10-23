@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-add_batch
 sidebar_label: "add_batch()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation adds multiple vector embeddings to the current EmbeddingList instance. | Python | MilvusClient"
 type: docx
-token: TJundbM8FoU8UKxczaMcix3QnHb
+token: PSbXd6sMGoLK6Ix6BRpciHQEnVb
 sidebar_position: 2
 keywords: 
   - Multimodal search
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_batch()
 
-This operation adds multiple vector embeddings to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+This operation adds multiple vector embeddings to the current **EmbeddingList** instance.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 add_batch(
@@ -44,23 +44,23 @@ add_batch(
 
 **PARAMETERS:**
 
-- **embeddings** (*List[np.ndarray], np.ndarray*) - 
+- **embeddings** (*List[np.ndarray], np.ndarray*) -
 
-    The vector embeddings that are to be added to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+    The vector embeddings that are to be added to the current EmbeddingList instance.
 
 **RETURN TYPE:**
 
-*[EmbeddingList](./MilvusClient-EmbeddingList)*
+*EmbeddingList*
 
 **RETURNS:**
 
-The current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance itself for method chaining
+The current EmbeddingList instance itself for method chaining.
 
 **EXCEPTIONS:**
 
-- **ValueError**:
+- **ValueError**
 
-    This exception will be raised if the provided vector embeddings do not match the existing ones in dimensionality.
+    This exception will be raised if the provided vector embeddings do not match the existing ones in dimensionality. This exception will be raised if the provided vector embeddings do not match the existing ones in dimensionality.
 
 ## Examples\{#examples}
 
@@ -75,4 +75,3 @@ embeddingList.add_batch(
     embeddings=[[0.1, 0.2, 0.3, 0.4, 0.5], [0.5, 0.4, 0.3, 0.2, 0.1]]
 )
 ```
-

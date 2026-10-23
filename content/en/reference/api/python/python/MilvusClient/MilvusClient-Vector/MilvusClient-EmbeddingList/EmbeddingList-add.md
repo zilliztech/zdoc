@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-add
 sidebar_label: "add()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation adds a single vector embedding to the current EmbeddingList instance. | Python | MilvusClient"
 type: docx
-token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
+token: NP6adseqQoQS2zxaxYhc1kn6n9c
 sidebar_position: 1
 keywords: 
   - knn
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds a single vector embedding to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+This operation adds a single vector embedding to the current **EmbeddingList** instance.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 add(
@@ -44,9 +44,9 @@ add(
 
 **PARAMETERS:**
 
-- **embedding** (*np.ndarray, List[Any]*) - 
+- **embedding** (*np.ndarray, List[Any]*) -
 
-    The vector embedding that is to be added to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+    The vector embedding that is to be added to the current EmbeddingList instance.
 
 **RETURN TYPE:**
 
@@ -54,13 +54,13 @@ add(
 
 **RETURNS:**
 
-The current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance itself for method chaining
+The current EmbeddingList instance itself for method chaining.
 
 **EXCEPTIONS:**
 
-- **ValueError**:
+- **ValueError**
 
-    This exception will be raised if the provided vector embedding does not match the existing ones in dimensionality.
+    This exception will be raised if the provided vector embedding does not match the existing ones in dimensionality. This exception will be raised if the provided vector embedding does not match the existing ones in dimensionality.
 
 ## Examples\{#examples}
 

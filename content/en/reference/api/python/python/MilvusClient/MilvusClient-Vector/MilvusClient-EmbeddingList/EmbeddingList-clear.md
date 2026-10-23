@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-clear
 sidebar_label: "clear()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation clears the vector embeddings from the current EmbeddingList instance. | Python | MilvusClient"
 type: docx
-token: M6mrdinAjo8CwrxirOQcR6E1nUc
+token: DCf4dDSyMoclYrxrZoCcyqrrnhg
 sidebar_position: 3
 keywords: 
   - cheap vector database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # clear()
 
-This operation clears the vector embeddings from the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+This operation clears the vector embeddings from the current **EmbeddingList** instance.
 
 ## Request Syntax\{#request-syntax}
 
@@ -41,11 +41,11 @@ clear()
 
 **RETURN TYPE:**
 
-*[EmbeddingList](./MilvusClient-EmbeddingList)*
+*EmbeddingList*
 
 **RETURNS:**
 
-An empty **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
+An empty EmbeddingList instance.
 
 ## Examples\{#examples}
 

@@ -4,12 +4,12 @@ slug: /python/python/Highlighter-with_query
 sidebar_label: "with_query()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "Adds a query-term definition to a `LexicalHighlighter` configuration for highlighting text matched by filtering expressions (e.g., TEXTMATCH). This augments `highlightquery` with one entry describing which field and terms to highlight and which filter type produced them. Highlighting runs as post-processing and does not affect retrieval, filtering, ranking, or scoring. | Python | MilvusClient"
 type: docx
-token: KdiQdpHp3oEQwNx2hd5chqQKn2D
+token: SzT2dS1cko3x0RxjkAEcMJLwnlf
 sidebar_position: 3
 keywords: 
   - vector database
@@ -33,30 +33,13 @@ import Admonition from '@theme/Admonition';
 
 Adds a query-term definition to a `LexicalHighlighter` configuration for highlighting text matched by filtering expressions (e.g., TEXT_MATCH). This augments `highlight_query` with one entry describing which field and terms to highlight and which filter type produced them. Highlighting runs as post-processing and does not affect retrieval, filtering, ranking, or scoring.
 
-## Request syntax\{#request-syntax}
+**RETURN TYPE:**
 
-```python
-with_query(
-    field: str,
-    text: str,
-    query_type: str
-)
-```
+*with_query*
 
-**PARAMETERS**:
+**RETURNS:**
 
-- **field** (*str*) -<br/>
-  The target text field name whose content should be annotated when matches are found by the filtering expression. Must correspond to a **VARCHAR** text field in the collection schema.
-
-- **text** (*str*) -<br/>
-  The terms or phrase to highlight from the filtering expression. For example, **"my doc"** will highlight matches of **"my"** and **"doc"** in the specified field.
-
-- **query_type** (*str*) -<br/>
-  The filtering type that provides the terms to highlight. For text-based filtering, use **"TextMatch"** to correspond to the **TEXT_MATCH** condition.
-
-**RETURNS**:
-
-*None*
+*None*.
 
 ## Examples\{#examples}
 
@@ -68,7 +51,11 @@ highlighter = LexicalHighlighter(
     post_tags=["}"],
 )
 
-highlighter.with_query(field="text", text="my doc", query_type="TextMatch")
+highlighter.with_query(
+    field="text",
+    text="my doc",
+    query_type="TextMatch",
+)
 
 results = client.search(
     collection_name="your_collection",
