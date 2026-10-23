@@ -249,13 +249,34 @@ test('plans a complete unordered set and preserves only each batch delta', async
   assert.deepEqual(Object.keys(plan.batches[0].writes[0]).sort(), ['artifactRelativePath', 'path', 'sha256', 'size'].sort())
 })
 
-test('normalizes baseline identity and canonicalizes a missing source cache', async () => {
+test('normalizes baseline identity to the tutorial trees and leaves the shared cache out', async () => {
   const { fixture, first } = await twoPairFixture()
   const baseline = await validateCheckpointArtifact(first.baselineDir)
   const identity = normalizedBaselineIdentity(baseline)
-  assert.equal(identity.files.some(entry => entry.path === CACHE_PATH && entry.sha256 === sha256(DEFAULT_CACHE)), true)
+  assert.equal(identity.files.some(entry => entry.path === CACHE_PATH), false)
+  assert.equal(identity.files.length > 0 && identity.files.every(entry => entry.path.startsWith('i18n/ja-JP/')), true)
   assert.equal(identity.files.every((entry, index) => index === 0 || identity.files[index - 1].path < entry.path), true)
   await assert.doesNotReject(planFor(fixture, [first, await createPair(fixture, 2)]))
+})
+
+test('tolerates a shared cache that another group advanced past the source checkpoint', async () => {
+  // A ja-JP Reference publication between the source checkpoint and this run
+  // rewrites the shared cache, so the Guides baselines capture a newer cache
+  // than the checkpoint tree holds.
+  const advanced = root => write(root, CACHE_PATH, `${JSON.stringify({ files: {
+    'content/en/reference/api/python/python/advanced.md': {
+      sourceHash: 'a'.repeat(64),
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/advanced.md',
+      translatedAt: '2026-10-23T11:44:00.000Z',
+    },
+  } }, null, 2)}\n`)
+  let state = await twoPairFixture({ mutateBaseline: advanced }, { mutateBaseline: advanced })
+  const plan = await planFor(state.fixture, [state.first, state.second])
+  assert.equal(plan.batchCount, 2)
+
+  // A publication landing between the two batch jobs leaves their caches apart.
+  state = await twoPairFixture({}, { mutateBaseline: advanced })
+  await assert.doesNotReject(planFor(state.fixture, [state.first, state.second]))
 })
 
 test('uses a bounded number of Git processes for a large mutable baseline', async t => {
