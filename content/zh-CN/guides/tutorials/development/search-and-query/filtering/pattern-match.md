@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 模式匹配表达式写在 `filter` 参数中。例如，以下查询匹配包含 `E1001` 之类错误代码的日志消息：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -81,7 +81,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx := context.Background()
@@ -101,6 +101,14 @@ if err != nil {
     // handle error
 }
 fmt.Println(res)
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
 ```
 
 </TabItem>
@@ -145,14 +153,6 @@ curl --request POST \
     "filter": "message =~ \"E[0-9]{4}\"",
     "outputFields": ["message", "severity"]
   }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
 ```
 
 </TabItem>
@@ -243,7 +243,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 原始字符串字面量写作 `r"..."` 或 `r'...'`，它会在 Zilliz Cloud 过滤表达式中原样保留反斜杠。对于包含反斜杠的 `LIKE` 和正则表达式模式，建议使用原始字符串。如果不使用原始字符串，普通字符串字面量会在模式求值前处理转义序列，因此可能需要更多反斜杠。
 
-## 使用正则表达式\{#use-regex}
+## 使用正则表达式 | PUBLIC\{#use-regex}
 
 当模式需要字符类、重复、分支、锚点或不区分大小写等正则表达式功能时，请使用正则表达式过滤。Zilliz Cloud 会将 [RE2](https://github.com/google/re2/wiki/syntax) 正则表达式应用于字符串值。
 
@@ -260,7 +260,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 例如：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,6 +285,14 @@ filter := `filename =~ r"\.json$"`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -297,14 +305,6 @@ const filter = 'filename =~ r"\\.json$"';
 
 ```bash
 filter='filename =~ r"\.json$"'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
 ```
 
 </TabItem>
@@ -339,7 +339,7 @@ zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"'
 
 若要匹配多个单词中的任意一个，请使用 `|` 进行分支匹配：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,6 +364,14 @@ filter := `message =~ "error|failed|timeout"`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -380,14 +388,6 @@ filter='message =~ "error|failed|timeout"'
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-// cpp
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -399,7 +399,7 @@ zilliz vector query --collection my_collection --filter 'message =~ "error|faile
 
 按字面值匹配正则表达式元字符时，请在正则表达式模式中进行转义。例如，若要匹配字面点号（正则表达式中的 `\.`），请在 Python 过滤字符串中写作 `\\.`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,6 +424,14 @@ filter := `email =~ "@gmail\\.com$"`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -436,14 +444,6 @@ const filter = 'email =~ "@gmail\\.com$"';
 
 ```bash
 filter='email =~ "@gmail\\.com$"'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
 ```
 
 </TabItem>
@@ -465,7 +465,7 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 
 Zilliz Cloud 的正则表达式匹配采用子字符串语义，模式无需匹配整个字段值。例如，以下过滤表达式既匹配 `E1001`，也匹配 `failed with E1001 after retry`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -490,6 +490,14 @@ filter := `message =~ "E[0-9]{4}"`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -506,14 +514,6 @@ filter='message =~ "E[0-9]{4}"'
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-// cpp
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -525,7 +525,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 若要匹配整个字段值，请使用 `^` 和 `$` 锚点：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -553,6 +553,14 @@ filter := `code =~ "^E[0-9]{4}$"`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -570,14 +578,6 @@ filter='code =~ "^E[0-9]{4}$"'
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-// cpp
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -591,7 +591,7 @@ zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' 
 
 正则表达式过滤不会匹配 null 值，`=~` 和 `!~` 都是如此。如果希望排除某个正则表达式模式但保留 null 值，请显式添加 `OR field IS NULL`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -616,6 +616,14 @@ filter := `message !~ "^DEBUG" OR message IS NULL`
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -628,14 +636,6 @@ const filter = 'message !~ "^DEBUG" OR message IS NULL';
 
 ```bash
 filter='message !~ "^DEBUG" OR message IS NULL'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
 ```
 
 </TabItem>

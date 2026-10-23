@@ -180,11 +180,11 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash Function](./minhash-function)
 
-            - [搜索](./single-vector-search#sort-search-results-by-scalar-fields)与[查询](./get-and-scalar-query#aggregate-query-results)的 Order by
+            - [搜索](./single-vector-search)与[查询](./get-and-scalar-query)的 Order by
 
             - [快照](./snapshots)（Snapshots）
 
-            - [Entity](./set-collection-ttl#set-entity-ttl)[ TTL](./set-collection-ttl#set-entity-ttl)
+            - [Entity](./set-collection-ttl)[ TTL](./set-collection-ttl)
 
             - Force merge
 

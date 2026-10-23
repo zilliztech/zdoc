@@ -481,7 +481,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 对查询结果排序 | ONDEMAND \{#sort-query-results}
+### 对查询结果排序 | PUBLIC \{#sort-query-results}
 
 默认情况下，Query 返回结果的顺序不固定。使用 `order_by` 参数可以按一个或多个标量字段对结果排序。
 
@@ -1135,7 +1135,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 对查询结果进行分组聚合 | ONDEMAND \{#aggregate-query-results}
+### 对查询结果进行分组聚合 | PUBLIC \{#aggregate-query-results}
 
 可以按一个或多个标量字段对查询结果进行分组，并对每个分组计算聚合值。支持的聚合算子包括 `count`、`min`、`max`、`sum` 和 `avg`。
 

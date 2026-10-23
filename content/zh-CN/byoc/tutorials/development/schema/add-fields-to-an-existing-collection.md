@@ -81,7 +81,7 @@ import TabItem from '@theme/TabItem';
 
 - [添加用户自定义向量字段](./add-fields-to-an-existing-collection#add-user-defined-vector-fields)，适用于应用生成 Embedding，并将向量值写入 Zilliz Cloud 的场景。
 
-- [添加 Function 及其生成的向量字段](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field)，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
+- [添加 Function 及其生成的向量字段](./add-fields-to-an-existing-collection)，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
 
 在这些情况下，字段总数不能超过 Zilliz Cloud 的字段数量限制。详情请参阅 [Zilliz Cloud 限制](./limits#fields)。
 
@@ -533,7 +533,7 @@ curl --request POST \
 
 字段添加后，Collection 中原有 Entity 的 `review_status` 返回 `&quot;unreviewed&quot;`。新 Entity 可以设置其他值；如果未提供值，则使用默认值。
 
-### 添加 StructArray 字段\{#add-structarray-fields}
+### 添加 StructArray 字段 | PUBLIC\{#add-structarray-fields}
 
 使用 `add_collection_struct_field()` 添加可接收 Struct 数组的 StructArray 字段。添加 StructArray 字段的步骤如下：
 
@@ -1276,7 +1276,7 @@ curl --request POST \
 
 现有 Entity 的 `embedding_v2` 值为 `NULL`，因此在该字段上搜索时会被跳过。若要让现有 Entity 可通过 `embedding_v2` 搜索，请通过 Upsert 工作流写入非 NULL 向量值。新 Entity 可以在 Insert 时包含 `embedding_v2`。
 
-### 添加 Function 及其生成的向量字段\{#add-a-function-and-its-generated-vector-field}
+### 添加 Function 及其生成的向量字段 | PUBLIC\{#add-a-function-and-its-generated-vector-field}
 
 此 Milvus 3.0 Schema 变更工作流目前仅针对 Zilliz Cloud 按量付费 Cluster 提供文档说明。本页不界定首个受支持的 Cloud 补丁版本，也不说明 Serving Cluster 的可用性。
 
@@ -1640,7 +1640,7 @@ MinHash Function 及其生成的二进制向量字段支持近似重复检测。
 
 当用户自定义字段不再属于 Collection 模型时，可以直接将其删除。若要删除 Function 及其生成的向量字段，请删除该 Function；生成的字段及其索引会在同一次 Schema 变更中一并删除。
 
-### 删除用户自定义字段\{#drop-user-defined-fields}
+### 删除用户自定义字段 | PUBLIC\{#drop-user-defined-fields}
 
 使用 `drop_collection_field()` 删除不再属于 Collection 模型的用户自定义标量字段或向量字段。
 
@@ -2123,7 +2123,7 @@ await client.dropCollectionField({
 
 如果 `image_vector` 是 Collection 中的最后一个向量字段，删除操作会被拒绝。
 
-### 删除 Function 及其生成的向量字段\{#drop-a-function-and-its-generated-vector-field}
+### 删除 Function 及其生成的向量字段 | PUBLIC\{#drop-a-function-and-its-generated-vector-field}
 
 当不再需要某个 Function 或其生成的向量字段时，请使用此操作，例如删除 BM25 Function 及其生成的稀疏向量字段。
 

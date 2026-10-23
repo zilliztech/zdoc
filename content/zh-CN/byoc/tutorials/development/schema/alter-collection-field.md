@@ -122,6 +122,9 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 client
     .alter_collection_field_properties(
         AlterCollectionFieldPropertiesRequest::builder()
@@ -221,6 +224,8 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("array")
@@ -233,6 +238,13 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
     "my_collection", "array").WithProperty(common.MaxCapacityKey, 64))
 if err != nil {
@@ -264,6 +276,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
                                                 .WithCollectionName("my_collection")
                                                 .WithFieldName("array")
@@ -332,6 +347,8 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("doc_chunk")
@@ -344,6 +361,13 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
     "my_collection", "doc_chunk").WithProperty(common.MmapEnabledKey, true))
 if err != nil {
@@ -375,6 +399,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
                                                     .WithCollectionName("my_collection")
                                                     .WithFieldName("doc_chunk")

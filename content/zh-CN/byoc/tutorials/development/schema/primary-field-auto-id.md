@@ -157,6 +157,7 @@ client.createCollection(requestCreate);
 // go
 import (
     "context"
+    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
@@ -432,6 +433,13 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 ```go
 // go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 data := []any{
         map[string]any{"embedding": []float32{0.1, 0.2, 0.3, 0.4}, "category": "book"},
         map[string]any{"embedding": []float32{0.2, 0.3, 0.4, 0.5}, "category": "toy"},
@@ -634,6 +642,7 @@ client.createCollection(requestCreate);
 // go
 import (
     "context"
+    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
@@ -910,6 +919,13 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 ```go
 // go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 data := []any{
         map[string]any{"product_id": "PROD-001", "embedding": []float32{0.1, 0.2, 0.3, 0.4}, "category": "book"},
         map[string]any{"product_id": "PROD-002", "embedding": []float32{0.2, 0.3, 0.4, 0.5}, "category": "toy"},

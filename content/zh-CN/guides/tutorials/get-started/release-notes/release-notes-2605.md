@@ -132,7 +132,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** —— 支持多字段排序及每字段 ASC / DESC，并下推到内核执行。无需再为复合排序进行 over-fetch 与客户端二次重排。
 
-            详情请参见 [基本 Vector Search](./single-vector-search)、[Grouping Search](./grouping-search) 和 [Query](./get-and-scalar-query#aggregate-query-results)。
+            详情请参见 [基本 Vector Search](./single-vector-search)、[Grouping Search](./grouping-search) 和 [Query](./get-and-scalar-query)。
 
         **数据生命周期与运维**
 

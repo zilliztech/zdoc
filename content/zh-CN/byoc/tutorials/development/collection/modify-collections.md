@@ -338,7 +338,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 示例 2：设置 Entity 级别 TTL \{#example-2-set-entity-ttl}
+### 示例 2：设置 Entity 级别 TTL | PUBLIC \{#example-2-set-entity-ttl}
 
 下面的代码片段将一个已有的 `TIMESTAMPTZ` 字段（`expire_at`）指定为 Entity 级别 TTL 的 TTL 字段。Collection 中必须已经包含 `TIMESTAMPTZ` 字段，并且不能同时设置 `collection.ttl.seconds`，这两种 TTL 模式互斥。
 

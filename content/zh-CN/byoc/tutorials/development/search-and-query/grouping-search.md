@@ -559,7 +559,7 @@ zilliz vector search \
 
 有关更多参数信息，请参考 [search()](/reference/python/python/Vector-search)。
 
-## 通过标量字段对分组结果进行排序 | PRIVATE \{#order-groups-by-a-scalar-field}
+## 通过标量字段对分组结果进行排序 | PUBLIC \{#order-groups-by-a-scalar-field}
 
 在使用 Grouping Search 时，你可以配合使用 `order_by_fields`，按照某个标量字段对各个分组进行排序。这样既能保证不同分组之间结果的多样性，又能让分组整体遵循价格、评分等与业务相关的排序规则。
 

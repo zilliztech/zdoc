@@ -119,9 +119,13 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "log"
 
-err := client.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_index"))
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+err = client.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_index"))
 if err != nil {
     log.Fatal(err)
 }
@@ -152,7 +156,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();

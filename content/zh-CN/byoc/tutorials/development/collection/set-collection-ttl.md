@@ -831,7 +831,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 设置 Entity 级 TTL\{#set-entity-ttl}
+## 设置 Entity 级 TTL | PUBLIC\{#set-entity-ttl}
 
 Entity 级 TTL 允许每个 Entity 携带自己的绝对过期时间。过期时间存储在您在 Schema 中声明的专用 `TIMESTAMPTZ` 字段中，并通过 `ttl_field` Collection 属性将该字段标记为 TTL 字段。
 

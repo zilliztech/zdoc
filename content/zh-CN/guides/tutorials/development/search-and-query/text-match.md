@@ -53,7 +53,7 @@ Text Match 适用于 VARCHAR 字段类型，即 Zilliz Cloud 中的字符数据�
 
 要为特定的 `VARCHAR` 字段启用 Text Match，在定义字段 Schema 时需将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True`。这指示 Milvus 对文本进行分词，并为指定字段创建倒排索引，从而实现快速高效的 Text Match。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -117,7 +117,7 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/entity"
+import "github.com/milvus-io/milvus/client/v3/entity"
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(false)
 schema.WithField(entity.NewField().
@@ -136,6 +136,17 @@ schema.WithField(entity.NewField().
     WithDataType(entity.FieldTypeFloatVector).
     WithDim(5),
 )
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
+schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
 
 </TabItem>
@@ -200,17 +211,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
-schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -260,7 +260,7 @@ Text Match 的性能和准确性依赖于所选的 Analyzer。不同的 Analyzer
 
 要配置自定义 Analyzer，可以使用 `analyzer_params` 参数。例如，使用 **Jieba** 分词器处理中文文本：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -308,6 +308,20 @@ schema.WithField(entity.NewField().
     WithAnalyzerParams(analyzerParams).
     WithMaxLength(200),
 )
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {{"type", "english"}};
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params));
+schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
 
 </TabItem>
@@ -374,20 +388,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {{"type", "english"}};
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params));
-schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -448,7 +448,7 @@ TEXT_MATCH(field_name, text)
 
 默认情况下，`TEXT_MATCH` 使用“OR”匹配逻辑，即会返回包含任意指定关键词的文档。例如，搜索 `docs` 字段中包含关键词 `"machine"` 或 `"deep"` 的文档，使用以下表达式：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -473,6 +473,14 @@ filter := "TEXT_MATCH(text, 'machine deep')"
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -485,14 +493,6 @@ const filter = "TEXT_MATCH(text, 'machine deep')";
 
 ```bash
 export filter="\"TEXT_MATCH(text, 'machine deep')\""
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 ```
 
 </TabItem>
@@ -514,7 +514,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
 - 例如，搜索 `text` 字段中同时包含 `"machine"` 和 `"deep"` 的文档，使用以下表达式：
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -539,6 +539,14 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     </TabItem>
 
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep'))";
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -551,14 +559,6 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     ```bash
     export filter="\"TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')\""
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    const auto filter = R"(TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep'))";
     ```
 
     </TabItem>
@@ -578,7 +578,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
 - 搜索 `text` 字段中同时包含 `"machine"` 和 `"learning"` 但不包含 `"deep"` 的文档，使用以下表达式：
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -603,6 +603,14 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     </TabItem>
 
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning'))";
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -615,14 +623,6 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     ```bash
     export filter="\"not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')\""
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    const auto filter = R"(not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning'))";
     ```
 
     </TabItem>
@@ -640,7 +640,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
     </TabItem>
     </Tabs>
 
-### TEXT_MATCH_FUZZY 表达式语法 \{#text-match-fuzzy-expression-syntax}
+### TEXT_MATCH_FUZZY 表达式语法 | PUBLIC \{#text-match-fuzzy-expression-syntax}
 
 使用 `TEXT_MATCH_FUZZY` 可容忍查询 token 与已建立索引的 token 之间的拼写差异。Zilliz Cloud 会使用该字段的 Analyzer 分析查询文本，并对生成的每个 token 执行模糊匹配。如果查询生成多个 token，只要其中任意一个 token 满足配置的编辑距离，该表达式就会匹配相应实体。
 
@@ -658,7 +658,7 @@ TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
 
 例如，以下表达式会匹配与 `machne` 的编辑距离不超过 1 的 token，包括 `machine`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -683,6 +683,14 @@ filter := "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -695,14 +703,6 @@ const filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 
 ```bash
 export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 ```
 
 </TabItem>
@@ -722,7 +722,7 @@ Text Match 可以与向量相似度搜索结合使用，以缩小搜索范围并
 
 在以下示例中，`filter` 过滤了 Collection，只包括匹配指定关键词的文档。然后，在这个筛选后的文档子集中执行向量相似度搜索。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -782,6 +782,29 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
+std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("embeddings")
+                   .WithFilter(filter)
+                   .WithLimit(10)
+                   .AddOutputField("text")
+                   .AddOutputField("id")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -789,7 +812,7 @@ if err != nil {
 const filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 // Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
-const result = await client.search(
+const result = await client.search({
     collection_name: "my_collection", // Your collection name
     anns_field: "embeddings", // Vector field name
     data: [query_vector], // Query vector
@@ -798,7 +821,7 @@ const result = await client.search(
     params: {"nprobe": 10},
     limit: 10, // Max. number of results to return
     output_fields: ["id", "text"] //Fields to return
-);
+});
 ```
 
 </TabItem>
@@ -833,29 +856,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
-std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("embeddings")
-                   .WithFilter(filter)
-                   .WithLimit(10)
-                   .AddOutputField("text")
-                   .AddOutputField("id")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -875,7 +875,7 @@ Text Match 还可以用于查询操作中的标量过滤。通过在 `query()` �
 
 以下示例中，查询 `text` 字段中包含关键词 `"keyword1"` 和 `"keyword2"`的文档：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -923,18 +923,38 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
+
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("text");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // Match entities with both `keyword1` and `keyword2`
 const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
-const result = await client.query(
+const result = await client.query({
     collection_name: "my_collection",
     // highlight-next-line
     filter: filter, 
     output_fields: ["id", "text"]
-)
+})
 ```
 
 </TabItem>
@@ -957,26 +977,6 @@ curl --request POST \
     "filter": '"$filter"',
     "outputFields": ["id", "text"]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
-
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(filter)
-                       .AddOutputField("id")
-                       .AddOutputField("text");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>

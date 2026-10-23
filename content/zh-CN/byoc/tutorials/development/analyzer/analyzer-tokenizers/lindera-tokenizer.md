@@ -116,22 +116,24 @@ Map<String, Object> analyzerParams = new HashMap<>();
 <TabItem value='go'>
 
 ```go
-analyzerParams := map[string]interface{}{                                             
-      "tokenizer": map[string]interface{}{     
-          "type":      "lindera",                                                       
-          "dict_kind": "ko-dic",                                  
-          "filter": []interface{}{                                                      
-              map[string]interface{}{                             
-                  "kind": "korean_stop_tags",
-                  "tags": []string{
-                      "SP", "SSC", "SSO", "SC", "SE", "SF",
-                      "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
-                      "JX", "JC", "UNK", "EP", "ETM",
-                  },
-              },
-          },
-      },
-  }
+import "fmt"
+
+analyzerParams := map[string]interface{}{
+    "tokenizer": map[string]interface{}{
+        "type":      "lindera",
+        "dict_kind": "ko-dic",
+        "filter": []interface{}{
+            map[string]interface{}{
+                "kind": "korean_stop_tags",
+                "tags": []string{
+                    "SP", "SSC", "SSO", "SC", "SE", "SF",
+                    "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
+                    "JX", "JC", "UNK", "EP", "ETM",
+                },
+            },
+        },
+    },
+}
 
 fmt.Println(analyzerParams)
 ```
@@ -278,7 +280,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -553,7 +554,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()

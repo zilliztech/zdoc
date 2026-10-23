@@ -71,12 +71,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba"}
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
 ```
 
 </TabItem>
@@ -223,9 +218,9 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-关于 Analyzer 参数的更多配置，可以参考[自定义配置](./jieba-tokenizer#custom-configuration)。
+关于 Analyzer 参数的更多配置，可以参考[自定义配置](./jieba-tokenizer)。
 
-### 自定义配置\{#custom-configuration}
+### 自定义配置 | PUBLIC\{#custom-configuration}
 
 为了更好地控制 Analyzer 参数，您可以自定义相关参数。例如，您可以参考如下示例为 Analyzer 提供自定义字典、选择文本切分方式，并选择是否开启隐式马尔科夫模型（HMM）等。
 
@@ -512,6 +507,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -542,6 +539,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -553,7 +552,7 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"milvus结巴分词器中文测试"}
-option := milvusclient.NewRunAnalyzerOption(texts).
+option := milvusclient.NewRunAnalyzerOption(texts...).
     WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
@@ -568,6 +567,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["milvus结巴分词器中文测试"])
         .analyzer_params(analyzer_params)
@@ -580,6 +581,8 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <string>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -629,19 +632,12 @@ console.log(result.results);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "text": "milvus结巴分词器中文测试",
-  "analyzerParams": {
-    "tokenizer": {
-      "type": "jieba",
-      "dict": ["结巴分词器"],
-      "mode": "exact",
-      "hmm": false
-    }
-  }
+  "text": ["milvus结巴分词器中文测试"],
+  "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"结巴分词器\"],\"mode\":\"exact\",\"hmm\":false}}"
 }'
 ```
 

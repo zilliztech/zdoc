@@ -45,6 +45,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("pinyin"));
@@ -91,7 +95,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
@@ -141,6 +145,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 Map<String, Object> pinyinFilter = new HashMap<>();
@@ -217,7 +225,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -406,6 +414,9 @@ print(result)
 ```java
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
@@ -423,6 +434,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter":    []string{"pinyin"},
@@ -488,16 +501,16 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
 
-const result = await client.runAnalyzer({
+const char_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(char_result.results);
 ```
 
 </TabItem>
@@ -556,6 +569,9 @@ print(result)
 ```java
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
@@ -579,6 +595,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{
@@ -668,7 +686,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -681,11 +699,11 @@ const analyzer_params = {
     ],
 };
 
-const result = await client.runAnalyzer({
+const joined_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(joined_result.results);
 ```
 
 </TabItem>
@@ -744,6 +762,9 @@ print(result)
 ```java
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
@@ -767,6 +788,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{
@@ -856,7 +879,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -869,11 +892,11 @@ const analyzer_params = {
     ],
 };
 
-const result = await client.runAnalyzer({
+const initials_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(initials_result.results);
 ```
 
 </TabItem>

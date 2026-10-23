@@ -821,7 +821,7 @@ filter='price ** 2 > 1000'
 </TabItem>
 </Tabs>
 
-## 按位操作符\{#bitwise-operators}
+## 按位操作符 | PUBLIC\{#bitwise-operators}
 
 当整数值用于编码权限、功能开关或状态位等多个标志时，按位操作符非常有用。您可以在过滤表达式中使用这些操作符，检查、组合或比较整数值中的各个位。
 

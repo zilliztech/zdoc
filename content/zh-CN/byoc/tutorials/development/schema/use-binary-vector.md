@@ -141,7 +141,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema().WithEnableDynamicField(true).
+schema := entity.NewSchema().WithDynamicFieldEnabled(true).
     WithField(entity.NewField().
         WithName("pk").
         WithDataType(entity.FieldTypeVarChar).
@@ -213,13 +213,26 @@ schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_V
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-schema.push({
-  name: "binary_vector",
-  data_type: DataType.BinaryVector,
-  dim: 128,
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
 });
+
+const schema = [
+  {
+    name: "pk",
+    data_type: DataType.VarChar,
+    is_primary_key: true,
+    autoID: true,
+    max_length: 100,
+  },
+  {
+    name: "binary_vector",
+    data_type: DataType.BinaryVector,
+    dim: 128,
+  },
+];
 ```
 
 </TabItem>
@@ -300,6 +313,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(entity.HAMMING)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector", idx)
 ```
@@ -309,6 +328,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![IndexParam::new()
     .field_name("binary_vector")
     .index_name("binary_vector_index")
@@ -333,12 +354,12 @@ std::vector<milvus::IndexDesc> indexes = {
 ```javascript
 import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 
-const indexParams = {
-  indexName: "binary_vector_index",
+const indexParams = [{
+  index_name: "binary_vector_index",
   field_name: "binary_vector",
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
-};
+}];
 ```
 
 </TabItem>
@@ -398,6 +419,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -412,6 +439,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -550,6 +579,12 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithBinaryVectorColumn("binary_vector", 128, [][]byte{
         {0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -566,6 +601,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Binary vectors (128 bits = 16 bytes)
 let binary_vectors: Vec<Vec<u8>> = vec![
     vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -630,6 +667,11 @@ await client.insert({
 <TabItem value='bash'>
 
 ```bash
+export data='[
+    {"binary_vector": "2SoAAAAAAAAAAAAAAAAAAA=="},
+    {"binary_vector": "KrMAAAAAAAAAAAAAAAAAAA=="}
+]'
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -712,6 +754,14 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []byte{0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 annSearchParams := index.NewCustomAnnParam()
@@ -740,6 +790,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // query vector = vector1
 let query_vector: Vec<u8> = vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -813,6 +865,10 @@ await client.search({
 export searchParams='{
         "params":{"nprobe":10}
     }'
+
+export data='[
+    {"binary_vector": "2SoAAAAAAAAAAAAAAAAAAA=="}
+]'
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \

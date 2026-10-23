@@ -230,26 +230,21 @@ if err != nil {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let request = CreateIndexRequest::builder()
-        .collection_name("Documents")
-        .index_params(vec![IndexParam::new()
-            .field_name("text")
-            .index_name("ngram_index")
-            .index_type(IndexType::Ngram)
-            .extra_params(HashMap::from([
-                ("min_gram".to_string(), "2".to_string()),
-                ("max_gram".to_string(), "3".to_string()),
-            ]))])
-        .build()?;
-    client.create_index(request).await?;
-
-    Ok(())
-}
+let request = CreateIndexRequest::builder()
+    .collection_name("Documents")
+    .index_params(vec![IndexParam::new()
+        .field_name("text")
+        .index_name("ngram_index")
+        .index_type(IndexType::Ngram)
+        .extra_params(HashMap::from([
+            ("min_gram".to_string(), "2".to_string()),
+            ("max_gram".to_string(), "3".to_string()),
+        ]))])
+    .build()?;
+client.create_index(request).await?;
 ```
 
 </TabItem>
@@ -403,6 +398,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 opt := milvusclient.NewCreateIndexOption("Documents", "json_field", index.NewNgramIndex(2, 4)).
     WithIndexName("json_ngram_index")
 opt.WithExtraParam("json_path", `json_field["body"]`)
@@ -419,6 +422,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
     let request = CreateIndexRequest::builder()
         .collection_name("Documents")
         .index_params(vec![IndexParam::new()
@@ -611,6 +617,12 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("Documents", "ngram_index"))
 if err != nil {
     fmt.Println(err)
@@ -622,6 +634,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DropIndexRequest::builder()
         .collection_name("Documents")
         .index_name("ngram_index")

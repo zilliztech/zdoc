@@ -1407,7 +1407,7 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## 通过标量字段对搜索结果进行排序 | PRIVATE \{#sort-search-results-by-scalar-fields}
+## 通过标量字段对搜索结果进行排序 | PUBLIC \{#sort-search-results-by-scalar-fields}
 
 默认情况下，Zilliz Cloud 会按照结果与查询向量的相似度得分对搜索结果进行排序。如果你希望返回的 Entity 遵循某个标量字段的排序规则，可以在搜索请求中添加 `order_by_fields` 参数。
 

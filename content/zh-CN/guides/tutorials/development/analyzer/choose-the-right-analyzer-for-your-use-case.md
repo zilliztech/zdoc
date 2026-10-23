@@ -205,6 +205,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 analyzerParams := map[string]any{"type": "english"}
 
 schema.WithField(entity.NewField().
@@ -220,6 +222,9 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({"type": "english"});
 let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .name("text")
@@ -246,6 +251,8 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const analyzer_params = { type: "english" };
 
 const schema = [
@@ -576,6 +583,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 analyzerParams := map[string]any{
     "tokenizer": "whitespace",
     "filter": []any{"lowercase", "alphanumonly"},
@@ -594,6 +603,9 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({
     "tokenizer": "whitespace",
     "filter": ["lowercase", "alphanumonly"]
@@ -626,6 +638,8 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const analyzer_params = {
   tokenizer: "whitespace",
   filter: ["lowercase", "alphanumonly"],
@@ -731,7 +745,12 @@ result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
 }
-fmt.Println(result)
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -739,6 +758,8 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["The Milvus vector database is built for scale!"])
         .analyzer_params(analyzer_params)
@@ -751,6 +772,9 @@ fmt.Println(result)
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 milvus::RunAnalyzerRequest request;
 request.WithAnalyzerParams(analyzer_params);
 request.AddText("The Milvus vector database is built for scale!");
@@ -784,14 +808,12 @@ console.log(result.results);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "text": "The Milvus vector database is built for scale!",
-  "analyzerParams": {
-    "type": "english"
-  }
+  "text": ["The Milvus vector database is built for scale!"],
+  "analyzerParams": "{\"type\": \"english\"}"
 }'
 ```
 
@@ -1083,6 +1105,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "icu");
 analyzerParams.put("filter", Arrays.asList("lowercase", "asciifolding"));
@@ -1104,6 +1130,8 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({
     "tokenizer": "icu",
     "filter": ["lowercase", "asciifolding"]

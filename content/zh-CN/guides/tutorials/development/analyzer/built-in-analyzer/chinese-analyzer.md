@@ -54,6 +54,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -96,7 +100,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cnalphanumonly"]
 };
@@ -137,6 +141,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -176,7 +183,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "chinese",
 }
 ```
@@ -221,6 +228,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -295,9 +305,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Milvus 是一个高性能、可扩展的向量数据库！"
 
-# Run the standard analyzer with the defined configuration
+# Run the Chinese analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("English analyzer output:", result)
+print("Chinese analyzer output:", result)
 ```
 
 </TabItem>
@@ -305,6 +315,8 @@ print("English analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -427,7 +439,7 @@ const client = new MilvusClient({
 });
 
 const result = await client.runAnalyzer({
-  analyzer_params: analyzerParams,
+  analyzer_params: analyzer_params,
   text: sampleText,
 });
 ```
