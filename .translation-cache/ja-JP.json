@@ -2091,14 +2091,14 @@
       "translatedAt": "2026-10-10T05:34:30.460Z"
     },
     "content/en/guides/tutorials/development/search-and-query/get-and-scalar-query.md": {
-      "sourceHash": "766585c8770b943efe73b5387c425792cee29a0726b310873f75facbf287d2ec",
+      "sourceHash": "577534af0bebf526e629e0965e4fdda06e9f545fb24a1418bab4ef1cb0edf371",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/grouping-search.md": {
-      "sourceHash": "a33f84be6e434f17261cf9550d815421675bd00deb5f5986933ef698896911b1",
+      "sourceHash": "2b4ea90dd0640d4ed0146b725b983446b7b819ea36f4e410e2663fee3cd589a9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/grouping-search.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/hybrid-search.md": {
       "sourceHash": "c49eedef1ee634e98d0be5fa8fa7adcc71301fc0aa43abaf44d55d31ff3f0fb7",
@@ -2131,9 +2131,9 @@
       "translatedAt": "2026-09-19T14:10:49.557Z"
     },
     "content/en/guides/tutorials/development/search-and-query/single-vector-search.md": {
-      "sourceHash": "d6089a8e18e00312d37acb4c4c7dedf48bbdba4d51c468d9fda12ebe0761e232",
+      "sourceHash": "750650ca65ce5ef445554080f2e6cb69d8e165c63a1be9e4225d356b9f9abb23",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/single-vector-search.md",
-      "translatedAt": "2026-10-19T15:12:29.324Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
       "sourceHash": "22d9066cee29091ad7fe68ea2566a0fd306cc3260aaa4e80c531be8caebf32aa",
@@ -2171,9 +2171,9 @@
       "translatedAt": "2026-10-19T15:12:29.324Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-match.md": {
-      "sourceHash": "1a7d6968e97632096bb082e2e7a3676c53f9a39d17aab014fc4693b698dd4af5",
+      "sourceHash": "b37096cf2b49c5824a3451dd617437c17a9f83de71a570f3543d997cadbacc56",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/text-match.md",
-      "translatedAt": "2026-10-19T17:49:29.775Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/tune-recall-rate.md": {
       "sourceHash": "4cd0c9700949948c8719c21a296e25049461916fd1da4820629c41600414005b",
@@ -2356,9 +2356,9 @@
       "translatedAt": "2026-09-19T14:14:40.742Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "edf41d44fe3d12ad75058e03cb424e8c52272940c8027aab18689b2a32af3d40",
+      "sourceHash": "b878dfef6082215afa0dedaf9b464a610ec61d68d64ff1ebf32acd0127b730ae",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2511,9 +2511,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2605.md": {
-      "sourceHash": "1e2eef4b64a0e947e9d5c96fa50ecea943772ee00a72dceabee3c8e5de07a7de",
+      "sourceHash": "a6d0348279a886a47c932c478c171fd902a1c72f4f294dd4a1ed7cb302f8b954",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2605.md",
-      "translatedAt": "2026-10-19T23:25:07.913Z"
+      "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2606.md": {
       "sourceHash": "03929fff4ea7f814508e657db760e40c7a8b5ca3c36db78dac09ad564d8bb118",

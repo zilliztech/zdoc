@@ -553,7 +553,7 @@ zilliz vector search \
 
 パラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
 
-## スカラーフィールドでグループを並べ替える | ONDEMAND\{#order-groups-by-a-scalar-field}
+## スカラーフィールドでグループを並べ替える | PUBLIC\{#order-groups-by-a-scalar-field-or-public}
 
 Grouping Search を `order_by_fields` と組み合わせることで、スカラーフィールドによってグループを並べ替えることができます。これは、グループ間で多様な結果を得ながら、価格や評価などビジネス上有意味な順序にグループを従わせたい場合に役立ちます。
 
@@ -782,4 +782,3 @@ zilliz vector search \
 - **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに対して指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保つことができますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が必要ない場合は、`strict_group_size=False` に設定するとクエリ速度を向上させることができます。
 
 - クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
-

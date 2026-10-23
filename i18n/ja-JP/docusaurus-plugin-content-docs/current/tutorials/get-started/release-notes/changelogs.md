@@ -284,7 +284,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash 関数](./minhash-function)
 
-            - [検索](./single-vector-search#sort-search-results-by-scalar-fields)と[クエリ](./get-and-scalar-query#sort-query-results)の並べ替え
+            - [検索](./single-vector-search)と[クエリ](./get-and-scalar-query)の並べ替え
 
             - [スナップショット](./snapshots)
 
@@ -836,7 +836,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🚀  Milvus v2.4.x が Zilliz Cloud で利用可能になりました
 
-            - [Sparse vector](./use-sparse-vector)データ型のサポート
+            - [スパースベクトル](./use-sparse-vector) データ型のサポート
 
             - Float16 および BFloat16 ベクトルデータ型のサポート
 

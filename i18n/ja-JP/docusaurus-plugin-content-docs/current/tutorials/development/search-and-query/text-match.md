@@ -638,7 +638,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
     </TabItem>
     </Tabs>
 
-### TEXT_MATCH_FUZZY 式の構文\{#textmatchfuzzy-expression-syntax}
+### TEXT_MATCH_FUZZY 式の構文 | PUBLIC\{#textmatchfuzzy-expression-syntax-or-public}
 
 `TEXT_MATCH_FUZZY` を使用すると、クエリトークンとインデックス付きトークン間のスペル差異を許容できます。Milvus はフィールドのアナライザーでクエリテキストを分析し、得られた各トークンにファジーマッチングを適用します。クエリで複数のトークンが生成された場合、いずれかのトークンが構成された編集距離を満たすと、式はエンティティに一致します。
 

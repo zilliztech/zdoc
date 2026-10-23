@@ -136,7 +136,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — 検索結果とクエリ結果に対する複数フィールドでの並べ替えです。フィールドごとの ASC / DESC がカーネルにプッシュダウンされます。複合ランキングのために過剰にフェッチしてクライアント側で並べ替え直す必要はなくなりました。
 
-            詳細については、[基本的なベクトル検索](./single-vector-search#sort-search-results-by-scalar-fields)、[Grouping Search](./grouping-search#order-groups-by-a-scalar-field)、および [クエリ](./get-and-scalar-query#sort-query-results) を参照してください。
+            詳細については、[基本的なベクトル検索](./single-vector-search)、[Grouping Search](./grouping-search)、および [クエリ](./get-and-scalar-query) を参照してください。
 
         **データライフサイクルと運用**
 
@@ -185,4 +185,3 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
-
