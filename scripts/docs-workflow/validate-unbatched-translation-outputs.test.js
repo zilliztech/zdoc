@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict')
 const crypto = require('node:crypto')
+const {execFileSync} = require('node:child_process')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -692,6 +693,16 @@ function referenceReconciliationFixture() {
   writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', baselineState)
   writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', workspaceState)
 
+  // The baseline is a queue-tip checkout whose Reference source manifest binds
+  // an earlier fetch commit (SOURCE_COMMIT): sync merges and other groups'
+  // fetches legitimately separate the tip from the manifest binding, so the
+  // plan's target baseline is the checkout HEAD, never the manifest commit.
+  execFileSync('git', ['-C', baseline, 'init', '-q', '-b', 'main'])
+  execFileSync('git', ['-C', baseline, 'add', '.'])
+  execFileSync('git', ['-C', baseline, '-c', 'user.name=test', '-c', 'user.email=test@example.com', 'commit', '-q', '-m', 'queue-owned target baseline'])
+  const targetBaselineSha = execFileSync('git', ['-C', baseline, 'rev-parse', 'HEAD^{commit}'], {encoding: 'utf8'}).trim()
+  assert.notEqual(targetBaselineSha, SOURCE_COMMIT)
+
   const operation = (sourcePath, targetPath) => ({
     kind: 'delete_target', sourcePath, targetPath,
     replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
@@ -701,12 +712,12 @@ function referenceReconciliationFixture() {
   const plan = createReconciliationPlan({
     schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'zh-CN-reference', group: 'python',
     toolingSha: '1'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: SOURCE_COMMIT,
-    targetBaselineSha: SOURCE_COMMIT, policyId: 'test-v1',
+    targetBaselineSha, policyId: 'test-v1',
     operations: [operation(folderOverviewSourcePath, folderOverviewTargetPath), operation(folderDataSourcePath, folderDataTargetPath)],
   })
   const result = createReconciliationResult({
     schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256,
-    targetBaselineSha: SOURCE_COMMIT, status: 'applied',
+    targetBaselineSha, status: 'applied',
     operations: [
       {operationId: plan.operations.find(entry => entry.sourcePath === folderOverviewSourcePath).operationId, status: 'applied', removedPaths: [folderOverviewTargetPath], removedStateKeys: [folderOverviewSourcePath]},
       {operationId: plan.operations.find(entry => entry.sourcePath === folderDataSourcePath).operationId, status: 'applied', removedPaths: [], removedStateKeys: [folderDataSourcePath]},
@@ -749,6 +760,27 @@ test('rejects a reconciled workspace when the validation is not told about the r
   const fixture = referenceReconciliationFixture()
   try {
     assert.throws(() => validate(fixture.root, {translated: 1, failed: 0}), /does not preserve authenticated failed and unrelated records|Reference path requires an explicit retirement/i)
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects an applied reconciliation plan bound to a different target baseline checkout', () => {
+  const fixture = referenceReconciliationFixture()
+  try {
+    const basePlan = JSON.parse(fs.readFileSync(path.join(fixture.root, 'tmp/reconciliation-plan.json'), 'utf8'))
+    const plan = createReconciliationPlan({...basePlan, targetBaselineSha: '3'.repeat(40)})
+    const result = createReconciliationResult({
+      schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256,
+      targetBaselineSha: '3'.repeat(40), status: 'applied',
+      operations: basePlan.operations.map(operation => ({operationId: operation.operationId, status: 'already_applied', removedPaths: [], removedStateKeys: []})),
+    }, plan)
+    writeJson(fixture.root, 'tmp/foreign-reconciliation-plan.json', plan)
+    writeJson(fixture.root, 'tmp/foreign-reconciliation-result.json', result)
+    assert.throws(
+      () => validate(fixture.root, {translated: 1, failed: 0}, {plan: 'tmp/foreign-reconciliation-plan.json', result: 'tmp/foreign-reconciliation-result.json'}),
+      /applied reconciliation plan baseline does not match the target baseline checkout/i,
+    )
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
