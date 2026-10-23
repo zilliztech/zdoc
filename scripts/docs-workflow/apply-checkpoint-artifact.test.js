@@ -218,6 +218,101 @@ test('independently merges records and pending records when two group artifacts 
   });
 });
 
+test('artifact-side record resolutions win over Fetch evidence-only sourceCommit restamps', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const pending = (sourceCommit) => ({
+    manual: 'node',
+    sourcePath: 'content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md',
+    targetPath: 'content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md',
+    sourceCommit,
+    sourceHash: '1'.repeat(64),
+  });
+  const translated = (value) => ({...value, targetHash: '3'.repeat(64), status: 'translated'});
+  // The producer translated the pending source while a Fetch reconciliation
+  // re-stamped the still-pending record at a newer commit with an identical hash.
+  const baseline = {schemaVersion: 1, records: [], pendingRecords: [pending('a'.repeat(40))]};
+  const artifact = {schemaVersion: 1, records: [translated(pending('a'.repeat(40)))], pendingRecords: []};
+  const target = {schemaVersion: 1, records: [], pendingRecords: [pending('b'.repeat(40))]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    records: [translated(pending('a'.repeat(40)))],
+    pendingRecords: [],
+    schemaVersion: 1,
+  });
+});
+
+test('artifact-side retired record removal wins over Fetch evidence-only sourceCommit restamps', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const retired = (sourceCommit) => ({
+    manual: 'cpp',
+    sourcePath: 'content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md',
+    targetPath: 'content/zh-CN/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md',
+    sourceCommit,
+    sourceHash: '0'.repeat(64),
+    targetHash: 'f'.repeat(64),
+    status: 'retired',
+    retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: 'c'.repeat(40)},
+  });
+  const baseline = {schemaVersion: 1, records: [retired('a'.repeat(40))]};
+  const artifact = {schemaVersion: 1, records: []};
+  const target = {schemaVersion: 1, records: [retired('b'.repeat(40))]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    records: [],
+    schemaVersion: 1,
+  });
+});
+
+test('record removal still conflicts when the target change is substantive rather than a restamp', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const pending = (overrides = {}) => ({
+    manual: 'node',
+    sourcePath: 'content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md',
+    targetPath: 'content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md',
+    sourceCommit: 'a'.repeat(40),
+    sourceHash: '1'.repeat(64),
+    ...overrides,
+  });
+  const baseline = {schemaVersion: 1, records: [], pendingRecords: [pending()]};
+  const artifact = {schemaVersion: 1, records: [], pendingRecords: []};
+  const target = {schemaVersion: 1, records: [], pendingRecords: [pending({sourceHash: '9'.repeat(64)})]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+  const before = await readFile(path.join(f.targetDir, statePath), 'utf8');
+
+  await assert.rejects(applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir}), /Translation cache conflict/);
+  assert.equal(await readFile(path.join(f.targetDir, statePath), 'utf8'), before);
+});
+
 test('independently merges language-excluded records across group checkpoints', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
   const excluded = (manual, sourcePath) => ({
