@@ -4,12 +4,12 @@ slug: /java/java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会处理输入数据并生成分词后的输出。 | Java | v2"
 type: docx
-token: AXt2dvFmQoP04wx9zlVciuitnQf
+token: ZtsPdcamWoCjzhxZMnDc3aIZnxc
 sidebar_position: 10
 keywords: 
   - Faiss
@@ -73,7 +73,7 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    Database 的名称。如未指定，则默认使用当前 Database。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
@@ -87,11 +87,23 @@ runAnalyzer(RunAnalyzerReq.builder()
 
     要使用的 Analyzer 名称列表。
 
-**返回值：**
+**返回类型：**
 
 *RunAnalyzerResp*
 
+**返回：**
+
 一个 **RunAnalyzerResp** 包含一个 **AnalyzerResult** 对象列表，其中每个对象都是一个 **AnalyzerToken** 对象列表。
+
+**参数：**
+
+- **results** （*List&lt;AnalyzerResult&gt;*） -
+
+    Analyzer 结果列表，每个输入文本对应一个结果，其中每个结果都包含以下字段：
+
+    - **tokens** （*List&lt;AnalyzerToken&gt;*） -
+
+        Analyzer 生成的 token，其中每个 token 都包含以下字段：
 
 **异常：**
 
@@ -106,6 +118,12 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

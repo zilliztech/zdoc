@@ -51,13 +51,8 @@ volumeBulkWriter.commit(
 
     commit 操作在被调用后是否立即返回。
 
-**返回类型：**
-
-*void*
-
 ## 示例\{#examples}
 
 ```java
 volumeBulkWriter.commit(false);
 ```
-

@@ -12,7 +12,7 @@ type: docx
 token: AUQvd5EdFomWEWx3DrwcffYHnmb
 sidebar_position: 7
 keywords: 
-  - openai 向量数据库
+  - openai 向量 Database
   - 自然语言处理 Database
   - 低成本向量 Database
   - 托管向量 Database
@@ -37,9 +37,19 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**返回值：**
+**返回类型：**
 
 *Long*
+
+**返回值：**
+
+此 LocalBulkWriter 实例写入的总行数。
+
+**参数：**
+
+- **totalRowCount** (*Long*) -
+
+    到目前为止追加到此写入器的总行数。
 
 **异常：**
 

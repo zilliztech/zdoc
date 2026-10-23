@@ -73,7 +73,7 @@ AddFunctionFieldReq.builder()
 
 - `fieldName(String fieldName)`
 
-    要添加的函数输出字段名称。
+    要添加的函数输出字段的名称。
 
 - `description(String description)`
 
@@ -130,12 +130,6 @@ AddFunctionFieldReq.builder()
 - `indexParam(IndexParam indexParam)`
 
     绑定索引配置。它必须使用相同的字段，并显式指定除 None 或 AUTOINDEX 之外的索引类型。
-
-**返回：**
-
-*void*
-
-此操作不返回值。
 
 **异常：**
 

@@ -4,20 +4,20 @@ slug: /java/java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 Collection 中的 Partition 从内存中释放。 | Java | v2"
+description: "此操作会将指定 Collection 中的 Partition 加载到内存中。 | Java | v2"
 type: docx
-token: MH8cdNxkgoliJ5xU0f9cBKqunYe
+token: QHhAd0ObroZgicxARuKcOqEmnfb
 sidebar_position: 6
 keywords: 
-  - RAG 向量 Database
-  - 什么是向量数据库
+  - rag 向量 Database
+  - 什么是向量 Database
   - 什么是向量 Database
   - 向量 Database 对比
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - loadPartitions()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-此操作会将指定 Collection 中的 Partition 从内存中释放。
+此操作会将指定 Collection 中的 Partition 加载到内存中。
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
@@ -59,7 +59,7 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    Database 名称。若未指定，则默认为当前 Database。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
@@ -67,19 +67,19 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `partitionNames(List<String> partitionNames)` -
 
-    要操作的 Partition 名称列表。
+    目标 Partition 的名称列表。
 
 - `numReplicas(Integer numReplicas)` -
 
-    要加载的副本数量。
+    要加载的副本数。
 
 - `sync(Boolean sync)` -
 
-    是否同步等待操作完成。
+    是否同步等待，直到操作完成。
 
 - `timeout(Long timeout)` -
 
-    超时时长（以毫秒为单位）。
+    超时时长，单位为毫秒。
 
 - `refresh(Boolean refresh)` -
 
@@ -97,17 +97,11 @@ loadPartitions(LoadPartitionsReq.builder()
 
     用于负载均衡的资源组名称列表。
 
-**返回值：**
-
-*void*
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -115,6 +109,8 @@ loadPartitions(LoadPartitionsReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.LoadPartitionsReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

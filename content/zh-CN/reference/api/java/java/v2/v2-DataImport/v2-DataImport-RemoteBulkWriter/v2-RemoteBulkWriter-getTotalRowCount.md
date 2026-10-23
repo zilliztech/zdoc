@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回此 RemoteBulkWriter 实例写入的总行数。 | Java | v2"
+description: "此操作返回此 RemoteBulkWriter 实例已写入的总行数。 | Java | v2"
 type: docx
 token: QH3hdlzwDoxHjTxPj39c6qMSnbg
 sidebar_position: 7
 keywords: 
-  - knn 算法
+  - kNN 算法
   - HNSW
   - 什么是非结构化数据
   - 向量嵌入
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - getTotalRowCount()
   - javaV230
@@ -31,21 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # getTotalRowCount()
 
-此操作返回此 RemoteBulkWriter 实例写入的总行数。
+此操作返回此 RemoteBulkWriter 实例已写入的总行数。
 
 ```java
 public Long getTotalRowCount()
 ```
 
-**返回：**
+**返回类型：**
 
 *Long*
+
+**返回：**
+
+此 RemoteBulkWriter 实例已写入的总行数。
+
+**参数：**
+
+- **totalRowCount** （*Long*） -
+
+    到目前为止追加的行数。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将抛出此异常。
 
 ## 示例\{#example}
 

@@ -4,12 +4,12 @@ slug: /java/java/v2-Partitions-createPartition
 sidebar_label: "createPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作将在目标 Collection 中创建一个 Partition。 | Java | v2"
 type: docx
-token: WE4gduIjooCgQUxcKyLcwQe1n3g
+token: Un23d2Ac7ovfQsxFDIsczDYzn9d
 sidebar_position: 1
 keywords: 
   - 相似性搜索
@@ -62,13 +62,9 @@ createPartition(CreatePartitionReq.builder()
 
     （必需）要创建的 Partition 名称。
 
-**返回值：**
-
-*void*
-
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     此操作期间发生任何错误时，都会引发此异常。
 
@@ -78,6 +74,7 @@ createPartition(CreatePartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -94,4 +91,3 @@ CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .build();
 client.createPartition(createPartitionReq);
 ```
-

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "列出当前 Database 中所有已上传的文件资源。 | Java | v2"
+description: "此操作会列出当前 Database 中所有已上传的文件资源。 | Java | v2"
 type: docx
 token: JbG0d6GAdoOpkixsVUpcE0YMnPd
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listFileResources()
 
-列出当前 Database 中所有已上传的文件资源。
+此操作会列出当前 Database 中所有已上传的文件资源。
 
 ```java
 public ListFileResourcesResp listFileResources(ListFileResourcesReq request)
@@ -45,15 +45,27 @@ listFileResources(ListFileResourcesReq.builder().build());
 
 此请求不接受任何参数。
 
-**返回：**
+**返回类型：**
 
 *ListFileResourcesResp*
 
-响应封装了可通过 `getResources()` 访问的 `List<FileResourceInfo>`。每个 `FileResourceInfo` 条目包含：
+**返回：**
 
-- `name`（*String*）- 资源的唯一名称。
+包含已注册文件资源的 **ListFileResourcesResp** 对象。
 
-- `path`（*String*）- 上传的原始本地路径。
+**参数：**
+
+- **resources**（*List&lt;FileResourceInfo&gt;*）-
+
+    当前 Database 中注册的文件资源，可通过 `getResources()` 访问。每个 **FileResourceInfo** 条目均包含以下字段：
+
+    - **name**（*String*）-
+
+        资源的唯一名称。
+
+    - **path**（*String*）-
+
+        上传的原始本地路径。
 
 **异常：**
 

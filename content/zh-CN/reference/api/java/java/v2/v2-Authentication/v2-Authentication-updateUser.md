@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会更新现有用户的描述，而不更改用户密码。 | Java | v2"
+description: "此操作会更新现有用户的描述，且不会更改用户密码。 | Java | v2"
 type: docx
 token: AAudd8xDRoRfNLx6OpgcsfkpnVb
 sidebar_position: 22
@@ -15,9 +15,9 @@ keywords:
   - 开源向量 Database
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库
-  - zilliz
-  - zilliz cloud
+  - 开源向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - updateUser()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # updateUser()
 
-此操作会更新现有用户的描述，而不更改用户密码。
+此操作会更新现有用户的描述，且不会更改用户密码。
 
 ```java
 public void updateUser(UpdateUserReq request)
@@ -53,23 +53,17 @@ client.updateUser(UpdateUserReq.builder()
 
     **[必需]**
 
-    要更新的用户名。
+    要更新的用户的名称。
 
 - `description(String description)`
 
-    用户的新描述。使用空字符串可清除此描述。
-
-**返回：**
-
-*void*
-
-此操作不返回任何值。
+    用户的新描述。使用空字符串可清除该描述。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回此 VolumeBulkWriter 实例写入的总行数。| Java | v2"
+description: "此操作返回此 VolumeBulkWriter 实例写入的总行数。 | Java | v2"
 type: docx
 token: JgY9doHQjoNBfMxVnpfcZeHongb
 sidebar_position: 5
@@ -37,9 +37,19 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**返回值：**
+**返回类型：**
 
 *Long*
+
+**返回：**
+
+到目前为止追加的总行数。
+
+**参数：**
+
+- **totalRowCount** （*Long*） -
+
+    到目前为止追加的总行数。
 
 **异常：**
 
@@ -55,4 +65,3 @@ VolumeBulkWriter writer = new VolumeBulkWriter(config);
 Long totalRows = writer.getTotalRowCount();
 System.out.println("Total rows written: " + totalRows);
 ```
-

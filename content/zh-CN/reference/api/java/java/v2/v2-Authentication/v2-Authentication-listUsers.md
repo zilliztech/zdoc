@@ -4,21 +4,21 @@ slug: /java/java/v2-Authentication-listUsers
 sidebar_label: "listUsers()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出所有现有用户的名称。 | Java | v2"
 type: docx
-token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
+token: Ewtkdz0gSo38D4xf9eecRyzynRd
 sidebar_position: 15
 keywords: 
   - Zilliz
-  - milvus 向量 Database
-  - milvus db
-  - milvus 向量 db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - listUsers()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -45,23 +45,31 @@ listUsers();
 
 **返回类型：**
 
-*List\<String\>*
+*List&lt;String&gt;*
 
-**返回值：**
+**返回：**
 
-包含用户名的字符串列表。
+一个包含所有用户名称的字符串列表。
+
+**参数：**
+
+- **userNames**（*List&lt;String&gt;*） -
+
+    所有现有用户的名称列表。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -74,4 +82,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. List users
 List<String> resp = client.listUsers();
 ```
-

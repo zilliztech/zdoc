@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会从特定角色中撤销权限或权限组。 | Java | v2"
 type: docx
-token: FZN8dtlIRoMSGBxF7b1cWX48n0b
+token: Ai9jdBRUdoOaD4xOrtAcrwj2nEe
 sidebar_position: 18
 keywords: 
   - 自然语言搜索
@@ -57,7 +57,7 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    要从指定角色中撤销的权限或权限组。有关可用权限的详细信息，请参见 [权限](/docs/cluster-privileges)。
+    要从指定角色中撤销的权限或权限组。有关可用权限的详细信息，请参见“向角色授予权限或权限组”。
 
 - `dbName(String dbName)`
 
@@ -66,10 +66,6 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 - `collectionName(String collectionName)`
 
     指定 Database 中的目标资源 Collection。执行此操作后，指定角色将失去对指定 Collection 中指定权限的访问权限。
-
-**返回：**
-
-*void*
 
 **异常：**
 
@@ -83,6 +79,7 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,8 +95,7 @@ RevokePrivilegeReqV2 revokePrivilegeReqV2 = RevokePrivilegeReqV2.builder()
     .privilege("read_only")
     .dbName("my_db")
     .collectionName("my_collection")
-    .build()
-        
+    .build();
+
 client.revokePrivilegeV2(revokePrivilegeReqV2);
 ```
-

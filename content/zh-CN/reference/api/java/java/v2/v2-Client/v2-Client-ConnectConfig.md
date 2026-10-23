@@ -55,6 +55,7 @@ ConnectConfig.builder()
     .serverName(String serverName)
     .proxyAddress(String proxyAddress)
     .option(Map<String, String> option)
+    .telemetryConfig(TelemetryConfig telemetryConfig)
     .build()
 ```
 
@@ -68,7 +69,7 @@ ConnectConfig.builder()
 
 - `token(String token)` -
 
-    用于身份验证的 API key 或 `"username:password"` 字符串。可将其用于 Zilliz Cloud API key，或作为用户名/password身份验证的简写。默认值：`null`。
+    用于身份验证的 API key 或 `"username:password"` 字符串。可将其用于 Zilliz Cloud API key，或作为用户名/password 身份验证的简写。默认值：`null`。
 
 - `username(String username)` -
 
@@ -141,6 +142,10 @@ ConnectConfig.builder()
 - `option(Map<String, String> option)` -
 
     连接时在 `ClientInfo.reserved` 字段中转发到服务器的任意键值对。适合用于传递服务器可识别的客户端元数据或功能标记。默认值为空映射。
+
+- `telemetryConfig(TelemetryConfig telemetryConfig)` -
+
+    客户端遥测配置。有关可用设置，请参见 TelemetryConfig。
 
 ## 示例\{#example}
 

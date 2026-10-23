@@ -4,20 +4,20 @@ slug: /java/java/v2-Management-getLoadState
 sidebar_label: "getLoadState()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作显示指定 Collection 或 Partition 是否已加载。 | Java | v2"
+description: "此操作显示指定的 Collection 或 Partition 是否已加载。 | Java | v2"
 type: docx
-token: PAs7dwIIrop4OixCUr8ctHVLnXc
+token: UN0oddDrNoaIq2xDGCLcG9XCnob
 sidebar_position: 9
 keywords: 
   - 向量 Database 教程
   - 向量 Database 如何工作
-  - 向量数据库对比
-  - openai 向量数据库
-  - zilliz
-  - zilliz cloud
+  - 向量 Database 对比
+  - OpenAI 向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - getLoadState()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-此操作显示指定 Collection 或 Partition 是否已加载。
+此操作显示指定的 Collection 或 Partition 是否已加载。
 
 ```java
 public Boolean getLoadState(GetLoadStateReq request)
@@ -52,35 +52,35 @@ getLoadState(GetLoadStateReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标 Collection 所属的 Database 名称。
+    目标 Collection 所属的 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    Collection 名称。
+    Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    Partition 名称。
+    Partition 的名称。
 
 **返回类型：**
 
 *Boolean*
 
-**返回值：**
+**返回：**
 
-一个 Boolean 值，用于指示指定 Collection 或 Partition 的状态。 
+一个 Boolean 值，指示指定的 Collection 或 Partition 的状态。
 
-<Admonition type="info" icon="📘" title="Notes">
+**参数：**
 
-如果某个 Collection 的任意一个或全部 Partition 已加载，则该 Collection 处于已加载状态。
+- **loaded** （*Boolean*） -
 
-</Admonition>
+    指定的 Collection 或 Partition 是否已加载：如果已加载，则为 `true`，否则为 `false`。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -88,6 +88,7 @@ getLoadState(GetLoadStateReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

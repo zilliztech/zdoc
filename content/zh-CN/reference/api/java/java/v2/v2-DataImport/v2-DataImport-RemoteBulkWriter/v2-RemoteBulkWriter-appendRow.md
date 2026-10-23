@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "验证并向 writer 追加一行数据。当缓冲数据超过已配置的 `chunkSize` 时，writer 会自动提交当前文件。 | Java | v2"
+description: "此操作会验证并向 writer 追加一行数据。当缓冲数据超过已配置的 `chunkSize` 时，writer 会自动提交当前文件。 | Java | v2"
 type: docx
 token: ZWoqd1OFgoYwGyxWmz9ciWwsnZx
 sidebar_position: 6
 keywords: 
-  - llm eval
+  - LLM 评估
   - 稀疏 vs 稠密
   - 稠密向量
   - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - appendRow()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-验证并向 writer 追加一行数据。当缓冲数据超过已配置的 `chunkSize` 时，writer 会自动提交当前文件。
+此操作会验证并向 writer 追加一行数据。当缓冲数据超过已配置的 `chunkSize` 时，writer 会自动提交当前文件。
 
-[`StructFieldSchema`](./v2-Collections-StructFieldSchema) 字段可以包含 binary、float16、bfloat16 和 int8 向量值。
+`StructFieldSchema` 字段可以包含 binary、float16、bfloat16 和 int8 向量值。
 
 ```java
 public void appendRow(JsonObject rowData)
 ```
 
-**返回：**
+**参数：**
 
-*void*
+- **rowData** （*JsonObject*） -
 
-此操作不返回值。
+    要追加的行数据，以 JSON 对象表示。每行将列名映射到值，并且必须通过目标 Schema 的验证。
 
 **异常：**
 

@@ -4,20 +4,20 @@ slug: /java/java/v2-Partitions-listPartitions
 sidebar_label: "listPartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出指定 Collection 中的 Partition。 | Java | v2"
+description: "此操作会列出指定 Collection 中的 Partition。 | Java | v2"
 type: docx
-token: Bjs5dej7ZoBKhXxZzMjclPCynmd
+token: Jj60dRCiVoLLRzxVCiGcjI37nHc
 sidebar_position: 5
 keywords: 
   - 向量化
-  - k 最近邻算法
+  - k 近邻算法
   - ANNS
   - 向量搜索
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - listPartitions()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-此操作列出指定 Collection 中的 Partition。
+此操作会列出指定 Collection 中的 Partition。
 
 ```java
 public List<String> listPartitions(ListPartitionsReq request)
@@ -51,7 +51,7 @@ listPartitions(ListPartitionsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标 Collection 所属 Database 的名称。
+    目标 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
@@ -59,17 +59,23 @@ listPartitions(ListPartitionsReq.builder()
 
 **返回类型：**
 
-*List\<String\>*
+*List&lt;String&gt;*
 
 **返回：**
 
 Partition 名称列表。
 
+**参数：**
+
+- **partitionNames** (*List&lt;String&gt;*) -
+
+    指定 Collection 中的 Partition 名称列表。
+
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作过程中发生错误时，会引发此异常。
 
 ## 示例\{#example}
 
@@ -77,6 +83,8 @@ Partition 名称列表。
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -92,4 +100,3 @@ ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
         .build();
 List<String> res = client.listPartitions(listPartitionsReq);
 ```
-

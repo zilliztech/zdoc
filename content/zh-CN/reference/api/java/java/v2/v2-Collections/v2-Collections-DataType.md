@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Java | v2"
+description: "DataType 实例是一个枚举常量，用于设置 Collection Schema 中字段的数据类型。 | Java | v2"
 type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - Serverless 向量 Database
-  - milvus 开源
-  - milvus 如何工作
+  - Milvus 开源
+  - Milvus 如何工作
   - Zilliz 向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - DataType
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-这是一个提供以下常量的枚举。
+DataType 实例是一个枚举常量，用于设置 Collection Schema 中字段的数据类型。
 
 ## 常量\{#constants}
 
@@ -113,4 +113,4 @@ import Admonition from '@theme/Admonition';
 
 - Struct(201)
 
-    将数据类型设置为 **Struct**，它应作为 **Array** 字段的元素类型。
+    将数据类型设置为 **Struct**，该类型应为 **Array** 字段的元素类型。

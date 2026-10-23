@@ -4,16 +4,16 @@ slug: /java/java/v2-Collections-createCollection
 sidebar_label: "createCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作使用默认或自定义设置创建 Collection。 | Java | v2"
 type: docx
-token: GEvkd6lHion0nUxgdIRcxtqqnHb
+token: LhrNdndqnoYPaZxCAMscINykno8
 sidebar_position: 7
 keywords: 
-  - milvus 开源
-  - milvus 如何工作
+  - Milvus 开源
+  - Milvus 如何工作
   - Zilliz 向量 Database
   - Zilliz Database
   - zilliz
@@ -120,6 +120,10 @@ createCollection(CreateCollectionReq.builder()
 
     由 IndexParam 对象组成的列表，用于定义索引配置。默认为 `new ArrayList<>()`。
 
+- `indexParam(IndexParam indexParam)` -
+
+    追加单个索引参数，以便在创建 Collection 时一并创建索引。
+
 - `numPartitions(Integer numPartitions)` -
 
     Collection 的 Partition 数量。
@@ -132,9 +136,9 @@ createCollection(CreateCollectionReq.builder()
 
     Collection 属性的映射。默认为 `new HashMap<>()`。
 
-**返回：**
+- `property(String key, String value)` -
 
-*void*
+    向 Collection 添加单个属性。
 
 **异常：**
 
@@ -151,6 +155,8 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

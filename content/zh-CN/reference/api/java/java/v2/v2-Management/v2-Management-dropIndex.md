@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-dropIndex
 sidebar_label: "dropIndex()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会从特定 Collection 中删除一个索引。 | Java | v2"
+description: "此操作会从指定 Collection 中删除一个索引。 | Java | v2"
 type: docx
-token: XHyydLsEAoPwB2xNhcwc9KBwn7g
+token: XFs1dqEocoNydExQDjicp4V2n7d
 sidebar_position: 5
 keywords: 
-  - Chroma vs Milvus
+  - Chroma 与 Milvus 对比
   - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropIndex()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-此操作会从特定 Collection 中删除一个索引。
+此操作会从指定 Collection 中删除一个索引。
 
 ```java
 public void dropIndex(DropIndexReq request)
@@ -67,15 +67,11 @@ dropIndex(DropIndexReq.builder()
 
     要删除的索引名称。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生错误，则会引发此异常。
 
 ## 示例\{#example}
 
@@ -83,6 +79,7 @@ dropIndex(DropIndexReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DropIndexReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -99,4 +96,3 @@ DropIndexReq dropIndexReq = DropIndexReq.builder()
         .build();
 client.dropIndex(dropIndexReq);
 ```
-

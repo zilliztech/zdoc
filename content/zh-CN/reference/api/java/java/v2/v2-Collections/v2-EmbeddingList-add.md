@@ -4,13 +4,13 @@ slug: /java/java/v2-EmbeddingList-add
 sidebar_label: "add()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会向 EmbeddingList 实例添加向量嵌入。 | Java | v2"
 type: docx
-token: PUOBd229uoQGUIxnHLWcMSidnQh
-sidebar_position: 1
+token: CJcWdpdqLoZiEExhfagc9A0jnag
+sidebar_position: 36
 keywords: 
   - 什么是非结构化数据
   - 向量嵌入
@@ -18,7 +18,7 @@ keywords:
   - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -39,23 +39,15 @@ public void add(BaseVector vector)
 
 **参数：**
 
-- **vector** (*BaseVector*) -
+- **vector** （*BaseVector*） -
 
-    要添加到当前 EmbeddingList 的向量嵌入。 
-
-**返回类型：**
-
-*[EmbeddingList](./v2-Collections-EmbeddingList)*
-
-**返回：**
-
-可再次使用的 EmbeddingList 实例，用于链式调用其他 `add()` 方法。
+    要添加到当前 EmbeddingList 中的向量嵌入。
 
 **异常：**
 
 - **MilvusClientException**
 
-    如果提供了不同类型的向量嵌入，则会引发此异常。
+    如果提供的向量嵌入类型不同，则会引发此异常。
 
 ## 示例：\{#examples}
 
@@ -64,10 +56,10 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.data.EmbeddingList;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-        
+
 // 1. Initialize an EmbeddingList
 EmbeddingList embeddingList = new EmbeddingList();
 
 // 2. Add vector embedding
-embeddingList.add(new FloatVec[0.1, 0.2, 0.3, 0.4, 0.5])
+embeddingList.add(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f}));
 ```

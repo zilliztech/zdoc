@@ -4,17 +4,17 @@ slug: /java/java/v2-Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于修改指定 Collection 的属性。 | Java | v2"
+description: "此操作会修改指定 Collection 的属性。 | Java | v2"
 type: docx
-token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
+token: NzCuda5k8oJHOOxVLk0cg7HInMg
 sidebar_position: 3
 keywords: 
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量 Database 示例
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionProperties()
 
-此操作用于修改指定 Collection 的属性。
+此操作会修改指定 Collection 的属性。
 
 ```java
 public Void alterCollectionProperties(AlterCollectionPropertiesReq request)
@@ -60,7 +60,7 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-    要修改的属性及其预期值。请注意，属性值应为字符串。可用的 Database 属性如下：
+    要修改的属性及其预期值。请注意，属性值必须为字符串。可用的 Database 属性如下：
 
     - **collection.ttl.seconds** -
 
@@ -70,15 +70,15 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
         是否为 Collection 中所有字段的原始数据和索引启用 mmap。
 
-**返回：**
+- `property(String key, String value)`
 
-*void*
+    向 Collection 添加单个属性。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -86,6 +86,9 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -95,14 +98,13 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `collection.ttl.seconds` property
-Map<String, String> properties = new HashMap<>()
-properties.put("collection.ttl.seconds", "86400")
+// 2. Alter the \`collection.ttl.seconds\` property
+Map<String, String> properties = new HashMap<>();
+properties.put("collection.ttl.seconds", "86400");
 
 AlterCollectionPropertiesReq alterCollectionFieldReq = AlterCollectionPropertiesReq.builder()
         .collectionName("test")
         .properties(properties)
         .build();
-client.alterCollectionProperties(alterCollectionFieldReq)
+client.alterCollectionProperties(alterCollectionFieldReq);
 ```
-

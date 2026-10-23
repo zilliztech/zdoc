@@ -18,7 +18,7 @@ keywords:
   - NLP
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterRole()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -58,12 +58,6 @@ client.alterRole(AlterRoleReq.builder()
 - `description(String description)`
 
     角色的新描述。使用空字符串可清除该描述。
-
-**返回：**
-
-*void*
-
-此操作不返回任何值。
 
 **异常：**
 

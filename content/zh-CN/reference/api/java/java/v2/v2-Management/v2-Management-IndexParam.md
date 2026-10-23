@@ -4,20 +4,20 @@ slug: /java/java/v2-Management-IndexParam
 sidebar_label: "IndexParam"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "IndexParam 定义了在 Collection 字段上配置索引的参数。 | Java | v2"
+description: "IndexParam 实例保存用于配置 Collection 字段索引的参数。 | Java | v2"
 type: docx
-token: SXgodgq99ozZoHxfnakc0fpCnJh
+token: PpTcd5ptzoYJjZxRPdMcQvSjnDc
 sidebar_position: 10
 keywords: 
-  - milvus 数据库
-  - milvus 向量数据库
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
-  - 什么是 milvus
-  - zilliz
-  - zilliz cloud
+  - 什么是 Milvus
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - IndexParam
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-IndexParam 定义了在 Collection 字段上配置索引的参数。
+IndexParam 实例保存用于在 Collection 字段上配置索引的参数。
 
 ```java
 IndexParam.builder()
@@ -50,35 +50,66 @@ IndexParam.builder()
 
 - `indexType(IndexType indexType)` -
 
-    要在该字段上构建的索引类型。可用的索引类型请参见 IndexType。
+    要在字段上构建的索引类型。可用索引类型请参见 IndexType。
 
 - `metricType(MetricType metricType)` -
 
-    用于向量相似性度量的指标类型。可用的指标类型请参见 MetricType。
+    用于衡量向量相似度的度量类型。可用度量类型请参见 MetricType。
 
 - `extraParams(Map<String, Object> extraParams)` -
 
-    其他索引特定参数，以键值对形式提供。例如，对于 HNSW 索引，可使用 `{"M": 16, "efConstruction": 256}`。
+    以键值对形式提供的其他索引专用参数。例如，HNSW 索引可使用 `{"M": 16, "efConstruction": 256}`。
+
+**返回类型：**
+
+*IndexParam*
 
 **返回：**
 
-*IndexParam*
+**IndexParam** 对象包含以下字段：
+
+**参数：**
+
+- **fieldName** (*String*) -
+
+    要建立索引的字段名称。
+
+- **indexName** (*String*) -
+
+    索引的名称。
+
+- **indexType** (*IndexType*) -
+
+    要在字段上构建的索引类型。默认值：`AUTOINDEX`。
+
+- **metricType** (*MetricType*) -
+
+    用于衡量向量相似度的度量类型。
+
+- **extraParams** (*Map&lt;String, Object&gt;*) -
+
+    以键值对形式提供的其他索引专用参数，例如 `nlist` 或 `M`。
 
 **异常：**
 
 *MilvusClientException*
 
-当此操作期间发生任何错误时，将引发此异常。
+此操作发生错误时会引发此异常。
 
 ## 示例\{#example}
 
 ```java
 import io.milvus.v2.common.IndexParam;
 
+import java.util.HashMap;
+
 IndexParam indexParam = IndexParam.builder()
     .fieldName("vector")
     .indexType(IndexParam.IndexType.HNSW)
     .metricType(IndexParam.MetricType.COSINE)
-    .extraParams(Map.of("M", 16, "efConstruction", 256))
+    .extraParams(new HashMap<String, Object>() {{
+        put("M", 16);
+        put("efConstruction", 256);
+    }})
     .build();
 ```

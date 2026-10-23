@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-dropCollection
 sidebar_label: "dropCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会删除一个 Collection。 | Java | v2"
 type: docx
-token: SW6Cdt9QeoY1J1x9SYQcZrc6nbg
-sidebar_position: 14
+token: WzKzdXYFxodRQqxqBu8cNihTnPc
+sidebar_position: 13
 keywords: 
   - llm 幻觉
   - 混合搜索
@@ -67,10 +67,6 @@ dropCollection(DropCollectionReq.builder()
 
     超时时长，以毫秒为单位。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
@@ -83,6 +79,7 @@ dropCollection(DropCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

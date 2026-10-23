@@ -12,13 +12,13 @@ type: docx
 token: CJEzd0riyoJkcUxdYvjcKPoWn3c
 sidebar_position: 2
 keywords: 
-  - 相似性搜索
-  - multimodal RAG
+  - 相似度搜索
+  - 多模态 RAG
   - LLM 幻觉
   - 混合搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - describeSnapshot()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -60,19 +60,47 @@ describeSnapshot(DescribeSnapshotReq.builder()
 
 - `snapshotName(String snapshotName)`
 
-    快照名称。
+    快照的名称。
 
-**返回：**
+**返回类型：**
 
 *DescribeSnapshotResp*
 
-返回包含快照元数据的响应，包括快照名称、描述、Collection 名称、Partition 名称、创建时间戳和存储位置。
+**返回：**
+
+包含快照元数据的响应，包括快照名称、描述、Collection 名称、Partition 名称、创建时间戳和存储位置。
+
+**参数：**
+
+- **name**（String） -
+
+    快照的名称。
+
+- **description**（String） -
+
+    快照的描述。
+
+- **collectionName**（String） -
+
+    该快照创建时所基于的 Collection 名称。
+
+- **partitionNames**（List&lt;String&gt;） -
+
+    快照中包含的 Partition 名称。
+
+- **createTs**（Long） -
+
+    快照的创建时间戳。
+
+- **s3Location**（String） -
+
+    存储快照数据的 S3 位置。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当必需参数缺失、数值参数超出范围，或者服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或者服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

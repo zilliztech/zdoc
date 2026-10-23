@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-dropCollectionFieldProperties
 sidebar_label: "dropCollectionFieldProperties()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会删除字段的指定属性。 | Java | v2"
 type: docx
-token: O3E9duLvfoMC26x8AmDcomlWneh
-sidebar_position: 26
+token: DU5gdncRGoDE0exDDUXcxAOsnIi
+sidebar_position: 23
 keywords: 
   - ANNS
   - 向量搜索
-  - KNN 算法
+  - knn 算法
   - HNSW
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - dropCollectionFieldProperties()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -57,7 +57,7 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    包含上述 Collection 的 Database 名称。 
+    包含上述指定 Collection 的 Database 名称。
 
 - `fieldName(String fieldName)`
 
@@ -67,20 +67,14 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 
     要从指定字段中删除的属性名称。
 
-**返回类型：**
-
-*void*
-
-**返回：** 
-
-无
-
 ## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DropCollectionFieldPropertiesReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

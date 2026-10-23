@@ -37,12 +37,6 @@ import Admonition from '@theme/Admonition';
 io.milvus.bulkwriter.VolumeManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-卷是一个中间存储位置，您可以在其中暂存数据以进行后续处理，例如数据合并、迁移或导入。有关详细信息，请参阅 [Volume](/docs/volume)。
-
-</Admonition>
-
 ## 构造函数\{#constructor}
 
 此构造函数初始化一个新的 `VolumeManager` 实例，用于维护与 Zilliz Cloud Volume 服务的连接。
@@ -58,25 +52,35 @@ VolumeManager(
 
 **参数：**
 
-- **cloudEndpoint** (*str*) -
+- **cloudEndpoint** （*str*） -
 
     **[必需]**
 
-    Zilliz Cloud Endpoint，即 `https:*//*api.cloud.zilliz.com`。
+    Zilliz Cloud Endpoint，即 `https://api.cloud.zilliz.com`。
 
-- **apiKey** (*str*) -
+- **apiKey** （*str*） -
 
     **[必需]**
 
-    您的 Zilliz Cloud API 密钥，需要具有足够的权限来管理 Zilliz Cloud Volume 服务上的卷。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
+    您的 Zilliz Cloud API key，需要具有足够的权限来管理 Zilliz Cloud Volume 服务上的卷。要获取 Zilliz Cloud API key，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
 
 **返回类型：**
 
-`VolumeManager`
+*VolumeManager*
 
 **返回：**
 
-一个 `VolumeManager` 实例。
+一个 `VolumeManager` 实例，其中保存着与 Zilliz Cloud Volume 服务的连接设置，包含以下字段：
+
+**参数：**
+
+- **cloudEndpoint** （*String*） -
+
+    用于访问 Volume 服务的 Zilliz Cloud Endpoint。
+
+- **apiKey** （*String*） -
+
+    用于对 Volume 生命周期操作进行身份验证的 Zilliz Cloud API key。
 
 ## 示例\{#examples}
 
@@ -91,4 +95,3 @@ VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         
 VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
 ```
-

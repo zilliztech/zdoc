@@ -7,17 +7,17 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于获取服务器版本信息。当您除了版本字符串外，还需要构建时间、Git 提交、Go 版本和部署模式时，请使用 `detail(true)`。 | Java | v2"
+description: "此操作获取服务器版本信息。除版本字符串外，如果您还需要构建时间、Git 提交、Go 版本和部署模式，请使用 `detail(true)`。 | Java | v2"
 type: docx
 token: KrSgdfCaJosFp5xwHIAcV0tAnec
 sidebar_position: 6
 keywords: 
   - 图像搜索
-  - LLMs
+  - 大语言模型
   - 机器学习
   - RAG
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - getServerVersionV2()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getServerVersionV2()
 
-此操作用于获取服务器版本信息。当您除了版本字符串外，还需要构建时间、Git 提交、Go 版本和部署模式时，请使用 `detail(true)`。
+此操作获取服务器版本信息。除版本字符串外，如果您还需要构建时间、Git 提交、Go 版本和部署模式，请使用 `detail(true)`。
 
 ```java
 public GetServerVersionResp getServerVersionV2(GetServerVersionReq request)
@@ -49,17 +49,43 @@ getServerVersionV2(GetServerVersionReq.builder()
 
 - `detail(Boolean detail)`
 
-    是否获取详细的服务器构建信息。默认为 `Boolean.FALSE`。
+    是否获取详细的服务器构建信息。该值默认为 `Boolean.FALSE`。
+
+**返回类型：**
+
+*GetServerVersionResp*
 
 **返回：**
 
-*GetServerVersionResp*
+一个包含服务器版本信息的 **GetServerVersionResp** 对象。响应包含以下字段：
+
+**参数：**
+
+- **version** （*String*） -
+
+    所连接服务器的版本字符串。
+
+- **buildTime** （*String*） -
+
+    服务器的构建时间。设置 `detail(true)` 时返回。
+
+- **gitCommit** （*String*） -
+
+    构建服务器时所使用的 Git 提交。设置 `detail(true)` 时返回。
+
+- **goVersion** （*String*） -
+
+    构建服务器时所使用的 Go 版本。设置 `detail(true)` 时返回。
+
+- **deployMode** （*String*） -
+
+    服务器的部署模式。设置 `detail(true)` 时返回。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当验证失败或服务器为此操作返回错误时，将引发此异常。
+    当验证失败或服务器针对此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -13,7 +13,7 @@ token: OalndLUMRoUqpMxr2QscYTCenre
 sidebar_position: 2
 keywords: 
   - 向量检索
-  - 音频相似性搜索
+  - 音频相似度搜索
   - 弹性向量 Database
   - Pinecone 与 Milvus 对比
   - zilliz
@@ -46,21 +46,13 @@ deleteVolume(DeleteVolumeRequest.builder()
 )
 ```
 
-**参数**
+**参数：**
 
-- **volumeName** (*str*) -
+- **volumeName** （*str*） -
 
-    **[必填]**
+    **[必需]**
 
-    要删除的卷名称。
-
-**返回类型**
-
-*void*
-
-**返回值**
-
-无
+    要删除的卷的名称。
 
 ## 示例\{#example}
 
@@ -86,4 +78,3 @@ System.out.printf("\nVolume %s deleted%n", "my_volume");
 
 // Volume my_volume deleted
 ```
-

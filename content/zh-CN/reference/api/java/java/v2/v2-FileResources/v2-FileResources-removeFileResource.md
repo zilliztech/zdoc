@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "按名称删除先前上传的文件资源。如果要删除的资源仍被活跃的函数或 Analyzer 引用，则会报错。 | Java | v2"
+description: "此操作会按名称删除先前上传的文件资源。删除仍被活跃函数或 Analyzer 引用的资源时会失败并报错。 | Java | v2"
 type: docx
 token: I5yTdfJXNoHDICxSwWXcNjwxnoc
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # removeFileResource()
 
-按名称删除先前上传的文件资源。如果要删除的资源仍被活跃的函数或 Analyzer 引用，则会报错。
+此操作会按名称删除先前上传的文件资源。删除仍被活跃函数或 Analyzer 引用的资源时会失败并报错。
 
 ```java
 public void removeFileResource(RemoveFileResourceReq request)
@@ -52,17 +52,13 @@ removeFileResource(RemoveFileResourceReq.builder()
 
     **[必需]**
 
-    要删除的文件资源名称。
-
-**返回：**
-
-*void*
+    要删除的文件资源的名称。
 
 **异常：**
 
 - **MilvusClientException**
 
-    此操作期间发生任何错误时，都会引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

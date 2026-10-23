@@ -4,20 +4,20 @@ slug: /java/java/v2-Collections-addCollectionStructField
 sidebar_label: "addCollectionStructField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会向现有 Collection 添加一个 struct 字段。您可以在 Collection 创建完成后，使用它通过一个结构化数组字段来扩展 Collection Schema。 | Java | v2"
+description: "此操作会向现有 Collection 添加一个结构体字段。在 Collection 创建完成后，可使用此操作通过结构化数组字段扩展 Collection Schema。 | Java | v2"
 type: docx
 token: RQT1dGVPloPOLAx8G2mcifFEnCc
 sidebar_position: 37
 keywords: 
   - 余弦距离
   - 什么是向量 Database
-  - vectordb
+  - 向量 Database
   - 多模态向量 Database 检索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - addCollectionStructField()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionStructField()
 
-此操作会向现有 Collection 添加一个 struct 字段。您可以在 Collection 创建完成后，使用它通过一个结构化数组字段来扩展 Collection Schema。
+此操作会向现有 Collection 添加一个结构体字段。在 Collection 创建完成后，可使用此操作通过结构化数组字段扩展 Collection Schema。
 
 ```java
 public void addCollectionStructField(AddCollectionStructFieldReq request)
@@ -54,47 +54,41 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 **构建器方法：**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)`<br/>
+  目标 Collection 的名称。
 
-    目标 Collection 的名称。
+- `databaseName(String databaseName)`<br/>
+  包含该 Collection 的 Database。省略此字段将使用当前 Database。
 
-- `databaseName(String databaseName)`
+- `fieldName(String fieldName)`<br/>
+  要添加的结构体数组字段的名称。
 
-    包含该 Collection 的 Database。不填写此字段时，使用当前 Database。
+- `description(String description)`<br/>
+  新字段的可读描述。
 
-- `fieldName(String fieldName)`
+- `maxCapacity(Integer maxCapacity)`<br/>
+  每行允许的结构体元素最大数量。
 
-    要添加的 struct 数组字段的名称。
+- `nullable(Boolean nullable)`<br/>
+  结构体字段是否可为 null。
 
-- `description(String description)`
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`<br/>
+  每个结构体元素包含的标量字段或向量字段。
 
-    新字段的人类可读描述。
+- `addStructField(AddFieldReq addFieldReq)`<br/>
+  将指定的字段请求转换为结构体子字段，并将其追加到结构体字段定义中。
 
-- `maxCapacity(Integer maxCapacity)`
+- `typeParams(Map<String, String> typeParams)`<br/>
+  为结构体字段传递给服务器的其他类型参数。
 
-    每一行允许的 struct 元素最大数量。
-
-- `nullable(Boolean nullable)`
-
-    该 struct 字段是否可以为 null。
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
-
-    每个 struct 元素中包含的标量或向量字段。
-
-- `typeParams(Map<String, String> typeParams)`
-
-    传递给服务器、用于该 struct 字段的附加类型参数。
-
-**返回：**
-
-*void*
+- `typeParam(String key, String value)`<br/>
+  向结构体字段添加单个类型参数。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当验证失败或服务器在此操作中返回错误时，将引发此异常。
+    当验证失败或服务器针对此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -117,5 +111,3 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
             .build()))
     .build());
 ```
-
-{/* category: Collections; action: CREATE; addedSince: v3.0.x */}

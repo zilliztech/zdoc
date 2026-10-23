@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "将行插入或更新到 Collection 中。部分更新可应用字段操作，并且每一行都会根据 Collection Schema 进行验证。 | Java | v2"
+description: "此操作会将行 upsert 到 Collection 中。部分更新可应用字段操作，且每一行都会依据 Collection 的 Schema 进行校验。 | Java | v2"
 type: docx
 token: I7UWdVnAJobbSSxSPdHc024unMe
 sidebar_position: 9
 keywords: 
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量 Database 示例
   - Zilliz
   - Zilliz Cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-将行插入或更新到 Collection 中。部分更新可应用字段操作，并且每一行都会根据 Collection Schema 进行验证。
+此操作会将行 upsert 到 Collection 中。部分更新可应用字段操作，且每一行都会依据 Collection 的 Schema 进行校验。
 
 ```java
 public UpsertResp upsert(UpsertReq request)
@@ -58,7 +58,7 @@ UpsertReq.builder()
 
 - `databaseName(String databaseName)`
 
-    Database 名称。省略时默认使用当前 Database。
+    Database 的名称。省略时，该值默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
@@ -70,23 +70,39 @@ UpsertReq.builder()
 
 - `partialUpdate(boolean partialUpdate)`
 
-    是否保持被省略的非主键字段不变。
+    省略的非主键字段是否应保持不变。
 
 - `fieldOps(List<FieldPartialUpdateOp> fieldOps)`
 
-    字段级操作。`ARRAY_APPEND` 和 `ARRAY_REMOVE` 表示部分更新语义。
+    字段级操作。`ARRAY_APPEND` 和 `ARRAY_REMOVE` 意味着部分更新语义。
 
-**返回：**
+**返回类型：**
 
 *UpsertResp*
 
-包含已插入或更新的 Entity 数量。
+**返回：**
+
+包含插入或更新的 Entity 数量以及操作成本（`getCost()`）。
+
+**参数：**
+
+- **upsertCnt** （*long*） -
+
+    已 upsert 的 Entity 数量。
+
+- **primaryKeys** （*List&lt;Object&gt;*） -
+
+    已 upsert 的 Entity 的主键。
+
+- **cost** （*Long*） -
+
+    操作的时间成本。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
+    当请求校验、传输或服务器执行失败时抛出。请检查异常消息，以获取确切的失败原因。
 
 ## 示例\{#example}
 

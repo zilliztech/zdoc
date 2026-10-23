@@ -4,12 +4,12 @@ slug: /java/java/v2-DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "RemoteBulkWriter 实例会将您的原始数据以 Milvus 可理解的格式写入兼容 AWS S3 的存储桶中。 | Java | v2"
+description: "RemoteBulkWriter 实例会将您的原始数据以 Milvus 可理解的格式写入兼容 AWS-S3 的存储桶中。 | Java | v2"
 type: docx
-token: XAIndF6XWoQzvRxDvpLcgEE1nEb
+token: JETLdPGdboaeksx2o7acgo8lnMc
 sidebar_position: 5
 keywords: 
   - Zilliz Database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-**RemoteBulkWriter** 实例会将您的原始数据以 Milvus 可理解的格式写入兼容 AWS S3 的存储桶中。
+RemoteBulkWriter 实例会将您的原始数据以 Milvus 可理解的格式写入兼容 AWS-S3 的存储桶中。
 
 ```java
 io.milvus.bulkwriter.RemoteBulkWriter
@@ -41,11 +41,7 @@ io.milvus.bulkwriter.RemoteBulkWriter
 
 使用一组参数（例如 **Schema**、**remote_path**、**connect_param,** 等）构造一个 **RemoteBulkWriter** 实例。
 
-<Admonition type="info" icon="📘" title="Notes">
-
-**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Milvus 可理解的格式，并写入兼容 AWS S3 或 Microsoft Azure Blob Storage 的存储桶中。
-
-</Admonition>
+**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Milvus 可理解的格式，并写入兼容 AWS-S3 或 Microsoft Azure Blob Storage 的存储桶中。
 
 ```java
 public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
@@ -55,11 +51,11 @@ public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
 
 - **bulkWriterParam** (*RemoteBulkWriterParam*) -
 
-    一个 [RemoteBulkWriterParam](./v2-DataImport-RemoteBulkWriter#remotebulkwriterparam) 实例。
+    一个 RemoteBulkWriterParam 实例。
 
 ## RemoteBulkWriterParam\{#remotebulkwriterparam}
 
-**RemoteBulkWriterParam** 允许您在一个地方为 **RemoteBulkWriter** 实例配置属性，以便实例化 **RemoteBulkWriter** 类。
+**RemoteBulkWriterParam** 允许您在一处为 **RemoteBulkWriter** 实例配置属性，以便实例化 **RemoteBulkWriter** 类。
 
 ```java
 RemoteBulkWriterParam.newBuilder()
@@ -76,11 +72,11 @@ RemoteBulkWriterParam.newBuilder()
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    目标 Collection 的 Schema，通过实例化 CreateCollectionReq.CollectionSchema 定义。
+    目标 Collection 的 Schema，该 Schema 通过实例化 CreateCollectionReq.CollectionSchema 定义。
 
 - `withConnectParam(StorageConnectParam connectParam)`
 
-    用于连接远程存储桶的参数，通过实例化 [StorageConnectParam](./v2-DataImport-RemoteBulkWriter#storageconnectparam) 定义。
+    用于连接远程存储桶的参数，该参数通过实例化 StorageConnectParam 定义。
 
 - `withRemotePath(String remotePath)`
 
@@ -88,21 +84,15 @@ RemoteBulkWriterParam.newBuilder()
 
 - `withChunkSize(long chunkSize)`
 
-    文件 Segment 的最大大小。重写原始数据时，Milvus 会将其拆分为多个 Segment。
+    文件 Segment 的最大大小。重写您的原始数据时，Milvus 会将其拆分为多个 Segment。
 
     该值默认为 **536,870,912** 字节，即 **512 MB**。
 
-    <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
-
-    BulkWriter 将数据划分为 Segment 的方式会因目标文件类型而异。
-    
-    如果生成的文件超过指定的 Segment 大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件均不超过该 Segment 大小。
-
-    </Admonition>
+    BulkWriter 对您的数据进行 Segment 划分的方式因目标文件类型而异。如果生成的文件超过指定的 Segment 大小，BulkWriter 会创建多个文件，并按序号命名，每个文件均不超过该 Segment 大小。
 
 - `withFileType(BulkFileType fileType)`
 
-    输出文件的类型。可选值列在 [BulkFileType](./v2-DataImport-BulkFileType) 中。
+    输出文件的类型。可选值列在 BulkFileType 中。
 
 - `withConfig(String key, Object val)`
 
@@ -110,7 +100,7 @@ RemoteBulkWriterParam.newBuilder()
 
     - **sep** (*string*) -
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串。该值默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*) -
 
@@ -122,7 +112,7 @@ RemoteBulkWriterParam.newBuilder()
 
 ### AzureConnectParam\{#azureconnectparam}
 
-**AzureConnectParam** 用于准备连接 Microsoft Azure Blob Storage 容器的参数。
+**AzureConnectParam** 用于准备连接 Microsoft Azure Blob Storage 容器所需的参数。
 
 ```java
 AzureConnectParam.newBuilder()
@@ -141,15 +131,15 @@ AzureConnectParam.newBuilder()
 
 - `withConnStr(String connStr)`
 
-    Azure 存储账户的连接字符串，可解析为 account_url 和 credential。要生成连接字符串，请参阅[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)。
+    Azure 存储账户的连接字符串，可解析为 account_url 和 credential。要生成连接字符串，请阅读此链接。
 
 - `withAccountUrl(String accountUrl)`
 
-    格式如 `https://<storage-account>.blob.core.windows.net` 的字符串。更多信息请参阅[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview)。
+    格式如 `https://<storage-account>.blob.core.windows.net` 的字符串。更多信息，请阅读此链接。
 
 - `withCredential(TokenCrendtial credential)`
 
-    该账户的访问密钥。更多信息请参阅[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)。
+    该账户的访问密钥。更多信息，请阅读此链接。
 
 ### S3ConnectParam\{#s3connectparam}
 
@@ -174,15 +164,15 @@ S3ConnectParam.newBuilder()
 
     提供兼容 S3 对象存储服务的云服务提供商。可选值如下：
 
-    - **MINIO** (MinIO)
+    - **MINIO**（MinIO）
 
-    - **AWS** (AWS S3)
+    - **AWS**（AWS S3）
 
-    - **GCP** (GCP Cloud Storage)
+    - **GCP**（GCP Cloud Storage）
 
-    - **ALI** (Alibaba Cloud OSS)
+    - **ALI**（Alibaba Cloud OSS）
 
-    - **TC** (Tencent Cloud COS)
+    - **TC**（Tencent Cloud COS）
 
 - `withBucketName(String bucketName)`
 
@@ -190,9 +180,9 @@ S3ConnectParam.newBuilder()
 
 - `withEndpoint(String endpoint)`
 
-    兼容 AWS S3 的服务 URL。
+    兼容 AWS-S3 的服务的 URL。
 
-    该值可以是 MinIO 服务的 URL，也可以是任何兼容 AWS S3 的公共服务的 URL。
+    该值可以是 MinIO 服务的 URL，也可以是任何兼容 AWS S3 的公共服务 URL。
 
 - `withAccessKey(String accessKey)`
 
@@ -204,7 +194,7 @@ S3ConnectParam.newBuilder()
 
 - `withSessionToken(String sessionToken)`
 
-    您在兼容 AWS S3 服务中的账户会话令牌。
+    您在兼容 AWS S3 的服务中的账户会话令牌。
 
 - `withRegion(String region)`
 
@@ -212,7 +202,7 @@ S3ConnectParam.newBuilder()
 
 - `withHttpClient(OkHttpClient httpClient)`
 
-    是否使用 OkHttp 客户端与兼容 AWS S3 的服务建立安全的（TLS）连接。
+    是否使用 OkHttp 客户端与兼容 AWS S3 的服务建立安全（TLS）连接。
 
 ## 示例\{#example}
 
@@ -226,6 +216,7 @@ import io.milvus.bulkwriter.common.clientenum.CloudStorage;
 import io.milvus.bulkwriter.connect.S3ConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.List;
 
 private static List<List<String>> callRemoteWriter(CreateCollectionReq.CollectionSchema collectionSchema,
                                                    List<JsonObject> data) throws Exception {

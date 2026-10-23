@@ -12,11 +12,11 @@ type: docx
 token: UCpTdpkNEoHDyjxxCqqcZLSXnAe
 sidebar_position: 8
 keywords: 
-  - 向量数据库对比
-  - openai 向量数据库
+  - 向量 Database 对比
+  - OpenAI 向量 Database
   - 自然语言处理 Database
-  - 便宜的向量 Database
-  - zilliz
+  - 低成本向量 Database
+  - Zilliz
   - Zilliz Cloud
   - 云
   - currentUsedDatabase()
@@ -37,11 +37,19 @@ import Admonition from '@theme/Admonition';
 public String currentUsedDatabase()
 ```
 
-**返回：**
+**返回类型：**
 
 *String*
 
-当前活动 Database 的名称。
+**返回：**
+
+当前处于活动状态的 Database 名称。
+
+**参数：**
+
+- **databaseName**（*String*）-
+
+    此客户端当前正在使用的 Database 名称。如果尚未配置任何 Database，则返回 `default`。
 
 ## 示例\{#example}
 

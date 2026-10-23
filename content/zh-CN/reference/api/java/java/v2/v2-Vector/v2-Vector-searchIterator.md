@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "（占位符）| Java | v2"
+description: "此操作会返回搜索迭代器，用于迭代搜索结果。 | Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
 keywords: 
-  - llm eval
-  - 稀疏 vs 稠密
+  - 大语言模型评估
+  - 稀疏向量与稠密向量
   - 稠密向量
   - 分层可导航小世界
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - searchIterator()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,9 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-# searchIterator()\{#searchiterator}
-
-此方法返回一个搜索迭代器，用于遍历搜索结果。
+此操作会返回搜索迭代器，用于迭代搜索结果。
 
 ```java
 public SearchIterator searchIterator(SearchIteratorReq request)
@@ -45,9 +43,9 @@ public SearchIterator searchIterator(SearchIteratorReq request)
 searchIterator(SearchIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .vectorFieldName(String vectorFieldName)
+    .metricType(IndexParam.MetricType metricType)
     .topK(int topK)
     .limit(long limit)
     .expr(String expr)
@@ -69,29 +67,33 @@ searchIterator(SearchIteratorReq.builder()
 
     Database 的名称。如果未指定，则默认为当前 Database。
 
+- `clusterId(String clusterId)`
+
+    **已弃用。** 要查询的集群的 ID。适用于 global-cluster 部署。
+
 - `collectionName(String collectionName)`
 
     目标 Collection 的名称。
 
-- `clusterId(String clusterId)`
-
-    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
-
 - `partitionNames(List<String> partitionNames)`
 
-    要指定的 Partition 名称列表。
+    要作为目标的 Partition 名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
     向量字段的名称。
 
+- `metricType(IndexParam.MetricType metricType)`
+
+    用于度量向量相似度的度量类型。
+
 - `topK(int topK)`
 
-    要返回的 top 结果数量。
+    要返回的排名靠前结果的数量。
 
 - `limit(long limit)`
 
-    要返回的最大结果数。
+    要返回的结果的最大数量。
 
 - `expr(String expr)`
 
@@ -107,15 +109,15 @@ searchIterator(SearchIteratorReq.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    距离/score舍入时的小数位数。
+    距离/score 舍入的小数位数。
 
 - `params(String params)`
 
-    以 JSON 字符串表示的附加搜索参数。
+    作为 JSON 字符串提供的其他搜索参数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    此次操作的一致性级别。
+    此操作的一致性级别。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
@@ -123,17 +125,29 @@ searchIterator(SearchIteratorReq.builder()
 
 - `groupByFieldName(String groupByFieldName)`
 
-    用于对搜索结果进行分组的字段名。
+    用于对搜索结果进行分组的字段名称。
 
 - `batchSize(long batchSize)`
 
     迭代器操作的批大小。
 
-**返回值：**
+**返回类型：**
 
 *SearchIterator*
 
-一个用于遍历搜索结果的 *SearchIterator* 对象，它提供以下方法：
+**返回：**
+
+用于迭代搜索结果的 **SearchIterator** 对象，它提供以下方法：
+
+**参数：**
+
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
+
+    返回与搜索表达式匹配的下一批结果。
+
+- **close()** -
+
+    释放迭代器及其游标占用的资源。
 
 **异常：**
 
@@ -152,6 +166,11 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

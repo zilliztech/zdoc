@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将 Database 属性重置为其默认值。 | Java | v2"
 type: docx
-token: HSYzdg59FoBzeIxymrLc0EbBnyd
+token: IeNKdLhpKovMZ4x6sYtc6ZEsnqg
 sidebar_position: 5
 keywords: 
   - llm 评估
@@ -57,12 +57,6 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 
     要删除的属性键名称列表。
 
-**返回值：**
-
-*void*
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
@@ -75,6 +69,9 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

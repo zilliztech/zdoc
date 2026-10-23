@@ -4,17 +4,17 @@ slug: /java/java/v2-Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 Collection 中的 Partition 从内存中释放。 | Java | v2"
+description: "此操作会从内存中释放指定 Collection 中的 Partition。 | Java | v2"
 type: docx
-token: VsyQdDkXnoloWYxfjXNchc0dnng
+token: DykedGfgOo5JM7x6ZmncT5i9nVf
 sidebar_position: 7
 keywords: 
   - ANNS
   - 向量搜索
-  - knn 算法
+  - kNN 算法
   - HNSW
   - Zilliz
   - Zilliz Cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-此操作会将指定 Collection 中的 Partition 从内存中释放。
+此操作会从内存中释放指定 Collection 中的 Partition。
 
 ```java
 public void releasePartitions(ReleasePartitionsReq request)
@@ -52,7 +52,7 @@ releasePartitions(ReleasePartitionsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    Collection 所属 Database 的名称。
+    该 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
@@ -62,15 +62,11 @@ releasePartitions(ReleasePartitionsReq.builder()
 
     要释放的 Partition 名称列表。
 
-**返回：**
-
-*void*
-
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作中发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 
@@ -78,6 +74,8 @@ releasePartitions(ReleasePartitionsReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+import java.util.Collections;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -94,4 +92,3 @@ ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .build();
 client.releasePartitions(releasePartitionsReq);
 ```
-

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "（占位符）| Java | v2"
+description: "此操作返回一个查询迭代器，用于迭代数据。 | Java | v2"
 type: docx
 token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
@@ -17,7 +17,7 @@ keywords:
   - Faiss
   - 视频搜索
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - queryIterator()
   - javaV230
@@ -31,9 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-# queryIterator()\{#queryiterator}
-
-此方法返回一个查询迭代器，用于迭代数据。
+此操作返回一个查询迭代器，用于迭代数据。
 
 ```java
 public QueryIterator queryIterator(QueryIteratorReq request)
@@ -45,7 +43,6 @@ public QueryIterator queryIterator(QueryIteratorReq request)
 queryIterator(QueryIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
     .expr(String expr)
@@ -56,6 +53,7 @@ queryIterator(QueryIteratorReq.builder()
     .timezone(String timezone)
     .batchSize(long batchSize)
     .reduceStopForBest(boolean reduceStopForBest)
+    .cursor(QueryIteratorCursor cursor)
     .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
 );
@@ -65,23 +63,19 @@ queryIterator(QueryIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-    Database 的名称。若未指定，则默认为当前 Database。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
     目标 Collection 的名称。
 
-- `clusterId(String clusterId)`
-
-    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
-
 - `partitionNames(List<String> partitionNames)`
 
-    要查询的 Partition 名称列表。
+    目标 Partition 名称的列表。
 
 - `outputFields(List<String> outputFields)`
 
-    要包含在输出中的字段名称列表。
+    要在输出中包含的字段名称列表。
 
 - `expr(String expr)`
 
@@ -93,7 +87,7 @@ queryIterator(QueryIteratorReq.builder()
 
 - `offset(long offset)`
 
-    返回结果前要跳过的结果数量。
+    返回前要跳过的结果数量。
 
 - `limit(long limit)`
 
@@ -101,7 +95,7 @@ queryIterator(QueryIteratorReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    是否在操作期间忽略增长中的 Segment。
+    是否在操作期间忽略处于增长状态的 Segment。
 
 - `timezone(String timezone)`
 
@@ -109,21 +103,41 @@ queryIterator(QueryIteratorReq.builder()
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批处理大小。
+    迭代器操作的批大小。
 
 - `reduceStopForBest(boolean reduceStopForBest)`
 
-    找到最佳结果时是否停止迭代。
+    是否在找到最佳结果时停止迭代。
+
+- `cursor(QueryIteratorCursor cursor)`
+
+    先前捕获的游标，用于从中恢复分页。设置后，迭代器将从该游标的会话时间戳和位置继续，而不是重新开始；在这种情况下，将忽略 `offset()`。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    参数化筛选器的模板变量值映射。
+    用于参数化筛选器的模板变量值映射。
 
-**返回值：**
-
-*QueryIterator*
+**返回类型：**
 
 *QueryIterator*
+
+**返回：**
+
+用于逐页迭代查询结果的 **QueryIterator** 对象，提供以下方法：
+
+**参数：**
+
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
+
+    返回与查询表达式匹配的下一批行。
+
+- **close()** -
+
+    释放迭代器及其游标持有的资源。
+
+- **getCursor()** (*QueryIteratorCursor*) -
+
+    返回保存迭代进度的游标。
 
 **异常：**
 

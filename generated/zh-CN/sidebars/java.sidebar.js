@@ -11,6 +11,18 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup",
+        "label": "addPrivilegesToGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-addprivilegestogroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup",
+        "label": "createPrivilegeGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-createprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-createRole",
         "label": "createRole()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-createrole"
@@ -35,6 +47,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup",
+        "label": "dropPrivilegeGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-dropprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropRole",
         "label": "dropRole()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-droprole"
@@ -44,6 +62,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropUser",
         "label": "dropUser()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-dropuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege",
+        "label": "grantPrivilege()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-grantprivilege"
       },
       {
         "type": "doc",
@@ -74,6 +98,18 @@ module.exports = [
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-listUsers",
         "label": "listUsers()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-listusers"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup",
+        "label": "removePrivilegesFromGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-removeprivilegesfromgroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege",
+        "label": "revokePrivilege()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-revokeprivilege"
       },
       {
         "type": "doc",
@@ -132,6 +168,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-close",
+        "label": "close()",
+        "key": "doc:api/java/java/v2/v2-Client/v2-client-close"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Client/v2-Client-ConnectConfig",
         "label": "ConnectConfig",
         "key": "doc:api/java/java/v2/v2-Client/v2-client-connectconfig"
@@ -141,6 +183,30 @@ module.exports = [
         "id": "api/java/java/v2/v2-Client/v2-Client-getServerVersionV2",
         "label": "getServerVersionV2()",
         "key": "doc:api/java/java/v2/v2-Client/v2-client-getserverversionv2"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-getTelemetry",
+        "label": "getTelemetry()",
+        "key": "doc:api/java/java/v2/v2-Client/v2-client-gettelemetry"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-session",
+        "label": "session()",
+        "key": "doc:api/java/java/v2/v2-Client/v2-client-session"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-startTelemetry",
+        "label": "startTelemetry()",
+        "key": "doc:api/java/java/v2/v2-Client/v2-client-starttelemetry"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-TelemetryConfig",
+        "label": "TelemetryConfig",
+        "key": "doc:api/java/java/v2/v2-Client/v2-client-telemetryconfig"
       }
     ]
   },
@@ -314,6 +380,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-WaitForDropCollection",
+        "label": "WaitForDropCollection()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-waitfordropcollection"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-CreateSchema",
         "label": "CreateSchema()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createschema"
@@ -387,15 +459,33 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList",
+        "label": "EmbeddingList",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-embeddinglist"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-FieldSchema",
         "label": "FieldSchema",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-fieldschema"
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema",
+        "label": "StructFieldSchema",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-structfieldschema"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-truncateCollection",
         "label": "truncateCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-truncatecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-EmbeddingList-add",
+        "label": "add()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-embeddinglist-add"
       },
       {
         "type": "doc",
@@ -408,6 +498,18 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-addFunctionField",
         "label": "addFunctionField()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Function-BoostRanker",
+        "label": "BoostRanker",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-function-boostranker"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Function-DecayRanker",
+        "label": "DecayRanker",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-function-decayranker"
       },
       {
         "type": "doc",
@@ -426,6 +528,24 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2",
         "label": "getLoadStateV2()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getloadstatev2"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Function-ModelRanker",
+        "label": "ModelRanker",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-function-modelranker"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Function-RRFRanker",
+        "label": "RRFRanker",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-function-rrfranker"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Function-WeightedRanker",
+        "label": "WeightedRanker",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-function-weightedranker"
       }
     ]
   },
@@ -749,6 +869,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getCompactionState",
+        "label": "getCompactionState()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getcompactionstate"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-getLoadState",
         "label": "getLoadState()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getloadstate"
@@ -797,6 +923,36 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease",
+        "label": "waitForCollectionRelease()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-waitforcollectionrelease"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection",
+        "label": "waitForLoadCollection()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-waitforloadcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-checkHealth",
+        "label": "checkHealth()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-checkhealth"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo",
+        "label": "getPersistentSegmentInfo()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getpersistentsegmentinfo"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo",
+        "label": "getQuerySegmentInfo()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getquerysegmentinfo"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-flushAll",
         "label": "flushAll()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-flushall"
@@ -821,6 +977,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration",
+        "label": "updateReplicateConfiguration()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-updatereplicateconfiguration"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress",
         "label": "getRefreshExternalCollectionProgress()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getrefreshexternalcollectionprogress"
@@ -830,6 +992,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs",
         "label": "listRefreshExternalCollectionJobs()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-listrefreshexternalcollectionjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-optimize",
+        "label": "optimize()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-optimize"
       },
       {
         "type": "doc",
@@ -1052,6 +1220,12 @@ module.exports = [
         ]
       },
       {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-getAsync",
+        "label": "getAsync()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-getasync"
+      },
+      {
         "type": "category",
         "label": "Highlighter",
         "key": "category:api/java/java/v2/v2-Vector/v2-vector-highlighter",
@@ -1073,6 +1247,67 @@ module.exports = [
             "id": "api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter",
             "label": "SemanticHighlighter",
             "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-highlighter-semantichighlighter"
+          }
+        ]
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync",
+        "label": "hybridSearchAsync()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-hybridsearchasync"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-queryAsync",
+        "label": "queryAsync()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-queryasync"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-searchAsync",
+        "label": "searchAsync()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchasync"
+      },
+      {
+        "type": "category",
+        "label": "FunctionChain",
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionchain",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-Vector-FunctionChain",
+            "label": "FunctionChain",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-vector-functionchain"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainArg",
+            "label": "FunctionChainArg",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainarg"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainExpr",
+            "label": "FunctionChainExpr",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainexpr"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainOp",
+            "label": "FunctionChainOp",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainop"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainStage",
+            "label": "FunctionChainStage",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainstage"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionParamValue",
+            "label": "FunctionParamValue",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionparamvalue"
           }
         ]
       }

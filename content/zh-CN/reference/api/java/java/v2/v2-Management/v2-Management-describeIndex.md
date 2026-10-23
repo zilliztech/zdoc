@@ -4,20 +4,20 @@ slug: /java/java/v2-Management-describeIndex
 sidebar_label: "describeIndex()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于描述特定索引。 | Java | v2"
+description: "此操作会描述指定的索引。 | Java | v2"
 type: docx
-token: SgJ7dKfisomLkqx1E3BccMO7nqf
+token: HH9bdZvbuoblNfxXeLycoHsSn9g
 sidebar_position: 4
 keywords: 
-  - 向量数据库对比
-  - openai 向量数据库
+  - 向量数据库比较
+  - OpenAI 向量数据库
   - 自然语言处理 Database
   - 低成本向量 Database
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - describeIndex()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-此操作用于描述特定索引。
+此操作会描述指定的索引。
 
 ```java
 public DescribeIndexResp describeIndex(DescribeIndexReq request)
@@ -54,7 +54,7 @@ describeIndex(DescribeIndexReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    Database 的名称。若未指定，则默认使用当前 Database。
+    Database 的名称。如果未指定，则该值默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
@@ -70,19 +70,75 @@ describeIndex(DescribeIndexReq.builder()
 
 - `timestamp(Long timestamp)` -
 
-    用于时间旅行查询的时间戳。默认为 `0L`。
+    用于时间旅行查询的时间戳。该值默认为 `0L`。
 
-**返回：**
+**返回类型：**
 
 *DescribeIndexResp*
 
-包含指定索引详细信息的 **DescribeIndexResp** 对象。
+**返回：**
+
+一个包含指定索引详细信息的 **DescribeIndexResp** 对象。
+
+**参数：**
+
+- **indexDescriptions** （*List&lt;IndexDesc&gt;*） -
+
+    索引描述列表，其中每个元素都是一个 **IndexDesc** 对象，包含以下字段：
+
+    - **fieldName** （*String*） -
+
+        构建索引时所用的字段名称。
+
+    - **indexName** （*String*） -
+
+        索引的名称。
+
+    - **id** （*long*） -
+
+        索引的 ID。
+
+    - **indexType** （*IndexParam.IndexType*） -
+
+        索引的类型。
+
+    - **metricType** （*IndexParam.MetricType*） -
+
+        用于衡量此索引下向量相似度的度量类型。
+
+    - **extraParams** （*Map&lt;String, String&gt;*） -
+
+        索引的额外参数。
+
+    - **indexedRows** （*long*） -
+
+        已建立索引的行数。
+
+    - **totalRows** （*long*） -
+
+        目标字段中的总行数。
+
+    - **pendingIndexRows** （*long*） -
+
+        等待建立索引的行数。
+
+    - **indexState** （*IndexBuildState*） -
+
+        索引构建任务的状态。可能的值包括：`IndexStateNone`、`Unissued`、`InProgress`、`Finished`、`Failed`、`Retry`。
+
+    - **indexFailedReason** （*String*） -
+
+        索引构建任务失败的原因。
+
+    - **properties** （*Map&lt;String, String&gt;*） -
+
+        索引属性。已弃用：索引属性现已分发到 `extraParams`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 
@@ -91,6 +147,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DescribeIndexReq;
 import io.milvus.v2.service.index.response.DescribeIndexResp;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

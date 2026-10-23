@@ -52,15 +52,11 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
     由 `pinSnapshotData()` 返回的 pin ID。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或者服务器针对此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

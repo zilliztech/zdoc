@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-dropCollectionProperties
 sidebar_label: "dropCollectionProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将指定 Collection 的属性重置为默认值。 | Java | v2"
 type: docx
-token: OPPHd2AabonMIzxzfupcyNS9n1a
-sidebar_position: 15
+token: EM0nd4Q6toGP0zx0I40cX4OmnHh
+sidebar_position: 14
 keywords: 
   - 深度学习
   - 知识库
@@ -52,7 +52,7 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    持有目标 Collection 的 Database 名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
@@ -60,7 +60,7 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    要重置为默认值的属性。可用属性如下：
+    要重置为默认值的属性。支持的属性如下：
 
     - **collection.ttl.seconds** -
 
@@ -70,15 +70,11 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
         是否为 Collection 中所有字段的原始数据和索引启用 mmap。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
@@ -86,6 +82,9 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -95,15 +94,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Drop the `collection.ttl.seconds` property
-List<String> propertyKeys = new ArrayList<>()
-propertyKeys.add("collection.ttl.seconds")
+// 2. Drop the \`collection.ttl.seconds\` property
+List<String> propertyKeys = new ArrayList<>();
+propertyKeys.add("collection.ttl.seconds");
 
 DropCollectionPropertiesReq dropCollectionPropertiesReq = DropCollectionPropertiesReq.builder()
         .collectionName("test")
         .propertyKeys(propertyKeys)
         .build();
         
-client.dropCollectionProperties(dropCollectionPropertiesReq)
+client.dropCollectionProperties(dropCollectionPropertiesReq);
 ```
-

@@ -56,9 +56,19 @@ getFlushAllState(GetFlushAllStateReq.builder()
 
     由 `flushAll` 返回的 flush-all 时间戳。
 
-**返回：**
+**返回类型：**
 
 *GetFlushAllStateResp*
+
+**返回：**
+
+一个 **GetFlushAllStateResp** 对象，用于指示 flush-all 操作是否已完成。
+
+**参数：**
+
+- **flushed** （*Boolean*） -
+
+    flush-all 操作是否已完成：如果已完成，则为 `true`，否则为 `false`。
 
 **异常：**
 
@@ -83,5 +93,3 @@ GetFlushAllStateResp state = client.getFlushAllState(GetFlushAllStateReq.builder
     .build());
 System.out.println(state.getFlushed());
 ```
-
-{/* category: Management; action: CREATE; addedSince: v3.0.x */}

@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Java | v2"
+description: "BulkFileType 实例保存 Milvus BulkWriter 支持的批量数据文件类型之一，以及该类型的数字代码和文件名后缀。 | Java | v2"
 type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - milvus benchmark
-  - managed milvus
+  - Milvus 基准测试
+  - 托管 Milvus
   - Serverless 向量 Database
-  - milvus open source
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 开源
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - BulkFileType
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # BulkFileType
 
-这是一个提供以下常量的枚举。
+BulkFileType 实例保存 Milvus BulkWriter 支持的批量数据文件类型之一，以及该类型的数字代码和文件名后缀。
 
 ## 常量\{#constants}
 
 - **PARQUET**
 
-    将文件类型设置为 [Parquet](https://parquet.apache.org/)（*.parquet*）。
+    将文件类型设置为 Parquet（*.parquet*）。
 
 - **JSON**
 
@@ -45,4 +45,4 @@ import Admonition from '@theme/Admonition';
 
 - **CSV**
 
-    将文件类型设置为 CSV（*.csv*）
+    将文件类型设置为 CSV（*.csv*）。

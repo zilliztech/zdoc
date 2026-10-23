@@ -47,13 +47,9 @@ localBulkWriter.commit(
 
 **参数：**
 
-- **async** (*boolean*) -
+- **async** （*boolean*） -
 
     commit 操作在被调用后是否立即返回。
-
-**返回类型：**
-
-*void*
 
 ## 示例\{#examples}
 

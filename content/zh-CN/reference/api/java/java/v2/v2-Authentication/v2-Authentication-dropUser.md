@@ -4,17 +4,17 @@ slug: /java/java/v2-Authentication-dropUser
 sidebar_label: "dropUser()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个用户。 | Java | v2"
+description: "此操作会删除用户。 | Java | v2"
 type: docx
-token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
+token: KOkDdGDXQo1yA5x3lalcmtglnUe
 sidebar_position: 9
 keywords: 
   - 向量 Database 如何工作
-  - 向量数据库对比
-  - OpenAI 向量数据库
+  - 向量 Database 对比
+  - OpenAI 向量 Database
   - 自然语言处理 Database
   - Zilliz
   - Zilliz Cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropUser()
 
-此操作会删除一个用户。
+此操作会删除用户。
 
 ```java
 public void dropUser(DropUserReq request)
@@ -50,17 +50,13 @@ dropUser(DropUserReq.builder()
 
 - `userName(String userName)`
 
-    要删除的用户名称。
-
-**返回值：**
-
-*void*
+    要删除的用户的名称。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -68,6 +64,7 @@ dropUser(DropUserReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.DropUserReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

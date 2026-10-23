@@ -12,13 +12,13 @@ type: docx
 token: SF5wdcArioRIsxxVzNjcgIhJnrc
 sidebar_position: 8
 keywords: 
-  - llm-as-a-judge
+  - LLM 作为评判者
   - 混合向量搜索
   - 视频去重
   - 视频相似性搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - restoreSnapshot()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -72,17 +72,25 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
     要在其中创建已恢复 Collection 的 Database。如果省略，则使用当前 Database。
 
-**返回：**
+**返回类型：**
 
 *RestoreSnapshotResp*
 
+**返回：**
+
 包含恢复快照作业 ID 的响应。
+
+**参数：**
+
+- **jobId** (*Long*) -
+
+    恢复快照作业的 ID。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器在此操作中返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

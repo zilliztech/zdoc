@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会重命名现有 Collection。 | Java | v2"
+description: "此操作会重命名现有的 Collection。 | Java | v2"
 type: docx
 token: U7Ipdm0FTo8FCVxaxbZcwMygnWd
-sidebar_position: 21
+sidebar_position: 19
 keywords: 
   - 检索增强生成
   - 大语言模型
   - 向量化
-  - k 最近邻算法
-  - zilliz
-  - zilliz cloud
+  - k 近邻算法
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - renameCollection()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # renameCollection()
 
-此操作会重命名现有 Collection。
+此操作会重命名现有的 Collection。
 
 ```java
 public void renameCollection(RenameCollectionReq request)
@@ -65,17 +65,13 @@ renameCollection(RenameCollectionReq.builder()
 
 - `targetDbName(String targetDbName)` -
 
-    目标 Database 的名称。当重命名后的 Collection 需要移动到另一个 Database 时，请设置此项。
-
-**返回：**
-
-*void*
+    目标 Database 的名称。当将 Collection 移到另一个 Database 时，请设置此参数。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果在此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#example}
 
@@ -83,6 +79,7 @@ renameCollection(RenameCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.RenameCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

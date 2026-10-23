@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "从现有 Collection 中移除函数定义，而不删除其输出字段。使用 `dropFunctionField()` 可同时删除两者。 | Java | v2"
+description: "此操作从现有 Collection 中移除函数定义，而不删除其输出字段。使用 `dropFunctionField()` 可同时删除两者。 | Java | v2"
 type: docx
 token: K0wedJ57uoHCyXxOFtNc673tnuA
-sidebar_position: 33
+sidebar_position: 31
 keywords: 
   - Milvus 向量 Database
   - Milvus 数据库
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-从现有 Collection 中移除函数定义，而不删除其输出字段。使用 [`dropFunctionField()`](./v2-Collections-dropFunctionField) 可同时删除两者。
+此操作从现有 Collection 中移除函数定义，而不删除其输出字段。使用 `dropFunctionField()` 可同时删除两者。
 
 ```java
 public void dropCollectionFunction(DropCollectionFunctionReq request)
@@ -60,12 +60,6 @@ DropCollectionFunctionReq.builder()
 - `functionName(String functionName)`
 
     要移除的函数定义名称。
-
-**返回：**
-
-*void*
-
-此操作不返回值。
 
 **异常：**
 

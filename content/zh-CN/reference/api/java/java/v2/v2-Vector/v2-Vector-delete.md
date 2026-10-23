@@ -4,12 +4,12 @@ slug: /java/java/v2-Vector-delete
 sidebar_label: "delete()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作按 ID 或使用布尔表达式删除 Entity。 | Java | v2"
 type: docx
-token: NTCHdGKwNo9kl2xFzgKcjo8wndg
+token: FrMNdXnZYo0oZ9xfs0xcjbVmn2c
 sidebar_position: 1
 keywords: 
   - 音频搜索
@@ -77,11 +77,27 @@ delete(DeleteReq.builder()
 
     用于参数化筛选器的模板变量值映射。
 
-**返回：**
+**返回类型：**
 
 *DeleteResp*
 
-**DeleteResp** 对象包含已删除 Entity 的数量。
+**返回：**
+
+**DeleteResp** 对象包含已删除的 Entity 数量和操作开销（`getCost()`）。
+
+**参数：**
+
+- **deleteCnt** (*long*) -
+
+    已删除的 Entity 数量。
+
+- **primaryKeys** (*List&lt;Object&gt;*) -
+
+    已删除 Entity 的主键。Milvus 2.3.2 及更高版本的服务器不再在删除响应中回显已删除的主键，因此对于新版本服务器，此列表为空。仅当连接的服务器为会返回这些主键的旧版本时，此列表才会包含值。
+
+- **cost** (*Long*) -
+
+    操作的时间开销。
 
 **异常：**
 

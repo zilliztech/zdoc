@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个角色，并可选择为该角色存储描述。 | Java | v2"
+description: "此操作会创建一个角色，并可选地为该角色存储描述。 | Java | v2"
 type: docx
 token: IzfldHDU4o8dDRx377ecqJmlnSf
 sidebar_position: 3
 keywords: 
   - 问答系统
-  - llm-as-a-judge
+  - LLM 评判
   - 混合向量搜索
   - 视频去重
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - createRole()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-此操作会创建一个角色，并可选择为该角色存储描述。
+此操作会创建一个角色，并可选地为该角色存储描述。
 
 ```java
 public void createRole(CreateRoleReq request)
@@ -57,19 +57,13 @@ client.createRole(CreateRoleReq.builder()
 
 - `description(String description)`
 
-    角色的可选描述。默认为空字符串。
-
-**返回值：**
-
-*void*
-
-此操作不返回任何值。
+    该角色的可选描述。该值默认为空字符串。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

@@ -4,21 +4,21 @@ slug: /java/java/v2-Database-useDatabase
 sidebar_label: "useDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会更改当前使用的 Database。 | Java | v2"
+description: "此操作会更改正在使用的 Database。 | Java | v2"
 type: docx
-token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
+token: I0cddYcHmorxaYxChficr214nAf
 sidebar_position: 7
 keywords: 
-  - 相似性搜索
+  - 相似度搜索
   - 多模态 RAG
-  - llm 幻觉
+  - LLM 幻觉
   - 混合搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - useDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-此操作会更改当前使用的 Database。
+此操作会更改正在使用的 Database。
 
 ```java
 public void useDatabase(String dbName)
@@ -43,27 +43,24 @@ public void useDatabase(String dbName)
 useDatabase(String dbName)
 ```
 
-**参数**
+**参数：**
 
-- **dbName** (*String*) -
+- **dbName**（*String*）-
 
     目标 Database 的名称。
 
-**返回值**
+**异常：**
 
-*void*
+- **InterruptedException**
 
-**异常**
-
-- InterruptedException
-
-    当从 Milvus 断开连接期间发生任何错误时，将引发此异常。
+    从 Milvus 断开连接期间发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -74,5 +71,5 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Switch the client to another database
-client.useDatabase("my_database")
+client.useDatabase("my_database");
 ```

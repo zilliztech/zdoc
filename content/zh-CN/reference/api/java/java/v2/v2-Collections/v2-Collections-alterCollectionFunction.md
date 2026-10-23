@@ -4,20 +4,20 @@ slug: /java/java/v2-Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数定义替换现有函数，来修改 Collection 中的现有函数。 | Java | v2"
+description: "此操作通过将 Collection 中的现有函数替换为新函数定义来更改该函数。 | Java | v2"
 type: docx
-token: A6Vld2dJToRXs8xhq0wcGdiRnDc
-sidebar_position: 31
+token: DfZadsub8olf6gx6HIKc3QIVnAg
+sidebar_position: 29
 keywords: 
   - 嵌入模型
   - 图像相似性搜索
   - 上下文窗口
   - 自然语言搜索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - alterCollectionFunction()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-此操作通过使用新的函数定义替换现有函数，来修改 Collection 中的现有函数。
+此操作通过将 Collection 中的现有函数替换为新函数定义来更改该函数。
 
 ```java
 public void alterCollectionFunction(AlterCollectionFunctionReq request)
@@ -66,15 +66,11 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 
     用于替换现有函数的新函数定义。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
@@ -82,6 +78,7 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 import io.milvus.v2.service.collection.request.AlterCollectionFunctionReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.common.clientenum.FunctionType;
+import java.util.Arrays;
 
 CreateCollectionReq.Function updatedFunc = CreateCollectionReq.Function.builder()
     .name("bm25")

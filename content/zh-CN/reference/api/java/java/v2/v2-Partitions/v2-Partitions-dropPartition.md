@@ -4,12 +4,12 @@ slug: /java/java/v2-Partitions-dropPartition
 sidebar_label: "dropPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会从当前 Collection 中删除指定的 Partition。 | Java | v2"
 type: docx
-token: CSaVdr3zao9zFpxaJBgcCTCYnPd
+token: GfGfd7P5Aong4Fx4bctc4SQPn1g
 sidebar_position: 2
 keywords: 
   - 语义搜索
@@ -64,13 +64,9 @@ dropPartition(DropPartitionReq.builder()
 
     （必需）要删除的 Partition 的名称。
 
-**返回值：**
-
-*void*
-
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     在此操作期间发生任何错误时，都会引发此异常。
 
@@ -80,6 +76,7 @@ dropPartition(DropPartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.DropPartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -96,4 +93,3 @@ DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
         .build();
 client.dropPartition(dropPartitionReq);
 ```
-

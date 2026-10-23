@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`VolumeFileManager` 实例维护与 Zilliz Cloud Volume 服务中特定 volume 的连接。在将数据文件上传到 volume 之前，您需要先初始化一个 `VolumeFileManager` 实例。 | Java | v2"
+description: "`VolumeFileManager` 实例维护与 Zilliz Cloud Volume 服务中特定存储卷的连接。在将数据文件上传到存储卷之前，您需要先初始化一个 `VolumeFileManager` 实例。 | Java | v2"
 type: docx
 token: DK7ZdxRCyoepyxx0odzcH66xnu3
 sidebar_position: 2
 keywords: 
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量 Database 示例
   - RAG 向量 Database
-  - 什么是向量数据库
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
   - 云
@@ -31,21 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # VolumeFileManager
 
-`VolumeFileManager` 实例维护与 Zilliz Cloud Volume 服务中特定 volume 的连接。在将数据文件上传到 volume 之前，您需要先初始化一个 `VolumeFileManager` 实例。
+`VolumeFileManager` 实例维护与 Zilliz Cloud Volume 服务中特定存储卷的连接。在将数据文件上传到存储卷之前，您需要先初始化一个 `VolumeFileManager` 实例。
 
 ```java
 io.milvus.bulkwriter.VolumeFileManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-volume 是一个中间存储位置，您可以在其中保存数据以进行后续处理，例如数据合并、迁移或导入。有关详细信息，请参阅 [Volume](/docs/volume)。
-
-</Admonition>
-
 ## 构造函数\{#constructor}
 
-此构造函数会初始化一个新的 `VolumeFileManager` 实例，用于维护与 Zilliz Cloud Volume 服务中特定 volume 的连接。
+此构造函数会初始化一个新的 `VolumeFileManager` 实例，用于维护与 Zilliz Cloud Volume 服务中特定存储卷的连接。
 
 ```java
 VolumeFileManager(
@@ -59,31 +53,49 @@ VolumeFileManager(
 
 **参数：**
 
-- **cloudEndpoint** (*str*) -
+- **cloudEndpoint** （*str*） -
 
     **[必需]**
 
-    Zilliz Cloud 的 Endpoint，即 `https://api.cloud.zilliz.com`。
+    Zilliz Cloud Endpoint，即 `https://api.cloud.zilliz.com`。
 
-- **apiKey** (*str*) -
-
-    **[必需]**
-
-    您的 Zilliz Cloud API 密钥，需要具有足够的权限来管理 Zilliz Cloud Control Plane 上的 volumes。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
-
-- **volumeName** (*str*) -
+- **apiKey** （*str*） -
 
     **[必需]**
 
-    此次操作的目标 volume 名称。
+    您的 Zilliz Cloud API key，具有足够权限管理 Zilliz Cloud Control Plane 上的存储卷。要获取 Zilliz Cloud API key，请按照 [API 密钥](/docs/manage-api-keys) 中的步骤操作。
+
+- **volumeName** （*str*） -
+
+    **[必需]**
+
+    此次操作的目标存储卷的名称。
 
 **返回类型：**
 
-`VolumeFileManager`
+*VolumeFileManager*
 
 **返回：**
 
-一个 `VolumeFileManager` 实例。
+一个 `VolumeFileManager` 实例，其中保存目标存储卷的连接设置，包含以下字段：
+
+**参数：**
+
+- **cloudEndpoint** （*String*） -
+
+    用于申请存储卷并刷新临时存储凭据的 Zilliz Cloud Endpoint。
+
+- **apiKey** （*String*） -
+
+    用于对存储卷访问进行身份验证的 Zilliz Cloud API key。
+
+- **volumeName** （*String*） -
+
+    目标 Zilliz Cloud 存储卷的名称。
+
+- **connectType** （*ConnectType*） -
+
+    用于访问存储卷的连接策略。该值默认为 `ConnectType.AUTO`。
 
 ## 示例\{#examples}
 
@@ -99,4 +111,3 @@ VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilde
 
 VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
 ```
-

@@ -54,11 +54,35 @@ getCompactionPlans(GetCompactionPlansReq.builder()
 
     由 `compact()` 返回的 Compaction 作业 ID。
 
-**返回：**
+**返回类型：**
 
 *GetCompactionPlansResp*
 
+**返回：**
+
 响应包含 Compaction 状态和合并计划。
+
+**参数：**
+
+- **compactionId** (*Long*) -
+
+    Compaction 作业的 ID。
+
+- **state** (*CompactionState*) -
+
+    Compaction 作业的状态。可选值为：`UndefiedState(0)`、`Executing(1)` 和 `Completed(2)`。
+
+- **plans** (*List&lt;CompactionPlan&gt;*) -
+
+    合并计划列表，其中每个合并计划都是一个 **CompactionPlan** 对象，包含以下字段：
+
+    - **target** (*Long*) -
+
+        目标 Segment 的 ID，源 Segment 将合并到该目标 Segment 中。
+
+    - **sources** (*List&lt;Long&gt;*) -
+
+        要合并到目标 Segment 中的源 Segment 的 ID。
 
 **异常：**
 

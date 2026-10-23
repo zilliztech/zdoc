@@ -52,25 +52,19 @@ client.createUser(CreateUserReq.builder()
 
 - `userName(String userName)`
 
-    **[必填]**
+    **[必需]**
 
     要创建的用户名。
 
 - `password(String password)`
 
-    **[必填]**
+    **[必需]**
 
     用户的密码。
 
 - `description(String description)`
 
-    用户的可选描述。默认为空字符串。
-
-**返回：**
-
-*void*
-
-此操作不返回任何值。
+    用户的可选描述。该值默认为空字符串。
 
 **异常：**
 

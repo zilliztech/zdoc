@@ -12,13 +12,13 @@ type: docx
 token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
+  - LLM 作为评判者
+  - 混合向量搜索
   - 视频去重
   - 视频相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -45,6 +45,7 @@ get(GetReq.builder()
     .collectionName(String collectionName)
     .clusterId(String clusterId)
     .partitionName(String partitionName)
+    .partitionNames(List<String> partitionNames)
     .ids(List<Object> ids)
     .outputFields(List<String> outputFields)
     .build()
@@ -63,11 +64,15 @@ get(GetReq.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求应共享相同集群 ID 时，请使用 `session(String clusterId)`。
+    要查询的集群的 ID。适用于 global-cluster 部署。
 
 - `partitionName(String partitionName)`
 
     Partition 的名称。
+
+- `partitionNames(List<String> partitionNames)`
+
+    要查询的 Partition 名称列表。
 
 - `ids(List<Object> ids)`
 
@@ -83,15 +88,43 @@ get(GetReq.builder()
 
 **返回：**
 
-表示一个或多个已查询 Entity 的 **GetResp** 对象。
+**GetResp** 对象，表示一个或多个已查询的 Entity，并在可用时包含操作成本（`getCost()`）和扫描字节数指标（`getScannedRemoteBytes()`、`getScannedTotalBytes()`、`getCacheHitRatio()`）。
 
 **参数：**
 
-- **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
+- **getResults** (*List&lt;QueryResp.QueryResult&gt;*) -
 
-    **QueryResp.QueryResult** 对象的列表。
+    已检索 Entity 的列表。每个 **QueryResp.QueryResult** 都包含以下字段：
 
-- **fields** (*Map\\\&lt;String,Object\\\&gt;*)
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        包含字段名称及其值的键值对映射。
+
+    - **elementOffset** (*Long*) -
+
+        对于结构体数组元素级查询，表示匹配元素在数组中的索引。对于普通查询，此值为 null。
+
+- **sessionTs** (*long*) -
+
+    本次读取的会话时间戳。
+
+- **cost** (*Long*) -
+
+    操作耗时。
+
+- **scannedRemoteBytes** (*Long*) -
+
+    查询期间远程扫描的字节数。
+
+- **scannedTotalBytes** (*Long*) -
+
+    查询期间扫描的总字节数。
+
+- **cacheHitRatio** (*Float*) -
+
+    查询的缓存命中率。
+
+- **fields** (*Map&lt;String,Object&gt;*) -
 
     包含字段名称及其值的键值对映射。
 
@@ -99,7 +132,7 @@ get(GetReq.builder()
 
 - **MilvusClientExceptions**
 
-    此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时都会引发此异常。
 
 ## 示例\{#example}
 

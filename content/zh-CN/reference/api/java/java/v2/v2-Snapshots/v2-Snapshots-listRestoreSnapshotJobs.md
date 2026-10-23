@@ -7,16 +7,16 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出恢复快照作业，可选择将范围限定为特定 Database 和 Collection。 | Java | v2"
+description: "此操作会列出恢复快照任务，可选范围限定为某个 Database 和 Collection。 | Java | v2"
 type: docx
 token: I98vddTeco48kYxHEkOccG9ynYe
 sidebar_position: 5
 keywords: 
-  - llm 幻觉
+  - LLM 幻觉
   - 混合搜索
   - 词法搜索
   - 最近邻搜索
-  - zilliz
+  - Zilliz
   - Zilliz Cloud
   - 云
   - listRestoreSnapshotJobs()
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-此操作列出恢复快照作业，可选择将范围限定为特定 Database 和 Collection。
+此操作会列出恢复快照任务，可选范围限定为某个 Database 和 Collection。
 
 ```java
 public ListRestoreSnapshotJobsResp listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq request)
@@ -57,17 +57,61 @@ listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 
     与快照操作关联的 Collection 名称。
 
-**返回：**
+**返回类型：**
 
 *ListRestoreSnapshotJobsResp*
 
-包含与请求筛选条件匹配的恢复快照作业的响应。
+**返回：**
+
+包含与请求筛选条件匹配的恢复快照任务的响应。
+
+**参数：**
+
+- **jobs** (*List&lt;RestoreSnapshotJobInfo&gt;*) -
+
+    恢复快照任务列表，其中每个任务都是一个 **RestoreSnapshotJobInfo** 对象，包含以下字段：
+
+    - **jobId** (*Long*) -
+
+        恢复快照任务的 ID。
+
+    - **snapshotName** (*String*) -
+
+        正在恢复的快照的名称。
+
+    - **dbName** (*String*) -
+
+        目标 Database 的名称。
+
+    - **collectionName** (*String*) -
+
+        目标 Collection 的名称。
+
+    - **state** (*String*) -
+
+        恢复任务的当前状态：RestoreSnapshotNone、RestoreSnapshotPending、RestoreSnapshotExecuting、RestoreSnapshotCompleted 或 RestoreSnapshotFailed。
+
+    - **progress** (*Integer*) -
+
+        恢复任务的进度，以百分比表示。
+
+    - **reason** (*String*) -
+
+        任务失败时的失败原因。
+
+    - **startTime** (*Long*) -
+
+        恢复任务的开始时间。
+
+    - **timeCost** (*Long*) -
+
+        恢复任务的耗时。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

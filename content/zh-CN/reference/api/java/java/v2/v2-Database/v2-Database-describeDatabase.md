@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-describeDatabase
 sidebar_label: "describeDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于获取特定 Database 的详细信息。 | Java | v2"
+description: "此操作获取特定 Database 的详细信息。 | Java | v2"
 type: docx
-token: MJjHd3uGcoxEYBx0laKcAIKNnhg
+token: VZ64davS5osZHKxxbPac3Ixtnlc
 sidebar_position: 3
 keywords: 
   - 稀疏向量
@@ -18,7 +18,7 @@ keywords:
   - 什么是向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-此操作用于获取特定 Database 的详细信息。
+此操作获取特定 Database 的详细信息。
 
 ```java
 public DescribeDatabaseResp describeDatabase(DescribeDatabaseReq request)
@@ -52,13 +52,23 @@ describeDatabase(DescribeDatabaseReq.builder()
 
     Database 的名称。
 
-**返回类型**：
+**返回类型：**
 
 *DescribeDatabaseResp*
 
-**返回值：**
+**返回：**
 
 包含指定 Database 详细信息的 **DescribeDatabaseResp** 对象。
+
+**参数：**
+
+- **databaseName**（*String*）-
+
+    Database 的名称。
+
+- **properties**（*Map&lt;String, String&gt;*）-
+
+    Database 的属性。
 
 **异常：**
 
@@ -74,6 +84,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DescribeDatabaseReq;
 import io.milvus.v2.service.database.response.DescribeDatabaseResp;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -90,4 +102,3 @@ DescribeDatabaseResp descResp = client.describeDatabase(DescribeDatabaseReq.buil
 Map<String,String> propertiesResp = descResp.getProperties();
 System.out.println(propertiesResp.get(Constant.DATABASE_REPLICA_NUMBER));
 ```
-

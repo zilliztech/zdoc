@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commitImport()
 
-提交已准备好的批量导入任务。
+此操作会提交已准备好的批量导入任务。
 
 ```java
 public static String commitImport(String url, BaseDescribeImportRequest request)
@@ -51,13 +51,13 @@ CloudDescribeImportRequest.builder()
 
 ### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
-对于 Zilliz Cloud，使用 `CloudDescribeImportRequest`。设置 `clusterId`，或对于项目 Database 部署，同时设置 `projectId` 和 `regionId`。
+对于 Zilliz Cloud，使用 `CloudDescribeImportRequest`。请设置 `clusterId`，或者对于项目 Database 部署，同时设置 `projectId` 和 `regionId`。
 
 **构建器方法：**
 
 - `apiKey(String apiKey)`
 
-    身份验证凭证。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 API 密钥。
+    身份验证凭证。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 Zilliz Cloud API key。
 
 - `clusterId(String clusterId)`
 
@@ -75,11 +75,19 @@ CloudDescribeImportRequest.builder()
 
     要提交的导入任务标识符。
 
-**返回值：**
+**返回类型：**
 
 *String*
 
+**返回：**
+
 导入 Endpoint 返回的 JSON 响应体。
+
+**参数：**
+
+- **response** （*String*） -
+
+    commit-import 调用的 JSON 响应体。
 
 **异常：**
 

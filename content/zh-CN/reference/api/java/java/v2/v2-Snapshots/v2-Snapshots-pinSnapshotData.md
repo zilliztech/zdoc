@@ -67,17 +67,25 @@ pinSnapshotData(PinSnapshotDataReq.builder()
 
     快照数据固定的生存时间（TTL），以秒为单位。使用 `0L` 可采用服务器默认行为。
 
-**返回：**
+**返回类型：**
 
 *PinSnapshotDataResp*
 
-包含已固定快照数据的固定 ID 的响应。
+**返回：**
+
+响应中包含已固定快照数据的 pin ID。
+
+**参数：**
+
+- **pinId** (*Long*) -
+
+    所创建 pin 的 ID。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器针对该操作返回错误时，将引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

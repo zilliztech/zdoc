@@ -7,16 +7,16 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "删除一个函数及该函数拥有的输出字段。 | Java | v2"
+description: "此操作会删除一个函数以及该函数拥有的输出字段。 | Java | v2"
 type: docx
 token: LUUvdGTqrog0AIxfea7cc9a1nCd
-sidebar_position: 40
+sidebar_position: 42
 keywords: 
   - 什么是向量 Database
   - 向量 Database 对比
   - Faiss
   - 视频搜索
-  - Zilliz
+  - zilliz
   - Zilliz Cloud
   - 云
   - dropFunctionField()
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropFunctionField()
 
-删除一个函数及该函数拥有的输出字段。
+此操作会删除一个函数以及该函数拥有的输出字段。
 
 ```java
 public void dropFunctionField(DropFunctionFieldReq request)
@@ -59,13 +59,7 @@ DropFunctionFieldReq.builder()
 
 - `functionName(String functionName)`
 
-    要删除其定义和输出字段的函数名称。
-
-**返回：**
-
-*void*
-
-此操作不返回值。
+    要删除其定义和输出字段的函数的名称。
 
 **异常：**
 

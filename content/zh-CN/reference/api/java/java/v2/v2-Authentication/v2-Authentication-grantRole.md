@@ -4,20 +4,20 @@ slug: /java/java/v2-Authentication-grantRole
 sidebar_label: "grantRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会为用户授予角色。 | Java | v2"
 type: docx
-token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
+token: YjXDdG9vjoCXmJxnysrci2Y0nZd
 sidebar_position: 12
 keywords: 
   - 音频相似性搜索
   - 弹性向量 Database
   - Pinecone 与 Milvus 对比
   - Chroma 与 Milvus 对比
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - grantRole()
   - javaV230
@@ -57,10 +57,6 @@ grantRole(GrantRoleReq.builder()
 
     现有用户的名称。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientExceptions**
@@ -73,6 +69,7 @@ grantRole(GrantRoleReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.GrantRoleReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -89,4 +86,3 @@ GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .build();
 client.grantRole(grantRoleReq);
 ```
-

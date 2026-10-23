@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作将返回授予某个角色的权限以及该角色的描述。 | Java | v2"
+description: "此操作返回授予角色的权限以及角色说明。 | Java | v2"
 type: docx
 token: ZmeDd4zoPo7EynxnyGOckvzvnsh
 sidebar_position: 5
 keywords: 
   - 视频搜索
   - AI 幻觉
-  - AI Agent
+  - AI 智能体
   - 语义搜索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - describeRole()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeRole()
 
-此操作将返回授予某个角色的权限以及该角色的描述。
+此操作返回授予角色的权限以及角色说明。
 
 ```java
 public DescribeRoleResp describeRole(DescribeRoleReq request)
@@ -52,19 +52,63 @@ DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
 
     **[必需]**
 
-    要描述的角色名称。
+    要描述的角色的名称。
 
-**返回：**
+- `dbName(String dbName)`
+
+    该角色适用的 Database 的名称。省略时默认为当前 Database。
+
+**返回类型：**
 
 *DescribeRoleResp*
 
-响应包含 `roleName`、`grantInfos` 和 `description`。
+**返回：**
+
+一个 **DescribeRoleResp** 对象，包含以下字段：
+
+**参数：**
+
+- **roleName**（*String*）-
+
+    角色的名称。
+
+- **grantInfos**（*List&lt;GrantInfo&gt;*）-
+
+    授予该角色的权限列表，其中每一项都是一个 **GrantInfo** 对象，包含以下字段：
+
+    - **objectType**（*String*）-
+
+        权限适用的对象的类型。
+
+    - **objectName**（*String*）-
+
+        权限适用的对象的名称。
+
+    - **roleName**（*String*）-
+
+        被授予该权限的角色的名称。
+
+    - **grantor**（*String*）-
+
+        授予该权限的用户的名称。
+
+    - **privilege**（*String*）-
+
+        授予的权限。
+
+    - **dbName**（*String*）-
+
+        授予该权限的 Database 的名称。
+
+- **description**（*String*）-
+
+    角色的说明。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

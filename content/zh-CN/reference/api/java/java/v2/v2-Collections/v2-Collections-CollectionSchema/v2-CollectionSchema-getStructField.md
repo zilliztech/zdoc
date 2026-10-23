@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 按名称从 Collection Schema 中返回 struct 字段 Schema。 | Java | v2"
+description: "此操作按名称从 Collection Schema 中返回 struct 字段 Schema。 | Java | v2"
 type: docx
 token: KJSvdrks9o6WOsxr0rZcPXe5ngn
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getStructField()
 
-此 getter 按名称从 Collection Schema 中返回 struct 字段 Schema。
+此操作按名称从 Collection Schema 中返回 struct 字段 Schema。
 
 ```java
 public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)
@@ -39,13 +39,43 @@ public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)
 
 **参数：**
 
-- **fieldName** (*String*) -
+- **fieldName** （*String*） -
 
     struct 字段的名称。
 
-**返回：**
+**返回类型：**
 
 *CreateCollectionReq.StructFieldSchema*
+
+**返回：**
+
+**CreateCollectionReq.StructFieldSchema** 对象包含以下字段：
+
+**参数：**
+
+- **name** （*String*） -
+
+    struct 字段的名称。
+
+- **description** （*String*） -
+
+    struct 字段的描述。该值默认为空字符串。
+
+- **fields** （*List&lt;CreateCollectionReq.FieldSchema&gt;*） -
+
+    struct 字段的子字段。子字段不支持 Array、ArrayOfVector 和 Struct 元素类型。
+
+- **maxCapacity** （*Integer*） -
+
+    struct 字段可容纳的最大元素数。
+
+- **nullable** （*Boolean*） -
+
+    struct 字段是否可为空。默认值：`false`。
+
+- **typeParams** （*Map&lt;String, String&gt;*） -
+
+    struct 字段的类型参数。
 
 **异常：**
 

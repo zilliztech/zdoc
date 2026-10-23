@@ -18,7 +18,7 @@ keywords:
   - 图像搜索
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - MilvusClientV2
   - javaV230
 displayed_sidebar: javaSidebar
@@ -39,21 +39,17 @@ io.milvus.v2.client.MilvusClientV2
 
 ## 构造函数\{#constructor}
 
-为常见用例构造一个客户端。
+为常见用例构造客户端。
 
-<Admonition type="info" icon="📘" title="Notes">
-
-该客户端可作为当前这组 API 的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
-
-</Admonition>
+此客户端为当前一组用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作的 API 提供了一种易于使用的替代方案。
 
 ```java
 MilvusClientV2(ConnectConfig connectConfig);
 ```
 
-## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
+## ConnectConfig\{#connectconfig}
 
-**[ConnectConfig](./v2-Client-ConnectConfig)** 允许您在一处配置连接属性，以便 **MilvusClientV2** 可以引用它来创建和管理连接池。
+**ConnectConfig** 允许您在一处配置连接属性，以便 **MilvusClientV2** 可以引用它来创建和管理连接池。
 
 ```java
 // use either token or username/password
@@ -87,131 +83,116 @@ ConnectConfig.builder()
 
     Zilliz Cloud 集群的 URI。例如：
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
-    ```
+```plaintext
+https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
+```
 
 - `token(String token)`
 
     用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    这可作为分别设置 **user** 和 **password** 的推荐替代方式。
+这可以作为分别设置 **user** 和 **password** 的推荐替代方案。
 
-    设置此字段时，请注意：
+设置此字段时，请注意：
 
-    有效的 token 应为以下之一
+有效令牌应为
 
-    - 具有足够权限的 [API key](/docs/manage-api-keys)，或
+- 具有足够权限的 API key，或
 
-    - 一组用于访问目标集群的[用户名和密码](/docs/cluster-credentials)，并使用冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
+- 用于访问目标集群的用户名和密码对，由冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
 - `username(String userName)`
 
     用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    应与 **password** 一起使用。
+此参数应与 **password** 一起使用。
 
 - `password(String password)`
 
     用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    应与 **user** 一起使用。
+此参数应与 **user** 一起使用。
 
 - `connectTimeoutMs(long connectTimeout)`
 
     此操作的超时时长，单位为毫秒。
 
-    默认值为 **10000**。
+该值默认为 **10000**。
 
 - `keepAliveTimeMs(long keepAliveTime)`
 
-    客户端向服务器发送 keep-alive 探测的时间间隔，单位为毫秒。
+    客户端向服务器发送 keep-alive 探测之间的时间间隔，单位为毫秒。
 
-    默认值为 **55000**。
+该值默认为 **55000**。
 
 - `keepAliveTimeoutMs(long keepAliveTimeout)`
 
     服务器响应客户端发送的 keep-alive 探测的超时时长，单位为毫秒。
 
-    默认值为 **20000**。
+该值默认为 **20000**。
 
 - `keepAliveWithoutCalls(boolean enable)`
 
     是否在不发出请求的情况下发送 keep-alive 探测。
 
-    默认值为 **false**。
+该值默认为 **false**。
 
 - `rpcDeadlineMs(long rpcDeadline)`
 
     RPC 调用的截止时间（已禁用）。
 
-    默认值为 **0**，表示截止时间已禁用。
+该值默认为 **0**，表示截止时间已禁用。
 
-- `clientKeyPath(String clientKeyPath)`
+- `clientKeyPath(String clientKeyPath)`<br/>
+  用于双向认证的客户端密钥文件路径。
 
-    用于双向认证的客户端密钥文件路径。
+- `clientPemPath(String clientPemPath)`<br/>
+  用于双向认证的客户端 PEM 文件路径。
 
-- `clientPemPath(String clientPemPath)`
+- `caPemPath(String caPemPath)`<br/>
+  用于双向认证的 CA PEM 文件路径。
 
-    用于双向认证的客户端 PEM 文件路径。
+- `serverPemPath(String serverPemPath)`<br/>
+  用于双向认证的服务器 PEM 文件路径。
 
-- `caPemPath(String caPemPath)`
+- `serverName(String serverName)`<br/>
+  服务器的预期名称。
 
-    用于双向认证的 CA PEM 文件路径。
+- `proxyAddress(String proxyAddress)`<br/>
+  用于建立连接的代理服务器地址。
 
-- `serverPemPath(String serverPemPath)`
+- `secure(boolean enable)`<br/>
+  是否对连接使用 TLS。
 
-    用于双向认证的服务器 PEM 文件路径。
+该值默认为 **true**。
 
-- `serverName(String serverName)`
+- `idleTimeoutMs(long idleTimeout)`<br/>
+  连接的空闲超时时间。
 
-    服务器的预期名称。
+- `.clientRequestId(ThreadLocal<String> clientRequestId)`<br/>
+  客户端请求的 ID。您可以使用此参数维护线程映射，其中每个线程映射到特定的请求 ID。
 
-- `proxyAddress(String proxyAddress)`
-
-    用于建立连接的代理服务器地址。
-
-- `secure(boolean enable)`
-
-    是否对此连接使用 TLS。
-
-    默认值为 **true**。
-
-- `idleTimeoutMs(long idleTimeout)`
-
-    连接的空闲超时时间。
-
-- `.clientRequestId(ThreadLocal<String> clientRequestId)`
-
-    客户端请求的 ID。您可以使用此参数维护线程映射，其中每个线程映射到一个特定的请求 ID。
-
-    该请求 ID 将传递给服务器，以便您从访问日志中了解是哪个客户端调用了此接口。
+请求 ID 将传递给服务器，以便您从访问日志中了解哪个客户端调用了此接口。
 
 **公共方法：**
 
-- `getHost()`
+- `getHost()`<br/>
+  返回当前连接的 Milvus 实例的主机名。
 
-    返回当前连接的 Milvus 实例的主机名。
+- `getPort()`<br/>
+  返回当前连接的 Milvus 实例所使用的端口号。
 
-- `getPort()`
+- `getAuthorization()`<br/>
+  返回用于建立当前连接的凭据。
 
-    返回当前连接的 Milvus 实例所在的端口号。
+- `getDbName()`<br/>
+  返回当前正在使用的 Database 名称。
 
-- `getAuthorization()`
+- `isSecure()`<br/>
+  返回当前连接是否使用 TLS。
 
-    返回用于建立当前连接的凭据。
-
-- `getDbName()`
-
-    返回当前正在使用的 Database 名称。
-
-- `isSecure()`
-
-    返回当前连接是否通过 TLS 建立。
-
-- `getProxyAddress()`
-
-    返回在 **[ConnectConfig](./v2-Client-ConnectConfig)** 中指定的代理服务器地址。
+- `getProxyAddress()`<br/>
+  返回 **ConnectConfig** 中指定的代理服务器地址。
 
 ## 示例\{#examples}
 
@@ -227,9 +208,4 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
 将 **uri** 设置为您的集群 Endpoint。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
-
-</Admonition>
-

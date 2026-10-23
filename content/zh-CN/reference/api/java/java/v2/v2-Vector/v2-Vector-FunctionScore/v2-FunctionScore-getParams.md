@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回此 FunctionScore 对象的参数映射。 | Java | v2"
+description: "此操作返回此 FunctionScore 对象的参数映射。 | Java | v2"
 type: docx
 token: DUJsdflImor0joxV14ecSwpnnDb
 sidebar_position: 4
@@ -31,15 +31,25 @@ import Admonition from '@theme/Admonition';
 
 # getParams()
 
-此 getter 返回此 FunctionScore 对象的参数映射。
+此操作返回此 FunctionScore 对象的参数映射。
 
 ```java
 public Map<String, String> getParams()
 ```
 
-**返回：**
+**返回类型：**
 
 *Map&lt;String, String&gt;*
+
+**返回：**
+
+一个 **Map&lt;String, String&gt;**，用于表示此 FunctionScore 对象的参数。
+
+**参数：**
+
+- **params** （*Map&lt;String, String&gt;*） -
+
+    此 FunctionScore 对象的参数，供 `search` API 用于重新排序或修改搜索结果的分数。
 
 **异常：**
 

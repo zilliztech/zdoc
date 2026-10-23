@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作对 Collection 执行多向量搜索，并在重排后返回搜索结果。 | Java | v2"
+description: "此操作会在 Collection 上执行多向量搜索，并在重排后返回搜索结果。 | Java | v2"
 type: docx
 token: R1NDdFPnVo4wTuxvHjFcozc8nMa
 sidebar_position: 3
@@ -15,9 +15,9 @@ keywords:
   - Faiss
   - 视频搜索
   - AI 幻觉
-  - AI 智能体
-  - zilliz
-  - zilliz cloud
+  - AI Agent
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - hybridSearch()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridSearch()
 
-此操作对 Collection 执行多向量搜索，并在重排后返回搜索结果。
+此操作会在 Collection 上执行多向量搜索，并在重排后返回搜索结果。
 
 ```java
 public SearchResp hybridSearch(HybridSearchReq request)
@@ -43,7 +43,6 @@ public SearchResp hybridSearch(HybridSearchReq request)
 hybridSearch(HybridSearchReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .searchRequests(List<AnnSearchReq> searchRequests)
     .topK(int topK)
@@ -64,19 +63,19 @@ hybridSearch(HybridSearchReq.builder()
 
 - `databaseName(String databaseName)`
 
-    Database 的名称。若未指定，则默认为当前 Database。
+    Database 的名称。如果未指定，则默认为当前 Database。
+
+- `clusterId(String clusterId)`
+
+    **已弃用。** 要查询的集群 ID。适用于 global-cluster 部署。
 
 - `collectionName(String collectionName)`
 
     目标 Collection 的名称。
 
-- `clusterId(String clusterId)`
-
-    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
-
 - `partitionNames(List<String> partitionNames)`
 
-    要搜索的 Partition 名称列表。
+    要作为目标的 Partition 名称列表。
 
 - `searchRequests(List<AnnSearchReq> searchRequests)`
 
@@ -84,15 +83,15 @@ hybridSearch(HybridSearchReq.builder()
 
 - `topK(int topK)`
 
-    要返回的前几个结果数量。
+    要返回的排名靠前结果的数量。
 
 - `limit(long limit)`
 
-    要返回的最大结果数。
+    要返回的最大结果数量。
 
 - `outFields(List<String> outFields)`
 
-    输出中要包含的字段名称列表。
+    要包含在输出中的字段名称列表。
 
 - `offset(long offset)`
 
@@ -100,7 +99,7 @@ hybridSearch(HybridSearchReq.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    距离值/score舍入时保留的小数位数。
+    distance/score 舍入的小数位数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -116,23 +115,87 @@ hybridSearch(HybridSearchReq.builder()
 
 - `strictGroupSize(Boolean strictGroupSize)`
 
-    是否严格执行组大小限制。
+    是否严格强制执行分组大小。
 
 - `functionScore(FunctionScore functionScore)`
 
     用于自定义评分的 FunctionScore 对象。
 
+- `ranker(CreateCollectionReq.Function ranker)`
+
+    **已弃用。** 应用于搜索结果的一个重排函数。建议使用 `functionScore()`。
+
+**返回类型：**
+
+*SearchResp*
+
 **返回：**
 
-*SearchResp*
+一个 **SearchResp** 对象，包含来自所有查询向量的合并结果，并按重排策略排序。
 
-*SearchResp*
+**参数：**
+
+- **searchResults** (*List&lt;List&lt;SearchResult&gt;&gt;*) -
+
+    搜索结果批次列表，每个查询向量对应一个批次，每个批次包含具有以下字段的 **SearchResult** 条目：
+
+    - **id** (*Object*) -
+
+        匹配 Entity 的主键值。
+
+    - **score** (*Float*) -
+
+        重排后匹配 Entity 的相关性分数。
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        包含匹配 Entity 的字段名称和值的映射。
+
+    - **primaryKey** (*String*) -
+
+        主键字段的名称。
+
+    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+
+        按字段名称索引的高亮结果；在请求高亮时返回。
+
+    - **elementOffset** (*Long*) -
+
+        对于结构体数组的元素级匹配（通过 `element_filter`），表示匹配元素在数组中的索引。普通匹配时为空。
+
+- **sessionTs** (*long*) -
+
+    本次读取的会话时间戳。
+
+- **recalls** (*List&lt;Float&gt;*) -
+
+    每个查询向量的召回率；在报告时提供。
+
+- **cost** (*Long*) -
+
+    此操作的时间开销。
+
+- **scannedRemoteBytes** (*Long*) -
+
+    搜索期间远程扫描的字节数。
+
+- **scannedTotalBytes** (*Long*) -
+
+    搜索期间扫描的总字节数。
+
+- **cacheHitRatio** (*Float*) -
+
+    搜索的缓存命中率。
+
+- **aggregationBuckets** (*List&lt;List&lt;AggregationBucket&gt;&gt;*) -
+
+    按查询向量分组的聚合桶；在请求聚合时返回。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

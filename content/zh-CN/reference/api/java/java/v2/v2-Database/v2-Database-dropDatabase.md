@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-dropDatabase
 sidebar_label: "dropDatabase()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作按名称删除一个 Database。 | Java | v2"
+description: "此操作删除具有指定名称的 Database。 | Java | v2"
 type: docx
-token: LwqSdN6s5oZBhAxzQsxcnXswnah
+token: N4TUdZOmso4MVfxTYFbcVQ3Kn1c
 sidebar_position: 4
 keywords: 
   - 上下文窗口
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-此操作按名称删除一个 Database。 
+此操作删除具有指定名称的 Database。
 
 ```java
 public void dropDatabase(DropDatabaseReq request)
@@ -52,10 +52,6 @@ dropDatabase(DropDatabaseReq.builder()
 
     要删除的 Database 的名称。
 
-**返回值：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientExceptions**
@@ -68,6 +64,7 @@ dropDatabase(DropDatabaseReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DropDatabaseReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -83,4 +80,3 @@ DropDatabaseReq dropDatabaseReq = DropDatabaseReq.builder()
         .build();
 client.dropDatabase(dropDatabaseReq);
 ```
-

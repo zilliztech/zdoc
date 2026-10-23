@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于获取恢复快照作业的状态和进度。 | Java | v2"
+description: "此操作获取恢复快照任务的状态和进度。 | Java | v2"
 type: docx
 token: KXdUdGpt7oD3dkxHZcfcIAQBnNg
 sidebar_position: 4
@@ -18,7 +18,7 @@ keywords:
   - RAG
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - getRestoreSnapshotState()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRestoreSnapshotState()
 
-此操作用于获取恢复快照作业的状态和进度。
+此操作获取恢复快照任务的状态和进度。
 
 ```java
 public GetRestoreSnapshotStateResp getRestoreSnapshotState(GetRestoreSnapshotStateReq request)
@@ -50,19 +50,63 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 
 - `jobId(Long jobId)`
 
-    由 `restoreSnapshot()` 返回的恢复快照作业 ID。
+    由 `restoreSnapshot()` 返回的恢复快照任务 ID。
 
-**返回：**
+**返回类型：**
 
 *GetRestoreSnapshotStateResp*
 
-返回包含恢复作业状态、进度、原因、时间信息以及 Collection 元数据的响应。
+**返回：**
+
+包含恢复任务状态、进度、原因、时间和 Collection 元数据的响应。
+
+**参数：**
+
+- **jobInfo** （*RestoreSnapshotJobInfo*） -
+
+    恢复快照任务的信息。任务信息包含以下字段：
+
+    - **jobId** （*Long*） -
+
+        恢复快照任务的 ID。
+
+    - **snapshotName** （*String*） -
+
+        正在恢复的快照的名称。
+
+    - **dbName** （*String*） -
+
+        目标 Database 的名称。
+
+    - **collectionName** （*String*） -
+
+        目标 Collection 的名称。
+
+    - **state** （*String*） -
+
+        恢复任务的当前状态：RestoreSnapshotNone、RestoreSnapshotPending、RestoreSnapshotExecuting、RestoreSnapshotCompleted 或 RestoreSnapshotFailed。
+
+    - **progress** （*Integer*） -
+
+        恢复任务的进度，以百分比表示。
+
+    - **reason** （*String*） -
+
+        任务失败时的失败原因。
+
+    - **startTime** （*Long*） -
+
+        恢复任务的开始时间。
+
+    - **timeCost** （*Long*） -
+
+        恢复任务的时间开销。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，将引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

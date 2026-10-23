@@ -4,23 +4,23 @@ slug: /java/java/v2-Management-loadCollection
 sidebar_label: "loadCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将特定 Collection 的数据加载到内存中。 | Java | v2"
+description: "此操作将特定 Collection 的数据加载到内存中。 | Java | v2"
 type: docx
-token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
+token: EHnydLjdkoNJCUxSM4ocd6Cfnrb
 sidebar_position: 13
 keywords: 
-  - milvus 向量 Database
-  - milvus db
-  - milvus 向量 db
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - loadCollection()
-  - javaV230
+  - Java v2.3.0
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-此操作会将特定 Collection 的数据加载到内存中。
+此操作将特定 Collection 的数据加载到内存中。
 
 ```java
 public void loadCollection(LoadCollectionReq request)
@@ -67,45 +67,41 @@ loadCollection(LoadCollectionReq.builder()
 
 - `numReplicas(Integer numReplicas)` -
 
-    要加载的副本数。默认值为 `1`。
+    要加载的副本数。该值默认为 `1`。
 
 - `async(Boolean async)` -
 
-    是否异步运行该操作。默认值为 `Boolean.FALSE`。
+    是否异步运行此操作。该值默认为 `Boolean.FALSE`。
 
 - `sync(Boolean sync)` -
 
-    是否同步等待直到操作完成。默认值为 `Boolean.TRUE`。
+    是否同步等待，直到操作完成。该值默认为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长（以毫秒为单位）。默认值为 `60000L`。
+    超时时长，单位为毫秒。该值默认为 `60000L`。
 
 - `refresh(Boolean refresh)` -
 
-    是否刷新加载以包含新字段。默认值为 `Boolean.FALSE`。
+    是否刷新加载以包含新字段。该值默认为 Boolean.FALSE。
 
 - `loadFields(List<String> loadFields)` -
 
-    要加载的特定字段名称列表。默认值为 `new ArrayList<>()`。
+    要加载的特定字段名称列表。该值默认为 `new ArrayList<>()`。
 
 - `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-    是否跳过加载动态字段。默认值为 `Boolean.FALSE`。
+    是否跳过加载动态字段。该值默认为 `Boolean.FALSE`。
 
 - `resourceGroups(List<String> resourceGroups)` -
 
-    用于负载均衡的资源组名称列表。默认值为 `new ArrayList<>()`。
-
-**返回：**
-
-*void*
+    用于负载均衡的资源组名称列表。该值默认为 `new ArrayList<>()`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 
@@ -113,6 +109,7 @@ loadCollection(LoadCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

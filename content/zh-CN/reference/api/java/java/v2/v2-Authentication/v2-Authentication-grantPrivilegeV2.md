@@ -4,20 +4,20 @@ slug: /java/java/v2-Authentication-grantPrivilegeV2
 sidebar_label: "grantPrivilegeV2()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会向特定角色授予权限或权限组。 | Java | v2"
 type: docx
-token: MFv3drbbXouqVxxE1OicBBl5ndf
+token: FQqadrhPqoTo3zxCjRWc6ryUnne
 sidebar_position: 11
 keywords: 
   - 向量 Database
   - IVF
   - knn
   - 图像搜索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - grantPrivilegeV2()
   - javaV230
@@ -57,25 +57,21 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    要授予指定角色的权限或权限组。有关可用权限的详细信息，请参阅 [Privileges](/docs/cluster-privileges)。
+    要授予指定角色的权限或权限组。有关可用权限的详细信息，请参见 [管理集群角色（SDK）](/docs/cluster-roles-sdk)。
 
 - `dbName(String dbName)`
 
-    目标资源 Database。指定角色可在指定 Database 内访问指定的权限。
+    目标资源 Database。指定角色可在指定的 Database 中访问指定的权限。
 
 - `collectionName(String collectionName)`
 
-    指定 Database 中的目标资源 Collection。指定角色可在指定 Collection 内访问指定的权限。
-
-**返回：**
-
-*void*
+    指定 Database 中的目标资源 Collection。指定角色可在指定的 Collection 中访问指定的权限。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
@@ -83,6 +79,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,8 +95,7 @@ GrantPrivilegeReqV2 grantPrivilegeReqV2 = GrantPrivilegeReqV2.builder()
     .privilege("Search")
     .dbName("my_db")
     .collectionName("my_collection")
-    .build()
-        
+    .build();
+
 client.grantPrivilegeV2(grantPrivilegeReqV2);
 ```
-

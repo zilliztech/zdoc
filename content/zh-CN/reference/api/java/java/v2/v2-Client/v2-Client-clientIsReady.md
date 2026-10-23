@@ -12,9 +12,9 @@ type: docx
 token: I1sMd0t6qoNuIWx3mjecEfjwnyc
 sidebar_position: 3
 keywords: 
-  - milvus 向量 Database
-  - milvus 数据库
-  - milvus 向量数据库
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -37,11 +37,19 @@ import Admonition from '@theme/Admonition';
 public boolean clientIsReady()
 ```
 
-**返回：**
+**返回类型：**
 
 *boolean*
 
-如果客户端已连接且已就绪，则返回 **true**；否则返回 **false**。
+**返回：**
+
+如果客户端已连接并就绪，则返回 **true**，否则返回 **false**。
+
+**参数：**
+
+- **ready** (*boolean*) -
+
+    客户端连接是否已就绪：当底层通道已打开且可用时为 **true**，否则为 **false**。
 
 ## 示例\{#example}
 

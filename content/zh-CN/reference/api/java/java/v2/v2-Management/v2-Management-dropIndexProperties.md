@@ -4,12 +4,12 @@ slug: /java/java/v2-Management-dropIndexProperties
 sidebar_label: "dropIndexProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将指定的索引属性重置为其默认值。 | Java | v2"
 type: docx
-token: IdNAdlMhjoM40pxjpKecpc7inbd
+token: NQSXdTousodlN4xy1WZc7Nc8n2e
 sidebar_position: 6
 keywords: 
   - rag 向量 Database
@@ -65,15 +65,11 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    要删除的属性。请注意，属性值应为字符串。可用的 Database 属性如下：
+    要删除的属性。属性值应为字符串。可用的 Database 属性如下：
 
     - **mmap.enabled** -
 
         是否为当前索引启用 mmap。
-
-**返回：**
-
-*void*
 
 **异常：**
 
@@ -87,6 +83,9 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DropIndexPropertiesReq;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -96,15 +95,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Drop the `mmap.enabled` property
-List<String> propertyKeys = new ArrayList<>()
-propertyKeys.add("mmap.enabled")
+// 2. Drop the \`mmap.enabled\` property
+List<String> propertyKeys = new ArrayList<>();
+propertyKeys.add("mmap.enabled");
 
 DropIndexPropertiesReq dropIndexPropertiesReq = DropIndexPropertiesReq.builder()
         .collectionName("test")
         .indexName("vector")
         .propertyKeys(propertyKeys)
         .build();
-client.dropIndexProperties(dropIndexPropertiesReq)
+client.dropIndexProperties(dropIndexPropertiesReq);
 ```
-

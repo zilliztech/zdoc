@@ -15,9 +15,9 @@ keywords:
   - AI 聊天机器人
   - 余弦距离
   - 什么是向量 Database
-  - vectordb
-  - zilliz
-  - zilliz cloud
+  - 向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - describeUser()
   - javaV230
@@ -50,21 +50,37 @@ DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
 
 - `userName(String userName)`
 
-    **[必填]**
+    **[必需]**
 
     要描述的用户名称。
 
-**返回：**
+**返回类型：**
 
 *DescribeUserResp*
 
-响应包含 `userName`、`roles` 和 `description`。
+**返回：**
+
+**DescribeUserResp** 对象包含以下字段：
+
+**参数：**
+
+- **userName** （*String*） -
+
+    用户的名称。
+
+- **roles** （*List&lt;String&gt;*） -
+
+    授予该用户的角色列表。
+
+- **description** （*String*） -
+
+    用户的描述。
 
 **异常：**
 
 - **MilvusClientException**
 
-    此操作期间发生任何错误时，都会引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -37,15 +37,11 @@ import Admonition from '@theme/Admonition';
 public UploadFilesResult getVolumeUploadResult()
 ```
 
-**参数：**
-
-*无*
-
 **返回类型：**
 
 *UploadFilesResult*
 
-**返回值：**
+**返回：**
 
 一个具有以下方法的 UploadFilesResult 实例：
 
@@ -69,6 +65,18 @@ public UploadFilesResult getVolumeUploadResult()
 
     将 UploadFilesResult 实例转换为字符串。
 
+    **UploadFilesResult** 对象包含以下字段：
+
+**参数：**
+
+- **volumeName** （*String*） -
+
+    文件上传到的存储卷的名称。
+
+- **path** （*String*） -
+
+    上传的文件在存储卷中的路径。
+
 ## 示例\{#example}
 
 ```java
@@ -79,4 +87,3 @@ UploadFilesResult result = writer.getVolumeUploadResult();
 System.out.println("Target volume: " + result.getVolumeName());
 System.out.println("Target paths: " + result.getPath());
 ```
-

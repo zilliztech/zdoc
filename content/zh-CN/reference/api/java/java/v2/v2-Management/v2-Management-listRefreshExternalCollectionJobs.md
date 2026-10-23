@@ -57,11 +57,55 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     用于筛选的 Collection 名称。如果为空，则返回该 Database 中所有 Collection 的作业。
 
-**返回：**
+**返回类型：**
 
 *ListRefreshExternalCollectionJobsResp*
 
-响应封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目公开 `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime` 和 `endTime`，其结构与 `getRefreshExternalCollectionProgress()` 返回的条目相同。
+**返回：**
+
+**ListRefreshExternalCollectionJobsResp** 对象封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目都会公开 **RefreshExternalCollectionJobInfo** 对象的字段。
+
+**参数：**
+
+- **jobs** (*List&lt;RefreshExternalCollectionJobInfo&gt;*) -
+
+    刷新外部 Collection 作业的列表，其中每个作业都是一个 **RefreshExternalCollectionJobInfo** 对象，包含以下字段：
+
+    - **jobId** (*long*) -
+
+        刷新作业的 ID。
+
+    - **collectionName** (*String*) -
+
+        目标 Collection 的名称。
+
+    - **state** (*String*) -
+
+        当前作业状态（例如 `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+
+    - **progress** (*int*) -
+
+        完成百分比（0 到 100）。
+
+    - **reason** (*String*) -
+
+        如果作业状态为 `"FAILED"`，则为失败原因；否则为空。
+
+    - **externalSource** (*String*) -
+
+        作业使用的外部源。
+
+    - **externalSpec** (*String*) -
+
+        外部数据源的规范。
+
+    - **startTime** (*long*) -
+
+        作业开始时间戳（epoch 毫秒）。
+
+    - **endTime** (*long*) -
+
+        作业结束时间戳（epoch 毫秒）；如果仍在运行，则为 0。
 
 **异常：**
 

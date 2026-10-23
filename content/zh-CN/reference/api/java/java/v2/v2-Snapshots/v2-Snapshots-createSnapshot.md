@@ -12,12 +12,12 @@ type: docx
 token: JhCEdppKrowJIqxFusBc2TXsnSg
 sidebar_position: 1
 keywords: 
-  - hnsw 算法
-  - 向量相似性搜索
+  - HNSW 算法
+  - 向量相似度搜索
   - 近似最近邻搜索
   - DiskANN
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - createSnapshot()
   - javaV230
@@ -58,29 +58,25 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - `collectionName(String collectionName)`
 
-    与该快照操作关联的 Collection 名称。
+    与快照操作关联的 Collection 名称。
 
 - `snapshotName(String snapshotName)`
 
-    快照名称。
+    快照的名称。
 
 - `description(String description)`
 
-    快照的人类可读描述。
+    快照的可读描述。
 
 - `compactionProtectionSeconds(Long compactionProtectionSeconds)`
 
-    用于保护快照免受 Compaction 影响的秒数。当不需要保护窗口时，使用 `0L`。
-
-**返回：**
-
-*void*
+    保护快照免受 Compaction 影响的秒数。不需要保护时间窗口时，请使用 `0L`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

@@ -4,21 +4,21 @@ slug: /java/java/v2-Function-RRFRanker
 sidebar_label: "RRFRanker"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "RRFRanker 类扩展自 Function 类，并提供额外参数。 | Java | v2"
+description: "RRFRanker 实例是一种重排序函数，它通过倒数排名融合合并多个搜索的结果，并通过额外参数扩展 Function 类。 | Java | v2"
 type: docx
-token: FuSTdeSCdojDu0xSBEmcYgv9n4g
-sidebar_position: 6
+token: AVK9dgWG5oqvmgxYkxocGKLqnWb
+sidebar_position: 45
 keywords: 
-  - milvus
+  - Milvus
   - Zilliz
-  - milvus 向量 Database
-  - milvus db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 向量 Database
+  - Milvus Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - RRFRanker
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RRFRanker
 
-**RRFRanker** 类扩展自 **Function** 类，并提供额外参数。
+RRFRanker 实例是一种重排序函数，它通过倒数排名融合合并多个搜索的结果，并通过额外参数扩展 **Function** 类。
 
 ```java
 public class RRFRanker extends CreateCollectionReq.Function
@@ -56,7 +56,7 @@ RRFRanker.builder()
 
 - `description(String description)`
 
-    对函数用途的简要描述。这对于文档编写或提升大型项目中的清晰度很有帮助，默认为空字符串。
+    对函数用途的简要说明。这有助于文档记录或在大型项目中保持清晰；该值默认为空字符串。
 
 - `params(Map<String, String> params)`
 
@@ -64,7 +64,7 @@ RRFRanker.builder()
 
 - `k(int k)`
 
-    用于控制文档排名影响的平滑参数；较高的 `k` 会降低对靠前排名的敏感度。取值范围为 `1` 到 `16383`，默认值为 `60`。 
+    控制文档排名影响的平滑参数；较高的 `k` 会降低对靠前排名的敏感度。该值的范围为 `1` 到 `16383`，默认为 `60`。
 
 **返回类型：**
 
@@ -72,20 +72,30 @@ RRFRanker.builder()
 
 **返回值：**
 
-一个 RRF ranker 实例。
+一个 RRF 排序器实例。
+
+**参数：**
+
+- **functionType**（*FunctionType*）-
+
+    此排序器的函数类型：始终为 `RERANK`。
+
+- **k**（*int*）-
+
+    控制文档排名影响的平滑参数，范围为 `1` 到 `16383`。
 
 ## 示例：\{#examples}
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import io.milvus.v2.service.vector.request.ranker.RRFRanker
-import java.util.Collections;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
 
 // use the RRFRanker class
-RRFRanker.builder()
+RRFRanker rrf = RRFRanker.builder()
     .k(60)
-    .build());
-    
+    .build();
+
 // Instead, you can use the Function class as well
 CreateCollectionReq.Function rr = CreateCollectionReq.Function.builder()
     .functionType(FunctionType.RERANK)
@@ -93,4 +103,3 @@ CreateCollectionReq.Function rr = CreateCollectionReq.Function.builder()
     .param("params", "{\"k\": 60}")
     .build();
 ```
-

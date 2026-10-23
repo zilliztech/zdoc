@@ -4,12 +4,12 @@ slug: /java/java/v2-Partitions-hasPartition
 sidebar_label: "hasPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作检查指定 Collection 中是否存在指定的 Partition。 | Java | v2"
+description: "此操作检查指定的 Partition 是否存在于指定的 Collection 中。 | Java | v2"
 type: docx
-token: KVSUdHV0ho7nnwxeQKMcEL47nKe
+token: NF0FdJbD7o5HHtx9kxwczbq0nwf
 sidebar_position: 4
 keywords: 
   - 弹性向量 Database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasPartition()
 
-此操作检查指定 Collection 中是否存在指定的 Partition。
+此操作检查指定的 Partition 是否存在于指定的 Collection 中。
 
 ```java
 public Boolean hasPartition(HasPartitionReq request)
@@ -66,13 +66,19 @@ hasPartition(HasPartitionReq.builder()
 
 *Boolean*
 
-**返回值：**
+**返回：**
 
 一个布尔值，表示指定的 Partition 是否存在。
 
+**参数：**
+
+- **value** （*Boolean*） -
+
+    指定的 Partition 是否存在于指定的 Collection 中。
+
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     当此操作期间发生任何错误时，将引发此异常。
 
@@ -82,6 +88,7 @@ hasPartition(HasPartitionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.HasPartitionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,4 +105,3 @@ HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
         .build();
 Boolean res = client.hasPartition(hasPartitionReq);
 ```
-

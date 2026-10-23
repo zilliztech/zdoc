@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作列出所有权限组。 | Java | v2"
 type: docx
-token: TGsXduN5OoAjVyxZTvRc8HR2nse
+token: AxcldAxjAocxVVxW6WgcIu6Lnsd
 sidebar_position: 13
 keywords: 
   - AI 聊天机器人
@@ -53,6 +53,8 @@ listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
 
 **ListPrivilegeGroupsResp** 对象包含以下字段：
 
+**参数：**
+
 - **privilegeGroups** (*List&lt;PrivilegeGroup&gt;*) -
 
     权限组列表，其中每一项都是一个 **PrivilegeGroup** 对象。
@@ -79,6 +81,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.PrivilegeGroup;
 import io.milvus.v2.service.rbac.request.ListPrivilegeGroupsReq;
 import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -98,4 +102,3 @@ for (PrivilegeGroup group : groups) {
     System.out.println(group.getGroupName() + group.getPrivileges());
 }
 ```
-

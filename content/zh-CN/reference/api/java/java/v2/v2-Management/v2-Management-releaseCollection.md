@@ -4,21 +4,21 @@ slug: /java/java/v2-Management-releaseCollection
 sidebar_label: "releaseCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将特定 Collection 的数据从内存中释放。 | Java | v2"
 type: docx
-token: K5t2dl0XloN4VHx1lcpc6Uq3nye
+token: AjbDdUJTuoB9MqxN5PDcyYeLnRe
 sidebar_position: 16
 keywords: 
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - releaseCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -53,7 +53,7 @@ releaseCollection(ReleaseCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    Database 的名称。如未指定，则默认为当前 Database。
+    Database 名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
@@ -61,21 +61,17 @@ releaseCollection(ReleaseCollectionReq.builder()
 
 - `async(Boolean async)` -
 
-    是否异步运行此操作。默认为 `Boolean.TRUE`。
+    是否异步运行此操作。该值默认为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长，以毫秒为单位。默认为 `60000L`。
-
-**返回值：**
-
-*void*
+    超时时间，单位为毫秒。该值默认为 `60000L`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作过程中发生错误，则会引发此异常。
 
 ## 示例\{#example}
 
@@ -83,6 +79,7 @@ releaseCollection(ReleaseCollectionReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

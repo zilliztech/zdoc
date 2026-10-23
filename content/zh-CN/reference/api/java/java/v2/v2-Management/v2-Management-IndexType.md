@@ -4,20 +4,20 @@ slug: /java/java/v2-Management-IndexType
 sidebar_label: "IndexType"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Java | v2"
+description: "IndexType 实例是一个枚举常量。该枚举提供以下常量。 | Java | v2"
 type: docx
-token: RcJhdfB29okLpcx3w8KcvcL7nU9
+token: Zh6adGbCBoqXsPxnvGXcfrMwnhc
 sidebar_position: 11
 keywords: 
   - 异常检测
   - 句子转换器
   - 推荐系统
   - 信息检索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - IndexType
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-这是一个提供以下常量的枚举。
+IndexType 实例是一个枚举常量。该枚举提供以下常量。
 
 ## 常量\{#constants}
 
@@ -81,72 +81,76 @@ import Admonition from '@theme/Admonition';
 
 ### IVF_RABITQ\{#ivfrabitq}
 
-将索引类型设置为 IVF_RABITQ。这适用于稠密浮点向量。
+将索引类型设置为 IVF_RABITQ。适用于稠密浮点向量。
 
 ### AISAQ\{#aisaq}
 
-将索引类型设置为 AISAQ。这适用于 GPU 上的稠密浮点向量。
+将索引类型设置为 AISAQ。适用于 GPU 上的稠密浮点向量。
 
 ### GPU_IVF_FLAT\{#gpuivfflat}
 
-将索引类型设置为 GPU_IVF_FLAT。这仅适用于 GPU 索引。
+将索引类型设置为 GPU_IVF_FLAT。仅适用于 GPU 索引。
 
 ### GPU_IVF_PQ\{#gpuivfpq}
 
-将索引类型设置为 GPU_IVF_PQ。这仅适用于 GPU 索引。
+将索引类型设置为 GPU_IVF_PQ。仅适用于 GPU 索引。
 
 ### GPU_BRUTE_FORCE\{#gpubruteforce}
 
-将索引类型设置为 GPU_BRUTE_FORCE。这仅适用于 GPU 索引。
+将索引类型设置为 GPU_BRUTE_FORCE。仅适用于 GPU 索引。
 
 ### GPU_CAGRA\{#gpucagra}
 
-将索引类型设置为 GPU_CAGRA。这仅适用于 GPU 索引。
+将索引类型设置为 GPU_CAGRA。仅适用于 GPU 索引。
 
 ### BIN_FLAT\{#binflat}
 
-将索引类型设置为 BIN_FLAT。这仅适用于二进制向量。
+将索引类型设置为 BIN_FLAT。仅适用于二进制向量。
 
 ### BIN_IVF_FLAT\{#binivfflat}
 
-将索引类型设置为 BIN_IVF_FLAT。这仅适用于二进制向量。
+将索引类型设置为 BIN_IVF_FLAT。仅适用于二进制向量。
 
 ### MINHASH_LSH\{#minhashlsh}
 
-将索引类型设置为 MINHASH_LSH。这仅适用于二进制向量。
+将索引类型设置为 MINHASH_LSH。仅适用于二进制向量。
 
 ### TRIE("Trie")\{#trietrie}
 
-将索引类型设置为 TRIE。这仅适用于 VarChar 字段。
+将索引类型设置为 TRIE。仅适用于 VarChar 字段。
 
 ### NGRAM\{#ngram}
 
-将索引类型设置为 NGRAM。这适用于 VarChar 字段和 JSON Path 索引。
+将索引类型设置为 NGRAM。适用于 VarChar 字段和 JSON Path 索引。
+
+### FMINDEX\{#fmindex}
+
+将索引类型设置为 FMINDEX。适用于 VarChar 字段。这是一种精确的字节级子串索引，可在不重新检查候选结果的情况下回答锚定 LIKE (prefix/infix/suffix) 查询。
 
 ### RTREE\{#rtree}
 
-将索引类型设置为 RTREE。这仅适用于几何字段。
+将索引类型设置为 RTREE。仅适用于几何字段。
 
 ### STL_SORT\{#stlsort}
 
-将索引类型设置为 SLT_SORT。这仅适用于数值类型字段。
+将索引类型设置为 SLT_SORT。仅适用于数值类型字段。
 
 ### INVERTED\{#inverted}
 
-将索引类型设置为 INVERTED。这适用于除 JSON 字段外的所有标量字段。
+将索引类型设置为 INVERTED。适用于除 JSON 字段外的所有标量字段。
 
 ### BITMAP\{#bitmap}
 
-将索引类型设置为 BITMAP。这适用于除 JSON、FLOAT 和 DOUBLE 字段外的所有标量字段。
+将索引类型设置为 BITMAP。适用于除 JSON、FLOAT 和 DOUBLE 字段外的所有标量字段。
 
 ### SPARSE_INVERTED_INDEX\{#sparseinvertedindex}
 
-将索引类型设置为 SPARSE_INVERTED_INDEX。这仅适用于稀疏向量。
+将索引类型设置为 SPARSE_INVERTED_INDEX。仅适用于稀疏向量。
 
 ### SPARSE_WAND\{#sparsewand}
 
-将索引类型设置为 SPARSE_WAND。这仅适用于稀疏向量。
+将索引类型设置为 SPARSE_WAND。仅适用于稀疏向量。
 
 ### EMB_LIST_HNSW\{#emblisthnsw}
 
-将索引类型设置为 EMB_LIST_HNSW。这适用于 Array of Structs 字段。
+将索引类型设置为 EMB_LIST_HNSW。适用于 Array of Structs 字段。

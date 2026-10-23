@@ -4,12 +4,12 @@ slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.4.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会更改 Database 的属性。 | Java | v2"
 type: docx
-token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
+token: HQXgddhkMoC3onxxjFjc46W3nNf
 sidebar_position: 1
 keywords: 
   - 机器学习
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterDatabaseProperties()
 
-此操作会更改 Database 的属性。 
+此操作会更改 Database 的属性。
 
 ```java
 public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
@@ -55,7 +55,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-    Database 的属性，例如副本数、资源组。支持的 Database 属性如下：
+    Database 的属性，例如该 Database 的副本数和 Database 的资源组。支持的 Database 属性如下：
 
     - **database.replica.number** -
 
@@ -71,7 +71,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
     - **database.max.collections** -
 
-        该 Database 中允许的 Collection 最大数量。
+        该 Database 中允许的最大 Collection 数量。
 
     - **database.force.deny.writing** -
 
@@ -81,9 +81,9 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
         是否禁止该 Database 中的所有读取操作。
 
-**返回：**
+- `property(String key, String value)`
 
-*void*
+    向该 Database 添加单个属性。
 
 **异常：**
 
@@ -97,6 +97,9 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -115,4 +118,3 @@ AlterDatabasePropertiesReq alterDatabasePropertiesReq = AlterDatabasePropertiesR
         .build();
 client.alterDatabaseProperties(alterDatabaseReq);
 ```
-

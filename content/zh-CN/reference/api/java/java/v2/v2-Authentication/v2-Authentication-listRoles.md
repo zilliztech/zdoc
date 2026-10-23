@@ -4,12 +4,12 @@ slug: /java/java/v2-Authentication-listRoles
 sidebar_label: "listRoles()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出所有自定义角色。 | Java | v2"
 type: docx
-token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
+token: M4KYdO6CWofowQxFYDecYxjknEg
 sidebar_position: 14
 keywords: 
   - 向量 Database 示例
@@ -47,11 +47,17 @@ List<String> roles = client.listRoles();
 
 **返回类型：**
 
-*List\<String\>*
+*List&lt;String&gt;*
 
-**返回值：**
+**返回：**
 
 包含角色名称的字符串列表。
+
+**参数：**
+
+- **roleNames** （*List&lt;String&gt;*） -
+
+    所有自定义角色名称的列表。
 
 **异常：**
 
@@ -64,6 +70,8 @@ List<String> roles = client.listRoles();
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -76,4 +84,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. List roles
 List<String> roles = client.listRoles();
 ```
-

@@ -45,6 +45,8 @@ compact(CompactReq.builder()
     .collectionName(String collectionName)
     .isClustering(Boolean isClustering)
     .isL0(Boolean isL0)
+    .targetSize(Long targetSize)
+    .targetSizeUnit(String targetSizeUnit)
     .build()
 );
 ```
@@ -65,19 +67,35 @@ compact(CompactReq.builder()
 
 - `isL0(Boolean isL0)`
 
-    是否请求 L0 Compaction。默认为 `Boolean.FALSE`，并且独立于聚类 Compaction。
+    是否请求 L0 Compaction。默认为 Boolean.FALSE，并且独立于聚类 Compaction。
 
-**返回：**
+- `targetSize(Long targetSize)`
+
+    以 `targetSizeUnit` 表示的目标 Segment 大小。`null` 值将使用服务器默认值。
+
+- `targetSizeUnit(String targetSizeUnit)`
+
+    `targetSize` 的单位。支持的值包括：`"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"` 和 `"pb"`。默认为 `"mb"`。
+
+**返回类型：**
 
 *CompactResp*
 
-**CompactResp** 对象包含一个 Compaction ID。
+**返回：**
+
+一个 **CompactResp** 对象包含以下字段：
+
+**参数：**
+
+- **compactionID**（*Long*）-
+
+    Compaction 任务的 ID。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生错误时，将引发此异常。
 
 ## 示例\{#example}
 

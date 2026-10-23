@@ -4,20 +4,20 @@ slug: /java/java/v2-Management-refreshLoad
 sidebar_label: "refreshLoad()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "当 bulkImport 请求生成新的 Segment 时，此操作主要用于强制将新的 Segment 加载到内存中。 | Java | v2"
+description: "此操作主要用于在 bulkImport 请求生成新的 Segment 时，强制将新的 Segment 加载到内存中。 | Java | v2"
 type: docx
-token: TCw7d7brCovAUpxA5D8cjOIGn1b
+token: Njodd6A2romru0xEX3cckwPlnpb
 sidebar_position: 15
 keywords: 
   - 自然语言处理
   - AI 聊天机器人
   - 余弦距离
   - 什么是向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
+  - Zilliz Cloud
   - 云
   - refreshLoad()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshLoad()
 
-当 bulkImport 请求生成新的 Segment 时，此操作主要用于强制将新的 Segment 加载到内存中。 
+此操作主要用于在 bulkImport 请求生成新的 Segment 时，强制将新的 Segment 加载到内存中。
 
 ```java
 public void refreshLoad(RefreshLoadReq request)
@@ -54,7 +54,7 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    Database 的名称。如果未指定，则默认使用当前 Database。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
@@ -62,25 +62,21 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `async(Boolean async)` -
 
-    是否异步运行该操作。默认为 `Boolean.TRUE`。
+    是否异步运行此操作。该值默认为 `Boolean.TRUE`。
 
 - `sync(Boolean sync)` -
 
-    是否同步等待，直到操作完成。默认为 `Boolean.TRUE`。
+    是否同步等待操作完成。该值默认为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长（以毫秒为单位）。默认为 `60000L`。
-
-**返回：**
-
-*void*
+    超时时长，单位为毫秒。该值默认为 `60000L`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    此操作期间发生任何错误时，都会引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -88,6 +84,7 @@ refreshLoad(RefreshLoadReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.RefreshLoadReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -97,7 +94,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Refresh the load status of the collection `test`
+// 2. Refresh the load status of the collection \`test\`
 RefreshLoadReq refreshLoadReq = RefreshLoadReq.builder()
         .collectionName("test")
         .build();

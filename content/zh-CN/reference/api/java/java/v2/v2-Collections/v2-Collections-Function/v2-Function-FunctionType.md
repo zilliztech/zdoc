@@ -7,10 +7,10 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "表示受支持的服务器端函数类型，并提供按名称或数字代码进行转换的功能。 | Java | v2"
+description: "一个 FunctionType 实例表示受支持的服务器端函数类型之一，并提供按名称或数字代码进行转换的功能。 | Java | v2"
 type: docx
 token: HShjdZsU3oknh2x1ezkcRqGqn6b
-sidebar_position: 4
+sidebar_position: 2
 keywords: 
   - 视频去重
   - 视频相似性搜索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-表示受支持的服务器端函数类型，并提供按名称或数字代码进行转换的功能。
+一个 FunctionType 实例表示受支持的服务器端函数类型之一，并提供按名称或数字代码进行转换的功能。
 
 ```java
 public enum FunctionType
@@ -63,11 +63,23 @@ public enum FunctionType
 
 表示分子指纹函数。
 
-**返回：**
+**返回类型：**
 
 *FunctionType*
 
+**返回：**
+
 描述服务器端函数类型的枚举值。
+
+**参数：**
+
+- **name**（*String*）-
+
+    函数类型的名称，例如 `Rerank` 或 `BM25`。
+
+- **code**（*int*）-
+
+    函数类型的数字协议代码。
 
 ## 示例\{#example}
 

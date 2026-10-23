@@ -4,12 +4,12 @@ slug: /java/java/v2-Collections-createAlias
 sidebar_label: "createAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作为现有 Collection 创建别名。 | Java | v2"
 type: docx
-token: BujpdsEJnozVT4xY3NFczyfrnDe
+token: PA3Ad6PPYom1wexoyqgcGvNanyV
 sidebar_position: 6
 keywords: 
   - 开源向量数据库
@@ -62,10 +62,6 @@ createAlias(CreateAliasReq.builder()
 
     别名名称。
 
-**返回：**
-
-*void*
-
 **异常：**
 
 - **MilvusClientException**
@@ -78,6 +74,7 @@ createAlias(CreateAliasReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.CreateAliasReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

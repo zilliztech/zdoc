@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回已连接服务器的版本字符串。| Java | v2"
+description: "此操作返回已连接服务器的版本字符串。 | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
 sidebar_position: 26
@@ -37,11 +37,19 @@ import Admonition from '@theme/Admonition';
 public String getServerVersion()
 ```
 
-**返回：**
+**返回类型：**
 
 *String*
 
+**返回：**
+
 服务器的版本字符串（例如 `"2.6.13"`）。
+
+**参数：**
+
+- **version** （*String*） -
+
+    所连接 Milvus 服务器的版本字符串。
 
 **异常：**
 

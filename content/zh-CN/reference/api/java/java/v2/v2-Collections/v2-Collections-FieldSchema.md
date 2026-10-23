@@ -7,10 +7,10 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "FieldSchema 实例定义了 Collection 中特定字段的数据类型及其相关属性。 | Java | v2"
+description: "FieldSchema 实例定义了 Collection 中特定字段的数据类型及相关属性。 | Java | v2"
 type: docx
 token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
-sidebar_position: 16
+sidebar_position: 33
 keywords: 
   - LLMs
   - 机器学习
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-**FieldSchema** 实例定义了 Collection 中特定字段的数据类型及其相关属性。
+FieldSchema 实例定义了 Collection 中特定字段的数据类型及相关属性。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
@@ -52,6 +52,8 @@ CreateCollectionReq.FieldSchema.builder()
     .isPartitionKey(Boolean isPartitionKey)
     .isClusteringKey(Boolean isClusteringKey)
     .autoID(Boolean autoID)
+    .elementType(DataType elementType)
+    .maxCapacity(Integer maxCapacity)
     .isNullable(Boolean isNullable)
     .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
@@ -79,11 +81,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `maxLength(Integer maxLength)` -
 
-    值应包含的最大字符数。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此项为必填。
+    值应包含的最大字符数。如果此字段的 [dataType](./v2-Collections-DataType) 设置为 **DataType.VarChar**，则此项为必填。
 
 - `dimension(Integer dimension)` -
 
-    值应具有的维度数。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此项为必填。
+    值应具有的维度数。如果此字段的 [dataType](./v2-Collections-DataType) 设置为 **DataType.FloatVector**，则此项为必填。
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -103,19 +105,19 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `elementType(DataType elementType)` -
 
-    数组字段中元素的数据类型。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
+    数组字段中元素的数据类型。如果此字段的 **dataType** 设置为 **DataType.Array**，则此项为必填。
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    数组字段可包含的最大元素数量。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
+    数组字段可包含的最大元素数量。如果此字段的 **dataType** 设置为 **DataType.Array**，则此项为必填。
 
 - `isNullable(Boolean isNullable)` -
 
-    允许此字段使用 `null` 值。默认值：`false`。更多信息，请参见 Nullable & Default。
+    允许此字段使用 `null` 值。默认值：`false`。有关更多信息，请参见 Nullable & Default。
 
 - `defaultValue(Object defaultValue)` -
 
-    为字段设置默认值，当插入时缺少该字段时使用。运行时类型必须与 `dataType` 匹配。
+    设置字段的默认值，当插入时缺少该字段时使用。运行时类型必须与 `dataType` 匹配。
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
@@ -123,11 +125,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    用于 `DataType.VarChar` 字段的按字段 Analyzer 配置（分词器、过滤器）。与 `enableAnalyzer` 一起使用。
+    针对 `DataType.VarChar` 字段的按字段 Analyzer 配置（分词器、过滤器）。与 `enableAnalyzer` 一起使用。
 
 - `enableMatch(Boolean enableMatch)` -
 
-    是否为指定的 `VARCHAR` 字段启用关键词匹配。当为 `true` 时，Milvus 会为该字段创建倒排索引，从而实现快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于术语的结构化文本搜索。
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而实现快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于术语的结构化文本搜索。
 
 - `typeParams(Map<String, String> typeParams)` -
 
@@ -148,6 +150,84 @@ CreateCollectionReq.FieldSchema.builder()
 **返回：**
 
 一个 **FieldSchema** 对象。
+
+**参数：**
+
+- **name** （*String*） -
+
+    字段名称。
+
+- **description** （*String*） -
+
+    字段描述。
+
+- **dataType** （*DataType*） -
+
+    字段的数据类型。
+
+- **maxLength** （*Integer*） -
+
+    值应包含的最大字符数。如果 **dataType** 为 **DataType.VarChar**，则此项为必填。
+
+- **dimension** （*Integer*） -
+
+    值应具有的维度数。如果 **dataType** 为 **DataType.FloatVector**，则此项为必填。
+
+- **isPrimaryKey** （*Boolean*） -
+
+    当前字段是否为主字段。
+
+- **isPartitionKey** （*Boolean*） -
+
+    当前字段是否为 Partition 键字段。
+
+- **isClusteringKey** （*Boolean*） -
+
+    当前字段是否为聚类键。
+
+- **autoID** （*Boolean*） -
+
+    主字段是否自动递增。
+
+- **elementType** （*DataType*） -
+
+    数组字段中元素的数据类型。如果 **dataType** 为 **DataType.Array**，则此项为必填。
+
+- **maxCapacity** （*Integer*） -
+
+    数组字段可包含的最大元素数量。
+
+- **isNullable** （*Boolean*） -
+
+    此字段是否允许 `null` 值。默认值：`false`。
+
+- **defaultValue** （*Object*） -
+
+    当插入时缺少该字段时所使用的默认值。运行时类型必须与 `dataType` 匹配。
+
+- **enableAnalyzer** （*Boolean*） -
+
+    是否为指定的 `VARCHAR` 字段启用文本分析。
+
+- **analyzerParams** （*Map&lt;String, Object&gt;*） -
+
+    针对 `DataType.VarChar` 字段的按字段 Analyzer 配置。
+
+- **enableMatch** （*Boolean*） -
+
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。
+
+- **typeParams** （*Map&lt;String, String&gt;*） -
+
+    未作为专用构建器方法公开的通用按类型参数。
+
+- **multiAnalyzerParams** （*Map&lt;String, Object&gt;*） -
+
+    文本字段的多语言 Analyzer 配置。
+
+- **externalField** （*String*） -
+
+    映射到此 Milvus 字段的外部源字段。
 
 **异常：**
 

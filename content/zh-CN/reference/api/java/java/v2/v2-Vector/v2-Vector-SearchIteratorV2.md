@@ -7,17 +7,17 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果包含大量数据的情况。 | Java | v2"
+description: "此操作会创建一个迭代器，供您遍历搜索结果。当搜索结果包含大量数据时，此迭代器尤为有用。 | Java | v2"
 type: docx
 token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
 keywords: 
-  - 向量数据库对比
-  - openai 向量数据库
+  - 向量 Database 对比
+  - OpenAI 向量 Database
   - 自然语言处理 Database
   - 低成本向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - SearchIteratorV2()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SearchIteratorV2()
 
-此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果包含大量数据的情况。
+此操作会创建一个迭代器，供您遍历搜索结果。当搜索结果包含大量数据时，此迭代器尤为有用。
 
 ```java
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
@@ -75,31 +75,31 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求应共享相同的集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求应共享同一集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要定向的 Partition 名称列表。
+    目标 Partition 名称的列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
-    要搜索的向量字段名称。
+    要搜索的向量字段的名称。
 
 - `topK(int topK)`
 
-    要返回的前几条结果数量。
+    要返回的排名靠前结果的数量。
 
 - `limit(long limit)`
 
-    要返回的最大结果数量。
+    要返回的结果数上限。
 
 - `filter(String filter)`
 
-    用于过滤结果的布尔表达式。
+    用于筛选结果的布尔表达式。
 
 - `outputFields(List<String> outputFields)`
 
-    输出中要包含的字段名称列表。
+    要包含在输出中的字段名称列表。
 
 - `vectors(List<BaseVector> vectors)`
 
@@ -107,7 +107,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    距离值四舍五入时保留的小数位数/score。
+    对 distance/score 进行舍入时保留的小数位数。
 
 - `searchParams(Map<String, Object> searchParams)`
 
@@ -119,29 +119,37 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    是否在操作期间忽略 growing Segment。
+    操作期间是否忽略 growing Segment。
 
 - `timezone(String timezone)`
 
-    用于时间相关过滤器的时区字符串。
+    用于时间相关筛选条件的时区字符串。
 
 - `groupByFieldName(String groupByFieldName)`
 
-    用于对搜索结果进行分组的字段名称。
+    用于对搜索结果进行分组的字段名。
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批次大小。
+    迭代器操作的批大小。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    参数化过滤器的模板变量值映射。
+    参数化筛选条件的模板变量值映射。
+
+**返回类型：**
+
+*SearchIteratorV2*
 
 **返回：**
 
-*SearchIteratorV2*
+一个 **SearchIteratorV2** 迭代器，您可以使用它遍历搜索结果。
 
-*SearchIteratorV2*
+**参数：**
+
+- **searchIterator** (*SearchIteratorV2*) -
+
+    此操作返回的迭代器实例。调用 `next()` 获取下一批结果；当它返回空列表时，调用 `close()` 释放迭代器。
 
 **异常：**
 

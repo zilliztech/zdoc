@@ -7,17 +7,17 @@ added_since: v2.6.16
 last_modified: v2.6.16
 deprecate_since: false
 notebook: false
-description: "此操作会删除 Collection 中的所有数据，同时保留 Collection 的 Schema、索引和别名。 | Java | v2"
+description: "此操作会移除 Collection 中的所有数据，同时保留 Collection 的 Schema、索引和别名。 | Java | v2"
 type: docx
 token: JiLLdfLlPoKWL6xEgOAcdCU3nol
-sidebar_position: 36
+sidebar_position: 35
 keywords: 
   - NLP
   - 神经网络
   - 深度学习
   - 知识库
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - truncateCollection()
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # truncateCollection()
 
-此操作会删除 Collection 中的所有数据，同时保留 Collection 的 Schema、索引和别名。
+此操作会移除 Collection 中的所有数据，同时保留 Collection 的 Schema、索引和别名。
 
 ```java
 client.truncateCollection(TruncateCollectionReq request)
@@ -52,19 +52,15 @@ TruncateCollectionReq.builder()
 
     **[必需]**
 
-    要清空的 Collection 名称。
+    要截断的 Collection 的名称。
 
 - `databaseName(String databaseName)` -
 
     包含该 Collection 的 Database 名称。如果未指定，则使用默认 Database。
 
-**返回：**
-
-*void*
-
 **异常：**
 
-- **MilvusClientException** - 指定的 Collection 不存在，或者服务器无法访问。
+- **MilvusClientException** - 指定的 Collection 不存在或服务器无法访问。
 
 ## 示例\{#example}
 

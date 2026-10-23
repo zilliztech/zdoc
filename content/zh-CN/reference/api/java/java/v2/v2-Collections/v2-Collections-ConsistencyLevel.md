@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。| Java | v2"
+description: "ConsistencyLevel 实例是一种枚举常量，用于设置 Collection 上搜索和查询操作的一致性级别。 | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
@@ -15,9 +15,9 @@ keywords:
   - 开源向量 Database
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库
-  - zilliz
-  - zilliz cloud
+  - 开源向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - ConsistencyLevel
   - javaV230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-这是一个提供以下常量的枚举。
+ConsistencyLevel 实例是一种枚举常量，用于设置 Collection 上搜索和查询操作的一致性级别。
 
 ## 常量\{#constants}
 
@@ -50,4 +50,3 @@ import Admonition from '@theme/Admonition';
 - **EVENTUALLY**
 
     将一致性级别设置为 **Eventually**，代码值为 3。
-

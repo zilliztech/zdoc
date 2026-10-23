@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "统一自动 ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。 | Java | v2"
+description: "此操作会向 Collection 中插入行。 | Java | v2"
 type: docx
 token: DKs7dzHI5oaJvlxezuAcuMVzn9c
 sidebar_position: 4
 keywords: 
   - Chroma 与 Milvus
   - Annoy 向量搜索
-  - milvus
+  - Milvus
   - Zilliz
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - insert()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-统一自动 ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。
+此操作会向 Collection 中插入行。
 
 ```java
 public InsertResp insert(InsertReq request)
@@ -56,7 +56,7 @@ InsertReq.builder()
 
 - `databaseName(String databaseName)`
 
-    Database 的名称。省略时默认使用当前 Database。
+    Database 的名称。省略时默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
@@ -66,11 +66,27 @@ InsertReq.builder()
 
     目标 Partition 的名称。
 
-**返回：**
+**返回类型：**
 
 *InsertResp*
 
-包含已插入的 Entity 数量，以及在适用时生成的主键。
+**返回：**
+
+包含已插入的 Entity 数量、在适用情况下生成的主键，以及操作的时间成本（`getCost()`）。
+
+**参数：**
+
+- **insertCnt**（*long*） -
+
+    已插入的 Entity 数量。
+
+- **primaryKeys**（*List&lt;Object&gt;*） -
+
+    已插入 Entity 的主键。
+
+- **cost**（*Long*） -
+
+    操作的时间成本。
 
 **异常：**
 

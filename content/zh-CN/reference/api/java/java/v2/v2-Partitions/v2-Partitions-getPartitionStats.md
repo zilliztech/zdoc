@@ -16,8 +16,8 @@ keywords:
   - 大型语言模型
   - 向量化
   - k 最近邻算法
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - getPartitionStats()
   - javaV230
@@ -61,11 +61,23 @@ GetPartitionStatsReq.builder()
 
     目标 Partition 的名称。
 
-**返回：**
+**返回类型：**
 
 *GetPartitionStatsResp*
 
+**返回：**
+
 包含 numOfEntities 以及 Milvus 返回的完整统计信息映射。
+
+**参数：**
+
+- **numOfEntities**（*Long*）-
+
+    Partition 中 Entity 的数量。
+
+- **stats**（*Map&lt;String, String&gt;*）-
+
+    Milvus 返回的完整统计信息键值映射。
 
 **异常：**
 

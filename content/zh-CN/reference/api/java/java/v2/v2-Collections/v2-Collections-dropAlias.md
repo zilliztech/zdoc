@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-dropAlias
 sidebar_label: "dropAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.5.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定 Collection 的别名。 | Java | v2"
+description: "此操作会删除指定的 Collection 别名。 | Java | v2"
 type: docx
-token: ARw0dIb0hojCNbxKkOacs1K7nQf
-sidebar_position: 13
+token: OfL3da2p1oeJcRxMrxQcb1lbnd2
+sidebar_position: 12
 keywords: 
   - 机器学习
-  - RAG
-  - NLP
+  - 检索增强生成
+  - 自然语言处理
   - 神经网络
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - dropAlias()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-此操作会删除指定 Collection 的别名。
+此操作会删除指定的 Collection 别名。
 
 ```java
 public void dropAlias(DropAliasReq request)
@@ -57,17 +57,13 @@ dropAlias(DropAliasReq.builder()
 
     Collection 的别名。
 
-    执行此操作前，请确保该别名已存在。否则将发生异常。
-
-**返回：**
-
-*void*
+    执行此操作前，请确保该别名存在。否则，将抛出异常。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将抛出此异常。
 
 ## 示例\{#example}
 
@@ -75,6 +71,7 @@ dropAlias(DropAliasReq.builder()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.DropAliasReq;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

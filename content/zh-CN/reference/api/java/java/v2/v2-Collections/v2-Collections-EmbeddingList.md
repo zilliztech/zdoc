@@ -4,21 +4,21 @@ slug: /java/java/v2-Collections-EmbeddingList
 sidebar_label: "EmbeddingList"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "EmbeddingList 实例表示向量嵌入列表。您可以使用 EmbeddingList 实例在针对 Array of Structs 字段中的向量字段执行搜索时构建查询向量。 | Java | v2"
+description: "EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例构建查询向量，用于针对 Array of Structs 字段中的向量字段执行搜索。 | Java | v2"
 type: docx
-token: EXcNdtZrro7Ufkxp3G6cUArOn7b
-sidebar_position: 2
+token: NQgpd7JHBoAgzzxU5PXcYml5nSd
+sidebar_position: 32
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Pinecone 与 Milvus
+  - Chroma 与 Milvus
   - Annoy 向量搜索
-  - milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - EmbeddingList
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-**EmbeddingList** 实例表示向量嵌入列表。您可以使用 **EmbeddingList** 实例在针对 Array of Structs 字段中的向量字段执行搜索时构建查询向量。
+**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例构建查询向量，用于针对 Array of Structs 字段中的向量字段执行搜索。
 
 ```java
 io.milvus.v2.service.vector.request.data.EmbeddingList
@@ -39,7 +39,7 @@ io.milvus.v2.service.vector.request.data.EmbeddingList
 
 ## 构造函数\{#constructor}
 
-构造一个空的嵌入列表，或由给定向量嵌入组成的列表。
+构造一个空的嵌入列表，或构造一个由给定向量嵌入组成的列表。
 
 ```java
 EmbeddingList()
@@ -51,7 +51,7 @@ EmbeddingList
 
 **返回值：**
 
-EmbeddingList 实例包含一个或多个向量嵌入。您可以使用它在针对 Array of Structs 字段中 Struct 元素的向量字段执行搜索。
+一个 EmbeddingList 实例包含一个或多个向量嵌入。您可以使用它针对 Array of Structs 字段中 Struct 元素内的向量字段执行搜索。
 
 ## 示例：\{#examples}
 
