@@ -1,0 +1,12 @@
+[
+  {
+    "code": "TABS_RULES_INVALID",
+    "file": "rules.yaml",
+    "line": 3,
+    "page": "example",
+    "channel": "current",
+    "detail": {
+      "text": "default: unknown"
+    }
+  }
+]

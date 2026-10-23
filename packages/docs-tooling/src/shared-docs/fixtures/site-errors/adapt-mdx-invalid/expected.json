@@ -1,0 +1,12 @@
+[
+  {
+    "code": "ADAPT_MDX_INVALID",
+    "file": "page.md",
+    "line": 8,
+    "page": "example",
+    "channel": "current",
+    "detail": {
+      "text": "export const broken = ;"
+    }
+  }
+]

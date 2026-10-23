@@ -1,0 +1,12 @@
+[
+  {
+    "code": "TABS_REQUIRED_MISSING",
+    "file": "page.md",
+    "line": 6,
+    "page": "example",
+    "channel": "current",
+    "detail": {
+      "text": "<div class=\"multipleCode\"></div>"
+    }
+  }
+]

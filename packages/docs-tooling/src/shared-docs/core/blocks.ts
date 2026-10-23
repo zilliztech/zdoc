@@ -1,12 +1,12 @@
 import MarkdownIt from 'markdown-it'
 import type { NamedBlock, NamedBlockInventory } from './types'
 
-interface Fence { end: number; language: string | null }
+export interface Fence { end: number; language: string | null }
 const language = (info: string): string | null => info.trim().split(/\s+/)[0] || null
 export const markdownLines = (text: string): string[] => text.split(/\r\n|\r|\n/)
 
 /** The unindented scan mirrors md2md 1.3.0's public boundary semantics. */
-function fencesIn(markdown: string, lines: string[]): Map<number, Fence> {
+export function fencesIn(markdown: string, lines: string[]): Map<number, Fence> {
   const fences = new Map<number, Fence>()
   for (let start = 0; start < lines.length; start++) {
     const open = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(lines[start])
@@ -35,6 +35,42 @@ function fencesIn(markdown: string, lines: string[]): Map<number, Fence> {
   return fences
 }
 
+export interface CodeGroup {
+  start: number
+  switcherEnd: number
+  end: number
+  fences: (Fence & { start: number })[]
+}
+
+/** The existing switcher/fence recognizer, shared with whole-page adaptation. */
+export function codeGroupAt(lines: string[], fences: Map<number, Fence>, start: number, end = lines.length - 1): CodeGroup | undefined {
+  const div = /<div\b[^>]*\bclass\s*=\s*(["'])(.*?)\1[^>]*>/i.exec(lines[start] ?? '')
+  if (!div || !div[2].split(/\s+/).includes('multipleCode') || lines[start].slice(0, div.index).trim()) return
+  let depth = 0
+  let cursor = start
+  for (; cursor <= end; cursor++) {
+    const fence = fences.get(cursor)
+    if (fence) { cursor = fence.end; continue }
+    const tags = [...lines[cursor].matchAll(/<\/?div\b[^>]*>/gi)]
+    for (const tag of tags) depth += /^<\//.test(tag[0]) ? -1 : 1
+    if (depth <= 0) {
+      const last = tags.at(-1)
+      if (!last || lines[cursor].slice(last.index! + last[0].length).trim()) return
+      break
+    }
+  }
+  const switcherEnd = cursor
+  const groupFences: CodeGroup['fences'] = []
+  for (cursor++; cursor <= end; cursor++) {
+    if (!lines[cursor].trim()) continue
+    const fence = fences.get(cursor)
+    if (!fence || fence.end > end) break
+    groupFences.push({ start: cursor, ...fence })
+    cursor = fence.end
+  }
+  return groupFences.length ? { start, switcherEnd, end: groupFences.at(-1)!.end, fences: groupFences } : undefined
+}
+
 export function inventoryBlocks(markdown: string, parsed: { ok: boolean; blocks: NamedBlock[] }): NamedBlockInventory[] {
   if (!parsed.ok) throw new TypeError('inventoryBlocks requires a successful parseBlocks result')
   const lines = markdownLines(markdown)
@@ -49,32 +85,8 @@ export function inventoryBlocks(markdown: string, parsed: { ok: boolean; blocks:
     const single = fences.get(start)
     if (single?.end === end) return { ...result, type: 'code-group', languages: [single.language] }
 
-    // Match md2md codeGroups: class token, case-insensitive div tags, nested div
-    // depth, then every contiguous fence separated only by blank/marker lines.
-    const div = /<div\b[^>]*\bclass\s*=\s*(["'])(.*?)\1[^>]*>/i.exec(lines[start] ?? '')
-    if (!div || !div[2].split(/\s+/).includes('multipleCode') || lines[start].slice(0, div.index).trim()) return result
-    let depth = 0
-    let cursor = start
-    for (; cursor <= end; cursor++) {
-      const fence = fences.get(cursor)
-      if (fence) { cursor = fence.end; continue }
-      const tags = [...lines[cursor].matchAll(/<\/?div\b[^>]*>/gi)]
-      for (const tag of tags) depth += /^<\//.test(tag[0]) ? -1 : 1
-      if (depth <= 0) {
-        const last = tags.at(-1)
-        if (!last || lines[cursor].slice(last.index! + last[0].length).trim()) return result
-        break
-      }
-    }
-    const languages: (string | null)[] = []
-    for (cursor++; cursor <= end; cursor++) {
-      if (!lines[cursor].trim()) continue
-      const fence = fences.get(cursor)
-      if (!fence || fence.end > end) return result
-      languages.push(fence.language)
-      cursor = fence.end
-    }
-    return languages.length ? { ...result, type: 'code-group', languages } : result
+    const group = codeGroupAt(lines, fences, start, end)
+    return group?.end === end ? { ...result, type: 'code-group', languages: group.fences.map(fence => fence.language) } : result
   })
 }
 

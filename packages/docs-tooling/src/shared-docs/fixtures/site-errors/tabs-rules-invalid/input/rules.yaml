@@ -1,0 +1,6 @@
+schema_version: 1
+group_id: code
+default: unknown
+languages:
+  - value: python
+    label: Python

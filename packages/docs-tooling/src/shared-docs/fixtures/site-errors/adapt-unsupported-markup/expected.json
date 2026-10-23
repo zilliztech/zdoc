@@ -1,0 +1,12 @@
+[
+  {
+    "code": "ADAPT_UNSUPPORTED_MARKUP",
+    "file": "page.md",
+    "line": 6,
+    "page": "example",
+    "channel": "current",
+    "detail": {
+      "text": "<div class=\"alert notes\">"
+    }
+  }
+]
