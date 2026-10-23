@@ -12,6 +12,7 @@ const {
   buildRecoveryHandoff,
   extractArtifactZip,
   planTranslationRecovery: planTranslationRecoveryWithRequiredAudit,
+  resolveReferenceManifestCheckpoint,
   validateDownloadedArtifactTree,
 } = require('./translation-recovery-planner')
 
@@ -1169,6 +1170,136 @@ test('forwardSourceAuthorityCheckpoints rejects a non-SHA resolved checkpoint', 
     targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
     forwardSourceAuthorityCheckpoints: async () => 'not-a-sha',
   }), /must be an exact commit SHA/)
+})
+
+test('forwardReferenceManifestCheckpoints forwards the manifest-bound checkpoint for both tracks of a source group', async t => {
+  const value = fixture(t)
+  const resolvedGroups = []
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'reference-forwarded'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    forwardReferenceManifestCheckpoints: async (unit, targetBaselineSha) => {
+      assert.equal(targetBaselineSha, SHA('8'))
+      resolvedGroups.push(unit.sourceGroup)
+      return SHA('e')
+    },
+  })
+  for (const unit of planned.handoff.units) {
+    if (unit.group === 'guides') assert.equal(unit.sourceCheckpointSha, SHA('c'))
+    else assert.equal(unit.sourceCheckpointSha, SHA('e'), `${unit.target}/${unit.group} must carry the group-forwarded checkpoint`)
+  }
+  assert.deepEqual([...new Set(resolvedGroups)].sort(), ['cli', 'go', 'java', 'node', 'python'])
+})
+
+test('forwardReferenceManifestCheckpoints rejects a non-SHA resolved checkpoint', async t => {
+  const value = fixture(t)
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'bad-reference-forward'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    forwardReferenceManifestCheckpoints: async () => 'not-a-sha',
+  }), /Forwarded Reference manifest checkpoint .* must be an exact commit SHA/)
+})
+
+// Models the production shape that broke run 39892871378: the baseline's
+// Reference source manifest binds a fetch commit newer than the immutable
+// source checkpoint, with the recovered group's own sources unchanged.
+function referenceForwardingRepository(t) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reference-forwarding-'))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const {execFileSync} = require('node:child_process')
+  const run = args => execFileSync('git', ['-C', root, ...args], {encoding: 'utf8'}).trim()
+  const commit = message => {
+    run(['add', '.'])
+    run(['-c', 'user.name=test', '-c', 'user.email=test@example.com', 'commit', '-m', message])
+    return run(['rev-parse', 'HEAD'])
+  }
+  const write = (relative, content) => {
+    const file = path.join(root, relative)
+    fs.mkdirSync(path.dirname(file), {recursive: true})
+    fs.writeFileSync(file, content)
+  }
+  const bindManifest = sourceCommit => write('generated/en/manifests/reference.json', `${JSON.stringify({schemaVersion: 1, sourceCommit})}\n`)
+  run(['init', '-b', 'main'])
+  write('content/en/reference/api/java/java/v2/Collections.md', 'collections\n')
+  write('content/en/reference/api/python/python/MilvusClient.md', 'client\n')
+  const sourceBaseline = commit('source baseline')
+  bindManifest(sourceBaseline)
+  const sourceCheckpoint = commit('source checkpoint')
+  write('content/en/reference/api/python/python/MilvusClientV2.md', 'client v2\n')
+  const manifestCommit = commit('python source advances, checkpoint manifest binding kept')
+  bindManifest(manifestCommit)
+  write('content/zh-CN/reference/api/python/python/MilvusClient.md', '客户端\n')
+  const targetBaseline = commit('target baseline keeps the manifest binding')
+  return {root, sourceBaseline, sourceCheckpoint, manifestCommit, targetBaseline, run, commit, write, bindManifest}
+}
+
+test('resolveReferenceManifestCheckpoint forwards to the manifest-bound commit when group sources are unchanged', async t => {
+  const repository = referenceForwardingRepository(t)
+  const resolved = resolveReferenceManifestCheckpoint({
+    repository: repository.root,
+    sourceCheckpointSha: repository.sourceCheckpoint,
+    sourceBaselineSha: repository.sourceBaseline,
+    targetBaselineSha: repository.targetBaseline,
+    group: 'java',
+  })
+  assert.equal(resolved, repository.manifestCommit)
+})
+
+test('resolveReferenceManifestCheckpoint keeps the checkpoint when the baseline manifest already binds it', async t => {
+  const repository = referenceForwardingRepository(t)
+  repository.bindManifest(repository.sourceCheckpoint)
+  const baseline = repository.commit('baseline binds the source checkpoint')
+  const resolved = resolveReferenceManifestCheckpoint({
+    repository: repository.root,
+    sourceCheckpointSha: repository.sourceCheckpoint,
+    sourceBaselineSha: repository.sourceBaseline,
+    targetBaselineSha: baseline,
+    group: 'java',
+  })
+  assert.equal(resolved, repository.sourceCheckpoint)
+})
+
+test('resolveReferenceManifestCheckpoint keeps the checkpoint when the baseline predates the Reference manifest', async t => {
+  const repository = referenceForwardingRepository(t)
+  const resolved = resolveReferenceManifestCheckpoint({
+    repository: repository.root,
+    sourceCheckpointSha: repository.sourceCheckpoint,
+    sourceBaselineSha: repository.sourceBaseline,
+    targetBaselineSha: repository.sourceBaseline,
+    group: 'java',
+  })
+  assert.equal(resolved, repository.sourceCheckpoint)
+})
+
+test('resolveReferenceManifestCheckpoint rejects when the recovered group source changed', async t => {
+  const repository = referenceForwardingRepository(t)
+  repository.write('content/en/reference/api/java/java/v2/Collections.md', 'collections revised\n')
+  const changedSourceCommit = repository.commit('java source moves')
+  repository.bindManifest(changedSourceCommit)
+  const targetBaseline = repository.commit('baseline binds the changed source commit')
+  assert.throws(() => resolveReferenceManifestCheckpoint({
+    repository: repository.root,
+    sourceCheckpointSha: repository.sourceCheckpoint,
+    sourceBaselineSha: repository.sourceBaseline,
+    targetBaselineSha: targetBaseline,
+    group: 'java',
+  }), /changed between the source checkpoint and the target baseline manifest commit/)
+})
+
+test('resolveReferenceManifestCheckpoint rejects a manifest commit outside the checkpoint lineage', async t => {
+  const repository = referenceForwardingRepository(t)
+  repository.run(['checkout', '-q', '-b', 'side', repository.sourceBaseline])
+  repository.write('content/en/reference/api/python/python/MilvusClientV3.md', 'side\n')
+  const sideCommit = repository.commit('side advance')
+  repository.bindManifest(sideCommit)
+  const sideBaseline = repository.commit('side baseline')
+  assert.throws(() => resolveReferenceManifestCheckpoint({
+    repository: repository.root,
+    sourceCheckpointSha: repository.sourceCheckpoint,
+    sourceBaselineSha: repository.sourceBaseline,
+    targetBaselineSha: sideBaseline,
+    group: 'java',
+  }), /not a descendant of the source checkpoint/)
 })
 
 test('authenticates split-publication evidence from the dispatched publisher run', async t => {
