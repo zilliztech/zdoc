@@ -1,0 +1,15 @@
+{
+  "markdown": "# Page\n![x](https://images.example.test/changing.png)",
+  "fetch": {
+    "https://images.example.test/changing.png": [
+      [
+        0,
+        255
+      ],
+      [
+        255,
+        0
+      ]
+    ]
+  }
+}
