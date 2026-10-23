@@ -875,11 +875,12 @@ describe('createDocusaurusConfig', () => {
       markdown: {remarkPlugins: [], rehypePlugins: []},
     });
     const config = createDocusaurusConfig(chinese);
-    expect(docsPlugins(config).every(([, options]) => (
-      (options.beforeDefaultRemarkPlugins as unknown[]).length === 1 &&
-      (options.remarkPlugins as unknown[]).length === 0 &&
-      (options.rehypePlugins as unknown[]).length === 0
-    ))).toBe(true);
+    const zhPolicy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, 'zh-CN');
+    for (const [, options] of docsPlugins(config)) {
+      expect(options.beforeDefaultRemarkPlugins).toEqual(zhPolicy.beforeDefaultRemarkPlugins);
+      expect(options.remarkPlugins).toEqual([]);
+      expect(options.rehypePlugins).toEqual([]);
+    }
     expect(config.stylesheets).toEqual([]);
     expect(config.i18n).toEqual({
       defaultLocale: 'zh-CN',
