@@ -168,9 +168,13 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>Ireland</p></td>
    </tr>
    <tr>
-     <td><p>Asia</p></td>
+     <td rowspan="2"><p>Asia</p></td>
      <td><p>Central India</p></td>
      <td><p>Pune, India</p></td>
+   </tr>
+   <tr>
+     <td><p>Japan East</p></td>
+     <td><p>Tokyo and Saitama, Japan</p></td>
    </tr>
 </table>
 
@@ -248,7 +252,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Google Cloud regions.</p></td>
+     <td><p>ℹ️  Selected regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Google Cloud regions.</p></td>
      <td><p>❌</p></td>
    </tr>
    <tr>

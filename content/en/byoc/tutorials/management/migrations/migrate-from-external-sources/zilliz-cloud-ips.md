@@ -76,4 +76,5 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 | Germany West Central | Frankfurt, Germany | `4.184.247.193` |
 | North Europe | Ireland | `4.207.64.80`, `13.79.36.108` |
 | Central India | Pune, India | `98.70.222.135` |
+| Japan East | Tokyo and Saitama, Japan | `20.18.85.21` |
 
