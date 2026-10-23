@@ -4,12 +4,12 @@ slug: /python/python/Management-release_collection
 sidebar_label: "release_collection()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation releases the data of a specific collection from memory. | Python | MilvusClient"
 type: docx
-token: PRR7dRfi8o1s61xFRovccAdRnHe
+token: QT0QdN7aQoqWBZxbkAic3EPDnLK
 sidebar_position: 13
 keywords: 
   - what is a vector database
@@ -33,13 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the data of a specific collection from memory.
 
-<Admonition type="info" title="Notes">
-
-This only applies to managed collections.
-
-</Admonition>
-
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 release_collection(
@@ -56,11 +50,9 @@ release_collection(
 
     The name of a collection.
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    The timeout duration for this operation. 
-
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response returns or error occurs.
 
 **RETURN TYPE:**
 
@@ -68,13 +60,13 @@ release_collection(
 
 **RETURNS:**
 
-None
+None.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
@@ -82,8 +74,8 @@ None
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 1. Create schema
@@ -93,7 +85,11 @@ schema = MilvusClient.create_schema(
 )
 
 # 2. Add fields to schema
-schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(
+    field_name="my_id",
+    datatype=DataType.INT64,
+    is_primary=True,
+)
 
 # {
 #     'auto_id': False, 
@@ -109,7 +105,11 @@ schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 #     ]
 # }
 
-schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+schema.add_field(
+    field_name="my_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5,
+)
 
 # {
 #     'auto_id': False, 
@@ -152,7 +152,7 @@ index_params.add_index(
     field_name="my_vector", 
     index_type="IVF_FLAT",
     metric_type="L2",
-    params={nlist: 1024}
+    params={"nlist": 1024}
 )
 
 # 6. Create indexes
@@ -185,12 +185,3 @@ client.get_load_state(
 
 # {'state': <LoadState: NotLoad>}
 ```
-
-## Related methods\{#related-methods}
-
-- [get_load_state()](./Management-get_load_state)
-
-- [load_collection()](./Management-load_collection)
-
-- [refresh_load()](./Management-refresh_load)
-

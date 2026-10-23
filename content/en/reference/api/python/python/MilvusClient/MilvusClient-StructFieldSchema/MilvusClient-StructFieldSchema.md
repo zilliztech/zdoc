@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A StructFieldSchema instance defines a struct (array-of-structs) field. | Python | MilvusClient"
+description: "Constructor behavior changed. New nullable property documented on the existing class page. | Python | MilvusClient"
 type: docx
 token: R4vxd8dReoaZ85xZ23qctjfLnDh
 sidebar_position: 3
@@ -31,46 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-A StructFieldSchema instance defines a struct (array-of-structs) field.
+Constructor behavior changed. New nullable property documented on the existing class page.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-__init__(
-    nullable: bool = False,
-    description: str = ""
-)
+StructFieldSchema(
 ```
 
 **PARAMETERS:**
 
 - **nullable** (*bool*) -
 
+    Default: `False`
+
     The flag that allows the struct field to contain null values.
 
 - **description** (*str*) -
 
+    Default: `""`
+
     The description of the struct field.
+
+**RETURN TYPE:**
+
+*StructFieldSchema*
+
+**RETURNS:**
+
+Struct field schema instance containing nested fields and nullable/default metadata.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details. Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
-```python
-from pymilvus import StructFieldSchema, FieldSchema, DataType
+Demonstrates StructFieldSchema usage.
 
-author = StructFieldSchema(
-    fields=[
-        FieldSchema(
-            name="name",
-            dtype=DataType.VARCHAR,
-            max_length=256,
-        ),
-    ],
+```python
+from pymilvus import CollectionSchema, DataType, FieldSchema, StructFieldSchema
+
+chunk = StructFieldSchema(
+    nullable=True,
+    description="Optional chunk metadata",
 )
-author.nullable = True
+chunk.add_field(
+    "source",
+    DataType.VARCHAR,
+    max_length=128,
+)
+
+schema = CollectionSchema(fields=[
+    FieldSchema(
+        name="id",
+        dtype=DataType.INT64,
+        is_primary=True,
+    ),
+    FieldSchema(
+        name="vector",
+        dtype=DataType.FLOAT_VECTOR,
+        dim=3,
+    ),
+])
+print(schema)
 ```

@@ -4,12 +4,12 @@ slug: /python/python/Function-to_dict
 sidebar_label: "to_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns a dictionary representation of the `Function` object. | Python | MilvusClient"
 type: docx
-token: AmwJdW0z6opMPcxhMlBcYPIWn2M
+token: HacudytI2olONTxEtofcuXLin1f
 sidebar_position: 4
 keywords: 
   - lexical search
@@ -39,23 +39,19 @@ This operation returns a dictionary representation of the `Function` object.
 to_dict()
 ```
 
-**PARAMETERS:**
-
-None
-
 **RETURN TYPE:**
 
 *dict*
 
 **RETURNS:**
 
-The dictionary representation of the `Function` object.
+The dictionary representation of the Function object.
 
 **EXCEPTIONS:**
 
-- `MilvusException`
+- **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 

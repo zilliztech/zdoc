@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-pin_snapshot_data
 sidebar_label: "pin_snapshot_data()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation pins snapshot data for a period of time so garbage collection does not remove it while you export or back up files. | Python | MilvusClient"
@@ -37,14 +37,6 @@ This operation pins snapshot data for a period of time so garbage collection doe
 
 ```python
 pin_snapshot_data(
-    self,
-    snapshot_name: str,
-    collection_name: str,
-    db_name: str = "",
-    ttl_seconds: int = 0,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> int
 ```
 
 **PARAMETERS:**
@@ -63,7 +55,7 @@ pin_snapshot_data(
 
 - **ttl_seconds** (*int*) -
 
-    Pin lifetime in seconds. `0` uses the server default TTL.
+    An option that pin lifetime in seconds. 0 uses the server default TTL.
 
 - **timeout** (*Optional[float]*) -
 
@@ -77,20 +69,25 @@ pin_snapshot_data(
 
 *int*
 
-The `pin_id` used to release this pin with `unpin_snapshot_data()`.
+**RETURNS:**
+
+The pin_id used to release this pin with unpin_snapshot_data().
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the snapshot cannot be pinned or the request fails.
+    Raised when the snapshot cannot be pinned or the request fails. Raised when the snapshot cannot be pinned or the request fails.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20260509",

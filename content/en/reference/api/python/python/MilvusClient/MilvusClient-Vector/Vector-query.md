@@ -53,7 +53,7 @@ This method applies only to dedicated serving clusters and on-demand compute.
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 query(
@@ -61,6 +61,7 @@ query(
     filter: str,
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
+    ids: Optional[Union[List, str, int]] = None,
     partition_names: Optional[List[str]] = None,
     **kwargs,
 ) -> List[dict]
@@ -78,129 +79,27 @@ query(
 
     **[REQUIRED]**
 
-    A scalar filtering condition to filter matching entities. 
+    A scalar filtering condition to filter matching entities. You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to Boolean Expression Rules.
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+- **output_fields** (*list[str] | None*) -
 
-- **output_fields** (*list[str]* | *None*) -
+    A list of field names to include in each entity in return. The value defaults to None. - Setting this as output_fields=["*"] outputs all fields. - Setting this as output_fields=["count(*)"] outputs the loaded entities that match the conditions specified in the filter argument. - When used with group_by_fields, this list also accepts aggregation expressions: count(&ast;), count(&lt;field&gt;), min(&lt;field&gt;), max(&lt;field&gt;), sum(&lt;field&gt;), and avg(&lt;field&gt;). The aggregated values are computed per group and returned alongside the group keys.
 
-    A list of field names to include in each entity in return.
+- **timeout** (*float | None*) -
 
-    The value defaults to **None**.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
-    <Admonition type="info" title="Notes">
+- **ids** (*list | str | int | None*) -
 
-    - Setting this as `output_fields=["\*"]` outputs all fields.
-    
-    - Setting this as `output_fields=["count(\*)"]` outputs the loaded entities that match the conditions specified in the **filter** argument.
-    
-    - When used with `group_by_fields`, this list also accepts aggregation expressions: `count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, and `avg(<field>)`. The aggregated values are computed per group and returned alongside the group keys.
+    A list of primary key values of the entities to query directly. This parameter is mutually exclusive with filter; when set, entities are located by their primary key values instead of a boolean expression.
 
-    </Admonition>
+- **partition_names** (*list[str] | None*) -
 
-- **timeout** (*float* | *None*) -
+    A list of partition names. The value defaults to None. If specified, only the specified partitions are involved in queries. This parameter is not applicable to Milvus Lite. For more information on Milvus Lite limits, refer to Run Milvus Lite.
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+- **kwargs** (*Any*) -
 
-- **partition_names** (*list[str]* | *None*) -
-
-    A list of partition names.
-
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
-
-- **kwargs** -
-
-    - **consistency_level** (*str* | *int*) -
-
-        The consistency level of the target collection.
-
-        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-        <Admonition type="info" title="Note">
-
-        What is the consistency level?
-        
-                Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
-        
-                Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
-        
-                You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
-
-        </Admonition>
-
-    - **guarantee_timestamp** (*int*) -
-
-        A valid timestamp. 
-
-        If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
-
-        <Admonition type="info" title="Notes">
-
-        This parameter is valid when the default consistency level applies.
-
-        </Admonition>
-
-    - **graceful_time** (*int*) -
-
-        A period of time in seconds.
-
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
-
-        <Admonition type="info" title="Notes">
-
-        This parameter is valid when a consistency level other than the default one applies.
-
-        </Admonition>
-
-    - **offset** (*int*) -
-
-        The number of records to skip in the query result. 
-
-        You can use this parameter in combination with `limit` to enable pagination.
-
-        The sum of this value and `limit` should be less than 16,384. 
-
-    - **limit** (*int*) -
-
-        The number of records to return in the query result.
-
-        You can use this parameter in combination with `offset` to enable pagination.
-
-        The sum of this value and `offset` should be less than 16,384.
-
-    - **timezone** (*str*)
-
-        Temporarily override the collection or database default time zone for a single query by setting an [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). This controls how `TIMESTAMPTZ` values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings.
-
-        For more information, refer to [TIMESTAMPZ Field](/docs/use-timestamptz-field).
-
-    - **time_fields** (*str*)
-
-        Extract specific time components from a `TIMESTAMPTZ` field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: `year`, `month`, `day`, `hour`, `minute`, `second`, and `microsecond`.
-
-        For more information, refer to TIMESTAMPZ Field.
-
-    - **order_by** (*list[str]*)
-
-        A list of fields to sort the query results by. Each element follows the format `"field_name:direction"`, where direction is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
-
-        Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, and VARCHAR. Sorting by vector, JSON, or ARRAY fields is not supported.
-
-        This parameter must be used together with `limit`. When sorting nullable fields, NULL values are placed at the end for ascending sorts (NULLS LAST) and at the beginning for descending sorts (NULLS FIRST).
-
-    - **group_by_fields** (*list[str]*) -
-
-        A list of scalar fields to group the query results by. When set, `query()` returns one row per unique combination of the specified field values, and any aggregation expressions in `output_fields` (`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`) are computed per group.
-
-        Supported grouping-key field types: `INT8`, `INT16`, `INT32`, `INT64`, `VARCHAR`, and `TIMESTAMPTZ`. Grouping by `FLOAT`, `DOUBLE`, vector, `JSON`, or `ARRAY` fields returns an error.
-
-        You can combine `group_by_fields` with `limit` to cap the number of groups returned.
-
-        Aggregation input type rules:
-
-        - `sum` and `avg` accept only numeric fields, including `FLOAT` and `DOUBLE`. Applying either function to a `VARCHAR` field returns an error.
-
-        - `sum` returns `INT64` for integer inputs and `DOUBLE` for `FLOAT` or `DOUBLE` inputs. `avg` always returns `DOUBLE`; `count` returns `INT64`; and `min` and `max` preserve the field type.
+    An option that consistency_level (str | int): The consistency level of the target collection. The value defaults to the one specified when you create the current collection, with options of Strong (0), Bounded (1), Session (2), and Eventually (3). Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time. Milvus supports four consistency levels: Strong, Bounded Staleness, Session, and Eventually. The default consistency level in Milvus is Bounded Staleness. You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application. guarantee_timestamp (int): A valid timestamp. If this parameter is set, MilvusZilliz Cloud executes the query only if all entities inserted before this timestamp are visible to query nodes. This parameter is valid when the default consistency level applies. graceful_time (int): A period of time in seconds. The value defaults to 5. If this parameter is set, MilvusZilliz Cloud calculates the guarantee timestamp by subtracting this from the current timestamp. This parameter is valid when a consistency level other than the default one applies. offset (int): The number of records to skip in the query result. You can use this parameter in combination with limit to enable pagination. The sum of this value and limit should be less than 16,384. limit (int): The number of records to return in the query result. You can use this parameter in combination with offset to enable pagination. The sum of this value and offset should be less than 16,384. timezone (str): Temporarily override the collection or database default time zone for a single query by setting an IANA identifier (for example, Asia/Shanghai, America/Chicago, or UTC). This controls how TIMESTAMPTZ values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings. For more information, refer to TIMESTAMPZ Field. time_fields (str): Extract specific time components from a TIMESTAMPTZ field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: year, month, day, hour, minute, second, and microsecond. For more information, refer to TIMESTAMPZ Field. order_by (list[str]): A list of fields to sort the query results by. Each element follows the format "field_name:direction", where direction is either asc (ascending) or desc (descending). Note that asc and desc are case-sensitive. Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, and VARCHAR. Sorting by vector, JSON, or ARRAY fields is not supported. This parameter must be used together with limit. When sorting nullable fields, NULL values are placed at the end for ascending sorts (NULLS LAST) and at the beginning for descending sorts (NULLS FIRST). group_by_fields (list[str]): A list of scalar fields to group the query results by. When set, query() returns one row per unique combination of the specified field values, and any aggregation expressions in output_fields (count(&ast;), count(&lt;f&gt;), min(&lt;f&gt;), max(&lt;f&gt;), sum(&lt;f&gt;), avg(&lt;f&gt;)) are computed per group. Supported grouping-key field types: INT8, INT16, INT32, INT64, VARCHAR, and TIMESTAMPTZ. Grouping by FLOAT, DOUBLE, vector, JSON, or ARRAY fields returns an error. You can combine group_by_fields with limit to cap the number of groups returned. Aggregation input type rules: `sum` and `avg` accept only numeric fields, including `FLOAT` and `DOUBLE`. Applying either function to a `VARCHAR` field returns an error.:. `sum` returns `INT64` for integer inputs and `DOUBLE` for `FLOAT` or `DOUBLE` inputs. `avg` always returns `DOUBLE`; `count` returns `INT64`; and `min` and `max` preserve the field type.:.
 
 **RETURN TYPE:**
 
@@ -208,7 +107,7 @@ query(
 
 **RETURNS:**
 
-A list of dictionaries with each dictionary representing a queried entity.
+A list of dictionaries with each dictionary representing a queried entity. If the number of returned entities is less than expected, duplicate entities may exist in your collection.
 
 <Admonition type="info" title="Notes">
 
@@ -220,11 +119,11 @@ If the number of returned entities is less than expected, duplicate entities may
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    This exception will be raised when a parameter value doesn't match the required data type. This exception will be raised when a parameter value doesn't match the required data type.
 
 ## Examples\{#examples}
 
@@ -233,8 +132,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection and a partition
@@ -347,6 +246,8 @@ res = client.query(
     partition_names=["partitionA"],
 )
 
+print(res)
+
 # []
 
 # Query with specified output fields
@@ -424,4 +325,3 @@ res = client.query(
 
 # [{'count(*)': 3}]
 ```
-

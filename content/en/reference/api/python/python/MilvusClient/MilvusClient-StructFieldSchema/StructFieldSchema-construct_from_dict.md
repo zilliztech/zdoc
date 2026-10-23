@@ -4,12 +4,12 @@ slug: /python/python/StructFieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation constructs a StructFieldSchema object from a dictionary representation. | Python | MilvusClient"
 type: docx
-token: KeoHdMDBCo3PByxKbWncifFMn9e
+token: WYu2duq4QoTr0YxGWnIcAmornge
 sidebar_position: 2
 keywords: 
   - milvus
@@ -31,21 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-This operation constructs a **[StructFieldSchema](./MilvusClient-StructFieldSchema)** object from a dictionary representation.
+This operation constructs a **StructFieldSchema** object from a dictionary representation.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
 construct_from_dict(
-    raw: dict
-)
 ```
 
 **PARAMETERS:**
 
-- **raw** (*dict*)
+- **raw** (*dict*) -
 
-    A dictionary containing the raw data to construct the schema of a struct element in an array of structs field
+    A dictionary containing the raw data to construct the schema of a struct element in an array of structs field.
 
 **RETURN TYPE:**
 
@@ -53,13 +51,13 @@ construct_from_dict(
 
 **RETURNS:**
 
-A **[StructFieldSchema](./MilvusClient-StructFieldSchema)** object.
+A StructFieldSchema object.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
@@ -87,7 +85,10 @@ schema_dict = {
 }  
 
 # Reconstruct schema from dictionary 
-schema = StructFieldSchema(name="struct_schema", fields=[vector]).construct_from_dict(schema_dict)  
+schema = StructFieldSchema(
+    name="struct_schema",
+    fields=[vector],
+).construct_from_dict(schema_dict)  
 
 print(schema)
 

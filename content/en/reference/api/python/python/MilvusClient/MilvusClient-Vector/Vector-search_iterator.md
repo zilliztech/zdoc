@@ -33,13 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner.
 
-<Admonition type="info" title="Notes">
-
-External collections do not support this operation.
-
-</Admonition>
-
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 search_iterator(
@@ -54,7 +48,7 @@ search_iterator(
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
-    round_decimal: int = -1
+    round_decimal: int = -1,
     *,
     external_filter_func: Optional[Callable[[Hits], Union[Hits, List[Hit]]]] = None,
     **kwargs,
@@ -73,75 +67,39 @@ search_iterator(
 
     **[REQUIRED]**
 
-    A list of vector embeddings.
-
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    A list of vector embeddings. Milvus searches for the most similar vector embeddings to the specified ones.
 
 - **batch_size** (*int*) -
 
     The number of entities to return each iteration. The default value is 1000.
 
-- **anns_field** (*str*) -
-
-    The name of the target vector field of the current search.
-
 - **filter** (*str*) -
 
-    A scalar filtering condition to filter matching entities. 
-
-    The value defaults to an empty string, indicating that no condition applies.
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    A scalar filtering condition to filter matching entities. The value defaults to an empty string, indicating that no condition applies. You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to Boolean Expression Rules.
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    The total number of entities to return. The offset parameter is not supported by this operation.
 
-    The `offset` parameter is not supported in this operation.
+- **output_fields** (*list[str]*) -
 
-- **output_fields** (l*ist[str]*) -
-
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    A list of field names to include in each entity in return. The value defaults to None. If left unspecified, only the primary field is included.
 
 - **search_params** (*dict*) -
 
-    The parameter settings specific to this operation.
+    The parameter settings specific to this operation. params (dict): Additional parameters radius (float): Determines the threshold of least similarity. When the collection's metric type is set to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter. range_filter (float): Refines the search to vectors within a specific similarity range. When the collection's metric type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius. max_empty_result_buckets (int): This param is only used for range search for IVF-serial indexes, including BIN_IVF_FLAT, IVF_FLAT, IVF_SQ8, IVF_PQ, and SCANN. The value defaults to 1 and ranges from 1 to 65536. During range search, the search process terminates early if the number of buckets with no valid range search results reaches the specified value. Increasing this parameter improves range search recall. ignore_growing (str): This option, when set, instructs the search to exclude data from growing segments. Utilizing this setting can potentially enhance search performance by focusing only on indexed and fully processed data. For details on other applicable search parameters, refer to In-memory Index and On-disk Index.
 
-    - **params** (dict) -
+- **group_by_field** (*str*) -
 
-        Additional parameters
+    An option that r o.
 
-        - **radius** (float) -
+- **timeout** (*float | None*) -
 
-            Determines the threshold of least similarity. When the collection's metric type is set to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
-
-        - **range_filter**  (float) -  
-
-            Refines the search to vectors within a specific similarity range. When the collection's metric type to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
-
-        - **level** (*int*)
-
-            Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
-
-            The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
-
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
-
-- **group_by_field** (*str*)
-
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
-
-- **timeout** (*float* | *None*) -
-
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
-
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    A list of partition names. The value defaults to None. If specified, only the specified partitions are involved in queries. This parameter is not applicable to Milvus Lite. For more information on Milvus Lite limits, refer to Run Milvus Lite.
 
 - **anns_field** (*string*) -
 
@@ -151,42 +109,27 @@ search_iterator(
 
     The number of decimal places for distance values. The default value is -1, which indicates that no rounding is applied.
 
-- **kwargs** -
+- **external_filter_func** (*Callable*) -
 
-    Additional arguments to pass to the search operation.
+    A client-side callback that filters each page of search hits. The callback receives the Hits object of a page and returns the filtered Hits object or a list of Hit objects. This argument is keyword-only and is supported by Search Iterator V2.
 
-    - **round_decimal** (int) -
+- **kwargs** (*Any*) -
 
-        The number of decimal places that Zilliz Cloud rounds the calculated distances to.
-
-        The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
-
-- **external_filter_func** (*Callable[[Hits], Hits | List[Hit]] | None*) -
-
-    A client-side callback that filters each page of search hits. The callback receives a Hits object and returns Hits or a list of Hit objects.
-
-    This argument is keyword-only and is supported by Search Iterator V2.
+    Additional parameters to pass to the search operation.
 
 **RETURN TYPE:**
 
 *SearchIterator*
 
 **RETURNS:**
-A **SearchIterator** instance that provides the following methods:
 
-- `next()`
-
-    This method returns a batch of entities iteratively. Each time you call it, a new set of entities is returned until the last entity is retrieved.
-
-- `close()`
-
-    This method closes the current **SearchIterator** instance.
+A SearchIterator instance that provides the following methods: - next() This method returns a batch of entities iteratively. Each time you call it, a new set of entities is returned until the last entity is retrieved. - close() This method closes the current SearchIterator instance.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
@@ -195,8 +138,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection
@@ -226,11 +169,10 @@ client.insert(
 
 # 4. Conduct a search
 search_params = {
-    "metric_type": "IP",
     "params": {}
 }
 
-# Search with search iterator
+# Search with output fields
 iterator = client.search_iterator(
     collection_name="test_collection",
     data=[[0.05, 0.23, 0.07, 0.45, 0.13]],
@@ -250,4 +192,10 @@ while True:
     for hit in result:
         results.append(hit.to_dict())
 ```
+
+<Admonition type="info" title="Notes">
+
+External collections do not support this operation.
+
+</Admonition>
 

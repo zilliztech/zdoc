@@ -4,10 +4,10 @@ slug: /python/python/Function-add_function_field
 sidebar_label: "add_function_field()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation adds a function field to an existing collection in one call it inserts the field schema, binds the function that produces the field, and creates the backing index. | Python | MilvusClient"
+description: "This operation adds a function-backed field to an existing collection. It is a high-level convenience wrapper that commits the schema change — the new output field plus the function definition — together with the index meta bound to the new output field. The server creates the index meta atomically with the schema change, so backfill compaction is never blocked on a missing vector index. | Python | MilvusClient"
 type: docx
 token: SPl9dAH9noQ2e9xu86Zcy4XxnTb
 sidebar_position: 6
@@ -31,18 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # add_function_field()
 
-This operation adds a function field to an existing collection in one call: it inserts the field schema, binds the function that produces the field, and creates the backing index.
+This operation adds a function-backed field to an existing collection. It is a high-level convenience wrapper that commits the schema change — the new output field plus the function definition — together with the index meta bound to the new output field. The server creates the index meta atomically with the schema change, so backfill compaction is never blocked on a missing vector index.
+
+<Admonition type="info" title="Note">
+
+index_params must contain exactly one entry with an explicit index_type for the output field. The server rejects vector output fields without bound index params.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-add_function_field(
+client.add_function_field(
     collection_name: str,
     field_schema: FieldSchema,
     func: Function,
     index_params: IndexParams,
-    timeout: Optional[float] = None,
-    **kwargs
+    timeout: Optional[float] = None
 )
 ```
 
@@ -50,51 +55,111 @@ add_function_field(
 
 - **collection_name** (*str*) -
 
-    The name of the target collection.
+    **[REQUIRED]**
 
-- **field_schema** ([FieldSchema](./MilvusClient-FieldSchema)) -
+    The name of the collection to modify.
 
-    The schema of the function output field to add, such as a sparse float vector field.
+- **field_schema** (*[FieldSchema](FieldSchema/FieldSchema.md*) -
 
-- **func** ([Function](./MilvusClient-Function)) -
+    **[REQUIRED]**
 
-    The function whose output populates the field. The function output field names must include the added field.
+    An option that &ast;) - The schema of the new output field produced by the function. For example, a SPARSE_FLOAT_VECTOR field for BM25 or a BINARY_VECTOR field for MinHash.
 
-- **index_params** (*IndexParams*) -
+- **func** (*[Function](Function/Function.md*) -
 
-    The index parameters for the added field.
+    **[REQUIRED]**
+
+    An option that &ast;) - The function definition that generates the output field. For example, a FunctionType.BM25 or FunctionType.MINHASH function. The supported combinations are FunctionType.BM25 with DataType.SPARSE_FLOAT_VECTOR and FunctionType.MINHASH with DataType.BINARY_VECTOR.
+
+- **index_params** (*[IndexParams](../Management/prepare_index_params.md*) -
+
+    **[REQUIRED]**
+
+    An option that &ast;) - The index definition bound to the new output field. It must contain exactly one entry with an explicit index_type (for example, SPARSE_INVERTED_INDEX/BM25 or MINHASH_LSH/MHJACCARD).
 
 - **timeout** (*float | None*) -
 
-    Default: `None`
+    The timeout in seconds for the schema-change RPC. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
-    The timeout in seconds for this operation.
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None.
 
 **EXCEPTIONS:**
 
+- **ParamError**
+
+    Raised when a required parameter is missing or invalid. Raised when a required parameter is missing or invalid.
+
 - **MilvusException**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception will be raised when the schema change fails. This exception will be raised when the schema change fails.
 
 ## Examples\{#examples}
 
 ```python
-from pymilvus import MilvusClient, FieldSchema, Function, FunctionType
+from pymilvus import MilvusClient, DataType, FieldSchema, CollectionSchema, Function, FunctionType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-field = FieldSchema(
-    name="bm25_sparse",
-    dtype="SPARSE_FLOAT_VECTOR",
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
-func = Function(
+
+# The target collection must exist first. The BM25 input field must have
+# enable_analyzer set to True, and the schema must contain a vector field.
+client.create_collection(
+    collection_name="my_collection",
+    schema=CollectionSchema(
+        fields=[
+            FieldSchema(
+                "id",
+                DataType.INT64,
+                is_primary=True,
+            ),
+            FieldSchema(
+                "text",
+                DataType.VARCHAR,
+                max_length=512,
+                enable_analyzer=True,
+            ),
+            FieldSchema(
+                "dense",
+                DataType.FLOAT_VECTOR,
+                dim=3,
+            ),
+        ],
+    ),
+)
+
+# Define the BM25 function and its output sparse vector field
+bm25_function = Function(
+    name="bm25",
     function_type=FunctionType.BM25,
     input_field_names=["text"],
-    output_field_names=["bm25_sparse"],
+    output_field_names=["sparse_vector"],
 )
+
+sparse_field = FieldSchema(
+    name="sparse_vector",
+    dtype=DataType.SPARSE_FLOAT_VECTOR,
+)
+
+# The index params bound to the output field
+index_params = client.prepare_index_params()
+index_params.add_index(
+    field_name="sparse_vector",
+    index_type="SPARSE_INVERTED_INDEX",
+    metric_type="BM25",
+)
+
 client.add_function_field(
-    collection_name="docs",
-    field_schema=field,
-    func=func,
+    collection_name="my_collection",
+    field_schema=sparse_field,
+    func=bm25_function,
     index_params=index_params,
 )
 ```

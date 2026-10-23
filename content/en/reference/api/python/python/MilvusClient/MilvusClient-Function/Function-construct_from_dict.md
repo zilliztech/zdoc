@@ -4,12 +4,12 @@ slug: /python/python/Function-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation constructs a `Function` object from a dictionary representation. | Python | MilvusClient"
 type: docx
-token: Ulypd24byoDBOpxGnnJcbF3Nnkb
+token: I0EbdzommoeSo7xQSeXcRXeanfg
 sidebar_position: 2
 keywords: 
   - what are vector databases
@@ -37,13 +37,11 @@ This operation constructs a `Function` object from a dictionary representation.
 
 ```python
 construct_from_dict(
-    raw: dict
-)
 ```
 
 **PARAMETERS:**
 
-- `raw` (*dict*)
+- **raw** (*dict*) -
 
     A dictionary containing the raw data to construct the collection schema.
 
@@ -53,13 +51,13 @@ construct_from_dict(
 
 **RETURNS:**
 
-A `Function` object.
+A Function object.
 
 **EXCEPTIONS:**
 
-- `MilvusException`
+- **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
@@ -78,4 +76,3 @@ function = Function.construct_from_dict(function_dict)
 
 print(function)
 ```
-

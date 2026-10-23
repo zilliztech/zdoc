@@ -4,12 +4,12 @@ slug: /python/python/Function-verify
 sidebar_label: "verify()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation validates the input and output fields of a function defined in the CollectionSchema. | Python | MilvusClient"
 type: docx
-token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
+token: HR2Sd7RpWoy3Jrxt7zCcrUFjnmf
 sidebar_position: 5
 keywords: 
   - NLP
@@ -37,27 +37,21 @@ This operation validates the input and output fields of a function defined in th
 
 ```python
 verify(
-    schema: CollectionSchema
-)
 ```
-
-**PARAMETERS:**
-
-None
 
 **RETURN TYPE:**
 
-None
+*None*
 
 **RETURNS:**
 
-None
+None.
 
 **EXCEPTIONS:**
 
-- `MilvusException`
+- **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 

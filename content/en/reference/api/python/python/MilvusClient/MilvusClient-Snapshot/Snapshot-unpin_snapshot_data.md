@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-unpin_snapshot_data
 sidebar_label: "unpin_snapshot_data()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation releases a snapshot pin created by `pinsnapshotdata()` so normal snapshot data garbage collection can resume. | Python | MilvusClient"
@@ -37,18 +37,13 @@ This operation releases a snapshot pin created by `pin_snapshot_data()` so norma
 
 ```python
 unpin_snapshot_data(
-    self,
-    pin_id: int,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> None
 ```
 
 **PARAMETERS:**
 
 - **pin_id** (*int*) -
 
-    The pin ID returned by `pin_snapshot_data()`.
+    The pin ID returned by pin_snapshot_data().
 
 - **timeout** (*Optional[float]*) -
 
@@ -62,20 +57,25 @@ unpin_snapshot_data(
 
 *NoneType*
 
+**RETURNS:**
+
 This operation does not return data.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the pin does not exist, has already expired, or the request fails.
+    Raised when the pin does not exist, has already expired, or the request fails. Raised when the pin does not exist, has already expired, or the request fails.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20260509",

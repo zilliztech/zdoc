@@ -232,6 +232,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group",
+            "label": "remove_privileges_from_group()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-removeprivilegesfromgroup"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2",
             "label": "revoke_privilege_v2()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-revokeprivilegev2"

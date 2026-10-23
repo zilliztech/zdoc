@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-list_restore_snapshot_jobs
 sidebar_label: "list_restore_snapshot_jobs()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all restore snapshot jobs. Optionally filter by collection name to see restore jobs targeting a specific collection. | Python | MilvusClient"
@@ -37,19 +37,21 @@ This operation lists all restore snapshot jobs. Optionally filter by collection 
 
 ```python
 list_restore_snapshot_jobs(
-    collection_name: str = "",
-    timeout: Optional[float] = None,
-    **kwargs
-) -> List[RestoreSnapshotJobInfo]
 ```
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -<br/>
-  An optional collection name to filter restore jobs. If empty, all restore jobs are listed.
+- **collection_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  An optional duration of time in seconds to allow for the RPC.
+    An optional collection name to filter restore jobs. If empty, all restore jobs are listed.
+
+- **db_name** (*str*) -
+
+    An optional database name to filter restore jobs. If empty, the default database is used.
+
+- **timeout** (*Optional[float]*) -
+
+    An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 
@@ -57,65 +59,13 @@ list_restore_snapshot_jobs(
 
 **RETURNS:**
 
-A list of RestoreSnapshotJobInfo objects, each containing restore job information with the following fields:
-
-```python
-{
-    'job_id': int,
-    'snapshot_name': str,
-    'db_name': str,
-    'collection_name': str,
-    'state': str,
-    'progress': int,
-    'reason': str,
-    'start_time': int,
-    'time_cost': int
-}
-```
-
-**PARAMETERS:**
-
-- **job_id** (*int*) -
-
-    The restore job ID.
-
-- **snapshot_name** (*str*) -
-
-    The snapshot name being restored.
-
-- **db_name** (*str*) -
-
-    The target database name.
-
-- **collection_name** (*str*) -
-
-    The target collection name.
-
-- **state** (*str*) -
-
-    Current state. Possible values: *RestoreSnapshotNone*, *RestoreSnapshotPending*, *RestoreSnapshotExecuting*, *RestoreSnapshotCompleted*, *RestoreSnapshotFailed*.
-
-- **progress** (*int*) -
-
-    Progress percentage (0-100).
-
-- **reason** (*str*) -
-
-    Error reason if the job failed.
-
-- **start_time** (*int*) -
-
-    Start timestamp in milliseconds.
-
-- **time_cost** (*int*) -
-
-    Time cost in milliseconds.
+A list of RestoreSnapshotJobInfo objects, each containing restore job information with the following fields:.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    If the operation fails.
+    If the operation fails. If the operation fails.
 
 ## Examples\{#examples}
 

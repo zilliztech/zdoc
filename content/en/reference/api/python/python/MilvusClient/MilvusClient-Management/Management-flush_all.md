@@ -4,12 +4,12 @@ slug: /python/python/Management-flush_all
 sidebar_label: "flush_all()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation flushes all collections in the current database. This ensures all inserted data is written to persistent storage. | Python | MilvusClient"
 type: docx
-token: QejKdv2qKo97mQxEV0CcaSM5nLh
+token: YaXGd43eqog2RExt8btcwxQOn0f
 sidebar_position: 17
 keywords: 
   - Knowledge base
@@ -33,13 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation flushes all collections in the current database. This ensures all inserted data is written to persistent storage.
 
-<Admonition type="info" title="Notes">
-
-This only applies to managed collections.
-
-</Admonition>
-
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 client.flush_all(
@@ -49,21 +43,25 @@ client.flush_all(
 
 **PARAMETERS:**
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURN TYPE:**
 
 *NoneType*
 
+**RETURNS:**
+
+None.
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

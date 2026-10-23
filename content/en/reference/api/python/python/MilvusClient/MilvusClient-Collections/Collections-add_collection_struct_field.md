@@ -57,6 +57,18 @@ Adding a struct field to an existing collection requires nullable to be set to T
 
 </Admonition>
 
+<Admonition type="info" title="Note">
+
+Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
+
+</Admonition>
+
 ## Request Syntax\{#request-syntax}
 
 ```python

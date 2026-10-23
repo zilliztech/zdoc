@@ -4,12 +4,12 @@ slug: /python/python/Management-get_flush_all_state
 sidebar_label: "get_flush_all_state()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns whether a flush-all operation has completed. Use this after calling `flushall()` to check the flush status. | Python | MilvusClient"
 type: docx
-token: G31wdmzVFo687JxZTAGctQlKnir
+token: Y1ZHdwi2wotA3wxwZGsc0Nsnnvc
 sidebar_position: 20
 keywords: 
   - AI chatbots
@@ -39,19 +39,26 @@ This only applies to managed collections.
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 client.get_flush_all_state(
+    flush_all_ts: int,
     timeout: float = None
 ) -> bool
 ```
 
 **PARAMETERS:**
 
-- **timeout** (*float* | *None*) -
+- **flush_all_ts** (*int*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    **[REQUIRED]**
+
+    The timestamp returned by the flush-all operation that identifies the target flush-all round.
+
+- **timeout** (*float | None*) -
+
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURN TYPE:**
 
@@ -59,15 +66,13 @@ client.get_flush_all_state(
 
 **RETURNS:**
 
-**True** if the flush-all operation is completed, **False** otherwise.
-
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -80,6 +85,6 @@ client = MilvusClient(
 client.flush_all()
 
 # Check if flush completed
-is_done = client.get_flush_all_state()
+is_done = client.get_flush_all_state(flush_all_ts=0)
 print(is_done)  # True or False
 ```

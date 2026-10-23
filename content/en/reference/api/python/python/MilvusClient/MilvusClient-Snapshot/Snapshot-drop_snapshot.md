@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation permanently deletes a snapshot. Once dropped, the snapshot data cannot be recovered. | Python | MilvusClient"
@@ -37,30 +37,43 @@ This operation permanently deletes a snapshot. Once dropped, the snapshot data c
 
 ```python
 drop_snapshot(
-    snapshot_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> None
 ```
 
 **PARAMETERS:**
 
-- **snapshot_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the snapshot to drop.
+- **snapshot_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  An optional duration of time in seconds to allow for the RPC.
+    **[REQUIRED]**
+
+    The name of the snapshot to drop.
+
+- **collection_name** (*str*) -
+
+    **[REQUIRED]**
+
+    The name of the collection the snapshot belongs to.
+
+- **db_name** (*str*) -
+
+    The name of the database that holds the collection. If this parameter is left empty, the default database is used.
+
+- **timeout** (*Optional[float]*) -
+
+    An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 
 *None*
 
+**RETURNS:**
+
+None.
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    If the snapshot does not exist or the operation fails.
+    If the snapshot does not exist or the operation fails. If the snapshot does not exist or the operation fails.
 
 ## Examples\{#examples}
 
@@ -69,5 +82,8 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-client.drop_snapshot(snapshot_name="backup_20260401")
+client.drop_snapshot(
+    snapshot_name="backup_20260401",
+    collection_name="my_collection",
+)
 ```

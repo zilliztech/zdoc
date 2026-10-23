@@ -4,12 +4,12 @@ slug: /python/python/StructFieldSchema-to_dict
 sidebar_label: "to_dict()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation converts a StructFieldSchema object to a dictionary representation. | Python | MilvusClient"
 type: docx
-token: Mq7idUip3ofMQmxj55XcB98nn0b
+token: Q2ArdGwoDoZcAxxsVTRcqrudnvg
 sidebar_position: 4
 keywords: 
   - What is unstructured data
@@ -31,17 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-This operation converts a **[StructFieldSchema](./MilvusClient-StructFieldSchema)** object to a dictionary representation.
+This operation converts a **StructFieldSchema** object to a dictionary representation.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
 to_dict()
 ```
-
-**PARAMETERS:**
-
-None
 
 **RETURN TYPE:**
 
@@ -55,7 +51,7 @@ The dictionary representation of the collection schema.
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
@@ -83,5 +79,5 @@ schema = StructFieldSchema(
 
 # Call to_dict() to get a dictionary representation of the schema 
 
-schema_dict = schema.to_dict()  
+schema_dict = schema.to_dict()
 ```

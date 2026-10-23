@@ -27,40 +27,20 @@ displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # search()
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
-<Admonition type="info" title="Notes">
-
-This method applies only to dedicated serving clusters and on-demand compute. 
-
-- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
-
-    - **Free & Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
-
-</Admonition>
-
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 search(
     self,
     collection_name: str,
-    data: Union[List[list], list],
-    ids: Union[List[str], List[int]],
+    data: Optional[Union[List[list], list]] = None,
     filter: str = "",
     limit: int = 10,
     output_fields: Optional[List[str]] = None,
@@ -71,7 +51,7 @@ search(
     ranker: Optional[Union[Function, FunctionScore]] = None,
     function_chains: Optional[Union[FunctionChain, List[FunctionChain]]] = None,
     highlighter: Optional[Highlighter] = None,
-    order_by_fields: Optional[List[dict]] = None,
+    ids: Optional[Union[List[int], List[str], str, int]] = None,
     search_aggregation: Optional[SearchAggregation] = None,
     **kwargs,
 ) -> List[List[dict]]
@@ -89,19 +69,11 @@ search(
 
     **[REQUIRED]**
 
-    A list of vector embeddings.
-
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
-
-    This parameter is mutually exclusive with **ids**.
+    A list of vector embeddings. Milvus searches for the most similar vector embeddings to the specified ones. This parameter is mutually exclusive with ids.
 
 - **ids** (*Union[List[str], List[int]]*) -
 
-    A list of primary keys.
-
-    Zilliz Cloud searches for the most similar vector embeddings to those in the specified entities.
-
-    This parameter is mutually exclusive with **data**.
+    A list of primary keys. Milvus searches for the most similar vector embeddings to those in the specified entities. This parameter is mutually exclusive with data.
 
 - **anns_field** (*str*) -
 
@@ -109,220 +81,85 @@ search(
 
 - **filter** (*str*) -
 
-    A scalar filtering condition to filter matching entities. 
-
-    The value defaults to an empty string, indicating that no condition applies. 
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    A scalar filtering condition to filter matching entities. The value defaults to an empty string, indicating that no condition applies. You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to Boolean Expression Rules.
 
 - **filter_params** (*dict*) -
 
-    If you choose to use placeholders in `filter` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+    An option that if you choose to use placeholders in filter as stated in Filtering Templating, then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    The total number of entities to return. You can use this parameter in combination with offset in param to enable pagination. The sum of this value and offset in param should be less than 16,384. In a grouping search, however, limit specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified group_by_field. When search_aggregation is specified, do not explicitly set limit. Use the root SearchAggregation.size value to control the number of top-level buckets to return.
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
+- **output_fields** (*list[str]*) -
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
-
-    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
-
-    <Admonition type="info" title="Notes">
-
-    When `search_aggregation` is specified, do not explicitly set `limit`. Use the root `SearchAggregation.size` value to control the number of top-level buckets to return.
-
-    </Admonition>
-
-- **output_fields** (l*ist[str]*) -
-
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    A list of field names to include in each entity in return. The value defaults to None. If left unspecified, only the primary field is included.
 
 - **search_params** (*dict*) -
 
-    The parameter settings specific to this operation.
+    The parameter settings specific to this operation. radius (float): Determines the threshold of least similarity. When the collection's metric type is set to L2, ensure this value is greater than range_filter. Otherwise, this value should be lower than that of range_filter. range_filter (float): Refines the search to vectors within a specific similarity range. When the collection's metric type is set to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius. max_empty_result_buckets (int): This param is only used for range search for IVF-serial indexes, including BIN_IVF_FLAT, IVF_FLAT, IVF_SQ8, IVF_PQ, and SCANN. The value defaults to 1 and ranges from 1 to 65536. During range search, the search process terminates early if the number of buckets with no valid range search results reaches the specified value. Increasing this parameter improves range search recall. params (dict): Additional parameters. All additional parameters are moved to the upper search_params, and the params argument will be deprecated soon. radius (float): Determines the threshold of least similarity. When the collection's metric type is set to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter. range_filter (float): Refines the search to vectors within a specific similarity range. When the collection's metric type is set to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius. max_empty_result_buckets (int): This param is only used for range search for IVF-serial indexes, including BIN_IVF_FLAT, IVF_FLAT, IVF_SQ8, IVF_PQ, and SCANN. The value defaults to 1 and ranges from 1 to 65536. During range search, the search process terminates early if the number of buckets with no valid range search results reaches the specified value. Increasing this parameter improves range search recall. ignore_growing (str): This option, when set, instructs the search to exclude data from growing segments. Utilizing this setting can potentially enhance search performance by focusing only on indexed and fully processed data. For details on other applicable search parameters, refer to In-memory Index and On-disk Index.
 
-    - **radius** (float) -
+- **group_by_field** (*str*) -
 
-        Determines the threshold of least similarity. When the collection's metric type is set to L2, ensure this value is greater than **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+    An option that r o.
 
-    - **range_filter**  (float) -  
+- **group_size** (*int*) -
 
-        Refines the search to vectors within a specific similarity range. When the collection's metric type is set to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+    The target number of entities to return within each group in a grouping search. For example, setting group_size=2 instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting group_size, the system defaults to returning only 1 entity per group.
 
-    - **level** (*int*)
+- **strict_group_size** (*bool*) -
 
-        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
-
-        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
-
-    - **page_retain_order** (*bool*) -
-
-        Whether to retain the order of the search result when `offset` is provided. 
-
-        This parameter applies only when you also set `radius`.
-
-    - **params** (dict) -
-
-        Additional parameters.
-
-        <Admonition type="info" title="Notes">
-
-        All additional parameters are moved to the upper `search_params`, and the `params` argument will be deprecated soon.
-
-        </Admonition>
-
-        - **radius** (float) -
-
-            Determines the threshold of least similarity. When the collection's metric type is set to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
-
-        - **range_filter**  (float) -  
-
-            Refines the search to vectors within a specific similarity range. When the collection's metric type is set to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
-
-        - **level** (*int*)
-
-            Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
-
-            The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
-
-        - **page_retain_order** (*bool*) -
-
-            Whether to retain the order of the search result when `offset` is provided. 
-
-            This parameter applies only when you also set `radius`.
-
-    - **ignore_growing** (*str*) -
-
-        This option, when set, instructs the search to exclude data from growing segments. Utilizing this setting can potentially enhance search performance by focusing only on indexed and fully processed data.
-
-    For details on other applicable search parameters, refer to [In-memory Index](https://milvus.io/docs/index.md) and [On-disk Index](https://milvus.io/docs/disk_index.md).
-
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
-
-- **group_by_field** (*str*)
-
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
-
-    This parameter is used by Grouping Search. In PyMilvus 3.0.1 or later, do not use this parameter together with `search_aggregation`.
-
-- **group_size** (*int*)
-
-    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
-
-- **strict_group_size** (*bool*)
-
-    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `strict_group_size=True`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
+    An option that this Boolean parameter dictates whether group_size should be strictly enforced. When strict_group_size=True, the system will attempt to fill each group with exactly group_size results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified group_size.
 
 - **order_by_fields** (*list[dict] | None*) -
 
-    A list of order-by specifications for sorting search results by supported scalar fields.
+    A list of order-by specifications for sorting search results by supported scalar fields. Each dictionary in the list has the following keys: field (str): The name of the scalar field to sort by. order (str): The sort direction. Possible values are "asc" and "desc". If you omit this key, Milvus sorts the field in ascending order. Milvus applies multiple order-by fields in the order that you specify. For entities with the same values in all specified order-by fields, Milvus keeps the original similarity-score order. In a grouping search, Milvus orders groups by the specified scalar field value of each group's top entity. The limit parameter still controls the number of groups, and group_size controls the number of entities per group.
 
-    Each dictionary in the list has the following keys:
+- **timeout** (*float | None*) -
 
-    - **field** (*str*) -
-
-        The name of the scalar field to sort by.
-
-    - **order** (*str*) -
-
-        The sort direction. Possible values are `"asc"` and `"desc"`. If you omit this key, Milvus sorts the field in ascending order.
-
-    Zilliz Cloud applies multiple order-by fields in the order that you specify. For entities with the same values in all specified order-by fields, Zilliz Cloud keeps the original similarity-score order.
-
-    In a grouping search, Zilliz Cloud orders groups by the specified scalar field value of each group's top entity. The `limit` parameter still controls the number of groups, and `group_size` controls the number of entities per group.
-
-- **timeout** (*float* | *None*) -
-
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
+    A list of partition names. The value defaults to None. If specified, only the specified partitions are involved in queries. This parameter is not applicable to Milvus Lite. For more information on Milvus Lite limits, refer to Run Milvus Lite.
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+- **ranker** (*[Function](../Collections/Function/Function.md*) -
 
-- **function_chains** (*[FunctionChain](./MilvusClient-FunctionChain)* | *[List[FunctionChain]](./MilvusClient-FunctionChain)*) -
+    An option that  *|* FunctionScore&ast;) - The ranker to use for the search. For details, refer to Decay Ranker Overview and Model Ranker Overview.
 
-    One or more function chains to apply to this search.
+- **function_chains** (*FunctionChain | list[FunctionChain]*) -
 
-    Each *[FunctionChain](./MilvusClient-FunctionChain)* composes a named sequence of map and sort operations bound to one execution stage. For details, refer to the *[FunctionChain](./MilvusClient-FunctionChain)* page.
-
-- **ranker** (*[Function](./MilvusClient-Function)* | *[FunctionScore](./MilvusClient-FunctionScore)*) -
-
-    The ranker to use for the search.
-
-    For details, refer to [Decay Ranker Overview](/docs/decay-ranker-oveview) and .
-
-- **kwargs** -
-
-    The additional keyword arguments forwarded to the underlying search operation.
-
-    - **offset** (int) -
-
-        The number of records to skip in the search result. 
-
-        You can use this parameter in combination with `limit` to enable pagination.
-
-        The sum of this value and `limit` should be less than 16,384. 
-
-    - **round_decimal** (int) -
-
-        The number of decimal places that Zilliz Cloud rounds the calculated distances to.
-
-        The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
-
-    - **timezone** (*str*)
-
-        Temporarily override the collection or database default time zone for a single query by setting an [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). This controls how `TIMESTAMPTZ` values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings.
-
-        For more information, refer to [TIMESTAMPZ Field](/docs/use-timestamptz-field).
-
-    - **time_fields** (*str*)
-
-        Extract specific time components from a `TIMESTAMPTZ` field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: `year`, `month`, `day`, `hour`, `minute`, `second`, and `microsecond`.
-
-        For more information, refer to TIMESTAMPZ Field.
+    The function chain or function chains to apply to the search. This parameter is mutually exclusive with ranker.
 
 - **highlighter** (*Highlighter*) -
 
-    The highlighter to highlight matched terms in search operations. For details, refer to [Lexical Highlighter](/docs/text-highlighter).
+    The highlighter to highlight matched terms in search operations. For details, refer to Lexical Highlighter.
 
-- **search_aggregation** (*Optional[SearchAggregation]*) -Available in PyMilvus 3.0.1 or later. Defines a hierarchical bucket aggregation. Do not use this parameter together with `group_by_field`. When set, `limit` is ignored and the root `SearchAggregation.size` controls the number of top-level buckets.
+- **search_aggregation** (*Optional[SearchAggregation]*) -
+
+    An option that available in PyMilvus 3.0.1 or later. Defines a hierarchical bucket aggregation. Do not use this parameter together with group_by_field. When set, limit is ignored and the root SearchAggregation.size controls the number of top-level buckets.
+
+- **kwargs** (*Any*) -
+
+    An option that offset (int): The number of records to skip in the search result. You can use this parameter in combination with limit to enable pagination. The sum of this value and limit should be less than 16,384. round_decimal (int): The number of decimal places that Milvus rounds the calculated distances to. The value defaults to -1, indicating that Milvus skips rounding the calculated distances and returns the raw value. timezone (str): Temporarily override the collection or database default time zone for a single query by setting an IANA identifier (for example, Asia/Shanghai, America/Chicago, or UTC). This controls how TIMESTAMPTZ values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings. For more information, refer to TIMESTAMPZ Field. time_fields (str): Extract specific time components from a TIMESTAMPTZ field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: year, month, day, hour, minute, second, and microsecond. For more information, refer to TIMESTAMPZ Field.
 
 **RETURN TYPE:**
-
-- **id** (*string | int*) -
-
-    The primary key of the matched entity.
-
-- **distance** (*float*) -
-
-    The similarity distance between the query vector and this entity.
-
-- **entity** (*dict*) -
-
-    The output fields of this entity, as specified by output_fields.
 
 *list[dict]*
 
 **RETURNS:**
+
 A list of dictionaries that contains the searched entities with specified output fields.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation. This exception will be raised when any error occurs during this operation.
 
 ## Examples\{#examples}
 
-**Grouping Search**
-
-The following focused example omits client setup, collection creation, and data insertion. It assumes that `product_catalog` has a 5-dimensional vector field and a scalar field named `brand`.
+Grouping Search The following focused example omits client setup, collection creation, and data insertion. It assumes that product_catalog has a 5-dimensional vector field and a scalar field named brand.
 
 ```python
 res = client.search(
@@ -341,8 +178,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection
@@ -467,4 +304,24 @@ res = client.search(
 #   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
 ```
+
+<Admonition type="info" title="Notes">
+
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
