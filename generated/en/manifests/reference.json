@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6552e877ba316af0cb6e4b417cff1347e1036230",
+  "sourceCommit": "e49e287292cf16d8e8b8d575c144a2383d524d90",
   "records": [
     {
       "manual": "cli",
@@ -4630,7 +4630,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "sourceHash": "aada66bac768ead4c80aea37dbfb2bb34525a26d8e123e92e36bbaf08d4842d9"
+      "sourceHash": "ad52f7b38f9206692297054e7ecc7743a56ea7aeec2f1aba5a72f9e6bef20f87"
     },
     {
       "manual": "python",
@@ -4650,7 +4650,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md",
-      "sourceHash": "d54b5304970f7bfae3fef62d330bac26dc781e5d134c6f47f66cba73b50ae8dc"
+      "sourceHash": "5c789ad8f7dba7a83a87f3e48922803e876c0a914e5300af8898ac8b5c97e3f8"
     },
     {
       "manual": "python",
@@ -4665,7 +4665,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "15724980e5198805bf55ea90ef709e97c7454c1010d72d97422e593b993981ca"
+      "sourceHash": "0c67c1ef737d3198048f3bfa910a85dc0be98f47a42f735b3ae14fd51a4df673"
     },
     {
       "manual": "python",
