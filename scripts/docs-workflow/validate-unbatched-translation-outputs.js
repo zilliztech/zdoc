@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict')
 const crypto = require('node:crypto')
+const {spawnSync} = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 
@@ -183,6 +184,21 @@ function assertReferenceSourceCommitMatchesBaseline(workspace, baseline) {
   }
 }
 
+// The plan's target baseline is the queue-owned target branch tip, while the
+// baseline's Reference source manifest binds the (usually earlier) fetch
+// commit its source tree describes — sync merges and other groups' fetches
+// legitimately separate the two. The replay is bound to the actual checkout
+// the plan was authenticated against, mirroring apply-reconciliation-plan's
+// own baseline checkout identity check.
+function targetBaselineCheckoutCommit(baseline) {
+  const resolved = spawnSync('git', ['-C', baseline, 'rev-parse', 'HEAD^{commit}'], {encoding: 'utf8'})
+  const head = resolved.status === 0 ? resolved.stdout.trim() : ''
+  if (!/^[0-9a-f]{40}$/u.test(head)) {
+    fail(`target baseline checkout identity is unavailable: ${String(resolved.stderr || '').trim()}`)
+  }
+  return head
+}
+
 // An applied reconciliation plan mutates the target tree (delete_target
 // removals) and then regenerates the whole Reference translation state from
 // the workspace trees, the retirement registry, and the authenticated
@@ -208,8 +224,8 @@ function referenceStateAfterAppliedReconciliation({workspace, baseline, manifest
   if (validatedPlan.sourceCheckpointSha !== manifest.sourceCheckpointSha) {
     fail('applied reconciliation plan checkpoint does not match the translation manifest')
   }
-  if (validatedPlan.targetBaselineSha !== baselineSourceManifest.sourceCommit) {
-    fail('applied reconciliation plan baseline does not match the target baseline source manifest')
+  if (validatedPlan.targetBaselineSha !== targetBaselineCheckoutCommit(baseline)) {
+    fail('applied reconciliation plan baseline does not match the target baseline checkout')
   }
   for (const operation of validatedResult.operations) {
     for (const removedPath of operation.removedPaths) {
