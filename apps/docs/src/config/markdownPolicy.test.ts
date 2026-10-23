@@ -1,8 +1,10 @@
+import {createRequire} from 'node:module';
 import {describe, expect, it} from 'vitest';
 import {compile} from '@mdx-js/mdx';
 import {
   rehypeEmojiMarks,
   rehypeWrapTables,
+  remarkDedupeHeadingAnchors,
   remarkMathFix,
   remarkRewriteDocLinks,
   remarkStripHeadingZeroWidthChars,
@@ -82,11 +84,13 @@ $$`;
 });
 
 describe('heading zero-width normalization policy', () => {
-  it('registers the strip plugin as a before-default remark plugin on both sites', () => {
+  it('registers the zero-width strip ahead of anchor dedup as before-default plugins on both sites', () => {
     for (const site of ['en', 'zh-CN'] as const) {
       const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, site);
-      expect(policy.beforeDefaultRemarkPlugins).toHaveLength(1);
-      expect(typeof policy.beforeDefaultRemarkPlugins[0]).toBe('function');
+      expect(policy.beforeDefaultRemarkPlugins).toEqual([
+        remarkStripHeadingZeroWidthChars,
+        remarkDedupeHeadingAnchors,
+      ]);
     }
   });
 
@@ -125,6 +129,194 @@ describe('heading zero-width normalization policy', () => {
 
     const cleaned = tree.children[0].value;
     expect(docusaurusExplicitAnchor.exec(cleaned)?.groups?.id).toBe('json-index-syntax');
+  });
+});
+
+describe('heading anchor deduplication policy', () => {
+  type TestNode = {type?: string; value?: string; children?: TestNode[]};
+  const heading = (value: string | undefined, children?: TestNode[]) => ({
+    type: 'heading',
+    depth: 3,
+    children: children ?? [{type: 'text', value}],
+  });
+  const textOf = (node: TestNode): string =>
+    typeof node.value === 'string' ? node.value : (node.children ?? []).map(textOf).join('');
+  const values = (tree: {children: TestNode[]}) => tree.children.map(textOf);
+
+  it('suffixes duplicate anchors with the slugger convention and keeps the first bare', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        heading('Via RESTful API{#via-restful-api}'),
+        heading('Via web console{#via-web-console}'),
+        heading('Via RESTful API{#via-restful-api}'),
+        heading('Via RESTful API{#via-restful-api}'),
+      ],
+    };
+    remarkDedupeHeadingAnchors()(tree);
+
+    expect(values(tree)).toEqual([
+      'Via RESTful API{#via-restful-api}',
+      'Via web console{#via-web-console}',
+      'Via RESTful API{#via-restful-api-1}',
+      'Via RESTful API{#via-restful-api-2}',
+    ]);
+  });
+
+  it('leaves unique anchors and non-anchor headings byte-identical', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        heading('Overview{#overview}'),
+        heading('Use `{age}` as a placeholder'),
+        heading('Mid-text {#not-an-anchor} mention'),
+        heading('Unterminated brace {#open'),
+      ],
+    };
+    const before = JSON.stringify(tree);
+    remarkDedupeHeadingAnchors()(tree);
+
+    expect(JSON.stringify(tree)).toBe(before);
+  });
+
+  it('never lands a suffix on an explicitly authored suffixed id, in either order', () => {
+    const explicitLast = {
+      type: 'root',
+      children: [heading('A{#a}'), heading('A{#a}'), heading('B{#a-1}')],
+    };
+    const explicitFirst = {
+      type: 'root',
+      children: [heading('B{#a-1}'), heading('A{#a}'), heading('A{#a}')],
+    };
+    remarkDedupeHeadingAnchors()(explicitLast);
+    remarkDedupeHeadingAnchors()(explicitFirst);
+
+    expect(values(explicitLast)).toEqual(['A{#a}', 'A{#a-2}', 'B{#a-1}']);
+    expect(values(explicitFirst)).toEqual(['B{#a-1}', 'A{#a}', 'A{#a-2}']);
+  });
+
+  it('dedupes headings whose anchor follows inline nodes and trims ids like Docusaurus', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        heading(undefined, [
+          {type: 'emphasis', children: [{type: 'text', value: 'Filtered'}]},
+          {type: 'text', value: ' search{# filtered }'},
+        ]),
+        heading(undefined, [
+          {type: 'inlineCode', value: 'filtered_search'},
+          {type: 'text', value: '{#filtered}'},
+        ]),
+      ],
+    };
+    remarkDedupeHeadingAnchors()(tree);
+
+    // The first occurrence keeps its token verbatim (spaces included); its id
+    // is what Docusaurus trims out of it, so the second still suffixes.
+    expect(values(tree)).toEqual([
+      'Filtered search{# filtered }',
+      'filtered_search{#filtered-1}',
+    ]);
+  });
+
+  it('keeps per-file state per tree even when the same transformer is reused', () => {
+    const page = () => ({
+      type: 'root',
+      children: [heading('Same{#same}'), heading('Same{#same}')],
+    });
+    const dedupe = remarkDedupeHeadingAnchors();
+    const first = page();
+    const second = page();
+    dedupe(first);
+    dedupe(second);
+
+    expect(values(first)).toEqual(['Same{#same}', 'Same{#same-1}']);
+    expect(values(second)).toEqual(['Same{#same}', 'Same{#same-1}']);
+  });
+
+  it('neither counts nor rewrites anchors that do not sit in a trailing text node', () => {
+    // Docusaurus still consumes these shapes, so the wrapped copy keeps the bare
+    // id; the plugin stays out of nested nodes rather than risk display text.
+    const tree = {
+      type: 'root',
+      children: [
+        heading('Plain tail{#c}'),
+        heading(undefined, [{type: 'strong', children: [{type: 'text', value: 'Entirely bold {#c}'}]}]),
+        heading('Plain2 tail{#c}'),
+        heading(undefined, [{type: 'text', value: 'Code tail '}, {type: 'inlineCode', value: 'probe{#d}'}]),
+        heading(undefined, [{type: 'text', value: 'Code tail '}, {type: 'inlineCode', value: 'probe{#d}'}]),
+      ],
+    };
+    const untouched = () => JSON.stringify([tree.children[1], tree.children[3], tree.children[4]]);
+    const before = untouched();
+    remarkDedupeHeadingAnchors()(tree);
+
+    expect(values(tree)).toEqual([
+      'Plain tail{#c}',
+      'Entirely bold {#c}',
+      'Plain2 tail{#c-1}',
+      'Code tail probe{#d}',
+      'Code tail probe{#d}',
+    ]);
+    expect(untouched()).toBe(before);
+  });
+
+  it('rewrites only the token Docusaurus consumes when an unbalanced {# precedes it', () => {
+    const tree = {
+      type: 'root',
+      children: [heading('A{#p{#id}'), heading('A{#p{#id}')],
+    };
+    remarkDedupeHeadingAnchors()(tree);
+
+    expect(values(tree)).toEqual(['A{#p{#id}', 'A{#p{#id-1}']);
+  });
+
+  it('yields distinct ids from the real Docusaurus headings plugin, which collide without it', async () => {
+    // The headings plugin is a transitive dependency; resolve it through the
+    // docs plugin that ships it so the test runs what the site build runs.
+    const docsPluginRequire = createRequire(createRequire(import.meta.url).resolve('@docusaurus/plugin-content-docs'));
+    const docusaurusHeadings = docsPluginRequire('@docusaurus/mdx-loader/lib/remark/headings').default;
+    const source = [
+      '### Via RESTful API\\{#via-restful-api}',
+      '',
+      '### Via web console\\{#via-web-console}',
+      '',
+      '### Via RESTful API\\{#via-restful-api}',
+      '',
+      '### Via RESTful API\\{#via-restful-api}',
+    ].join('\n');
+    const idsOf = (compiled: string) => Array.from(compiled.matchAll(/\bid:\s*"([^"]+)"/g), match => match[1]);
+    const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, 'en');
+
+    const fixed = String(await compile(source, {
+      remarkPlugins: [...policy.beforeDefaultRemarkPlugins, [docusaurusHeadings, {anchorsMaintainCase: false}]],
+    }));
+    const control = String(await compile(source, {
+      remarkPlugins: [[docusaurusHeadings, {anchorsMaintainCase: false}]],
+    }));
+
+    expect(idsOf(fixed)).toEqual(['via-restful-api', 'via-web-console', 'via-restful-api-1', 'via-restful-api-2']);
+    expect(fixed).not.toContain('{#');
+    expect(idsOf(control)).toEqual(['via-restful-api', 'via-web-console', 'via-restful-api', 'via-restful-api']);
+  });
+
+  it('compiles escaped writer output so every duplicate anchor carries its own id', async () => {
+    const source = [
+      '### Via RESTful API\\{#via-restful-api}',
+      '',
+      '### Via web console\\{#via-web-console}',
+      '',
+      '### Via RESTful API\\{#via-restful-api}',
+    ].join('\n');
+    const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, 'en');
+
+    const compiled = String(await compile(source, {
+      remarkPlugins: policy.beforeDefaultRemarkPlugins,
+    }));
+
+    expect(compiled.match(/\{#via-restful-api\}/g)).toHaveLength(1);
+    expect(compiled).toContain('{#via-restful-api-1}');
+    expect(compiled).toContain('{#via-web-console}');
   });
 });
 

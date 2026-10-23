@@ -188,6 +188,87 @@ export function remarkStripHeadingZeroWidthChars() {
   };
 }
 
+// Explicit heading anchors ({#id}) bypass Docusaurus's slugger: they are
+// consumed verbatim, unlike implicit slugs. Wiki sources that repeat a section
+// heading inside one page ("Via RESTful API") therefore mint identical
+// anchors — every copy shares one DOM id and in-page navigation can only ever
+// reach the first (observed on manage-on-demand-clusters, four id="via-restful
+// -api" headings). Rewrite the 2nd+ occurrence of each anchor with the
+// slugger's -1/-2… suffix convention; the first keeps the bare id, so existing
+// #anchor links keep landing on it, and unique anchors are never touched.
+// Reserved suffix-shaped ids ({#x-1} authored by hand) never receive a
+// colliding suffix. Runs in beforeDefaultRemarkPlugins, after the zero-width
+// strip and ahead of the built-in headings/TOC plugins, which then consume the
+// rewritten anchors as ordinary explicit ids.
+const HEADING_ANCHOR_PATTERN = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
+// The token alone, so a rewrite replaces exactly what Docusaurus consumes even
+// when an unbalanced `{#` precedes it in the same text node.
+const HEADING_ANCHOR_TOKEN = /\{#(?:.(?!\{#|\}))*.\}$/;
+
+// Mirrors mdast-util-to-string over the nodes Docusaurus concatenates, minus
+// image alt text; a trailing image fails the text-node gate below either way.
+function headingTextOf(node: AstNode): string {
+  if (typeof node.value === 'string') return node.value;
+  return (node.children ?? []).map(headingTextOf).join('');
+}
+
+// Mirrors @docusaurus/mdx-loader's extraction: html/jsx children are excluded
+// from the heading text, and the anchor only counts when it closes that text.
+// Returns the trailing text node carrying the token so the rewrite stays
+// inside it. Anchors Docusaurus consumes from elsewhere — a token wrapped in
+// emphasis, carried by trailing inline code, or written as an MDX/HTML comment
+// — are deliberately neither counted nor rewritten: touching those nodes is
+// where display text could be damaged, so such shapes may still share an id.
+function headingAnchor(node: AstNode): {node: AstNode; id: string} | undefined {
+  const textChildren = (node.children ?? []).filter(
+    child => child.type !== 'html' && child.type !== 'jsx',
+  );
+  const id = HEADING_ANCHOR_PATTERN.exec(textChildren.map(headingTextOf).join(''))
+    ?.groups?.id.trim();
+  if (!id) return undefined;
+  const last = textChildren[textChildren.length - 1];
+  if (last?.type !== 'text' || typeof last.value !== 'string') return undefined;
+  if (HEADING_ANCHOR_PATTERN.exec(last.value)?.groups?.id.trim() !== id) return undefined;
+  return {node: last, id};
+}
+
+export function remarkDedupeHeadingAnchors() {
+  return (tree: AstNode): void => {
+    // All state is per tree: mdx-loader compiles each file independently, and
+    // anchors are page-scoped.
+    const anchors: Array<{node: AstNode; id: string}> = [];
+    visit(tree as never, 'heading', (node: AstNode) => {
+      const anchor = headingAnchor(node);
+      if (anchor) anchors.push(anchor);
+    });
+    const counts = new Map<string, number>();
+    const reserved = new Set<string>();
+    for (const anchor of anchors) {
+      counts.set(anchor.id, (counts.get(anchor.id) ?? 0) + 1);
+      reserved.add(anchor.id);
+    }
+    const ordinal = new Map<string, number>();
+    const assigned = new Set<string>();
+    for (const anchor of anchors) {
+      const base = anchor.id;
+      const occurrence = (ordinal.get(base) ?? 0) + 1;
+      ordinal.set(base, occurrence);
+      let final = base;
+      if (counts.get(base)! > 1 && occurrence > 1) {
+        let suffix = 1;
+        while (reserved.has(`${base}-${suffix}`) || assigned.has(`${base}-${suffix}`)) {
+          suffix += 1;
+        }
+        final = `${base}-${suffix}`;
+        assigned.add(final);
+      }
+      if (final !== base) {
+        anchor.node.value = (anchor.node.value as string).replace(HEADING_ANCHOR_TOKEN, `{#${final}}`);
+      }
+    }
+  };
+}
+
 const remarkPolicies = {
   math: remarkMath,
   'math-brace-fix': remarkMathFix,
@@ -212,7 +293,7 @@ export function resolveMarkdownPolicy(markdown: DeepReadonly<MarkdownProfile>, s
     return plugin;
   });
   return {
-    beforeDefaultRemarkPlugins: [remarkStripHeadingZeroWidthChars],
+    beforeDefaultRemarkPlugins: [remarkStripHeadingZeroWidthChars, remarkDedupeHeadingAnchors],
     remarkPlugins,
     rehypePlugins,
     stylesheets: markdown.rehypePlugins.includes('katex')
