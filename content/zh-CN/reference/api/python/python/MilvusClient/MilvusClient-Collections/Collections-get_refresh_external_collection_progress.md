@@ -4,13 +4,13 @@ slug: /python/python/Collections-get_refresh_external_collection_progress
 sidebar_label: "get_refresh_external_collection_progress()"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回指定外部 Collection 刷新作业的进度。 | Python | MilvusClient"
 type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
-sidebar_position: 27
+sidebar_position: 28
 keywords: 
   - 推荐系统
   - 信息检索
@@ -45,25 +45,19 @@ import Admonition from '@theme/Admonition';
 
 ```python
 def get_refresh_external_collection_progress(
-    job_id: int,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> RefreshExternalCollectionJobInfo:
 ```
 
 **参数：**
 
-- **job_id** (*int*) -
+- **job_id** （*int*） -
 
     **[必需]**
 
-    由 `refresh_external_collection()` 返回的作业 ID。
+    由 refresh_external_collection() 返回的作业 ID。
 
-- **timeout** (*float*) - 
+- **timeout** （*float*） -
 
-    此操作的超时时长。 
-
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -71,19 +65,19 @@ def get_refresh_external_collection_progress(
 
 **返回：**
 
-一个 **RefreshExternalCollectionJobInfo** 对象，用于记录指定外部 Collection 刷新作业的详细信息。
+一个 RefreshExternalCollectionJobInfo 对象，用于记录指定外部 Collection 刷新作业的详细信息。
 
 **参数：**
 
-- **job_id** (*int*) -
+- **job_id** （*int*） -
 
     当前请求中指定的作业 ID。
 
-- **collection_name** (*string*) -
+- **collection_name** （*string*） -
 
     在 `refresh_external_collection()` 中指定的外部 Collection 名称。
 
-- **state** (*string*) -
+- **state** （*string*） -
 
     指定作业的当前状态。可能的值包括：
 
@@ -95,31 +89,61 @@ def get_refresh_external_collection_progress(
 
     - RefreshCompleted
 
-- **progress** (*int*) -
+- **progress** （*int*） -
 
-    指定作业的当前进度。该值是一个范围为 0 到 100 的整数。
+    指定作业的当前进度。该值是一个 0 到 100 之间的整数。
 
-- **external_source** (*str*) -
+- **external_source** （*str*） -
 
     在 `refresh_external_collection()` 中指定的外部源 URI。
 
-- **external_specs** (*str*) -
+- **external_specs** （*str*） -
 
     在 `refresh_external_collection()` 中指定的外部规格。
 
-- **reason** (*str*) -
+- **reason** （*str*） -
 
     如果刷新操作失败，则为错误提示。正常情况下为空字符串。
 
-- **start_time** (*int*) -
+- **start_time** （*int*） -
 
     指定作业开始时的毫秒级时间戳。
 
-- **end_time** (*int*) -  
+- **end_time** （*int*） -  
 
     指定作业结束时的毫秒级时间戳。
 
-## 示例\{#example}
+## 示例\{#examples}
+
+```python
+import time
+
+from pymilvus import MilvusClient
+
+# 1. Set up a milvus client
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+job_id = client.refresh_external_collection(
+    collection_name="test_collection"
+)
+
+while True:
+    progress = client.get_refresh_external_collection_progress(job_id=job_id)
+    print(f"  {progress.state}: {progress.progress}%")
+
+    if progress.state == "RefreshCompleted":
+        elapsed = progress.end_time - progress.start_time
+        print(f"  Completed in {elapsed}ms")
+        break
+    elif progress.state == "RefreshFailed":
+        print(f"  Failed: {progress.reason}")
+        break
+
+    time.sleep(2)
+```
 
 ```python
 from pymilvus import MilvusClient
@@ -148,4 +172,3 @@ while True:
 
     time.sleep(2)
 ```
-

@@ -4,12 +4,12 @@ slug: /python/python/Vector-search_iterator
 sidebar_label: "search_iterator()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。 | Python | MilvusClient"
+description: "此操作以迭代方式执行向量相似性搜索，并可使用可选的标量过滤表达式。 | Python | MilvusClient"
 type: docx
-token: T9KhdDJQColJEuxZ7YOcV2zdnlb
+token: Z8WId53zDonHYuxckCDccOEcnjb
 sidebar_position: 7
 keywords: 
   - 向量 Database 如何工作
@@ -31,13 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。
-
-<Admonition type="info" title="Notes">
-
-外部 Collection 不支持此操作。
-
-</Admonition>
+此操作以迭代方式执行向量相似性搜索，并可使用可选的标量过滤表达式。
 
 ## 请求语法\{#request-syntax}
 
@@ -54,7 +48,9 @@ search_iterator(
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
-    round_decimal: int = -1
+    round_decimal: int = -1,
+    *,
+    external_filter_func: Optional[Callable[[Hits], Union[Hits, List[Hit]]]] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
@@ -71,128 +67,69 @@ search_iterator(
 
     **[必需]**
 
-    向量嵌入列表。
-
-    Zilliz Cloud 会搜索与指定的向量嵌入最相似的结果。
+    向量嵌入列表。Milvus 会搜索与指定向量嵌入最相似的向量嵌入。
 
 - **batch_size** (*int*) -
 
-    每次迭代返回的 Entity 数量。默认值为 1000。
-
-- **anns_field** (*str*) -
-
-    当前搜索的目标向量字段名称。
+    每次迭代返回的 Entity 数量。该值默认为 1000。
 
 - **filter** (*str*) -
 
-    用于过滤匹配 Entity 的标量过滤条件。
-
-    该值默认为空字符串，表示不应用任何条件。
-
-    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅 [过滤概述](/docs/filtering-overview)。
+    用于筛选匹配 Entity 的标量过滤条件。该值默认为空字符串，表示不应用任何条件。您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见布尔表达式规则。
 
 - **limit** (*int*) -
 
-    要返回的 Entity 总数。
+    要返回的 Entity 总数。此操作不支持 offset 参数。
 
-    您可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
+- **output_fields** (*list[str]*) -
 
-    该值与 **param** 中 **offset** 的总和应小于 16,384。
-
-- **output_fields** (l*ist[str]*) -
-
-    返回的每个 Entity 中要包含的字段名称列表。
-
-    该值默认为 **None**。如果未指定，则仅包含主字段。
+    返回的每个 Entity 中要包含的字段名称列表。该值默认为 None。如果未指定，则仅包含主字段。
 
 - **search_params** (*dict*) -
 
-    此操作专用的参数设置。
+    此操作专用的参数设置。params (dict)：附加参数 radius (float)：确定最低相似度阈值。当 Collection 的度量类型设置为 L2 时，请确保此值大于 range_filter 的值。否则，此值应小于 range_filter 的值。range_filter (float)：将搜索细化为特定相似度范围内的向量。当 Collection 的度量类型为 IP 或 COSINE 时，请确保此值大于 radius 的值。否则，此值应小于 radius 的值。max_empty_result_buckets (int)：此参数仅用于 IVF 系列索引的范围搜索，包括 BIN_IVF_FLAT、IVF_FLAT、IVF_SQ8、IVF_PQ 和 SCANN。该值默认为 1，范围为 1 到 65536。在范围搜索期间，如果无有效范围搜索结果的桶数量达到指定值，搜索过程会提前终止。增大此参数可提高范围搜索召回率。ignore_growing (str)：设置此选项后，搜索将排除 growing Segment 中的数据。利用此设置仅关注已索引且已完全处理的数据，可能有助于提升搜索性能。有关其他适用搜索参数的详细信息，请参见 In-memory Index 和 On-disk Index。
 
-    - **params** (dict) -
+- **group_by_field** (*str*) -
 
-        附加参数
+    一个 r o 选项。
 
-        - **radius** (float) -
+- **timeout** (*float | None*) -
 
-            确定最低相似度阈值。当 Collection 的度量类型设置为 `L2` 时，请确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。
-
-        - **range_filter**  (float) -  
-
-            将搜索范围细化为特定相似度区间内的向量。当 Collection 的度量类型为 `IP` 或 `COSINE` 时，请确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
-
-        - **level** (*int*)
-
-            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您去处理一大堆针对各种索引算法的搜索参数。
-
-            该值默认为 **1**，取值范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。有关详情，请参阅 [召回调优](/docs/tune-recall-rate)。
-
-        - **page_retain_order** (*bool*) -
-
-            当提供 `offset` 时，是否保留搜索结果的顺序。
-
-            此参数仅在您同时设置 `radius` 时适用。
-
-    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained) 以了解更多。
-
-- **group_by_field** (*str*)
-
-    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同一组中的多个结果。
-
-- **timeout** (*float* | *None*) -
-
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将此参数设置为 None 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 - **partition_names** (*list*) -
 
-    Partition 名称列表。
-
-    该值默认为 **None**。如果已指定，则仅指定的 Partition 会参与查询。
+    Partition 名称列表。该值默认为 None。如果已指定，则只有指定的 Partition 会参与查询。此参数不适用于 Milvus Lite。有关 Milvus Lite 限制的更多信息，请参见 Run Milvus Lite。
 
 - **anns_field** (*string*) -
 
-    目标向量字段的名称。如果目标 Collection 中只有一个向量字段，则此参数可选。
+    目标向量字段的名称。如果目标 Collection 中只有一个向量字段，则此参数为可选参数。
 
 - **round_decimal** (*int*) -
 
     距离值的小数位数。默认值为 -1，表示不进行舍入。
 
-- **kwargs** -
+- **external_filter_func** (*Callable*) -
 
-    - **offset** (int) -
+    用于筛选每一页搜索命中的客户端回调。该回调接收一页的 Hits 对象，并返回筛选后的 Hits 对象或 Hit 对象列表。此参数仅限关键字参数，并且受 Search Iterator V2 支持。
 
-        搜索结果中要跳过的记录数。
+- **kwargs** (*Any*) -
 
-        您可以将此参数与 `limit` 结合使用，以启用分页。
-
-        该值与 `limit` 的总和应小于 16,384。
-
-    - **round_decimal** (int) -
-
-        Zilliz Cloud 对计算出的距离值进行舍入时保留的小数位数。
-
-        该值默认为 **-1**，表示 Zilliz Cloud 会跳过对计算距离的舍入并返回原始值。
+    要传递给搜索操作的其他参数。
 
 **返回类型：**
 
 *SearchIterator*
 
-**返回值：**
-一个 **SearchIterator** 实例，提供以下方法：
+**返回：**
 
-- `next()`
-
-    此方法以迭代方式返回一批 Entity。每次调用时，都会返回一组新的 Entity，直到检索到最后一个 Entity。
-
-- `close()`
-
-    此方法会关闭当前 **SearchIterator** 实例。
+一个 SearchIterator 实例，提供以下方法： - next() 此方法以迭代方式返回一批 Entity。每次调用时，都会返回一组新的 Entity，直到检索到最后一个 Entity。 - close() 此方法关闭当前 SearchIterator 实例。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -201,8 +138,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection
@@ -232,11 +169,10 @@ client.insert(
 
 # 4. Conduct a search
 search_params = {
-    "metric_type": "IP",
     "params": {}
 }
 
-# Search with search iterator
+# Search with output fields
 iterator = client.search_iterator(
     collection_name="test_collection",
     data=[[0.05, 0.23, 0.07, 0.45, 0.13]],
@@ -257,3 +193,8 @@ while True:
         results.append(hit.to_dict())
 ```
 
+<Admonition type="info" title="Notes">
+
+外部 Collection 不支持此操作。
+
+</Admonition>

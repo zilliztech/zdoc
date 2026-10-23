@@ -4,20 +4,20 @@ slug: /python/python/Collections-drop_collection_field
 sidebar_label: "drop_collection_field()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过字段名称或字段 ID 从现有 Collection Schema 中移除一个字段。 | Python | MilvusClient"
+description: "此操作会按字段名称或字段 ID 从现有 Collection Schema 中移除字段。 | Python | MilvusClient"
 type: docx
 token: SpmqdHRBjoRKQuxTibQcx0zMnnb
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
-  - 大型语言模型
+  - 大语言模型
   - 向量化
   - k 近邻算法
   - ANNS
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - drop_collection_field()
   - pymilvus30
@@ -31,40 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection_field()
 
-此操作通过字段名称或字段 ID 从现有 Collection Schema 中移除一个字段。
+此操作会按字段名称或字段 ID 从现有 Collection Schema 中移除字段。
 
 ## 请求语法\{#request-syntax}
 
 ```python
 drop_collection_field(
-    self,
-    collection_name: str,
-    field_name: str = "",
-    field_id: int = 0,
-    timeout: Optional[float] = None,
-    **kwargs,
-)
 ```
 
 **参数：**
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     目标 Collection 的名称。
 
-- **field_name** (*str*) -
+- **field_name** （*str*） -
 
-    要移除的字段名称。当您通过名称标识字段时，请提供此参数。
+    要移除的字段名称。按字段名称标识字段时，请提供此参数。
 
-- **field_id** (*int*) -
+- **field_id** （*int*） -
 
-    要移除的字段 ID。当您的工作流通过字段 ID 跟踪 Schema 时，请使用此参数。
+    要移除的字段 ID。如果工作流按字段 ID 跟踪 Schema，请使用此参数。
 
-- **timeout** (*Optional[float]*) -
+- **timeout** （*Optional[float]*） -
 
     此操作的超时时间，单位为秒。
 
-- **kwargs** (*dict*) -
+- **kwargs** （*dict*） -
 
     传递给底层 RPC 的其他请求选项。
 
@@ -72,20 +65,25 @@ drop_collection_field(
 
 *NoneType*
 
+**返回：**
+
 此操作不返回数据。
 
 **异常：**
 
 - **MilvusException**
 
-    当 Collection 不存在、字段无法解析或请求失败时引发。
+    当 Collection 不存在、无法解析字段或请求失败时抛出。当 Collection 不存在、无法解析字段或请求失败时抛出。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 client.drop_collection_field(
     collection_name="products",

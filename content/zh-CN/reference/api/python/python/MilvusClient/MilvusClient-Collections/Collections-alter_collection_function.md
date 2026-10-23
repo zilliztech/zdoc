@@ -4,20 +4,20 @@ slug: /python/python/Collections-alter_collection_function
 sidebar_label: "alter_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来更改该函数。 | Python | MilvusClient"
+description: "此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来修改该函数。 | Python | MilvusClient"
 type: docx
-token: N9d9df9IIojLZDxft1HcU0mkn0b
+token: TBe0dMVZlogHEdxUs97cHDownUd
 sidebar_position: 22
 keywords: 
   - 向量 Database 示例
   - RAG 向量 Database
-  - 什么是向量数据库
   - 什么是向量 Database
-  - zilliz
-  - zilliz cloud
+  - 什么是向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - alter_collection_function()
   - pymilvus30
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_function()
 
-此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来更改该函数。
+此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来修改该函数。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
 
-这不适用于外部 Collection。
+此操作不适用于外部 Collection。
 
 </Admonition>
 
@@ -53,29 +53,29 @@ client.alter_collection_function(
 
 **参数：**
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     **[必需]**
 
     Collection 的名称。
 
-- **function_name** (*str*) -
+- **function_name** （*str*） -
 
     **[必需]**
 
-    要修改的函数名称。
+    要修改的函数的名称。
 
-- **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
+- **function** (*[Function](Function/Function.md*) -
 
     **[必需]**
 
-    用于替换现有函数的新函数 Schema。
+    一个选项，即 &ast;） - 用于替换现有函数的新函数 Schema。
 
-- **timeout** (*float* | *None*) -
+- **timeout** （*float | None*） -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时间。将其设置为 None 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-- **kwargs** (*dict*) -
+- **kwargs** （*dict*） -
 
     可选的附加参数。
 
@@ -83,13 +83,17 @@ client.alter_collection_function(
 
 *NoneType*
 
+**返回：**
+
+None。
+
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。此操作期间发生任何错误时，将引发此异常。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

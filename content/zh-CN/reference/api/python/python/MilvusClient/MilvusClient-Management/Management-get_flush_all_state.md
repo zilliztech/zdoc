@@ -4,12 +4,12 @@ slug: /python/python/Management-get_flush_all_state
 sidebar_label: "get_flush_all_state()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回 flush-all 操作是否已完成。调用 `flushall()` 后，可使用此操作检查 flush 状态。 | Python | MilvusClient"
 type: docx
-token: G31wdmzVFo687JxZTAGctQlKnir
+token: Y1ZHdwi2wotA3wxwZGsc0Nsnnvc
 sidebar_position: 20
 keywords: 
   - AI 聊天机器人
@@ -43,15 +43,22 @@ import Admonition from '@theme/Admonition';
 
 ```python
 client.get_flush_all_state(
+    flush_all_ts: int,
     timeout: float = None
 ) -> bool
 ```
 
 **参数：**
 
-- **timeout** (*float* | *None*) -
+- **flush_all_ts** (*int*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    **[必需]**
+
+    flush-all 操作返回的时间戳，用于标识目标 flush-all 轮次。
+
+- **timeout** (*float | None*) -
+
+    此操作的超时时长。将其设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
@@ -59,15 +66,13 @@ client.get_flush_all_state(
 
 **返回：**
 
-如果 flush-all 操作已完成，则为 **True**；否则为 **False**。
-
 **异常：**
 
 - **MilvusException**
 
-    此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。此操作期间发生任何错误时，将引发此异常。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -80,6 +85,6 @@ client = MilvusClient(
 client.flush_all()
 
 # Check if flush completed
-is_done = client.get_flush_all_state()
+is_done = client.get_flush_all_state(flush_all_ts=0)
 print(is_done)  # True or False
 ```

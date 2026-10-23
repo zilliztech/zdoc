@@ -7,9 +7,9 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作触发手动 Compaction，合并 Collection 中的小 Segment，并返回 Compaction 作业 ID。 | Python | MilvusClient"
+description: "此操作会启动一个 Compaction 作业，用于合并 Collection 中的小 Segment，以改善存储布局和查询效率。 | Python | MilvusClient"
 type: docx
-token: ZANCdUPeBoCis1xylRUcR90Pndb
+token: CQawdFCJcodv5lx91kBck7rLnwh
 sidebar_position: 2
 keywords: 
   - hybrid search
@@ -31,50 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-此操作触发手动 Compaction，合并 Collection 中的小 Segment，并返回 Compaction 作业 ID。
+此操作会启动一个 Compaction 作业，用于合并 Collection 中的小 Segment，以改善存储布局和查询效率。
 
 ## 请求语法\{#request-syntax}
 
 ```python
 compact(
-    collection_name: str,
-    is_clustering: Optional[bool] = False,
-    is_l0: Optional[bool] = False,
-    target_size: Optional[int] = None,
-    target_size_unit: str = "mb",
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> int
 ```
 
 **参数：**
 
-- **collection_name** (*str*) -<br/>
-  **[必填]**<br/>
-  需要执行 Compaction 的 Collection 名称。
+- **collection_name** (*str*) -
 
-- **is_clustering** (*Optional[bool]*) -<br/>
-  默认值：`False`<br/>
-  用于指定是否执行聚类 Compaction 的标志。
+    **[必需]**
 
-- **is_l0** (*Optional[bool]*) -<br/>
-  默认值：`False`<br/>
-  用于指定是否执行 Level-0 Compaction 的标志。
+    目标 Collection 的名称。
 
-- **target_size** (*Optional[int]*) -<br/>
-  默认值：`None`<br/>
-  Compaction 后的目标 Segment 大小。该值必须为正整数；若省略，则使用服务器默认值。
+- **is_clustering** (*bool*) -
 
-- **target_size_unit** (*str*) -<br/>
-  默认值：`"mb"`<br/>
-  `target_size` 的单位。支持的值包括 `b`、`kb`、`mb`、`gb`、`tb` 和 `pb`；默认值为 `mb`。
+    一个用于指示是否 he 的标志。
 
-- **timeout** (*Optional[float]*) -<br/>
-  默认值：`None`<br/>
-  RPC 的最大等待时间（秒）。若省略，客户端将一直等待，直到服务器响应或发生错误。
+- **is_l0** (*bool*) -
 
-- **kwargs** (*Any*) -<br/>
-  额外的请求上下文选项。
+    一个用于指示是否 he 的标志。
+
+- **target_size** (*int*) -
+
+    一个用于指定 Compaction 后目标 Segment 大小的选项。必须为正整数。单位由 target_size_unit 指定（默认为 MB）。如果未提供，服务器将使用其默认目标大小。
+
+- **target_size_unit** (*str*) -
+
+    一个用于指定 target_size 单位的选项。支持的值为 "b"、"kb"、"mb"（默认）、"gb"、"tb"、"pb"。该值在发送到服务器之前会转换为 MB。
+
+- **timeout** (*float*) -
+
+    此操作的超时持续时间。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
+
+- **kwargs** (*dict*) -
+
+    可选的请求上下文参数。
 
 **返回类型：**
 
@@ -82,21 +77,33 @@ compact(
 
 **返回值：**
 
-由 Milvus 返回的 Compaction 作业标识符。
+用于后续状态查询的 Compaction 作业 ID。Compaction 作业 ID，可用于获取 Compaction 状态。
 
 **异常：**
 
-- **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
+- **ParamError**
+
+    当 `target_size` 不是整数或 `target_size_unit` 无效时引发。当 `target_size` 不是整数或 `target_size_unit` 无效时引发。
+
+- **MilvusException**
+
+    此操作期间发生任何错误时都会引发此异常。此操作期间发生任何错误时都会引发此异常。
 
 ## 示例\{#examples}
-
-演示 compact 的用法。
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-job_id = client.compact(collection_name="book_chunks", target_size=512, target_size_unit="mb")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+job_id = client.compact(
+    collection_name="book_catalog",
+    is_clustering=True,
+    target_size=512,
+    target_size_unit="mb",
+)
+
 print(job_id)
 ```

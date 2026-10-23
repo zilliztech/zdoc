@@ -4,12 +4,12 @@ slug: /python/python/Management-release_collection
 sidebar_label: "release_collection()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会从内存中释放指定 Collection 的数据。 | Python | MilvusClient"
 type: docx
-token: PRR7dRfi8o1s61xFRovccAdRnHe
+token: QT0QdN7aQoqWBZxbkAic3EPDnLK
 sidebar_position: 13
 keywords: 
   - 什么是向量 Database
@@ -33,12 +33,6 @@ import Admonition from '@theme/Admonition';
 
 此操作会从内存中释放指定 Collection 的数据。
 
-<Admonition type="info" title="Notes">
-
-这仅适用于托管 Collection。
-
-</Admonition>
-
 ## 请求语法\{#request-syntax}
 
 ```python
@@ -56,11 +50,9 @@ release_collection(
 
     Collection 的名称。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    此操作的超时时长。 
-
-    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作超时。
+    此操作的超时持续时间。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -68,13 +60,13 @@ release_collection(
 
 **返回：**
 
-None
+None。
 
 **异常：**
 
 - **MilvusException**
 
-    此操作期间发生任何错误时，都会引发此异常。
+    在执行此操作期间发生任何错误时，都会引发此异常。在执行此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 
@@ -82,8 +74,8 @@ None
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 1. Create schema
@@ -93,7 +85,11 @@ schema = MilvusClient.create_schema(
 )
 
 # 2. Add fields to schema
-schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(
+    field_name="my_id",
+    datatype=DataType.INT64,
+    is_primary=True,
+)
 
 # {
 #     'auto_id': False, 
@@ -109,7 +105,11 @@ schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 #     ]
 # }
 
-schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+schema.add_field(
+    field_name="my_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5,
+)
 
 # {
 #     'auto_id': False, 
@@ -152,7 +152,7 @@ index_params.add_index(
     field_name="my_vector", 
     index_type="IVF_FLAT",
     metric_type="L2",
-    params={nlist: 1024}
+    params={"nlist": 1024}
 )
 
 # 6. Create indexes
@@ -185,11 +185,3 @@ client.get_load_state(
 
 # {'state': <LoadState: NotLoad>}
 ```
-
-## 相关方法\{#related-methods}
-
-- [get_load_state()](./Management-get_load_state)
-
-- [load_collection()](./Management-load_collection)
-
-- [refresh_load()](./Management-refresh_load)

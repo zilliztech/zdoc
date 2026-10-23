@@ -4,21 +4,21 @@ slug: /python/python/Authentication-update_password
 sidebar_label: "update_password()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于更新指定用户的密码，同时支持更新用户描述。 | Python | MilvusClient"
+description: "此操作用于更新指定用户的密码。 | Python | MilvusClient"
 type: docx
-token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
+token: ZbGcdPeOZoyFpPxfKwnclTv5ncf
 sidebar_position: 20
 keywords: 
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - rag llm 架构
+  - 私有 LLM
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - update_password()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-此操作用于更新指定用户的密码，同时支持更新用户描述。
+此操作用于更新指定用户的密码。
 
 ## 请求语法\{#request-syntax}
 
@@ -40,67 +40,55 @@ update_password(
     user_name: str,
     old_password: str,
     new_password: str,
-    reset_connection: Optional[bool] = False,
     timeout: Optional[float] = None,
     description: Optional[str] = None,
-    **kwargs,
-) -> None
+    **kwargs
+)
 ```
 
 **参数：**
 
-- **user_name** (*str*) -<br/>
-  **[必填]**<br/>
-  需要修改密码的用户名。
+- **user_name** (*str*) -
 
-- **old_password** (*str*) -<br/>
-  **[必填]**<br/>
-  用户的当前密码。
+    **[必填]**
 
-- **new_password** (*str*) -<br/>
-  **[必填]**<br/>
-  用户的新密码。
+    现有用户的名称。
 
-- **reset_connection** (*Optional[bool]*) -<br/>
-  默认值：`False`<br/>
-  用于控制是否在密码更新后使用新密码重新连接客户端的标志。
+- **old_password** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  默认值：`None`<br/>
-  等待 RPC 完成的最大时长（以秒为单位）。
+    **[必填]**
 
-- **description** (*Optional[str]*) -<br/>
-  默认值：`None`<br/>
-  用户账号的可选更新描述。
+    用户的原始密码。
 
-- **kwargs** (*Any*) -<br/>
-  额外的请求上下文选项。
+- **new_password** (*str*) -
 
-**返回类型：**
+    **[必填]**
 
-*None*
+    用户的新密码。
 
-**返回值：**
+- **reset_connection** (*bool*) -
 
-密码更新成功后不返回任何值。
+    用于重置绑定到该用户的连接，使其使用新凭据重新进行身份验证的标志。
 
 **异常：**
 
-- **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
+- **MilvusException**
+
+    当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息，以获取确切的失败原因。
 
 ## 示例\{#examples}
-
-演示更新密码的用法。
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-client.create_user("analyst", "Milvus123", description="Analytics account")
-client.update_user("analyst", description="Updated analytics account")
-client.create_role("read_only", description="Read-only role")
-client.alter_role("read_only", description="Updated read-only role")
-print(client.describe_user("analyst"))
-print(client.describe_role("read_only"))
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+client.update_password(
+    user_name="alice",
+    old_password="OldP@ss",
+    new_password="NewP@ss",
+    reset_connection=True,
+)
 ```

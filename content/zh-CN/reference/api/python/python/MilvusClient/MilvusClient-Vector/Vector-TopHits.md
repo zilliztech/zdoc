@@ -4,20 +4,20 @@ slug: /python/python/Vector-TopHits
 sidebar_label: "TopHits"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`TopHits` 实例用于配置从每个 `SearchAggregation` bucket 返回的代表性 Entity。| Python | MilvusClient"
+description: "TopHits 实例用于配置从每个 SearchAggregation 桶返回的代表性 Entity。 | Python | MilvusClient"
 type: docx
 token: PszSdqvtRo4t96xrW0ycWlVAnfc
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
-  - milvus 开源
-  - milvus 如何工作
+  - Milvus 开源
+  - Milvus 如何工作
   - Zilliz 向量 Database
   - Zilliz Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - TopHits
   - pymilvus30
@@ -31,50 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # TopHits
 
-`TopHits` 实例用于配置从每个 `SearchAggregation` bucket 返回的代表性 Entity。
+TopHits 实例用于配置从每个 SearchAggregation 桶返回的代表性 Entity。
+
+## 请求语法\{#request-syntax}
 
 ```python
-class pymilvus.TopHits
-```
-
-## 构造函数\{#constructor}
-
-```python
-TopHits(
+__init__(
     size: int,
-    sort: list[dict[str, str]] | None = None,
+    sort: Optional[List[Dict[str, str]]] = None
 )
 ```
 
 **参数：**
 
-- **size** (*int*) **[必需]** -
+- **size** (*int*) -
 
-    从每个 bucket 返回的代表性 Entity 的最大数量。该值必须为正整数。
+    **[必需]**
+
+    从每个桶返回的代表性 Entity 的最大数量。该值必须为正整数。
 
 - **sort** (*list[dict[str, str]] | None*) -
 
-    按列表顺序计算的命中排序规则。每一项都是单键字典，将标量字段名或 `_score` 映射为 `"asc"` 或 `"desc"`。如果省略，服务器将使用其默认的命中排序顺序。
-
-**返回类型：**
-
-*TopHits*
+    命中排序规则，按列表顺序求值。每个项都是一个单键字典，将字段名或 _score 映射到 "asc" 或 "desc"。
 
 **异常：**
 
-- 当 `size` 不是正整数，或 `sort` 不是由具有有效方向的单键字典组成的列表时，将引发 **ParamError**。
+- **MilvusException**
 
-## 示例\{#example}
+    当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息，以获取确切的失败原因。
+
+## 示例\{#examples}
 
 ```python
-from pymilvus import SearchAggregation, TopHits
+from pymilvus import TopHits
 
-aggregation = SearchAggregation(
-    fields=["brand"],
-    size=10,
-    top_hits=TopHits(
-        size=3,
-        sort=[{"rating": "desc"}, {"_score": "desc"}],
-    ),
+top = TopHits(
+    size=3,
+    sort=[{"_score": "desc"}],
 )
 ```

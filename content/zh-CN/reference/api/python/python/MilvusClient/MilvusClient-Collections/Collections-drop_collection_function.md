@@ -4,19 +4,19 @@ slug: /python/python/Collections-drop_collection_function
 sidebar_label: "drop_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会从 Collection 中删除现有函数。 | Python | MilvusClient"
 type: docx
-token: F1mJdDLyzoMTrxxarPMcqPkqnqg
+token: MFoOd3DJEoRgbnxgAOdcVlecnQc
 sidebar_position: 24
 keywords: 
-  - RAG 大语言模型架构
+  - RAG LLM 架构
   - 私有 LLM
-  - 近邻搜索
+  - 最近邻搜索
   - LLM 评估
-  - zilliz
+  - Zilliz
   - Zilliz Cloud
   - 云
   - drop_collection_function()
@@ -33,7 +33,13 @@ import Admonition from '@theme/Admonition';
 
 此操作会从 Collection 中删除现有函数。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
+
+在 PyMilvus v3.0.2 或更高版本中已弃用。此方法已弃用，因为 Milvus 3.0 及更高版本不支持单独删除函数。请改用 drop_function_field()，该方法还会删除函数的输出字段及其索引。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
 
 这不适用于外部 Collection。
 
@@ -62,11 +68,11 @@ client.drop_collection_function(
 
     **[必需]**
 
-    要删除的函数名称。
+    要删除的函数的名称。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时间。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
 - **kwargs** (*dict*) -
 
@@ -76,13 +82,17 @@ client.drop_collection_function(
 
 *NoneType*
 
+**返回：**
+
+None。
+
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

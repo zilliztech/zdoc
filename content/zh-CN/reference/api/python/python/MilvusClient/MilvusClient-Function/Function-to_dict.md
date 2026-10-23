@@ -4,12 +4,12 @@ slug: /python/python/Function-to_dict
 sidebar_label: "to_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回 `Function` 对象的字典表示。 | Python | MilvusClient"
 type: docx
-token: AmwJdW0z6opMPcxhMlBcYPIWn2M
+token: HacudytI2olONTxEtofcuXLin1f
 sidebar_position: 4
 keywords: 
   - 词法搜索
@@ -39,23 +39,19 @@ import Admonition from '@theme/Admonition';
 to_dict()
 ```
 
-**参数：**
-
-无
-
 **返回类型：**
 
 *dict*
 
 **返回值：**
 
-`Function` 对象的字典表示。
+Function 对象的字典表示。
 
 **异常：**
 
-- `MilvusException`
+- **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 

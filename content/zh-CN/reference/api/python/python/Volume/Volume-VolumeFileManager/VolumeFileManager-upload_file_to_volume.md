@@ -4,12 +4,12 @@ slug: /python/python/VolumeFileManager-upload_file_to_volume
 sidebar_label: "upload_file_to_volume()"
 beta: false
 added_since: false
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作将指定源路径下的本地文件上传至指定托管卷内的目标文件路径。 | Python"
 type: docx
-token: SAR6dnlmmohi30x0x2KcioyXnib
+token: MDzcdn1cIoX5Xtx3vo9cjSeLnT4
 sidebar_position: 1
 keywords: 
   - 图像相似度搜索
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-此功能仅适用于托管卷。外部卷为只读。
+此操作仅适用于托管卷。外部卷为只读。
 
 </Admonition>
 
@@ -50,38 +50,52 @@ upload_file_to_volume(
     retry_interval: float = 5.0,
     progress_callback: Callable[[UploadProgress], None] | None = None,
     part_size: int = 0,
-) -> dict
+    upload_policy: UploadPolicy = UploadPolicy.SKIP_IF_SAME_SIZE,
+    temporary_directory: str | None = None
+)
 ```
 
 **参数：**
 
-- **source_file_path** (*str*) -<br/>
-  **[必需]**<br/>
-  待上传的本地文件或目录路径。
+- **source_file_path** （*str*） -
 
-- **target_volume_path** (*str*) -<br/>
-  **[必需]**<br/>
-  Zilliz Cloud 卷中的目标路径。
+    **[必需]**
 
-- **upload_concurrency** (*int*) -<br/>
-  该值默认为 `5`。<br/>
-  可并发上传的最大文件数。
+    待上传到指定卷的本地数据文件路径。
 
-- **max_retries** (*int*) -<br/>
-  该值默认为 `5`。<br/>
-  每个文件的最大上传尝试次数。
+- **target_volume_path** （*str*） -
 
-- **retry_interval** (*float*) -<br/>
-  该值默认为 `5.0`。<br/>
-  两次上传尝试之间的间隔时间（秒）。
+    **[必需]**
 
-- **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
-  该值默认为 `None`。<br/>
-  用于接收上传进度快照的回调函数。
+    此操作完成后，数据文件在指定卷内的路径。
 
-- **part_size** (*int*) -<br/>
-  该值默认为 `0`。<br/>
-  分片上传的分片大小（字节）。使用 `0` 可自动选择合适的大小。
+- **upload_concurrency** （*int*） -
+
+    并行上传的最大文件数。该值默认为 5。
+
+- **max_retries** （*int*） -
+
+    每个文件在失败后额外尝试的最大次数。该值默认为 5。
+
+- **retry_interval** （*float*） -
+
+    重试尝试之间的间隔时间，单位为秒。该值默认为 5.0。
+
+- **progress_callback** （*Callable[[UploadProgress], None] | None*） -
+
+    在上传期间接收经过节流的上传进度快照的回调。
+
+- **part_size** （*int*） -
+
+    每个上传分片的大小，以字节为单位。该值默认为 0，由 SDK 决定。
+
+- **upload_policy** （*UploadPolicy*） -
+
+    用于决定是否可以跳过现有远程文件的策略。该值默认为 UploadPolicy.SKIP_IF_SAME_SIZE。
+
+- **temporary_directory** （*str | None*） -
+
+    用于存放临时上传状态的目录。该值默认为 None，由 SDK 选择。
 
 **返回类型：**
 
@@ -89,25 +103,35 @@ upload_file_to_volume(
 
 **返回：**
 
-包含 volumeName、volume_name 和上传目标路径的字典。
+一个字典，包含目标卷名称以及上传文件在卷中的最终路径。
+
+**参数：**
+
+- **volumeName** （*str*） -
+
+    此操作的目标卷名称。
+
+- **path** （*str*） -
+
+    此操作完成后，数据文件在指定卷内的路径。
 
 **异常：**
 
-- **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败详情。
+- **MilvusException**
+
+    当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败原因。
 
 ## 示例\{#examples}
 
-以下示例演示了 upload_file_to_volume 的用法。
-
 ```python
-from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager
 
-manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
-manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
-manager.describe_volume("book-volume")
-manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
-
-file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
-file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
+manager = VolumeFileManager(
+    bucket_name="my-bucket",
+)
+progress = manager.upload_file_to_volume(
+    local_path="./data.parquet",
+    volume_path="import/data.parquet",
+)
+print(progress.uploaded_bytes)
 ```

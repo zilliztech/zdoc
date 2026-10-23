@@ -4,12 +4,12 @@ slug: /python/python/Function-verify
 sidebar_label: "verify()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会验证 CollectionSchema 中定义的函数的输入和输出字段。 | Python | MilvusClient"
 type: docx
-token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
+token: HR2Sd7RpWoy3Jrxt7zCcrUFjnmf
 sidebar_position: 5
 keywords: 
   - NLP
@@ -37,27 +37,21 @@ import Admonition from '@theme/Admonition';
 
 ```python
 verify(
-    schema: CollectionSchema
-)
 ```
-
-**参数：**
-
-无
 
 **返回类型：**
 
-无
+*None*
 
 **返回值：**
 
-无
+None。
 
 **异常：**
 
-- `MilvusException`
+- **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会永久删除快照。删除后，快照数据将无法恢复。 | Python | MilvusClient"
@@ -37,30 +37,43 @@ import Admonition from '@theme/Admonition';
 
 ```python
 drop_snapshot(
-    snapshot_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> None
 ```
 
 **参数：**
 
-- **snapshot_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要删除的快照名称。
+- **snapshot_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  可选的 RPC 超时时长，单位为秒。
+    **[REQUIRED]**
+
+    要删除的快照的名称。
+
+- **collection_name** (*str*) -
+
+    **[REQUIRED]**
+
+    快照所属的 Collection 的名称。
+
+- **db_name** (*str*) -
+
+    包含该 Collection 的 Database 的名称。如果此参数留空，则使用默认 Database。
+
+- **timeout** (*Optional[float]*) -
+
+    允许 RPC 运行的可选时长，单位为秒。
 
 **返回类型：**
 
 *None*
 
+**返回：**
+
+无。
+
 **异常：**
 
 - **MilvusException**
 
-    如果快照不存在或操作失败。
+    如果快照不存在或操作失败。如果快照不存在或操作失败。
 
 ## 示例\{#examples}
 
@@ -69,5 +82,8 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-client.drop_snapshot(snapshot_name="backup_20260401")
+client.drop_snapshot(
+    snapshot_name="backup_20260401",
+    collection_name="my_collection",
+)
 ```

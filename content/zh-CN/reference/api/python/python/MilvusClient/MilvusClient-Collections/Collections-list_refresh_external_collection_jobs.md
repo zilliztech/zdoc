@@ -4,20 +4,20 @@ slug: /python/python/Collections-list_refresh_external_collection_jobs
 sidebar_label: "list_refresh_external_collection_jobs()"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出所有或指定 Collection 的外部 Collection 刷新作业。 | Python | MilvusClient"
+description: "此操作会列出所有或指定 Collection 的外部 Collection 刷新任务。 | Python | MilvusClient"
 type: docx
 token: VkBFdLHwao9hVMxzRurcBYIynFh
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
-  - 大语言模型
+  - 大型语言模型
   - 向量化
-  - k 最近邻算法
+  - k 近邻算法
   - ANNS
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - list_refresh_external_collection_jobs()
   - pymilvus30
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_refresh_external_collection_jobs()
 
-此操作列出所有或指定 Collection 的外部 Collection 刷新作业。
+此操作会列出所有或指定 Collection 的外部 Collection 刷新任务。
 
 <Admonition type="info" title="Notes">
 
-这需要使用项目 Endpoint 按如下方式设置 MilvusClient：
+此操作要求使用以下项目 Endpoint 配置 MilvusClient：
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -45,23 +45,17 @@ import Admonition from '@theme/Admonition';
 
 ```python
 def list_refresh_external_collection_jobs(
-    collection_name: str = "",
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> List:
 ```
 
 **参数：**
 
-- **collection_name** (*string*) -
+- **collection_name** （*string*） -
 
-    目标 Collection 的名称。如果未指定此参数，则返回所有外部 Collection 的刷新作业。
+    目标 Collection 的名称。如果未指定此参数，则会返回所有外部 Collection 的刷新任务。
 
-- **timeout** (*float*) - 
+- **timeout** （*float*） -
 
-    此操作的超时时长。 
-
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -69,21 +63,21 @@ def list_refresh_external_collection_jobs(
 
 **返回：**
 
-由 **RefreshExternalCollectionJobInfo** 对象组成的列表，每个对象记录一个外部 Collection 刷新作业的详细信息。
+一个 RefreshExternalCollectionJobInfo 对象列表，其中的每个对象记录一个外部 Collection 刷新任务的详细信息。
 
 **参数：**
 
-- **job_id** (*int*) -
+- **job_id** （*int*） -
 
-    当前请求中指定的作业 ID。
+    当前请求中指定的任务 ID。
 
-- **collection_name** (*string*) -
+- **collection_name** （*string*） -
 
-    在 `refresh_external_collection()` 中指定的外部 Collection 名称。
+    在 `refresh_external_collection()` 中指定的外部 Collection 的名称。
 
-- **state** (*string*) -
+- **state** （*string*） -
 
-    指定作业的当前状态。可能的值包括：
+    指定任务的当前状态。可选值为：
 
     - RefreshPending
 
@@ -93,31 +87,61 @@ def list_refresh_external_collection_jobs(
 
     - RefreshCompleted
 
-- **progress** (*int*) -
+- **progress** （*int*） -
 
-    指定作业的当前进度。该值是一个范围为 0 到 100 的整数。
+    指定任务的当前进度。该值为 0 到 100 之间的整数。
 
-- **external_source** (*str*) -
+- **external_source** （*str*） -
 
     在 `refresh_external_collection()` 中指定的外部源 URI。
 
-- **external_specs** (*str*) -
+- **external_specs** （*str*） -
 
-    在 `refresh_external_collection()` 中指定的外部规格。
+    在 `refresh_external_collection()` 中指定的外部规范。
 
-- **reason** (*str*) -
+- **reason** （*str*） -
 
-    如果刷新操作失败，则为错误提示。正常情况下为空字符串。
+    刷新操作失败时的错误提示。正常情况下为空字符串。
 
-- **start_time** (*int*) -
+- **start_time** （*int*） -
 
-    指定作业开始时的毫秒级时间戳。
+    指定任务开始时的毫秒级时间戳。
 
-- **end_time** (*int*) -  
+- **end_time** （*int*） -  
 
-    指定作业结束时的毫秒级时间戳。
+    指定任务结束时的毫秒级时间戳。
 
-## 示例\{#example}
+## 示例\{#examples}
+
+```python
+import time
+
+from pymilvus import MilvusClient
+
+# 1. Set up a milvus client
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+job_id = client.refresh_external_collection(
+    collection_name="test_collection"
+)
+
+while True:
+    progress = client.get_refresh_external_collection_progress(job_id=job_id)
+    print(f"  {progress.state}: {progress.progress}%")
+
+    if progress.state == "RefreshCompleted":
+        elapsed = progress.end_time - progress.start_time
+        print(f"  Completed in {elapsed}ms")
+        break
+    elif progress.state == "RefreshFailed":
+        print(f"  Failed: {progress.reason}")
+        break
+
+    time.sleep(2)
+```
 
 ```python
 from pymilvus import MilvusClient
@@ -146,4 +170,3 @@ while True:
 
     time.sleep(2)
 ```
-

@@ -71,174 +71,6 @@
       "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "931826ce7373839a2360c6b6474c9f01c3e9e412a1b0283fd3b046b3b363e421",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "017bb62313c79d2f43f2844a20e55c9e38fef80107078e0ca8f1635a1c8fe258",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "7d21752dd24b4f47c06d77a5d983b0bb631155dd842c8995ff90ca0df1499031",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "5a742949ed1e24e59d6264aaef77ddce088937c16854e580d06af2398179990e",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "567f656fbc68f072593c829ac905bb5830b4394e0ca9e4fa5cc404e78b65a34d",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "4a81e0919238208cd76e3355190c972aedd8124632a9b4b3e328f6e04d5c4bf7",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "f20eed774b9a2d0f0d0ec4c13f5f96ca7e8751a38917e2f8eb7162de10635ec4",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "cace68729bc3a5a35ee1548da376e72ed872850e2e7dcf17bc334ec25258048b",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "1592d21cb9167fb545884eefac48dad30e78a55820f3b97c2a1085702bed5b61",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "8e3b5fdfe97807e0e903eb859205339010387dcae30bcfc2b6673daf6848ab0f",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "521f9157d621bedd94bf9f9c80b5560f9c6faafa3ae2ba62df11760b2fea0c78",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "cc6e448a0f579d221eb8f76a1b9a2d260b0944fdaf5fe93dae5b2b83c3ff8c2c",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "b2ad6f1487dad92f19de8ad482c04501c4acb29a1f4e979ff20826bd9a390530",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "151d99cfe29729498cfdaed97303a7c2e8b6bafa4a8a076390700a43354351bd",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "9a9681a3e4ade57259b095553764147e40983b1b66f2800170018130c0b21b69",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "ab54c5c78b5b0aeb1873d3ae00d586c555dfca3610d1595564423e4a6c6d9335",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "2097896ebec67d05d1d592aac070cb84b36733ea42866e896aed48f6ada848ce",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d12de806fa0ef03699d6f5780a788d7a5e75030589176447973eb4f8091340a3",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "12c84003ad8ea700fca757b102c254eccbcc06ce37ce68f369743f98c149b0e9",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "95843e5b2ad09debd872a59e57ab2396bec6ddbe5c822de81b3f1e6333bf4c82",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "094e212c1de3cfaf919be0e3143df30b3339f04d22bba9efe1f3c813cfa3e2a7",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "5a20e93037cc07511b00b16a6314f19c394f7f92d0239be7aa104f8ba49a29c9",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "10f863b3596a0cef34cde86c305039ece7127cf6e068865a6d3a5695069b62f5",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "dc5a93f512a2ed3fccf8c458e5a7fb354f724b424c2834b934b16a08dca55c7c",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md"
     }
   ],
   "records": [
@@ -7788,29 +7620,29 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "6d4a1518ebcd18b40bece2643b3e2b20b5524ace",
-      "sourceHash": "cbb3203572fc13413c0d46856bfd8a8dfc60760ed3a5981979905eac3f2cacbd",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0f97ccc9261f36ef81e9780abe0e651e728693a2dc8fe390f8b3ded7799b0fca",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
       "status": "translated",
-      "targetHash": "f562b9049e151c59358396a8f7fa3e925d65a9d19151b31784973b852faf8d1c",
+      "targetHash": "3802ebadffafa917aa78bb11312e4e32b5e460a70c28eb062b0e1d120ae4a3c8",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "1fdea3003baddb4733146b8a6094f52f0c625016e3098bd5404401c4cf21c291",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "99e09edd458e034dd8ee18e5ca23e7d05720d2fbdedce8cf2332158f4143bd89",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md",
       "status": "translated",
-      "targetHash": "71339ee4d42b63fcd975da40a52eea9478490698f8e2787757f24c9003441236",
+      "targetHash": "abe067c0f46389a22a66f4c057c6fda186976294b0a14c6d118f24fd420f2b86",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d3204bdd882deadd07b4064752622f65e59c9ec234e8cebefef23a0ac8ca59ba",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d59f2a33b7217294aac58997a178c2a446c6450ecbb51c04adc032b4006c9d30",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md",
       "status": "translated",
-      "targetHash": "4b953639f40675961cea5282fb1454fd426924542f587a3dd5fc555a935cf67f",
+      "targetHash": "cf81980813577942611f79385a94c47e17b311f918fbc2293bfdc269d8dee373",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md"
     },
     {
@@ -8364,11 +8196,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "5f157fc16b3ec98d27f4d93247c133d872af644fa9beac52b71c03efc52405d1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "931826ce7373839a2360c6b6474c9f01c3e9e412a1b0283fd3b046b3b363e421",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
+      "status": "translated",
+      "targetHash": "8bdb477a7da1cbc18fc02cb3695ff4c1911de3e20b9c15470ae1d8d536b181a0",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4d7b1e03e9d258cd4aeac0df445029990c553f9b92990f7965ca6caaa3976b1c",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md",
       "status": "translated",
-      "targetHash": "f1f1f20d6204f30ea7e69cf6a91797d566585b0428aa34d1e54d9e3fed8893c5",
+      "targetHash": "e04a5b727891e8c2ac1ac4f465c54e9db61a8cbcabc8247bad31ce58c102815f",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md"
     },
     {
@@ -8463,6 +8304,24 @@
     },
     {
       "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "017bb62313c79d2f43f2844a20e55c9e38fef80107078e0ca8f1635a1c8fe258",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group.md",
+      "status": "translated",
+      "targetHash": "1f963e14eb9982e41e2ca53cc5c67517df55b890097689459371b2837d4409e0",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7d21752dd24b4f47c06d77a5d983b0bb631155dd842c8995ff90ca0df1499031",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege.md",
+      "status": "translated",
+      "targetHash": "be62847a909df38f2058c7d016a6b491146956282afb26835bc8364bb44386f6",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege.md"
+    },
+    {
+      "manual": "python",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "8048ef3f0f862c2504553e20aff69a45c6def9add7d9c5514146afdf19526d35",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2.md",
@@ -8481,12 +8340,21 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "6d4a1518ebcd18b40bece2643b3e2b20b5524ace",
-      "sourceHash": "f11e84d813c5d192253d4586b282b775407fbe6016dabdcc6f9c4cd2ac348713",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9790e195da15c9ce4d0933d807c2ed24e41cd0f8d28dc349ec9d84905396c82f",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
       "status": "translated",
-      "targetHash": "1999a73b7f477efc6fc774488e77cfcedd5e74758f2296d06eff1e109864c4b1",
+      "targetHash": "2622e841a697beda62a56d2e1a3b1847c9b6695a5628f52462948705ec7920b0",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5a742949ed1e24e59d6264aaef77ddce088937c16854e580d06af2398179990e",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
+      "status": "translated",
+      "targetHash": "4d686a7c2f03a5d79c64ddda98269ab6ab5f3c18daa62910ef99faff3f2e030d",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md"
     },
     {
       "manual": "python",
@@ -8526,11 +8394,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "1fd4fdf4f3b4822625f7abdc5632f005a905a2ff36f88c9d70f1e6d1a2f15490",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "199f6c62ae69fb5fac62d52e76b82e1f5dd4c60dfcb5633be8fe688d9a012003",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md",
       "status": "translated",
-      "targetHash": "a2a5dabc0546052c7f3244b9ddf63b2ae0d10096a97efa0b88a0eec57a751f24",
+      "targetHash": "958e963925540c98b27e3d7ebe6bd222559f3e62b7663ee97fb61f14ac8c06cb",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md"
     },
     {
@@ -8580,11 +8448,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "ae337357b4a2451f0c17369d915b44ec1b4a799363925ffa683ab7985ef65085",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fb0da3c69d631a66d47e1a20297092c3ce5085fbc597dec6d91d543e3c21ba20",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-run_analyzer.md",
       "status": "translated",
-      "targetHash": "ada47fb3522bb34fbde8c52c8d20a32d9d209f5e102578429a80e8b4366c2f8c",
+      "targetHash": "a41b35ea1e2a0a1488633417f0de7e5d67df8bf4a69810dd8aeb6ac9642777b4",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-run_analyzer.md"
     },
     {
@@ -8625,11 +8493,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "3f57ef689a4509f67331d44a74168e76cbe2d686d89ca734f5e44c41adcc0461",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "38f344b624aa74a6b4d32e6baab4f9b4ff864c588ab29f75360dc1d389c260b0",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
       "status": "translated",
-      "targetHash": "4ae74e0883ebff34ba6dd1c11902077316f78fc4c794d5406fb08ca809d5455e",
+      "targetHash": "2db68ec9d74f6bc53d816f4fc363847ceb336126714f83074c904c4bd8841961",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md"
     },
     {
@@ -8661,21 +8529,30 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "d6fa506be99c6fead114cb4b8d3f22d0a89dc9464dbacb7ab504dbdfab12de85",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e8e930d8fb3e85c228754a3db9beeee9440553fec5f929a9b2eb12ce065cb890",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_field.md",
       "status": "translated",
-      "targetHash": "05080df3c51b8f56a92fa48009dfd84976e373c0c35c62f42a7c43161d97a9b8",
+      "targetHash": "ccaa807c07bbe696dfb35b50dde9afddec61255262b609b5b69588bdd95665a4",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_field.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "ece98614f2bf87e90a4c28950548ec4e83af952ad264e81e7cf527978098b34b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "93d95a89023b93fa0ce35cfb20dcc59dc4066f84cc29c9a98b528a91cbc4a57e",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_function.md",
       "status": "translated",
-      "targetHash": "7f36dbaa499e44fc1f9a7d4dc43eb6e7d5fcadd4e50487adfb4335ea08c001b4",
+      "targetHash": "9070dcc86f91e9ff7682d118b7c546dfb58d8c0aa90cdc442e243749af7795e1",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_function.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "567f656fbc68f072593c829ac905bb5830b4394e0ca9e4fa5cc404e78b65a34d",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
+      "status": "translated",
+      "targetHash": "422e7f5600399262884a5788ba92a7a9d2bd70af9a9ed53105c7ecdca5f78b19",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md"
     },
     {
       "manual": "python",
@@ -8697,20 +8574,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "13802ca1937bb47bd7be5cb2b0a06ecbf2cba4b6fda9384f809ca93428325f72",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3abca7b2bcc4a4bea61ef4b76553e7a0530aef33ec33a368d0dcd771d7f96cd4",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_function.md",
       "status": "translated",
-      "targetHash": "22ae79ecaeef641434bcb38ebc51d564489c16778a6e9a3d6bbc406fa191b438",
+      "targetHash": "9a11523546364baab90823f12dac5c9c12c6718c6f7d313412d279e46582b296",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_function.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "e10458c30eb149dca67624d6fff3729ca932f2d9a2d8e8dd56fc106fe45237a2",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "130d915f72e667af69e19122af00b56fb8bd2c1210ec3229b95611660194a33d",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md",
       "status": "translated",
-      "targetHash": "c4eebcc293f96cec85f095d2b77a359f2535159996a5112c99a99f777b55a3eb",
+      "targetHash": "15ba45a7d8697228bd1ab70529a9ed5d9a74eba44f68de4b15af55f9bdcb764f",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md"
     },
     {
@@ -8724,20 +8601,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "277862369657d7e620136b447c3982d0fe2f5d2fd6d31b5dc99f55e865890979",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b92397b63ed28929a8972c68fcf3cab287f1108a025107b6146e26be0efbc219",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection.md",
       "status": "translated",
-      "targetHash": "a3a575a5f440b24a47eebe77f14a09cbd7758b962f3a4ea37f396ac9f50c0cc5",
+      "targetHash": "13bc26b6bcc00f238f993d9736407755a5412a7cdab93bcfae9a27ccf428b46e",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "cee9c9467b98ccc42191902c6ac1bc8a6f75a050cdec4e2ae8f6a1bfe30adf1e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5c0b0791a6b20cc9d834e5ad22d93c98b2c6eca771058f22c2cd38d396d242c9",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
       "status": "translated",
-      "targetHash": "7e0d3e2f16e249e763dd951c9724026f3c887ac112101d5115986a946bf730ed",
+      "targetHash": "3a646cc643e686e04c397692c8c32854d2ecc1d238173fc70464f205affd85f0",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md"
     },
     {
@@ -8751,11 +8628,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "e97663908aee70b88c947ade1a69079aa8231714caa2b1a0a889b1c29197461e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6c874fb27916da2308219b9ee0019d0023a1970a051c41e0f62d3d5f03e657e7",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_collection.md",
       "status": "translated",
-      "targetHash": "7496f62d425e0786157356517a37a8fc5230377b203378a4403c4588660009b8",
+      "targetHash": "99a61174aae2d55350523a654471a6f065835c06f90d69bd73885d4a3d58552b",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_collection.md"
     },
     {
@@ -8778,20 +8655,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "9bf150d4b7c79cf02e11ab4b228f9da47049c7283d19212feb3a84b3d46ac9f2",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "a4b87935b01c29c759136ea17a7b4387f51032e1ad141bdd396adc2f7830f3ed",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field.md",
       "status": "translated",
-      "targetHash": "f6b5faadf5e80d205824bdb58ab18e1841bb0a46379eda9cd335d047e2214f73",
+      "targetHash": "b8f24cc0475ca52685ae2a6aa57822e693251b6f50f3c2966fbf3eec2ba2764a",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "6f9583c7ba5bea491726411a1718b4d2f1c17c51f72902234b2a4bd1e1cbced0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "35bf70df49f5491d6c77c34e3cf5a7f4938ebcc72b0af71920029a8529b3c998",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function.md",
       "status": "translated",
-      "targetHash": "36de2730fbd8f8368e32c30b6afcabd167556577f20b0cc0a83f9f4535573961",
+      "targetHash": "7ada901a70f2a2b31e4403ddf98b4092d82c372dfbc55f98bf3a07537435308a",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function.md"
     },
     {
@@ -8814,11 +8691,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "bf36fc2335a0893f3f16f4b481c33c1f16c54dddf6dddb35dff7670c6c4063a1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e99b47278c1730d001240e6d38d93381a5731d4391672ed76b64ec4af4b774c6",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md",
       "status": "translated",
-      "targetHash": "cb71e946bbfb55c05d34be1b948d25e9c444e4fd814971be6a29e537f6b1ee92",
+      "targetHash": "21145b6209478ea6b6c1549ae617f804b7fe8e1738440ef23c065db84b0bc9bc",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md"
     },
     {
@@ -8850,20 +8727,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "75ee4e197e2d6a66b93721dcdf573ad1ff918bfa7935b8354357db0248c6b564",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "bfa23be09674fe16d53a4ecf9671184047918e89fdb78fc179633a5d0fc932c5",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md",
       "status": "translated",
-      "targetHash": "d3a23812a678e04bda512f408158bdcf8efa197dfbb48dd4d5756d8ae340941d",
+      "targetHash": "f28bf5a620bbb2177bc26a1ffb5928fcc1cdf4c9ebf0ffbb643e5012c1b122de",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "5e24fb749f2872475636a0dc18abbcbe9cb8181b0853a32ecada73bad373a402",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "57fca12973fe2822ce344769d5f06530a3e3c457914467f4a5fb6da557eb9789",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
       "status": "translated",
-      "targetHash": "0e529a8e2e26dd79b72c80a318437a7a1e3788d7cb949d55ab81c0012bad3488",
+      "targetHash": "872f9bf05e910d911e6b6718e679638a45e747dbaaf824cccb6b3330b41a8ba6",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md"
     },
     {
@@ -8874,6 +8751,15 @@
       "status": "translated",
       "targetHash": "3fc95b5eb76a0116e32452235ced13f05942368e1e1c66662f142e892676cdc4",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-rename_collection.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4a81e0919238208cd76e3355190c972aedd8124632a9b4b3e328f6e04d5c4bf7",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection.md",
+      "status": "translated",
+      "targetHash": "821b62410a7498e45996b28f6b9036aae013c4b6025ff04fed89a1eaa3edbecf",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection.md"
     },
     {
       "manual": "python",
@@ -9021,47 +8907,83 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "284f0a74c41ffa6c03dd70a0726d07fe12c32252f92e4660f642a85a0f875977",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "f20eed774b9a2d0f0d0ec4c13f5f96ca7e8751a38917e2f8eb7162de10635ec4",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md",
+      "status": "translated",
+      "targetHash": "96267c3449585a7c697bff89885031fc31435b854b4369a5ef9b33e97d4459fa",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cace68729bc3a5a35ee1548da376e72ed872850e2e7dcf17bc334ec25258048b",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md",
+      "status": "translated",
+      "targetHash": "086f005a85d2cda8cf4bef84fcd82fca06741160bec2fad4a58fff911be8fe7c",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cd4d4c05d9eb97e18fd16d7e18fbe9e73f842e9571cfdbc95f58485a6f0753e9",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md",
       "status": "translated",
-      "targetHash": "c72726581f3ef4a510a588708962f4d1b0b2741d159c2bc4ea640de14d17c917",
+      "targetHash": "fa01ad409f5c803f733503e3cdfdac45aa2b428beae02bd19c3cac737683275e",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "943197af5d08b3aa6397c102c51bb86b4e5f1a46e2aff7ecba3687220a0c8bb1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ff28ed30ad9964908bd992d9c4425f2b117d47df6f9df0254422626155dfc5d9",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md",
       "status": "translated",
-      "targetHash": "056d8b6e6dd15ee11cc7a41d78233cce140ab43f4a635024f7b7185ba634145e",
+      "targetHash": "32b5742735266cbad466bcd5b6be796446cd2bbec7b8620edd353f1c6cef5a68",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "7bb4fc4c0e34ff0b212e6a01ad4c7f49f2caf4ab1d524ed26a12c488a9786c69",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1592d21cb9167fb545884eefac48dad30e78a55820f3b97c2a1085702bed5b61",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
+      "status": "translated",
+      "targetHash": "efa33c4a48f9f553c34e3caf6fcebdf44e20811efa3e734b028da617ccef577d",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c7909f45f0df082079c4c85ca5a6375b0f01c3490b84655e05d81913769be4c1",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-construct_from_dict.md",
       "status": "translated",
-      "targetHash": "2e42924e8173afbe641028bd808ecbfea8c7338805c320a09a3c3d44096970e1",
+      "targetHash": "aa1251de16fe73a5aa0c8c1f31189ba6421f75056de5f5bb932939db253deb75",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-construct_from_dict.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "14d4372059cb914d2275ad91880cbe818bd1d94fd016c40e9e193a15224488ab",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "8e3b5fdfe97807e0e903eb859205339010387dcae30bcfc2b6673daf6848ab0f",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
+      "status": "translated",
+      "targetHash": "8ac2d5a56036c93c45f7cf5bf38a3fc46154e51c2fbb7985a0fa3776e921c1a4",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6656fa5623a8877cd6ceea4422a75776c61f9a415f634d0fe777be8ed4d9d9ed",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-to_dict.md",
       "status": "translated",
-      "targetHash": "23f32b277fd3f08fec803863d3d6537bf68fb62b7796c53e6a5a061b45918e42",
+      "targetHash": "2a7190c4a4b96affa7937ccfa241f107db9cfa07ac1fed67d89ed872d405e1be",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-to_dict.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "39513894c34db51cf209ee370d19cf94d1fee8b71dace70ff8dbc431ffa4b752",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c07c1f6d4eed887f1f72e01214de2c823994138d4851d222189054fa7e6cc2e2",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-verify.md",
       "status": "translated",
-      "targetHash": "1729ee6291fc76317404b646d0ded698c06a421def5f4208cebe56784ec99856",
+      "targetHash": "08c573f31302433826b52dbb923ddee6c3f7d1183d9c98921fae20daad0787ea",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-verify.md"
     },
     {
@@ -9072,6 +8994,51 @@
       "status": "translated",
       "targetHash": "202b19a143fcc1cc2d7211cf6a94c0d920c8fa9e365fd910b7bc0fe8c656ca84",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/MilvusClient-Function.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "521f9157d621bedd94bf9f9c80b5560f9c6faafa3ae2ba62df11760b2fea0c78",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
+      "status": "translated",
+      "targetHash": "7027ecf33f24c675c8d7bc21d8d28defb5990b5276a21cfd1df7d27c41dc08fa",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cc6e448a0f579d221eb8f76a1b9a2d260b0944fdaf5fe93dae5b2b83c3ff8c2c",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
+      "status": "translated",
+      "targetHash": "33a9fe2e3239e7e89b281d5c33953a61626c1c63a4991f3b0c5a51b2147512cb",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b2ad6f1487dad92f19de8ad482c04501c4acb29a1f4e979ff20826bd9a390530",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
+      "status": "translated",
+      "targetHash": "437a12e4fc1fd588e0111a7513f5e1345d833596d65b5db6291e0c5d59b61f05",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "151d99cfe29729498cfdaed97303a7c2e8b6bafa4a8a076390700a43354351bd",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
+      "status": "translated",
+      "targetHash": "3489680d7b6e5d0d715d85d6b35e32febb9fd9db2526188c5a5f487e396425d2",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9a9681a3e4ade57259b095553764147e40983b1b66f2800170018130c0b21b69",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
+      "status": "translated",
+      "targetHash": "35435c8166411b11283ffffad49f842f0f65308fdcf039af7f50b8b7d33ae9e8",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md"
     },
     {
       "manual": "python",
@@ -9124,20 +9091,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "36920d5b3f5d3ac3a7349457dd6cff38894fdd8d9e15a3852ab1762b5f107259",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "49e32b32ff402b5e7426bf5597b15976a305f6c4104f66554f1d17f0164bc32a",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-alter_index_properties.md",
       "status": "translated",
-      "targetHash": "6a4c093a2b2f88cd3293ec824bbec2eff72c677de1149a05f950d225069ca797",
+      "targetHash": "d4678352173156301858b71765dbcb641214bef7082d986126eb733f8c7f1553",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-alter_index_properties.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "6d4a1518ebcd18b40bece2643b3e2b20b5524ace",
-      "sourceHash": "ab561748d5dfb81f672d6fa832d4515cd47fc93aa5e49f8c125f5af0331bf821",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0d4737b62141ec562141e23c5cd47b879ffa97c37299929757372490ac8cfb70",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md",
       "status": "translated",
-      "targetHash": "2b795e48928f92f0506707b1865521ee9e4c84068f752130fd015337f56413dd",
+      "targetHash": "550cb458700d782e7a2c8a239d5795c5c46bb2fc475e3737b2cc56c7896fb942",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md"
     },
     {
@@ -9178,6 +9145,15 @@
     },
     {
       "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ab54c5c78b5b0aeb1873d3ae00d586c555dfca3610d1595564423e4a6c6d9335",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
+      "status": "translated",
+      "targetHash": "901b3de1c6d86f47e8cfedc3fc4f94e5b95c5713e3e6d3d43ea95c675949681a",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md"
+    },
+    {
+      "manual": "python",
       "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
       "sourceHash": "56117d5675dc1bf6ab144851973ba2b93a2e468f22f39280709deb6ed28dcd95",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush.md",
@@ -9187,11 +9163,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "85ccc35885a84ec3aa59f97505e71d01df493721bee6fc0bf6d4fe3f9c2d7956",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "341e64854fab527b1371ef9986d2e393ebd134168999d7fc68b84e5a23dcbc0e",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md",
       "status": "translated",
-      "targetHash": "912f42f3a642d7a85bad87b0e28e96584db8877cc2869d5716e62d86ae39bd5f",
+      "targetHash": "2a75b72c782f5b726c1fc2bd99193684927742f9f1b89774955957b53cb58b84",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md"
     },
     {
@@ -9223,11 +9199,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "fb049669927fca69ac3fe624aa54fec651cb610674356cfc45538eb3a45d6ea8",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e51f80529967d87ded79022d8418dd820277cb68909f6279b179f4c77a89cf83",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md",
       "status": "translated",
-      "targetHash": "63cf67549b3fb616e1cde35dd5bbb0d176f22e9928b00c6c9fcde29b2b8cd82c",
+      "targetHash": "5df22fb88c6d5ddfc0386b70cb79d48e267f76d2a084cb4ce5cf1b93e68ccd8a",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md"
     },
     {
@@ -9238,6 +9214,24 @@
       "status": "translated",
       "targetHash": "b974f829f2ec38381034d661628b92a845769b9a8c2b44863efae59a2c8ee86b",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_load_state.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2097896ebec67d05d1d592aac070cb84b36733ea42866e896aed48f6ada848ce",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
+      "status": "translated",
+      "targetHash": "645c6db7da8f25b1de0a83be0c1f21c3987d94067b7a540fb1676d6729e31e15",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d12de806fa0ef03699d6f5780a788d7a5e75030589176447973eb4f8091340a3",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
+      "status": "translated",
+      "targetHash": "461165371bf6313ca5bcb1c28c2b8dc4ff48cb82b04311f961a85257e7543b31",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md"
     },
     {
       "manual": "python",
@@ -9259,12 +9253,21 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "4360c486c1573a9b6e9fa4413e305544d3df7c42aa1fec62535372c2c71a5771",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d8e98075cb24db6d0c053b9983cbf4b4a1aa6f8fd5855c7bd7cbb030af8510ed",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
       "status": "translated",
-      "targetHash": "5a67a0b4ded60d377952ae1f9a05c60c1a618eb13083cc225c90a9c82c28c0f8",
+      "targetHash": "93f0ce343fe3fa0c148a0dae2e45e8a6febe56123808079e4612d6ca4a73dcdb",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "12c84003ad8ea700fca757b102c254eccbcc06ce37ce68f369743f98c149b0e9",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
+      "status": "translated",
+      "targetHash": "eeb1a1e5d20099d93cbeba90f97e20d08462c9255cb8fa8d00d130ff1bfee181",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md"
     },
     {
       "manual": "python",
@@ -9304,11 +9307,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "86c9c7d44e88706fcf145402c1ece475cbbba8112137d2b40ebbe273a3db2258",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "abb0777afb755deee5026aa8cbb2c56b7567fb743d0b96589c069a729adf6101",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-release_collection.md",
       "status": "translated",
-      "targetHash": "d36dcbbd4547b9c7e605c7f10b6a89edde65532f38521831518968fa81c254e7",
+      "targetHash": "7e090810ffe3dd9d395f4354d860b024437fd5c158424bab7e063de62d2ebbfe",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-release_collection.md"
     },
     {
@@ -9403,20 +9406,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "389078f4bfdbfed8a336d47819cc00ade361b152762312d0a2c65b5356aa89ff",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6a69c93ea3ee6207aa5eaa805646373d25040d4559027ad548ae2422d849d908",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot.md",
       "status": "translated",
-      "targetHash": "1724cf8e9d55540abcb61f13cac48d45e4dc5a8d765568be8b99818b51a03aa8",
+      "targetHash": "98f76560d5148275146e2601d8205e1cf1385f551277310c682d9c20d1836b58",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "bd4dcbc9893230a784ba2ddc808f33edcf46c0f7625a34ca0cd0b3d284bd50e8",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6d2f85efa458f18b34c2bcb5090ed4a706166ee8fda85594e8a7392c9aff3687",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md",
       "status": "translated",
-      "targetHash": "324eeb0c6585af2e116177fcfeeee24c49101d9dd6fdcd0ae128bca6c4eaf766",
+      "targetHash": "25fec1b9afd0c52af832a1286bd8aae8e38471e642e142cd4214a405833960e5",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md"
     },
     {
@@ -9430,83 +9433,83 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "69915f2b1a67dda6739c717a1aadb9e68afe68072af8c9d99fa2ed3368cf8ecc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "49c28c4e31b7042fb7c40d28b6017bc2dd1d8b5fa8fb23658a6a90e4b3012c72",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs.md",
       "status": "translated",
-      "targetHash": "441c25f17c967f86e84d74b3d01b4b82840d07f20a31b4c5e1ac319bb78df21e",
+      "targetHash": "5d1d8c6946674a3fae8a3df9c41d552eb5c39e8774b97a877c1ddc042c8e4b58",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "6eb81be10aaa633d19cc9b67cee1343e95bc638db1430024be1d9622a259d3b3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6b7313ce6718b9b436f63ff9f7b486422df7cfdad20f8148d8bbb9a192f61cb1",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots.md",
       "status": "translated",
-      "targetHash": "23769d9bac105fbbc9c6d6228549a9eed0e2d03f937084c517617292e220eedb",
+      "targetHash": "671ad346b6d2537d7c9751f2174aaa9797ca300769e14879fc84533babcaa855",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "efff6a1fb89bb4f87dc62d03158f0acbe1c994903e1089ec897ec2416aea80f8",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "429d5a8343e45c725ba0d7b49a44683477f7a6a9de0c9004ad8f0f04279f983f",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md",
       "status": "translated",
-      "targetHash": "8dbb8531899b51648507386b1dcabb6fff047fb84736b6d812e7832a7f4c729e",
+      "targetHash": "6bbcb68480bddbcf2ca84f3b93d572f283229df777a4c01b2b911d3e82df8dae",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "620ad37cdf862046cad448246117f91feb3b9bfdb2c478211e8bf386ccbf9a45",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "66b563f62beeeb12dff9894570319e1752e55e3f8107b8ccb073335e6f0209fb",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot.md",
       "status": "translated",
-      "targetHash": "60d2708ea9893c9e1338c7315dbf4f81ccfb3513588bc9a4d8ef7d0f94b644cf",
+      "targetHash": "6ce4339897690dd41acfea73e919f584678196634ab1a18510b0baceb1ffb13d",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "0dcdf57f1ab563661a608e2b7b3fab3b93bb197f8470e0f98316a0bae4b9375c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "dcac87b330842112727c4eee2e01de000910f6d2dcc2d7376cc25ccbd9e90352",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data.md",
       "status": "translated",
-      "targetHash": "f9d8f82603fbb207f2a8e28f8e235c97def699aead97ad6b2e190b3e52d11300",
+      "targetHash": "8dddf439abf671db814f51b39aa6b417748d50c134b27f52beae0b195b210df8",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "6d4a1518ebcd18b40bece2643b3e2b20b5524ace",
-      "sourceHash": "a3e8a9ee9d15e7e6f84864e0d66c42618f7c5f9f00c8373cd6b0dd41de66661e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0c15311b8439aa7083d6ebddb1e523153a16c04d5cf84cb7ae612fd330d14c94",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
       "status": "translated",
-      "targetHash": "7e88ec47de0818c88e460d077b0af565125ec10084201595216c0669d748c16f",
+      "targetHash": "b1e37c3f73091253cefbca2d1083a074646dcb78a45ce0e33b3607c47141aa14",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "5819dacb66594b5c6896747df8e01789cc123d91c8674825f1f9a3de99a85552",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "91ec063d3697cb9493d5c0f26f8d1a475a9d999fe685b7d6788807cfec6cadcc",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field.md",
       "status": "translated",
-      "targetHash": "0ef4ed825567ce79478208dea666cb63752482c93f06149eccd2802106398d63",
+      "targetHash": "6374fe058eb0ee0e159686c80f8f7f84eb5afb3c9160f425435b3b302e8fabf9",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "16384acaf9061fb508f77bc7607156ecd83c16e5957d8ab7a572e179df906c54",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1b514eb2f3ad40b0bdf7e27b6def9f10d85896fd7ea8025be30cdad82c39701b",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-construct_from_dict.md",
       "status": "translated",
-      "targetHash": "a2b72af6e15ebdb345d20836ee2ac0a4ab8e88ae4b6f55f08c033abcc64535f8",
+      "targetHash": "5620c43adae48d5c55c8310913f7a0bed561538c4b20e3e8ca64fc911802dfc7",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-construct_from_dict.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "55c0af6b6370f847360b591afd0791d91d235ef4db634edacd25b1e4b7605731",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5c2270e6c21bab626fde4178a6fb8c230497d247aeeb9c6f49c6f3f439860f89",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-to_dict.md",
       "status": "translated",
-      "targetHash": "bf5b01434530287dc45d4729675d4a1b41ae891b1ad78b64b40b4c4c1daa8d57",
+      "targetHash": "deb958c0b2cd0fa54ad2aa59842d15e07f411d4979a52c11101985d967ec9ec4",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-to_dict.md"
     },
     {
@@ -9520,21 +9523,66 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "8217bb3d1d16fb145dce15b359be2bacfbeb0bc68523839a33f8d51fd6d7aff1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ac97abeb580a63182b6234ad4bca463f9be027fd6edb1a08ec4d56b2be9e82f6",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md",
       "status": "translated",
-      "targetHash": "5cfe4175b8bd931c69ad088d6fb67c7e3a572168a81762fbfa0d68799d7e92f8",
+      "targetHash": "955317117df221f56773072440956e0cee48ed62ed214e6ac791459170e0076b",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2872d766f44185ae80567afe40f70fd062502db150cf8c3d2c8f408a957f0c89",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3e20bbd76b4085f6a8ec2dadfcc8b5d23ac54833a21d27d38bf1ab5baa26ac0d",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md",
       "status": "translated",
-      "targetHash": "1655b285fbc3aa3a84b6a92a07ba69ca7547615307db6a298c5cc4d45e2894ea",
+      "targetHash": "37254a070bfa5e15d5d9c3329c60b06be5b7318c7d2baaf62c12d0fef3f2462f",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "95843e5b2ad09debd872a59e57ab2396bec6ddbe5c822de81b3f1e6333bf4c82",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md",
+      "status": "translated",
+      "targetHash": "c2b1c4dd9cfadd34699e97751ab13fbb5524bc8b804280bc4292f7a986cac692",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "094e212c1de3cfaf919be0e3143df30b3339f04d22bba9efe1f3c813cfa3e2a7",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md",
+      "status": "translated",
+      "targetHash": "56d99451ca34cf7a49321381202a9a7bc45d477c8302fdd21e66ce1369298cfb",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5a20e93037cc07511b00b16a6314f19c394f7f92d0239be7aa104f8ba49a29c9",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md",
+      "status": "translated",
+      "targetHash": "cb0a667d3406195e48f774ae70cddfaf4f98610ca6b003c3198558cd3c8047e2",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "10f863b3596a0cef34cde86c305039ece7127cf6e068865a6d3a5695069b62f5",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md",
+      "status": "translated",
+      "targetHash": "99a85ee8991ad4067f8063723fd8709838529b6df040f45d7312ffaec85c1b6a",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "dc5a93f512a2ed3fccf8c458e5a7fb354f724b424c2834b934b16a08dca55c7c",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md",
+      "status": "translated",
+      "targetHash": "9b278decf06bc09cb4fa8036d3dc1d97ce46fd7bc025b4cb417479dfaa70cda3",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md"
     },
     {
       "manual": "python",
@@ -9547,20 +9595,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "9daf2fab883fb4e34fc03043ba9f7e8b694f8dee60b33e8577b951fb485c7242",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7dad40da9c49132f53e0fd6af602560e40cc97ec6a7f79d395204499e13af057",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md",
       "status": "translated",
-      "targetHash": "f28d6644f5225d3556300791a5146c76f08b724b95b36e4921a784490c5c9b58",
+      "targetHash": "83586f7b1eefbe4165230fc7e2a8598630b3e0b1ffe8846079da38de6d392821",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "05a5108285e5c6a14359ae85a0652aed6a26f593bad292d5593e8711fe1fa0f7",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c7d7c31758395c648d3872cd157b4f56245a80c219752c426fc7639314960870",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md",
       "status": "translated",
-      "targetHash": "e2036d1fdc79d4c9b0474ddbdb0f81fb2834e6d4e4a6af95659dffe681d7c481",
+      "targetHash": "78eb1250228f5584bdcc5bdfcb9ef5d314e0aa18e4720fea17fad8964a06593a",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md"
     },
     {
@@ -9601,11 +9649,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "c1ce286d0a28666bf07914f04cd88eac80ad30f1d38994aa8e0d62d1ab55fc3b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "da277cff4aa1cdd3c62a4346a693d980dd9b9cad51001154b9c13939abd588d5",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-query.md",
       "status": "translated",
-      "targetHash": "5e2e1d6467c5340cd47d0252ae99e58b85fef0e553adb3831bc686dbd266fcab",
+      "targetHash": "e819126adf4b3ae5c4ad0402d26f8f4393e01e75f204616feb1af28e6968e243",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-query.md"
     },
     {
@@ -9619,20 +9667,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "26f4d1140f2fb52d1fbc11742d8636cc20d1571b",
-      "sourceHash": "aa182865baef78d54876b1df282bc4d7dc43e849d44665f44c63b65b41c3b2ef",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c32839092085d9ed067b67f669a2203aa5d26bc2a722a6337978d1c9fa439ccc",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
       "status": "translated",
-      "targetHash": "966cd177a4918e099c47750a4f75d3b379341a34e87f200617df592cca2e7161",
+      "targetHash": "2616ba1d237fcc6b0437eb3087a4f1e11d1f4337f14b14434df87be7a267628e",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "8f215e9fc14179d17b3e33c0e153b97164ef3b2b263d5460899cb06722bd778a",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4f78467c7a47dbed2e5ede71bbc606a1485e847682a2fefb5eec21e3d8f03e6b",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
       "status": "translated",
-      "targetHash": "cc607fe993b75016ae893805f047abbe15d2cf2a21e8dccb85df5bf78d3e99db",
+      "targetHash": "546b3b55f17d113c85f300d040fbadb66043c0db9c69ffcfc9192502521aa22e",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md"
     },
     {
@@ -10843,11 +10891,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "e824e6cfbb0c6065f9e50dbe1aee03656f15387c64da6052689e2fddec4b1b69",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "88cc4b9c544f49613b79fb73d2edb367af6d52e2c7b86607e8ae4b858b4ec999",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
       "status": "translated",
-      "targetHash": "500a77aa41e805db33481fdcdc4fb17dd6d7a8841687ed4b96a790a573ae61a7",
+      "targetHash": "ed44a813b3f3dd4706d84edf0500fcd2b684e8f524c9b28507b7068150eaea75",
       "targetPath": "content/zh-CN/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md"
     },
     {

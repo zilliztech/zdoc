@@ -4,21 +4,21 @@ slug: /python/python/Vector-SearchAggregation
 sidebar_label: "SearchAggregation"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`SearchAggregation` 实例为向量搜索定义一层桶聚合。它控制桶键、桶数量上限、每个桶的指标、桶排序、代表性命中以及可选的嵌套聚合。 | Python | MilvusClient"
+description: "SearchAggregation 实例定义向量搜索的一级桶聚合。 | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - ANNS
   - 向量搜索
-  - knn 算法
+  - knn algorithm
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - SearchAggregation
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,79 +31,72 @@ import Admonition from '@theme/Admonition';
 
 # SearchAggregation
 
-`SearchAggregation` 实例为向量搜索定义一层桶聚合。它控制桶键、桶数量上限、每个桶的指标、桶排序、代表性命中以及可选的嵌套聚合。
+SearchAggregation 实例定义向量搜索的一级桶聚合。
+
+## 请求语法\{#request-syntax}
 
 ```python
-class pymilvus.SearchAggregation
-```
-
-## 构造函数\{#constructor}
-
-```python
-SearchAggregation(
-    fields: list[str],
+__init__(
+    fields: List[str],
     size: int,
-    metrics: dict[str, dict[str, str]] | None = None,
-    order: list[dict[str, str]] | None = None,
-    top_hits: TopHits | None = None,
-    sub_aggregation: SearchAggregation | None = None,
+    metrics: Optional[Dict[str, Dict[str, str]]] = None,
+    order: Optional[List[Dict[str, str]]] = None,
+    top_hits: Optional[TopHits] = None,
+    sub_aggregation: Optional[SearchAggregation] = None
 )
 ```
 
 **参数：**
 
-- **fields** (*list[str]*) **[必需]** -
+- **fields**（*list[str]*）-
 
-    由标量字段名称组成的非空列表，用于构成桶键。多个字段会按列表顺序组成复合键。不接受诸如 `meta["region"]` 之类的 JSON 路径。
+    **[必需]**
 
-- **size** (*int*) **[必需]** -
+    形成桶键的非空标量字段名列表。多个字段按列表顺序形成复合键。不接受 `meta["region"]` 等 JSON 路径。
 
-    此聚合层级返回的最大桶数量。该值必须为正整数。
+- **size**（*int*）-
 
-- **metrics** (*dict[str, dict[str, str]] | None*) -
+    **[必需]**
 
-    每个桶的指标定义。每个键都是指标别名，每个值都是形如 `{operation: field}` 的单键字典。支持的操作包括 `count`、`sum`、`avg`、`min` 和 `max`。只有 `count` 接受 `"*"`；其他操作需要字段名或 `_score`。
+    此聚合级别返回的最大桶数。该值必须为正整数。
 
-- **order** (*list[dict[str, str]] | None*) -
+- **metrics**（*dict[str, dict[str, str]] | None*）-
 
-    按列表顺序求值的桶排序规则。每一项都必须包含一个指标别名、`_count` 或 `_key`，并映射为 `"asc"` 或 `"desc"`。
+    每个桶的指标定义。每个键是一个指标别名，每个值是一个单键字典，格式为 \{operation: field}。支持的操作包括 count、sum、avg、min 和 max。
 
-- **top_hits** (*TopHits | None*) -
+- **order**（*list[dict[str, str]] | None*）-
+
+    桶排序规则，按列表顺序计算。每个项必须包含一个指标别名、_count 或 _key，并映射到 "asc" 或 "desc"。
+
+- **top_hits**（*TopHits | None*）-
 
     配置从每个桶返回的代表性 Entity。
 
-- **sub_aggregation** (*SearchAggregation | None*) -
+- **sub_aggregation**（*SearchAggregation | None*）-
 
-    在当前层级的每个桶下定义一个嵌套桶层级。
-
-**返回类型：**
-
-*SearchAggregation*
+    当前级别下每个桶的嵌套桶级别。
 
 **异常：**
 
-- **ParamError** - 在字段为空或无效、size 非正、指标定义不受支持、排序键或方向无效，或对象类型错误时引发。
+- **MilvusException**
 
-## 示例\{#example}
+    当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败原因。
+
+## 示例\{#examples}
 
 ```python
-from pymilvus import SearchAggregation, TopHits
+from pymilvus import MilvusClient, SearchAggregation, TopHits
 
-aggregation = SearchAggregation(
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+agg = SearchAggregation(
     fields=["category"],
-    size=5,
-    metrics={
-        "product_count": {"count": "*"},
-        "avg_price": {"avg": "price"},
-    },
-    order=[{"product_count": "desc"}, {"_key": "asc"}],
-    sub_aggregation=SearchAggregation(
-        fields=["brand"],
-        size=3,
-        top_hits=TopHits(
-            size=2,
-            sort=[{"rating": "desc"}, {"_score": "desc"}],
-        ),
-    ),
+    size=10,
+    top_hits=TopHits(size=3),
+)
+results = client.search(
+    collection_name="docs",
+    data=[[0.1, 0.2]],
+    limit=100,
+    search_aggregation=agg,
 )
 ```

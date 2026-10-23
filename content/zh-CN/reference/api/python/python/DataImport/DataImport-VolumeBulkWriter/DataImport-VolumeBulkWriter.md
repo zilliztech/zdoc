@@ -4,21 +4,21 @@ slug: /python/python/DataImport-VolumeBulkWriter
 sidebar_label: "VolumeBulkWriter"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter 用于将本地批量文件写入远程卷。| Python"
+description: "VolumeBulkWriter 实例会将本地数据以文件形式写入 Zilliz Cloud 卷，用于批量导入。 | Python"
 type: docx
-token: L9ozd33RroJ0NZxHUc0czKjpnbh
+token: KOiCdsfhvoyfgdxbzbFcZOHmnXf
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - VolumeBulkWriter
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-VolumeBulkWriter 用于将本地批量文件写入远程卷。
+VolumeBulkWriter 实例会将本地数据以文件形式写入 Zilliz Cloud 卷，用于批量导入。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,70 +52,78 @@ VolumeBulkWriter(
 
 **参数：**
 
-- **schema** (*CollectionSchema*) -<br/>
-  **[必填]**<br/>
-  用于验证数据行并生成批量文件的 Collection Schema。
+- **schema** （*CollectionSchema*） -
 
-- **remote_path** (*str*) -<br/>
-  **[必填]**<br/>
-  目标卷中用于上传已提交文件的目录。
+    批量文件要写入的 Collection 的 Schema。
 
-- **cloud_endpoint** (*str*) -<br/>
-  **[必填]**<br/>
-  Zilliz Cloud API 服务器 Endpoint，即 `https://api.cloud.zilliz.com`。
+- **remote_path** （*str*） -
 
-- **api_key** (*str*) -<br/>
-  **[必填]**<br/>
-  用于向 Zilliz Cloud 进行身份验证的 API 密钥。
+    卷内用于上传已提交批量文件的远程目录路径。
 
-- **volume_name** (*str*) -<br/>
-  **[必填]**<br/>
-  目标 Zilliz Cloud 卷的名称。
+- **cloud_endpoint** （*str*） -
 
-- **chunk_size** (*int*) -<br/>
-  默认值：`1024 * MB`<br/>
-  写入器开始写入新文件前允许的最大本地分块大小（以字节为单位）。
+    Zilliz Cloud 卷的 Endpoint。
 
-- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
-  默认值：`BulkFileType.PARQUET`<br/>
-  写入器生成的批量文件格式。
+- **api_key** （*str*） -
 
-- **config** (*Optional[dict]*) -<br/>
-  默认值：`None`<br/>
-  可选的写入器配置。
+    用于向 Zilliz Cloud 卷进行身份验证的凭据。
 
-- **connect_type** (*ConnectType*) -<br/>
-  默认值：`ConnectType.AUTO`<br/>
-  卷操作所使用的连接模式。
+- **volume_name** （*str*） -
 
-- **kwargs** (*Any*) -<br/>
-  传递给 `LocalBulkWriter` 的额外选项。
+    接收已提交文件的 Zilliz Cloud 卷的名称。
+
+- **chunk_size** （*int*） -
+
+    单个本地批量文件的最大大小，单位为字节。该值默认为 1024 &ast; MB。
+
+- **file_type** （[BulkFileType](./DataImport-BulkFileType)） -
+
+    本地批量文件的文件格式。该值默认为 BulkFileType.PARQUET。
+
+- **config** （*Optional[dict]*） -
+
+    用于本地批量写入器的附加写入器配置字典。
+
+- **connect_type** （*ConnectType*） -
+
+    用于连接卷的连接模式。该值默认为 ConnectType.AUTO。
 
 **返回类型：**
 
 *VolumeBulkWriter*
 
-**返回值：**
+**返回：**
 
-一个写入器对象，用于在本地暂存批量文件，并将已提交的文件上传至指定的 Zilliz Cloud 卷。
+一个在本地暂存批量文件，并将已提交的文件上传到已配置 Zilliz Cloud 卷的写入器。以下是返回实例的方法。
+
+**方法：**
+
+- [append_row](./VolumeBulkWriter-append_row) （*method*） -
+
+    将一行数据写入本地缓冲区的方法。在提交前，请重复调用此方法。
+
+- [commit](./VolumeBulkWriter-commit) （*method*） -
+
+    封存已暂存的本地批量文件，并将其上传到已配置卷的方法。
 
 **异常：**
 
-- **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败原因。
+- **MilvusException**
+
+    当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败原因。
 
 ## 示例\{#examples}
 
-以下示例演示了 VolumeBulkWriter 的使用方法。
-
 ```python
-from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
+from pymilvus.bulk_writer import VolumeBulkWriter, UploadPolicy
 
-manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
-manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
-manager.describe_volume("book-volume")
-manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
-
-file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
-file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
+writer = VolumeBulkWriter(
+    bucket_name="my-bucket",
+    path="s3://my-bucket/import",
+    upload_policy=UploadPolicy.SKIP_IF_EXISTS,
+)
+writer.append_row(
+    {"id": 1, "vector": [0.1, 0.2]},
+)
+writer.commit()
 ```

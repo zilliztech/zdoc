@@ -4,10 +4,10 @@ slug: /python/python/Snapshot-restore_snapshot
 sidebar_label: "restore_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将快照恢复到目标 Collection 中。恢复将异步运行——使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
+description: "此操作会将快照恢复到新的目标 Collection，并可选择跨 Database 执行恢复。恢复过程以异步方式运行，请使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
 type: docx
 token: I2OZdk40IomugOx9MTqcooVcnEf
 sidebar_position: 8
@@ -31,47 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # restore_snapshot()
 
-此操作会将快照恢复到目标 Collection 中。恢复将异步运行——使用 `get_restore_snapshot_state()` 监控进度。
+此操作会将快照恢复到新的目标 Collection，并可选择跨 Database 执行恢复。恢复过程以异步方式运行，请使用 `get_restore_snapshot_state()` 监控进度。
+
+<Admonition type="info" title="Note">
+
+目标 Collection 必须尚不存在；如果 Collection 已存在，恢复作业将失败。由于快照名称仅在 Collection 内唯一，因此必须使用 source_collection_name 来唯一标识快照。
+
+</Admonition>
 
 ## 请求语法\{#request-syntax}
 
 ```python
-restore_snapshot(
-    collection_name: str,
-    snapshot_name: str,
-    rewrite_data: bool = False,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> int
+client.restore_snapshot(
 ```
 
 **参数：**
 
-- **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要将快照恢复到其中的目标 Collection 名称。
+- **snapshot_name** (*str*) -
 
-- **snapshot_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要恢复的快照名称。
+    **[必需]**
 
-- **rewrite_data** (*bool*) -<br/>
-  是否覆盖目标 Collection 中的现有数据。默认为 *False*。
+    要恢复的快照的名称。
 
-- **timeout** (*Optional[float]*) -<br/>
-  为 RPC 允许的可选时长，以秒为单位。
+- **source_collection_name** (*str*) -
+
+    **[必需]**
+
+    快照所属的 Collection。需要用它来唯一标识快照。
+
+- **target_collection_name** (*str*) -
+
+    **[必需]**
+
+    快照要恢复到的 Collection。该 Collection 必须尚不存在。
+
+- **source_db_name** (*str*) -
+
+    源 Database 的名称。该值默认为当前活动的 Database。
+
+- **target_db_name** (*str*) -
+
+    目标 Database 的名称。该值默认为当前活动的 Database。
+
+- **timeout** (*Optional[float]*) -
+
+    允许 RPC 运行的可选时长，单位为秒。
 
 **返回类型：**
 
 *int*
 
-恢复作业 ID。使用此 ID 配合 `get_restore_snapshot_state()` 跟踪恢复进度。
+**返回：**
+
+恢复作业 ID。将此 ID 与 get_restore_snapshot_state() 一起使用，以跟踪恢复进度。
 
 **异常：**
 
 - **MilvusException**
 
-    如果快照不存在、目标 Collection 不可用，或操作失败，则会引发此异常。
+    当快照不存在、目标 Collection 已存在或操作失败时，将引发此异常。当快照不存在、目标 Collection 已存在或操作失败时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -81,10 +99,11 @@ import time
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# Start restore and get job ID
+# Start restore and get the job ID
 job_id = client.restore_snapshot(
     snapshot_name="backup_20260418",
-    collection_name="restored_collection",
+    source_collection_name="my_collection",
+    target_collection_name="restored_collection",
 )
 
 # Poll for completion

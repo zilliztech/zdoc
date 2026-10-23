@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-list_restore_snapshot_jobs
 sidebar_label: "list_restore_snapshot_jobs()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出所有恢复快照作业。您也可以按 Collection 名称进行筛选，以查看针对特定 Collection 的恢复作业。 | Python | MilvusClient"
@@ -37,19 +37,21 @@ import Admonition from '@theme/Admonition';
 
 ```python
 list_restore_snapshot_jobs(
-    collection_name: str = "",
-    timeout: Optional[float] = None,
-    **kwargs
-) -> List[RestoreSnapshotJobInfo]
 ```
 
 **参数：**
 
-- **collection_name** (*str*) -<br/>
-  用于筛选恢复作业的可选 Collection 名称。如果为空，则列出所有恢复作业。
+- **collection_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  允许 RPC 执行的可选时长，单位为秒。
+    可选的 Collection 名称，用于筛选恢复作业。如果为空，则列出所有恢复作业。
+
+- **db_name** (*str*) -
+
+    可选的 Database 名称，用于筛选恢复作业。如果为空，则使用默认 Database。
+
+- **timeout** (*Optional[float]*) -
+
+    RPC 允许执行的可选持续时间，单位为秒。
 
 **返回类型：**
 
@@ -57,65 +59,13 @@ list_restore_snapshot_jobs(
 
 **返回：**
 
-返回一个 RestoreSnapshotJobInfo 对象列表，其中每个对象都包含恢复作业信息，具有以下字段：
-
-```python
-{
-    'job_id': int,
-    'snapshot_name': str,
-    'db_name': str,
-    'collection_name': str,
-    'state': str,
-    'progress': int,
-    'reason': str,
-    'start_time': int,
-    'time_cost': int
-}
-```
-
-**参数：**
-
-- **job_id** (*int*) -
-
-    恢复作业 ID。
-
-- **snapshot_name** (*str*) -
-
-    正在恢复的快照名称。
-
-- **db_name** (*str*) -
-
-    目标 Database 名称。
-
-- **collection_name** (*str*) -
-
-    目标 Collection 名称。
-
-- **state** (*str*) -
-
-    当前状态。可能的值包括：*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed*。
-
-- **progress** (*int*) -
-
-    进度百分比（0-100）。
-
-- **reason** (*str*) -
-
-    作业失败时的错误原因。
-
-- **start_time** (*int*) -
-
-    开始时间戳，单位为毫秒。
-
-- **time_cost** (*int*) -
-
-    耗时，单位为毫秒。
+RestoreSnapshotJobInfo 对象列表，每个对象都包含恢复作业信息，字段如下：
 
 **异常：**
 
 - **MilvusException**
 
-    如果操作失败。
+    如果操作失败。如果操作失败。
 
 ## 示例\{#examples}
 

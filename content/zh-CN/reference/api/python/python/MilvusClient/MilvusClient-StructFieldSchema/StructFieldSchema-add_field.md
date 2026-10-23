@@ -4,12 +4,12 @@ slug: /python/python/StructFieldSchema-add_field
 sidebar_label: "add_field()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会为结构体数组字段中的结构体元素 Schema 添加一个字段。 | Python | MilvusClient"
 type: docx
-token: Up73d8d78oPM2FxkvlIcuxeBn9g
+token: ACHhd1AsKoJaHIxqnNfcV8ljnpd
 sidebar_position: 1
 keywords: 
   - 什么是 milvus
@@ -37,32 +37,25 @@ import Admonition from '@theme/Admonition';
 
 ```python
 add_field(
-    field_name: str,
-    datatype: DataType
-)
 ```
 
 **参数：**
 
-- **field_name** (*string*) - 
+- **field_name** (*string*) -
 
     **[必需]**
 
     字段名称。
 
-- **[datatype](./Collections-DataType)** (*[DataType](./Collections-DataType)*) - 
+- **datatype** (*[DataType](../DataType.md*) -
 
     **[必需]**
 
-    字段的数据类型。
-
-    为不同字段选择数据类型时，您可以从以下选项中进行选择。详情请参见 [结构体数组](/docs/use-array-of-structs)。
+    一个选项：&ast;) - 字段的数据类型。为不同字段选择数据类型时，可以从以下选项中选择。详情请参阅 Array of Structs。
 
 - **max_length** (*int*) -
 
-    允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能会占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
-
-    对于 **DataType.VARCHAR** 字段，此参数为必需。
+    允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能占用一个以上字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。此参数对于 DataType.VARCHAR 字段是必需的。
 
 - **dim** (*int*) -
 
@@ -70,7 +63,7 @@ add_field(
 
 - **mmap_enabled** (*bool*) -
 
-    是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存。有关详细设置，请参见 MMap-enabled Data Storage。
+    一个用于指示是否 he 的标志。
 
 **返回类型：**
 
@@ -78,13 +71,13 @@ add_field(
 
 **返回值：**
 
-一个 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象，其中包含已添加到 Schema 的字段。
+StructFieldSchema 对象包含已添加到 Schema 中的字段。
 
 **异常：**
 
 - **MilvusException**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

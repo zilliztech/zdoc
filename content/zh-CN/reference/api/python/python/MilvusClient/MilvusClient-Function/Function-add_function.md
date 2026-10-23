@@ -4,20 +4,20 @@ slug: /python/python/Function-add_function
 sidebar_label: "add_function()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会添加一个函数，用于将原始数据转换为向量表示。 | Python | MilvusClient"
 type: docx
-token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
+token: Mzq0dJGdSo4PBBxO3QLcjtjPnxf
 sidebar_position: 1
 keywords: 
   - 自然语言处理 Database
-  - 廉价向量 Database
-  - 托管式向量 Database
+  - 低成本向量 Database
+  - 托管向量 Database
   - Pinecone 向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - add_function()
   - pymilvus30
@@ -37,31 +37,29 @@ import Admonition from '@theme/Admonition';
 
 ```python
 add_function(
-   function: Function
-)
 ```
 
 **参数：**
 
-- `function` (*[Function](./MilvusClient-Function)*)
+- **function** （*[Function](./MilvusClient-Function)*） -
 
     **[必需]**
 
-    用于将数据转换为向量嵌入的 `Function` 类实例。此函数将被添加到 Collection 的 Schema 中。
+    一个 Function 类实例，用于将数据转换为向量嵌入。此函数将被添加到 Collection 的 Schema 中。
 
 **返回类型：**
 
-*[CollectionSchema](./MilvusClient-CollectionSchema)*
+*CollectionSchema*
 
-**返回值：**
+**返回：**
 
-一个 `CollectionSchema` 对象
+一个 CollectionSchema 对象。
 
 **异常：**
 
-- `FunctionIncorrectType`
+- **FunctionIncorrectType**
 
-    当 `function` 参数类型不正确时，将引发此异常。
+    当 `function` 参数类型不正确时，将引发此异常。当 `function` 参数类型不正确时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -79,4 +77,3 @@ bm25_function = Function(
 
 schema.add_function(bm25_function)
 ```
-

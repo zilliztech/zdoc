@@ -4,10 +4,10 @@ slug: /python/python/Snapshot-unpin_snapshot_data
 sidebar_label: "unpin_snapshot_data()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会释放由 `pinsnapshotdata()` 创建的快照固定，以便正常的快照数据垃圾回收可以恢复。 | Python | MilvusClient"
+description: "此操作会释放由 `pinsnapshotdata()` 创建的快照固定，以便正常的快照数据垃圾回收（Collection）可以恢复。 | Python | MilvusClient"
 type: docx
 token: RSOkdriHRoRd8ixyVZOch1l9nDd
 sidebar_position: 9
@@ -31,24 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # unpin_snapshot_data()
 
-此操作会释放由 `pin_snapshot_data()` 创建的快照固定，以便正常的快照数据垃圾回收可以恢复。
+此操作会释放由 `pin_snapshot_data()` 创建的快照固定，以便正常的快照数据垃圾回收（Collection）可以恢复。
 
 ## 请求语法\{#request-syntax}
 
 ```python
 unpin_snapshot_data(
-    self,
-    pin_id: int,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> None
 ```
 
 **参数：**
 
 - **pin_id** (*int*) -
 
-    由 `pin_snapshot_data()` 返回的固定 ID。
+    由 pin_snapshot_data() 返回的 pin ID。
 
 - **timeout** (*Optional[float]*) -
 
@@ -62,20 +57,25 @@ unpin_snapshot_data(
 
 *NoneType*
 
+**返回：**
+
 此操作不返回数据。
 
 **异常：**
 
 - **MilvusException**
 
-    当固定不存在、已过期或请求失败时引发。
+    当 pin 不存在、已过期或请求失败时引发。当 pin 不存在、已过期或请求失败时引发。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20260509",

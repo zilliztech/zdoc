@@ -4,12 +4,12 @@ slug: /python/python/Function-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作从字典表示中构造一个 `Function` 对象。 | Python | MilvusClient"
 type: docx
-token: Ulypd24byoDBOpxGnnJcbF3Nnkb
+token: I0EbdzommoeSo7xQSeXcRXeanfg
 sidebar_position: 2
 keywords: 
   - 什么是向量 Database
@@ -37,13 +37,11 @@ import Admonition from '@theme/Admonition';
 
 ```python
 construct_from_dict(
-    raw: dict
-)
 ```
 
 **参数：**
 
-- `raw` (*dict*)
+- **raw** (*dict*) -
 
     包含用于构造 Collection Schema 的原始数据的字典。
 
@@ -53,13 +51,13 @@ construct_from_dict(
 
 **返回：**
 
-一个 `Function` 对象。
+一个 Function 对象。
 
 **异常：**
 
-- `MilvusException`
+- **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -78,4 +76,3 @@ function = Function.construct_from_dict(function_dict)
 
 print(function)
 ```
-

@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会为基于角色的访问控制创建一个角色。 | Python | MilvusClient"
+description: "此操作为基于角色的访问控制创建角色。 | Python | MilvusClient"
 type: docx
 token: HRqudGOOnokInhxczclcADBDn8g
 sidebar_position: 3
 keywords: 
-  - 什么是 milvus
-  - milvus Database
-  - milvus lite
-  - milvus benchmark
-  - zilliz
-  - zilliz cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - create_role()
   - pymilvus30
@@ -31,32 +31,35 @@ import Admonition from '@theme/Admonition';
 
 # create_role()
 
-此操作会为基于角色的访问控制创建一个角色。
+此操作为基于角色的访问控制创建角色。
 
 ## 请求语法\{#request-syntax}
 
 ```python
 create_role(
-    role_name: str,
-    timeout: Optional[float] = None
-) -> None
 ```
 
 **参数：**
 
-- **role_name** (*str*) -
+- **role_name** （*str*） -
 
-    **【必填】**
+    **[必需]**
 
-    要创建的角色名称。
+    要创建的角色的名称。
 
-- **timeout** (*float*) -
+- **timeout** （*float*） -
 
     此操作的超时时长。
+
+- **description** （*str*） -
+
+    要创建的角色的描述。该值默认为空字符串。
 
 **返回类型：**
 
 *None*
+
+**返回：**
 
 此操作不返回任何值。
 
@@ -64,11 +67,11 @@ create_role(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。此操作期间发生任何错误时，将引发此异常。
 
 - **ParamError**
 
-    当参数值无效时，将引发此异常。
+    当参数值无效时，将引发此异常。当参数值无效时，将引发此异常。
 
 ## 示例\{#examples}
 

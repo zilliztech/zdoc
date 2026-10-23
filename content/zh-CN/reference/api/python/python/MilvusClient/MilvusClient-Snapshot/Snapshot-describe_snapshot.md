@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-describe_snapshot
 sidebar_label: "describe_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。 | Python | MilvusClient"
@@ -37,20 +37,29 @@ import Admonition from '@theme/Admonition';
 
 ```python
 describe_snapshot(
-    snapshot_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> SnapshotInfo
 ```
 
 **参数：**
 
-- **snapshot_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要描述的快照名称。
+- **snapshot_name** （*str*） -
 
-- **timeout** (*Optional[float]*) -<br/>
-  可选的时长（以秒为单位），用于允许 RPC 完成。
+    **[必需]**
+
+    要描述的快照的名称。
+
+- **collection_name** （*str*） -
+
+    **[必需]**
+
+    快照所属的 Collection 的名称。
+
+- **db_name** （*str*） -
+
+    包含该 Collection 的 Database 的名称。如果此参数留空，则使用默认 Database。
+
+- **timeout** （*Optional[float]*） -
+
+    允许 RPC 运行的可选时长，单位为秒。
 
 **返回类型：**
 
@@ -60,48 +69,11 @@ describe_snapshot(
 
 一个包含快照元数据的 dataclass，具有以下字段：
 
-```python
-{
-    'name': str,
-    'description': str,
-    'collection_name': str,
-    'partition_names': List[str],
-    'create_ts': int,
-    's3_location': str
-}
-```
-
-**参数：**
-
-- **name** (*str*) - 
-
-    快照名称。
-
-- **description** (*str*) - 
-
-    快照描述。
-
-- **collection_name** (*str*) - 
-
-    源 Collection 名称。
-
-- **partition_names** (*List[str]*) - 
-
-    快照中包含的 Partition 名称列表。
-
-- **create_ts** (*int*) - 
-
-    以毫秒为单位的创建时间戳。
-
-- **s3_location** (*str*) - 
-
-    快照数据的 S3 存储位置。
-
 **异常：**
 
 - **MilvusException**
 
-    如果快照不存在或操作失败。
+    如果快照不存在或操作失败。如果快照不存在或操作失败。
 
 ## 示例\{#examples}
 
@@ -110,7 +82,10 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-info = client.describe_snapshot(snapshot_name="backup_20260418")
+info = client.describe_snapshot(
+    snapshot_name="backup_20260418",
+    collection_name="my_collection",
+)
 print(f"Snapshot: {info.name}")
 print(f"Collection: {info.collection_name}")
 print(f"Partitions: {info.partition_names}")

@@ -232,6 +232,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-remove_privileges_from_group",
+            "label": "remove_privileges_from_group()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-removeprivilegesfromgroup"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2",
             "label": "revoke_privilege_v2()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-revokeprivilegev2"
@@ -247,6 +253,24 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password",
             "label": "update_password()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updatepassword"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role",
+            "label": "alter_role()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-alterrole"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege",
+            "label": "revoke_privilege()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-revokeprivilege"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user",
+            "label": "update_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updateuser"
           }
         ]
       },
@@ -426,6 +450,18 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-truncate_collection",
+            "label": "truncate_collection()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-truncatecollection"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field",
+            "label": "add_collection_struct_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-addcollectionstructfield"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field",
             "label": "drop_collection_field()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-dropcollectionfield"
@@ -590,6 +626,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages",
+            "label": "dump_messages()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-dumpmessages"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all",
             "label": "flush_all()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-flushall"
@@ -614,6 +656,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info",
+            "label": "get_replicate_info()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getreplicateinfo"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments",
             "label": "list_loaded_segments()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listloadedsegments"
@@ -629,6 +677,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-optimize",
             "label": "optimize()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-optimize"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks",
+            "label": "list_compaction_tasks()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listcompactiontasks"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments",
+            "label": "list_segments()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listsegments"
           }
         ]
       },
@@ -739,6 +799,43 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search",
             "label": "hybrid_search()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-hybridsearch"
+          },
+          {
+            "type": "category",
+            "label": "FieldOp",
+            "key": "category:api/python/python/MilvusClient/MilvusClient-Vector/vector-fieldop",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append",
+                "label": "array_append()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-arrayappend"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove",
+                "label": "array_remove()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-arrayremove"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp",
+                "label": "FieldOp",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/vector-fieldop"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType",
+                "label": "FieldOpType",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-fieldoptype"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace",
+                "label": "replace()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-replace"
+              }
+            ]
           },
           {
             "type": "doc",
@@ -855,6 +952,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-verify",
             "label": "verify()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-verify"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field",
+            "label": "add_function_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-addfunctionfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field",
+            "label": "drop_function_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-dropfunctionfield"
           }
         ]
       },
@@ -911,6 +1020,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema",
             "label": "FieldSchema",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/milvusclient-fieldschema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-construct_from_dict",
+            "label": "construct_from_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/fieldschema-constructfromdict"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/FieldSchema-to_dict",
+            "label": "to_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/fieldschema-todict"
           }
         ]
       },
@@ -1028,6 +1149,43 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-to_dict",
             "label": "to_dict()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-todict"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "FunctionChain",
+        "key": "category:api/python/python/MilvusClient/milvusclient-functionchain",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain",
+            "label": "FunctionChain",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/milvusclient-functionchain"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage",
+            "label": "FunctionChainStage",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-functionchainstage"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit",
+            "label": "limit()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-limit"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map",
+            "label": "map()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-map"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort",
+            "label": "sort()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-sort"
           }
         ]
       }

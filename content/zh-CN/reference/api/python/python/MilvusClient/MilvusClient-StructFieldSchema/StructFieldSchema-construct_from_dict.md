@@ -4,12 +4,12 @@ slug: /python/python/StructFieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作从字典表示形式构造一个 StructFieldSchema 对象。 | Python | MilvusClient"
 type: docx
-token: KeoHdMDBCo3PByxKbWncifFMn9e
+token: WYu2duq4QoTr0YxGWnIcAmornge
 sidebar_position: 2
 keywords: 
   - milvus
@@ -31,21 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作从字典表示形式构造一个 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象。
+此操作从字典表示形式构造一个 **StructFieldSchema** 对象。
 
 ## 请求语法\{#request-syntax}
 
 ```python
 construct_from_dict(
-    raw: dict
-)
 ```
 
 **参数：**
 
-- **raw** (*dict*)
+- **raw**（*dict*） -
 
-    一个字典，包含原始数据，用于构造 struct 数组字段中某个 struct 元素的 Schema
+    一个字典，包含用于构造结构体数组字段中结构体元素 Schema 的原始数据。
 
 **返回类型：**
 
@@ -53,13 +51,13 @@ construct_from_dict(
 
 **返回：**
 
-一个 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象。
+一个 StructFieldSchema 对象。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -87,7 +85,10 @@ schema_dict = {
 }  
 
 # Reconstruct schema from dictionary 
-schema = StructFieldSchema(name="struct_schema", fields=[vector]).construct_from_dict(schema_dict)  
+schema = StructFieldSchema(
+    name="struct_schema",
+    fields=[vector],
+).construct_from_dict(schema_dict)  
 
 print(schema)
 

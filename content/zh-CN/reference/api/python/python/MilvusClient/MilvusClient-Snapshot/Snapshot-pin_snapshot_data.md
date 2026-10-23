@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-pin_snapshot_data
 sidebar_label: "pin_snapshot_data()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会在一段时间内固定快照数据，以便您在导出或备份文件时，垃圾回收不会将其删除。 | Python | MilvusClient"
@@ -37,14 +37,6 @@ import Admonition from '@theme/Admonition';
 
 ```python
 pin_snapshot_data(
-    self,
-    snapshot_name: str,
-    collection_name: str,
-    db_name: str = "",
-    ttl_seconds: int = 0,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> int
 ```
 
 **参数：**
@@ -63,7 +55,7 @@ pin_snapshot_data(
 
 - **ttl_seconds** (*int*) -
 
-    固定的存活时间（秒）。`0` 将使用服务器默认 TTL。
+    用于设置固定持续时间的选项，单位为秒。0 表示使用服务器默认 TTL。
 
 - **timeout** (*Optional[float]*) -
 
@@ -77,20 +69,25 @@ pin_snapshot_data(
 
 *int*
 
-用于通过 `unpin_snapshot_data()` 释放此固定的 `pin_id`。
+**返回值：**
+
+用于通过 unpin_snapshot_data() 释放此固定记录的 pin_id。
 
 **异常：**
 
 - **MilvusException**
 
-    当无法固定快照或请求失败时引发。
+    当无法固定 Collection 快照或请求失败时抛出。当无法固定 Collection 快照或请求失败时抛出。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20260509",

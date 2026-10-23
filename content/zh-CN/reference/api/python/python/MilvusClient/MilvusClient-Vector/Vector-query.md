@@ -61,6 +61,7 @@ query(
     filter: str,
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
+    ids: Optional[Union[List, str, int]] = None,
     partition_names: Optional[List[str]] = None,
     **kwargs,
 ) -> List[dict]
@@ -78,129 +79,27 @@ query(
 
     **[必需]**
 
-    用于过滤匹配 Entity 的标量过滤条件。
+    用于筛选匹配 Entity 的标量过滤条件。您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见布尔表达式规则。
 
-    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [过滤表达式概览](/docs/filtering-overview)。
+- **output_fields** (*list[str] | None*) -
 
-- **output_fields** (*list[str]* | *None*) -
+    返回的每个 Entity 中要包含的字段名列表。该值默认为 None。- 将其设置为 output_fields=["*"] 会输出所有字段。- 将其设置为 output_fields=["count(*)"] 会输出与 filter 参数中指定条件匹配的已加载 Entity。- 与 group_by_fields 一起使用时，该列表还接受聚合表达式：count(&ast;)、count(&lt;field&gt;)、min(&lt;field&gt;)、max(&lt;field&gt;)、sum(&lt;field&gt;) 和 avg(&lt;field&gt;)。聚合值按组计算，并与分组键一起返回。
 
-    要在返回的每个 Entity 中包含的字段名称列表。
+- **timeout** (*float | None*) -
 
-    该值默认为 **None**。
+    此操作的超时时长。将其设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-    <Admonition type="info" title="Notes">
+- **ids** (*list | str | int | None*) -
 
-    - 将其设置为 `output_fields=["\*"]` 时，会输出所有字段。
-    
-    - 将其设置为 `output_fields=["count(\*)"]` 时，会输出与 **filter** 参数中指定条件匹配的已加载 Entity。
-    
-    - 与 `group_by_fields` 一起使用时，此列表还接受聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值会按组计算，并与组键一同返回。
+    要直接查询的 Entity 主键值列表。此参数与 filter 互斥；设置此参数后，将根据 Entity 的主键值而不是布尔表达式来定位 Entity。
 
-    </Admonition>
+- **partition_names** (*list[str] | None*) -
 
-- **timeout** (*float* | *None*) -
+    Partition 名称列表。该值默认为 None。如果指定，则只有指定的 Partition 参与查询。此参数不适用于 Milvus Lite。有关 Milvus Lite 限制的更多信息，请参见 Run Milvus Lite。
 
-    此操作的超时时长。将其设置为 **None** 表示当任意响应到达或发生任意错误时，此操作即超时。
+- **kwargs** (*Any*) -
 
-- **partition_names** (*list[str]* | *None*) -
-
-    Partition 名称列表。
-
-    该值默认为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
-
-- **kwargs** -
-
-    - **consistency_level** (*str* | *int*) -
-
-        目标 Collection 的一致性级别。
-
-        该值默认为您创建当前 Collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
-
-        <Admonition type="info" title="Note">
-
-        什么是一致性级别？
-        
-                在分布式 Database 中，一致性特指这样一种属性：在给定时刻写入或读取数据时，确保每个节点或副本看到的数据视图相同。
-        
-                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
-        
-                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其更适合您的应用。
-
-        </Admonition>
-
-    - **guarantee_timestamp** (*int*) -
-
-        有效的时间戳。
-
-        如果设置了此参数，则仅当此时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
-
-        <Admonition type="info" title="Notes">
-
-        此参数在使用默认一致性级别时有效。
-
-        </Admonition>
-
-    - **graceful_time** (*int*) -
-
-        以秒为单位的时间段。
-
-        该值默认为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算 guarantee timestamp。
-
-        <Admonition type="info" title="Notes">
-
-        此参数在使用非默认一致性级别时有效。
-
-        </Admonition>
-
-    - **offset** (*int*) -
-
-        查询结果中要跳过的记录数。
-
-        您可以将此参数与 `limit` 结合使用以启用分页。
-
-        此值与 `limit` 的总和应小于 16,384。
-
-    - **limit** (*int*) -
-
-        查询结果中要返回的记录数。
-
-        您可以将此参数与 `offset` 结合使用以启用分页。
-
-        此值与 `offset` 的总和应小于 16,384。
-
-    - **timezone** (*str*)
-
-        通过设置 [IANA 时区标识符](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可在单次查询中临时覆盖 Collection 或 Database 的默认时区。此设置仅在操作期间控制如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改存储的数据或 Collection 设置。
-
-        更多信息，请参见 [TIMESTAMPTZ 类型](/docs/use-timestamptz-field)。
-
-    - **time_fields** (*str*)
-
-        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。请使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
-
-        更多信息，请参见 TIMESTAMPTZ 类型。
-
-    - **order_by** (*list[str]*)
-
-        用于对查询结果排序的字段列表。每个元素遵循 `"field_name:direction"` 格式，其中 direction 为 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
-
-        支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE 和 VARCHAR。不支持按向量、JSON 或 ARRAY 字段排序。
-
-        此参数必须与 `limit` 一起使用。对可为空字段排序时，升序排序会将 NULL 值放在末尾（NULLS LAST），降序排序会将 NULL 值放在开头（NULLS FIRST）。
-
-    - **group_by_fields** (*list[str]*) -
-
-        用于对查询结果分组的标量字段列表。设置后，`query()` 会为指定字段值的每个唯一组合返回一行，并针对每组计算 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）。
-
-        支持的分组键字段类型：`INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR` 和 `TIMESTAMPTZ`。按 `FLOAT`、`DOUBLE`、向量、`JSON` 或 `ARRAY` 字段分组会返回错误。
-
-        您可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的组数。
-
-        聚合输入类型规则：
-
-        - `sum` 和 `avg` 仅接受数值字段，包括 `FLOAT` 和 `DOUBLE`。将任一函数应用于 `VARCHAR` 字段会返回错误。
-
-        - `sum` 对整数输入返回 `INT64`，对 `FLOAT` 或 `DOUBLE` 输入则返回 `DOUBLE`。`avg` 始终返回 `DOUBLE`；`count` 返回 `INT64`；`min` 和 `max` 保留字段类型。
+    一个选项，包含以下内容。consistency_level (str | int)：目标 Collection 的一致性级别。该值默认为创建当前 Collection 时指定的值，可选值为 Strong (0)、Bounded (1)、Session (2) 和 Eventually (3)。分布式 Database 中的一致性特指这样一种属性：在给定时刻写入或读取数据时，确保每个节点或副本具有相同的数据视图。Milvus 支持四种一致性级别：Strong、Bounded Staleness、Session 和 Eventually。Milvus 中的默认一致性级别为 Bounded Staleness。在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。guarantee_timestamp (int)：一个有效的时间戳。如果设置了此参数，则仅当此时间戳之前插入的所有 Entity 对查询节点可见时，MilvusZilliz Cloud 才会执行查询。当使用默认一致性级别时，此参数有效。graceful_time (int)：以秒为单位的时间段。该值默认为 5。如果设置了此参数，MilvusZilliz Cloud 将通过从当前时间戳中减去此值来计算保证时间戳。当使用非默认一致性级别时，此参数有效。offset (int)：查询结果中要跳过的记录数。您可以将此参数与 limit 结合使用以启用分页。此值与 limit 的总和应小于 16,384。limit (int)：查询结果中要返回的记录数。您可以将此参数与 offset 结合使用以启用分页。此值与 offset 的总和应小于 16,384。timezone (str)：通过设置 IANA 标识符（例如 Asia/Shanghai, America/Chicago, 或 UTC），为单次查询临时覆盖 Collection 或 Database 的默认时区。此设置仅控制该操作期间如何解释、显示和比较 TIMESTAMPTZ 值；它不会修改存储的数据或 Collection 设置。有关更多信息，请参见 TIMESTAMPZ Field。time_fields (str)：在查询或搜索操作期间，从 TIMESTAMPTZ 字段中提取特定的时间组成部分。使用逗号分隔的列表指定要提取哪些元素。支持的元素包括：year、month、day、hour、minute、second 和 microsecond。有关更多信息，请参见 TIMESTAMPZ Field。order_by (list[str])：用于对查询结果排序的字段列表。每个元素的格式为 "field_name:direction"，其中 direction 为 asc（升序）或 desc（降序）。请注意，asc 和 desc 区分大小写。支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE 和 VARCHAR。不支持按向量、JSON 或 ARRAY 字段排序。此参数必须与 limit 一起使用。对可为 NULL 的字段排序时，升序排序会将 NULL 值放在末尾（NULLS LAST），降序排序会将 NULL 值放在开头（NULLS FIRST）。group_by_fields (list[str])：用于对查询结果分组的标量字段列表。设置后，query() 会针对指定字段值的每个唯一组合返回一行，并且 output_fields 中的任何聚合表达式（count(&ast;)、count(&lt;f&gt;)、min(&lt;f&gt;)、max(&lt;f&gt;)、sum(&lt;f&gt;)、avg(&lt;f&gt;)）都会按组计算。支持的分组键字段类型：INT8、INT16、INT32、INT64、VARCHAR 和 TIMESTAMPTZ。按 FLOAT、DOUBLE、向量、JSON 或 ARRAY 字段分组会返回错误。您可以将 group_by_fields 与 limit 结合使用，以限制返回的组数。聚合输入类型规则：`sum` 和 `avg` 仅接受数值字段，包括 `FLOAT` 和 `DOUBLE`。对 `VARCHAR` 字段应用任一函数都会返回错误。`sum` 对整数输入返回 `INT64`，对 `FLOAT` 或 `DOUBLE` 输入返回 `DOUBLE`。`avg` 始终返回 `DOUBLE`；`count` 返回 `INT64`；`min` 和 `max` 保留字段类型。
 
 **返回类型：**
 
@@ -208,7 +107,7 @@ query(
 
 **返回：**
 
-字典列表，其中每个字典表示一个查询到的 Entity。
+由字典组成的列表，其中每个字典表示一个查询到的 Entity。如果返回的 Entity 数量少于预期，则您的 Collection 中可能存在重复 Entity。
 
 <Admonition type="info" title="Notes">
 
@@ -220,11 +119,11 @@ query(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    当参数值与所需数据类型不匹配时，将引发此异常。
+    当参数值与所需数据类型不匹配时，将引发此异常。当参数值与所需数据类型不匹配时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -233,8 +132,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection and a partition
@@ -346,6 +245,8 @@ res = client.query(
     filter="id in [6,7,8]",
     partition_names=["partitionA"],
 )
+
+print(res)
 
 # []
 

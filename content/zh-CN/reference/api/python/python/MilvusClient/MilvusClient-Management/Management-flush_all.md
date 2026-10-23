@@ -4,12 +4,12 @@ slug: /python/python/Management-flush_all
 sidebar_label: "flush_all()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会刷新当前 Database 中的所有 Collection。这可确保所有已插入的数据都写入持久化存储。 | Python | MilvusClient"
 type: docx
-token: QejKdv2qKo97mQxEV0CcaSM5nLh
+token: YaXGd43eqog2RExt8btcwxQOn0f
 sidebar_position: 17
 keywords: 
   - 知识库
@@ -33,12 +33,6 @@ import Admonition from '@theme/Admonition';
 
 此操作会刷新当前 Database 中的所有 Collection。这可确保所有已插入的数据都写入持久化存储。
 
-<Admonition type="info" title="Notes">
-
-这仅适用于托管 Collection。
-
-</Admonition>
-
 ## 请求语法\{#request-syntax}
 
 ```python
@@ -49,21 +43,25 @@ client.flush_all(
 
 **参数：**
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
+**返回：**
+
+None。
+
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。当此操作过程中发生任何错误时，将引发此异常。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

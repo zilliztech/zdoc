@@ -4,12 +4,12 @@ slug: /python/python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会处理输入数据并生成分词输出。 | Python | MilvusClient"
 type: docx
-token: TWzjdJ61ho613AxKSd7clQt9nrg
+token: X7tsd4oAxoqVEvxXRkNc1Exqnif
 sidebar_position: 6
 keywords: 
   - 混合向量搜索
@@ -37,51 +37,55 @@ import Admonition from '@theme/Admonition';
 
 ```python
 run_analyzer(
-    texts: Union[str, List[str]],
-    analyzer_params: Union[str, Dict, None] = None,
-    with_hash: bool = False,
-    with_detail: bool = False,
-    timeout: Optional[float] = None,
-)
 ```
 
 **参数：**
 
-- `texts` (*Union[str, List[str]]*) -
+- **texts** （*Union[str, List[str]]*） -
 
     要分析的输入文本或文本列表。
 
-- `analyzer_params` (*Union[str, Dict, None]*) -
+- **analyzer_params** （*Union[str, Dict, None]*） -
 
-    Analyzer 的参数。如果设置为 `None`，则默认为空字典。
+    Analyzer 的参数。如果设置为 None，则默认为空字典。
 
-- `with_hash` (*bool*) -
+- **with_hash** （*bool*） -
 
-    用于指示是否包含基于哈希的处理的可选标志。
+    一个可选的 p。
 
-- `with_detail` (*bool*) -
+- **with_detail** （*bool*） -
 
-    用于指示是否返回详细分析输出的可选标志。
+    一个可选的 p。
 
-- `timeout` (*float* | *None*) -
+- **collection_name** （*str | None*） -
 
-    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作会超时。
+    要在其上运行 Analyzer 的 Collection 名称。
+
+- **field_name** （*str | None*） -
+
+    其 Analyzer 设置用于分析输入文本的字段名称。
+
+- **analyzer_names** （*str | list[str] | None*） -
+
+    要运行的内置 Analyzer 的名称或名称列表。
+
+- **timeout** （*float | None*） -
+
+    此操作的超时时长。将其设置为 *None* 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *List[str], List[List[str]]*
 
-**返回值：**
+**返回：**
 
-一个元组，包含：
-
-- 一个字符串列表，表示主要的分词输出。
-
-- 一个由字符串列表组成的列表，表示详细的 token 信息（如果启用了详细输出）。
+一个元组，包含：- 一个表示主要分词输出的字符串列表。- 一个由字符串列表组成的列表，表示详细的 token 信息（如果启用了详细输出）。
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
+- **MilvusException**
+
+    如果此操作期间发生任何错误，则会引发此异常。如果此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#examples}
 
