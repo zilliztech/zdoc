@@ -1,0 +1,9 @@
+{
+  "markdown": "# Page\n[x](missing.md)",
+  "sharedPages": [
+    [
+      "missing.md",
+      "shared-page"
+    ]
+  ]
+}
