@@ -1,9 +1,21 @@
 import MarkdownIt from 'markdown-it'
-import { analysisMarkdown } from './anchors'
+import { analysisMarkdown, headingText } from './anchors'
 import type { ImageRef, LinkRef } from './types'
 
 /** Use Markdown rules for recognition, retaining the original destination offsets. */
 export function collectReferences(markdown: string): { links: LinkRef[]; images: ImageRef[] } {
+  return scanReferences(markdown)
+}
+
+export interface LabeledLink extends LinkRef { text: string }
+/** The same occurrences as collectReferences, with their visible labels. */
+export function collectLabeledLinks(markdown: string): LabeledLink[] {
+  const links: LabeledLink[] = []
+  scanReferences(markdown, (ref, text) => links.push({ ...ref, text }))
+  return links.sort((a, b) => a.line - b.line || a.start - b.start)
+}
+
+function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) => void): { links: LinkRef[]; images: ImageRef[] } {
   const md = new MarkdownIt({ html: true })
   // Unsupported schemes must reach classification instead of disappearing as text.
   md.validateLink = () => true
@@ -11,6 +23,7 @@ export function collectReferences(markdown: string): { links: LinkRef[]; images:
   blocks.validateLink = () => true
   const env: { references?: Record<string, { href: string; title: string }> } = {}
   const source = analysisMarkdown(markdown)
+  const original = onLink ? markdown.replace(/\r(?!\n)/g, '\n') : ''
   const lines = [0, ...[...source.matchAll(/\n/g)].map(match => match.index! + 1)]
   const masks: [number, number][] = []
   const definitions = new Map<string, { start: number; end: number }>()
@@ -54,9 +67,11 @@ export function collectReferences(markdown: string): { links: LinkRef[]; images:
   const images: ImageRef[] = []
   const containers: { name: string; ignored: boolean }[] = []
   const ignored = () => containers.some(item => item.ignored)
-  const add = (image: boolean, url: string, span: { start: number; end: number }, occurrence: number) => {
+  const add = (image: boolean, url: string, span: { start: number; end: number }, occurrence: number, text = '') => {
     const collection = image ? images : links
-    collection.push({ url, ...span, line: source.slice(0, occurrence).split('\n').length })
+    const ref = { url, ...span, line: source.slice(0, occurrence).split('\n').length }
+    collection.push(ref)
+    if (!image) onLink?.(ref, text)
   }
   for (const name of ['link', 'image']) {
     const rule = md.inline.ruler.__rules__.find(rule => rule.name === name)!.fn
@@ -69,16 +84,23 @@ export function collectReferences(markdown: string): { links: LinkRef[]; images:
       const token = state.tokens.slice(first).find(token => token.type === (image ? 'image' : 'link_open'))
       if (!token) return ok
       const url = String(token.attrGet(image ? 'src' : 'href') ?? '')
+      let text = ''
+      if (onLink && !image) {
+        const old = state.pos
+        const end = md.helpers.parseLinkLabel(state, start, true)
+        state.pos = old
+        text = headingText(original.slice(start + 1, end))
+      }
       if (token.meta?.label) {
         const span = definitions.get(String(token.meta.label))
-        if (span) add(image, url, span, start)
+        if (span) add(image, url, span, start, text)
       } else {
         const old = state.pos
         const labelEnd = md.helpers.parseLinkLabel(state, start + (image ? 1 : 0), !image)
         state.pos = old
         const whitespace = /^\(\s*/.exec(masked.slice(labelEnd + 1))
         const span = whitespace && destination(masked, labelEnd + 1 + whitespace[0].length)
-        if (span) add(image, url, span, start)
+        if (span) add(image, url, span, start, text)
       }
       return ok
     })
@@ -89,7 +111,8 @@ export function collectReferences(markdown: string): { links: LinkRef[]; images:
     const ok = autoRule(state, silent)
     if (ok && !silent && state.src === masked && !ignored()) {
       const token = state.tokens.slice(first).find(token => token.type === 'link_open')
-      if (token) add(false, String(token.attrGet('href')), { start: start + 1, end: state.pos - 1 }, start)
+      if (token) add(false, String(token.attrGet('href')), { start: start + 1, end: state.pos - 1 }, start,
+        onLink ? headingText(masked.slice(start, state.pos)) : '')
     }
     return ok
   })
@@ -117,7 +140,9 @@ export function collectReferences(markdown: string): { links: LinkRef[]; images:
       const value = attr[2] ?? attr[3] ?? attr[4]
       const prefix = /^[^=]+=\s*["']?/.exec(attr[0])![0].length
       const offset = start + attr.index! + prefix
-      add(key === 'src', md.utils.unescapeAll(value), { start: offset, end: offset + value.length }, start)
+      const close = onLink && new RegExp(`</${name}\\s*>`, 'i').exec(masked.slice(state.pos))
+      const text = close ? headingText(original.slice(state.pos, state.pos + close.index)) : ''
+      add(key === 'src', md.utils.unescapeAll(value), { start: offset, end: offset + value.length }, start, text)
     }
     if (!/\/\s*>$/.test(raw) && !['img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'wbr', 'area', 'base', 'embed', 'param', 'track', 'col'].includes(name)) {
       containers.push({ name, ignored: excluded })
