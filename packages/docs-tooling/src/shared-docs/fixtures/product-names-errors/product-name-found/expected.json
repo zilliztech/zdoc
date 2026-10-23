@@ -1,0 +1,10 @@
+[
+  {
+    "code": "PRODUCT_NAME_FOUND",
+    "file": "site/en/example.md",
+    "line": 4,
+    "page": "example",
+    "channel": "current",
+    "detail": { "spelling": "Milvus", "manual": "guides", "mdxLines": [3] }
+  }
+]
