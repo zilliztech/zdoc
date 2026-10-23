@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "影響を受けたエンティティの件数と ID を含む Upsert 操作の結果を含みます。 | Go | v2"
+description: "Upsert 操作の結果には、影響を受けたエンティティの件数と ID が含まれます。 | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 20
+sidebar_position: 19
 keywords: 
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UpsertResult
 
-影響を受けたエンティティの件数と ID を含む Upsert 操作の結果を含みます。
+Upsert 操作の結果には、影響を受けたエンティティの件数と ID が含まれます。
 
 ```go
 type UpsertResult struct {
@@ -40,12 +40,12 @@ type UpsertResult struct {
 }
 ```
 
-**FIELDS:**
+**フィールド:**
 
 - **UpsertCount** (*int64*)
 
-    影響を受けたエンティティの数。
+    影響を受けたエンティティの数です。
 
 - **IDs** (*column.Column*)
 
-    影響を受けたエンティティの ID。
+    影響を受けたエンティティの ID です。

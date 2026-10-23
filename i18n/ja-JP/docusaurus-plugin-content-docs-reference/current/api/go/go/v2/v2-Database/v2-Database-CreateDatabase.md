@@ -1,25 +1,25 @@
 ---
-title: "CreateDatabase() | Go | v2"
+title: "CreateDatabase | Go | v2"
 slug: /go/go/v2-Database-CreateDatabase
-sidebar_label: "CreateDatabase()"
+sidebar_label: "CreateDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は新しいデータベースを作成します。 | Go | v2"
+description: "この操作は、指定した名前とオプションのプロパティを使用して新しいデータベースを作成します。 | Go | v2"
 type: docx
-token: BMlVd8UFLor42pxDtr3cnobPnxe
+token: KgMSdCS28oPhbWx38NLcrXKanCd
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - ベクトル埋め込みとは
-  - vector database tutorial
-  - ベクトルデータベースはどのように動作するか
+  - 階層型ナビゲーション可能なスモールワールド
+  - 密埋め込み
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
-  - CreateDatabase()
+  - クラウド
+  - CreateDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateDatabase()
+# CreateDatabase
 
-この操作は新しいデータベースを作成します。
+この操作は、指定した名前とオプションのプロパティを使用して新しいデータベースを作成します。
 
 ```go
 func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption, callOptions ...grpc.CallOption) error
@@ -39,24 +39,32 @@ func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption
 
 ## リクエスト構文\{#request-syntax}
 
+CreateDatabase() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewCreateDatabaseOption(dbName).
-    WithProperty(key, val)
+    WithProperty(key, value)
 
 err := client.CreateDatabase(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
 
-    データベースの名前。
+    **[REQUIRED]**
 
-**オプションメソッド:**
+    データベースの名前です。
 
-- `WithProperty(key string, val any)`
+**ビルダーメソッド:**
 
-    リソースにカスタムプロパティのキーと値のペアを設定します。
+- `NewCreateDatabaseOption(dbName string)`
+
+    データベースを作成するためのオプションを作成します。`dbName` は、作成するデータベースの名前を指定します。
+
+- `WithProperty(key string, value any)`
+
+    値を文字列表現に変換した後、データベースプロパティのキーと値のペアを設定します。
 
 **戻り値の型:**
 
@@ -64,36 +72,37 @@ err := client.CreateDatabase(ctx, option)
 
 **戻り値:**
 
-成功時には nil を返し、失敗時には問題の内容を示す error を返します。
+データベースが作成されると nil を返します。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。リクエストの構築または RPC が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+CreateDatabase() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-dbName := `test_db`
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	// handle err
+	// handle error
 }
+defer cli.Close(ctx)
 
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption(dbName))
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("test_db").
+	WithProperty("database.replica.number", "3"))
 if err != nil {
-	// handle err
+	// handle error
 }
 ```

@@ -1,25 +1,25 @@
 ---
-title: "GetServerVersion() | Go | v2"
+title: "GetServerVersion | Go | v2"
 slug: /go/go/v2-Client-GetServerVersion
-sidebar_label: "GetServerVersion()"
+sidebar_label: "GetServerVersion"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、接続されている Zilliz Cloud クラスターのバージョンを返します。 | Go | v2"
+description: "この操作は、接続されている Milvus サーバーのバージョンを返します。 | Go | v2"
 type: docx
-token: TUYsd2ko4oAlB4xa9nxc6rhRnpc
+token: ZZ1mdvZJVoi5egxObkncej3SnUc
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - ベクトルデータベースとは
+  - ベクトルDB
+  - マルチモーダルベクトルデータベース検索
+  - 検索拡張生成
   - zilliz
   - zilliz cloud
-  - cloud
-  - GetServerVersion()
+  - クラウド
+  - GetServerVersion
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,29 +29,53 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GetServerVersion()
+# GetServerVersion
 
-この操作は、接続されている Zilliz Cloud クラスターのバージョンを返します。
+この操作は、接続されている Milvus サーバーのバージョンを返します。
 
 ```go
 func (c *Client) GetServerVersion(ctx context.Context, option GetServerVersionOption, callOptions ...grpc.CallOption) (string, error)
 ```
 
-**RETURN TYPE:**
+## リクエスト構文\{#request-syntax}
+
+GetServerVersion() のリクエストを作成します。
+
+```go
+option := milvusclient.NewGetServerVersionOption()
+
+version, err := client.GetServerVersion(ctx, option)
+```
+
+**ビルダーメソッド：**
+
+- `NewGetServerVersionOption()`
+
+    GetServerVersion() のリクエストを作成します。
+
+**戻り値の型：**
 
 *string, error*
 
-**RETURNS:**
+**戻り値：**
 
-要求された文字列値を返します。操作が失敗した場合はエラーを返します。
+リクエストされた文字列値です。操作が失敗した場合、エラーを返します。
 
-**EXCEPTIONS:**
+**パラメーター：**
+
+- **result** (*string*) - 
+
+    GetServerVersion() によって返される文字列値です。
+
+**エラー処理：**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
+
+GetServerVersion() の使用例を示します。
 
 ```go
 import (
@@ -59,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

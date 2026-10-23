@@ -4,17 +4,17 @@ slug: /go/go/v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、異なる vector field または index type を対象とする複数の ANN リクエストの結果を組み合わせるハイブリッド検索を実行します。reranker を使用して結果をマージし、並べ替えます。 | Go | v2"
+description: "この操作は、複数の検索リクエストを使用してコレクション内の複数のベクトルフィールドを対象に ANN 検索を実行し、その結果を reranker で結合してランク付けします。 | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - 音声検索
   - セマンティック検索とは
-  - Embedding model
+  - 埋め込みモデル
   - 画像類似検索
   - zilliz
   - zilliz cloud
@@ -31,122 +31,174 @@ import Admonition from '@theme/Admonition';
 
 # HybridSearch()
 
-この操作は、異なる vector field または index type を対象とする複数の ANN リクエストの結果を組み合わせるハイブリッド検索を実行します。reranker を使用して結果をマージし、並べ替えます。
+この操作は、複数の検索リクエストを使用してコレクション内の複数のベクトルフィールドを対象に ANN 検索を実行し、その結果を reranker で結合してランク付けします。
 
 ```go
 func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
+
+HybridSearch() のリクエストを作成します。
 
 ```go
-option := milvusclient.NewHybridSearchOption(collectionName, limit, annRequests).
-    WithConsistencyLevel(cl).
-    WithPartitions(partitions).
+annReq1 := milvusclient.NewAnnRequest("dense_vector", 10, denseVectors...)
+annReq2 := milvusclient.NewAnnRequest("sparse_vector", 10, sparseVectors...)
+
+option := milvusclient.NewHybridSearchOption(collectionName, 10, annReq1, annReq2).
+    WithPartitions(partitionNames).
+    WithNamespace(namespace).
     WithOutputFields(outputFields).
+    WithConsistencyLevel(consistencyLevel).
     WithReranker(reranker).
-    WithFunctionRerankers(functionReranker).
     WithOffset(offset)
 
 resultSets, err := cli.HybridSearch(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **option** (*HybridSearchOption*) -
+- **collectionName** (*string*) -
 
-    ハイブリッド検索オプションです。
+    **[必須]**
 
-**BUILDER METHODS:**
+    対象コレクションの名前です。
 
-- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`<br/>
-  1 つ以上の ANN リクエストを含むハイブリッド検索オプションを作成します。
+- **limit** (*int*) -
 
-- `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`<br/>
-  特定の vector field に対する ANN リクエストを作成します。
+    **[必須]**
 
-- `WithIDs(ids column.Column)`<br/>
-  指定された主キー ID のみを検索するように ANN リクエストをフィルタリングします。
+    再ランキング後に返す結果の最大数です。
 
-- `WithFilter(expr string)`<br/>
-  ANN リクエストに boolean expression フィルターを適用します。
+- **annRequests** (<em>...</em>AnnRequest&ast;) -
 
-- `WithOffset(offset int)`<br/>
-  ANN リクエストでスキップする結果数を設定します。
+    **[必須]**
 
-- `WithGroupByField(groupByField string)`<br/>
-  ANN リクエストの結果を指定された field でグループ化します。
+    `NewAnnRequest` で作成する、ベクトルフィールドごとの 1 つ以上の ANN 検索リクエストです。
 
-- `WithGroupSize(groupSize int)`<br/>
-  グループごとの結果数を設定します。
+**ビルダーメソッド:**
 
-- `WithStrictGroupSize(strictGroupSize bool)`<br/>
-  厳密なグループサイズ制限を適用します。
+- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  ANN リクエスト中に growing segment を無視します。
+    ハイブリッド検索の新しいオプションを作成します。各サブリクエストは `NewAnnRequest(annField, limit, vectors...)` で作成します。
 
-- `WithAnnParam(ap index.AnnParam)`<br/>
-  リクエストの ANN パラメータを設定します。
+- `NewAnnRequest(annField string, limit int, vectors ...entity.Vector)`
 
-- `WithSearchParam(key, value string)`<br/>
-  ANN リクエストのカスタム検索パラメータを設定します。
+    単一のベクトルフィールドに対する ANN 検索サブリクエストを作成します。
 
-- `WithFunctionReranker(fr *entity.Function)`<br/>
-  ANN リクエストに function reranker を適用します。
+- `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  ハイブリッド検索の consistency level を設定します。
+    検索の整合性レベルを設定します。
 
-- `WithPartitions(partitionNames ...string)`<br/>
-  ハイブリッド検索を指定された partition に制限します。
+- `WithPartitions(partitions ...string)`
 
-- `WithOutputFields(fieldNames ...string)`<br/>
-  result set で返す field を指定します。
+    検索を指定したパーティションに制限します。
 
-- `WithReranker(reranker milvusclient.Reranker)`<br/>
-  複数の ANN リクエストからの結果をマージして並べ替える reranker を設定します。
+- `WithNamespace(namespace string)`
 
-- `WithFunctionRerankers(functionReranker ...*entity.Function)`<br/>
-  ハイブリッド検索用の function ベースの reranker を設定します。
+    検索する namespace を指定します。
 
-- `WithOffset(offset int)`<br/>
-  一致結果を返す前にスキップする結果数を設定します。
+- `WithOutputFields(outputFields ...string)`
 
-**RETURN TYPE:**
+    結果セットで返すフィールドを指定します。
+
+- `WithReranker(reranker [Reranker](Reranker.md))`
+
+    フィールドごとの結果を結合してランク付けする reranker を設定します。作成には `NewRRFReranker()` または `NewWeightedReranker()` を使用します。
+
+- `WithFunctionRerankers(functionReranker *entity.Function)`
+
+    ハイブリッド検索の各サブ検索にスコアリング Function をサーバー上で適用します。
+
+- `WithFunctionScore(fs *entity.FunctionScore)`
+
+    検索の [FunctionScore](./v2-Collection-FunctionScore)（関数に加え、boost モードなどのスコアオプション）を設定します。
+
+- `WithOffset(offset int)`
+
+    一致結果を返す前にスキップする結果数を設定します。
+
+**戻り値の型:**
 
 *[]ResultSet, error*
 
-**RETURNS:**
+**戻り値:**
 
-スコアおよびすべての ANN リクエストからの field を含む、一致したエンティティを含むハイブリッド検索結果です。操作が失敗した場合はエラーを返します。
+一致したエンティティをスコアおよびフィールドとともに含む検索結果です。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**パラメーター:**
+
+- **ResultCount** (*int*) -
+
+    返されるエントリ数です。
+
+- **GroupByValue** (*column.Column*) -
+
+    search/query でグループ化を使用した場合の、グループ化列の値です。
+
+- **IDs** (*column.Column*) -
+
+    一致したエンティティの主キー列です。
+
+- **Fields** (*DataSet*) -
+
+    出力フィールドの列です。
+
+- **AggregationBuckets** (*[]AggregationBucket*) -
+
+    集約が要求された場合の、このクエリの検索集約結果です。
+
+- **Scores** (*[]float32*) -
+
+    各一致結果の、対象ベクトルまでの距離です。
+
+- **Recall** (*float32*) -
+
+    検索結果の推定再現率です（Zilliz Cloud による推定）。
+
+- **Err** (*error*) -
+
+    検索エラー（存在する場合）です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗しました。失敗の詳細については、`err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
+
+HybridSearch() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-token := "YOUR_CLUSTER_TOKEN"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
-	APIKey:  token,
 })
 if err != nil {
 	log.Fatal("failed to connect to milvus server: ", err.Error())
@@ -154,15 +206,21 @@ if err != nil {
 
 defer cli.Close(ctx)
 
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-sparseVector, _ := entity.NewSliceSparseEmbedding([]uint32{1, 21, 100}, []float32{0.1, 0.2, 0.3})
+denseVectors := []entity.Vector{entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835})}
+sparse, err := entity.NewSliceSparseEmbedding([]uint32{1, 2}, []float32{0.5, 0.3})
+if err != nil {
+	log.Fatal("failed to construct sparse embedding: ", err.Error())
+}
+sparseVectors := []entity.Vector{sparse}
+
+denseReq := milvusclient.NewAnnRequest("dense_vector", 10, denseVectors...)
+sparseReq := milvusclient.NewAnnRequest("sparse_vector", 10, sparseVectors...)
 
 resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-	"quick_setup",
-	3,
-	milvusclient.NewAnnRequest("dense_vector", 10, entity.FloatVector(queryVector)),
-	milvusclient.NewAnnRequest("sparse_vector", 10, sparseVector),
-).WithReranker(milvusclient.NewRRFReranker()))
+	"quick_setup", // collectionName
+	10,            // limit
+	denseReq, sparseReq,
+))
 if err != nil {
 	log.Fatal("failed to perform hybrid search: ", err.Error())
 }

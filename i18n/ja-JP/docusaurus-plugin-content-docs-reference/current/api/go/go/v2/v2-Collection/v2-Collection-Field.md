@@ -4,21 +4,21 @@ slug: /go/go/v2-Collection-Field
 sidebar_label: "Field"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.0
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "コレクションスキーマ内のフィールドを定義します。データ型、制約、インデックスのプロパティを含みます。 | Go | v2"
+description: "Field インスタンスは、データ型、制約、インデックスプロパティを含むコレクションスキーマ内のフィールドを定義します。 | Go | v2"
 type: docx
 token: DPcJdZceFoes0sxeRVKcKhaunq9
 sidebar_position: 15
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - エージェント型 RAG
+  - RAG LLM アーキテクチャ
+  - プライベート LLM
+  - 最近傍検索
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
   - Field
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Field
 
-コレクションスキーマ内のフィールドを定義します。データ型、制約、インデックスのプロパティを含みます。
+Field インスタンスは、データ型、制約、インデックスプロパティを含むコレクションスキーマ内のフィールドを定義します。
 
 ```go
 type Field struct {
@@ -50,19 +50,75 @@ type Field struct {
     DefaultValue *schemapb.ValueField
     Nullable bool
     StructSchema *StructSchema
+    ExternalField string
 }
 ```
 
-## コンストラクタ\{#constructor}
+**フィールド:**
 
-```go
-entity.NewField().
-    WithName(name).
-    WithDescription(desc).
-    WithDataType(dataType).
-    WithIsPrimaryKey(isPrimaryKey).
-    // ...
-```
+- **ID** (*int64*) -
+
+    フィールド ID です。コレクションの作成時に生成され、入力値は無視されます。
+
+- **Name** (*string*) -
+
+    フィールドの名前です。
+
+- **PrimaryKey** (*bool*) -
+
+    フィールドが主キーかどうかを示します。
+
+- **AutoID** (*bool*) -
+
+    ID が自動生成されるかどうかを示します。
+
+- **Description** (*string*) -
+
+    フィールドを人間が読める形式で説明したものです。
+
+- **DataType** ([FieldType](./v2-Collection-FieldType)) -
+
+    フィールドのデータ型です。
+
+- **TypeParams** (*map[string]string*) -
+
+    dim や max_length など、フィールドの型パラメーターです。
+
+- **IndexParams** (*map[string]string*) -
+
+    フィールドのインデックスパラメーターです。
+
+- **IsDynamic** (*bool*) -
+
+    フィールドが動的フィールドかどうかを示します。
+
+- **IsPartitionKey** (*bool*) -
+
+    フィールドがパーティションキーかどうかを示します。
+
+- **IsClusteringKey** (*bool*) -
+
+    フィールドがクラスタリングキーかどうかを示します。
+
+- **ElementType** ([FieldType](./v2-Collection-FieldType)) -
+
+    配列フィールドの要素型です。
+
+- **DefaultValue** (&ast;*schemapb.ValueField*) -
+
+    フィールドのデフォルト値です。
+
+- **Nullable** (*bool*) -
+
+    フィールドが null 値を受け入れるかどうかを示します。
+
+- **StructSchema** (&ast;*StructSchema*) -
+
+    構造体型フィールドの構造体スキーマです。
+
+- **ExternalField** (*string*) -
+
+    現在のフィールドのマップ先となる、外部データファイル内のフィールドの名前です。
 
 **ビルダーメソッド:**
 
@@ -74,9 +130,9 @@ entity.NewField().
 
     フィールドの説明を設定します。
 
-- `WithDataType(dataType FieldType)`
+- `WithDataType(dataType [FieldType](FieldType.md))`
 
-    フィールドのデータ型を設定します（例: Int64、VarChar、FloatVector）。
+    フィールドのデータ型（例: Int64、VarChar、FloatVector）を設定します。
 
 - `WithIsPrimaryKey(isPrimaryKey bool)`
 
@@ -88,7 +144,7 @@ entity.NewField().
 
 - `WithIsDynamic(isDynamic bool)`
 
-    これを動的フィールドとしてマークします。
+    このフィールドを動的フィールドとしてマークします。
 
 - `WithIsPartitionKey(isPartitionKey bool)`
 
@@ -96,7 +152,7 @@ entity.NewField().
 
 - `WithIsClusteringKey(isClusteringKey bool)`
 
-    データ整理用のクラスタリングキーとしてこのフィールドを設定します。
+    データ編成用のクラスタリングキーとしてこのフィールドを設定します。
 
 - `WithNullable(nullable bool)`
 
@@ -132,7 +188,7 @@ entity.NewField().
 
 - `WithTypeParams(key string, value string)`
 
-    フィールドの型パラメータのキーと値のペアを設定します。
+    フィールドの型パラメーターのキーと値のペアを設定します。
 
 - `WithDim(dim int64)`
 
@@ -140,9 +196,9 @@ entity.NewField().
 
 - `WithMaxLength(maxLen int64)`
 
-    VarChar フィールドの最大文字長を設定します。
+    varchar フィールドの最大文字長を設定します。
 
-- `WithElementType(eleType FieldType)`
+- `WithElementType(eleType [FieldType](FieldType.md))`
 
     配列フィールドの要素型を設定します。
 
@@ -152,15 +208,15 @@ entity.NewField().
 
 - `WithEnableAnalyzer(enable bool)`
 
-    このフィールドで全文検索を行うためのテキストアナライザーを有効にします。
+    このフィールドの全文検索用テキストアナライザーを有効にします。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    テキスト処理用のアナライザーパラメータを設定します。
+    テキスト処理用のアナライザーパラメーターを設定します。
 
 - `WithMultiAnalyzerParams(params map[string]any)`
 
-    フィールドの複数のアナライザー設定を設定します。
+    フィールドの複数のアナライザー構成を設定します。
 
 - `WithEnableMatch(enable bool)`
 
@@ -168,23 +224,25 @@ entity.NewField().
 
 - `WithStructSchema(schema *StructSchema)`
 
-    struct 型フィールドの struct スキーマを設定します。
+    構造体型フィールドの構造体スキーマを設定します。
 
 - `WithExternalField(externalField string)`
 
-    現在のフィールドがマッピングされる、外部データファイル内のフィールド名を設定します。
+    現在のフィールドのマップ先となる、外部データファイル内のフィールドの名前を設定します。
 
 **メソッド:**
 
-- `GetDim() int64, error`
+- `GetDim() (int64, error)`
 
-    dim を取得します。
+    フィールドの次元を返します。
 
 ## 例\{#example}
 
+Field の使用例を示します。
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Primary key field

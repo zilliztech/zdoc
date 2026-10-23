@@ -4,21 +4,21 @@ slug: /go/go/v2-Snapshot-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、非同期の restore snapshot ジョブのステータスと進行状況を照会します。 | Go | v2"
+description: "この操作は、非同期のスナップショット復元ジョブのステータスと進行状況を照会します。 | Go | v2"
 type: docx
 token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
+  - ベクトルデータベースの比較
   - Faiss
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - GetRestoreSnapshotState()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRestoreSnapshotState()
 
-この操作は、非同期の restore snapshot ジョブのステータスと進行状況を照会します。
+この操作は、非同期のスナップショット復元ジョブのステータスと進行状況を照会します。
 
 ```go
 func (c *Client) GetRestoreSnapshotState(ctx context.Context, opt GetRestoreSnapshotStateOption, callOptions ...grpc.CallOption) (*milvuspb.RestoreSnapshotInfo, error)
@@ -39,17 +39,21 @@ func (c *Client) GetRestoreSnapshotState(ctx context.Context, opt GetRestoreSnap
 
 ## リクエスト構文\{#request-syntax}
 
+GetRestoreSnapshotState() のリクエストを作成します。
+
 ```go
 option := client.NewGetRestoreSnapshotStateOption(jobID)
 
 result, err := client.GetRestoreSnapshotState(option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **JobId** (*int64*) -
+- **jobID** (*int64*) -
 
-    `RestoreSnapshot()` によって返されるジョブ ID。
+    **[必須]**
+
+    復元ジョブ ID です。
 
 **戻り値の型:**
 
@@ -57,7 +61,7 @@ result, err := client.GetRestoreSnapshotState(option)
 
 **戻り値:**
 
-指定された restore snapshot ジョブの詳細を記録する RestoreSnapshotInfo オブジェクト。
+指定したスナップショット復元ジョブの詳細を記録する RestoreSnapshotInfo オブジェクトです。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -73,58 +77,29 @@ type RestoreSnapshotInfo struct {
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **jobID** (*int64*)
+- **result** (*milvuspb.RestoreSnapshotInfo*) -
 
-    restore ジョブ ID。
+    指定したスナップショット復元ジョブの詳細を記録する RestoreSnapshotInfo オブジェクトです。
 
-- **SnapshotName** (*string*) -
-
-    restore 中の snapshot 名。
-
-- **DbName** (*string*) -
-
-    対象データベース名。
-
-- **CollectionName** (*string*) -
-
-    対象 collection 名。
-
-- **State** (*RestoreSnapshotState*) -
-
-    現在の状態。指定可能な値: *RestoreSnapshotNone*, *RestoreSnapshotPending*, *RestoreSnapshotExecuting*, *RestoreSnapshotCompleted*, *RestoreSnapshotFailed*。
-
-- **Progress** (*int64*) -
-
-    進捗率（0～100）。
-
-- **Reason** (*string*) -
-
-    ジョブが失敗した場合のエラー理由。
-
-- **StartTime** (*int64*) -
-
-    開始タイムスタンプ（ミリ秒）。
-
-- **TimeCost** (*int64*) -
-
-    所要時間（ミリ秒）。
-
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗します。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 
+GetRestoreSnapshotState() の使用例を示します。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

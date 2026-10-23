@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "インデックス構成のためのインターフェースです。NewAutoIndex() や NewHNSWIndex() などのコンストラクター関数を使用してインスタンスを作成します。 | Go | v2"
+description: "インデックス設定のインターフェースです。インスタンスを作成するには、NewAutoIndex() や NewHNSWIndex() などのコンストラクター関数を使用します。 | Go | v2"
 type: docx
 token: ERQodkjAzotUQ3xKvA8c6jmLn3e
 sidebar_position: 1
@@ -18,7 +18,7 @@ keywords:
   - ベクトルデータベースの比較
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - インデックス
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # インデックス
 
-インデックス構成のためのインターフェースです。NewAutoIndex() や NewHNSWIndex() などのコンストラクター関数を使用してインスタンスを作成します。
+インデックス設定のインターフェースです。インスタンスを作成するには、NewAutoIndex() や NewHNSWIndex() などのコンストラクター関数を使用します。
 
 ```go
 type Index interface {
@@ -41,11 +41,11 @@ type Index interface {
 }
 ```
 
-**METHODS:**
+**メソッド:**
 
 - `Name() string`
 
-    インデックスの名前を返します。
+    インデックス名を返します。
 
 - `IndexType() IndexType`
 

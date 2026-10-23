@@ -1,25 +1,25 @@
 ---
-title: "Delete() | Go | v2"
+title: "削除 | Go | v2"
 slug: /go/go/v2-Vector-Delete
-sidebar_label: "Delete()"
+sidebar_label: "削除"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、主キー値またはフィルター式によって collection からエンティティを削除します。 | Go | v2"
+description: "この操作では、プライマリキー値またはフィルター式によってコレクションからエンティティを削除します。 | Go | v2"
 type: docx
-token: ZIm2dVn5noFLpAxRkjbc6jiSnee
-sidebar_position: 7
+token: UsNSd8reIoOaBCxH2s7cvMIDnUf
+sidebar_position: 6
 keywords: 
-  - ベクトル化
-  - k 最近傍アルゴリズム
-  - ANNS
-  - ベクトル検索
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトル DB とは
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
-  - cloud
-  - Delete()
+  - クラウド
+  - 削除
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Delete()
+# 削除
 
-この操作は、主キー値またはフィルター式によって collection からエンティティを削除します。
+この操作では、プライマリキー値またはフィルター式によってコレクションからエンティティを削除します。
 
 ```go
 func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ...grpc.CallOption) (DeleteResult, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+Delete() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewDeleteOption(collectionName).
@@ -49,17 +51,27 @@ option := milvusclient.NewDeleteOption(collectionName).
 result, err := client.Delete(ctx, option)
 ```
 
-**パラメーター:**
+**パラメーター：**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象の collection の名前。
+    **[必須]**
 
-**オプションメソッド:**
+    対象コレクションの名前です。
+
+**ビルダーメソッド：**
+
+- `NewDeleteOption(collectionName string)`
+
+    Delete() のリクエストを作成します。
 
 - `WithExpr(expr string)`
 
     操作の expr を設定します。
+
+- `WithTemplateParam(key string, val any)`
+
+    式評価のテンプレートパラメーターを設定します。
 
 - `WithInt64IDs(fieldName string, ids []int64)`
 
@@ -67,34 +79,52 @@ result, err := client.Delete(ctx, option)
 
 - `WithStringIDs(fieldName string, ids []string)`
 
-    操作の string ID を設定します。
+    操作の文字列 ID を設定します。
 
 - `WithPartition(partitionName string)`
 
-    操作の partition を設定します。
+    操作のパーティションを設定します。
 
-**戻り値の型:**
+- `WithNamespace(namespace string)`
 
-*[DeleteResult](./v2-Vector-DeleteResult), error*
+    削除のスコープをコレクションの名前空間に限定します。
 
-**戻り値:**
+**戻り値の型：**
+
+*DeleteResult, error*
+
+**戻り値：**
 
 削除結果です。操作が失敗した場合はエラーを返します。
 
-**例外:**
+```go
+type DeleteResult struct {
+    DeleteCount int64
+}
+```
+
+**パラメーター：**
+
+- **DeleteCount** (*int64*) -
+
+    影響を受けたエンティティの数です。
+
+**エラー処理：**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+Delete() の使用方法を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

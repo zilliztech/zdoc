@@ -1,25 +1,25 @@
 ---
-title: "AlterCollectionFieldProperty() | Go | v2"
+title: "AlterCollectionFieldProperty | Go | v2"
 slug: /go/go/v2-Collection-AlterCollectionFieldProperty
-sidebar_label: "AlterCollectionFieldProperty()"
+sidebar_label: "AlterCollectionFieldProperty"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection 内の特定の field のプロパティを変更します。 | Go | v2"
+description: "既存のコレクション内のフィールドのプロパティを変更します。 | Go | v2"
 type: docx
-token: MIyedieIBo43Yrxee0lcY3cUn8b
+token: DcWidpe28otXGSxUzvucDyrhnoc
 sidebar_position: 4
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - 画像検索
+  - LLM
+  - 機械学習
+  - RAG
   - zilliz
   - zilliz cloud
-  - cloud
-  - AlterCollectionFieldProperty()
+  - クラウド
+  - AlterCollectionFieldProperty
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterCollectionFieldProperty()
+# AlterCollectionFieldProperty
 
-この操作は、collection 内の特定の field のプロパティを変更します。
+既存のコレクション内のフィールドのプロパティを変更します。
 
 ```go
 func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterCollectionFieldPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+AlterCollectionFieldProperty() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewAlterCollectionFieldPropertiesOption(collectionName, fieldName).
@@ -48,19 +50,27 @@ err := client.AlterCollectionFieldProperty(ctx, option)
 
 **パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象の collection の名前。
+    **[必須]**
 
-- **fieldName** (*string*)
+    対象コレクションの名前です。
 
-    field の名前。
+- **fieldName** (*string*) -
 
-**オプションメソッド:**
+    **[必須]**
+
+    AlterCollectionFieldProperty の fieldName です。
+
+**ビルダーメソッド:**
+
+- `NewAlterCollectionFieldPropertiesOption(collectionName string, fieldName string)`
+
+    フィールドプロパティを変更するためのオプションを作成します。`collectionName` はコレクションを指定し、`fieldName` はプロパティを変更するフィールドを指定します。
 
 - `WithProperty(key string, value any)`
 
-    リソースにカスタムプロパティのキーと値のペアを設定します。
+    値を文字列表現に変換した後、フィールドプロパティのキーと値のペアを設定します。
 
 **戻り値の型:**
 
@@ -68,39 +78,36 @@ err := client.AlterCollectionFieldProperty(ctx, option)
 
 **戻り値:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+フィールドプロパティの変更後、nil を返します。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。リクエストの構築または RPC が失敗します。失敗の詳細を確認するには、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+AlterCollectionFieldProperty() の使用例を示します。
 
 ```go
 import (
 	"context"
-	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	log.Fatal("failed to connect to milvus server: ", err.Error())
+	// handle error
 }
 defer cli.Close(ctx)
 
-err = cli.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption("my_collection", "my_vector").
-	WithProperty("mmap.enabled", true))
+err = cli.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption("books", "title").
+	WithProperty("max_length", "512"))
 if err != nil {
 	// handle error
 }

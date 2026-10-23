@@ -1,25 +1,25 @@
 ---
-title: "Close() | Go | v2"
+title: "Close | Go | v2"
 slug: /go/go/v2-Client-Close
-sidebar_label: "Close()"
+sidebar_label: "Close"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、クライアント接続を閉じ、関連するリソースを解放します。 | Go | v2"
+description: "この操作は、クライアントの gRPC 接続を閉じ、そのリソースを解放します。クライアントが不要になったときに、通常は `defer` を介して呼び出してください。 | Go | v2"
 type: docx
-token: UN5Yd5ojPoTYrJxAtYzcgFs9nYe
+token: W1r5dHqUioRaR7xOyWVcrYPLnvg
 sidebar_position: 2
 keywords: 
-  - managed milvus
-  - Serverless ベクトルデータベース
-  - milvus オープンソース
-  - milvus はどのように動作するか
+  - Annoy ベクトル検索
+  - milvus
+  - Zilliz
+  - milvus ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
-  - Close()
+  - クラウド
+  - Close
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,27 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Close()
+# Close
 
-この操作は、クライアント接続を閉じ、関連するリソースを解放します。
+この操作は、クライアントの gRPC 接続を閉じ、そのリソースを解放します。クライアントが不要になったとき、通常は `defer` を介して呼び出してください。
 
 ```go
 func (c *Client) Close(ctx context.Context) error
 ```
+
+## リクエスト構文\{#request-syntax}
+
+Close() のリクエストを作成します。
+
+````go
+func (c *Client) Close(ctx context.Context) error
+```
+
+**PARAMETERS:**
+
+- **ctx** (*context.Context*)
+
+    The context for the closing operation. The context is used for cancellation and deadlines.
 
 **RETURN TYPE:**
 
@@ -43,36 +57,55 @@ func (c *Client) Close(ctx context.Context) error
 
 **RETURNS:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+Returns nil on success, or an error if the underlying connection failed to close.
 
 **EXCEPTIONS:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    Check `err != nil` for failure details.
+````
 
-## Example\{#example}
+**パラメーター:**
+
+- **ctx**（*context.Context*） -
+
+    終了操作のコンテキストです。コンテキストは、キャンセルとデッドラインに使用されます。
+
+**戻り値の型:**
+
+*error*
+
+**戻り値:**
+
+成功した場合は nil を返し、基になる接続を閉じることに失敗した場合はエラーを返します。
+
+**エラー処理:**
+
+- **error**
+
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
+
+## 例\{#example}
+
+Close() の使用方法を示します。
 
 ```go
 import (
 	"context"
-	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
+	Address: milvusAddr,
 })
 if err != nil {
-	log.Fatal("failed to create client:", err)
+	// handle error
 }
 
-err = cli.Close(ctx)
-if err != nil {
-	log.Fatal("failed to close client:", err)
-}
+defer cli.Close(ctx)
 ```

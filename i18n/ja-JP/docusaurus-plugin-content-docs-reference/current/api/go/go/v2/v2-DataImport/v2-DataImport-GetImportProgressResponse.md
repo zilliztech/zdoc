@@ -4,12 +4,12 @@ slug: /go/go/v2-DataImport-GetImportProgressResponse
 sidebar_label: "GetImportProgressResponse"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`GetImportProgress()` パッケージ関数によって返されるレスポンスを表すクラスです。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。 | Go | v2"
+description: "GetImportProgressResponse インスタンスは、`GetImportProgress()` パッケージ関数によって返されるレスポンスです。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。 | Go | v2"
 type: docx
-token: ZasGdw9Szo9TQbxzHlYcLh1Rnyf
+token: UATqdiZsKo3HahxZYhQcZp6GnKg
 sidebar_position: 6
 keywords: 
   - 安価なベクトルデータベース
@@ -31,77 +31,94 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgressResponse
 
-このクラスは、`GetImportProgress()` パッケージ関数によって返されるレスポンスを表します。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。
+GetImportProgressResponse インスタンスは、`GetImportProgress()` パッケージ関数によって返されるレスポンスです。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。
 
 ```go
 type GetImportProgressResponse struct {
     ResponseBase
-    Data *ImportProgressData `json:"data"`
-}
-
-type ImportProgressData struct {
-    CollectionName string                  `json:"collectionName"`
-    JobID          string                  `json:"jobId"`
-    CompleteTime   string                  `json:"completeTime"`
-    State          string                  `json:"state"`
-    Progress       int64                   `json:"progress"`
-    ImportedRows   int64                   `json:"importedRows"`
-    TotalRows      int64                   `json:"totalRows"`
-    Reason         string                  `json:"reason"`
-    FileSize       int64                   `json:"fileSize"`
-    Details        []*ImportProgressDetail `json:"details"`
-}
-
-type ImportProgressDetail struct {
-    FileName     string `json:"fileName"`
-    FileSize     int64  `json:"fileSize"`
-    Progress     int64  `json:"progress"`
-    CompleteTime string `json:"completeTime"`
-    State        string `json:"state"`
-    ImportedRows int64  `json:"importedRows"`
-    TotalRows    int64  `json:"totalRows"`
+    Data *ImportProgressData
 }
 ```
 
-**フィールド:**
+**FIELDS:**
 
-- **Status** (*int*) -<br/>
-  `ResponseBase` から継承されます。値が `0` の場合は成功を示します。
+- **Status** (*int*) -
 
-- **Message** (*string*) -<br/>
-  `ResponseBase` から継承されます。`Status` が 0 以外の場合のエラー説明です。
+    `ResponseBase` から継承されます。値が `0` の場合は成功を示します。
 
-- **Data** (&lt;em>\</em>ImportProgressData&ast;) -<br/>
-  要求されたジョブの進行状況ペイロードです。
+- **Message** (*string*) -
 
-**ImportProgressData のフィールド:**
+    `ResponseBase` から継承されます。`Status` が 0 以外の場合のエラー説明です。
 
-- **CollectionName** (*string*) -<br/>
-  ジョブが対象とするコレクションです。
+- **Data** (&ast;*ImportProgressData*) -
 
-- **JobID** (*string*) -<br/>
-  インポートジョブの一意の識別子です。
+    要求されたジョブの進行状況ペイロードです。**ImportProgressData のフィールド：**
 
-- **State** (*string*) -<br/>
-  現在のジョブ状態です。一般的な値には `Pending`、`Importing`、`Completed`、`Failed` があります。
+- **CollectionName** (*string*) -
 
-- **Progress** (*int64*) -<br/>
-  `[0, 100]` の範囲で表される全体の完了率です。
+    ジョブが対象とするコレクションです。
 
-- **ImportedRows** (*int64*) -<br/>
-  コレクションにすでにインポートされた行数です。
+- **JobID** (*string*) -
 
-- **TotalRows** (*int64*) -<br/>
-  すべてのソースファイルから想定される合計行数です。
+    インポートジョブの一意の識別子です。
 
-- **FileSize** (*int64*) -<br/>
-  すべてのソースファイルの合計サイズ（バイト単位）です。
+- **State** (*string*) -
 
-- **CompleteTime** (*string*) -<br/>
-  ジョブの完了タイムスタンプです。ジョブが終端状態に達するまでは空です。
+    現在のジョブ状態です。一般的な値には `Pending`、`Importing`、`Completed`、`Failed` があります。
 
-- **Reason** (*string*) -<br/>
-  `State == "Failed"` の場合の失敗理由です。それ以外の場合は空です。
+- **Progress** (*int64*) -
 
-- **Details** (*[]\ImportProgressDetail*) -<br/>
-  ファイルごとの進行状況エントリです。親フィールドと同じ構造を持ち、それぞれ1つのソースファイルを対象とします。
+    `[0, 100]` の範囲で示される全体の完了率です。
+
+- **ImportedRows** (*int64*) -
+
+    コレクションにすでにインポートされた行数です。
+
+- **TotalRows** (*int64*) -
+
+    すべてのソースファイルから想定される合計行数です。
+
+- **FileSize** (*int64*) -
+
+    すべてのソースファイルの合計サイズ（バイト単位）です。
+
+- **CompleteTime** (*string*) -
+
+    ジョブの完了タイムスタンプです。ジョブが終端状態に達するまでは空です。
+
+- **Reason** (*string*) -
+
+    `State == "Failed"` の場合の失敗理由です。それ以外の場合は空です。
+
+- **Details** (*[]\ImportProgressDetail*) -
+
+    ファイルごとの進行状況エントリです。親フィールドと同じ構造を持ち、それぞれ1つのソースファイルを対象とします。
+
+## 例\{#example}
+
+GetImportProgressResponse の使用例を示します。
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+progress, err := milvusclient.GetImportProgress(ctx, milvusclient.NewGetImportProgressOption("<jobId>"))
+if err != nil {
+	// handle error
+}
+fmt.Println(progress.Data.State, progress.Data.ImportedRows, progress.Data.TotalRows)
+```

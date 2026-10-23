@@ -1,25 +1,25 @@
 ---
-title: "RevokeRole() | Go | v2"
+title: "RevokeRole | Go | v2"
 slug: /go/go/v2-Authentication-RevokeRole
-sidebar_label: "RevokeRole()"
+sidebar_label: "RevokeRole"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はユーザーからロールを削除します。 | Go | v2"
+description: "この操作では、ユーザーからロールを削除します。 | Go | v2"
 type: docx
-token: PKWMdOpDkoIXhFxDsgrc8oQVnIf
+token: OuG9dQJKJoMzmOxOoNNcdDRDnJd
 sidebar_position: 23
 keywords: 
-  - ベクトル次元
-  - ANN 検索
-  - ベクトル埋め込みとは
-  - ベクトルデータベースチュートリアル
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - RevokeRole()
+  - Elastic ベクトルデータベース
+  - Pinecone と Milvus の比較
+  - Chroma と Milvus の比較
+  - Annoy ベクトル検索
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
+  - RevokeRole
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RevokeRole()
+# RevokeRole
 
-この操作はユーザーからロールを削除します。
+この操作では、ユーザーからロールを削除します。
 
 ```go
 func (c *Client) RevokeRole(ctx context.Context, opt RevokeRoleOption, callOpts ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+RevokeRole() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewRevokeRoleOption(userName, roleName)
@@ -47,13 +49,23 @@ err := client.RevokeRole(ctx, option)
 
 **パラメーター:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
 
-    ユーザーの名前。
+    **[必須]**
 
-- **roleName** (*string*)
+    ユーザーの名前です。
 
-    ロールの名前。
+- **roleName** (*string*) -
+
+    **[必須]**
+
+    ロールの名前です。
+
+**ビルダーメソッド:**
+
+- `NewRevokeRoleOption(userName string, roleName string)`
+
+    RevokeRole() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -61,21 +73,23 @@ err := client.RevokeRole(ctx, option)
 
 **戻り値:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+成功時は nil を返し、失敗時は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+RevokeRole() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

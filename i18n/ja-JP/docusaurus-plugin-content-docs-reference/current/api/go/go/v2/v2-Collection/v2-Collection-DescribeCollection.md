@@ -1,25 +1,25 @@
 ---
-title: "DescribeCollection() | Go | v2"
+title: "DescribeCollection | Go | v2"
 slug: /go/go/v2-Collection-DescribeCollection
-sidebar_label: "DescribeCollection()"
+sidebar_label: "DescribeCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、スキーマやプロパティを含むコレクションの詳細情報を返します。 | Go | v2"
 type: docx
-token: SCP5dY88horVwExBCD2cuSChnZM
+token: Gqw1dx2TLodFGCx2prYcTgminRe
 sidebar_position: 11
 keywords: 
-  - ベクトル類似検索
-  - 近似最近傍探索
-  - DiskANN
-  - スパースベクトル
+  - ANNS
+  - ベクトル検索
+  - knn アルゴリズム
+  - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
-  - DescribeCollection()
+  - クラウド
+  - DescribeCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeCollection()
+# DescribeCollection
 
 この操作は、スキーマやプロパティを含むコレクションの詳細情報を返します。
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollecti
 
 ## リクエスト構文\{#request-syntax}
 
+DescribeCollection() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewDescribeCollectionOption(name)
 
@@ -47,25 +49,92 @@ result, err := client.DescribeCollection(ctx, option)
 
 **パラメーター:**
 
-- **name** (*string*)
+- **name** (*string*) -
+
+    **[必須]**
 
     対象コレクションの名前です。
 
+**ビルダーメソッド:**
+
+- `NewDescribeCollectionOption(name string)`
+
+    DescribeCollection() のリクエストを作成します。
+
 **戻り値の型:**
 
-*[コレクション* ](./v2-Collection)entity.コレクション, err error&ast;
+*entity.コレクション, error*
 
 **戻り値:**
 
 スキーマ、フィールド、プロパティを含むコレクションの説明です。操作が失敗した場合はエラーを返します。
 
-**例外:**
+```go
+type Collection struct {
+    ID               int64
+    Name             string
+    Schema           *Schema
+    PhysicalChannels []string
+    VirtualChannels  []string
+    Loaded           bool
+    ConsistencyLevel ConsistencyLevel
+    ShardNum         int32
+    Properties       map[string]string
+    UpdateTimestamp  uint64
+}
+```
+
+**パラメーター:**
+
+- **ID** (*int64*) -
+
+    コレクションの一意の識別子です。
+
+- **Name** (*string*) -
+
+    コレクションの名前です。
+
+- **スキーマ** ([スキーマ](./v2-Collection-Schema)) -
+
+    フィールド定義と主キーを含むコレクションスキーマです。
+
+- **PhysicalChannels** (*[]string*) -
+
+    コレクションが使用する物理メッセージチャネルです。
+
+- **VirtualChannels** (*[]string*) -
+
+    コレクションが使用する仮想メッセージチャネルです。
+
+- **Loaded** (*bool*) -
+
+    コレクションが現在読み込まれているかどうかです。
+
+- **ConsistencyLevel** ([ConsistencyLevel](./v2-Collection-ConsistencyLevel)) -
+
+    コレクションの整合性レベルです。
+
+- **ShardNum** (*int32*) -
+
+    コレクション内のシャード数です。
+
+- **Properties** (*map[string]string*) -
+
+    コレクションのプロパティ（TTL 設定など）です。
+
+- **UpdateTimestamp** (*uint64*) -
+
+    コレクションの更新タイムスタンプです。通常、内部の変更検出に使用されます。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DescribeCollection() の使用例を示します。
 
 ```go
 import (
@@ -73,7 +142,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

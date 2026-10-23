@@ -10,7 +10,7 @@ notebook: false
 description: "挿入されたエンティティの件数と ID を含む Insert 操作の結果です。 | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 12
+sidebar_position: 11
 keywords: 
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
@@ -40,12 +40,12 @@ type InsertResult struct {
 }
 ```
 
-**FIELDS:**
+**フィールド:**
 
 - **InsertCount** (*int64*)
 
-    影響を受けたエンティティの数。
+    影響を受けたエンティティの数です。
 
 - **IDs** (*column.Column*)
 
-    影響を受けたエンティティの ID。
+    影響を受けたエンティティの ID です。

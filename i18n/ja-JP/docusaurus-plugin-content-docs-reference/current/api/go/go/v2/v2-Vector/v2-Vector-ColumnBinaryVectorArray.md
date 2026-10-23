@@ -4,21 +4,21 @@ slug: /go/go/v2-Vector-ColumnBinaryVectorArray
 sidebar_label: "ColumnBinaryVectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "行に共有次元を持つ Binary 値を含む ArrayOfVector 列を表します。 | Go | v2"
+description: "ColumnBinaryVectorArray インスタンスは、行に共通の次元を持つバイナリベクトル値を含む ArrayOfVector バイナリベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: VKeBdnkoXoI29txzTuncqsaDnte
-sidebar_position: 3
+sidebar_position: 2
 keywords: 
   - ベクトル検索
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
   - 非構造化データとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ColumnBinaryVectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,38 +31,46 @@ import Admonition from '@theme/Admonition';
 
 # ColumnBinaryVectorArray
 
-行に共有次元を持つ Binary 値を含む ArrayOfVector 列を表します。
+ColumnBinaryVectorArray インスタンスは、行に共通の次元を持つバイナリベクトル値を含む ArrayOfVector バイナリベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。
 
 ```go
 type ColumnBinaryVectorArray struct {
 }
 ```
 
-## Request Syntax\{#request-syntax}
-
-行指向の vector-array データから ColumnBinaryVectorArray を作成します。
-
-```go
-column.NewColumnBinaryVectorArray(fieldName string, dim int, data [][][]byte) *ColumnBinaryVectorArray
-```
-
-**METHODS:**
+**ビルダーメソッド：**
 
 - `AppendValue(value any) error`
 
-    これは、`[]entity.BinaryVector` または `[][]byte` として渡された 1 行を追加します。
+    これは、[]entity.BinaryVector または [][]byte として指定された 1 行を追加します。
 
-**RETURN TYPE:**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnBinaryVectorArray*
+    指定されたインデックスにある行が null かどうかを報告します。
 
-**RETURNS:**
+- `Nullable() bool`
 
-struct 配列フィールド内の ArrayOfVector binary-vector データ用の列型です。
+    この列が null 値を受け入れるかどうかを報告します。
 
-## Example\{#example}
+- `SetNullable(nullable bool)`
 
-ColumnBinaryVectorArray の使用法を示します。
+    この列が null 値を受け入れるかどうかを設定します。
+
+- `ValidCount() int`
+
+    null ではない行の数を返します。
+
+- `ValidateNullable() error`
+
+    内部の null 許容の記録を検証し、不一致がある場合はエラーを返します。
+
+**メソッド：**
+
+- `Slice(start, end int) Column`
+
+## 例\{#example}
+
+ColumnBinaryVectorArray の使用方法を示します。
 
 ```go
 import (

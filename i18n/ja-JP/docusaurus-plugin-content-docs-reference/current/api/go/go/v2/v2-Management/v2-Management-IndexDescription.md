@@ -10,10 +10,10 @@ notebook: false
 description: "インデックスの種類、パラメーター、ビルド状態、行数を含むインデックス情報を記述します。 | Go | v2"
 type: docx
 token: Wyvhd3725onAmAxegk1caOHonQg
-sidebar_position: 15
+sidebar_position: 14
 keywords: 
   - ベクトル埋め込みとは
-  - ベクトルデータベースチュートリアル
+  - ベクトルデータベースのチュートリアル
   - ベクトルデータベースの仕組み
   - ベクトルデータベースの比較
   - zilliz
@@ -43,24 +43,24 @@ type IndexDescription struct {
 }
 ```
 
-**FIELDS:**
+**フィールド:**
 
-- **インデックス.Index** *(埋め込み)*
+- **インデックス.Index** *（埋め込み）*
 
     index.Index からメソッドを継承します。
 
 - **State** (*index.IndexState*)
 
-    現在の状態。
+    現在の状態です。
 
 - **PendingIndexRows** (*int64*)
 
-    インデックス作成待ちの行数。
+    インデックス作成待ちの行数です。
 
 - **TotalRows** (*int64*)
 
-    行の総数。
+    行の総数です。
 
 - **IndexedRows** (*int64*)
 
-    インデックス済みの行数。
+    インデックス済みの行数です。

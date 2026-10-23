@@ -1,25 +1,25 @@
 ---
-title: "CreateUser() | Go | v2"
+title: "CreateUser | Go | v2"
 slug: /go/go/v2-Authentication-CreateUser
-sidebar_label: "CreateUser()"
+sidebar_label: "CreateUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ユーザー名とパスワードを使用して新しいユーザーを作成します。 | Go | v2"
+description: "この操作では、ユーザー名とパスワードを使用して新しいユーザーを作成します。 | Go | v2"
 type: docx
-token: Liv8dqreJo6t26xf3UWcC8ePnpe
+token: OgksdyybIol0ZuxfGk5cptU6nQf
 sidebar_position: 5
 keywords: 
-  - ニューラルネットワーク
-  - ディープラーニング
-  - ナレッジベース
-  - 自然言語処理
+  - オープンソースベクトルデータベース
+  - ベクトルデータベースの例
+  - rag ベクトルデータベース
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
-  - クラウド
-  - CreateUser()
+  - cloud
+  - CreateUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateUser()
+# CreateUser
 
-この操作は、ユーザー名とパスワードを使用して新しいユーザーを作成します。
+この操作では、ユーザー名とパスワードを使用して新しいユーザーを作成します。
 
 ```go
 func (c *Client) CreateUser(ctx context.Context, opt CreateUserOption, callOpts ...grpc.CallOption) error
@@ -39,43 +39,57 @@ func (c *Client) CreateUser(ctx context.Context, opt CreateUserOption, callOpts 
 
 ## リクエスト構文\{#request-syntax}
 
+CreateUser() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewCreateUserOption(userName, password)
 
 err := client.CreateUser(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター：**
 
-- **userName** (*string*)
+- **userName** (*string*) -
 
-    ユーザーの名前。
+    **[必須]**
 
-- **password** (*string*)
+    ユーザーの名前です。
 
-    ユーザーのパスワード。
+- **password** (*string*) -
 
-**戻り値の型:**
+    **[必須]**
+
+    ユーザーのパスワードです。
+
+**ビルダーメソッド：**
+
+- `NewCreateUserOption(userName, password)`
+
+    CreateUser() のリクエストを作成します。
+
+**戻り値の型：**
 
 *error*
 
-**戻り値:**
+**戻り値：**
 
-成功時は nil、失敗時は問題の内容を示す error を返します。
+成功した場合は nil を返し、失敗した場合は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラー処理：**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+CreateUser() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

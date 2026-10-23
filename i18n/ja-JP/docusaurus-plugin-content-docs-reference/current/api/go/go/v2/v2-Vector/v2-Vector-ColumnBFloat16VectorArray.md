@@ -4,21 +4,21 @@ slug: /go/go/v2-Vector-ColumnBFloat16VectorArray
 sidebar_label: "ColumnBFloat16VectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "行が共有次元を持つ BFloat16 値を含む ArrayOfVector 列を表します。 | Go | v2"
+description: "ColumnBFloat16VectorArray インスタンスは、行が共有次元の bfloat16 ベクトル値を含む ArrayOfVector bfloat16 ベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - LLMs
-  - Machine Learning
+  - 機械学習
   - RAG
   - NLP
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ColumnBFloat16VectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,36 +31,44 @@ import Admonition from '@theme/Admonition';
 
 # ColumnBFloat16VectorArray
 
-行が共有次元を持つ BFloat16 値を含む ArrayOfVector 列を表します。
+ColumnBFloat16VectorArray インスタンスは、行が共有次元の bfloat16 ベクトル値を含む ArrayOfVector bfloat16 ベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。
 
 ```go
 type ColumnBFloat16VectorArray struct {
 }
 ```
 
-## Request Syntax\{#request-syntax}
-
-行指向の vector-array データから ColumnBFloat16VectorArray を作成します。
-
-```go
-column.NewColumnBFloat16VectorArray(fieldName string, dim int, data [][][]byte) *ColumnBFloat16VectorArray
-```
-
-**METHODS:**
+**ビルダーメソッド:**
 
 - `AppendValue(value any) error`
 
-    これにより、`[]entity.BFloat16Vector` または `[][]byte` として渡された 1 行が追加されます。
+    これは、[]entity.BFloat16Vector または [][]byte として指定された 1 行を追加します。
 
-**RETURN TYPE:**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnBFloat16VectorArray*
+    指定されたインデックスにある行が null かどうかを返します。
 
-**RETURNS:**
+- `Nullable() bool`
 
-struct array フィールド内の ArrayOfVector bfloat16-vector データ用の column 型です。
+    列が null 値を受け入れるかどうかを返します。
 
-## Example\{#example}
+- `SetNullable(nullable bool)`
+
+    列が null 値を受け入れるかどうかを設定します。
+
+- `ValidCount() int`
+
+    null ではない行の数を返します。
+
+- `ValidateNullable() error`
+
+    内部の null 許容の記録を検証し、不一致がある場合はエラーを返します。
+
+**メソッド:**
+
+- `Slice(start, end int) Column`
+
+## 例\{#example}
 
 ColumnBFloat16VectorArray の使用方法を示します。
 

@@ -10,7 +10,7 @@ notebook: false
 description: "コレクションまたはパーティションのロード状態（進捗率を含む）を表します。 | Go | v2"
 type: docx
 token: XWSAdFkdDoaDPnxOtkEcuFETngL
-sidebar_position: 20
+sidebar_position: 19
 keywords: 
   - 質問応答システム
   - llm-as-a-judge

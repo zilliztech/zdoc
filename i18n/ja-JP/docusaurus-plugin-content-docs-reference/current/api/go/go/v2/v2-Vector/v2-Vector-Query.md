@@ -1,25 +1,25 @@
 ---
-title: "Query() | Go | v2"
+title: "Query | Go | v2"
 slug: /go/go/v2-Vector-Query
-sidebar_label: "Query()"
+sidebar_label: "Query"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、ブールフィルター式に一致するエンティティを取得します。 | Go | v2"
 type: docx
-token: P84bd17ncosvh4xuahpcFGzoneb
-sidebar_position: 13
+token: KwEzdcoZ6o2rkgxUAp4ct66nnDf
+sidebar_position: 12
 keywords: 
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
-  - vector db とは
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
+  - セマンティック検索
   - zilliz
   - zilliz cloud
-  - cloud
-  - Query()
+  - クラウド
+  - Query
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Query()
+# Query
 
 この操作は、ブールフィルター式に一致するエンティティを取得します。
 
@@ -38,6 +38,8 @@ func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...g
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+Query() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewQueryOption(collectionName).
@@ -53,13 +55,19 @@ option := milvusclient.NewQueryOption(collectionName).
 result, err := client.Query(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象 collection の名前です。
+    **[必須]**
 
-**OPTION METHODS:**
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewQueryOption(collectionName string)`
+
+    Query() のリクエストを作成します。
 
 - `WithFilter(expr string)`
 
@@ -67,7 +75,7 @@ result, err := client.Query(ctx, option)
 
 - `WithTemplateParam(key string, val any)`
 
-    式の評価用のテンプレートパラメーターを設定します。
+    式の評価に使用するテンプレートパラメーターを設定します。
 
 - `WithOffset(offset int)`
 
@@ -81,33 +89,90 @@ result, err := client.Query(ctx, option)
 
     返される結果に含めるフィールドを指定します。
 
-- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](../Collection/ConsistencyLevel.md))`
 
-    操作の整合性レベル（Strong、Bounded、Session、または Eventually）を設定します。
+    操作の整合性レベル（Strong、Bounded、Session、Eventually のいずれか）を設定します。
 
 - `WithPartitions(partitionNames ...string)`
 
-    操作を指定した partition に制限します。
+    操作を指定したパーティションに限定します。
+
+- `WithNamespace(namespace string)`
+
+    クエリのスコープをコレクションの名前空間に限定します。
+
+- `WithOrderByFields(fields ...string)`
+
+    指定されたスカラーフィールドでクエリ結果を並べ替えます。各指定は `fieldName` または `fieldName:asc` / `fieldName:desc`（デフォルトは昇順）です。並べ替えフィールドを設定する場合、サーバーでは明示的な limit の指定が必要です。
 
 - `WithIDs(ids column.Column)`
 
-    この操作の ID を設定します。
+    操作の ID を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-*[ResultSet](./v2-Vector-ResultSet), error*
+*ResultSet, error*
 
-**RETURNS:**
+**戻り値:**
 
-一致したエンティティのスコアとフィールドを含む search または query の結果です。操作が失敗した場合はエラーを返します。
+検索またはクエリの結果には、一致したエンティティがスコアおよびフィールドとともに含まれます。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**パラメーター:**
+
+- **ResultCount** (*int*) -
+
+    返されたエントリの数です。
+
+- **GroupByValue** (*column.Column*) -
+
+    検索/query でグループ化を使用した場合の、グループ化列の値です。
+
+- **IDs** (*column.Column*) -
+
+    一致したエンティティの主キー列です。
+
+- **Fields** (*DataSet*) -
+
+    出力フィールドの列です。
+
+- **AggregationBuckets** (*[]AggregationBucket*) -
+
+    集計が要求された場合の、このクエリの検索集計結果です。
+
+- **Scores** (*[]float32*) -
+
+    各一致結果とターゲットベクトルとの距離です。
+
+- **Recall** (*float32*) -
+
+    検索結果の推定再現率です（Zilliz Cloud による推定）。
+
+- **Err** (*error*) -
+
+    検索エラーがある場合は、そのエラーです。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+Query() の使用例を示します。
 
 ```go
 import (
@@ -115,7 +180,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -4,21 +4,21 @@ slug: /go/go/v2-Collection-Function
 sidebar_label: "Function"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "collection スキーマにアタッチできる組み込み関数（例: BM25、text embedding）を定義します。 | Go | v2"
+description: "Function インスタンスは、コレクションスキーマにアタッチできる組み込み関数（BM25、テキスト埋め込みなど）を定義します。 | Go | v2"
 type: docx
-token: G4dTdejt8otbQWxUqvucwKnBnYg
+token: CpbRdh7gOo7yrlxfgTyc65XJnug
 sidebar_position: 17
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル検索
   - milvus
   - Zilliz
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - Function
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-collection スキーマにアタッチできる組み込み関数（例: BM25、text embedding）を定義します。
+Function インスタンスは、コレクションスキーマにアタッチできる組み込み関数（BM25、テキスト埋め込みなど）を定義します。
 
 ```go
 type Function struct {
@@ -44,16 +44,31 @@ type Function struct {
 }
 ```
 
-## Constructor\{#constructor}
+**フィールド:**
 
-```go
-entity.NewFunction().
-    WithName(name).
-    WithInputFields(inputFields).
-    WithOutputFields(outputFields).
-    WithType(funcType).
-    // ...
-```
+- **Name** (*string*) -
+
+    関数の名前です。
+
+- **Description** (*string*) -
+
+    関数の人間が読める形式の説明です。
+
+- **Type** (*FunctionType*) -
+
+    関数の種類です（BM25、Rerank など）。
+
+- **InputFieldNames** (*[]string*) -
+
+    関数が読み取る入力フィールドの名前です。
+
+- **OutputFieldNames** (*[]string*) -
+
+    関数が出力を書き込むフィールドの名前です。
+
+- **Params** (*map[string]string*) -
+
+    キーと値のペアで表される関数パラメーターです。
 
 **ビルダーメソッド:**
 
@@ -71,23 +86,31 @@ entity.NewFunction().
 
 - `WithType(funcType FunctionType)`
 
-    関数タイプ（BM25、TextEmbedding、Rerank）を設定します。
+    関数のタイプ（BM25、MinHash、TextEmbedding、Rerank）を設定します。
 
 - `WithParam(key string, value any)`
 
-    関数パラメータのキーと値のペアを設定します。
+    関数パラメーターのキーと値のペアを設定します。
 
-## Example\{#example}
+**メソッド:**
+
+- `Clone() *Function`
+
+    f のディープコピーを返します。
+
+## 例\{#example}
+
+Function の使用方法を示します。
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Define a BM25 text embedding function on a VarChar field
 fn := entity.NewFunction().
     WithName("bm25_fn").
-    WithFunctionType(entity.FunctionTypeBM25).
+    WithType(entity.FunctionTypeBM25).
     WithInputFields("text").
     WithOutputFields("sparse_vector")
 

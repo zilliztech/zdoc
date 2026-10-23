@@ -1,25 +1,25 @@
 ---
-title: "AlterIndexProperties() | Go | v2"
+title: "AlterIndexProperties | Go | v2"
 slug: /go/go/v2-Management-AlterIndexProperties
-sidebar_label: "AlterIndexProperties()"
+sidebar_label: "AlterIndexProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存のインデックスのプロパティを変更します。 | Go | v2"
+description: "この操作は、既存のインデックスのプロパティを変更します。 | Go | v2"
 type: docx
-token: XzLnd1w4uo2RM0xS8UWc5K6in1R
+token: KAfCd9KE6oD9XmxgntMcfFNTn0c
 sidebar_position: 1
 keywords: 
-  - 類似検索
-  - マルチモーダル RAG
-  - LLM ハルシネーション
-  - ハイブリッド検索
+  - HNSW
+  - 非構造化データとは
+  - ベクトル埋め込み
+  - ベクトルストア
   - zilliz
   - zilliz cloud
   - クラウド
-  - AlterIndexProperties()
+  - AlterIndexProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterIndexProperties()
+# AlterIndexProperties
 
-この操作は既存のインデックスのプロパティを変更します。
+この操作は、既存のインデックスのプロパティを変更します。
 
 ```go
 func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+AlterIndexProperties() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewAlterIndexPropertiesOption(collectionName, indexName).
@@ -46,17 +48,25 @@ option := milvusclient.NewAlterIndexPropertiesOption(collectionName, indexName).
 err := client.AlterIndexProperties(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象のコレクションの名前。
+    **[REQUIRED]**
 
-- **indexName** (*string*)
+    対象のコレクションの名前です。
 
-    インデックスの名前。
+- **indexName** (*string*) -
 
-**オプションメソッド:**
+    **[REQUIRED]**
+
+    インデックスの名前です。
+
+**ビルダーメソッド:**
+
+- `NewAlterIndexPropertiesOption(collectionName string, indexName string)`
+
+    AlterIndexProperties() のリクエストを作成します。
 
 - `WithProperty(key string, value any)`
 
@@ -68,21 +78,23 @@ err := client.AlterIndexProperties(ctx, option)
 
 **戻り値:**
 
-成功した場合は nil、失敗した場合は問題の内容を示す error を返します。
+成功した場合は nil を返し、失敗した場合は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作は失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+AlterIndexProperties() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

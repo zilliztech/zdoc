@@ -4,18 +4,18 @@ slug: /go/go/v2-Snapshot-ListSnapshots
 sidebar_label: "ListSnapshots()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection のすべてのスナップショット名を一覧表示します。 | Go | v2"
+description: "この操作は、指定したコレクションのすべてのスナップショット名を一覧表示します。 | Go | v2"
 type: docx
 token: Bs3OdQ56zohZEbx9KaHcInM4nHh
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - 自然言語検索
   - 類似検索
-  - マルチモーダルRAG
-  - llm ハルシネーション
+  - マルチモーダル RAG
+  - LLM ハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # ListSnapshots()
 
-この操作は、指定された collection のすべてのスナップショット名を一覧表示します。
+この操作は、指定したコレクションのすべてのスナップショット名を一覧表示します。
 
 ```go
 func (c *Client) ListSnapshots(ctx context.Context, opt ListSnapshotsOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+ListSnapshots() のリクエストを作成します。
 
 ```go
 option := client.NewListSnapshotsOption(collectionName).
@@ -46,11 +48,13 @@ option := client.NewListSnapshotsOption(collectionName).
 result, err := client.ListSnapshots(option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collectionName** (*string*) -
 
-    対象 collection の名前。
+    **[必須]**
+
+    対象コレクションの名前です。
 
 **ビルダーメソッド:**
 
@@ -64,22 +68,31 @@ result, err := client.ListSnapshots(option)
 
 **戻り値:**
 
-スナップショット名のリスト。操作が失敗した場合はエラーを返します。
+スナップショット名のリストです。操作が失敗した場合は、エラーを返します。
 
-**例外:**
+**パラメーター:**
+
+- **result** (*[]string*) -
+
+    ListSnapshots() によって返される []string 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 
+ListSnapshots() の使用方法を示します。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

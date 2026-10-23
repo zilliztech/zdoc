@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、範囲ベースのスカラーフィールドクエリ用のソート済みインデックス設定を作成します。 | Go | v2"
+description: "この関数は、範囲ベースのスカラーフィールドクエリ用のソート済みインデックス構成を作成します。 | Go | v2"
 type: docx
 token: JTQrddtCJoJBjwxrKZrcn1lPnEe
 sidebar_position: 23
 keywords: 
   - RAG LLM アーキテクチャ
   - プライベート LLM
-  - NN 検索
+  - 近似最近傍検索
   - LLM 評価
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - NewSortedIndex()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # NewSortedIndex()
 
-この関数は、範囲ベースのスカラーフィールドクエリ用のソート済みインデックス設定を作成します。
+この関数は、範囲ベースのスカラーフィールドクエリ用のソート済みインデックス構成を作成します。
 
 ```go
 func NewSortedIndex() Index
 ```
 
-**戻り値:**
+**戻り値：**
 
 *[インデックス](./v2-Management-Index)*
 
-インデックス設定のインスタンスです。これは、インデックスオプションを介して `CreateIndex()` に渡します。
+インデックス構成のインスタンスです。これを、インデックスオプションを通じて `CreateIndex()` に渡します。
 
 ## 例\{#example}
 

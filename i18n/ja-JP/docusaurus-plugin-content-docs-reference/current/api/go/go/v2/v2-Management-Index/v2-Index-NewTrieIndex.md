@@ -13,12 +13,12 @@ token: MSFrdlGjaoh9zdxHuZqcf6VsnDw
 sidebar_position: 26
 keywords: 
   - Zilliz
-  - milvus ベクトル データベース
-  - milvus db
-  - milvus ベクトル db
+  - milvus ベクトルデータベース
+  - milvus データベース
+  - milvus ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - NewTrieIndex()
   - gov230
 displayed_sidebar: goSidebar
@@ -41,7 +41,7 @@ func NewTrieIndex() Index
 
 *[インデックス](./v2-Management-Index)*
 
-インデックス設定のインスタンスです。これをインデックスオプションを介して `CreateIndex()` に渡します。
+インデックス設定のインスタンスです。インデックスオプションを使用して、これを `CreateIndex()` に渡します。
 
 ## 例\{#example}
 

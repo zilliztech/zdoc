@@ -4,18 +4,18 @@ slug: /go/go/v2-Management-MetricType
 sidebar_label: "MetricType"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "ベクトル類似検索に使用する距離メトリックタイプを列挙します。 | Go | v2"
+description: "MetricType インスタンスは、ベクトル類似検索に使用する距離メトリクスタイプを列挙します。 | Go | v2"
 type: docx
-token: Hl6adortyo5I2nxdGx8cEDJ8noe
-sidebar_position: 22
+token: DWgIdWBkWoypMGx36Dmcf41AnGg
+sidebar_position: 21
 keywords: 
   - マルチモーダル検索
   - ベクトル検索アルゴリズム
   - 質問応答システム
-  - LLM-as-a-judge
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # MetricType
 
-ベクトル類似検索に使用する距離メトリックタイプを列挙します。
+MetricType インスタンスは、ベクトル類似検索に使用する距離メトリクスタイプを列挙します。
 
 ```go
 type MetricType string
@@ -49,7 +49,7 @@ type MetricType string
 
 - **COSINE** = "COSINE"
 
-    コサイン類似度。値の範囲は -1 〜 1 で、1 が最も類似していることを示します。
+    コサイン類似度。値の範囲は -1 から 1 で、1 が最も類似していることを示します。
 
 - **HAMMING** = "HAMMING"
 
@@ -105,12 +105,15 @@ type MetricType string
 
 ## 例\{#example}
 
+MetricType の使用例を示します。
+
 ```go
 import (
     "context"
 
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/index"
+	"github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -129,7 +132,7 @@ defer cli.Close(ctx)
 
 // Use MetricType when creating an index
 // L2 (Euclidean distance) for float vectors
-hnswIndex := index.NewHNSWIndex(index.MetricTypeL2, 16, 200)
+hnswIndex := index.NewHNSWIndex(entity.L2, 16, 200)
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "my_collection", "embedding", hnswIndex))
 if err != nil {
@@ -137,7 +140,7 @@ if err != nil {
 }
 
 // IP (Inner Product) for normalized vectors
-ipIndex := index.NewHNSWIndex(index.MetricTypeIP, 16, 200)
+ipIndex := index.NewHNSWIndex(entity.IP, 16, 200)
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "my_collection", "normalized_embedding", ipIndex))
 if err != nil {

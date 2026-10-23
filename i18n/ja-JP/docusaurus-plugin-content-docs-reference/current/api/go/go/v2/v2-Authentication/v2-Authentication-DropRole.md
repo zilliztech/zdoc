@@ -4,21 +4,21 @@ slug: /go/go/v2-Authentication-DropRole
 sidebar_label: "DropRole()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はシステムからロールを削除します。 | Go | v2"
+description: "この操作は、システムからロールを削除します。 | Go | v2"
 type: docx
 token: QKItdAf6HoDzMVxzWEbcDVL9n5r
 sidebar_position: 9
 keywords: 
   - ベクトル検索
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
   - 非構造化データとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - DropRole()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DropRole()
 
-この操作はシステムからロールを削除します。
+この操作は、システムからロールを削除します。
 
 ```go
 func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+DropRole() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewDropRoleOption("my_role").
@@ -46,40 +48,46 @@ option := milvusclient.NewDropRoleOption("my_role").
 err := cli.DropRole(ctx, option)
 ```
 
-**パラメーター:**
+**パラメーター：**
 
-- **opt** (*DropRoleOption*) -
+- **roleName** (*string*) -
 
-    ロールを削除するためのオプションです。
+    ロールの名前です。
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
+
+- `NewDropRoleOption(roleName string)`
+
+    DropRole() のリクエストを作成します。
 
 - `WithForce(force bool)`
 
-    これにより削除操作が強制され、ユーザーに割り当てられている、または権限が付与されている場合でもロールを削除します。
+    ドロップ操作を強制し、ロールがユーザーに割り当てられている場合や権限が付与されている場合でも、そのロールを削除します。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *error*
 
-**戻り値:**
+**戻り値：**
 
-成功時は nil、失敗時は問題の内容を示す error を返します。
+成功した場合は nil を返し、問題が発生した場合はその内容を説明するエラーを返します。
 
-**例外:**
+**エラーハンドリング：**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗します。失敗の詳細について err != nil を確認してください。
 
 ## 例\{#example}
+
+DropRole() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

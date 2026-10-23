@@ -1,25 +1,25 @@
 ---
-title: "RenameCollection() | Go | v2"
+title: "RenameCollection | Go | v2"
 slug: /go/go/v2-Collection-RenameCollection
-sidebar_label: "RenameCollection()"
+sidebar_label: "RenameCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存の collection の名前を変更します。 | Go | v2"
+description: "この操作は、既存のコレクションの名前を変更します。 | Go | v2"
 type: docx
-token: XJN5dD1ifo5A9xxEfFKcf7Fxn1g
+token: FgIgdfcnBoXz87xXstdcP0b5nFf
 sidebar_position: 22
 keywords: 
-  - 動画検索
-  - AIハルシネーション
-  - AIエージェント
-  - セマンティック検索
+  - 非構造化データとは
+  - ベクトル埋め込み
+  - ベクトルストア
+  - オープンソースベクトルデータベース
   - zilliz
   - zilliz cloud
   - クラウド
-  - RenameCollection()
+  - RenameCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RenameCollection()
+# RenameCollection
 
-この操作は既存の collection の名前を変更します。
+この操作は、既存のコレクションの名前を変更します。
 
 ```go
 func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOption, callOptions ...grpc.CallOption) error
@@ -39,44 +39,58 @@ func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOp
 
 ## リクエスト構文\{#request-syntax}
 
+RenameCollection() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewRenameCollectionOption(oldName, newName)
 
 err := client.RenameCollection(ctx, option)
 ```
 
-**パラメータ:**
+**パラメータ：**
 
-- **oldName** (*string*)
+- **oldName** (*string*) -
 
-    以前の名前です。
+    **[必須]**
 
-- **newName** (*string*)
+    変更前の名前です。
 
-    collection の新しい名前です。
+- **newName** (*string*) -
 
-**戻り値の型:**
+    **[必須]**
+
+    コレクションの新しい名前です。
+
+**ビルダーメソッド：**
+
+- `NewRenameCollectionOption(oldName string, newName string)`
+
+    RenameCollection() のリクエストを作成します。
+
+**戻り値の型：**
 
 *error*
 
-**戻り値:**
+**戻り値：**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+成功時は nil を返し、失敗時は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラーハンドリング：**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+RenameCollection() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

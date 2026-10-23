@@ -1,25 +1,25 @@
 ---
-title: "SearchIterator() | Go | v2"
+title: "SearchIterator | Go | v2"
 slug: /go/go/v2-Vector-SearchIterator
-sidebar_label: "SearchIterator()"
+sidebar_label: "SearchIterator"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、大規模な検索結果セットをページネーションするためのイテレータを作成します。 | Go | v2"
+description: "この操作は、ANN 検索結果をバッチ単位で取得する検索イテレーターを作成します。大規模な結果セットを一度にメモリへ読み込む必要がない場合に使用します。 | Go | v2"
 type: docx
-token: K6obdWvXyoNLbMxNkggc9JyMnPd
-sidebar_position: 18
+token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
+sidebar_position: 17
 keywords: 
-  - ベクトル検索
-  - 音声類似検索
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - HNSW
+  - 非構造化データとは
+  - ベクトル埋め込み
+  - ベクトルストア
   - zilliz
   - zilliz cloud
-  - cloud
-  - SearchIterator()
+  - クラウド
+  - SearchIterator
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,64 +29,74 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# SearchIterator()
+# SearchIterator
 
-この操作は、大規模な検索結果セットをページネーションするためのイテレータを作成します。
+この操作は、ANN 検索結果をバッチ単位で取得する検索イテレーターを作成します。大規模な結果セットを一度にメモリへ読み込む必要がない場合に使用します。
 
 ```go
 func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption, callOptions ...grpc.CallOption) (SearchIterator, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
+
+SearchIterator() のリクエストを作成します。
 
 ```go
-option := milvusclient.NewSearchIteratorOption(collectionName, vector).
+client.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(collectionName, vector).
     WithBatchSize(batchSize).
-    WithPartitions(partitionNames).
+    WithIteratorLimit(limit).
+    WithPartitions(partitionNames...).
     WithFilter(expr).
-    WithTemplateParam(key, val).
-    WithOffset(offset).
-    WithOutputFields(fieldNames).
+    WithOutputFields(fieldNames...).
     WithConsistencyLevel(consistencyLevel).
     WithANNSField(annsField).
-    WithGroupByField(groupByField).
-    WithGroupSize(groupSize).
-    WithStrictGroupSize(strictGroupSize).
-    WithIgnoreGrowing(ignoreGrowing).
-    WithAnnParam(ap).
-    WithSearchParam(key, value).
-    WithIteratorLimit(limit)
-
-result, err := client.SearchIterator(ctx, option)
+    WithAnnParam(ap),
+)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象 collection の名前です。
+    **[必須]**
 
-- **[vector](./v2-Vector)** (*entity.Vector*)
+    対象コレクションの名前です。
 
-    類似検索のクエリ vector です。
+- **ベクトル** (*entity.ベクトル*) -
 
-**OPTION METHODS:**
+    **[必須]**
+
+    検索に使用するクエリベクトルです。
+
+**ビルダーメソッド:**
+
+- `NewSearchIteratorOption(collectionName string, vector entity.Vector)`
+
+    **[必須]** 指定したコレクションとクエリベクトルに使用する新しい検索イテレーターオプションを作成します。
 
 - `WithBatchSize(batchSize int)`
 
-    1 回のイテレーションバッチごとに取得するエンティティ数を設定します。
+    イテレーションのバッチごとに返すエンティティの数です。デフォルト値: `1000`。
+
+- `WithIteratorLimit(limit int64)`
+
+    反復処理するエンティティの最大総数です。負の値は無制限を意味します。デフォルト値: `Unlimited`（-1）。
 
 - `WithPartitions(partitionNames ...string)`
 
-    操作を指定した partition に制限します。
+    検索するパーティションです。指定しない場合は、すべてのパーティションが検索されます。
+
+- `WithNamespace(namespace string)`
+
+    検索イテレーターをコレクションの名前空間にスコープします。
 
 - `WithFilter(expr string)`
 
-    boolean フィルター式を適用して結果を絞り込みます。
+    エンティティを絞り込むためのブール式です。式に一致するエンティティのみが返されます。
 
 - `WithTemplateParam(key string, val any)`
 
-    式評価用のテンプレートパラメータを設定します。
+    式評価用のテンプレートパラメーターを設定します。
 
 - `WithOffset(offset int)`
 
@@ -94,59 +104,63 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithOutputFields(fieldNames ...string)`
 
-    返される結果に含めるフィールドを指定します。
+    返されるエンティティに含めるフィールドです。
 
-- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
 
-    操作の整合性レベルを設定します（Strong、Bounded、Session、または Eventually）。
+    検索の整合性レベルです。デフォルト値: `Bounded`。
 
 - `WithANNSField(annsField string)`
 
-    検索対象とする vector フィールドを指定します。
+    コレクションに複数のベクトルフィールドがある場合に、検索対象とするベクトルフィールドを指定します。
 
 - `WithGroupByField(groupByField string)`
 
-    scalar フィールド値で検索結果をグループ化します。
+    指定したフィールドで検索結果をグループ化します。
 
 - `WithGroupSize(groupSize int)`
 
-    各グループごとに返す結果数を設定します。
+    グループ化が有効な場合に、グループごとに返す結果数を設定します。
 
 - `WithStrictGroupSize(strictGroupSize bool)`
 
-    結果内の各グループに対して厳密なグループサイズを強制します。
+    グループサイズの厳密な上限を適用します。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`
 
-    より高速ですが不完全になる可能性のある結果のために、growing セグメント内の検索をスキップします。
+    検索中に growing セグメントを無視します。
 
-- `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
+- `WithAnnParam(ap index.AnnParam)`
 
-    近似最近傍検索のパラメータ（例: nprobe、ef）を設定します。
+    近似最近傍検索のパラメーター（nprobe、ef など）を設定します。
 
 - `WithSearchParam(key, value string)`
 
-    カスタム検索パラメータのキーと値のペアを設定します。
+    カスタム検索パラメーターのキーと値のペアを設定します。
 
-- `WithIteratorLimit(limit int64)`
+**戻り値の型:**
 
-    WithIteratorLimit は反復するエントリの上限を設定します。`limit < 0` の場合、Unlimited に設定されます。
+**SearchIterator, error**
 
-**RETURN TYPE:**
+**戻り値:**
 
-*[SearchIterator](./v2-Vector-SearchIterator), error*
+*SearchIterator, error* SearchIterator インターフェースは、検索結果へのページ単位のアクセスを提供します。`io.EOF` が返されるまで `Next()` を繰り返し呼び出します。
 
-**RETURNS:**
+**パラメーター:**
 
-検索結果をページネーションするための SearchIterator です。操作に失敗した場合はエラーを返します。
+- **result** (&ast;*SearchIterator*) -
 
-**EXCEPTIONS:**
+    SearchIterator() から返される &ast;SearchIterator の値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作は失敗します。指定したコレクションが存在しない、サーバーが検索イテレーターをサポートしていない、パラメーターが無効である、またはサーバーに到達できない場合です。
 
-## Example\{#example}
+## 例\{#example}
+
+SearchIterator() の使用方法を示します。
 
 ```go
 import (
@@ -154,14 +168,12 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
@@ -169,29 +181,26 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+queryVector := entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835})
 
-iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(
-	"quick_setup",
-	entity.FloatVector(queryVector),
-).WithOutputFields("id", "color"))
+iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("quick_setup", queryVector).
+	WithBatchSize(500).
+	WithIteratorLimit(1000),
+)
 if err != nil {
 	// handle error
 }
 
 for {
-	resultSet, err := iter.Next(ctx)
+	rs, err := iter.Next(ctx)
 	if err == io.EOF {
 		break
 	}
 	if err != nil {
 		// handle error
 	}
-	for i := 0; i < resultSet.Len(); i++ {
-		fmt.Println(resultSet.IDs, resultSet.Scores)
-	}
+	fmt.Printf("Got %d results\n", rs.Len())
 }
 ```

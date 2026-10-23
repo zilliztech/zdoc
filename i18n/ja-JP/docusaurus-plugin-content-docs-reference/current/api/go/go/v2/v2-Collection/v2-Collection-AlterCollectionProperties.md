@@ -1,25 +1,25 @@
 ---
-title: "AlterCollectionProperties() | Go | v2"
+title: "AlterCollectionProperties | Go | v2"
 slug: /go/go/v2-Collection-AlterCollectionProperties
-sidebar_label: "AlterCollectionProperties()"
+sidebar_label: "AlterCollectionProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存の collection のプロパティを変更します。 | Go | v2"
+description: "この操作は、既存のコレクションのプロパティを変更します。 | Go | v2"
 type: docx
-token: DumcdeKcuoSJybxv0V5ckFrFnyg
+token: Q9Atd2A9LoykWSxJHuXcq09xnRg
 sidebar_position: 5
 keywords: 
-  - openai vector db
-  - 自然言語処理データベース
-  - 安価な vector データベース
-  - Managed vector database
+  - llm-as-a-judge
+  - ハイブリッドベクトル検索
+  - 動画の重複排除
+  - 動画類似検索
   - zilliz
   - zilliz cloud
-  - cloud
-  - AlterCollectionProperties()
+  - クラウド
+  - AlterCollectionProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterCollectionProperties()
+# AlterCollectionProperties
 
-この操作は既存の collection のプロパティを変更します。
+この操作は、既存のコレクションのプロパティを変更します。
 
 ```go
 func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterCollectionPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+AlterCollectionProperties() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewAlterCollectionPropertiesOption(collection).
@@ -46,13 +48,19 @@ option := milvusclient.NewAlterCollectionPropertiesOption(collection).
 err := client.AlterCollectionProperties(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **[collection](./v2-Collection)** (*string*)
+- **コレクション** (*string*) -
 
-    collection。
+    **[必須]**
 
-**オプションメソッド:**
+    コレクションです。
+
+**ビルダーメソッド:**
+
+- `NewAlterCollectionPropertiesOption(collection string)`
+
+    AlterCollectionProperties() のリクエストを作成します。
 
 - `WithProperty(key string, value any)`
 
@@ -66,20 +74,22 @@ err := client.AlterCollectionProperties(ctx, option)
 
 成功時は nil を返し、失敗時は問題の内容を示す error を返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作は失敗します。失敗の詳細は `err != nil` を確認してください。
 
 ## 例\{#example}
+
+AlterCollectionProperties() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 	"github.com/milvus-io/milvus/pkg/v2/common"
 )
 

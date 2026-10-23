@@ -1,25 +1,25 @@
 ---
-title: "GetCollectionStats() | Go | v2"
+title: "GetCollectionStats | Go | v2"
 slug: /go/go/v2-Collection-GetCollectionStats
-sidebar_label: "GetCollectionStats()"
+sidebar_label: "GetCollectionStats"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、行数などの collection に関する統計情報を返します。 | Go | v2"
+description: "この操作は、行数などのコレクションに関する統計情報を返します。 | Go | v2"
 type: docx
-token: L4CvdyBIVoFsMNx546qcBqrOnJd
+token: GdghdqEWhon4rpxH4HBcJUddnsf
 sidebar_position: 18
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - セマンティック検索
+  - 異常検知
+  - sentence transformers
+  - レコメンダーシステム
   - zilliz
   - zilliz cloud
-  - cloud
-  - GetCollectionStats()
+  - クラウド
+  - GetCollectionStats
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,29 +29,53 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GetCollectionStats()
+# GetCollectionStats
 
-この操作は、行数などの collection に関する統計情報を返します。
+この操作は、行数などのコレクションに関する統計情報を返します。
 
 ```go
 func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption) (map[string]string, error)
 ```
 
-**RETURN TYPE:**
+## リクエスト構文\{#request-syntax}
+
+GetCollectionStats() のリクエストを作成します。
+
+```go
+option := milvusclient.NewGetCollectionStatsOption("quick_setup")
+
+stats, err := client.GetCollectionStats(ctx, option)
+```
+
+**ビルダーメソッド：**
+
+- `NewGetCollectionStatsOption(collectionName string)`
+
+    `GetCollectionStats()` のオプションを作成します。`collectionName` は、検査するコレクションを指定します。
+
+**戻り値の型：**
 
 *map[string]string, error*
 
-**RETURNS:**
+**戻り値：**
 
 統計情報のキーと値のペアを格納したマップを返します。操作に失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**パラメーター：**
+
+- **result** (*map[string]string*) -
+
+    GetCollectionStats() が返す map[string]string の値です。
+
+**エラー処理：**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
+
+GetCollectionStats() の使用例を示します。
 
 ```go
 import (
@@ -59,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

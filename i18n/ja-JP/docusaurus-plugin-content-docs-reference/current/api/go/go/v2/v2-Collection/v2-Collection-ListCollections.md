@@ -1,25 +1,25 @@
 ---
-title: "ListCollections() | Go | v2"
+title: "ListCollections | Go | v2"
 slug: /go/go/v2-Collection-ListCollections
-sidebar_label: "ListCollections()"
+sidebar_label: "ListCollections"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、現在のデータベース内のすべての collection を一覧表示します。 | Go | v2"
+description: "この操作は、現在のデータベース内のすべてのコレクションを一覧表示します。 | Go | v2"
 type: docx
-token: AVEcd3SCwoRyiTxcNodcQAepnGf
+token: TEBxdE4JvooYMjxHloBcP9k6nE6
 sidebar_position: 21
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz ベクトルデータベース
+  - Zilliz データベース
+  - 非構造化データ
+  - ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
-  - ListCollections()
+  - ListCollections
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListCollections()
+# ListCollections
 
-この操作は、現在のデータベース内のすべての collection を一覧表示します。
+この操作は、現在のデータベース内のすべてのコレクションを一覧表示します。
 
 ```go
 func (c *Client) ListCollections(ctx context.Context, option ListCollectionOption, callOptions ...grpc.CallOption) (collectionNames []string, err error)
@@ -39,11 +39,19 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
 
 ## リクエスト構文\{#request-syntax}
 
+ListCollections() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewListCollectionOption()
 
 result, err := client.ListCollections(ctx, option)
 ```
+
+**ビルダーメソッド:**
+
+- `NewListCollectionOption()`
+
+    ListCollections() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -51,15 +59,23 @@ result, err := client.ListCollections(ctx, option)
 
 **戻り値:**
 
-名前のリスト。操作が失敗した場合はエラーを返します。
+名前のリストです。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**パラメーター:**
+
+- **result** (*collectionNames []string*) -
+
+    ListCollections() から返される collectionNames []string 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗した場合です。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+ListCollections() の使用方法を示します。
 
 ```go
 import (
@@ -67,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

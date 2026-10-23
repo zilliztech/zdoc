@@ -1,25 +1,25 @@
 ---
-title: "DescribeUser() | Go | v2"
+title: "DescribeUser | Go | v2"
 slug: /go/go/v2-Authentication-DescribeUser
-sidebar_label: "DescribeUser()"
+sidebar_label: "DescribeUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ユーザーに割り当てられたロールを含む、ユーザーの詳細情報を返します。 | Go | v2"
+description: "この操作は、割り当てられたロールを含むユーザーの詳細情報を返します。 | Go | v2"
 type: docx
-token: EbOodxkWBoRvwAxzJOkcsM6lnic
+token: PQHKdFLGXohyD3xIjALcEDa7n6g
 sidebar_position: 7
 keywords: 
-  - 次元削減
-  - hnsw algorithm
-  - ベクトル類似検索
-  - 近似最近傍探索
+  - milvus lite
+  - milvus ベンチマーク
+  - マネージド Milvus
+  - Serverless ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
-  - DescribeUser()
+  - DescribeUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeUser()
+# DescribeUser
 
-この操作は、ユーザーに割り当てられたロールを含む、ユーザーの詳細情報を返します。
+この操作は、割り当てられたロールを含むユーザーの詳細情報を返します。
 
 ```go
 func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callOpts ...grpc.CallOption) (*entity.User, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+DescribeUser() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewDescribeUserOption(userName)
@@ -47,32 +49,59 @@ result, err := client.DescribeUser(ctx, option)
 
 **パラメーター:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
 
-    ユーザーの名前。
+    **[必須]**
+
+    ユーザーの名前です。
+
+**ビルダーメソッド:**
+
+- `NewDescribeUserOption(userName)`
+
+    DescribeUser() のリクエストを作成します。
 
 **戻り値の型:**
 
-&ast;*[entity.User](./v2-Authentication-User), error*
+&ast;*entity.User, error*
 
 **戻り値:**
 
-割り当てられたロールを含むユーザーの説明を返します。操作が失敗した場合はエラーを返します。
+割り当てられたロールを含むユーザーの説明です。操作が失敗した場合は、エラーを返します。
 
-**例外:**
+```go
+type User struct {
+    UserName string
+    Roles []string
+}
+```
+
+**パラメーター:**
+
+- **UserName** (*string*) -
+
+    ユーザーの名前です。
+
+- **Roles** (*[]string*) -
+
+    割り当てられたロールのリストです。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DescribeUser() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

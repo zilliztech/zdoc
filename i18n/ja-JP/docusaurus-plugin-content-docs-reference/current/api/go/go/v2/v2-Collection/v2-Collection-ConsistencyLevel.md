@@ -4,21 +4,21 @@ slug: /go/go/v2-Collection-ConsistencyLevel
 sidebar_label: "ConsistencyLevel"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "collection に対する読み取り操作の整合性保証レベルを指定します。 | Go | v2"
+description: "ConsistencyLevel インスタンスは、コレクションに対する読み取り操作の整合性保証レベルを指定します。 | Go | v2"
 type: docx
-token: CBg7dbZZ7oxxvJx1eV4cJXWGnbe
+token: U2DXdRPC4o7hUDx6JECc0LQWnub
 sidebar_position: 7
 keywords: 
   - ANNS
   - ベクトル検索
-  - knn algorithm
+  - knn アルゴリズム
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ConsistencyLevel
   - gov230
 displayed_sidebar: goSidebar
@@ -31,43 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-collection に対する読み取り操作の整合性保証レベルを指定します。
+ConsistencyLevel インスタンスは、コレクションに対する読み取り操作の整合性保証レベルを指定します。
 
 ```go
 type ConsistencyLevel commonpb
 ```
 
-**VALUES:**
+**値:**
 
 - **ClStrong** = ConsistencyLevel(commonpb.ConsistencyLevel_Strong)
 
-    強い整合性。すべての操作が即座に可視になります。
+    強い整合性です。すべての操作が即座に可視になります。
 
 - **ClBounded** = ConsistencyLevel(commonpb.ConsistencyLevel_Bounded)
 
-    デフォルトで 5 秒の許容ウィンドウを持つ bounded staleness。
+    デフォルトで 5 秒の許容ウィンドウを伴う Bounded Staleness です。
 
 - **ClSession** = ConsistencyLevel(commonpb.ConsistencyLevel_Session)
 
-    セッション整合性。同じセッションからの書き込みを読み取りで参照できます。
+    セッション整合性です。読み取りでは、同じセッションからの書き込みを参照できます。
 
 - **ClEventually** = ConsistencyLevel(commonpb.ConsistencyLevel_Eventually)
 
-    結果整合性。クエリ性能が最適です。
+    結果整合性です。クエリパフォーマンスが最適です。
 
 - **ClCustomized** = ConsistencyLevel(commonpb.ConsistencyLevel_Customized)
 
-    ユーザーが指定した保証タイムスタンプを使用するカスタム整合性。
+    ユーザーが指定した保証タイムスタンプを使用するカスタム整合性です。
 
-## Example\{#example}
+## 例\{#example}
+
+ConsistencyLevel の使用例を示します。
 
 ```go
 import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

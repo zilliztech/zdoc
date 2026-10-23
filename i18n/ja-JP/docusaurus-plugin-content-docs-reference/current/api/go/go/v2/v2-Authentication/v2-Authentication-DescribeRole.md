@@ -1,25 +1,25 @@
 ---
-title: "DescribeRole() | Go | v2"
+title: "DescribeRole | Go | v2"
 slug: /go/go/v2-Authentication-DescribeRole
-sidebar_label: "DescribeRole()"
+sidebar_label: "DescribeRole"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、付与された権限を含むロールの詳細情報を返します。 | Go | v2"
+description: "この操作は、説明と権限を含むロールの詳細情報を返します。 | Go | v2"
 type: docx
-token: EAs8dmRIuoMvW5xXLHdcDw2Gn0d
+token: TfY6dRxjhoz0hexPK8xchxQ4nsh
 sidebar_position: 6
 keywords: 
-  - ハイブリッド検索
-  - 語彙検索
-  - 最近傍探索
-  - Agentic RAG
+  - LLM 評価
+  - スパースと密
+  - 密ベクトル
+  - 階層型ナビゲーブルスモールワールド
   - zilliz
   - zilliz cloud
-  - cloud
-  - DescribeRole()
+  - クラウド
+  - DescribeRole
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeRole()
+# DescribeRole
 
-この操作は、付与された権限を含むロールの詳細情報を返します。
+この操作は、説明と権限を含むロールの詳細情報を返します。
 
 ```go
 func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, callOptions ...grpc.CallOption) (*entity.Role, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+DescribeRole() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewDescribeRoleOption(roleName).
@@ -46,13 +48,19 @@ option := milvusclient.NewDescribeRoleOption(roleName).
 result, err := client.DescribeRole(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **roleName** (*string*)
+- **roleName** (*string*) -
 
-    ロールの名前。
+    **[必須]**
 
-**オプションメソッド:**
+    ロールを記述するためのオプションです。`NewDescribeRoleOption` を使用して構築します。
+
+**ビルダーメソッド:**
+
+- `NewDescribeRoleOption(roleName string)`
+
+    ロールを記述するためのオプションを作成します。`roleName` は記述するロールを指定します。
 
 - `WithDbName(dbName string)`
 
@@ -60,34 +68,51 @@ result, err := client.DescribeRole(ctx, option)
 
 **戻り値の型:**
 
-&ast;*[entity.Role](./v2-Authentication-Role), error*
+&ast;*entity.Role, error*
 
 **戻り値:**
 
-付与された権限を含むロールの詳細。操作が失敗した場合はエラーを返します。
+ロール名、説明、権限を含むロールの説明です。ロールが見つからない場合、または操作が失敗した場合はエラーを返します。
 
-**例外:**
+```go
+type Role struct {
+    RoleName string
+    Privileges []GrantItem
+}
+```
+
+**パラメーター:**
+
+- **RoleName** (*string*) -
+
+    ロールの名前。
+
+- **Privileges** (*[]GrantItem*) -
+
+    付与された権限のリスト。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作は失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DescribeRole() の使用方法を示します。
 
 ```go
 import (
 	"context"
-	"fmt"
+	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
@@ -97,5 +122,5 @@ role, err := cli.DescribeRole(ctx, milvusclient.NewDescribeRoleOption("my_role")
 if err != nil {
 	// handle error
 }
-fmt.Println(role)
+log.Println(role)
 ```

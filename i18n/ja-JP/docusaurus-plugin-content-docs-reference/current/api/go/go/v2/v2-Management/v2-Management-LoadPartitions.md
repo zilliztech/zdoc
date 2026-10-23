@@ -1,25 +1,25 @@
 ---
-title: "LoadPartitions() | Go | v2"
+title: "LoadPartitions | Go | v2"
 slug: /go/go/v2-Management-LoadPartitions
-sidebar_label: "LoadPartitions()"
+sidebar_label: "LoadPartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、コレクションの特定のパーティションをメモリにロードします。 | Go | v2"
 type: docx
-token: LMXGdDnueontIFxuqAIcS8D6nJc
-sidebar_position: 19
+token: R4nBdOWqtoi6rGx2r4ccEkQ7nl3
+sidebar_position: 18
 keywords: 
-  - ベクトル検索アルゴリズム
-  - 質問応答システム
-  - llm-as-a-judge
-  - ハイブリッドベクトル検索
+  - Pinecone と Milvus の比較
+  - Chroma と Milvus の比較
+  - Annoy ベクトル検索
+  - milvus
   - zilliz
   - zilliz cloud
   - クラウド
-  - LoadPartitions()
+  - LoadPartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# LoadPartitions()
+# LoadPartitions
 
 この操作は、コレクションの特定のパーティションをメモリにロードします。
 
@@ -38,6 +38,8 @@ func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+LoadPartitions() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewLoadPartitionsOption(collectionName, partitionsNames).
@@ -50,17 +52,25 @@ option := milvusclient.NewLoadPartitionsOption(collectionName, partitionsNames).
 result, err := client.LoadPartitions(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[必須]**
 
     対象のコレクションの名前。
 
-- **partitionsNames** (*...string*)
+- **partitionsNames** (*...string*) -
+
+    **[必須]**
 
     パーティションの名前。
 
-**オプションメソッド:**
+**ビルダーメソッド:**
+
+- `NewLoadPartitionsOption(collectionName string, partitionsNames ...string)`
+
+    LoadPartitions() のリクエストを作成します。
 
 - `WithReplica(num int)`
 
@@ -84,25 +94,33 @@ result, err := client.LoadPartitions(ctx, option)
 
 **戻り値の型:**
 
-*[LoadTask](./v2-Management-LoadTask), error*
+*LoadTask, error*
 
 **戻り値:**
 
 ロード操作の完了を待機するために使用できる LoadTask を返します。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**メソッド:**
+
+- **Await** (*error*) -
+
+    パーティションが完全にロードされたことが確認されるまでブロックし、ロードの進捗が 100 を報告するか、コンテキストがキャンセルされるまで、タスクのチェック間隔でサーバーをポーリングします。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗した場合です。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+LoadPartitions() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

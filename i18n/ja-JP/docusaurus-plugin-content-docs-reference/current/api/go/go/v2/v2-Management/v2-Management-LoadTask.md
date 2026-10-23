@@ -10,7 +10,7 @@ notebook: false
 description: "LoadCollection/LoadPartitions. から返される非同期タスクです。ロードが完了するまでブロックするには、Await() を呼び出します。 | Go | v2"
 type: docx
 token: U9w7dQeEBom2UBxJZM1cJAIYniL
-sidebar_position: 21
+sidebar_position: 20
 keywords: 
   - Zilliz
   - milvus ベクトル データベース
@@ -38,8 +38,8 @@ type LoadTask struct {
 }
 ```
 
-**METHODS:**
+**メソッド:**
 
 - `Await(ctx context.Context) error`
 
-    非同期操作が完了するか、コンテキストがキャンセルされるまでブロックします。操作が失敗した場合はエラーが返されます。
+    非同期操作が完了するか、コンテキストがキャンセルされるまでブロックします。操作が失敗した場合はエラーを返します。

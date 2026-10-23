@@ -1,25 +1,25 @@
 ---
-title: "ListIndexes() | Go | v2"
+title: "ListIndexes | Go | v2"
 slug: /go/go/v2-Management-ListIndexes
-sidebar_label: "ListIndexes()"
+sidebar_label: "ListIndexes"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、指定したコレクションに構築されたすべてのインデックスを一覧表示します。 | Go | v2"
 type: docx
-token: S8NxdJc1gom2SVxxNYkc5lHxnMg
-sidebar_position: 17
+token: R53fdYWNAorBuUxdrF7cSuovnnf
+sidebar_position: 16
 keywords: 
-  - Zilliz ベクトルデータベース
-  - Zilliz データベース
-  - 非構造化データ
-  - ベクトル データベース
+  - ベクトル埋め込み
+  - ベクトルストア
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
   - zilliz
   - zilliz cloud
   - クラウド
-  - ListIndexes()
+  - ListIndexes
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListIndexes()
+# ListIndexes
 
 この操作は、指定したコレクションに構築されたすべてのインデックスを一覧表示します。
 
@@ -39,6 +39,8 @@ func (c *Client) ListIndexes(ctx context.Context, opt ListIndexOption, callOptio
 
 ## リクエスト構文\{#request-syntax}
 
+ListIndexes() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewListIndexOption(collectionName).
     WithFieldName(fieldName)
@@ -46,13 +48,19 @@ option := milvusclient.NewListIndexOption(collectionName).
 result, err := client.ListIndexes(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象のコレクションの名前です。
+    **[必須]**
 
-**オプションメソッド:**
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewListIndexOption(collectionName string)`
+
+    ListIndexes() のリクエストを作成します。
 
 - `WithFieldName(fieldName string)`
 
@@ -64,22 +72,30 @@ result, err := client.ListIndexes(ctx, option)
 
 **戻り値:**
 
-名前のリストを返します。操作が失敗した場合はエラーを返します。
+インデックス名のリストです。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**パラメーター:**
+
+- **result** (*[]string*) -
+
+    ListIndexes() によって返される []string 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+ListIndexes() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -1,25 +1,25 @@
 ---
-title: "QueryIterator() | Go | v2"
+title: "QueryIterator | Go | v2"
 slug: /go/go/v2-Vector-QueryIterator
-sidebar_label: "QueryIterator()"
+sidebar_label: "QueryIterator"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.2
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection から一致するエンティティをバッチ単位で取得するクエリイテレータを作成します。一度にメモリへ読み込むべきではない大規模な結果セットに使用します。 | Go | v2"
+description: "この操作では、コレクションから一致するエンティティをバッチ単位で取得するクエリイテレーターを作成します。結果セットが大きく、一度にすべてをメモリに読み込むべきでない場合に使用します。 | Go | v2"
 type: docx
-token: GLdddi5uboT02bxj6cdc1FG2nvd
-sidebar_position: 14
+token: AGM3dTL6Vorr6XxS3IjcBAbBnVg
+sidebar_position: 13
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 次元削減
+  - hnsw アルゴリズム
+  - ベクトル類似検索
+  - 近似最近傍探索
   - zilliz
-  - zilliz cloud
-  - cloud
-  - QueryIterator()
+  - Zilliz Cloud
+  - クラウド
+  - QueryIterator
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# QueryIterator()
+# QueryIterator
 
-この操作は、collection から一致するエンティティをバッチ単位で取得するクエリイテレータを作成します。一度にメモリへ読み込むべきではない大規模な結果セットに使用します。
+この操作では、コレクションから一致するエンティティをバッチ単位で取得するクエリイテレーターを作成します。結果セットが大きく、一度にすべてをメモリに読み込むべきでない場合に使用します。
 
 ```go
 func (c *Client) QueryIterator(ctx context.Context, option QueryIteratorOption, callOptions ...grpc.CallOption) (QueryIterator, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
+
+QueryIterator() のリクエストを作成します。
 
 ```go
 client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
@@ -50,49 +52,71 @@ client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
 )
 ```
 
-**OPTION METHODS:**
+**パラメーター：**
 
-- `NewQueryIteratorOption(collectionName string)` -
+- **collectionName** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    指定された collection 用の新しいクエリイテレータオプションを作成します。
+    クエリ対象のコレクションの名前です。
 
-- `WithBatchSize(batchSize int)` -
+**ビルダーメソッド：**
 
-    反復ごとのバッチで返されるエンティティ数です。デフォルト: `1000`。
+- `NewQueryIteratorOption(collectionName string)`
 
-- `WithPartitions(partitionNames ...string)` -
+    指定したコレクションの新しいクエリイテレーターオプションを作成します。
 
-    クエリ対象の partition です。指定しない場合、すべての partition がクエリされます。
+- `WithBatchSize(batchSize int)`
 
-- `WithFilter(expr string)` -
+    反復バッチごとに返すエンティティの数です。デフォルト：`1000`。
 
-    エンティティをフィルタリングするためのブール式です。式に一致するエンティティのみが返されます。
+- `WithPartitions(partitionNames ...string)`
 
-- `WithOutputFields(fieldNames ...string)` -
+    クエリ対象のパーティションです。指定しない場合は、すべてのパーティションがクエリされます。
 
-    返されるエンティティに含めるフィールドです。指定しない場合、主キー フィールドのみが返されます。
+- `WithNamespace(namespace string)`
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)` -
+    クエリイテレーターのスコープをコレクションの名前空間に限定します。
 
-    クエリの整合性レベルです。デフォルト: `Bounded`。
+- `WithFilter(expr string)`
 
-- `WithIteratorLimit(limit int64)` -
+    エンティティをフィルタリングするブール式です。式に一致するエンティティのみが返されます。
 
-    反復処理するエンティティ総数の最大値です。負の値は無制限を意味します。デフォルト: `Unlimited` (-1)。
+- `WithOutputFields(fieldNames ...string)`
 
-**RETURNS:**
+    返されるエンティティに含めるフィールドです。指定しない場合は、プライマリキーフィールドのみが返されます。
 
-*QueryIterator, error*
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
 
-QueryIterator インターフェースは、クエリ結果へのページネーションアクセスを提供します。`io.EOF` が返されるまで `Next()` を繰り返し呼び出してください。
+    クエリの整合性レベルです。デフォルト：`Bounded`。
 
-**EXCEPTIONS:**
+- `WithIteratorLimit(limit int64)`
 
-- **error** - 指定された collection が存在しない、パラメータが無効である、またはサーバーに到達できない場合。
+    反復処理するエンティティの最大合計数です。負の値は無制限を意味します。デフォルト：`Unlimited`（-1）。
 
-## Example\{#example}
+**戻り値の型：**
+
+&ast;*QueryIterator, error*
+
+**戻り値：**
+
+*QueryIterator, error* QueryIterator インターフェースは、クエリ結果へのページ単位のアクセスを提供します。`io.EOF` が返されるまで `Next()` を繰り返し呼び出します。
+
+**パラメーター：**
+
+- **result** (&ast;*QueryIterator*) -
+
+    QueryIterator() によって返される &ast;QueryIterator 値です。
+
+**エラーハンドリング：**
+
+- **error**
+
+    操作が失敗します。指定したコレクションが存在しない場合、パラメーターが無効な場合、またはサーバーに到達できない場合です。
+
+## 例\{#example}
+
+QueryIterator() の使用例を示します。
 
 ```go
 import (
@@ -100,7 +124,7 @@ import (
     "fmt"
     "io"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx := context.Background()
@@ -126,11 +150,3 @@ for {
     fmt.Printf("Got %d results\n", rs.Len())
 }
 ```
-
-## QueryIterator\{#queryiterator}
-
-`QueryIterator()` メソッドによって返される QueryIterator インターフェースです。単一のメソッドを持ちます。
-
-- `Next(ctx context.Context)` -
-
-    クエリ結果の次のバッチを `ResultSet` として返します。すべての結果が消費されると、エラーとして `io.EOF` を返します。

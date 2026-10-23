@@ -4,13 +4,13 @@ slug: /go/go/v2-Collection-GetRefreshExternalCollectionProgress
 sidebar_label: "GetRefreshExternalCollectionProgress()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、指定された外部コレクションリフレッシュジョブの進行状況を返します。 | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
-sidebar_position: 26
+sidebar_position: 31
 keywords: 
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
@@ -39,21 +39,23 @@ func (c *Client) GetRefreshExternalCollectionProgress(ctx context.Context, optio
 
 ## リクエスト構文\{#request-syntax}
 
+GetRefreshExternalCollectionProgress() のリクエストを作成します。
+
 ```go
 option := client.NewGetRefreshExternalCollectionProgressOption(jobID)
 
 result, err := client.GetRefreshExternalCollectionProgress(option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **jobID** (*int64*) -
 
-    `refresh_external_collection()` によって返されるジョブ ID。
+    **[必須]**
 
 **戻り値の型:**
 
-*&ast;entity.RefreshExternalCollectionJobInfo*
+&ast;*entity.RefreshExternalCollectionJobInfo*
 
 **戻り値:**
 
@@ -72,51 +74,53 @@ type RefreshExternalCollectionJobInfo struct {
 }
 ```
 
-パラメータ:
-
-**パラメータ:**
+**パラメーター:**
 
 - **JobID** (*int64*) -
 
-    現在のリクエストで指定されたジョブ ID。
+    リフレッシュジョブの一意識別子です。
 
 - **CollectionName** (*string*) -
 
-    `RefreshExternalCollection()` で指定された外部コレクションの名前。
+    リフレッシュ対象のコレクションの名前です。
 
-- **State** (*string*) -
+- **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-    指定されたジョブの現在の状態。指定可能な値は次のとおりです。
-
-    - RefreshPending
-
-    - RefreshInProgress
-
-    - RefreshFailed
-
-    - RefreshCompleted
+    リフレッシュジョブの現在の状態です。
 
 - **Progress** (*int64*) -
 
-    指定されたジョブの現在の進行状況。値は 0 から 100 までの整数です。
+    リフレッシュジョブの進捗率です。
 
 - **Reason** (*string*) -
 
-    リフレッシュ操作が失敗した場合のエラーメッセージです。通常時は空文字列です。
+    現在の状態に関する追加情報または理由です。
 
 - **ExternalSource** (*string*) -
 
-    `RefreshExternalCollection()` で指定された外部ソース URI。
+    外部データソース識別子です。
+
+- **ExternalSpec** (*string*) -
+
+    外部データソースの仕様（JSON）です。ファイル形式とオブジェクトストレージの設定を記述します。
 
 - **StartTime** (*int64*) -
 
-    指定されたジョブが開始される時点のミリ秒単位のタイムスタンプ。
+    ジョブが開始された時刻の Unix タイムスタンプです。
 
-- **EndTime** (*int64*) -  
+- **EndTime** (*int64*) -
 
-    指定されたジョブが終了する時点のミリ秒単位のタイムスタンプ。
+    ジョブが完了した時刻の Unix タイムスタンプです。
 
-## 例:\{#examples}
+**エラー処理:**
+
+- **error**
+
+    検証、リクエストの構築、または RPC に失敗します。失敗の詳細については、返されたエラーを確認してください。
+
+## 例\{#example}
+
+GetRefreshExternalCollectionProgress() の使用例を示します。
 
 ```go
 refreshResult, err := client.RefreshExternalCollection(ctx,

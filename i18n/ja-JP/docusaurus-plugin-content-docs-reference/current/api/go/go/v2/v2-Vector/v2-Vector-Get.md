@@ -1,25 +1,25 @@
 ---
-title: "Get() | Go | v2"
+title: "Get | Go | v2"
 slug: /go/go/v2-Vector-Get
-sidebar_label: "Get()"
+sidebar_label: "Get"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、主キー値によってエンティティを取得します。 | Go | v2"
 type: docx
-token: FLBRdxZqWojjpXxuwJZc5APKncC
-sidebar_position: 9
+token: PUZvdUzxzomdrFxCMlSc4UUqnGg
+sidebar_position: 8
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - 質問応答システム
+  - llm-as-a-judge
+  - ハイブリッドベクトル検索
+  - 動画重複排除
   - zilliz
   - zilliz cloud
   - cloud
-  - Get()
+  - Get
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Get()
+# Get
 
 この操作は、主キー値によってエンティティを取得します。
 
@@ -38,6 +38,8 @@ func (c *Client) Get(ctx context.Context, option QueryOption, callOptions ...grp
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+Get() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewQueryOption(collectionName).
@@ -55,11 +57,17 @@ result, err := client.Get(ctx, option)
 
 **パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象 collection の名前。
+    **[REQUIRED]**
 
-**オプションメソッド:**
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewQueryOption(collectionName string)`
+
+    Get() のリクエストを作成します。
 
 - `WithFilter(expr string)`
 
@@ -81,33 +89,90 @@ result, err := client.Get(ctx, option)
 
     返される結果に含めるフィールドを指定します。
 
-- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](../Collection/ConsistencyLevel.md))`
 
-    この操作の整合性レベルを設定します（Strong、Bounded、Session、または Eventually）。
+    この操作の整合性レベル（Strong、Bounded、Session、または Eventually）を設定します。
 
 - `WithPartitions(partitionNames ...string)`
 
-    この操作を指定した partition に限定します。
+    この操作を指定したパーティションに限定します。
+
+- `WithNamespace(namespace string)`
+
+    クエリの対象をコレクションの namespace に限定します。
+
+- `WithOrderByFields(fields ...string)`
+
+    クエリ結果を指定したスカラーフィールドで並べ替えます。各指定は `fieldName` または `fieldName:asc` / `fieldName:desc` です（デフォルトは昇順）。order-by フィールドを設定する場合、サーバーでは明示的な limit が必要です。
 
 - `WithIDs(ids column.Column)`
 
-    この操作の ids を設定します。
+    この操作の ID を設定します。
 
 **戻り値の型:**
 
-*[ResultSet](./v2-Vector-ResultSet), error*
+*ResultSet, error*
 
 **戻り値:**
 
-一致したエンティティのスコアとフィールドを含む search または query の結果。操作が失敗した場合はエラーを返します。
+一致したエンティティのスコアとフィールドを含む検索またはクエリの結果です。操作が失敗した場合はエラーを返します。
 
-**例外:**
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**パラメーター:**
+
+- **ResultCount** (*int*) -
+
+    返されるエントリ数です。
+
+- **GroupByValue** (*column.Column*) -
+
+    検索処理（search/query）でグループ化を使用した場合の group-by 列の値です。
+
+- **IDs** (*column.Column*) -
+
+    一致したエンティティの主キー列です。
+
+- **Fields** (*DataSet*) -
+
+    出力フィールドの列です。
+
+- **AggregationBuckets** (*[]AggregationBucket*) -
+
+    集計が要求された場合の、このクエリの検索集計結果です。
+
+- **Scores** (*[]float32*) -
+
+    各一致結果のターゲットベクトルまでの距離です。
+
+- **Recall** (*float32*) -
+
+    検索結果の推定再現率です（Zilliz Cloud による推定）。
+
+- **Err** (*error*) -
+
+    検索エラー（存在する場合）。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については `err != nil` を確認してください。
 
 ## 例\{#example}
+
+Get() の使用例を示します。
 
 ```go
 import (
@@ -115,8 +180,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/column"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/column"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

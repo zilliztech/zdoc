@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "クライアント側でフィールドオプションを検証した後、既存のコレクションに nullable フィールドを追加します。 | Go | v2"
+description: "この操作では、サーバー上のコレクションスキーマを変更して既存のコレクションに null 許容フィールドを追加し、その後、そのコレクションのクライアントのコレクションキャッシュを破棄します。 | Go | v2"
 type: docx
 token: NmAwdxspJop8U0xi2DPcNYpmnBe
 sidebar_position: 1
 keywords: 
   - AI チャットボット
   - コサイン距離
-  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - AddCollectionField()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,25 +31,41 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-クライアント側でフィールドオプションを検証した後、既存のコレクションに nullable フィールドを追加します。
+この操作では、サーバー上のコレクションスキーマを変更して既存のコレクションに null 許容フィールドを追加し、その後、そのコレクションのクライアントのコレクションキャッシュを破棄します。
 
 ```go
 func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldOption, callOpts ...grpc.CallOption) error
 ```
 
-**パラメータ:**
+## リクエスト構文\{#request-syntax}
+
+AddCollectionField() のリクエストを作成します。
+
+```go
+option := milvusclient.NewAddCollectionFieldOption(collectionName, field)
+
+err := client.AddCollectionField(ctx, option)
+```
+
+**パラメーター:**
 
 - **collectionName** (*string*) -
 
     **[必須]**
 
-    フィールドを追加するコレクションの名前です。
+    フィールドの追加先となるコレクションの名前です。
 
 - **field** (&ast;*entity.Field*) -
 
     **[必須]**
 
-    追加するフィールド定義です。ベクトルフィールドは nullable である必要があります。
+    追加するフィールドの定義です。ベクトルフィールドは null 許容である必要があります。
+
+**ビルダーメソッド:**
+
+- `NewAddCollectionFieldOption(collectionName string, field *entity.Field)`
+
+    AddCollectionField() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -57,17 +73,17 @@ func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldO
 
 **戻り値:**
 
-フィールドの追加後に nil を返します。クライアント側の検証または RPC が失敗した場合はエラーを返します。
+操作が成功すると nil を返します。クライアント側の検証または RPC が失敗した場合はエラーを返します。
 
-**エラーハンドリング:**
+**エラー処理:**
 
 - **error**
 
-    検証、リクエストの構築、または RPC が失敗します。失敗の詳細は、返された error を確認してください。
+    クライアント側の検証または RPC が失敗します。失敗の詳細については、返されたエラーを確認してください。
 
 ## 例\{#example}
 
-AddCollectionField() の使用方法を示します。
+AddCollectionField の使用方法を示します。
 
 ```go
 import (
@@ -80,7 +96,9 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
 if err != nil {
 	// handle error
 }

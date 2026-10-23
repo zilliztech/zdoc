@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "サポートされている Milvus フィールドデータ型を列挙し、vector 型を識別するためのヘルパーを提供します。 | Go | v2"
+description: "FieldType インスタンスは、サポートされている Milvus フィールドデータ型を列挙し、ベクトル型を識別するためのヘルパーを提供します。 | Go | v2"
 type: docx
 token: V6aWdRUh3o1alDxmCo5c29hRnic
 sidebar_position: 16
 keywords: 
   - IVF
   - knn
-  - Image Search
-  - LLMs
+  - 画像検索
+  - LLM
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,105 +31,77 @@ import Admonition from '@theme/Admonition';
 
 # FieldType
 
-サポートされている Milvus フィールドデータ型を列挙し、vector 型を識別するためのヘルパーを提供します。
+FieldType インスタンスは、サポートされている Milvus フィールドデータ型を列挙し、ベクトル型を識別するためのヘルパーを提供します。
 
-**RETURN TYPE:**
+<Admonition type="info" title="Notes">
 
-*FieldType*
+`IsVectorType()` は、バイナリ、float、float16、bfloat16、sparse、および int8 のベクトルフィールド型に対して true を返します。
 
-**RETURNS:**
+</Admonition>
 
-collection フィールドでサポートされるデータ型を列挙します。
+<Admonition type="info" title="Notes">
 
-- **FieldTypeNone** (*int32*) -
+`FieldTypeText` は、`max_length` を必要としない可変長文字列型です。
 
-    Default: `0`
+</Admonition>
 
-    ゼロ値のプレースホルダー。
+```go
+type FieldType int32
+```
 
-- **FieldTypeBool** (*int32*) -
+**値:**
 
-    Default: `1`
+- **FieldTypeNone** = `0`
 
-- **FieldTypeInt8** (*int32*) -
+    ゼロ値のプレースホルダーです。
 
-    Default: `2`
+- **FieldTypeBool** = `1`
 
-- **FieldTypeInt16** (*int32*) -
+- **FieldTypeInt8** = `2`
 
-    Default: `3`
+- **FieldTypeInt16** = `3`
 
-- **FieldTypeInt32** (*int32*) -
+- **FieldTypeInt32** = `4`
 
-    Default: `4`
+- **FieldTypeInt64** = `5`
 
-- **FieldTypeInt64** (*int32*) -
+- **FieldTypeFloat** = `10`
 
-    Default: `5`
+- **FieldTypeDouble** = `11`
 
-- **FieldTypeFloat** (*int32*) -
+- **FieldTypeString** = `20`
 
-    Default: `10`
+- **FieldTypeVarChar** = `21`
 
-- **FieldTypeDouble** (*int32*) -
+    最大長を指定した可変長文字列です。
 
-    Default: `11`
+- **FieldTypeArray** = `22`
 
-- **FieldTypeString** (*int32*) -
+- **FieldTypeJSON** = `23`
 
-    Default: `20`
+- **FieldTypeGeometry** = `24`
 
-- **FieldTypeVarChar** (*int32*) -
+- **FieldTypeText** = `25`
 
-    Default: `21`
+    max_length を必須としない可変長文字列です。
 
-    指定された最大長を持つ可変長文字列。
+- **FieldTypeTimestamptz** = `26`
 
-- **FieldTypeArray** (*int32*) -
+- **FieldTypeBinaryVector** = `100`
 
-    Default: `22`
+- **FieldTypeFloatVector** = `101`
 
-- **FieldTypeJSON** (*int32*) -
+- **FieldTypeFloat16Vector** = `102`
 
-    Default: `23`
+- **FieldTypeBFloat16Vector** = `103`
 
-- **FieldTypeGeometry** (*int32*) -
+- **FieldTypeSparseVector** = `104`
 
-    Default: `24`
+- **FieldTypeInt8Vector** = `105`
 
-- **FieldTypeTimestamptz** (*int32*) -
+- **FieldTypeStruct** = `201`
 
-    Default: `26`
-
-- **FieldTypeBinaryVector** (*int32*) -
-
-    Default: `100`
-
-- **FieldTypeFloatVector** (*int32*) -
-
-    Default: `101`
-
-- **FieldTypeFloat16Vector** (*int32*) -
-
-    Default: `102`
-
-- **FieldTypeBFloat16Vector** (*int32*) -
-
-    Default: `103`
-
-- **FieldTypeSparseVector** (*int32*) -
-
-    Default: `104`
-
-- **FieldTypeInt8Vector** (*int32*) -
-
-    Default: `105`
-
-- **FieldTypeStruct** (*int32*) -
-
-    Default: `201`
-
-## Example\{#example}
+## 例\{#example}
 
 FieldType の使用方法を示します。
 
@@ -144,8 +116,3 @@ fieldType := entity.FieldTypeFloatVector
 fmt.Println(fieldType.Name())
 fmt.Println(fieldType.IsVectorType())
 ```
-
-## Notes\{#notes}
-
-- `IsVectorType()` は、binary、float、float16、bfloat16、sparse、および int8 の vector フィールド型に対して true を返します。
-

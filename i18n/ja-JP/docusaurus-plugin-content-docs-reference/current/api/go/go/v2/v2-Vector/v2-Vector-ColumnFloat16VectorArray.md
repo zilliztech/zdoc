@@ -4,21 +4,21 @@ slug: /go/go/v2-Vector-ColumnFloat16VectorArray
 sidebar_label: "ColumnFloat16VectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "行が共有次元を持つ Float16 値を含む ArrayOfVector 列を表します。 | Go | v2"
+description: "ColumnFloat16VectorArray インスタンスは、各行に共通の次元を持つ float16 ベクトル値が格納された ArrayOfVector の float16 ベクトル列を表します。v3.0.0 では Nullable セマンティクスが適用され、nullability フラグと有効値の記録はスタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: Ip2HdObkAodufpxSIoTcJ6rbnWf
-sidebar_position: 4
+sidebar_position: 3
 keywords: 
-  - vector データベースの比較
+  - ベクトルデータベース比較
   - Faiss
   - 動画検索
-  - AI Hallucination
+  - AI ハルシネーション
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ColumnFloat16VectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,38 +31,46 @@ import Admonition from '@theme/Admonition';
 
 # ColumnFloat16VectorArray
 
-行が共有次元を持つ Float16 値を含む ArrayOfVector 列を表します。
+ColumnFloat16VectorArray インスタンスは、各行に共通の次元を持つ float16 ベクトル値が格納された ArrayOfVector の float16 ベクトル列を表します。v3.0.0 では Nullable セマンティクスが適用され、nullability フラグと有効値の記録はスタブではなく実際の操作です。
 
 ```go
 type ColumnFloat16VectorArray struct {
 }
 ```
 
-## リクエスト構文\{#request-syntax}
-
-行指向の vector-array データから ColumnFloat16VectorArray を作成します。
-
-```go
-column.NewColumnFloat16VectorArray(fieldName string, dim int, data [][][]byte) *ColumnFloat16VectorArray
-```
-
-**メソッド:**
+**ビルダーメソッド：**
 
 - `AppendValue(value any) error`
 
-    これにより、`[]entity.Float16Vector` または `[][]byte` として渡された 1 行が追加されます。
+    []entity.Float16Vector または [][]byte として指定された 1 行を追加します。
 
-**戻り値の型:**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnFloat16VectorArray*
+    指定されたインデックスにある行が null かどうかを報告します。
 
-**戻り値:**
+- `Nullable() bool`
 
-struct 配列フィールド内の ArrayOfVector float16-vector データ用の列型です。
+    この列が null 値を受け入れるかどうかを報告します。
+
+- `SetNullable(nullable bool)`
+
+    列が null 値を受け入れるかどうかを設定します。
+
+- `ValidCount() int`
+
+    null 以外の行数を返します。
+
+- `ValidateNullable() error`
+
+    nullable の内部管理情報を検証し、不一致の場合はエラーを返します。
+
+**メソッド：**
+
+- `Slice(start, end int) Column`
 
 ## 例\{#example}
 
-ColumnFloat16VectorArray の使用方法を示します。
+ColumnFloat16VectorArray の使用例を示します。
 
 ```go
 import (

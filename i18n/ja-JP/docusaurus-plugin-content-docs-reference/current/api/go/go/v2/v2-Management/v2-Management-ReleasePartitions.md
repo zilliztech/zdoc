@@ -1,25 +1,25 @@
 ---
-title: "ReleasePartitions() | Go | v2"
+title: "ReleasePartitions | Go | v2"
 slug: /go/go/v2-Management-ReleasePartitions
-sidebar_label: "ReleasePartitions()"
+sidebar_label: "ReleasePartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のパーティションをメモリから解放します。 | Go | v2"
+description: "この操作は、メモリにロードされた1つ以上のパーティションを解放します。 | Go | v2"
 type: docx
-token: BcAVdlDIioMUXTxqyZkcXfqznKd
-sidebar_position: 25
+token: YIQXdQUHwovep5xVGz2cgusdnXe
+sidebar_position: 24
 keywords: 
-  - Zilliz ベクトル データベース
-  - Zilliz データベース
-  - 非構造化データ
-  - ベクトル データベース
+  - ベクトル類似検索
+  - 近似最近傍探索
+  - DiskANN
+  - スパースベクトル
   - zilliz
   - zilliz cloud
   - cloud
-  - ReleasePartitions()
+  - ReleasePartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ReleasePartitions()
+# ReleasePartitions
 
-この操作は、特定のパーティションをメモリから解放します。
+この操作は、メモリにロードされた1つ以上のパーティションを解放します。
 
 ```go
 func (c *Client) ReleasePartitions(ctx context.Context, option ReleasePartitionsOption, callOptions ...grpc.CallOption) error
@@ -39,60 +39,69 @@ func (c *Client) ReleasePartitions(ctx context.Context, option ReleasePartitions
 
 ## リクエスト構文\{#request-syntax}
 
+ReleasePartitions() のリクエストを作成します。
+
 ```go
-option := milvusclient.NewReleasePartitionsOption(collectionName, partitionNames)
+option := milvusclient.NewReleasePartitionsOptions(collectionName, partitionNames...)
 
 err := client.ReleasePartitions(ctx, option)
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象のコレクションの名前。
+    **[REQUIRED]**
 
-- **partitionNames** (*...string*)
+    対象のコレクションの名前です。
 
-    パーティションの名前。
+- **partitionNames** (*...string*) -
 
-**戻り値の型:**
+    **[REQUIRED]**
+
+    パーティションの名前です。
+
+**BUILDER METHODS:**
+
+- `NewReleasePartitionsOptions(collectionName string, partitionNames ...string)`
+
+    パーティションを解放するためのオプションを作成します。`collectionName` はコレクションを指定し、`partitionNames` は解放するパーティションを列挙します。
+
+**RETURN TYPE:**
 
 *error*
 
-**戻り値:**
+**RETURNS:**
 
-成功した場合は nil、失敗した場合は問題の内容を示す error を返します。
+パーティションが解放された後に nil を返します。操作に失敗した場合はエラーを返します。
 
-**例外:**
+**ERROR HANDLING:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。リクエストの構築または RPC が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+ReleasePartitions() の使用方法を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-err = cli.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("quick_setup", "partitionA"))
+err = cli.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("books", "chunk_1", "chunk_2"))
 if err != nil {
 	// handle error
 }

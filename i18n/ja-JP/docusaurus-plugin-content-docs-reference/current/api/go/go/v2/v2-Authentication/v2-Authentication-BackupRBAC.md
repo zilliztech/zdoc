@@ -1,25 +1,25 @@
 ---
-title: "BackupRBAC() | Go | v2"
+title: "BackupRBAC | Go | v2"
 slug: /go/go/v2-Authentication-BackupRBAC
-sidebar_label: "BackupRBAC()"
+sidebar_label: "BackupRBAC"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、ユーザー、ロール、権限付与、および権限グループを含む RBAC メタデータの完全バックアップを作成します。 | Go | v2"
 type: docx
-token: Iz1ZdJDWVo0uoUxQjlPcIbS2nMo
+token: IXV9dcjNHoDBgXx5jJucsAbYnPd
 sidebar_position: 2
 keywords: 
-  - AI チャットボット
-  - コサイン距離
-  - ベクトルデータベースとは
-  - vectordb
+  - AI ハルシネーション
+  - AI エージェント
+  - セマンティック検索
+  - 異常検出
   - zilliz
   - zilliz cloud
   - cloud
-  - BackupRBAC()
+  - BackupRBAC
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# BackupRBAC()
+# BackupRBAC
 
 この操作は、ユーザー、ロール、権限付与、および権限グループを含む RBAC メタデータの完全バックアップを作成します。
 
@@ -37,28 +37,73 @@ import Admonition from '@theme/Admonition';
 func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOptions ...grpc.CallOption) (*entity.RBACMeta, error)
 ```
 
+## リクエスト構文\{#request-syntax}
+
+BackupRBAC() のリクエストを作成します。
+
+```go
+option := milvusclient.NewBackupRBACOption()
+
+backup, err := client.BackupRBAC(ctx, option)
+```
+
+**ビルダーメソッド:**
+
+- `NewBackupRBACOption()`
+
+    BackupRBAC() のリクエストを作成します。
+
 **戻り値の型:**
 
-&ast;*[entity.RBACMeta](./v2-Authentication-RBACMeta), error*
+&ast;*entity.RBACMeta, error*
 
 **戻り値:**
 
-ユーザー、ロール、権限付与、および権限グループを含む完全な RBAC メタデータのスナップショットを返します。操作が失敗した場合はエラーを返します。
+ユーザー、ロール、権限付与、および権限グループを含む完全な RBAC メタデータのスナップショットです。操作が失敗した場合はエラーを返します。
 
-**例外:**
+```go
+type RBACMeta struct {
+    Users []*UserInfo
+    Roles []*Role
+    RoleGrants []*RoleGrants
+    PrivilegeGroups []*PrivilegeGroup
+}
+```
+
+**パラメーター:**
+
+- **Users** (<em>[]</em>UserInfo&ast;) -
+
+    ユーザーです。
+
+- **Roles** (<em>[]</em>Role&ast;) -
+
+    割り当てられたロールの一覧です。
+
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;) -
+
+    ロールの権限付与です。
+
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;) -
+
+    権限グループです。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+BackupRBAC() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

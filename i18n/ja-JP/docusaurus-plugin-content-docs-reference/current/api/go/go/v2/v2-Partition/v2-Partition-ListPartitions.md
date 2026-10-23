@@ -1,25 +1,25 @@
 ---
-title: "ListPartitions() | Go | v2"
+title: "ListPartitions | Go | v2"
 slug: /go/go/v2-Partition-ListPartitions
-sidebar_label: "ListPartitions()"
+sidebar_label: "ListPartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、コレクション内のすべてのパーティションを一覧表示します。 | Go | v2"
 type: docx
-token: ZNvXd7eldozvRHxpHOcc5CPAnug
+token: YMkedZlN9ozHlVx28ERcGYzEn6f
 sidebar_position: 5
 keywords: 
-  - ベクトルデータベースの比較
-  - Faiss
-  - 動画検索
-  - AI ハルシネーション
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
+  - ベクトル埋め込みとは
   - zilliz
-  - zilliz cloud
-  - cloud
-  - ListPartitions()
+  - Zilliz Cloud
+  - クラウド
+  - ListPartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListPartitions()
+# ListPartitions
 
 この操作は、コレクション内のすべてのパーティションを一覧表示します。
 
@@ -39,17 +39,25 @@ func (c *Client) ListPartitions(ctx context.Context, opt ListPartitionsOption, c
 
 ## リクエスト構文\{#request-syntax}
 
+ListPartitions() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewListPartitionOption(collectionName)
 
 result, err := client.ListPartitions(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-対象のコレクションの名前。
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewListPartitionOption(collectionName string)`
+
+    ListPartitions() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -57,22 +65,30 @@ result, err := client.ListPartitions(ctx, option)
 
 **戻り値:**
 
-名前の一覧です。操作が失敗した場合はエラーを返します。
+名前のリストです。操作が失敗した場合は、エラーを返します。
 
-**例外:**
+**パラメーター:**
+
+- **result** (*partitionNames []string*) -
+
+    ListPartitions() によって返される partitionNames []string の値です。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗しました。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+ListPartitions() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

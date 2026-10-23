@@ -1,25 +1,25 @@
 ---
-title: "TruncateCollection() | Go | v2"
+title: "TruncateCollection | Go | v2"
 slug: /go/go/v2-Collection-TruncateCollection
-sidebar_label: "TruncateCollection()"
+sidebar_label: "TruncateCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションからすべてのデータを削除しますが、コレクションのスキーマと構造は保持します | Go | v2"
+description: "この操作は、コレクションのスキーマを保持したまま、コレクションからすべてのデータを削除します。 | Go | v2"
 type: docx
-token: V7bwdcBPGosCFWxjYQfctDDInmb
+token: CNcvdxPmgo6P3nx6t1tcW4R6nXf
 sidebar_position: 25
 keywords: 
-  - vector database の例
-  - rag vector database
-  - vector db とは
-  - vector databases とは
+  - 類似性検索
+  - マルチモーダル RAG
+  - LLM のハルシネーション
+  - ハイブリッド検索
   - zilliz
   - zilliz cloud
   - cloud
-  - TruncateCollection()
+  - TruncateCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# TruncateCollection()
+# TruncateCollection
 
-この操作は、コレクションからすべてのデータを削除しますが、コレクションのスキーマと構造は保持します
+この操作は、コレクションのスキーマを保持したまま、コレクションからすべてのデータを削除します。
 
 ```go
 func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollectionOption, callOptions ...grpc.CallOption) error
@@ -39,18 +39,27 @@ func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollecti
 
 ## リクエスト構文\{#request-syntax}
 
+TruncateCollection() のリクエストを作成します。
+
 ```go
-err := client.TruncateCollection(
-    ctx, 
-    milvusclient.NewTruncateCollectionOption("collection_name")
-)
+option := milvusclient.NewTruncateCollectionOption(collectionName)
+
+err := client.TruncateCollection(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **name** (*string*) -
 
-    対象コレクションの名前。
+    **[必須]**
+
+    作成するコレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewTruncateCollectionOption(name string)`
+
+    コレクションを Truncate するためのオプションを作成します。`name` は Truncate するコレクションを指定します。
 
 **戻り値の型:**
 
@@ -58,43 +67,36 @@ err := client.TruncateCollection(
 
 **戻り値:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+コレクションの Truncate が完了すると nil を返します。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。リクエストの構築または RPC が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
 
-```go
-package main
+TruncateCollection() の使用方法を示します。
 
+```go
 import (
-    "context"
-    "log"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
-    
-    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    // Truncate collection
-    err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
-    if err != nil {
-        log.Printf("Failed to truncate collection: %v", err)
-        return
-    }
-    
-    log.Println("Collection truncated successfully")
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+err = cli.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("books"))
+if err != nil {
+	// handle error
 }
 ```

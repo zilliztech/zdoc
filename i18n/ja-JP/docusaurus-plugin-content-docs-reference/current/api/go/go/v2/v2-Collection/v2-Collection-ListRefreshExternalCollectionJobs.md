@@ -4,17 +4,17 @@ slug: /go/go/v2-Collection-ListRefreshExternalCollectionJobs
 sidebar_label: "ListRefreshExternalCollectionJobs()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。 | Go | v2"
+description: "この操作は、すべてのコレクションまたは指定したコレクションを対象に、外部コレクションの更新ジョブを一覧表示します。 | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
-sidebar_position: 27
+sidebar_position: 32
 keywords: 
-  - ベクトルデータベースはどのように動作するか
-  - ベクトル db 比較
-  - openai ベクトル db
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
   - 自然言語処理データベース
   - zilliz
   - zilliz cloud
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。
+この操作は、すべてのコレクションまたは指定したコレクションを対象に、外部コレクションの更新ジョブを一覧表示します。
 
 ```go
-func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error) {
+func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
+
+ListRefreshExternalCollectionJobs() のリクエストを作成します。
 
 ```go
 option := client.NewListRefreshExternalCollectionJobsOption(collectionName)
@@ -49,7 +51,9 @@ result, err := client.ListRefreshExternalCollectionJobs(option)
 
 - **collectionName** (*string*) -
 
-    対象 collection の名前です。このパラメータを指定しない場合、すべての external collection の refresh job が返されます。
+    **[必須]**
+
+    対象のコレクションの名前です。このパラメーターを指定しない場合、すべての外部コレクションの更新ジョブが返されます。
 
 **RETURN TYPE:**
 
@@ -57,73 +61,59 @@ result, err := client.ListRefreshExternalCollectionJobs(option)
 
 **RETURNS:**
 
-*entity.RefreshExternalCollectionJobInfo* 構造体のリストを返します。各要素には、external collection refresh job の詳細が記録されています。
-
-```go
-type RefreshExternalCollectionJobInfo struct {
-    JobID          int64
-    CollectionName string
-    State          RefreshExternalCollectionState
-    Progress       int64
-    Reason         string
-    ExternalSource string
-    StartTime      int64
-    EndTime        int64
-}
-```
-
-PARAMETERS:
+外部コレクションの更新ジョブの詳細をそれぞれ記録する *entity.RefreshExternalCollectionJobInfo* 構造体のリストです。
 
 **PARAMETERS:**
 
 - **JobID** (*int64*) -
 
-    現在のリクエストで指定された job ID です。
+    更新ジョブの一意の識別子です。
 
 - **CollectionName** (*string*) -
 
-    `RefreshExternalCollection()` で指定された external collection の名前です。
+    更新対象のコレクションの名前です。
 
-- **State** (*string*) -
+- **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-    指定された job の現在の状態です。指定可能な値は次のとおりです。
-
-    - RefreshPending
-
-    - RefreshInProgress
-
-    - RefreshFailed
-
-    - RefreshCompleted
+    更新ジョブの現在の状態です。
 
 - **Progress** (*int64*) -
 
-    指定された job の現在の進行状況です。値は 0 から 100 までの整数です。
+    更新ジョブの進行状況（パーセント）です。
 
 - **Reason** (*string*) -
 
-    refresh 操作が失敗した場合のエラーメッセージです。通常は空文字列です。
+    現在の状態に関する追加情報または理由です。
 
 - **ExternalSource** (*string*) -
 
-    `RefreshExternalCollection()` で指定された external source URI です。
+    外部データソースの識別子です。
+
+- **ExternalSpec** (*string*) -
+
+    ファイル形式とオブジェクトストレージ設定を記述する、外部データソースの仕様（JSON）です。
 
 - **StartTime** (*int64*) -
 
-    指定された job が開始された時点のミリ秒単位のタイムスタンプです。
+    ジョブが開始された Unix タイムスタンプです。
 
-- **EndTime** (*int64*) -  
+- **EndTime** (*int64*) -
 
-    指定された job が終了した時点のミリ秒単位のタイムスタンプです。
+    ジョブが完了した Unix タイムスタンプです。
 
-## Example\{#example}
+**ERROR HANDLING:**
+
+- **error**
+
+    検証、リクエストの構築、または RPC が失敗します。失敗の詳細については、返されたエラーを確認してください。
+
+## 例\{#example}
+
+ListRefreshExternalCollectionJobs() の使用例を示します。
 
 ```go
 // List refresh jobs of a specified collection
 option := client.NewListRefreshExternalCollectionJobsOption("test_collection")
-
-// List refresh jobs of all external collections
-option = client.NewListRefreshExternalCollectionJobsOption()
 
 result, err = client.ListRefreshExternalCollectionJobs(option)
 ```

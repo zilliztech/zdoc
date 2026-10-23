@@ -1,25 +1,25 @@
 ---
-title: "ReleaseCollection() | Go | v2"
+title: "ReleaseCollection | Go | v2"
 slug: /go/go/v2-Management-ReleaseCollection
-sidebar_label: "ReleaseCollection()"
+sidebar_label: "ReleaseCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、リソースを解放するためにコレクションをメモリから解放します。 | Go | v2"
 type: docx
-token: YMxDdZUXfoCEPtxBhN8clGxDnUd
-sidebar_position: 24
+token: VQTgdYK3yoNZPxxt9dfct0M4nze
+sidebar_position: 23
 keywords: 
-  - ベクトルインデックス
-  - ベクトルデータベース オープンソース
-  - オープンソースのベクトル db
-  - ベクトルデータベースの例
+  - LLMs
+  - 機械学習
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - クラウド
-  - ReleaseCollection()
+  - ReleaseCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ReleaseCollection()
+# ReleaseCollection
 
 この操作は、リソースを解放するためにコレクションをメモリから解放します。
 
@@ -39,17 +39,27 @@ func (c *Client) ReleaseCollection(ctx context.Context, option ReleaseCollection
 
 ## リクエスト構文\{#request-syntax}
 
+ReleaseCollection() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewReleaseCollectionOption(collectionName)
 
 err := client.ReleaseCollection(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象のコレクションの名前。
+    **[必須]**
+
+    対象のコレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewReleaseCollectionOption(collectionName string)`
+
+    ReleaseCollection() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -59,20 +69,22 @@ err := client.ReleaseCollection(ctx, option)
 
 成功した場合は nil を返し、問題が発生した場合はその原因を示すエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については `err != nil` を確認してください。
 
 ## 例\{#example}
+
+ReleaseCollection() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

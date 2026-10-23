@@ -1,25 +1,25 @@
 ---
-title: "DescribeDatabase() | Go | v2"
+title: "DescribeDatabase | Go | v2"
 slug: /go/go/v2-Database-DescribeDatabase
-sidebar_label: "DescribeDatabase()"
+sidebar_label: "DescribeDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、プロパティを含むデータベースの詳細情報を返します。 | Go | v2"
 type: docx
-token: AR0Bdq0okohr1Cxa1rOcDtvTnoc
+token: TA9gd2U0moA7oPx2x9Ocsq8dnud
 sidebar_position: 4
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - DescribeDatabase()
+  - Zilliz
+  - Milvus ベクトルデータベース
+  - Milvus データベース
+  - Milvus ベクトルデータベース
+  - Zilliz
+  - Zilliz Cloud
+  - クラウド
+  - DescribeDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeDatabase()
+# DescribeDatabase
 
 この操作は、プロパティを含むデータベースの詳細情報を返します。
 
@@ -39,40 +39,69 @@ func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOp
 
 ## リクエスト構文\{#request-syntax}
 
+DescribeDatabase() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewDescribeDatabaseOption(dbName)
 
 result, err := client.DescribeDatabase(ctx, option)
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
+
+    **[REQUIRED]**
 
     データベースの名前。
 
-**戻り値の型:**
+**BUILDER METHODS:**
 
-&ast;*entity.データベース, error*
+- `NewDescribeDatabaseOption(dbName string)`
 
-**戻り値:**
+    DescribeDatabase() のリクエストを作成します。
 
-プロパティを含むデータベースの説明を返します。操作に失敗した場合は error を返します。
+**RETURN TYPE:**
 
-**例外:**
+&ast;*entity.Database, error*
+
+**RETURNS:**
+
+プロパティを含むデータベースの説明を返します。操作に失敗した場合はエラーを返します。
+
+```go
+type Database struct {
+    Name       string
+    Properties map[string]string
+}
+```
+
+**PARAMETERS:**
+
+- **Name** (*string*) -
+
+    データベースの名前。
+
+- **Properties** (*map[string]string*) -
+
+    データベースのプロパティ。
+
+**ERROR HANDLING:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗した場合です。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DescribeDatabase() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`Validate()` メソッドを公開するオプション（struct-array スキーマを含む）を自動的に検証したうえで、コレクションを作成します。 | Go | v2"
+description: "この操作は、`Validate()` メソッドを公開するオプション（struct-array スキーマを含む）を自動的に検証したうえで、コレクションを作成します。 | Go | v2"
 type: docx
 token: Jm5IdnexOoFaMpx0HqDcbXeDnGe
 sidebar_position: 9
@@ -31,13 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-`Validate()` メソッドを公開するオプション（struct-array スキーマを含む）を自動的に検証したうえで、コレクションを作成します。
+この操作は、`Validate()` メソッドを公開するオプション（struct-array スキーマを含む）を自動的に検証したうえで、コレクションを作成します。
 
 ```go
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-**パラメータ:**
+## リクエスト構文\{#request-syntax}
+
+CreateCollection() のリクエストを作成します。
+
+```go
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("books", schema))
+```
+
+**パラメーター:**
 
 - **name** (*string*) -
 
@@ -67,7 +75,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithVarcharPK(varcharPK bool, maxLen int)`
 
-    指定された最大長を持つ VarChar 主キーを使用します。
+    指定した最大長の VarChar 主キーを使用します。
 
 - `WithIndexOptions(indexOpts ...CreateIndexOption)`
 
@@ -75,7 +83,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithProperty(key string, value any)`
 
-    値を文字列表現に変換したうえで、コレクションプロパティを設定します。
+    値を文字列表現に変換してから、コレクションプロパティを設定します。
 
 - `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
@@ -97,19 +105,23 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
     パーティションキーとともに使用するパーティション数を設定します。
 
+- `SimpleCreateCollectionOptions(name string, dim int64)`
+
+    迅速なコレクション設定に適した実用的なデフォルト値を備えた CreateCollectionOption を作成します。デフォルト値は、`id` という名前の単一の `Int64` 主キーフィールドと、指定された次元を持つ `vector` という名前の `FloatVector` フィールドです。
+
 **戻り値の型:**
 
 *error*
 
 **戻り値:**
 
-コレクションの作成後に nil を返します。スキーマ検証または RPC が失敗した場合はエラーを返します。
+コレクションの作成後に nil を返します。スキーマの検証または RPC が失敗した場合はエラーを返します。
 
 **エラーハンドリング:**
 
 - **error**
 
-    検証、リクエストの構築、または RPC が失敗します。失敗の詳細は、返された error を確認してください。
+    操作が失敗します。検証、リクエストの構築、または RPC が失敗した場合に発生します。失敗の詳細は、返されたエラーを確認してください。
 
 ## 例\{#example}
 

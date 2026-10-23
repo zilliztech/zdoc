@@ -1,25 +1,25 @@
 ---
-title: "ListAliases() | Go | v2"
+title: "ListAliases | Go | v2"
 slug: /go/go/v2-Collection-ListAliases
-sidebar_label: "ListAliases()"
+sidebar_label: "ListAliases"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションに関連付けられているすべてのエイリアスを一覧表示します。 | Go | v2"
+description: "この操作は、指定したコレクションのエイリアスを返します。 | Go | v2"
 type: docx
-token: Xq1Dd1B8goDbeRxHfMKc84VOnxg
+token: RXGLdpZ23o3178xZTb4cLZBmnQd
 sidebar_position: 20
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - コンテキストウィンドウ
+  - 自然言語検索
+  - 類似性検索
+  - マルチモーダル RAG
   - zilliz
   - zilliz cloud
-  - cloud
-  - ListAliases()
+  - クラウド
+  - ListAliases
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListAliases()
+# ListAliases
 
-この操作は、コレクションに関連付けられているすべてのエイリアスを一覧表示します。
+この操作は、指定したコレクションのエイリアスを返します。
 
 ```go
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
@@ -39,17 +39,27 @@ func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, call
 
 ## リクエスト構文\{#request-syntax}
 
+ListAliases() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewListAliasesOption(collectionName)
 
 result, err := client.ListAliases(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象コレクションの名前。
+    **[必須]**
+
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewListAliasesOption(collectionName string)`
+
+    コレクションのエイリアスを一覧表示するためのオプションを作成します。`collectionName` はコレクションを指定します。
 
 **戻り値の型:**
 
@@ -57,39 +67,44 @@ result, err := client.ListAliases(ctx, option)
 
 **戻り値:**
 
-名前のリスト。操作が失敗した場合は error を返します。
+コレクションのエイリアス名のリストです。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**パラメーター:**
+
+- **result** (*[]string*) -
+
+    ListAliases() によって返される []string 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+ListAliases() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
+defer cli.Close(ctx)
 
-aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
+result, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("books"))
 if err != nil {
 	// handle error
 }
-fmt.Println(aliases)
+fmt.Println(result)
 ```

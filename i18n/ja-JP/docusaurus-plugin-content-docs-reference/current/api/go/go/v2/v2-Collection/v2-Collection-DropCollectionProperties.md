@@ -1,25 +1,25 @@
 ---
-title: "DropCollectionProperties() | Go | v2"
+title: "DropCollectionProperties | Go | v2"
 slug: /go/go/v2-Collection-DropCollectionProperties
-sidebar_label: "DropCollectionProperties()"
+sidebar_label: "DropCollectionProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection から指定されたプロパティを削除します。 | Go | v2"
+description: "この操作は、コレクションから指定されたプロパティを削除します。 | Go | v2"
 type: docx
-token: Zyf1dXoBIo83V2xWHiKcXUEAnMc
+token: V7Zydmw53obtpRxMfqCcjj62njH
 sidebar_position: 14
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - semantic search とは
-  - Embedding model
+  - ベクトルデータベースのチュートリアル
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
-  - DropCollectionProperties()
+  - クラウド
+  - DropCollectionProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropCollectionProperties()
+# DropCollectionProperties
 
-この操作は、collection から指定されたプロパティを削除します。
+この操作は、コレクションから指定されたプロパティを削除します。
 
 ```go
 func (c *Client) DropCollectionProperties(ctx context.Context, option DropCollectionPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+DropCollectionProperties() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewDropCollectionPropertiesOption(collection, propertyKeys)
@@ -47,13 +49,23 @@ err := client.DropCollectionProperties(ctx, option)
 
 **パラメーター:**
 
-- **[collection](./v2-Collection)** (*string*)
+- **コレクション** (*string*) -
 
-    collection。
+    **[必須]**
 
-- **propertyKeys** (*...string*)
+    コレクションです。
 
-    プロパティキー。
+- **propertyKeys** (*...string*) -
+
+    **[必須]**
+
+    プロパティキーです。
+
+**ビルダーメソッド:**
+
+- `NewDropCollectionPropertiesOption(collection string, propertyKeys ...string)`
+
+    DropCollectionProperties() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -61,22 +73,24 @@ err := client.DropCollectionProperties(ctx, option)
 
 **戻り値:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+成功時は nil を返し、失敗時は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DropCollectionProperties() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 	"github.com/milvus-io/milvus/pkg/v2/common"
 )
 

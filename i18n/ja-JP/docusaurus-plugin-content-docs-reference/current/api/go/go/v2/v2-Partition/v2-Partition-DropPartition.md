@@ -1,25 +1,25 @@
 ---
-title: "DropPartition() | Go | v2"
+title: "DropPartition | Go | v2"
 slug: /go/go/v2-Partition-DropPartition
-sidebar_label: "DropPartition()"
+sidebar_label: "DropPartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、パーティションとそのすべてのデータを完全に削除します。 | Go | v2"
+description: "この操作では、パーティションとそのすべてのデータを完全に削除します。 | Go | v2"
 type: docx
-token: XnbJdLilXobGn1x1Uq6cvhKTnhf
+token: FYzrd2bUkosyWexZwKpcWp8znLC
 sidebar_position: 2
 keywords: 
-  - 最近傍探索
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - 画像検索
+  - LLMs
+  - 機械学習
+  - RAG
   - zilliz
   - zilliz cloud
-  - cloud
-  - DropPartition()
+  - クラウド
+  - DropPartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropPartition()
+# DropPartition
 
-この操作は、パーティションとそのすべてのデータを完全に削除します。
+この操作では、パーティションとそのすべてのデータを完全に削除します。
 
 ```go
 func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, callOptions ...grpc.CallOption) error
@@ -39,21 +39,29 @@ func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, cal
 
 ## リクエスト構文\{#request-syntax}
 
+DropPartition() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewDropPartitionOption(collectionName, partitionName)
 
 err := client.DropPartition(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName**（*string*） -
 
-対象のコレクションの名前。
+    対象コレクションの名前です。
 
-- **partitionName** (*string*)
+- **partitionName**（*string*） -
 
-削除するパーティションの名前。
+    削除するパーティションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewDropPartitionOption(collectionName string, partitionName string)`
+
+    DropPartition() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -61,21 +69,23 @@ err := client.DropPartition(ctx, option)
 
 **戻り値:**
 
-成功した場合は nil を返し、失敗した場合は問題の内容を示す error を返します。
+成功した場合は nil を返し、失敗した場合は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DropPartition() の使用方法を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

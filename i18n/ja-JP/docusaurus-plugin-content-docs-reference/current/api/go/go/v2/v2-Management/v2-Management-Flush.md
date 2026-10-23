@@ -1,25 +1,25 @@
 ---
-title: "Flush() | Go | v2"
+title: "Flush | Go | v2"
 slug: /go/go/v2-Management-Flush
-sidebar_label: "Flush()"
+sidebar_label: "Flush"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、挿入されたすべてのデータを永続ストレージにフラッシュし、データの耐久性を確保します。 | Go | v2"
 type: docx
-token: VUaadf505oQMTDx14XgcwJyNnDf
+token: JhQ6djjqiocqgYxLmQOcdgQqnJb
 sidebar_position: 9
 keywords: 
-  - プライベート LLM
-  - 近似最近傍探索
-  - LLM 評価
-  - Sparse vs Dense
+  - NLP 検索
+  - LLM のハルシネーション
+  - マルチモーダル検索
+  - ベクトル検索アルゴリズム
   - zilliz
   - zilliz cloud
-  - cloud
-  - Flush()
+  - クラウド
+  - Flush
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Flush()
+# Flush
 
 この操作は、挿入されたすべてのデータを永続ストレージにフラッシュし、データの耐久性を確保します。
 
@@ -39,39 +39,61 @@ func (c *Client) Flush(ctx context.Context, option FlushOption, callOptions ...g
 
 ## リクエスト構文\{#request-syntax}
 
+Flush() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewFlushOption(collName)
 
 result, err := client.Flush(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collName** (*string*)
+- **collName** (*string*) -
+
+    **[必須]**
 
     コレクション名です。
 
+**ビルダーメソッド:**
+
+- `NewFlushOption(collName string)`
+
+    Flush() のリクエストを作成します。
+
 **戻り値の型:**
 
-&ast;*[FlushTask](./v2-Management-FlushTask), error*
+&ast;*FlushTask, error*
 
 **戻り値:**
 
-フラッシュの完了を待機するために使用できる FlushTask を返します。操作が失敗した場合はエラーが返されます。
+Flush の完了を待つために使用できる FlushTask です。操作が失敗した場合は、エラーを返します。
 
-**例外:**
+**メソッド:**
+
+- **Await** (*error*) -
+
+    Flush が完了したことが確認されるまでブロックし、コレクションが Flush 済みを報告するか、コンテキストがキャンセルされるまで、タスクのチェック間隔でサーバーをポーリングします。
+
+- **GetFlushStats** (<em>(segIDs []int64, flushSegIDs []int64, flushTs uint64, channelCheckpoints map[string]</em>msgpb.MsgPosition)&ast;) -
+
+    Flush を要求されたセグメント ID、すでに Flush されたセグメント ID、Flush のタイムスタンプ、およびサーバーから報告されたチャネルチェックポイントを返します。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細を確認するには、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+Flush() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、カーディナリティの低いスカラーフィールドを効率的にフィルタリングするためのビットマップインデックス設定を作成します。 | Go | v2"
+description: "この関数は、カーディナリティの低いスカラーフィールドに対する効率的なフィルタリングのために、ビットマップインデックス構成を作成します。 | Go | v2"
 type: docx
 token: EhzHdkYfUoOsprxhtPNcmMPKnEc
 sidebar_position: 5
@@ -17,8 +17,8 @@ keywords:
   - セマンティック検索とは
   - 埋め込みモデル
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - NewBitmapIndex()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # NewBitmapIndex()
 
-この関数は、カーディナリティの低いスカラーフィールドを効率的にフィルタリングするためのビットマップインデックス設定を作成します。
+この関数は、カーディナリティの低いスカラーフィールドに対する効率的なフィルタリングのために、ビットマップインデックス構成を作成します。
 
 ```go
 func NewBitmapIndex() Index
 ```
 
-**戻り値:**
+**戻り値：**
 
 *[インデックス](./v2-Management-Index)*
 
-インデックス設定のインスタンスです。これをインデックスオプションを介して `CreateIndex()` に渡します。
+インデックス構成のインスタンスです。これを、インデックスオプションを通じて `CreateIndex()` に渡します。
 
 ## 例\{#example}
 

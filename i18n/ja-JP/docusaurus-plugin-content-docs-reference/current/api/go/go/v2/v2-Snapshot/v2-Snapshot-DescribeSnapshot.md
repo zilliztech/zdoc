@@ -4,18 +4,18 @@ slug: /go/go/v2-Snapshot-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所など、特定のスナップショットに関する詳細なメタデータを取得します。 | Go | v2"
+description: "この操作は、ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む、特定のスナップショットに関する詳細なメタデータを取得します。 | Go | v2"
 type: docx
 token: NM44dNuQtoKR9UxlEbqcZrVUnpb
 sidebar_position: 2
 keywords: 
   - 自然言語検索
   - 類似検索
-  - マルチモーダルRAG
-  - llm hallucinations
+  - マルチモーダル RAG
+  - LLM ハルシネーション
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DescribeSnapshot()
 
-この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所など、特定のスナップショットに関する詳細なメタデータを取得します。
+この操作は、ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む、特定のスナップショットに関する詳細なメタデータを取得します。
 
 ```go
 func (c *Client) DescribeSnapshot(ctx context.Context, opt DescribeSnapshotOption, callOptions ...grpc.CallOption) (*milvuspb.DescribeSnapshotResponse, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+DescribeSnapshot() のリクエストを作成します。
 
 ```go
 option := client.NewDescribeSnapshotOption(snapshotName, collectionName).
@@ -46,21 +48,23 @@ option := client.NewDescribeSnapshotOption(snapshotName, collectionName).
 result, err := client.DescribeSnapshot(option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
 
-    説明対象のスナップショット名。
+    **[必須]**
 
-- **collectionName** (*string*) - 
+    説明対象のスナップショットの名前です。
 
-    スナップショットが属する collection の名前。
+- **collectionName** (*string*) -
+
+    **[必須]**
+
+    スナップショットが属するコレクションの名前です。
 
 **ビルダーメソッド:**
 
 - `WithDbName(dbName string)`
-
-    指定した collection が属するデータベースを設定します。
 
 **戻り値の型:**
 
@@ -68,7 +72,7 @@ result, err := client.DescribeSnapshot(option)
 
 **戻り値:**
 
-詳細なスナップショットメタデータを含む DescribeSnapshotResponse オブジェクト。
+詳細なスナップショットメタデータを含む DescribeSnapshotResponse オブジェクトです。
 
 ```go
 type DescribeSnapshotResponse struct {
@@ -81,46 +85,29 @@ type DescribeSnapshotResponse struct {
 }
 ```
 
-**ビルダーメソッド:**
+**パラメーター:**
 
-- **Name** (*string*) -
+- **result** (*milvuspb.DescribeSnapshotResponse*) -
 
-    スナップショット名。
+    詳細なスナップショットメタデータを含む DescribeSnapshotResponse オブジェクトです。
 
-- **Description** (*string*) -
-
-    スナップショットの説明。
-
-- **CollectionName** (*string*) -
-
-    ソース collection 名。
-
-- **CreateTs** (*int64*) -
-
-    ミリ秒単位の作成タイムスタンプ。
-
-- **S3Location** (*string*) -
-
-    スナップショットデータの S3 保存場所。
-
-- **PartitionNames** (*[]string*) -
-
-    スナップショットに含まれる partition 名のリスト。
-
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗します。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 
+DescribeSnapshot() の使用例を示します。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

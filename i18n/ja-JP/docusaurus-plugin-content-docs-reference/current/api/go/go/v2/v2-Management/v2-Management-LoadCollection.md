@@ -1,25 +1,25 @@
 ---
-title: "LoadCollection() | Go | v2"
+title: "LoadCollection | Go | v2"
 slug: /go/go/v2-Management-LoadCollection
-sidebar_label: "LoadCollection()"
+sidebar_label: "LoadCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、検索およびクエリ操作のためにコレクションをメモリにロードします。 | Go | v2"
 type: docx
-token: B5w2dyWunogsmAxlJfQcQp8qnRg
-sidebar_position: 18
+token: RGDUdquTToKBJJxdGwlcltJYncd
+sidebar_position: 17
 keywords: 
-  - IVF
-  - knn
-  - 画像検索
-  - LLMs
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトル DB とは
+  - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
   - クラウド
-  - LoadCollection()
+  - LoadCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# LoadCollection()
+# LoadCollection
 
-この操作は、検索およびクエリ操作のためにコレクションをメモリにロードします。
+この操作では、検索およびクエリ操作のためにコレクションをメモリにロードします。
 
 ```go
 func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption, callOptions ...grpc.CallOption) (LoadTask, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+LoadCollection() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewLoadCollectionOption(collectionName).
@@ -50,13 +52,19 @@ option := milvusclient.NewLoadCollectionOption(collectionName).
 result, err := client.LoadCollection(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-    対象のコレクションの名前。
+    **［必須］**
 
-**オプションメソッド:**
+    対象コレクションの名前です。
+
+**ビルダーメソッド:**
+
+- `NewLoadCollectionOption(collectionName string)`
+
+    LoadCollection() のリクエストを作成します。
 
 - `WithReplica(num int)`
 
@@ -72,7 +80,7 @@ result, err := client.LoadCollection(ctx, option)
 
 - `WithSkipLoadDynamicField(skipFlag bool)`
 
-    操作で動的フィールドのロードをスキップするかどうかを設定します。
+    操作の動的フィールドのロードをスキップするかどうかを設定します。
 
 - `WithRefresh(isRefresh bool)`
 
@@ -80,26 +88,34 @@ result, err := client.LoadCollection(ctx, option)
 
 **戻り値の型:**
 
-*[LoadTask](./v2-Management-LoadTask), error*
+*LoadTask, error*
 
 **戻り値:**
 
-ロード操作の完了を待機するために使用できる LoadTask を返します。操作が失敗した場合はエラーを返します。
+ロード操作の完了を待機するために使用できる LoadTask です。操作が失敗した場合は、エラーを返します。
 
-**例外:**
+**メソッド:**
+
+- **Await** (*error*) -
+
+    ロードが完了したことが確認されるまでブロックし、コレクションまたはパーティションが完全にロードされたと報告されるか、コンテキストがキャンセルされるまで、タスクのチェック間隔でサーバーをポーリングします。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+LoadCollection() の使用例を示します。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

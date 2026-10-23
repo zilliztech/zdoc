@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "近似最近傍探索パラメータのインターフェースです。設定可能なインスタンスを作成するには NewCustomAnnParam() を使用します。 | Go | v2"
+description: "近似最近傍検索パラメーターのインターフェースです。NewCustomAnnParam() を使用して、設定可能なインスタンスを作成します。 | Go | v2"
 type: docx
 token: XV3adWSVho0zgfx6CZDc30GAnMc
 sidebar_position: 1
 keywords: 
   - 大規模言語モデル
   - ベクトル化
-  - k近傍アルゴリズム
+  - k 近傍アルゴリズム
   - ANNS
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - AnnParam
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AnnParam
 
-近似最近傍探索パラメータのインターフェースです。設定可能なインスタンスを作成するには NewCustomAnnParam() を使用します。
+近似最近傍検索パラメーターのインターフェースです。NewCustomAnnParam() を使用して、設定可能なインスタンスを作成します。
 
 ```go
 type AnnParam interface {
@@ -43,9 +43,9 @@ type AnnParam interface {
 
 - `Params() map[string]any`
 
-    検索パラメータをキーと値のマップとして返します。
+    検索パラメーターをキーと値のマップとして返します。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

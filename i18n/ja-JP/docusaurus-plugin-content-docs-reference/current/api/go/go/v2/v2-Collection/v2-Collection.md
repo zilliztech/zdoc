@@ -4,21 +4,21 @@ slug: /go/go/v2-Collection
 sidebar_label: "コレクション"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "DescribeCollection によって返されるコレクションの説明を表し、スキーマ、シャード、およびプロパティを含みます。 | Go | v2"
+description: "コレクションインスタンスは、コレクションのスキーマと整合性設定を含む、Milvus のコレクションメタデータを表します。`DescribeCollection()` によって返されます。 | Go | v2"
 type: docx
 token: PNwFdxMMdo6rtIxERDHcVFgdnxc
 sidebar_position: 6
 keywords: 
-  - 安価なベクトルデータベース
+  - 低コストのベクトルデータベース
   - マネージドベクトルデータベース
   - Pinecone ベクトルデータベース
-  - オーディオ検索
+  - 音声検索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - コレクション
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # コレクション
 
-DescribeCollection によって返されるコレクションの説明を表し、スキーマ、シャード、およびプロパティを含みます。
+コレクションインスタンスは、コレクションのスキーマと整合性設定を含む、Milvus のコレクションメタデータを表します。`DescribeCollection()` によって返されます。
 
 ```go
 type Collection struct {
@@ -48,44 +48,73 @@ type Collection struct {
 }
 ```
 
-**FIELDS:**
+**フィールド:**
 
-- **ID** (*int64*)
+- **ID** (*int64*) -
 
-    コレクション ID
+    コレクションの一意識別子です。
 
-- **Name** (*string*)
+- **Name** (*string*) -
 
-    コレクション名
+    コレクションの名前です。
 
-- **[スキーマ](./v2-Collection-Schema)** (&ast;*[スキーマ](./v2-Collection-Schema)*)
+- **スキーマ** ([スキーマ](./v2-Collection-Schema)) -
 
-    フィールドスキーマと主キー定義を含むコレクションスキーマ
+    フィールド定義と主キーを含むコレクションスキーマです。
 
-- **PhysicalChannels** (*[]string*)
+- **PhysicalChannels** (*[]string*) -
 
-    物理チャネル。
+    コレクションが使用する物理メッセージチャネルです。
 
-- **VirtualChannels** (*[]string*)
+- **VirtualChannels** (*[]string*) -
 
-    仮想チャネル。
+    コレクションが使用する仮想メッセージチャネルです。
 
-- **Loaded** (*bool*)
+- **Loaded** (*bool*) -
 
-    リソースがメモリに読み込まれているかどうか。
+    コレクションが現在ロードされているかどうか。
 
-- **[ConsistencyLevel](./v2-Collection-ConsistencyLevel)** (*[ConsistencyLevel](./v2-Collection-ConsistencyLevel)*)
+- **ConsistencyLevel** ([ConsistencyLevel](./v2-Collection-ConsistencyLevel)) -
 
-    読み取り操作の整合性レベル。
+    コレクションの整合性レベルです。
 
-- **ShardNum** (*int32*)
+- **ShardNum** (*int32*) -
 
-    データ分散のためのシャード数。
+    コレクションのシャード数です。
 
-- **Properties** (*map[string]string*)
+- **Properties** (*map[string]string*) -
 
-    カスタムのキーと値のプロパティ。
+    コレクションのプロパティ（TTL 設定など）です。
 
-- **UpdateTimestamp** (*uint64*)
+- **UpdateTimestamp** (*uint64*) -
 
-    変更検出のための最終更新タイムスタンプ。
+    コレクションの更新タイムスタンプです。通常、内部的な変更検出に使用されます。
+
+## 例\{#example}
+
+コレクションの使用例を示します。
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+collection, err := cli.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("books"))
+if err != nil {
+	// handle error
+}
+fmt.Println(collection.Name, collection.ConsistencyLevel)
+```

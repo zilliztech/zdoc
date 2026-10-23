@@ -4,21 +4,21 @@ slug: /go/go/v2-Snapshot-DropSnapshot
 sidebar_label: "DropSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショットを完全に削除します。削除されると、スナップショットデータは復元できません。 | Go | v2"
+description: "この操作では、スナップショットを完全に削除します。削除後は、スナップショットデータを復元できません。 | Go | v2"
 type: docx
 token: YP0vdMHw9oDlrcxjvg0cihgSnJb
 sidebar_position: 3
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - DropSnapshot()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DropSnapshot()
 
-この操作はスナップショットを完全に削除します。削除されると、スナップショットデータは復元できません。
+この操作では、スナップショットを完全に削除します。削除後は、スナップショットデータを復元できません。
 
 ```go
 func (c *Client) DropSnapshot(ctx context.Context, opt DropSnapshotOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
+
+DropSnapshot() のリクエストを作成します。
 
 ```go
 option := client.NewDropSnapshotOption(snapshotName, collectionName).
@@ -46,44 +48,51 @@ option := client.NewDropSnapshotOption(snapshotName, collectionName).
 err := client.DropSnapshot(option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
 
-    削除するスナップショットの名前。
+    **[必須]**
 
-- **collectionName** (*string*) - 
+    削除するスナップショットの名前です。
 
-    スナップショットが属するコレクションの名前。
+- **collectionName** (*string*) -
 
-**BUILDER METHODS:**
+    **[必須]**
+
+    スナップショットの属するコレクションの名前です。
+
+**ビルダーメソッド:**
 
 - `WithDbName(dbName string)`
 
-    これは、指定されたコレクションが属するデータベースの名前を設定します。
+    指定したコレクションが属するデータベースの名前を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *error*
 
-**RETURNS:**
+**戻り値:**
 
-成功時は nil を返します。スナップショットが存在しない場合、または操作が失敗した場合はエラーを返します。
+成功した場合は nil を返します。スナップショットが存在しない場合、または操作に失敗した場合は、エラーを返します。
 
-**EXCEPTIONS:**
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作に失敗しました。失敗の詳細については、err != nil を確認してください。
 
-## Example\{#example}
+## 例\{#example}
+
+DropSnapshot() の使用例を示します。
 
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

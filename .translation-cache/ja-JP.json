@@ -3935,100 +3935,340 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md",
       "translatedAt": "2026-09-15T13:53:02.040Z"
     },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md": {
+      "sourceHash": "e24da3877f24bf203617bb5905e3959ff2aaf41e06439480d2970c98c821ee54",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md": {
+      "sourceHash": "7b1ba4d9655b5c589c5e3057ce0c03e8edc8042e001261f18917603933752861",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
     "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md": {
-      "sourceHash": "09495824e8c877fa21de192810b65482d81bf54bb85c89692de7f84cf6dacfcb",
+      "sourceHash": "008704a9d2d89b4866aef81a540fc53b5e11d8ea05a6f73b8adc2ffaa51a60cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md": {
+      "sourceHash": "b5648c4f0a93a4e0ec9322bdc1ac5b24bd264ee699ad83bb9e2b6f28e766dfc8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md": {
+      "sourceHash": "3e75a6179ed22b083244d37659aeda53919b9346e9db822cf36d1d39560fff50",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md": {
+      "sourceHash": "014642bc2538019d4b8dcf6cc6301ffb3f255368bd9178de496237fecdbd9d75",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md": {
-      "sourceHash": "dc2b00a97f92c3e22ccfb7e5669e332369691429dec15ff7e70a07d9b68da89d",
+      "sourceHash": "1498bc0c6bcec03d01adff4c739a598840bb301b70e8b67259c5b331b637b6ee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md": {
-      "sourceHash": "4ac85377377aefb0a0e1afc3307c812cacbadff154dbcd8c3406333b76ffb096",
+      "sourceHash": "f45d46a201c6d4cc007ffbfe4399bef75c46f1785ae9334e19f75dec8ca6ef33",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md": {
+      "sourceHash": "b855e5900b0cf04b4e43eea4a21f46723aeb2d1c99fa90092dc09643ab8e765a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md": {
+      "sourceHash": "6abea001acb9ea8b7dcb22b0fac94dfc4d2a6c32724d78eeb540b61a3de56351",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md": {
+      "sourceHash": "9d81546fef0ef23550e0ae38df51bf45a40c78e0f2fa03c20c7c51ffc66f83cf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md": {
+      "sourceHash": "64ff164038f9d0afaaa050464fe42501f8818b10ce2f1b0bc129538eb916e700",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md": {
+      "sourceHash": "24c1193dcb4f3b5936b80e2419e0c5804f7291d6595d75607ed3e4bdc1f62543",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md": {
+      "sourceHash": "ff6cdfc9d36e6e78f92bdb4b764926c82fdf2cfe15fbdb5c549c62e2f62d74ec",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md": {
+      "sourceHash": "72d7be0fc5b56bfe187b4a643b5d44cc9e6951d44094c423d6c8a207122544a2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md": {
-      "sourceHash": "ad2879db7fca46812c1a0aeb78b79e6fbb042aa70e654ba95e4eda584094ec26",
+      "sourceHash": "a1d6e3337695b01fdbd93a4a76bda87f0a4001af78d77a5785b31dd39f7f7303",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md": {
+      "sourceHash": "6a88d22049f3cc3f02532d7ba5774f66f26bafff3557db2a7da6f7c7732cc203",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md": {
+      "sourceHash": "55c26d4991e9a3fdb28a13f6d21787aad2495cc0aaeb5aa7ec3370cf20c8eabd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md": {
+      "sourceHash": "046fb94e274aaa1272d782f6b76d685f0aa4af041f713a29aabc13c3bba57abc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md": {
       "sourceHash": "028e0f9e5cdbaec201e0e7db26f3c943bdfe1b5f2a79e9d301d977fc51b4c161",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md",
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md": {
+      "sourceHash": "193c56c9ae7d8ac590e043b4045c1d5c839d804bbe65d425e43a07e95001171a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md": {
+      "sourceHash": "e00b6365f5b3403aa48a0442d7fc2726727cd80a694d92de72fe42423bef2088",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md": {
+      "sourceHash": "4fe44797ed5d9758de83711f2748a9b35524e9cbf428a0d7cbecbbc9a332bff2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md": {
+      "sourceHash": "01ba36ca63237f4b9cdc1ef0a42226b4e8afd5be6e8705d42727189d67dd8eea",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md": {
+      "sourceHash": "929d6753ccd23d36eff44db055a85d6696611781c3cab506ebd766dadefd4174",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md": {
+      "sourceHash": "2f6b1f334b8fef989355d56133b67718706a8eea74698bde28a34a071fcf424e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md": {
+      "sourceHash": "11ece5b81117d73f1dad9239528aa07c96bad5c7d83a982421873d371bcd3290",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md": {
+      "sourceHash": "de75880ee26aca65a0ec1eb4914679d3184c5fb8ac5393b0328d5ac310997678",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md": {
+      "sourceHash": "165eb10801cb722ee875fa912c4f750c199295cebf02bc848404867bc4a1d88e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md": {
+      "sourceHash": "89fdc7373a1d0df55ac8dc515b32f0a31bfb1da35dc54185d91176c36194b9bc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md": {
+      "sourceHash": "92582298ba6487ed6366b3e9760309be540a7515a84868512afa45edb9fb08d8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
     "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md": {
       "sourceHash": "9a4511fe4ca6f59a44bcd1e5c9b56a096dfa7d39b8852833c039c1dc8ea59d11",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
+    "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md": {
+      "sourceHash": "4684084f06ee9e0c2a4c3955f8b7a799f2d526e7c011ddfab0023c10a4d2ec6d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Client/v2-Client-Close.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md": {
+      "sourceHash": "e4f30270dfc3fab97c8969709fc8e13bf0f66469bd2c537c171de55082547700",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md": {
+      "sourceHash": "7e70f340e477700045aa65174736e77b4f4568ab21fca9fe92f701942ff353a1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
     "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md": {
-      "sourceHash": "dcf655d908a74a186792a691e6b855c0b6f9f04ffa7989235b0e46d73434bf18",
+      "sourceHash": "0b82c4e86cfce6cc9899d508a7a7e9433c753b9b7562af0aa5adda23c692027c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Client/v2-Client-New.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md": {
-      "sourceHash": "db0d20d77a612aa85dc16af0d12b6ef2b20d25a512457d7b03afea603262b314",
+      "sourceHash": "33f28e5ad8fe349fcc43fce1f75dbd655b5265ee126af5de18be21d7a068947b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md": {
+      "sourceHash": "40adf6a09b1a8ee7b67e5579b6e616e556955c236fbc87e283d09571fe3e3498",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md": {
+      "sourceHash": "aab2d9e70a267c1b4ad688179c718ad91982293a875df11776ee3c766b618fdb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md": {
+      "sourceHash": "bce747e728c18124e0d0d8283c6627e08fa385ef6b917f47e65a75fabf5131ae",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md": {
+      "sourceHash": "3357d49fc012cea60e8ff4ea316fe465a7262b747169b3424d31e0dafad164c8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md": {
+      "sourceHash": "464e87fa9578e6176f0deba9d8161ad41e1feaa81023eb34ab28a4c3b5a13e0b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md": {
+      "sourceHash": "3802d2e3cc63311c2dc7c1e2686cdf71e7482b5305926107304f2a92244e9563",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md": {
+      "sourceHash": "89ee6523ba1a14ee62388adae27701b2f4ce08cc31550e443235f6ae70003b9e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md": {
-      "sourceHash": "3c3bd5774bc0890b3b620ffc355897ba5a310148e80d08ac3e8aabded96a426c",
+      "sourceHash": "827822de69f6bae0224a4786932067b6cf5575238437120221121a51d29b477c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md": {
-      "sourceHash": "219c2ebf4120821379def78de0e6857b427c09a940d55b4b219cb64343298aa2",
+      "sourceHash": "589ebc8bfa6e0c772937528912c3aee487592d7e6f2e56c66d59196e1e8847e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md": {
-      "sourceHash": "1eeade2024b1a88a914f124aeeca7387a4bb913bec07d48278793e19672b965b",
+      "sourceHash": "09821f2058a826f98e565cc5b272e28dfd0261cba546ec6d7085d94deade2610",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md": {
+      "sourceHash": "5d7db549c0e2e41c4f3984e2e51b0c581345296bce91e54c88f81617ab5ff72d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md": {
+      "sourceHash": "669849a6d50d3141dcafe0cadbe46206bffeffd9e9de74dd37dc620d28d4f973",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md": {
+      "sourceHash": "37e3fcbb19b088279cb0391f4c79425abcc7607f7eea4dcb430966fbd16cb094",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md": {
+      "sourceHash": "8422ac18386917c06de61b75d034942d90e3a0f0118cef7870337b0bf0ffac2e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md": {
+      "sourceHash": "d348a3d57420c505af731cada54fdd569cf4bb76c0fcf327ff3e0cf90c8e879a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md": {
-      "sourceHash": "f4f918deb7cc7857551094d6874367dee4f2c0c30dbaf6f936f169c845fe51e2",
+      "sourceHash": "c532493bcce5889dde4b6c0e08c3fee98c903c2f8ca74bb6139007fa1bd0fb68",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-Field.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md": {
-      "sourceHash": "154958ca3aa33dcd3829354f875e0152285a3376b4490236f1e377de5a5665be",
+      "sourceHash": "434a4d53afe73af71181f3d845b86d226f2231254f95b84bee45793d05be7150",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md": {
+      "sourceHash": "b5bbc1e7dd3e412a27a9a87e77a57c008ae6b0e8fde3315a62a36c2ebca6ad11",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-Function.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md": {
+      "sourceHash": "19d6b640f649ee09fd0eff400c069e71897d8e9245d5e67b017800397f748985",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md": {
+      "sourceHash": "97ff09408bd51473b050416c7354b037848c0f1278b098024c8f1501ef7b84b2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md": {
-      "sourceHash": "6d9c67f1db2e9ce411ec24dfeca98309bf2404abbbb99f0d496d57b71cbf2d81",
+      "sourceHash": "162b8a661172cf16481615288b42e9e01f4929c3411d1074541f16e01254be63",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md": {
+      "sourceHash": "5cd352f6c131c05b64e97d6e4ebd571a1c3d44acd341ca4dca3746263f2cbcfa",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md": {
+      "sourceHash": "9d8a09d721a3a61dab82546d72d3e1daac537d870471cf1222e3fec64670cc18",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md": {
+      "sourceHash": "3f780c8f492a6fc5258a3e562d696bd568c4900c86226e9b4cf81bca44739427",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md": {
-      "sourceHash": "a3d7eb2d86fef32b0aaee26c636744eed520e39e1d724454970329a0a7f44629",
+      "sourceHash": "43eb5edc04f2fd351c2586c0577e2170e3d615194d077561926cb1d39320d7e1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md": {
-      "sourceHash": "fa8026ae6659c1aead11abffa58e06518c91288960eaa71cde8519e5b8eb610c",
+      "sourceHash": "5984db579308834f9ce1328c2e195f2e09465044e680521f36c705788c868223",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md": {
-      "sourceHash": "e746521cd071b5b071e6cc8a40045156331b41155e1938d1db657e21a5532a40",
+      "sourceHash": "b20e46d0ae7143e4134abcd77cb87c244e94b3e87dafc1f400291923d06a2165",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md": {
-      "sourceHash": "a0c11312b9fbceb04c877e988283d9f4cbd1a8c44293460ddc502a3b3f058d3f",
+      "sourceHash": "aff534695420db821588b26251ea52a39de345010e6cadffcefe2cc3098e8536",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md": {
+      "sourceHash": "5197e8a494b624b71f52506dbe36200e3f01addf9510c7f276c02bcebf83b0b4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md": {
-      "sourceHash": "c3926d0c6770607836a48f34f0567c9f868be9c3fdf1ade0bdee0c364719051a",
+      "sourceHash": "51fc6859e8423630162a3f31d43ca6f38ec6e5b8ab7b0ac31faebbe65e2d8cc7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md": {
       "sourceHash": "98e45126b45ac0faf7d1ddec76b943fc303649671ac4006ecb1ea2cae7007262",
@@ -4036,19 +4276,34 @@
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md": {
-      "sourceHash": "d4352190ab629ec7da576d40e59a21f877f12ddf6c392b58d93112389ecffb35",
+      "sourceHash": "faf785761c63ec81591e9ca34648c2dba99d3843e2fcf5f486bf6f5858b40b87",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
-      "translatedAt": "2026-08-04T05:52:56.150Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md": {
-      "sourceHash": "55b213c6aaadc0ca307c214bd2f912f7849be46992296f657e46548a294c3aba",
+      "sourceHash": "bfa2c3838108c3e64cd72bcc5948202538aa9d79de548d6e0c8153ff4eb75f32",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md": {
+      "sourceHash": "e93b7332562dd48501a3d512034806f0de4dbfe831b6a7cbd500e51a48e6370b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md": {
+      "sourceHash": "61ffb5bea1b9782fe74b7d957a38a79e60edadf523d860665b7698f754371c65",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md": {
+      "sourceHash": "1cc0d624176eca01a0708162fe6a135fb569459cfa9653840654e06ecdd2eb26",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md": {
-      "sourceHash": "110f670118646dcf17c4603250d4c69dc47dbbc1af21fcc03d7aad693e91500e",
+      "sourceHash": "71b3e26b9f86279a0fc2c430c7be0d7e6120c3ae4fd92d2f27a67771919fd4e0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md": {
       "sourceHash": "cf052e1b9c4bbbad5086bc5fe67ccb2e57a9fbea6e11b2799c1b150b11d97079",
@@ -4056,14 +4311,29 @@
       "translatedAt": "2026-08-04T05:52:56.150Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md": {
-      "sourceHash": "120344e580d42dae753e7f24292875a1984fa41c5396e8bf884225d01323897e",
+      "sourceHash": "fd7f0be55a6c93009f880e00f72a219db6a3deb21356a37f459ccaa556a99173",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
-      "translatedAt": "2026-08-04T05:52:56.203Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md": {
+      "sourceHash": "d7188ccb22f482de79854072ccf45d8564c66a2f47c27f27bc325674c7bbb419",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md": {
+      "sourceHash": "960dcc0432546bd14498956467f3c63c276988291bd684cb35742aad3c7de609",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md": {
+      "sourceHash": "0278eb47f0ff84a1ac31a909106a4a4c6e521bb10266370ec535246db8efe554",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md": {
-      "sourceHash": "447b02220d69e5240e13114c33782ad6973303c2111886d21e1268e3ef5489ad",
+      "sourceHash": "c58feebb896c9cf3cbdf6054e0625bb4dc4f90764f59108929f80fc4a3daf9d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md": {
       "sourceHash": "c8ccf49f434ee77ab5d6cf1851acfaa4bfee35c45b4eb631f2a0f0fb70411bfd",
@@ -4071,14 +4341,14 @@
       "translatedAt": "2026-08-04T05:52:56.203Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md": {
-      "sourceHash": "3b4a7622e14764baf99aff16f56162d696a8e296f6bd00c5bdfb51f00ff2320b",
+      "sourceHash": "c9eb7f4716771c9926102c2a12db4106f44249274259c5eace12f61376018fcc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md": {
-      "sourceHash": "8dd20cd811c91736a9d45c948c831a71891ba56d410038356a446cad50a1dafa",
+      "sourceHash": "857f777bc3560ddbe5c1710136cc81f8cf30596a390d0f87ba1dae5efc8856ab",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md": {
       "sourceHash": "61d55a4e49fa07e5c993dc2804968ddf605d67e622a0b26dea3c8255adde210d",
@@ -4090,20 +4360,150 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md",
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md": {
+      "sourceHash": "d130d98810456bcdbbc0a04bf0a995766ef2662f1102921470e34b0687bbb67b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md": {
+      "sourceHash": "e39f9181147ef8957864e8b0cede1e5d601896ea9e1cdf4ef61a27479d1626a2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
     "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md": {
-      "sourceHash": "adf067422b856cc5910efa3178fedebb7d0f90896e2fb895776fcc8396f4e54c",
+      "sourceHash": "5349b24bdd32aca72ba8e42336a2b8a74a7328683a095cb550000c7a0a75c38c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md": {
+      "sourceHash": "fd6a789e7b3045d4ac30a5032dcbeb9e79b625c4ffe2b550493f42f14ef7a1f9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md": {
+      "sourceHash": "fe4257f4d98c14a8c75510bbff0b15450b5468bce44bc3c46042f1e67242bfd2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md": {
+      "sourceHash": "3d6fc159930436147b90ccd1a6c55186f3fc20abc4b0f4b983002e47385a64e5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md": {
+      "sourceHash": "025a8e7ce681b7bcfe940faddb28f869703a7488d1fd4dc7c314f04bb8e4fdbc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md": {
+      "sourceHash": "5895d1d7c713d2eaa9a9ab1a34315bf2dc9ceb24e2cfa67097eaafaf17a7c211",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Database/v2-Database.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md": {
+      "sourceHash": "3c178d870f1fe3171ccd6d1a930c8b0581d6984d335a3f58d6cedd529b435949",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md": {
+      "sourceHash": "42a201e32512aa116da86027f62b59309c652a0ff4d49daf2f691939cb5beed5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md": {
+      "sourceHash": "a3ce969ad5b3d5355d177fb521062c4761e2c1c6c30db3d0dcf60cb0adcfbf5a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md": {
+      "sourceHash": "1c6c5e26957fe7b512361db4c691a5742ec3ea51cb8d74da5e91a292b35c382d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md": {
+      "sourceHash": "cca8e02b1080bbd30660926960f770c5da9e0b3adf1ab10a41d618e4ca668c3a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md": {
+      "sourceHash": "792e241c01ec15e89415281a4f3a64afece39c62bb33cdaa2275b49b1375746f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md": {
+      "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md": {
+      "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md": {
+      "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md": {
+      "sourceHash": "1792133de3513f07ddccc03bdfe70771f2b1eeefbce1d4a4c3699c0f3827c5fd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md": {
+      "sourceHash": "e1a48d49007bbfb89a9b6dca8c60c34020888709b1cb48bf16fd226c77d73b08",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md": {
+      "sourceHash": "d27a0401dbcd31ed2a8835a39eee233e1d0486799ba9b4928882662a2abc4873",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md": {
+      "sourceHash": "10d38fcd459d84d42fd87f5799a7ff78b16b6601759c8a4ae1a3e8f69de61d0e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md": {
+      "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md": {
+      "sourceHash": "2699277c51382bf002d09457d1bae2555d1ac4bc4816fc8c877dd9e40b5f0060",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md": {
+      "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md": {
+      "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md": {
+      "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Management-Index.md": {
+      "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Management-Index.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md": {
-      "sourceHash": "3758fe45bfdd9e78e01d6d07809be9099e2346b0236f29138df43fd302c13a10",
+      "sourceHash": "002d76d8d8f8400cf957e4a946626003f0481d9222dec7960b97db749313affc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md": {
-      "sourceHash": "dd4fe902d4c95e4940ae050b6f6fce896a735825082c74091adcd27adc997c9e",
+      "sourceHash": "5f032c8b95ef82facb7611f6b65ff3f746aa1c42bd762e616fde1ca4d76d2a12",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Compact.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md": {
       "sourceHash": "0a74f10f31b283f6b9a5b3d08d2e6075fc4798d31b9c2986e3dae99ae6302045",
@@ -4111,9 +4511,9 @@
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md": {
-      "sourceHash": "b1048c13eae16d1a58fc488033f48a98188d158cad291882d7ca57883449da31",
+      "sourceHash": "319126df89167f935eaa98bb085725c42c5c2c389a3538fd757d8e4bacef6934",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md": {
       "sourceHash": "3e551038b1730d9ec80779531ad0360b9e9a8254621f3cb9aa5c748d86cb61f4",
@@ -4121,24 +4521,24 @@
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md": {
-      "sourceHash": "44cbdc1ea91a006681c3482a6b616c2edff0247c24857054bbe697246073bcb1",
+      "sourceHash": "fcf0ab3193c76a191bbb402b3e87baea2cd779fbc4e9208d74c86b591102759b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md": {
-      "sourceHash": "62573b3bbf3a0537b2e60e77cced2b13a3ef31c8968e1e87c850542a8328bfb9",
+      "sourceHash": "5941ceee593fe2fe520315e6ce9c224c83ea14e0dd45c60c1463ac98787d3370",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md": {
-      "sourceHash": "c80c6c408c9b9457d43949ae735dd43d6cfcc5f142d23a48593952d9325e1d93",
+      "sourceHash": "2daeeddeab284f03b70609d63bf06ce2c95abfba4a90de87e4b6e2390027264e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md": {
-      "sourceHash": "298188522a7b1917d06d657aef29cd0286ec552b9e95edc9a03cd7a45e15db89",
+      "sourceHash": "3d88dc0e2be5b937fd57cb8b823aa8eb442b0f12416d7b478619f376832b2b12",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Flush.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md": {
       "sourceHash": "f286f8deea06ed98a2f78679535bb98e1d015ca84e830e4f6ce570212e42649a",
@@ -4146,239 +4546,309 @@
       "translatedAt": "2026-09-16T07:19:46.128Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md": {
-      "sourceHash": "f43ed0698fd210368fcbd3f1f16d9037ea27c879d95f7ec20abca563fa18dba3",
+      "sourceHash": "d5070962c7a1c03f4be98f30a05e8c7480f2fae4b12bdd5ca0d79884dfb05e26",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md": {
-      "sourceHash": "370d7c63f21bca477fef4e17689ee4495fff4527e95faafb86fe7a6c57aa1a01",
+      "sourceHash": "e39e093d3d0df6daa6c8f530e55917ab65cfc3fbebd1ec9ff8508dc4f5c80efb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md": {
-      "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md": {
-      "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md": {
-      "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md": {
-      "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md": {
-      "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md": {
-      "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md": {
-      "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
-    },
-    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md": {
-      "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md": {
+      "sourceHash": "c38daf31ed386d8c67864d7d0e34ef695d1acca7d6488e0c798173fc8b5484fd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md": {
-      "sourceHash": "c0311c072943b830c49fe7fd2045e76504b05b0287d79163594510a1630faff5",
+      "sourceHash": "192b65f661c31ba6d0caf33d20ca47adb1e0d5fcdd57a0c2f6859c0c0d900a6b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md": {
-      "sourceHash": "d88c65ba550e50d4a1c0c4a96259aca1d7949a6d71e3ddf3b6f1b5c7583dffb1",
+      "sourceHash": "6ce4ba2fe7ff0247aec19bfd6a75787911b96ff6f187f92edf449b913c3de02e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md": {
-      "sourceHash": "3896965d3d7333bb586009e0c73f6b6e256509d25d16b4b78e103401084b8cb6",
+      "sourceHash": "ef6804a86b2a083055a93fd9aa1923f3152a2187897e23fc71f789533eb53bec",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md": {
-      "sourceHash": "892020a5c53a7bd93384bce231857114683350a74ae0d0fae2c4fa2f92ec83e8",
+      "sourceHash": "f8271cce473b8f785176634c684bc222a85ec24a93cce057c4f27825b11e47ff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md": {
-      "sourceHash": "7252dcf102f09130bcc3c4b5114658408ccf9317bd93d9648be47fd18033b349",
+      "sourceHash": "9591bbfdcfad9ea8207f787059b319fb9a85abc8a9e52d95a90e86d3d94b1a8d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md": {
-      "sourceHash": "6a276ef6f8964ea34f1d66c33aeaea9048d900cada815f95d9bf9d9d436b45ab",
+      "sourceHash": "b582afe59f90a3ec84383676fed45512a04b46e52264c474e575d9f5c99efe6f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md": {
-      "sourceHash": "6353df7ea8ca30ce02a87f9dbc8b8cdc5819ec51733e6f0e76608f905da38f13",
+      "sourceHash": "6d26b6665794b438bf8f660b6b308d516954200f7c46197f05839c32b73d4e45",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md": {
-      "sourceHash": "4bd87883d973c4baa52e21e7beaaf6d0ddb4ad747056465d34b9e71ee946b75e",
+      "sourceHash": "ca977b06ea3c4fc4952f4e03017e9e00dbf6a19850007409d006e81c9eda049c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md": {
-      "sourceHash": "ab409119ce93298058955dc59dc91369b65cbb14d9aafcf21616491805cca1e0",
+      "sourceHash": "269ea67e9994d3001f94308ff632cee626f3981addd0edd74cc8b95b1ea93140",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md": {
-      "sourceHash": "6c1a6d296575ea82c5330a408f019d3a6409b0dd2e52ec2417ece80fbb922097",
+      "sourceHash": "528784a374838c52149989407c7d4ba3a31e8bc62a7dd2b93f11b3f8ac561a82",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md": {
-      "sourceHash": "f0a86d01ea28c0fdc098245209cd3ec112801e6ae3e62bd16ecb9e82b1354628",
+      "sourceHash": "e171cd9031abf97c53dacbd52fa7b7c4654e2dc26b7033d95442173a80b583d9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Segment.md": {
+      "sourceHash": "8f4b8591a5da104dcbd7c9be1e1e8f6dab7ce312a0c9a64fa513bb90d344d10c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management/v2-Management-Segment.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md": {
-      "sourceHash": "900742d755a0300156fb78ea3aba8e0e556d727892966af019f88904851f28d4",
+      "sourceHash": "97b0bf3bb6983cc1cb1146e33d7d619a028dec937832d08957534f160ae22292",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md": {
-      "sourceHash": "fbb28825452218249807484e6cc54affbc7c339f559d81595ff29054dea0e735",
+      "sourceHash": "c409aec7516794e754ce1901a0a9150557c0b7308b0c7d5067aa378fadb51a82",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md": {
-      "sourceHash": "199f63746c6378ec4782846fa3c0d5a3a24b029b77ffd54e63f50a19fffb3c1a",
+      "sourceHash": "739c8fb1eb10bebca508ea48ee8e8318c65576d0291529edbcf362d46ddbaf30",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md": {
-      "sourceHash": "eefd8679356b08aa44c45a7512f2b7533b61a1844c8fc0d44abb7ba0570deb86",
+      "sourceHash": "1ee3882593f01d7c2c9a5d9684bafeb53e4f4b68ca33a256fb59488db71601d3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md": {
-      "sourceHash": "bd2dcbdfa9f891c10d5b4193f966f80132bc9cd9f202f46d38de9ff26091e0bb",
+      "sourceHash": "abc52c6942ed220f3105794f145741f1bfda8622bbcd59204b9617403c8443f6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md": {
+      "sourceHash": "2a654543d65ca5a9d601fb6e79b07d6a7b481f8000468fdb1ae538a878044c97",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md": {
+      "sourceHash": "77e81506e20bbac47a112c2ee3d788bb9720f6c4b21df93a8c816dae456c5ff2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md": {
+      "sourceHash": "feeff0ddd8116896f2fdf508ed2cad239398461510a20b9e98783939cb4510b9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md": {
+      "sourceHash": "b371c918b789b90ffab2a97f3ff3d35511bf3819f1f6cdbd1939b3a1c5d86544",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md": {
+      "sourceHash": "940f4980c01d8f82714d0e641a1865af0820d12efc0680835684a445549c4876",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md": {
+      "sourceHash": "93c7f9853314b3612b6c7114fb145d0a7eb653c0135f858f941bb853a2501f40",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md": {
+      "sourceHash": "7a5330f77e8792523dfa6dd5ce591aea627b1d92fa68cf8a75049bb6725c2b25",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md": {
-      "sourceHash": "8d80b8fcfef3aefc842f947336c9270bee28132fa632ab062e510f1b145a6ea4",
+      "sourceHash": "a9d0edde56e3ee90182ea5148db4268f57ab9c3293bda234ccde7684e46d5a77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md",
-      "translatedAt": "2026-08-04T05:52:56.203Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md": {
+      "sourceHash": "4f53249120dd248cd6f9cd251ecc242acb6d0fd9356bb82611f77064353e75a1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md": {
+      "sourceHash": "d174b70fa3890ca991e2ef23223fc1369232b1b5b1ff2ba7f203fde1b9bd3eb7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md": {
+      "sourceHash": "72170c9e4ff2774878aed5895ef6f61d3d0c8ba393b7173afcbbecd345eee048",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md": {
+      "sourceHash": "d0e74d2fc2141188760d13ea3aa048bc97cf4087461224a2fef6ea3726c5492b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md": {
+      "sourceHash": "ba0a2279e10b8ee6522a4d25c35f27a2b422875bb3092a65acb8d908675d36b5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md": {
+      "sourceHash": "f4f0f930db8edd4da5449f73938b9e3d2cdcbd56055bbedb1aec1ff51dae05e8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md": {
+      "sourceHash": "d1e5915619ab8fcae96a9536e31e253767c1b0d0f76d28f415c9bc8ef31fa792",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md": {
+      "sourceHash": "0dc809903cf912238442720bdea82060c0753cb8705095a7fefec882e9436292",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md": {
+      "sourceHash": "0c44906015c472b40f0e6956b689e3b6360dbfe53e0204c913df72bbc02bf58b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md": {
+      "sourceHash": "94a68a13c6bb7c4c57bd81e3bb4918fc2e020b5183e025d3d27b1f6c085a4b86",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md": {
-      "sourceHash": "180efd52c4cac02cfbcf528576a682dc7fb2120a7fc318f351d43d124873eea1",
+      "sourceHash": "0a42dd48623025eb7c3be3584ff5f3ae74ef98958495f3e7b6aecd26171fae88",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md": {
-      "sourceHash": "1ad5346811e68fcea15b5b7da681371f4fdf3087d4b7d686952ccedff924e566",
+      "sourceHash": "d94c7e54631f6f9e2036b9fa0d22ce63efd31f018e5a075c7d9eea1fd2414bd8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md": {
-      "sourceHash": "892b9417693ba6a2b539115c7a65113be3faaed9d9355d057f9265c40ebc070e",
+      "sourceHash": "d7e4f59550fa3cffee4fd3929a41d0fc6ab6bcf652b003197972419fc8fae84e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md": {
-      "sourceHash": "c74e08f3e93882b49c525c62b1b81e98c91376323be287089148b91f65404485",
+      "sourceHash": "bb4212364fa7fd36fce60fc57f7bad2ecb3e5f26e18816afdd841a43746a2efb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md": {
-      "sourceHash": "bfde155f338cf7577c5e3b99cbf703786172019c3506b48eadfe19f7d2d27aae",
+      "sourceHash": "6ee25b14dc803cefef8fac31d18689a1496b5c05628512ca3abe30f02043b907",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md",
-      "translatedAt": "2026-08-04T05:52:56.121Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md": {
+      "sourceHash": "47060a86a4181a8195a104903a47b3108bb6cea069a4e02543bd0e14699e3ebf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md": {
-      "sourceHash": "177205c81e51910ae3aed895ddaf75ad64fdac4b6a00b1f903601ddf2f89bf28",
+      "sourceHash": "167fb9da65b2a89df5ce87da11de3c0a5c9d9c74f17d24175db92420aad87c69",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Delete.md",
-      "translatedAt": "2026-08-04T05:52:56.203Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md": {
-      "sourceHash": "994a7822b851cd441f1da11874bda0cc2351f9274a5051f2551912028ca8bdc7",
+      "sourceHash": "fe2079d849a92eecffa173952b39f622a4fd9474fe328c64280026f1b562808e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md",
-      "translatedAt": "2026-08-04T05:52:56.203Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md": {
-      "sourceHash": "446233e4e5c28de22db54dbfe449e3c3bc5b918f1ddd30f823f12ef070771cb2",
+      "sourceHash": "815d6898064674cf00d4ca78be84342ca812adbbca2e1cde47c9421d9811001f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Get.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md": {
-      "sourceHash": "97cc93151c0195ce5c4f3b9a42e1b4a3e57583473b784d10004cb8317a5f4b09",
+      "sourceHash": "018ab4496074819fe8783e516c5b6cd7ff585aee936bd706e2829c0ed5481650",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md": {
-      "sourceHash": "712b7054f47b58b05ec92b4397d63f0968844db0fa42af739c2b6b5c496b9bd0",
+      "sourceHash": "fd1e683147f5b1c72bf8d1a4489d3454125f96a8cf0e8c9dd697f000371aaa77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Insert.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md": {
-      "sourceHash": "add404c91d4aa7482a5a4c09847e001898c7413be0d86a39442a4e352831d320",
+      "sourceHash": "e0db9df66bc2e4ec2981e3c530d48101169b0100dc4df86ae71beed0954b3377",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md": {
-      "sourceHash": "37fccac77e0d70e614d7aed3370c620191899fc294e4102ee04cf0c16ef4dd11",
+      "sourceHash": "2525cc22228970eaf8c73fc4092b9975761c0a6d60e15f1e9baf4f5e9f96a721",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Query.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md": {
-      "sourceHash": "92cc23a5813cbe123ddd090102db652aaae6dec28a5add65aa05d368cb34f8a5",
+      "sourceHash": "9f4ecd585d28ae3a35ef10c8a2b9bd3d6447e685395ea714c553aad0fcfc68dd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md": {
+      "sourceHash": "d589f0c89b8090da3f65e3070b6ae924163ebe875f61fd4ff613386fe4df3c37",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md": {
-      "sourceHash": "6810a8e7b234b87fd113d39336f14ab9bf0130ede613889e2fefbe74aa0e867c",
+      "sourceHash": "0e97265fbc203566ac1a65d9e82817eb044c690bd444cac7ba6470b23256058e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md": {
-      "sourceHash": "1b5eae2dfec2db1c0549c7e8bc48003f36d18e2bffd675e4455990cd9e6a7495",
+      "sourceHash": "64d192b82752fd33cd658b4c115861507013d026b027511d204e8b515594c8cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md",
-      "translatedAt": "2026-09-16T07:19:46.128Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md": {
-      "sourceHash": "69c765a663b74442495842b9f9489bd6033b92858673e0941265f936fd1e89ca",
+      "sourceHash": "feb1bcaa16b4152063f864438e596c2732099a1a80cf966d9fc02ccd037aa90a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Search.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
+    },
+    "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md": {
+      "sourceHash": "8069cf3797a1cdfe21131efa27e34d99d3402b286e289a38cf761d26cb5832fd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md",
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md": {
-      "sourceHash": "6e872a3a8d4ccc39d16cc8531fb841c00151eb53bcd4209cc7a51a93b93894a3",
+      "sourceHash": "20a288c2d415028780e29a9fe79dd16707ed2e5e06986fb9688dacf7d8809fc3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md",
-      "translatedAt": "2026-08-04T05:52:56.216Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md": {
-      "sourceHash": "009cb856d60c8c0694819e71fc0f87354f78734ebd9545e70778c18406e466d7",
+      "sourceHash": "576729dd3b86595329c48f7aca8c1e429070de26621cd11f55c033509a5dfda2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md",
-      "translatedAt": "2026-08-04T05:52:56.363Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md": {
-      "sourceHash": "baacb8101aa27a6598d60f3d878e002262eed9116d59ed1584639dd40b2479bb",
+      "sourceHash": "bdceba8df202d0c282dfbe3ecaf64dd4db42f65eafb8fc30bf26948958624fe7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md",
-      "translatedAt": "2026-08-04T05:52:56.363Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector.md": {
-      "sourceHash": "a141ebedea8299314772435b5a76dddcc4277f0ee03d48d74d6295ece14315e7",
+      "sourceHash": "4063b2abab8b70315d415ae170bc2dde35463aed785da136530c7852acb70ec5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector.md",
-      "translatedAt": "2026-08-04T05:52:56.363Z"
+      "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/java/java/java.md": {
       "sourceHash": "57f22b795322cc84479eff60e622ba7f128048d5a3b012578bdd1fbf9250de5b",
@@ -10604,16 +11074,6 @@
       "sourceHash": "41ea83a6fec2db86495dece5c03de8e6ee94b00a88ab026e4af41cafadc66c8d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md",
       "translatedAt": "2026-07-13T10:00:31.969Z"
-    },
-    "reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md": {
-      "sourceHash": "ba0a2279e10b8ee6522a4d25c35f27a2b422875bb3092a65acb8d908675d36b5",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
-      "translatedAt": "2026-07-13T10:00:37.408Z"
-    },
-    "reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md": {
-      "sourceHash": "0c44906015c472b40f0e6956b689e3b6360dbfe53e0204c913df72bbc02bf58b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
-      "translatedAt": "2026-07-13T10:00:43.197Z"
     },
     "reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md": {
       "sourceHash": "6bd29e7df5be3d51f2bc7a7cbdb378f4fed83878b2b4e53b7183b8f454cafe60",

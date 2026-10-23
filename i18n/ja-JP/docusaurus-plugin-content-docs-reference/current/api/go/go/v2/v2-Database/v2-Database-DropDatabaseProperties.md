@@ -1,25 +1,25 @@
 ---
-title: "DropDatabaseProperties() | Go | v2"
+title: "DropDatabaseProperties | Go | v2"
 slug: /go/go/v2-Database-DropDatabaseProperties
-sidebar_label: "DropDatabaseProperties()"
+sidebar_label: "DropDatabaseProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、データベースから指定されたプロパティを削除します。 | Go | v2"
 type: docx
-token: Le2bdLZXCoKVXXxF2kgcuDt2neh
+token: RDOmdzzj2o4a6XxHcNZcmR2fnVh
 sidebar_position: 6
 keywords: 
-  - スパースベクトル
-  - ベクトル次元
-  - ANN 検索
-  - ベクトル埋め込みとは
+  - マルチモーダル RAG
+  - LLM ハルシネーション
+  - ハイブリッド検索
+  - レキシカル検索
   - zilliz
   - zilliz cloud
-  - cloud
-  - DropDatabaseProperties()
+  - クラウド
+  - DropDatabaseProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropDatabaseProperties()
+# DropDatabaseProperties
 
 この操作は、データベースから指定されたプロパティを削除します。
 
@@ -39,6 +39,8 @@ func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabase
 
 ## リクエスト構文\{#request-syntax}
 
+DropDatabaseProperties() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewDropDatabasePropertiesOption(dbName, propertyKeys)
 
@@ -47,13 +49,23 @@ err := client.DropDatabaseProperties(ctx, option)
 
 **パラメーター:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
 
-    データベースの名前。
+    **[REQUIRED]**
 
-- **propertyKeys** (*...string*)
+    データベースの名前です。
 
-    プロパティキー。
+- **propertyKeys** (*...string*) -
+
+    **[REQUIRED]**
+
+    プロパティキーです。
+
+**ビルダーメソッド:**
+
+- `NewDropDatabasePropertiesOption(dbName string, propertyKeys ...string)`
+
+    DropDatabaseProperties() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -63,19 +75,21 @@ err := client.DropDatabaseProperties(ctx, option)
 
 成功時は nil を返し、失敗時は問題の内容を示す error を返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DropDatabaseProperties() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 	"github.com/milvus-io/milvus/pkg/v2/common"
 )
 

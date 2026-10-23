@@ -4,21 +4,21 @@ slug: /go/go/v2-Snapshot-RestoreSnapshot
 sidebar_label: "RestoreSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットをターゲットコレクションに復元します。復元は非同期で実行されます — 進行状況の監視には `GetRestoreSnapshotState()` を使用します。 | Go | v2"
+description: "この操作は、スナップショットをターゲットコレクションに復元します。復元は非同期で実行されます。進行状況を監視するには、`GetRestoreSnapshotState()` を使用します。 | Go | v2"
 type: docx
 token: DrQidTj6koNKBkxHi4NcAxBfnDd
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI エージェント
+  - セマンティック検索
+  - 異常検知
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - RestoreSnapshot()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # RestoreSnapshot()
 
-この操作は、スナップショットをターゲットコレクションに復元します。復元は非同期で実行されます — 進行状況の監視には `GetRestoreSnapshotState()` を使用します。
+この操作は、スナップショットをターゲットコレクションに復元します。復元は非同期で実行されます。進行状況を監視するには、`GetRestoreSnapshotState()` を使用します。
 
 ```go
 func (c *Client) RestoreSnapshot(ctx context.Context, opt RestoreSnapshotOption, callOptions ...grpc.CallOption) (int64, error)
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+RestoreSnapshot() のリクエストを作成します。
 
 ```go
 option := client.NewRestoreSnapshotOption(snapshotName, collectionName, targetCollectionName).
@@ -47,52 +49,67 @@ option := client.NewRestoreSnapshotOption(snapshotName, collectionName, targetCo
 jobID, err := client.RestoreSnapshot(option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **snapshotName** (*string*) -
+- **name** (*string*) -
 
-    復元するスナップショットの名前。
+    **[REQUIRED]**
+
+    復元するスナップショットの名前です。
 
 - **collectionName** (*string*) -
 
-    スナップショットの取得元となったソースコレクションの名前。
+    **[REQUIRED]**
+
+    スナップショットの取得元であるソースコレクションの名前です。
 
 - **targetCollectionName** (*string*) -
 
-    復元後のコレクションに付ける名前。これはソースコレクション名と異なっている必要があります。
+    **[REQUIRED]**
 
-**BUILDER METHODS:**
+    復元後のコレクションの名前です。ソースコレクションの名前とは異なっている必要があります。
+
+**ビルダーメソッド:**
 
 - `WithDbName(dbName string)`
 
-    ソースデータベース名を設定します。設定しない場合は、デフォルトデータベースが使用されます。
+    ソースデータベース名を設定します。設定しない場合は、デフォルトのデータベースが使用されます。
 
 - `WithTargetDbName(targetDbName string)`
 
     復元後のコレクションのターゲットデータベース名を設定します。設定しない場合は、ソースデータベースが使用されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int64, error*
 
-**RETURNS:**
+**戻り値:**
 
-復元ジョブ ID。`GetRestoreSnapshotState()` とともにこの ID を使用して、復元の進行状況を追跡します。スナップショットが存在しない場合、または操作が失敗した場合はエラーを返します。
+復元ジョブ ID です。復元の進行状況を追跡するには、この ID を `GetRestoreSnapshotState()` とともに使用します。スナップショットが存在しない場合、または操作が失敗した場合は、エラーを返します。
 
-**EXCEPTIONS:**
+**パラメーター:**
+
+- **result** (*int64*) -
+
+    RestoreSnapshot() によって返される int64 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗します。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 
+RestoreSnapshot() の使用例を示します。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

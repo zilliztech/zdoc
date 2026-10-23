@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、ジオメトリフィールドに対する空間データクエリ用の R-tree インデックス設定を作成します。 | Go | v2"
+description: "この関数は、ジオメトリフィールドに対する空間データクエリ用の R-tree インデックス構成を作成します。 | Go | v2"
 type: docx
 token: I053djRjsob1JJxKXvUcGelbn2d
 sidebar_position: 21
@@ -18,7 +18,7 @@ keywords:
   - ベクトルストア
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - NewRTreeIndex()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # NewRTreeIndex()
 
-この関数は、ジオメトリフィールドに対する空間データクエリ用の R-tree インデックス設定を作成します。
+この関数は、ジオメトリフィールドに対する空間データクエリ用の R-tree インデックス構成を作成します。
 
 ```go
 func NewRTreeIndex() Index
 ```
 
-**戻り値:**
+**戻り値：**
 
 *[インデックス](./v2-Management-Index)*
 
-インデックス設定のインスタンスです。これをインデックスオプションを介して `CreateIndex()` に渡します。
+インデックス構成のインスタンスです。インデックスオプションを介して、これを `CreateIndex()` に渡します。
 
 ## 例\{#example}
 

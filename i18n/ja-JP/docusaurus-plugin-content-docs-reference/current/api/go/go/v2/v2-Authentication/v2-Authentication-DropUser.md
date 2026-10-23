@@ -1,25 +1,25 @@
 ---
-title: "DropUser() | Go | v2"
+title: "DropUser | Go | v2"
 slug: /go/go/v2-Authentication-DropUser
-sidebar_label: "DropUser()"
+sidebar_label: "DropUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はシステムからユーザーを削除します。 | Go | v2"
 type: docx
-token: QM8QdP63jofHxkxwxSEcXVXZnKX
+token: DwNPdAshLoAsYvxrs4lcQCe0n4g
 sidebar_position: 10
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - セマンティック検索
+  - 異常検知
+  - sentence transformers
+  - レコメンダーシステム
   - zilliz
   - zilliz cloud
   - cloud
-  - DropUser()
+  - DropUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropUser()
+# DropUser
 
 この操作はシステムからユーザーを削除します。
 
@@ -39,6 +39,8 @@ func (c *Client) DropUser(ctx context.Context, opt DropUserOption, callOpts ...g
 
 ## リクエスト構文\{#request-syntax}
 
+DropUser() のリクエストを作成します。
+
 ```go
 option := milvusclient.NewDropUserOption(userName)
 
@@ -47,9 +49,17 @@ err := client.DropUser(ctx, option)
 
 **パラメーター:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
 
-    ユーザーの名前。
+    **[必須]**
+
+    ユーザーの名前です。
+
+**ビルダーメソッド:**
+
+- `NewDropUserOption(userName string)`
+
+    DropUser() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -59,19 +69,21 @@ err := client.DropUser(ctx, option)
 
 成功時は nil を返し、失敗時は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+DropUser() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

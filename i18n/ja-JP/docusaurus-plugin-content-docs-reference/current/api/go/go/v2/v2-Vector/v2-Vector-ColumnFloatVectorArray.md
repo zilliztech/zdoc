@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-ColumnFloatVectorArray
 sidebar_label: "ColumnFloatVectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "行に共有次元を持つ Float 値を含む ArrayOfVector カラムを表します。 | Go | v2"
+description: "ColumnFloatVectorArray インスタンスは、各行に共通の次元を持つ float ベクトル値が格納された ArrayOfVector の float ベクトル列を表します。v3.0.0 では Nullable セマンティクスが適用され、nullability フラグと有効値の記録はスタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: FEsedrkZpoiR3YxNgL4csDP4nEe
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
   - ハイブリッド検索
   - lexical search
@@ -18,7 +18,7 @@ keywords:
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ColumnFloatVectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,38 +31,46 @@ import Admonition from '@theme/Admonition';
 
 # ColumnFloatVectorArray
 
-行に共有次元を持つ Float 値を含む ArrayOfVector カラムを表します。
+ColumnFloatVectorArray インスタンスは、各行に共通の次元を持つ float ベクトル値が格納された ArrayOfVector の float ベクトル列を表します。v3.0.0 では Nullable セマンティクスが適用され、nullability フラグと有効値の記録はスタブではなく実際の操作です。
 
 ```go
 type ColumnFloatVectorArray struct {
 }
 ```
 
-## リクエスト構文\{#request-syntax}
-
-行指向の vector-array データから ColumnFloatVectorArray を作成します。
-
-```go
-column.NewColumnFloatVectorArray(fieldName string, dim int, data [][][]float32) *ColumnFloatVectorArray
-```
-
-**メソッド:**
+**ビルダーメソッド：**
 
 - `AppendValue(value any) error`
 
-    これにより、[]entity.FloatVector または [][]float32 として渡された 1 行が追加されます。
+    []entity.FloatVector または [][]float32 として指定された 1 行を追加します。
 
-**戻り値の型:**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnFloatVectorArray*
+    指定されたインデックスにある行が null かどうかを報告します。
 
-**戻り値:**
+- `Nullable() bool`
 
-struct array フィールド内の ArrayOfVector float-vector データ用のカラム型です。
+    この列が null 値を受け入れるかどうかを報告します。
+
+- `SetNullable(nullable bool)`
+
+    列が null 値を受け入れるかどうかを設定します。
+
+- `ValidCount() int`
+
+    null 以外の行数を返します。
+
+- `ValidateNullable() error`
+
+    nullable の内部管理情報を検証し、不一致の場合はエラーを返します。
+
+**メソッド：**
+
+- `Slice(start, end int) Column`
 
 ## 例\{#example}
 
-ColumnFloatVectorArray の使用方法を示します。
+ColumnFloatVectorArray の使用例を示します。
 
 ```go
 import (

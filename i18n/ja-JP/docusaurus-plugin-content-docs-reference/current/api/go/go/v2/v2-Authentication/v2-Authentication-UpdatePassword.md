@@ -1,25 +1,25 @@
 ---
-title: "UpdatePassword() | Go | v2"
+title: "UpdatePassword | Go | v2"
 slug: /go/go/v2-Authentication-UpdatePassword
-sidebar_label: "UpdatePassword()"
+sidebar_label: "UpdatePassword"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存ユーザーのパスワードを更新します。 | Go | v2"
+description: "この操作は、既存ユーザーのパスワードを更新します。 | Go | v2"
 type: docx
-token: GKDQd15KkoiLPSxs8UYcFUamnIg
+token: W0UgdXTMmoA1VVx5Cooc1Re8nnb
 sidebar_position: 25
 keywords: 
-  - 安価なベクトルデータベース
-  - マネージドベクトルデータベース
-  - Pinecone ベクトルデータベース
-  - 音声検索
+  - コンテキストウィンドウ
+  - 自然言語検索
+  - 類似性検索
+  - マルチモーダル RAG
   - zilliz
   - zilliz cloud
   - cloud
-  - UpdatePassword()
+  - UpdatePassword
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# UpdatePassword()
+# UpdatePassword
 
-この操作は既存ユーザーのパスワードを更新します。
+この操作は、既存ユーザーのパスワードを更新します。
 
 ```go
 func (c *Client) UpdatePassword(ctx context.Context, opt UpdatePasswordOption, callOpts ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+UpdatePassword() のリクエストを作成します。
 
 ```go
 option := milvusclient.NewUpdatePasswordOption(userName, oldPassword, newPassword)
@@ -47,17 +49,29 @@ err := client.UpdatePassword(ctx, option)
 
 **パラメーター:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[必須]**
 
     ユーザー名です。
 
-- **oldPassword** (*string*)
+- **oldPassword** (*string*) -
+
+    **[必須]**
 
     検証用の現在のパスワードです。
 
-- **newPassword** (*string*)
+- **newPassword** (*string*) -
+
+    **[必須]**
 
     設定する新しいパスワードです。
+
+**ビルダーメソッド:**
+
+- `NewUpdatePasswordOption(userName string, oldPassword string, newPassword string)`
+
+    UpdatePassword() のリクエストを作成します。
 
 **戻り値の型:**
 
@@ -67,19 +81,21 @@ err := client.UpdatePassword(ctx, option)
 
 成功時は nil を返し、失敗時は問題の内容を示すエラーを返します。
 
-**例外:**
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作は失敗します。失敗の詳細については、`err != nil` を確認してください。
 
 ## 例\{#example}
+
+UpdatePassword() の使用例を示します。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

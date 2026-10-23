@@ -1,25 +1,25 @@
 ---
-title: "ListRoles() | Go | v2"
+title: "ListRoles | Go | v2"
 slug: /go/go/v2-Authentication-ListRoles
-sidebar_label: "ListRoles()"
+sidebar_label: "ListRoles"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、Milvus インスタンス内のすべてのロールを一覧表示します。 | Go | v2"
+description: "この操作は、すべてのロールの名前を返します。 | Go | v2"
 type: docx
-token: QSmmdf6jgoi8rFxzDnzcqr3cnMe
+token: AwuYdyq81ob9TKx3BEPcww6fnxb
 sidebar_position: 15
 keywords: 
-  - レコメンダーシステム
-  - 情報検索
-  - 次元削減
-  - hnsw algorithm
+  - milvus とは
+  - milvus データベース
+  - milvus lite
+  - milvus ベンチマーク
   - zilliz
   - zilliz cloud
   - cloud
-  - ListRoles()
+  - ListRoles
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,44 +29,72 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListRoles()
+# ListRoles
 
-この操作は、Milvus インスタンス内のすべてのロールを一覧表示します。
+この操作は、すべてのロールの名前を返します。
 
 ```go
 func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...grpc.CallOption) ([]string, error)
 ```
 
-**RETURN TYPE:**
+## リクエスト構文\{#request-syntax}
+
+ListRoles() のリクエストを作成します。
+
+```go
+option := milvusclient.NewListRoleOption()
+
+result, err := client.ListRoles(ctx, option)
+```
+
+**パラメータ:**
+
+- **option** (*ListRoleOption*) -
+
+    ロールを一覧表示するためのオプションです。構築には `NewListRoleOption` を使用します。
+
+**ビルダーメソッド:**
+
+- `NewListRoleOption()`
+
+    すべてのロールを一覧表示するオプションを作成します。
+
+**戻り値の型:**
 
 *[]string, error*
 
-**RETURNS:**
+**戻り値:**
 
-名前の一覧です。操作が失敗した場合はエラーを返します。
+ロール名のリストです。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**パラメータ:**
+
+- **result** (*[]string*) -
+
+    ListRoles() から返される []string 値です。
+
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    操作が失敗した場合です。失敗の詳細については、`err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
+
+ListRoles() の使用方法を示します。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }

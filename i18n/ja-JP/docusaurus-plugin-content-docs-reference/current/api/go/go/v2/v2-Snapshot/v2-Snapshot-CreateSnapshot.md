@@ -4,18 +4,18 @@ slug: /go/go/v2-Snapshot-CreateSnapshot
 sidebar_label: "CreateSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はコレクションのある時点のスナップショットを作成します。スナップショットを使用して、災害復旧や移行のためにコレクションのデータとメタデータをバックアップします。 | Go | v2"
+description: "この操作は、コレクションのポイントインタイムスナップショットを作成します。スナップショットを使用して、災害復旧や移行のためにコレクションのデータとメタデータをバックアップします。 | Go | v2"
 type: docx
 token: QFxmdtUNVoy071xXO8Acvkdpnse
 sidebar_position: 1
 keywords: 
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
-  - milvus とは
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # CreateSnapshot()
 
-この操作はコレクションのある時点のスナップショットを作成します。スナップショットを使用して、災害復旧や移行のためにコレクションのデータとメタデータをバックアップします。
+この操作は、コレクションのポイントインタイムスナップショットを作成します。スナップショットを使用して、災害復旧や移行のためにコレクションのデータとメタデータをバックアップします。
 
 ```go
 func (c *Client) CreateSnapshot(ctx context.Context, opt CreateSnapshotOption, callOptions ...grpc.CallOption) error
 ```
 
 ## リクエスト構文\{#request-syntax}
+
+CreateSnapshot() のリクエストを作成します。
 
 ```go
 option := client.NewCreateSnapshotOption(snapshotName, collectionName).
@@ -47,13 +49,17 @@ option := client.NewCreateSnapshotOption(snapshotName, collectionName).
 err := client.CreateSnapshot(option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
 
-    作成するスナップショットの名前です。これはコレクション内で一意である必要があります。
+    **[必須]**
 
-- **collectionName** (*string*) - 
+    作成するスナップショットの名前です。この名前はコレクション内で一意である必要があります。
+
+- **collectionName** (*string*) -
+
+    **[必須]**
 
     スナップショットを作成するコレクションの名前です。
 
@@ -61,7 +67,7 @@ err := client.CreateSnapshot(option)
 
 - `WithDescription(description string)`
 
-    スナップショットに、人が読める任意の説明を設定します。
+    スナップショットに任意の人間が読める説明を設定します。
 
 - `WithDbName(dbName string)`
 
@@ -73,22 +79,25 @@ err := client.CreateSnapshot(option)
 
 **戻り値:**
 
-成功時は nil を返します。コレクションが存在しない場合、スナップショット名がすでに使用されている場合、またはその他の理由で操作が失敗した場合は error を返します。
+成功時は nil を返します。コレクションが存在しない場合、スナップショット名がすでに使用されている場合、またはその他の理由で操作が失敗した場合は、エラーを返します。
 
-**例外:**
+**エラー処理:**
 
 - **error**
 
-    失敗の詳細は err != nil を確認してください。
+    操作が失敗します。失敗の詳細は err != nil を確認してください。
 
 ## 例\{#example}
 
+CreateSnapshot() の使用例を示します。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
