@@ -638,7 +638,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
     </TabItem>
     </Tabs>
 
-### TEXT_MATCH_FUZZY 式の構文\{#textmatchfuzzy-expression-syntax}
+### TEXT_MATCH_FUZZY 式の構文 | PUBLIC\{#textmatchfuzzy-expression-syntax-or-public}
 
 `TEXT_MATCH_FUZZY` を使用すると、クエリトークンとインデックスされたトークン間の表記の違いを許容できます。Milvus はフィールドのアナライザーを使用してクエリテキストを分析し、得られた各トークンにファジーマッチングを適用します。クエリが複数のトークンを生成する場合、いずれかのトークンが設定された編集距離を満たすと、式はエンティティに一致します。
 
@@ -1007,4 +1007,3 @@ zilliz collection search --collection-name my_collection --vector-field embeddin
     - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` で表す必要があります。一方、二重引用符は `"` または `\\"` のいずれかで表すことができます。例：`'It\\'s milvus'`。
 
     - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` で表す必要があります。一方、一重引用符は `'` または `\\'` のいずれかで表すことができます。例：`"He said \\"Hi\\""`。
-

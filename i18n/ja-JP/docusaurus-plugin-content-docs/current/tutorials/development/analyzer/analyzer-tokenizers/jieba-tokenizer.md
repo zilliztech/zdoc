@@ -360,11 +360,11 @@ export analyzerParams='{
    </tr>
 </table>
 
-大規模なカスタム語彙を `dict` でインライン展開する代わりに外部ファイルから読み込むには、後述の [辞書ファイルを使ったカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
+`dict` でインライン指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込むには、後述の[辞書ファイルを使用したカスタム設定](./jieba-tokenizer)を参照してください。
 
 `analyzer_params` を定義した後は、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-### 辞書ファイルを使ったカスタム設定 | PRIVATE\{#custom-configuration-with-a-dictionary-file}
+### 辞書ファイルを使用したカスタム設定 | PUBLIC\{#custom-configuration-with-a-dictionary-file-or-public}
 
 大規模なカスタム語彙（ドメイン用語集、製品用語、固有名詞リストなど）では、単語をファイルに格納し、そのファイルをリモートファイルリソースとして登録してから、`extra_dict_file` パラメーターを介してトークナイザーから参照します。アナライザーはこれらの単語を、組み込み辞書に加えて語彙に読み込みます。
 

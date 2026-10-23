@@ -383,7 +383,7 @@ Milvus は、クエリベクトルに対する類似度スコアの降順で検�
 | `IP` | 値が大きいほど類似性が高くなります。 | [-1, 1] |
 | `COSINE` | 値が大きいほど類似性が高くなります。 | [-1, 1] |
 | `JACCARD` | 値が小さいほど類似性が高くなります。 | [0, 1] |
-| `HAMMING` | 値が小さいほど類似性が高くなります。 | [0, dim(vector)] |
+| `HAMMING` | 値が小さいほど類似性が高くなります。 | [0, dim(ベクトル)] |
 
 ## 一括ベクトル検索\{#bulk-vector-search}
 
@@ -1423,7 +1423,7 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## スカラーフィールドで検索結果を並べ替える | ONDEMAND\{#sort-search-results-by-scalar-fields}
+## スカラーフィールドで検索結果を並べ替える | PUBLIC\{#sort-search-results-by-scalar-fields-or-public}
 
 デフォルトでは、Zilliz Cloud はクエリベクトルに対する類似度スコアで検索結果を並べ替えます。返されるエンティティをスカラーフィールドの順序に従わせたい場合は、`order_by_fields` を検索リクエストに追加します。
 

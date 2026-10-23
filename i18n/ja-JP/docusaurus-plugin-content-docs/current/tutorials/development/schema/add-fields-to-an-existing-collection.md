@@ -35,7 +35,7 @@ import TabItem from '@theme/TabItem';
 
 **ユーザー定義フィールドを追加する**
 
-- 追加するユーザー定義フィールドは nullable である必要があります。`add_collection_field()` を呼び出すときは `nullable=True` を設定します。既存のエンティティでは、`default_value` を持つスカラーフィールドを追加しない限り、追加されたフィールドは NULL になります。
+- 追加するユーザー定義フィールドは nullable である必要があります。`add_collection_field()` を呼び出すときは、`nullable=True` を設定します。既存のエンティティでは、`default_value` を指定したスカラーフィールドを追加しない限り、追加したフィールドは `NULL` になります。
 
 - ユーザー定義スカラーフィールドの追加は、Milvus 2.6.x 以降でサポートされています。ユーザー定義ベクトルフィールドの追加は、Milvus 2.6.18 以降でサポートされています。
 
@@ -81,7 +81,7 @@ import TabItem from '@theme/TabItem';
 
 - アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、[Add user-defined ベクトル fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) を使用します。
 
-- Zilliz Cloud が既存のフィールドからベクトル値を生成する必要がある場合（テキストからの BM25 スパースベクトルや MinHash シグネチャなど）は、[Add a Function and its generated ベクトル field](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field) を使用します。
+- 既存のフィールドから Zilliz Cloud がベクトル値を生成する場合（テキストからの BM25 スパースベクトルや MinHash 署名など）は、[Function とその生成ベクトルフィールドを追加する](./add-fields-to-an-existing-collection) を使用します。
 
 これらの場合、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。
 
@@ -533,7 +533,7 @@ curl --request POST \
 
 フィールドの追加後、コレクションにすでに存在していたエンティティでは、`review_status` に対して `"unreviewed"` が返されます。新しいエンティティでは、別の値を設定するか、値が指定されていない場合にデフォルト値を使用できます。
 
-### StructArray フィールドを追加する\{#add-structarray-fields}
+### StructArray フィールドを追加する | PUBLIC\{#add-structarray-fields-or-public}
 
 `add_collection_struct_field()` を使用して、構造体の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次の手順に従います：
 
@@ -1276,7 +1276,7 @@ curl --request POST \
 
 既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索するときはスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert ワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティは、insert の際に `embedding_v2` を含めることができます。
 
-### Function とその生成ベクトルフィールドを追加する\{#add-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドを追加する | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
 
 この Milvus 3.0 のスキーマ変更ワークフローは、現在 Zilliz Cloud のオンデマンドクラスター向けに文書化されています。このページは、Cloud で最初にサポートされるパッチや Serving クラスター の可用性を示すものではありません。
 
@@ -1640,7 +1640,7 @@ MinHash Function とその生成バイナリベクトルフィールドは、近
 
 ユーザー定義フィールドは、コレクションモデルの一部でなくなったときに直接削除できます。Function とその生成ベクトルフィールドを削除するには、その Function を削除します。生成フィールドとそのインデックスは、同じスキーマ変更で削除されます。
 
-### ユーザー定義フィールドを削除する\{#drop-user-defined-fields}
+### ユーザー定義フィールドを削除する | PUBLIC\{#drop-user-defined-fields-or-public}
 
 コレクションモデルの一部でなくなったユーザー定義スカラーまたはベクトルフィールドを削除するには、`drop_collection_field()` を使用します。
 
@@ -2123,7 +2123,7 @@ await client.dropCollectionField({
 
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
-### Function とその生成ベクトルフィールドを削除する\{#drop-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドを削除する | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Function またはその生成ベクトルフィールド（BM25 Function とその生成スパースベクトルフィールドなど）が不要になった場合は、この操作を使用します。
 
@@ -2314,7 +2314,7 @@ Function 出力フィールドを削除するとコレクションにベクト�
 
 ユーザー定義スカラーフィールドの場合、`default_value` を設定しない限り、既存のエンティティは `NULL` を返します。`default_value` を設定した場合は、既存のエンティティはそのデフォルト値を返します。
 
-ユーザー定義ベクトルフィールドの場合、既存のエンティティは新しいベクトルフィールドに対して `NULL` を持ちます。追加されたフィールドでのベクトル検索では、ベクトル値が `NULL` のエンティティはスキップされます。既存のエンティティを新しいベクトルフィールドで検索可能にするには、upsert またはバックフィルワークフローを通じて `NULL` 以外のベクトル値を書き込みます。新しいエンティティは、insert の際に新しいベクトルフィールドを含めることができます。
+ユーザー定義ベクトルフィールドの場合、既存のエンティティは新しいベクトルフィールドに `NULL` を持ちます。追加したフィールドでのベクトル検索では、ベクトル値が `NULL` のエンティティはスキップされます。既存のエンティティを新しいベクトルフィールドで検索可能にするには、upsert またはバックフィルワークフローを使用して NULL 以外のベクトル値を書き込みます。新しいエンティティは、insert 時に新しいベクトルフィールドを含めることができます。
 
 ### 既存のコレクションに BM25 Function とその生成スパースベクトルフィールドを追加できますか？\{#can-i-add-a-bm25-function-and-its-generated-sparse-vector-field-to-an-existing-collection}
 

@@ -481,7 +481,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### クエリ結果の並べ替え | ONDEMAND\{#sort-query-results}
+### クエリ結果の並べ替え | PUBLIC\{#sort-query-results-or-public}
 
 デフォルトでは、Query は結果を不特定の順序で返します。1 つ以上のスカラーフィールドで結果を並べ替えるには、`order_by` パラメーターを使用します。`order_by` を使用する際は、次の点に注意してください。
 
@@ -1135,7 +1135,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### クエリ結果の集計 | ONDEMAND\{#aggregate-query-results}
+### クエリ結果の集計 | PUBLIC\{#aggregate-query-results-or-public}
 
 1 つ以上のスカラーフィールドでクエリ結果をグループ化し、グループごとに集計を計算できます。サポートされる集計演算子は `count`、`min`、`max`、`sum`、`avg` です。
 

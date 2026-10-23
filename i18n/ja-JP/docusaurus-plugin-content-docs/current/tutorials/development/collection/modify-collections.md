@@ -207,7 +207,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各エンティティの絶対的な有効期限タイムスタンプ（<strong>エンティティ単位の TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合、エンティティは期限切れになりません。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細は、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティ単位の TTL を設定する</a>を参照してください。</p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティ単位の TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドの値が <code>NULL</code> の場合は、エンティティが期限切れになることはありません。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細は、<a href="./set-collection-ttl">エンティティ単位の TTL を設定する</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
@@ -346,11 +346,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 例 2: エンティティ単位の TTL を設定する | PRIVATE\{#example-2-set-entity-level-ttl}
+### 例 2: エンティティ単位の TTL を設定する | PUBLIC\{#example-2-set-entity-level-ttl-or-public}
 
 次のコードスニペットは、既存の `TIMESTAMPTZ` フィールド（`expire_at`）をエンティティ単位の TTL 用の TTL フィールドとして指定します。コレクションには、その名前の `TIMESTAMPTZ` フィールドがすでに含まれている必要があり、`collection.ttl.seconds` を設定してはいけません。2 つの TTL モードは相互に排他的です。
 
-エンティティ単位の TTL のワークフロー全体（スキーマ設定、挿入、クエリ、リフレッシュ、削除）については、[エンティティ単位の TTL を設定する](./modify-collections#example-2-set-entity-level-ttl) を参照してください。
+エンティティ単位の TTL の一連のワークフロー（スキーマの設定、挿入、クエリ、リフレッシュ、削除）については、[エンティティ単位の TTL を設定する](./modify-collections) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

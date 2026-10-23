@@ -201,7 +201,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合は、エンティティが期限切れにならないことを意味します。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細は、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL を設定する</a> を参照してください。</p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティの有効期限は、実時刻がこのフィールドに格納された値に達した時点で正確に切れます。フィールドの値が <code>NULL</code> の場合、そのエンティティの有効期限は切れません。<code>collection.ttl.seconds</code> とは相互に排他的です。</p><p>詳細は、<a href="./set-collection-ttl">エンティティレベルの TTL を設定する</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>

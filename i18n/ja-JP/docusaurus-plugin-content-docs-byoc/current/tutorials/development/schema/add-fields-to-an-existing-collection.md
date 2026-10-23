@@ -81,7 +81,7 @@ import TabItem from '@theme/TabItem';
 
 - [ユーザー定義ベクトルフィールドの追加](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) は、アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合に使用します。
 
-- [Function とその生成ベクトルフィールドの追加](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field) は、Zilliz Cloud が既存のフィールドからベクトル値を生成する必要がある場合（テキストから BM25 スパースベクトルや MinHash シグネチャを生成する場合など）に使用します。
+- [Function とその生成ベクトルフィールドの追加](./add-fields-to-an-existing-collection) は、BM25 スパースベクトルやテキストからの MinHash シグネチャなど、既存のフィールドからベクトル値を Zilliz Cloud が生成する場合に使用します。
 
 これらの場合、フィールドの総数は Zilliz Cloud のフィールド数制限を超えることはできません。詳細は、[Zilliz Cloud の制限](./limits#fields) を参照してください。
 
@@ -533,7 +533,7 @@ curl --request POST \
 
 フィールドが追加されると、コレクションにすでに存在していたエンティティは `review_status` に対して `"unreviewed"` を返します。新しいエンティティは、別の値を設定することも、値を指定しない場合にデフォルト値を使用することもできます。
 
-### StructArray フィールドの追加\{#add-structarray-fields}
+### StructArray フィールドの追加 | PUBLIC\{#add-structarray-fields-or-public}
 
 `add_collection_struct_field()` を使用して、構造体の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次の手順を実行します。
 
@@ -1276,7 +1276,7 @@ curl --request POST \
 
 既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索するとスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert ワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティは、挿入時に `embedding_v2` を含めることができます。
 
-### Function とその生成ベクトルフィールドの追加\{#add-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドの追加 | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
 
 この Milvus 3.0 のスキーマ変更ワークフローは、現在 Zilliz Cloud のオンデマンドクラスター向けに文書化されています。このページは、サポートされる最初の Cloud パッチや Serving クラスターでの可用性を定めるものではありません。
 
@@ -1640,7 +1640,7 @@ MinHash Function とその生成バイナリベクトルフィールドは、ほ
 
 ユーザー定義フィールドがコレクションモデルの一部でなくなった場合は、そのフィールドを直接削除できます。Function とその生成ベクトルフィールドを削除するには、Function を削除します。生成フィールドとそのインデックスは、同じスキーマ変更で削除されます。
 
-### ユーザー定義フィールドの削除\{#drop-user-defined-fields}
+### ユーザー定義フィールドの削除 | PUBLIC\{#drop-user-defined-fields-or-public}
 
 コレクションモデルの一部でなくなったユーザー定義スカラーフィールドまたはベクトルフィールドを削除するには、`drop_collection_field()` を使用します。
 
@@ -2123,7 +2123,7 @@ await client.dropCollectionField({
 
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
-### Function とその生成ベクトルフィールドの削除\{#drop-a-function-and-its-generated-vector-field}
+### Function とその生成ベクトルフィールドの削除 | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Function やその生成ベクトルフィールド（BM25 Function とその生成スパースベクトルフィールドなど）が不要になった場合は、この操作を使用します。
 

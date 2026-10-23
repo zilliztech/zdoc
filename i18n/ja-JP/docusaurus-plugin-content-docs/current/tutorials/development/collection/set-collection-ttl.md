@@ -837,7 +837,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エンティティレベル TTL を設定する | ONDEMAND\{#set-entity-level-ttl}
+## エンティティレベル TTL を設定する | PUBLIC\{#set-entity-level-ttl-or-public}
 
 エンティティレベル TTL では、各エンティティが独自の絶対有効期限を持つことができます。この時刻は、スキーマで宣言する専用の `TIMESTAMPTZ` 列に保存され、`ttl_field` コレクションプロパティを通じてその列を TTL フィールドとしてマークします。
 
@@ -2789,4 +2789,3 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_pro
 ### CU 容量が減少するのはいつですか？\{#when-will-the-cu-capacity-decrease}
 
 クラスターの CU 容量は、メモリ使用量とストレージ使用量のいずれか大きい方です。ストレージ使用量が適用される場合は、期限切れのデータが物理的に削除された後に、Zilliz Cloud コンソールで CU 容量の減少を確認できます。
-
