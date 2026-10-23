@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T05:35:01.542Z",
+  "generated_at": "2026-10-23T10:29:47.937Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -18,25 +18,10 @@
       "reasons": [
         "wiki node revision changed"
       ]
-    },
-    {
-      "record_id": "recvlVXBVpkIcX",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Zilliz Cloud IPs",
-      "labels": "Zilliz Cloud IP Addresses",
-      "slug": "zilliz-cloud-ips",
-      "release_channel": "current",
-      "doc_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KfgvwJKPDi8uDekl2aHcPOvgnSb",
-      "reasons": [
-        "wiki node revision changed"
-      ]
     }
   ],
   "changed_tokens": [
-    "CPLrwghdWiSvGBkdeEecGjgLnSb",
-    "KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    "CPLrwghdWiSvGBkdeEecGjgLnSb"
   ],
   "expanded_tokens": [
     "A33MwQX84iXyQNkzopece3oenye",
@@ -44,7 +29,6 @@
     "AICcwQ55yiNqEPkjdV6cb2i8nqe",
     "CPLrwghdWiSvGBkdeEecGjgLnSb",
     "CUuywySLVil4MKkmYZecUl9snLg",
-    "CiVHwbwPwipX5SkFkqVcLpESnfe",
     "EL8jwqHsPikz2okhYzXcuLscnhf",
     "ESVGwTkn8iLfUakSSrkc5dWJnye",
     "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -54,31 +38,21 @@
     "IojuwADAwiRK0hkl4pgcvC2QnQd",
     "JaLdw76LPiX003kLpKHcA0n8n2d",
     "K4F3wDpFciHWwJkZd5qc302OnWg",
-    "KfgvwJKPDi8uDekl2aHcPOvgnSb",
-    "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
     "MUL3wkn7Yi3YoFkYk59csf8bnNc",
     "MocQwCCItiHYEbkkJtOcROPTnod",
     "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
     "PAViwMSb3iVMzuk56z3c1zfRnwh",
     "PharwAysCiBzvgkuqqecmNzunQf",
-    "PlX3wo82Di6oWVkg2ercRWCUnvV",
-    "R33EwQchxiO3HKk4vPnce6vkntc",
     "RoxawNJhki1vXXkFsEEc7laMnxe",
     "SIhBwKFJri4u2CkyD3ucnO7an3g",
-    "SwgXwdHG6iqpbUknXrHcOPd7nRe",
     "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
-    "VFMLwxpsniVGKYkE3DecmpQ2nrg",
     "W04nwxHqNiqyrykxMZOcu4ianle",
-    "W2fZwrrhVibvpGkd0MbcQGJQnib",
-    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf"
+    "W2fZwrrhVibvpGkd0MbcQGJQnib"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
     "CPLrwghdWiSvGBkdeEecGjgLnSb": [
-      "wiki node revision changed"
-    ],
-    "KfgvwJKPDi8uDekl2aHcPOvgnSb": [
       "wiki node revision changed"
     ],
     "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
@@ -149,27 +123,6 @@
     ],
     "W2fZwrrhVibvpGkd0MbcQGJQnib": [
       "incoming reference to CPLrwghdWiSvGBkdeEecGjgLnSb"
-    ],
-    "CiVHwbwPwipX5SkFkqVcLpESnfe": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "LqMIw1DXyiHUjAk9TEAcqHp6nDd": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "PlX3wo82Di6oWVkg2ercRWCUnvV": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "R33EwQchxiO3HKk4vPnce6vkntc": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "SwgXwdHG6iqpbUknXrHcOPd7nRe": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "VFMLwxpsniVGKYkE3DecmpQ2nrg": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
-    ],
-    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf": [
-      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
     ]
   },
   "warnings": [],
@@ -272,7 +225,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-23T02:38:42.293Z",
+    "generated_at": "2026-10-23T05:37:19.021Z",
     "records": 402
   },
   "source_scope": "partial"
