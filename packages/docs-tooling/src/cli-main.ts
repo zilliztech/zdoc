@@ -278,7 +278,19 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       text => process.stdout.write(text), repositoryRoot);
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect or links-seed');
+    if (argv[1] === 'build') {
+      const options = parseOptions(argv.slice(2));
+      for (const key of Object.keys(options)) {
+        if (!['sharedDocs', 'repo', 'dev', 'out', 'page', 'imageTimeout'].includes(key)) throw new Error(`Unknown build option: --${key}`);
+      }
+      const {runBuild} = await import('./shared-docs/commands/build.ts');
+      process.exitCode = await runBuild({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
+        dev: requiredOption(options, 'dev'), out: requiredOption(options, 'out'),
+        page: options.page === undefined ? undefined : requiredOption(options, 'page'),
+        imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text));
+      return true;
+    }
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed or build');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['pages', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
