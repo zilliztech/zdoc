@@ -1,4 +1,4 @@
-const DOC_HEADING_TAGS = [
+export const DOC_HEADING_TAGS = [
   'PRIVATE',
   'NEAR DEPRECATE',
   'CONTACT SALES',

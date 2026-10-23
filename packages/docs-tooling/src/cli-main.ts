@@ -266,6 +266,17 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'shared-docs') {
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect');
+    const options = parseOptions(argv.slice(2));
+    for (const key of Object.keys(options)) {
+      if (!['pages', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
+    }
+    const {runInspect} = await import('./shared-docs/commands/inspect.ts');
+    process.exitCode = await runInspect({pages: requiredOption(options, 'pages'), page: requiredOption(options, 'page'),
+      repo: requiredOption(options, 'repo')}, text => process.stdout.write(text));
+    return true;
+  }
   if (argv[0] === 'validate-publication-provider') {
     const options = parseOptions(argv.slice(1));
     const site = requiredOption(options, 'site');
