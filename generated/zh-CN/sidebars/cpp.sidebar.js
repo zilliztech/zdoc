@@ -122,6 +122,18 @@ module.exports = [
         "id": "api/cpp/cpp/Authentication/Authentication-UserDesc",
         "label": "UserDesc",
         "key": "doc:api/cpp/cpp/Authentication/authentication-userdesc"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-GrantPrivilege",
+        "label": "GrantPrivilege()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-grantprivilege"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-RevokePrivilege",
+        "label": "RevokePrivilege()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-revokeprivilege"
       }
     ]
   },
@@ -180,6 +192,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-GetServerVersionV2",
+        "label": "GetServerVersionV2()",
+        "key": "doc:api/cpp/cpp/Client/client-getserverversionv2"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Client/Client-RetryParam",
         "label": "RetryParam",
         "key": "doc:api/cpp/cpp/Client/client-retryparam"
@@ -204,9 +222,21 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-GetTelemetry",
+        "label": "GetTelemetry()",
+        "key": "doc:api/cpp/cpp/Client/client-gettelemetry"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Client/Client-Session",
         "label": "Session()",
         "key": "doc:api/cpp/cpp/Client/client-session"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-TelemetryConfig",
+        "label": "TelemetryConfig",
+        "key": "doc:api/cpp/cpp/Client/client-telemetryconfig"
       }
     ]
   },
@@ -406,6 +436,12 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-StructFieldSchema",
         "label": "StructFieldSchema",
         "key": "doc:api/cpp/cpp/Collections/collections-structfieldschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-TruncateCollection",
+        "label": "TruncateCollection()",
+        "key": "doc:api/cpp/cpp/Collections/collections-truncatecollection"
       },
       {
         "type": "doc",
@@ -680,6 +716,24 @@ module.exports = [
         "id": "api/cpp/cpp/Management/Management-ReleaseCollection",
         "label": "ReleaseCollection()",
         "key": "doc:api/cpp/cpp/Management/management-releasecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress",
+        "label": "GetRefreshExternalCollectionProgress()",
+        "key": "doc:api/cpp/cpp/Management/management-getrefreshexternalcollectionprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs",
+        "label": "ListRefreshExternalCollectionJobs()",
+        "key": "doc:api/cpp/cpp/Management/management-listrefreshexternalcollectionjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-RefreshExternalCollection",
+        "label": "RefreshExternalCollection()",
+        "key": "doc:api/cpp/cpp/Management/management-refreshexternalcollection"
       }
     ]
   },
@@ -857,6 +911,12 @@ module.exports = [
         "id": "api/cpp/cpp/Vector/Vector-Upsert",
         "label": "Upsert()",
         "key": "doc:api/cpp/cpp/Vector/vector-upsert"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Vector/Vector-FunctionChain",
+        "label": "FunctionChain",
+        "key": "doc:api/cpp/cpp/Vector/vector-functionchain"
       }
     ]
   }

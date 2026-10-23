@@ -10,7 +10,7 @@ notebook: false
 description: "此操作从查询节点释放 Collection 数据。 | Cloud"
 type: docx
 token: RzmYdsC1joL3LuxT765csIbwnCh
-sidebar_position: 20
+sidebar_position: 22
 keywords: 
   - 向量相似性搜索
   - 近似最近邻搜索

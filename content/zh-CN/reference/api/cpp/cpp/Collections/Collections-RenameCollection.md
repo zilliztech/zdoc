@@ -4,21 +4,21 @@ slug: /cpp/cpp/Collections-RenameCollection
 sidebar_label: "RenameCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作可重命名 Collection。 | Cloud"
+description: "此操作会重命名 Collection。 | Cloud"
 type: docx
-token: EyHadkgMtohFXxxEEcucWAC5nje
+token: WaD1dzpIzohLMKx39p7cGgEEnDh
 sidebar_position: 31
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量 db
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RenameCollection()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RenameCollection()
 
-此操作可重命名 Collection。
+此操作会重命名 Collection。
 
 ```c++
 Status RenameCollection(const RenameCollectionRequest& request)
@@ -43,34 +43,39 @@ Status RenameCollection(const RenameCollectionRequest& request)
 auto request = RenameCollectionRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name1)
-    .WithNewCollectionName(collection_name2);
+    .WithNewCollectionName(collection_name2)
+    .WithTargetDatabaseName(db_name2);
 ```
 
 **请求方法：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 的名称。如果该值为空，则应用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithNewCollectionName(const std::string& collection_name)`
 
     设置 Collection 的新名称。
 
-**返回值：**
+- `WithTargetDatabaseName(const std::string& db_name)`
+
+    设置目标 Database 的名称。重命名后的 Collection 将移动到该 Database。如果该值为空，则应用默认 Database。
+
+**返回类型：**
 
 *Status*
 
-检查 `status.IsOk()` 以确认操作是否成功。
+检查 `status.IsOk()` 以确认成功。
 
 **异常：**
 
 - **StatusCode**
 
-    查看 `status.Code()` 和 `status.Message()` 获取错误详情。
+    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
 
 ## 示例\{#example}
 

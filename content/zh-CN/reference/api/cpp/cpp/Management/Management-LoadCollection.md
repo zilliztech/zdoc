@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作将 Collection 数据加载到查询节点的 CPU 和内存中。如果请求处于同步模式，此操作会检查 Collection 的加载进度，并等待 Collection 完全加载到查询节点。否则，它会立即返回。 | Cloud"
 type: docx
-token: Z3KTdzp7xoWm7QxytFGcIqYangm
-sidebar_position: 16
+token: TqIzdhIkFoR8KYxBXfscml0Ln8c
+sidebar_position: 18
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - NLP 搜索
+  - LLM 幻觉
+  - 多模态搜索
+  - 向量搜索算法
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云端
   - LoadCollection()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -49,7 +49,8 @@ auto request = LoadCollectionRequest()
     .WithRefresh(refresh)
     .WithLoadFields(load_fields)
     .WithSkipDynamicField(skip_dynamic_field)
-    .WithTargetResourceGroups(target_resource_groups);
+    .WithTargetResourceGroups(target_resource_groups)
+    .WithLoadPriority(load_priority);
 ```
 
 **请求方法：**
@@ -103,6 +104,10 @@ auto request = LoadCollectionRequest()
 - `WithTargetResourceGroups(const std::set<std::string>& target_resource_groups)`
 
     设置目标资源组。
+
+- `WithLoadPriority(const std::string& load_priority)`
+
+    设置 Collection 的加载优先级。设置 `"low"` 以选择低优先级；任何其他值（包括 `"high"`）均默认为高优先级。
 
 **返回值：**
 

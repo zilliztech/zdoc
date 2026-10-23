@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-Optimize
 sidebar_label: "Optimize()"
 beta: false
 added_since: v2.6.3
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作为 Collection 触发 optimize Compaction，并返回一个支持轮询、取消或等待的异步任务句柄。 | Cloud"
+description: "此操作通过等待待处理的索引构建、执行 Compaction 使 Segment 达到请求的目标大小，并在 Collection 已加载时刷新加载状态，从而优化该 Collection 的 Segment。使用异步选项时，该工作会在后台任务中运行，并通过 OptimizeTask 句柄公开，该句柄会提供最终结果。 | Cloud"
 type: docx
 token: NlpedMAt2of5d6xPHvucRSzjnVe
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - Optimize()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Optimize()
 
-此操作为 Collection 触发 optimize Compaction，并返回一个支持轮询、取消或等待的异步任务句柄。
+此操作通过等待待处理的索引构建、执行 Compaction 使 Segment 达到请求的目标大小，并在 Collection 已加载时刷新加载状态，从而优化该 Collection 的 Segment。使用异步选项时，该工作会在后台任务中运行，并通过 OptimizeTask 句柄公开，该句柄会提供最终结果。
 
 ```c++
 Status Optimize(const OptimizeRequest& request, OptimizeTaskPtr& task)
@@ -43,117 +43,100 @@ Status Optimize(const OptimizeRequest& request, OptimizeTaskPtr& task)
 auto request = OptimizeRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithTargetSize("512MB")
-    .WithAsync(true)
-    .WithTimeoutMs(0);
+    .WithTargetSize(target_size)
+    .WithAsync(async)
+    .WithTimeoutMs(timeout_ms);
 ```
-
-### OptimizeRequest\{#optimizerequest}
 
 **请求方法：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database。
+    设置目标 Database 的名称；如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置待优化的 Collection。
+    设置要优化的 Collection 的名称。该值不能为空。
 
 - `WithTargetSize(const std::string& target_size)`
 
-    设置期望的 Compaction 后 Segment 大小，例如 `"512MB"` 或 `"1GB"`。
+    设置用于优化的目标 Segment 大小，例如 "512MB" 或 "1GB"。
 
 - `WithAsync(bool async)`
 
-    当 `true` 时，优化任务将异步调度。
+    设置优化是否以异步方式运行。为 true 时，Optimize() 会在后台任务启动后立即返回；为 false 时，调用会阻塞，直到优化完成。
 
 - `WithTimeoutMs(int64_t timeout_ms)`
 
-    设置任务的全局超时时间（毫秒）。`0` 表示不设置全局超时。
+    设置任务的总超时时间，单位为毫秒。零表示没有总超时限制。
 
-**返回值：**
+**返回类型：**
 
-*Status* 及 *OptimizeTaskPtr*
+*Status*
 
-### OptimizeResponse\{#optimizeresponse}
+返回一个 Status，指示操作是否成功。在同步模式下，它反映整个优化运行的结果；在异步模式下，它指示后台任务是否已启动，该任务的最终状态可通过 OptimizeTask 句柄获取。
 
-此类表示 optimize 任务的输出，包含归一化目标大小、Compaction ID 及进度历史。
+- **response** (*OptimizeTaskPtr*) -
 
-```c++
-const OptimizeResponse& response = resp;
-```
+    - **GetResult** (*Status*) -
 
-**方法：**
+        等待任务结果。超时为零表示永久等待。
 
-- `const std::string& StatusText() const`
+        - **StatusText** (*const std::string&*) -
 
-    返回 optimize 执行过程中报告的当前状态文本。
+            获取状态文本。
 
-- `const std::string& CollectionName() const`
+        - **CollectionName** (*const std::string&*) -
 
-    返回正在优化的 Collection。
+            获取 Collection 名称。
 
-- `int64_t CompactionID() const`
+        - **CompactionID** (*int64_t*) -
 
-    返回 Compaction 任务 ID。
+            获取 Compaction ID。
 
-- `const std::string& TargetSize() const`
+        - **TargetSize** (*const std::string&*) -
 
-    返回优化器使用的归一化目标大小。
+            获取规范化后的目标大小。
 
-- `const std::vector<std::string>& ProgressHistory() const`
+        - **ProgressHistory** (*const std::vector&lt;std::string&gt;&*) -
 
-    返回任务执行期间收集的进度消息。
+            获取进度历史记录。
 
-### OptimizeTask\{#optimizetask}
+    - **Cancel** (*bool*) -
 
-此类表示一个异步 optimize 任务，支持取消、等待及进度查询。
+        以协作方式取消任务。
 
-```c++
-const OptimizeTaskPtr& task = optimize_task;
-```
+    - **IsDone** (*bool*) -
 
-**方法：**
+        任务是否已完成。
 
-- `Status GetResult(OptimizeResponse& response, int64_t timeout_ms = 0)`
+    - **IsCancelled** (*bool*) -
 
-    等待任务完成并填充 `response`。`timeout_ms = 0` 表示无限期等待。
+        任务是否已取消。
 
-- `bool Cancel()`
+    - **CurrentProgress** (*std::string*) -
 
-    请求协作式取消该任务。
+        当前进度消息。
 
-- `bool IsDone() const`
+    - **ProgressHistory** (*std::vector&lt;std::string&gt;*) -
 
-    返回任务执行是否已完成。
+        进度消息历史记录。
 
-- `bool IsCancelled() const`
+    - **TaskStatus** (*Status*) -
 
-    返回取消请求是否已被接受。
+        如果任务已完成，则为最终任务状态；否则为 OK。
 
-- `std::string CurrentProgress() const`
+**异常处理：**
 
-    返回最新的进度消息。
+- **std::exception**
 
-- `std::vector<std::string> ProgressHistory() const`
-
-    返回所有已记录的进度消息。
-
-- `Status TaskStatus() const`
-
-    若任务已完成则返回最终状态，否则返回 OK 状态。
-
-**异常：**
-
-- **StatusCode**
-
-    请检查 `status.Code()` 和 `status.Message()`，以排查无效请求参数、optimize 调度失败或超时错误。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status，以获取失败详情。
 
 ## 示例\{#example}
 
+在已连接的 MilvusClientV2 上调用 Optimize()，通过 Compaction 使 Collection 的 Segment 达到目标大小，并使用 OptimizeTask 句柄获取最终结果。
+
 ```c++
-#include <milvus/MilvusClientV2.h>
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
@@ -161,19 +144,11 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-milvus::OptimizeTaskPtr task;
-status = client->Optimize(
-    milvus::OptimizeRequest()
-        .WithCollectionName("my_collection")
-        .WithTargetSize("512MB")
-        .WithAsync(true),
-    task);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::OptimizeResponse response;
-status = task->GetResult(response, 60000);
+auto request = milvus::OptimizeRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithTargetSize(target_size);
+status = client->Optimize(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

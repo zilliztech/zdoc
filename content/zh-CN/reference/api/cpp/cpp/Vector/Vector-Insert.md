@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "向 Collection 中插入数据。支持按列或按行输入数据。 | Cloud"
+description: "向 Collection 中插入数据。您可以输入基于列的数据或基于行的数据。 | Cloud"
 type: docx
 token: MI1HdCRUbo7J60xbMsic3P9qnIb
 sidebar_position: 4
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - Insert()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Insert()
 
-向 Collection 中插入数据。支持按列或按行输入数据。
+向 Collection 中插入数据。您可以输入基于列的数据或基于行的数据。
 
 ```c++
 Status Insert(const InsertRequest& request, InsertResponse& response)
@@ -54,11 +54,11 @@ auto request = InsertRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称，若为空则使用默认 Database。
+    设置目标 Database 名称；如果该名称为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionName(const std::string& partition_name)`
 
@@ -78,34 +78,34 @@ auto request = InsertRequest()
 
 - `AddRowData(EntityRow&& row_data)`
 
-    通过流式接口添加单行 Entity 数据。不可同时设置 ColumnsData 和 RowsData。
+    通过流式接口添加 Entity 行数据。不可同时设置 ColumnsData 和 RowsData。
 
 ### 列负载类型\{#column-payload-types}
 
-Collection Schema 使用 [DataType](./Collections-DataType) 声明各字段的逻辑类型。对于 `Insert()` 和 `Upsert()`，请通过公共基指针 `FieldDataPtr` 传入对应的列容器。
+Collection Schema 使用 [DataType](./Collections-DataType) 声明每个字段的逻辑类型。对于 `Insert()` 和 `Upsert()`，请通过公共基指针 `FieldDataPtr` 传入对应的列容器。
 
 | Schema DataType | 列负载类型 | C++ 表示 | 说明 |
 | --- | --- | --- | --- |
-| `BOOL` | `BoolFieldData` | `bool` | 布尔标量值。 |
-| `INT8`, `INT16`, `INT32`, `INT64` | 匹配的 `Int*FieldData` | 匹配的定宽整数类型 | 请选择与 Schema 类型相匹配的容器。 |
-| `FLOAT`, `DOUBLE` | `FloatFieldData`, `DoubleFieldData` | `float`, `double` | 浮点标量值。 |
-| `VARCHAR`, `JSON`, `GEOMETRY`, `TIMESTAMPTZ` | `VarCharFieldData` 或 `JSONFieldData` | `std::string` 或 `nlohmann::json` | Geometry 和 timestamptz 通过字符串负载别名进行传输。 |
-| `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | 匹配的稠密向量 `FieldData` 类 | `std::vector<float>`、`std::vector<uint16_t>` 或 `std::vector<int8_t>` | 请选择与向量编码相匹配的容器。 |
-| `SPARSE_FLOAT_VECTOR`, `BINARY_VECTOR` | `SparseFloatVecFieldData`, `BinaryVecFieldData` | `std::map<uint32_t, float>` 或专用二进制存储 | 二进制向量需使用专用类。 |
-| `ARRAY`, `STRUCT` | 专用的 `Array*FieldData` 或 `StructFieldData` | 特定元素容器或数组形式的 `nlohmann::json` 存储 | Array 需声明元素类型；Struct 使用带有 `DataType::STRUCT` 的数组模板。 |
-| `UNKNOWN` | None | None | 无插入负载。 |
+| BOOL | BoolFieldData | bool | 布尔标量值。 |
+| INT8, INT16, INT32, INT64 | 匹配的 Int&ast;FieldData | 匹配的定宽整数 | 请选择与 Schema 类型匹配的容器。 |
+| FLOAT, DOUBLE | FloatFieldData, DoubleFieldData | float, double | 浮点标量值。 |
+| VARCHAR, JSON, GEOMETRY, TIMESTAMPTZ | VarCharFieldData 或 JSONFieldData | std::string 或 nlohmann::json | Geometry 和 timestamptz 通过字符串负载别名传输。 |
+| FLOAT_VECTOR, FLOAT16_VECTOR, BFLOAT16_VECTOR, INT8_VECTOR | 匹配的稠密向量 FieldData 类 | std::vector&lt;float&gt;、std::vector&lt;uint16_t&gt; 或 std::vector&lt;int8_t&gt; | 请选择与向量编码匹配的容器。 |
+| SPARSE_FLOAT_VECTOR, BINARY_VECTOR | SparseFloatVecFieldData, BinaryVecFieldData | std::map\<uint32_t, float> 或专用的二进制存储 | 二进制向量使用专用类。 |
+| ARRAY, STRUCT | 专用的 Array&ast;FieldData 或 StructFieldData | 特定元素的容器或数组形式的 nlohmann::json 存储 | ARRAY 声明元素类型；STRUCT 使用带有 DataType::STRUCT 的数组模板。 |
+| UNKNOWN | None | None | 无插入负载。 |
 
 对于具体容器 `XxxFieldData`，其指针别名 `XxxFieldDataPtr` 为 `std::shared_ptr<XxxFieldData>`。DML 请求通过 `FieldDataPtr` 接收这些值。
 
-**返回值：**
+**返回：**
 
 *Status*
 
-返回一个状态对象，用于指示操作是否成功。
+返回一个状态，指示操作是否成功。
 
 ### FieldData\{#fielddata}
 
-该模板类用于表示单个字段的列式数据，其具体别名覆盖了所有支持的数据类型。在通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search结果时，均会使用具体类型的实例。
+该模板类表示单个字段的列式数据。具体别名覆盖所有支持的数据类型。通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search 结果时，会使用这些具体类型的实例。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -140,7 +140,7 @@ class FieldData : public Field {
 
 ### DmlResults\{#dmlresults}
 
-该类封装了数据变更操作（Insert、Upsert 或 Delete）的执行结果。您可以通过 `InsertResponse`、`UpsertResponse` 或 `DeleteResponse` 上的 `Results()` 方法进行访问。
+该类承载数据变更操作（插入、Upsert 或删除）的结果。可通过 `InsertResponse`、`UpsertResponse` 或 `DeleteResponse` 上的 `Results()` 访问。
 
 ```c++
 const DmlResults& results = response.Results();
@@ -150,29 +150,33 @@ const DmlResults& results = response.Results();
 
 - `const IDArray& IdArray() const`
 
-    已插入、Upsert 或删除的 Entity ID。对于启用自动 ID 的 Collection，服务端会在插入后自动填充此字段。关于如何读取整型或字符串 ID，请参阅 IDArray。
+    已插入、Upsert 或删除的 Entity ID。对于自动 ID Collection，服务端会在插入后填充此字段。有关如何读取整型 ID 或字符串 ID，请参阅 IDArray。
 
 - `uint64_t Timestamp() const`
 
-    服务端操作时间戳。您可以在后续的 Search 或 Query 调用中将其作为 `guarantee_timestamp` 传入，以确保“读己之写”一致性。
+    服务端操作时间戳。可在后续的搜索或查询调用中将其作为 `guarantee_timestamp` 传入，以确保读己之写一致性。
 
 - `uint64_t InsertCount() const`
 
-    已插入的行数。适用于 `InsertResponse` 和 `UpsertResponse` 操作。
+    已插入的行数。在 `InsertResponse` 和 `UpsertResponse` 中填充此值。
 
 - `uint64_t DeleteCount() const`
 
-    已删除的行数。适用于 `DeleteResponse` 和 `UpsertResponse` 操作。
+    已删除的行数。在 `DeleteResponse` 和 `UpsertResponse` 中填充此值。
 
 - `uint64_t UpsertCount() const`
 
-    已 Upsert 的行数（包括新插入或替换现有数据的行数）。适用于 `UpsertResponse` 操作。
+    已 Upsert 的行数（作为新行插入或替换现有行）。在 `UpsertResponse` 中填充此值。
+
+- `int64_t Cost() const`
+
+    返回操作的成本，单位为毫秒。
 
 **错误处理：**
 
 - **std::exception**
 
-    当请求构建、网络传输或响应解析失败时抛出。请检查异常消息或返回的 Status 以获取详细的错误信息。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取失败详情。
 
 ## 示例\{#example}
 

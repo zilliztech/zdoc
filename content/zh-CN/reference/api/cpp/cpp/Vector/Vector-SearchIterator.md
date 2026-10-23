@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "创建一个迭代器，用于分批返回向量搜索结果。使用迭代器期间，请保持 MilvusClientV2 处于连接状态。结果顺序不作保证。由于 SDK 会在内部分配主键字段名，因此请求对象是可变的。 | Cloud"
+description: "创建一个迭代器，以批量方式返回向量搜索结果。迭代器使用期间，请保持 MilvusClientV2 连接。结果顺序无法保证。该请求是可变的，因为 SDK 会在内部设置主键字段名。 | Cloud"
 type: docx
 token: UJArdNCrIoKR78xBrKqcwtgUnQc
 sidebar_position: 9
 keywords: 
-  - Serverless vector Database
-  - milvus 开源
-  - milvus 工作原理
-  - Zilliz vector Database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - SearchIterator()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # SearchIterator()
 
-创建一个迭代器，用于分批返回向量搜索结果。使用迭代器期间，请保持 MilvusClientV2 处于连接状态。结果顺序不作保证。由于 SDK 会在内部分配主键字段名，因此请求对象是可变的。
+创建一个迭代器，以批量方式返回向量搜索结果。迭代器使用期间，请保持 MilvusClientV2 连接。结果顺序无法保证。该请求是可变的，因为 SDK 会在内部设置主键字段名。
 
 ```c++
 Status SearchIterator(SearchIteratorRequest& request, SearchIteratorPtr& response)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-使用迭代器时，请勿断开 MilvusClientV2 的连接。返回的 Entity 顺序无法保证。详情请参阅[此文档](https://milvus.io/docs/with-iterators.md)。
+迭代器使用期间，请勿断开 MilvusClientV2。无法保证返回 Entity 的顺序。更多信息请阅读。
 
 </Admonition>
 
@@ -98,15 +98,15 @@ auto request = SearchIteratorRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称；若为空，则使用默认 Database。
+    设置目标 Database 名称；如果为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    设置 Partition 名称列表。若未指定 Partition 名称，将在整个 Collection 中进行查询。
+    设置 Partition 名称。如果 Partition 名称为空，将在整个 Collection 中查询。
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -122,71 +122,71 @@ auto request = SearchIteratorRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    设置一致性级别。更多信息请参阅文档：https://milvus.io/docs/consistency.md#Consistency-Level.
+    设置一致性级别。[一致性级别](/docs/consistency-level)。
 
 - `AddBinaryVector(const std::string& vector)`
 
-    向搜索请求中添加一个二进制向量。该方法会自动将字符串数组转换为 uint8 数组。
+    向搜索请求添加二进制向量。此方法会自动将字符串数组转换为 uint8 数组。
 
 - `AddFloatVector(const FloatVecFieldData::ElementT& vector)`
 
-    向搜索请求中添加一个浮点向量。
+    向搜索请求添加 float 向量。
 
 - `AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
-    向搜索请求中添加一个稀疏向量。
+    向搜索请求添加稀疏向量。
 
 - `AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
 
-    向搜索请求中添加一个 float16 向量。
+    向搜索请求添加 float16 向量。
 
 - `AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
-    向搜索请求中添加一个 bfloat16 向量。
+    向搜索请求添加 bfloat16 向量。
 
 - `AddEmbeddedText(const std::string& text)`
 
-    向搜索请求中添加文本。仅适用于 BM25 函数。
+    向搜索请求添加文本。仅适用于 BM25 函数。
 
 - `AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
 
-    向搜索请求中添加一个 int8 向量。
+    向搜索请求添加 int8 向量。
 
 - `AddEmbeddingList(EmbeddingList&& emb_list)`
 
-    向结构体字段的搜索请求中添加一个嵌入列表。
+    向 struct 字段上的搜索请求添加嵌入列表。
 
 - `WithBinaryVectors(const std::vector<std::string>& vectors)`
 
-    设置搜索请求的二进制向量。该方法会自动将字符串数组转换为 uint8 数组。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定二进制向量。此方法会自动将字符串数组转换为 uint8 数组。注意：此方法会重置请求的向量列表。
 
 - `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)`
 
-    设置搜索请求的浮点向量。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定 float 向量。注意：此方法会重置请求的向量列表。
 
 - `WithSparseVectors(std::vector<SparseFloatVecFieldData::ElementT>&& vectors)`
 
-    设置搜索请求的稀疏向量。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定稀疏向量。注意：此方法会重置请求的向量列表。
 
 - `WithFloat16Vectors(std::vector<Float16VecFieldData::ElementT>&& vectors)`
 
-    设置搜索请求的 float16 向量。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定 float16 向量。注意：此方法会重置请求的向量列表。
 
 - `WithBFloat16Vectors(std::vector<BFloat16VecFieldData::ElementT>&& vectors)`
 
-    设置搜索请求的 bfloat16 向量。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定 bfloat16 向量。注意：此方法会重置请求的向量列表。
 
 - `WithEmbeddedTexts(std::vector<std::string>&& texts)`
 
-    设置搜索请求的文本。仅适用于 BM25 函数。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定文本。仅适用于 BM25 函数。注意：此方法会重置请求的向量列表。
 
 - `WithInt8Vectors(std::vector<Int8VecFieldData::ElementT>&& vectors)`
 
-    设置搜索请求的 int8 向量。注意：此操作会重置请求中的向量列表。
+    为搜索请求指定 int8 向量。注意：此方法会重置请求的向量列表。
 
 - `WithEmbeddingLists(std::vector<EmbeddingList>&& emb_lists)`
 
-    设置结构体字段搜索请求的嵌入列表。注意：此操作会重置请求中的向量列表。
+    为 struct 字段上的搜索请求指定嵌入列表。注意：此方法会重置请求的向量列表。
 
 - `WithMetricType(::milvus::MetricType metric_type)`
 
@@ -194,11 +194,11 @@ auto request = SearchIteratorRequest()
 
 - `AddExtraParam(const std::string& key, const std::string& value)`
 
-    添加额外参数，如 "nlist"、"ef" 等。
+    添加额外参数，例如“nlist”、“ef”。
 
 - `WithExtraParams(const std::unordered_map<std::string, std::string>& params)`
 
-    添加额外参数，如 "nlist"、"ef" 等。
+    添加额外参数，例如“nlist”、“ef”。
 
 - `WithLimit(int64_t limit)`
 
@@ -214,31 +214,31 @@ auto request = SearchIteratorRequest()
 
 - `AddFilterTemplate(std::string key, const nlohmann::json& filter_template)`
 
-    为过滤表达式中的占位符添加单个值。仅在请求包含非空过滤条件时使用，可避免重复解析大型字面量。
+    为过滤表达式中的占位符添加一个值。仅当请求具有非空过滤条件时使用，可避免重复解析大型字面量值。
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    替换过滤表达式中使用的所有占位符值。键对应于 \{age\} 或 \{city\} 等占位符；值可以是布尔值、数值、字符串或数组数据。
+    替换过滤表达式使用的所有占位符值。键对应 \{age\} 或 \{city\} 等占位符；值可以是布尔值、数值、字符串或数组数据。
 
 - `WithOffset(int64_t offset)`
 
-    设置偏移量。注意：该值存储在 ExtraParams 中。
+    设置偏移值。注意：该值存储在 ExtraParams 中。
 
 - `WithRoundDecimal(int64_t round_decimal)`
 
-    设置小数舍入位数。
+    设置小数舍入值。
 
 - `WithIgnoreGrowing(bool ignore_growing)`
 
-    设置忽略新增数据标志。
+    设置忽略增长数据的标志。
 
 - `WithGroupByField(const std::string& field_name)`
 
-    设置分组字段。
+    设置用于分组的字段值。
 
 - `WithGroupSize(int64_t group_size)`
 
-    设置分组大小。
+    设置分组大小值。
 
 - `WithStrictGroupSize(bool strict_group_size)`
 
@@ -250,15 +250,15 @@ auto request = SearchIteratorRequest()
 
 - `WithRangeFilter(double filter)`
 
-    设置范围过滤阈值。注意：该值存储在 ExtraParams 中。
+    设置范围过滤条件。注意：该值存储在 ExtraParams 中。
 
 - `WithRerank(const FunctionScorePtr& ranker)`
 
-    设置重排序器。支持多种重排序函数，如 Boost/Decay/Model, 等。更多信息请参阅文档：https://milvus.io/docs/boost-ranker.md.
+    设置重排器。允许使用多个重排函数，例如 Boost/Decay/Model, 等。请阅读 [Boost Ranker](/docs/boost-ranker) 及其同类页面。
 
 - `WithTimezone(const std::string& timezone)`
 
-    设置时区，对 Timestamptz 字段生效。更多信息请参阅文档：https://milvus.io/docs/single-vector-search.md#Temporarily-set-a-timezone-for-a-search.
+    设置时区，对 Timestamptz 字段生效。有关搜索的更多信息，请阅读 [临时设置时区](/docs/single-vector-search#temporarily-set-a-timezone-for-a-search)。
 
 - `WithHighlighter(const HighlighterPtr& highlighter)`
 
@@ -266,39 +266,39 @@ auto request = SearchIteratorRequest()
 
 - `WithSearchAggregation(const SearchAggregationPtr& aggregation)`
 
-    设置搜索聚合配置。
+    设置搜索聚合参数。
 
 - `WithOrderByFields(std::vector<OrderByField>&& order_by_fields)`
 
-    设置用于搜索结果排序的字段。
+    设置用于对搜索结果排序的字段。
 
 - `AddOrderByField(OrderByField order_by_field)`
 
-    添加一个用于搜索结果排序的字段。
+    添加一个用于对搜索结果排序的字段。
 
 ### 查询向量类型\{#query-vector-types}
 
-请求接受一种与目标字段 [DataType](./Collections-DataType) 相匹配的查询向量表示形式。请使用对应的添加方法或批量构建方法；这些属于查询输入，而非 Collection 列数据载荷。
+该请求接受一种与目标字段 [DataType](./Collections-DataType) 匹配的查询向量表示形式。请使用相应的添加方法或批量构建器方法；这些是查询输入，而不是 Collection 列载荷。
 
-| Schema DataType | 请求方法 | C++ 表示形式 | 备注 |
+| Schema DataType | 请求方法 | C++ 表示形式 | 说明 |
 | --- | --- | --- | --- |
-| `FLOAT_VECTOR` | `AddFloatVector()`, `WithFloatVectors()` | `std::vector<float>` | 稠密浮点向量。 |
-| `BINARY_VECTOR` | `AddBinaryVector()`, `WithBinaryVectors()` | 二进制字节或字符串便捷输入 | 使用专用的二进制向量表示形式。 |
-| `SPARSE_FLOAT_VECTOR` | `AddSparseVector()`, `WithSparseVectors()` | `std::map<uint32_t, float>` 或支持的 JSON 格式 | 稀疏索引-值对。 |
-| `FLOAT16_VECTOR` | `AddFloat16Vector()`, `WithFloat16Vectors()` | `std::vector<uint16_t>` 或可转换的浮点向量 | 浮点重载方法会自动执行转换。 |
-| `BFLOAT16_VECTOR` | `AddBFloat16Vector()`, `WithBFloat16Vectors()` | `std::vector<uint16_t>` 或可转换的浮点向量 | 浮点重载方法会自动执行转换。 |
-| `INT8_VECTOR` | `AddInt8Vector()`, `WithInt8Vectors()` | `std::vector<int8_t>` | 稠密有符号字节向量。 |
-| 函数或结构体字段输入 | `AddEmbeddedText()` / `WithEmbeddedTexts()`; `AddEmbeddingList()` / `WithEmbeddingLists()` | `std::string` 或 `EmbeddingList` | 对支持的函数使用嵌入文本，对结构体字段 ANN 搜索使用嵌入列表。 |
+| FLOAT_VECTOR | AddFloatVector(), WithFloatVectors() | std::vector&lt;float&gt; | 密集 float 向量。 |
+| BINARY_VECTOR | AddBinaryVector(), WithBinaryVectors() | 二进制字节或字符串便捷输入 | 使用专用的二进制向量表示形式。 |
+| SPARSE_FLOAT_VECTOR | AddSparseVector(), WithSparseVectors() | std::map\<uint32_t, float> 或支持的 JSON 形式 | 稀疏索引-值对。 |
+| FLOAT16_VECTOR | AddFloat16Vector(), WithFloat16Vectors() | std::vector&lt;uint16_t&gt; 或可转换的 float 向量 | float 重载会执行转换。 |
+| BFLOAT16_VECTOR | AddBFloat16Vector(), WithBFloat16Vectors() | std::vector&lt;uint16_t&gt; 或可转换的 float 向量 | float 重载会执行转换。 |
+| INT8_VECTOR | AddInt8Vector(), WithInt8Vectors() | std::vector&lt;int8_t&gt; | 密集有符号字节向量。 |
+| Function 或 struct 字段输入 | AddEmbeddedText() / WithEmbeddedTexts(); AddEmbeddingList() / WithEmbeddingLists() | std::string 或 EmbeddingList | 对支持的函数使用嵌入文本，对 struct 字段 ANN 搜索使用嵌入列表。 |
 
-**返回值：**
+**返回：**
 
 *Status*
 
-返回一个状态对象，指示操作是否成功。
+返回一个状态，指示操作是否成功。
 
 ### FieldData\{#fielddata}
 
-这是一个模板类，用于表示单个字段的列式数据。具体的类型别名涵盖了所有支持的数据类型。在通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search结果时，均需使用具体类型的实例。
+这是表示单个字段的列式数据的模板类。具体别名覆盖所有支持的数据类型。通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询（query/search）结果时，会使用具体类型的实例。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -333,7 +333,7 @@ class FieldData : public Field {
 
 ### EmbeddingList\{#embeddinglist}
 
-此类包含一个或多个同类型的查询向量，用作 `SearchRequest`、`SubSearchRequest` 或通过 `AddEmbeddingList()` 进行的结构体字段 ANN 搜索的目标向量。通过调用 Add*/Set* 方法构建 `EmbeddingList`，然后将其传递给 `SearchRequestBase::AddEmbeddingList()`。
+此类包含一个或多个相同类型的查询向量，用作 `SearchRequest`、`SubSearchRequest` 或通过 `AddEmbeddingList()` 进行的 struct 字段 ANN 搜索的目标向量。通过调用 Add*/Set* 方法构建 `EmbeddingList`，然后将其传递给 `SearchRequestBase::AddEmbeddingList()`。
 
 ```c++
 EmbeddingList list;
@@ -359,7 +359,7 @@ EmbeddingList list;
 
 - `Status AddFloatVector(const FloatVecFieldData::ElementT& vector)`
 
-    追加一个稠密浮点向量。
+    追加一个密集 float 向量。
 
 - `Status AddBinaryVector(const std::string& vector)`
 
@@ -371,85 +371,85 @@ EmbeddingList list;
 
 - `Status AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
-    从索引-值数据或支持的 JSON 格式追加一个稀疏向量。
+    从索引-值数据或支持的 JSON 表示形式追加一个稀疏向量。
 
 - `Status AddSparseVector(const nlohmann::json& vector)`
 
-    从索引-值数据或支持的 JSON 格式追加一个稀疏向量。
+    从索引-值数据或支持的 JSON 表示形式追加一个稀疏向量。
 
 - `Status AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
 
-    追加一个 float16 向量。浮点向量重载会将数值转换为 float16。
+    追加一个 float16 向量。float 向量重载会将值转换为 float16。
 
-- `Status AddFloat16Vector(const std::vector<float>& vector)` — 自动将 float 转换为 float16
+- `Status AddFloat16Vector(const std::vector<float>& vector)` — auto-converts float to float16
 
-    追加一个 float16 向量。浮点向量重载会将数值转换为 float16。
+    追加一个 float16 向量。float 向量重载会将值转换为 float16。
 
 - `Status AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
-    追加一个 bfloat16 向量。浮点向量重载会将数值转换为 bfloat16。
+    追加一个 bfloat16 向量。float 向量重载会将值转换为 bfloat16。
 
-- `Status AddBFloat16Vector(const std::vector<float>& vector)` — 自动将 float 转换为 bfloat16
+- `Status AddBFloat16Vector(const std::vector<float>& vector)` — auto-converts float to bfloat16
 
-    追加一个 bfloat16 向量。浮点向量重载会将数值转换为 bfloat16。
+    追加一个 bfloat16 向量。float 向量重载会将值转换为 bfloat16。
 
 - `Status AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
 
-    追加一个稠密 int8 向量。
+    追加一个密集 int8 向量。
 
-- `Status AddEmbeddedText(const std::string& text)` — 用于 BM25 文本嵌入
+- `Status AddEmbeddedText(const std::string& text)` — for BM25 text-embedding
 
-    为支持的文本嵌入函数（如 BM25）追加文本。
+    为支持的文本嵌入函数（例如 BM25）追加文本。
 
 **批量设置方法（重置列表）：**
 
 - `Status SetFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)`
 
-    使用稠密浮点向量替换当前列表。
+    将当前列表替换为密集 float 向量。
 
 - `Status SetBinaryVectors(const std::vector<std::string>& vectors)`
 
-    使用二进制向量替换当前列表。
+    将当前列表替换为二进制向量。
 
 - `Status SetBinaryVectors(std::vector<BinaryVecFieldData::ElementT>&& vectors)`
 
-    使用二进制向量替换当前列表。
+    将当前列表替换为二进制向量。
 
 - `Status SetSparseVectors(std::vector<SparseFloatVecFieldData::ElementT>&& vectors)`
 
-    使用稀疏向量替换当前列表。
+    将当前列表替换为稀疏向量。
 
 - `Status SetSparseVectors(const std::vector<nlohmann::json>& vectors)`
 
-    使用稀疏向量替换当前列表。
+    将当前列表替换为稀疏向量。
 
 - `Status SetFloat16Vectors(std::vector<Float16VecFieldData::ElementT>&& vectors)`
 
-    使用 float16 向量替换当前列表；适用时会自动转换浮点输入。
+    将当前列表替换为 float16 向量；适用时，float 输入会被转换。
 
-- `Status SetFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自动转换
+- `Status SetFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — auto-converts
 
-    使用 float16 向量替换当前列表；适用时会自动转换浮点输入。
+    将当前列表替换为 float16 向量；适用时，float 输入会被转换。
 
 - `Status SetBFloat16Vectors(std::vector<BFloat16VecFieldData::ElementT>&& vectors)`
 
-    使用 bfloat16 向量替换当前列表；适用时会自动转换浮点输入。
+    将当前列表替换为 bfloat16 向量；适用时，float 输入会被转换。
 
-- `Status SetBFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自动转换
+- `Status SetBFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — auto-converts
 
-    使用 bfloat16 向量替换当前列表；适用时会自动转换浮点输入。
+    将当前列表替换为 bfloat16 向量；适用时，float 输入会被转换。
 
 - `Status SetInt8Vectors(std::vector<Int8VecFieldData::ElementT>&& vectors)`
 
-    使用稠密 int8 向量替换当前列表。
+    将当前列表替换为密集 int8 向量。
 
-- `Status SetEmbeddedTexts(std::vector<std::string>&& texts)` — 用于 BM25 文本嵌入
+- `Status SetEmbeddedTexts(std::vector<std::string>&& texts)` — for BM25 text-embedding
 
-    使用受支持嵌入函数的文本输入替换当前列表。
+    将当前列表替换为支持的嵌入函数的文本输入。
 
 ### FunctionScore\{#functionscore}
 
-此类包含重排序函数对象列表及可选的额外参数。请将 `FunctionScorePtr`（即 `std::shared_ptr<FunctionScore>`）传递给 `SearchArguments::WithFunctionScore()` 或 `HybridSearchRequest::WithFunctionScore()`。对于 `HybridSearch`，请使用 RRF 或 Weighted 函数；对于 `Search`，请使用 Boost、Decay 或 Model 函数。有关函数子类的详细信息，请参阅 Function。
+此类包含重排函数对象列表和可选的额外参数。将 `FunctionScorePtr`（即 `std::shared_ptr<FunctionScore>`）传递给 `SearchArguments::WithFunctionScore()` 或 `HybridSearchRequest::WithFunctionScore()`。对于 `HybridSearch`，请使用 RRF 或 Weighted 函数；对于 `Search`，请使用 Boost、Decay 或 Model 函数。有关函数子类的详细信息，请参见 Function。
 
 ```c++
 using FunctionScorePtr = std::shared_ptr<FunctionScore>;
@@ -465,41 +465,41 @@ auto score = FunctionScore()
 
 - `FunctionScore& WithFunctions(std::vector<FunctionPtr>&& functions)`
 
-    替换重排序函数列表。
+    替换重排函数列表。
 
 - `FunctionScore& AddFunction(const FunctionPtr& function)`
 
-    追加一个重排序函数。
+    追加一个重排函数。
 
 - `FunctionScore& WithParams(std::unordered_map<std::string, nlohmann::json>&& params)`
 
-    替换重排序函数使用的额外参数映射。
+    替换重排函数使用的额外参数映射。
 
 - `FunctionScore& AddParam(const std::string& key, nlohmann::json&& param)`
 
-    添加或替换单个重排序参数。
+    添加或替换一个重排参数。
 
 - `const std::vector<FunctionPtr>& Functions() const`
 
-    返回已配置的重排序函数。
+    返回已配置的重排函数。
 
 - `const std::unordered_map<std::string, nlohmann::json>& Params() const`
 
-    返回已配置的重排序参数。
+    返回已配置的重排参数。
 
 ### Iterator\{#iterator}
 
-SearchIterator 是 Iterator&lt;SingleResult&gt; 的别名。当完整结果集超出单次请求限制时，您可以使用它分批检索搜索命中结果。
+SearchIterator 是 Iterator&lt;SingleResult&gt; 的别名。当完整结果集大于单次请求限制时，可使用它批量检索搜索命中项。
 
 ### 输出字段类型\{#output-field-types}
 
-请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型取决于字段的 Schema [DataType](./Collections-DataType)；您可以使用 `OutputField(name)` 获取基础指针，或使用 `OutputField<T>(name)` 执行带检查的共享指针转换。
+请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型遵循该字段的 Schema [DataType](./Collections-DataType)；使用 `OutputField(name)` 获取基类指针，或使用 `OutputField<T>(name)` 获取经过检查的共享指针转换。
 
-指针命名约定为 XxxFieldDataPtr = std::shared_ptr&lt;XxxFieldData&gt;。该结果表示形式用于搜索接口，指针别名不会作为独立的 API 页面列出。
+指针约定为 XxxFieldDataPtr = std::shared_ptr&lt;XxxFieldData&gt;。搜索结果接口使用此结果表示形式，这并不意味着这些指针别名是独立的 API 页面。
 
 ### Iterator\{#iterator}
 
-抽象基类。请勿直接实例化，请使用下方的 SearchIterator 别名。
+抽象基类。请勿直接实例化它；请使用下面的 SearchIterator 别名。
 
 ```c++
 template <typename T>
@@ -513,7 +513,7 @@ class Iterator {
 
 ### SearchIterator\{#searchiterator}
 
-用于遍历 `SearchIterator()` 调用返回的 `SingleResult` 批次。每次调用 `Next()` 都会将下一批命中结果填充到一个 `SingleResult` 中。
+迭代 `SearchIterator()` 调用返回的 `SingleResult` 批次。每次调用 `Next()` 都会用下一批命中项填充一个 `SingleResult`。
 
 ```c++
 using SearchIterator    = Iterator<SingleResult>;
@@ -522,15 +522,15 @@ using SearchIteratorPtr = std::shared_ptr<SearchIterator>;
 
 通过 `MilvusClientV2::SearchIterator(IteratorArguments, SearchIteratorPtr&)` 获取。
 
-**错误处理：**
+**异常处理：**
 
 - **std::exception**
 
-    当请求构建、传输或响应处理失败时抛出此异常。请检查异常消息或返回的 Status 以了解故障详情。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取失败详情。
 
 ## 示例\{#example}
 
-演示如何使用 C++ SDK 调用 SearchIterator()。
+演示如何通过 C++ SDK 使用 SearchIterator()。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

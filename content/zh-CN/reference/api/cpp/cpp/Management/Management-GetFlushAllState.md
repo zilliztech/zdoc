@@ -10,7 +10,7 @@ notebook: false
 description: "此操作用于检查 flush-all 操作是否已完成。如果您需要在发起初始 flush 请求后单独轮询其完成状态，请使用此操作。 | Cloud"
 type: docx
 token: TBtpd6bsLoelhbx2iXDccaVDnqe
-sidebar_position: 22
+sidebar_position: 11
 keywords: 
   - 音频相似性搜索
   - Elastic 向量 Database
@@ -49,7 +49,7 @@ auto request = milvus::GetFlushAllStateRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    指定原始 flush-all 操作所使用的 Database。
+    设置原始 flush-all 操作所使用的 Database。
 
 - `WithFlushAllTs(uint64_t flush_all_ts)`
 

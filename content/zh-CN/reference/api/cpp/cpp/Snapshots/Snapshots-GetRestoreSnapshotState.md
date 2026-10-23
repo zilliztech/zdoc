@@ -4,21 +4,21 @@ slug: /cpp/cpp/Snapshots-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于获取快照恢复任务的状态。您可以通过该操作轮询恢复进度及失败原因。 | Cloud"
+description: "此操作获取恢复快照任务状态。可使用该操作轮询恢复进度和失败原因。 | Cloud"
 type: docx
 token: Utu5dQE8Eo1zD0xdoJccCAx0nnf
 sidebar_position: 4
 keywords: 
   - 视频搜索
   - AI 幻觉
-  - AI Agent
+  - AI 智能体
   - 语义搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - GetRestoreSnapshotState()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRestoreSnapshotState()
 
-此操作用于获取快照恢复任务的状态。您可以通过该操作轮询恢复进度及失败原因。
+此操作获取恢复快照任务状态。可使用该操作轮询恢复进度和失败原因。
 
 ```c++
 Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, GetRestoreSnapshotStateResponse& response)
@@ -43,7 +43,8 @@ Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, Ge
 auto request = milvus::GetRestoreSnapshotStateRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book_restored")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithJobID(job_id);
 ```
 
 **请求方法：**
@@ -60,7 +61,11 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
     设置快照名称。
 
-**返回值：**
+- `WithJobID(int64_t job_id)`
+
+    设置要轮询的恢复快照任务 ID。
+
+**返回：**
 
 *Status*
 
@@ -68,7 +73,7 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，则可能引发此异常。
 
 ## 示例\{#example}
 
@@ -90,5 +95,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

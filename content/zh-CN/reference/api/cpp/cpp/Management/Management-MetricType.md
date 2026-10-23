@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "该枚举用于指定向量比较的距离度量。创建索引时，需将 `MetricType` 值传入 `IndexDesc`；执行搜索时，则将其作为搜索请求参数传入。可用选项取决于向量字段的数据类型。 | Cloud"
+description: "该枚举用于指定比较向量时使用的距离度量。创建索引时，请将 `MetricType` 值传递给 `IndexDesc`；运行搜索时，请将其传递给搜索请求参数。可用选项取决于向量字段的数据类型。 | Cloud"
 type: docx
 token: Fh1mdjyzRo7LanxIvHqcF9ihnLb
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - Faiss
   - 视频搜索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # MetricType
 
-该枚举用于指定向量比较的距离度量。创建索引时，需将 `MetricType` 值传入 `IndexDesc`；执行搜索时，则将其作为搜索请求参数传入。可用选项取决于向量字段的数据类型。
+该枚举用于指定比较向量时使用的距离度量。创建索引时，请将 `MetricType` 值传递给 `IndexDesc`；运行搜索时，请将其传递给搜索请求参数。可用选项取决于向量字段的数据类型。
 
 ```c++
 enum class MetricType {
@@ -56,39 +56,39 @@ enum class MetricType {
 
 *稠密浮点向量（`FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR`）：*
 
-- **L2** (1) - 欧氏距离。值越小表示越相似。适用于未归一化的向量。
+- **L2**（1）- 欧氏距离。值越小表示越相似。适用于未归一化的向量。
 
-- **IP** (2) - 内积（点积）。值越大表示越相似。适用于预归一化（单位长度）向量；在此情况下，其数值等同于余弦相似度。
+- **IP**（2）- 内积（点积）。值越大表示越相似。适用于预归一化（单位长度）的向量；在这种情况下，其数值等同于余弦相似度。
 
-- **COSINE** (3) - 余弦相似度（取值范围 −1 到 1）。值越大表示越相似。当向量可能未归一化时，建议优先选用此项而非 `IP`，因为 Milvus 会在内部自动对向量进行归一化。
+- **COSINE**（3）- 余弦相似度（范围为 −1 到 1）。值越大表示越相似。当向量可能未归一化时，建议优先选择 COSINE 而非 `IP`，因为 Milvus 会在内部对向量进行归一化。
 
 *二值向量（`BINARY_VECTOR`）：*
 
-- **HAMMING** (101) - 两个向量间不同比特位的数量（XOR 后的 popcount）。值越小表示越相似。
+- **HAMMING**（101）- 两个向量之间不同的比特位数量（XOR 的 popcount）。值越小表示越相似。
 
-- **JACCARD** (102) - Jaccard 距离：两个向量中仅有一个向量置位的比特位所占的比例。值越小表示越相似。推荐用于稀疏集合成员向量。
+- **JACCARD**（102）- Jaccard 距离：两个向量中恰好只有一个向量置位的比特位所占的比例。值越小表示越相似。推荐用于稀疏集合成员关系向量。
 
-- **MHJACCARD** (103) - 适用于二值向量的修正 Hamming–Jaccard 混合距离。
+- **MHJACCARD**（103）- 适用于二值向量的修正 Hamming–Jaccard 混合距离。
 
 *稀疏向量（`SPARSE_FLOAT_VECTOR`）：*
 
-- **BM25** (201) - 用于全文检索的 BM25 相关性得分。仅对由 BM25 内置函数生成的稀疏向量有效。得分越高表示相关性越强。
+- **BM25**（201）- 用于全文搜索的 BM25 相关性得分。仅对由 BM25 内置函数生成的稀疏向量有效。得分越大表示相关性越高。
 
 *Struct 字段（多向量 — `STRUCT`）：*
 
-- **MAX_SIM_COSINE** (301) - Struct 字段中所有子向量的最大余弦相似度。
+- **MAX_SIM_COSINE**（301）- Struct 字段中所有子向量的最大余弦相似度。
 
-- **MAX_SIM_IP** (302) - Struct 字段中所有子向量的最大内积。
+- **MAX_SIM_IP**（302）- Struct 字段中所有子向量的最大内积。
 
-- **MAX_SIM_L2** (303) - Struct 字段中所有子向量的最小 L2 距离（即最大 L2 相似度）。
+- **MAX_SIM_L2**（303）- Struct 字段中所有子向量的最小 L2 距离（最大 L2 相似度）。
 
-- **MAX_SIM_JACCARD** (401) - Struct 字段中二值子向量的最大 Jaccard 相似度。
+- **MAX_SIM_JACCARD**（401）- Struct 字段中二值子向量的最大 Jaccard 相似度。
 
-- **MAX_SIM_HAMMING** (402) - Struct 字段中二值子向量的最大 Hamming 相似度。
+- **MAX_SIM_HAMMING**（402）- Struct 字段中二值子向量的最大 Hamming 相似度。
 
 *特殊值：*
 
-- **INVALID** / **DEFAULT** (0) - 未显式设置；服务端将根据字段数据类型自动确定度量类型。标量字段索引无需设置此值。
+- **INVALID** / **DEFAULT**（0）- 未显式设置；服务器会根据字段数据类型自动确定度量类型。标量字段索引无需设置此值。
 
 ## 示例\{#example}
 

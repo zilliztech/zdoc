@@ -10,7 +10,7 @@ notebook: false
 description: "此操作可刷新 QueryNode 内存中已加载的 Collection。在大量数据写入或 Compaction 后，若需立即更新已加载的数据视图，请使用此操作。 | Cloud"
 type: docx
 token: YI1BdnZOMoPSOMxjVMEcrrCwnWh
-sidebar_position: 19
+sidebar_position: 21
 keywords: 
   - 向量相似性搜索
   - 近似最近邻搜索

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类用于描述 Collection Schema 中的单个字段。在定义 Collection 结构时，请将 `FieldSchema` 实例传递给 `CollectionSchema:AddField()`。`FieldSchema` 支持流式 With 构建器 API，允许在单行内链式完成定义。 | Cloud"
+description: "此类描述 Collection Schema 中的单个字段。在定义 Collection 的结构时，将 `FieldSchema` 实例传递给 `CollectionSchema:AddField()`。`FieldSchema` 支持流式 With&ast; 构建器 API，因此可以在同一行中链式定义。 | Cloud"
 type: docx
 token: CmVxdb9mxoe1UixZ3nxc2fmCnOg
 sidebar_position: 24
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - FieldSchema
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-此类用于描述 Collection Schema 中的单个字段。在定义 Collection 结构时，请将 `FieldSchema` 实例传递给 `CollectionSchema::AddField()`。`FieldSchema` 支持流式 With* 构建器 API，允许在单行内链式完成定义。
+此类描述 Collection Schema 中的单个字段。在定义 Collection 的结构时，将 `FieldSchema` 实例传递给 `CollectionSchema::AddField()`。`FieldSchema` 支持流式 With&ast; 构建器 API，因此可以在同一行中链式定义。
 
 ```c++
 FieldSchema();
@@ -43,25 +43,25 @@ FieldSchema(std::string name, DataType data_type,
 
 **参数：**
 
-- **name** (*std::string*)
+- **name**（*std::string*）
 
-    设置字段名称。该名称在 Collection 内必须唯一。
+    设置字段名称。在 Collection 中必须唯一。
 
-- **data_type** (*[DataType](./Collections-DataType)*)
+- **data_type**（*[DataType](./Collections-DataType)*）
 
     设置字段的数据类型。所有支持的值请参见 `DataType`。
 
-- **description** (*std::string*)
+- **description**（*std::string*）
 
-    设置可选的可读描述。默认值：`""`。
+    设置可选的人类可读描述。该值默认为 `""`。
 
-- **is_primary_key** (*bool*)
+- **is_primary_key**（*bool*）
 
-    当值为 `true` 时，表示该字段为主键。每个 Collection 必须有且仅有一个主键字段。仅支持 `INT64` 和 `VARCHAR` 作为主键类型。默认值：`false`。
+    当为 `true` 时，此字段为主键。每个 Collection 必须恰好有一个主键字段。主键类型仅支持 `INT64` 和 `VARCHAR`。该值默认为 `false`。
 
-- **auto_id** (*bool*)
+- **auto_id**（*bool*）
 
-    当值为 `true` 时，服务器将在插入数据时自动生成主键值。仅当 `is_primary_key` 为 `true` 时生效。默认值：`false`。
+    当为 `true` 时，服务器会在插入时自动生成主键值。仅在 `is_primary_key` 为 `true` 时有效。该值默认为 `false`。
 
 ## 请求语法\{#request-syntax}
 
@@ -87,59 +87,59 @@ FieldSchema(name, data_type)
 
 - `WithPrimaryKey(bool is_primary_key)`
 
-    将该字段指定为主键。仅 `INT64` 和 `VARCHAR` 类型的字段可用作主键。
+    将此字段标记为主键。只有 `INT64` 和 `VARCHAR` 字段可以作为主键。
 
 - `WithAutoID(bool auto_id)`
 
-    启用服务端在插入时自动生成主键值的功能。仅当同时设置了 `WithPrimaryKey(true)` 时生效。
+    启用插入时在服务器端自动生成主键值。仅在同时设置 `WithPrimaryKey(true)` 时有效。
 
 - `WithDimension(uint32_t dimension)`
 
-    设置向量维度。对于 `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR` 和 `INT8_VECTOR` 字段为**必填项**。对于 `BINARY_VECTOR` 字段，维度必须是 8 的倍数。
+    设置向量维度。对于 `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR` 和 `INT8_VECTOR` 字段为**必需**。对于 `BINARY_VECTOR`，维度必须是 8 的倍数。
 
 - `WithMaxLength(uint32_t length)`
 
-    设置 `VARCHAR` 字段的最大字节长度。对于 `VARCHAR` 字段为**必填项**。最大值为 65535。
+    设置 `VARCHAR` 字段的最大字节长度。对于 `VARCHAR` 字段为**必需**。最大值为 65535。
 
 - `WithElementType(DataType dt)`
 
-    设置 `ARRAY` 字段的元素类型。对于 `ARRAY` 字段为**必填项**。支持的元素类型包括除 `JSON` 以外的所有标量类型。
+    设置 `ARRAY` 字段的元素类型。对于 `ARRAY` 字段为**必需**。支持的元素类型：除 `JSON` 外的所有标量类型。
 
 - `WithMaxCapacity(uint32_t capacity)`
 
-    设置 `ARRAY` 字段允许包含的最大元素数量。对于 `ARRAY` 字段为**必填项**。
+    设置 `ARRAY` 字段中元素的最大数量。对于 `ARRAY` 字段为**必需**。
 
 - `WithPartitionKey(bool partition_key)`
 
-    将该字段指定为 Partition Key。每个 Collection 最多只能有一个 Partition Key 字段。
+    将此字段指定为 Partition 键。每个 Collection 最多只有一个字段可以作为 Partition 键。
 
 - `WithClusteringKey(bool clustering_key)`
 
-    将该字段指定为用于数据聚类的 Clustering Key。每个 Collection 最多只能有一个 Clustering Key 字段。
+    将此字段指定为用于数据聚类的聚类键。每个 Collection 最多只有一个字段。
 
 - `WithNullable(bool nullable)`
 
-    允许该字段接受 `null` 值。除主键外的所有标量字段均支持此配置。默认值：`false`。
+    允许此字段包含 `null` 值。除主键外的所有标量字段均支持此设置。该值默认为 `false`。
 
 - `WithDefaultValue(const nlohmann::json& val)`
 
-    设置当 Entity 未提供该字段值时使用的默认值。不支持 `JSON` 或 `ARRAY` 字段。
+    设置当 Entity 未为此字段提供值时使用的默认值。`JSON` 和 `ARRAY` 字段不支持此设置。
 
 - `EnableAnalyzer(bool enable)`
 
-    为 `VARCHAR` 字段启用分词/text分析。使用文本匹配和全文搜索功能时必须开启此项。
+    为 `VARCHAR` 字段启用分词/text 分析。文本匹配和全文搜索功能要求启用此设置。
 
 - `EnableMatch(bool enable)`
 
-    在 `VARCHAR` 字段上启用 `TEXT_MATCH` 过滤。需先启用 `EnableAnalyzer(true)`。
+    在 `VARCHAR` 字段上启用 `TEXT_MATCH` 过滤。需要设置 `EnableAnalyzer(true)`。
 
 - `WithAnalyzerParams(const nlohmann::json& params)`
 
-    为 `VARCHAR` 字段设置文本 Analyzer 配置（包括分词器、过滤器等）。不可与 `WithMultiAnalyzerParams()` 同时使用。
+    设置 `VARCHAR` 字段的文本 Analyzer 配置（分词器、过滤器等）。不能与 `WithMultiAnalyzerParams()` 一起使用。
 
 - `WithMultiAnalyzerParams(const nlohmann::json& params)`
 
-    为多语言文本字段设置分语言的 Analyzer 配置。不可与 `WithAnalyzerParams()` 同时使用。
+    设置多语言文本字段的按语言 Analyzer 配置。不能与 `WithAnalyzerParams()` 一起使用。
 
 ## 示例\{#example}
 

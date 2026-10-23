@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "根据一组条件进行查询，返回与查询条件完全匹配的记录列表。| Cloud"
+description: "根据一组条件进行查询，返回与查询条件完全匹配的记录列表。 | Cloud"
 type: docx
 token: LtZhdRryBo4vAwxHJmDcbsKvnhK
 sidebar_position: 5
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - Query()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -51,6 +51,8 @@ auto request = QueryRequest()
     .WithFilter(filter)
     .AddFilterTemplate(key, filter_template)
     .WithFilterTemplates(filter_templates)
+    .WithIDs(int64_id_array)
+    .WithIDs(string_id_array)
     .WithLimit(limit)
     .WithOffset(offset)
     .WithIgnoreGrowing(ignore_growing)
@@ -72,7 +74,7 @@ auto request = QueryRequest()
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    设置 Partition 名称列表。若未指定 Partition 名称，将在整个 Collection 中进行查询。
+    设置 Partition 名称。如果 Partition 名称为空，将在整个 Collection 中进行查询。
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -80,7 +82,7 @@ auto request = QueryRequest()
 
 - `WithOutputFields(std::set<std::string>&& output_field_names)`
 
-    设置输出字段名称列表。
+    设置输出字段名称。
 
 - `AddOutputField(const std::string& output_field)`
 
@@ -88,7 +90,7 @@ auto request = QueryRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    设置一致性级别。详情请参阅文档：https://milvus.io/docs/consistency.md#Consistency-Level.
+    设置一致性级别。请参见 [一致性级别](/docs/consistency-level)。
 
 - `WithFilter(std::string filter)`
 
@@ -100,7 +102,15 @@ auto request = QueryRequest()
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    替换过滤表达式中使用的所有占位符值。键对应于 \{age\} 或 \{city\} 等占位符；值可以是布尔值、数值、字符串或数组数据。
+    替换过滤表达式使用的所有占位符值。键对应于 \{age\} 或 \{city\} 等占位符；值可以是布尔值、数值、字符串或数组数据。
+
+- `WithIDs(std::vector<int64_t>&& id_array)`
+
+    设置要返回其记录的整数主键。注意：IDs 和 filter 不能同时设置。
+
+- `WithIDs(std::vector<std::string>&& id_array)`
+
+    设置要返回其记录的字符串主键。注意：IDs 和 filter 不能同时设置。
 
 - `WithLimit(int64_t limit)`
 
@@ -134,11 +144,11 @@ auto request = QueryRequest()
 
 *Status*
 
-返回一个状态对象，指示操作是否成功。
+返回一个指示操作是否成功的状态。
 
 ### FieldData\{#fielddata}
 
-这是一个表示单个字段列式数据的模板类。具体的类型别名涵盖了所有支持的数据类型。在通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search结果时，需使用具体类型的实例。
+这是一个表示单个字段的列式数据的模板类。具体的类型别名涵盖所有支持的数据类型。通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search 结果时，会使用具体类型的实例。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -205,17 +215,39 @@ const QueryResults& results = response.Results();
 
     返回的行数。当查询使用 `count(*)` 时，此方法返回聚合计数。
 
+#### QueryResponse 统计信息\{#queryresponse-statistics}
+
+`QueryResponse` 对象提供描述查询开销的执行统计信息。
+
+**方法：**
+
+- `int64_t Cost() const`
+
+    以毫秒为单位返回查询开销。
+
+- `int64_t ScannedRemoteBytes() const`
+
+    返回从远程存储中扫描的字节数。
+
+- `int64_t ScannedTotalBytes() const`
+
+    返回扫描的字节总数。
+
+- `float CacheHitRatio() const`
+
+    返回介于 0.0 和 1.0 之间的缓存命中率。
+
 #### 输出字段类型\{#output-field-types}
 
-请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型取决于字段的 Schema [DataType](./Collections-DataType)；请使用 `OutputField(name)` 获取基类指针，或使用 `OutputField<T>(name)` 进行带检查的共享指针转换。
+请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型遵循字段的 Schema [DataType](./Collections-DataType)；请使用 `OutputField(name)` 获取基类指针，或使用 `OutputField<T>(name)` 进行带检查的共享指针转换。
 
-指针命名约定为 `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>`。这种结果表示形式由搜索和查询接口共用，指针别名不会作为单独的 API 页面列出。
+指针命名约定为 `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>`。此结果表示形式由搜索和查询接口共用，指针别名不会因此成为单独的 API 页面。
 
 **错误处理：**
 
 - **std::exception**
 
-    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取故障详情。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取失败详情。
 
 ## 示例\{#example}
 

@@ -10,12 +10,12 @@ notebook: false
 description: "此操作用于修改每次 RPC 调用的超时时间（毫秒）。 | Cloud"
 type: docx
 token: Ff8gdJFLKoKfACxQXBxcK6mmnNf
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - AI 智能体
+  - 语义搜索
+  - 异常检测
+  - 句子转换器
   - zilliz
   - zilliz cloud
   - cloud

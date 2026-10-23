@@ -4,21 +4,21 @@ slug: /cpp/cpp/Snapshots-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于取消固定快照数据。当已固定的数据在 TTL 到期前不再需要时，可使用该操作。 | Cloud"
+description: "此操作会取消固定快照数据。当已固定的数据在 TTL 到期前不再需要时，可使用该操作。 | Cloud"
 type: docx
 token: TfBadHlwqoakz4xzFOEchPpVnVd
 sidebar_position: 9
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI 智能体
+  - 语义搜索
+  - 异常检测
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - UnpinSnapshotData()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UnpinSnapshotData()
 
-此操作用于取消固定快照数据。当已固定的数据在 TTL 到期前不再需要时，可使用该操作。
+此操作会取消固定快照数据。当已固定的数据在 TTL 到期前不再需要时，可使用该操作。
 
 ```c++
 Status UnpinSnapshotData(const UnpinSnapshotDataRequest& request)
@@ -43,7 +43,8 @@ Status UnpinSnapshotData(const UnpinSnapshotDataRequest& request)
 auto request = milvus::UnpinSnapshotDataRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithPinID(pin_id);
 ```
 
 **请求方法：**
@@ -59,6 +60,10 @@ auto request = milvus::UnpinSnapshotDataRequest()
 - `WithSnapshotName(const std::string& snapshot_name)`
 
     设置快照名称。
+
+- `WithPinID(int64_t pin_id)`
+
+    设置要取消固定其数据的 pin 的 ID。
 
 **返回值：**
 
@@ -89,5 +94,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

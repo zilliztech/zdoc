@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-ListIndexes
 sidebar_label: "ListIndexes()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于获取 Collection 的索引名称。 | Cloud"
+description: "此操作会获取 Collection 的索引名称。 | Cloud"
 type: docx
-token: U7Y9dr70qoyDGYxlgBTcOGTgnbd
-sidebar_position: 13
+token: QO98dfF7qoLAWYxwsy2cfalvntc
+sidebar_position: 15
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
+  - LLM 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListIndexes()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListIndexes()
 
-此操作用于获取 Collection 的索引名称。
+此操作会获取 Collection 的索引名称。
 
 ```c++
 Status ListIndexes(const ListIndexesRequest& request, ListIndexesResponse& response)
@@ -42,24 +42,29 @@ Status ListIndexes(const ListIndexesRequest& request, ListIndexesResponse& respo
 ```c++
 auto request = ListIndexesRequest()
     .WithDatabaseName(db_name)
-    .WithCollectionName(collection_name);
+    .WithCollectionName(collection_name)
+    .WithFieldName(field_name);
 ```
 
 **请求方法：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该值为空，则应用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
-**返回值：**
+- `WithFieldName(const std::string& field_name)`
 
-包含 *ListIndexesResponse* 的 *Status*
+    设置字段名称。如果该值为空，则返回所有字段的索引。
 
-检查 `status.IsOk()` 以确认操作成功。
+**返回：**
+
+带 *ListIndexesResponse* 的 *Status*
+
+检查 `status.IsOk()` 以确认是否成功。
 
 **异常：**
 

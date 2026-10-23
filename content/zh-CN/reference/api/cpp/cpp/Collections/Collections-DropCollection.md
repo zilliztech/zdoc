@@ -4,12 +4,12 @@ slug: /cpp/cpp/Collections-DropCollection
 sidebar_label: "DropCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作将删除一个 Collection，包括其所有 Partition、索引和 Segment。 | Cloud"
+description: "此操作会删除 Collection 及其数据和索引。 | Cloud"
 type: docx
-token: QGzdd5UMMo3gKpx0hNgcvA9jnOb
+token: MjcFdDhKnoUvaCx8QtmclkOKnPn
 sidebar_position: 20
 keywords: 
   - 多模态搜索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropCollection()
 
-此操作将删除一个 Collection，包括其所有 Partition、索引和 Segment。
+此操作会删除 Collection 及其数据和索引。
 
 ```c++
 Status DropCollection(const DropCollectionRequest& request)
@@ -49,41 +49,40 @@ auto request = DropCollectionRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 的名称。若未指定，则使用默认 Database。
+    设置目标 Database 的名称；如果该名称为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 的名称。
+    设置要删除的 Collection 的名称。
 
 **返回值：**
 
 *Status*
 
-检查 `status.IsOk()` 以确认操作成功。
+返回一个 Status，指示 Collection 是否已成功删除。
 
-**异常：**
+**错误处理：**
 
-- **StatusCode**
+- **std::exception**
 
-    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status，以获取失败详情。
 
 ## 示例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+在已连接的 MilvusClientV2 上调用 DropCollection()，以删除 Collection 及其数据。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-status = client->DropCollection(
-    milvus::DropCollectionRequest()
-        .WithCollectionName(collection_name)
-);
-
+auto request = milvus::DropCollectionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name);
+status = client->DropCollection(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

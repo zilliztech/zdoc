@@ -4,21 +4,21 @@ slug: /cpp/cpp/Collections-DropFunctionField
 sidebar_label: "DropFunctionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "从现有 Collection 中删除函数及其生成的输出字段。 | Cloud"
+description: "删除现有 Collection 中的函数，以及该函数的输出字段和绑定索引。 | Cloud"
 type: docx
 token: CC9zdTSe3onmvrxGs5ic0e8inJd
-sidebar_position: 36
+sidebar_position: 37
 keywords: 
   - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 神经网络
+  - 深度学习
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - DropFunctionField()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropFunctionField()
 
-从现有 Collection 中删除函数及其生成的输出字段。
+删除现有 Collection 中的函数，以及该函数的输出字段和绑定索引。
 
 ```c++
 Status DropFunctionField(const DropFunctionFieldRequest& request)
@@ -50,21 +50,21 @@ auto request = DropFunctionFieldRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称，若为空则使用默认 Database。
+    设置目标 Database 名称，如果为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithFunctionName(std::string function_name)`
 
-    设置要连同其输出字段一起删除的函数名称。
+    设置要删除的函数的名称。
 
 **返回值：**
 
 *Status*
 
-返回指示操作是否成功的状态。
+返回一个 Status，用于指示操作是否成功。
 
 **错误处理：**
 

@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-ListRefreshExternalCollectionJobs
 sidebar_label: "ListRefreshExternalCollectionJobs()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出外部 Collection 的刷新任务，可用于查看历史或正在执行的外部 Collection 刷新活动。 | Cloud"
+description: "此操作会列出外部 Collection 的刷新任务。可用于检查历史或正在进行中的外部 Collection 刷新活动。 | Cloud"
 type: docx
-token: TjrfdFKTIoiaQ0x3NXUcMEvHnNb
-sidebar_position: 4
+token: M9b1dFp2ioszBwxqFKUcs6gYn2e
+sidebar_position: 24
 keywords: 
-  - milvus db
-  - milvus vector db
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
-  - what is milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListRefreshExternalCollectionJobs()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-此操作列出外部 Collection 的刷新任务，可用于查看历史或正在执行的外部 Collection 刷新活动。
+此操作会列出外部 Collection 的刷新任务。可用于检查历史或正在进行中的外部 Collection 刷新活动。
 
 ```c++
 Status ListRefreshExternalCollectionJobs(const ListRefreshExternalCollectionJobsRequest& request, ListRefreshExternalCollectionJobsResponse& response)
@@ -40,8 +40,20 @@ Status ListRefreshExternalCollectionJobs(const ListRefreshExternalCollectionJobs
 ## 请求语法\{#request-syntax}
 
 ```c++
-auto request = milvus::ListRefreshExternalCollectionJobsRequest();
+auto request = milvus::ListRefreshExternalCollectionJobsRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name);
 ```
+
+**请求方法：**
+
+- `WithDatabaseName(const std::string& db_name)`
+
+    设置目标 Database 名称。如果为空，则应用默认 Database。
+
+- `WithCollectionName(const std::string& collection_name)`
+
+    设置要列出刷新任务的 Collection 名称。
 
 **返回值：**
 
@@ -51,7 +63,7 @@ auto request = milvus::ListRefreshExternalCollectionJobsRequest();
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能抛出此异常。
+    如果请求无法发送或响应无法解析，则可能引发此异常。
 
 ## 示例\{#example}
 
@@ -70,5 +82,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: File Resources; action: CREATE; addedSince: v3.0.x */}

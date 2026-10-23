@@ -4,21 +4,21 @@ slug: /cpp/cpp/Collections-DropCollectionField
 sidebar_label: "DropCollectionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "从现有 Collection 中删除字段。| Cloud"
+description: "从现有 Collection 中删除字段。 | Cloud"
 type: docx
 token: Qgmsdk9v3oAOXlxlx0nc1svZn2b
-sidebar_position: 35
+sidebar_position: 36
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 基准测试
+  - 托管 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - DropCollectionField()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -43,15 +43,14 @@ Status DropCollectionField(const DropCollectionFieldRequest& request)
 auto request = DropCollectionFieldRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithFieldName(field_name)
-    .WithFieldID(field_id);
+    .WithFieldName(field_name);
 ```
 
 **请求方法：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称，若为空则使用默认 Database。
+    设置目标 Database 名称；如果为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 

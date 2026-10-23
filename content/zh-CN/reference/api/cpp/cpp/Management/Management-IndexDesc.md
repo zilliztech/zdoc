@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类包含构建向量或标量索引所需的参数。您可以将一个或多个 `IndexDesc` 对象传递给 `CreateIndexRequest:AddIndex()`。`DescribeIndex()` 还会通过 `DescribeIndexResponse::Descs()` 返回包含构建进度和状态信息的 `IndexDesc` 对象。 | Cloud"
+description: "此类承载构建向量索引或标量索引所需的参数。将一个或多个 `IndexDesc` 对象传递给 `CreateIndexRequest:AddIndex()`。`DescribeIndex()` 还会返回 `IndexDesc` 对象（通过 `DescribeIndexResponse::Descs()`），其中包含构建进度和状态信息。 | Cloud"
 type: docx
 token: C4kSd9x2GobYZGxDTkacZsX2nlc
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - IndexDesc
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexDesc
 
-此类包含构建向量或标量索引所需的参数。您可以将一个或多个 `IndexDesc` 对象传递给 `CreateIndexRequest::AddIndex()`。`DescribeIndex()` 还会通过 `DescribeIndexResponse::Descs()` 返回包含构建进度和状态信息的 `IndexDesc` 对象。
+此类承载构建向量索引或标量索引所需的参数。将一个或多个 `IndexDesc` 对象传递给 `CreateIndexRequest::AddIndex()`。`DescribeIndex()` 还会返回 `IndexDesc` 对象（通过 `DescribeIndexResponse::Descs()`），其中包含构建进度和状态信息。
 
 ```c++
 IndexDesc();
@@ -42,21 +42,21 @@ IndexDesc(std::string field_name, std::string index_name,
 
 **参数：**
 
-- **field_name** (*std::string*)
+- **field_name** （*std::string*）
 
-    需要创建索引的 Collection 字段名称。
+    要为其建立索引的 Collection 字段的名称。
 
-- **index_name** (*std::string*)
+- **index_name** （*std::string*）
 
-    索引的可选名称。如果为空，服务器将使用 `field_name` 作为索引名称。该名称在 Collection 内必须唯一。
+    索引的可选名称。为空时，服务器会将 `field_name` 用作索引名称。该名称在 Collection 内必须唯一。
 
-- **index_type** (*milvus::IndexType*)
+- **index_type** （*milvus::IndexType*）
 
-    用于构建索引的算法。可用值请参阅 `IndexType`。
+    用于构建索引的算法。可用值请参见 `IndexType`。
 
-- **metric_type** (*milvus::MetricType*)
+- **metric_type** （*milvus::MetricType*）
 
-    用于比较向量的距离度量。标量字段索引无需指定此参数。默认值：`MetricType::INVALID`（由服务器自动确定）。可用值请参阅 `MetricType`。
+    用于比较向量的距离度量。标量字段索引不需要此参数。默认值：`MetricType::INVALID`（由服务器自动确定）。可用值请参见 `MetricType`。
 
 ## 方法\{#methods}
 
@@ -64,11 +64,11 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `Status SetFieldName(std::string field_name)` / `const std::string& FieldName() const`
 
-    设置或获取该索引对应的字段。
+    设置或获取此索引所基于的字段。
 
 - `Status SetIndexName(std::string index_name)` / `const std::string& IndexName() const`
 
-    设置或获取索引名称。创建后该名称不能为空。
+    设置或获取索引名称。创建后不能为空。
 
 - `Status SetIndexType(milvus::IndexType index_type)` / `milvus::IndexType IndexType() const`
 
@@ -76,15 +76,15 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `Status SetMetricType(milvus::MetricType metric_type)` / `milvus::MetricType MetricType() const`
 
-    设置或获取向量距离度量。对于标量字段索引，请保持未设置状态（或使用 `INVALID`）。
+    设置或获取向量距离度量。对于标量字段索引，请保持未设置（或设为 `INVALID`）。
 
 - `Status AddExtraParam(const std::string& key, const std::string& value)`
 
-    添加特定于算法的调优参数（例如 IVF 索引的 `milvus::NLIST` / `"nlist"`，以及 HNSW 的 `"M"` 和 `"efConstruction"`）。
+    添加算法特定的调优参数（例如，IVF 索引的 `milvus::NLIST` / `"nlist"`，HNSW 的 `"M"` 和 `"efConstruction"`）。
 
 - `const std::unordered_map<std::string, std::string>& ExtraParams() const`
 
-    以键值对映射的形式返回所有额外参数。
+    以键值映射的形式返回所有额外参数。
 
 - `Status ExtraParamsFromJson(std::string json)`
 
@@ -94,7 +94,7 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `int64_t IndexId() const`
 
-    由服务器分配的索引标识符。
+    服务器分配的索引标识符。
 
 - `milvus::IndexStateCode StateCode() const`
 
@@ -102,11 +102,11 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `std::string FailReason() const`
 
-    当 `StateCode()` 为 `FAILED` 时显示的失败信息。
+    当 `StateCode()` 为 `FAILED` 时的失败消息。
 
 - `int64_t IndexedRows() const`
 
-    已完成索引的行数。如果 Compaction 触发了重建索引，该数值可能会超过 `TotalRows()`。
+    已建立索引的行数。如果 Compaction 触发重新建立索引，则该值可能超过 `TotalRows()`。
 
 - `int64_t TotalRows() const`
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于移除已注册的文件资源，适用于清理不再被引用的资源。 | Cloud"
+description: "此操作会移除已注册的文件资源。可使用此操作清理不再被引用的资源。 | Cloud"
 type: docx
 token: Gs0EdiKeEoU5Exxxnb8ckz74nId
-sidebar_position: 6
+sidebar_position: 3
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是向量 Database
+  - 向量 Database
+  - 多模态向量 Database 检索
+  - 检索增强生成
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - RemoveFileResource()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RemoveFileResource()
 
-此操作用于移除已注册的文件资源，适用于清理不再被引用的资源。
+此操作会移除已注册的文件资源。可使用此操作清理不再被引用的资源。
 
 ```c++
 Status RemoveFileResource(const RemoveFileResourceRequest& request)
@@ -48,9 +48,9 @@ auto request = milvus::RemoveFileResourceRequest()
 
 - `WithName(const std::string& name)`
 
-    指定要移除的资源名称。
+    设置要移除的资源名称。
 
-**返回值：**
+**返回：**
 
 *Status*
 
@@ -58,7 +58,7 @@ auto request = milvus::RemoveFileResourceRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，则可能会引发此异常。
 
 ## 示例\{#example}
 

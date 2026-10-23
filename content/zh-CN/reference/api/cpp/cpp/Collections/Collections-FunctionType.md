@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "列举 Collection Schema 函数所支持的函数类型。 | Cloud"
+description: "枚举 Collection Schema 函数支持的功能类型。 | Cloud"
 type: docx
 token: InoydNBt1osec5xj0C6cPCsRnTd
-sidebar_position: 37
+sidebar_position: 38
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - LLM 评估
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - FunctionType
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-列举 Collection Schema 函数所支持的函数类型。
+枚举 Collection Schema 函数支持的功能类型。
 
 ## 示例\{#example}
 
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 auto function_type = milvus::FunctionType::BM25;
 ```
 
-## 说明\{#notes}
+## 注意\{#notes}
 
 - UNKNOWN = 0
 
@@ -54,4 +54,3 @@ auto function_type = milvus::FunctionType::BM25;
 - MINHASH = 4
 
 - MOLFINGERPRINT = 5
-

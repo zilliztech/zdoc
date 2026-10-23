@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除字段上的索引。 | Cloud"
+description: "此操作会删除字段上的索引。 | Cloud"
 type: docx
 token: JstbdGVJwocHJ0xQ8M8cagZHn2a
 sidebar_position: 5
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 自然语言搜索
+  - 相似度搜索
+  - 多模态 RAG
+  - 大语言模型幻觉
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - DropIndex()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropIndex()
 
-此操作用于删除字段上的索引。
+此操作会删除字段上的索引。
 
 ```c++
 Status DropIndex(const DropIndexRequest& request)
@@ -51,23 +51,23 @@ auto request = DropIndexRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 的名称。如果为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithFieldName(const std::string& field_name)`
 
-    设置字段名称。
+    设置字段的名称。
 
 - `WithIndexName(const std::string& index_name)`
 
-    设置索引名称。
+    设置索引的名称。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    若同时指定了字段名称和索引名称，则以索引名称为准；否则回退至字段名称。
+    如果同时指定了字段名称和索引名称，将使用索引名称；否则回退到字段名称。
 
     </Admonition>
 
@@ -75,7 +75,7 @@ auto request = DropIndexRequest()
 
 *Status*
 
-检查 `status.IsOk()` 以确认操作成功。
+检查 `status.IsOk()` 以确认成功。
 
 **异常：**
 

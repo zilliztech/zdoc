@@ -10,7 +10,7 @@ notebook: false
 description: "此操作用于重置每次 RPC 调用的重试规则。 | Cloud"
 type: docx
 token: IR7hd6VQcoQPg3xNzL2cBw6Nn7f
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - 多模态向量 Database 检索
   - 检索增强生成

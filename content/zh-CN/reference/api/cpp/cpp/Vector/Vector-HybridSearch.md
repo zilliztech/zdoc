@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "根据指定参数对 Collection 执行混合搜索并返回结果。| Cloud"
+description: "根据给定参数对 Collection 执行混合搜索并返回结果。 | Cloud"
 type: docx
 token: EHmkdGRrlooizbxSZ8wc9CYgnAb
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - HybridSearch()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # HybridSearch()
 
-根据指定参数对 Collection 执行混合搜索并返回结果。
+根据给定参数对 Collection 执行混合搜索并返回结果。
 
 ```c++
 Status HybridSearch(const HybridSearchRequest& request, HybridSearchResponse& response)
@@ -67,15 +67,15 @@ auto request = HybridSearchRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称，若为空则使用默认 Database。
+    设置目标 Database 名称，如果为空则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    设置 Partition 名称。若未指定 Partition 名称，将在整个 Collection 范围内进行查询。
+    设置 Partition 名称。如果 Partition 名称为空，将在整个 Collection 中查询。
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -91,7 +91,7 @@ auto request = HybridSearchRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    设置一致性级别。详情请参阅文档：https://milvus.io/docs/consistency.md#Consistency-Level.
+    设置一致性级别。详情请参见 [Consistency Level](/docs/consistency-level)。
 
 - `WithSubRequests(std::vector<SubSearchRequestPtr>&& requests)`
 
@@ -99,15 +99,15 @@ auto request = HybridSearchRequest()
 
 - `AddSubRequest(const SubSearchRequestPtr& request)`
 
-    添加一个子搜索请求。
+    添加子搜索请求。
 
 - `WithRerank(const FunctionPtr& rerank)`
 
-    设置重排序策略，例如 RRF/Weighted 函数。详情请参阅文档：https://milvus.io/docs/reranking.md.
+    设置重排序，例如 RRF/Weighted 函数。请参见 [Weighted Ranker](/docs/reranking-weighted-reranker) 及其同类页面。
 
 - `WithLimit(int64_t limit)`
 
-    设置搜索返回数量上限（topk）。
+    设置搜索数量上限（topk）。
 
 - `WithOffset(int64_t offset)`
 
@@ -115,27 +115,27 @@ auto request = HybridSearchRequest()
 
 - `WithRoundDecimal(int64_t round_decimal)`
 
-    设置小数位舍入精度。
+    设置舍入小数位数。
 
 - `WithIgnoreGrowing(bool ignore_growing)`
 
-    设置是否忽略正在写入的数据（growing）标志。
+    设置是否忽略 growing 的标志。
 
 - `AddExtraParam(const std::string& key, const std::string& value)`
 
-    添加额外参数，如 "nlist"、"ef" 等。
+    添加额外参数，例如 "nlist"、"ef"。
 
 - `WithGroupByField(const std::string& field_name)`
 
-    设置分组字段。
+    设置分组字段值。
 
 - `WithGroupSize(int64_t group_size)`
 
-    设置分组大小。
+    设置分组大小值。
 
 - `WithStrictGroupSize(bool strict_group_size)`
 
-    设置严格分组大小标志。
+    设置是否启用严格分组大小的标志。
 
 ### SubSearchRequest\{#subsearchrequest}
 
@@ -152,61 +152,91 @@ SubSearchRequest()
 
 **请求方法：**
 
-- `SubSearchRequest& WithAnnsField(const std::string& ann_field)`
+- `WithAnnsField(const std::string& ann_field)`
 
-- `SubSearchRequest& WithLimit(int64_t limit)`
+    设置 ANN 搜索的目标字段。
 
-- `SubSearchRequest& WithFilter(std::string filter)`
+- `WithLimit(int64_t limit)`
 
-- `SubSearchRequest& WithMetricType(milvus::MetricType metric_type)`
+    设置此子搜索的搜索数量上限（topk）。
 
-- `SubSearchRequest& WithTimezone(const std::string& timezone)`
+- `WithFilter(std::string filter)`
+
+    设置此子搜索的过滤表达式。
+
+- `WithMetricType(milvus::MetricType metric_type)`
+
+    指定此子搜索的度量类型。
+
+- `WithTimezone(const std::string& timezone)`
+
+    设置时区；该设置对 Timestamptz 字段生效。
 
 **继承的向量方法**（均返回 `SubSearchRequest&` 以支持链式调用）：
 
 - `AddFloatVector(const FloatVecFieldData::ElementT& vector)`
 
+    追加一个稠密浮点向量。
+
 - `AddBinaryVector(const std::string& vector)`
+
+    追加一个二进制向量；字符串重载会将字符串转换为二进制字节。
 
 - `AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
+    从索引-值数据追加一个稀疏向量。
+
 - `AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
+
+    追加一个 float16 向量。
 
 - `AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
+    追加一个 bfloat16 向量。
+
 - `AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
+
+    追加一个稠密 int8 向量。
 
 - `AddEmbeddedText(const std::string& text)`
 
-- `AddEmbeddingList(EmbeddingList&& emb_list)` — 用于结构字段 ANN 搜索
+    为支持的文本嵌入函数（例如 BM25）追加嵌入文本。
 
-- `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)` — 批量设置
+- `AddEmbeddingList(EmbeddingList&& emb_list)` — 用于结构字段 ANN
 
-- `WithSparseVectors(...)`、`WithFloat16Vectors(...)` 等 — 批量设置变体
+    为结构字段 ANN 搜索添加嵌入列表。
+
+- `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)` — 批量
+
+    批量设置稠密浮点向量。
+
+- `WithSparseVectors(...)`, `WithFloat16Vectors(...)`, etc. — 批量变体
+
+    对应添加方法的批量变体。
 
 ### 查询向量类型\{#query-vector-types}
 
-每个 `SubSearchRequest` 接受一种与目标字段 [DataType](./Collections-DataType) 相匹配的查询向量表示形式。请使用对应的单个添加或批量构建方法；这些属于查询输入，而非 Collection 的列数据负载。
+每个 `SubSearchRequest` 接受一种与目标字段的 [数据类型](./Collections-DataType) 相匹配的查询向量表示形式。请使用相应的添加或批量构建器方法；这些是查询输入，而不是 Collection 的列数据负载。
 
-| Schema DataType | 请求方法 | C++ 表示形式 | 说明 |
+| Schema 数据类型 | 请求方法 | C++ 表示形式 | 说明 |
 | --- | --- | --- | --- |
-| `FLOAT_VECTOR` | `AddFloatVector()`、`WithFloatVectors()` | `std::vector<float>` | 稠密浮点向量。 |
-| `BINARY_VECTOR` | `AddBinaryVector()`、`WithBinaryVectors()` | 二进制字节或字符串便捷输入 | 使用专用的二进制向量表示形式。 |
-| `SPARSE_FLOAT_VECTOR` | `AddSparseVector()`、`WithSparseVectors()` | `std::map<uint32_t, float>` 或支持的 JSON 格式 | 稀疏索引-值对。 |
-| `FLOAT16_VECTOR` | `AddFloat16Vector()`、`WithFloat16Vectors()` | `std::vector<uint16_t>` 或可转换的浮点向量 | 浮点重载会自动执行类型转换。 |
-| `BFLOAT16_VECTOR` | `AddBFloat16Vector()`、`WithBFloat16Vectors()` | `std::vector<uint16_t>` 或可转换的浮点向量 | 浮点重载会自动执行类型转换。 |
-| `INT8_VECTOR` | `AddInt8Vector()`、`WithInt8Vectors()` | `std::vector<int8_t>` | 稠密有符号字节向量。 |
-| 函数或结构字段输入 | `AddEmbeddedText()` / `WithEmbeddedTexts()`；`AddEmbeddingList()` / `WithEmbeddingLists()` | `std::string` 或 `EmbeddingList` | 对于支持的函数请使用嵌入文本，对于结构字段 ANN 搜索请使用嵌入列表。 |
+| FLOAT_VECTOR | AddFloatVector(), WithFloatVectors() | std::vector&lt;float&gt; | 稠密浮点向量。 |
+| BINARY_VECTOR | AddBinaryVector(), WithBinaryVectors() | 二进制字节或字符串便捷输入 | 使用专用的二进制向量表示形式。 |
+| SPARSE_FLOAT_VECTOR | AddSparseVector(), WithSparseVectors() | std::map\<uint32_t, float> 或支持的 JSON 形式 | 稀疏索引-值对。 |
+| FLOAT16_VECTOR | AddFloat16Vector(), WithFloat16Vectors() | std::vector&lt;uint16_t&gt; 或可转换的浮点向量 | 浮点重载会执行转换。 |
+| BFLOAT16_VECTOR | AddBFloat16Vector(), WithBFloat16Vectors() | std::vector&lt;uint16_t&gt; 或可转换的浮点向量 | 浮点重载会执行转换。 |
+| INT8_VECTOR | AddInt8Vector(), WithInt8Vectors() | std::vector&lt;int8_t&gt; | 稠密有符号字节向量。 |
+| 函数或结构字段输入 | AddEmbeddedText() / WithEmbeddedTexts(); AddEmbeddingList() / WithEmbeddingLists() | std::string 或 EmbeddingList | 对于支持的函数，使用嵌入文本；对于结构字段 ANN 搜索，使用嵌入列表。 |
 
 **返回值：**
 
 *Status*
 
-返回一个状态对象，指示操作是否成功。
+返回一个状态，指示操作是否成功。
 
 ### FieldData\{#fielddata}
 
-这是一个模板类，用于表示单个字段的列式数据。具体的类型别名涵盖了所有支持的数据类型。在通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search结果时，需使用具体类型的实例。
+这是一个模板类，表示单个字段的列式数据。具体别名涵盖所有支持的数据类型。通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search 结果时，会使用具体类型的实例。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -241,7 +271,7 @@ class FieldData : public Field {
 
 ### EmbeddingList\{#embeddinglist}
 
-此类包含一个或多个相同类型的查询向量，用作 `SearchRequest`、`SubSearchRequest` 或通过 `AddEmbeddingList()` 进行的结构字段 ANN 搜索的目标向量。请调用 Add*/Set* 系列方法构建 `EmbeddingList`，然后将其传递给 `SearchRequestBase::AddEmbeddingList()`。
+此类包含一个或多个相同类型的查询向量，用作 `SearchRequest`、`SubSearchRequest` 或通过 `AddEmbeddingList()` 进行结构字段 ANN 搜索时的目标向量。通过调用 Add*/Set* 方法构建 `EmbeddingList`，然后将其传递给 `SearchRequestBase::AddEmbeddingList()`。
 
 ```c++
 EmbeddingList list;
@@ -279,11 +309,11 @@ EmbeddingList list;
 
 - `Status AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
-    从索引-值数据或支持的 JSON 格式追加一个稀疏向量。
+    从索引-值数据或支持的 JSON 表示形式追加一个稀疏向量。
 
 - `Status AddSparseVector(const nlohmann::json& vector)`
 
-    从索引-值数据或支持的 JSON 格式追加一个稀疏向量。
+    从索引-值数据或支持的 JSON 表示形式追加一个稀疏向量。
 
 - `Status AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
 
@@ -307,7 +337,7 @@ EmbeddingList list;
 
 - `Status AddEmbeddedText(const std::string& text)` — 用于 BM25 文本嵌入
 
-    为支持的文本嵌入函数（如 BM25）追加文本内容。
+    为支持的文本嵌入函数（例如 BM25）追加文本。
 
 **批量设置方法（重置列表）：**
 
@@ -333,19 +363,19 @@ EmbeddingList list;
 
 - `Status SetFloat16Vectors(std::vector<Float16VecFieldData::ElementT>&& vectors)`
 
-    使用 float16 向量替换当前列表；适用时会自动转换 float 输入。
+    使用 float16 向量替换当前列表；适用时会转换 float 输入。
 
 - `Status SetFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自动转换
 
-    使用 float16 向量替换当前列表；适用时会自动转换 float 输入。
+    使用 float16 向量替换当前列表；适用时会转换 float 输入。
 
 - `Status SetBFloat16Vectors(std::vector<BFloat16VecFieldData::ElementT>&& vectors)`
 
-    使用 bfloat16 向量替换当前列表；适用时会自动转换 float 输入。
+    使用 bfloat16 向量替换当前列表；适用时会转换 float 输入。
 
 - `Status SetBFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自动转换
 
-    使用 bfloat16 向量替换当前列表；适用时会自动转换 float 输入。
+    使用 bfloat16 向量替换当前列表；适用时会转换 float 输入。
 
 - `Status SetInt8Vectors(std::vector<Int8VecFieldData::ElementT>&& vectors)`
 
@@ -357,9 +387,9 @@ EmbeddingList list;
 
 ### SearchResults\{#searchresults}
 
-`SearchResponse::Results()` 针对完整的搜索调用返回一个 `SearchResults` 对象。`SearchResults` 为每个查询向量包含一个 `SingleResult`，并保持与查询向量相同的顺序。
+`SearchResponse::Results()` 针对完整的搜索调用返回一个 `SearchResults` 对象。`SearchResults` 为每个查询向量包含一个 `SingleResult`，并保持查询向量的顺序。
 
-此类通过在 `SearchResponse` 或 `HybridSearchResponse` 上调用 `Results()` 获取。
+此类通过在 `SearchResponse` 或 `HybridSearchResponse` 上调用 `Results()` 返回。
 
 ```c++
 SearchResults();
@@ -370,15 +400,15 @@ explicit SearchResults(std::vector<SingleResult>&& results);
 
 - `const std::vector<SingleResult>& Results() const`
 
-    为每个查询向量返回一个 `SingleResult`，顺序与向量添加到请求中的顺序一致。
+    按查询向量返回一个 `SingleResult`，顺序与向量添加到请求中的顺序相同。
 
 - `const std::vector<float>& Recalls() const`
 
-    每个查询向量的召回率值。仅当在 Zilliz Cloud 实例上执行搜索且 `enable_recall_calculation` 设置为 `true` 时才会填充此数据，否则该向量为空。
+    每个查询向量的召回率值。仅当在将 `enable_recall_calculation` 设置为 `true` 的 Zilliz Cloud 实例上运行搜索时才会填充。否则，该向量为空。
 
 #### SingleResult\{#singleresult}
 
-`SingleResult` 包含一个查询向量的 top-k 命中结果，包括分数、主键和请求的输出字段。`SearchResults` 是包含这些按查询结果的外部 Collection。
+`SingleResult` 包含一个查询向量的 top-k 个命中结果，包括分数、主键和请求的输出字段。`SearchResults` 是包含这些按查询结果的外部 Collection。
 
 ```c++
 struct SingleResult {
@@ -398,55 +428,55 @@ using SingleResultPtr = std::shared_ptr<SingleResult>;
 
 - `IDArray Ids() const`
 
-    返回命中结果的主键值。若需保留主键字段的原始类型，建议优先使用 OutputField()。
+    返回命中结果的主键值。如果必须保留主键字段类型，请优先使用 OutputField()。
 
 - `const std::string& PrimaryKeyName() const`
 
-    返回服务端报告的主键字段名称。
+    返回服务器报告的主键字段名称。
 
 - `const std::string& ScoreName() const`
 
-    返回结果中的分数字段名称，包含为避免冲突而添加的前缀（如有）。
+    返回结果的分数-字段名称，包括任何用于避免冲突的前缀。
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    按名称返回指定的输出字段；模板重载会将其转换为请求的具体 FieldData 类型。
+    按名称返回一个请求的输出字段；模板重载会将其转换为所请求的具体 FieldData 类型。
 
 - `const std::vector<FieldDataPtr>& OutputFields() const`
 
-    以 FieldDataPtr 形式返回所有请求的输出字段。
+    以 FieldDataPtr 值的形式返回所有请求的输出字段。
 
 - `const std::set<std::string>& OutputFieldNames() const`
 
-    返回请求的输出字段名称列表。
+    返回所请求输出字段的名称。
 
 - `Status OutputRows(EntityRows& rows) const`
 
-    将所有命中结果实体化为面向行的 Entity 数据。
+    将所有命中结果物化为面向行的 Entity 数据。
 
 - `Status OutputRow(int i, EntityRow& row) const`
 
-    按从零开始的索引实体化单个命中结果。
+    按从零开始的索引物化一个命中结果。
 
 - `uint64_t GetRowCount() const`
 
-    返回此结果集中的命中数量。
+    返回此结果中的命中数量。
 
 **错误处理：**
 
 - **std::exception**
 
-    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取详细的错误信息。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以了解失败详情。
 
 #### 输出字段类型\{#output-field-types}
 
-请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型取决于字段的 Schema [DataType](./Collections-DataType)；可使用 `OutputField(name)` 获取基类指针，或使用 `OutputField<T>(name)` 进行带类型检查的共享指针转换。
+请求的 Entity 字段通过 `FieldDataPtr` 返回。具体的 `XxxFieldData` 类型遵循字段的 Schema [数据类型](./Collections-DataType)；使用 `OutputField(name)` 获取基类指针，或使用 `OutputField<T>(name)` 获取经过检查的共享指针转换。
 
-指针约定为 `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>`。该结果表示形式由搜索和查询接口共用，指针别名不会作为独立的 API 页面列出。
+指针约定为 `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>`。此结果表示形式由搜索和查询接口共用，指针别名并不会因此成为单独的 API 页面。
 
 ## 示例\{#example}
 
-演示如何使用 C++ SDK 调用 HybridSearch()。
+演示如何通过 C++ SDK 使用 HybridSearch()。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

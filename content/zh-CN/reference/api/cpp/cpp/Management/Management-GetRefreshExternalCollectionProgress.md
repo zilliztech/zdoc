@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作可获取刷新外部 Collection 任务的进度。您可以使用它轮询任务完成状态并查看失败原因。 | Cloud"
+description: "此操作用于获取刷新外部 Collection 任务的进度。可使用此操作轮询任务完成情况，并检查失败原因。 | Cloud"
 type: docx
 token: X9AodAxugobD0Yxt7S9c27z9nNg
-sidebar_position: 2
+sidebar_position: 23
 keywords: 
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - GetRefreshExternalCollectionProgress()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRefreshExternalCollectionProgress()
 
-此操作可获取刷新外部 Collection 任务的进度。您可以使用它轮询任务完成状态并查看失败原因。
+此操作用于获取刷新外部 Collection 任务的进度。可使用此操作轮询任务完成情况，并检查失败原因。
 
 ```c++
 Status GetRefreshExternalCollectionProgress(const GetRefreshExternalCollectionProgressRequest& request, GetRefreshExternalCollectionProgressResponse& response)
@@ -50,7 +50,7 @@ auto request = milvus::GetRefreshExternalCollectionProgressRequest()
 
     设置由 `RefreshExternalCollection()` 返回的刷新任务 ID。
 
-**返回值：**
+**返回：**
 
 *Status*
 
@@ -58,7 +58,7 @@ auto request = milvus::GetRefreshExternalCollectionProgressRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，则可能抛出此异常。
 
 ## 示例\{#example}
 

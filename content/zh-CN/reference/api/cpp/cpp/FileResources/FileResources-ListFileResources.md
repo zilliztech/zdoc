@@ -10,15 +10,15 @@ notebook: false
 description: "此操作用于列出已注册的文件资源。您可以通过该操作获取可供服务端功能使用的资源名称和路径。 | Cloud"
 type: docx
 token: LHdcdoz6OoQajtx3SMMcGLjcnFh
-sidebar_position: 3
+sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
+  - 托管 Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListFileResources()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -43,7 +43,7 @@ Status ListFileResources(const ListFileResourcesRequest& request, ListFileResour
 auto request = milvus::ListFileResourcesRequest();
 ```
 
-**返回值：**
+**返回：**
 
 *Status*
 

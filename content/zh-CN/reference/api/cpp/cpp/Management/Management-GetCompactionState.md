@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于获取 Compaction 作业的状态。 | Cloud"
+description: "此操作获取 Compaction 任务的状态。 | Cloud"
 type: docx
 token: G7OGdOxABoDWKMxUZDncelbanEd
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
-  - 视频相似性搜索
+  - 视频相似度搜索
   - 向量检索
-  - 音频相似性搜索
+  - 音频相似度搜索
   - 弹性向量 Database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - GetCompactionState()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetCompactionState()
 
-此操作用于获取 Compaction 作业的状态。
+此操作获取 Compaction 任务的状态。
 
 ```c++
 Status GetCompactionState(const GetCompactionStateRequest& request, GetCompactionStateResponse& response)
@@ -48,13 +48,13 @@ auto request = GetCompactionStateRequest()
 
 - `WithCompactionID(int64_t id)`
 
-    设置由 `Compact()` 返回的 Compaction 作业 ID。
+    设置由 `Compact()` 返回的 Compaction 任务 ID。
 
-**返回值：**
+**返回：**
 
-包含 *GetCompactionStateResponse* 的 *Status*
+*Status* 及 *GetCompactionStateResponse*
 
-检查 `status.IsOk()` 以确认操作是否成功。
+检查 `status.IsOk()` 以确认成功。
 
 **异常：**
 

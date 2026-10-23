@@ -10,15 +10,15 @@ notebook: false
 description: "此操作会刷新 Database 中所有 Collection 的插入缓冲区。请在需要持久化写入的备份或验证工作流之前使用。 | Cloud"
 type: docx
 token: UbjxdApcFonLD4xmm9fcJI2knKd
-sidebar_position: 21
+sidebar_position: 8
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
+  - 托管 Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - FlushAll()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -49,11 +49,11 @@ auto request = milvus::FlushAllRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    指定要刷新其 Collection 的 Database。
+    设置要刷新其 Collection 的 Database。
 
 - `WithWaitFlushedMs(int64_t wait_flushed_ms)`
 
-    设置等待所有刷新操作完成的超时时间。设为零表示无限期等待。
+    设置等待所有刷新操作完成的时间。零表示无限期等待。
 
 **返回值：**
 

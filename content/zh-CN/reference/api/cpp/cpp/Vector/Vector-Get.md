@@ -4,7 +4,7 @@ slug: /cpp/cpp/Vector-Get
 sidebar_label: "Get()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作通过主键发起查询，并返回记录列表。 | Cloud"
@@ -91,7 +91,7 @@ auto request = GetRequest()
 
 ### FieldData\{#fielddata}
 
-这是一个表示单字段列式数据的模板类，其具体类型别名涵盖了所有支持的数据类型。在通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search结果时，均需使用这些具体类型的实例。
+这是一个表示单个字段列式数据的模板类。具体别名涵盖所有支持的数据类型。通过 `InsertRequest::WithRowsData()` 插入数据，或通过 `QueryResults::OutputField()` 和 `SingleResult::OutputField()` 读取查询/search 结果时，会使用这些具体类型的实例。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -126,7 +126,7 @@ class FieldData : public Field {
 
 ### QueryResults\{#queryresults}
 
-此类用于保存 `Query()` 调用返回的列式结果数据。您可以通过 `QueryResponse` 对象上的 `Results()` 进行访问。
+此类保存 `Query()` 调用返回的列式结果数据。可通过 `QueryResponse` 对象上的 `Results()` 访问。
 
 ```c++
 const QueryResults& results = response.Results();
@@ -136,11 +136,11 @@ const QueryResults& results = response.Results();
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    以 `FieldDataPtr` 形式返回指定的输出字段。您可以使用 `std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` 将其转换为具体类型。
+    以 `FieldDataPtr` 形式返回指定名称的输出字段。可使用 `std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` 转换为具体类型。
 
 - `const std::vector<FieldDataPtr>& OutputFields() const`
 
-    按服务端返回的顺序获取所有输出字段。
+    按服务器返回的顺序返回所有输出字段。
 
 - `const std::set<std::string>& OutputFieldNames() const`
 
@@ -148,7 +148,7 @@ const QueryResults& results = response.Results();
 
 - `Status OutputRows(EntityRows& rows) const`
 
-    将所有结果行转换为类 JSON 的行映射向量，并存储于 `rows` 中。
+    将所有结果行转换为类 JSON 的行映射向量，并将其存储在 `rows` 中。
 
 - `Status OutputRow(int i, EntityRow& row) const`
 
@@ -156,7 +156,29 @@ const QueryResults& results = response.Results();
 
 - `uint64_t GetRowCount() const`
 
-    返回的行数。若查询使用了 `count(*)`，则返回聚合计数。
+    返回的行数。当查询使用 `count(*)` 时，返回聚合计数。
+
+#### GetResponse 统计信息\{#getresponse-statistics}
+
+`GetResponse` 对象提供用于说明操作开销的执行统计信息。
+
+**方法：**
+
+- `int64_t Cost() const`
+
+    返回操作开销，单位为毫秒。
+
+- `int64_t ScannedRemoteBytes() const`
+
+    返回从远程存储扫描的字节数。
+
+- `int64_t ScannedTotalBytes() const`
+
+    返回扫描的总字节数。
+
+- `float CacheHitRatio() const`
+
+    返回缓存命中率，值为 0.0 到 1.0。
 
 **异常：**
 
@@ -166,12 +188,12 @@ const QueryResults& results = response.Results();
 
 ## 字段数据类型别名\{#field-data-type-aliases}
 
-| 类别 | 具体类型 | 表示形式与说明 |
+| 类别 | 具体类型 | 表示形式和说明 |
 | --- | --- | --- |
-| 标量 | `BoolFieldData`, `Int8FieldData`, `Int16FieldData`, `Int32FieldData`, `Int64FieldData`, `FloatFieldData`, `DoubleFieldData`, `VarCharFieldData`, `JSONFieldData`, `GeometryFieldData`, `TimestamptzFieldData` | `FieldData<T, DataType::...>` 的别名。Geometry 类型使用 WKT 字符串表示；timestamptz 类型使用 ISO-8601 字符串表示。 |
-| 向量 | `FloatVecFieldData`, `Float16VecFieldData`, `BFloat16VecFieldData`, `Int8VecFieldData`, `SparseFloatVecFieldData`, `BinaryVecFieldData` | 稠密向量与稀疏向量容器。`BinaryVecFieldData` 是一个派生类，提供了字符串转换辅助方法。 |
-| 数组与结构体 | `ArrayBoolFieldData`, `ArrayInt8FieldData`, `ArrayInt16FieldData`, `ArrayInt32FieldData`, `ArrayInt64FieldData`, `ArrayFloatFieldData`, `ArrayDoubleFieldData`, `ArrayVarCharFieldData`, `StructFieldData` | `ArrayFieldData<T, Et>` 的别名；每个 Entity 行均为一个向量。结构体值采用 JSON 格式存储。 |
-| 共享指针 | `XxxFieldDataPtr` | 每种具体的字段数据类型均有对应的 `std::shared_ptr<XxxFieldData>` 别名。 |
+| 标量 | BoolFieldData, Int8FieldData, Int16FieldData, Int32FieldData, Int64FieldData, FloatFieldData, DoubleFieldData, VarCharFieldData, JSONFieldData, GeometryFieldData, TimestamptzFieldData | FieldData&lt;T, DataType::...&gt; 的别名。Geometry 使用 WKT 字符串；timestamptz 使用 ISO-8601 字符串。 |
+| 向量 | FloatVecFieldData, Float16VecFieldData, BFloat16VecFieldData, Int8VecFieldData, SparseFloatVecFieldData, BinaryVecFieldData | 稠密和稀疏向量容器。BinaryVecFieldData 是带有字符串转换辅助方法的派生类。 |
+| 数组和结构体 | ArrayBoolFieldData, ArrayInt8FieldData, ArrayInt16FieldData, ArrayInt32FieldData, ArrayInt64FieldData, ArrayFloatFieldData, ArrayDoubleFieldData, ArrayVarCharFieldData, StructFieldData | ArrayFieldData&lt;T, Et&gt; 的别名；每个 Entity 行都是一个向量。结构体值使用 JSON 存储。 |
+| 共享指针 | XxxFieldDataPtr | 每种具体字段数据类型都有一个对应的 std::shared_ptr&lt;XxxFieldData&gt; 别名。 |
 
 ## 示例\{#example}
 

@@ -10,15 +10,15 @@ notebook: false
 description: "此操作用于从查询节点获取已加载 Segment 的信息。 | Cloud"
 type: docx
 token: J946dq9upog3BoxXTaucrrqvn4g
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListQuerySegments()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -49,7 +49,7 @@ auto request = ListQuerySegmentsRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& name)`
 
@@ -59,9 +59,9 @@ auto request = ListQuerySegmentsRequest()
 
 包含 *ListQuerySegmentsResponse* 的 *Status*
 
-请检查 `status.IsOk()` 以确认操作是否成功。
+请检查 `status.IsOk()` 以确认成功。
 
-响应中的 `Segments()` 列表包含多个 `QuerySegmentInfo` 值。`QuerySegmentInfo` 继承了 `SegmentInfo` 的 Segment 元数据方法，并额外提供已加载 Segment 的内存大小信息。
+响应中的 `Segments()` 列表包含 `QuerySegmentInfo` 值。`QuerySegmentInfo` 继承了 `SegmentInfo` 的 Segment 元数据方法，并且还提供已加载 Segment 的内存大小。
 
 **SegmentInfo 方法：**
 
