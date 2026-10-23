@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラーフィルタリング式を使用してベクトル類似度検索を実行します。 | Python | MilvusClient"
+description: "この操作では、オプションのスカラーフィルタリング式を使用してベクトル類似性検索を実行します。 | Python | MilvusClient"
 type: docx
 token: DvaZdhYnyoo7lOxNIBwc5eKEn7d
 sidebar_position: 6
 keywords: 
   - マルチモーダル RAG
-  - llm ハルシネーション
+  - LLM のハルシネーション
   - ハイブリッド検索
   - レキシカル検索
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - search()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -27,31 +27,12 @@ displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # search()
 
-この操作は、オプションのスカラーフィルタリング式を使用してベクトル類似度検索を実行します。
-
-<Admonition type="info" title="Notes">
-
-このメソッドは、Dedicated サービングクラスターおよびオンデマンドコンピュートにのみ適用されます。
-
-- サービングクラスターのコレクションでこの操作を実行するには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
-
-    - **Free & Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- オンデマンドコンピュートのコレクションでこの操作を実行するには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索を行うためにオンデマンドクラスターにアタッチするセッションを作成してください。
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
-
-</Admonition>
+この操作では、オプションのスカラーフィルタリング式を使用してベクトル類似性検索を実行します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -59,8 +40,7 @@ import Admonition from '@theme/Admonition';
 search(
     self,
     collection_name: str,
-    data: Union[List[list], list],
-    ids: Union[List[str], List[int]],
+    data: Optional[Union[List[list], list]] = None,
     filter: str = "",
     limit: int = 10,
     output_fields: Optional[List[str]] = None,
@@ -69,239 +49,117 @@ search(
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
     ranker: Optional[Union[Function, FunctionScore]] = None,
+    function_chains: Optional[Union[FunctionChain, List[FunctionChain]]] = None,
     highlighter: Optional[Highlighter] = None,
-    order_by_fields: Optional[List[dict]] = None,
+    ids: Optional[Union[List[int], List[str], str, int]] = None,
     search_aggregation: Optional[SearchAggregation] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
 
-**パラメーター:**
+**パラメーター：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     既存のコレクションの名前です。
 
 - **data** (*List[list], list]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    ベクトル埋め込みのリストです。
-
-    Zilliz Cloud は、指定されたベクトル埋め込みに最も類似するベクトル埋め込みを検索します。
-
-    このパラメータは **ids** と相互に排他的です。
+    ベクトル埋め込みのリストです。Milvus は、指定されたベクトル埋め込みに最も類似するベクトル埋め込みを検索します。このパラメーターは ids と同時に使用できません。
 
 - **ids** (*Union[List[str], List[int]]*) -
 
-    主キーのリストです。
-
-    Zilliz Cloud は、指定されたエンティティ内のベクトル埋め込みに最も類似するベクトル埋め込みを検索します。
-
-    このパラメータは **data** と相互に排他的です。
+    主キーのリストです。Milvus は、指定されたエンティティ内のベクトル埋め込みに最も類似するベクトル埋め込みを検索します。このパラメーターは data と同時に使用できません。
 
 - **anns_field** (*str*) -
 
-    現在の検索における対象のベクトルフィールドの名前です。
+    現在の検索における対象ベクトルフィールドの名前です。
 
 - **filter** (*str*) -
 
-    一致するエンティティをフィルタリングするためのスカラーフィルタリング条件です。
-
-    値のデフォルトは空の文字列で、条件が適用されないことを示します。
-
-    スカラーフィルタリングをスキップするには、このパラメータを空の文字列に設定します。スカラーフィルタリング条件を作成する方法については、[フィルタリングの概要](/docs/filtering-overview) を参照してください。
+    一致するエンティティを絞り込むためのスカラーフィルタリング条件です。値のデフォルトは空文字列で、条件が適用されないことを示します。スカラーフィルタリングをスキップするには、このパラメーターを空文字列に設定できます。スカラーフィルタリング条件を作成するには、Boolean Expression Rules を参照してください。
 
 - **filter_params** (*dict*) -
 
-    [フィルタリングテンプレート](/docs/filtering-templating) で説明されているように `filter` でプレースホルダーを使用する場合は、これらのプレースホルダーの実際の値をキーと値のペアとしてこのパラメータの値に指定できます。
+    Filtering Templating に記載されているとおり、filter でプレースホルダーを使用する場合、このパラメーターの値として、これらのプレースホルダーの実際の値をキーと値のペアで指定できるオプションです。
 
 - **limit** (*int*) -
 
-    返されるエンティティの総数です。
+    返すエンティティの総数です。このパラメーターは、param の offset と組み合わせて使用すると、ページネーションを有効にできます。この値と param の offset の合計は 16,384 未満にする必要があります。ただし、グループ化検索では、limit は個々のエンティティではなく、返すグループの最大数を指定します。各グループは、指定された group_by_field に基づいて形成されます。search_aggregation を指定する場合は、limit を明示的に設定しないでください。返すトップレベルのバケット数を制御するには、ルートの SearchAggregation.size 値を使用します。
 
-    このパラメータを **param** の **offset** と組み合わせて使用すると、ページネーションを有効にできます。
+- **output_fields** (*list[str]*) -
 
-    この値と **param** の **offset** の合計は 16,384 未満にする必要があります。
-
-    ただし、グループ化検索では、`limit` は個々のエンティティではなく、返されるグループの最大数を指定します。各グループは、指定された `group_by_field` に基づいて形成されます。
-
-    <Admonition type="info" title="Notes">
-
-    `search_aggregation` を指定する場合は、`limit` を明示的に設定しないでください。返される最上位バケットの数を制御するには、ルートの `SearchAggregation.size` の値を使用します。
-
-    </Admonition>
-
-- **output_fields** (l*ist[str]*) -
-
-    返される各エンティティに含めるフィールド名のリストです。
-
-    値のデフォルトは **None** です。指定しない場合は、主フィールドのみが含まれます。
+    返される各エンティティに含めるフィールド名のリストです。値のデフォルトは None です。指定しない場合、プライマリフィールドのみが含まれます。
 
 - **search_params** (*dict*) -
 
-    この操作に固有のパラメータ設定です。
+    この操作に固有のパラメーター設定です。radius（float）：最小類似度のしきい値を決定します。コレクションのメトリックタイプが L2 に設定されている場合は、この値が range_filter より大きくなるようにしてください。それ以外の場合は、この値は range_filter より小さくする必要があります。range_filter（float）：特定の類似度範囲内のベクトルに検索を絞り込みます。コレクションのメトリックタイプが IP または COSINE に設定されている場合は、この値が radius より大きくなるようにしてください。それ以外の場合は、この値は radius より小さくする必要があります。max_empty_result_buckets（int）：このパラメーターは、BIN_IVF_FLAT、IVF_FLAT、IVF_SQ8、IVF_PQ、SCANN などの IVF 系インデックスの範囲検索にのみ使用されます。値のデフォルトは 1 で、範囲は 1～65536 です。範囲検索中、有効な範囲検索結果のないバケットの数が指定された値に達すると、検索プロセスは早期に終了します。このパラメーターを増やすと、範囲検索の再現率が向上します。params（dict）：追加のパラメーターです。すべての追加パラメーターは上位の search_params に移動され、params 引数はまもなく非推奨になります。radius（float）：最小類似度のしきい値を決定します。コレクションのメトリックタイプが L2 に設定されている場合は、この値が range_filter より大きくなるようにしてください。それ以外の場合は、この値は range_filter より小さくする必要があります。range_filter（float）：特定の類似度範囲内のベクトルに検索を絞り込みます。コレクションのメトリックタイプが IP または COSINE に設定されている場合は、この値が radius より大きくなるようにしてください。それ以外の場合は、この値は radius より小さくする必要があります。max_empty_result_buckets（int）：このパラメーターは、BIN_IVF_FLAT、IVF_FLAT、IVF_SQ8、IVF_PQ、SCANN などの IVF 系インデックスの範囲検索にのみ使用されます。値のデフォルトは 1 で、範囲は 1～65536 です。範囲検索中、有効な範囲検索結果のないバケットの数が指定された値に達すると、検索プロセスは早期に終了します。このパラメーターを増やすと、範囲検索の再現率が向上します。ignore_growing（str）：このオプションを設定すると、検索で増加中のセグメントのデータを除外するよう指示されます。この設定を使用すると、インデックス済みで完全に処理されたデータのみに焦点を当てることで、検索パフォーマンスを向上できる可能性があります。その他の適用可能な検索パラメーターの詳細については、インメモリインデックスとオンディスクインデックスを参照してください。
 
-    - **radius** (float) -
+- **group_by_field** (*str*) -
 
-        最小類似度のしきい値を決定します。コレクションのメトリックタイプが L2 に設定されている場合は、この値が **range_filter** の値より大きくなるようにしてください。それ以外の場合は、この値は **range_filter** の値より小さくする必要があります。
+    オプションです。r o.
 
-    - **range_filter**  (float) -
+- **group_size** (*int*) -
 
-        特定の類似度範囲内のベクトルに検索を絞り込みます。コレクションのメトリックタイプが `IP` または `COSINE` に設定されている場合は、この値が **radius** の値より大きくなるようにしてください。それ以外の場合は、この値は **radius** の値より小さくする必要があります。
+    グループ化検索で各グループ内に返すエンティティの目標数です。たとえば、group_size=2 を設定すると、システムは各グループ内で最大 2 つの最も類似するエンティティ（ドキュメントのパッセージやベクトル表現など）を返すよう指示されます。group_size を設定しない場合、システムはデフォルトで各グループにつき 1 つのエンティティのみを返します。
 
-    - **level** (*int*)
+- **strict_group_size** (*bool*) -
 
-        Zilliz Cloud は、さまざまなインデックスアルゴリズムに固有の多数の検索パラメータを個別に扱う代わりに、統一されたパラメータを使用して検索パラメータのチューニングを簡素化します。
-
-        値のデフォルトは **1** で、**1** から **5** の範囲です。値を大きくすると、検索パフォーマンスは低下しますが、再現率は高くなります。
-
-    - **page_retain_order** (*bool*) -
-
-        `offset` を指定したときに検索結果の順序を保持するかどうかです。
-
-        このパラメータは、`radius` も設定した場合にのみ適用されます。
-
-    - **params** (dict) -
-
-        追加のパラメータです。
-
-        <Admonition type="info" title="Notes">
-
-        すべての追加パラメータは上位の `search_params` に移動されました。`params` 引数はまもなく非推奨になります。
-
-        </Admonition>
-
-        - **radius** (float) -
-
-            最小類似度のしきい値を決定します。コレクションのメトリックタイプが `L2` に設定されている場合は、この値が **range_filter** の値より大きくなるようにしてください。それ以外の場合は、この値は **range_filter** の値より小さくする必要があります。
-
-        - **range_filter**  (float) -
-
-            特定の類似度範囲内のベクトルに検索を絞り込みます。コレクションのメトリックタイプが `IP` または `COSINE` に設定されている場合は、この値が **radius** の値より大きくなるようにしてください。それ以外の場合は、この値は **radius** の値より小さくする必要があります。
-
-        - **level** (*int*)
-
-            Zilliz Cloud は、さまざまなインデックスアルゴリズムに固有の多数の検索パラメータを個別に扱う代わりに、統一されたパラメータを使用して検索パラメータのチューニングを簡素化します。
-
-            値のデフォルトは **1** で、**1** から **5** の範囲です。値を大きくすると、検索パフォーマンスは低下しますが、再現率は高くなります。
-
-        - **page_retain_order** (*bool*) -
-
-            `offset` を指定したときに検索結果の順序を保持するかどうかです。
-
-            このパラメータは、`radius` も設定した場合にのみ適用されます。
-
-    - **ignore_growing** (*str*) -
-
-        このオプションを設定すると、検索から成長中のセグメントのデータを除外するように指示されます。この設定を利用すると、インデックス済みで完全に処理されたデータのみに焦点を当てることで、検索パフォーマンスを向上できる可能性があります。
-
-    その他の適用可能な検索パラメータの詳細については、[インメモリインデックス](https://milvus.io/docs/index.md) および [オンディスクインデックス](https://milvus.io/docs/disk_index.md) を参照してください。
-
-    その他の適用可能な検索パラメータの詳細については、[AUTOINDEX の説明](/docs/autoindex-explained) を参照してください。
-
-- **group_by_field** (*str*)
-
-    検索結果を指定したフィールドでグループ化し、多様性を確保するとともに、同じグループから複数の結果が返されることを防ぎます。
-
-    このパラメータはグループ化検索で使用されます。PyMilvus 3.0.1 以降では、このパラメータを `search_aggregation` と併用しないでください。
-
-- **group_size** (*int*)
-
-    グループ化検索において、各グループ内で返すエンティティの目標数です。たとえば、`group_size=2` を設定すると、システムは各グループ内で最も類似するエンティティ（例: ドキュメントのパッセージやベクトル表現）を最大 2 件返すようになります。`group_size` を設定しない場合、システムはデフォルトで各グループにつき 1 件のエンティティのみを返します。
-
-- **strict_group_size** (*bool*)
-
-    この Boolean パラメータは、`group_size` を厳密に適用するかどうかを指定します。`strict_group_size=True` の場合、各グループ内に十分なデータが存在する限り、システムは各グループを正確に `group_size` 件の結果で埋めようとします。グループ内のエンティティ数が不足している場合は、利用可能なエンティティのみが返されるため、十分なデータがあるグループは指定された `group_size` を満たします。
+    このブール値パラメーターは、group_size を厳密に適用するかどうかを決定するオプションです。strict_group_size=True の場合、システムは各グループ内に十分なデータがある限り、各グループを正確に group_size 件の結果で埋めようとします。グループ内のエンティティ数が不足している場合は、使用可能なエンティティのみが返され、十分なデータがあるグループが指定された group_size を満たすことが保証されます。
 
 - **order_by_fields** (*list[dict] | None*) -
 
-    サポートされているスカラーフィールドで検索結果を並べ替えるための order-by 指定のリストです。
+    サポートされているスカラーフィールドで検索結果を並べ替えるための order-by 仕様のリストです。リスト内の各ディクショナリには、次のキーがあります。field（str）：並べ替えるスカラーフィールドの名前です。order（str）：並べ替えの方向です。指定できる値は "asc" と "desc" です。このキーを省略すると、Milvus はフィールドを昇順に並べ替えます。Milvus は、指定した順序で複数の order-by フィールドを適用します。指定されたすべての order-by フィールドで同じ値を持つエンティティについては、Milvus は元の類似度スコアの順序を保持します。グループ化検索では、Milvus は各グループの先頭エンティティの指定されたスカラーフィールド値でグループを並べ替えます。limit パラメーターは引き続きグループ数を制御し、group_size はグループあたりのエンティティ数を制御します。
 
-    リスト内の各辞書は、次のキーを持ちます。
+- **timeout** (*float | None*) -
 
-    - **field** (*str*) -
-
-        並べ替えの対象となるスカラーフィールドの名前です。
-
-    - **order** (*str*) -
-
-        並べ替えの方向です。指定できる値は `"asc"` および `"desc"` です。このキーを省略した場合、Milvus はそのフィールドを昇順で並べ替えます。
-
-    Zilliz Cloud は、指定した順序で複数の order-by フィールドを適用します。指定したすべての order-by フィールドで同じ値を持つエンティティについては、Zilliz Cloud は元の類似度スコアの順序を維持します。
-
-    グループ化検索では、Zilliz Cloud は各グループの先頭エンティティの指定されたスカラーフィールドの値によってグループを並べ替えます。`limit` パラメータは引き続きグループ数を制御し、`group_size` はグループあたりのエンティティ数を制御します。
-
-- **timeout** (*float* | *None*) -
-
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト時間です。これを None に設定すると、応答が到着したとき、またはエラーが発生したときに、この操作がタイムアウトすることを示します。
 
 - **partition_names** (*list*) -
 
-    パーティション名のリストです。
+    パーティション名のリストです。値のデフォルトは None です。指定した場合、指定されたパーティションのみがクエリの対象になります。このパラメーターは Milvus Lite には適用されません。Milvus Lite の制限の詳細については、Run Milvus Lite を参照してください。
 
-    値のデフォルトは **None** です。指定した場合、指定したパーティションのみがクエリの対象になります。
+- **ranker** (*[Function](../Collections/Function/Function.md*) -
 
-- **ranker** (*[Function](./MilvusClient-Function)* | *[FunctionScore](./MilvusClient-FunctionScore)*) -
+    検索に使用するランカーを指定するオプションです（*|* FunctionScore&ast;）。詳細については、Decay Ranker Overview および Model Ranker Overview を参照してください。
 
-    検索に使用するランカーです。
+- **function_chains** (*FunctionChain | list[FunctionChain]*) -
 
-    詳細については、[Decay Ranker Overview](/docs/decay-ranker-oveview) を参照してください。
+    検索に適用するファンクションチェーンです。このパラメーターは ranker と同時に使用できません。
 
 - **highlighter** (*Highlighter*) -
 
-    検索操作で一致した用語をハイライトするためのハイライターです。詳細については、[Lexical Highlighter](/docs/text-highlighter) を参照してください。
+    検索操作で一致した用語をハイライト表示するハイライターです。詳細については、Lexical Highlighter を参照してください。
 
-- **search_aggregation** (*Optional[SearchAggregation]*) - PyMilvus 3.0.1 以降で使用できます。階層的なバケット集約を定義します。このパラメータを `group_by_field` と併用しないでください。設定した場合、`limit` は無視され、最上位バケットの数はルートの `SearchAggregation.size` によって制御されます。
+- **search_aggregation** (*Optional[SearchAggregation]*) -
 
-- **kwargs** -
+    PyMilvus 3.0.1 以降で使用できるオプションです。階層的なバケット集約を定義します。このパラメーターは group_by_field と一緒に使用しないでください。設定すると、limit は無視され、ルートの SearchAggregation.size がトップレベルのバケット数を制御します。
 
-    - **offset** (int) -
+- **kwargs** (*Any*) -
 
-        検索結果でスキップするレコード数です。
+    オプションです。offset（int）：検索結果でスキップするレコード数です。このパラメーターは limit と組み合わせて使用すると、ページネーションを有効にできます。この値と limit の合計は 16,384 未満にする必要があります。round_decimal（int）：Milvus が計算された距離を丸める小数点以下の桁数です。値のデフォルトは -1 で、Milvus が計算された距離の丸めをスキップし、生の値を返すことを示します。timezone（str）：IANA 識別子（Asia/Shanghai, America/Chicago, UTC など）を設定することで、単一のクエリに対してコレクションまたはデータベースのデフォルトタイムゾーンを一時的に上書きします。これは、その操作中のみ TIMESTAMPTZ 値の解釈、表示、比較の方法を制御します。保存されたデータやコレクション設定は変更しません。詳細については、TIMESTAMPZ Field を参照してください。time_fields（str）：クエリ操作または検索操作中に TIMESTAMPTZ フィールドから特定の時間コンポーネントを抽出します。抽出する要素を指定するには、カンマ区切りのリストを使用します。サポートされている要素には、year、month、day、hour、minute、second、microsecond があります。詳細については、TIMESTAMPZ Field を参照してください。
 
-        このパラメータを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
-
-        この値と `limit` の合計は 16,384 未満にする必要があります。
-
-    - **round_decimal** (int) -
-
-        Zilliz Cloud が計算された距離を丸める際の小数点以下の桁数です。
-
-        値のデフォルトは **-1** で、Zilliz Cloud が計算された距離の丸めをスキップし、生の値を返すことを示します。
-
-    - **timezone** (*str*)
-
-        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例: **Asia/Shanghai**, **America/Chicago**, または **UTC**）を設定することで、単一のクエリに対してコレクションまたはデータベースのデフォルトのタイムゾーンを一時的に上書きします。これは、その操作の実行中に限り、`TIMESTAMPTZ` 値がどのように解釈、表示、比較されるかを制御します。保存されているデータやコレクションの設定は変更されません。
-
-        詳細については、[TIMESTAMPZ Field](/docs/use-timestamptz-field) を参照してください。
-
-    - **time_fields** (*str*)
-
-        クエリまたは検索操作中に `TIMESTAMPTZ` フィールドから特定の時間コンポーネントを抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされている要素は `year`、`month`、`day`、`hour`、`minute`、`second`、`microsecond` です。
-
-        詳細については、TIMESTAMPZ Field を参照してください。
-
-**RETURN TYPE:**
+**戻り値の型：**
 
 *list[dict]*
 
-**RETURNS:**
-指定された出力フィールドを持つ、検索されたエンティティを含む辞書のリストです。
+**戻り値：**
 
-**EXCEPTIONS:**
+指定された出力フィールドを含む、検索されたエンティティを格納したディクショナリのリストです。
+
+**例外：**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中にエラーが発生すると、この例外が発生します。この操作中にエラーが発生すると、この例外が発生します。
 
 ## 例\{#examples}
 
-**グループ化検索**
-
-次の例は焦点を絞ったもので、クライアントのセットアップ、コレクションの作成、およびデータの挿入を省略しています。`product_catalog` に 5 次元のベクトルフィールドと `brand` という名前のスカラーフィールドがあることを前提としています。
+グループ化検索：次の焦点を絞った例では、クライアントの設定、コレクションの作成、データの挿入を省略しています。product_catalog には 5 次元のベクトルフィールドと brand という名前のスカラーフィールドがあることを前提としています。
 
 ```python
 res = client.search(
@@ -320,8 +178,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection
@@ -446,3 +304,23 @@ res = client.search(
 #   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
 ```
+
+<Admonition type="info" title="Notes">
+
+このメソッドは、Dedicated 配信クラスターとオンデマンドコンピューティングにのみ適用されます。
+
+- 配信クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- オンデマンドコンピューティングのコレクションでこの操作を行うには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、次にオンデマンドクラスターにアタッチするセッションを作成して検索します。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>

@@ -4,18 +4,18 @@ slug: /python/python/Management-list_persistent_segments
 sidebar_label: "list_persistent_segments()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。 | Python | MilvusClient"
+description: "この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを一覧表示します。行数、ソート状態、ストレージレベルに関する情報も含まれます。 | Python | MilvusClient"
 type: docx
-token: QsGNdp1t3oHaunxgIZGc3PdSnof
+token: EvBwdrnRHoExdlxVKcLcZyeQnHg
 sidebar_position: 25
 keywords: 
-  - ベクトルデータベース比較
+  - ベクトルデータベースの比較
   - Faiss
   - 動画検索
-  - AIハルシネーション
+  - AI ハルシネーション
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_persistent_segments()
 
-この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。
+この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを一覧表示します。行数、ソート状態、ストレージレベルに関する情報も含まれます。
 
 <Admonition type="info" title="Notes">
 
@@ -42,9 +42,11 @@ import Admonition from '@theme/Admonition';
 ## リクエスト構文\{#request-syntax}
 
 ```python
-client.list_persistent_segments(
+list_persistent_segments(
     collection_name: str,
-    timeout: float = None
+    timeout: Optional[float] = None,
+    states: Optional[Sequence[SegmentState]] = None,
+    **kwargs
 ) -> List[SegmentInfo]
 ```
 
@@ -54,37 +56,80 @@ client.list_persistent_segments(
 
     **[必須]**
 
-    コレクションの名前。
+    コレクションの名前です。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを None に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
-*List[SegmentInfo]*
+*list[SegmentInfo]*
 
 **戻り値:**
 
-segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version を含む、永続的なセグメント情報オブジェクトのリスト。
+永続セグメント情報オブジェクトのリストです。各 SegmentInfo オブジェクトには、以下に示すメンバーが含まれます。
+
+**パラメーター:**
+
+- **segment_id** (*int*) -
+
+    セグメントの ID です。
+
+- **collection_id** (*int*) -
+
+    セグメントが属するコレクションの ID です。
+
+- **collection_name** (*str*) -
+
+    セグメントが属するコレクションの名前です。
+
+- **num_rows** (*int*) -
+
+    セグメント内の行数です。
+
+- **is_sorted** (*bool*) -
+
+    セグメント内のデータがソートされているかどうかを示すフラグです。
+
+- **state** (*SegmentState*) -
+
+    セグメントのライフサイクル状態です。
+
+- **level** (*SegmentLevel*) -
+
+    セグメントのストレージレベルです。
+
+- **storage_version** (*int*) -
+
+    セグメントのストレージバージョンです。
+
+- **partition_id** (*int*) -
+
+    セグメントが属するパーティションの ID です。PyMilvus v3.0.2 以降で使用できます。
+
+- **insert_channel** (*str*) -
+
+    セグメントデータの書き込み先となった挿入チャネルです。PyMilvus v3.0.2 以降で使用できます。
+
+- **compaction_from** (*list[int]*) -
+
+    このセグメントの Compaction 元となったセグメントの ID です。PyMilvus v3.0.2 以降で使用できます。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が発生します。
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, SegmentState
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+segments = client.list_persistent_segments(
+    collection_name="docs",
+    states=[SegmentState.Sealed],
 )
-
-segments = client.list_persistent_segments(collection_name="my_collection")
-for seg in segments:
-    print(f"Segment {seg.segment_id}: {seg.num_rows} rows, level={seg.level}")
 ```

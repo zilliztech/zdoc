@@ -4,21 +4,21 @@ slug: /python/python/Vector-SearchAggregation
 sidebar_label: "SearchAggregation"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`SearchAggregation` インスタンスは、vector search のためのバケット集計の1レベルを定義します。バケットキー、バケット上限、バケットごとのメトリクス、バケットの順序、代表ヒット、およびオプションのネストされた集計を制御します。 | Python | MilvusClient"
+description: "SearchAggregation インスタンスは、ベクトル検索用のバケット集計の 1 レベルを定義します。 | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - ベクトル検索
+  - kNN アルゴリズム
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - SearchAggregation
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,42 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # SearchAggregation
 
-`SearchAggregation` インスタンスは、vector search のためのバケット集計の1レベルを定義します。バケットキー、バケット上限、バケットごとのメトリクス、バケットの順序、代表ヒット、およびオプションのネストされた集計を制御します。
+SearchAggregation インスタンスは、ベクトル検索用のバケット集計の 1 レベルを定義します。
+
+## リクエスト構文\{#request-syntax}
 
 ```python
-class pymilvus.SearchAggregation
-```
-
-## Constructor\{#constructor}
-
-```python
-SearchAggregation(
-    fields: list[str],
+__init__(
+    fields: List[str],
     size: int,
-    metrics: dict[str, dict[str, str]] | None = None,
-    order: list[dict[str, str]] | None = None,
-    top_hits: TopHits | None = None,
-    sub_aggregation: SearchAggregation | None = None,
+    metrics: Optional[Dict[str, Dict[str, str]]] = None,
+    order: Optional[List[Dict[str, str]]] = None,
+    top_hits: Optional[TopHits] = None,
+    sub_aggregation: Optional[SearchAggregation] = None
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **fields** (*list[str]*) **[REQUIRED]** -
+- **fields** (*list[str]*) -
 
-    バケットキーを構成する、空でない scalar フィールド名のリストです。複数のフィールドは、リスト順で複合キーを形成します。`meta["region"]` のような JSON パスは受け付けられません。
+    **[必須]**
 
-- **size** (*int*) **[REQUIRED]** -
+    バケットキーを形成する、空でないスカラーフィールド名のリストです。複数のフィールドは、リストの順序で複合キーを形成します。`meta["region"]` などの JSON パスは受け入れられません。
 
-    この集計レベルで返されるバケットの最大数です。値は正の整数でなければなりません。
+- **size** (*int*) -
+
+    **[必須]**
+
+    この集計レベルで返されるバケットの最大数です。値は正の整数である必要があります。
 
 - **metrics** (*dict[str, dict[str, str]] | None*) -
 
-    バケットごとのメトリクス定義です。各キーはメトリクスのエイリアスで、各値は `{operation: field}` 形式の単一キー辞書です。サポートされる操作は `count`、`sum`、`avg`、`min`、`max` です。`count` のみ `"*"` を受け付けます。その他の操作では、フィールド名または `_score` が必要です。
+    バケットごとのメトリクス定義です。各キーはメトリクスのエイリアスで、各値は \{operation: field} 形式の単一キーの辞書です。サポートされるオペレーションは count、sum、avg、min、max です。
 
 - **order** (*list[dict[str, str]] | None*) -
 
-    リスト順に評価されるバケットの並び順ルールです。各項目には、1つのメトリクスエイリアス、`_count`、または `_key` が含まれており、`"asc"` または `"desc"` にマッピングされている必要があります。
+    リストの順序で評価されるバケットの並べ替えルールです。各項目には、1 つのメトリクスエイリアス、_count、または _key を含め、これを "asc" または "desc" にマッピングする必要があります。
 
 - **top_hits** (*TopHits | None*) -
 
@@ -74,36 +74,29 @@ SearchAggregation(
 
 - **sub_aggregation** (*SearchAggregation | None*) -
 
-    現在のレベルの各バケットの下にネストされたバケットレベルを定義します。
+    現在のレベルの各バケットの下にあるネストされたバケットレベルです。
 
-**RETURN TYPE:**
+**例外:**
 
-*SearchAggregation*
+- **MilvusException**
 
-**EXCEPTIONS:**
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
-- **ParamError** - 空または無効な fields、正でない size、サポートされていないメトリクス定義、無効な並び順キーまたは方向、または型が誤っているオブジェクトに対して発生します。
-
-## Example\{#example}
+## 例\{#examples}
 
 ```python
-from pymilvus import SearchAggregation, TopHits
+from pymilvus import MilvusClient, SearchAggregation, TopHits
 
-aggregation = SearchAggregation(
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+agg = SearchAggregation(
     fields=["category"],
-    size=5,
-    metrics={
-        "product_count": {"count": "*"},
-        "avg_price": {"avg": "price"},
-    },
-    order=[{"product_count": "desc"}, {"_key": "asc"}],
-    sub_aggregation=SearchAggregation(
-        fields=["brand"],
-        size=3,
-        top_hits=TopHits(
-            size=2,
-            sort=[{"rating": "desc"}, {"_score": "desc"}],
-        ),
-    ),
+    size=10,
+    top_hits=TopHits(size=3),
+)
+results = client.search(
+    collection_name="docs",
+    data=[[0.1, 0.2]],
+    limit=100,
+    search_aggregation=agg,
 )
 ```

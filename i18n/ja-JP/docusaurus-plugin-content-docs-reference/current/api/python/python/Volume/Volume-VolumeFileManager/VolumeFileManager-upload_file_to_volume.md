@@ -4,18 +4,18 @@ slug: /python/python/VolumeFileManager-upload_file_to_volume
 sidebar_label: "upload_file_to_volume()"
 beta: false
 added_since: false
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。 | Python"
+description: "この操作では、指定したソースパスにあるローカルファイルを、指定したマネージドボリューム内のターゲットファイルパスにアップロードします。 | Python"
 type: docx
-token: SAR6dnlmmohi30x0x2KcioyXnib
+token: MDzcdn1cIoX5Xtx3vo9cjSeLnT4
 sidebar_position: 1
 keywords: 
-  - 画像類似度検索
+  - 画像類似検索
   - コンテキストウィンドウ
   - 自然言語検索
-  - 類似度検索
+  - 類似検索
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。
+この操作では、指定したソースパスにあるローカルファイルを、指定したマネージドボリューム内のターゲットファイルパスにアップロードします。
 
 <Admonition type="info" title="Notes">
 
@@ -50,64 +50,88 @@ upload_file_to_volume(
     retry_interval: float = 5.0,
     progress_callback: Callable[[UploadProgress], None] | None = None,
     part_size: int = 0,
-) -> dict
+    upload_policy: UploadPolicy = UploadPolicy.SKIP_IF_SAME_SIZE,
+    temporary_directory: str | None = None
+)
 ```
 
-**パラメーター:**
+**パラメーター：**
 
-- **source_file_path** (*str*) -<br/>
-  **[必須]**<br/>
-  アップロードするローカルファイルまたはディレクトリのパスです。
+- **source_file_path** (*str*) -
 
-- **target_volume_path** (*str*) -<br/>
-  **[必須]**<br/>
-  Zilliz Cloud ボリューム内の宛先パスです。
+    **[必須]**
 
-- **upload_concurrency** (*int*) -<br/>
-  デフォルト: `5`<br/>
-  同時にアップロードするファイルの最大数です。
+    指定したボリュームにアップロードするローカルデータファイルのパスです。
 
-- **max_retries** (*int*) -<br/>
-  デフォルト: `5`<br/>
-  各ファイルのアップロード試行の最大回数です。
+- **target_volume_path** (*str*) -
 
-- **retry_interval** (*float*) -<br/>
-  デフォルト: `5.0`<br/>
-  アップロード試行間の遅延（秒単位）です。
+    **[必須]**
 
-- **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
-  デフォルト: `None`<br/>
-  アップロードの進捗スナップショットとともに呼び出されるコールバックです。
+    この操作後における、指定したボリューム内のデータファイルのパスです。
 
-- **part_size** (*int*) -<br/>
-  デフォルト: `0`<br/>
-  マルチパートアップロードのパートサイズ（バイト単位）です。`0` を使用すると、サイズが自動的に選択されます。
+- **upload_concurrency** (*int*) -
 
-**戻り値の型:**
+    並列でアップロードするファイルの最大数です。デフォルトは 5 です。
+
+- **max_retries** (*int*) -
+
+    失敗後にファイルごとに追加で試行できる最大回数です。デフォルトは 5 です。
+
+- **retry_interval** (*float*) -
+
+    再試行の間隔（秒）です。デフォルトは 5.0 です。
+
+- **progress_callback** (*Callable[[UploadProgress], None] | None*) -
+
+    アップロード中に、スロットリングされたアップロード進捗のスナップショットを受け取るコールバックです。
+
+- **part_size** (*int*) -
+
+    アップロードされる各パートのサイズ（バイト単位）です。デフォルトは 0 で、SDK が決定します。
+
+- **upload_policy** (*UploadPolicy*) -
+
+    既存のリモートファイルをスキップできるかどうかを決定するポリシーです。デフォルトは UploadPolicy.SKIP_IF_SAME_SIZE です。
+
+- **temporary_directory** (*str | None*) -
+
+    一時的なアップロード状態を保存するディレクトリです。デフォルトは None で、SDK が選択します。
+
+**戻り値の型：**
 
 *dict*
 
-**戻り値:**
+**戻り値：**
 
-volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書です。
+対象ボリューム名と、ボリューム内でのアップロード済みファイルの最終パスを含む辞書です。
 
-**例外:**
+**パラメーター：**
 
-- **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **volumeName** (*str*) -
+
+    この操作の対象ボリュームの名前です。
+
+- **path** (*str*) -
+
+    この操作後における、指定したボリューム内のデータファイルのパスです。
+
+**例外：**
+
+- **MilvusException**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 
-この例では、ボリュームにファイルをアップロードする方法を示します。
-
 ```python
-from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager
 
-manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
-manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
-manager.describe_volume("book-volume")
-manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
-
-file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
-file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
+manager = VolumeFileManager(
+    bucket_name="my-bucket",
+)
+progress = manager.upload_file_to_volume(
+    local_path="./data.parquet",
+    volume_path="import/data.parquet",
+)
+print(progress.uploaded_bytes)
 ```

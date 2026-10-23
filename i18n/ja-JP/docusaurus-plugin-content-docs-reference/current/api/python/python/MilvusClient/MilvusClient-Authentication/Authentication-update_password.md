@@ -4,21 +4,21 @@ slug: /python/python/Authentication-update_password
 sidebar_label: "update_password()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のユーザーのパスワードを更新し、ユーザーの説明も更新できます。 | Python | MilvusClient"
+description: "この操作は、特定のユーザーのパスワードを更新します。 | Python | MilvusClient"
 type: docx
-token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
+token: ZbGcdPeOZoyFpPxfKwnclTv5ncf
 sidebar_position: 20
 keywords: 
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG LLM アーキテクチャ
+  - プライベート LLM
+  - 最近傍探索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - update_password()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-この操作は、特定のユーザーのパスワードを更新し、ユーザーの説明も更新できます。
+この操作は、特定のユーザーのパスワードを更新します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -40,67 +40,55 @@ update_password(
     user_name: str,
     old_password: str,
     new_password: str,
-    reset_connection: Optional[bool] = False,
     timeout: Optional[float] = None,
     description: Optional[str] = None,
-    **kwargs,
-) -> None
+    **kwargs
+)
 ```
 
 **パラメーター:**
 
-- **user_name** (*str*) -<br/>
-  **[必須]**<br/>
-  パスワードを変更するユーザーの名前です。
+- **user_name** (*str*) -
 
-- **old_password** (*str*) -<br/>
-  **[必須]**<br/>
-  ユーザーの現在のパスワードです。
+    **[必須]**
 
-- **new_password** (*str*) -<br/>
-  **[必須]**<br/>
-  ユーザーの新しいパスワードです。
+    既存のユーザーの名前です。
 
-- **reset_connection** (*Optional[bool]*) -<br/>
-  デフォルト: `False`<br/>
-  更新後にクライアントを新しいパスワードで再接続するかどうかを示すフラグです。
+- **old_password** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  デフォルト: `None`<br/>
-  RPC が完了するまでの最大待機時間（秒）です。
+    **[必須]**
 
-- **description** (*Optional[str]*) -<br/>
-  デフォルト: `None`<br/>
-  ユーザーアカウントの更新後の説明（任意）です。
+    ユーザーの元のパスワードです。
 
-- **kwargs** (*Any*) -<br/>
-  追加のリクエストコンテキストオプションです。
+- **new_password** (*str*) -
 
-**戻り値の型:**
+    **[必須]**
 
-*None*
+    ユーザーの新しいパスワードです。
 
-**戻り値:**
+- **reset_connection** (*bool*) -
 
-パスワードが正常に更新された場合、戻り値はありません。
+    ユーザーにバインドされている接続をリセットし、新しい認証情報で再認証させるフラグです。
 
 **例外:**
 
-- **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
-
-パスワード更新の使用例を示します。
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-client.create_user("analyst", "Milvus123", description="Analytics account")
-client.update_user("analyst", description="Updated analytics account")
-client.create_role("read_only", description="Read-only role")
-client.alter_role("read_only", description="Updated read-only role")
-print(client.describe_user("analyst"))
-print(client.describe_role("read_only"))
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+client.update_password(
+    user_name="alice",
+    old_password="OldP@ss",
+    new_password="NewP@ss",
+    reset_connection=True,
+)
 ```

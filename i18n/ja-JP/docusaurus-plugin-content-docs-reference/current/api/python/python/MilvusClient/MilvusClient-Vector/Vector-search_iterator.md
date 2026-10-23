@@ -4,17 +4,17 @@ slug: /python/python/Vector-search_iterator
 sidebar_label: "search_iterator()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラーフィルタリング式を使用して、ベクトル類似度検索を反復的に実行します。 | Python | MilvusClient"
+description: "この操作は、オプションのスカラーフィルタリング式を使用して、反復的にベクトル類似検索を実行します。 | Python | MilvusClient"
 type: docx
-token: T9KhdDJQColJEuxZ7YOcV2zdnlb
+token: Z8WId53zDonHYuxckCDccOEcnjb
 sidebar_position: 7
 keywords: 
-  - ベクトルデータベースはどのように動作するか
-  - ベクトル DB 比較
-  - openai のベクトル DB
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベースの比較
+  - OpenAI ベクトルデータベース
   - 自然言語処理データベース
   - zilliz
   - zilliz cloud
@@ -31,13 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-この操作は、オプションのスカラーフィルタリング式を使用して、ベクトル類似度検索を反復的に実行します。
-
-<Admonition type="info" title="Notes">
-
-外部コレクションでは、この操作はサポートされていません。
-
-</Admonition>
+この操作は、オプションのスカラーフィルタリング式を使用して、反復的にベクトル類似検索を実行します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -54,7 +48,9 @@ search_iterator(
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
-    round_decimal: int = -1
+    round_decimal: int = -1,
+    *,
+    external_filter_func: Optional[Callable[[Hits], Union[Hits, List[Hit]]]] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
@@ -71,128 +67,69 @@ search_iterator(
 
     **[必須]**
 
-    ベクトル埋め込みのリストです。
-
-    Zilliz Cloud は、指定されたものに最も類似したベクトル埋め込みを検索します。
+    ベクトル埋め込みのリストです。Milvus は、指定されたものに最も類似するベクトル埋め込みを検索します。
 
 - **batch_size** (*int*) -
 
-    各イテレーションで返すエンティティの数です。デフォルト値は 1000 です。
-
-- **anns_field** (*str*) -
-
-    現在の検索の対象ベクトルフィールドの名前です。
+    各反復で返すエンティティの数です。既定値は 1000 です。
 
 - **filter** (*str*) -
 
-    一致するエンティティを絞り込むためのスカラーフィルタリング条件です。 
-
-    デフォルト値は空文字列で、条件が適用されないことを示します。
-
-    スカラーフィルタリングをスキップするには、このパラメーターを空文字列に設定できます。スカラーフィルタリング条件を構築するには、[Filtering Overview](/docs/filtering-overview) を参照してください。 
+    一致するエンティティをフィルター処理するためのスカラーフィルタリング条件です。値の既定値は空の文字列で、条件が適用されないことを示します。スカラーフィルタリングをスキップするには、このパラメーターを空の文字列に設定できます。スカラーフィルタリング条件を作成するには、Boolean Expression Rules を参照してください。
 
 - **limit** (*int*) -
 
-    返すエンティティの総数です。
+    返すエンティティの総数です。この操作では offset パラメーターはサポートされていません。
 
-    このパラメーターを **param** 内の **offset** と組み合わせて使用すると、ページネーションを有効にできます。
+- **output_fields** (*list[str]*) -
 
-    この値と **param** 内の **offset** の合計は 16,384 未満である必要があります。 
-
-- **output_fields** (l*ist[str]*) -
-
-    返される各エンティティに含めるフィールド名のリストです。
-
-    デフォルト値は **None** です。指定しない場合は、プライマリフィールドのみが含まれます。
+    返される各エンティティに含めるフィールド名のリストです。値の既定値は None です。指定しない場合、プライマリフィールドのみが含まれます。
 
 - **search_params** (*dict*) -
 
-    この操作に固有のパラメーター設定です。
+    この操作に固有のパラメーター設定です。params（dict）: 追加のパラメーター。radius（float）: 類似度が最も低い閾値を決定します。コレクションのメトリクスタイプが L2 に設定されている場合は、この値が range_filter の値より大きくなるようにしてください。それ以外の場合は、この値が range_filter の値より小さくなるようにしてください。range_filter（float）: 検索を特定の類似度範囲内のベクトルに絞り込みます。コレクションのメトリクスタイプが IP または COSINE の場合は、この値が radius の値より大きくなるようにしてください。それ以外の場合は、この値が radius の値より小さくなるようにしてください。max_empty_result_buckets（int）: このパラメーターは、BIN_IVF_FLAT、IVF_FLAT、IVF_SQ8、IVF_PQ、SCANN を含む IVF シリーズのインデックスの範囲検索にのみ使用されます。値の既定値は 1 で、範囲は 1 から 65536 です。範囲検索中、有効な範囲検索結果がないバケットの数が指定値に達すると、検索プロセスは早期に終了します。このパラメーターを増やすと、範囲検索の再現率が向上します。ignore_growing（str）: このオプションを設定すると、検索から growing セグメントのデータを除外するように指示されます。この設定を利用すると、インデックス化され完全に処理されたデータのみに焦点を当てることで、検索パフォーマンスを向上できる可能性があります。その他の適用可能な検索パラメーターの詳細については、In-memory インデックス および On-disk Index を参照してください。
 
-    - **params** (dict) -
+- **group_by_field** (*str*) -
 
-        追加パラメーター
+    r o というオプションです。
 
-        - **radius** (float) -
+- **timeout** (*float | None*) -
 
-            最小類似度のしきい値を決定します。コレクションのメトリックタイプが `L2` に設定されている場合、この値は **range_filter** の値より大きくなるようにしてください。それ以外の場合、この値は **range_filter** の値より小さくする必要があります。 
-
-        - **range_filter**  (float) -  
-
-            特定の類似度範囲内のベクトルに検索を絞り込みます。コレクションのメトリックタイプが `IP` または `COSINE` の場合、この値は **radius** の値より大きくなるようにしてください。それ以外の場合、この値は **radius** の値より小さくする必要があります。
-
-        - **level** (*int*)
-
-            Zilliz Cloud は、さまざまなインデックスアルゴリズムに固有の多数の検索パラメーターを扱う代わりに、検索パラメーターの調整を簡素化するための統合パラメーターを使用します。
-
-            デフォルト値は **1** で、**1** から **10** の範囲です。値を大きくすると再現率は高くなりますが、検索パフォーマンスは低下します。詳細については、[Tune Recall Rate](/docs/tune-recall-rate) を参照してください。
-
-        - **page_retain_order** (*bool*) -
-
-            `offset` が指定された場合に、検索結果の順序を保持するかどうかです。 
-
-            このパラメーターは、`radius` も設定した場合にのみ適用されます。
-
-    適用可能なその他の検索パラメーターの詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
-
-- **group_by_field** (*str*)
-
-    指定されたフィールドで検索結果をグループ化し、多様性を確保して、同じグループから複数の結果が返されるのを防ぎます。
-
-- **timeout** (*float* | *None*) -
-
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト期間です。None に設定すると、応答が到着するかエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **partition_names** (*list*) -
 
-    パーティション名のリストです。
-
-    デフォルト値は **None** です。指定した場合、指定されたパーティションのみがクエリの対象になります。
+    パーティション名のリストです。値の既定値は None です。指定した場合、指定したパーティションのみがクエリの対象になります。このパラメーターは Milvus Lite には適用されません。Milvus Lite の制限の詳細については、Run Milvus Lite を参照してください。
 
 - **anns_field** (*string*) -
 
-    対象ベクトルフィールドの名前です。対象コレクションにベクトルフィールドが 1 つしかない場合、このパラメーターは省略できます。
+    対象のベクトルフィールドの名前です。対象のコレクションにベクトルフィールドが 1 つしかない場合、このパラメーターはオプションです。
 
 - **round_decimal** (*int*) -
 
-    距離値の小数点以下の桁数です。デフォルト値は -1 で、丸めを適用しないことを示します。
+    距離値の小数点以下の桁数です。既定値は -1 で、丸めが適用されないことを示します。
 
-- **kwargs** -
+- **external_filter_func** (*Callable*) -
 
-    - **offset** (int) -
+    検索ヒットの各ページをフィルター処理するクライアント側のコールバックです。コールバックは、ページの Hits オブジェクトを受け取り、フィルター処理された Hits オブジェクトまたは Hit オブジェクトのリストを返します。この引数はキーワード専用であり、Search Iterator V2 でサポートされています。
 
-        検索結果でスキップするレコード数です。 
+- **kwargs** (*Any*) -
 
-        このパラメーターを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
-
-        この値と `limit` の合計は 16,384 未満である必要があります。 
-
-    - **round_decimal** (int) -
-
-        Zilliz Cloud が計算された距離を丸める際の小数点以下の桁数です。
-
-        デフォルト値は **-1** で、Zilliz Cloud が計算された距離の丸めをスキップし、生の値を返すことを示します。
+    検索操作に渡す追加のパラメーターです。
 
 **戻り値の型:**
 
 *SearchIterator*
 
 **戻り値:**
-以下のメソッドを提供する **SearchIterator** インスタンスです。
 
-- `next()`
-
-    このメソッドは、エンティティのバッチを反復的に返します。呼び出すたびに、最後のエンティティが取得されるまで新しいエンティティのセットが返されます。
-
-- `close()`
-
-    このメソッドは、現在の **SearchIterator** インスタンスを閉じます。
+次のメソッドを提供する SearchIterator インスタンスです。 - next() このメソッドは、エンティティのバッチを反復的に返します。呼び出すたびに、最後のエンティティが取得されるまで新しいエンティティのセットが返されます。 - close() このメソッドは、現在の SearchIterator インスタンスを閉じます。
 
 **例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
+    この操作中にエラーが発生すると、この例外がスローされます。この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#examples}
 
@@ -201,8 +138,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection
@@ -232,11 +169,10 @@ client.insert(
 
 # 4. Conduct a search
 search_params = {
-    "metric_type": "IP",
     "params": {}
 }
 
-# Search with search iterator
+# Search with output fields
 iterator = client.search_iterator(
     collection_name="test_collection",
     data=[[0.05, 0.23, 0.07, 0.45, 0.13]],
@@ -257,3 +193,8 @@ while True:
         results.append(hit.to_dict())
 ```
 
+<Admonition type="info" title="Notes">
+
+外部コレクションはこの操作をサポートしていません。
+
+</Admonition>

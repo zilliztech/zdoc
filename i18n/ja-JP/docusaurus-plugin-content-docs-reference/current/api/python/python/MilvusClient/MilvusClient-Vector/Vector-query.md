@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 query(
@@ -61,6 +61,7 @@ query(
     filter: str,
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
+    ids: Optional[Union[List, str, int]] = None,
     partition_names: Optional[List[str]] = None,
     **kwargs,
 ) -> List[dict]
@@ -78,129 +79,27 @@ query(
 
     **[REQUIRED]**
 
-    一致するエンティティをフィルタリングするためのスカラーフィルタリング条件。
+    一致するエンティティをフィルター処理するスカラーフィルタリング条件です。スカラーフィルタリングをスキップするには、このパラメーターを空文字列に設定できます。スカラーフィルタリング条件を構築するには、Boolean Expression Rules を参照してください。
 
-    スカラーフィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラーフィルタリング条件の作成方法については、[Filtering Overview](/docs/filtering-overview) を参照してください。
+- **output_fields** (*list[str] | None*) -
 
-- **output_fields** (*list[str]* | *None*) -
+    返される各エンティティに含めるフィールド名のリストです。値のデフォルトは None です。- これを output_fields=["*"] に設定すると、すべてのフィールドが出力されます。- これを output_fields=["count(*)"] に設定すると、filter 引数で指定した条件に一致する、ロード済みのエンティティが出力されます。- group_by_fields と併用する場合、このリストは集計式 count(&ast;)、count(&lt;field&gt;)、min(&lt;field&gt;)、max(&lt;field&gt;)、sum(&lt;field&gt;)、avg(&lt;field&gt;) も受け付けます。集計値はグループごとに計算され、グループキーとともに返されます。
 
-    返される各エンティティに含めるフィールド名のリスト。
+- **timeout** (*float | None*) -
 
-    デフォルト値は **None** です。
+    この操作のタイムアウト時間です。これを None に設定すると、応答が到着したとき、またはエラーが発生したときに、この操作がタイムアウトすることを示します。
 
-    <Admonition type="info" title="Notes">
+- **ids** (*list | str | int | None*) -
 
-    - これを `output_fields=["\*"]` に設定すると、すべてのフィールドが出力されます。
-    
-    - これを `output_fields=["count(\*)"]` に設定すると、**filter** 引数で指定された条件に一致するロード済みのエンティティが出力されます。
-    
-    - `group_by_fields` と併用する場合、このリストでは集計式 `count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, `avg(<field>)` も受け付けます。集計値はグループごとに計算され、グループキーとともに返されます。
+    直接クエリするエンティティの主キー値のリストです。このパラメーターは filter とは相互に排他的です。設定すると、エンティティはブール式ではなく主キー値によって特定されます。
 
-    </Admonition>
+- **partition_names** (*list[str] | None*) -
 
-- **timeout** (*float* | *None*) -
+    パーティション名のリストです。値のデフォルトは None です。指定した場合、クエリには指定したパーティションのみが含まれます。このパラメーターは Milvus Lite には適用されません。Milvus Lite の制限の詳細については、Run Milvus Lite を参照してください。
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+- **kwargs** (*Any*) -
 
-- **partition_names** (*list[str]* | *None*) -
-
-    パーティション名のリスト。
-
-    デフォルト値は **None** です。指定した場合、指定したパーティションのみがクエリの対象になります。
-
-- **kwargs** -
-
-    - **consistency_level** (*str* | *int*) -
-
-        対象コレクションの整合性レベル。
-
-        デフォルト値は、現在のコレクションを作成するときに指定した値です。オプションは **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
-
-        <Admonition type="info" title="Note">
-
-        整合性レベルとは何ですか？
-        
-                分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する特性を指します。
-        
-                Zilliz Cloud は **Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** に設定されています。
-        
-                ベクトル類似検索またはクエリを実行する際に整合性レベルを簡単に調整し、アプリケーションに最適な設定にできます。
-
-        </Admonition>
-
-    - **guarantee_timestamp** (*int*) -
-
-        A valid timestamp.
-
-        このパラメータを設定した場合、このタイムスタンプより前に挿入されたすべてのエンティティがクエリノードから可視である場合にのみ、クエリが実行されます。
-
-        <Admonition type="info" title="Notes">
-
-        このパラメータは、デフォルトの整合性レベルが適用される場合に有効です。
-
-        </Admonition>
-
-    - **graceful_time** (*int*) -
-
-        秒単位の期間。
-
-        デフォルト値は **5** です。このパラメータを設定した場合、現在のタイムスタンプからこの値を差し引いて guarantee timestamp を計算します。
-
-        <Admonition type="info" title="Notes">
-
-        このパラメータは、デフォルト以外の整合性レベルが適用される場合に有効です。
-
-        </Admonition>
-
-    - **offset** (*int*) -
-
-        クエリ結果でスキップするレコード数。
-
-        このパラメータを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
-
-        この値と `limit` の合計は 16,384 未満である必要があります。 
-
-    - **limit** (*int*) -
-
-        クエリ結果で返すレコード数。
-
-        このパラメータを `offset` と組み合わせて使用すると、ページネーションを有効にできます。
-
-        この値と `offset` の合計は 16,384 未満である必要があります。
-
-    - **timezone** (*str*)
-
-        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（たとえば **Asia/Shanghai**, **America/Chicago**, **UTC**）を設定することで、単一のクエリに対してコレクションまたはデータベースのデフォルトタイムゾーンを一時的に上書きします。これは、その操作中にのみ `TIMESTAMPTZ` 値がどのように解釈、表示、比較されるかを制御するものであり、保存済みデータやコレクション設定は変更しません。
-
-        詳細については、[TIMESTAMPZ Field](/docs/use-timestamptz-field) を参照してください。
-
-    - **time_fields** (*str*)
-
-        query または search 操作の実行中に、`TIMESTAMPTZ` フィールドから特定の時間コンポーネントを抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされる要素は `year`、`month`、`day`、`hour`、`minute`、`second`、`microsecond` です。
-
-        詳細については、TIMESTAMPZ Field を参照してください。
-
-    - **order_by** (*list[str]*)
-
-        クエリ結果を並べ替える対象のフィールドのリスト。各要素は `"field_name:direction"` の形式に従い、direction は `asc`（昇順）または `desc`（降順）のいずれかです。`asc` と `desc` は大文字小文字を区別することに注意してください。
-
-        サポートされるフィールド型: INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR。ベクトル、JSON、ARRAY の各フィールドによる並べ替えはサポートされていません。
-
-        このパラメータは `limit` と併用する必要があります。null 許容フィールドを並べ替える場合、昇順ソートでは NULL 値が末尾に配置され（NULLS LAST）、降順ソートでは先頭に配置されます（NULLS FIRST）。
-
-    - **group_by_fields** (*list[str]*) -
-
-        クエリ結果をグループ化するスカラーフィールドのリスト。設定すると、`query()` は指定したフィールド値の一意な組み合わせごとに 1 行を返し、`output_fields` 内の集計式（`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`）はグループごとに計算されます。
-
-        サポートされるグループ化キーのフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR`、`TIMESTAMPTZ`。`FLOAT`、`DOUBLE`、ベクトル、`JSON`、`ARRAY` の各フィールドでグループ化するとエラーが返されます。
-
-        `group_by_fields` を `limit` と組み合わせて、返されるグループ数の上限を設定できます。
-
-        集計の入力型のルール:
-
-        - `sum` と `avg` は、`FLOAT` および `DOUBLE` を含む数値フィールドのみを受け付けます。いずれかの関数を `VARCHAR` フィールドに適用するとエラーが返されます。
-
-        - `sum` は整数入力に対して `INT64` を返し、`FLOAT` または `DOUBLE` 入力に対して `DOUBLE` を返します。`avg` は常に `DOUBLE` を返し、`count` は `INT64` を返し、`min` と `max` はフィールド型を保持します。
+    consistency_level（str | int）などのオプションです。consistency_level は、対象コレクションの整合性レベルです。値のデフォルトは、現在のコレクションを作成したときに指定した値で、Strong（0）、Bounded（1）、Session（2）、Eventually（3）のいずれかを選択できます。分散データベースにおける整合性とは、特定の時点でデータを書き込みまたは読み取りする際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する特性を指します。Milvus は、Strong、Bounded Staleness、Session、Eventually の 4 つの整合性レベルをサポートしています。Milvus のデフォルトの整合性レベルは Bounded Staleness です。ベクトル類似検索またはクエリを実行するときに整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。guarantee_timestamp（int）は有効なタイムスタンプです。このパラメーターを設定すると、MilvusZilliz Cloud は、このタイムスタンプより前に挿入されたすべてのエンティティがクエリノードから参照可能な場合にのみ、クエリを実行します。このパラメーターは、デフォルトの整合性レベルが適用される場合に有効です。graceful_time（int）は秒単位の期間です。値のデフォルトは 5 です。このパラメーターを設定すると、MilvusZilliz Cloud は現在のタイムスタンプからこの値を差し引いて guarantee timestamp を計算します。このパラメーターは、デフォルト以外の整合性レベルが適用される場合に有効です。offset（int）は、クエリ結果でスキップするレコード数です。このパラメーターを limit と組み合わせて使用すると、ページネーションを有効にできます。この値と limit の合計は 16,384 未満にする必要があります。limit（int）は、クエリ結果で返すレコード数です。このパラメーターを offset と組み合わせて使用すると、ページネーションを有効にできます。この値と offset の合計は 16,384 未満にする必要があります。timezone（str）は、IANA 識別子（たとえば Asia/Shanghai, America/Chicago, UTC）を設定することで、単一のクエリに対してコレクションまたはデータベースのデフォルトタイムゾーンを一時的に上書きします。これは、その操作中に限り TIMESTAMPTZ 値の解釈、表示、比較の方法を制御します。保存済みデータやコレクション設定は変更しません。詳細については、TIMESTAMPZ Field を参照してください。time_fields（str）は、クエリまたは検索の操作中に TIMESTAMPTZ フィールドから特定の時間コンポーネントを抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされる要素には、year、month、day、hour、minute、second、microsecond が含まれます。詳細については、TIMESTAMPZ Field を参照してください。order_by（list[str]）は、クエリ結果を並べ替えるフィールドのリストです。各要素は "field_name:direction" の形式に従い、direction は asc（昇順）または desc（降順）のいずれかです。asc と desc は大文字と小文字を区別することに注意してください。サポートされるフィールド型は、INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR です。ベクトル、JSON、ARRAY フィールドによる並べ替えはサポートされていません。このパラメーターは limit と併用する必要があります。NULL 値を許容するフィールドを並べ替える場合、昇順では NULL 値が末尾に配置され（NULLS LAST）、降順では先頭に配置されます（NULLS FIRST）。group_by_fields（list[str]）は、クエリ結果をグループ化するスカラーフィールドのリストです。設定すると、query() は指定したフィールド値の一意な組み合わせごとに 1 行を返し、output_fields 内の集計式（count(&ast;)、count(&lt;f&gt;)、min(&lt;f&gt;)、max(&lt;f&gt;)、sum(&lt;f&gt;)、avg(&lt;f&gt;)）はグループごとに計算されます。サポートされるグループ化キーのフィールド型は、INT8、INT16、INT32、INT64、VARCHAR、TIMESTAMPTZ です。FLOAT、DOUBLE、ベクトル、JSON、ARRAY フィールドでグループ化すると、エラーが返されます。group_by_fields を limit と組み合わせて、返されるグループ数を制限できます。集計の入力型ルール: `sum` と `avg` は、`FLOAT` と `DOUBLE` を含む数値フィールドのみを受け付けます。いずれかの関数を `VARCHAR` フィールドに適用すると、エラーが返されます。:. `sum` は整数入力に対して `INT64`、`FLOAT` または `DOUBLE` 入力に対して `DOUBLE` を返します。`avg` は常に `DOUBLE` を返し、`count` は `INT64` を返し、`min` と `max` はフィールド型を保持します。:.
 
 **RETURN TYPE:**
 
@@ -208,7 +107,7 @@ query(
 
 **RETURNS:**
 
-クエリされたエンティティをそれぞれ表す辞書のリスト。
+    クエリされたエンティティを表す辞書のリストです。返されるエンティティの数が想定より少ない場合、コレクション内に重複したエンティティが存在する可能性があります。
 
 <Admonition type="info" title="Notes">
 
@@ -220,11 +119,11 @@ query(
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中にエラーが発生すると、この例外が発生します。この操作中にエラーが発生すると、この例外が発生します。
 
 - **DataTypeNotMatchException**
 
-    パラメータ値が必要なデータ型と一致しない場合に、この例外が発生します。
+    パラメーターの値が必要なデータ型と一致しない場合、この例外が発生します。パラメーターの値が必要なデータ型と一致しない場合、この例外が発生します。
 
 ## Examples\{#examples}
 
@@ -233,8 +132,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 2. Create a collection and a partition
@@ -346,6 +245,8 @@ res = client.query(
     filter="id in [6,7,8]",
     partition_names=["partitionA"],
 )
+
+print(res)
 
 # []
 

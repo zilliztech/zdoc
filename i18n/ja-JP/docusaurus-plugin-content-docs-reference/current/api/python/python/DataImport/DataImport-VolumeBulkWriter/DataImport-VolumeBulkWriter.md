@@ -4,17 +4,17 @@ slug: /python/python/DataImport-VolumeBulkWriter
 sidebar_label: "VolumeBulkWriter"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter は、ローカルの一括ファイルをリモートボリュームに書き込む処理を担当します。 | Python"
+description: "VolumeBulkWriter インスタンスは、一括インポート用にローカルデータをファイルとして Zilliz Cloud のボリュームに書き込みます。 | Python"
 type: docx
-token: L9ozd33RroJ0NZxHUc0czKjpnbh
+token: KOiCdsfhvoyfgdxbzbFcZOHmnXf
 sidebar_position: 3
 keywords: 
-  - Dense ベクトル
+  - 密ベクトル
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 密な埋め込み
   - Faiss ベクトルデータベース
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-VolumeBulkWriter は、ローカルの一括ファイルをリモートボリュームに書き込む処理を担当します。
+VolumeBulkWriter インスタンスは、一括インポート用にローカルデータをファイルとして Zilliz Cloud のボリュームに書き込みます。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -52,44 +52,41 @@ VolumeBulkWriter(
 
 **パラメーター:**
 
-- **スキーマ** (*CollectionSchema*) -<br/>
-  **[必須]**<br/>
-  行の検証と一括ファイルの生成に使用するコレクションスキーマ。
+- **スキーマ** (*CollectionSchema*) -
 
-- **remote_path** (*str*) -<br/>
-  **[必須]**<br/>
-  コミット済みファイルのアップロード先となる、ターゲットボリューム内のディレクトリ。
+    一括ファイルの書き込み対象となるコレクションのスキーマです。
 
-- **cloud_endpoint** (*str*) -<br/>
-  **[必須]**<br/>
-  Zilliz Cloud の API サーバーエンドポイント（`https://api.cloud.zilliz.com`）。
+- **remote_path** (*str*) -
 
-- **api_key** (*str*) -<br/>
-  **[必須]**<br/>
-  Zilliz Cloud との認証に使用する API キー。
+    コミット済みの一括ファイルをアップロードする、ボリューム内のリモートディレクトリパスです。
 
-- **volume_name** (*str*) -<br/>
-  **[必須]**<br/>
-  ターゲットの Zilliz Cloud ボリュームの名前。
+- **cloud_endpoint** (*str*) -
 
-- **chunk_size** (*int*) -<br/>
-  デフォルト: `1024 * MB`<br/>
-  ライターが新しいファイルを開始するまでのローカルチャンクサイズの最大値（バイト単位）。
+    Zilliz Cloud ボリュームのエンドポイントです。
 
-- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
-  デフォルト: `BulkFileType.PARQUET`<br/>
-  ライターが生成する一括ファイルの形式。
+- **api_key** (*str*) -
 
-- **config** (*Optional[dict]*) -<br/>
-  デフォルト: `None`<br/>
-  オプションのライター設定。
+    Zilliz Cloud ボリュームへの認証に使用する認証情報です。
 
-- **connect_type** (*ConnectType*) -<br/>
-  デフォルト: `ConnectType.AUTO`<br/>
-  ボリューム操作に使用する接続モード。
+- **volume_name** (*str*) -
 
-- **kwargs** (*Any*) -<br/>
-  `LocalBulkWriter` に転送される追加オプション。
+    コミット済みファイルを受け取る Zilliz Cloud ボリュームの名前です。
+
+- **chunk_size** (*int*) -
+
+    ローカルの一括ファイル 1 つあたりの最大サイズ（バイト単位）です。デフォルトは 1024 &ast; MB です。
+
+- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -
+
+    ローカルの一括ファイルのファイル形式です。デフォルトは BulkFileType.PARQUET です。
+
+- **config** (*Optional[dict]*) -
+
+    ローカル一括ライターの追加設定を格納する辞書です。
+
+- **connect_type** (*ConnectType*) -
+
+    ボリュームへの接続に使用する接続モードです。デフォルトは ConnectType.AUTO です。
 
 **戻り値の型:**
 
@@ -97,25 +94,36 @@ VolumeBulkWriter(
 
 **戻り値:**
 
-一括ファイルをローカルにステージングし、コミット済みファイルを設定済みの Zilliz Cloud ボリュームにアップロードするライター。
+一括ファイルをローカルでステージングし、コミット済みファイルを設定済みの Zilliz Cloud ボリュームにアップロードするライターです。以下は、返されたインスタンスのメソッドです。
+
+**メソッド:**
+
+- [append_row](./VolumeBulkWriter-append_row) (*method*) -
+
+    1 行をローカルバッファに書き込むメソッドです。コミット前に繰り返し呼び出してください。
+
+- [commit](./VolumeBulkWriter-commit) (*method*) -
+
+    ステージングされたローカルの一括ファイルをシールし、設定済みのボリュームにアップロードするメソッドです。
 
 **例外:**
 
-- **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 
-この例では、VolumeBulkWriter の使用方法を示します。
-
 ```python
-from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
+from pymilvus.bulk_writer import VolumeBulkWriter, UploadPolicy
 
-manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
-manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
-manager.describe_volume("book-volume")
-manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
-
-file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
-file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
+writer = VolumeBulkWriter(
+    bucket_name="my-bucket",
+    path="s3://my-bucket/import",
+    upload_policy=UploadPolicy.SKIP_IF_EXISTS,
+)
+writer.append_row(
+    {"id": 1, "vector": [0.1, 0.2]},
+)
+writer.commit()
 ```

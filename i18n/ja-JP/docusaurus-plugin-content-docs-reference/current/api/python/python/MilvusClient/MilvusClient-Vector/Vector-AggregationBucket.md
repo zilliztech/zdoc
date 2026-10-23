@@ -4,21 +4,21 @@ slug: /python/python/Vector-AggregationBucket
 sidebar_label: "AggregationBucket"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`AggregationBucket` は Search Aggregation によって返される 1 つのバケットを表します。PyMilvus はサーバー応答からこれらのオブジェクトを作成し、アプリケーションが直接構築することはありません。 | Python | MilvusClient"
+description: "Bucket インスタンスは、SearchAggregation の結果に含まれる 1 つの集約バケットであり、グループ化キー、メトリクスごとの値、件数、ヒット、およびネストされたサブグループを保持します。 | Python | MilvusClient"
 type: docx
 token: PK8NdNMMnonB66xrVDbcTYdZnah
 sidebar_position: 11
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 字句検索
+  - 最近傍探索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM アーキテクチャ
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - AggregationBucket
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,48 +31,41 @@ import Admonition from '@theme/Admonition';
 
 # AggregationBucket
 
-`AggregationBucket` は Search Aggregation によって返される 1 つのバケットを表します。PyMilvus はサーバー応答からこれらのオブジェクトを作成し、アプリケーションが直接構築することはありません。
+Bucket インスタンスは、SearchAggregation の結果に含まれる 1 つの集約バケットであり、グループ化キー、メトリクスごとの値、件数、ヒット、およびネストされたサブグループを保持します。
+
+**値:**
+
+- `key`
+
+    このバケットの複合グループ化キーです。辞書のリストであり、各辞書は 1 つのグループ化フィールドの field_name、field_id、および value を保持します。
+
+- `count`
+
+    検索プール内でこのバケットに含まれるドキュメントの総数です。
+
+- `metrics`
+
+    メトリクスのエイリアスをキーとする、このバケットのメトリクス値です。各値は int、float、string、または boolean です。
+
+- `hits`
+
+    このバケットのトップヒットドキュメントのスナップショットは、[AggregationHit](./Vector-AggregationHit) オブジェクトとして表されます。集約レベルに top_hits がない場合、リストは空です。
+
+- `sub_groups`
+
+    次の集約レベルで再帰的にネストされた、このバケットの子バケットです。リーフレベルでは、リストは空です。
+
+## 例\{#examples}
 
 ```python
-class pymilvus.AggregationBucket
-```
-
-## Properties\{#properties}
-
-- **key** (*list[dict[str, Any]]*) -
-
-    バケットキーの構成要素です。各項目には `field_name`、`field_id`、および `value` が含まれます。
-
-- **count** (*int*) -
-
-    バケットに割り当てられた、ANN によって取得された entity の数です。
-
-- **metrics** (*dict[str, Any]*) -
-
-    `SearchAggregation.metrics` で定義されたエイリアスをキーとするメトリック値です。
-
-- **hits** (*list[AggregationHit]*) -
-
-    `TopHits` によって選択された代表 entity です。このレベルで `top_hits` が設定されていない場合、リストは空になります。
-
-- **sub_groups** (*list[AggregationBucket]*) -
-
-    `sub_aggregation` によって生成されるネストされたバケットです。リーフレベルではリストは空です。
-
-collection 値のプロパティはコピーを返すため、返されたリストや辞書を変更しても bucket オブジェクト自体は変更されません。
-
-## Example\{#example}
-
-```python
-result = client.search(
-    collection_name="products",
-    data=[query_vector],
-    anns_field="embedding",
-    search_aggregation=aggregation,
+results = client.search(
+    collection_name="docs",
+    data=[[0.1, 0.2]],
+    search_aggregation=agg,
 )
-
-for bucket in result.agg_buckets[0]:
-    print(bucket.key, bucket.count, bucket.metrics)
-    for hit in bucket.hits:
-        print(hit.pk, hit.score, hit.fields)
+for bucket in results[0][0]["aggregation"]["buckets"]:
+    print(
+        bucket["key"],
+        bucket["count"],
+    )
 ```

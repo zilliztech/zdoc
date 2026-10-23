@@ -4,12 +4,12 @@ slug: /python/python/Authentication-describe_role
 sidebar_label: "describe_role()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のロールの説明と権限を返します。 | Python | MilvusClient"
+description: "この操作は、特定のロールの説明を取得します。 | Python | MilvusClient"
 type: docx
-token: TYczdPuSNoV9lExR8iCcNIg9nGe
+token: KoC3dcgn8oiJkNx8uZNcHvE4nxe
 sidebar_position: 5
 keywords: 
   - Dense ベクトル
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-この操作は、特定のロールの説明と権限を返します。
+この操作は、特定のロールの説明を取得します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,22 +39,21 @@ import Admonition from '@theme/Admonition';
 describe_role(
     role_name: str,
     timeout: Optional[float] = None,
-    **kwargs,
+    **kwargs
 ) -> dict
 ```
 
 **パラメーター:**
 
-- **role_name** (*str*) -<br/>
-  **[必須]**<br/>
-  説明するロールの名前です。
+- **role_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  デフォルト: `None`<br/>
-  RPC の完了を待機する最大時間（秒）です。
+    **[必須]**
 
-- **kwargs** (*Any*) -<br/>
-  追加のリクエストコンテキストオプションです。
+    説明するロールの名前です。
+
+- **timeout** (*float | None*) -
+
+    この操作のタイムアウト時間です。これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -62,25 +61,62 @@ describe_role(
 
 **戻り値:**
 
-ロール、説明、権限を含む辞書です。
+ロール名、ロールの説明、およびロールに付与された権限を含む辞書です。
+
+**パラメーター:**
+
+- **role** (*str*) -
+
+    説明するロールの名前です。
+
+- **description** (*str*) -
+
+    ロールの説明です。
+
+- **privileges** (*list[dict]*) -
+
+    ロールに付与された権限です。各辞書には 1 件の付与情報が含まれます。
+
+    - **object_type** (*str*) -
+
+        ロールに付与されたリソースオブジェクトの型です。使用可能な値は コレクション、Global、User です。
+
+    - **object_name** (*str*) -
+
+        ロールに付与されたリソースオブジェクトの名前です。アスタリスク（&ast;）を使用することをお勧めします。
+
+    - **db_name** (*str*) -
+
+        ロールがアクセスできるデータベースの名前です。
+
+    - **role_name** (*str*) -
+
+        指定したロールの名前です。
+
+    - **privilege** (*str*) -
+
+        ロールに付与された権限の名前です。
+
+    - **grantor_name** (*str*) -
+
+        権限を付与したユーザーの名前です。
 
 **例外:**
 
-- **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
-
-describe_role の使用例を示します。
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-client.create_user("analyst", "Milvus123", description="Analytics account")
-client.update_user("analyst", description="Updated analytics account")
-client.create_role("read_only", description="Read-only role")
-client.alter_role("read_only", description="Updated read-only role")
-print(client.describe_user("analyst"))
-print(client.describe_role("read_only"))
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+roles = client.describe_role(role_name="reader")
+for item in roles:
+    print(
+        item.role_name,
+        item.description,
+    )
 ```

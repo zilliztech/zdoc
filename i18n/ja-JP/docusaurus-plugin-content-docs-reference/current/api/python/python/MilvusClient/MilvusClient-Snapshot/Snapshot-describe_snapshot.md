@@ -4,10 +4,10 @@ slug: /python/python/Snapshot-describe_snapshot
 sidebar_label: "describe_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所を含む、特定の snapshot に関する詳細なメタデータを取得します。 | Python | MilvusClient"
+description: "この操作は、特定のスナップショットに関する詳細なメタデータを取得します。これには、ソースコレクション、パーティション名、作成タイムスタンプ、ストレージの場所が含まれます。 | Python | MilvusClient"
 type: docx
 token: GF0yd9S4RoImivxbIlPcicEynQb
 sidebar_position: 2
@@ -31,26 +31,35 @@ import Admonition from '@theme/Admonition';
 
 # describe_snapshot()
 
-この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所を含む、特定の snapshot に関する詳細なメタデータを取得します。
+この操作は、特定のスナップショットに関する詳細なメタデータを取得します。これには、ソースコレクション、パーティション名、作成タイムスタンプ、ストレージの場所が含まれます。
 
 ## Request Syntax\{#request-syntax}
 
 ```python
 describe_snapshot(
-    snapshot_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> SnapshotInfo
 ```
 
 **PARAMETERS:**
 
-- **snapshot_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  説明対象の snapshot の名前。
+- **snapshot_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  RPC に許可する秒単位の任意の時間。
+    **[必須]**
+
+    詳細を取得するスナップショットの名前です。
+
+- **collection_name** (*str*) -
+
+    **[必須]**
+
+    スナップショットが属するコレクションの名前です。
+
+- **db_name** (*str*) -
+
+    コレクションを格納するデータベースの名前です。このパラメーターを空のままにすると、デフォルトのデータベースが使用されます。
+
+- **timeout** (*Optional[float]*) -
+
+    RPC に許可する時間を秒単位で指定するオプションです。
 
 **RETURN TYPE:**
 
@@ -58,50 +67,13 @@ describe_snapshot(
 
 **RETURNS:**
 
-以下のフィールドを持つ snapshot メタデータを含むデータクラス:
-
-```python
-{
-    'name': str,
-    'description': str,
-    'collection_name': str,
-    'partition_names': List[str],
-    'create_ts': int,
-    's3_location': str
-}
-```
-
-**PARAMETERS:**
-
-- **name** (*str*) - 
-
-    snapshot 名。
-
-- **description** (*str*) - 
-
-    snapshot の説明。
-
-- **collection_name** (*str*) - 
-
-    ソース collection 名。
-
-- **partition_names** (*List[str]*) - 
-
-    snapshot に含まれる partition 名の一覧。
-
-- **create_ts** (*int*) - 
-
-    ミリ秒単位の作成タイムスタンプ。
-
-- **s3_location** (*str*) - 
-
-    snapshot データの S3 保存場所。
+次のフィールドを含む、スナップショットメタデータを保持するデータクラスです。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    snapshot が存在しない場合、または操作が失敗した場合。
+    スナップショットが存在しない場合、または操作が失敗した場合です。スナップショットが存在しない場合、または操作が失敗した場合です。
 
 ## Examples\{#examples}
 
@@ -110,7 +82,10 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-info = client.describe_snapshot(snapshot_name="backup_20260418")
+info = client.describe_snapshot(
+    snapshot_name="backup_20260418",
+    collection_name="my_collection",
+)
 print(f"Snapshot: {info.name}")
 print(f"Collection: {info.collection_name}")
 print(f"Partitions: {info.partition_names}")

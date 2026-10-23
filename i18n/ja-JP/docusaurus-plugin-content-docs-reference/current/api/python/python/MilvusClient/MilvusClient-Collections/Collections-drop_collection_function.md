@@ -4,12 +4,12 @@ slug: /python/python/Collections-drop_collection_function
 sidebar_label: "drop_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、コレクションから既存の関数を削除します。 | Python | MilvusClient"
 type: docx
-token: F1mJdDLyzoMTrxxarPMcqPkqnqg
+token: MFoOd3DJEoRgbnxgAOdcVlecnQc
 sidebar_position: 24
 keywords: 
   - rag llm architecture
@@ -33,7 +33,13 @@ import Admonition from '@theme/Admonition';
 
 この操作は、コレクションから既存の関数を削除します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
+
+PyMilvus v3.0.2 以降では非推奨です。Milvus 3.0 以降では関数を個別に削除できないため、このメソッドは非推奨となりました。代わりに drop_function_field() を使用してください。このメソッドは、関数の出力フィールドとそのインデックスも削除します。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
 
 これは外部コレクションには適用されません。
 
@@ -50,39 +56,43 @@ client.drop_collection_function(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[必須]**
 
-    コレクションの名前。
+    コレクションの名前です。
 
 - **function_name** (*str*) -
 
     **[必須]**
 
-    削除する関数の名前。
+    削除する関数の名前です。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。None に設定すると、応答が返されたとき、またはエラーが発生したときにこの操作がタイムアウトすることを示します。
 
 - **kwargs** (*dict*) -
 
-    オプションの追加パラメータ。
+    オプションの追加パラメーターです。
 
 **戻り値の型:**
 
 *NoneType*
 
+**戻り値:**
+
+なし。
+
 **例外:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外が発生します。
+    この操作中にエラーが発生すると、この例外が発生します。この操作中にエラーが発生すると、この例外が発生します。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

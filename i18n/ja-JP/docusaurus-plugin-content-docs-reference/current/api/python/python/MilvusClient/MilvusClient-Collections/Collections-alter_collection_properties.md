@@ -18,7 +18,7 @@ keywords:
   - Faiss
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - alter_collection_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,6 +33,36 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定されたコレクションのプロパティを変更します。
 
+<Admonition type="info" title="Note">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
+<Admonition type="info" title="Note">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
 <Admonition type="info" title="Notes">
 
 これは外部コレクションには適用されません。
@@ -43,15 +73,9 @@ import Admonition from '@theme/Admonition';
 
 ```python
 alter_collection_properties(
-    self, 
-    collection_name: str, 
-    properties: dict, 
-    timeout: Optional[float] = None, 
-    **kwargs
-)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
@@ -59,33 +83,11 @@ alter_collection_properties(
 
 - **properties** (*dict*) -
 
-    プロパティとその新しい値を辞書で指定します。使用可能な辞書キーは次のとおりです。
+    辞書形式のプロパティとその新しい値です。辞書のキーとして使用できるものは次のとおりです。コレクション.ttl.seconds (int): コレクションの有効期間（TTL）を秒単位で指定します。ttl_field (str): エンティティレベルの TTL 期限切れの論理タイムスタンプとして使用する TIMESTAMPTZ フィールドの名前です。mmap.enabled (bool): コレクション内のすべてのフィールドの生データとインデックスに対して mmap を有効にするかどうかです。詳細は、Mmap-enabled Data Storage を参照してください。partitionkey.isolation (bool): パーティションキーの分離を有効にするかどうかです。詳細は、Use Partition Key を参照してください。dynamicfield.enabled (bool): 動的フィールドを有効にするかどうかです。詳細は、Dynamic Field を参照してください。allow_insert_auto_id (str): コレクションで AutoID が有効になっている場合に、コレクションがユーザー指定のプライマリキー値を受け入れることを許可するかどうかです。"true" に設定した場合: 挿入、アップサート、一括インポートでは、ユーザー指定のプライマリキーが存在すればそれが使用され、存在しなければプライマリキー値が自動生成されます。"false" に設定した場合: ユーザー指定のプライマリキー値は拒否または無視され、プライマリキー値は常に自動生成されます。デフォルトは "false" です。timezone (str): コレクションのデフォルトのタイムゾーンを設定します。値は有効な IANA タイムゾーン識別子である必要があります（例: Asia/Shanghai, America/Chicago, UTC）。詳細は、TIMESTAMPZ Field and Query を参照してください。
 
-    - **コレクション.ttl.seconds** (*int*) -
+- **timeout** (*Optional[float]*) -
 
-        コレクションの有効期間（TTL）を秒単位で指定します。
-
-    - **ttl_field** (*str*)
-
-        エンティティレベルの TTL 有効期限の論理タイムスタンプとして使用する `TIMESTAMPTZ` フィールドの名前です。
-
-    - **mmap.enabled** (*bool*) -
-
-        コレクション内のすべてのフィールドの生データとインデックスに対して mmap を有効にするかどうかを指定します。詳細は、[mmap を使用する](/docs/use-mmap) を参照してください。
-
-    - **partitionkey.isolation** (bool) -
-
-        パーティションキー分離を有効にするかどうかを指定します。詳細は、[Partition Key を使用する](/docs/use-partition-key) を参照してください。
-
-    - **dynamicfield.enabled** (bool) -
-
-        動的フィールドを有効にするかどうかを指定します。詳細は、[Dynamic Field](/docs/enable-dynamic-field) を参照してください。
-
-- **timeout** (*Optional[float]*) - 
-
-    この操作のタイムアウト時間です。
-
-    これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
+    この操作のタイムアウト期間です。これを None に設定すると、応答が到着したとき、またはエラーが発生したときに、この操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -93,31 +95,30 @@ alter_collection_properties(
 
 **戻り値:**
 
-*None*
+*None*。
 
 **例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合、特に指定された alias が存在しない場合に発生します。
+    この例外は、この操作中にエラーが発生した場合に発生します。特に、指定されたエイリアスが存在しない場合に発生します。この例外は、この操作中にエラーが発生した場合に発生します。特に、指定されたエイリアスが存在しない場合に発生します。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # upsert properties
-properties = {"collection.ttl.seconds": 500, "mmap.enabled": true}
+properties = {"collection.ttl.seconds": 500, "mmap.enabled": True}
 
 client.alter_collection_properties(
     collection_name="collection_name", 
     properties = properties
 )
 ```
-

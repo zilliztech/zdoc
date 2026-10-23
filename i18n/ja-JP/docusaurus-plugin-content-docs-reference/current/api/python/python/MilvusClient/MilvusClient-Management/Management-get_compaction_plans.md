@@ -4,12 +4,12 @@ slug: /python/python/Management-get_compaction_plans
 sidebar_label: "get_compaction_plans()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。 | Python | MilvusClient"
+description: "この操作は、特定の Compaction ジョブの Compaction プランを返します。これには、どのセグメントが結合されるかを示すマージプランが含まれます。 | Python | MilvusClient"
 type: docx
-token: Qa8ZdRkOKocH60xujcLcOxuBnkh
+token: XnCrdUF2MoACxExami4c5B5Hnph
 sidebar_position: 18
 keywords: 
   - HNSW
@@ -18,7 +18,7 @@ keywords:
   - ベクトルストア
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - get_compaction_plans()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,56 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。
-
-<Admonition type="info" title="Notes">
-
-これは managed コレクション にのみ適用されます。
-
-</Admonition>
+この操作は、特定の Compaction ジョブの Compaction プランを返します。これには、どのセグメントが結合されるかを示すマージプランが含まれます。
 
 ## リクエスト構文\{#request-syntax}
 
 ```python
-client.get_compaction_plans(
-    job_id: int,
-    timeout: float = None
-) -> CompactionPlans
+__init__(
+    compaction_id: int,
+    state: int,
+    collection_name: str = ""
+) -> None
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **job_id** (*int*) -
 
     **[必須]**
 
-    `compact()` によって返される Compaction ジョブの ID。
+    `compact()` によって返される Compaction ジョブの ID です。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着したとき、またはエラーが発生したときに、この操作はタイムアウトします。
-
-**戻り値の型:**
-
-*CompactionPlans*
+    この操作のタイムアウト時間です。これを None に設定すると、応答が到着するかエラーが発生したときにこの操作がタイムアウトすることを示します。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外が発生します。
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+plans = client.get_compaction_plans(compaction_id="449019091")
+print(
+    plans.collection_name,
+    plans.state,
 )
-
-job_id = client.compact(collection_name="my_collection")
-plans = client.get_compaction_plans(job_id=job_id)
-print(plans)
+for plan in plans.plans:
+    print(
+        plan.plan_id,
+        plan.trigger_id,
+    )
 ```

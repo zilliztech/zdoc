@@ -4,12 +4,12 @@ slug: /python/python/Function-verify
 sidebar_label: "verify()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、CollectionSchema で定義された関数の入力フィールドと出力フィールドを検証します。 | Python | MilvusClient"
 type: docx
-token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
+token: HR2Sd7RpWoy3Jrxt7zCcrUFjnmf
 sidebar_position: 5
 keywords: 
   - NLP
@@ -37,27 +37,21 @@ import Admonition from '@theme/Admonition';
 
 ```python
 verify(
-    schema: CollectionSchema
-)
 ```
-
-**パラメータ:**
-
-なし
 
 **戻り値の型:**
 
-なし
+*なし*
 
 **戻り値:**
 
-なし
+なし。
 
 **例外:**
 
-- `MilvusException`
+- **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
 
 ## 例\{#examples}
 

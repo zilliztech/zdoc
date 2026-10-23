@@ -4,12 +4,12 @@ slug: /python/python/Authentication-describe_user
 sidebar_label: "describe_user()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。 | Python | MilvusClient"
+description: "この操作は、特定のユーザーに関する情報を取得します。 | Python | MilvusClient"
 type: docx
-token: TwTnduPOioywHDx8hPQc80tRnKg
+token: M1KhdfoEDokSUIxwB8fcKBeMn2b
 sidebar_position: 6
 keywords: 
   - Milvus とは
@@ -17,7 +17,7 @@ keywords:
   - Milvus lite
   - Milvus ベンチマーク
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - クラウド
   - describe_user()
   - pymilvus30
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_user()
 
-ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。
+この操作は、特定のユーザーに関する情報を取得します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 describe_user(
@@ -43,52 +43,60 @@ describe_user(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **user_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  説明対象のユーザーアカウント名。
+- **user_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  デフォルト: `None`<br/>
-  RPC の完了を待機する最大時間（秒）。
+    **[必須]**
 
-- **kwargs** (*Any*) -<br/>
-  追加のリクエストコンテキストオプション。
+    説明対象のユーザーの名前です。
 
-**RETURN TYPE:**
+- **timeout** (*float | None*) -
+
+    この操作のタイムアウト時間です。これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-`user_name`、`roles`、`description` を含む辞書。ユーザーが見つからない場合は空の辞書を返します。
+ユーザー名、割り当てられたロール、および説明を含む辞書です。ユーザーが見つからない場合は、空の辞書を返します。
 
-- **user_name** (*str*) -<br/>
-  説明されたユーザーアカウントの名前。
+**パラメーター:**
 
-- **roles** (*list[str]*) -<br/>
-  ユーザーアカウントに割り当てられたロール。
+- **user_name** (*str*) -
 
-- **description** (*str*) -<br/>
-  ユーザーアカウントに保存されている説明。
+    説明対象のユーザーアカウントの名前です。
 
-**EXCEPTIONS:**
+- **roles** (*list[str]*) -
 
-- **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+    ユーザーアカウントに割り当てられたロールです。
 
-## Examples\{#examples}
+- **description** (*str*) -
+
+    ユーザーアカウントに保存されている説明です。
+
+**例外:**
+
+- **MilvusException**
+
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
+
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-user = client.describe_user("analyst")
-print(user)
-# {
-#     "user_name": "analyst",
-#     "roles": ["read_only"],
-#     "description": "Analytics account",
-# }
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+users = client.describe_user(user_name="alice")
+for item in users:
+    print(
+        item.user_name,
+        item.roles,
+        item.description,
+    )
 ```

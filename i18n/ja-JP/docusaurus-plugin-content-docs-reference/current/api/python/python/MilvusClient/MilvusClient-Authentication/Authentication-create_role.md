@@ -33,20 +33,17 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ロールベースのアクセス制御のためのロールを作成します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 create_role(
-    role_name: str,
-    timeout: Optional[float] = None
-) -> None
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     作成するロールの名前です。
 
@@ -54,23 +51,29 @@ create_role(
 
     この操作のタイムアウト時間です。
 
-**RETURN TYPE:**
+- **description** (*str*) -
+
+    作成するロールの説明です。デフォルトは空文字列です。
+
+**戻り値の型:**
 
 *None*
 
+**戻り値:**
+
 この操作は値を返しません。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 - **ParamError**
 
-    この例外は、パラメータ値が無効な場合に発生します。
+    この例外は、パラメーター値が無効な場合にスローされます。この例外は、パラメーター値が無効な場合にスローされます。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 client.create_role(role_name="analytics_reader")

@@ -4,18 +4,18 @@ slug: /python/python/Collections-alter_collection_function
 sidebar_label: "alter_collection_function()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクション内の既存の関数を新しい関数スキーマに置き換えることで変更します。 | Python | MilvusClient"
+description: "この操作は、コレクション内の既存の関数を新しい関数スキーマに置き換えて変更します。 | Python | MilvusClient"
 type: docx
-token: N9d9df9IIojLZDxft1HcU0mkn0b
+token: TBe0dMVZlogHEdxUs97cHDownUd
 sidebar_position: 22
 keywords: 
   - ベクトルデータベースの例
-  - rag ベクトルデータベース
-  - ベクトル db とは
-  - ベクトルデータベースとは
+  - RAG ベクトルデータベース
+  - ベクトル DB とは
+  - ベクトルデータベースとは何か
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_function()
 
-この操作は、コレクション内の既存の関数を新しい関数スキーマに置き換えることで変更します。
+この操作は、コレクション内の既存の関数を新しい関数スキーマに置き換えて変更します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
 
 これは外部コレクションには適用されません。
 
@@ -57,39 +57,43 @@ client.alter_collection_function(
 
     **[REQUIRED]**
 
-    コレクションの名前。
+    コレクションの名前です。
 
 - **function_name** (*str*) -
 
     **[REQUIRED]**
 
-    変更する関数の名前。
+    変更する関数の名前です。
 
-- **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
+- **function** (*[Function](Function/Function.md*) -
 
     **[REQUIRED]**
 
-    既存の関数スキーマを置き換える新しい関数スキーマ。
+    既存の関数スキーマを置き換える新しい関数スキーマです。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
 
 - **kwargs** (*dict*) -
 
-    オプションの追加パラメータ。
+    オプションの追加パラメータです。
 
 **戻り値の型:**
 
 *NoneType*
 
+**戻り値:**
+
+None。
+
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
+    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

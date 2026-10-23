@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-pin_snapshot_data
 sidebar_label: "pin_snapshot_data()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、ファイルをエクスポートまたはバックアップしている間にガベージコレクションによって削除されないよう、一定期間 snapshot データを固定します。 | Python | MilvusClient"
@@ -14,7 +14,7 @@ sidebar_position: 7
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトルデータベース
   - milvus db
   - zilliz
   - zilliz cloud
@@ -37,14 +37,6 @@ import Admonition from '@theme/Admonition';
 
 ```python
 pin_snapshot_data(
-    self,
-    snapshot_name: str,
-    collection_name: str,
-    db_name: str = "",
-    ttl_seconds: int = 0,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> int
 ```
 
 **パラメーター:**
@@ -55,7 +47,7 @@ pin_snapshot_data(
 
 - **collection_name** (*str*) -
 
-    snapshot を所有する collection。
+    snapshot を所有するコレクション。
 
 - **db_name** (*str*) -
 
@@ -63,7 +55,7 @@ pin_snapshot_data(
 
 - **ttl_seconds** (*int*) -
 
-    固定の存続時間（秒）。`0` を指定すると、サーバーのデフォルト TTL が使用されます。
+    固定の有効期間を秒単位で指定するオプションです。0 を指定すると、サーバーのデフォルト TTL が使用されます。
 
 - **timeout** (*Optional[float]*) -
 
@@ -77,20 +69,25 @@ pin_snapshot_data(
 
 *int*
 
-`unpin_snapshot_data()` を使用してこの固定を解除するために使う `pin_id`。
+**戻り値:**
+
+この固定を unpin_snapshot_data() で解放するために使用する pin_id です。
 
 **例外:**
 
 - **MilvusException**
 
-    snapshot を固定できない場合、またはリクエストが失敗した場合に発生します。
+    snapshot を固定できない場合、またはリクエストが失敗した場合にスローされます。snapshot を固定できない場合、またはリクエストが失敗した場合にスローされます。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20260509",

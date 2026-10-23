@@ -4,12 +4,12 @@ slug: /python/python/Function-add_function
 sidebar_label: "add_function()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、生データをベクトル表現に変換する関数を追加します。 | Python | MilvusClient"
 type: docx
-token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
+token: Mzq0dJGdSo4PBBxO3QLcjtjPnxf
 sidebar_position: 1
 keywords: 
   - 自然言語処理データベース
@@ -37,31 +37,29 @@ import Admonition from '@theme/Admonition';
 
 ```python
 add_function(
-   function: Function
-)
 ```
 
 **パラメーター:**
 
-- `function` (*[Function](./MilvusClient-Function)*)
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[必須]**
 
-    データをベクトル埋め込みに変換する `Function` クラスのインスタンスです。この関数はコレクションのスキーマに追加されます。
+    An instance of the Function class that converts data into ベクトル embeddings. This function will be added to the スキーマ of a コレクション.
 
 **戻り値の型:**
 
-*[CollectionSchema](./MilvusClient-CollectionSchema)*
+*CollectionSchema*
 
 **戻り値:**
 
-`CollectionSchema` オブジェクト
+A CollectionSchema object.
 
 **例外:**
 
-- `FunctionIncorrectType`
+- **FunctionIncorrectType**
 
-    `function` パラメーターの型が正しくない場合に、この例外が発生します。
+    This exception will be raised when the `function` parameter is of the incorrect type. This exception will be raised when the `function` parameter is of the incorrect type.
 
 ## 例\{#examples}
 
@@ -79,4 +77,3 @@ bm25_function = Function(
 
 schema.add_function(bm25_function)
 ```
-

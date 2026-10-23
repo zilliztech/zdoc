@@ -4,12 +4,12 @@ slug: /python/python/Function-to_dict
 sidebar_label: "to_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "`Function` オブジェクトの辞書表現を返す操作です。 | Python | MilvusClient"
 type: docx
-token: AmwJdW0z6opMPcxhMlBcYPIWn2M
+token: HacudytI2olONTxEtofcuXLin1f
 sidebar_position: 4
 keywords: 
   - lexical search
@@ -39,23 +39,19 @@ import Admonition from '@theme/Admonition';
 to_dict()
 ```
 
-**PARAMETERS:**
-
-なし
-
 **RETURN TYPE:**
 
 *dict*
 
 **RETURNS:**
 
-`Function` オブジェクトの辞書表現。
+Function オブジェクトの辞書表現。
 
 **EXCEPTIONS:**
 
-- `MilvusException`
+- **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## Examples\{#examples}
 

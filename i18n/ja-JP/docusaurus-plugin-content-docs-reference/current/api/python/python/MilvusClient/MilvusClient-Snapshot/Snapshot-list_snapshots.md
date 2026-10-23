@@ -4,17 +4,17 @@ slug: /python/python/Snapshot-list_snapshots
 sidebar_label: "list_snapshots()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての snapshot 名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属する snapshot を一覧表示できます。 | Python | MilvusClient"
+description: "この操作は、すべてのスナップショット名を一覧表示します。特定のコレクションに属するスナップショットを一覧表示するために、コレクション名でフィルタリングすることもできます。 | Python | MilvusClient"
 type: docx
 token: WgmLdM6nUogd7LxGtmfc5dBKnku
 sidebar_position: 6
 keywords: 
   - milvus ベクトルデータベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -31,29 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # list_snapshots()
 
-この操作はすべての snapshot 名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属する snapshot を一覧表示できます。
+この操作は、すべてのスナップショット名を一覧表示します。特定のコレクションに属するスナップショットを一覧表示するために、コレクション名でフィルタリングすることもできます。
 
 ## リクエスト構文\{#request-syntax}
 
 ```python
 list_snapshots(
-    collection_name: str = "",
-    timeout: Optional[float] = None,
-    **kwargs
-) -> List[str]
 ```
 
 **パラメータ:**
 
-- **collection_name** (*str*) -<br/>
-  snapshot をフィルタリングするための任意の collection 名です。空の場合は、すべての snapshot が一覧表示されます。
+- **collection_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  RPC に許可する秒単位の任意の時間です。
+    スナップショットをフィルタリングするためのオプションのコレクション名です。空の場合、すべてのスナップショットが一覧表示されます。
+
+- **db_name** (*str*) -
+
+    スナップショットをフィルタリングするためのオプションのデータベース名です。空の場合、デフォルトのデータベースが使用されます。
+
+- **timeout** (*Optional[float]*) -
+
+    RPC に許容される時間を秒単位で指定するオプションです。
 
 **戻り値の型:**
 
 *List[str]*
+
+**戻り値:**
 
 snapshot 名のリスト。
 
@@ -61,7 +65,7 @@ snapshot 名のリスト。
 
 - **MilvusException**
 
-    操作が失敗した場合。
+    操作が失敗した場合。操作が失敗した場合。
 
 ## 例\{#examples}
 
@@ -75,6 +79,6 @@ snapshots = client.list_snapshots(collection_name="my_collection")
 print(snapshots)
 # ['backup_20260401', 'backup_20260418']
 
-# List all snapshots across all collections
-all_snapshots = client.list_snapshots()
+# List snapshots for another collection
+all_snapshots = client.list_snapshots(collection_name="my_other_collection")
 ```

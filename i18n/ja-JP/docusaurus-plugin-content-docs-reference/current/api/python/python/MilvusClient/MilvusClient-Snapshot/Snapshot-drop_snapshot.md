@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作はスナップショットを完全に削除します。削除されると、スナップショットデータは復元できません。 | Python | MilvusClient"
@@ -37,30 +37,43 @@ import Admonition from '@theme/Admonition';
 
 ```python
 drop_snapshot(
-    snapshot_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-) -> None
 ```
 
 **PARAMETERS:**
 
-- **snapshot_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  削除するスナップショットの名前。
+- **snapshot_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  RPC の実行に許可するタイムアウト時間（秒単位）。
+    **[必須]**
+
+    削除するスナップショットの名前です。
+
+- **collection_name** (*str*) -
+
+    **[必須]**
+
+    スナップショットが属するコレクションの名前です。
+
+- **db_name** (*str*) -
+
+    コレクションを格納するデータベースの名前です。このパラメーターを空のままにすると、デフォルトのデータベースが使用されます。
+
+- **timeout** (*Optional[float]*) -
+
+    RPC に許可する秒単位の任意の時間です。
 
 **RETURN TYPE:**
 
 *None*
 
+**戻り値:**
+
+なし。
+
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    スナップショットが存在しないか、操作が失敗した場合。
+    スナップショットが存在しない場合、または操作が失敗した場合。スナップショットが存在しない場合、または操作が失敗した場合。
 
 ## Examples\{#examples}
 
@@ -69,5 +82,8 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-client.drop_snapshot(snapshot_name="backup_20260401")
+client.drop_snapshot(
+    snapshot_name="backup_20260401",
+    collection_name="my_collection",
+)
 ```

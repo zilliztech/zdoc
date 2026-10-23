@@ -4,12 +4,12 @@ slug: /python/python/StructFieldSchema-to_dict
 sidebar_label: "to_dict()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、StructFieldSchema オブジェクトを辞書表現に変換します。 | Python | MilvusClient"
 type: docx
-token: Mq7idUip3ofMQmxj55XcB98nn0b
+token: Q2ArdGwoDoZcAxxsVTRcqrudnvg
 sidebar_position: 4
 keywords: 
   - 非構造化データとは
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-この操作は、**[StructFieldSchema](./MilvusClient-StructFieldSchema)** オブジェクトを辞書表現に変換します。
+この操作は、**StructFieldSchema** オブジェクトを辞書表現に変換します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,23 +39,19 @@ import Admonition from '@theme/Admonition';
 to_dict()
 ```
 
-**パラメータ:**
-
-なし
-
 **戻り値の型:**
 
 *dict*
 
 **戻り値:**
 
-collection スキーマの辞書表現。
+コレクションスキーマの辞書表現です。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外がスローされます。
+    この操作中にエラーが発生した場合、この例外が発生します。この操作中にエラーが発生した場合、この例外が発生します。
 
 ## 例\{#examples}
 
@@ -83,5 +79,5 @@ schema = StructFieldSchema(
 
 # Call to_dict() to get a dictionary representation of the schema 
 
-schema_dict = schema.to_dict()  
+schema_dict = schema.to_dict()
 ```

@@ -4,18 +4,18 @@ slug: /python/python/Vector-TopHits
 sidebar_label: "TopHits"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`TopHits` インスタンスは、各 `SearchAggregation` バケットから返される代表エンティティを設定します。 | Python | MilvusClient"
+description: "TopHits インスタンスは、各 SearchAggregation バケットから返される代表エンティティを設定します。 | Python | MilvusClient"
 type: docx
 token: PszSdqvtRo4t96xrW0ycWlVAnfc
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - milvus オープンソース
   - milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトルデータベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,50 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # TopHits
 
-`TopHits` インスタンスは、各 `SearchAggregation` バケットから返される代表エンティティを設定します。
+TopHits インスタンスは、各 SearchAggregation バケットから返される代表エンティティを設定します。
+
+## リクエスト構文\{#request-syntax}
 
 ```python
-class pymilvus.TopHits
-```
-
-## コンストラクタ\{#constructor}
-
-```python
-TopHits(
+__init__(
     size: int,
-    sort: list[dict[str, str]] | None = None,
+    sort: Optional[List[Dict[str, str]]] = None
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **size** (*int*) **[REQUIRED]** -
+- **size** (*int*) -
 
-    各バケットから返される代表エンティティの最大数。値は正の整数である必要があります。
+    **[必須]**
+
+    各バケットから返される代表エンティティの最大数です。値は正の整数である必要があります。
 
 - **sort** (*list[dict[str, str]] | None*) -
 
-    リストの順序で評価されるヒットの並び順ルール。各項目は、スカラーフィールド名または `_score` を `"asc"` または `"desc"` にマッピングする単一キーの辞書です。省略した場合、サーバーはデフォルトのヒット順序を使用します。
+    リストの順序で評価されるヒットの並び順ルールです。各項目は、フィールド名または _score を "asc" または "desc" にマッピングする単一キーの辞書です。
 
-**RETURN TYPE:**
+**例外:**
 
-*TopHits*
+- **MilvusException**
 
-**EXCEPTIONS:**
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。失敗の正確な理由については、サーバーのエラーメッセージを確認してください。
 
-- **ParamError** - `size` が正の整数でない場合、または `sort` が有効な方向を持つ単一キー辞書のリストでない場合に発生します。
-
-## 例\{#example}
+## 例\{#examples}
 
 ```python
-from pymilvus import SearchAggregation, TopHits
+from pymilvus import TopHits
 
-aggregation = SearchAggregation(
-    fields=["brand"],
-    size=10,
-    top_hits=TopHits(
-        size=3,
-        sort=[{"rating": "desc"}, {"_score": "desc"}],
-    ),
+top = TopHits(
+    size=3,
+    sort=[{"_score": "desc"}],
 )
 ```

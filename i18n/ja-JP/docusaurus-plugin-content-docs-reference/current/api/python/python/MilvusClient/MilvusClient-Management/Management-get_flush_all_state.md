@@ -4,12 +4,12 @@ slug: /python/python/Management-get_flush_all_state
 sidebar_label: "get_flush_all_state()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "flush-all 操作が完了したかどうかを返します。`flushall()` を呼び出した後に、flush のステータスを確認するために使用します。 | Python | MilvusClient"
 type: docx
-token: G31wdmzVFo687JxZTAGctQlKnir
+token: Y1ZHdwi2wotA3wxwZGsc0Nsnnvc
 sidebar_position: 20
 keywords: 
   - AI チャットボット
@@ -43,15 +43,22 @@ import Admonition from '@theme/Admonition';
 
 ```python
 client.get_flush_all_state(
+    flush_all_ts: int,
     timeout: float = None
 ) -> bool
 ```
 
 **パラメーター:**
 
-- **timeout** (*float* | *None*) -
+- **flush_all_ts** (*int*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するとき、または何らかのエラーが発生したときに、この操作はタイムアウトします。
+    **[必須]**
+
+    flush-all 操作によって返され、対象の flush-all ラウンドを識別するタイムスタンプです。
+
+- **timeout** (*float | None*) -
+
+    この操作のタイムアウト時間です。これを None に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -59,15 +66,13 @@ client.get_flush_all_state(
 
 **戻り値:**
 
-flush-all 操作が完了している場合は **True**、それ以外の場合は **False** です。
-
 **例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -80,6 +85,6 @@ client = MilvusClient(
 client.flush_all()
 
 # Check if flush completed
-is_done = client.get_flush_all_state()
+is_done = client.get_flush_all_state(flush_all_ts=0)
 print(is_done)  # True or False
 ```

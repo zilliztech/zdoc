@@ -4,12 +4,12 @@ slug: /python/python/Collections-add_collection_field
 sidebar_label: "add_collection_field()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、既存のコレクションを再作成することなく、新しいスカラーフィールドを追加します。内部スキーマ同期により、このフィールドは最小限の遅延でほぼ即座に利用可能になります。 | Python | MilvusClient"
+description: "この操作は、既存のコレクションを再作成せずに、新しいスカラーフィールドを追加します。内部スキーマ同期により、このフィールドは最小限の遅延でほぼ即座に利用可能になります。 | Python | MilvusClient"
 type: docx
-token: IquldHhyGo9s4IxF3cicOXGnnNf
+token: MJmwdWRwgoLKtExkF6bcKBPTnQh
 sidebar_position: 20
 keywords: 
   - マルチモーダル RAG
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_field()
 
-この操作は、既存のコレクションを再作成することなく、新しいスカラーフィールドを追加します。内部スキーマ同期により、このフィールドは最小限の遅延でほぼ即座に利用可能になります。
+この操作は、既存のコレクションを再作成せずに、新しいスカラーフィールドを追加します。内部スキーマ同期により、このフィールドは最小限の遅延でほぼ即座に利用可能になります。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
 
-コレクションで動的フィールドが有効になっている状態で、既存の動的フィールドのキーと同じ名前の静的フィールドを追加すると、静的フィールドがその動的フィールドのキーをマスクします。元の動的な値には、`$meta['field_name']` 構文を使用して引き続きアクセスできます。
+コレクションで動的フィールドが有効になっており、既存の動的フィールドのキーと同じ名前の静的フィールドを追加すると、静的フィールドがその動的フィールドのキーをマスクします。元の動的な値には、$meta['field_name'] 構文を使用して引き続きアクセスできます。
 
 </Admonition>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" title="Note">
 
 これは外部コレクションには適用されません。
 
@@ -49,77 +49,55 @@ import Admonition from '@theme/Admonition';
 
 ```python
 add_collection_field(
-    collection_name: str,
-    timeout: Optional[float] = None,
-    **kwargs
-)
 ```
 
-**パラメーター:**
+**パラメーター：**
 
-- **collection_name** *(string)* –
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
     対象のコレクションの名前。
 
-- **field_name** *(string)* –
+- **field_name** (*string*) -
 
     **[REQUIRED]**
 
     新しいフィールドの名前。
 
-- **data_type** *(DataType)* –
+- **data_type** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
     新しいフィールドのデータ型。サポートされている型については、DataType を参照してください。
 
-- **desc** *(string, optional)* –
+- **desc** (*string, optional*) -
 
     フィールドの簡単な説明。
 
-- **timeout** *(float)* –
+- **timeout** (*float*) -
 
-    RPC リクエストのタイムアウト（秒）。`None` の場合、この呼び出しは無期限に待機します。
+    タイムアウト i。
 
-- **kwargs** *(dict, optional)* –
+- **kwargs** (*dict, optional*) -
 
-    追加のパラメーターは以下のとおりです。
+    追加のパラメーターは以下のとおりです。nullable（bool）：動的に追加されたフィールドでは、新しいフィールドの値を持たない既存のエンティティに対応するため、True に設定する必要があります。default_value（DataType 固有）：データ挿入時に値が指定されない場合に使用される、このフィールドのデフォルト値です。max_length（int）：DataType.VARCHAR フィールドで必須です。文字列に許可される最大バイト長（1～65,535）を設定します。element_type（DataType）：DataType.ARRAY フィールドで必須です。配列内の要素のデータ型を指定します。max_capacity（int）：DataType.ARRAY フィールドで必須です。配列内の要素の最大数を定義します。
 
-    - **nullable** *(bool)*:
-
-        動的に追加されるフィールドでは、新しいフィールドの値を持たない既存のエンティティに対応するため、`True` に設定する必要があります。
-
-    - **default_value** *(DataType-specific)*:
-
-        データ挿入時に値が指定されなかった場合に使用される、このフィールドのデフォルト値。
-
-    - **max_length** *(int)*:
-
-        `DataType.VARCHAR` フィールドで必須です。文字列に許可される最大バイト長（1 ～ 65,535）を設定します。
-
-    - **element_type** *(DataType)*:
-
-        `DataType.ARRAY` フィールドで必須です。配列内の要素のデータ型を指定します。
-
-    - **max_capacity** *(int)*:
-
-        `DataType.ARRAY` フィールドで必須です。配列内の要素の最大数を定義します。
-
-**戻り値の型:**
+**戻り値の型：**
 
 *None*
 
-**例外:**
+**戻り値：**
+
+**例外：**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
+    この操作中に何らかのエラーが発生した場合、この例外が送出されます。この操作中に何らかのエラーが発生した場合、この例外が送出されます。
 
 ## 例\{#examples}
 
-**Example 1:** 基本的な nullable フィールドを追加する
+例 1：基本的な nullable フィールドを追加する
 
 ```python
 client.add_collection_field(
@@ -130,7 +108,7 @@ client.add_collection_field(
 )
 ```
 
-<strong>Example 2:</strong> デフォルト値付きのフィールドを追加する
+例 2：デフォルト値付きのフィールドを追加する
 
 ```python
 client.add_collection_field(

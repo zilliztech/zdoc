@@ -4,7 +4,7 @@ slug: /python/python/Snapshot-list_restore_snapshot_jobs
 sidebar_label: "list_restore_snapshot_jobs()"
 beta: PRIVATE
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じてコレクション名でフィルタリングし、特定のコレクションを対象とする復元ジョブを確認できます。 | Python | MilvusClient"
@@ -15,7 +15,7 @@ keywords:
   - knn algorithm
   - HNSW
   - What is unstructured data
-  - Vector embeddings
+  - ベクトル埋め込み
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,19 +37,21 @@ import Admonition from '@theme/Admonition';
 
 ```python
 list_restore_snapshot_jobs(
-    collection_name: str = "",
-    timeout: Optional[float] = None,
-    **kwargs
-) -> List[RestoreSnapshotJobInfo]
 ```
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -<br/>
-  復元ジョブをフィルタリングするための任意のコレクション名です。空の場合は、すべての復元ジョブが一覧表示されます。
+- **collection_name** (*str*) -
 
-- **timeout** (*Optional[float]*) -<br/>
-  RPC に許可する任意のタイムアウト時間（秒単位）です。
+    復元ジョブをフィルタリングするためのオプションのコレクション名です。空の場合、すべての復元ジョブが一覧表示されます。
+
+- **db_name** (*str*) -
+
+    復元ジョブをフィルタリングするためのオプションのデータベース名です。空の場合、デフォルトのデータベースが使用されます。
+
+- **timeout** (*Optional[float]*) -
+
+    RPC に許容される時間を秒単位で指定するオプションです。
 
 **RETURN TYPE:**
 
@@ -57,65 +59,13 @@ list_restore_snapshot_jobs(
 
 **RETURNS:**
 
-RestoreSnapshotJobInfo オブジェクトのリストを返します。各オブジェクトには、以下のフィールドを持つ復元ジョブ情報が含まれます。
-
-```python
-{
-    'job_id': int,
-    'snapshot_name': str,
-    'db_name': str,
-    'collection_name': str,
-    'state': str,
-    'progress': int,
-    'reason': str,
-    'start_time': int,
-    'time_cost': int
-}
-```
-
-**PARAMETERS:**
-
-- **job_id** (*int*) -
-
-    復元ジョブ ID。
-
-- **snapshot_name** (*str*) -
-
-    復元対象のスナップショット名。
-
-- **db_name** (*str*) -
-
-    対象データベース名。
-
-- **collection_name** (*str*) -
-
-    対象コレクション名。
-
-- **state** (*str*) -
-
-    現在の状態。指定可能な値: *RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed*。
-
-- **progress** (*int*) -
-
-    進行率のパーセンテージ（0～100）。
-
-- **reason** (*str*) -
-
-    ジョブが失敗した場合のエラー理由。
-
-- **start_time** (*int*) -
-
-    開始タイムスタンプ（ミリ秒）。
-
-- **time_cost** (*int*) -
-
-    所要時間（ミリ秒）。
+RestoreSnapshotJobInfo オブジェクトのリストです。各オブジェクトには、以下のフィールドを含む復元ジョブ情報が格納されます。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    操作が失敗した場合。
+    操作が失敗した場合。操作が失敗した場合。
 
 ## Examples\{#examples}
 

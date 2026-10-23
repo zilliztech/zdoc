@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、パスワードを使用してユーザーを作成します。 | Python | MilvusClient"
+description: "この操作はユーザーを作成します。 | Python | MilvusClient"
 type: docx
 token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_user()
 
-この操作は、パスワードを使用してユーザーを作成します。
+この操作はユーザーを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,49 +39,52 @@ import Admonition from '@theme/Admonition';
 create_user(
     user_name: str,
     password: str,
-    timeout: Optional[float] = None
-) -> None
+    timeout: Optional[float] = None,
+    description: Optional[str] = None,
+    **kwargs
+)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **user_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    作成するユーザーの名前。
+    作成するユーザーの名前です。
 
 - **password** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    ユーザーのパスワード。
+    作成するユーザーのパスワードです。
 
-- **timeout** (*float*) -
+- **description** (*Optional[str]*) -
 
-    この操作のタイムアウト時間。
+    作成するユーザーの説明です。
 
-**RETURN TYPE:**
+- **timeout** (*float | None*) -
 
-*None*
+    この操作のタイムアウト期間です。これを None に設定すると、応答が到着した場合またはエラーが発生した場合に、この操作がタイムアウトすることを示します。
 
-この操作は値を返しません。
-
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
-
-- **ParamError**
-
-    この例外は、パラメーター値が無効な場合にスローされます。
+    サーバーがリクエストを拒否した場合、または RPC が失敗した場合にスローされます。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 
 ```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
 client.create_user(
-    user_name="analyst_user",
-    password="P@ssw0rd!",
+    user_name="alice",
+    password="P@ssw0rd",
+    description="Analytics team",
 )
 ```

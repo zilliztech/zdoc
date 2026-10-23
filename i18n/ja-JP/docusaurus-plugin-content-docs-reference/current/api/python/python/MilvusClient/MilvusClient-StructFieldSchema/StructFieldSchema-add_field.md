@@ -4,16 +4,16 @@ slug: /python/python/StructFieldSchema-add_field
 sidebar_label: "add_field()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、構造体配列フィールド内の構造体要素のスキーマにフィールドを追加します。 | Python | MilvusClient"
 type: docx
-token: Up73d8d78oPM2FxkvlIcuxeBn9g
+token: ACHhd1AsKoJaHIxqnNfcV8ljnpd
 sidebar_position: 1
 keywords: 
   - Milvus とは
-  - Milvus database
+  - Milvus データベース
   - Milvus lite
   - Milvus benchmark
   - zilliz
@@ -37,32 +37,25 @@ import Admonition from '@theme/Admonition';
 
 ```python
 add_field(
-    field_name: str,
-    datatype: DataType
-)
 ```
 
 **PARAMETERS:**
 
-- **field_name** (*string*) - 
+- **field_name** (*string*) -
 
     **[REQUIRED]**
 
     フィールド名。
 
-- **[datatype](./Collections-DataType)** (*[DataType](./Collections-DataType)*) - 
+- **datatype** (*[DataType](../DataType.md*) -
 
     **[REQUIRED]**
 
-    フィールドのデータ型。
-
-    さまざまなフィールドのデータ型を選択する際には、次のオプションから選択できます。詳細については、[Array of Structs](/docs/use-array-of-structs) を参照してください。
+    オプション（&ast;） - フィールドのデータ型です。異なるフィールドのデータ型を選択する場合は、次のオプションから選択できます。詳細は、Array of Structs を参照してください。
 
 - **max_length** (*int*) -
 
-    挿入可能な文字列の最大バイト長。マルチバイト文字（例: Unicode 文字）は 1 文字あたり 1 バイトを超える場合があるため、挿入する文字列のバイト長が指定された制限を超えないようにしてください。値の範囲: [1, 65,535]。
-
-    これは **DataType.VARCHAR** フィールドでは必須です。
+    挿入できる文字列の最大バイト長です。マルチバイト文字（Unicode 文字など）は 1 文字あたり複数バイトを占める場合があるため、挿入する文字列のバイト長が指定した上限を超えないようにしてください。値の範囲は [1, 65,535] です。これは DataType.VARCHAR フィールドでは必須です。
 
 - **dim** (*int*) -
 
@@ -70,7 +63,7 @@ add_field(
 
 - **mmap_enabled** (*bool*) -
 
-    Milvus がフィールドデータを完全にロードする代わりにメモリにマップするかどうか。設定の詳細については、MMap-enabled Data Storage を参照してください。
+    このフラグは、he かどうかを示します。
 
 **RETURN TYPE:**
 
@@ -78,13 +71,13 @@ add_field(
 
 **RETURNS:**
 
-スキーマに追加されたフィールドを含む **[StructFieldSchema](./MilvusClient-StructFieldSchema)** オブジェクト。
+StructFieldSchema オブジェクトには、スキーマに追加されたフィールドが含まれます。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合に、この例外がスローされます。
+    この例外は、この操作中にエラーが発生した場合にスローされます。この例外は、この操作中にエラーが発生した場合にスローされます。
 
 ## Examples\{#examples}
 

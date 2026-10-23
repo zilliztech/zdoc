@@ -4,12 +4,12 @@ slug: /python/python/Management-flush_all
 sidebar_label: "flush_all()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、現在のデータベース内のすべてのコレクションをフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。 | Python | MilvusClient"
 type: docx
-token: QejKdv2qKo97mQxEV0CcaSM5nLh
+token: YaXGd43eqog2RExt8btcwxQOn0f
 sidebar_position: 17
 keywords: 
   - ナレッジベース
@@ -33,12 +33,6 @@ import Admonition from '@theme/Admonition';
 
 この操作は、現在のデータベース内のすべてのコレクションをフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。
 
-<Admonition type="info" title="Notes">
-
-これはマネージドコレクションにのみ適用されます。
-
-</Admonition>
-
 ## リクエスト構文\{#request-syntax}
 
 ```python
@@ -49,21 +43,25 @@ client.flush_all(
 
 **パラメーター:**
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着したとき、または何らかのエラーが発生したときに、この操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを None に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
 *NoneType*
 
+**戻り値:**
+
+なし。
+
 **例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## 例\{#example}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

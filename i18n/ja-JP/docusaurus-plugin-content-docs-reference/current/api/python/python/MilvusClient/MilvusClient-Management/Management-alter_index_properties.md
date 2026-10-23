@@ -4,18 +4,18 @@ slug: /python/python/Management-alter_index_properties
 sidebar_label: "alter_index_properties()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された index プロパティを変更します。 | Python | MilvusClient"
+description: "この操作は、指定されたインデックスプロパティを変更します。 | Python | MilvusClient"
 type: docx
-token: QvyHdbEHholEqXxypKNcHHD5n0c
+token: GzNUdJIhVoWjgLxEimrctGvUnJg
 sidebar_position: 14
 keywords: 
-  - オープンソース vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - オープンソースのベクトルデータベース
+  - ベクトルインデックス
+  - ベクトルデータベース オープンソース
+  - オープンソースのベクトル DB
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,44 +31,51 @@ import Admonition from '@theme/Admonition';
 
 # alter_index_properties()
 
-この操作は、指定された index プロパティを変更します。
+この操作は、指定されたインデックスプロパティを変更します。
+
+<Admonition type="info" title="Notes">
+
+このメソッドは、専用のサービングクラスターとオンデマンドコンピュートにのみ適用されます。 
+
+- サービングクラスター内のコレクションでこの操作を行うには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- オンデマンドコンピュート用のコレクションでこの操作を行うには、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためにオンデマンドクラスターにアタッチするセッションを作成してください。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
 ```python
 alter_index_properties(
-    self,
-    collection_name: str,
-    index_name: str,
-    properties: dict,
-    timeout: Optional[float] = None,
-    **kwargs,
-)
 ```
 
 **PARAMETERS:**
 
 - **collection_name** (*str*) -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - **index_name** (*str*) -
 
-    変更する index ファイルの名前。
+    変更するインデックスファイルの名前です。
 
 - **properties** (*dict*) -
 
-    この操作後のプロパティとその値です。変更可能なプロパティには次のものがあります。
+    この操作後のプロパティとその値です。変更できるプロパティは次のとおりです。mmap.enabled (bool): 指定したインデックスに対して mmap を有効にするかどうかです。これを true に設定すると、指定したインデックスがディスクにオフロードされます。詳細は、Mmap-enabled Data Storage を参照してください。
 
-    - **mmap.enabled** (*bool*) -
+- **timeout** (*Optional[float]*) -
 
-        指定された index に対して mmap を有効にするかどうか。これを `true` に設定すると、指定された index はディスクにオフロードされます。詳細については、[Use mmap](/docs/use-mmap) を参照してください。
-
-- **timeout** (*Optional[float]*) - 
-
-    この操作のタイムアウト時間。
-
-    これを None に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **RETURN TYPE:**
 
@@ -76,13 +83,13 @@ alter_index_properties(
 
 **RETURNS:**
 
-None
+なし。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## Examples\{#examples}
 
@@ -91,12 +98,12 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # update properties
-properties = {"mmap.enabled": true}
+properties = {"mmap.enabled": True}
 
 client.alter_index_properties(
     collection_name="collection_name",
@@ -104,4 +111,3 @@ client.alter_index_properties(
     properties = properties
 )
 ```
-

@@ -4,12 +4,12 @@ slug: /python/python/Function-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、辞書表現から `Function` オブジェクトを構築します。 | Python | MilvusClient"
 type: docx
-token: Ulypd24byoDBOpxGnnJcbF3Nnkb
+token: I0EbdzommoeSo7xQSeXcRXeanfg
 sidebar_position: 2
 keywords: 
   - ベクトルデータベースとは
@@ -37,15 +37,13 @@ import Admonition from '@theme/Admonition';
 
 ```python
 construct_from_dict(
-    raw: dict
-)
 ```
 
 **パラメーター:**
 
-- `raw` (*dict*)
+- **raw** (*dict*) -
 
-    collection schema を構築するための生データを含む辞書。
+    コレクションスキーマを構築するための生データを含む辞書です。
 
 **戻り値の型:**
 
@@ -53,13 +51,13 @@ construct_from_dict(
 
 **戻り値:**
 
-`Function` オブジェクト。
+Function オブジェクトです。
 
 **例外:**
 
-- `MilvusException`
+- **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#examples}
 
@@ -78,4 +76,3 @@ function = Function.construct_from_dict(function_dict)
 
 print(function)
 ```
-

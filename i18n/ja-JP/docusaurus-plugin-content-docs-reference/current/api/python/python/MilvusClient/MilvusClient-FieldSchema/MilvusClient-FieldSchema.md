@@ -37,29 +37,31 @@ import Admonition from '@theme/Admonition';
 
 ```python
 FieldSchema(
-    name: str,
-    dtype: DataType,
-    description: str = "",
-    **kwargs
-)
 ```
 
 **パラメーター:**
 
-- **name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  フィールドの名前。
+- **name** (*str*) -
 
-- **dtype** ([DataType](./Collections-DataType)) -<br/>
-  **[REQUIRED]**<br/>
-  フィールドのデータ型。
+    **[REQUIRED]**
 
-- **description** (*str*) -<br/>
-  デフォルト: `""`<br/>
-  フィールドの説明。
+    フィールドの名前。
 
-- **kwargs** (*Any*) -<br/>
-  追加のフィールドオプション。
+- **dtype** (*[DataType](../DataType.md*) -
+
+    **[REQUIRED]**
+
+    フィールドのデータ型を指定するオプションです。
+
+- **description** (*str*) -
+
+    デフォルト: `""`
+
+    フィールドの説明。
+
+- **kwargs** (*Any*) -
+
+    追加のフィールドオプション。
 
 **戻り値の型:**
 
@@ -71,8 +73,9 @@ FieldSchema(
 
 **例外:**
 
-- **MilvusException**<br/>
-  指定されたフィールドオプションが無効な場合に発生します。無効なデータ型またはフィールド制約の詳細については、例外メッセージを確認してください。
+- **MilvusException**
+
+    指定されたフィールドオプションが無効な場合に発生します。無効なデータ型またはフィールド制約の詳細については、例外メッセージを確認してください。指定されたフィールドオプションが無効な場合に発生します。無効なデータ型またはフィールド制約の詳細については、例外メッセージを確認してください。
 
 ## 例\{#examples}
 
@@ -82,8 +85,16 @@ FieldSchema(
 from pymilvus import CollectionSchema, DataType, FieldSchema
 
 schema = CollectionSchema(fields=[
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
+    FieldSchema(
+        name="id",
+        dtype=DataType.INT64,
+        is_primary=True,
+    ),
+    FieldSchema(
+        name="vector",
+        dtype=DataType.FLOAT_VECTOR,
+        dim=3,
+    ),
 ])
 print(schema)
 ```

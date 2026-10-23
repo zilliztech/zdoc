@@ -4,12 +4,12 @@ slug: /python/python/Management-release_collection
 sidebar_label: "release_collection()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、特定のコレクションのデータをメモリから解放します。 | Python | MilvusClient"
 type: docx
-token: PRR7dRfi8o1s61xFRovccAdRnHe
+token: QT0QdN7aQoqWBZxbkAic3EPDnLK
 sidebar_position: 13
 keywords: 
   - ベクトルデータベースとは
@@ -33,12 +33,6 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定のコレクションのデータをメモリから解放します。
 
-<Admonition type="info" title="Notes">
-
-これは管理対象のコレクションにのみ適用されます。
-
-</Admonition>
-
 ## リクエスト構文\{#request-syntax}
 
 ```python
@@ -56,11 +50,9 @@ release_collection(
 
     コレクションの名前。
 
-- **timeout** (*float* | *None*) -
+- **timeout** (*float | None*) -
 
-    この操作のタイムアウト時間。 
-
-    これを **None** に設定すると、いずれかのレスポンスが返されるか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを None に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -68,13 +60,13 @@ release_collection(
 
 **戻り値:**
 
-なし
+なし。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#examples}
 
@@ -82,8 +74,8 @@ release_collection(
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 # 1. Create schema
@@ -93,7 +85,11 @@ schema = MilvusClient.create_schema(
 )
 
 # 2. Add fields to schema
-schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(
+    field_name="my_id",
+    datatype=DataType.INT64,
+    is_primary=True,
+)
 
 # {
 #     'auto_id': False, 
@@ -109,7 +105,11 @@ schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 #     ]
 # }
 
-schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+schema.add_field(
+    field_name="my_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5,
+)
 
 # {
 #     'auto_id': False, 
@@ -152,7 +152,7 @@ index_params.add_index(
     field_name="my_vector", 
     index_type="IVF_FLAT",
     metric_type="L2",
-    params={nlist: 1024}
+    params={"nlist": 1024}
 )
 
 # 6. Create indexes
@@ -185,11 +185,3 @@ client.get_load_state(
 
 # {'state': <LoadState: NotLoad>}
 ```
-
-## 関連メソッド\{#related-methods}
-
-- [get_load_state()](./Management-get_load_state)
-
-- [load_collection()](./Management-load_collection)
-
-- [refresh_load()](./Management-refresh_load)
