@@ -248,20 +248,24 @@ function isTranslationFile(relative) {
   return TRANSLATION_ROOTS.some(root => relative.startsWith(`${root}/`))
 }
 
+// The baseline identity covers only the tutorial trees this lane owns. The
+// ja-JP translation cache is shared with every other ja-JP group and moves
+// legitimately whenever one of them publishes between the source checkpoint
+// and this run, so it cannot be held to the checkpoint tree; each batch still
+// carries its own cache delta, which composes three-way at apply time.
 function normalizedBaselineIdentity(manifest) {
   if (!manifest || ![2, 3].includes(manifest.schemaVersion) || manifest.stage !== 'translation' || manifest.group !== 'guides') throw new Error('Normalized baseline requires a validated schema 2 or 3 Guides translation manifest')
-  const files = manifest.files.filter(entry => isMutablePath(entry.path))
+  const files = manifest.files.filter(entry => isTranslationFile(entry.path))
     .map(entry => ({ path: entry.path, size: entry.size, sha256: entry.sha256 }))
     .sort((a, b) => compareText(a.path, b.path))
-  const deletions = manifest.deletions.filter(isMutablePath).slice().sort(compareText)
+  const deletions = manifest.deletions.filter(isTranslationFile).slice().sort(compareText)
   return deepFreeze({ files, deletions })
 }
 
 function sourceBaselineIdentity(repository, sha) {
-  const entries = gitTreeEntries(repository, sha, MUTABLE_ROOTS)
+  const entries = gitTreeEntries(repository, sha, TRANSLATION_ROOTS)
   const facts = gitBlobFacts(repository, entries.map(entry => ({ object: entry.object, label: entry.path })))
   const files = entries.map((entry, index) => ({ path: entry.path, size: facts[index].size, sha256: facts[index].sha256 }))
-  if (!files.some(entry => entry.path === CACHE_PATH)) files.push({ path: CACHE_PATH, size: DEFAULT_CACHE.length, sha256: digest(DEFAULT_CACHE) })
   files.sort((a, b) => compareText(a.path, b.path))
   return { files, deletions: [] }
 }
