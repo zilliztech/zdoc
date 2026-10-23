@@ -267,7 +267,18 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
   if (argv[0] === 'shared-docs') {
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect');
+    if (argv[1] === 'links-seed') {
+      const options = parseOptions(argv.slice(2));
+      for (const key of Object.keys(options)) {
+        if (!['repo', 'commit', 'dev', 'out'].includes(key)) throw new Error(`Unknown links-seed option: --${key}`);
+      }
+      const {runLinksSeed} = await import('./shared-docs/commands/links-seed.ts');
+      process.exitCode = await runLinksSeed({repo: requiredOption(options, 'repo'), dev: requiredOption(options, 'dev'),
+        out: requiredOption(options, 'out'), commit: options.commit === undefined ? undefined : requiredOption(options, 'commit')},
+      text => process.stdout.write(text), repositoryRoot);
+      return true;
+    }
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect or links-seed');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['pages', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);

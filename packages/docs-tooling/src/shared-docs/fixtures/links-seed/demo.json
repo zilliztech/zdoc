@@ -1,0 +1,16 @@
+{
+  "milvus": {
+    "site/en/userGuide/source.md": "---\nid: source.md\ntitle: Source\n---\n[By name](same.md)\n[By title](title.md)\n[By inference](inferred.md)\n[Index type](ivf-flat.md)\n[Unknown](unknown.md)\n",
+    "site/en/userGuide/same.md": "---\nid: same.md\ntitle: Milvus name example\n---\n",
+    "site/en/userGuide/title.md": "---\nid: title.md\ntitle: Matching Title\n---\n",
+    "site/en/userGuide/inferred.md": "---\nid: inferred.md\ntitle: Milvus inference example\n---\n",
+    "site/en/userGuide/indexes/ivf-flat.md": "---\nid: ivf-flat.md\ntitle: IVF Flat\n---\n",
+    "site/en/userGuide/unknown.md": "---\nid: unknown.md\ntitle: Matching unknown topic\n---\n"
+  },
+  "cloud": {
+    "content/en/guides/source.md": "---\nslug: /source\ntitle: Source | Cloud\n---\n[By inference](./cloud-inferred)\n",
+    "content/en/guides/same.md": "---\nslug: /same\ntitle: Cloud name example | Cloud\n---\n",
+    "content/en/guides/title.mdx": "---\nslug: /cloud-title\ntitle: Matching Title | Cloud\nbeta: FALSE\n---\n",
+    "content/en/guides/inferred.md": "---\nslug: /cloud-inferred\ntitle: Cloud inference example | Cloud\n---\n"
+  }
+}
