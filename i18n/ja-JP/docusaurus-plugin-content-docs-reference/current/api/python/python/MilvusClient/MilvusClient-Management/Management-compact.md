@@ -49,7 +49,7 @@ compact(
 
 - **is_clustering** (*bool*) -
 
-    クラスタリング Compaction を実行するかどうかを示すフラグです。
+    L0 Compaction を実行するかどうかを示すフラグです。
 
 - **is_l0** (*bool*) -
 
