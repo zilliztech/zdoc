@@ -6,38 +6,99 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "AnnParam",
+    "key": "category:api/go/go/v2/v2-vector-annparam",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam",
+        "label": "AnnParam",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-vector-annparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam",
+        "label": "NewAutoAnnParam()",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newautoannparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam",
+        "label": "NewAISAQAnnParam",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newaisaqannparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam",
+        "label": "NewHNSWPQAnnParam",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswpqannparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam",
+        "label": "NewHNSWPRQAnnParam",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswprqannparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam",
+        "label": "NewHNSWSQAnnParam",
+        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswsqannparam"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Authentication",
     "key": "category:api/go/go/v2/v2-authentication",
     "items": [
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup",
+        "label": "AddPrivilegesToGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-addprivilegestogroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC",
-        "label": "BackupRBAC()",
+        "label": "BackupRBAC",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-backuprbac"
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup",
+        "label": "CreatePrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole",
-        "label": "CreateRole()",
+        "label": "CreateRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createrole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser",
-        "label": "CreateUser()",
+        "label": "CreateUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createuser"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole",
-        "label": "DescribeRole()",
+        "label": "DescribeRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-describerole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser",
-        "label": "DescribeUser()",
+        "label": "DescribeUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-describeuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup",
+        "label": "DropPrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-dropprivilegegroup"
       },
       {
         "type": "doc",
@@ -48,37 +109,43 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropUser",
-        "label": "DropUser()",
+        "label": "DropUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-dropuser"
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege",
+        "label": "GrantPrivilege",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantprivilege"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2",
-        "label": "GrantPrivilegeV2()",
+        "label": "GrantPrivilegeV2",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantprivilegev2"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole",
-        "label": "GrantRole()",
+        "label": "GrantRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantrole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups",
-        "label": "ListPrivilegeGroups()",
+        "label": "ListPrivilegeGroups",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listprivilegegroups"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles",
-        "label": "ListRoles()",
+        "label": "ListRoles",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listroles"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers",
-        "label": "ListUsers()",
+        "label": "ListUsers",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listusers"
       },
       {
@@ -95,20 +162,32 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup",
+        "label": "RemovePrivilegesFromGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-removeprivilegesfromgroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC",
-        "label": "RestoreRBAC()",
+        "label": "RestoreRBAC",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-restorerbac"
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege",
+        "label": "RevokePrivilege",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokeprivilege"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2",
-        "label": "RevokePrivilegeV2()",
+        "label": "RevokePrivilegeV2",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokeprivilegev2"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole",
-        "label": "RevokeRole()",
+        "label": "RevokeRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokerole"
       },
       {
@@ -120,7 +199,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword",
-        "label": "UpdatePassword()",
+        "label": "UpdatePassword",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-updatepassword"
       },
       {
@@ -128,6 +207,61 @@ module.exports = [
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-User",
         "label": "User",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-user"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole",
+        "label": "AlterRole",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-alterrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2",
+        "label": "GrantV2",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantv2"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup",
+        "label": "OperatePrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-operateprivilegegroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2",
+        "label": "RevokeV2",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokev2"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "CDC",
+    "key": "category:api/go/go/v2/v2-cdc",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream",
+        "label": "CreateReplicateStream",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-createreplicatestream"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-DumpMessages",
+        "label": "DumpMessages",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-dumpmessages"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration",
+        "label": "GetReplicateConfiguration",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-getreplicateconfiguration"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo",
+        "label": "GetReplicateInfo",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-getreplicateinfo"
       }
     ]
   },
@@ -145,13 +279,13 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-Close",
-        "label": "Close()",
+        "label": "Close",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-close"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-GetServerVersion",
-        "label": "GetServerVersion()",
+        "label": "GetServerVersion",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-getserverversion"
       },
       {
@@ -188,19 +322,19 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterAlias",
-        "label": "AlterAlias()",
+        "label": "AlterAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-alteralias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty",
-        "label": "AlterCollectionFieldProperty()",
+        "label": "AlterCollectionFieldProperty",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-altercollectionfieldproperty"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties",
-        "label": "AlterCollectionProperties()",
+        "label": "AlterCollectionProperties",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-altercollectionproperties"
       },
       {
@@ -218,7 +352,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-CreateAlias",
-        "label": "CreateAlias()",
+        "label": "CreateAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-createalias"
       },
       {
@@ -230,31 +364,31 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias",
-        "label": "DescribeAlias()",
+        "label": "DescribeAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-describealias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection",
-        "label": "DescribeCollection()",
+        "label": "DescribeCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-describecollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropAlias",
-        "label": "DropAlias()",
+        "label": "DropAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropalias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollection",
-        "label": "DropCollection()",
+        "label": "DropCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties",
-        "label": "DropCollectionProperties()",
+        "label": "DropCollectionProperties",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollectionproperties"
       },
       {
@@ -278,25 +412,25 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats",
-        "label": "GetCollectionStats()",
+        "label": "GetCollectionStats",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-getcollectionstats"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-HasCollection",
-        "label": "HasCollection()",
+        "label": "HasCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-hascollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListAliases",
-        "label": "ListAliases()",
+        "label": "ListAliases",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listaliases"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListCollections",
-        "label": "ListCollections()",
+        "label": "ListCollections",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listcollections"
       },
       {
@@ -320,8 +454,38 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection",
-        "label": "TruncateCollection()",
+        "label": "TruncateCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-truncatecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField",
+        "label": "AddCollectionStructField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-addcollectionstructfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField",
+        "label": "AddFunctionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-addfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField",
+        "label": "DropCollectionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollectionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField",
+        "label": "DropFunctionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-FunctionScore",
+        "label": "FunctionScore",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-functionscore"
       },
       {
         "type": "doc",
@@ -363,13 +527,13 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties",
-        "label": "AlterDatabaseProperties()",
+        "label": "AlterDatabaseProperties",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-alterdatabaseproperties"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-CreateDatabase",
-        "label": "CreateDatabase()",
+        "label": "CreateDatabase",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-createdatabase"
       },
       {
@@ -381,31 +545,31 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-DescribeDatabase",
-        "label": "DescribeDatabase()",
+        "label": "DescribeDatabase",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-describedatabase"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabase",
-        "label": "DropDatabase()",
+        "label": "DropDatabase",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabase"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties",
-        "label": "DropDatabaseProperties()",
+        "label": "DropDatabaseProperties",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabaseproperties"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-ListDatabase",
-        "label": "ListDatabase()",
+        "label": "ListDatabase",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-listdatabase"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Database/v2-Database-UseDatabase",
-        "label": "UseDatabase()",
+        "label": "UseDatabase",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-usedatabase"
       }
     ]
@@ -418,7 +582,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport",
-        "label": "BulkImport()",
+        "label": "BulkImport",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimport"
       },
       {
@@ -436,7 +600,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress",
-        "label": "GetImportProgress()",
+        "label": "GetImportProgress",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogress"
       },
       {
@@ -454,7 +618,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs",
-        "label": "ListImportJobs()",
+        "label": "ListImportJobs",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobs"
       },
       {
@@ -468,6 +632,170 @@ module.exports = [
         "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse",
         "label": "ListImportJobsResponse",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport",
+        "label": "AbortImport",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-abortimport"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption",
+        "label": "AbortImportOption",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-abortimportoption"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse",
+        "label": "AbortImportResponse",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-abortimportresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport",
+        "label": "CommitImport",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-commitimport"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption",
+        "label": "CommitImportOption",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-commitimportoption"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse",
+        "label": "CommitImportResponse",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-commitimportresponse"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "FileResources",
+    "key": "category:api/go/go/v2/v2-fileresources",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource",
+        "label": "AddFileResource",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-addfileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-FileResource",
+        "label": "FileResource",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-fileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources",
+        "label": "ListFileResources",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-listfileresources"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob",
+        "label": "NewBloomFilterBlob",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-newbloomfilterblob"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource",
+        "label": "RemoveFileResource",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-removefileresource"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Index",
+    "key": "category:api/go/go/v2/v2-management-index",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Management-Index",
+        "label": "Index",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-management-index"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex",
+        "label": "NewAutoIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newautoindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex",
+        "label": "NewBitmapIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newbitmapindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex",
+        "label": "NewDiskANNIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newdiskannindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex",
+        "label": "NewInvertedIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newinvertedindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex",
+        "label": "NewRTreeIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newrtreeindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex",
+        "label": "NewSortedIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newsortedindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex",
+        "label": "NewTrieIndex()",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newtrieindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex",
+        "label": "NewAISAQIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newaisaqindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex",
+        "label": "NewFMIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newfmindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex",
+        "label": "NewHNSWPQIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newhnswpqindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex",
+        "label": "NewHNSWPRQIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newhnswprqindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex",
+        "label": "NewHNSWSQIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newhnswsqindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex",
+        "label": "NewNgramIndex",
+        "key": "doc:api/go/go/v2/v2-Management-Index/v2-index-newngramindex"
       }
     ]
   },
@@ -479,13 +807,13 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties",
-        "label": "AlterIndexProperties()",
+        "label": "AlterIndexProperties",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-alterindexproperties"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-Compact",
-        "label": "Compact()",
+        "label": "Compact",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-compact"
       },
       {
@@ -497,7 +825,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-CreateIndex",
-        "label": "CreateIndex()",
+        "label": "CreateIndex",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-createindex"
       },
       {
@@ -509,25 +837,25 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-DescribeIndex",
-        "label": "DescribeIndex()",
+        "label": "DescribeIndex",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-describeindex"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-DropIndex",
-        "label": "DropIndex()",
+        "label": "DropIndex",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-dropindex"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-DropIndexProperties",
-        "label": "DropIndexProperties()",
+        "label": "DropIndexProperties",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-dropindexproperties"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-Flush",
-        "label": "Flush()",
+        "label": "Flush",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-flush"
       },
       {
@@ -539,14 +867,20 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-GetCompactionState",
-        "label": "GetCompactionState()",
+        "label": "GetCompactionState",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-getcompactionstate"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-GetLoadState",
-        "label": "GetLoadState()",
+        "label": "GetLoadState",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-getloadstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo",
+        "label": "GetPersistentSegmentInfo",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-getpersistentsegmentinfo"
       },
       {
         "type": "doc",
@@ -563,19 +897,19 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-ListIndexes",
-        "label": "ListIndexes()",
+        "label": "ListIndexes",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-listindexes"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-LoadCollection",
-        "label": "LoadCollection()",
+        "label": "LoadCollection",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-loadcollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-LoadPartitions",
-        "label": "LoadPartitions()",
+        "label": "LoadPartitions",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-loadpartitions"
       },
       {
@@ -599,20 +933,26 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-RefreshLoad",
-        "label": "RefreshLoad()",
+        "label": "RefreshLoad",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-refreshload"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-ReleaseCollection",
-        "label": "ReleaseCollection()",
+        "label": "ReleaseCollection",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-releasecollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Management/v2-Management-ReleasePartitions",
-        "label": "ReleasePartitions()",
+        "label": "ReleasePartitions",
         "key": "doc:api/go/go/v2/v2-Management/v2-management-releasepartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-Segment",
+        "label": "Segment",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-segment"
       }
     ]
   },
@@ -624,31 +964,31 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Partition/v2-Partition-CreatePartition",
-        "label": "CreatePartition()",
+        "label": "CreatePartition",
         "key": "doc:api/go/go/v2/v2-Partition/v2-partition-createpartition"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Partition/v2-Partition-DropPartition",
-        "label": "DropPartition()",
+        "label": "DropPartition",
         "key": "doc:api/go/go/v2/v2-Partition/v2-partition-droppartition"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats",
-        "label": "GetPartitionStats()",
+        "label": "GetPartitionStats",
         "key": "doc:api/go/go/v2/v2-Partition/v2-partition-getpartitionstats"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Partition/v2-Partition-HasPartition",
-        "label": "HasPartition()",
+        "label": "HasPartition",
         "key": "doc:api/go/go/v2/v2-Partition/v2-partition-haspartition"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Partition/v2-Partition-ListPartitions",
-        "label": "ListPartitions()",
+        "label": "ListPartitions",
         "key": "doc:api/go/go/v2/v2-Partition/v2-partition-listpartitions"
       }
     ]
@@ -678,6 +1018,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState",
+        "label": "GetExportSnapshotState",
+        "key": "doc:api/go/go/v2/v2-Snapshot/v2-snapshot-getexportsnapshotstate"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState",
         "label": "GetRestoreSnapshotState()",
         "key": "doc:api/go/go/v2/v2-Snapshot/v2-snapshot-getrestoresnapshotstate"
@@ -699,6 +1045,12 @@ module.exports = [
         "id": "api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData",
         "label": "PinSnapshotData()",
         "key": "doc:api/go/go/v2/v2-Snapshot/v2-snapshot-pinsnapshotdata"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot",
+        "label": "RestoreExternalSnapshot",
+        "key": "doc:api/go/go/v2/v2-Snapshot/v2-snapshot-restoreexternalsnapshot"
       },
       {
         "type": "doc",
@@ -752,7 +1104,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-Delete",
-        "label": "Delete()",
+        "label": "Delete",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-delete"
       },
       {
@@ -764,7 +1116,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-Get",
-        "label": "Get()",
+        "label": "Get",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-get"
       },
       {
@@ -788,13 +1140,13 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-Query",
-        "label": "Query()",
+        "label": "Query",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-query"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-QueryIterator",
-        "label": "QueryIterator()",
+        "label": "QueryIterator",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-queryiterator"
       },
       {
@@ -806,7 +1158,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer",
-        "label": "RunAnalyzer()",
+        "label": "RunAnalyzer",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-runanalyzer"
       },
       {
@@ -818,7 +1170,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-SearchIterator",
-        "label": "SearchIterator()",
+        "label": "SearchIterator",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector-searchiterator"
       },
       {
@@ -838,6 +1190,30 @@ module.exports = [
         "id": "api/go/go/v2/v2-Vector/v2-Vector",
         "label": "Vector",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult",
+        "label": "AnalyzerResult",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-analyzerresult"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnText",
+        "label": "ColumnText",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columntext"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-Reranker",
+        "label": "Reranker",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-reranker"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation",
+        "label": "SearchAggregation",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-searchaggregation"
       }
     ]
   }
