@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションデータをクエリノードのCPUとメモリにロードします。リクエストが同期モードの場合、この操作はコレクションのロード進行状況を確認し、コレクションが完全にクエリノードにロードされるまで待機します。それ以外の場合は、すぐに返ります。 | Cloud"
+description: "この操作は、コレクションのデータをクエリノードの CPU とメモリに読み込みます。リクエストが同期モードの場合、この操作はコレクションのロード進捗を確認し、コレクションがクエリノードに完全に読み込まれるまで待機します。それ以外の場合は、すぐに戻ります。 | Cloud"
 type: docx
-token: Z3KTdzp7xoWm7QxytFGcIqYangm
-sidebar_position: 16
+token: TqIzdhIkFoR8KYxBXfscml0Ln8c
+sidebar_position: 18
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - ベクトル search algorithms
+  - NLP 検索
+  - LLM ハルシネーション
+  - マルチモーダル検索
+  - ベクトル検索アルゴリズム
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - LoadCollection()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LoadCollection()
 
-この操作は、コレクションデータをクエリノードのCPUとメモリにロードします。リクエストが同期モードの場合、この操作はコレクションのロード進行状況を確認し、コレクションが完全にクエリノードにロードされるまで待機します。それ以外の場合は、すぐに返ります。
+この操作は、コレクションのデータをクエリノードの CPU とメモリに読み込みます。リクエストが同期モードの場合、この操作はコレクションのロード進捗を確認し、コレクションがクエリノードに完全に読み込まれるまで待機します。それ以外の場合は、すぐに戻ります。
 
 ```c++
 Status LoadCollection(const LoadCollectionRequest& request)
@@ -49,10 +49,11 @@ auto request = LoadCollectionRequest()
     .WithRefresh(refresh)
     .WithLoadFields(load_fields)
     .WithSkipDynamicField(skip_dynamic_field)
-    .WithTargetResourceGroups(target_resource_groups);
+    .WithTargetResourceGroups(target_resource_groups)
+    .WithLoadPriority(load_priority);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
@@ -60,15 +61,15 @@ auto request = LoadCollectionRequest()
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    対象のコレクション名を設定します。
+    対象のコレクションの名前を設定します。
 
 - `WithSync(bool sync)`
 
     同期モードを設定します。デフォルト値は **True** です。
 
-    - **True**: コレクションが完全にロードされるまで待機します。
+    - **True**: コレクションが完全に読み込まれるまで待機します。
 
-    - **False**: コレクションのロード完了に関わらず、すぐに戻ります。
+    - **False**: コレクションが完全に読み込まれたかどうかに関係なく、すぐに戻ります。
 
 - `WithReplicaNum(int64_t replica_num)`
 
@@ -76,45 +77,49 @@ auto request = LoadCollectionRequest()
 
 - `WithTimeoutMs(int64_t timeout_ms)`
 
-    タイムアウトをミリ秒単位で設定します。デフォルト値は 60000 ms です。このパラメーターは、同期モードでのみ有効です。
+    タイムアウトをミリ秒単位で設定します。デフォルト値は 60000 ms です。このパラメーターは、この操作が同期モードで動作する場合にのみ有効です。
 
-    `WaitFlushedMs` が 0 の場合、コレクションがメモリに完全にロードされるまで `GetLoadingProgress()` を繰り返し呼び出してロード状態を確認します。`WaitFlushedMs` が 0 より大きい場合、指定時間後にループを終了し、タイムアウトを示すステータスを返します。
+    `WaitFlushedMs` が 0 に設定されている場合、この操作はコレクションがメモリに完全に読み込まれるまで、ロード状態を確認するために `GetLoadingProgress()` を繰り返し呼び出します。`WaitFlushedMs` が 0 より大きい場合、この操作は指定された期間後にループを抜け、タイムアウトを示すステータスを返します。
 
 - `WithRefresh(bool refresh)`
 
-    リフレッシュオプションを設定します。デフォルト値は **False** です。このパラメーターは、バルクインポートインターフェースにより新しいセグメントが生成された場合に有効になります。
+    リフレッシュオプションを設定します。デフォルト値は **False** です。このパラメーターは、一括インポートインターフェースによって新しいセグメントが生成された場合に適用されます。
 
-    - **True**: バルクインポートインターフェースで新しく生成されたセグメントをロードします。
+    - **True**: 一括インポートインターフェースから新しく生成されたセグメントを読み込みます。
 
-    - **False**: バルクインポートインターフェースで新しく生成されたセグメントを無視します。
+    - **False**: 一括インポートインターフェースから新しく生成されたセグメントを無視します。
 
 - `WithLoadFields(const std::set<std::string>& load_fields)`
 
-    ロード対象のフィールドを設定します。
+    ロードするフィールドを設定します。
 
 - `AddLoadField(const std::string& field_name)`
 
-    ロード対象のフィールドを追加します。
+    ロードするフィールドを追加します。
 
 - `WithSkipDynamicField(bool skip_dynamic_field)`
 
-    動的フィールドのロードをスキップするかどうかを指定します。デフォルト値は **False** です。
+    動的フィールドのロードをスキップするかどうかです。デフォルト値は **False** です。
 
 - `WithTargetResourceGroups(const std::set<std::string>& target_resource_groups)`
 
     対象のリソースグループを設定します。
 
-**戻り値:**
+- `WithLoadPriority(const std::string& load_priority)`
+
+    コレクションのロード優先度を設定します。低優先度を選択するには `"low"` を設定します。その他の値（`"high"` を含む）はすべてデフォルトで高優先度になります。
+
+**戻り値：**
 
 *Status*
 
-`status.IsOk()` を確認して成功を判定します。
+成功したことを確認するには、`status.IsOk()` を確認してください。
 
-**例外:**
+**例外：**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()` と `status.Message()` を確認してください。
+    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
 
 ## 例\{#example}
 

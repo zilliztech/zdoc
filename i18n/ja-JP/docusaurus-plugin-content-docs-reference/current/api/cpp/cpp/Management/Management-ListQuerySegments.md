@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、クエリノードからロード済みセグメントの情報を取得します。 | Cloud"
 type: docx
 token: J946dq9upog3BoxXTaucrrqvn4g
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - Sparse vs Dense
   - Dense ベクトル

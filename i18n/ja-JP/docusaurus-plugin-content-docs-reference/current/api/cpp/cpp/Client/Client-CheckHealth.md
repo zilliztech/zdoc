@@ -4,21 +4,21 @@ slug: /cpp/cpp/Client-CheckHealth
 sidebar_label: "CheckHealth()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、サーバーのヘルスステータスを確認します。 | Cloud"
+description: "この操作は、接続先の Milvus サーバーのヘルスを確認します。レスポンスでは、サーバーが正常かどうか、正常でない場合はその理由が報告されます。 | Cloud"
 type: docx
-token: IJ7ydRsczoA4TAxrcqjc6guMnSb
+token: H8bEdNoDNoQMojxNEWKc7xIQnPb
 sidebar_position: 1
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - マルチモーダル RAG
+  - LLM ハルシネーション
+  - ハイブリッド検索
+  - 語彙検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - CheckHealth()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CheckHealth()
 
-この操作は、サーバーのヘルスステータスを確認します。
+この操作は、接続先の Milvus サーバーのヘルスを確認します。レスポンスでは、サーバーが正常かどうか、正常でない場合はその理由が報告されます。
 
 ```c++
 Status CheckHealth(const CheckHealthRequest& request, CheckHealthResponse& response)
@@ -39,34 +39,46 @@ Status CheckHealth(const CheckHealthRequest& request, CheckHealthResponse& respo
 
 **戻り値:**
 
-*CheckHealthResponse* を含む *Status*
+*Status*
 
-成功したかどうかを確認するには、`status.IsOk()` を確認してください。
+操作が成功したかどうかを示すステータスを返します。レスポンスには、ヘルスフラグと、正常でない場合にはその理由が含まれます。
 
-**例外:**
+- **response** (*CheckHealthResponse*) -
 
-- **StatusCode**
+    - **IsHealthy** (*bool*) -
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
+        Milvus サーバーが正常かどうかを取得します。
+
+    - **Reasons** (*const std::ベクトル&lt;std::string&gt;&*) -
+
+        Milvus サーバーが正常でない理由を取得します。
+
+    - **QuotaStates** (*const std::ベクトル&lt;std::string&gt;&*) -
+
+        Milvus サーバーがサービスを提供できないクォータ状態を取得します。
+
+**エラー処理:**
+
+- **std::exception**
+
+    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+接続済みの MilvusClientV2 で CheckHealth() を呼び出してサーバーのヘルスを確認し、失敗理由を報告します。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-milvus::CheckHealthResponse resp_health;
-status = client->CheckHealth(milvus::CheckHealthRequest(), resp_health);
+milvus::CheckHealthRequest request;
+milvus::CheckHealthResponse response;
+status = client->CheckHealth(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
-}
-if (resp_health.IsHealthy()) {
-    std::cout << "The milvus server is healthy" << std::endl;
 }
 ```

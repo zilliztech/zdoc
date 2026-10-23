@@ -4,12 +4,12 @@ slug: /cpp/cpp/Partitions-LoadPartitions
 sidebar_label: "LoadPartitions()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクション内の指定したパーティションのデータをクエリノードにロードします。 | Cloud"
+description: "この操作は、1 つのコレクション内の指定したパーティションのデータをクエリノードにロードします。 | Cloud"
 type: docx
-token: I2fxdWeslorOwIxnv9ac0giWnps
+token: AtwgdHq42oYSt7xJrO7c8ZGUnqc
 sidebar_position: 6
 keywords: 
   - ニューラルネットワーク
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LoadPartitions()
 
-この操作は、コレクション内の指定したパーティションのデータをクエリノードにロードします。
+この操作は、1 つのコレクション内の指定したパーティションのデータをクエリノードにロードします。
 
 ```c++
 Status LoadPartitions(const LoadPartitionsRequest& request)
@@ -50,7 +50,8 @@ auto request = LoadPartitionsRequest()
     .WithRefresh(refresh)
     .WithLoadFields(load_fields)
     .WithSkipDynamicField(skip_dynamic_field)
-    .WithTargetResourceGroups(target_resource_groups);
+    .WithTargetResourceGroups(target_resource_groups)
+    .WithLoadPriority(load_priority);
 ```
 
 **リクエストメソッド:**
@@ -77,7 +78,7 @@ auto request = LoadPartitionsRequest()
 
     - **True**: コレクションが完全にロードされるまで待機します。
 
-    - **False**: コレクションのロード完了に関係なく、すぐに戻ります。
+    - **False**: コレクションのロードが完了しているかどうかに関係なく、すぐに戻ります。
 
 - `WithReplicaNum(int64_t replica_num)`
 
@@ -85,13 +86,13 @@ auto request = LoadPartitionsRequest()
 
 - `WithTimeoutMs(int64_t timeout_ms)`
 
-    タイムアウトをミリ秒単位で設定します。デフォルト値は 60000 ms です。このパラメーターは、同期モードでのみ有効です。
+    タイムアウトをミリ秒単位で設定します。デフォルト値は 60000 ms です。このパラメーターは、この操作が同期モードで実行される場合にのみ有効です。
 
-    `WaitFlushedMs` が 0 の場合、コレクションがメモリに完全にロードされるまで `GetLoadingProgress()` を繰り返し呼び出してロード状態を確認します。`WaitFlushedMs` が 0 より大きい場合、指定時間後にループを終了し、タイムアウトを示すステータスを返します。
+    `WaitFlushedMs` が 0 の場合、この操作は、コレクションがメモリに完全にロードされるまで `GetLoadingProgress()` を繰り返し呼び出してロード状態を確認します。`WaitFlushedMs` が 0 より大きい場合、この操作は指定時間が経過した後にループを終了し、タイムアウトを示すステータスを返します。
 
 - `WithRefresh(bool refresh)`
 
-    リフレッシュオプションを設定します。このパラメーターは、バルクインポートインターフェースにより新規セグメントが生成された場合に有効になります。
+    リフレッシュオプションを設定します。このパラメーターは、バルクインポートインターフェースによって新しいセグメントが生成された場合に有効になります。
 
     - **True**: バルクインポートインターフェースで新たに生成されたセグメントをロードします。
 
@@ -116,6 +117,10 @@ auto request = LoadPartitionsRequest()
 - `AddTargetResourceGroups(const std::string& target_resource_group)`
 
     ターゲットリソースグループを追加します。
+
+- `WithLoadPriority(const std::string& load_priority)`
+
+    パーティションのロード優先度を設定します。低優先度を選択するには `"low"` を設定します。その他の値（`"high"` を含む）は、デフォルトで高優先度になります。
 
 **戻り値:**
 

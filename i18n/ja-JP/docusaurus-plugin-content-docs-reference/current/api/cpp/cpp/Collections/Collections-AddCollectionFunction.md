@@ -7,7 +7,7 @@ added_since: v2.6.3
 last_modified: v3.0.x
 deprecate_since: v3.0.x
 notebook: false
-description: "既存のコレクションに関数を追加します。 | Cloud"
+description: "この操作は、既存のコレクションに関数を追加します。 | Cloud"
 type: docx
 token: OrRqdvj4yoN2cMxbHUkcEE9Xnbg
 sidebar_position: 2
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionFunction()
 
-既存のコレクションに関数を追加します。
+この操作は、既存のコレクションに関数を追加します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Notes">
 
-v3.0.x では非推奨です。関数を新しい出力フィールドおよび関連付けられたインデックスとともに追加するには、AddFunctionField() を使用してください。
+v3.0.x では非推奨です。関数を新しい出力フィールドおよびバインドされたインデックスとともに追加するには、[AddFunctionField()](./Collections-AddFunctionField) を使用してください。
 
 </Admonition>
 
@@ -52,8 +52,6 @@ auto request = AddCollectionFunctionRequest()
     .WithFunction(function);
 ```
 
-### AddCollectionFunctionRequest\{#addcollectionfunctionrequest}
-
 **リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
@@ -62,17 +60,17 @@ auto request = AddCollectionFunctionRequest()
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    関数を追加するコレクションの名前を設定します。
 
 - `WithFunction(const FunctionPtr& function)`
 
-    追加する関数を設定します。
+    コレクションに追加する関数を、関数定義への共有ポインタとして設定します。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+関数が正常に追加されたかどうかを示す Status を返します。
 
 **エラーハンドリング:**
 
@@ -82,13 +80,22 @@ auto request = AddCollectionFunctionRequest()
 
 ## 例\{#example}
 
-C++ SDK を使用した AddCollectionFunction() の使用例を示します。
+接続済みの MilvusClientV2 で AddCollectionFunction() を呼び出し、既存のコレクションに関数を追加します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::AddCollectionFunctionRequest();
-util::CheckStatus(client->AddCollectionFunction(request));
+auto request = milvus::AddCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFunction(function);
+status = client->AddCollectionFunction(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

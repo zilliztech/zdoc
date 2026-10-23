@@ -4,16 +4,16 @@ slug: /cpp/cpp/Collections-AlterAlias
 sidebar_label: "AlterAlias()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションのエイリアスを別のエイリアスに変更します。 | Cloud"
+description: "この操作は、既存のエイリアスを現在のコレクションからリクエストで指定したコレクションに再割り当てします。これにより、そのエイリアスを使用する検索およびクエリ呼び出しは、以降、新しいコレクションを対象とするようになります。 | Cloud"
 type: docx
-token: VRKNdqRGboPNcOxEnkDc3PiWn4e
+token: V2UCd9pXGobxHKxw10HcZBuQn8f
 sidebar_position: 4
 keywords: 
   - マルチモーダルベクトルデータベース検索
-  - Retrieval Augmented Generation
+  - 検索拡張生成
   - 大規模言語モデル
   - ベクトル化
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterAlias()
 
-この操作は、コレクションのエイリアスを別のエイリアスに変更します。
+この操作は、既存のエイリアスを現在のコレクションからリクエストで指定したコレクションに再割り当てします。これにより、そのエイリアスを使用する検索およびクエリ呼び出しは、以降、新しいコレクションを対象とするようになります。
 
 ```c++
 Status AlterAlias(const AlterAliasRequest& request)
@@ -50,44 +50,45 @@ auto request = AlterAliasRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが使用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    エイリアスの再割り当て先となるコレクション名を設定します。
 
 - `WithAlias(const std::string& alias)`
 
-    エイリアス名を設定します。
+    変更するエイリアス名を設定します。
 
 **戻り値:**
 
 *Status*
 
-`status.IsOk()` を確認して、成功したかどうかを判断します。
+エイリアスが正常に変更されたかどうかを示す Status を返します。
 
-**例外:**
+**エラーハンドリング:**
 
-- **StatusCode**
+- **std::exception**
 
-    エラーの詳細については、`status.Code()` と `status.Message()` を参照してください。
+    リクエストの構築、トランスポート、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+接続済みの MilvusClientV2 で AlterAlias() を呼び出し、エイリアスを別のコレクションに再割り当てします。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-status = client->AlterAlias(
-    milvus::AlterAliasRequest()
-        .WithCollectionName("new_collection")
-        .WithAlias("my_alias"));
+auto request = milvus::AlterAliasRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithAlias(alias);
+status = client->AlterAlias(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

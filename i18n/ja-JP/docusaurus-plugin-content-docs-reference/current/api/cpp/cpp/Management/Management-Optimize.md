@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-Optimize
 sidebar_label: "Optimize()"
 beta: false
 added_since: v2.6.3
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションの最適化 Compaction をトリガーし、ポーリング、キャンセル、待機が可能な非同期タスクハンドルを返します。 | Cloud"
+description: "この操作は、保留中のインデックス構築を待機し、要求されたターゲットセグメントサイズに向けて Compaction を実行し、コレクションがロードされている場合はロード状態を更新することで、コレクションのセグメントを最適化します。async オプションを指定すると、処理は OptimizeTask ハンドルを介して公開されるバックグラウンドタスクで実行され、最終結果を返します。 | Cloud"
 type: docx
 token: NlpedMAt2of5d6xPHvucRSzjnVe
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss ベクトル データベース
-  - Chroma ベクトル データベース
+  - 密な埋め込み
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - Optimize()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Optimize()
 
-この操作は、コレクションの最適化 Compaction をトリガーし、ポーリング、キャンセル、待機が可能な非同期タスクハンドルを返します。
+この操作は、保留中のインデックス構築を待機し、要求されたターゲットセグメントサイズに向けて Compaction を実行し、コレクションがロードされている場合はロード状態を更新することで、コレクションのセグメントを最適化します。async オプションを指定すると、処理は OptimizeTask ハンドルを介して公開されるバックグラウンドタスクで実行され、最終結果を返します。
 
 ```c++
 Status Optimize(const OptimizeRequest& request, OptimizeTaskPtr& task)
@@ -43,117 +43,100 @@ Status Optimize(const OptimizeRequest& request, OptimizeTaskPtr& task)
 auto request = OptimizeRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithTargetSize("512MB")
-    .WithAsync(true)
-    .WithTimeoutMs(0);
+    .WithTargetSize(target_size)
+    .WithAsync(async)
+    .WithTimeoutMs(timeout_ms);
 ```
 
-### OptimizeRequest\{#optimizerequest}
-
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベースを設定します。
+    対象のデータベースの名前を設定します。空の場合は、デフォルトのデータベースが使用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    最適化の対象となるコレクションを設定します。
+    最適化するコレクションの名前を設定します。この値は空にできません。
 
 - `WithTargetSize(const std::string& target_size)`
 
-    Compaction 後の目標セグメント サイズ（例: `"512MB"` や `"1GB"`）を設定します。
+    最適化のターゲットセグメントサイズを設定します。たとえば、"512MB" や "1GB" などです。
 
 - `WithAsync(bool async)`
 
-    `true` の場合、最適化は非同期でスケジュールされます。
+    最適化を非同期で実行するかどうかを設定します。true の場合、Optimize() はバックグラウンドタスクの開始直後に戻ります。false の場合、呼び出しは最適化が完了するまでブロックされます。
 
 - `WithTimeoutMs(int64_t timeout_ms)`
 
-    タスク全体のタイムアウトをミリ秒単位で設定します。`0` はタイムアウトなしを意味します。
+    タスク全体のタイムアウトをミリ秒単位で設定します。0 は全体のタイムアウトなしを意味します。
 
 **戻り値:**
 
-*Status* および *OptimizeTaskPtr*
+*Status*
 
-### OptimizeResponse\{#optimizeresponse}
+操作が成功したかどうかを示す Status を返します。同期モードでは、最適化の実行全体の結果を反映します。非同期モードでは、バックグラウンドタスクが開始されたかどうかを示し、その最終ステータスは OptimizeTask ハンドルを通じて取得できます。
 
-このクラスは、正規化されたターゲット サイズ、Compaction ID、進行状況の履歴を含む最適化タスクの出力を表します。
+- **response** (*OptimizeTaskPtr*) -
 
-```c++
-const OptimizeResponse& response = resp;
-```
+    - **GetResult** (*Status*) -
 
-**メソッド:**
+        タスクの結果を待機します。タイムアウトが 0 の場合は、無期限に待機します。
 
-- `const std::string& StatusText() const`
+        - **StatusText** (*const std::string&*) -
 
-    最適化実行中に報告された現在のステータス テキストを返します。
+            ステータステキストを取得します。
 
-- `const std::string& CollectionName() const`
+        - **CollectionName** (*const std::string&*) -
 
-    最適化対象のコレクションを返します。
+            コレクション名を取得します。
 
-- `int64_t CompactionID() const`
+        - **CompactionID** (*int64_t*) -
 
-    Compaction タスク ID を返します。
+            Compaction ID を取得します。
 
-- `const std::string& TargetSize() const`
+        - **TargetSize** (*const std::string&*) -
 
-    オプティマイザーが使用する正規化済みターゲット サイズを返します。
+            正規化されたターゲットサイズを取得します。
 
-- `const std::ベクトル<std::string>& ProgressHistory() const`
+        - **ProgressHistory** (*const std::ベクトル&lt;std::string&gt;&*) -
 
-    タスク実行中に収集された進行状況メッセージを返します。
+            進行状況の履歴を取得します。
 
-### OptimizeTask\{#optimizetask}
+    - **Cancel** (*bool*) -
 
-このクラスは、キャンセル、待機、進行状況の問い合わせが可能な非同期最適化タスクを表します。
+        タスクを協調的にキャンセルします。
 
-```c++
-const OptimizeTaskPtr& task = optimize_task;
-```
+    - **IsDone** (*bool*) -
 
-**メソッド:**
+        タスクが完了したかどうか。
 
-- `Status GetResult(OptimizeResponse& response, int64_t timeout_ms = 0)`
+    - **IsCancelled** (*bool*) -
 
-    完了を待機し、`response` に結果を設定します。`timeout_ms = 0` は無期限に待機します。
+        タスクがキャンセルされたかどうか。
 
-- `bool Cancel()`
+    - **CurrentProgress** (*std::string*) -
 
-    タスクの協調的キャンセルを要求します。
+        現在の進行状況メッセージ。
 
-- `bool IsDone() const`
+    - **ProgressHistory** (*std::ベクトル&lt;std::string&gt;*) -
 
-    タスクの実行が完了したかどうかを返します。
+        進行状況メッセージの履歴。
 
-- `bool IsCancelled() const`
+    - **TaskStatus** (*Status*) -
 
-    キャンセルが要求され、受理されたかどうかを返します。
+        完了している場合は最終的なタスクステータス、それ以外の場合は OK。
 
-- `std::string CurrentProgress() const`
+**エラーハンドリング:**
 
-    最新の進行状況メッセージを返します。
+- **std::exception**
 
-- `std::ベクトル<std::string> ProgressHistory() const`
-
-    記録されたすべての進行状況メッセージを返します。
-
-- `Status TaskStatus() const`
-
-    完了時は最終的なタスク ステータスを返し、それ以外の場合は OK ステータスを返します。
-
-**例外:**
-
-- **StatusCode**
-
-    無効なリクエスト パラメーター、最適化のスケジュール失敗、またはタイムアウト エラーが発生した場合は、`status.Code()` と `status.Message()` を確認してください。
+    リクエストの構築、トランスポート、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
+接続済みの MilvusClientV2 で Optimize() を呼び出し、コレクションのセグメントをターゲットサイズに向けて Compaction します。最終結果は OptimizeTask ハンドルを使用して取得します。
+
 ```c++
-#include <milvus/MilvusClientV2.h>
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
@@ -161,19 +144,11 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-milvus::OptimizeTaskPtr task;
-status = client->Optimize(
-    milvus::OptimizeRequest()
-        .WithCollectionName("my_collection")
-        .WithTargetSize("512MB")
-        .WithAsync(true),
-    task);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::OptimizeResponse response;
-status = task->GetResult(response, 60000);
+auto request = milvus::OptimizeRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithTargetSize(target_size);
+status = client->Optimize(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

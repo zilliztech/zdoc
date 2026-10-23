@@ -4,10 +4,10 @@ slug: /cpp/cpp/Vector-Delete
 sidebar_label: "Delete()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、フィルター式またはID配列を指定してエンティティを削除します。 | Cloud"
+description: "この操作は、フィルター式または ID 配列によってエンティティを削除します。 | Cloud"
 type: docx
 token: B9XjdA1Cgo0oBRxglOlcrlPan9e
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Delete()
 
-この操作は、フィルター式またはID配列を指定してエンティティを削除します。
+この操作は、フィルター式または ID 配列によってエンティティを削除します。
 
 ```c++
 Status Delete(const DeleteRequest& request, DeleteResponse& response)
@@ -53,15 +53,15 @@ auto request = DeleteRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが適用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    コレクションの名前を設定します。
 
 - `WithPartitionName(const std::string& partition_name)`
 
-    パーティション名を設定します。空の場合はデフォルトのパーティションが適用されます。
+    パーティションの名前を設定します。空の場合は、デフォルトのパーティションが適用されます。
 
 - `WithFilter(const std::string& filter)`
 
@@ -69,25 +69,25 @@ auto request = DeleteRequest()
 
 - `AddFilterTemplate(std::string key, nlohmann::json&& filter_template)`
 
-    フィルターテンプレートを追加します。これは`WithFilter()`が設定されている場合にのみ有効です。詳細については、[フィルターテンプレート](https://milvus.io/docs/filtering-templating.md)のページを参照してください。
+    フィルターテンプレートを追加します。これは `WithFilter()` が設定されている場合にのみ有効です。詳細については、[フィルターテンプレート](/docs/filtering-templating) を参照してください。
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    フィルターテンプレートを設定します。これは`WithFilter()`が設定されている場合にのみ有効です。詳細については、[フィルターテンプレート](https://milvus.io/docs/filtering-templating.md)のページを参照してください。
+    フィルターテンプレートを設定します。これは `WithFilter()` が設定されている場合にのみ有効です。詳細については、[フィルターテンプレート](/docs/filtering-templating) を参照してください。
 
-- `WithIDs(std::ベクトル<int64_t>&& id_array)`
+- `WithIDs(std::vector<int64_t>&& id_array)`
 
-    整数主キーのセットを設定します。これは`WithFilter()`が空の場合にのみ有効です。
+    整数の主キーのセットを設定します。これは `WithFilter()` が空の場合にのみ有効です。
 
 **戻り値:**
 
 *DeleteResponse* を含む *Status*
 
-成功したかどうかを確認するには、`status.IsOk()`をチェックしてください。
+成功したことを確認するには、`status.IsOk()` をチェックしてください。
 
 ### DmlResults\{#dmlresults}
 
-このクラスは、データ変更操作（挿入、アップサート、削除）の結果を保持します。`InsertResponse`、`UpsertResponse`、または`DeleteResponse`の`Results()`からアクセスできます。
+このクラスは、データ変更操作（挿入、アップサート、削除）の結果を保持します。`InsertResponse`、`UpsertResponse`、または `DeleteResponse` の `Results()` を介してアクセスします。
 
 ```c++
 const DmlResults& results = response.Results();
@@ -97,29 +97,33 @@ const DmlResults& results = response.Results();
 
 - `const IDArray& IdArray() const`
 
-    挿入、アップサート、または削除されたエンティティのIDです。自動IDコレクションの場合、サーバーが挿入後にこの値を設定します。整数または文字列のIDの取得方法については、IDArrayを参照してください。
+    挿入、アップサート、または削除されたエンティティの ID です。自動 ID コレクションの場合、サーバーが挿入後にこの値を設定します。整数または文字列の ID の読み取り方法については、IDArray を参照してください。
 
 - `uint64_t Timestamp() const`
 
-    サーバー側の操作タイムスタンプです。後続の検索やクエリ呼び出しで`guarantee_timestamp`として渡すことで、読み取り後の書き込み整合性を確保できます。
+    サーバー側の操作タイムスタンプです。後続の検索またはクエリ呼び出しで `guarantee_timestamp` として渡すことで、read-your-writes 整合性を確保できます。
 
 - `uint64_t InsertCount() const`
 
-    挿入された行数です。`InsertResponse`および`UpsertResponse`で設定されます。
+    挿入された行数です。`InsertResponse` および `UpsertResponse` で設定されます。
 
 - `uint64_t DeleteCount() const`
 
-    削除された行数です。`DeleteResponse`および`UpsertResponse`で設定されます。
+    削除された行数です。`DeleteResponse` および `UpsertResponse` で設定されます。
 
 - `uint64_t UpsertCount() const`
 
-    アップサートされた行数（新規挿入または既存データの置換）です。`UpsertResponse`で設定されます。
+    アップサートされた行数（新規挿入または既存の置換）です。`UpsertResponse` で設定されます。
+
+- `int64_t Cost() const`
+
+    操作のコストをミリ秒単位で返します。
 
 **例外:**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()`および`status.Message()`を確認してください。
+    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
 
 ## 例\{#example}
 

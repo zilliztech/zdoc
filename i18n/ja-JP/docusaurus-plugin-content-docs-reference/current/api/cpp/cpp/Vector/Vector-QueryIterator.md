@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "フィルター式に基づき、スカラーフィールドを対象として QueryIterator オブジェクトを取得します。イテレーターの使用中は MilvusClientV2 を切断しないでください。また、リクエストにはプライマリーキーのフィールド名を指定します。 | Cloud"
+description: "フィルター式に基づいてスカラーフィールドから QueryIterator オブジェクトを取得します。イテレーターの使用中は MilvusClientV2 を切断しないでください。プライマリキーフィールド名をリクエストに割り当てます。 | Cloud"
 type: docx
 token: T4HRdSHCboHtR4xmvxqcekTvnX7
 sidebar_position: 6
 keywords: 
   - DiskANN
-  - Sparse ベクトル
-  - ベクトル Dimension
-  - ANN Search
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - QueryIterator()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # QueryIterator()
 
-フィルター式に基づき、スカラーフィールドを対象として QueryIterator オブジェクトを取得します。イテレーターの使用中は MilvusClientV2 を切断しないでください。また、リクエストにはプライマリーキーのフィールド名を指定します。
+フィルター式に基づいて、スカラーフィールドから QueryIterator オブジェクトを取得します。イテレーターの使用中は MilvusClientV2 を切断しないでください。プライマリキーフィールド名をリクエストに割り当てます。
 
 ```c++
 Status QueryIterator(QueryIteratorRequest& request, QueryIteratorPtr& response)
@@ -61,11 +61,11 @@ auto request = QueryIteratorRequest()
     .WithReduceStopForBest(reduce_stop_for_best);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが使用されます。
+    対象のデータベース名を設定します。空の場合はデフォルトデータベースを使用します。
 
 - `WithCollectionName(const std::string& collection_name)`
 
@@ -73,7 +73,7 @@ auto request = QueryIteratorRequest()
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    パーティション名を設定します。パーティション名が空の場合、コレクション全体に対してクエリが実行されます。
+    パーティション名を設定します。パーティション名が空の場合、コレクション全体をクエリします。
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -89,7 +89,7 @@ auto request = QueryIteratorRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    整合性レベルを設定します。詳細については、ドキュメントを参照してください: https://milvus.io/docs/consistency.md#Consistency-Level.
+    整合性レベルを設定します。[整合性レベル](/docs/consistency-level)。
 
 - `WithFilter(std::string filter)`
 
@@ -97,53 +97,53 @@ auto request = QueryIteratorRequest()
 
 - `AddFilterTemplate(std::string key, const nlohmann::json& filter_template)`
 
-    フィルター式内のプレースホルダーに値を1つ追加します。この機能は、リクエストに空でないフィルターが含まれる場合にのみ使用され、大きなリテラル値の繰り返しパースを回避するために利用します。
+    フィルター式内のプレースホルダーに 1 つの値を追加します。これは、リクエストに空でないフィルターがある場合にのみ使用され、大きなリテラル値の繰り返し解析を回避します。
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    フィルター式で使用されるすべてのプレースホルダー値を置換します。キーは \{age\} や \{city\} などのプレースホルダーに対応し、値にはブール値、数値、文字列、または配列データを指定できます。
+    フィルター式で使用されるすべてのプレースホルダー値を置き換えます。キーは \{age\} や \{city\} などのプレースホルダーに対応し、値には boolean 値、数値、文字列、または配列データを指定できます。
 
 - `WithLimit(int64_t limit)`
 
-    limit 値を設定します。式が空の場合にのみ有効です。\n 注: この値は ExtraParams に格納されます。
+    制限値を設定します。式が空の場合にのみ使用できます。\n 注記：この値は ExtraParams に保存されます。
 
 - `WithOffset(int64_t offset)`
 
-    offset 値を設定します。式が空の場合にのみ有効です。\n 注: この値は ExtraParams に格納されます。
+    オフセット値を設定します。式が空の場合にのみ使用できます。\n 注記：この値は ExtraParams に保存されます。
 
 - `WithIgnoreGrowing(bool ignore_growing)`
 
-    growing セグメントを無視するよう設定します。注: この値は ExtraParams に格納されます。
+    growing セグメントを無視するように設定します。注記：この値は ExtraParams に保存されます。
 
 - `AddExtraParam(const std::string& key, const std::string& value)`
 
-    追加パラメーターを設定します。
+    追加のパラメーターを追加します。
 
 - `WithTimezone(const std::string& timezone)`
 
-    タイムゾーンを設定します。Timestamptz フィールドに対して有効です。注: この値は ExtraParams に格納されます。
+    タイムゾーンを設定します。Timestamptz フィールドに適用されます。注記：この値は ExtraParams に保存されます。
 
-- `WithOrderByFields(std::ベクトル<OrderByField>&& order_by_fields)`
+- `WithOrderByFields(std::vector<OrderByField>&& order_by_fields)`
 
-    クエリ結果のソートに使用するフィールドを設定します。
+    クエリ結果の並べ替えに使用するフィールドを設定します。
 
 - `AddOrderByField(OrderByField order_by_field)`
 
-    クエリ結果のソートに使用するフィールドを追加します。
+    クエリ結果の並べ替えに使用するフィールドを追加します。
 
 - `WithReduceStopForBest(bool reduce_stop_for_best)`
 
     内部取得戦略のフラグを設定します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+操作が成功したかどうかを示すステータスを返します。
 
 ### FieldData\{#fielddata}
 
-単一フィールドの列指向データを表すテンプレートクラスです。サポートされているすべてのデータ型に対応する具象エイリアスが用意されています。具象型のインスタンスは、`InsertRequest::WithRowsData()` を使ったデータ挿入や、/search、`QueryResults::OutputField()`、`SingleResult::OutputField()` を使ったクエリ結果の読み取りに使用します。
+これは、単一フィールドの列ベースのデータを表すテンプレートクラスです。具象エイリアスは、サポートされるすべてのデータ型をカバーします。具象型のインスタンスは、`InsertRequest::WithRowsData()` を介してデータを挿入する場合や、`QueryResults::OutputField()` および `SingleResult::OutputField()` を介して query/search 結果を読み取る場合に使用されます。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -178,21 +178,21 @@ class FieldData : public Field {
 
 ### QueryResults\{#queryresults}
 
-このクラスは、`Query()` の呼び出しによって返される列指向の結果データを保持します。`QueryResponse` オブジェクトに対して `Results()` を呼び出すことでアクセスできます。
+このクラスは、`Query()` 呼び出しによって返される列ベースの結果データを保持します。`QueryResponse` オブジェクトの `Results()` を介してアクセスします。
 
 ```c++
 const QueryResults& results = response.Results();
 ```
 
-**メソッド:**
+**メソッド：**
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    指定された名前の出力フィールドを `FieldDataPtr` として返します。具象型へキャストするには `std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用します。
+    指定した名前の出力フィールドを `FieldDataPtr` として返します。`std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用して具象型にキャストします。
 
-- `const std::ベクトル<FieldDataPtr>& OutputFields() const`
+- `const std::vector<FieldDataPtr>& OutputFields() const`
 
-    サーバーから返された順序で、すべての出力フィールドを返します。
+    サーバーから返された順序ですべての出力フィールドを返します。
 
 - `const std::set<std::string>& OutputFieldNames() const`
 
@@ -200,29 +200,29 @@ const QueryResults& results = response.Results();
 
 - `Status OutputRows(EntityRows& rows) const`
 
-    すべての結果行を JSON ライクな行マップのベクトルに変換し、`rows` に格納します。
+    すべての結果行を JSON 形式の行マップのベクトルに変換し、`rows` に格納します。
 
 - `Status OutputRow(int i, EntityRow& row) const`
 
-    インデックス `i` の行を JSON ライクな行マップに変換します。
+    インデックス `i` の行を JSON 形式の行マップに変換します。
 
 - `uint64_t GetRowCount() const`
 
-    返された行数を返します。クエリで `count(*)` が使用されている場合、このメソッドは集計カウントを返します。
+    返された行数。クエリで `count(*)` を使用すると、集計された件数が返されます。
 
 ### Iterator\{#iterator}
 
-QueryIterator は Iterator&lt;QueryResults&gt; のエイリアスです。結果セット全体が1回のリクエスト制限を超える場合に、クエリ結果をバッチ単位で取得するために使用します。
+QueryIterator は Iterator&lt;QueryResults&gt; のエイリアスです。完全な結果セットが 1 回のリクエストの制限より大きい場合に、クエリ行をバッチ単位で取得するために使用します。
 
 ### 出力フィールドの型\{#output-field-types}
 
-要求されたエンティティフィールドは `FieldDataPtr` を通じて返されます。具象 `XxxFieldData` 型は、フィールドのスキーマ [DataType](./Collections-DataType) に従います。ベースポインターとして使用する場合は `OutputField(name)` を、型チェック付きの shared ポインターキャストを行う場合は `OutputField<T>(name)` を使用します。
+要求されたエンティティフィールドは、`FieldDataPtr` を介して返されます。具象型 `XxxFieldData` は、フィールドのスキーマ [DataType](./Collections-DataType) に従います。ベースポインターには `OutputField(name)` を使用し、チェック済みの共有ポインターキャストには `OutputField<T>(name)` を使用します。
 
-ポインターの命名規則は XxxFieldDataPtr = std::shared_ptr&lt;XxxFieldData&gt; です。この結果表現はクエリインターフェースで使用されるものであり、ポインターエイリアスが個別の API ページとして定義されることはありません。
+ポインターの規則は XxxFieldDataPtr = std::shared_ptr&lt;XxxFieldData&gt; です。この結果表現はクエリインターフェースで使用され、ポインターエイリアスが個別の API ページになるわけではありません。
 
 ### Iterator\{#iterator}
 
-抽象基底クラスです。直接インスタンス化せず、後述の QueryIterator エイリアスを使用してください。
+抽象基底クラスです。直接インスタンス化しないでください。以下の QueryIterator エイリアスを使用してください。
 
 ```c++
 template <typename T>
@@ -236,24 +236,24 @@ class Iterator {
 
 ### QueryIterator\{#queryiterator}
 
-`QueryIterator()` 呼び出しから返される `QueryResults` バッチを順に処理します。`Next()` を呼び出すたびに、次の行バッチが `QueryResults` に格納されます。
+`QueryIterator()` 呼び出しからの `QueryResults` バッチを反復処理します。`Next()` を呼び出すたびに、次の行バッチで `QueryResults` が埋められます。
 
 ```c++
 using QueryIterator    = Iterator<QueryResults>;
 using QueryIteratorPtr = std::shared_ptr<QueryIterator>;
 ```
 
-`MilvusClientV2::QueryIterator(IteratorArguments, QueryIteratorPtr&)` を通じて取得します。
+`MilvusClientV2::QueryIterator(IteratorArguments, QueryIteratorPtr&)` を介して取得します。
 
-**エラーハンドリング:**
+**エラー処理：**
 
 - **std::exception**
 
-    リクエストの構築、通信、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細を確認するには、例外メッセージまたは返された Status を参照してください。
+    リクエストの構築、トランスポート、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した QueryIterator() の使用例を示します。
+C++ SDK で QueryIterator() を使用する例を示します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

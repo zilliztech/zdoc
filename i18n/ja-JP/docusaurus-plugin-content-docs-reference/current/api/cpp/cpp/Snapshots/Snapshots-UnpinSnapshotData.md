@@ -4,10 +4,10 @@ slug: /cpp/cpp/Snapshots-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショットデータのピンを解除します。TTL の期限切れ前にピン留めされたデータが不要になった場合に使用します。 | Cloud"
+description: "この操作はスナップショットデータのピン留めを解除します。TTL の期限が切れる前に、ピン留めされたデータが不要になった場合に使用します。 | Cloud"
 type: docx
 token: TfBadHlwqoakz4xzFOEchPpVnVd
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UnpinSnapshotData()
 
-この操作はスナップショットデータのピンを解除します。TTL の期限切れ前にピン留めされたデータが不要になった場合に使用します。
+この操作はスナップショットデータのピン留めを解除します。TTL の期限が切れる前に、ピン留めされたデータが不要になった場合に使用します。
 
 ```c++
 Status UnpinSnapshotData(const UnpinSnapshotDataRequest& request)
@@ -43,7 +43,8 @@ Status UnpinSnapshotData(const UnpinSnapshotDataRequest& request)
 auto request = milvus::UnpinSnapshotDataRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithPinID(pin_id);
 ```
 
 **リクエストメソッド:**
@@ -60,6 +61,10 @@ auto request = milvus::UnpinSnapshotDataRequest()
 
     スナップショット名を設定します。
 
+- `WithPinID(int64_t pin_id)`
+
+    データのピン留めを解除するピンの ID を設定します。
+
 **戻り値:**
 
 *Status*
@@ -68,7 +73,7 @@ auto request = milvus::UnpinSnapshotDataRequest()
 
 - **std::exception**
 
-    この例外は、リクエストの送信に失敗した場合やレスポンスの解析に失敗した場合にスローされる可能性があります。
+    この例外は、リクエストを送信できない場合、またはレスポンスを解析できない場合にスローされることがあります。
 
 ## 例\{#example}
 
@@ -89,5 +94,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

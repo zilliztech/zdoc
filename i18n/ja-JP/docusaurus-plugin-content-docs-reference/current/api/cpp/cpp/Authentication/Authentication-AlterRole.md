@@ -4,10 +4,10 @@ slug: /cpp/cpp/Authentication-AlterRole
 sidebar_label: "AlterRole()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "既存のロールの説明を変更します。 | Cloud"
+description: "この操作は、ロールの説明を更新します。 | Cloud"
 type: docx
 token: HkRQd5kF5om421xNwSmcoaz3nxb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterRole()
 
-既存のロールの説明を変更します。
+この操作は、ロールの説明を更新します。
 
 ```c++
 Status AlterRole(const AlterRoleRequest& request)
@@ -49,31 +49,42 @@ auto request = AlterRoleRequest()
 
 - `WithRoleName(const std::string& role_name)`
 
-    MilvusClientV2::AlterRole() で使用されます。
+    ロールの名前を設定します。
 
 - `WithDescription(const std::string& description)`
+
+    ロールの説明を設定します。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+成功したことを確認するには、`status.IsOk()` を確認してください。
 
-**エラーハンドリング:**
+**例外:**
 
-- **std::exception**
+- **StatusCode**
 
-    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
+    エラーの詳細については、`status.Code()` と `status.Message()` を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した AlterRole() の実行例です。
-
 ```c++
+#include "milvus/MilvusClientV2.h"
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
 
-auto request = milvus::AlterRoleRequest();
-util::CheckStatus(client->AlterRole(request));
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AlterRole(
+    milvus::AlterRoleRequest()
+        .WithRoleName(role_name)
+        .WithDescription(description)
+);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

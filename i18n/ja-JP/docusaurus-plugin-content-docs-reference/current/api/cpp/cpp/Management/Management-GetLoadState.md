@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "コレクションまたはパーティションのロード状態を取得します。 | Cloud"
+description: "この操作は、コレクションまたはパーティションのロード状態を取得します。 | Cloud"
 type: docx
 token: Vs0rdbqzcoC2ODxjnR3cN1imnPd
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus

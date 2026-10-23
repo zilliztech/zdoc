@@ -12,13 +12,13 @@ type: docx
 token: EHmkdGRrlooizbxSZ8wc9CYgnAb
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a ベクトル データベース
+  - AI チャットボット
+  - コサイン距離
+  - ベクトルデータベースとは
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - HybridSearch()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -63,7 +63,7 @@ auto request = HybridSearchRequest()
 
 ### HybridSearchRequest\{#hybridsearchrequest}
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
@@ -75,7 +75,7 @@ auto request = HybridSearchRequest()
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    パーティション名を設定します。パーティション名が空の場合、コレクション全体に対してクエリが実行されます。
+    パーティション名を設定します。パーティション名が空の場合は、コレクション全体に対してクエリが実行されます。
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -91,7 +91,7 @@ auto request = HybridSearchRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    整合性レベルを設定します。詳細については、ドキュメントを参照してください: https://milvus.io/docs/consistency.md#Consistency-Level.
+    整合性レベルを設定します。詳細については、[Consistency Level](/docs/consistency-level) を参照してください。
 
 - `WithSubRequests(std::vector<SubSearchRequestPtr>&& requests)`
 
@@ -103,15 +103,15 @@ auto request = HybridSearchRequest()
 
 - `WithRerank(const FunctionPtr& rerank)`
 
-    RRF/Weighted 関数などのリランキングを設定します。詳細については、ドキュメントを参照してください: https://milvus.io/docs/reranking.md.
+    RRF/Weighted 関数などのリランクを設定します。詳細については、[Weighted Ranker](/docs/reranking-weighted-reranker) とその関連ページを参照してください。
 
 - `WithLimit(int64_t limit)`
 
-    検索上限 (topk) を設定します。
+    検索上限（topk）を設定します。
 
 - `WithOffset(int64_t offset)`
 
-    オフセット値を設定します。注: この値は ExtraParams に格納されます。
+    オフセット値を設定します。注：この値は ExtraParams に格納されます。
 
 - `WithRoundDecimal(int64_t round_decimal)`
 
@@ -119,23 +119,23 @@ auto request = HybridSearchRequest()
 
 - `WithIgnoreGrowing(bool ignore_growing)`
 
-    成長中セグメント無視フラグを設定します。
+    成長中を無視するフラグを設定します。
 
 - `AddExtraParam(const std::string& key, const std::string& value)`
 
-    "nlist" や "ef" などの追加パラメーターを設定します。
+    「nlist」、「ef」などの追加パラメーターを追加します。
 
 - `WithGroupByField(const std::string& field_name)`
 
-    グループ化フィールド値を設定します。
+    グループ化フィールドの値を設定します。
 
 - `WithGroupSize(int64_t group_size)`
 
-    グループ サイズ値を設定します。
+    グループサイズの値を設定します。
 
 - `WithStrictGroupSize(bool strict_group_size)`
 
-    厳密なグループ サイズ フラグを設定します。
+    厳密なグループサイズフラグを設定します。
 
 ### SubSearchRequest\{#subsearchrequest}
 
@@ -150,63 +150,93 @@ SubSearchRequest()
     .WithFloatVectors(vectors);   // batch assignment
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
-- `SubSearchRequest& WithAnnsField(const std::string& ann_field)`
+- `WithAnnsField(const std::string& ann_field)`
 
-- `SubSearchRequest& WithLimit(int64_t limit)`
+    ANN 検索の対象フィールドを設定します。
 
-- `SubSearchRequest& WithFilter(std::string filter)`
+- `WithLimit(int64_t limit)`
 
-- `SubSearchRequest& WithMetricType(milvus::MetricType metric_type)`
+    このサブ検索の検索上限（topk）を設定します。
 
-- `SubSearchRequest& WithTimezone(const std::string& timezone)`
+- `WithFilter(std::string filter)`
 
-**継承されるベクトル メソッド** (いずれもメソッドチェーン用に `SubSearchRequest&` を返します):
+    このサブ検索のフィルター式を設定します。
+
+- `WithMetricType(milvus::MetricType metric_type)`
+
+    このサブ検索のメトリックタイプを指定します。
+
+- `WithTimezone(const std::string& timezone)`
+
+    タイムゾーンを設定します。Timestamptz フィールドに対して有効です。
+
+**継承されるベクトルメソッド**（いずれもチェーン用に `SubSearchRequest&` を返します）:
 
 - `AddFloatVector(const FloatVecFieldData::ElementT& vector)`
 
+    密な浮動小数点ベクトルを 1 つ追加します。
+
 - `AddBinaryVector(const std::string& vector)`
+
+    バイナリベクトルを 1 つ追加します。文字列オーバーロードは文字列をバイナリバイトに変換します。
 
 - `AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
+    インデックスと値のデータからスパースベクトルを 1 つ追加します。
+
 - `AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
+
+    float16 ベクトルを 1 つ追加します。
 
 - `AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
+    bfloat16 ベクトルを 1 つ追加します。
+
 - `AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
+
+    密な int8 ベクトルを 1 つ追加します。
 
 - `AddEmbeddedText(const std::string& text)`
 
-- `AddEmbeddingList(EmbeddingList&& emb_list)` — 構造体フィールド ANN 用
+    BM25 など、サポートされているテキスト埋め込み関数に埋め込みテキストを追加します。
 
-- `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)` — バッチ処理用
+- `AddEmbeddingList(EmbeddingList&& emb_list)` — for struct-field ANN
 
-- `WithSparseVectors(...)`、`WithFloat16Vectors(...)` など — バッチ処理のバリエーション
+    構造体フィールド ANN 検索用の埋め込みリストを追加します。
 
-### クエリ ベクトルの型\{#query-vector-types}
+- `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)` — batch
 
-各 `SubSearchRequest` は、対象フィールドの [DataType](./Collections-DataType) に一致するクエリ ベクトル表現を 1 つ受け取ります。対応する add メソッドまたはバッチ ビルダー メソッドを使用してください。これらはクエリ入力であり、コレクションのカラム ペイロードではありません。
+    密な float ベクトルを一括設定します。
 
-| スキーマ DataType | リクエスト メソッド | C++ での表現 | 備考 |
+- `WithSparseVectors(...)`, `WithFloat16Vectors(...)`, etc. — batch variants
+
+    対応する追加メソッドの一括処理用バリエーションです。
+
+### クエリベクトルの型\{#query-vector-types}
+
+各 `SubSearchRequest` は、対象フィールドの [DataType](./Collections-DataType) に一致するクエリベクトル表現を 1 つ受け取ります。対応する追加メソッドまたは一括ビルダーメソッドを使用してください。これらはクエリ入力であり、コレクションのカラムペイロードではありません。
+
+| スキーマ DataType | リクエストメソッド | C++ での表現 | 備考 |
 | --- | --- | --- | --- |
-| `FLOAT_VECTOR` | `AddFloatVector()`, `WithFloatVectors()` | `std::vector<float>` | 密な浮動小数点ベクトル。 |
-| `BINARY_VECTOR` | `AddBinaryVector()`, `WithBinaryVectors()` | バイナリ バイトまたは文字列による簡易入力 | 専用のバイナリ ベクトル表現を使用します。 |
-| `SPARSE_FLOAT_VECTOR` | `AddSparseVector()`, `WithSparseVectors()` | `std::map<uint32_t, float>` またはサポートされている JSON 形式 | スパース インデックスと値のペア。 |
-| `FLOAT16_VECTOR` | `AddFloat16Vector()`, `WithFloat16Vectors()` | `std::vector<uint16_t>` または変換可能な浮動小数点ベクトル | 浮動小数点オーバーロードにより変換が行われます。 |
-| `BFLOAT16_VECTOR` | `AddBFloat16Vector()`, `WithBFloat16Vectors()` | `std::vector<uint16_t>` または変換可能な浮動小数点ベクトル | 浮動小数点オーバーロードにより変換が行われます。 |
-| `INT8_VECTOR` | `AddInt8Vector()`, `WithInt8Vectors()` | `std::vector<int8_t>` | 密な符号付きバイト ベクトル。 |
-| 関数または構造体フィールドの入力 | `AddEmbeddedText()` / `WithEmbeddedTexts()`; `AddEmbeddingList()` / `WithEmbeddingLists()` | `std::string` または `EmbeddingList` | サポートされている関数には埋め込みテキストを、構造体フィールド ANN 検索には埋め込みリストを使用します。 |
+| FLOAT_VECTOR | AddFloatVector(), WithFloatVectors() | std::ベクトル&lt;float&gt; | 密な浮動小数点ベクトル。 |
+| BINARY_VECTOR | AddBinaryVector(), WithBinaryVectors() | Binary bytes or string convenience input | 専用のバイナリベクトル表現を使用します。 |
+| SPARSE_FLOAT_VECTOR | AddSparseVector(), WithSparseVectors() | std::map\<uint32_t, float> or supported JSON form | スパースインデックスと値のペア。 |
+| FLOAT16_VECTOR | AddFloat16Vector(), WithFloat16Vectors() | std::ベクトル&lt;uint16_t&gt; or convertible float ベクトル | 浮動小数点のオーバーロードによって変換が実行されます。 |
+| BFLOAT16_VECTOR | AddBFloat16Vector(), WithBFloat16Vectors() | std::ベクトル&lt;uint16_t&gt; or convertible float ベクトル | 浮動小数点のオーバーロードによって変換が実行されます。 |
+| INT8_VECTOR | AddInt8Vector(), WithInt8Vectors() | std::ベクトル&lt;int8_t&gt; | 密な符号付きバイトベクトル。 |
+| 関数または構造体フィールドの入力 | AddEmbeddedText() / WithEmbeddedTexts(); AddEmbeddingList() / WithEmbeddingLists() | std::string または EmbeddingList | サポートされている関数には埋め込みテキストを、構造体フィールド ANN 検索には埋め込みリストを使用します。 |
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+操作が成功したかどうかを示すステータスを返します。
 
 ### FieldData\{#fielddata}
 
-単一フィールドのカラムベース データを表すテンプレート クラスです。具体的なエイリアスがサポート対象のすべてのデータ型に対応しています。`InsertRequest::WithRowsData()` を使用したデータ挿入や、`QueryResults::OutputField()` および `SingleResult::OutputField()` を使用したクエリ/search結果の読み取り時に、これらの具体型のインスタンスが使用されます。
+単一フィールドのカラムベースデータを表すテンプレートクラスです。具体的なエイリアスは、サポートされているすべてのデータ型に対応しています。これらの具象型のインスタンスは、`InsertRequest::WithRowsData()` によるデータ挿入時や、`QueryResults::OutputField()` および `SingleResult::OutputField()` によるクエリ/search 結果の読み取り時に使用されます。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -241,7 +271,7 @@ class FieldData : public Field {
 
 ### EmbeddingList\{#embeddinglist}
 
-このクラスは同じ型のクエリ ベクトルを 1 つ以上保持し、`SearchRequest`、`SubSearchRequest`、または `AddEmbeddingList()` を介した構造体フィールド ANN 検索の対象ベクトルとして使用されます。Add*/Set* メソッドを呼び出して `EmbeddingList` を構築し、それを `SearchRequestBase::AddEmbeddingList()` に渡します。
+このクラスは、同じ型のクエリベクトルを 1 つ以上保持し、`SearchRequest`、`SubSearchRequest`、または `AddEmbeddingList()` を介した構造体フィールド ANN 検索のターゲットベクトルとして使用されます。Add*/Set* メソッドを呼び出して `EmbeddingList` を構築し、それを `SearchRequestBase::AddEmbeddingList()` に渡します。
 
 ```c++
 EmbeddingList list;
@@ -253,7 +283,7 @@ EmbeddingList list;
 
 - `FieldDataPtr TargetVectors() const`
 
-    すべてのベクトルを含む基盤となるフィールド データを返します。
+    すべてのベクトルを含む基盤となるフィールドデータを返します。
 
 - `size_t Count() const`
 
@@ -261,7 +291,7 @@ EmbeddingList list;
 
 - `int64_t Dim() const`
 
-    ベクトルの次元数を返します。埋め込みテキスト モードの場合、値は `0` となります。
+    ベクトルの次元数を返します。埋め込みテキストモードの場合、値は `0` です。
 
 **単一ベクトル追加メソッド:**
 
@@ -271,45 +301,45 @@ EmbeddingList list;
 
 - `Status AddBinaryVector(const std::string& vector)`
 
-    バイナリ ベクトルを 1 つ追加します。文字列オーバーロードでは文字列がバイナリ バイトに変換されます。
+    バイナリベクトルを 1 つ追加します。文字列オーバーロードは文字列をバイナリバイトに変換します。
 
 - `Status AddBinaryVector(const BinaryVecFieldData::ElementT& vector)`
 
-    バイナリ ベクトルを 1 つ追加します。文字列オーバーロードでは文字列がバイナリ バイトに変換されます。
+    バイナリベクトルを 1 つ追加します。文字列オーバーロードは文字列をバイナリバイトに変換します。
 
 - `Status AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
-    インデックスと値のデータ、またはサポートされている JSON 表現からスパース ベクトルを 1 つ追加します。
+    インデックスと値のデータ、またはサポートされている JSON 表現からスパースベクトルを 1 つ追加します。
 
 - `Status AddSparseVector(const nlohmann::json& vector)`
 
-    インデックスと値のデータ、またはサポートされている JSON 表現からスパース ベクトルを 1 つ追加します。
+    インデックスと値のデータ、またはサポートされている JSON 表現からスパースベクトルを 1 つ追加します。
 
 - `Status AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
 
-    float16 ベクトルを 1 つ追加します。浮動小数点ベクトル オーバーロードでは値が float16 に変換されます。
+    float16 ベクトルを 1 つ追加します。浮動小数点ベクトルのオーバーロードは値を float16 に変換します。
 
-- `Status AddFloat16Vector(const std::vector<float>& vector)` — float から float16 への自動変換
+- `Status AddFloat16Vector(const std::vector<float>& vector)` — auto-converts float to float16
 
-    float16 ベクトルを 1 つ追加します。浮動小数点ベクトル オーバーロードでは値が float16 に変換されます。
+    float16 ベクトルを 1 つ追加します。浮動小数点ベクトルのオーバーロードは値を float16 に変換します。
 
 - `Status AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
-    bfloat16 ベクトルを 1 つ追加します。浮動小数点ベクトル オーバーロードでは値が bfloat16 に変換されます。
+    bfloat16 ベクトルを 1 つ追加します。浮動小数点ベクトルのオーバーロードは値を bfloat16 に変換します。
 
-- `Status AddBFloat16Vector(const std::vector<float>& vector)` — float から bfloat16 への自動変換
+- `Status AddBFloat16Vector(const std::vector<float>& vector)` — auto-converts float to bfloat16
 
-    bfloat16 ベクトルを 1 つ追加します。浮動小数点ベクトル オーバーロードでは値が bfloat16 に変換されます。
+    bfloat16 ベクトルを 1 つ追加します。浮動小数点ベクトルのオーバーロードは値を bfloat16 に変換します。
 
 - `Status AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
 
     密な int8 ベクトルを 1 つ追加します。
 
-- `Status AddEmbeddedText(const std::string& text)` — BM25 テキスト埋め込み用
+- `Status AddEmbeddedText(const std::string& text)` — for BM25 text-embedding
 
     BM25 など、サポートされているテキスト埋め込み関数用のテキストを追加します。
 
-**バッチ設定メソッド (リストをリセット):**
+**一括設定メソッド（リストをリセット）:**
 
 - `Status SetFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)`
 
@@ -317,47 +347,47 @@ EmbeddingList list;
 
 - `Status SetBinaryVectors(const std::vector<std::string>& vectors)`
 
-    現在のリストをバイナリ ベクトルで置き換えます。
+    現在のリストをバイナリベクトルで置き換えます。
 
 - `Status SetBinaryVectors(std::vector<BinaryVecFieldData::ElementT>&& vectors)`
 
-    現在のリストをバイナリ ベクトルで置き換えます。
+    現在のリストをバイナリベクトルで置き換えます。
 
 - `Status SetSparseVectors(std::vector<SparseFloatVecFieldData::ElementT>&& vectors)`
 
-    現在のリストをスパース ベクトルで置き換えます。
+    現在のリストをスパースベクトルで置き換えます。
 
 - `Status SetSparseVectors(const std::vector<nlohmann::json>& vectors)`
 
-    現在のリストをスパース ベクトルで置き換えます。
+    現在のリストをスパースベクトルで置き換えます。
 
 - `Status SetFloat16Vectors(std::vector<Float16VecFieldData::ElementT>&& vectors)`
 
-    現在のリストを float16 ベクトルで置き換えます。該当する場合、浮動小数点入力は変換されます。
+    現在のリストを float16 ベクトルで置き換えます。適用可能な場合、浮動小数点入力は変換されます。
 
-- `Status SetFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自動変換
+- `Status SetFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — auto-converts
 
-    現在のリストを float16 ベクトルで置き換えます。該当する場合、浮動小数点入力は変換されます。
+    現在のリストを float16 ベクトルで置き換えます。適用可能な場合、浮動小数点入力は変換されます。
 
 - `Status SetBFloat16Vectors(std::vector<BFloat16VecFieldData::ElementT>&& vectors)`
 
-    現在のリストを bfloat16 ベクトルで置き換えます。該当する場合、浮動小数点入力は変換されます。
+    現在のリストを bfloat16 ベクトルで置き換えます。適用可能な場合、浮動小数点入力は変換されます。
 
-- `Status SetBFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — 自動変換
+- `Status SetBFloat16Vectors(const std::vector<std::vector<float>>& vectors)` — auto-converts
 
-    現在のリストを bfloat16 ベクトルで置き換えます。該当する場合、浮動小数点入力は変換されます。
+    現在のリストを bfloat16 ベクトルで置き換えます。適用可能な場合、浮動小数点入力は変換されます。
 
 - `Status SetInt8Vectors(std::vector<Int8VecFieldData::ElementT>&& vectors)`
 
     現在のリストを密な int8 ベクトルで置き換えます。
 
-- `Status SetEmbeddedTexts(std::vector<std::string>&& texts)` — BM25 テキスト埋め込み用
+- `Status SetEmbeddedTexts(std::vector<std::string>&& texts)` — for BM25 text-embedding
 
-    現在のリストをサポートされている埋め込み関数用のテキスト入力で置き換えます。
+    現在のリストを、サポートされている埋め込み関数用のテキスト入力で置き換えます。
 
 ### SearchResults\{#searchresults}
 
-`SearchResponse::Results()` は、検索呼び出し全体に対して 1 つの `SearchResults` オブジェクトを返します。`SearchResults` にはクエリ ベクトルごとに 1 つの `SingleResult` が含まれ、クエリ ベクトルの順序が維持されます。
+`SearchResponse::Results()` は、検索呼び出し全体に対して 1 つの `SearchResults` オブジェクトを返します。`SearchResults` にはクエリベクトルごとに 1 つの `SingleResult` が含まれ、クエリベクトルの順序が維持されます。
 
 このクラスは、`SearchResponse` または `HybridSearchResponse` に対して `Results()` を呼び出すことで返されます。
 
@@ -374,11 +404,11 @@ explicit SearchResults(std::vector<SingleResult>&& results);
 
 - `const std::vector<float>& Recalls() const`
 
-    クエリ ベクトルごとの再現率値。`enable_recall_calculation` が `true` に設定された Zilliz Cloud インスタンス上で検索が実行された場合にのみ設定されます。それ以外の場合、ベクトルは空になります。
+    クエリベクトルごとの再現率値です。Zilliz Cloud インスタンスで `enable_recall_calculation` が `true` に設定されて検索が実行された場合にのみ設定されます。それ以外の場合、ベクトルは空です。
 
 #### SingleResult\{#singleresult}
 
-`SingleResult` には、1 つのクエリ ベクトルに対する top-k ヒットが含まれており、スコア、プライマリ キー、および要求された出力フィールドが格納されています。`SearchResults` は、これらのクエリごとの結果を格納する外側のコレクションです。
+`SingleResult` には、1 つのクエリベクトルに対する top-k ヒットが含まれ、スコア、プライマリキー、および要求された出力フィールドが格納されています。`SearchResults` は、これらのクエリごとの結果を含む外側のコレクションです。
 
 ```c++
 struct SingleResult {
@@ -394,23 +424,23 @@ using SingleResultPtr = std::shared_ptr<SingleResult>;
 
 - `const std::vector<float>& Scores() const`
 
-    このクエリ ベクトルの類似度スコアまたは距離を返します。
+    このクエリベクトルの類似度スコアまたは距離を返します。
 
 - `IDArray Ids() const`
 
-    ヒットした項目のプライマリ キー値を返します。プライマリ キー フィールドの型を保持する必要がある場合は、OutputField() を使用してください。
+    ヒットのプライマリキー値を返します。プライマリキーフィールドの型を保持する必要がある場合は、OutputField() を使用してください。
 
 - `const std::string& PrimaryKeyName() const`
 
-    サーバーから報告されたプライマリ キー フィールド名を返します。
+    サーバーから報告されたプライマリキーフィールド名を返します。
 
 - `const std::string& ScoreName() const`
 
-    衝突回避プレフィックスを含む、結果のスコア フィールド名を返します。
+    衝突回避プレフィックスを含む、結果のスコアフィールド名を返します。
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    名前を指定して要求された出力フィールドを 1 つ返します。テンプレート オーバーロードにより、要求された具体的な FieldData 型にキャストされます。
+    名前で要求された出力フィールドを 1 つ返します。テンプレートオーバーロードは、要求された具体的な FieldData 型にキャストします。
 
 - `const std::vector<FieldDataPtr>& OutputFields() const`
 
@@ -422,15 +452,15 @@ using SingleResultPtr = std::shared_ptr<SingleResult>;
 
 - `Status OutputRows(EntityRows& rows) const`
 
-    すべてのヒットを行指向のエンティティ データとして実体化します。
+    すべてのヒットを行指向のエンティティデータとして実体化します。
 
 - `Status OutputRow(int i, EntityRow& row) const`
 
-    0 から始まるインデックスを指定して 1 つのヒットを実体化します。
+    0 から始まるインデックスで 1 つのヒットを実体化します。
 
 - `uint64_t GetRowCount() const`
 
-    この結果に含まれるヒット数を返します。
+    この結果のヒット数を返します。
 
 **エラー処理:**
 
@@ -440,9 +470,9 @@ using SingleResultPtr = std::shared_ptr<SingleResult>;
 
 #### 出力フィールドの型\{#output-field-types}
 
-要求されたエンティティ フィールドは `FieldDataPtr` を通じて返されます。具体的な `XxxFieldData` 型は、フィールドのスキーマ [DataType](./Collections-DataType) に従います。ベース ポインターには `OutputField(name)` を、チェック付き共有ポインター キャストには `OutputField<T>(name)` を使用します。
+要求されたエンティティフィールドは `FieldDataPtr` を通じて返されます。具体的な `XxxFieldData` 型は、フィールドのスキーマ [DataType](./Collections-DataType) に従います。ベースポインターには `OutputField(name)` を、型チェック付きの共有ポインターキャストには `OutputField<T>(name)` を使用します。
 
-ポインターの規則は `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>` です。この結果表現は検索インターフェースとクエリ インターフェースで共有されており、ポインター エイリアスが個別の API ページになることはありません。
+ポインターの規則は `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>` です。この結果表現は検索インターフェースとクエリインターフェースで共有されており、ポインターエイリアスが個別の API ページになるわけではありません。
 
 ## 例\{#example}
 

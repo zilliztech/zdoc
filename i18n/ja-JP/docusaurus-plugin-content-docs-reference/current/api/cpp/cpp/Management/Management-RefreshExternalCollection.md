@@ -4,16 +4,16 @@ slug: /cpp/cpp/Management-RefreshExternalCollection
 sidebar_label: "RefreshExternalCollection()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、外部コレクションのリフレッシュジョブを開始します。外部データの変更後にコレクションのメタデータを更新する必要がある場合に使用します。 | Cloud"
+description: "この操作は、外部コレクションの更新ジョブを開始します。外部データが変更され、コレクションのメタデータを更新する必要がある場合に使用します。 | Cloud"
 type: docx
-token: GjhbdmL5PorgMXxkHTPcvVt6nul
-sidebar_position: 5
+token: BRFNded7LoGTfJxgz9kcq20Vnmg
+sidebar_position: 25
 keywords: 
   - ベクトル検索
-  - knnアルゴリズム
+  - kNN アルゴリズム
   - HNSW
   - 非構造化データとは
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollection()
 
-この操作は、外部コレクションのリフレッシュジョブを開始します。外部データの変更後にコレクションのメタデータを更新する必要がある場合に使用します。
+この操作は、外部コレクションの更新ジョブを開始します。外部データが変更され、コレクションのメタデータを更新する必要がある場合に使用します。
 
 ```c++
 Status RefreshExternalCollection(const RefreshExternalCollectionRequest& request, RefreshExternalCollectionResponse& response)
@@ -41,19 +41,29 @@ Status RefreshExternalCollection(const RefreshExternalCollectionRequest& request
 
 ```c++
 auto request = milvus::RefreshExternalCollectionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
     .WithExternalSource("s3")
     .WithExternalSpec({{"bucket", "milvus-data"}, {"path", "collections/book"}});
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
+
+- `WithDatabaseName(const std::string& db_name)`
+
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが適用されます。
+
+- `WithCollectionName(const std::string& collection_name)`
+
+    更新する外部コレクションの名前を設定します。
 
 - `WithExternalSource(const std::string& external_source)`
 
-    外部ソースのタイプを設定します。
+    外部ソースの種類を設定します。
 
 - `WithExternalSpec(const nlohmann::json& external_spec)`
 
-    プロバイダー固有のリフレッシュ設定を JSON 形式で指定します。
+    プロバイダー固有の更新設定を JSON として設定します。
 
 **戻り値:**
 
@@ -63,7 +73,7 @@ auto request = milvus::RefreshExternalCollectionRequest()
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合や、レスポンスの解析に失敗した場合に、この例外がスローされる可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外がスローされることがあります。
 
 ## 例\{#example}
 
@@ -84,5 +94,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: File Resources; action: CREATE; addedSince: v3.0.x */}

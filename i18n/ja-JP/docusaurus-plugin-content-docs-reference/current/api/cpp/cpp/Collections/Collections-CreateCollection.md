@@ -4,12 +4,12 @@ slug: /cpp/cpp/Collections-CreateCollection
 sidebar_label: "CreateCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "コレクションを作成する操作です。 | Cloud"
+description: "この操作は、指定されたスキーマとオプションを使用してコレクションを作成します。 | Cloud"
 type: docx
-token: ATMTdUxB5oRc3Sx8ByIcL58Anrh
+token: IQZ6dYY6hoNwfxxOJIjcVRqEn97
 sidebar_position: 14
 keywords: 
   - RAG
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-コレクションを作成します。
+この操作は、指定されたスキーマとオプションを使用してコレクションを作成します。
 
 ```c++
 Status CreateCollection(const CreateCollectionRequest& request)
@@ -48,130 +48,97 @@ auto request = CreateCollectionRequest()
     .WithNumPartitions(num_partitions)
     .WithNumShards(num_shards)
     .WithConsistencyLevel(level)
-    .WithProperties(value)
-    .WithIndexes(indexes);
+    .WithProperties(properties)
+    .AddProperty(key, property)
+    .WithIndexes(indexes)
+    .AddIndex(index);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    コレクションを作成するデータベース名を設定します。
+    コレクションを作成するデータベースの名前を設定します。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    従来、**[CollectionSchema](./Collections-CollectionSchema)** にもコレクション名が含まれていましたが、**WithCollectionName()** を指定すると **[CollectionSchema](./Collections-CollectionSchema)** で設定したコレクション名が上書きされます。
-
-    </Admonition>
+    作成するコレクションの名前を設定します。
 
 - `WithDescription(const std::string& description)`
 
-    コレクション名を設定します。
+    コレクションの説明を設定します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+- `WithCollectionSchema(const CollectionSchemaPtr& schema)`
 
-    従来、**[CollectionSchema](./Collections-CollectionSchema)** にも説明が含まれていましたが、**WithDescription()** を指定すると **[CollectionSchema](./Collections-CollectionSchema)** で設定したコレクションの説明が上書きされます。
-
-    </Admonition>
-
-- `WithCollectionSchema(const [CollectionSchemaPtr](./Collections-CollectionSchema)& schema)`
-
-    コレクションのスキーマを設定します。
+    コレクションのフィールドを定義するコレクションスキーマを設定します。スキーマへの共有ポインター（const CollectionSchemaPtr&）を受け取ります。
 
 - `WithNumPartitions(int64_t num_partitions)`
 
-    パーティションキーがある場合のパーティション数を設定します。
+    コレクションがパーティションキーフィールドを使用する場合に作成されるパーティション数を設定します。
 
 - `WithNumShards(int64_t num_shards)`
 
     コレクションのシャード数を設定します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+- `WithConsistencyLevel(ConsistencyLevel level)`
 
-    従来、**[CollectionSchema](./Collections-CollectionSchema)** にもシャード数が含まれていましたが、**WithNumShards()** を指定すると **[CollectionSchema](./Collections-CollectionSchema)** で設定したシャード数が上書きされます。
-
-    </Admonition>
-
-- `WithConsistencyLevel([ConsistencyLevel](./Collections-ConsistencyLevel) level)`
-
-    このコレクションのデフォルト整合性レベルを設定します。
+    コレクションのデフォルトの整合性レベルを設定します。
 
 - `WithProperties(std::unordered_map<std::string, std::string>&& properties)`
 
-    このコレクションのプロパティを設定します。
+    TTL 保持期間を定義する「コレクション.ttl.seconds」などのコレクションレベルのプロパティを設定します。マップは右辺値参照で渡されるため、std::move を使用して渡します。
 
 - `AddProperty(const std::string& key, const std::string& property)`
 
-    このコレクションのプロパティを1つ設定します。
+    コレクションレベルの単一のプロパティをキーと値のペアとして追加します。
 
-- `WithIndexes(std::vector<[IndexDesc](./Management-IndexDesc)>&& indexes)`
+- `WithIndexes(std::vector<IndexDesc>&& indexes)`
 
-    作成するインデックスを設定します。
+    コレクションとともに作成するインデックスを設定します。ベクトルは右辺値参照で渡されるため、std::move を使用して渡します。
 
-- `AddIndex([IndexDesc](./Management-IndexDesc)&& index)`
+- `AddIndex(IndexDesc&& index)`
 
-    作成するコレクションにインデックスを追加します。
+    コレクションとともに作成するインデックスを1つ追加します。インデックスは右辺値参照で渡されるため、std::move を使用して渡します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-`status.IsOk()` を確認し、処理の成否を判断します。
+コレクションが正常に作成されたかどうかを示す Status を返します。
 
-**例外:**
+**エラー処理：**
 
-- **StatusCode**
+- **std::exception**
 
-    エラーの詳細は、`status.Code()` および `status.Message()` を参照してください。
+    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+接続済みの MilvusClientV2 で CreateCollection() を呼び出し、スキーマと整合性レベルを持つコレクションを作成します。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-milvus::CollectionSchemaPtr collection_schema = std::make_shared<milvus::CollectionSchema>();
-collection_schema->AddField({field_id, milvus::DataType::INT64, "user id", true, false});
-milvus::FieldSchema varchar_scheam{field_name, milvus::DataType::VARCHAR, "user name"};
-varchar_scheam.SetMaxLength(100);
-collection_schema->AddField(varchar_scheam);
-collection_schema->AddField({field_age, milvus::DataType::INT8, "user age"});
-collection_schema->AddField(
-    milvus::FieldSchema(field_face, milvus::DataType::FLOAT_VECTOR, "face signature").WithDimension(dimension));
+const std::string db_name = "default";
+const std::string collection_name = "book";
+const std::string description = "a collection for books";
 
-// define indexes
-milvus::IndexDesc index_vector(field_face, "", milvus::IndexType::IVF_FLAT, milvus::MetricType::COSINE);
-index_vector.AddExtraParam(milvus::NLIST, "100");
-milvus::IndexDesc index_sort(field_age, "", milvus::IndexType::STL_SORT);
-milvus::IndexDesc index_varchar(field_name, "", milvus::IndexType::TRIE);
+milvus::CollectionSchema schema(collection_name);
+schema.AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
+schema.AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR, "").WithDimension(8));
 
-// drop collection if it exists, the CreateCollectionRequest with indexes will automatically create indexes
-// for this collection and load the collection
-status = client->DropCollection(
-    milvus::DropCollectionRequest().WithCollectionName(collection_name).WithDatabaseName(db_name));
-status = client->CreateCollection(
-    milvus::CreateCollectionRequest()
-        .WithDatabaseName(db_name)
-        .WithCollectionName(collection_name)
-        .WithDescription("my collection")
-        .WithNumShards(1)
-        .WithCollectionSchema(collection_schema)
-        .AddIndex(std::move(index_vector))
-        .AddIndex(std::move(index_sort))
-        .AddIndex(std::move(index_varchar))
-        .AddProperty("my_prop", "dummy")                    // add a customized property
-        .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60")  // configure a built-in property
-        .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG));
+auto request = milvus::CreateCollectionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithDescription(description)
+    .WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema))
+    .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
+status = client->CreateCollection(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

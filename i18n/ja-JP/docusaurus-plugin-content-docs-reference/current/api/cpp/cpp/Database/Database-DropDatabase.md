@@ -4,12 +4,12 @@ slug: /cpp/cpp/Database-DropDatabase
 sidebar_label: "DropDatabase()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はデータベースを削除します。 | Cloud"
+description: "この操作は、接続された Milvus サーバー上のデータベースを削除します。 | Cloud"
 type: docx
-token: H6bldn5xxoPeGJxoX7Icp0tpnMb
+token: GkzpdbQMGovXFIx0n8pc6aDinfc
 sidebar_position: 4
 keywords: 
   - multimodal RAG
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropDatabase()
 
-この操作はデータベースを削除します。
+この操作は、接続された Milvus サーバー上のデータベースを削除します。
 
 ```c++
 Status DropDatabase(const DropDatabaseRequest& request)
@@ -48,36 +48,35 @@ auto request = DropDatabaseRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    削除するデータベースの名前を設定します。
 
 **戻り値:**
 
 *Status*
 
-`status.IsOk()` を確認して、成功したかどうかを判断します。
+データベースが正常に削除されたかどうかを示す Status を返します。
 
-**例外:**
+**エラー処理:**
 
-- **StatusCode**
+- **std::exception**
 
-    エラーの詳細については、`status.Code()` と `status.Message()` を参照してください。
+    リクエストの構築、トランスポート、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+接続された MilvusClientV2 で DropDatabase() を呼び出し、名前を指定してデータベースを削除します。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-status = client->DropDatabase(
-    milvus::DropDatabaseRequest()
-        .WithDatabaseName(my_db_name)
-);
+auto request = milvus::DropDatabaseRequest()
+    .WithDatabaseName(db_name);
+status = client->DropDatabase(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

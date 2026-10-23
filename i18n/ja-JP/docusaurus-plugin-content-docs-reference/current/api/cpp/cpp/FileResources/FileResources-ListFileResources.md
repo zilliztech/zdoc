@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、登録済みのファイルリソースを一覧表示します。サーバーサイド機能で利用可能なリソース名とパスを確認する際に使用します。 | Cloud"
+description: "この操作は、登録済みのファイルリソースを一覧表示します。サーバー側の機能で利用できるリソース名とパスを確認するために使用します。 | Cloud"
 type: docx
 token: LHdcdoz6OoQajtx3SMMcGLjcnFh
-sidebar_position: 3
+sidebar_position: 2
 keywords: 
   - milvus データベース
   - milvus lite
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListFileResources()
 
-この操作は、登録済みのファイルリソースを一覧表示します。サーバーサイド機能で利用可能なリソース名とパスを確認する際に使用します。
+この操作は、登録済みのファイルリソースを一覧表示します。サーバー側の機能で利用できるリソース名とパスを確認するために使用します。
 
 ```c++
 Status ListFileResources(const ListFileResourcesRequest& request, ListFileResourcesResponse& response)
@@ -51,7 +51,7 @@ auto request = milvus::ListFileResourcesRequest();
 
 - **std::exception**
 
-    この例外は、リクエストの送信に失敗した場合や、レスポンスを解析できない場合にスローされる可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外が発生することがあります。
 
 ## 例\{#example}
 

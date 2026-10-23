@@ -4,18 +4,18 @@ slug: /cpp/cpp/Management-ListIndexes
 sidebar_label: "ListIndexes()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "コレクションのインデックス名を取得します。 | Cloud"
+description: "この操作は、コレクションのインデックス名を取得します。 | Cloud"
 type: docx
-token: U7Y9dr70qoyDGYxlgBTcOGTgnbd
-sidebar_position: 13
+token: QO98dfF7qoLAWYxwsy2cfalvntc
+sidebar_position: 15
 keywords: 
-  - Faiss ベクトル データベース
-  - Chroma ベクトル データベース
-  - nlp search
-  - hallucinations llm
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
+  - nlp 検索
+  - LLM のハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -42,30 +42,35 @@ Status ListIndexes(const ListIndexesRequest& request, ListIndexesResponse& respo
 ```c++
 auto request = ListIndexesRequest()
     .WithDatabaseName(db_name)
-    .WithCollectionName(collection_name);
+    .WithCollectionName(collection_name)
+    .WithFieldName(field_name);
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが適用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    コレクションの名前を設定します。
 
-**戻り値:**
+- `WithFieldName(const std::string& field_name)`
+
+    フィールド名を設定します。空の場合は、すべてのフィールドのインデックスが返されます。
+
+**戻り値：**
 
 *ListIndexesResponse* を含む *Status*
 
 `status.IsOk()` を確認し、成功したかどうかを判断します。
 
-**例外:**
+**例外：**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を参照してください。
+    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
 
 ## 例\{#example}
 

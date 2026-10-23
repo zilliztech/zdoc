@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、クエリノードからコレクションのデータを解放します。 | Cloud"
+description: "この操作は、クエリノードからコレクションデータを解放します。 | Cloud"
 type: docx
 token: RzmYdsC1joL3LuxT765csIbwnCh
-sidebar_position: 20
+sidebar_position: 22
 keywords: 
   - ベクトル類似検索
-  - 近似最近傍探索
+  - 近似最近傍検索
   - DiskANN
   - スパースベクトル
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ReleaseCollection()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ReleaseCollection()
 
-この操作は、クエリノードからコレクションのデータを解放します。
+この操作は、クエリノードからコレクションデータを解放します。
 
 ```c++
 Status ReleaseCollection(const ReleaseCollectionRequest& request)
@@ -45,27 +45,27 @@ auto request = ReleaseCollectionRequest()
     .WithCollectionName(collection_name);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが適用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
     コレクション名を設定します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-`status.IsOk()` を確認して、成功したかどうかを判定します。
+成功したことを確認するには、`status.IsOk()` を確認します。
 
-**例外:**
+**例外：**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を参照してください。
+    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
 
 ## 例\{#example}
 

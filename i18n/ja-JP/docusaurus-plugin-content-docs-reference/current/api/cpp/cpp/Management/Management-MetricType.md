@@ -10,15 +10,15 @@ notebook: false
 description: "この列挙型は、ベクトルの比較に使用する距離メトリックを指定します。インデックス作成時は `MetricType` の値を `IndexDesc` に渡し、検索実行時は検索リクエストの引数に渡します。有効な選択肢はベクトルフィールドのデータ型によって異なります。 | Cloud"
 type: docx
 token: Fh1mdjyzRo7LanxIvHqcF9ihnLb
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - MetricType
   - cppv30
 displayed_sidebar: cppSidebar
@@ -52,17 +52,17 @@ enum class MetricType {
 };
 ```
 
-**値:**
+**値：**
 
-*高密度浮動小数点ベクトル (`FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR`):*
+*密な浮動小数点ベクトル（`FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR`）：*
 
 - **L2** (1) - ユークリッド距離。値が小さいほど類似しています。ベクトルが正規化されていない場合に使用します。
 
 - **IP** (2) - 内積（ドット積）。値が大きいほど類似しています。事前に正規化された（単位長の）ベクトルで使用します。この場合、数値的にはコサイン類似度と同等です。
 
-- **COSINE** (3) - コサイン類似度（範囲 −1 〜 1）。値が大きいほど類似しています。ベクトルが正規化されていない可能性がある場合は、`IP` よりも推奨されます。Milvus が内部的に正規化を行うためです。
+- **COSINE** (3) - コサイン類似度（範囲 −1 ～ 1）。値が大きいほど類似しています。ベクトルが正規化されていない可能性がある場合は、`IP` よりも推奨されます。Milvus が内部的に正規化を行うためです。
 
-*バイナリベクトル (`BINARY_VECTOR`):*
+*バイナリベクトル（`BINARY_VECTOR`）：*
 
 - **HAMMING** (101) - 2つのベクトル間で異なるビット位置の数（XOR のポップカウント）。値が小さいほど類似しています。
 
@@ -70,11 +70,11 @@ enum class MetricType {
 
 - **MHJACCARD** (103) - バイナリベクトル用の修正 Hamming–Jaccard ハイブリッド距離。
 
-*スパースベクトル (`SPARSE_FLOAT_VECTOR`):*
+*スパースベクトル（`SPARSE_FLOAT_VECTOR`）：*
 
 - **BM25** (201) - 全文検索用の BM25 関連性スコア。BM25 組み込み関数で生成されたスパースベクトルにのみ有効です。スコアが大きいほど関連性が高いことを示します。
 
-*構造体フィールド（マルチベクトル — `STRUCT`）:*
+*構造体フィールド（マルチベクトル — `STRUCT`）：*
 
 - **MAX_SIM_COSINE** (301) - 構造体フィールド内の全サブベクトルにおける最大コサイン類似度。
 
@@ -86,7 +86,7 @@ enum class MetricType {
 
 - **MAX_SIM_HAMMING** (402) - 構造体フィールド内のバイナリサブベクトルにおける最大 Hamming 類似度。
 
-*特殊:*
+*特殊：*
 
 - **INVALID** / **DEFAULT** (0) - 明示的な設定なし。サーバーがフィールドのデータ型に基づいてメトリックタイプを自動決定します。スカラーフィールドのインデックスには不要です。
 

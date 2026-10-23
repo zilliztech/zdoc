@@ -4,13 +4,13 @@ slug: /cpp/cpp/Collections-AddFunctionField
 sidebar_label: "AddFunctionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "既存のコレクションに関数ベースの出力フィールドを追加します。 | Cloud"
+description: "既存のコレクションに、BM25 スパースベクトルまたは MinHash バイナリベクトル関数を基盤とするフィールドを追加します。 | Cloud"
 type: docx
 token: TcF2doHmuoNHsKxRRJbcsYevnph
-sidebar_position: 34
+sidebar_position: 35
 keywords: 
   - ビデオ検索
   - AIハルシネーション
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AddFunctionField()
 
-既存のコレクションに関数ベースの出力フィールドを追加します。
+既存のコレクションに、BM25 スパースベクトルまたは MinHash バイナリベクトル関数を基盤とするフィールドを追加します。
 
 ```c++
 Status AddFunctionField(const AddFunctionFieldRequest& request)
@@ -45,7 +45,7 @@ auto request = AddFunctionFieldRequest()
     .WithCollectionName(collection_name)
     .WithField(field_schema)
     .WithFunction(function)
-    .WithIndex(index);
+    .WithIndex(index_desc);
 ```
 
 **リクエストメソッド:**
@@ -60,21 +60,21 @@ auto request = AddFunctionFieldRequest()
 
 - `WithField(FieldSchema&& field_schema)`
 
-    フィールドスキーマを設定します。
+    関数によって生成される出力フィールドのスキーマを設定します。
 
 - `WithFunction(const FunctionPtr& function)`
 
-    追加する関数を設定します。
+    フィールドを支える関数（例：BM25 トークナイザー）を設定します。
 
 - `WithIndex(IndexDesc&& index)`
 
-    関数の出力フィールドにバインドするインデックスを設定します。バインドされたインデックスは必須であり、明示的なインデックスタイプを使用する必要があります。AUTOINDEX はサポートされていません。
+    新しいフィールドにバインドするインデックス記述子を設定します。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+操作が成功したかどうかを示すステータスを返します。
 
 **エラーハンドリング:**
 

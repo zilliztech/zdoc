@@ -4,7 +4,7 @@ slug: /cpp/cpp/Vector-Get
 sidebar_label: "Get()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "主キーを指定してクエリを実行し、レコードのリストを返します。 | Cloud"
@@ -13,8 +13,8 @@ token: Ve9xdWGNYobA52xfC7kcD4wMnkh
 sidebar_position: 2
 keywords: 
   - ビデオ検索
-  - AIハルシネーション
-  - AIエージェント
+  - AI ハルシネーション
+  - AI エージェント
   - セマンティック検索
   - zilliz
   - zilliz cloud
@@ -79,9 +79,9 @@ auto request = GetRequest()
 
     整合性レベルを設定します。
 
-- `WithIDs(std::ベクトル<int64_t>&& id_array)`
+- `WithIDs(std::vector<int64_t>&& id_array)`
 
-    ID配列を設定します。
+    ID 配列を設定します。
 
 **戻り値:**
 
@@ -91,7 +91,7 @@ auto request = GetRequest()
 
 ### FieldData\{#fielddata}
 
-単一フィールドの列ベースデータを表すテンプレートクラスです。具象エイリアスはサポートされているすべてのデータ型を網羅しています。具象型のインスタンスは、`InsertRequest::WithRowsData()` によるデータの挿入や、/search クエリの結果を `QueryResults::OutputField()` および `SingleResult::OutputField()` で読み取る際に使用されます。
+単一フィールドの列ベースデータを表すテンプレートクラスです。具象エイリアスは、サポートされているすべてのデータ型を網羅します。具象型のインスタンスは、`InsertRequest::WithRowsData()` によるデータの挿入時、または `QueryResults::OutputField()` および `SingleResult::OutputField()` によるクエリ/search 結果の読み取り時に使用されます。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -126,7 +126,7 @@ class FieldData : public Field {
 
 ### QueryResults\{#queryresults}
 
-このクラスは、`Query()` の呼び出しによって返される列ベースの結果データを保持します。`QueryResponse` オブジェクトに対して `Results()` を使用してアクセスします。
+このクラスは、`Query()` 呼び出しから返される列ベースの結果データを保持します。`QueryResponse` オブジェクトの `Results()` を介してアクセスします。
 
 ```c++
 const QueryResults& results = response.Results();
@@ -136,11 +136,11 @@ const QueryResults& results = response.Results();
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    指定された名前の出力フィールドを `FieldDataPtr` として返します。`std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用して具象型にキャストしてください。
+    指定した名前の出力フィールドを `FieldDataPtr` として返します。`std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用して具象型にキャストします。
 
-- `const std::ベクトル<FieldDataPtr>& OutputFields() const`
+- `const std::vector<FieldDataPtr>& OutputFields() const`
 
-    サーバーから返された順序で、すべての出力フィールドを返します。
+    サーバーから返された順序ですべての出力フィールドを返します。
 
 - `const std::set<std::string>& OutputFieldNames() const`
 
@@ -148,15 +148,37 @@ const QueryResults& results = response.Results();
 
 - `Status OutputRows(EntityRows& rows) const`
 
-    すべての結果行をJSON形式の行マップのベクトルに変換し、`rows` に格納します。
+    すべての結果行を JSON 形式の行マップのベクトルに変換し、`rows` に格納します。
 
 - `Status OutputRow(int i, EntityRow& row) const`
 
-    インデックス `i` の行をJSON形式の行マップに変換します。
+    インデックス `i` の行を JSON 形式の行マップに変換します。
 
 - `uint64_t GetRowCount() const`
 
-    返された行数です。クエリで `count(*)` が使用されている場合、集計カウントが返されます。
+    返された行数です。クエリで `count(*)` が使用されている場合、集計された件数を返します。
+
+#### GetResponse statistics\{#getresponse-statistics}
+
+`GetResponse` オブジェクトは、操作のコストを表す実行統計情報を公開します。
+
+**メソッド:**
+
+- `int64_t Cost() const`
+
+    操作のコストをミリ秒単位で返します。
+
+- `int64_t ScannedRemoteBytes() const`
+
+    リモートストレージからスキャンされたバイト数を返します。
+
+- `int64_t ScannedTotalBytes() const`
+
+    スキャンされた合計バイト数を返します。
+
+- `float CacheHitRatio() const`
+
+    キャッシュヒット率を 0.0～1.0 の値として返します。
 
 **例外:**
 
@@ -168,10 +190,10 @@ const QueryResults& results = response.Results();
 
 | カテゴリ | 具象型 | 表現と備考 |
 | --- | --- | --- |
-| スカラー | `BoolFieldData`, `Int8FieldData`, `Int16FieldData`, `Int32FieldData`, `Int64FieldData`, `FloatFieldData`, `DoubleFieldData`, `VarCharFieldData`, `JSONFieldData`, `GeometryFieldData`, `TimestamptzFieldData` | `FieldData<T, DataType::...>` のエイリアスです。ジオメトリはWKT文字列、timestamptzはISO-8601文字列を使用します。 |
-| ベクトル | `FloatVecFieldData`, `Float16VecFieldData`, `BFloat16VecFieldData`, `Int8VecFieldData`, `SparseFloatVecFieldData`, `BinaryVecFieldData` | 密ベクトルおよび疎ベクトルのコンテナです。`BinaryVecFieldData` は文字列変換ヘルパーを持つ派生クラスです。 |
-| 配列と構造体 | `ArrayBoolFieldData`, `ArrayInt8FieldData`, `ArrayInt16FieldData`, `ArrayInt32FieldData`, `ArrayInt64FieldData`, `ArrayFloatFieldData`, `ArrayDoubleFieldData`, `ArrayVarCharFieldData`, `StructFieldData` | `ArrayFieldData<T, Et>` のエイリアスです。各エンティティ行はベクトルとなります。構造体の値はJSONストレージを使用します。 |
-| 共有ポインタ | `XxxFieldDataPtr` | 各具象フィールドデータ型には、対応する `std::shared_ptr<XxxFieldData>` エイリアスが用意されています。 |
+| スカラー | BoolFieldData, Int8FieldData, Int16FieldData, Int32FieldData, Int64FieldData, FloatFieldData, DoubleFieldData, VarCharFieldData, JSONFieldData, GeometryFieldData, TimestamptzFieldData | FieldData&lt;T, DataType::...&gt; のエイリアスです。Geometry は WKT 文字列を、timestamptz は ISO-8601 文字列を使用します。 |
+| ベクトル | FloatVecFieldData, Float16VecFieldData, BFloat16VecFieldData, Int8VecFieldData, SparseFloatVecFieldData, BinaryVecFieldData | 密ベクトルと疎ベクトルのコンテナです。BinaryVecFieldData は、文字列変換ヘルパーを備えた派生クラスです。 |
+| 配列と構造体 | ArrayBoolFieldData, ArrayInt8FieldData, ArrayInt16FieldData, ArrayInt32FieldData, ArrayInt64FieldData, ArrayFloatFieldData, ArrayDoubleFieldData, ArrayVarCharFieldData, StructFieldData | ArrayFieldData&lt;T, Et&gt; のエイリアスです。各エンティティ行はベクトルです。構造体の値は JSON ストレージを使用します。 |
+| 共有ポインタ | XxxFieldDataPtr | 各具象フィールドデータ型には、対応する std::shared_ptr&lt;XxxFieldData&gt; エイリアスがあります。 |
 
 ## 例\{#example}
 

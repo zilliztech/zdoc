@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、データベース内のすべてのコレクションの挿入バッファーをフラッシュします。データの永続化が必要なバックアップや検証ワークフローを実行する前に使用してください。 | Cloud"
+description: "この操作は、データベース内のすべてのコレクションの挿入バッファーをフラッシュします。永続化された書き込みを必要とするバックアップや検証ワークフローを実行する前に使用してください。 | Cloud"
 type: docx
 token: UbjxdApcFonLD4xmm9fcJI2knKd
-sidebar_position: 21
+sidebar_position: 8
 keywords: 
   - milvus データベース
   - milvus lite
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FlushAll()
 
-この操作は、データベース内のすべてのコレクションの挿入バッファーをフラッシュします。データの永続化が必要なバックアップや検証ワークフローを実行する前に使用してください。
+この操作は、データベース内のすべてのコレクションの挿入バッファーをフラッシュします。永続化された書き込みを必要とするバックアップや検証ワークフローを実行する前に使用してください。
 
 ```c++
 Status FlushAll(const FlushAllRequest& request, FlushAllResponse& response)
@@ -63,7 +63,7 @@ auto request = milvus::FlushAllRequest()
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合や、レスポンスを解析できない場合にこの例外が発生することがあります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外が発生することがあります。
 
 ## 例\{#example}
 

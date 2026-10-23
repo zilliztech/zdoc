@@ -4,12 +4,12 @@ slug: /cpp/cpp/Collections-RenameCollection
 sidebar_label: "RenameCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "コレクションの名前を変更する操作です。 | Cloud"
 type: docx
-token: EyHadkgMtohFXxxEEcucWAC5nje
+token: WaD1dzpIzohLMKx39p7cGgEEnDh
 sidebar_position: 31
 keywords: 
   - オープンソースベクトルデータベース
@@ -43,7 +43,8 @@ Status RenameCollection(const RenameCollectionRequest& request)
 auto request = RenameCollectionRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name1)
-    .WithNewCollectionName(collection_name2);
+    .WithNewCollectionName(collection_name2)
+    .WithTargetDatabaseName(db_name2);
 ```
 
 **リクエストメソッド:**
@@ -59,6 +60,10 @@ auto request = RenameCollectionRequest()
 - `WithNewCollectionName(const std::string& collection_name)`
 
     コレクションの新しい名前を設定します。
+
+- `WithTargetDatabaseName(const std::string& db_name)`
+
+    対象のデータベース名を設定します。名前を変更したコレクションは、このデータベースに移動されます。空の場合は、デフォルトのデータベースが適用されます。
 
 **戻り値:**
 

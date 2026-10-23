@@ -7,10 +7,10 @@ added_since: v2.6.3
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、QueryNode メモリ上のロード済みコレクションをリフレッシュします。大量のデータ取り込みや Compaction の実行後、ロード済みデータのビューを即座に最新状態に反映したい場合に使用します。 | Cloud"
+description: "この操作は、QueryNode メモリ上のロード済みコレクションをリフレッシュします。大量の取り込みや Compaction の後、ロード済みデータのビューを即座に最新の状態に追いつかせたい場合に使用します。 | Cloud"
 type: docx
 token: YI1BdnZOMoPSOMxjVMEcrrCwnWh
-sidebar_position: 19
+sidebar_position: 21
 keywords: 
   - ベクトル類似検索
   - 近似最近傍探索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshLoad()
 
-この操作は、QueryNode メモリ上のロード済みコレクションをリフレッシュします。大量のデータ取り込みや Compaction の実行後、ロード済みデータのビューを即座に最新状態に反映したい場合に使用します。
+この操作は、QueryNode メモリ上のロード済みコレクションをリフレッシュします。大量のデータ取り込みや Compaction の後、ロード済みデータのビューを即座に最新の状態に追いつかせたい場合に使用します。
 
 ```c++
 Status RefreshLoad(const RefreshLoadRequest& request)
@@ -52,15 +52,15 @@ auto request = RefreshLoadRequest()
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    リフレッシュ対象のコレクション名を設定します。
+    リフレッシュするコレクション名を設定します。
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベースを設定します。省略時はデフォルトデータベースが使用されます。
+    対象のデータベースを設定します。省略した場合は、デフォルトのデータベースが使用されます。
 
 - `WithSync(bool sync)`
 
-    リフレッシュ完了まで呼び出しをブロックするかどうかを制御します。デフォルトは `true` です。
+    リフレッシュが完了するまで呼び出しをブロックするかどうかを制御します。デフォルトは `true` です。
 
 - `WithTimeoutMs(int64_t timeout_ms)`
 

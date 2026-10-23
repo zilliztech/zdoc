@@ -10,7 +10,7 @@ notebook: false
 description: "コレクションスキーマの関数でサポートされる関数タイプを列挙します。 | Cloud"
 type: docx
 token: InoydNBt1osec5xj0C6cPCsRnTd
-sidebar_position: 37
+sidebar_position: 38
 keywords: 
   - llm eval
   - Sparse vs Dense
@@ -54,4 +54,3 @@ auto function_type = milvus::FunctionType::BM25;
 - MINHASH = 4
 
 - MOLFINGERPRINT = 5
-

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "指定した条件でクエリを実行し、条件に完全に一致するレコードのリストを返します。 | Cloud"
+description: "一連の条件でクエリを実行し、クエリに完全に一致するレコードのリストを返します。 | Cloud"
 type: docx
 token: LtZhdRryBo4vAwxHJmDcbsKvnhK
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Query()
 
-指定した条件でクエリを実行し、条件に完全に一致するレコードのリストを返します。
+一連の条件でクエリを実行し、クエリに完全に一致するレコードのリストを返します。
 
 ```c++
 Status Query(const QueryRequest& request, QueryResponse& response)
@@ -51,6 +51,8 @@ auto request = QueryRequest()
     .WithFilter(filter)
     .AddFilterTemplate(key, filter_template)
     .WithFilterTemplates(filter_templates)
+    .WithIDs(int64_id_array)
+    .WithIDs(string_id_array)
     .WithLimit(limit)
     .WithOffset(offset)
     .WithIgnoreGrowing(ignore_growing)
@@ -60,7 +62,7 @@ auto request = QueryRequest()
     .AddOrderByField(order_by_field);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
@@ -88,7 +90,7 @@ auto request = QueryRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    整合性レベルを設定します。詳細については、ドキュメントを参照してください: https://milvus.io/docs/consistency.md#Consistency-Level.
+    整合性レベルを設定します。詳細については、[整合性レベル](/docs/consistency-level) を参照してください。
 
 - `WithFilter(std::string filter)`
 
@@ -96,41 +98,49 @@ auto request = QueryRequest()
 
 - `AddFilterTemplate(std::string key, const nlohmann::json& filter_template)`
 
-    フィルター式のプレースホルダーに値を1つ追加します。この機能は、リクエストに空でないフィルターが含まれる場合にのみ使用され、大きなリテラル値の繰り返しパースを回避するために利用します。
+    フィルター式のプレースホルダーに値を1つ追加します。これは、リクエストに空でないフィルターがある場合にのみ使用され、大きなリテラル値を繰り返し解析することを回避します。
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
     フィルター式で使用されるすべてのプレースホルダー値を置き換えます。キーは \{age\} や \{city\} などのプレースホルダーに対応し、値にはブール値、数値、文字列、または配列データを指定できます。
 
+- `WithIDs(std::vector<int64_t>&& id_array)`
+
+    レコードが返される整数のプライマリキーを設定します。注：ID とフィルターは同時に設定できません。
+
+- `WithIDs(std::vector<std::string>&& id_array)`
+
+    レコードが返される文字列のプライマリキーを設定します。注：ID とフィルターは同時に設定できません。
+
 - `WithLimit(int64_t limit)`
 
-    limit 値を設定します。式が空の場合にのみ有効です。\n 注: この値は ExtraParams に格納されます。
+    limit 値を設定します。式が空の場合にのみ使用できます。\n 注：この値は ExtraParams に格納されます。
 
 - `WithOffset(int64_t offset)`
 
-    offset 値を設定します。式が空の場合にのみ有効です。\n 注: この値は ExtraParams に格納されます。
+    offset 値を設定します。式が空の場合にのみ使用できます。\n 注：この値は ExtraParams に格納されます。
 
 - `WithIgnoreGrowing(bool ignore_growing)`
 
-    growing セグメントを無視するかどうかを設定します。注: この値は ExtraParams に格納されます。
+    growing セグメントを無視するように設定します。注：この値は ExtraParams に格納されます。
 
 - `AddExtraParam(const std::string& key, const std::string& value)`
 
-    追加パラメーターを設定します。
+    追加パラメーターを追加します。
 
 - `WithTimezone(const std::string& timezone)`
 
-    タイムゾーンを設定します。Timestamptz フィールドに対して有効です。注: この値は ExtraParams に格納されます。
+    タイムゾーンを設定します。Timestamptz フィールドに対して有効です。注：この値は ExtraParams に格納されます。
 
-- `WithOrderByFields(std::ベクトル<OrderByField>&& order_by_fields)`
+- `WithOrderByFields(std::vector<OrderByField>&& order_by_fields)`
 
-    クエリ結果のソートに使用するフィールドを設定します。
+    クエリ結果を並べ替えるために使用するフィールドを設定します。
 
 - `AddOrderByField(OrderByField order_by_field)`
 
-    クエリ結果のソートに使用するフィールドを追加します。
+    クエリ結果を並べ替えるために使用するフィールドを追加します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
@@ -138,7 +148,7 @@ auto request = QueryRequest()
 
 ### FieldData\{#fielddata}
 
-単一フィールドの列指向データを表すテンプレートクラスです。具象エイリアスはサポートされているすべてのデータ型を網羅しています。具象型のインスタンスは、`InsertRequest::WithRowsData()` を使ったデータの挿入や、`QueryResults::OutputField()` および `SingleResult::OutputField()` を使ったクエリ/search結果の読み取り時に使用されます。
+単一フィールドの列指向データを表すテンプレートクラスです。具象エイリアスは、サポートされているすべてのデータ型を網羅しています。具象型のインスタンスは、`InsertRequest::WithRowsData()` を介してデータを挿入する場合、または `QueryResults::OutputField()` と `SingleResult::OutputField()` を介してクエリ結果と /search 結果を読み取る場合に使用されます。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -179,13 +189,13 @@ class FieldData : public Field {
 const QueryResults& results = response.Results();
 ```
 
-**メソッド:**
+**メソッド：**
 
 - `FieldDataPtr OutputField(const std::string& name) const`
 
-    指定された名前の出力フィールドを `FieldDataPtr` として返します。`std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用して具象型にキャストします。
+    指定した名前の出力フィールドを `FieldDataPtr` として返します。`std::dynamic_pointer_cast<Int64FieldData>(results.OutputField("id"))` を使用して、具象型にキャストします。
 
-- `const std::ベクトル<FieldDataPtr>& OutputFields() const`
+- `const std::vector<FieldDataPtr>& OutputFields() const`
 
     サーバーから返された順序で、すべての出力フィールドを返します。
 
@@ -203,23 +213,45 @@ const QueryResults& results = response.Results();
 
 - `uint64_t GetRowCount() const`
 
-    返された行数を返します。クエリで `count(*)` が使用されている場合、このメソッドは集計カウントを返します。
+    返された行数です。クエリで `count(*)` を使用すると、集計カウントが返されます。
+
+#### QueryResponse の統計\{#queryresponse-statistics}
+
+`QueryResponse` オブジェクトは、クエリのコストを表す実行統計を公開します。
+
+**メソッド：**
+
+- `int64_t Cost() const`
+
+    クエリのコストをミリ秒で返します。
+
+- `int64_t ScannedRemoteBytes() const`
+
+    リモートストレージからスキャンされたバイト数を返します。
+
+- `int64_t ScannedTotalBytes() const`
+
+    スキャンされた合計バイト数を返します。
+
+- `float CacheHitRatio() const`
+
+    キャッシュヒット率を 0.0 から 1.0 の範囲の値として返します。
 
 #### 出力フィールドの型\{#output-field-types}
 
-要求されたエンティティフィールドは `FieldDataPtr` を通じて返されます。具象 `XxxFieldData` 型はフィールドのスキーマ [DataType](./Collections-DataType) に従います。ベースポインターには `OutputField(name)` を使用するか、チェック付き共有ポインターキャストには `OutputField<T>(name)` を使用します。
+要求されたエンティティフィールドは、`FieldDataPtr` を介して返されます。具象 `XxxFieldData` 型は、フィールドのスキーマ [DataType](./Collections-DataType) に従います。ベースポインターには `OutputField(name)` を使用し、チェック済みの共有ポインターキャストには `OutputField<T>(name)` を使用します。
 
-ポインターの命名規則は `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>` です。この結果表現は検索およびクエリインターフェースで共通であり、ポインターエイリアスごとに個別の API ページは作成されません。
+ポインターの規則は `XxxFieldDataPtr = std::shared_ptr<XxxFieldData>` です。この結果表現は検索インターフェースとクエリインターフェースで共有されており、ポインターエイリアスごとに別の API ページを作成するものではありません。
 
-**エラーハンドリング:**
+**エラーハンドリング：**
 
 - **std::exception**
 
-    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
+    リクエストの構築、転送、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した Query() の使用例を示します。
+C++ SDK で Query() を使用する例を示します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

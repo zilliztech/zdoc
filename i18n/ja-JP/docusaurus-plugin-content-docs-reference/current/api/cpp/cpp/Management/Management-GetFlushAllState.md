@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、flush-all 操作が完了したかどうかを確認します。最初の flush リクエストとは別に完了状態をポーリングする場合に使用します。 | Cloud"
 type: docx
 token: TBtpd6bsLoelhbx2iXDccaVDnqe
-sidebar_position: 22
+sidebar_position: 11
 keywords: 
   - オーディオ類似検索
   - エラスティックベクトルデータベース
@@ -63,7 +63,7 @@ auto request = milvus::GetFlushAllStateRequest()
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合や、レスポンスを解析できない場合に、この例外が発生する可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外が発生する可能性があります。
 
 ## 例\{#example}
 

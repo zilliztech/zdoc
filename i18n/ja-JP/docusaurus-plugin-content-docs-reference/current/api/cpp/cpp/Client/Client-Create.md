@@ -4,12 +4,12 @@ slug: /cpp/cpp/Client-Create
 sidebar_label: "Create()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は MilvusClientV2 インスタンスを生成します。 | Cloud"
+description: "この操作は、新しい MilvusClientV2 インスタンスを作成します。 | Cloud"
 type: docx
-token: J3Rqd884xoiTSTxl4YjcbtvunWf
+token: CfaudoM2CocOHtxYirFcJqbKnof
 sidebar_position: 4
 keywords: 
   - knn
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Create()
 
-この操作は MilvusClientV2 インスタンスを生成します。
+この操作は、新しい MilvusClientV2 インスタンスを作成します。
 
 ```c++
 static std::shared_ptr<MilvusClientV2> Create()
@@ -39,22 +39,22 @@ static std::shared_ptr<MilvusClientV2> Create()
 
 **戻り値:**
 
-*Status*
+*std::shared_ptr&lt;milvus::MilvusClientV2&gt;*
 
-`status.IsOk()` を確認し、処理の成否を判定します。
+新しく作成されたクライアントインスタンスを返します。このインスタンスは、Connect() で設定できる状態です。
 
-**例外:**
+**エラー処理:**
 
-- **StatusCode**
+- **std::exception**
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を参照してください。
+    クライアントインスタンスを構築できない場合にスローされます。失敗の詳細については、例外メッセージを確認してください。
 
 ## 例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+クライアントインスタンスを作成し、Milvus サーバーに接続します。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {

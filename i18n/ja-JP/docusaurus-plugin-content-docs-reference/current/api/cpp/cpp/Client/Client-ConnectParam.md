@@ -4,21 +4,21 @@ slug: /cpp/cpp/Client-ConnectParam
 sidebar_label: "ConnectParam"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "このクラスは、`MilvusClient:Connect()` に渡される接続パラメータを保持します。コンストラクタのオーバーロードで簡易設定を行った後、`With()` メソッドをチェーンして TLS、keepalive、タイムアウトなどの詳細設定を行えます。 | Cloud"
+description: "このクラスは、`MilvusClient:Connect()` に渡される接続パラメータを保持します。すばやく設定するにはコンストラクターのオーバーロードを使用し、その後、`With()` メソッドをチェーンして TLS、keepalive、タイムアウトなどの詳細設定を構成します。 | Cloud"
 type: docx
-token: VMgPdyPGuor1t7xlZGWcWV1tnhh
+token: YY8Rd5aoOoeUYbxGqINcOHgjnsb
 sidebar_position: 3
 keywords: 
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
-  - What is unstructured data
-  - ベクトル embeddings
+  - 非構造化データとは
+  - ベクトル埋め込み
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ConnectParam
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConnectParam
 
-このクラスは、`MilvusClient::Connect()` に渡される接続パラメータを保持します。コンストラクタのオーバーロードで簡易設定を行った後、`With*()` メソッドをチェーンして TLS、keepalive、タイムアウトなどの詳細設定を行えます。
+このクラスは、`MilvusClient::Connect()` に渡される接続パラメータを保持します。すばやく設定するにはコンストラクターのオーバーロードを使用し、その後、`With*()` メソッドをチェーンして TLS、keepalive、タイムアウトなどの詳細設定を構成します。
 
 ```c++
 // Recommended: URI only (no authentication)
@@ -46,7 +46,7 @@ ConnectParam(std::string host, uint16_t port, const std::string& token);
 ConnectParam(std::string host, uint16_t port, std::string username, std::string password);
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **uri** (*const std::string&*)
 
@@ -54,7 +54,7 @@ ConnectParam(std::string host, uint16_t port, std::string username, std::string 
 
 - **token** (*const std::string&*)
 
-    Authorization ヘッダーの値を設定します。セルフホスト環境では `"username:password"` を、Zilliz Cloud では Zilliz Cloud API キーを使用します。
+    Authorization ヘッダーの値を設定します。セルフホストインスタンスでは `"username:password"` を、Zilliz Cloud では Zilliz Cloud API キーを使用します。
 
 - **host** (*std::string*) — *非推奨。代わりに* `uri` *を使用してください*
 
@@ -82,42 +82,43 @@ ConnectParam param(uri, token)
     .WithKeepaliveWithoutCalls(keepalive_without_calls)
     .WithRpcDeadlineMs(rpc_deadline_ms)
     .WithTls()
-    .WithDbName(db_name);
+    .WithDbName(db_name)
+    .WithTelemetryConfig(telemetry_config);
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithUri(const std::string& uri)`
 
-    サーバーの URI を設定します。コンストラクタで指定した値を上書きします。デフォルト: `"YOUR_CLUSTER_ENDPOINT"`。
+    サーバーの URI を設定します。コンストラクターで指定した値を上書きします。デフォルト: `"YOUR_CLUSTER_ENDPOINT"`。
 
 - `WithToken(const std::string& token)`
 
-    認証トークンを設定します。このメソッドを呼び出すと、`WithAuthorizations()` で事前に設定されたユーザー名/passwordがリセットされます。
+    認証トークンを設定します。このメソッドを呼び出すと、`WithAuthorizations()` で事前に設定したユーザー名/password がリセットされます。
 
 - `WithAuthorizations(std::string username, std::string password)`
 
-    認証用のユーザー名とパスワードを設定します。このメソッドを呼び出すと、`WithToken()` で事前に設定されたトークンがリセットされます。
+    認証に使用するユーザー名とパスワードを設定します。このメソッドを呼び出すと、`WithToken()` で事前に設定したトークンがリセットされます。
 
 - `WithConnectTimeout(uint64_t connect_timeout_ms)`
 
-    gRPC チャネルが `READY` 状態になるまでの待機タイムアウト（ミリ秒単位）。デフォルト: `10000`。
+    gRPC チャネルが `READY` 状態になるまでの待機タイムアウトをミリ秒単位で設定します。デフォルト: `10000`。
 
 - `WithKeepaliveTimeMs(uint64_t keepalive_time_ms)`
 
-    keepalive ping の送信間隔（ミリ秒単位）。デフォルト: `10000`。
+    keepalive ping の間隔をミリ秒単位で設定します。デフォルト: `10000`。
 
 - `WithKeepaliveTimeoutMs(uint64_t keepalive_timeout_ms)`
 
-    keepalive ping の応答待ちタイムアウト（ミリ秒単位）。この時間内に応答がない場合、接続を閉じます。デフォルト: `5000`。
+    接続を閉じる前に、keepalive ping の確認応答を待機するタイムアウトをミリ秒単位で設定します。デフォルト: `5000`。
 
 - `WithKeepaliveWithoutCalls(bool keepalive_without_calls)`
 
-    `true` に設定すると、アクティブな RPC がなくても keepalive ping を送信します。デフォルト: `true`。
+    `true` の場合、アクティブな RPC がないときでも keepalive ping が送信されます。デフォルト: `true`。
 
 - `WithRpcDeadlineMs(uint64_t rpc_deadline_ms)`
 
-    単一 RPC 呼び出しの最大許容時間（ミリ秒単位）。`0` を指定すると期限は設けられません。デフォルト: `0`。
+    1 回の RPC 呼び出しに許可される最大時間をミリ秒単位で設定します。`0` の場合、期限は適用されません。デフォルト: `0`。
 
 - `WithTls()`
 
@@ -125,15 +126,19 @@ ConnectParam param(uri, token)
 
 - `WithTls(const std::string& server_name, const std::string& ca_cert)`
 
-    指定した CA 証明書ファイルパスを使用してサーバー証明書を検証し、TLS を有効にします。
+    指定した CA 証明書ファイルのパスを使用してサーバー証明書を検証する TLS を有効にします。
 
 - `WithTls(const std::string& server_name, const std::string& cert, const std::string& key, const std::string& ca_cert)`
 
-    相互 TLS（mTLS）を有効にします。クライアント証明書ファイル、クライアントキーファイル、および CA 証明書ファイルのパスを指定してください。
+    相互 TLS（mTLS）を有効にします。クライアント証明書ファイル、クライアントキーファイル、CA 証明書ファイルのパスを指定します。
 
 - `WithDbName(const std::string& db_name)`
 
     接続後に使用するデフォルトのデータベースを設定します。デフォルト: `"default"`。
+
+- `WithTelemetryConfig(const TelemetryConfig& config)`
+
+    クライアントのテレメトリ設定を指定します。使用可能な設定については、[TelemetryConfig](./Client-TelemetryConfig) を参照してください。
 
 ## 例\{#example}
 

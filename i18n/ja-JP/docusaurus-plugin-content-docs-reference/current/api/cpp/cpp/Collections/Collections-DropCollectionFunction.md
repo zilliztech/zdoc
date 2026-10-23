@@ -7,7 +7,7 @@ added_since: v2.6.3
 last_modified: v3.0.x
 deprecate_since: v3.0.x
 notebook: false
-description: "既存のコレクションから関数を削除します。 | Cloud"
+description: "この操作は、既存のコレクションの関数を削除します。 | Cloud"
 type: docx
 token: C6UadudBVopgWOxeZRwcf0uKn6b
 sidebar_position: 22
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # DropCollectionFunction()
 
-既存のコレクションから関数を削除します。
+この操作は、既存のコレクションの関数を削除します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Notes">
 
-v3.0.x で非推奨となりました。関数とその出力フィールド、および関連付けられたインデックスをまとめて削除するには、DropFunctionField() を使用してください。
+v3.0.x で非推奨になりました。関数をその出力フィールドとバインドされたインデックスとともに削除するには、[DropFunctionField()](./Collections-DropFunctionField) を使用してください。
 
 </Admonition>
 
@@ -52,43 +52,50 @@ auto request = DropCollectionFunctionRequest()
     .WithFunctionName(function_name);
 ```
 
-### DropCollectionFunctionRequest\{#dropcollectionfunctionrequest}
-
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが使用されます。
+    対象のデータベースの名前を設定します。空の場合は、デフォルトのデータベースが使用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    対象のコレクションの名前を設定します。
 
 - `WithFunctionName(std::string function_name)`
 
-    削除する関数名を設定します。
+    削除する関数の名前を設定します。空にはできません。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+関数が正常に削除されたかどうかを示す Status を返します。
 
-**エラー処理:**
+**エラーハンドリング:**
 
 - **std::exception**
 
-    リクエストの構築、通信、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
+    リクエストの構築、転送、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した DropCollectionFunction() の使用例を示します。
+接続済みの MilvusClientV2 で DropCollectionFunction() を呼び出して、既存のコレクションの関数を削除します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::DropCollectionFunctionRequest();
-util::CheckStatus(client->DropCollectionFunction(request));
+auto request = milvus::DropCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFunctionName(function_name);
+status = client->DropCollectionFunction(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

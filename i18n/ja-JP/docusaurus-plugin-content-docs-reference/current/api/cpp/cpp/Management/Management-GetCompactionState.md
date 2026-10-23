@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、Compaction ジョブのステータスを取得します。 | Cloud"
 type: docx
 token: G7OGdOxABoDWKMxUZDncelbanEd
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - 動画類似検索
   - ベクトル検索

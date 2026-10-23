@@ -10,15 +10,15 @@ notebook: false
 description: "この操作は、各 RPC 呼び出しのタイムアウト値をミリ秒単位で変更します。 | Cloud"
 type: docx
 token: Ff8gdJFLKoKfACxQXBxcK6mmnNf
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI エージェント
+  - セマンティック検索
+  - 異常検知
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - SetRpcDeadlineMs()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 Status SetRpcDeadlineMs(uint64_t timeout_ms)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **timeout_ms** (*uint64_t*)
 
@@ -47,7 +47,7 @@ Status SetRpcDeadlineMs(uint64_t timeout_ms)
 
 *Status*
 
-`status.IsOk()` を参照して成功を確認します。
+`status.IsOk()` を確認して、処理の成否を判定します。
 
 **例外:**
 

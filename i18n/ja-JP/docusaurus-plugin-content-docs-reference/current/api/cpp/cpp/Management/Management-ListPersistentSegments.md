@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、データノードから永続化されたセグメントの情報を取得します。 | Cloud"
 type: docx
 token: XhwtdeOEmoyc9YxuVpqck1ejnNe
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - multimodal RAG
   - llm hallucinations

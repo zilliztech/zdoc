@@ -4,18 +4,18 @@ slug: /cpp/cpp/Collections-AddCollectionStructField
 sidebar_label: "AddCollectionStructField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "既存のコレクションに struct フィールドを追加します。 | Cloud"
+description: "既存のコレクションに構造体フィールドを追加します。 | Cloud"
 type: docx
 token: GWPxd80BYoQleSxNCPNcFvWsnzb
-sidebar_position: 33
+sidebar_position: 34
 keywords: 
   - 自然言語検索
-  - 類似性検索
+  - 類似検索
   - マルチモーダル RAG
-  - LLM の幻覚
+  - LLM ハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionStructField()
 
-既存のコレクションに struct フィールドを追加します。
+既存のコレクションに構造体フィールドを追加します。
 
 ```c++
 Status AddCollectionStructField(const AddCollectionStructFieldRequest& request)
@@ -43,14 +43,14 @@ Status AddCollectionStructField(const AddCollectionStructFieldRequest& request)
 auto request = AddCollectionStructFieldRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithStructField(field_schema);
+    .WithStructField(struct_field_schema);
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが使用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースを使用します。
 
 - `WithCollectionName(const std::string& collection_name)`
 
@@ -58,23 +58,23 @@ auto request = AddCollectionStructFieldRequest()
 
 - `WithStructField(StructFieldSchema&& field_schema)`
 
-    struct フィールドのスキーマを設定します。
+    構造体フィールドのスキーマを設定します。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+操作が成功したかどうかを示すステータスを返します。
 
 **エラー処理:**
 
 - **std::exception**
 
-    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
+    リクエストの構築、転送、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した AddCollectionStructField() の使用例を示します。
+C++ SDK で AddCollectionStructField() を使用する例を示します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

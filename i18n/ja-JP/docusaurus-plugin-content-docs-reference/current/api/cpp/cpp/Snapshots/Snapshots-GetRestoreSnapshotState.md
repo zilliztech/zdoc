@@ -4,18 +4,18 @@ slug: /cpp/cpp/Snapshots-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットリストアジョブの状態を取得します。リストアの進行状況や失敗理由をポーリングする際に使用します。 | Cloud"
+description: "この操作では、スナップショット復元ジョブの状態を取得します。復元の進行状況と失敗理由をポーリングする場合に使用します。 | Cloud"
 type: docx
 token: Utu5dQE8Eo1zD0xdoJccCAx0nnf
 sidebar_position: 4
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - 動画検索
+  - AI ハルシネーション
+  - AI エージェント
+  - セマンティック検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRestoreSnapshotState()
 
-この操作は、スナップショットリストアジョブの状態を取得します。リストアの進行状況や失敗理由をポーリングする際に使用します。
+この操作では、スナップショット復元ジョブの状態を取得します。復元の進行状況と失敗理由をポーリングする場合に使用します。
 
 ```c++
 Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, GetRestoreSnapshotStateResponse& response)
@@ -43,7 +43,8 @@ Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, Ge
 auto request = milvus::GetRestoreSnapshotStateRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book_restored")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithJobID(job_id);
 ```
 
 **リクエストメソッド:**
@@ -54,11 +55,15 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    対象コレクション名を設定します。
+    対象のコレクション名を設定します。
 
 - `WithSnapshotName(const std::string& snapshot_name)`
 
     スナップショット名を設定します。
+
+- `WithJobID(int64_t job_id)`
+
+    ポーリングするスナップショット復元ジョブの ID を設定します。
 
 **戻り値:**
 
@@ -68,7 +73,7 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合、またはレスポンスの解析に失敗した場合に、この例外がスローされる可能性があります。
+    この例外は、リクエストを送信できない場合、またはレスポンスを解析できない場合に発生する可能性があります。
 
 ## 例\{#example}
 
@@ -90,5 +95,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

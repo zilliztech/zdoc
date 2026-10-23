@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "このクラスは、ベクトルまたはスカラーのインデックス構築に必要なパラメーターを保持します。1つ以上の `IndexDesc` オブジェクトを `CreateIndexRequest:AddIndex()` に渡してください。また、`DescribeIndex()` は `DescribeIndexResponse::Descs()` を通じて、ビルドの進行状況と状態情報を含む `IndexDesc` オブジェクトを返します。 | Cloud"
+description: "このクラスは、ベクトルまたはスカラーのインデックスを構築するために必要なパラメーターを保持します。1つ以上の `IndexDesc` オブジェクトを `CreateIndexRequest:AddIndex()` に渡します。`DescribeIndex()` も、ビルドの進行状況と状態情報を含む `IndexDesc` オブジェクトを（`DescribeIndexResponse::Descs()` 経由で）返します。 | Cloud"
 type: docx
 token: C4kSd9x2GobYZGxDTkacZsX2nlc
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - ベクトル化
+  - k 近傍法アルゴリズム
   - ANNS
-  - ベクトル search
+  - ベクトル検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexDesc
 
-このクラスは、ベクトルまたはスカラーのインデックス構築に必要なパラメーターを保持します。1つ以上の `IndexDesc` オブジェクトを `CreateIndexRequest::AddIndex()` に渡してください。また、`DescribeIndex()` は `DescribeIndexResponse::Descs()` を通じて、ビルドの進行状況と状態情報を含む `IndexDesc` オブジェクトを返します。
+このクラスは、ベクトルまたはスカラーのインデックスを構築するために必要なパラメーターを保持します。1つ以上の `IndexDesc` オブジェクトを `CreateIndexRequest::AddIndex()` に渡します。`DescribeIndex()` も、ビルドの進行状況と状態情報を含む `IndexDesc` オブジェクトを（`DescribeIndexResponse::Descs()` 経由で）返します。
 
 ```c++
 IndexDesc();
@@ -52,15 +52,15 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - **index_type** (*milvus::IndexType*)
 
-    インデックス構築に使用するアルゴリズムです。利用可能な値については `IndexType` を参照してください。
+    インデックスの構築に使用するアルゴリズムです。使用可能な値については、`IndexType` を参照してください。
 
 - **metric_type** (*milvus::MetricType*)
 
-    ベクトルの比較に使用する距離メトリックです。スカラーフィールドのインデックスには不要です。デフォルト: `MetricType::INVALID`（サーバーが自動決定）。利用可能な値については `MetricType` を参照してください。
+    ベクトルの比較に使用する距離メトリックです。スカラーフィールドのインデックスには必要ありません。デフォルト: `MetricType::INVALID`（サーバーが自動的に決定します）。使用可能な値については、`MetricType` を参照してください。
 
 ## メソッド\{#methods}
 
-**入力メソッド（インデックス作成時に使用）:**
+**入力メソッド（インデックスの作成時に使用）:**
 
 - `Status SetFieldName(std::string field_name)` / `const std::string& FieldName() const`
 
@@ -72,15 +72,15 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `Status SetIndexType(milvus::IndexType index_type)` / `milvus::IndexType IndexType() const`
 
-    インデックスアルゴリズムを設定または取得します。
+    インデックスのアルゴリズムを設定または取得します。
 
 - `Status SetMetricType(milvus::MetricType metric_type)` / `milvus::MetricType MetricType() const`
 
-    ベクトル距離メトリックを設定または取得します。スカラーフィールドのインデックスでは、未設定のままにするか `INVALID` を指定してください。
+    ベクトルの距離メトリックを設定または取得します。スカラーフィールドのインデックスでは、未設定（または `INVALID`）のままにします。
 
 - `Status AddExtraParam(const std::string& key, const std::string& value)`
 
-    アルゴリズム固有のチューニングパラメーターを追加します（例: IVFインデックスの `milvus::NLIST` / `"nlist"`、HNSWの `"M"` や `"efConstruction"` など）。
+    アルゴリズム固有のチューニングパラメーターを追加します（例: IVF インデックスの `milvus::NLIST` / `"nlist"`、HNSW の `"M"` および `"efConstruction"`）。
 
 - `const std::unordered_map<std::string, std::string>& ExtraParams() const`
 
@@ -88,9 +88,9 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `Status ExtraParamsFromJson(std::string json)`
 
-    JSON文字列を解析して追加パラメーターを設定します。
+    JSON 文字列を解析して、追加パラメーターを設定します。
 
-**出力メソッド（DescribeIndexにより設定）:**
+**出力メソッド（DescribeIndex によって設定）:**
 
 - `int64_t IndexId() const`
 
@@ -98,15 +98,15 @@ IndexDesc(std::string field_name, std::string index_name,
 
 - `milvus::IndexStateCode StateCode() const`
 
-    現在のビルド状態: `NONE`、`UNISSUED`、`IN_PROGRESS`、`FINISHED`、または `FAILED` です。
+    現在のビルド状態は、`NONE`、`UNISSUED`、`IN_PROGRESS`、`FINISHED`、または `FAILED` です。
 
 - `std::string FailReason() const`
 
-    `StateCode()` が `FAILED` の場合に表示されるエラーメッセージです。
+    `StateCode()` が `FAILED` の場合の失敗メッセージです。
 
 - `int64_t IndexedRows() const`
 
-    インデックス作成済みの行数です。Compaction による再インデックスが発生した場合、`TotalRows()` を超えることがあります。
+    インデックス作成済みの行数です。Compaction によって再インデックスが発生した場合、`TotalRows()` を超えることがあります。
 
 - `int64_t TotalRows() const`
 

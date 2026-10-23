@@ -4,17 +4,17 @@ slug: /cpp/cpp/Authentication-UpdatePassword
 sidebar_label: "UpdatePassword()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "ユーザーのパスワードを更新します。 | Cloud"
+description: "この操作はユーザーのパスワードを更新します。 | Cloud"
 type: docx
-token: BXaGduFMvolXlnxaIFkcKy3Nnhu
+token: Livud2dUIotCQbxD8SFc8oWwnGp
 sidebar_position: 21
 keywords: 
-  - milvus ベクトル データベース
-  - milvus db
-  - milvus ベクトル db
+  - Milvus ベクトルデータベース
+  - Milvus DB
+  - Milvus ベクトル DB
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UpdatePassword()
 
-ユーザーのパスワードを更新します。
+この操作はユーザーのパスワードを更新します。
 
 ```c++
 Status UpdatePassword(const UpdatePasswordRequest& request)
@@ -43,36 +43,46 @@ Status UpdatePassword(const UpdatePasswordRequest& request)
 auto request = UpdatePasswordRequest()
     .WithUserName(name)
     .WithOldPassword(password1)
-    .WithNewPassword(password2);
+    .WithNewPassword(password2)
+    .WithDescription(description)
+    .WithResetConnection(reset_connection);
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド：**
 
 - `WithUserName(const std::string& name)`
 
-    ユーザー名を設定します。
+    ユーザーの名前を設定します。
 
 - `WithOldPassword(const std::string& password)`
 
-    ユーザーの現在のパスワードを設定します。
+    ユーザーのパスワードを設定します。
 
 - `WithNewPassword(const std::string& password)`
 
     ユーザーの新しいパスワードを設定します。
 
-**戻り値:**
+- `WithDescription(const std::string& description)`
+
+    ユーザーの説明を設定します。
+
+- `WithResetConnection(bool reset_connection)`
+
+    パスワードの更新後にクライアント接続をリセットするかどうかを指定します。パスワードは、再接続を試行する前にサーバーで更新されます。再接続に失敗した場合、返される Status は、パスワードが更新されたものの、新しい認証情報を使用して接続を手動で再確立する必要があることを報告します。
+
+**戻り値：**
 
 *Status*
 
-`status.IsOk()` を確認し、処理の成否を判定します。
+成功したことを確認するには、`status.IsOk()` を確認してください。
 
-**例外:**
+**例外：**
 
 - **StatusCode**
 
-    エラーの詳細は、`status.Code()` および `status.Message()` を参照してください。
+    エラーの詳細については、`status.Code()` と `status.Message()` を確認してください。
 
-## 使用例\{#example}
+## 例\{#example}
 
 ```c++
 #include "milvus/MilvusClientV2.h"

@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、各 RPC 呼び出しのリトライ ルールを再設定します。 | Cloud"
+description: "この操作は、各 RPC 呼び出しのリトライルールをリセットします。 | Cloud"
 type: docx
 token: IR7hd6VQcoQPg3xNzL2cBw6Nn7f
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - マルチモーダルベクトルデータベース検索
   - Retrieval Augmented Generation
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SetRetryParam()
 
-この操作は、各 RPC 呼び出しのリトライ ルールを再設定します。
+この操作は、各 RPC 呼び出しのリトライルールをリセットします。
 
 ```c++
 Status SetRetryParam(const RetryParam& retry_param)
@@ -41,19 +41,19 @@ Status SetRetryParam(const RetryParam& retry_param)
 
 - **retry_param** (*const [RetryParam](./Client-RetryParam)&*)
 
-    リトライ パラメータを設定します。
+    リトライパラメータを設定します。
 
 **戻り値:**
 
 *Status*
 
-`status.IsOk()` を確認し、成功したかどうかを判断します。
+`status.IsOk()` を確認して、成功したかどうかを判定します。
 
 **例外:**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を参照してください。
+    エラーの詳細については、`status.Code()` および `status.Message()` を確認してください。
 
 ## 例\{#example}
 

@@ -4,21 +4,21 @@ slug: /cpp/cpp/Management-ListRefreshExternalCollectionJobs
 sidebar_label: "ListRefreshExternalCollectionJobs()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、外部コレクションのリフレッシュジョブを一覧表示します。過去または実行中の外部コレクションリフレッシュ状況を確認する際に使用します。 | Cloud"
+description: "この操作は、外部コレクションの更新ジョブを一覧表示します。過去または進行中の外部コレクション更新アクティビティを確認するために使用します。 | Cloud"
 type: docx
-token: TjrfdFKTIoiaQ0x3NXUcMEvHnNb
-sidebar_position: 4
+token: M9b1dFp2ioszBwxqFKUcs6gYn2e
+sidebar_position: 24
 keywords: 
-  - milvus db
-  - milvus ベクトル db
+  - Milvus データベース
+  - Milvus ベクトルデータベース
   - Zilliz Cloud
-  - what is milvus
+  - Milvus とは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ListRefreshExternalCollectionJobs()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-この操作は、外部コレクションのリフレッシュジョブを一覧表示します。過去または実行中の外部コレクションリフレッシュ状況を確認する際に使用します。
+この操作は、外部コレクションの更新ジョブを一覧表示します。過去または進行中の外部コレクション更新アクティビティを確認するために使用します。
 
 ```c++
 Status ListRefreshExternalCollectionJobs(const ListRefreshExternalCollectionJobsRequest& request, ListRefreshExternalCollectionJobsResponse& response)
@@ -40,8 +40,20 @@ Status ListRefreshExternalCollectionJobs(const ListRefreshExternalCollectionJobs
 ## リクエスト構文\{#request-syntax}
 
 ```c++
-auto request = milvus::ListRefreshExternalCollectionJobsRequest();
+auto request = milvus::ListRefreshExternalCollectionJobsRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name);
 ```
+
+**リクエストメソッド:**
+
+- `WithDatabaseName(const std::string& db_name)`
+
+    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+
+- `WithCollectionName(const std::string& collection_name)`
+
+    更新ジョブを一覧表示するコレクションの名前を設定します。
 
 **戻り値:**
 
@@ -51,7 +63,7 @@ auto request = milvus::ListRefreshExternalCollectionJobsRequest();
 
 - **std::exception**
 
-    この例外は、リクエストの送信に失敗した場合やレスポンスを解析できない場合にスローされる可能性があります。
+    リクエストを送信できない場合、または応答を解析できない場合に、この例外が発生する可能性があります。
 
 ## 例\{#example}
 
@@ -70,5 +82,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: File Resources; action: CREATE; addedSince: v3.0.x */}

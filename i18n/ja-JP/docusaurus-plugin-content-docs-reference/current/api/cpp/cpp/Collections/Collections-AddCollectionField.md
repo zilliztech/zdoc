@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "既存のコレクションにフィールドを追加します。 | Cloud"
+description: "この操作は、既存のコレクションのスキーマに新しいフィールドを追加します。 | Cloud"
 type: docx
 token: KMuzdtwSaoadnbx0caLcHCAGn1b
 sidebar_position: 1
 keywords: 
   - HNSW
-  - What is unstructured data
+  - 非構造化データとは
   - ベクトル埋め込み
   - ベクトルストア
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-既存のコレクションにフィールドを追加します。
+この操作は、既存のコレクションのスキーマに新しいフィールドを追加します。
 
 ```c++
 Status AddCollectionField(const AddCollectionFieldRequest& request)
@@ -46,25 +46,25 @@ auto request = AddCollectionFieldRequest()
     .WithField(field_schema);
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが使用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが使用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    フィールドを追加するコレクションの名前を設定します。
 
 - `WithField(FieldSchema&& field_schema)`
 
-    フィールドのスキーマを設定します。
+    追加するフィールドのスキーマを設定します。リクエストは右辺値参照を介してフィールドスキーマの所有権を取得するため、std::move を使用して渡してください。
 
 **戻り値:**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+フィールドが正常に追加されたかどうかを示す Status を返します。
 
 **エラー処理:**
 
@@ -74,13 +74,25 @@ auto request = AddCollectionFieldRequest()
 
 ## 例\{#example}
 
-C++ SDK を使用した AddCollectionField() の使用例を示します。
+接続済みの MilvusClientV2 で AddCollectionField() を呼び出し、既存のコレクションに新しいフィールドを追加します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::AddCollectionFieldRequest();
-util::CheckStatus(client->AddCollectionField(request));
+milvus::FieldSchema field_schema{"age", milvus::DataType::INT64};
+field_schema.WithNullable(true);  // Nullable so rows can omit the value.
+
+auto request = milvus::AddCollectionFieldRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithField(std::move(field_schema));
+status = client->AddCollectionField(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

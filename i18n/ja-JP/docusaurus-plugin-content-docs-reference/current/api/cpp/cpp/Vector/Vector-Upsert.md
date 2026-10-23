@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "コレクションのエンティティをアップサートします。列ベースまたは行ベースのデータを入力できます。 | Cloud"
+description: "コレクションのエンティティを upsert します。列ベースのデータまたは行ベースのデータを入力できます。 | Cloud"
 type: docx
 token: ZOzKddUzaoED8mxB0znc6njxngR
 sidebar_position: 10
@@ -17,8 +17,8 @@ keywords:
   - Zilliz
   - milvus ベクトルデータベース
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - Upsert()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Upsert()
 
-コレクションのエンティティをアップサートします。列ベースまたは行ベースのデータを指定できます。
+コレクションのエンティティを upsert します。列ベースのデータまたは行ベースのデータを入力できます。
 
 ```c++
 Status Upsert(const UpsertRequest& request, UpsertResponse& response)
@@ -53,43 +53,43 @@ auto request = UpsertRequest()
     .AddFieldOp(field_op);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    データベース名を設定します。データベース名が空の場合、デフォルトデータベースのコレクションを一覧表示します。
+    データベース名を設定します。データベース名が空の場合、デフォルトデータベースのコレクションが一覧表示されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    コレクションの名前を設定します。
 
 - `WithPartitionName(const std::string& partition_name)`
 
-    パーティション名を設定します。空の場合は、デフォルトパーティションにデータが挿入されます。
+    パーティションの新しい名前を設定します。パーティション名が空の場合、デフォルトパーティションにデータが挿入されます。
 
 - `WithColumnsData(std::vector<FieldDataPtr>&& columns_data)`
 
-    Fluent インターフェースでフィールドデータを設定します。ColumnsData と RowsData を同時に設定することはできません。
+    fluent インターフェースを使用してフィールドデータを設定します。ColumnsData と RowsData の両方は設定できません。
 
 - `AddColumnData(const FieldDataPtr& column_data)`
 
-    Fluent インターフェースで単一フィールドのデータを設定します。ColumnsData と RowsData を同時に設定することはできません。
+    fluent インターフェースを使用してフィールドデータを設定します。ColumnsData と RowsData の両方は設定できません。
 
 - `WithRowsData(EntityRows&& rows_data)`
 
-    Fluent インターフェースでエンティティ行を設定します。ColumnsData と RowsData を同時に設定することはできません。
+    fluent インターフェースを使用してエンティティ行を設定します。ColumnsData と RowsData の両方は設定できません。
 
 - `AddRowData(EntityRow&& row_data)`
 
-    Fluent インターフェースでエンティティ行を追加します。ColumnsData と RowsData を同時に設定することはできません。
+    fluent インターフェースを使用してエンティティ行を追加します。ColumnsData と RowsData の両方は設定できません。
 
 - `WithPartialUpdate(bool partial_update)`
 
-    データベース名を設定します。True の場合、指定されたフィールドのみが更新され、他のフィールドは変更されません。デフォルトは False です。
+    データベース名を設定します。True の場合、指定したフィールドのみが更新され、その他のフィールドは変更されません。デフォルトは False です。
 
 - `WithFieldOps(std::vector<FieldPartialUpdateOp>&& field_ops)`
 
-    Fluent インターフェースでフィールドごとの部分更新操作を設定します。
+    fluent インターフェースを使用して、フィールドごとの部分更新操作を設定します。
 
 - `AddFieldOp(FieldPartialUpdateOp field_op)`
 
@@ -97,30 +97,30 @@ auto request = UpsertRequest()
 
 ### 列ペイロード型\{#column-payload-types}
 
-コレクションスキーマでは、[DataType](./Collections-DataType) を使用して各フィールドの論理型を宣言します。`Insert()` および `Upsert()` の場合は、共通の `FieldDataPtr` ベースポインター経由で対応する列コンテナーを渡します。
+コレクションのスキーマでは、[DataType](./Collections-DataType) を使用して各フィールドの論理型を宣言します。`Insert()` および `Upsert()` では、共通の `FieldDataPtr` ベースポインターを介して対応する列コンテナを指定します。
 
-| スキーマ DataType | 列ペイロード型 | C++ での表現 | 備考 |
+| スキーマの DataType | 列ペイロード型 | C++ 表現 | 注記 |
 | --- | --- | --- | --- |
-| `BOOL` | `BoolFieldData` | `bool` | ブールスカラー値。 |
-| `INT8`, `INT16`, `INT32`, `INT64` | 対応する `Int*FieldData` | 対応する固定幅整数型 | スキーマ型に対応するコンテナーを選択します。 |
-| `FLOAT`, `DOUBLE` | `FloatFieldData`, `DoubleFieldData` | `float`, `double` | 浮動小数点スカラー値。 |
-| `VARCHAR`, `JSON`, `GEOMETRY`, `TIMESTAMPTZ` | `VarCharFieldData` または `JSONFieldData` | `std::string` または `nlohmann::json` | Geometry および timestamptz は文字列ペイロードエイリアス経由で転送されます。 |
-| `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | 対応する密ベクトル `FieldData` クラス | `std::vector<float>`, `std::vector<uint16_t>`, または `std::vector<int8_t>` | ベクトルエンコーディングに対応するコンテナーを選択します。 |
-| `SPARSE_FLOAT_VECTOR`, `BINARY_VECTOR` | `SparseFloatVecFieldData`, `BinaryVecFieldData` | `std::map<uint32_t, float>` または専用バイナリストレージ | バイナリベクトルには専用クラスを使用します。 |
-| `ARRAY`, `STRUCT` | 特殊化された `Array*FieldData` または `StructFieldData` | 要素固有のコンテナー、または配列形式の `nlohmann::json` ストレージ | 配列は要素型を宣言し、構造体は `DataType::STRUCT` を持つ配列テンプレートを使用します。 |
-| `UNKNOWN` | なし | なし | 挿入ペイロードはありません。 |
+| BOOL | BoolFieldData | bool | ブールスカラー値です。 |
+| INT8, INT16, INT32, INT64 | Matching Int&ast;FieldData | Matching fixed-width integer | スキーマ型に一致するコンテナを選択してください。 |
+| FLOAT, DOUBLE | FloatFieldData, DoubleFieldData | float, double | 浮動小数点スカラー値です。 |
+| VARCHAR, JSON, GEOMETRY, TIMESTAMPTZ | VarCharFieldData or JSONFieldData | std::string or nlohmann::json | Geometry と timestamptz は文字列ペイロードのエイリアスを介して転送されます。 |
+| FLOAT_VECTOR, FLOAT16_VECTOR, BFLOAT16_VECTOR, INT8_VECTOR | Matching dense-ベクトル FieldData class | std::ベクトル&lt;float&gt;, std::ベクトル&lt;uint16_t&gt;, or std::ベクトル&lt;int8_t&gt; | ベクトルエンコーディングに一致するコンテナを選択してください。 |
+| SPARSE_FLOAT_VECTOR, BINARY_VECTOR | SparseFloatVecFieldData, BinaryVecFieldData | std::map\<uint32_t, float> or dedicated binary storage | バイナリベクトルは専用のクラスを使用します。 |
+| ARRAY, STRUCT | Specialized Array&ast;FieldData or StructFieldData | Element-specific container or array-style nlohmann::json storage | 配列は要素型を宣言します。構造体は DataType::STRUCT を指定した配列テンプレートを使用します。 |
+| UNKNOWN | None | None | 挿入ペイロードはありません。 |
 
-具象コンテナー `XxxFieldData` のポインターエイリアスは `XxxFieldDataPtr`（`std::shared_ptr<XxxFieldData>`）です。DML リクエストでは、これらの値を `FieldDataPtr` 経由で受け取ります。
+具象コンテナ `XxxFieldData` の場合、ポインターエイリアス `XxxFieldDataPtr` は `std::shared_ptr<XxxFieldData>` です。DML リクエストは、これらの値を `FieldDataPtr` を介して受け取ります。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-操作の成否を示すステータスを返します。
+操作が成功したかどうかを示すステータスを返します。
 
 ### FieldData\{#fielddata}
 
-単一フィールドの列ベースデータを表すテンプレートクラスです。サポート対象のすべてのデータ型に対して具象エイリアスが用意されています。`InsertRequest::WithRowsData()` によるデータ挿入や、`QueryResults::OutputField()` および `SingleResult::OutputField()` によるクエリ/search結果の取得時に、この具象型のインスタンスを使用します。
+これは、単一フィールドの列ベースのデータを表すテンプレートクラスです。具象エイリアスは、サポートされるすべてのデータ型に対応しています。具象型のインスタンスは、`InsertRequest::WithRowsData()` を介してデータを挿入する場合、または `QueryResults::OutputField()` と `SingleResult::OutputField()` を介してクエリ/search 結果を読み取る場合に使用されます。
 
 ```c++
 // Base abstract interface (not instantiated directly)
@@ -155,43 +155,47 @@ class FieldData : public Field {
 
 ### DmlResults\{#dmlresults}
 
-データ変更操作（挿入、アップサート、削除）の結果を保持するクラスです。`InsertResponse`、`UpsertResponse`、または `DeleteResponse` の `Results()` からアクセスできます。
+このクラスは、データ変更操作（挿入、upsert、または削除）の結果を保持します。`InsertResponse`、`UpsertResponse`、または `DeleteResponse` の `Results()` を介してアクセスします。
 
 ```c++
 const DmlResults& results = response.Results();
 ```
 
-**メソッド:**
+**メソッド：**
 
 - `const IDArray& IdArray() const`
 
-    挿入、アップサート、または削除されたエンティティの ID です。自動 ID コレクションの場合、挿入後にサーバーによって値が設定されます。整数または文字列 ID の読み取り方法については、IDArray を参照してください。
+    挿入、upsert、または削除されたエンティティの ID です。自動 ID のコレクションでは、挿入後にサーバーがこの値を設定します。整数または文字列の ID を読み取る方法については、IDArray を参照してください。
 
 - `uint64_t Timestamp() const`
 
-    サーバー側の操作タイムスタンプです。後続の検索やクエリ呼び出しで `guarantee_timestamp` として渡すことで、Read-your-writes 整合性を確保できます。
+    サーバー側の操作タイムスタンプです。後続の検索またはクエリ呼び出しで `guarantee_timestamp` として渡すことで、read-your-writes 整合性を確保できます。
 
 - `uint64_t InsertCount() const`
 
-    挿入された行数です。`InsertResponse` および `UpsertResponse` で値が設定されます。
+    挿入された行の数です。`InsertResponse` および `UpsertResponse` に設定されます。
 
 - `uint64_t DeleteCount() const`
 
-    削除された行数です。`DeleteResponse` および `UpsertResponse` で値が設定されます。
+    削除された行の数です。`DeleteResponse` および `UpsertResponse` に設定されます。
 
 - `uint64_t UpsertCount() const`
 
-    アップサートされた行数（新規挿入または既存データの置換）です。`UpsertResponse` で値が設定されます。
+    upsert された（新規として挿入されたか、既存の行が置き換えられた）行の数です。`UpsertResponse` に設定されます。
 
-**エラー処理:**
+- `int64_t Cost() const`
+
+    操作のコストをミリ秒単位で返します。
+
+**エラーハンドリング：**
 
 - **std::exception**
 
-    リクエストの構築、転送、またはレスポンス処理に失敗した場合にスローされます。詳細については、例外メッセージまたは返された Status を確認してください。
+    リクエストの構築、転送、またはレスポンスの処理に失敗した場合にスローされます。失敗の詳細については、例外メッセージまたは返された Status を確認してください。
 
 ## 例\{#example}
 
-C++ SDK を使用した Upsert() の使用例を示します。
+C++ SDK で Upsert() を使用する例を示します。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();

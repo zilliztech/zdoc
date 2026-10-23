@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、フィールドからインデックスを削除します。 | Cloud"
+description: "この操作では、フィールドからインデックスを削除します。 | Cloud"
 type: docx
 token: JstbdGVJwocHJ0xQ8M8cagZHn2a
 sidebar_position: 5
 keywords: 
   - 自然言語検索
-  - 類似検索
-  - マルチモーダルRAG
-  - LLM幻覚
+  - 類似性検索
+  - マルチモーダル RAG
+  - LLM のハルシネーション
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - クラウド
   - DropIndex()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropIndex()
 
-この操作は、フィールドからインデックスを削除します。
+この操作では、フィールドからインデックスを削除します。
 
 ```c++
 Status DropIndex(const DropIndexRequest& request)
@@ -47,41 +47,41 @@ auto request = DropIndexRequest()
     .WithIndexName(index_name);
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    対象のデータベース名を設定します。空の場合はデフォルトのデータベースが適用されます。
+    対象のデータベース名を設定します。空の場合は、デフォルトのデータベースが適用されます。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を設定します。
+    コレクションの名前を設定します。
 
 - `WithFieldName(const std::string& field_name)`
 
-    フィールド名を設定します。
+    フィールドの名前を設定します。
 
 - `WithIndexName(const std::string& index_name)`
 
-    インデックス名を設定します。
+    インデックスの名前を設定します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    フィールド名とインデックス名の両方が指定されている場合はインデックス名が使用され、それ以外の場合はフィールド名にフォールバックします。
+    フィールド名とインデックス名の両方を指定した場合は、インデックス名が使用されます。それ以外の場合は、フィールド名にフォールバックします。
 
     </Admonition>
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-成功したかどうかを確認するには、`status.IsOk()` を参照してください。
+`status.IsOk()` を確認して、成功したことを確かめます。
 
-**例外:**
+**例外：**
 
 - **StatusCode**
 
-    エラーの詳細については、`status.Code()` および `status.Message()` を参照してください。
+    エラーの詳細については、`status.Code()` と `status.Message()` を確認してください。
 
 ## 例\{#example}
 

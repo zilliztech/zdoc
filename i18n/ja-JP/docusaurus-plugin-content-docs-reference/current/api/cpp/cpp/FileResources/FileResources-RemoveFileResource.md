@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、登録済みのファイルリソースを削除します。参照されなくなったリソースのクリーンアップに使用します。 | Cloud"
 type: docx
 token: Gs0EdiKeEoU5Exxxnb8ckz74nId
-sidebar_position: 6
+sidebar_position: 3
 keywords: 
   - ベクトルデータベースとは
   - vectordb
@@ -48,7 +48,7 @@ auto request = milvus::RemoveFileResourceRequest()
 
 - `WithName(const std::string& name)`
 
-    削除するリソース名を指定します。
+    削除するリソース名を設定します。
 
 **戻り値:**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "このクラスは、コレクションスキーマ内の単一フィールドを定義します。コレクションの構造を定義する際は、`FieldSchema` インスタンスを `CollectionSchema:AddField()` に渡します。`FieldSchema` は流暢な With ビルダー API をサポートしており、定義を 1 行で連結できます。 | Cloud"
+description: "このクラスは、コレクションスキーマ内の単一フィールドを記述します。コレクションの構造を定義するときは、`FieldSchema` インスタンスを `CollectionSchema:AddField()` に渡します。`FieldSchema` は、メソッドチェーン形式の With&ast; ビルダー API をサポートしているため、定義を 1 行でチェーンできます。 | Cloud"
 type: docx
 token: CmVxdb9mxoe1UixZ3nxc2fmCnOg
 sidebar_position: 24
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-このクラスは、コレクションスキーマ内の単一フィールドを定義します。コレクションの構造を定義する際は、`FieldSchema` インスタンスを `CollectionSchema::AddField()` に渡します。`FieldSchema` は流暢な With* ビルダー API をサポートしており、定義を 1 行で連結できます。
+このクラスは、コレクションスキーマ内の単一フィールドを記述します。コレクションの構造を定義するときは、`FieldSchema` インスタンスを `CollectionSchema::AddField()` に渡します。`FieldSchema` は、メソッドチェーン形式の With&ast; ビルダー API をサポートしているため、定義を 1 行でチェーンできます。
 
 ```c++
 FieldSchema();
@@ -41,7 +41,7 @@ FieldSchema(std::string name, DataType data_type,
             bool auto_id = false);
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **name** (*std::string*)
 
@@ -49,19 +49,19 @@ FieldSchema(std::string name, DataType data_type,
 
 - **data_type** (*[DataType](./Collections-DataType)*)
 
-    フィールドのデータ型を設定します。サポートされているすべての値については、`DataType` を参照してください。
+    フィールドのデータ型を設定します。サポートされるすべての値については、`DataType` を参照してください。
 
 - **description** (*std::string*)
 
-    任意の可読な説明を設定します。デフォルト: `""`。
+    任意の人間が読める説明を設定します。デフォルト: `""`。
 
 - **is_primary_key** (*bool*)
 
-    `true` の場合、このフィールドがプライマリキーとなります。各コレクションにはプライマリキーフィールドがちょうど 1 つ必要です。プライマリキー型としてサポートされているのは `INT64` と `VARCHAR` のみです。デフォルト: `false`。
+    `true` の場合、このフィールドは主キーです。各コレクションには、主キーフィールドが必ず 1 つだけ必要です。主キーの型としてサポートされるのは `INT64` と `VARCHAR` のみです。デフォルト: `false`。
 
 - **auto_id** (*bool*)
 
-    `true` の場合、挿入時にサーバーがプライマリキー値を自動生成します。`is_primary_key` が `true` の場合のみ有効です。デフォルト: `false`。
+    `true` の場合、サーバーは挿入時に主キー値を自動生成します。`is_primary_key` が `true` の場合にのみ有効です。デフォルト: `false`。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -87,15 +87,15 @@ FieldSchema(name, data_type)
 
 - `WithPrimaryKey(bool is_primary_key)`
 
-    このフィールドをプライマリキーとして指定します。プライマリキーにできるのは `INT64` フィールドと `VARCHAR` フィールドのみです。
+    このフィールドを主キーとしてマークします。主キーにできるのは `INT64` と `VARCHAR` フィールドのみです。
 
 - `WithAutoID(bool auto_id)`
 
-    挿入時にサーバー側でプライマリキー値を自動生成できるようにします。`WithPrimaryKey(true)` も設定されている場合のみ有効です。
+    挿入時にサーバー側で主キー値を自動生成できるようにします。`WithPrimaryKey(true)` も設定されている場合にのみ有効です。
 
 - `WithDimension(uint32_t dimension)`
 
-    ベクトル次元を設定します。`FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` フィールドでは**必須**です。`BINARY_VECTOR` の場合、次元は 8 の倍数である必要があります。
+    ベクトルの次元を設定します。`FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` フィールドでは**必須**です。`BINARY_VECTOR` の場合、次元は 8 の倍数である必要があります。
 
 - `WithMaxLength(uint32_t length)`
 
@@ -103,31 +103,31 @@ FieldSchema(name, data_type)
 
 - `WithElementType(DataType dt)`
 
-    `ARRAY` フィールドの要素型を設定します。`ARRAY` フィールドでは**必須**です。サポートされている要素型: `JSON` を除くすべてのスカラー型。
+    `ARRAY` フィールドの要素型を設定します。`ARRAY` フィールドでは**必須**です。サポートされる要素型は、`JSON` を除くすべてのスカラー型です。
 
 - `WithMaxCapacity(uint32_t capacity)`
 
-    `ARRAY` フィールドの最大要素数を設定します。`ARRAY` フィールドでは**必須**です。
+    `ARRAY` フィールド内の要素の最大数を設定します。`ARRAY` フィールドでは**必須**です。
 
 - `WithPartitionKey(bool partition_key)`
 
-    このフィールドをパーティションキーとして指定します。コレクションごとにパーティションキーにできるフィールドは最大 1 つです。
+    このフィールドをパーティションキーとして指定します。コレクションごとに、パーティションキーにできるフィールドは最大 1 つです。
 
 - `WithClusteringKey(bool clustering_key)`
 
-    データクラスタリング用のクラスタリングキーとしてこのフィールドを指定します。コレクションごとに最大 1 つのフィールドまで指定できます。
+    データクラスタリング用のクラスタリングキーとして、このフィールドを指定します。コレクションごとに指定できるフィールドは最大 1 つです。
 
 - `WithNullable(bool nullable)`
 
-    このフィールドで `null` 値を許可します。プライマリキーを除くすべてのスカラーフィールドでサポートされています。デフォルト: `false`。
+    このフィールドに `null` 値を許可します。主キーを除くすべてのスカラーフィールドでサポートされます。デフォルト: `false`。
 
 - `WithDefaultValue(const nlohmann::json& val)`
 
-    エンティティがこのフィールドに値を指定しなかった場合に使用されるデフォルト値を設定します。`JSON` フィールドおよび `ARRAY` フィールドではサポートされていません。
+    エンティティがこのフィールドの値を指定しない場合に使用されるデフォルト値を設定します。`JSON` または `ARRAY` フィールドではサポートされません。
 
 - `EnableAnalyzer(bool enable)`
 
-    `VARCHAR` フィールドのトークン化/text分析を有効にします。テキストマッチおよび全文検索機能に必要です。
+    `VARCHAR` フィールドのトークン化/text 分析を有効にします。テキスト一致および全文検索機能に必要です。
 
 - `EnableMatch(bool enable)`
 
@@ -135,11 +135,11 @@ FieldSchema(name, data_type)
 
 - `WithAnalyzerParams(const nlohmann::json& params)`
 
-    `VARCHAR` フィールドのテキストアナライザー設定（トークナイザー、フィルターなど）を設定します。`WithMultiAnalyzerParams()` と併用することはできません。
+    `VARCHAR` フィールドのテキストアナライザー設定（トークナイザー、フィルターなど）を設定します。`WithMultiAnalyzerParams()` と併用できません。
 
 - `WithMultiAnalyzerParams(const nlohmann::json& params)`
 
-    多言語テキストフィールドの言語別アナライザー設定を行います。`WithAnalyzerParams()` と併用することはできません。
+    多言語テキストフィールド向けに、言語別のアナライザー構成を指定します。`WithAnalyzerParams()` と併用できません。
 
 ## 例\{#example}
 
