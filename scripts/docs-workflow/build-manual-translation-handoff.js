@@ -9,6 +9,7 @@ const {loadTypeScript} = require('../lib/load-typescript');
 const {DOCS_REF_PATHS, assertSafeGitRef} = require('./resolve-docs-refs');
 const {buildTranslationSelection} = require('../translation/selection');
 const {buildTranslationHandoff, validateTranslationHandoffRepository} = require('./translation-handoff');
+const {resolveReferenceManifestCheckpoint} = require('./translation-recovery-planner');
 
 const {sourcePublicationGroups, fetchUnitDefinitions} =
   loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
@@ -159,10 +160,32 @@ function buildManualTranslationHandoff({repository, sourceBranch, group = 'all',
   // zh-CN excludes Guides, and REST is never a source group.
   const selection = buildTranslationSelection({locale, group: groupSelector});
   const requiredGroups = [...new Set(selection.map(unit => unit.sourceGroup))];
+  // Reference groups selected for the zh track replay their group checkpoint
+  // against a target baseline whose Reference source manifest may bind a newer
+  // fetch commit (another group's publish advanced it); the reconciliation
+  // rebuild rejects that combination, so their checkpoint is aligned to the
+  // manifest-bound commit while the group's own source trees are unchanged.
+  // reference-landings anchors to the branch tip instead of a publish commit
+  // and must keep pointing at the freshest content.
+  const referenceManifestGroups = new Set(selection
+    .filter(unit => unit.target === 'zh-CN-reference' && unit.sourceGroup !== 'reference-landings')
+    .map(unit => unit.sourceGroup));
 
   const sourcePublications = {};
   for (const requiredGroup of requiredGroups) {
-    const publication = resolvePublishedSourceUnit(repository, requiredGroup, sourceBranchTip);
+    let publication = resolvePublishedSourceUnit(repository, requiredGroup, sourceBranchTip);
+    if (referenceManifestGroups.has(requiredGroup)) {
+      publication = {
+        ...publication,
+        sourceCheckpointSha: resolveReferenceManifestCheckpoint({
+          repository,
+          sourceCheckpointSha: publication.sourceCheckpointSha,
+          sourceBaselineSha: publication.sourceBaselineSha,
+          targetBaselineSha: sourceBranchTip,
+          group: requiredGroup,
+        }),
+      };
+    }
     ensureCommit(repository, publication.sourceCheckpointSha, `${requiredGroup} source checkpoint`);
     ensureCommit(repository, publication.sourceBaselineSha, `${requiredGroup} source baseline`);
     sourcePublications[requiredGroup] = publication;
