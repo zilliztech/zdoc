@@ -1,4 +1,5 @@
-import type { PageId, SharedDocsError } from '../core/types'
+import type { NamedBlock, PageId, SharedDocsError, Variables } from '../core/types'
+export type { NamedBlock, Variables } from '../core/types'
 
 export interface MilvusDocsReader {
   /** Missing commits/files reject; paths are relative to the repository. */
@@ -9,8 +10,15 @@ export interface MilvusDocsReader {
   isAncestor(ancestor: string, descendant: string): Promise<boolean>
 }
 
-export interface Variables { [key: string]: string | number | boolean | Variables }
-export interface NamedBlock { id: string; startLine: number; endLine: number }
+export interface FragmentSnapshot {
+  root: string
+  /** Committed regular Markdown files; symlinks are never read through. */
+  files: ReadonlyMap<string, string>
+}
+export interface InspectionReader extends MilvusDocsReader {
+  trackedHead(branch: string): Promise<string>
+  withFragments<T>(commit: string, use: (snapshot: FragmentSnapshot) => Promise<T>): Promise<T>
+}
 export type Md2mdError = Pick<SharedDocsError, 'code' | 'message' | 'file' | 'line' | 'detail'>
 export type ParseBlocksResult =
   | { ok: true; blocks: NamedBlock[]; errors: [] }

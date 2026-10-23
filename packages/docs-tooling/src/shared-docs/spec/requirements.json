@@ -654,7 +654,13 @@
     {
       "code": "CONFIG_SYNTAX_INVALID",
       "area": "页面配置",
-      "when": "`page.yaml` 或 `source.yaml` 不是合法的 YAML",
+      "when": "`page.yaml` 或 `source.yaml` 不是合法的 YAML，或 `Variables.json` 不是合法的 JSON",
+      "area_id": "page-config"
+    },
+    {
+      "code": "CONFIG_VARIABLES_INVALID",
+      "area": "页面配置",
+      "when": "`Variables.json` 的顶层不是对象，或同一层中有只差大小写的两个键，如 `Product` 与 `product`",
       "area_id": "page-config"
     },
     {

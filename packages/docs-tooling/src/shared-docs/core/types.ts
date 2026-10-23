@@ -1,6 +1,14 @@
 export type PageId = string
 export type Channel = 'current' | 'next'
 
+export type Variables = Record<string, unknown>
+export interface NamedBlock { id: string; startLine: number; endLine: number }
+export interface NamedBlockInventory extends NamedBlock {
+  type: 'markdown' | 'code-group'
+  languages: (string | null)[]
+  summary: string
+}
+
 export interface SharedDocsError {
   code: string
   message: string

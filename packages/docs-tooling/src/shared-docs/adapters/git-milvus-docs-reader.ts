@@ -1,9 +1,12 @@
 import { execFile } from 'node:child_process'
-import type { MilvusDocsReader } from './types'
+import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
+import type { FragmentSnapshot, InspectionReader } from './types'
 import { MilvusDocsReaderError, requireBranch, requireCommit, requirePath } from './reader-errors'
 
 /** Reads local Git objects only; never fetches or changes a checkout or ref. */
-export class GitMilvusDocsReader implements MilvusDocsReader {
+export class GitMilvusDocsReader implements InspectionReader {
   constructor(private readonly repository: string) {}
 
   private async git(args: string[], input?: string): Promise<{ status: number; stdout: string; stderr: string }> {
@@ -43,13 +46,46 @@ export class GitMilvusDocsReader implements MilvusDocsReader {
     return this.run(['cat-file', 'blob', match[2]])
   }
   async isOnBranch(commit: string, branch: string): Promise<boolean> {
-    requireBranch(branch)
     await this.commit(commit)
+    const head = await this.trackedHead(branch)
+    return this.ancestor(commit, head)
+  }
+  async trackedHead(branch: string): Promise<string> {
+    requireBranch(branch)
     const ref = `refs/heads/${branch}`
     const result = await this.git(['show-ref', '--verify', '--quiet', ref])
     if (result.status === 1) throw new MilvusDocsReaderError('MISSING_BRANCH', `Local branch not found: ${branch}`)
     if (result.status !== 0) throw new MilvusDocsReaderError('GIT_ERROR', result.stderr.trim())
-    return this.ancestor(commit, ref)
+    return (await this.run(['rev-parse', '--verify', ref])).trim()
+  }
+  /** Materialize only fragment objects, without changing any source checkout/ref. */
+  async withFragments<T>(commit: string, use: (snapshot: FragmentSnapshot) => Promise<T>): Promise<T> {
+    await this.commit(commit)
+    const entries = (await this.run(['ls-tree', '-r', '-z', commit, '--', 'site/en']))
+      .split('\0').filter(Boolean)
+    const root = await mkdtemp(join(tmpdir(), 'shared-docs-fragments-'))
+    const files = new Map<string, string>()
+    try {
+      for (const entry of entries) {
+        const match = /^(\d+) (\w+) ([a-f0-9]{40})\t([\s\S]+)$/.exec(entry)
+        if (!match) throw new MilvusDocsReaderError('GIT_ERROR', 'Unexpected Git tree entry')
+        const [, mode, type, object, path] = match
+        if (path !== 'site/en/fragments' && !path.startsWith('site/en/fragments/')) continue
+        requirePath(path)
+        const relative = path.slice('site/en/'.length)
+        if (type !== 'blob') continue
+        if (mode !== '120000' && !relative.endsWith('.md')) continue
+        const content = await this.run(['cat-file', 'blob', object])
+        const destination = join(root, relative)
+        await mkdir(dirname(destination), { recursive: true })
+        if (mode === '120000') await symlink(content, destination)
+        else if (mode === '100644' || mode === '100755') {
+          await writeFile(destination, content)
+          files.set(relative, content)
+        }
+      }
+      return await use({ root, files })
+    } finally { await rm(root, { recursive: true, force: true }) }
   }
   async isAncestor(ancestor: string, descendant: string): Promise<boolean> {
     await this.commit(ancestor)
