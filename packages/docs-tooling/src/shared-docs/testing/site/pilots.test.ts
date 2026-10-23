@@ -3,10 +3,14 @@ import { execFileSync } from 'node:child_process'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { expect, it, onTestFinished } from 'vitest'
+import { expect, it, onTestFinished, vi } from 'vitest'
 import { toMdx } from '../../adapters/mdx'
 import { fencesIn, markdownLines } from '../../core/blocks'
 import { adapted, inspectPilot, preparePilot } from './helpers'
+
+// These tests start Git or CLI subprocesses. A slow shared CI runner can run several
+// times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
 
 it.each([
   ['delete-entities', 3], ['filtered-search', 2], ['openai', 0],

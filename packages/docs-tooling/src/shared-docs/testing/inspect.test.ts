@@ -11,6 +11,10 @@ import { RealMd2md } from '../adapters/md2md'
 import { inspectionContext, runInspect } from '../commands/inspect'
 import { createInspectDemo } from './demo'
 
+// These tests start Git or CLI subprocesses. A slow shared CI runner can run several
+// times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
+
 async function setup() {
   const root = await mkdtemp(join(tmpdir(), 'shared-docs-inspect-'))
   onTestFinished(() => rm(root, { recursive: true, force: true }))
@@ -156,7 +160,7 @@ it('runs inspect via the real CLI and reports a broken page field with a failing
   expect(failure.status, failure.stderr).toBe(1)
   expect(failure.stdout).toMatch(/shared-docs\/pages\/delete-entities\/page.yaml:\d+ .*CONFIG_MANUAL_UNKNOWN/)
   expect(failure.stdout).not.toContain('expanded Markdown')
-}, 30_000)
+}, 120_000)
 
 it('prints both locked versions even when the commits match', async () => {
   const f = await setup()

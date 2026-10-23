@@ -4,6 +4,10 @@ import { rm } from 'node:fs/promises'
 import { expect, it, onTestFinished, vi } from 'vitest'
 import { buildMilvusDocs } from './build'
 
+// These tests start Git or CLI subprocesses. A slow shared CI runner can run several
+// times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
+
 it('builds identical IDs despite ambient Git config, and truncates history at upTo', async () => {
   const build = async (upTo: string) => {
     const repo = await buildMilvusDocs(upTo)

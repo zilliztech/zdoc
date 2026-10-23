@@ -5,7 +5,7 @@
     "prd": "docs/prd.md",
     "plan": "docs/phase-1.md",
     "errors": "docs/design/09-error-catalog.md",
-    "prd_commit": "b3300cb32a13a0af6db35bf897157e6388c471a7"
+    "prd_commit": "9c808b4276dab46e85f4bc08dc87cf521c328251"
   },
   "behaviours": [
     {
@@ -679,6 +679,12 @@
       "code": "CONFIG_MANUAL_UNKNOWN",
       "area": "页面配置",
       "when": "`publish[].manual` 不是 zdoc 已有的手册",
+      "area_id": "page-config"
+    },
+    {
+      "code": "CONFIG_PATH_UNKNOWN",
+      "area": "页面配置",
+      "when": "Phase 1 中，`publish[].path` 在该手册中没有飞书节点生成的页面，或飞书表格快照中没有这一页的记录",
       "area_id": "page-config"
     },
     {

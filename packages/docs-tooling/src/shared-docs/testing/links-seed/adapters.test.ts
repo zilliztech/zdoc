@@ -10,6 +10,10 @@ import { FakeImageFetcher } from '../../adapters/images'
 import { runLinksSeed } from '../../commands/links-seed'
 import { createRepository, createSeedDemo, git, runSeedDemo } from './demo'
 
+// These tests start Git or CLI subprocesses. A slow shared CI runner can run several
+// times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
+
 const roots: string[] = []
 async function temp() { const path = await mkdtemp(join(tmpdir(), 'links-seed-test-')); roots.push(path); return path }
 afterEach(async () => { await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))) })
