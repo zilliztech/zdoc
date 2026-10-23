@@ -10,7 +10,7 @@ notebook: false
 description: "使用结构体数组和字段级数组操作对行或列执行 Upsert，并记录该操作的客户端遥测数据。 | Go | v2"
 type: docx
 token: PB5kdtzs8ok748xwRWacJbEUnze
-sidebar_position: 19
+sidebar_position: 18
 keywords: 
   - milvus 向量 Database
   - milvus 数据库
@@ -37,21 +37,40 @@ import Admonition from '@theme/Admonition';
 func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ...grpc.CallOption) (UpsertResult, error)
 ```
 
+## 请求语法\{#request-syntax}
+
+创建 Upsert() 的请求。
+
+```go
+result, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithVarcharColumn("tags", []string{"featured"}).
+	WithArrayAppend("tags"))
+```
+
 **参数：**
 
 - **collName** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     目标 Collection 的名称。
 
 - **rows** (*...any*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     要插入或更新的一个或多个行值。
 
 **构建器方法：**
+
+- `NewColumnBasedInsertOption(collName string, columns ...column.Column)`
+
+    此方法会基于列创建 Upsert 选项。使用下方的 `With*Column` 方法构建请求。
+
+- `NewRowBasedInsertOption(collName string, rows ...any)`
+
+    此方法会基于行值创建 Upsert 选项。可链式调用 `WithPartition`、`WithNamespace`、`WithPartialUpdate`、`WithArrayAppend`、`WithArrayRemove`、`WithFieldPartialOp` 或 `WithKeepAutoIDPk`。
 
 - `WithColumns(columns ...column.Column)`
 
@@ -81,6 +100,10 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
     此方法会追加一个具有指定名称和值的 VarChar 标量列。
 
+- `WithTextColumn(colName string, data []string)`
+
+    此方法会追加一个具有指定名称和值的 Text 标量列。
+
 - `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
     此方法会追加一个具有指定名称、维度和值的浮点向量列。
@@ -103,7 +126,7 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
 - `WithStructArrayColumn(colName string, structSchema *entity.StructSchema, rows []map[string]any)`
 
-    此方法会基于按行组织的子字段值追加一个 struct-array 列。每一行都是一个以子字段名为键的映射，并且每个值都必须与 structSchema 中声明的标量或向量类型匹配。
+    此方法会基于按行组织的子字段值追加一个结构体数组列。每一行都是一个以子字段名为键的映射，并且每个值都必须与 structSchema 中声明的标量或向量类型匹配。
 
 - `WithPartition(partitionName string)`
 
@@ -111,7 +134,7 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
 - `WithNamespace(namespace string)`
 
-    WithNamespace 将写入范围限定到 Collection 命名空间。对于删除/upsert墓碑记录，主键仍然是 Collection 级别的，因此调用方必须确保同一 Collection 中跨命名空间的主键保持唯一。
+    WithNamespace 将写入范围限定到 Collection 命名空间。对于删除/upsert 墓碑记录，主键仍以 Collection 为范围，因此调用方必须确保同一 Collection 中跨命名空间的主键保持唯一。
 
 - `WithPartialUpdate(partialUpdate bool)`
 
@@ -123,11 +146,11 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
 - `WithArrayRemove(fieldName string)`
 
-    WithArrayRemove 声明在 Upsert 期间，Array 字段 `fieldName` 应使用 ARRAY_REMOVE 语义进行合并。有关隐式提升为 partial_update，请参见 WithArrayAppend。
+    WithArrayRemove 声明在 Upsert 期间，Array 字段 `fieldName` 应使用 ARRAY_REMOVE 语义进行合并。有关隐式启用 partial_update 的说明，请参见 WithArrayAppend。
 
 - `WithFieldPartialOp(fieldName string, op schemapb.FieldPartialUpdateOp_OpType)`
 
-    WithFieldPartialOp 会将显式的 FieldPartialUpdateOp 附加到名称为 `fieldName` 的字段。此方法适用于高级调用方；普通用户应优先使用特定操作的辅助方法（WithArrayAppend、WithArrayRemove）。
+    WithFieldPartialOp 会将显式的 FieldPartialUpdateOp 附加到名称为 `fieldName` 的字段。此方法适用于高级调用方；普通用户应优先使用针对具体操作的辅助方法（WithArrayAppend、WithArrayRemove）。
 
 - `WithKeepAutoIDPk(keepPk bool)`
 
@@ -137,15 +160,32 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
 *UpsertResult, error*
 
-**返回值：**
+**返回：**
 
 返回受影响的行数和主键；如果请求构造或 RPC 失败，则同时返回错误。
 
-**错误处理：**
+```go
+type UpsertResult struct {
+    UpsertCount int64
+    IDs column.Column
+}
+```
+
+**参数：**
+
+- **UpsertCount** (*int64*) -
+
+    受影响 Entity 的数量。
+
+- **IDs** (*column.Column*) -
+
+    受影响 Entity 的 ID。
+
+**异常：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    操作失败。验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
 
 ## 示例\{#example}
 

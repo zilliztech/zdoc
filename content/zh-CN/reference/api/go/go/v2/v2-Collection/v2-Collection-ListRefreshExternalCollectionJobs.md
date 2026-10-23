@@ -4,20 +4,20 @@ slug: /go/go/v2-Collection-ListRefreshExternalCollectionJobs
 sidebar_label: "ListRefreshExternalCollectionJobs()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出全部或指定 Collection 的外部 Collection 刷新作业。 | Go | v2"
+description: "此操作会列出所有或指定 Collection 的外部 Collection 刷新任务。 | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
-sidebar_position: 27
+sidebar_position: 32
 keywords: 
-  - 向量 Database 如何工作
-  - 向量数据库对比
-  - openai 向量数据库
+  - 向量 Database 的工作原理
+  - 向量 Database 对比
+  - OpenAI 向量 Database
   - 自然语言处理 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - ListRefreshExternalCollectionJobs()
   - gov230
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-此操作列出全部或指定 Collection 的外部 Collection 刷新作业。
+此操作会列出所有或指定 Collection 的外部 Collection 刷新任务。
 
 ```go
-func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error) {
+func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 ListRefreshExternalCollectionJobs() 的请求。
 
 ```go
 option := client.NewListRefreshExternalCollectionJobsOption(collectionName)
@@ -47,83 +49,71 @@ result, err := client.ListRefreshExternalCollectionJobs(option)
 
 **参数：**
 
-- **collectionName** (*string*) -
+- **collectionName** （*string*） -
 
-    目标 Collection 的名称。如果未指定此参数，则会返回所有外部 Collection 的刷新作业。
+    **[必需]**
+
+    目标 Collection 的名称。如果未指定此参数，则会列出所有外部 Collection 的刷新任务。
 
 **返回类型：**
 
 *[]&ast;entity.RefreshExternalCollectionJobInfo*
 
-**返回值：**
+**返回：**
 
-由 *entity.RefreshExternalCollectionJobInfo* 结构体组成的列表，其中每一项都记录一个外部 Collection 刷新作业的详细信息。
-
-```go
-type RefreshExternalCollectionJobInfo struct {
-    JobID          int64
-    CollectionName string
-    State          RefreshExternalCollectionState
-    Progress       int64
-    Reason         string
-    ExternalSource string
-    StartTime      int64
-    EndTime        int64
-}
-```
-
-参数：
+返回由 *entity.RefreshExternalCollectionJobInfo* 结构体组成的 Entity 列表，其中每个 Entity 记录一个外部 Collection 刷新任务的详细信息。
 
 **参数：**
 
-- **JobID** (*int64*) -
+- **JobID** （*int64*） -
 
-    当前请求中指定的作业 ID。
+    刷新任务的唯一标识符。
 
-- **CollectionName** (*string*) -
+- **CollectionName** （*string*） -
 
-    在 `RefreshExternalCollection()` 中指定的外部 Collection 名称。
+    正在刷新的 Collection 的名称。
 
-- **State** (*string*) -
+- **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-    指定作业的当前状态。可能的值包括：
+    刷新任务的当前状态。
 
-    - RefreshPending
+- **Progress** （*int64*） -
 
-    - RefreshInProgress
+    刷新任务的进度百分比。
 
-    - RefreshFailed
+- **Reason** （*string*） -
 
-    - RefreshCompleted
+    当前状态的附加信息或原因。
 
-- **Progress** (*int64*) -
+- **ExternalSource** （*string*） -
 
-    指定作业的当前进度。该值为 0 到 100 的整数。
+    外部数据源标识符。
 
-- **Reason** (*string*) -
+- **ExternalSpec** （*string*） -
 
-    如果刷新操作失败，则显示错误提示。正常情况下，此值为空字符串。
+    外部数据源规范（JSON），描述文件格式和对象存储设置。
 
-- **ExternalSource** (*string*) -
+- **StartTime** （*int64*） -
 
-    在 `RefreshExternalCollection()` 中指定的外部源 URI。
+    任务开始时的 Unix 时间戳。
 
-- **StartTime** (*int64*) -
+- **EndTime** （*int64*） -
 
-    指定作业开始时的毫秒级时间戳。
+    任务完成时的 Unix 时间戳。
 
-- **EndTime** (*int64*) -  
+**错误处理：**
 
-    指定作业结束时的毫秒级时间戳。
+- **error**
+
+    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
 
 ## 示例\{#example}
+
+演示 ListRefreshExternalCollectionJobs() 的用法。
 
 ```go
 // List refresh jobs of a specified collection
 option := client.NewListRefreshExternalCollectionJobsOption("test_collection")
-
-// List refresh jobs of all external collections
-option = client.NewListRefreshExternalCollectionJobsOption()
 
 result, err = client.ListRefreshExternalCollectionJobs(option)
 ```

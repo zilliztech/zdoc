@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "由 LoadCollection/LoadPartitions. 返回的异步任务。调用 Await() 以阻塞，直到加载完成。 | Go | v2"
+description: "由 LoadCollection/LoadPartitions. 返回的异步任务。调用 Await() 会阻塞，直至加载完成。 | Go | v2"
 type: docx
 token: U9w7dQeEBom2UBxJZM1cJAIYniL
-sidebar_position: 21
+sidebar_position: 20
 keywords: 
   - Zilliz
-  - milvus 向量 Database
-  - milvus db
-  - milvus 向量 db
-  - zilliz
-  - zilliz cloud
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - LoadTask
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LoadTask
 
-由 LoadCollection/LoadPartitions. 返回的异步任务。调用 Await() 以阻塞，直到加载完成。
+由 LoadCollection/LoadPartitions. 返回的异步任务。调用 Await() 会阻塞，直至加载完成。
 
 ```go
 type LoadTask struct {
@@ -42,4 +42,4 @@ type LoadTask struct {
 
 - `Await(ctx context.Context) error`
 
-    在异步操作完成或上下文被取消之前保持阻塞。如果操作失败，则返回错误。
+    阻塞，直至异步操作完成或上下文被取消。如果操作失败，则返回错误。

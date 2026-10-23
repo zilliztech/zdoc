@@ -1,25 +1,25 @@
 ---
-title: "DropIndexProperties() | Go | v2"
+title: "DropIndexProperties | Go | v2"
 slug: /go/go/v2-Management-DropIndexProperties
-sidebar_label: "DropIndexProperties()"
+sidebar_label: "DropIndexProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会从索引中移除指定的属性。 | Go | v2"
+description: "此操作会从现有索引中移除一个或多个属性。 | Go | v2"
 type: docx
-token: VuYydaf7loMiRAxkB3scXzA1nPb
+token: DdDQdWN3OoSwZbxFTebctTRFnZf
 sidebar_position: 8
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - 托管式 Milvus
-  - Serverless 向量 Database
-  - zilliz
-  - zilliz cloud
+  - DiskANN
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - DropIndexProperties()
+  - DropIndexProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropIndexProperties()
+# DropIndexProperties
 
-此操作会从索引中移除指定的属性。
+此操作会从现有索引中移除一个或多个属性。
 
 ```go
 func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertiesOption, callOptions ...grpc.CallOption) error
@@ -39,25 +39,39 @@ func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertie
 
 ## 请求语法\{#request-syntax}
 
+创建 DropIndexProperties() 的请求。
+
 ```go
-option := milvusclient.NewDropIndexPropertiesOption(collectionName, indexName, keys)
+option := milvusclient.NewDropIndexPropertiesOption(collectionName, indexName, keys...)
 
 err := client.DropIndexProperties(ctx, option)
 ```
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName**（*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **indexName** (*string*)
+- **indexName**（*string*） -
+
+    **[必需]**
 
     索引的名称。
 
-- **keys** (*...string*)
+- **keys**（*...string*） -
 
-    键。
+    **[必需]**
+
+    DropIndexProperties 的键。
+
+**构建器方法：**
+
+- `NewDropIndexPropertiesOption(collectionName string, indexName string, keys ...string)`
+
+    创建用于删除索引属性的选项。`collectionName` 指定 Collection，`indexName` 指定索引，`keys` 列出要移除的属性键。
 
 **返回类型：**
 
@@ -65,36 +79,36 @@ err := client.DropIndexProperties(ctx, option)
 
 **返回值：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+删除索引属性后返回 nil。如果操作失败，则返回错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请求构造或 RPC 失败。请检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
+
+演示 DropIndexProperties() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	// handle err
+	// handle error
 }
 defer cli.Close(ctx)
 
-err = cli.DropIndexProperties(ctx, milvusclient.NewDropIndexPropertiesOption("my_collection", "my_index", "mmap.enabled"))
+err = cli.DropIndexProperties(ctx, milvusclient.NewDropIndexPropertiesOption("books", "vector_index", "mmap.enabled"))
 if err != nil {
-	// handle err
+	// handle error
 }
 ```

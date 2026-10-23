@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "插入行或列，支持结构体数组输入，并记录此操作的客户端遥测数据。 | Go | v2"
+description: "此操作插入行或列，支持结构体数组输入，并记录此操作的客户端遥测数据。 | Go | v2"
 type: docx
 token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
-sidebar_position: 11
+sidebar_position: 10
 keywords: 
   - 向量 Database 教程
   - 向量 Database 如何工作
-  - 向量数据库对比
-  - openai vector db
-  - zilliz
-  - zilliz cloud
+  - 向量 Database 对比
+  - OpenAI 向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - Insert()
   - gov230
@@ -31,10 +31,20 @@ import Admonition from '@theme/Admonition';
 
 # Insert()
 
-插入行或列，支持结构体数组输入，并记录此操作的客户端遥测数据。
+此操作插入行或列，支持结构体数组输入，并记录此操作的客户端遥测数据。
 
 ```go
 func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ...grpc.CallOption) (InsertResult, error)
+```
+
+## 请求语法\{#request-syntax}
+
+为 Insert() 创建请求。
+
+```go
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithStructArrayColumn("chunks", structSchema, rows))
 ```
 
 **参数：**
@@ -52,6 +62,14 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
     要插入的一个或多个行值。
 
 **构建器方法：**
+
+- `NewColumnBasedInsertOption(collName string, columns ...column.Column)`
+
+    基于列创建插入选项。使用下方的 `With*Column` 方法构建请求。
+
+- `NewRowBasedInsertOption(collName string, rows ...any)`
+
+    基于行值创建插入选项。可链式调用 `WithPartition`、`WithNamespace`、`WithPartialUpdate`、`WithArrayAppend`、`WithArrayRemove`、`WithFieldPartialOp` 或 `WithKeepAutoIDPk`。
 
 - `WithColumns(columns ...column.Column)`
 
@@ -80,6 +98,10 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 - `WithVarcharColumn(colName string, data []string)`
 
     追加一个具有指定名称和值的 VarChar 标量列。
+
+- `WithTextColumn(colName string, data []string)`
+
+    追加一个具有指定名称和值的 Text 标量列。
 
 - `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
@@ -111,7 +133,7 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 
 - `WithNamespace(namespace string)`
 
-    WithNamespace 将写入限定在 Collection 命名空间内。对于删除/upsert墓碑，主键的作用域仍然是 Collection 级别，因此调用方必须确保同一 Collection 中跨命名空间的主键保持唯一。
+    WithNamespace 将写入限定在 Collection 命名空间内。对于 delete/upsert tombstone，主键仍以 Collection 为作用域，因此调用方必须确保同一 Collection 中跨命名空间的主键保持唯一。
 
 - `WithPartialUpdate(partialUpdate bool)`
 
@@ -119,15 +141,15 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 
 - `WithArrayAppend(fieldName string)`
 
-    WithArrayAppend 声明在 Upsert 期间，Array 字段 `fieldName` 应按 ARRAY_APPEND 语义合并。当存在任何非 REPLACE 操作时，服务器会隐式启用 partial_update，因此调用方无需再调用 WithPartialUpdate(true)。
+    WithArrayAppend 声明在 Upsert 期间，Array 字段 `fieldName` 应按 ARRAY_APPEND 语义合并。只要存在任何非 REPLACE 操作，服务器就会隐式启用 partial_update，因此调用方无需再调用 WithPartialUpdate(true)。
 
 - `WithArrayRemove(fieldName string)`
 
-    WithArrayRemove 声明在 Upsert 期间，Array 字段 `fieldName` 应按 ARRAY_REMOVE 语义合并。有关隐式提升为 partial_update，请参见 WithArrayAppend。
+    WithArrayRemove 声明在 Upsert 期间，Array 字段 `fieldName` 应按 ARRAY_REMOVE 语义合并。有关隐式提升 partial_update 的说明，请参见 WithArrayAppend。
 
 - `WithFieldPartialOp(fieldName string, op schemapb.FieldPartialUpdateOp_OpType)`
 
-    WithFieldPartialOp 将显式的 FieldPartialUpdateOp 附加到名称为 `fieldName` 的字段上。此方法面向高级调用方；普通用户应优先使用特定操作的辅助方法（WithArrayAppend、WithArrayRemove）。
+    WithFieldPartialOp 将一个显式 FieldPartialUpdateOp 附加到名为 `fieldName` 的字段。此方法面向高级调用方；普通用户应优先使用特定于操作的辅助方法（WithArrayAppend、WithArrayRemove）。
 
 - `WithKeepAutoIDPk(keepPk bool)`
 
@@ -137,15 +159,32 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 
 *InsertResult, error*
 
-**返回值：**
+**返回：**
 
 返回已插入的行数以及生成或提供的主键；如果请求构造或 RPC 失败，则还会返回错误。
 
-**错误处理：**
+```go
+type InsertResult struct {
+    InsertCount int64
+    IDs column.Column
+}
+```
+
+**参数：**
+
+- **InsertCount** (*int64*) -
+
+    受影响的 Entity 数量。
+
+- **IDs** (*column.Column*) -
+
+    受影响的 Entity 的 ID。
+
+**异常：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
+    操作失败，可能是验证、请求构造或 RPC 失败所致。请检查返回的错误以了解失败详情。
 
 ## 示例\{#example}
 

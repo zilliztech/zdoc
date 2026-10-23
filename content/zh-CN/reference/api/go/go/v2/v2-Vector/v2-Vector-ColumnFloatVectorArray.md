@@ -4,20 +4,20 @@ slug: /go/go/v2-Vector-ColumnFloatVectorArray
 sidebar_label: "ColumnFloatVectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "表示一个 ArrayOfVector 列，其各行包含具有相同维度的 Float 值。 | Go | v2"
+description: "ColumnFloatVectorArray 实例表示一个 ArrayOfVector 浮点向量列，其各行包含维度相同的浮点向量值。可空语义在 v3.0.0 中强制执行；可空性标志和有效值记录都是实际的操作，而不是桩。 | Go | v2"
 type: docx
 token: FEsedrkZpoiR3YxNgL4csDP4nEe
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
   - 混合搜索
   - 词法搜索
   - 最近邻搜索
   - Agentic RAG
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - ColumnFloatVectorArray
   - gov230
@@ -31,34 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # ColumnFloatVectorArray
 
-表示一个 ArrayOfVector 列，其各行包含具有相同维度的 Float 值。
+ColumnFloatVectorArray 实例表示一个 ArrayOfVector 浮点向量列，其各行包含维度相同的浮点向量值。可空语义在 v3.0.0 中强制执行：可空性标志和有效值记录都是实际的操作，而不是桩。
 
 ```go
 type ColumnFloatVectorArray struct {
 }
 ```
 
-## 请求语法\{#request-syntax}
-
-根据面向行的向量数组数据创建 ColumnFloatVectorArray。
-
-```go
-column.NewColumnFloatVectorArray(fieldName string, dim int, data [][][]float32) *ColumnFloatVectorArray
-```
-
-**方法：**
+**构建器方法：**
 
 - `AppendValue(value any) error`
 
-    此方法追加一行，输入可以是 []entity.FloatVector 或 [][]float32。
+    此方法追加一行，该行以 []Entity.FloatVector 或 [][]float32 提供。
 
-**返回类型：**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnFloatVectorArray*
+    此方法报告指定索引处的行是否为空。
 
-**返回值：**
+- `Nullable() bool`
 
-结构体数组字段中 ArrayOfVector 浮点向量数据的列类型。
+    此方法报告该列是否接受空值。
+
+- `SetNullable(nullable bool)`
+
+    此方法设置该列是否接受空值。
+
+- `ValidCount() int`
+
+    此方法返回非空行的数量。
+
+- `ValidateNullable() error`
+
+    此方法验证内部的可空性记录，并在不一致时返回错误。
+
+**方法：**
+
+- `Slice(start, end int) Column`
 
 ## 示例\{#example}
 

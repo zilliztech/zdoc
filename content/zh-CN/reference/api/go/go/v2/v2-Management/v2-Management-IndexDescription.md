@@ -10,7 +10,7 @@ notebook: false
 description: "描述一个索引，包括其类型、参数、构建状态和行数。 | Go | v2"
 type: docx
 token: Wyvhd3725onAmAxegk1caOHonQg
-sidebar_position: 15
+sidebar_position: 14
 keywords: 
   - 什么是向量嵌入
   - 向量 Database 教程

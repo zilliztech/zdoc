@@ -10,14 +10,14 @@ notebook: false
 description: "包含 Upsert 操作的结果，包括受影响 Entity 的数量和 ID。 | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 20
+sidebar_position: 19
 keywords: 
-  - 视频相似性搜索
+  - 视频相似度搜索
   - 向量检索
-  - 音频相似性搜索
+  - 音频相似度搜索
   - 弹性向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - UpsertResult
   - gov230
@@ -42,10 +42,10 @@ type UpsertResult struct {
 
 **字段：**
 
-- **UpsertCount** (*int64*)
+- **UpsertCount** （*int64*）
 
     受影响 Entity 的数量。
 
-- **IDs** (*column.Column*)
+- **IDs** （*column.Column*）
 
     受影响 Entity 的 ID。

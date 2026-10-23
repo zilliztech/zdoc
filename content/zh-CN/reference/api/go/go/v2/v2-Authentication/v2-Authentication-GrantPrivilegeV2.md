@@ -1,25 +1,25 @@
 ---
-title: "GrantPrivilegeV2() | Go | v2"
+title: "GrantPrivilegeV2 | Go | v2"
 slug: /go/go/v2-Authentication-GrantPrivilegeV2
-sidebar_label: "GrantPrivilegeV2()"
+sidebar_label: "GrantPrivilegeV2"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作使用简化参数通过 v2 API 向角色授予权限。| Go | v2"
+description: "此操作使用简化参数的 v2 API 为角色授予权限。 | Go | v2"
 type: docx
-token: ZO8adFZzAotVzfxEko2cKjHvnfb
+token: SQmOdGshmoWjeexP0GLcZoCZnEc
 sidebar_position: 12
 keywords: 
-  - 向量搜索
-  - knn 算法
-  - HNSW
-  - 什么是非结构化数据
-  - zilliz
-  - zilliz cloud
+  - 托管的 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 如何工作
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - GrantPrivilegeV2()
+  - GrantPrivilegeV2
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GrantPrivilegeV2()
+# GrantPrivilegeV2
 
-此操作使用简化参数通过 v2 API 向角色授予权限。
+此操作使用简化参数的 v2 API 为角色授予权限。
 
 ```go
 func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Option, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 GrantPrivilegeV2() 创建请求。
 
 ```go
 option := milvusclient.NewGrantPrivilegeV2Option(roleName, privilegeName, collectionName).
@@ -48,23 +50,33 @@ err := client.GrantPrivilegeV2(ctx, option)
 
 **参数：**
 
-- **roleName** (*string*)
+- **roleName**（*string*） -
 
-    角色的名称。
+    **[必需]**
 
-- **privilegeName** (*string*)
+    角色名称。
 
-    权限的名称。
+- **privilegeName**（*string*） -
 
-- **collectionName** (*string*)
+    **[必需]**
+
+    权限名称。
+
+- **collectionName**（*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-**可选方法：**
+**构建器方法：**
+
+- `NewGrantPrivilegeV2Option(roleName string, privilegeName string, collectionName string)`
+
+    为 GrantPrivilegeV2() 创建请求。
 
 - `WithDbName(dbName string)`
 
-    指定操作使用的 Database。
+    指定用于该操作的 Database。
 
 **返回类型：**
 
@@ -72,21 +84,23 @@ err := client.GrantPrivilegeV2(ctx, option)
 
 **返回：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 GrantPrivilegeV2() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

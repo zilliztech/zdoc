@@ -1,25 +1,25 @@
 ---
-title: "QueryIterator() | Go | v2"
+title: "QueryIterator | Go | v2"
 slug: /go/go/v2-Vector-QueryIterator
-sidebar_label: "QueryIterator()"
+sidebar_label: "QueryIterator"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.2
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个查询迭代器，以批次方式从 Collection 中检索匹配的 Entity。对于不应一次性全部加载到内存中的大型结果集，请使用此操作。 | Go | v2"
+description: "此操作会创建一个查询迭代器，以分批方式从 Collection 中检索匹配的 Entity。此操作适用于不应一次性加载到内存的大型结果集。 | Go | v2"
 type: docx
-token: GLdddi5uboT02bxj6cdc1FG2nvd
-sidebar_position: 14
+token: AGM3dTL6Vorr6XxS3IjcBAbBnVg
+sidebar_position: 13
 keywords: 
-  - 稠密向量
-  - 分层可导航小世界
-  - 稠密嵌入
-  - Faiss 向量 Database
-  - zilliz
-  - zilliz cloud
+  - 降维
+  - HNSW 算法
+  - 向量相似性搜索
+  - 近似最近邻搜索
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - QueryIterator()
+  - QueryIterator
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# QueryIterator()
+# QueryIterator
 
-此操作会创建一个查询迭代器，以批次方式从 Collection 中检索匹配的 Entity。对于不应一次性全部加载到内存中的大型结果集，请使用此操作。
+此操作会创建一个查询迭代器，以分批方式从 Collection 中检索匹配的 Entity。此操作适用于不应一次性加载到内存的大型结果集。
 
 ```go
 func (c *Client) QueryIterator(ctx context.Context, option QueryIteratorOption, callOptions ...grpc.CallOption) (QueryIterator, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 QueryIterator() 的请求。
 
 ```go
 client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
@@ -50,49 +52,71 @@ client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
 )
 ```
 
-**选项方法：**
+**参数：**
 
-- `NewQueryIteratorOption(collectionName string)` -
+- **collectionName** （*string*） -
 
     **[必需]**
 
-    为指定的 Collection 创建一个新的查询迭代器选项。
+    要查询的 Collection 的名称。
 
-- `WithBatchSize(batchSize int)` -
+**构建器方法：**
 
-    每次迭代批次返回的 Entity 数量。默认值：`1000`。
+- `NewQueryIteratorOption(collectionName string)`
 
-- `WithPartitions(partitionNames ...string)` -
+    为指定的 Collection 创建新的查询迭代器选项。
+
+- `WithBatchSize(batchSize int)`
+
+    每个迭代批次要返回的 Entity 数量。该值默认为 `1000`。
+
+- `WithPartitions(partitionNames ...string)`
 
     要查询的 Partition。如果未指定，则查询所有 Partition。
 
-- `WithFilter(expr string)` -
+- `WithNamespace(namespace string)`
 
-    用于筛选 Entity 的布尔表达式。仅返回与该表达式匹配的 Entity。
+    将查询迭代器的作用域限定为 Collection 命名空间。
 
-- `WithOutputFields(fieldNames ...string)` -
+- `WithFilter(expr string)`
 
-    返回的 Entity 中要包含的字段。如果未指定，则仅返回主键字段。
+    用于筛选 Entity 的布尔表达式。仅返回与表达式匹配的 Entity。
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)` -
+- `WithOutputFields(fieldNames ...string)`
 
-    查询的一致性级别。默认值：`Bounded`。
+    要包含在返回的 Entity 中的字段。如果未指定，则仅返回主键字段。
 
-- `WithIteratorLimit(limit int64)` -
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
 
-    要迭代的 Entity 总数上限。负值表示无限制。默认值：`Unlimited` (-1)。
+    查询的一致性级别。该值默认为 `Bounded`。
+
+- `WithIteratorLimit(limit int64)`
+
+    要迭代的 Entity 总数上限。负值表示无限制。该值默认为 `Unlimited`（-1）。
+
+**返回类型：**
+
+&ast;*QueryIterator, error*
 
 **返回：**
 
-*QueryIterator, error*
+*QueryIterator, error* QueryIterator 接口提供对查询结果的分页访问。反复调用 `Next()`，直到返回 `io.EOF`。
 
-QueryIterator 接口提供对查询结果的分页访问。重复调用 `Next()`，直到返回 `io.EOF`。
+**参数：**
 
-**异常：**
+- **result** （&ast;*QueryIterator*） -
 
-- **error** - 指定的 Collection 不存在、参数无效，或者服务器无法访问。
+    QueryIterator() 返回的 &ast;QueryIterator 值。
+
+**错误处理：**
+
+- **error**
+
+    操作失败。指定的 Collection 不存在、参数无效或服务器不可达。
 
 ## 示例\{#example}
+
+演示 QueryIterator() 的用法。
 
 ```go
 import (
@@ -100,7 +124,7 @@ import (
     "fmt"
     "io"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx := context.Background()
@@ -126,11 +150,3 @@ for {
     fmt.Printf("Got %d results\n", rs.Len())
 }
 ```
-
-## QueryIterator\{#queryiterator}
-
-由 `QueryIterator()` 方法返回的 QueryIterator 接口。它只有一个方法：
-
-- `Next(ctx context.Context)` -
-
-    将下一批查询结果作为 `ResultSet` 返回。当所有结果都已使用完毕时，返回 `io.EOF` 作为错误。

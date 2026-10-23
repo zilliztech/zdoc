@@ -4,18 +4,18 @@ slug: /go/go/v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作执行混合搜索，将多个 ANN 请求的结果组合在一起，每个请求针对不同的向量字段或索引类型。使用 reranker 对结果进行合并和重新排序。 | Go | v2"
+description: "此操作使用多个搜索请求对 Collection 中的多个向量字段执行 ANN 搜索，然后使用 reranker 合并并排序结果。 | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - 音频搜索
   - 什么是语义搜索
   - 嵌入模型
-  - 图像相似性搜索
+  - 图像相似度搜索
   - zilliz
   - zilliz cloud
   - 云
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # HybridSearch()
 
-此操作执行混合搜索，将多个 ANN 请求的结果组合在一起，每个请求针对不同的向量字段或索引类型。使用 reranker 对结果进行合并和重新排序。
+此操作使用多个搜索请求对 Collection 中的多个向量字段执行 ANN 搜索，然后使用 reranker 合并并排序结果。
 
 ```go
 func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
@@ -39,13 +39,18 @@ func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, ca
 
 ## 请求语法\{#request-syntax}
 
+创建 HybridSearch() 的请求。
+
 ```go
-option := milvusclient.NewHybridSearchOption(collectionName, limit, annRequests).
-    WithConsistencyLevel(cl).
-    WithPartitions(partitions).
+annReq1 := milvusclient.NewAnnRequest("dense_vector", 10, denseVectors...)
+annReq2 := milvusclient.NewAnnRequest("sparse_vector", 10, sparseVectors...)
+
+option := milvusclient.NewHybridSearchOption(collectionName, 10, annReq1, annReq2).
+    WithPartitions(partitionNames).
+    WithNamespace(namespace).
     WithOutputFields(outputFields).
+    WithConsistencyLevel(consistencyLevel).
     WithReranker(reranker).
-    WithFunctionRerankers(functionReranker).
     WithOffset(offset)
 
 resultSets, err := cli.HybridSearch(ctx, option)
@@ -53,100 +58,147 @@ resultSets, err := cli.HybridSearch(ctx, option)
 
 **参数：**
 
-- **option** (*HybridSearchOption*) -
+- **collectionName** (*string*) -
 
-    混合搜索选项。
+    **[必需]**
+
+    目标 Collection 的名称。
+
+- **limit** (*int*) -
+
+    **[必需]**
+
+    重排序后返回的最大结果数。
+
+- **annRequests** (<em>...</em>AnnRequest&ast;) -
+
+    **[必需]**
+
+    使用 `NewAnnRequest` 创建的一个或多个按向量字段划分的 ANN 搜索请求。
 
 **构建器方法：**
 
-- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`<br/>
-  这将创建一个包含一个或多个 ANN 请求的混合搜索选项。
+- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`
 
-- `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`<br/>
-  这将为特定向量字段创建一个 ANN 请求。
+    为混合搜索创建新选项。使用 `NewAnnRequest(annField, limit, vectors...)` 构建各个子请求。
 
-- `WithIDs(ids column.Column)`<br/>
-  这将筛选 ANN 请求，使其仅搜索指定的主键 ID。
+- `NewAnnRequest(annField string, limit int, vectors ...entity.Vector)`
 
-- `WithFilter(expr string)`<br/>
-  这将对 ANN 请求应用布尔表达式筛选。
+    为单个向量字段创建 ANN 搜索子请求。
 
-- `WithOffset(offset int)`<br/>
-  这将设置 ANN 请求要跳过的结果数。
+- `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
-- `WithGroupByField(groupByField string)`<br/>
-  这将按指定字段对 ANN 请求结果进行分组。
+    设置搜索的一致性级别。
 
-- `WithGroupSize(groupSize int)`<br/>
-  这将设置每组的结果数。
+- `WithPartitions(partitions ...string)`
 
-- `WithStrictGroupSize(strictGroupSize bool)`<br/>
-  这将强制执行严格的分组大小限制。
+    将搜索限制在指定的 Partition 内。
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  这将在 ANN 请求期间忽略增长中的 Segment。
+- `WithNamespace(namespace string)`
 
-- `WithAnnParam(ap index.AnnParam)`<br/>
-  这将设置该请求的 ANN 参数。
+    指定要在其中执行搜索的命名空间。
 
-- `WithSearchParam(key, value string)`<br/>
-  这将为 ANN 请求设置自定义搜索参数。
+- `WithOutputFields(outputFields ...string)`
 
-- `WithFunctionReranker(fr *entity.Function)`<br/>
-  这将对 ANN 请求应用函数 reranker。
+    指定结果集中要返回的字段。
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  这将设置混合搜索的一致性级别。
+- `WithReranker(reranker [Reranker](Reranker.md))`
 
-- `WithPartitions(partitionNames ...string)`<br/>
-  这将把混合搜索限制在指定的 Partition 内。
+    设置用于合并并排序各字段结果的 reranker。可使用 `NewRRFReranker()` 或 `NewWeightedReranker()` 创建一个 reranker。
 
-- `WithOutputFields(fieldNames ...string)`<br/>
-  这将指定结果集中要返回哪些字段。
+- `WithFunctionRerankers(functionReranker *entity.Function)`
 
-- `WithReranker(reranker milvusclient.Reranker)`<br/>
-  这将设置一个 reranker，用于合并并重新排序来自多个 ANN 请求的结果。
+    在服务器端对混合搜索的每个分支应用评分 Function。
 
-- `WithFunctionRerankers(functionReranker ...*entity.Function)`<br/>
-  这将为混合搜索设置基于函数的 reranker。
+- `WithFunctionScore(fs *entity.FunctionScore)`
 
-- `WithOffset(offset int)`<br/>
-  这将设置在返回匹配结果前要跳过的结果数。
+    设置搜索 [FunctionScore](./v2-Collection-FunctionScore)（Function 以及 boost mode 等评分选项）。
+
+- `WithOffset(offset int)`
+
+    设置返回匹配结果前要跳过的结果数。
 
 **返回类型：**
 
 *[]ResultSet, error*
 
-**返回值：**
+**返回：**
 
-混合搜索结果，包含来自所有 ANN 请求的匹配 Entity，以及其分数和字段。如果操作失败，则返回错误。
+包含匹配 Entity 及其分数和字段的搜索结果。如果操作失败，则返回错误。
 
-**异常：**
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**参数：**
+
+- **ResultCount** (*int*) -
+
+    返回的条目数。
+
+- **GroupByValue** (*column.Column*) -
+
+    当 search/query 使用分组时，group-by 列的值。
+
+- **IDs** (*column.Column*) -
+
+    匹配 Entity 的主键列。
+
+- **Fields** (*DataSet*) -
+
+    输出字段列。
+
+- **AggregationBuckets** (*[]AggregationBucket*) -
+
+    请求聚合时，此查询的搜索聚合结果。
+
+- **Scores** (*[]float32*) -
+
+    每个匹配结果与目标向量之间的距离。
+
+- **Recall** (*float32*) -
+
+    搜索结果的估计召回率（由 Zilliz Cloud 估算）。
+
+- **Err** (*error*) -
+
+    搜索错误（如有）。
+
+**错误处理：**
 
 - **error**
 
-    检查 err != nil 以了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 HybridSearch() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-token := "YOUR_CLUSTER_TOKEN"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
-	APIKey:  token,
 })
 if err != nil {
 	log.Fatal("failed to connect to milvus server: ", err.Error())
@@ -154,15 +206,21 @@ if err != nil {
 
 defer cli.Close(ctx)
 
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-sparseVector, _ := entity.NewSliceSparseEmbedding([]uint32{1, 21, 100}, []float32{0.1, 0.2, 0.3})
+denseVectors := []entity.Vector{entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835})}
+sparse, err := entity.NewSliceSparseEmbedding([]uint32{1, 2}, []float32{0.5, 0.3})
+if err != nil {
+	log.Fatal("failed to construct sparse embedding: ", err.Error())
+}
+sparseVectors := []entity.Vector{sparse}
+
+denseReq := milvusclient.NewAnnRequest("dense_vector", 10, denseVectors...)
+sparseReq := milvusclient.NewAnnRequest("sparse_vector", 10, sparseVectors...)
 
 resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-	"quick_setup",
-	3,
-	milvusclient.NewAnnRequest("dense_vector", 10, entity.FloatVector(queryVector)),
-	milvusclient.NewAnnRequest("sparse_vector", 10, sparseVector),
-).WithReranker(milvusclient.NewRRFReranker()))
+	"quick_setup", // collectionName
+	10,            // limit
+	denseReq, sparseReq,
+))
 if err != nil {
 	log.Fatal("failed to perform hybrid search: ", err.Error())
 }

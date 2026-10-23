@@ -68,401 +68,9 @@
     {
       "manual": "go",
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e24da3877f24bf203617bb5905e3959ff2aaf41e06439480d2970c98c821ee54",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "7b1ba4d9655b5c589c5e3057ce0c03e8edc8042e001261f18917603933752861",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "b5648c4f0a93a4e0ec9322bdc1ac5b24bd264ee699ad83bb9e2b6f28e766dfc8",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "b855e5900b0cf04b4e43eea4a21f46723aeb2d1c99fa90092dc09643ab8e765a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "64ff164038f9d0afaaa050464fe42501f8818b10ce2f1b0bc129538eb916e700",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "046fb94e274aaa1272d782f6b76d685f0aa4af041f713a29aabc13c3bba57abc",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "193c56c9ae7d8ac590e043b4045c1d5c839d804bbe65d425e43a07e95001171a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "4fe44797ed5d9758de83711f2748a9b35524e9cbf428a0d7cbecbbc9a332bff2",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "de75880ee26aca65a0ec1eb4914679d3184c5fb8ac5393b0328d5ac310997678",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "165eb10801cb722ee875fa912c4f750c199295cebf02bc848404867bc4a1d88e",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "89fdc7373a1d0df55ac8dc515b32f0a31bfb1da35dc54185d91176c36194b9bc",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "92582298ba6487ed6366b3e9760309be540a7515a84868512afa45edb9fb08d8",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "40adf6a09b1a8ee7b67e5579b6e616e556955c236fbc87e283d09571fe3e3498",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "aab2d9e70a267c1b4ad688179c718ad91982293a875df11776ee3c766b618fdb",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "37e3fcbb19b088279cb0391f4c79425abcc7607f7eea4dcb430966fbd16cb094",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d348a3d57420c505af731cada54fdd569cf4bb76c0fcf327ff3e0cf90c8e879a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "19d6b640f649ee09fd0eff400c069e71897d8e9245d5e67b017800397f748985",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e93b7332562dd48501a3d512034806f0de4dbfe831b6a7cbd500e51a48e6370b",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "61ffb5bea1b9782fe74b7d957a38a79e60edadf523d860665b7698f754371c65",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "1cc0d624176eca01a0708162fe6a135fb569459cfa9653840654e06ecdd2eb26",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d7188ccb22f482de79854072ccf45d8564c66a2f47c27f27bc325674c7bbb419",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "960dcc0432546bd14498956467f3c63c276988291bd684cb35742aad3c7de609",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "0278eb47f0ff84a1ac31a909106a4a4c6e521bb10266370ec535246db8efe554",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "3c178d870f1fe3171ccd6d1a930c8b0581d6984d335a3f58d6cedd529b435949",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "42a201e32512aa116da86027f62b59309c652a0ff4d49daf2f691939cb5beed5",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "a3ce969ad5b3d5355d177fb521062c4761e2c1c6c30db3d0dcf60cb0adcfbf5a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "1c6c5e26957fe7b512361db4c691a5742ec3ea51cb8d74da5e91a292b35c382d",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
       "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "cca8e02b1080bbd30660926960f770c5da9e0b3adf1ab10a41d618e4ca668c3a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "792e241c01ec15e89415281a4f3a64afece39c62bb33cdaa2275b49b1375746f",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "1792133de3513f07ddccc03bdfe70771f2b1eeefbce1d4a4c3699c0f3827c5fd",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e1a48d49007bbfb89a9b6dca8c60c34020888709b1cb48bf16fd226c77d73b08",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d27a0401dbcd31ed2a8835a39eee233e1d0486799ba9b4928882662a2abc4873",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "10d38fcd459d84d42fd87f5799a7ff78b16b6601759c8a4ae1a3e8f69de61d0e",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "2699277c51382bf002d09457d1bae2555d1ac4bc4816fc8c877dd9e40b5f0060",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Management-Index.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Management-Index.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "c38daf31ed386d8c67864d7d0e34ef695d1acca7d6488e0c798173fc8b5484fd",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "8f4b8591a5da104dcbd7c9be1e1e8f6dab7ce312a0c9a64fa513bb90d344d10c",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Segment.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Segment.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "b371c918b789b90ffab2a97f3ff3d35511bf3819f1f6cdbd1939b3a1c5d86544",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "4f53249120dd248cd6f9cd251ecc242acb6d0fd9356bb82611f77064353e75a1",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d0e74d2fc2141188760d13ea3aa048bc97cf4087461224a2fef6ea3726c5492b",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "ba0a2279e10b8ee6522a4d25c35f27a2b422875bb3092a65acb8d908675d36b5",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "f4f0f930db8edd4da5449f73938b9e3d2cdcbd56055bbedb1aec1ff51dae05e8",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d1e5915619ab8fcae96a9536e31e253767c1b0d0f76d28f415c9bc8ef31fa792",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "0dc809903cf912238442720bdea82060c0753cb8705095a7fefec882e9436292",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "0c44906015c472b40f0e6956b689e3b6360dbfe53e0204c913df72bbc02bf58b",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "94a68a13c6bb7c4c57bd81e3bb4918fc2e020b5183e025d3d27b1f6c085a4b86",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "47060a86a4181a8195a104903a47b3108bb6cea069a4e02543bd0e14699e3ebf",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "d589f0c89b8090da3f65e3070b6ae924163ebe875f61fd4ff613386fe4df3c37",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "8069cf3797a1cdfe21131efa27e34d99d3402b286e289a38cf761d26cb5832fd",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md"
     },
     {
       "manual": "python",
@@ -3129,83 +2737,128 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "09495824e8c877fa21de192810b65482d81bf54bb85c89692de7f84cf6dacfcb",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e24da3877f24bf203617bb5905e3959ff2aaf41e06439480d2970c98c821ee54",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
+      "status": "translated",
+      "targetHash": "fe43fd4f16279006dd8478da2936d6a900b7ceca342e0db2a2037af25d1fb631",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7b1ba4d9655b5c589c5e3057ce0c03e8edc8042e001261f18917603933752861",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
+      "status": "translated",
+      "targetHash": "af2190694a84c4ddd6740507b2a157e9cfed3920a525600021d022c8dbd0d333",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "008704a9d2d89b4866aef81a540fc53b5e11d8ea05a6f73b8adc2ffaa51a60cd",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
       "status": "translated",
-      "targetHash": "999ed0d2c8dca6ccd00a8650f4629ff59deaa8bb0ff7db7211c7e11922a086f8",
+      "targetHash": "b0c2799981dc129812823e6ee8765105f62d7fc5909a99e5bd95adf167657ed3",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "6254b5ff2fb9519596777808dcd46bf33be66eec0a594018eb360a36c2e6871c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b5648c4f0a93a4e0ec9322bdc1ac5b24bd264ee699ad83bb9e2b6f28e766dfc8",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
+      "status": "translated",
+      "targetHash": "e00c187693820bb6e7393ebe5ea079a2782686bab7318a0959e0f8b804234520",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3e75a6179ed22b083244d37659aeda53919b9346e9db822cf36d1d39560fff50",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
       "status": "translated",
-      "targetHash": "e65138fe1910b3761cb37171144c75d194f70753415ce3fe4e51f6dc07081054",
+      "targetHash": "3602ac71a58ad34c25cf6421b72e8fe29ef0e5867dad162a58006d22eb268621",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "0affa55bb15cb1239693312cd9c7ca28571ca04acd4da1322d4c38d7978d37d3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "014642bc2538019d4b8dcf6cc6301ffb3f255368bd9178de496237fecdbd9d75",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
       "status": "translated",
-      "targetHash": "b0ef794380c0858290a16ab1c3c2dce7b38770ee5c98dae51f0547840b27b412",
+      "targetHash": "9b59622a5ea5366026cfb012602857356c4008511eebee2b6c8e48ed867bc3a0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "dc2b00a97f92c3e22ccfb7e5669e332369691429dec15ff7e70a07d9b68da89d",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1498bc0c6bcec03d01adff4c739a598840bb301b70e8b67259c5b331b637b6ee",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
       "status": "translated",
-      "targetHash": "7742b62e64143b6bf778ad94ad01939490f3e33d14d18924750a37cb772451a8",
+      "targetHash": "cadd7240da2feb56f0256d041b8daf5973538e3ea14e17af23b18dcf7f5ccf2e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "4ac85377377aefb0a0e1afc3307c812cacbadff154dbcd8c3406333b76ffb096",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "f45d46a201c6d4cc007ffbfe4399bef75c46f1785ae9334e19f75dec8ca6ef33",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
       "status": "translated",
-      "targetHash": "7aaf287be75d02885c9f59b56a224dc7a618972bdc62a35cfbf035f59b258361",
+      "targetHash": "0cbe13818ce9b96a6f48df0112fd9dc45047790fc1dfc5f5766f05005676531a",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2adbae7cfc339831c8239ee74ab297fe8cc2d44b5658591af8b4b3e8e81a7fbc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b855e5900b0cf04b4e43eea4a21f46723aeb2d1c99fa90092dc09643ab8e765a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
+      "status": "translated",
+      "targetHash": "f1e40de8ccd306741d6ad130b752eb110f43f7a312ba87ed2ca222c9eb455db9",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6abea001acb9ea8b7dcb22b0fac94dfc4d2a6c32724d78eeb540b61a3de56351",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
       "status": "translated",
-      "targetHash": "1d6ab63062d9b5d5cf15643f9e1c0d7fe0175875cbda69a16f663475ea72d42a",
+      "targetHash": "be4ef4e7e538476572d524b402ca732d99bdec33f216fe0f76033e2b5b7ee76f",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "dc5de6dc683c0b94c903938f8977985500a68875a87e2aab3352d7728fdfea31",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9d81546fef0ef23550e0ae38df51bf45a40c78e0f2fa03c20c7c51ffc66f83cf",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
       "status": "translated",
-      "targetHash": "bca90f8e1cf75480392c5f3b634602ea31f81fc2d15fa0e0d8c4ce949a18253a",
+      "targetHash": "fae750872b45d68ae9930f4e428bf764a474165d4362b685cfd74a60262d9272",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "eb9cc194c686435b58082cbdeeaee9cc12ece0061233e09c56ed04d6efd981b4",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "64ff164038f9d0afaaa050464fe42501f8818b10ce2f1b0bc129538eb916e700",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
+      "status": "translated",
+      "targetHash": "b9be8ff4a4f2b9f5cd006c337eb235718d129882940da2971ed0ff18bf580134",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "24c1193dcb4f3b5936b80e2419e0c5804f7291d6595d75607ed3e4bdc1f62543",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md",
       "status": "translated",
-      "targetHash": "3d56ffd3aaeaa7fc2dff790be42bc6930710e7462665ef4c4433914b1fef135c",
+      "targetHash": "81a3e37880f976372f8e05b7e061a805de26536983daedfe7241b0e20389ce37",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "6ddf6b1ffc4cdcd54b932e736f96807dc1ea2a4299b15906facffc588df044ce",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ff6cdfc9d36e6e78f92bdb4b764926c82fdf2cfe15fbdb5c549c62e2f62d74ec",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md",
       "status": "translated",
-      "targetHash": "a75acc688bc51d6d9e172f3e6b3e8685e815a079b5b734f0b35b57b922c7c70b",
+      "targetHash": "bd326453fae1faf134bb43515ad40453a0524942c732248407f8b8db5fa89ac7",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md"
     },
     {
@@ -3213,36 +2866,45 @@
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
       "sourceHash": "72d7be0fc5b56bfe187b4a643b5d44cc9e6951d44094c423d6c8a207122544a2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "180974d14fc2172ff62afdc03063ede3fa5647be3dbc9e563875ab511b6f5765",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "ad2879db7fca46812c1a0aeb78b79e6fbb042aa70e654ba95e4eda584094ec26",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "a1d6e3337695b01fdbd93a4a76bda87f0a4001af78d77a5785b31dd39f7f7303",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md",
       "status": "translated",
-      "targetHash": "03b08eefad6290372abb9f9b8402101e9a323e2f50f60b8b9d5547c985d1466d",
+      "targetHash": "2354a91b9426305ed70421108ce5291e7bc031f85faf60f7f637679f50e89735",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "e8192f0a8ca8a09c03696d493988548fd877e88eb11f0ec96faaa410bdd46d8c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6a88d22049f3cc3f02532d7ba5774f66f26bafff3557db2a7da6f7c7732cc203",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md",
       "status": "translated",
-      "targetHash": "65e2e70f0c6d6ea277d48e3079398b93ae124c2e1879d9527034c21360eb89c4",
+      "targetHash": "8d46e99958ea76bf1d09c95ab031e1ec938479ddb1a8af32dc76f50adc4e4d75",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "51c9dd633ecdf98f312ef96f473b6a3a859bef75fde716d3cbe1e35c485f542b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "55c26d4991e9a3fdb28a13f6d21787aad2495cc0aaeb5aa7ec3370cf20c8eabd",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md",
       "status": "translated",
-      "targetHash": "dcf499e7d230840b97c84e9aa0487245c264f0ad32e4ffafbe19dba4f75b8922",
+      "targetHash": "48d84b836a2a8d8bded9d5ac0c30c0d9fcf29c14f17d0e6212a44e93a6f69b9d",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "046fb94e274aaa1272d782f6b76d685f0aa4af041f713a29aabc13c3bba57abc",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
+      "status": "translated",
+      "targetHash": "eecafbff2a299955f15886767dbd57d0b3ce2b8223dc0bca0e68b5919462914b",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md"
     },
     {
       "manual": "go",
@@ -3264,29 +2926,47 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "23415018fae1fe8545f6f528f44787b93acffd8215cdcc5f6d151b9e65886493",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "193c56c9ae7d8ac590e043b4045c1d5c839d804bbe65d425e43a07e95001171a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
+      "status": "translated",
+      "targetHash": "be279c5acec5b2f6495ed85104b3a020e4499763d43e01c2720f03c3f6af5aef",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e00b6365f5b3403aa48a0442d7fc2726727cd80a694d92de72fe42423bef2088",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md",
       "status": "translated",
-      "targetHash": "24bf8c5eccdc519b00d3e6606ab4babd17ed9c78376568f82b0a6f34cda28673",
+      "targetHash": "df9cd5f89a4f5f566df6d0379cd7e672212d92d0617aa91d16dd46bfbfe0ef23",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "04b5de6625867d2c3da38decfa045d523f1d55a92084a88e69a924eafddb5026",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4fe44797ed5d9758de83711f2748a9b35524e9cbf428a0d7cbecbbc9a332bff2",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
+      "status": "translated",
+      "targetHash": "42b2f96e7905675aed1bc4a3916ac95dc47fc3c1262f39f013fe59e88d02f8c6",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "01ba36ca63237f4b9cdc1ef0a42226b4e8afd5be6e8705d42727189d67dd8eea",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md",
       "status": "translated",
-      "targetHash": "b523f9f43a91be3546e23371c2a7923210d36cbede622b98e080b4a25bd9647b",
+      "targetHash": "a2eef1738b08c4abcc43f645b20140e0786b03e367cdcfb32ef0997236d083fb",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "4e09aee2a016ba4409458dd004d6576a8af4aa89813cc28646a1bf8d9f28bd0f",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "929d6753ccd23d36eff44db055a85d6696611781c3cab506ebd766dadefd4174",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md",
       "status": "translated",
-      "targetHash": "5e449527c7749922d14c4fcc9357bb0154efa216cc6687534190170bfa7a6a7c",
+      "targetHash": "9fbcc8923dd6d299350817c3e71c18f2585a66be4668feb445e7b85b92c30e31",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md"
     },
     {
@@ -3294,8 +2974,8 @@
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
       "sourceHash": "2f6b1f334b8fef989355d56133b67718706a8eea74698bde28a34a071fcf424e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0a80e60bb763cc2e730218286dbb6bd6a8eafd4ce1a850e61e8f61bec735675c",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md"
     },
     {
@@ -3309,11 +2989,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "64b616b5330bc28f353986fdc5317118376fe689e937ada568c27d0a25dbaa19",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "11ece5b81117d73f1dad9239528aa07c96bad5c7d83a982421873d371bcd3290",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md",
       "status": "translated",
-      "targetHash": "33b92743e26c94d6aada410fc7d146afc9359e10185d8966c1d3f9dd3fe7a72d",
+      "targetHash": "3d284a8041ea1bafc537e2c3eba87e04ffd77a16c089df2954d0881b87255566",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md"
     },
     {
@@ -3327,6 +3007,42 @@
     },
     {
       "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "de75880ee26aca65a0ec1eb4914679d3184c5fb8ac5393b0328d5ac310997678",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
+      "status": "translated",
+      "targetHash": "dd348d37ab880b477464a95f5ed0854072cd95eaa1000f7fbf86f609b5132885",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "165eb10801cb722ee875fa912c4f750c199295cebf02bc848404867bc4a1d88e",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
+      "status": "translated",
+      "targetHash": "6f06302d631028dac1178fb8876d96a6137a2c252ccfce5a4305a8f3f7bba59c",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "89fdc7373a1d0df55ac8dc515b32f0a31bfb1da35dc54185d91176c36194b9bc",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
+      "status": "translated",
+      "targetHash": "c1829653945323b7ddfcb6b9b31c3611321365857e02e651e7b20713bf40bb49",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "92582298ba6487ed6366b3e9760309be540a7515a84868512afa45edb9fb08d8",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
+      "status": "translated",
+      "targetHash": "7cebd948864225043dc28f0c049d656d849eb762127dd3891e5573a65511225c",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md"
+    },
+    {
+      "manual": "go",
       "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
       "sourceHash": "9a4511fe4ca6f59a44bcd1e5c9b56a096dfa7d39b8852833c039c1dc8ea59d11",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
@@ -3336,29 +3052,29 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d2eaa8b2e3477118974839d6780ad1c485795e88863656c3a5ebed53f260bc5a",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4684084f06ee9e0c2a4c3955f8b7a799f2d526e7c011ddfab0023c10a4d2ec6d",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md",
       "status": "translated",
-      "targetHash": "6518a6b3ebd92af21454136eb0e0c9892e575baa4a65f01857cadd9355c4e6e5",
+      "targetHash": "3ee0112f3ae685bd0ee5d361d7f5e2364008a9e77917f4df892bc6c5909695b3",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Client/v2-Client-Close.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "8eb73c0691778ef3d284a22e3197e5cb7beefc9ed8bc8b4d7fef17c18b8cb793",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e4f30270dfc3fab97c8969709fc8e13bf0f66469bd2c537c171de55082547700",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md",
       "status": "translated",
-      "targetHash": "fbb1e1a3b28af2c3bbd2476efbb37afd3e0e946fc35538ce75724e5641662c8f",
+      "targetHash": "9608989c91bd855b47627a263b8fa6537f2b3fda5b8d85485cec420a98b3528f",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "096cdef98b5ebd7363dc1515401e657ae3dcf20abf6bf194b2493961c95273b3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7e70f340e477700045aa65174736e77b4f4568ab21fca9fe92f701942ff353a1",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md",
       "status": "translated",
-      "targetHash": "51c717f8860a09487bf728f0b609b2d65b4d736a4188756cc12895d114eebb2d",
+      "targetHash": "7c6a0c7b75f812bb62e70ec1f61ced6360aa534189848dc33add0be1e8188c9d",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md"
     },
     {
@@ -3372,12 +3088,30 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "db0d20d77a612aa85dc16af0d12b6ef2b20d25a512457d7b03afea603262b314",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "33f28e5ad8fe349fcc43fce1f75dbd655b5265ee126af5de18be21d7a068947b",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
       "status": "translated",
-      "targetHash": "e074ae9d3b5eec32699cfd6f5794ad87f64e770afdd69785e78d17163e4e0d00",
+      "targetHash": "2d47ee461f8d4be5254685b56d02601f9a942adb56a431514753d28d4d500c85",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "40adf6a09b1a8ee7b67e5579b6e616e556955c236fbc87e283d09571fe3e3498",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
+      "status": "translated",
+      "targetHash": "f15bd966d64f944a93ed81f624822ec6424092b7b78269bdc174034de75a13b3",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "aab2d9e70a267c1b4ad688179c718ad91982293a875df11776ee3c766b618fdb",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
+      "status": "translated",
+      "targetHash": "dc34a4016f1bffaf09406c791c34516bcb8189b74d89e60b760c07e3afd66530",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md"
     },
     {
       "manual": "go",
@@ -3390,29 +3124,29 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "ee6eefff970c9299bfc4605edce6ba085a6f44c4180921896eb415869909ae2c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "bce747e728c18124e0d0d8283c6627e08fa385ef6b917f47e65a75fabf5131ae",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md",
       "status": "translated",
-      "targetHash": "1034fb3c30b2e6a53f8c9bc459dee4d271c25333829d2ed6008747baf1ca02cd",
+      "targetHash": "ef6eac151bd0004e9b04fed5e5fcd0314e4f18d71779eff8249299ab4d23e647",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "bc95be7979dd1dd105dd772994b4233ebdfb93472895eb2e734b99c18e206b75",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3357d49fc012cea60e8ff4ea316fe465a7262b747169b3424d31e0dafad164c8",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md",
       "status": "translated",
-      "targetHash": "cac74967a070c6f7523bcfaab6180619ab011bdab294d432a9a1abc129c51df5",
+      "targetHash": "746954195c4622e2c7a7e3c2b1968551a268bf62f1a382543c1d1444428d2b7e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "035be9ca399202fa62f6b903db722c5dd89755b685344462e30fb3d256c49bbc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "464e87fa9578e6176f0deba9d8161ad41e1feaa81023eb34ab28a4c3b5a13e0b",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md",
       "status": "translated",
-      "targetHash": "9e4adfd5dbd0d51340baf6e892fb6163e8b3f259c1f13deedbb9124544ea0300",
+      "targetHash": "beca9eb722396e18ffd5716aff295fef0f8b8361a59258aef18e0ac7e1701564",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md"
     },
     {
@@ -3426,101 +3160,128 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "28107039dc52055b27fdadda2a98bfae678cf979015a3a63c3eda7ff1227353e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "89ee6523ba1a14ee62388adae27701b2f4ce08cc31550e443235f6ae70003b9e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md",
       "status": "translated",
-      "targetHash": "6301cac0917d496dfe480ebb3fd2930ed2fa68dd849a39319e7056ed29197bb6",
+      "targetHash": "f27080c56f96ac6396ce2b7525909b8b3edfabe9bbd073a12c5ad6158acb7836",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "3c3bd5774bc0890b3b620ffc355897ba5a310148e80d08ac3e8aabded96a426c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "827822de69f6bae0224a4786932067b6cf5575238437120221121a51d29b477c",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
       "status": "translated",
-      "targetHash": "c445f29f8d91673ab81575f8d941f61b3600fbc6ccc842f7afcded13f5392080",
+      "targetHash": "a45ddf06c62a7bdfc52c6349f2b45adf10eea337172188df29b53ea993dc6f81",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "219c2ebf4120821379def78de0e6857b427c09a940d55b4b219cb64343298aa2",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "589ebc8bfa6e0c772937528912c3aee487592d7e6f2e56c66d59196e1e8847e8",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md",
       "status": "translated",
-      "targetHash": "fae76b3e8c402181e99d95a978fe86b9411edf7fb233b7104b6e8e270be15e47",
+      "targetHash": "52bd662c07ff653819312053b06419ca64cd3277e5a784d4209c8dade627ecd5",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "1eeade2024b1a88a914f124aeeca7387a4bb913bec07d48278793e19672b965b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "09821f2058a826f98e565cc5b272e28dfd0261cba546ec6d7085d94deade2610",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md",
       "status": "translated",
-      "targetHash": "3deba4cc588ce439f3aac3a98db4454ec07e7ed00f87ba46d09689ada3f1a97b",
+      "targetHash": "89d8023573f27bd8a66eecd08975131e4d70b6a37e52a1f0b1247447fe8645c9",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "203136078cb2423dbc327e7b836a9e40e26ecaba3fc50c148289583a649958ec",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5d7db549c0e2e41c4f3984e2e51b0c581345296bce91e54c88f81617ab5ff72d",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md",
       "status": "translated",
-      "targetHash": "0c276eb1323924970957afcc2984709dbef325a2b9a19b03e2befff12cc21dc4",
+      "targetHash": "717aafb22b1aa3b2ac11e416f249523b4fbe461e4b8c311d5e3dabf62821df5a",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "224e77fd83d1ee15b57043ee2e1a96c14d5c3a7860a467266247e14d75781ce5",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "669849a6d50d3141dcafe0cadbe46206bffeffd9e9de74dd37dc620d28d4f973",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md",
       "status": "translated",
-      "targetHash": "47e771c55da615a7a12e2f4fb789f4da93909199ce1886c7a080cfa24b26b5d0",
+      "targetHash": "913d6125308706f41fa20c1b313ec777f4aa2d28c3af11a32d3528fb09fb7ffb",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "1a5ad609f4a3cad3da590510dfab86d8b641ad41eaa718ae7db19032333642c5",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "37e3fcbb19b088279cb0391f4c79425abcc7607f7eea4dcb430966fbd16cb094",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md",
+      "status": "translated",
+      "targetHash": "31d4efc89a25d3f3dbc0fbba40bd55ef947e5aa0ebac9761319726a826925dac",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "8422ac18386917c06de61b75d034942d90e3a0f0118cef7870337b0bf0ffac2e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md",
       "status": "translated",
-      "targetHash": "fcce622085f809c6504ac101b94066ca30c132c1d31b4a1eb42b02a2a6dd2c76",
+      "targetHash": "aef69cd5793011c51365dd4982a60049baa2a4c461309b9a9229e8488d5be6e2",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "f4f918deb7cc7857551094d6874367dee4f2c0c30dbaf6f936f169c845fe51e2",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d348a3d57420c505af731cada54fdd569cf4bb76c0fcf327ff3e0cf90c8e879a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md",
+      "status": "translated",
+      "targetHash": "fafae7997564ee4bd734c7329829c1246befbcbd20856b05db9aa5470eebe107",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c532493bcce5889dde4b6c0e08c3fee98c903c2f8ca74bb6139007fa1bd0fb68",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md",
       "status": "translated",
-      "targetHash": "1dfa852fe1d40d9daa39dfa161271779ec3058b50184681070f439fa0837a5ed",
+      "targetHash": "645840c5ff8a17da4b7cae030362fe1641e2fdbf170eeb385055a3f591f3e7ef",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "154958ca3aa33dcd3829354f875e0152285a3376b4490236f1e377de5a5665be",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "434a4d53afe73af71181f3d845b86d226f2231254f95b84bee45793d05be7150",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md",
       "status": "translated",
-      "targetHash": "38e2aad9b1d339ac072b3c100dc8aa32787e458dc7aefc8cda53db0bfc8f35c0",
+      "targetHash": "b995b44b8b535c1ccf6292fbaaf052564b59aad9a2d4dff446ccd99433cd2c4e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "7c9fbcde1cc42ef672b2ede089538b61807bf21363c2452c144c713f336e0cf0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b5bbc1e7dd3e412a27a9a87e77a57c008ae6b0e8fde3315a62a36c2ebca6ad11",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md",
       "status": "translated",
-      "targetHash": "6b721c9b4496a9e09527d7018005e9fc6e5863862a80e7783a5cea8c6b146d71",
+      "targetHash": "92228cf4044d1ea0924cdf4a739c82054250c7b384359f763c7628688c677c40",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "3dcb29355b4564b23aabfa3c564fa1334d25955b01e6d9210f5a7d6f4d238d3f",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "19d6b640f649ee09fd0eff400c069e71897d8e9245d5e67b017800397f748985",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md",
+      "status": "translated",
+      "targetHash": "592c32c01d70aff191da184eced842943e5d10341213f6aeaba2aa301cd8950b",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "97ff09408bd51473b050416c7354b037848c0f1278b098024c8f1501ef7b84b2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md",
       "status": "translated",
-      "targetHash": "5d7f99d4df376cba300b301aa5cf931c9fe7499a4c6c9d3629d06cf2d9065a44",
+      "targetHash": "0cace158b640f6b0ea5e2ec83540829a8cddd18b5085099b1accd8b144c2f33c",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md"
     },
     {
@@ -3534,38 +3295,38 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "3b90e8f503d73674aa5d31dbdc49620595a79e706be33f13a807c4873c4c1804",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5cd352f6c131c05b64e97d6e4ebd571a1c3d44acd341ca4dca3746263f2cbcfa",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md",
       "status": "translated",
-      "targetHash": "e34d4aaac748fb590b14c6757b2c7d86a5768e032858e92d5fce25654a902e59",
+      "targetHash": "5310c5132b2d9cf863dc28b2c584d66a352d4a266f1ab91ec790904c953ed389",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "be6e909e047e9775444ff84ae1b4e429a0d8adad18b25bc8f4b3092dfe027a35",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9d8a09d721a3a61dab82546d72d3e1daac537d870471cf1222e3fec64670cc18",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md",
       "status": "translated",
-      "targetHash": "d9a2846be07741db70b8d51970dfcb10f8c3409299fff92f3c5425f5b5cbe532",
+      "targetHash": "590468526673fea53ae46e7377cd64ad0209ce28672dbf3d1aa16a3c06175bf0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "c17ab68b359f9595f429b0cf820555df35a2dc56668a63b506e055da658b99f1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3f780c8f492a6fc5258a3e562d696bd568c4900c86226e9b4cf81bca44739427",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md",
       "status": "translated",
-      "targetHash": "23e06b157c651df11d90f964042708c85e884a8cab74966576757764bdce2edf",
+      "targetHash": "1aeeacd93fe3e305422cb1c5075a39bf54dd5fb244f7e379778298c60837b8fb",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "a3d7eb2d86fef32b0aaee26c636744eed520e39e1d724454970329a0a7f44629",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "43eb5edc04f2fd351c2586c0577e2170e3d615194d077561926cb1d39320d7e1",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
       "status": "translated",
-      "targetHash": "0749f48f3bfd3b535d08462d07b052401f4ae151bae2e3e9baafbd4c582fa507",
+      "targetHash": "7fe787db629357a5757ef6c663390cd7900e13f3f9fa76576ad0a4e8c8b951c8",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md"
     },
     {
@@ -3606,11 +3367,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "c3926d0c6770607836a48f34f0567c9f868be9c3fdf1ade0bdee0c364719051a",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "51fc6859e8423630162a3f31d43ca6f38ec6e5b8ab7b0ac31faebbe65e2d8cc7",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
       "status": "translated",
-      "targetHash": "3a10de70031215333942906a66ac03bf51d9e8658caea8bc867319626acaf91d",
+      "targetHash": "d406727dbc9176028b226dce3696fd808f7b5510a660175f307010ec6bc7924e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md"
     },
     {
@@ -3624,29 +3385,56 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "d4352190ab629ec7da576d40e59a21f877f12ddf6c392b58d93112389ecffb35",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "faf785761c63ec81591e9ca34648c2dba99d3843e2fcf5f486bf6f5858b40b87",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
       "status": "translated",
-      "targetHash": "42a2733e043da1f40bcf064d28f775d642ade20890b23b0c258d0361a1aa67aa",
+      "targetHash": "88e6a4d39a240496c750e1bc08a12068cdb72f198482d1bfda8e0ad729e27325",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "55b213c6aaadc0ca307c214bd2f912f7849be46992296f657e46548a294c3aba",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "bfa2c3838108c3e64cd72bcc5948202538aa9d79de548d6e0c8153ff4eb75f32",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md",
       "status": "translated",
-      "targetHash": "859a7040b10ed886790792f9bbf6b6c568f66c4eb334da2f578ec620ebfaf229",
+      "targetHash": "87510efd22d25fdd8f660435d840407a2bc96c703f3c578746204ea89924ebc7",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "110f670118646dcf17c4603250d4c69dc47dbbc1af21fcc03d7aad693e91500e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e93b7332562dd48501a3d512034806f0de4dbfe831b6a7cbd500e51a48e6370b",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
+      "status": "translated",
+      "targetHash": "f7ac3ea86b0d182eb5e1a29c5231e4f7d4fe19da234771c8e4ea04983487125a",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "61ffb5bea1b9782fe74b7d957a38a79e60edadf523d860665b7698f754371c65",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "status": "translated",
+      "targetHash": "91b50586a985fb8ab27f6b72dc4cadd3ff017b6984538b0967d19069857a0c71",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1cc0d624176eca01a0708162fe6a135fb569459cfa9653840654e06ecdd2eb26",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
+      "status": "translated",
+      "targetHash": "e6608d4785473dfe45ae4b4c2f1e3fdd364b58fead2ac7acc5e6debed999d523",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "71b3e26b9f86279a0fc2c430c7be0d7e6120c3ae4fd92d2f27a67771919fd4e0",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
       "status": "translated",
-      "targetHash": "995910865ae426487cb8fdd478806bdacf9a4ebb4db379d4580b6da5bb9d8a7f",
+      "targetHash": "5c5d52af09d9675ff4ea673fb2a8659d8ae5101b55b7d5ddbb902185b8e77e99",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md"
     },
     {
@@ -3660,20 +3448,47 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "120344e580d42dae753e7f24292875a1984fa41c5396e8bf884225d01323897e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fd7f0be55a6c93009f880e00f72a219db6a3deb21356a37f459ccaa556a99173",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
       "status": "translated",
-      "targetHash": "30037649beec2b6bde947ea53c53738154e07c68b8a227a3f575620bebf4d69e",
+      "targetHash": "4fce8a6823eeba4b882256a07572945a2f008700f7fa7e82c580c1ca7938da2d",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "447b02220d69e5240e13114c33782ad6973303c2111886d21e1268e3ef5489ad",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d7188ccb22f482de79854072ccf45d8564c66a2f47c27f27bc325674c7bbb419",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md",
+      "status": "translated",
+      "targetHash": "254ed719a5c988ea614af4172e7f695cec9d9d1f08933db286c601f4fe4a4b36",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImport.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "960dcc0432546bd14498956467f3c63c276988291bd684cb35742aad3c7de609",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md",
+      "status": "translated",
+      "targetHash": "acc8481acc8eb725ef1102a4413b995bc17c9b0aacac12d9bdc9594306d92459",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportOption.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0278eb47f0ff84a1ac31a909106a4a4c6e521bb10266370ec535246db8efe554",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md",
+      "status": "translated",
+      "targetHash": "3c691fdd88dfcb47b3a5ce68e51ebb59a7719de56e935d90f7cc3d67cf8505b0",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-CommitImportResponse.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c58feebb896c9cf3cbdf6054e0625bb4dc4f90764f59108929f80fc4a3daf9d1",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md",
       "status": "translated",
-      "targetHash": "47d977677f47ab87ccb8eef16cb5d76c556a65c62d981c7be1501eef7a61087c",
+      "targetHash": "82b9a49f2b63ba7ccabd97022a0c2872e040876135e3a567e7189309f755a92b",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md"
     },
     {
@@ -3687,20 +3502,20 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "3b4a7622e14764baf99aff16f56162d696a8e296f6bd00c5bdfb51f00ff2320b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c9eb7f4716771c9926102c2a12db4106f44249274259c5eace12f61376018fcc",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md",
       "status": "translated",
-      "targetHash": "17ebc5aa43bb88ba6479f1a7d7d8bca48036cd5e470e07e023daaaf16f13bfe1",
+      "targetHash": "e85d6e0946caba586e00498d3adad12637ff96bf12b10cdfef409870b5f9f6c1",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "8dd20cd811c91736a9d45c948c831a71891ba56d410038356a446cad50a1dafa",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "857f777bc3560ddbe5c1710136cc81f8cf30596a390d0f87ba1dae5efc8856ab",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md",
       "status": "translated",
-      "targetHash": "b9d1b96afc7979d8822dee74b8e8d0db0d4bb35b9c80d51216c3fec58c9b68e8",
+      "targetHash": "8fa15a395933fc1723bbbcc0ed770af24ecf34b895294e96d75d8b9be3cb286f",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md"
     },
     {
@@ -3723,92 +3538,263 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "328ee9d61787d80da38f52d6a3774d856e0be60ea1d38d047771343a0ed7fd5b",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d130d98810456bcdbbc0a04bf0a995766ef2662f1102921470e34b0687bbb67b",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "17a78fa7f7c6fd288479290a9b8d1e0e98afe7f9f1d4c580ebabece3a65579dd",
+      "targetHash": "df48d552562272b2cda5749bdee1b0d477536bb7affc5ecc084763de9396535b",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "a7957c4bb17d251d980f87d176c0cfa0d8a9fa681a75ad5e6fbe9d2f22adba1f",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e39f9181147ef8957864e8b0cede1e5d601896ea9e1cdf4ef61a27479d1626a2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md",
       "status": "translated",
-      "targetHash": "753d3a2f64026a8e6117b588f44945afef13b0f0f096c094a3592ceecf7826c5",
+      "targetHash": "7439d0d5c6d8f5f7273fabbf271ac17a931ac30095e821c04dfaa80104a3cede",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "adf067422b856cc5910efa3178fedebb7d0f90896e2fb895776fcc8396f4e54c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5349b24bdd32aca72ba8e42336a2b8a74a7328683a095cb550000c7a0a75c38c",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md",
       "status": "translated",
-      "targetHash": "c0e04c8bb38aab55099e47163fd659fe2c35ddeaf40ce3e93c4ae43d5e68f6ee",
+      "targetHash": "b1b2e566aa4de8b7f8b7e8f38ceaa7cd97f371b281a9adc6db55785bbaac04d5",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "c57e079e07bcf32d5e38650930aea97ff8eab9773e06fa95e589adf06d2f0899",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fd6a789e7b3045d4ac30a5032dcbeb9e79b625c4ffe2b550493f42f14ef7a1f9",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md",
       "status": "translated",
-      "targetHash": "7e0baa7c4cb47b0d79d7d4622c08864d28054c3db7c9b8945f6a945651733894",
+      "targetHash": "59c1babe9dce59f1162b5d5489cfc7c370156e9ef0e782bab25724ea72b595de",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "93759a1c5cb7dabc55035771d9a5e4d5257dc0150a5c86265ea587dce6c4f21e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fe4257f4d98c14a8c75510bbff0b15450b5468bce44bc3c46042f1e67242bfd2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "0fcd59c9a9062c3dc06205d46f5748f16e9fd55b4d0a36f172ad48f87e7b6a71",
+      "targetHash": "3ffc3db5f8e336562312babd5c87076c5ced62d61e127c91e65200d51b215ac1",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "50a19a651655051e4eab61587da4e525f3a9d05ec61679a75c342e61e80e28e4",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3d6fc159930436147b90ccd1a6c55186f3fc20abc4b0f4b983002e47385a64e5",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md",
       "status": "translated",
-      "targetHash": "da7fc5e09a2d5884d3aa9f315186ace2dd5611831f357725f98940c7fb831f7a",
+      "targetHash": "b38691242edc0426741109e87a7648beead50b5c8ce7ce1700c21f977343e16e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "79af150dde898eb6aca1cb22a2df9c72ed8e8391913613eb15b18438b881bb47",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "025a8e7ce681b7bcfe940faddb28f869703a7488d1fd4dc7c314f04bb8e4fdbc",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md",
       "status": "translated",
-      "targetHash": "c7612d93069c4cc7ea158cb913894bbb08abe38b33ffbd15614ec5a73fcc5d63",
+      "targetHash": "8b49f19aaa11449c9ee2c8d9089f4dd8e42390dccd84769ee59c1a2f15900171",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "7aafae66eb9113ffd3b42803f14aa1bcbf2ffa361325a0d174da3edcb713bb95",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5895d1d7c713d2eaa9a9ab1a34315bf2dc9ceb24e2cfa67097eaafaf17a7c211",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md",
       "status": "translated",
-      "targetHash": "5b2f004f6273d1f7bd00d6c57d090df5fcf03c666c6491c7525f98366cb12ce0",
+      "targetHash": "ba46bec5a43a55811f6ce37306185e344bbbf117d646a6e5240614246329a4aa",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Database/v2-Database.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "3758fe45bfdd9e78e01d6d07809be9099e2346b0236f29138df43fd302c13a10",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3c178d870f1fe3171ccd6d1a930c8b0581d6984d335a3f58d6cedd529b435949",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md",
+      "status": "translated",
+      "targetHash": "b121018123067043dcbab85b1c374a1b1ea70ffe962a4fdc3d25decae411cf82",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-AddFileResource.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "42a201e32512aa116da86027f62b59309c652a0ff4d49daf2f691939cb5beed5",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md",
+      "status": "translated",
+      "targetHash": "3f08dd78e1c05afffc50f0b9b3833b5615df60d75296bdc9df077fdfa886e11b",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "a3ce969ad5b3d5355d177fb521062c4761e2c1c6c30db3d0dcf60cb0adcfbf5a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md",
+      "status": "translated",
+      "targetHash": "49fbc9f00c9c9af14fdfb3cc944effebb9d1206665e77e7532c25fb9d38be4b8",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1c6c5e26957fe7b512361db4c691a5742ec3ea51cb8d74da5e91a292b35c382d",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md",
+      "status": "translated",
+      "targetHash": "1c0975d35a26ad91c43f156cc4cf818323894daad922a5fc7de2e026a6f94ece",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "cca8e02b1080bbd30660926960f770c5da9e0b3adf1ab10a41d618e4ca668c3a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md",
+      "status": "translated",
+      "targetHash": "b09b081d920b9c37cb7589092d80a68c6f34e21a3824e2f2814f5a3ae8871939",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "792e241c01ec15e89415281a4f3a64afece39c62bb33cdaa2275b49b1375746f",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md",
+      "status": "translated",
+      "targetHash": "3b49db3e5a7b31d77cd3a9a6c01286d7d2476f8511ab172aff946c1e661f9e92",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md",
+      "status": "translated",
+      "targetHash": "fe124d61453ad3ba510c53371d6c482a2517d4c50a2aa4e526637a2cded3cbc8",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md",
+      "status": "translated",
+      "targetHash": "2de7e2abde131a1f4b8349b88de5cbf24c9ebb0dbb3764f5f71db8b689796f1c",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewBitmapIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
+      "status": "translated",
+      "targetHash": "86866eaab92c50828c43154330826c7920a3881c3a6412179f657144a86b944d",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewDiskANNIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1792133de3513f07ddccc03bdfe70771f2b1eeefbce1d4a4c3699c0f3827c5fd",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md",
+      "status": "translated",
+      "targetHash": "6edb49d31333d1b66f35363ca55644ad7e971945d52cdb938477b196f9fbe854",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewFMIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e1a48d49007bbfb89a9b6dca8c60c34020888709b1cb48bf16fd226c77d73b08",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md",
+      "status": "translated",
+      "targetHash": "fd16f31192eeb7c7757bf1147f7c29adf061fce1b510cd8f8d571106cec39a14",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPQIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d27a0401dbcd31ed2a8835a39eee233e1d0486799ba9b4928882662a2abc4873",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md",
+      "status": "translated",
+      "targetHash": "f7d29680bab818b937d8b879bdf8b331e2dd747449372b2558ed2098e6ed1d5a",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWPRQIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "10d38fcd459d84d42fd87f5799a7ff78b16b6601759c8a4ae1a3e8f69de61d0e",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md",
+      "status": "translated",
+      "targetHash": "b701324abd24bd7e6315728a74dff3c8f21e9f840a6c36e17cc5bb3cad5df8d5",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewHNSWSQIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md",
+      "status": "translated",
+      "targetHash": "3062327a1817dde9d25ac938b211b728bee13f9d5c79c5d238df3ac4f67eec5f",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewInvertedIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2699277c51382bf002d09457d1bae2555d1ac4bc4816fc8c877dd9e40b5f0060",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md",
+      "status": "translated",
+      "targetHash": "b4e6e7262826b909c8b2767a8b561eab80b20d2c81316831432183da6bfd549b",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewNgramIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md",
+      "status": "translated",
+      "targetHash": "3a2d55c64ea2447c04f9bfc5dad573647ce4de6cef067a9c3f3ee3bd952c330a",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewRTreeIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md",
+      "status": "translated",
+      "targetHash": "4b29d0958481a5a6ac361d4b95400870e14a510b055bce4d3977d728a5f1880e",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewSortedIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md",
+      "status": "translated",
+      "targetHash": "e9b6c6d252ed232ab8b7501ddac5d23f7758cda1f088bb468ee5ca0fedca6136",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Index-NewTrieIndex.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management-Index/v2-Management-Index.md",
+      "status": "translated",
+      "targetHash": "b75834971077b1dc6b394b52f413110bef7ce22393d455681353adfa52ac75c5",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management-Index/v2-Management-Index.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "002d76d8d8f8400cf957e4a946626003f0481d9222dec7960b97db749313affc",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
       "status": "translated",
-      "targetHash": "e769f76c430313dddcfbb2703b8c325fffebea8bc07a753da15f080b8d88e307",
+      "targetHash": "2ad6f4ff2ff14c8e71c1780931ebf930e7ffbb1b8dd5c3e8e2bb3ea6c4488688",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "dd4fe902d4c95e4940ae050b6f6fce896a735825082c74091adcd27adc997c9e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5f032c8b95ef82facb7611f6b65ff3f746aa1c42bd762e616fde1ca4d76d2a12",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
       "status": "translated",
-      "targetHash": "c7ac5489ad97afa358e15ac0ed7e3eea665beddea99183218e07895b35d3f757",
+      "targetHash": "77e64e2f46cb2546960940f885d3a31ed9976e7607381ef34f5ea9ca49e09d5c",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md"
     },
     {
@@ -3822,11 +3808,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "b1048c13eae16d1a58fc488033f48a98188d158cad291882d7ca57883449da31",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "319126df89167f935eaa98bb085725c42c5c2c389a3538fd757d8e4bacef6934",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
       "status": "translated",
-      "targetHash": "f1a9c0eeb993a516690e865a2affe57029d9f6c1351f83c4daf283bc9bfc9e56",
+      "targetHash": "1f9af55930e4c1a600b68adb5835b9c32635643334a8e71dc38103fb8996594d",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md"
     },
     {
@@ -3840,38 +3826,38 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "44cbdc1ea91a006681c3482a6b616c2edff0247c24857054bbe697246073bcb1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fcf0ab3193c76a191bbb402b3e87baea2cd779fbc4e9208d74c86b591102759b",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
       "status": "translated",
-      "targetHash": "9a676b637bab956be7470b369bf97699f5f4b068b730fb83200ee3ff267e4078",
+      "targetHash": "177bc95e6c87ef71e5fb411edffa1d518d6e23c130af78f187fa6ec3776fe1a9",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "62573b3bbf3a0537b2e60e77cced2b13a3ef31c8968e1e87c850542a8328bfb9",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "5941ceee593fe2fe520315e6ce9c224c83ea14e0dd45c60c1463ac98787d3370",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
       "status": "translated",
-      "targetHash": "c6bda04cf50ed0156947cf6cfd08d66881642c36eb72865e9d3d98ff0ce6c958",
+      "targetHash": "dc7b5f42af626f62874fe7afc9c1b0eeca1682248f9225bfe61e1cdb76909e8b",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "c80c6c408c9b9457d43949ae735dd43d6cfcc5f142d23a48593952d9325e1d93",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2daeeddeab284f03b70609d63bf06ce2c95abfba4a90de87e4b6e2390027264e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
       "status": "translated",
-      "targetHash": "154e2890f46d3e4a62879dffca933c63d776d50286062d11a853fad67da3a975",
+      "targetHash": "224d87b9fc8b6bf5e8496f1ca00e9081f7dda3126b7b5e52365d2f7d25438fa6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "298188522a7b1917d06d657aef29cd0286ec552b9e95edc9a03cd7a45e15db89",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "3d88dc0e2be5b937fd57cb8b823aa8eb442b0f12416d7b478619f376832b2b12",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
       "status": "translated",
-      "targetHash": "715fc2c45b866001324d9dec7b79b4d12af26641262dccaebcce7b3605e72d11",
+      "targetHash": "046cd6aa4281c92b59f8145cb570754eedc36c9be0a4b09270fc6bb31591e6c0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md"
     },
     {
@@ -3885,350 +3871,345 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "f43ed0698fd210368fcbd3f1f16d9037ea27c879d95f7ec20abca563fa18dba3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d5070962c7a1c03f4be98f30a05e8c7480f2fae4b12bdd5ca0d79884dfb05e26",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
       "status": "translated",
-      "targetHash": "c12946af09effd9aaf5ea29385a625514ac78a2ae13bbb0e1b49ca68c5e01fd6",
+      "targetHash": "29dbc88be4ffa1eeadc53a9ee9b19e66dfcf32c8b03fa604adcdd7e3a40345a6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "370d7c63f21bca477fef4e17689ee4495fff4527e95faafb86fe7a6c57aa1a01",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e39e093d3d0df6daa6c8f530e55917ab65cfc3fbebd1ec9ff8508dc4f5c80efb",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
       "status": "translated",
-      "targetHash": "41ade900ea95021dad42dba898b89fee0c596cf680a8cc63e0f4fc9e142fb497",
+      "targetHash": "cb4318273085896249a4c0fc89262d8ffa093fe8d11ae147250388f0e335f1ab",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md"
     },
     {
       "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
-      "status": "retired",
-      "targetHash": "dd1427a2ed06f590a7d6bee10447d60640d344dc056a623de84acdaaf456d678",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md"
+      "sourceHash": "c38daf31ed386d8c67864d7d0e34ef695d1acca7d6488e0c798173fc8b5484fd",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md",
+      "status": "translated",
+      "targetHash": "0d036ec5998430f91d712c5da75461ce0768c8b796c53881018dda98572681c6",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetPersistentSegmentInfo.md"
     },
     {
       "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
       "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
-      "status": "retired",
-      "targetHash": "6fcbe09f0f22f683f9bb3247df9a853c3bf0bd8e53c1937a26e84635d6e9a602",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
-      "status": "retired",
-      "targetHash": "939e9e93da75a180169222edf7691fb4b8c3ca59c0e0a89118ea8ec49e0632ec",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
-      "status": "retired",
-      "targetHash": "ec3ba47fc6ba09baacd51555ffb555573e8b357bb15aafc28dd2c4a19c270ce8",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
-      "status": "retired",
-      "targetHash": "d41052bf0b3036a0648257dfe20111c7f1ca8958e32c72b778c3f79d5421c4dc",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
-      "status": "retired",
-      "targetHash": "c46dbd5cb826aad077d6ca307e8a1b895497bc775b88d002b42c1bac4899cc5f",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
-      "status": "retired",
-      "targetHash": "a148114dcd37681cae0c8d5c880d765a16ec1a7eab4003dcd33ad47d5b33cf4e",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md"
-    },
-    {
-      "manual": "go",
-      "retirementEvidence": {
-        "checkpointSha": "3d3f5570fa7c09e1f29463ef2ded7e10ab492ab3",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
-      "status": "retired",
-      "targetHash": "7c32a3356b31caca4bb40c84444ace85372dca707a179b27bb645e1f3dd77b9c",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md"
-    },
-    {
-      "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "c0311c072943b830c49fe7fd2045e76504b05b0287d79163594510a1630faff5",
+      "sourceHash": "192b65f661c31ba6d0caf33d20ca47adb1e0d5fcdd57a0c2f6859c0c0d900a6b",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
       "status": "translated",
-      "targetHash": "91b000e9896394d33636a33b2f9706ae9a3b4760e7ebd433cf545fa33a6a8e82",
+      "targetHash": "7548233ad6b68674de5324cc787ad5f457b6fc68530ccac8d04e49a4f70efc28",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "d88c65ba550e50d4a1c0c4a96259aca1d7949a6d71e3ddf3b6f1b5c7583dffb1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6ce4ba2fe7ff0247aec19bfd6a75787911b96ff6f187f92edf449b913c3de02e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
       "status": "translated",
-      "targetHash": "347aea7c2d9883fe48a2954c07564bcb3eb31c7aaaac027d0aee338bcd54db2a",
+      "targetHash": "379fb3da648da0455f61cff25c36bcff485fcb25444b194b1b8b6e76732183c4",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "3896965d3d7333bb586009e0c73f6b6e256509d25d16b4b78e103401084b8cb6",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ef6804a86b2a083055a93fd9aa1923f3152a2187897e23fc71f789533eb53bec",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
       "status": "translated",
-      "targetHash": "3998da46e8b63fc104c1629b02ef96a8398eb0cf4a120e1e4db4e1cdaaff4984",
+      "targetHash": "41de6b5d88ace898f56873d273b6b03c721fc3396ed72570c92674a8558806e1",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "892020a5c53a7bd93384bce231857114683350a74ae0d0fae2c4fa2f92ec83e8",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "f8271cce473b8f785176634c684bc222a85ec24a93cce057c4f27825b11e47ff",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
       "status": "translated",
-      "targetHash": "35eba6cdfad071ef4eea33f1b13e3f22c9c5233a6c6bfa13c0bcf04079c92dc0",
+      "targetHash": "4b52ac06dbfca585c47c1f05839da35dcc6e371c75d18e63cf57a0f8762ee7fe",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "7252dcf102f09130bcc3c4b5114658408ccf9317bd93d9648be47fd18033b349",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9591bbfdcfad9ea8207f787059b319fb9a85abc8a9e52d95a90e86d3d94b1a8d",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
       "status": "translated",
-      "targetHash": "37c5214b7dcb37adc1f6ada013b5784925113b16f2b60247d44fe6227c81a36e",
+      "targetHash": "50a774bc5eee6ba8a13bea52d7bb5b0744a1b1ca71dcc38f1705c78d168167d6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "6a276ef6f8964ea34f1d66c33aeaea9048d900cada815f95d9bf9d9d436b45ab",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b582afe59f90a3ec84383676fed45512a04b46e52264c474e575d9f5c99efe6f",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
       "status": "translated",
-      "targetHash": "329fad982ca6536a6aa3ac3f4fe5a9ba64a37295644ae7d7493805e8e86f6bbc",
+      "targetHash": "0ff1de2a23dd0d7447ce6e06ba6d9489345f0db022c195101dc6e47a7ea128f0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "6353df7ea8ca30ce02a87f9dbc8b8cdc5819ec51733e6f0e76608f905da38f13",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6d26b6665794b438bf8f660b6b308d516954200f7c46197f05839c32b73d4e45",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
       "status": "translated",
-      "targetHash": "65c72098802d7742c9ec64cf1722b7d016b1b1a271d7c4d24fbc6a2f89da1504",
+      "targetHash": "0e4f4c2ddbf3f3785c1b8366eaa467cbc91cb5dad1f318ee199417c58c146879",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "4bd87883d973c4baa52e21e7beaaf6d0ddb4ad747056465d34b9e71ee946b75e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ca977b06ea3c4fc4952f4e03017e9e00dbf6a19850007409d006e81c9eda049c",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
       "status": "translated",
-      "targetHash": "8fb621a7282cbfe421ffcfca584404b396a34d8501b71f877cabb5195b671539",
+      "targetHash": "15d0b4a11ac113a595eaec4dd73ec3c15f41b974d184862b54d5d4d727476c41",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "ab409119ce93298058955dc59dc91369b65cbb14d9aafcf21616491805cca1e0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "269ea67e9994d3001f94308ff632cee626f3981addd0edd74cc8b95b1ea93140",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
       "status": "translated",
-      "targetHash": "5c43692376eb8df3a5341fd59706964088472c243ec554510fa29630ede936dc",
+      "targetHash": "18131b22bc7cd214c99d75e2baab031095bb92e07bb4e80c51b95555884ec357",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "6c1a6d296575ea82c5330a408f019d3a6409b0dd2e52ec2417ece80fbb922097",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "528784a374838c52149989407c7d4ba3a31e8bc62a7dd2b93f11b3f8ac561a82",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
       "status": "translated",
-      "targetHash": "9b4dee954f3a02c7e5beb996874a9b78c2d4ea5e5964fb0a3ad95f5e58bbbd9d",
+      "targetHash": "bb16d7bc9d9093c9f91c9ae419a81fef6f1254ba9546a697c77f0cb78c53d553",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "f0a86d01ea28c0fdc098245209cd3ec112801e6ae3e62bd16ecb9e82b1354628",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e171cd9031abf97c53dacbd52fa7b7c4654e2dc26b7033d95442173a80b583d9",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
       "status": "translated",
-      "targetHash": "4074b6c098f64a6743eea444280c646a20ad205e3c6fd887c75da0a9d5f70c0d",
+      "targetHash": "4277aa2ea6188e60e0fb3fdd42a9aa231953ea360f2e45b27ed1639490e96c96",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "900742d755a0300156fb78ea3aba8e0e556d727892966af019f88904851f28d4",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "8f4b8591a5da104dcbd7c9be1e1e8f6dab7ce312a0c9a64fa513bb90d344d10c",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Segment.md",
+      "status": "translated",
+      "targetHash": "a0a7236ae3ebed77e0039b4b9652586631a0e4a8282307e42daa8fecbcf8256e",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Segment.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "97b0bf3bb6983cc1cb1146e33d7d619a028dec937832d08957534f160ae22292",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
       "status": "translated",
-      "targetHash": "6df5e510b6ca8a9408f0488915d1dd482a19bcaab83de688977735e06b659066",
+      "targetHash": "b95e05fdd9b7e16de3ba59ab9178722a6416e42e2e8ef9fbb941924e05f8af0d",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "fbb28825452218249807484e6cc54affbc7c339f559d81595ff29054dea0e735",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "c409aec7516794e754ce1901a0a9150557c0b7308b0c7d5067aa378fadb51a82",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
       "status": "translated",
-      "targetHash": "c6e02f10ee696af53bb0ca8fe9bf13bf0744404c7e1376359abc489bdbf35799",
+      "targetHash": "00b9663157e060fe029f497a602e8b8c199e344dfd6dfd08911cdb3b217db826",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "199f63746c6378ec4782846fa3c0d5a3a24b029b77ffd54e63f50a19fffb3c1a",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "739c8fb1eb10bebca508ea48ee8e8318c65576d0291529edbcf362d46ddbaf30",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
       "status": "translated",
-      "targetHash": "5fb6e2debd425915a852a31e8a6a2b7d819ebc5990b1132a3d64614ffd9c9df7",
+      "targetHash": "aed5bf64618e57abdb94965b1dd8bd5e778d89d528500fc11cb3160e0897f514",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "eefd8679356b08aa44c45a7512f2b7533b61a1844c8fc0d44abb7ba0570deb86",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "1ee3882593f01d7c2c9a5d9684bafeb53e4f4b68ca33a256fb59488db71601d3",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
       "status": "translated",
-      "targetHash": "b3644aa4afe8baa1fc03df176c361766c7921f0ca5a661a10f9a55072a3651da",
+      "targetHash": "1de57794520c3fedac34074746b4ca02d25149879162d180f3eb79b8ec1c84de",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "bd2dcbdfa9f891c10d5b4193f966f80132bc9cd9f202f46d38de9ff26091e0bb",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "abc52c6942ed220f3105794f145741f1bfda8622bbcd59204b9617403c8443f6",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
       "status": "translated",
-      "targetHash": "8297e7059fbcd0eacb18e4f5b28bbe76af38f9a5184ae176347b524bfcbf2793",
+      "targetHash": "211787e2c53dbfe43dfc312fcbe29afc7e23e399d58d3ac9245d78715d764792",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "0be85941c3ea28b5009feeb7a399413218933102e22aaf35268013b02e4320e7",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2a654543d65ca5a9d601fb6e79b07d6a7b481f8000468fdb1ae538a878044c97",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md",
       "status": "translated",
-      "targetHash": "5aa3a8c295e211cd1bebf4f341100d72d734a9bd93baea3f34fd357e8143ffb9",
+      "targetHash": "d089fe8e75a1ee3d45bae155089ac646e91817891a9c7d2379d28ef846499420",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2e78750c39cffddbe1fdd01218924cae94f03b14a1c08ff6d947e917bf81ee8d",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "77e81506e20bbac47a112c2ee3d788bb9720f6c4b21df93a8c816dae456c5ff2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md",
       "status": "translated",
-      "targetHash": "cdaa305b8ad92efa03733ed478def1ea484ec74b7ca583fcf6f97e2923b00d30",
+      "targetHash": "5bf38cbed5488ebff7927edab1ac404844b5769166b635421962f48cf4ff6e4c",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "a9ec0d4fe58eff1a667da828cf7124063180672c65fcc37f20f24b2e58774f02",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "feeff0ddd8116896f2fdf508ed2cad239398461510a20b9e98783939cb4510b9",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md",
       "status": "translated",
-      "targetHash": "2f3127aa60dea82cecd60be8badb5af8f76e2bcca81b2a76cb260e1277569ad1",
+      "targetHash": "373e97ac258d5d77eab50ac5b3cc3c90272e1aae6207d9735c290a2eaf8d8b1e",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "ea3fac0596f2423e5b88362e38321840ccf3861e6e1099856fecd97563e11c6c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "b371c918b789b90ffab2a97f3ff3d35511bf3819f1f6cdbd1939b3a1c5d86544",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md",
+      "status": "translated",
+      "targetHash": "d873be05d0fe11e2b2f3eecd3cf7c62e9c613c9648a191b73f4707c0b4725d81",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetExportSnapshotState.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "940f4980c01d8f82714d0e641a1865af0820d12efc0680835684a445549c4876",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md",
       "status": "translated",
-      "targetHash": "4d6491709becfbd023663d67a5b145d5619aa1a2be0f4014873d7cbd1b3bd23b",
+      "targetHash": "cf1015603eba1321d2822c3e43d1c4883ccbef39f24ec4893606cc653d89c7a8",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "2f6de3f50359f661d0fe5c2ac264e0001999dca74034be67d23fd0d1c554abfc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "93c7f9853314b3612b6c7114fb145d0a7eb653c0135f858f941bb853a2501f40",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md",
       "status": "translated",
-      "targetHash": "c45c785109527e5ce199a93b0cc13aa7c9bdd8cb87ca5b4f420171d6c0bc414f",
+      "targetHash": "787d2fa1a6ba8f33e1005bbbda8e3005aea9b6aa0cdb78c052d964135f3ebfc6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "1bb91d338fcf4e5b3048dddc8c5a1b88c648ca39babd7bfb3710906d15ea40a0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "7a5330f77e8792523dfa6dd5ce591aea627b1d92fa68cf8a75049bb6725c2b25",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md",
       "status": "translated",
-      "targetHash": "5b1e0c6fb648f9e98b0bbbd0621431d0135c6525c9dda9222b1552be850cc0dc",
+      "targetHash": "4b2fbda69c60602d022bb7c81e7dbe19e5e2972d50e0ae2918c6568ce4da34f0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "8d80b8fcfef3aefc842f947336c9270bee28132fa632ab062e510f1b145a6ea4",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "a9d0edde56e3ee90182ea5148db4268f57ab9c3293bda234ccde7684e46d5a77",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md",
       "status": "translated",
-      "targetHash": "fce40da3a99dda4fe04d1ea36bae3f153380ddbec04af8d994792c63f235165f",
+      "targetHash": "2a029d82af6613b8f2531d688aba16f6d910b91f8703e6e0af61fcf88532ca71",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "3ed2327f1d342a1203c844c15ce3bf9c46c3e624aba0b8ff98542394aa527efc",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4f53249120dd248cd6f9cd251ecc242acb6d0fd9356bb82611f77064353e75a1",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md",
+      "status": "translated",
+      "targetHash": "4697e034c284593763954b2e46a7ab824448ed5b9d986d6ba763db9579e95bd7",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreExternalSnapshot.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d174b70fa3890ca991e2ef23223fc1369232b1b5b1ff2ba7f203fde1b9bd3eb7",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md",
       "status": "translated",
-      "targetHash": "0431ae9be5ff542e49f86d347c5f219123446884117d6a010a7e8427ccead62a",
+      "targetHash": "53f2eeb7e4eec0741086237a81dab33d3c2c17662a730204a2dc2076ce63ce91",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "41ea83a6fec2db86495dece5c03de8e6ee94b00a88ab026e4af41cafadc66c8d",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "72170c9e4ff2774878aed5895ef6f61d3d0c8ba393b7173afcbbecd345eee048",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md",
       "status": "translated",
-      "targetHash": "63f3dadd8d68613512adf6510592ac65eb3a83da89bcac17315e1a507f3a634e",
+      "targetHash": "a2ba09ca100d74778cce229c803460d66706692ec48b83b77a34d25bfa9ecd04",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d0e74d2fc2141188760d13ea3aa048bc97cf4087461224a2fef6ea3726c5492b",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md",
+      "status": "translated",
+      "targetHash": "664f5bff06f48e8bc73b668d003bcb1a044938d5a0b3265a59c55e7927505868",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "ba0a2279e10b8ee6522a4d25c35f27a2b422875bb3092a65acb8d908675d36b5",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
+      "status": "translated",
+      "targetHash": "1ae9942df4bcda2add91723face21069d165e2ddd0c0b7fddd0165e08151b6ae",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "f4f0f930db8edd4da5449f73938b9e3d2cdcbd56055bbedb1aec1ff51dae05e8",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md",
+      "status": "translated",
+      "targetHash": "51a57bac61959cf59cf9de0b61722f4fd6e390741c64cd7b27461b0834499e90",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d1e5915619ab8fcae96a9536e31e253767c1b0d0f76d28f415c9bc8ef31fa792",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md",
+      "status": "translated",
+      "targetHash": "eb8a83e110e4e3e9cc3583b6eb93cccaaee8fd81eccfdaa8ab828e4916537e8f",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0dc809903cf912238442720bdea82060c0753cb8705095a7fefec882e9436292",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md",
+      "status": "translated",
+      "targetHash": "367a540df7d1061a3f4f1128f2a62d659119965a3b654fe0f8ec673885175bcb",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0c44906015c472b40f0e6956b689e3b6360dbfe53e0204c913df72bbc02bf58b",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
+      "status": "translated",
+      "targetHash": "461e340f9730948b704bb90d5b209839ca2b9a0c8de9ca5c5c78bb26ead63f41",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "94a68a13c6bb7c4c57bd81e3bb4918fc2e020b5183e025d3d27b1f6c085a4b86",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md",
+      "status": "translated",
+      "targetHash": "00352acf64e3eca178821195f195aad2f181c32c61937d0e39e298ab644ebf7a",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-AnalyzerResult.md"
     },
     {
       "manual": "go",
@@ -4258,182 +4239,209 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "180efd52c4cac02cfbcf528576a682dc7fb2120a7fc318f351d43d124873eea1",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0a42dd48623025eb7c3be3584ff5f3ae74ef98958495f3e7b6aecd26171fae88",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md",
       "status": "translated",
-      "targetHash": "f4c68cbadeb94c4c6d789e7a30d0f3be71c2035fd902c0d1a3756293d41d355d",
+      "targetHash": "ea0dd77d9c1198f3673481be840c9d07d6a61715052e011b3387c571d9363383",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "1ad5346811e68fcea15b5b7da681371f4fdf3087d4b7d686952ccedff924e566",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d94c7e54631f6f9e2036b9fa0d22ce63efd31f018e5a075c7d9eea1fd2414bd8",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md",
       "status": "translated",
-      "targetHash": "1b54d03e33b0e68d0392e3d834b5b98f88a85b6a2ea10a5b9aeebfcd67939181",
+      "targetHash": "ee77bbb3ad09a1d4f6997b7656c0af433d860bf755a9e6a2d2a64f7240732b73",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "892b9417693ba6a2b539115c7a65113be3faaed9d9355d057f9265c40ebc070e",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d7e4f59550fa3cffee4fd3929a41d0fc6ab6bcf652b003197972419fc8fae84e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
       "status": "translated",
-      "targetHash": "5dbd6eb8627b91991bb0019cee443e3bb9d463f0511a9e778055a655af5c5db4",
+      "targetHash": "baaef6143f6a09b53f56e03b7ffaf13bb3cbfaaf579d88e651621121603f8e9a",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "c74e08f3e93882b49c525c62b1b81e98c91376323be287089148b91f65404485",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "bb4212364fa7fd36fce60fc57f7bad2ecb3e5f26e18816afdd841a43746a2efb",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md",
       "status": "translated",
-      "targetHash": "1d357ff2410fc73d61972503f441e674d777ebcf8a195f63daf934f48915987a",
+      "targetHash": "5ecfc0ea20e10b400cd3a6a707a04aea006996095417590bea3acd61965322c4",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "bfde155f338cf7577c5e3b99cbf703786172019c3506b48eadfe19f7d2d27aae",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "6ee25b14dc803cefef8fac31d18689a1496b5c05628512ca3abe30f02043b907",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md",
       "status": "translated",
-      "targetHash": "bb0858730f73f66ae959b287f6fbf66de4a893cb83d279c18de21d0f835e317b",
+      "targetHash": "09354247a9bf06237c6fbd32c50554971a6d9110e0e1526379c23eb2fc461196",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "177205c81e51910ae3aed895ddaf75ad64fdac4b6a00b1f903601ddf2f89bf28",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "47060a86a4181a8195a104903a47b3108bb6cea069a4e02543bd0e14699e3ebf",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md",
+      "status": "translated",
+      "targetHash": "51f4980347d63a733e845da4897f2e12e5d221ce1178e8e43a8d76770656bc06",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnText.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "167fb9da65b2a89df5ce87da11de3c0a5c9d9c74f17d24175db92420aad87c69",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md",
       "status": "translated",
-      "targetHash": "6910359629e41b6b4855834db6e2ff6a695dd3a2ab9758825a4192d1a894d4bd",
+      "targetHash": "4313b4a9b5f057ae8748e9748efd0e6527def98a5e0845cd79594173e771b4e2",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "994a7822b851cd441f1da11874bda0cc2351f9274a5051f2551912028ca8bdc7",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fe2079d849a92eecffa173952b39f622a4fd9474fe328c64280026f1b562808e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md",
       "status": "translated",
-      "targetHash": "422bfcc256a68c4a1aa3e9abcbe434cd8282a6208f7e46c48300114b3f60999a",
+      "targetHash": "9932c445e893e6baf4ae6428274b429bcfb741d32e614b430cf6cacb341095d0",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "446233e4e5c28de22db54dbfe449e3c3bc5b918f1ddd30f823f12ef070771cb2",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "815d6898064674cf00d4ca78be84342ca812adbbca2e1cde47c9421d9811001f",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md",
       "status": "translated",
-      "targetHash": "89d580f9f51dc179dc78698d8de1186fe3a0f90f0f2f9b526893f30e7a53c4bf",
+      "targetHash": "07297139c3aa599a7075b7dcf706e5705e769c39178d11941ccd653a3eb2abef",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "97cc93151c0195ce5c4f3b9a42e1b4a3e57583473b784d10004cb8317a5f4b09",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "018ab4496074819fe8783e516c5b6cd7ff585aee936bd706e2829c0ed5481650",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md",
       "status": "translated",
-      "targetHash": "7460ec37fc31a1de3edd5a1b3847fad648e1fd5edc61a7831580b2c6e3088676",
+      "targetHash": "a6fbb3cd17e758bdbebe4124be0a2b4ee2f0b0f2386b6ee08539b84cefefc7ae",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "712b7054f47b58b05ec92b4397d63f0968844db0fa42af739c2b6b5c496b9bd0",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "fd1e683147f5b1c72bf8d1a4489d3454125f96a8cf0e8c9dd697f000371aaa77",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md",
       "status": "translated",
-      "targetHash": "fa83fc4d56ba5bb4b7e3d5cf42f8fe658941ab6d159625afa942d57362819539",
+      "targetHash": "d19a0a1de59ccce6ab5121f97fb0cee094498e14b8009b5c68962054401ff22c",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "add404c91d4aa7482a5a4c09847e001898c7413be0d86a39442a4e352831d320",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "e0db9df66bc2e4ec2981e3c530d48101169b0100dc4df86ae71beed0954b3377",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md",
       "status": "translated",
-      "targetHash": "12267a2950baa93a48556dd7d321813584a0994a7c0f1663a56840120054c90e",
+      "targetHash": "dbfec52dcf477eaaaac29549715eb69217395eb5d2d73bd5484c57d234472fa6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "37fccac77e0d70e614d7aed3370c620191899fc294e4102ee04cf0c16ef4dd11",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "2525cc22228970eaf8c73fc4092b9975761c0a6d60e15f1e9baf4f5e9f96a721",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md",
       "status": "translated",
-      "targetHash": "1fffa42e43b1ec7587e4be1bc9045059de367efb68833dae16a37140b4bc3d64",
+      "targetHash": "a6f9e516cb5498fe97bd365cab1e4d82b641a58195068a1e90770eb009611c01",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "92cc23a5813cbe123ddd090102db652aaae6dec28a5add65aa05d368cb34f8a5",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "9f4ecd585d28ae3a35ef10c8a2b9bd3d6447e685395ea714c553aad0fcfc68dd",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md",
       "status": "translated",
-      "targetHash": "cff2af7d2cd84012714a1e195fdb9e778da6aee54a585f0e279a9d1b1c4680f0",
+      "targetHash": "d4c1d1ea4a62847d10b3c47015fdbb6476de8027aca0c44044ae0591ddd41ec7",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "6810a8e7b234b87fd113d39336f14ab9bf0130ede613889e2fefbe74aa0e867c",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "d589f0c89b8090da3f65e3070b6ae924163ebe875f61fd4ff613386fe4df3c37",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md",
+      "status": "translated",
+      "targetHash": "68f652777bd985a1bd74eea8c74ecc0d7ee723e0506278eed7933243c1bbde61",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Reranker.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "0e97265fbc203566ac1a65d9e82817eb044c690bd444cac7ba6470b23256058e",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md",
       "status": "translated",
-      "targetHash": "edb161822665cf3ddf4027d4292be11d74fde786e30d230fa2ce00aa643a8b10",
+      "targetHash": "12e8eac424c7280a56be0cf617481b11f9f11182920e4a62711057434c0b3f32",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "da9b60286aa7aac6d77e424f156a9424bdf9b364",
-      "sourceHash": "1b5eae2dfec2db1c0549c7e8bc48003f36d18e2bffd675e4455990cd9e6a7495",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "64d192b82752fd33cd658b4c115861507013d026b027511d204e8b515594c8cd",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md",
       "status": "translated",
-      "targetHash": "b98734aed4b36a4649153850cecfaaddc16fb5a9bd2bd513ee4ccc6d70292d3e",
+      "targetHash": "473bc606481feb2de657cba25c8d2a6d1c9be8e90bbe6dd2e7e3518133f75011",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "69c765a663b74442495842b9f9489bd6033b92858673e0941265f936fd1e89ca",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "feb1bcaa16b4152063f864438e596c2732099a1a80cf966d9fc02ccd037aa90a",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md",
       "status": "translated",
-      "targetHash": "4a35972711b3435867b0bdeba9edd93d2e0022cba493c1f9e9fb640009e7cec9",
+      "targetHash": "b475866f50e3b6141fc8b97272952405585b4161fa5989e92cc887dfb080d0bb",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "6e872a3a8d4ccc39d16cc8531fb841c00151eb53bcd4209cc7a51a93b93894a3",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "8069cf3797a1cdfe21131efa27e34d99d3402b286e289a38cf761d26cb5832fd",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md",
+      "status": "translated",
+      "targetHash": "da52e6e9d3bf43dbda01df402dcb24f6d6084336ab0e23ca27637b89ddb5e858",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchAggregation.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "20a288c2d415028780e29a9fe79dd16707ed2e5e06986fb9688dacf7d8809fc3",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md",
       "status": "translated",
-      "targetHash": "55ae5d1c8cc96a6615dff55b2fcd10a63dee48ea3c4375dda4a214c67770f773",
+      "targetHash": "4ac4946817bcb13374488f36f2803d739c9b5e1f501db9b545334853bfaf61dc",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "009cb856d60c8c0694819e71fc0f87354f78734ebd9545e70778c18406e466d7",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "576729dd3b86595329c48f7aca8c1e429070de26621cd11f55c033509a5dfda2",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md",
       "status": "translated",
-      "targetHash": "186deae576e306fe0a76e0b29b24dbe3324ea95fe620bf7ddc83775fe1f885bc",
+      "targetHash": "eed99a575debe6449796ed29653a27dc8dbc58af35d04e6f3657f8eafcb59790",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "baacb8101aa27a6598d60f3d878e002262eed9116d59ed1584639dd40b2479bb",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "bdceba8df202d0c282dfbe3ecaf64dd4db42f65eafb8fc30bf26948958624fe7",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md",
       "status": "translated",
-      "targetHash": "8b505bf54a0a2b6874a40fa29bf2ce50d85a3fdb7bb2d776d4323840b0ff818b",
+      "targetHash": "5e93dec4d3218a5cb97a8e68b7cb388e797fded87179b9328a379ea4a5b86aeb",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md"
     },
     {
       "manual": "go",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "a141ebedea8299314772435b5a76dddcc4277f0ee03d48d74d6295ece14315e7",
+      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
+      "sourceHash": "4063b2abab8b70315d415ae170bc2dde35463aed785da136530c7852acb70ec5",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector.md",
       "status": "translated",
-      "targetHash": "e25a14e133d51594df2732443bc57e7f967b31d4eda7dda1d49f39e4b495fd18",
+      "targetHash": "11c669aa1dd8a529f97963441ab97eae2f3be679b27b4ed8a2d8a547b111b4e9",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector.md"
     },
     {

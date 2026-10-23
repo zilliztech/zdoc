@@ -1,25 +1,25 @@
 ---
-title: "ReleasePartitions() | Go | v2"
+title: "ReleasePartitions | Go | v2"
 slug: /go/go/v2-Management-ReleasePartitions
-sidebar_label: "ReleasePartitions()"
+sidebar_label: "ReleasePartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将特定 Partition 从内存中释放。 | Go | v2"
+description: "此操作从内存中释放一个或多个已加载的 Partition。 | Go | v2"
 type: docx
-token: BcAVdlDIioMUXTxqyZkcXfqznKd
-sidebar_position: 25
+token: YIQXdQUHwovep5xVGz2cgusdnXe
+sidebar_position: 24
 keywords: 
-  - Zilliz 向量 Database
-  - Zilliz Database
-  - 非结构化数据
-  - 向量 Database
-  - zilliz
-  - zilliz cloud
+  - 向量相似性搜索
+  - 近似最近邻搜索
+  - DiskANN
+  - 稀疏向量
+  - Zilliz
+  - Zilliz 云
   - 云
-  - ReleasePartitions()
+  - ReleasePartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,31 +29,43 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ReleasePartitions()
+# ReleasePartitions
 
-此操作会将特定 Partition 从内存中释放。
+此操作从内存中释放一个或多个已加载的 Partition。
 
 ```go
 func (c *Client) ReleasePartitions(ctx context.Context, option ReleasePartitionsOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
+
+创建 ReleasePartitions() 的请求。
 
 ```go
-option := milvusclient.NewReleasePartitionsOption(collectionName, partitionNames)
+option := milvusclient.NewReleasePartitionsOptions(collectionName, partitionNames...)
 
 err := client.ReleasePartitions(ctx, option)
 ```
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **partitionNames** (*...string*)
+- **partitionNames** （*...string*） -
 
-    Partition 的名称。
+    **[必需]**
+
+    一个或多个 Partition 的名称。
+
+**构建器方法：**
+
+- `NewReleasePartitionsOptions(collectionName string, partitionNames ...string)`
+
+    创建用于释放 Partition 的选项。`collectionName` 指定 Collection，`partitionNames` 列出要释放的 Partition。
 
 **返回类型：**
 
@@ -61,38 +73,35 @@ err := client.ReleasePartitions(ctx, option)
 
 **返回：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+释放 Partition 后返回 nil。如果操作失败，则返回错误。
 
-**异常：**
+**异常处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请求构造或 RPC 失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 ReleasePartitions() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-err = cli.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("quick_setup", "partitionA"))
+err = cli.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("books", "chunk_1", "chunk_2"))
 if err != nil {
 	// handle error
 }

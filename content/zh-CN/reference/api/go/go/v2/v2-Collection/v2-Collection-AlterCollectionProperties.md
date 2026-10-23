@@ -1,25 +1,25 @@
 ---
-title: "AlterCollectionProperties() | Go | v2"
+title: "AlterCollectionProperties | Go | v2"
 slug: /go/go/v2-Collection-AlterCollectionProperties
-sidebar_label: "AlterCollectionProperties()"
+sidebar_label: "AlterCollectionProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作可修改现有 Collection 的属性。 | Go | v2"
+description: "此操作修改现有 Collection 的属性。 | Go | v2"
 type: docx
-token: DumcdeKcuoSJybxv0V5ckFrFnyg
+token: Q9Atd2A9LoykWSxJHuXcq09xnRg
 sidebar_position: 5
 keywords: 
-  - openai 向量数据库
-  - 自然语言处理 Database
-  - 低成本向量 Database
-  - 托管向量 Database
+  - LLM 作为评判者
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
   - zilliz
   - zilliz cloud
   - 云
-  - AlterCollectionProperties()
+  - AlterCollectionProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterCollectionProperties()
+# AlterCollectionProperties
 
-此操作可修改现有 Collection 的属性。
+此操作修改现有 Collection 的属性。
 
 ```go
 func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterCollectionPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 AlterCollectionProperties() 的请求。
 
 ```go
 option := milvusclient.NewAlterCollectionPropertiesOption(collection).
@@ -48,11 +50,17 @@ err := client.AlterCollectionProperties(ctx, option)
 
 **参数：**
 
-- **[collection](./v2-Collection)** (*string*)
+- **collection** （*string*） -
+
+    **[必需]**
 
     Collection。
 
-**可选方法：**
+**构建器方法：**
+
+- `NewAlterCollectionPropertiesOption(collection string)`
+
+    创建 AlterCollectionProperties() 的请求。
 
 - `WithProperty(key string, value any)`
 
@@ -62,24 +70,26 @@ err := client.AlterCollectionProperties(ctx, option)
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil；如果失败，则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    操作失败。请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
+
+演示 AlterCollectionProperties() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 	"github.com/milvus-io/milvus/pkg/v2/common"
 )
 

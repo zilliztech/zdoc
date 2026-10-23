@@ -1,25 +1,25 @@
 ---
-title: "ListPrivilegeGroups() | Go | v2"
+title: "ListPrivilegeGroups | Go | v2"
 slug: /go/go/v2-Authentication-ListPrivilegeGroups
-sidebar_label: "ListPrivilegeGroups()"
+sidebar_label: "ListPrivilegeGroups"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出所有权限组及其包含的权限。 | Go | v2"
 type: docx
-token: H34hdV2rxodn9Pxy2Jyc8sBun9t
+token: XbybdCKjgoveJExG4SDcpBjenkg
 sidebar_position: 14
 keywords: 
+  - Chroma 向量 Database
+  - NLP 搜索
+  - LLM 幻觉
   - 多模态搜索
-  - 向量搜索算法
-  - 问答系统
-  - llm-as-a-judge
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - ListPrivilegeGroups()
+  - ListPrivilegeGroups
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListPrivilegeGroups()
+# ListPrivilegeGroups
 
 此操作会列出所有权限组及其包含的权限。
 
@@ -37,28 +37,63 @@ import Admonition from '@theme/Admonition';
 func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGroupsOption, callOptions ...grpc.CallOption) ([]*entity.PrivilegeGroup, error)
 ```
 
+## 请求语法\{#request-syntax}
+
+创建 ListPrivilegeGroups() 的请求。
+
+```go
+option := milvusclient.NewListPrivilegeGroupsOption()
+
+groups, err := client.ListPrivilegeGroups(ctx, option)
+```
+
+**构建器方法：**
+
+- `NewListPrivilegeGroupsOption()`
+
+    创建 ListPrivilegeGroups() 的请求。
+
 **返回类型：**
 
 <em>[]</em>Entity.PrivilegeGroup, error&ast;
 
-**返回值：**
+**返回：**
 
-返回权限组列表及其包含的权限。如果操作失败，则返回错误。
+权限组及其所包含权限的列表。如果操作失败，则返回错误。
 
-**异常：**
+```go
+type PrivilegeGroup struct {
+    GroupName string
+    Privileges []string
+}
+```
+
+**参数：**
+
+- **GroupName** （*string*） -
+
+    权限组的名称。
+
+- **Privileges** （*[]string*） -
+
+    已授予权限的列表。
+
+**错误处理：**
 
 - **error**
 
-    请查看 `err != nil` 以了解失败详情。
+    操作失败。检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 ListPrivilegeGroups() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

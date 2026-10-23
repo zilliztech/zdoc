@@ -7,19 +7,19 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "向量数据的接口。实现包括 FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector 和 Text。| Go | v2"
+description: "向量数据的接口。实现包括 FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector 和 Text。 | Go | v2"
 type: docx
 token: CE0odAFVdoh2ehxNFRecD8WEn3f
-sidebar_position: 21
+sidebar_position: 20
 keywords: 
   - 视频搜索
   - AI 幻觉
-  - AI Agent
+  - AI 智能体
   - 语义搜索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - Vector
+  - 向量
   - gov230
 displayed_sidebar: goSidebar
 
@@ -53,29 +53,29 @@ type Vector interface {
 
 - `FieldType() FieldType`
 
-    返回此向量类型对应的 FieldType 枚举值。
+    返回此向量类型的 FieldType 枚举值。
 
 ## 向量数组类型\{#vector-array-types}
 
 - `FloatVectorArray`
 
-    这会将多个 FloatVector 值分组到一个查询向量槽位中，用于针对结构体数组的 ArrayOfVector 子字段执行 MAX_SIM 风格的搜索。
+    此类型将多个 FloatVector 值分组到一个查询向量槽位中，用于针对结构体数组的 ArrayOfVector 子字段执行 MAX_SIM 风格的搜索。
 
 - `Float16VectorArray`
 
-    这会将多个 Float16Vector 值分组，用于 EmbListFloat16Vector 搜索。
+    此类型将多个 Float16Vector 值分组，用于 EmbListFloat16Vector 搜索。
 
 - `BFloat16VectorArray`
 
-    这会将多个 BFloat16Vector 值分组，用于 EmbListBFloat16Vector 搜索。
+    此类型将多个 BFloat16Vector 值分组，用于 EmbListBFloat16Vector 搜索。
 
 - `BinaryVectorArray`
 
-    这会将多个 BinaryVector 值分组，用于 EmbListBinaryVector 搜索。
+    此类型将多个 BinaryVector 值分组，用于 EmbListBinaryVector 搜索。
 
 - `Int8VectorArray`
 
-    这会将多个 Int8Vector 值分组，用于 EmbListInt8Vector 搜索。
+    此类型将多个 Int8Vector 值分组，用于 EmbListInt8Vector 搜索。
 
 ## 示例\{#example}
 

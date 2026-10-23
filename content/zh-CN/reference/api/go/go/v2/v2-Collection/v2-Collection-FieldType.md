@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "枚举受支持的 Milvus 字段数据类型，并提供用于识别向量类型的辅助方法。 | Go | v2"
+description: "FieldType 实例枚举受支持的 Milvus 字段数据类型，并提供用于识别向量类型的辅助方法。 | Go | v2"
 type: docx
 token: V6aWdRUh3o1alDxmCo5c29hRnic
 sidebar_position: 16
@@ -18,7 +18,7 @@ keywords:
   - LLMs
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - FieldType
   - gov230
 displayed_sidebar: goSidebar
@@ -31,103 +31,75 @@ import Admonition from '@theme/Admonition';
 
 # FieldType
 
-枚举受支持的 Milvus 字段数据类型，并提供用于识别向量类型的辅助方法。
+FieldType 实例枚举受支持的 Milvus 字段数据类型，并提供用于识别向量类型的辅助方法。
 
-**返回类型：**
+<Admonition type="info" title="Notes">
 
-*FieldType*
+`IsVectorType()` 对二进制、float、float16、bfloat16、sparse 和 int8 向量字段类型返回 true。
 
-**返回：**
+</Admonition>
 
-枚举 Collection 字段支持的数据类型。
+<Admonition type="info" title="Notes">
 
-- **FieldTypeNone** (*int32*) -
+`FieldTypeText` 是一种可变长度字符串类型，不需要 `max_length`。
 
-    默认值：`0`
+</Admonition>
+
+```go
+type FieldType int32
+```
+
+**值：**
+
+- **FieldTypeNone** = `0`
 
     零值占位符。
 
-- **FieldTypeBool** (*int32*) -
+- **FieldTypeBool** = `1`
 
-    默认值：`1`
+- **FieldTypeInt8** = `2`
 
-- **FieldTypeInt8** (*int32*) -
+- **FieldTypeInt16** = `3`
 
-    默认值：`2`
+- **FieldTypeInt32** = `4`
 
-- **FieldTypeInt16** (*int32*) -
+- **FieldTypeInt64** = `5`
 
-    默认值：`3`
+- **FieldTypeFloat** = `10`
 
-- **FieldTypeInt32** (*int32*) -
+- **FieldTypeDouble** = `11`
 
-    默认值：`4`
+- **FieldTypeString** = `20`
 
-- **FieldTypeInt64** (*int32*) -
-
-    默认值：`5`
-
-- **FieldTypeFloat** (*int32*) -
-
-    默认值：`10`
-
-- **FieldTypeDouble** (*int32*) -
-
-    默认值：`11`
-
-- **FieldTypeString** (*int32*) -
-
-    默认值：`20`
-
-- **FieldTypeVarChar** (*int32*) -
-
-    默认值：`21`
+- **FieldTypeVarChar** = `21`
 
     具有指定最大长度的可变长度字符串。
 
-- **FieldTypeArray** (*int32*) -
+- **FieldTypeArray** = `22`
 
-    默认值：`22`
+- **FieldTypeJSON** = `23`
 
-- **FieldTypeJSON** (*int32*) -
+- **FieldTypeGeometry** = `24`
 
-    默认值：`23`
+- **FieldTypeText** = `25`
 
-- **FieldTypeGeometry** (*int32*) -
+    不需要 max_length 的可变长度字符串。
 
-    默认值：`24`
+- **FieldTypeTimestamptz** = `26`
 
-- **FieldTypeTimestamptz** (*int32*) -
+- **FieldTypeBinaryVector** = `100`
 
-    默认值：`26`
+- **FieldTypeFloatVector** = `101`
 
-- **FieldTypeBinaryVector** (*int32*) -
+- **FieldTypeFloat16Vector** = `102`
 
-    默认值：`100`
+- **FieldTypeBFloat16Vector** = `103`
 
-- **FieldTypeFloatVector** (*int32*) -
+- **FieldTypeSparseVector** = `104`
 
-    默认值：`101`
+- **FieldTypeInt8Vector** = `105`
 
-- **FieldTypeFloat16Vector** (*int32*) -
-
-    默认值：`102`
-
-- **FieldTypeBFloat16Vector** (*int32*) -
-
-    默认值：`103`
-
-- **FieldTypeSparseVector** (*int32*) -
-
-    默认值：`104`
-
-- **FieldTypeInt8Vector** (*int32*) -
-
-    默认值：`105`
-
-- **FieldTypeStruct** (*int32*) -
-
-    默认值：`201`
+- **FieldTypeStruct** = `201`
 
 ## 示例\{#example}
 
@@ -144,8 +116,3 @@ fieldType := entity.FieldTypeFloatVector
 fmt.Println(fieldType.Name())
 fmt.Println(fieldType.IsVectorType())
 ```
-
-## 说明\{#notes}
-
-- `IsVectorType()` 对二进制、float、float16、bfloat16、sparse 和 int8 向量字段类型返回 true。
-

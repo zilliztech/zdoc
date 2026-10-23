@@ -1,25 +1,25 @@
 ---
-title: "AlterAlias() | Go | v2"
+title: "AlterAlias | Go | v2"
 slug: /go/go/v2-Collection-AlterAlias
-sidebar_label: "AlterAlias()"
+sidebar_label: "AlterAlias"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将现有别名重新分配给其他 Collection。 | Go | v2"
+description: "此操作会将现有别名重新分配给另一个 Collection。 | Go | v2"
 type: docx
-token: GNQcdBgh2oMyS9xxJk0cvESGnfe
+token: NOBpdRuf2oSRrJxZSYMcOLEcnAE
 sidebar_position: 3
 keywords: 
-  - 低成本向量 Database
-  - 托管向量 Database
-  - Pinecone 向量 Database
-  - 音频搜索
-  - zilliz
+  - Milvus 向量 Database
+  - Zilliz Cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Zilliz
   - Zilliz Cloud
   - 云
-  - AlterAlias()
+  - AlterAlias
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterAlias()
+# AlterAlias
 
-此操作会将现有别名重新分配给其他 Collection。
+此操作会将现有别名重新分配给另一个 Collection。
 
 ```go
 func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 AlterAlias() 的请求。
 
 ```go
 option := milvusclient.NewAlterAliasOption(alias, collectionName)
@@ -47,36 +49,48 @@ err := client.AlterAlias(ctx, option)
 
 **参数：**
 
-- **[alias](./v2-Collection-Alias)** (*string*)
+- **alias**（*string*）-
+
+    **[必需]**
 
     要分配的别名名称。
 
-- **collectionName** (*string*)
+- **collectionName**（*string*）-
+
+    **[必需]**
 
     目标 Collection 的名称。
+
+**构建器方法：**
+
+- `NewAlterAliasOption(alias string, collectionName string)`
+
+    创建 AlterAlias() 的请求。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil，否则返回描述错误原因的错误对象。
+成功时返回 nil；否则返回描述出错原因的错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 AlterAlias() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "在自动验证公开 `Validate()` 方法的选项（包括结构体数组 Schema）后，创建一个 Collection。 | Go | v2"
+description: "此操作会在自动校验暴露 `Validate()` 方法的选项（包括结构体数组 Schema）后创建一个 Collection。 | Go | v2"
 type: docx
 token: Jm5IdnexOoFaMpx0HqDcbXeDnGe
 sidebar_position: 9
 keywords: 
   - 多模态向量 Database 检索
   - 检索增强生成
-  - 大型语言模型
+  - 大语言模型
   - 向量化
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - CreateCollection()
   - gov230
@@ -31,21 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-在自动验证公开 `Validate()` 方法的选项（包括结构体数组 Schema）后，创建一个 Collection。
+此操作会在自动校验暴露 `Validate()` 方法的选项（包括结构体数组 Schema）后创建一个 Collection。
 
 ```go
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
+## 请求语法\{#request-syntax}
+
+为 CreateCollection() 创建请求。
+
+```go
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("books", schema))
+```
+
 **参数：**
 
-- **name** (*string*) -
+- **name** （*string*） -
 
     **[必需]**
 
     要创建的 Collection 的名称。
 
-- **collectionSchema** (**Entity.Schema*) -
+- **collectionSchema** （&ast;*Entity.Schema*） -
 
     **[必需]**
 
@@ -55,11 +63,11 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithAutoID(autoID bool)`
 
-    设置是否由 Milvus 自动生成主键。
+    设置 Milvus 是否自动生成主键。
 
 - `WithShardNum(shardNum int32)`
 
-    设置 Collection 的分片数量。
+    设置 Collection 的分片数。
 
 - `WithDynamicSchema(dynamicSchema bool)`
 
@@ -71,7 +79,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithIndexOptions(indexOpts ...CreateIndexOption)`
 
-    设置创建 Collection 时使用的索引创建选项。
+    设置创建 Collection 期间使用的索引创建选项。
 
 - `WithProperty(key string, value any)`
 
@@ -79,7 +87,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
-    设置 Collection 一致性级别。
+    设置 Collection 的一致性级别。
 
 - `WithMetricType(metricType entity.MetricType)`
 
@@ -95,21 +103,25 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithNumPartitions(numPartitions int64)`
 
-    设置与 Partition 键配合使用的 Partition 数量。
+    设置与 Partition 键搭配使用的 Partition 数量。
+
+- `SimpleCreateCollectionOptions(name string, dim int64)`
+
+    创建一个带有合理默认值的 CreateCollectionOption，以便快速设置 Collection：一个名为 `id` 的 `Int64` 主键字段，以及一个名为 `vector`、具有指定维度的 `FloatVector` 字段。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-Collection 创建成功后返回 nil。Schema 验证或 RPC 失败时返回错误。
+创建 Collection 后返回 nil。当 Schema 校验或 RPC 失败时，返回错误。
 
-**错误处理：**
+**异常：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    操作失败。校验、请求构建或 RPC 失败。请检查返回的错误以了解失败详情。
 
 ## 示例\{#example}
 

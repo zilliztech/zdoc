@@ -4,20 +4,20 @@ slug: /go/go/v2-Snapshot-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于查询异步恢复快照作业的状态和进度。 | Go | v2"
+description: "此操作会查询异步恢复快照任务的状态和进度。 | Go | v2"
 type: docx
 token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - 什么是向量数据库
-  - 什么是向量 Database
-  - 向量 Database 对比
+  - 什么是向量数据库
+  - 向量数据库对比
   - Faiss
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - GetRestoreSnapshotState()
   - gov230
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # GetRestoreSnapshotState()
 
-此操作用于查询异步恢复快照作业的状态和进度。
+此操作会查询异步恢复快照任务的状态和进度。
 
 ```go
 func (c *Client) GetRestoreSnapshotState(ctx context.Context, opt GetRestoreSnapshotStateOption, callOptions ...grpc.CallOption) (*milvuspb.RestoreSnapshotInfo, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 GetRestoreSnapshotState() 创建请求。
 
 ```go
 option := client.NewGetRestoreSnapshotStateOption(jobID)
@@ -47,17 +49,19 @@ result, err := client.GetRestoreSnapshotState(option)
 
 **参数：**
 
-- **JobId** (*int64*) -
+- **jobID** (*int64*) -
 
-    由 `RestoreSnapshot()` 返回的作业 ID。
+    **[必需]**
+
+    恢复任务的 ID。
 
 **返回类型：**
 
 *milvuspb.RestoreSnapshotInfo, error*
 
-**返回值：**
+**返回：**
 
-一个 RestoreSnapshotInfo 对象，用于记录指定恢复快照作业的详细信息。
+一个记录指定恢复快照任务详情的 RestoreSnapshotInfo 对象。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -75,56 +79,27 @@ type RestoreSnapshotInfo struct {
 
 **参数：**
 
-- **jobID** (*int64*)
+- **result** (*milvuspb.RestoreSnapshotInfo*) -
 
-    恢复作业 ID。
+    记录指定恢复快照任务详情的 RestoreSnapshotInfo 对象。
 
-- **SnapshotName** (*string*) -
-
-    正在恢复的快照名称。
-
-- **DbName** (*string*) -
-
-    目标 Database 名称。
-
-- **CollectionName** (*string*) -
-
-    目标 Collection 名称。
-
-- **State** (*RestoreSnapshotState*) -
-
-    当前状态。可能的值包括：*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed*。
-
-- **Progress** (*int64*) -
-
-    进度百分比（0-100）。
-
-- **Reason** (*string*) -
-
-    如果作业失败，则表示错误原因。
-
-- **StartTime** (*int64*) -
-
-    以毫秒为单位的开始时间戳。
-
-- **TimeCost** (*int64*) -
-
-    以毫秒为单位的耗时。
-
-**异常：**
+**错误处理：**
 
 - **error**
 
-    检查 err != nil 以获取失败详情。
+    操作失败。请检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 GetRestoreSnapshotState() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

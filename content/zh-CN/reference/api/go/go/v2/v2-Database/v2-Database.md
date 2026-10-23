@@ -4,12 +4,12 @@ slug: /go/go/v2-Database
 sidebar_label: "Database"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "表示由 DescribeDatabase 返回的 Database 描述，包括自定义属性。 | Go | v2"
+description: "Database 实例表示一个 Database 及其属性，该实例由 DescribeDatabase 返回。 | Go | v2"
 type: docx
-token: KXgNdgTrWoglBsxXTjvcIwnpnqh
+token: YXVpdEBCWo4vpexKgwCcRbClnFc
 sidebar_position: 3
 keywords: 
   - 大语言模型
@@ -18,7 +18,7 @@ keywords:
   - ANNS
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Database
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Database
 
-表示由 DescribeDatabase 返回的 Database 描述，包括自定义属性。
+Database 实例表示一个 Database 及其属性，该实例由 DescribeDatabase 返回。
 
 ```go
 type Database struct {
@@ -42,10 +42,41 @@ type Database struct {
 
 **字段：**
 
-- **Name** (*string*)
+- **Name** （*string*） -
 
-    名称。
+    Database 的名称。
 
-- **Properties** (*map[string]string*)
+- **Properties** （*map[string]string*） -
 
-    自定义键值属性。
+    Database 的属性。
+
+## 示例\{#example}
+
+演示 Database 的用法。
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+databases, err := cli.ListDatabases(ctx, milvusclient.NewListDatabaseOption())
+if err != nil {
+	// handle error
+}
+for _, db := range databases {
+	fmt.Println(db.Name)
+}
+```

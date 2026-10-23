@@ -1,25 +1,25 @@
 ---
-title: "HasPartition() | Go | v2"
+title: "HasPartition | Go | v2"
 slug: /go/go/v2-Partition-HasPartition
-sidebar_label: "HasPartition()"
+sidebar_label: "HasPartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作检查 Collection 中是否存在 Partition。 | Go | v2"
 type: docx
-token: Cased8tfhoZ25Sx4VALcy4gZnbh
+token: Qn1ddXN3ho1R9ixA2qRcr0JanJb
 sidebar_position: 4
 keywords: 
-  - k 最近邻算法
-  - ANNS
-  - 向量搜索
-  - knn 算法
+  - rag 向量 Database
+  - 什么是向量数据库
+  - 什么是向量数据库
+  - 向量数据库比较
   - zilliz
   - zilliz cloud
-  - cloud
-  - HasPartition()
+  - 云
+  - HasPartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# HasPartition()
+# HasPartition
 
 此操作检查 Collection 中是否存在 Partition。
 
@@ -39,6 +39,8 @@ func (c *Client) HasPartition(ctx context.Context, opt HasPartitionOption, callO
 
 ## 请求语法\{#request-syntax}
 
+创建 HasPartition() 的请求。
+
 ```go
 option := milvusclient.NewHasPartitionOption(collectionName, partitionName)
 
@@ -47,13 +49,19 @@ result, err := client.HasPartition(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
 
     目标 Collection 的名称。
 
-- **partitionName** (*string*)
+- **partitionName** （*string*） -
 
-    要检查的 Partition 的名称。
+    要检查的 Partition 名称。
+
+**构建器方法：**
+
+- `NewHasPartitionOption(collectionName string, partitionName string)`
+
+    创建 HasPartition() 的请求。
 
 **返回类型：**
 
@@ -61,22 +69,30 @@ result, err := client.HasPartition(ctx, option)
 
 **返回：**
 
-一个布尔值，用于指示资源是否存在。如果操作失败，则返回错误。
+布尔值，指示资源是否存在。如果操作失败，则返回错误。
+
+**参数：**
+
+- **result** （*has bool*） -
+
+    HasPartition() 返回的 has bool 值。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 HasPartition() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

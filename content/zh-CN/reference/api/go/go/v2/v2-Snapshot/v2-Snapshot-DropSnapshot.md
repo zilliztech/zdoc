@@ -4,10 +4,10 @@ slug: /go/go/v2-Snapshot-DropSnapshot
 sidebar_label: "DropSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会永久删除快照。删除后，快照数据将无法恢复。 | Go | v2"
+description: "此操作会永久删除快照。快照删除后，其数据将无法恢复。 | Go | v2"
 type: docx
 token: YP0vdMHw9oDlrcxjvg0cihgSnJb
 sidebar_position: 3
@@ -17,7 +17,7 @@ keywords:
   - 向量维度
   - ANN 搜索
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - DropSnapshot()
   - gov230
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DropSnapshot()
 
-此操作会永久删除快照。删除后，快照数据将无法恢复。
+此操作会永久删除快照。快照删除后，其数据将无法恢复。
 
 ```go
 func (c *Client) DropSnapshot(ctx context.Context, opt DropSnapshotOption, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 DropSnapshot() 的请求。
 
 ```go
 option := client.NewDropSnapshotOption(snapshotName, collectionName).
@@ -48,25 +50,29 @@ err := client.DropSnapshot(option)
 
 **参数：**
 
-- **snapshotName** (*string*) - 
+- **name** （*string*） -
 
-    要删除的快照名称。
+    **[必需]**
 
-- **collectionName** (*string*) - 
+    要删除的快照的名称。
 
-    该快照所属 Collection 的名称。
+- **collectionName** （*string*） -
+
+    **[必需]**
+
+    快照所属 Collection 的名称。
 
 **构建器方法：**
 
 - `WithDbName(dbName string)`
 
-    用于设置指定 Collection 所属 Database 的名称。
+    设置指定 Collection 所属 Database 的名称。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
 成功时返回 nil。如果快照不存在或操作失败，则返回错误。
 
@@ -74,16 +80,19 @@ err := client.DropSnapshot(option)
 
 - **error**
 
-    通过检查 err != nil 获取失败详情。
+    操作失败。检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 DropSnapshot() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

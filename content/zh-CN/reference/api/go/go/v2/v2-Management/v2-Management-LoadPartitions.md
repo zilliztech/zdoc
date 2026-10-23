@@ -1,25 +1,25 @@
 ---
-title: "LoadPartitions() | Go | v2"
+title: "LoadPartitions | Go | v2"
 slug: /go/go/v2-Management-LoadPartitions
-sidebar_label: "LoadPartitions()"
+sidebar_label: "LoadPartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将 Collection 的特定 Partition 加载到内存中。 | Go | v2"
 type: docx
-token: LMXGdDnueontIFxuqAIcS8D6nJc
-sidebar_position: 19
+token: R4nBdOWqtoi6rGx2r4ccEkQ7nl3
+sidebar_position: 18
 keywords: 
-  - 向量搜索算法
-  - 问答系统
-  - llm-as-a-judge
-  - 混合向量搜索
-  - zilliz
-  - zilliz cloud
+  - Pinecone 与 Milvus
+  - Chroma 与 Milvus
+  - Annoy 向量搜索
+  - Milvus
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - LoadPartitions()
+  - LoadPartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# LoadPartitions()
+# LoadPartitions
 
 此操作会将 Collection 的特定 Partition 加载到内存中。
 
@@ -38,6 +38,8 @@ func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 LoadPartitions() 创建请求。
 
 ```go
 option := milvusclient.NewLoadPartitionsOption(collectionName, partitionsNames).
@@ -52,23 +54,31 @@ result, err := client.LoadPartitions(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **partitionsNames** (*...string*)
+- **partitionsNames** （*...string*） -
+
+    **[必需]**
 
     Partition 的名称。
 
-**选项方法：**
+**构建器方法：**
+
+- `NewLoadPartitionsOption(collectionName string, partitionsNames ...string)`
+
+    为 LoadPartitions() 创建请求。
 
 - `WithReplica(num int)`
 
-    设置操作的副本数。
+    设置此操作的副本数。
 
 - `WithResourceGroup(resourceGroups ...string)`
 
-    设置操作的资源组。
+    设置此操作的资源组。
 
 - `WithLoadFields(loadFields ...string)`
 
@@ -76,33 +86,41 @@ result, err := client.LoadPartitions(ctx, option)
 
 - `WithSkipLoadDynamicField(skipFlag bool)`
 
-    设置操作的跳过加载动态字段。
+    设置此操作是否跳过加载动态字段。
 
 - `WithRefresh(isRefresh bool)`
 
-    启用刷新模式以重新加载新插入的数据。
+    启用刷新模式，以重新加载新插入的数据。
 
 **返回类型：**
 
-*[LoadTask](./v2-Management-LoadTask), error*
+*LoadTask, error*
 
 **返回：**
 
-返回一个 LoadTask，可用于等待加载操作完成。如果操作失败，则返回错误。
+LoadTask 可用于等待加载操作完成。如果操作失败，则返回错误。
 
-**异常：**
+**方法：**
+
+- **Await** （*error*） -
+
+    阻塞，直到确认各 Partition 已完全加载。该过程会按任务的检查间隔轮询服务器，直到加载进度报告为 100，或上下文被取消。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 LoadPartitions() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -4,22 +4,22 @@ slug: /go/go/v2-Collection-Field
 sidebar_label: "Field"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.0
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。 | Go | v2"
+description: "Field 实例定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。 | Go | v2"
 type: docx
 token: DPcJdZceFoes0sxeRVKcKhaunq9
 sidebar_position: 15
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - Field
+  - 智能体 RAG
+  - RAG LLM 架构
+  - 私有 LLM
+  - 最近邻搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
+  - 字段
   - gov230
 displayed_sidebar: goSidebar
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Field
 
-定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。
+Field 实例定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。
 
 ```go
 type Field struct {
@@ -50,31 +50,87 @@ type Field struct {
     DefaultValue *schemapb.ValueField
     Nullable bool
     StructSchema *StructSchema
+    ExternalField string
 }
 ```
 
-## 构造函数\{#constructor}
+**字段：**
 
-```go
-entity.NewField().
-    WithName(name).
-    WithDescription(desc).
-    WithDataType(dataType).
-    WithIsPrimaryKey(isPrimaryKey).
-    // ...
-```
+- **ID**（*int64*）-
+
+    字段 ID，在创建 Collection 时生成；输入值会被忽略。
+
+- **Name**（*string*）-
+
+    字段的名称。
+
+- **PrimaryKey**（*bool*）-
+
+    该字段是否为主键。
+
+- **AutoID**（*bool*）-
+
+    ID 是否自动生成。
+
+- **Description**（*string*）-
+
+    便于人类阅读的字段描述。
+
+- **DataType**（[FieldType](./v2-Collection-FieldType)）-
+
+    字段的数据类型。
+
+- **TypeParams**（*map[string]string*）-
+
+    字段的类型参数，例如 dim 或 max_length。
+
+- **IndexParams**（*map[string]string*）-
+
+    字段的索引参数。
+
+- **IsDynamic**（*bool*）-
+
+    该字段是否为动态字段。
+
+- **IsPartitionKey**（*bool*）-
+
+    该字段是否为 Partition 键。
+
+- **IsClusteringKey**（*bool*）-
+
+    该字段是否为聚类键。
+
+- **ElementType**（[FieldType](./v2-Collection-FieldType)）-
+
+    数组字段的元素类型。
+
+- **DefaultValue**（&ast;*schemapb.ValueField*）-
+
+    字段的默认值。
+
+- **Nullable**（*bool*）-
+
+    该字段是否接受 null 值。
+
+- **StructSchema**（&ast;*StructSchema*）-
+
+    struct 类型字段的 Schema。
+
+- **ExternalField**（*string*）-
+
+    当前字段映射到的外部数据文件中的字段名称。
 
 **构建器方法：**
 
 - `WithName(name string)`
 
-    设置字段名称。
+    设置字段的名称。
 
 - `WithDescription(desc string)`
 
-    设置字段描述。
+    设置字段的描述。
 
-- `WithDataType(dataType FieldType)`
+- `WithDataType(dataType [FieldType](FieldType.md))`
 
     设置字段的数据类型（例如 Int64、VarChar、FloatVector）。
 
@@ -100,7 +156,7 @@ entity.NewField().
 
 - `WithNullable(nullable bool)`
 
-    设置此字段是否允许空值。
+    设置此字段是否允许 null 值。
 
 - `WithDefaultValueBool(defaultValue bool)`
 
@@ -132,7 +188,7 @@ entity.NewField().
 
 - `WithTypeParams(key string, value string)`
 
-    为字段设置类型参数键值对。
+    设置字段的类型参数键值对。
 
 - `WithDim(dim int64)`
 
@@ -142,7 +198,7 @@ entity.NewField().
 
     设置 varchar 字段的最大字符长度。
 
-- `WithElementType(eleType FieldType)`
+- `WithElementType(eleType [FieldType](FieldType.md))`
 
     设置数组字段的元素类型。
 
@@ -152,11 +208,11 @@ entity.NewField().
 
 - `WithEnableAnalyzer(enable bool)`
 
-    为此字段启用用于全文搜索的文本 Analyzer。
+    为此字段启用文本 Analyzer，以支持全文搜索。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    设置文本处理的 Analyzer 参数。
+    设置用于文本处理的 Analyzer 参数。
 
 - `WithMultiAnalyzerParams(params map[string]any)`
 
@@ -164,7 +220,7 @@ entity.NewField().
 
 - `WithEnableMatch(enable bool)`
 
-    为此字段启用文本匹配。
+    启用此字段的文本匹配。
 
 - `WithStructSchema(schema *StructSchema)`
 
@@ -176,15 +232,17 @@ entity.NewField().
 
 **方法：**
 
-- `GetDim() int64, error`
+- `GetDim() (int64, error)`
 
-    获取 dim。
+    返回字段的维度。
 
 ## 示例\{#example}
 
+演示 Field 的用法。
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Primary key field

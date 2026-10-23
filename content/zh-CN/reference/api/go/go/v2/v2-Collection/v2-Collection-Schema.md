@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "定义 Milvus v3 Collection 的 Schema，验证结构体数组字段，并支持外部 Collection 源配置。 | Go | v2"
+description: "Schema 实例定义 Milvus v3 Collection Schema，校验结构体数组字段，并支持外部 Collection 源配置。当父级未携带 `maxcapacity` 时，结构体数组解码会保留可空状态，并从子字段中恢复该值。`ExternalSource` 和 `ExternalSpec` 描述外部 Collection 存储和配置。 | Go | v2"
 type: docx
 token: Du2ZdjCWIorDg4xdwercNnYgnJb
 sidebar_position: 23
@@ -15,9 +15,9 @@ keywords:
   - 稠密嵌入
   - Faiss 向量 Database
   - Chroma 向量 Database
-  - NLP 搜索
+  - nlp 搜索
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - Schema
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Schema
 
-定义 Milvus v3 Collection 的 Schema，验证结构体数组字段，并支持外部 Collection 源配置。
+Schema 实例定义 Milvus v3 Collection Schema，校验结构体数组字段，并支持外部 Collection 源配置。当父级未携带 `max_capacity` 时，结构体数组解码会保留可空状态，并从子字段中恢复该值。`ExternalSource` 和 `ExternalSpec` 描述外部 Collection 存储和配置。
 
 ```go
 type Schema struct {
@@ -46,113 +46,113 @@ type Schema struct {
 }
 ```
 
-## 请求语法\{#request-syntax}
+**字段：**
 
-创建一个空的 Collection Schema。
+- **schema** （*Schema*） -
 
-```go
-entity.NewSchema()
-```
+    表示 Collection 的 Schema。此 Schema 包括字段定义、函数和动态字段设置。- **CollectionName** （*string*） - 存储 Collection 名称。- **Description** （*string*） - 存储 Collection 描述。- **AutoID** （*bool*） - 指示 Milvus 是否自动生成主键。- **Fields** （<em>[]</em>Field*） - 包含 Collection 字段定义。- EnableDynamicField （*bool*） - 指示是否启用动态字段。- Functions （*[]*Function*） - 包含内置函数定义。- **ExternalSource** （*string*） - 外部数据源（例如 "s3://bucket/path"）。- **ExternalSpec** （*string*） - 外部源配置（JSON）。
 
-**方法：**
+**构建器方法：**
 
 - `WithName(name string) *Schema`
 
-    设置 Collection 名称。
+    此方法设置 Collection 名称。
 
 - `WithDescription(desc string) *Schema`
 
-    设置 Collection 描述。
+    此方法设置 Collection 描述。
 
 - `WithAutoID(autoID bool) *Schema`
 
-    设置是否由 Milvus 自动生成主键。
+    此方法设置 Milvus 是否自动生成主键。
 
 - `WithDynamicFieldEnabled(dynamicEnabled bool) *Schema`
 
-    启用或禁用动态字段。
+    此方法启用或禁用动态字段。
 
 - `WithExternalSource(externalSource string) *Schema`
 
-    设置外部数据源 URI。
+    此方法设置源数据 URI，该 URI 类似于 AWS S3 对象路径。
 
 - `WithExternalSpec(externalSpec string) *Schema`
 
-    将外部源配置设置为 JSON。
+    此方法将外部源配置设置为 JSON。外部源规范是一组次级参数：
+
+    - **format** （*string*） -
+
+        目标源数据文件的格式。可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+    - **extfs** （*string*） -
+
+        以字符串化 JSON 结构表示的外部文件系统设置。可选选项如下：
+
+        - **access_key_id** （*string*） -
+
+            对象存储服务的访问密钥 ID。
+
+        - **access_key_val** （*string*） -
+
+            对象存储服务的访问密钥值。
+
+        - **cloud_provider** （*string*） -
+
+            对象存储服务的云提供商。
+
+        - **region** （*string*） -
+
+            对象存储服务的区域。
+
+        - **use_iam** （*string*） -
+
+            是否使用 AWS IAM 进行存储桶访问身份验证。可选值为 `"true"` 或 `"false"`。
+
+        - **iam_endpoint** （*string*） -
+
+            AWS IAM STS Endpoint。
+
+        - **use_ssl** （*string*） -
+
+            是否使用 SSL 访问您的对象存储桶。可选值为 `"true"` 或 `"false"`。
+
+        - **use_virtual_host** （*string*） -
+
+            是否使用虚拟主机方式访问存储桶。有关详细信息，请参见[这篇文章](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)。
+
+        - **storage_type** （*string*） -
+
+            存储类型。可选值为 `remote`。
+
+        - **role_arn** （*string*） -
+
+            从存储桶所有者处获取的 AWS IAM Role ARN。
+
+        - **external_id** （*string*） -
+
+            从存储桶所有者处获取的外部 ID。
+
+        - **load_frequency** （*string*） -
+
+            Milvus 获取临时身份验证凭据的时间间隔，单位为秒。
 
 - `WithField(field *Field) *Schema`
 
-    向 Schema 追加字段定义。
+    此方法将字段定义追加到 Schema。
 
 - `WithFunction(function *Function) *Schema`
 
-    向 Schema 追加内置函数定义。
+    此方法将内置函数定义追加到 Schema。
 
 - `Validate() error`
 
-    验证结构体数组子字段，并在出现不受支持的嵌套或仅限顶层的标志时返回错误。
+    此方法校验结构体数组子字段，并在遇到不支持的嵌套或仅限顶层使用的标志时返回错误。
 
 - `PKFieldName() string`
 
-    返回主键字段名称。
+    此方法返回主键字段名称。
 
 - `PKField() *Field`
 
-    返回主键字段定义。
-
-- `WithExternalSource(externalSource string)`
-
-    设置源数据 URI，该值应为可访问的外部卷名称。
-
-- `WithExternalSpec(externalSpec string)`
-
-    外部源规格，即一组次级参数：
-
-    - **format** (*string*) - 
-
-        目标源数据文件的格式。
-
-        可能的值包括 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
-
-**返回类型：**
-
-*Schema*
-
-**返回值：**
-
-表示 Collection 的 Schema，包括字段定义、函数和动态字段设置。
-
-- **CollectionName** (*string*) -
-
-    存储 Collection 名称。
-
-- **Description** (*string*) -
-
-    存储 Collection 描述。
-
-- **AutoID** (*bool*) -
-
-    指示是否由 Milvus 自动生成主键。
-
-- **Fields** (<em>[]</em>Field&ast;) -
-
-    包含 Collection 字段定义。
-
-- **EnableDynamicField** (*bool*) -
-
-    指示是否启用动态字段。
-
-- **Functions** (<em>[]</em>Function&ast;) -
-
-    包含内置函数定义。
-
-- **ExternalSource** (*string*) -
-
-    外部数据源（例如："s3://bucket/path"）。
-
-- **ExternalSpec** (*string*) -
-
-    外部源配置（JSON）。
+    此方法返回主键字段定义。
 
 ## 示例\{#example}
 
@@ -175,8 +175,16 @@ err := schema.Validate()
 fmt.Println(err)
 ```
 
-## 说明\{#notes}
+- `WithExternalSource(externalSource string)`
 
-- 结构体数组解码会保留 nullable 状态，并在父级未携带该值时从子字段恢复 `max_capacity`。
+    此方法设置源数据 URI，该 URI 应为可访问外部卷的名称。
 
-- `ExternalSource` 和 `ExternalSpec` 用于描述外部 Collection 存储和配置。
+- `WithExternalSpec(externalSpec string)`
+
+    外部源规范，是一组次级参数：
+
+    - **format** （*string*） - 
+
+        目标源数据文件的格式。
+
+        可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。

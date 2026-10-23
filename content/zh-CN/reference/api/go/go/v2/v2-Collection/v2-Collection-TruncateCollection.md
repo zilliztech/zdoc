@@ -1,25 +1,25 @@
 ---
-title: "TruncateCollection() | Go | v2"
+title: "TruncateCollection | Go | v2"
 slug: /go/go/v2-Collection-TruncateCollection
-sidebar_label: "TruncateCollection()"
+sidebar_label: "TruncateCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会移除 Collection 中的所有数据，但保留 Collection 的 Schema 和结构 | Go | v2"
+description: "此操作会移除 Collection 中的所有数据，同时保留其 Schema。 | Go | v2"
 type: docx
-token: V7bwdcBPGosCFWxjYQfctDDInmb
+token: CNcvdxPmgo6P3nx6t1tcW4R6nXf
 sidebar_position: 25
 keywords: 
-  - 向量 Database 示例
-  - RAG 向量 Database
-  - 什么是向量数据库
-  - 什么是向量 Database
+  - 相似性搜索
+  - 多模态 RAG
+  - LLM 幻觉
+  - 混合搜索
   - Zilliz
   - Zilliz Cloud
   - 云
-  - TruncateCollection()
+  - TruncateCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# TruncateCollection()
+# TruncateCollection
 
-此操作会移除 Collection 中的所有数据，但保留 Collection 的 Schema 和结构。
+此操作会移除 Collection 中的所有数据，同时保留其 Schema。
 
 ```go
 func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollectionOption, callOptions ...grpc.CallOption) error
@@ -39,62 +39,64 @@ func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollecti
 
 ## 请求语法\{#request-syntax}
 
+创建 TruncateCollection() 的请求。
+
 ```go
-err := client.TruncateCollection(
-    ctx, 
-    milvusclient.NewTruncateCollectionOption("collection_name")
-)
+option := milvusclient.NewTruncateCollectionOption(collectionName)
+
+err := client.TruncateCollection(ctx, option)
 ```
 
 **参数：**
 
-- **collectionName** (*string*)
+- **name** (*string*) -
 
-    目标 Collection 的名称。
+    **[必需]**
+
+    要创建的 Collection 的名称。
+
+**构建器方法：**
+
+- `NewTruncateCollectionOption(name string)`
+
+    创建用于截断 Collection 的选项。`name` 指定要截断的 Collection。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+Collection 被截断后返回 nil。如果操作失败，则返回错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    操作失败。请求构建或 RPC 失败。请检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 
-```go
-package main
+演示 TruncateCollection() 的用法。
 
+```go
 import (
-    "context"
-    "log"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
-    
-    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    // Truncate collection
-    err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
-    if err != nil {
-        log.Printf("Failed to truncate collection: %v", err)
-        return
-    }
-    
-    log.Println("Collection truncated successfully")
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+err = cli.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("books"))
+if err != nil {
+	// handle error
 }
 ```

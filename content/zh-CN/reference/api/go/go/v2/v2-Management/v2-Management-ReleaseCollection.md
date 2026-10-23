@@ -1,25 +1,25 @@
 ---
-title: "ReleaseCollection() | Go | v2"
+title: "ReleaseCollection | Go | v2"
 slug: /go/go/v2-Management-ReleaseCollection
-sidebar_label: "ReleaseCollection()"
+sidebar_label: "ReleaseCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将 Collection 从内存中释放，以释放资源。 | Go | v2"
 type: docx
-token: YMxDdZUXfoCEPtxBhN8clGxDnUd
-sidebar_position: 24
+token: VQTgdYK3yoNZPxxt9dfct0M4nze
+sidebar_position: 23
 keywords: 
-  - 向量索引
-  - 开源向量 Database
-  - 开源向量数据库
-  - 向量 Database 示例
+  - 大语言模型
+  - 机器学习
+  - RAG
+  - 自然语言处理
   - zilliz
   - zilliz cloud
   - 云
-  - ReleaseCollection()
+  - ReleaseCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ReleaseCollection()
+# ReleaseCollection
 
 此操作会将 Collection 从内存中释放，以释放资源。
 
@@ -39,6 +39,8 @@ func (c *Client) ReleaseCollection(ctx context.Context, option ReleaseCollection
 
 ## 请求语法\{#request-syntax}
 
+为 ReleaseCollection() 创建请求。
+
 ```go
 option := milvusclient.NewReleaseCollectionOption(collectionName)
 
@@ -47,9 +49,17 @@ err := client.ReleaseCollection(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
+
+**构建器方法：**
+
+- `NewReleaseCollectionOption(collectionName string)`
+
+    为 ReleaseCollection() 创建请求。
 
 **返回类型：**
 
@@ -59,20 +69,22 @@ err := client.ReleaseCollection(ctx, option)
 
 成功时返回 nil；如果出现问题，则返回描述出错原因的错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
+
+演示 ReleaseCollection() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

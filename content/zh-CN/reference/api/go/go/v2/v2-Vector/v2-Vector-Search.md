@@ -4,20 +4,20 @@ slug: /go/go/v2-Vector-Search
 sidebar_label: "Search()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会对指定的 Collection 执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。 | Go | v2"
+description: "此操作在指定的 Collection 上执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。 | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 17
+sidebar_position: 16
 keywords: 
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量 Database 示例
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - Search()
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Search()
 
-此操作会对指定的 Collection 执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。
+此操作在指定的 Collection 上执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。
 
 ```go
 func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
@@ -39,7 +39,7 @@ func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ..
 
 ## 请求语法\{#request-syntax}
 
-**向量搜索：**
+创建用于 Search() 的请求。
 
 ```go
 option := milvusclient.NewSearchOption(collectionName, limit, vectors).
@@ -59,11 +59,6 @@ option := milvusclient.NewSearchOption(collectionName, limit, vectors).
     WithFunctionReranker(fr)
 
 resultSets, err := cli.Search(ctx, option)
-```
-
-**按主键 ID 搜索：**
-
-```go
 option := milvusclient.NewSearchByIDsOption(collectionName, limit, ids).
     WithPartitions(partitionNames).
     WithFilter(expr).
@@ -74,83 +69,174 @@ resultSets, err := cli.Search(ctx, option)
 
 **参数：**
 
-- **option** (*SearchOption*) -
+- **collectionName** （*string*） -
 
-    搜索选项。使用 `NewSearchOption` 进行向量搜索，或使用 `NewSearchByIDsOption` 进行基于 PK 的搜索。
+    **[必需]**
+
+    目标 Collection 的名称。
+
+- **limit** （*int*） -
+
+    **[必需]**
+
+    重排序后返回的最大结果数。
+
+- **ids** （*column.Column*） -
+
+    **[必需]**
+
+    用于 Search 的向量。
 
 **构建器方法：**
 
-- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`<br/>
-  此方法会创建一个用于基于向量的 ANN 搜索的搜索选项。
+- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`
 
-- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
-  此方法会创建一个根据主键 ID 查找 Entity 的搜索选项。
+    创建用于基于向量的 ANN 搜索的搜索选项。
 
-- `WithPartitions(partitionNames ...string)`<br/>
-  此方法将搜索范围限制为指定的 Partition 名称。
+- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`
 
-- `WithFilter(expr string)`<br/>
-  此方法会对搜索结果应用布尔表达式过滤。
+    创建用于按主键 ID 查找 Entity 的搜索选项。
 
-- `WithTemplateParam(key string, val any)`<br/>
-  此方法会为表达式求值设置模板参数。
+- `WithPartitions(partitionNames ...string)`
 
-- `WithOffset(offset int)`<br/>
-  此方法会设置返回匹配结果前要跳过的结果数量。
+    将搜索限制在指定的 Partition 名称内。
 
-- `WithOutputFields(fieldNames ...string)`<br/>
-  此方法指定结果集中要返回哪些字段。
+- `WithNamespace(namespace string)`
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  此方法会设置搜索的一致性级别。
+    将搜索范围限定为 Collection 命名空间。
 
-- `WithANNSField(annsField string)`<br/>
-  当 Collection 包含多个向量字段时，此方法指定要搜索的向量字段。
+- `WithFilter(expr string)`
 
-- `WithGroupByField(groupByField string)`<br/>
-  此方法按指定字段对搜索结果进行分组。
+    对搜索结果应用布尔表达式过滤。
 
-- `WithGroupSize(groupSize int)`<br/>
-  启用分组时，此方法设置每组返回的结果数量。
+- `WithTemplateParam(key string, val any)`
 
-- `WithStrictGroupSize(strictGroupSize bool)`<br/>
-  此方法会强制执行严格的组大小限制。
+    为表达式求值设置模板参数。
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  此方法在搜索期间忽略增长中的 Segment。
+- `WithOffset(offset int)`
 
-- `WithAnnParam(ap index.AnnParam)`<br/>
-  此方法设置近似最近邻搜索参数（例如 nprobe、ef）。
+    设置返回匹配项之前要跳过的结果数。
 
-- `WithSearchParam(key, value string)`<br/>
-  此方法设置自定义搜索参数键值对。
+- `WithOutputFields(fieldNames ...string)`
 
-- `WithFunctionReranker(fr *entity.Function)`<br/>
-  此方法会对搜索结果应用基于函数的重排器。
+    指定在结果集中返回哪些字段。
+
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
+
+    设置搜索的一致性级别。
+
+- `WithANNSField(annsField string)`
+
+    指定当 Collection 包含多个向量字段时要搜索的向量字段。
+
+- `WithGroupByField(groupByField string)`
+
+    按指定字段对搜索结果分组。
+
+- `WithGroupSize(groupSize int)`
+
+    启用分组后，设置每组返回的结果数。
+
+- `WithStrictGroupSize(strictGroupSize bool)`
+
+    强制执行严格的组大小限制。
+
+- `WithIgnoreGrowing(ignoreGrowing bool)`
+
+    搜索期间忽略正在增长的 Segment。
+
+- `WithAnnParam(ap index.AnnParam)`
+
+    设置近似最近邻搜索参数（例如 nprobe、ef）。
+
+- `WithSearchParam(key, value string)`
+
+    设置自定义搜索参数的键值对。
+
+- `WithFunctionReranker(fr *entity.Function)`
+
+    对搜索结果应用基于函数的重排序器。
+
+- `WithFunctionScore(fs *entity.FunctionScore)`
+
+    设置搜索 [FunctionScore](./v2-Collection-FunctionScore)（函数以及 boost 模式等评分选项）。
+
+- `WithSearchAggregation(agg *SearchAggregation)`
+
+    为搜索设置 [SearchAggregation(https://zilliverse.feishu.cn/docx/MSU5d8sIDonFYFxLv0Cc88dvnqL) 规范。此设置与 group-by 和 offset 设置互斥。
 
 **返回类型：**
 
 *[]ResultSet, error*
 
-**返回值：**
+**返回：**
 
-搜索或查询结果，包含匹配的 Entity 及其分数和字段。如果操作失败，则返回错误。
+搜索或查询结果，其中包含匹配 Entity 及其分数和字段。如果操作失败，则返回错误。
+
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**参数：**
+
+- **ResultCount** （*int*） -
+
+    返回的条目数。
+
+- **GroupByValue** （*column.Column*） -
+
+    当搜索/query 使用分组时的 group-by 列值。
+
+- **IDs** （*column.Column*） -
+
+    匹配 Entity 的主键列。
+
+- **Fields** （*DataSet*） -
+
+    输出字段列。
+
+- **AggregationBuckets** （*[]AggregationBucket*） -
+
+    请求聚合时，此查询的搜索聚合结果。
+
+- **Scores** （*[]float32*） -
+
+    每个匹配项与目标向量之间的距离。
+
+- **Recall** （*float32*） -
+
+    搜索结果的预估召回率（由 Zilliz Cloud 估算）。
+
+- **Err** （*error*） -
+
+    搜索错误（如有）。
 
 **异常：**
 
 - **error**
 
-    通过检查 err != nil 获取失败详情。
+    操作失败。检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 Search() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

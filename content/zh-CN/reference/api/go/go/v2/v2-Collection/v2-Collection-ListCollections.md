@@ -1,25 +1,25 @@
 ---
-title: "ListCollections() | Go | v2"
+title: "ListCollections | Go | v2"
 slug: /go/go/v2-Collection-ListCollections
-sidebar_label: "ListCollections()"
+sidebar_label: "ListCollections"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出当前 Database 中的所有 Collection。 | Go | v2"
+description: "此操作会列出当前 Database 中的所有 Collection。 | Go | v2"
 type: docx
-token: AVEcd3SCwoRyiTxcNodcQAepnGf
+token: TEBxdE4JvooYMjxHloBcP9k6nE6
 sidebar_position: 21
 keywords: 
-  - 多模态 RAG
-  - LLM 幻觉
-  - 混合搜索
-  - 词法搜索
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
-  - ListCollections()
+  - Zilliz Cloud
+  - 云
+  - ListCollections
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListCollections()
+# ListCollections
 
-此操作列出当前 Database 中的所有 Collection。
+此操作会列出当前 Database 中的所有 Collection。
 
 ```go
 func (c *Client) ListCollections(ctx context.Context, option ListCollectionOption, callOptions ...grpc.CallOption) (collectionNames []string, err error)
@@ -39,27 +39,43 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
 
 ## 请求语法\{#request-syntax}
 
+创建 ListCollections() 的请求。
+
 ```go
 option := milvusclient.NewListCollectionOption()
 
 result, err := client.ListCollections(ctx, option)
 ```
 
+**构建器方法：**
+
+- `NewListCollectionOption()`
+
+    创建 ListCollections() 的请求。
+
 **返回类型：**
 
 *collectionNames []string, err error*
 
-**返回值：**
+**返回：**
 
-名称列表。如果操作失败，则返回错误。
+返回名称列表。如果操作失败，则返回错误。
 
-**异常：**
+**参数：**
+
+- **result** （*collectionNames []string*） -
+
+    ListCollections() 返回的 collectionNames []string 值。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 ListCollections() 的用法。
 
 ```go
 import (
@@ -67,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

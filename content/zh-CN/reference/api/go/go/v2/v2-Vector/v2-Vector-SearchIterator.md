@@ -1,25 +1,25 @@
 ---
-title: "SearchIterator() | Go | v2"
+title: "SearchIterator | Go | v2"
 slug: /go/go/v2-Vector-SearchIterator
-sidebar_label: "SearchIterator()"
+sidebar_label: "SearchIterator"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个迭代器，用于对大型搜索结果集进行分页。 | Go | v2"
+description: "此操作会创建一个搜索迭代器，以批处理方式检索 ANN 搜索结果。对于不应一次性全部加载到内存的大型结果集，请使用此迭代器。 | Go | v2"
 type: docx
-token: K6obdWvXyoNLbMxNkggc9JyMnPd
-sidebar_position: 18
+token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
+sidebar_position: 17
 keywords: 
-  - 向量检索
-  - 音频相似性搜索
-  - 弹性向量 Database
-  - Pinecone 与 Milvus 对比
+  - HNSW
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
   - zilliz
   - zilliz cloud
   - 云
-  - SearchIterator()
+  - SearchIterator
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# SearchIterator()
+# SearchIterator
 
-此操作会创建一个迭代器，用于对大型搜索结果集进行分页。
+此操作会创建一个搜索迭代器，以批处理方式检索 ANN 搜索结果。对于不应一次性全部加载到内存的大型结果集，请使用此迭代器。
 
 ```go
 func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption, callOptions ...grpc.CallOption) (SearchIterator, error)
@@ -39,50 +39,60 @@ func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption
 
 ## 请求语法\{#request-syntax}
 
+创建 SearchIterator() 的请求。
+
 ```go
-option := milvusclient.NewSearchIteratorOption(collectionName, vector).
+client.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(collectionName, vector).
     WithBatchSize(batchSize).
-    WithPartitions(partitionNames).
+    WithIteratorLimit(limit).
+    WithPartitions(partitionNames...).
     WithFilter(expr).
-    WithTemplateParam(key, val).
-    WithOffset(offset).
-    WithOutputFields(fieldNames).
+    WithOutputFields(fieldNames...).
     WithConsistencyLevel(consistencyLevel).
     WithANNSField(annsField).
-    WithGroupByField(groupByField).
-    WithGroupSize(groupSize).
-    WithStrictGroupSize(strictGroupSize).
-    WithIgnoreGrowing(ignoreGrowing).
-    WithAnnParam(ap).
-    WithSearchParam(key, value).
-    WithIteratorLimit(limit)
-
-result, err := client.SearchIterator(ctx, option)
+    WithAnnParam(ap),
+)
 ```
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **[vector](./v2-Vector)** (*entity.Vector*)
+- **vector** （*entity.Vector*） -
 
-    用于相似性搜索的查询向量。
+    **[必需]**
 
-**可选方法：**
+    用于搜索的查询向量。
+
+**构建器方法：**
+
+- `NewSearchIteratorOption(collectionName string, vector entity.Vector)`
+
+    **[必需]** 为指定的 Collection 和查询向量创建一个新的搜索迭代器选项。
 
 - `WithBatchSize(batchSize int)`
 
-    设置每次迭代批次要获取的 Entity 数量。
+    每个迭代批次要返回的 Entity 数量。默认值：`1000`。
+
+- `WithIteratorLimit(limit int64)`
+
+    要迭代的 Entity 总数量上限。负值表示不设限制。默认值：`Unlimited`（-1）。
 
 - `WithPartitions(partitionNames ...string)`
 
-    将操作限制在指定的 Partition 内。
+    要搜索的 Partition。如果未指定，则搜索所有 Partition。
+
+- `WithNamespace(namespace string)`
+
+    将搜索迭代器的作用范围限定为 Collection 命名空间。
 
 - `WithFilter(expr string)`
 
-    应用布尔过滤表达式以缩小结果范围。
+    用于筛选 Entity 的布尔表达式。仅返回与表达式匹配的 Entity。
 
 - `WithTemplateParam(key string, val any)`
 
@@ -90,63 +100,67 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithOffset(offset int)`
 
-    设置在返回匹配结果前要跳过的结果数量。
+    设置返回匹配结果前要跳过的结果数量。
 
 - `WithOutputFields(fieldNames ...string)`
 
-    指定返回结果中要包含哪些字段。
+    返回的 Entity 中要包含的字段。
 
-- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
 
-    设置此操作的一致性级别（Strong、Bounded、Session 或 Eventually）。
+    搜索的一致性级别。默认值：`Bounded`。
 
 - `WithANNSField(annsField string)`
 
-    指定要针对哪个向量字段进行搜索。
+    当 Collection 包含多个向量字段时，指定要搜索的向量字段。
 
 - `WithGroupByField(groupByField string)`
 
-    按标量字段值对搜索结果进行分组。
+    按指定字段对搜索结果进行分组。
 
 - `WithGroupSize(groupSize int)`
 
-    设置每组返回的结果数量。
+    启用分组时，设置每组要返回的结果数量。
 
 - `WithStrictGroupSize(strictGroupSize bool)`
 
-    强制结果中每个组都具有精确的组大小。
+    强制实施严格的组大小限制。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`
 
-    跳过在增长中的 Segment 中进行搜索，以获得更快但可能不完整的结果。
+    在搜索期间忽略增长中的 Segment。
 
-- `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
+- `WithAnnParam(ap index.AnnParam)`
 
     设置近似最近邻搜索参数（例如 nprobe、ef）。
 
 - `WithSearchParam(key, value string)`
 
-    设置自定义搜索参数键值对。
-
-- `WithIteratorLimit(limit int64)`
-
-    WithIteratorLimit 用于设置要迭代的条目上限；如果 limit < 0，则将其设置为 Unlimited
+    设置自定义搜索参数的键值对。
 
 **返回类型：**
 
-*[SearchIterator](./v2-Vector-SearchIterator), error*
+**SearchIterator, error**
 
-**返回值：**
+**返回：**
 
-一个用于对搜索结果进行分页的 SearchIterator。如果操作失败，则返回错误。
+*SearchIterator, error* SearchIterator 接口提供对搜索结果的分页访问。请反复调用 `Next()`，直到返回 `io.EOF`。
 
-**异常：**
+**参数：**
+
+- **result** （&ast;*SearchIterator*） -
+
+    SearchIterator() 返回的 &ast;SearchIterator 值。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。指定的 Collection 不存在、服务器不支持搜索迭代器、参数无效或服务器无法访问。
 
 ## 示例\{#example}
+
+演示 SearchIterator() 的用法。
 
 ```go
 import (
@@ -154,14 +168,12 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
@@ -169,29 +181,26 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+queryVector := entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835})
 
-iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(
-	"quick_setup",
-	entity.FloatVector(queryVector),
-).WithOutputFields("id", "color"))
+iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("quick_setup", queryVector).
+	WithBatchSize(500).
+	WithIteratorLimit(1000),
+)
 if err != nil {
 	// handle error
 }
 
 for {
-	resultSet, err := iter.Next(ctx)
+	rs, err := iter.Next(ctx)
 	if err == io.EOF {
 		break
 	}
 	if err != nil {
 		// handle error
 	}
-	for i := 0; i < resultSet.Len(); i++ {
-		fmt.Println(resultSet.IDs, resultSet.Scores)
-	}
+	fmt.Printf("Got %d results\n", rs.Len())
 }
 ```

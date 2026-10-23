@@ -1,25 +1,25 @@
 ---
-title: "CreateAlias() | Go | v2"
+title: "CreateAlias | Go | v2"
 slug: /go/go/v2-Collection-CreateAlias
-sidebar_label: "CreateAlias()"
+sidebar_label: "CreateAlias"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作为 Collection 创建别名，使您可以使用另一个名称来引用它。 | Go | v2"
 type: docx
-token: HbsGdw2PboyE0Yxcp8IcaG4Qnmg
+token: YJuQdfyRfonHrTxLh6ucA3EDnQf
 sidebar_position: 8
 keywords: 
-  - Zilliz Database
-  - 非结构化数据
-  - 向量 Database
-  - IVF
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - CreateAlias()
+  - 近似最近邻搜索
+  - DiskANN
+  - 稀疏向量
+  - 向量维度
+  - Zilliz
+  - Zilliz Cloud
+  - 云
+  - CreateAlias
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateAlias()
+# CreateAlias
 
 此操作为 Collection 创建别名，使您可以使用另一个名称来引用它。
 
@@ -39,6 +39,8 @@ func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, call
 
 ## 请求语法\{#request-syntax}
 
+创建 CreateAlias() 的请求。
+
 ```go
 option := milvusclient.NewCreateAliasOption(collectionName, alias)
 
@@ -47,35 +49,47 @@ err := client.CreateAlias(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **[alias](./v2-Collection-Alias)** (*string*)
+- **alias** (*string*) -
+
+    **[必需]**
 
     要分配的别名名称。
+
+**构建器方法：**
+
+- `NewCreateAliasOption(collectionName string, alias string)`
+
+    创建 CreateAlias() 的请求。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil；如果失败，则返回说明错误原因的 error。
+成功时返回 nil，否则返回描述出错原因的错误。
 
 **异常：**
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    该操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 CreateAlias() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

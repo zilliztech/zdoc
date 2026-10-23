@@ -1,25 +1,25 @@
 ---
-title: "DropDatabase() | Go | v2"
+title: "DropDatabase | Go | v2"
 slug: /go/go/v2-Database-DropDatabase
-sidebar_label: "DropDatabase()"
+sidebar_label: "DropDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会永久删除一个 Database 及其中的所有 Collection。 | Go | v2"
+description: "此操作会永久删除一个 Database 及其所有 Collection。 | Go | v2"
 type: docx
-token: FfZ6dqEk2o9Cn3xFAgTckLhsnS6
+token: XjDhd3KjUo8gxdxqPvAcUqOUnfe
 sidebar_position: 5
 keywords: 
-  - milvus
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 的工作原理
+  - 向量 Database 对比
   - Zilliz
-  - milvus 向量 Database
-  - milvus 数据库
-  - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
-  - DropDatabase()
+  - DropDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropDatabase()
+# DropDatabase
 
-此操作会永久删除一个 Database 及其中的所有 Collection。
+此操作会永久删除一个 Database 及其所有 Collection。
 
 ```go
 func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 DropDatabase() 的请求。
 
 ```go
 option := milvusclient.NewDropDatabaseOption(dbName)
@@ -47,31 +49,41 @@ err := client.DropDatabase(ctx, option)
 
 **参数：**
 
-- **dbName** (*string*)
+- **dbName** （*string*） -
+
+    **[必需]**
 
     Database 的名称。
+
+**构建器方法：**
+
+- `NewDropDatabaseOption(dbName string)`
+
+    创建 DropDatabase() 的请求。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil；如果失败，则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述出错原因的错误。
 
 **异常：**
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 DropDatabase() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

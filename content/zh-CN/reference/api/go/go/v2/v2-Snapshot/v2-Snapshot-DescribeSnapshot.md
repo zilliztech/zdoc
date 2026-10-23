@@ -4,10 +4,10 @@ slug: /go/go/v2-Snapshot-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。 | Go | v2"
+description: "此操作检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。 | Go | v2"
 type: docx
 token: NM44dNuQtoKR9UxlEbqcZrVUnpb
 sidebar_position: 2
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DescribeSnapshot()
 
-此操作用于检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。
+此操作检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。
 
 ```go
 func (c *Client) DescribeSnapshot(ctx context.Context, opt DescribeSnapshotOption, callOptions ...grpc.CallOption) (*milvuspb.DescribeSnapshotResponse, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 DescribeSnapshot() 创建请求。
 
 ```go
 option := client.NewDescribeSnapshotOption(snapshotName, collectionName).
@@ -48,19 +50,21 @@ result, err := client.DescribeSnapshot(option)
 
 **参数：**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
+
+    **[必需]**
 
     要描述的快照名称。
 
-- **collectionName** (*string*) - 
+- **collectionName** (*string*) -
+
+    **[必需]**
 
     该快照所属的 Collection 名称。
 
 **构建器方法：**
 
 - `WithDbName(dbName string)`
-
-    用于设置指定 Collection 所属的 Database。
 
 **返回类型：**
 
@@ -81,46 +85,29 @@ type DescribeSnapshotResponse struct {
 }
 ```
 
-**构建器方法：**
+**参数：**
 
-- **Name** (*string*) -
+- **result** (*milvuspb.DescribeSnapshotResponse*) -
 
-    快照名称。
+    包含详细快照元数据的 DescribeSnapshotResponse 对象。
 
-- **Description** (*string*) -
-
-    快照描述。
-
-- **CollectionName** (*string*) -
-
-    源 Collection 名称。
-
-- **CreateTs** (*int64*) -
-
-    以毫秒为单位的创建时间戳。
-
-- **S3Location** (*string*) -
-
-    快照数据在 S3 中的存储位置。
-
-- **PartitionNames** (*[]string*) -
-
-    快照中包含的 Partition 名称列表。
-
-**异常：**
+**异常处理：**
 
 - **error**
 
-    检查 err != nil 以获取失败详情。
+    操作失败。检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 DescribeSnapshot() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

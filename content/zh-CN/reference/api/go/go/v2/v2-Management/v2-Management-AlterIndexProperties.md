@@ -1,25 +1,25 @@
 ---
-title: "AlterIndexProperties() | Go | v2"
+title: "AlterIndexProperties | Go | v2"
 slug: /go/go/v2-Management-AlterIndexProperties
-sidebar_label: "AlterIndexProperties()"
+sidebar_label: "AlterIndexProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作修改现有索引的属性。 | Go | v2"
 type: docx
-token: XzLnd1w4uo2RM0xS8UWc5K6in1R
+token: KAfCd9KE6oD9XmxgntMcfFNTn0c
 sidebar_position: 1
 keywords: 
-  - 相似性搜索
-  - 多模态 RAG
-  - llm 幻觉
-  - 混合搜索
+  - HNSW
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
   - zilliz
   - zilliz cloud
   - 云
-  - AlterIndexProperties()
+  - AlterIndexProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterIndexProperties()
+# AlterIndexProperties
 
 此操作修改现有索引的属性。
 
@@ -38,6 +38,8 @@ func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropert
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 AlterIndexProperties() 的请求。
 
 ```go
 option := milvusclient.NewAlterIndexPropertiesOption(collectionName, indexName).
@@ -48,15 +50,23 @@ err := client.AlterIndexProperties(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **indexName** (*string*)
+- **indexName** （*string*） -
+
+    **[必需]**
 
     索引的名称。
 
-**可选方法：**
+**构建器方法：**
+
+- `NewAlterIndexPropertiesOption(collectionName string, indexName string)`
+
+    创建 AlterIndexProperties() 的请求。
 
 - `WithProperty(key string, value any)`
 
@@ -66,23 +76,25 @@ err := client.AlterIndexProperties(ctx, option)
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+成功时返回 nil；失败时返回说明出错原因的错误。
 
 **异常：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
+
+演示 AlterIndexProperties() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

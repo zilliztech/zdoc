@@ -1,25 +1,25 @@
 ---
-title: "NewInvertedIndex() | Go | v2"
-slug: /go/go/v2-Index-NewInvertedIndex
-sidebar_label: "NewInvertedIndex()"
+title: "NewSortedIndex() | Go | v2"
+slug: /go/go/v2-Index-NewSortedIndex
+sidebar_label: "NewSortedIndex()"
 beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此函数会创建一个倒排索引配置，用于对标量字段进行高效过滤。 | Go | v2"
+description: "此函数会为基于范围的标量字段查询创建排序索引配置。 | Go | v2"
 type: docx
-token: TxKwd5bEqoHUuLxqENic3Uv6nhg
-sidebar_position: 14
+token: JTQrddtCJoJBjwxrKZrcn1lPnEe
+sidebar_position: 23
 keywords: 
-  - knn
-  - 图像搜索
-  - LLMs
-  - 机器学习
-  - zilliz
-  - zilliz cloud
+  - RAG LLM 架构
+  - 私有 LLM
+  - 最近邻搜索
+  - LLM 评估
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - NewInvertedIndex()
+  - NewSortedIndex()
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,19 +29,19 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# NewInvertedIndex()
+# NewSortedIndex()
 
-此函数会创建一个倒排索引配置，用于对标量字段进行高效过滤。
+此函数会为基于范围的标量字段查询创建排序索引配置。
 
 ```go
-func NewInvertedIndex() Index
+func NewSortedIndex() Index
 ```
 
 **返回：**
 
 *[Index](./v2-Management-Index)*
 
-一个索引配置实例。可通过 index 选项将其传递给 `CreateIndex()`。
+一个索引配置实例。请通过索引选项将其传递给 `CreateIndex()`。
 
 ## 示例\{#example}
 
@@ -52,7 +52,7 @@ import (
 )
 
 // Create index configuration
-idx := index.NewInvertedIndex()
+idx := index.NewSortedIndex()
 
 // Use with CreateIndex
 createIdxOption := milvusclient.NewCreateIndexOption("collection_name", "vector_field", idx)

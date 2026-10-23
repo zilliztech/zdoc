@@ -4,20 +4,20 @@ slug: /go/go/v2-Snapshot-ListSnapshots
 sidebar_label: "ListSnapshots()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出指定 Collection 的所有快照名称。 | Go | v2"
 type: docx
 token: Bs3OdQ56zohZEbx9KaHcInM4nHh
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - 自然语言搜索
-  - 相似性搜索
+  - 相似度搜索
   - 多模态 RAG
-  - llm 幻觉
-  - zilliz
-  - zilliz cloud
+  - LLM 幻觉
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - ListSnapshots()
   - gov230
@@ -39,6 +39,8 @@ func (c *Client) ListSnapshots(ctx context.Context, opt ListSnapshotsOption, cal
 
 ## 请求语法\{#request-syntax}
 
+创建 ListSnapshots() 的请求。
+
 ```go
 option := client.NewListSnapshotsOption(collectionName).
     WithDbName(dbName string)
@@ -48,7 +50,9 @@ result, err := client.ListSnapshots(option)
 
 **参数：**
 
-- **collectionName** (*string*) -
+- **collectionName**（*string*）-
+
+    **必需**
 
     目标 Collection 的名称。
 
@@ -56,7 +60,7 @@ result, err := client.ListSnapshots(option)
 
 - `WithDbName(dbName string)`
 
-    此项用于设置 Database 名称。如果未设置，则使用默认 Database。
+    设置 Database 名称。如果未设置，则使用默认 Database。
 
 **返回类型：**
 
@@ -66,20 +70,29 @@ result, err := client.ListSnapshots(option)
 
 快照名称列表。如果操作失败，则返回错误。
 
-**异常：**
+**参数：**
+
+- **result**（*[]string*）-
+
+    由 ListSnapshots() 返回的 []string 值。
+
+**错误处理：**
 
 - **error**
 
-    请检查 err != nil 以获取失败详情。
+    操作失败。请检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 ListSnapshots() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -10,7 +10,7 @@ notebook: false
 description: "包含 Delete 操作的结果，包括已删除 Entity 的数量。 | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 8
+sidebar_position: 7
 keywords: 
   - Pinecone 向量 Database
   - 音频搜索

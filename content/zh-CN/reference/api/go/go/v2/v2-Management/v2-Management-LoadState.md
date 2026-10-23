@@ -10,7 +10,7 @@ notebook: false
 description: "表示 Collection 或 Partition 的加载状态，包括进度百分比。 | Go | v2"
 type: docx
 token: XWSAdFkdDoaDPnxOtkEcuFETngL
-sidebar_position: 20
+sidebar_position: 19
 keywords: 
   - 问答系统
   - llm-as-a-judge

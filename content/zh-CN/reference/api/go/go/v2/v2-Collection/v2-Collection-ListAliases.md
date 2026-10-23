@@ -1,25 +1,25 @@
 ---
-title: "ListAliases() | Go | v2"
+title: "ListAliases | Go | v2"
 slug: /go/go/v2-Collection-ListAliases
-sidebar_label: "ListAliases()"
+sidebar_label: "ListAliases"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出与 Collection 关联的所有别名。 | Go | v2"
+description: "此操作返回指定 Collection 的别名。 | Go | v2"
 type: docx
-token: Xq1Dd1B8goDbeRxHfMKc84VOnxg
+token: RXGLdpZ23o3178xZTb4cLZBmnQd
 sidebar_position: 20
 keywords: 
-  - 稀疏 vs 稠密
-  - 稠密向量
-  - 分层可导航小世界
-  - 稠密嵌入
-  - zilliz
-  - zilliz cloud
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似度搜索
+  - 多模态 RAG
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - ListAliases()
+  - ListAliases
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListAliases()
+# ListAliases
 
-此操作会列出与 Collection 关联的所有别名。
+此操作返回指定 Collection 的别名。
 
 ```go
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 ListAliases() 创建请求。
 
 ```go
 option := milvusclient.NewListAliasesOption(collectionName)
@@ -47,49 +49,62 @@ result, err := client.ListAliases(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
+
+**构建器方法：**
+
+- `NewListAliasesOption(collectionName string)`
+
+    创建用于列出 Collection 别名的选项。`collectionName` 指定该 Collection。
 
 **返回类型：**
 
 *[]string, error*
 
-**返回值：**
+**返回：**
 
-名称列表。如果操作失败，则返回错误。
+Collection 的别名名称列表。如果操作失败，则返回错误。
+
+**参数：**
+
+- **result** （*[]string*） -
+
+    ListAliases() 返回的 []string 值。
 
 **异常：**
 
 - **error**
 
-    查看 `err != nil` 以了解失败详情。
+    操作失败。检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 ListAliases() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
+defer cli.Close(ctx)
 
-aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
+result, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("books"))
 if err != nil {
 	// handle error
 }
-fmt.Println(aliases)
+fmt.Println(result)
 ```

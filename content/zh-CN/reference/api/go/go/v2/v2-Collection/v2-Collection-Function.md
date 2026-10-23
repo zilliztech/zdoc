@@ -4,15 +4,15 @@ slug: /go/go/v2-Collection-Function
 sidebar_label: "Function"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。 | Go | v2"
+description: "Function 实例定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。 | Go | v2"
 type: docx
-token: G4dTdejt8otbQWxUqvucwKnBnYg
+token: CpbRdh7gOo7yrlxfgTyc65XJnug
 sidebar_position: 17
 keywords: 
-  - Chroma vs Milvus
+  - Chroma 与 Milvus
   - Annoy 向量搜索
   - milvus
   - Zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。
+Function 实例定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。
 
 ```go
 type Function struct {
@@ -44,22 +44,37 @@ type Function struct {
 }
 ```
 
-## 构造函数\{#constructor}
+**字段：**
 
-```go
-entity.NewFunction().
-    WithName(name).
-    WithInputFields(inputFields).
-    WithOutputFields(outputFields).
-    WithType(funcType).
-    // ...
-```
+- **Name** (*string*) -
+
+    函数的名称。
+
+- **Description** (*string*) -
+
+    函数的人类可读描述。
+
+- **Type** (*FunctionType*) -
+
+    函数的类型，例如 BM25 或 Rerank。
+
+- **InputFieldNames** (*[]string*) -
+
+    函数读取的输入字段的名称。
+
+- **OutputFieldNames** (*[]string*) -
+
+    函数将其输出写入的字段的名称。
+
+- **Params** (*map[string]string*) -
+
+    以键值对形式表示的函数参数。
 
 **构建器方法：**
 
 - `WithName(name string)`
 
-    设置函数名称。
+    设置函数的名称。
 
 - `WithInputFields(inputFields ...string)`
 
@@ -71,23 +86,31 @@ entity.NewFunction().
 
 - `WithType(funcType FunctionType)`
 
-    设置函数类型（BM25、TextEmbedding、Rerank）。
+    设置函数类型（BM25、MinHash、TextEmbedding、Rerank）。
 
 - `WithParam(key string, value any)`
 
     设置函数参数的键值对。
 
+**方法：**
+
+- `Clone() *Function`
+
+    返回 f 的深拷贝。
+
 ## 示例\{#example}
+
+演示 Function 的用法。
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Define a BM25 text embedding function on a VarChar field
 fn := entity.NewFunction().
     WithName("bm25_fn").
-    WithFunctionType(entity.FunctionTypeBM25).
+    WithType(entity.FunctionTypeBM25).
     WithInputFields("text").
     WithOutputFields("sparse_vector")
 

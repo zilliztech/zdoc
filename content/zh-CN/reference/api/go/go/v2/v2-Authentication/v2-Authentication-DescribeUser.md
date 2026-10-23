@@ -1,25 +1,25 @@
 ---
-title: "DescribeUser() | Go | v2"
+title: "DescribeUser | Go | v2"
 slug: /go/go/v2-Authentication-DescribeUser
-sidebar_label: "DescribeUser()"
+sidebar_label: "DescribeUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回用户的详细信息，包括其分配的角色。 | Go | v2"
 type: docx
-token: EbOodxkWBoRvwAxzJOkcsM6lnic
+token: PQHKdFLGXohyD3xIjALcEDa7n6g
 sidebar_position: 7
 keywords: 
-  - 降维
-  - hnsw 算法
-  - 向量相似性搜索
-  - 近似最近邻搜索
+  - Milvus Lite
+  - Milvus 基准测试
+  - 托管 Milvus
+  - Serverless 向量 Database
   - Zilliz
   - Zilliz Cloud
   - 云
-  - DescribeUser()
+  - DescribeUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeUser()
+# DescribeUser
 
 此操作返回用户的详细信息，包括其分配的角色。
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callO
 
 ## 请求语法\{#request-syntax}
 
+创建 DescribeUser() 的请求。
+
 ```go
 option := milvusclient.NewDescribeUserOption(userName)
 
@@ -47,32 +49,59 @@ result, err := client.DescribeUser(ctx, option)
 
 **参数：**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[必需]**
 
     用户的名称。
 
+**构建器方法：**
+
+- `NewDescribeUserOption(userName)`
+
+    创建 DescribeUser() 的请求。
+
 **返回类型：**
 
-**[Entity.User](./v2-Authentication-User), error*
+&ast;*Entity.User, error*
 
 **返回：**
 
 返回用户的描述信息，包括已分配的角色。如果操作失败，则返回错误。
 
-**异常：**
+```go
+type User struct {
+    UserName string
+    Roles []string
+}
+```
+
+**参数：**
+
+- **UserName** (*string*) -
+
+    用户的名称。
+
+- **Roles** (*[]string*) -
+
+    已分配角色的列表。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 DescribeUser() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

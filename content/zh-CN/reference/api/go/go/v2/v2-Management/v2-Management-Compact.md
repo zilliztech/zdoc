@@ -1,25 +1,25 @@
 ---
-title: "Compact() | Go | v2"
+title: "Compact | Go | v2"
 slug: /go/go/v2-Management-Compact
-sidebar_label: "Compact()"
+sidebar_label: "Compact"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会触发 Compaction，将较小的数据 Segment 合并为更大的 Segment，以获得更好的性能。 | Go | v2"
+description: "此操作会触发 Compaction，将较小的数据 Segment 合并为较大的 Segment，以获得更好的性能。 | Go | v2"
 type: docx
-token: VJKcdlljXofguixcGe5c2CwwnEf
+token: Tex5dSQ3FoaEWGxTo7xcMPISndc
 sidebar_position: 2
 keywords: 
-  - ANN 搜索
-  - 什么是向量嵌入
-  - 向量 Database 教程
-  - 向量 Database 如何工作
-  - zilliz
-  - zilliz cloud
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - Compact()
+  - Compact
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Compact()
+# Compact
 
-此操作会触发 Compaction，将较小的数据 Segment 合并为更大的 Segment，以获得更好的性能。
+此操作会触发 Compaction，将较小的数据 Segment 合并为较大的 Segment，以获得更好的性能。
 
 ```go
 func (c *Client) Compact(ctx context.Context, option CompactOption, callOptions ...grpc.CallOption) (int64, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 Compact() 的请求。
 
 ```go
 option := milvusclient.NewCompactOption(collectionName)
@@ -47,9 +49,17 @@ result, err := client.Compact(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     目标 Collection 的名称。
+
+**构建器方法：**
+
+- `NewCompactOption(collectionName string)`
+
+    创建 Compact() 的请求。
 
 **返回类型：**
 
@@ -57,22 +67,30 @@ result, err := client.Compact(ctx, option)
 
 **返回：**
 
-数值结果。如果操作失败，则返回错误。
+返回数值结果。如果操作失败，则返回错误。
 
-**异常：**
+**参数：**
+
+- **result** （*int64*） -
+
+    Compact() 返回的 int64 值。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 Compact() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

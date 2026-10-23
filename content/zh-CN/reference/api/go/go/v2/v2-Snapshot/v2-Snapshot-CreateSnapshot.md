@@ -4,20 +4,20 @@ slug: /go/go/v2-Snapshot-CreateSnapshot
 sidebar_label: "CreateSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建 Collection 的时间点快照。您可以使用快照备份 Collection 数据和元数据，以便进行灾难恢复或迁移。 | Go | v2"
+description: "此操作会创建 Collection 的时间点快照。使用快照可备份 Collection 数据和元数据，以便进行灾难恢复或迁移。 | Go | v2"
 type: docx
 token: QFxmdtUNVoy071xXO8Acvkdpnse
 sidebar_position: 1
 keywords: 
-  - Milvus 数据库
-  - Milvus 向量数据库
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
   - 什么是 Milvus
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - CreateSnapshot()
   - gov230
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # CreateSnapshot()
 
-此操作会创建 Collection 的时间点快照。您可以使用快照备份 Collection 数据和元数据，以便进行灾难恢复或迁移。
+此操作会创建 Collection 的时间点快照。使用快照可备份 Collection 数据和元数据，以便进行灾难恢复或迁移。
 
 ```go
 func (c *Client) CreateSnapshot(ctx context.Context, opt CreateSnapshotOption, callOptions ...grpc.CallOption) error
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 CreateSnapshot() 的请求。
 
 ```go
 option := client.NewCreateSnapshotOption(snapshotName, collectionName).
@@ -49,46 +51,53 @@ err := client.CreateSnapshot(option)
 
 **参数：**
 
-- **snapshotName** (*string*) - 
+- **name** （*string*）-
 
-    要创建的快照名称。该名称在 Collection 内必须唯一。
+    **[必需]**
 
-- **collectionName** (*string*) - 
+    要创建的快照的名称。该名称在 Collection 内必须唯一。
 
-    要创建快照的 Collection 名称。
+- **collectionName** （*string*）-
+
+    **[必需]**
+
+    要为其创建快照的 Collection 的名称。
 
 **构建器方法：**
 
 - `WithDescription(description string)`
 
-    用于为快照设置可选的人类可读描述。
+    设置快照的可选描述，该描述便于人阅读。
 
 - `WithDbName(dbName string)`
 
-    用于设置 Database 名称。如果未设置，则使用默认 Database。
+    设置 Database 名称。如果未设置，则使用默认 Database。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
 成功时返回 nil。如果 Collection 不存在、快照名称已被占用，或操作因任何其他原因失败，则返回错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    检查 err != nil 以获取失败详情。
+    操作失败。请检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 CreateSnapshot() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

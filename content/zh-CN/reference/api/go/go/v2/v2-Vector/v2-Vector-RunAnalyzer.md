@@ -1,25 +1,25 @@
 ---
-title: "RunAnalyzer() | Go | v2"
+title: "RunAnalyzer | Go | v2"
 slug: /go/go/v2-Vector-RunAnalyzer
-sidebar_label: "RunAnalyzer()"
+sidebar_label: "RunAnalyzer"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会对输入文本运行文本 Analyzer，并返回分词后的输出。 | Go | v2"
 type: docx
-token: CnuHdninQoBoJXxWe2pczq7snGd
-sidebar_position: 16
+token: FMtsdyToloE8zxx6CR2cSycTndd
+sidebar_position: 15
 keywords: 
-  - Milvus 向量数据库
-  - Zilliz Cloud
-  - 什么是 Milvus
-  - Milvus Database
   - Zilliz
-  - Zilliz Cloud
+  - milvus 向量 Database
+  - milvus Database
+  - milvus 向量 Database
+  - zilliz
+  - zilliz 云
   - 云
-  - RunAnalyzer()
+  - RunAnalyzer
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RunAnalyzer()
+# RunAnalyzer
 
 此操作会对输入文本运行文本 Analyzer，并返回分词后的输出。
 
@@ -38,6 +38,8 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
 ```
 
 ## 请求语法\{#request-syntax}
+
+创建 RunAnalyzer() 的请求。
 
 ```go
 option := milvusclient.NewRunAnalyzerOption(text).
@@ -53,60 +55,100 @@ result, err := client.RunAnalyzer(ctx, option)
 
 **参数：**
 
-- **text** (*...string*)
+- **text** (*...string*) -
+
+    **[必需]**
 
     文本。
 
-**可选方法：**
+**构建器方法：**
+
+- `NewRunAnalyzerOption(text ...string)`
+
+    创建 RunAnalyzer() 的请求。
 
 - `WithAnalyzerParamsStr(params string)`
 
-    为此操作设置 Analyzer 参数的字符串形式。
+    设置此操作的 Analyzer 参数字符串。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    为此操作设置 Analyzer 参数。
+    设置此操作的 Analyzer 参数。
 
 - `WithDetail()`
 
-    为此操作设置详细信息。
+    设置此操作的详细信息。
 
 - `WithHash()`
 
-    为此操作设置哈希值。
+    设置此操作的哈希。
 
 - `WithField(collectionName, fieldName string)`
 
-    为此操作设置字段。
+    设置此操作的字段。
 
 - `WithAnalyzerName(names ...string)`
 
-    为此操作设置 Analyzer 名称。
+    设置此操作的 Analyzer 名称。
 
 **返回类型：**
 
-<em>[]</em>Entity.AnalyzerResult, error&ast;
+<em>[]</em>entity.AnalyzerResult, error&ast;
 
-**返回值：**
+**返回：**
 
-返回 Analyzer 输出，展示输入文本的分词方式。如果操作失败，则返回错误。
+Analyzer 输出以 Entity 结果的形式展示输入文本的分词方式。如果操作失败，则返回错误。
 
-**异常：**
+```go
+type AnalyzerResult struct {
+    Tokens []*Token
+}
+```
+
+**参数：**
+
+- **Text** (*string*) -
+
+    token 的文本。
+
+- **StartOffset** (*int64*) -
+
+    token 在输入文本中的起始偏移量。
+
+- **EndOffset** (*int64*) -
+
+    token 在输入文本中的结束偏移量。
+
+- **Position** (*int64*) -
+
+    token 的位置。
+
+- **PositionLength** (*int64*) -
+
+    token 位置的长度。
+
+- **Hash** (*uint32*) -
+
+    token 的哈希。
+
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 RunAnalyzer() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/index"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/index"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

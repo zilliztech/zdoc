@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此函数会创建一个 Bitmap 索引配置，用于对低基数标量字段进行高效过滤。 | Go | v2"
+description: "此函数会创建位图索引配置，用于对低基数标量字段进行高效过滤。 | Go | v2"
 type: docx
 token: EhzHdkYfUoOsprxhtPNcmMPKnEc
 sidebar_position: 5
@@ -16,8 +16,8 @@ keywords:
   - 音频搜索
   - 什么是语义搜索
   - 嵌入模型
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - NewBitmapIndex()
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # NewBitmapIndex()
 
-此函数会创建一个 Bitmap 索引配置，用于对低基数标量字段进行高效过滤。
+此函数会创建位图索引配置，用于对低基数标量字段进行高效过滤。
 
 ```go
 func NewBitmapIndex() Index
@@ -41,7 +41,7 @@ func NewBitmapIndex() Index
 
 *[Index](./v2-Management-Index)*
 
-一个索引配置实例。可通过 index 选项将其传递给 `CreateIndex()`。
+一个索引配置实例。通过索引选项将其传递给 `CreateIndex()`。
 
 ## 示例\{#example}
 

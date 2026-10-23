@@ -4,7 +4,7 @@ slug: /go/go/v2-Authentication-DropRole
 sidebar_label: "DropRole()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作从系统中删除一个角色。 | Go | v2"
@@ -39,6 +39,8 @@ func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...g
 
 ## 请求语法\{#request-syntax}
 
+创建 DropRole() 的请求。
+
 ```go
 option := milvusclient.NewDropRoleOption("my_role").
     WithForce(true)
@@ -48,11 +50,15 @@ err := cli.DropRole(ctx, option)
 
 **参数：**
 
-- **opt** (*DropRoleOption*) -
+- **roleName**（*string*） -
 
-    用于删除角色的选项。
+    角色的名称。
 
 **构建器方法：**
+
+- `NewDropRoleOption(roleName string)`
+
+    创建 DropRole() 的请求。
 
 - `WithForce(force bool)`
 
@@ -66,20 +72,22 @@ err := cli.DropRole(ctx, option)
 
 成功时返回 nil，否则返回描述错误原因的错误对象。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    检查 err != nil 以获取失败详情。
+    操作失败。检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 DropRole() 的用法。
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

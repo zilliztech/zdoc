@@ -1,25 +1,25 @@
 ---
-title: "CreatePartition() | Go | v2"
+title: "CreatePartition | Go | v2"
 slug: /go/go/v2-Partition-CreatePartition
-sidebar_label: "CreatePartition()"
+sidebar_label: "CreatePartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会在 Collection 中创建一个新的 Partition，用于组织数据。 | Go | v2"
 type: docx
-token: Pp0KdUrYGoX4PbxXNFvczjePn4f
+token: J1U2dUEpqo8RiBxWNKZctY72nZs
 sidebar_position: 1
 keywords: 
-  - 向量 Database 示例
-  - RAG 向量 Database
-  - 什么是向量 db
-  - 什么是向量 Database
-  - zilliz
-  - zilliz cloud
+  - LLM 评估
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - CreatePartition()
+  - CreatePartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreatePartition()
+# CreatePartition
 
 此操作会在 Collection 中创建一个新的 Partition，用于组织数据。
 
@@ -37,28 +37,46 @@ import Admonition from '@theme/Admonition';
 func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption, callOptions ...grpc.CallOption) error
 ```
 
+## 请求语法\{#request-syntax}
+
+为 CreatePartition() 创建请求。
+
+```go
+option := milvusclient.NewCreatePartitionOption("quick_setup", "partitionA")
+
+ := client.CreatePartition(ctx, option)
+```
+
+**构建器方法：**
+
+- `NewCreatePartitionOption(collectionName string, partitionName string)`
+
+    为 CreatePartition() 创建请求。
+
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+成功时返回 nil；否则，返回描述出错原因的错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 CreatePartition() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

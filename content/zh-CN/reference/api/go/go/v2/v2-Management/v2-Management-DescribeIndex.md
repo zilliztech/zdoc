@@ -1,25 +1,25 @@
 ---
-title: "DescribeIndex() | Go | v2"
+title: "DescribeIndex | Go | v2"
 slug: /go/go/v2-Management-DescribeIndex
-sidebar_label: "DescribeIndex()"
+sidebar_label: "DescribeIndex"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回索引的详细信息，包括其类型和参数。 | Go | v2"
 type: docx
-token: PjAddPiH8oyRNpxqafBc1ZGknSd
+token: PcKJdVvSkolLwnxpiQUcHO9Mnfh
 sidebar_position: 6
 keywords: 
-  - milvus 向量 Database
-  - milvus 数据库
-  - milvus 向量 db
-  - Zilliz Cloud
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
+  - LLM 作为评判者
   - zilliz
   - zilliz cloud
   - 云
-  - DescribeIndex()
+  - DescribeIndex
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeIndex()
+# DescribeIndex
 
 此操作返回索引的详细信息，包括其类型和参数。
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, cal
 
 ## 请求语法\{#request-syntax}
 
+创建 DescribeIndex() 的请求。
+
 ```go
 option := milvusclient.NewDescribeIndexOption(collectionName, indexName)
 
@@ -47,36 +49,76 @@ result, err := client.DescribeIndex(ctx, option)
 
 **参数：**
 
-- **collectionName** (*string*)
+- **collectionName**（*string*）-
+
+    **[必需]**
 
     目标 Collection 的名称。
 
-- **indexName** (*string*)
+- **indexName**（*string*）-
+
+    **[必需]**
 
     索引的名称。
 
+**构建器方法：**
+
+- `NewDescribeIndexOption(collectionName string, indexName string)`
+
+    创建 DescribeIndex() 的请求。
+
 **返回类型：**
 
-*[IndexDescription](./v2-Management-IndexDescription), error*
+*IndexDescription, error*
 
-**返回值：**
+**返回：**
 
-索引的详细信息，包括类型、度量和参数。如果操作失败，则返回错误。
+返回索引的详细信息，包括类型、度量和参数。如果操作失败，则返回错误。
 
-**异常：**
+```go
+type IndexDescription struct {
+    index.Index
+    State index.IndexState
+    PendingIndexRows int64
+    TotalRows int64
+    IndexedRows int64
+}
+```
+
+**参数：**
+
+- **State**（*index.IndexState*）-
+
+    当前状态。
+
+- **PendingIndexRows**（*int64*）-
+
+    待索引的行数。
+
+- **TotalRows**（*int64*）-
+
+    总行数。
+
+- **IndexedRows**（*int64*）-
+
+    已索引的行数。
+
+**异常处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
+
+演示 DescribeIndex() 的用法。
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

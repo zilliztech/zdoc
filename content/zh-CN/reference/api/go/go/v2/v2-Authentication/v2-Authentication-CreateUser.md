@@ -1,25 +1,25 @@
 ---
-title: "CreateUser() | Go | v2"
+title: "CreateUser | Go | v2"
 slug: /go/go/v2-Authentication-CreateUser
-sidebar_label: "CreateUser()"
+sidebar_label: "CreateUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作使用用户名和密码创建一个新用户。 | Go | v2"
 type: docx
-token: Liv8dqreJo6t26xf3UWcC8ePnpe
+token: OgksdyybIol0ZuxfGk5cptU6nQf
 sidebar_position: 5
 keywords: 
-  - 神经网络
-  - 深度学习
-  - 知识库
-  - 自然语言处理
-  - zilliz
-  - zilliz cloud
+  - 开源向量 Database
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - 什么是向量 Database
+  - Zilliz
+  - Zilliz Cloud
   - 云
-  - CreateUser()
+  - CreateUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateUser()
+# CreateUser
 
 此操作使用用户名和密码创建一个新用户。
 
@@ -39,6 +39,8 @@ func (c *Client) CreateUser(ctx context.Context, opt CreateUserOption, callOpts 
 
 ## 请求语法\{#request-syntax}
 
+为 CreateUser() 创建请求。
+
 ```go
 option := milvusclient.NewCreateUserOption(userName, password)
 
@@ -47,13 +49,23 @@ err := client.CreateUser(ctx, option)
 
 **参数：**
 
-- **userName** (*string*)
+- **userName**（*string*）-
 
-    用户的名称。
+    **[必填]**
 
-- **password** (*string*)
+    用户名。
+
+- **password**（*string*）-
+
+    **[必填]**
 
     用户的密码。
+
+**Builder 方法：**
+
+- `NewCreateUserOption(userName, password)`
+
+    为 CreateUser() 创建请求。
 
 **返回类型：**
 
@@ -61,21 +73,23 @@ err := client.CreateUser(ctx, option)
 
 **返回值：**
 
-成功时返回 nil，否则返回一个用于说明错误原因的 error。
+成功时返回 nil，失败时返回描述出错原因的错误。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    查看 `err != nil` 了解失败详情。
+    操作失败。请检查 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
+
+演示 CreateUser() 的用法。
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

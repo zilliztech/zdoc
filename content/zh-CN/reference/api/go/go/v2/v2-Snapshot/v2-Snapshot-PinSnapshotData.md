@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
 beta: false
 added_since: v3.0.0
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会固定 Collection 的快照数据，防止其被垃圾回收。返回一个 pin ID，您之后可以使用该 ID 取消固定数据。 | Go | v2"
 type: docx
 token: HmEkdVsmRoc2TbxEjtkcKChfnEf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - Milvus 数据库
   - Milvus 向量数据库
@@ -39,6 +39,8 @@ func (c *Client) PinSnapshotData(ctx context.Context, opt PinSnapshotDataOption,
 
 ## 请求语法\{#request-syntax}
 
+创建 PinSnapshotData() 的请求。
+
 ```go
 option := milvusclient.NewPinSnapshotDataOption("my_snapshot", "my_collection").
     WithDbName("my_db").
@@ -49,36 +51,55 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 **参数：**
 
-- **opt** (*PinSnapshotDataOption*) -
+- **name** (*string*) -
 
-    用于固定快照数据的选项。
+    **[必需]**
+
+    要创建的 Collection 的名称。
+
+- **collectionName** (*string*) -
+
+    **[必需]**
+
+    目标 Collection 的名称。
 
 **构建器方法：**
 
-- `NewPinSnapshotDataOption(name string, collectionName string)`<br/>
-  此方法会为指定的 Collection 创建一个用于固定快照数据的选项。
+- `NewPinSnapshotDataOption(name string, collectionName string)`
 
-- `WithDbName(dbName string)`<br/>
-  此方法设置 Collection 的 Database 名称。
+    此方法会为指定的 Collection 创建一个用于固定快照数据的选项。
 
-- `WithTTL(ttlSeconds int64)`<br/>
-  此方法以秒为单位设置该 pin 的生存时间。
+- `WithDbName(dbName string)`
+
+    此方法设置 Collection 的 Database 名称。
+
+- `WithTTL(ttlSeconds int64)`
+
+    此方法以秒为单位设置该 pin 的生存时间。
 
 **返回类型：**
 
 *int64, error*
 
-**返回值：**
+**返回：**
 
 成功时返回 pin ID；如果操作失败，则返回错误。
+
+**参数：**
+
+- **result** (*int64*) -
+
+    PinSnapshotData() 返回的 int64 值。
 
 **异常：**
 
 - **error**
 
-    检查 err != nil 以了解失败详情。
+    操作失败。检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
+
+演示 PinSnapshotData() 的用法。
 
 ```go
 import (
@@ -86,7 +107,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

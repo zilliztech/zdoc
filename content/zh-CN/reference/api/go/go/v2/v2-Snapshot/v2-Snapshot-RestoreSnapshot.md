@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-RestoreSnapshot
 sidebar_label: "RestoreSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将快照恢复到目标 Collection。恢复将异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
+description: "此操作会将快照恢复到目标 Collection。恢复会异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
 type: docx
 token: DrQidTj6koNKBkxHi4NcAxBfnDd
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
   - AI Agent
   - 语义搜索
@@ -18,7 +18,7 @@ keywords:
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RestoreSnapshot()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # RestoreSnapshot()
 
-此操作会将快照恢复到目标 Collection。恢复将异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。
+此操作会将快照恢复到目标 Collection。恢复会异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。
 
 ```go
 func (c *Client) RestoreSnapshot(ctx context.Context, opt RestoreSnapshotOption, callOptions ...grpc.CallOption) (int64, error)
 ```
 
 ## 请求语法\{#request-syntax}
+
+为 RestoreSnapshot() 创建请求。
 
 ```go
 option := client.NewRestoreSnapshotOption(snapshotName, collectionName, targetCollectionName).
@@ -49,15 +51,21 @@ jobID, err := client.RestoreSnapshot(option)
 
 **参数：**
 
-- **snapshotName** (*string*) -
+- **name** （*string*） -
+
+    **[必需]**
 
     要恢复的快照名称。
 
-- **collectionName** (*string*) -
+- **collectionName** （*string*） -
+
+    **[必需]**
 
     创建该快照时的源 Collection 名称。
 
-- **targetCollectionName** (*string*) -
+- **targetCollectionName** （*string*） -
+
+    **[必需]**
 
     恢复后 Collection 的名称。该名称必须不同于源 Collection 名称。
 
@@ -65,34 +73,43 @@ jobID, err := client.RestoreSnapshot(option)
 
 - `WithDbName(dbName string)`
 
-    用于设置源 Database 名称。如果未设置，则使用默认 Database。
+    此方法设置源 Database 名称。如果未设置，则使用默认 Database。
 
 - `WithTargetDbName(targetDbName string)`
 
-    用于设置恢复后 Collection 的目标 Database 名称。如果未设置，则使用源 Database。
+    此方法设置恢复后 Collection 的目标 Database 名称。如果未设置，则使用源 Database。
 
 **返回类型：**
 
 *int64, error*
 
-**返回值：**
+**返回：**
 
-恢复作业 ID。使用此 ID 配合 `GetRestoreSnapshotState()` 跟踪恢复进度。如果快照不存在或操作失败，则返回错误。
+恢复作业 ID。请使用此 ID 配合 `GetRestoreSnapshotState()` 跟踪恢复进度。如果快照不存在或操作失败，则返回错误。
 
-**异常：**
+**参数：**
+
+- **result** （*int64*） -
+
+    RestoreSnapshot() 返回的 int64 值。
+
+**错误处理：**
 
 - **error**
 
-    检查 err != nil 以获取失败详情。
+    操作失败。请检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 
+演示 RestoreSnapshot() 的用法。
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

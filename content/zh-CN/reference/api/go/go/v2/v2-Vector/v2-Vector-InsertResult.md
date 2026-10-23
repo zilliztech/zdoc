@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "包含 Insert 操作的结果，包括已插入 Entity 的数量和 ID。 | Go | v2"
+description: "包含插入操作的结果，包括已插入 Entity 的数量和 ID。 | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 12
+sidebar_position: 11
 keywords: 
   - 低成本向量 Database
   - 托管向量 Database
   - Pinecone 向量 Database
   - 音频搜索
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - InsertResult
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # InsertResult
 
-包含 Insert 操作的结果，包括已插入 Entity 的数量和 ID。
+包含插入操作的结果，包括已插入 Entity 的数量和 ID。
 
 ```go
 type InsertResult struct {
@@ -44,8 +44,8 @@ type InsertResult struct {
 
 - **InsertCount** (*int64*)
 
-    受影响的 Entity 数量。
+    受影响 Entity 的数量。
 
 - **IDs** (*column.Column*)
 
-    受影响的 Entity 的 ID。
+    受影响 Entity 的 ID。

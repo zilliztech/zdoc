@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此函数会创建一个 Trie 索引配置，用于高效执行基于前缀的字符串字段过滤。 | Go | v2"
+description: "此函数会创建 Trie 索引配置，用于基于前缀高效筛选字符串字段。 | Go | v2"
 type: docx
 token: MSFrdlGjaoh9zdxHuZqcf6VsnDw
 sidebar_position: 26
 keywords: 
   - Zilliz
-  - milvus 向量 Database
-  - milvus db
-  - milvus 向量 db
-  - zilliz
-  - zilliz cloud
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
+  - Zilliz
+  - Zilliz 云
   - 云
   - NewTrieIndex()
   - gov230
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # NewTrieIndex()
 
-此函数会创建一个 Trie 索引配置，用于高效执行基于前缀的字符串字段过滤。
+此函数会创建 Trie 索引配置，用于基于前缀高效筛选字符串字段。
 
 ```go
 func NewTrieIndex() Index
@@ -41,7 +41,7 @@ func NewTrieIndex() Index
 
 *[Index](./v2-Management-Index)*
 
-一个索引配置实例。可通过 index 选项将其传递给 `CreateIndex()`。
+一个索引配置实例。请通过索引选项将其传递给 `CreateIndex()`。
 
 ## 示例\{#example}
 

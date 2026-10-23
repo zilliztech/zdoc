@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-ResultSet
 sidebar_label: "ResultSet"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "包含搜索或查询结果，包括匹配的 Entity ID、分数和字段值。 | Go | v2"
+description: "ResultSet 实例是由 `Search()`、`HybridSearch()`、`Query()` 和 `Get()` 返回的搜索或查询结果集。它保存返回的条目数、主键、输出字段和分数。 | Go | v2"
 type: docx
-token: CCWrdPlSao0pOTx9oIgcA64Nnjd
-sidebar_position: 15
+token: N4dudTInDoPuE4xPup5c0a60ngO
+sidebar_position: 14
 keywords: 
   - 混合向量搜索
   - 视频去重
@@ -18,7 +18,7 @@ keywords:
   - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ResultSet
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ResultSet
 
-包含搜索或查询结果，包括匹配的 Entity ID、分数和字段值。
+ResultSet 实例是由 `Search()`、`HybridSearch()`、`Query()` 和 `Get()` 返回的搜索或查询结果集。它保存返回的条目数、主键、输出字段和分数。
 
 ```go
 type ResultSet struct {
@@ -39,6 +39,7 @@ type ResultSet struct {
     GroupByValue column.Column
     IDs column.Column
     Fields DataSet
+    AggregationBuckets []AggregationBucket
     Scores []float32
     Recall float32
     Err error
@@ -47,44 +48,82 @@ type ResultSet struct {
 
 **字段：**
 
-- **ResultCount** (*int*)
+- **ResultCount**（*int*）-
 
-    返回的条目数
+    返回的条目数。
 
-- **GroupByValue** (*column.Column*)
+- **GroupByValue**（*column.Column*）-
 
-    用于分组结果的 group-by 列。
+    当 search/query 使用分组时，group-by 列的值。
 
-- **IDs** (*column.Column*)
+- **IDs**（*column.Column*）-
 
-    自动生成的 ID，可映射到 `Insert` API 返回的列
+    匹配 Entity 的主键列。
 
-- **Fields** (*DataSet*)
+- **Fields**（*DataSet*）-
 
-    输出字段数据
+    输出字段列。
 
-- **Scores** (*[]float32*)
+- **AggregationBuckets**（*[]AggregationBucket*）-
 
-    到目标向量的距离
+    请求聚合时，此查询的搜索聚合结果。
 
-- **Recall** (*float32*)
+- **Scores**（*[]float32*）-
 
-    查询向量搜索结果的召回率（由 zilliz cloud 估算）
+    每个匹配项与目标向量之间的距离/分数。
 
-- **Err** (*error*)
+- **Recall**（*float32*）-
 
-    搜索错误（如果有）
+    搜索结果的估计召回率（由 Zilliz Cloud 估算）。
 
-**方法：**
+- **Err**（*error*）-
+
+    搜索错误（如有）。
+
+**构建器方法：**
 
 - `GetColumn(fieldName string) column.Column`
 
-    GetColumn 返回具有指定字段名称的列。
+    返回具有所提供字段名称的列。
 
 - `Len() int`
 
-    返回结果数量。
+    返回结果条目数。
 
 - `Slice(start, end int) ResultSet`
 
-    返回指定范围内的结果子集。
+    返回给定起始索引和结束索引之间的结果子集。
+
+- `Unmarshal(receiver any) error`
+
+    以按行方式将数据集解组为指向模型结构体的指针切片。请注意，此处不会解组 distance/score。
+
+## 示例\{#example}
+
+演示 ResultSet 的用法。
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("books", 10, vectors))
+if err != nil {
+	// handle error
+}
+resultSet := resultSets[0]
+fmt.Println(resultSet.ResultCount, resultSet.Scores)
+```
