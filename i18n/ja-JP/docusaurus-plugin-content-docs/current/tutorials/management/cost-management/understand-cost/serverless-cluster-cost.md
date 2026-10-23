@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取り操作と書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ料金を支払うことができます。 | Cloud"
+description: "Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取り操作と書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要がなく、実際に処理されたワークロードに対してのみ料金を支払うことができます。 | Cloud"
 type: origin
 token: Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
 sidebar_position: 3
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # Serverless クラスターのコスト
 
-Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取り操作と書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ料金を支払うことができます。
+Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取り操作と書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要がなく、実際に処理されたワークロードに対してのみ料金を支払うことができます。
 
 Serverless クラスターの総コストは、以下のコンポーネントの合計です。
 
-- [読み取り](./serverless-cluster-cost#vector-database-costs-read)操作と[書き込み](./serverless-cluster-cost#vector-database-costs-write)操作の両方に対するベクトルデータベースのコスト
+- 読み取り操作と[書き込み](./serverless-cluster-cost#vector-database-costs-write)操作の両方に係る[ベクトルデータベースのコスト](./serverless-cluster-cost#vector-database-costs-read)
 
 - [ストレージコスト](./serverless-cluster-cost#storage-cost)
 
@@ -32,29 +32,29 @@ Serverless クラスターの総コストは、以下のコンポーネントの
 
 - [データ転送コスト](./data-transfer-cost)
 
-- [監査ログのコスト](./audit-log-cost)
+- [監査ログコスト](./audit-log-cost)
 
 ## ベクトルデータベースのコスト（書き込み）\{#vector-database-costs-write}
 
 書き込みコストは、[insert](./insert-entities)、[upsert](./upsert-entities)、および [delete](./delete-entities) 操作で消費されるコンピュートリソースを測定します。
 
-Import および bulk insert 操作では、**コストは発生しません**。
+インポート操作および一括挿入操作では、**コストは発生しません**。
 
-### コスト計算\{#cost-calculation}
+### コストの計算\{#cost-calculation}
 
 ```bash
 Vector Database Cost (Write) = vCU Unit Price x Write vCU Usage 
 ```
 
-- **vCU Unit Price:** 100 万 vCU あたり &#36;4。
+- **vCU 単価:** 100 万 vCU あたり &#36;4。
 
-- **Write vCU Usage:** 書き込み操作の対象となるデータサイズに基づいて計算されます。
+- **書き込み vCU 使用量:** 書き込み操作の対象となるデータサイズに基づいて計算されます。
 
 ### 例\{#example}
 
 以下の表は、特定の量のデータを Serverless クラスターに書き込む際の vCU 使用量とコストの早見表です。
 
-より大きなデータセットの場合は、vCU 使用量とコストを比例して拡大してください。たとえば、768 次元ベクトルを 1,000 万件書き込むと、約 750 万 vCU を使用し、コストは約 &#36;30 になります。
+より大規模なデータセットの場合は、vCU 使用量とコストを比例して拡大してください。たとえば、768 次元ベクトルを 1,000 万件書き込むと、約 750 万 vCU を使用し、コストは約 &#36;30 になります。
 
 | **データサイズ (&ast;)** | **書き込み vCU 使用量（100 万単位）** | **書き込みコスト** |
 | --- | --- | --- |
@@ -72,38 +72,40 @@ Vector Database Cost (Write) = vCU Unit Price x Write vCU Usage
 | **操作** | **vCU 使用量** |
 | --- | --- |
 | Insert | 挿入されたデータ 1 KB = 0.25 vCU |
-| Delete | 削除されたエンティティ 1 件 = 1 vCU<br/>存在しないエンティティを削除した場合も 1 vCU を消費します。 |
-| Upsert | 更新されたデータのサイズと削除されたエンティティ数に基づいて計算されます。<br/>存在しないエンティティを削除した場合も 1 vCU を消費します。 |
+| Delete | エンティティ 1 件あたり 1 vCU。プライマリキーで削除する場合、リクエスト内の各プライマリキーには、そのキーを持つエンティティが存在しない場合でも 1 vCU のコストがかかります。フィルター式で削除する場合、一致するエンティティのみがカウントされます。 |
+| Upsert | 更新されたデータのサイズと削除されたエンティティ数に基づいて計算されます。<br/>存在しないエンティティを削除しても 1 vCU を消費します。<br/>Upsert の vCU 使用量 = データ KB x 0.25 + upsert されたエンティティ 1 件あたり 1 vCU（プライマリキーが既に存在するかどうかに関係なく）。たとえば、128 次元ベクトルを 100 万件 upsert すると、約 0.125 + 1 = 112.5 万 vCU（&#36;4.50）を使用します。これは、同じベクトルを挿入する場合の 12.5 万 vCU（&#36;0.50）と比べて多くなります。部分 upsert（partial_update）でも、エンティティ 1 件あたり 1 vCU が課金されます。 |
+
+*&ast;データサイズは、SDK または RESTful API がエンコードした後の書き込みリクエストのサイズで、1 KB = 1,024 バイトです。使用量はリクエストごとに計算され、次の整数 vCU に切り上げられるため、すべての書き込みリクエストには少なくとも 1 vCU のコストがかかります。行をより大きなリクエストにバッチ化すると、この切り上げによるオーバーヘッドを回避できます。RESTful API リクエストには、JSON ボディが大きくなる場合でも、同じデータに対して SDK（gRPC）リクエストと同じ料金が課金されます。*
 
 Serverless クラスターに 3 GB（3,145,728 KB）のエンティティを挿入し、その後 100,000 件のエンティティを削除したとします。
 
-- `Insert operation vCU usage = 3,145,728 x 0.25 = 78,643 vCUs`
+- `Insert operation vCU usage = 3,145,728 x 0.25 = 786,432 vCUs`
 
 - `Delete operation vCU usage = 100,000 x 1 = 100,000 vCUs`
 
-- `Total vCU usage = 1,000 + 78,643 = 178,643 vCUs`
+- `Total vCU usage = 100,000 + 786,432 = 886,432 vCUs`
 
-- `Total vector database cost (write)  = 0.178643 x 4 = $0.72`
+- `Total vector database cost (write)  = 0.886432 x 4 = $3.55`
 
 ## ベクトルデータベースのコスト（読み取り）\{#vector-database-costs-read}
 
 このコスト項目は、[search](./single-vector-search)、[hybrid search](./hybrid-search)、および [query](./get-and-scalar-query) 操作で消費されるリソースを測定します。
 
-### コスト計算\{#cost-calculation}
+### コストの計算\{#cost-calculation}
 
 ```bash
 Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage 
 ```
 
-- **vCU Unit Price:** 100 万 vCU あたり &#36;4
+- **vCU 単価:** 100 万 vCU あたり &#36;4
 
-- **Read vCU Usage:** 以下の 3 つの要因に依存します。
+- **読み取り vCU 使用量:** 以下の 3 つの要因によって決まります。
 
     - search または query のリクエスト数: search または query を実行する回数が多いほど、vCU 使用量が高くなります。
 
     - 各 search または query でスキャンされるデータのサイズ: スキャンされるデータが多いほど、vCU 使用量が高くなります。
 
-        *ヒント: 各 search または query の実行中、Zilliz Cloud はクラスター内のコレクション全体をスキャンします。search または query の際に [Partition Key](./use-partition-key) をフィルターとして使用すると、Zilliz Cloud は指定した Partition Key に一致するコレクションの一部のみをスキャンするため、読み取り vCU 使用量全体を抑えることができます。*
+        *ヒント: 各 search または query の実行中、Zilliz Cloud はクラスター内のコレクション全体をスキャンします。search または query の際に [Partition Key](./use-partition-key) をフィルターとして使用すると、Zilliz Cloud は指定された Partition Key に一致するコレクションの一部のみをスキャンするため、読み取り vCU 使用量全体を抑えることができます。*
 
     - 各 search または query で返されるデータのサイズ: 返されるデータが多いほど、vCU 使用量が高くなります。たとえば、search でベクトルフィールドを含むすべてのフィールドを返すと、ID フィールドのみを返す search よりもはるかに多くの vCU を消費します。
 
@@ -115,7 +117,7 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 ### 例\{#example}
 
-以下の表は、さまざまなデータ量に対する 100 万回の読み取りリクエストの vCU 使用量とコストの例を示しています。
+以下の表は、さまざまなデータ量に対して 100 万回の読み取りリクエストを行った場合の vCU 使用量とコストの例です。
 
 | **スキャンデータサイズ (&ast;)** | **読み取り vCU 使用量（100 万単位）** | **読み取りコスト** |
 | --- | --- | --- |
@@ -131,13 +133,13 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 *&ast;上記の表のデータサイズにはスカラーは含まれません。*
 
-上記の表からわかるように、データサイズが 100 万から 1,000 万、さらには 1 億に増加しても、vCU 使用量は比例して増加しません。
+上記の表から、データサイズが 100 万から 1,000 万、さらには 1 億に増加しても、vCU 使用量が比例して増加しないことがわかります。
 
 ## ストレージコスト\{#storage-cost}
 
 ストレージコストはベクトルデータベースのコストとは別に課金され、以下に依存します。
 
-- クラスターのリージョン、クラスターのタイプ、およびプロジェクトプラン
+- クラスターのリージョン、クラスタータイプ、およびプロジェクトプラン
 
 - ストレージ使用量
 

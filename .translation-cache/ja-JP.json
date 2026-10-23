@@ -2896,9 +2896,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md": {
-      "sourceHash": "2f35a5da425364f6661b08ac333158699788472079228f0ec8f1cf06954a44e7",
+      "sourceHash": "da527f97aa3d9a000d3a30942c3033597b0f5522c4f25204a61ddce32bd7c35b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "translatedAt": "2026-09-19T14:23:03.631Z"
+      "translatedAt": "2026-10-23T14:58:51.793Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/storage-cost.md": {
       "sourceHash": "11920a546c5efd57293d878bc6072c095f4f518d7ed4c60202e02b5d2941b89b",
@@ -3091,9 +3091,9 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "2a7a91addb51ed459cc640417f2473248fcb67e97c34f60b469344aed33713a2",
+      "sourceHash": "a2fe1aedb6d2e3f6de722c9484b36032dad3cb0eb7e853c89d553da8b704a94f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-08-25T09:24:49.503Z"
+      "translatedAt": "2026-10-23T14:58:51.793Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "e6a0b123b8c38d0f778536298b756775b1a0de08063b112bb7f676cc0168a3fd",
@@ -3146,9 +3146,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "c4cc0556f3cfce42b671080ed008325eeb64263745847221d810cfc570e0a3ac",
+      "sourceHash": "cc69e319e333d6ce9656c845584e58eb89df7baf016141e0713a9ede45a4c355",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-10-10T06:00:20.188Z"
+      "translatedAt": "2026-10-23T14:58:51.793Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",
