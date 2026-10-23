@@ -1017,13 +1017,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/delete-entities.md",
-      "sha256": "f4514144fb5e2cfa83332f396611e8166c067996621ca1770aef86496908e449",
+      "sha256": "4b4974fb7ee4eeec5180b95f8b5124bf778bc27736ae90ea311cda3b1ee001e2",
       "docToken": "J7kywlJIki4aG3kUSj8cErcynnf",
       "revisionId": "565"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "4271d4c1bad08532426592ce2452c878c509999e4a043e015bcfc6c10d3496ba",
+      "sha256": "2078774ca578ebabd402c4f5df206512277d8491fe26045f0f531fe6c6919733",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": "1037"
     },
@@ -2559,13 +2559,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/delete-entities.md",
-      "sha256": "b68c6b8c7ddec973374ff115ba7b4dc4f6d124d0aee68749fea8e637513cba62",
+      "sha256": "7c839fcc07fe02a816d12bee9eaf3ff3a16bab9130321369d90966f5d64c3374",
       "docToken": "J7kywlJIki4aG3kUSj8cErcynnf",
       "revisionId": "565"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "82954b147b8ccf98b087544fcfb2244918f7d95537c4614e67d5fad1475fd134",
+      "sha256": "9bec83d48f446dd23dcea5bd197385e02c4863791141407445d21a425bd589a7",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": "1037"
     },
@@ -3777,9 +3777,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "sha256": "3646d693497ffa68cf00e4f9f06ee2aff41086fc9a4951c18da50448f884069d",
+      "sha256": "78cc0ccef8d8f28f385ea72c931318739a13c7730dab8cec8507aea0789690d9",
       "docToken": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
-      "revisionId": "335"
+      "revisionId": "371"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/storage-cost.md",

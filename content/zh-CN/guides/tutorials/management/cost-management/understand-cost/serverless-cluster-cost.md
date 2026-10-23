@@ -68,18 +68,20 @@ Import 和 bulk insert 操作**不产生**写入费用。
 | **操作** | **vCU 用量** |
 | --- | --- |
 | Insert | 1 KB 插入数据 = 0.25 vCU |
-| Delete | 删除 1 个 Entity = 1 vCU<br/>删除 1 个不存在的 Entity 也会消耗 1 vCU |
-| Upsert | 根据更新的数据量和删除的 Entity 数量计算<br/>删除 1 个不存在的 Entity 也会消耗 1 vCU |
+| Delete | 每个 Entity 消耗 1 vCU。按主键删除时，请求中的每个主键都消耗 1 vCU，即使不存在该主键对应的 Entity 也会消耗 vCU。按筛选表达式删除时，只统计匹配的 Entity。 |
+| Upsert | 根据更新的数据量和删除的 Entity 数量计算<br/>删除 1 个不存在的 Entity 也会消耗 1 vCU<br/>Upsert 的 vCU 用量 = 数据 KB × 0.25 + 每个被 upsert 的 Entity 1 vCU（无论主键是否已存在）。例如，upsert 100 万个 128 维向量大约使用 0.125 + 1 = 112.5 万 vCU（4.50 美元），而插入这些向量则使用 12.5 万 vCU（0.50 美元）。部分 upsert（partial_update）仍按每个 Entity 1 vCU 收费。 |
+
+*&ast;数据大小是指 SDK 或 RESTful API 编码后的写入请求大小，其中 1 KB = 1,024 字节。用量按每个请求计算，并向上取整，因此每个写入请求至少消耗 1 vCU。将多行批量合并为更大的请求可以避免这种取整带来的额外开销。对于相同的数据，RESTful API 请求与 SDK（gRPC）请求收费相同，即使 JSON 请求体更大。*
 
 假设您插入 3 GB (3,145,728 KB)  Entity 到 Serverless 集群中，随后又删除了 100,000 个 Entity。
 
-- `Insert 操作的 vCU 用量 = 3,145,728 x 0.25 = 78,643 vCU`
+- `Insert 操作的 vCU 用量 = 3,145,728 x 0.25 = 786,432 vCUs`
 
 - `Delete 操作的 vCU 用量 = 100,000 x 1 = 100,000 vCU`
 
-- `总 vCU 用量 = 1,000 + 78,643 = 178,643 vCU`
+- `总 vCU 用量 = 100,000 + 786,432 = 886,432 vCUs`
 
-- `总写入费用 = 0.178643 x 21 = ¥3.75`
+- `总写入费用 = 0.886432 x 4 = $3.55`
 
 ## 向量数据库费用（读取操作）\{#vector-database-costs-read}
 
