@@ -387,7 +387,11 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
   if ((progressArtifacts.length || resultsArtifact) && !publisher) throw new Error('Publication progress or results identity has no publish_ready producer job')
   const progress = []
   for (const value of progressArtifacts) {
-    const artifact = exactArtifact(selectedAttempt.artifacts, value.artifact.name, {label: 'Publication progress'})
+    // Progress revisions are matched from the evidence inventory, so resolve
+    // them there too. A producer run that failed before its dispatched
+    // publisher finished never carries these artifact names, and the
+    // envelope/job-window checks below already bind them to the publisher.
+    const artifact = exactArtifact(evidenceArtifacts, value.artifact.name, {label: 'Publication progress'})
     assertArtifactInJobWindow(artifact, publisher, 'Publication progress')
     const destination = path.join(root, 'downloads', 'publication', `progress-${value.revision}`)
     await downloadArtifact(client, artifact, destination, evidenceRun, publisherScope ? publisherScope.handoff.publisherRunId : runId)
