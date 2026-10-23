@@ -351,9 +351,9 @@
       "translatedAt": "2026-10-19T15:52:17.506Z"
     },
     "content/en/byoc/tutorials/development/connect-to-serving-cluster.md": {
-      "sourceHash": "40213546b5b8441bc18634f95f4af2a4e4d5e2ee11f8694001ac2a77d9076007",
+      "sourceHash": "71659fbeab487a547017e412706a4307d8d2209bcdcf59ea1fac01e287f26afc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/connect-to-serving-cluster.md",
-      "translatedAt": "2026-10-10T05:42:41.405Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/development/data-export/export-data-iterators.md": {
       "sourceHash": "332403e24e5d27c6f7c31d370be26d60393cda87647f1596eee59ca1ce31970a",
@@ -861,9 +861,9 @@
       "translatedAt": "2026-10-10T05:47:46.206Z"
     },
     "content/en/byoc/tutorials/development/volume/external-volume.md": {
-      "sourceHash": "35a9572ebb0e0c71d14623c72f1b71f139be12eb520ff5b8fc6af1206bbd10d5",
+      "sourceHash": "cd12142901d865ec641c8a8f818a9dc2b27137d10edb8b508d61f0b0086acdc8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/external-volume.md",
-      "translatedAt": "2026-10-19T14:37:53.819Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
       "sourceHash": "fc2422de6000092eb9716ad054fd9341510a0ad9710056583977660613508cb9",
@@ -899,6 +899,11 @@
       "sourceHash": "08ab5297200ea7f5bada37b19af3638c9fa4137a8b98ca67dd99b594bdb03180",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-data-import.md",
       "translatedAt": "2026-10-19T16:33:23.760Z"
+    },
+    "content/en/byoc/tutorials/get-started/faqs/faq-resource-planning.md": {
+      "sourceHash": "9aea1356fea0917a5076492778b5282b9a6556cfab3b38e3ea9040d1d8168d50",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-resource-planning.md",
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/get-started/faqs/faq-users-and-roles.md": {
       "sourceHash": "dc18ba74027b42490d5a6e813b8e8d40baf6e4b311f2d17e5a3765a875081d2f",
@@ -1206,9 +1211,9 @@
       "translatedAt": "2026-10-19T14:37:53.819Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "fec18c112502ef5be8c189276c14e0f6dfcc498578ffeb409baf6332d8a7489f",
+      "sourceHash": "17addd2b27fe4bb63da91a73ce0431dad92b276403d6eeb61931c6272fab0e7a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-10-10T05:49:11.808Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/management/identity-management/identity-management-overview.md": {
       "sourceHash": "069fd4fcdb90bb4639efabfa2a1459c5f3feb775d746c0dcaac8e9a91bab0a27",
@@ -1346,14 +1351,14 @@
       "translatedAt": "2026-10-19T14:46:47.999Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "753c2e1de506a3355a40450e280dd4eadb065c54ab6c5c67fd005759a48a874a",
+      "sourceHash": "88bbab800303c14d63de7afe4e9f5ed24feb4d2ff4c2dec229fbac987ba0ac7c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-08-25T07:15:02.148Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
-      "sourceHash": "7d99fd3fc038af77d2ec7012e023730f8cf41c2be578d6c56fce0a1f85956007",
+      "sourceHash": "34666328637a665930612b66aeb7ff96e87e3605a15a000c6ab5e9e6ee014d5a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
-      "translatedAt": "2026-10-10T05:49:11.808Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
       "sourceHash": "7507056a965a95d10e84114c73bca7d91683e47198af57c17f283cd3f8b477e3",
@@ -1661,9 +1666,9 @@
       "translatedAt": "2026-10-19T16:54:02.117Z"
     },
     "content/en/guides/tutorials/development/connect-to-serving-cluster.md": {
-      "sourceHash": "c77a52c958f35c3ac996d1f262500e408885e7cec0d8051d6cf36842b5e5cc50",
+      "sourceHash": "422fc94b5277565c32067d3da9e7392da6c45f60ad9e6a4c81d28d06e31e9e29",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/connect-to-serving-cluster.md",
-      "translatedAt": "2026-10-10T05:51:48.141Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/development/data-export/export-data-iterators.md": {
       "sourceHash": "1218bdc772b56d8882196124f3c9f2f26455d40951a4d9682c271ec9b4f83781",
@@ -2251,9 +2256,9 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
-      "sourceHash": "ae8758204a0f3e311e00f51b68c4e4c915da4c338c56664438094c223c5e242a",
+      "sourceHash": "b14b1bccc74b6da6738898c612913c43cb8ebe2ced0ae8cfcc091a8103581705",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/external-volume.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
       "sourceHash": "b951a860867b6b3a25c940fc1f2dba60d38aa0ccce1126b4e9a7d0565831d2e5",
@@ -2276,9 +2281,9 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
-      "sourceHash": "f9e368793801431ecbaf9b5f3e459cd1597d0ff93e77a11fcaca21910b9eebf1",
+      "sourceHash": "077089b92a6d6dc651ca14d5ade03ad8a2c1b7234870873c65020f93029c4a76",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-authentication.md": {
       "sourceHash": "3ae91e19944e6c14e61fd0b3ad71e99c1e34afdbdc517cf9b6ecccf352b2a0f7",
@@ -2306,9 +2311,9 @@
       "translatedAt": "2026-08-04T05:08:03.392Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-resource-planning.md": {
-      "sourceHash": "46409fd9c365570b037d1bc264aef11fdc14b47310d89d3350c39cf8bfb67271",
+      "sourceHash": "be23dfc91c00d330b5a1383b973f0abcbfe9711da810f1248e43a366abd2ed23",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-resource-planning.md",
-      "translatedAt": "2026-08-04T05:08:43.513Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-users-and-roles.md": {
       "sourceHash": "9d8bd1a682986edec8d4db63cf667ee24c982e7387526abd7f9474780da8c2b5",
@@ -2491,9 +2496,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2601.md": {
-      "sourceHash": "62f20d63e3d4ca0bd371e494f32a326e06b1bfc7c3c344c5ca7126d74a2099cf",
+      "sourceHash": "0fe0600ffadcf1aca4b487264b6df8f451ba05bc2a13532233c541e5b9c50a81",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2601.md",
-      "translatedAt": "2026-10-19T23:23:36.984Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2602.md": {
       "sourceHash": "3bd9d81b76ff571edd68bae41302ff170f6c106b516fdd8af8b8354adfc8a356",
@@ -2526,9 +2531,9 @@
       "translatedAt": "2026-10-19T23:25:07.913Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2610.md": {
-      "sourceHash": "262f9a1b1a62d5fb2379b18b5b9200962211d3cdd7a6707c96a2e9875a74d1bd",
+      "sourceHash": "23ed325d573cec16df8eae3deeafba8d8de96c36dc9ad9cec9d2011b4cf8d72e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2610.md",
-      "translatedAt": "2026-10-19T23:25:07.913Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-270.md": {
       "sourceHash": "88909936a784590840504abe6ce458eb2fd7dd7bc14ea636c8c4c9c84d29f54a",
@@ -2771,9 +2776,9 @@
       "translatedAt": "2026-10-19T17:49:29.775Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "ce18bbf3187772acef448305d7eaba6cf74f8e28413187983c793540f4bf4717",
+      "sourceHash": "bf0ac637963365b09a75d16ea5c3ba5fad1ad5528be2ed7b786a42795c13dbc9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",
@@ -2866,14 +2871,14 @@
       "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "7b81386233030798a2ff801480215d346fc6e873a9e35484ef70d2ba556032c2",
+      "sourceHash": "2cda731e4fcb3f1bab3768e86cbdbd16a9d5a06291dc893cd832ec5e345cd41d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "59e0122f1d178f5f28d61d96841c1aa41bff248b91e65df42b538425a61d6fbb",
+      "sourceHash": "74910b6818ec1943610d3ce4955ba01e4609da637706696c2bd6e1266f00c9fd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",

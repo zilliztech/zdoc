@@ -88,7 +88,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Model-Based Reranking**: ニーズに最適なリランキングモデルを選択し、特定のユースケースで最も関連性の高い検索結果が優先されるようにします。詳細は、[Cohere rerankers](./cohere-model-ranker) およびその関連ページを参照してください。
 
-        - **Zilliz Hosted Models（Private Preview）**: 完全にマネージドされたモデルインスタンスを Zilliz インフラストラクチャ上に直接デプロイし、データ転送料金なしで安定した高性能な推論を実現します。モデルが Zilliz Cloud 環境で実行されるため、データはプライベートネットワーク内に留まり、プライバシーの強化と超低レイテンシーを実現します。詳細は、[Hosted Models](./hosted-models) を参照してください。
+        - **Zilliz Hosted Models（Private Preview）**: 完全にマネージドされたモデルインスタンスを Zilliz インフラストラクチャ上に直接デプロイし、データ転送料金なしで安定した高性能な推論を実現します。モデルが Zilliz Cloud 環境で実行されるため、データはプライベートネットワーク内に留まり、プライバシーの強化と超低レイテンシーを実現します。
 
         さらに、サードパーティモデルとの統合を効率化するため、**Third-Party Model Provider Integration** を導入しました。この機能を使用すると、Zilliz Cloud 内で AI モデルの認証情報を管理し、アプリケーションコードを変更することなくいつでも API キーをローテーションできるため、柔軟で安全な統合を実現できます。詳細は、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 

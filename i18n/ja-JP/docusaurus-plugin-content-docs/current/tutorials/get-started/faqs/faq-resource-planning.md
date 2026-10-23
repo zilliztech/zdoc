@@ -1,10 +1,10 @@
 ---
-title: "FAQ: リソース計画 | CLOUD"
+title: "FAQ: リソースの計画 | CLOUD"
 slug: /faq-resource-planning
-sidebar_label: "FAQ: リソース計画"
+sidebar_label: "FAQ: リソースの計画"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloud でリソースを計画する際に発生する可能性のある問題と、それに対応する解決策を一覧で示します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloud でリソースを計画する際に発生する可能性がある問題と、それに対応する解決策について説明します。 | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 6
@@ -12,71 +12,71 @@ displayed_sidebar: default
 
 ---
 
-# FAQ: リソース計画
+# FAQ: リソースの計画
 
-このトピックでは、Zilliz Cloud でリソースを計画する際に発生する可能性のある問題と、それに対応する解決策を一覧で示します。
+このトピックでは、Zilliz Cloud でリソースを計画する際に発生する可能性がある問題と、それに対応する解決策について説明します。
 
 ## 目次
 
-- [Compute Unit (CU) とは何ですか？](#what-is-a-compute-unit-cu)
-- [vCU とは何ですか？どのように計算されますか？](#what-is-a-vcu-how-does-it-get-calculated)
-- [使用していない cluster にかかる費用を避けるにはどうすればよいですか？](#how-can-i-avoid-expenses-on-unused-clusters)
-- [Zilliz Cloud の利用コストを見積もるにはどうすればよいですか？](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
+- [コンピューティングユニット（CU）とは？](#what-is-a-compute-unit-cu)
+- [vCU とは？どのように計算されますか？](#what-is-a-vcu-how-does-it-get-calculated)
+- [未使用のクラスターにかかる費用を回避するには？](#how-can-i-avoid-expenses-on-unused-clusters)
+- [Zilliz Cloud の利用コストを見積もるには？](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
 - [Zilliz Cloud は Azure へのデプロイをサポートしていますか？](#does-zilliz-cloud-support-deployment-on-azure)
-- [新しいクラウドリージョンをリクエストするにはどうすればよいですか？](#how-can-i-request-a-new-cloud-region)
-- [自分がどのプランを利用しているかはどうすればわかりますか？](#how-can-i-know-which-plan-i-am-on)
-- [特定の collection には何個の query CU が必要ですか？](#how-many-query-cus-do-i-need-for-a-given-collection)
-- [どのタイプの cluster を選ぶべきですか？](#which-type-of-cluster-should-i-pick)
+- [新しいクラウドリージョンをリクエストするには？](#how-can-i-request-a-new-cloud-region)
+- [現在のプランを確認するには？](#how-can-i-know-which-plan-i-am-on)
+- [特定のコレクションに必要なクエリ CU 数は？](#how-many-query-cus-do-i-need-for-a-given-collection)
+- [どのタイプのクラスターを選択すべきですか？](#which-type-of-cluster-should-i-pick)
 
-## FAQ
-
-
+## よくある質問
 
 
-### Compute Unit (CU) とは何ですか？\{#what-is-a-compute-unit-cu}
 
-compute unit (CU) は、index と検索リクエストを処理するためのハードウェアリソースのグループです。CU は、検索サービスをデプロイするためのフルマネージドな物理ノードとシンプルに考えることができます。
 
-詳細については、[適切な CU を選択する](./cu-types-explained) を参照してください。
+### コンピューティングユニット（CU）とは？\{#what-is-a-compute-unit-cu}
 
-### vCU とは何ですか？どのように計算されますか？\{#what-is-a-vcu-how-does-it-get-calculated}
+コンピューティングユニット（CU）は、インデックスと検索リクエストを処理するためのハードウェアリソースのグループです。CU は、検索サービスをデプロイするためのフルマネージドの物理ノードと単純に考えることができます。
 
-vCU は、読み取り操作（search や query など）および書き込み操作（insert、upsert、bulk insert、delete など）で消費されるリソースを測定するための仮想 compute unit です。書き込まれた、または読み取られたデータ量は GB から vCU に変換されます。詳細については、[Serverless Cluster Cost](./serverless-cluster-cost) を参照してください。
+詳細については、[適切な CU の選択](./cu-types-explained) を参照してください。
 
-### 使用していない cluster にかかる費用を避けるにはどうすればよいですか？\{#how-can-i-avoid-expenses-on-unused-clusters}
+### vCU とは？どのように計算されますか？\{#what-is-a-vcu-how-does-it-get-calculated}
 
-コンピューティングコストを節約するために、使用していない cluster は一時停止することを推奨します。必要になったときに後で再開できます。
+vCU は、読み取り操作（検索やクエリなど）と書き込み操作（挿入、アップサート、一括挿入、削除など）で消費されるリソースを測定するために使用される仮想コンピューティングユニットです。書き込みまたは読み取りされるデータ量は、GB から vCU に変換されます。詳細については、[Serverless クラスターのコスト](./serverless-cluster-cost) を参照してください。
 
-### Zilliz Cloud の利用コストを見積もるにはどうすればよいですか？\{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
+### 未使用のクラスターにかかる費用を回避するには？\{#how-can-i-avoid-expenses-on-unused-clusters}
 
-[calculator](https://zilliz.com/pricing) を使用してコスト見積もりを取得するか、詳細について [Storage Cost](./storage-cost) を参照してください。
+コンピューティングコストを節約するために、未使用のクラスターを一時停止することをお勧めします。必要になったときに再開できます。
+
+### Zilliz Cloud の利用コストを見積もるには？\{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
+
+[計算ツール](https://zilliz.com/pricing) を使用してコストの見積もりを取得するか、詳細については [ストレージコスト](./storage-cost) を参照してください。
 
 ### Zilliz Cloud は Azure へのデプロイをサポートしていますか？\{#does-zilliz-cloud-support-deployment-on-azure}
 
-はい。Zilliz Cloud は現在 Azure へのデプロイをサポートしています。[Cloud Providers & Regions](./cloud-providers-and-regions) を参照してください。
+はい。Zilliz Cloud は現在、Azure へのデプロイをサポートしています。[クラウドプロバイダーとリージョン](./cloud-providers-and-regions) を参照してください。
 
-### 新しいクラウドリージョンをリクエストするにはどうすればよいですか？\{#how-can-i-request-a-new-cloud-region}
+### 新しいクラウドリージョンをリクエストするには？\{#how-can-i-request-a-new-cloud-region}
 
-Zilliz Cloud の新しいクラウドサービスプロバイダーのリージョンをリクエストするには、[フォームに記入してください](https://zilliz.com/cloud-region-request)。
+Zilliz Cloud の新しいクラウドサービスプロバイダーリージョンをリクエストするには、[フォーム](https://zilliz.com/cloud-region-request) に記入してください。
 
-### 自分がどのプランを利用しているかはどうすればわかりますか？\{#how-can-i-know-which-plan-i-am-on}
+### 現在のプランを確認するには？\{#how-can-i-know-which-plan-i-am-on}
 
 プランを確認するには、プロジェクト一覧に移動します。各プロジェクトのプランが表示されます。
 
 ![XMRtb3eYsoWUnsxQM0ecyjj2nqf](https://zdoc-images.s3.us-west-2.amazonaws.com/xmrtb3eysowunsxqm0ecyjj2nqf.png "XMRtb3eYsoWUnsxQM0ecyjj2nqf")
 
-### 特定の collection には何個の query CU が必要ですか？\{#how-many-query-cus-do-i-need-for-a-given-collection}
+### 特定のコレクションに必要なクエリ CU 数は？\{#how-many-query-cus-do-i-need-for-a-given-collection}
 
-- Performance-optimized: 最大 200 万件の 768 次元 vector をサポートします。
+- Performance-optimized: 最大 200 万個の 768 次元ベクトルをサポートします。
 
-- Capacity-optimized: 最大 800 万件の 768 次元 vector をサポートします。
+- Capacity-optimized: 最大 800 万個の 768 次元ベクトルをサポートします。
 
-- Tiered-storage: 最大 4,000 万件の 768 次元 vector をサポートします。
+- Tiered-storage: 最大 4,000 万個の 768 次元ベクトルをサポートします。
 
-これらの見積もりは、primary key のみを持つ vector に基づいています。ID やラベルなどの追加の scalar フィールドがある場合、容量が減少する可能性があります。正確に評価するために、ご自身でテストを実施することを推奨します。
+これらの見積もりは、主キーのみを含むベクトルに基づいています。ID やラベルなどの追加のスカラーフィールドは、容量を減らす可能性があります。正確に評価するには、独自のテストを実施することをお勧めします。
 
-### どのタイプの cluster を選ぶべきですか？\{#which-type-of-cluster-should-i-pick}
+### どのタイプのクラスターを選択すべきですか？\{#which-type-of-cluster-should-i-pick}
 
-リアルタイムアプリケーション向けに、即時の検索結果と高い同時接続トラフィックが必要な場合は Performance-optimized を選択してください。  
-大規模な vector データセットを扱いながら、安定した検索速度も維持したい場合は Capacity-optimized を選択してください。  
-超大規模でコスト重視のワークロードを扱う必要がある場合は Tiered-storage cluster を選択してください。Tiered-storage cluster を選択するには、cluster に少なくとも 8 query CUs が必要です。
+リアルタイムアプリケーション向けに、即時の検索結果と高い同時トラフィックが必要な場合は、Performance-optimized を選択します。
+大規模なベクトルデータセットを処理しながら、信頼性の高い検索速度を維持する必要がある場合は、Capacity-optimized を選択します。
+超大規模でコストに敏感なワークロードを処理する必要がある場合は、Tiered-storage クラスターを選択します。
