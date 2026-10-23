@@ -4,19 +4,19 @@ slug: /python/python/EmbeddingList-clear
 sidebar_label: "clear()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会清除当前 EmbeddingList 实例中的向量嵌入。 | Python | MilvusClient"
 type: docx
-token: M6mrdinAjo8CwrxirOQcR6E1nUc
+token: DCf4dDSyMoclYrxrZoCcyqrrnhg
 sidebar_position: 3
 keywords: 
-  - 低成本向量 Database
-  - 托管向量 Database
+  - 廉价的向量 Database
+  - 托管的向量 Database
   - Pinecone 向量 Database
   - 音频搜索
-  - Zilliz
+  - zilliz
   - Zilliz Cloud
   - 云
   - clear()
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # clear()
 
-此操作会清除当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
+此操作会清除当前 **EmbeddingList** 实例中的向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,11 +41,11 @@ clear()
 
 **返回类型：**
 
-*[EmbeddingList](./MilvusClient-EmbeddingList)*
+*EmbeddingList*
 
-**返回：**
+**返回值：**
 
-一个空的 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例。
+一个空的 EmbeddingList 实例。
 
 ## 示例\{#examples}
 

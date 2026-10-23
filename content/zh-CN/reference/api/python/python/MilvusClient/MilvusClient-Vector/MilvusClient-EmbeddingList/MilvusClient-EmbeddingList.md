@@ -1,0 +1,83 @@
+---
+title: "EmbeddingList | Python | MilvusClient"
+slug: /python/python/MilvusClient-EmbeddingList
+sidebar_label: "EmbeddingList"
+beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "EmbeddingList 实例表示向量嵌入的列表。您可以使用 EmbeddingList 实例，在针对 Array of Structs 字段中的向量字段进行搜索时构建查询向量。 | Python | MilvusClient"
+type: docx
+token: UFBPdaaIloEeBexOxG3c6WMZnLe
+sidebar_position: 4
+keywords: 
+  - IVF
+  - knn
+  - 图像搜索
+  - LLMs
+  - zilliz
+  - zilliz cloud
+  - 云
+  - EmbeddingList
+  - pymilvus30
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# EmbeddingList
+
+**EmbeddingList** 实例表示向量嵌入的列表。您可以使用 **EmbeddingList** 实例，在针对 Array of Structs 字段中的向量字段进行搜索时构建查询向量。
+
+## 请求语法\{#request-syntax}
+
+```python
+class pymilvus.EmbeddingList
+```
+
+**参数：**
+
+- **embeddings** （*np.ndarray, List[np.ndarray*） -
+
+    向量嵌入的列表，可以是以下任一类型：np.ndarray，**形状为 (n, dim) 的：**，表示多个向量嵌入的列表。np.ndarray，**形状为 (dim,) 的：**，表示单个向量嵌入。**List[np.ndarray]**，表示向量嵌入数组的列表：。
+
+- **dim** （*int*） -
+
+    用于验证的 embedding 参数中指定的向量嵌入的维度。如果提供此参数，所有指定的向量嵌入都必须遵循该维度限制。
+
+- **dtype** (*np.dtype, str, [DataType](../../Collections/DataType.md*) -
+
+    一个选项，即 *) - np.dtype，例如 `np.float32`、`np.float16` 或 `np.unit8`：。字符串，例如 `'float32'`、`'float16'` 或 `'uint8'`：。DataType*&ast;，例如 `DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR` 或 `DataType.BINARY_VECTOR`：。
+
+**返回类型：**
+
+*EmbeddingList*
+
+**返回：**
+
+一个 EmbeddingList 实例。
+
+## 示例\{#examples}
+
+```python
+from pymilvus import EmbeddingList
+
+# create an empty embedding list
+embeddingList1 = EmbeddingList()
+
+# create an embedding list with a single vector embedding of 5 dimensions
+embeddingList2 = EmbeddingList(
+    embeddings=[0.1, 0.2, 0.3, 0.4, 0.5],
+    dim=5
+)
+
+# create an embedding list with two vector embeddings, each having five dimensions
+embeddingList3 = EmbeddingList(
+    embeddings= [[0.1, 0.2, 0.3, 0.4, 0.5], [0.5, 0.4, 0.3, 0.2, 0.1]],
+    dim=5
+)
+```

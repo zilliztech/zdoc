@@ -71,62 +71,6 @@
       "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "74f0813f3a70028715c77f73a7558a33fbc6c27605de4fa9941358639d830245",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "911fc3cd26ff4f4a2b2e37454882ff19ad75379b61fc014997c547745f2697ff",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "37ce1c3895999fcc3c04a11e723a2f45024e777c5fe082586edd470943a9299d",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-clear.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-clear.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "184b068f9e24dafa2ec846b5666c9e37ca3dced5f63beab31890ab5bf3f5a33d",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "716a84fb1f37090db433f7a1ec4b43a8b78b2f6d418ab6882dcb7b798acd3c57",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "928fbe5e89c8c2cd8c873cf6d61d282d87742c557ebcef8dbf98cab2ec385249",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "290938e83d29563480d8522be1e70d44b9ac8f2c8637dd7ee425379518a38368",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md"
-    },
-    {
-      "manual": "python",
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "b92961fad192b9f8771afc83a18f270100c29ab0cf515fa8f3f8d17a47975d18",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-with_query.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-with_query.md"
     }
   ],
   "records": [
@@ -8549,11 +8493,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "38f344b624aa74a6b4d32e6baab4f9b4ff864c588ab29f75360dc1d389c260b0",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "93db2ddca3aaf7b9fc310bb6b40b2a37c9fa9685d5dc2ed045b08c452357467c",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
       "status": "translated",
-      "targetHash": "2db68ec9d74f6bc53d816f4fc363847ceb336126714f83074c904c4bd8841961",
+      "targetHash": "3d0a490a41c8b2e2937114dd92b4af4119d410a8d2209d9a2c6795ea45eb3b66",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md"
     },
     {
@@ -8882,11 +8826,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "63e9b234878229ab0d1b220ba7d720eaaddd8ec42db15e05f2e3a3ad50cf067f",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "fcd34524195527c342d0f5cadd46d6d41380891dc0ba8432f8fe5bd0f388513f",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-use_database.md",
       "status": "translated",
-      "targetHash": "5c9d9c353de68cd6a93bfc570b3b4bde47ffc70c465f36b14064121208a34e6e",
+      "targetHash": "3b966e6399b41b4a91d5727d2012030c3254ab9af26ffb256052f7cb08a72d69",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-use_database.md"
     },
     {
@@ -8906,84 +8850,6 @@
       "status": "retired",
       "targetHash": "c5b09d448dc19ac9909c618728a2b7f39a1d853b5d6a6bf36ce242a20a561564",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add.md",
-      "status": "retired",
-      "targetHash": "94c4c57522d555426a4980fa52877009f29980ba3b64698d68aa805814958bc5",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md",
-      "status": "retired",
-      "targetHash": "85fc00fdcf0344469a3a4852c3aeae90551fff040cbaa2c249d664c65d788205",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-clear.md",
-      "status": "retired",
-      "targetHash": "fbad6adcd7a1b252701dcdadaaa6bdd63bca01527f6775be600691f373bef7d5",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-clear.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md",
-      "status": "retired",
-      "targetHash": "9770b308749e7f2fc53725a8cb85350ed081f67117b3b1813d92d7e9dbb8a3a1",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md",
-      "status": "retired",
-      "targetHash": "8d7c7c911120a66055de644fe547924b6c9f48b9b4b3c6b569755541c1402056",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md"
-    },
-    {
-      "manual": "python",
-      "retirementEvidence": {
-        "checkpointSha": "4f02722e2f13222f6cd5c06e79beb3c7234351ff",
-        "kind": "checkpoint-deletion"
-      },
-      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md",
-      "status": "retired",
-      "targetHash": "2583fb5c182cb20378b24e618756e2f5856652cf5ffd09863953ce6efdbbc6c0",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md"
     },
     {
       "manual": "python",
@@ -9068,11 +8934,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
-      "sourceHash": "a42682e65795d37986a2ec66414cc63613ce20a21a2e7b49cc54cdc472704f48",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "e70617c18da95e32511eb6164f76fe58d337f16f5082aa268ba7433f0dce12c6",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/MilvusClient-Function.md",
       "status": "translated",
-      "targetHash": "202b19a143fcc1cc2d7211cf6a94c0d920c8fa9e365fd910b7bc0fe8c656ca84",
+      "targetHash": "9c06dade7cdabc7c4881fef14b33253c1414421186f4f542d0473574efe73285",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/MilvusClient-Function.md"
     },
     {
@@ -9122,11 +8988,11 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
-      "sourceHash": "71bd6e68d5ddd5567296c4260c0c1527c308ece348fd8b5466a88378d1d2b631",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "5ba3e8e0d197a2440dd67496f32c35eea26cf4514a07fb10e57a4182afc9e008",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionScore.md",
       "status": "translated",
-      "targetHash": "339ca4d5f935069bcd2222d12495405b85ac8e793e2d328e06eee14c34bfa0b5",
+      "targetHash": "a48839fd5a80ad2ca2cc94297d4af7b77b943bb4f3dbc492c3296d9da548678c",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionScore.md"
     },
     {
@@ -9603,6 +9469,78 @@
     {
       "manual": "python",
       "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "74f0813f3a70028715c77f73a7558a33fbc6c27605de4fa9941358639d830245",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add.md",
+      "status": "translated",
+      "targetHash": "5e815a474221401167c3fd67d2787f25ca3995328ae58b9f7684a1f41e7720b6",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "911fc3cd26ff4f4a2b2e37454882ff19ad75379b61fc014997c547745f2697ff",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md",
+      "status": "translated",
+      "targetHash": "48b6825163ffdb4b6012fabf3a8672de37259c421eb46e0898115c810d965bda",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add_batch.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "37ce1c3895999fcc3c04a11e723a2f45024e777c5fe082586edd470943a9299d",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-clear.md",
+      "status": "translated",
+      "targetHash": "5b57d4407995b9a39a4be95076c9288f15b4e79daa46466f7552324da4251023",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-clear.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "184b068f9e24dafa2ec846b5666c9e37ca3dced5f63beab31890ab5bf3f5a33d",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md",
+      "status": "translated",
+      "targetHash": "fe211d3461537cbab6e28ed5a40f5ad441307f075ee4f2cc16b6be73f8a7b552",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "716a84fb1f37090db433f7a1ec4b43a8b78b2f6d418ab6882dcb7b798acd3c57",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md",
+      "status": "translated",
+      "targetHash": "bdd75e0609b0e87a68c6fa00521a0d21a4f67797715bee8834fb9e183375f61e",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_numpy.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "928fbe5e89c8c2cd8c873cf6d61d282d87742c557ebcef8dbf98cab2ec385249",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md",
+      "status": "translated",
+      "targetHash": "48c0b4de23845c7ceb9e74eb6f4c0e09ff288b298c3d25e710c13ffca3133599",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "290938e83d29563480d8522be1e70d44b9ac8f2c8637dd7ee425379518a38368",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md",
+      "status": "translated",
+      "targetHash": "cc35323493ab83fb76402451fb705e400329acf37a9aaccd734c4fea16e0592b",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "b92961fad192b9f8771afc83a18f270100c29ab0cf515fa8f3f8d17a47975d18",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-with_query.md",
+      "status": "translated",
+      "targetHash": "37ae4fe452c08f3582cfef6ece93fae32fe332ead1833d15b00d2b0c0d41ba53",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-with_query.md"
+    },
+    {
+      "manual": "python",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
       "status": "retired",
@@ -9683,20 +9621,20 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "7dad40da9c49132f53e0fd6af602560e40cc97ec6a7f79d395204499e13af057",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "3b6e9b7394d26b459b87ab71338b6dc78f6f7223e82d3a9814d1d162601fb288",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md",
       "status": "translated",
-      "targetHash": "83586f7b1eefbe4165230fc7e2a8598630b3e0b1ffe8846079da38de6d392821",
+      "targetHash": "82b3cbcf2be659944f6e20deadfc89852fa97e3e1f91ee7624aa5f3db26491e6",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md"
     },
     {
       "manual": "python",
-      "sourceCommit": "54529b20cd013fe2a5eaf569da4f5e199c9d78a8",
-      "sourceHash": "c7d7c31758395c648d3872cd157b4f56245a80c219752c426fc7639314960870",
+      "sourceCommit": "a84c9a5a162c997b1dc7f3adc260aa74b53e64bf",
+      "sourceHash": "52d014da3d4d0803859eadc90ae92d5d687a8e38aa5aa3eedebb1504543e72c7",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md",
       "status": "translated",
-      "targetHash": "78eb1250228f5584bdcc5bdfcb9ef5d314e0aa18e4720fea17fad8964a06593a",
+      "targetHash": "4cacdced5613fe24526d8a72c21051b027c5050d69c679aeef51e6a1da82be0b",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md"
     },
     {

@@ -10,7 +10,7 @@ notebook: false
 description: "SearchAggregation 实例定义向量搜索的一级桶聚合。 | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - ANNS
   - 向量搜索

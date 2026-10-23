@@ -4,12 +4,12 @@ slug: /python/python/EmbeddingList-add
 sidebar_label: "add()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会向当前 EmbeddingList 实例添加单个向量嵌入。 | Python | MilvusClient"
 type: docx
-token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
+token: NP6adseqQoQS2zxaxYhc1kn6n9c
 sidebar_position: 1
 keywords: 
   - knn
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-此操作会向当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例添加单个向量嵌入。
+此操作会向当前 **EmbeddingList** 实例添加单个向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -44,23 +44,23 @@ add(
 
 **参数：**
 
-- **embedding** (*np.ndarray, List[Any]*) - 
+- **embedding** （*np.ndarray, List[Any]*） -
 
-    要添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
+    要添加到当前 EmbeddingList 实例的向量嵌入。
 
 **返回类型：**
 
 *[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**返回值：**
+**返回：**
 
-当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，可用于方法链式调用
+当前 EmbeddingList 实例本身，以便进行方法链式调用。
 
 **异常：**
 
-- **ValueError**：
+- **ValueError**
 
-    如果提供的向量嵌入在维度上与现有向量嵌入不匹配，则会引发此异常。
+    如果提供的向量嵌入与现有向量嵌入在维度上不匹配，则会引发此异常。如果提供的向量嵌入与现有向量嵌入在维度上不匹配，则会引发此异常。
 
 ## 示例\{#examples}
 

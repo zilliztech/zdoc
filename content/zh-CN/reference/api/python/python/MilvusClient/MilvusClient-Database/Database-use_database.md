@@ -4,12 +4,12 @@ slug: /python/python/Database-use_database
 sidebar_label: "use_database()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会将客户端切换为使用其他 Database。后续操作将使用指定的 Database。该方法会在切换前验证 Database 是否存在。 | Python | MilvusClient"
 type: docx
-token: AglQd68yqoEn8Ixkn9ociyqKnMx
+token: Y78mdDHzuoSOXoxMkUTcxF0nnWh
 sidebar_position: 8
 keywords: 
   - Faiss 向量 Database
@@ -35,27 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-这是 [`using_database()`](./Database-using_database) 的别名方法。
-
-</Admonition>
-
-<Admonition type="info" title="Notes">
-
-此方法仅适用于专用服务集群和按需计算。
-
-- 对于专用服务集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
-
-    - **免费版和 Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- 对于按需计算中的 Database，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
+这是 `using_database()` 的别名方法。
 
 </Admonition>
 
@@ -79,13 +59,17 @@ client.use_database(
 
 *NoneType*
 
+**返回：**
+
+无。
+
 **异常：**
 
 - **MilvusException**
 
-    当 Database 不存在时，将引发此异常（错误代码 800）。
+    当 Database 不存在（错误码 800）时，将引发此异常。当 Database 不存在（错误码 800）时，将引发此异常。
 
-## 示例\{#example}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

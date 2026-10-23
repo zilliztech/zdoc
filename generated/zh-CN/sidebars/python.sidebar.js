@@ -850,6 +850,68 @@ module.exports = [
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-aggregationhit"
           },
           {
+            "type": "category",
+            "label": "EmbeddingList",
+            "key": "category:api/python/python/MilvusClient/MilvusClient-Vector/milvusclient-embeddinglist",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add",
+                "label": "add()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/embeddinglist-add"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-add_batch",
+                "label": "add_batch()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/embeddinglist-addbatch"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-clear",
+                "label": "clear()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/embeddinglist-clear"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList",
+                "label": "EmbeddingList",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/milvusclient-embeddinglist"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_flat_array",
+                "label": "to_flat_array()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/embeddinglist-toflatarray"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/EmbeddingList-to_numpy",
+                "label": "to_numpy()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Highlighter",
+            "key": "category:api/python/python/MilvusClient/MilvusClient-Vector/milvusclient-highlighter",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-LexicalHighlighter",
+                "label": "LexicalHighlighter",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/highlighter-lexicalhighlighter"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/Highlighter-with_query",
+                "label": "with_query()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Highlighter/highlighter-withquery"
+              }
+            ]
+          },
+          {
             "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation",
             "label": "SearchAggregation",

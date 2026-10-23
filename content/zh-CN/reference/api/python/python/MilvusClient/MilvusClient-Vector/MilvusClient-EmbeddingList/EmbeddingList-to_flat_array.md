@@ -4,20 +4,20 @@ slug: /python/python/EmbeddingList-to_flat_array
 sidebar_label: "to_flat_array()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将当前 EmbeddingList 实例转换为一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。 | Python | MilvusClient"
+description: "此操作会将当前 EmbeddingList 实例转换为一个扁平化的 NumPy 数组，其中包含所有拼接后的向量嵌入。 | Python | MilvusClient"
 type: docx
-token: Z76PdoAJkoGaMPxG4CFcCmShnwh
+token: EH8ndWH5FoGTlExix0tcZjUEnKd
 sidebar_position: 5
 keywords: 
   - 开源向量 Database
   - 向量索引
+  - 向量 Database 开源
   - 开源向量 Database
-  - 开源向量数据库
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - to_flat_array()
   - pymilvus30
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_flat_array()
 
-此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。
+此操作会将当前 **EmbeddingList** 实例转换为一个扁平化的 NumPy 数组，其中包含所有拼接后的向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ to_flat_array()
 
 **返回：**
 
-一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。
+一个扁平化的 NumPy 数组，其中包含所有拼接后的向量嵌入。
 
 **异常：**
 
-- **ValueError**：
+- **ValueError**
 
-    如果当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例为空，则会引发此异常。
+    如果当前 **EmbeddingList** 实例为空，则会引发此异常。如果当前 **EmbeddingList** 实例为空，则会引发此异常。
 
 ## 示例\{#examples}
 

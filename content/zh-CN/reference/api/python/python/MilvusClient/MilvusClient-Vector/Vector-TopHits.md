@@ -10,7 +10,7 @@ notebook: false
 description: "TopHits 实例用于配置从每个 SearchAggregation 桶返回的代表性 Entity。 | Python | MilvusClient"
 type: docx
 token: PszSdqvtRo4t96xrW0ycWlVAnfc
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - Milvus 开源
   - Milvus 如何工作

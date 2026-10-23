@@ -4,20 +4,20 @@ slug: /python/python/EmbeddingList-add_batch
 sidebar_label: "add_batch()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将多个向量嵌入添加到当前 EmbeddingList 实例中。 | Python | MilvusClient"
+description: "此操作会向当前 EmbeddingList 实例添加多个向量嵌入。 | Python | MilvusClient"
 type: docx
-token: TJundbM8FoU8UKxczaMcix3QnHb
+token: PSbXd6sMGoLK6Ix6BRpciHQEnVb
 sidebar_position: 2
 keywords: 
   - 多模态搜索
   - 向量搜索算法
   - 问答系统
   - llm-as-a-judge
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - add_batch()
   - pymilvus30
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_batch()
 
-此操作会将多个向量嵌入添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
+此操作会向当前 **EmbeddingList** 实例添加多个向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -44,23 +44,23 @@ add_batch(
 
 **参数：**
 
-- **embeddings** (*List[np.ndarray], np.ndarray*) - 
+- **embeddings** （*List[np.ndarray], np.ndarray*） -
 
-    要添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
+    要添加到当前 EmbeddingList 实例的向量嵌入。
 
 **返回类型：**
 
-*[EmbeddingList](./MilvusClient-EmbeddingList)*
+*EmbeddingList*
 
 **返回：**
 
-返回当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，以便进行方法链式调用
+当前 EmbeddingList 实例本身，以便进行方法链式调用。
 
 **异常：**
 
-- **ValueError**：
+- **ValueError**
 
-    如果提供的向量嵌入与现有向量嵌入的维度不匹配，则会引发此异常。
+    如果提供的向量嵌入与现有向量嵌入在维度上不匹配，则会引发此异常。如果提供的向量嵌入与现有向量嵌入在维度上不匹配，则会引发此异常。
 
 ## 示例\{#examples}
 
@@ -75,4 +75,3 @@ embeddingList.add_batch(
     embeddings=[[0.1, 0.2, 0.3, 0.4, 0.5], [0.5, 0.4, 0.3, 0.2, 0.1]]
 )
 ```
-
