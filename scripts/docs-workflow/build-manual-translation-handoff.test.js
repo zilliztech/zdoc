@@ -97,6 +97,57 @@ test('derives a schema-v3 handoff from published dev history and self-validates'
   }
 });
 
+// Advances the fixture's dev tip with a Reference source manifest that binds a
+// commit newer than every group publish, mirroring a queue tip whose manifest
+// was advanced by another group's fetch (plus the reconcile commit itself).
+function advanceReferenceManifest(setup, {touchOwnedSourceOf} = {}) {
+  const repository = setup.repository;
+  if (touchOwnedSourceOf) {
+    fs.mkdirSync(path.join(repository, `content/en/reference/api/${touchOwnedSourceOf}/${touchOwnedSourceOf}`), {recursive: true});
+    fs.writeFileSync(path.join(repository, `content/en/reference/api/${touchOwnedSourceOf}/${touchOwnedSourceOf}/new.md`), 'new source\n');
+    git(repository, 'add', '.');
+    // Not the group's publish message: resolvePublishedSourceUnit must keep
+    // finding the older real publish as the group checkpoint.
+    git(repository, 'commit', '-m', 'chore: reference content advanced outside a group publish');
+  } else {
+    fs.writeFileSync(path.join(repository, 'NOTES.md'), 'reconcile\n');
+    git(repository, 'add', 'NOTES.md');
+    git(repository, 'commit', '-m', 'side content');
+  }
+  const boundCommit = git(repository, 'rev-parse', 'HEAD');
+  fs.mkdirSync(path.join(repository, 'generated/en/manifests'), {recursive: true});
+  fs.writeFileSync(path.join(repository, 'generated/en/manifests/reference.json'), `${JSON.stringify({schemaVersion: 1, sourceCommit: boundCommit})}\n`);
+  git(repository, 'add', 'generated/en/manifests/reference.json');
+  git(repository, 'commit', '-m', 'chore(i18n): reconcile Fetch Reference state');
+  git(repository, 'push', 'origin', 'dev');
+  return {boundCommit, tip: git(repository, 'rev-parse', 'HEAD')};
+}
+
+test('forwards Reference group checkpoints to the manifest-bound commit at the queue tip', t => {
+  const setup = fixture(t);
+  const advanced = advanceReferenceManifest(setup);
+  const handoff = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'all', locale: 'all',
+  });
+  assert.equal(handoff.targetBaselineSha, advanced.tip);
+  for (const unit of handoff.units) {
+    if (unit.group === 'guides') {
+      assert.equal(unit.sourceCheckpointSha, setup.publishes.guides.checkpoint, 'guides keeps its publish checkpoint');
+    } else {
+      assert.equal(unit.sourceCheckpointSha, advanced.boundCommit, `${unit.target}/${unit.group} carries the manifest-bound checkpoint`);
+    }
+  }
+});
+
+test('rejects a Reference manifest binding that changed a selected group source after its checkpoint', t => {
+  const setup = fixture(t);
+  // The binding commit publishes new python source: python's checkpoint predates it.
+  advanceReferenceManifest(setup, {touchOwnedSourceOf: 'python'});
+  assert.throws(() => buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'all', locale: 'all',
+  }), /changed between the source checkpoint and the target baseline manifest commit/);
+});
+
 test('selects the most recent English Guides publish over a newer zh-CN publish', t => {
   const setup = fixture(t);
   // A newer zh-CN Guides publish shares the subject but must not be mistaken
