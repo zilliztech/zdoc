@@ -35,7 +35,7 @@ import TabItem from '@theme/TabItem';
 
 ## 構文\{#syntax}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -84,6 +84,14 @@ const filter = "RANDOM_SAMPLE(sampling_factor)";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "RANDOM_SAMPLE(sampling_factor)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -108,7 +116,7 @@ export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
 
 ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせると、Milvus はまず他の条件を適用し、次に結果セットに対してランダムサンプリングを実行します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -187,6 +195,20 @@ const filterIncorrect = 'color == "red" OR RANDOM_SAMPLE(0.001)';  // ❌ Invali
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Correct: Filter first, then sample
+string filter = "color == \"red\" AND RANDOM_SAMPLE(0.001)";
+// Processing: Find all red items → Sample 0.1% of those red items
+
+// Incorrect: OR doesn't make logical sense
+string filterIncorrect = "color == \"red\" OR RANDOM_SAMPLE(0.001)"; // ❌ Invalid logic
+// This would mean: "Either red items OR sample everything" - which is meaningless
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -209,7 +231,7 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 
 コレクションの構造をすばやくプレビューします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -374,6 +396,38 @@ console.log(`Sampled ${res.data.length} products from collection`);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample approximately 1% of the entire collection
+QueryResp resp = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "product_catalog",
+    Expression = "RANDOM_SAMPLE(0.01)",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "product_name" },
+        Limit = 10
+    }
+});
+
+Console.WriteLine($"Sampled {resp.FieldsData.FirstOrDefault()?.RowCount ?? 0} products from collection");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -401,7 +455,7 @@ curl --request POST \
 
 扱いやすいサブセットでフィルタリングロジックをテストします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -527,6 +581,40 @@ console.log(`Found ${res.data.length} electronics products in sample`);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// First filter by category and price, then sample 0.5% of results
+string filter = "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)";
+
+QueryResp resp = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "product_catalog",
+    Expression = filter,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "product_name", "price", "rating" },
+        Limit = 10
+    }
+});
+
+Console.WriteLine($"Found {resp.FieldsData.FirstOrDefault()?.RowCount ?? 0} electronics products in sample");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -551,7 +639,7 @@ curl --request POST \
 
 フィルタリングされたデータに対して迅速な統計分析を実行します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -692,6 +780,38 @@ if (res.data.length > 0) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Get insights from ~0.1% of premium customer data
+string filter = "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)";
+
+QueryResp resp = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "customer_profiles",
+    Expression = filter,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "purchase_amount", "satisfaction_score", "last_purchase_date" },
+        Limit = 10
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -719,7 +839,7 @@ curl --request POST \
 
 フィルタリングされた検索シナリオでランダムサンプリングを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -874,6 +994,42 @@ console.log(`Found ${res.results.length} similar books in sample`);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.1f, 0.2f, 0.3f, 0.4f, 0.5f];
+
+// Search for similar products within a sampled subset
+SearchResp resp = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = "category == \"books\" AND RANDOM_SAMPLE(0.01)",
+        OutputFields = { "title", "author", "price" }
+    }
+});
+
+Console.WriteLine($"Found {resp.Ids.LongIds?.Count ?? 0} similar books in sample");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -907,3 +1063,4 @@ curl --request POST \
 - **統計的妥当性**: サンプルが大きいほど、より正確な統計的表現が得られます。
 
 - **パフォーマンステスト**: クエリのパフォーマンスを監視し、必要に応じてサンプリング係数を調整します。
+

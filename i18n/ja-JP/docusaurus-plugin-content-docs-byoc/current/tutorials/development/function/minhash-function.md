@@ -99,7 +99,7 @@ MinHash 関数を使用するには、コレクションの作成時に定義し
 
 - **バイナリベクトルフィールド**（`BINARY_VECTOR`）：MinHash 関数によって自動的に生成されたバイナリベクトルを保存します。ディメンションは `32 * num_hashes` と等しい必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -233,6 +233,32 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateVarchar("document_content", 9000, enableAnalyzer: true),
+        new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = 8192 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -252,7 +278,7 @@ MinHash 関数は、分析済みのテキストを、ドキュメント間の Ja
 
 関数を定義してスキーマに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -358,6 +384,25 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Note: milvus-sdk-csharp as of v3.0.0 cannot set MinHash function params
+// (num_hashes / shingle_size) — FunctionSchema.Params is not publicly settable;
+// the server defaults are used.
+FunctionSchema minhashFunction = new(
+    "minhash_function",
+    FunctionType.MinHash,
+    ["document_content"], // Name of the VARCHAR field containing raw text
+    ["binary_vector"]);   // Name of the BINARY_VECTOR field for generated signatures
+
+schema.Functions.Add(minhashFunction);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -420,7 +465,7 @@ MinHash 関数の `params` ディクショナリは、次のパラメーター�
 
 MinHash バイナリベクトルに推奨されるインデックスタイプは `MINHASH_LSH` で、メトリックタイプは `MHJACCARD` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -524,6 +569,24 @@ const indexParam = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam indexParam = new("binary_vector", "minhash_index", IndexType.MinHashLsh, MetricType.MhJaccard)
+{
+    ExtraParams =
+    {
+        ["mh_lsh_band"] = 128,
+        ["mh_element_bit_width"] = 32,
+        ["with_raw_data"] = true
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -541,7 +604,7 @@ indexParams='[
 
 上記で定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -632,6 +695,21 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "dedup_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -668,7 +746,7 @@ curl --request POST \
 
 コレクションを設定したら、テキストデータを挿入します。生のテキストを指定するだけで、MinHash 関数が各ドキュメントのバイナリベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -791,6 +869,25 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "dedup_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a field of study that helps users find relevant information in large datasets" },
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a research field focused on helping users find relevant data in large collections" },
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a field of research helping users search for relevant information in large datasets" }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -818,7 +915,7 @@ curl --request POST \
 
 データを挿入したら、生のテキストクエリを指定して近似重複ドキュメントを検索します。Zilliz Cloud は各クエリを MinHash バイナリベクトルに自動的に変換します。Jaccard リファインメントを有効にすると、推定 Jaccard 類似度で LSH 候補をランク付けできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -970,6 +1067,16 @@ const results = await client.search({
   },
 });
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: Refined MinHash search (`mh_search_with_jaccard` / `refine_k`) is not
+// supported in milvus-sdk-csharp as of v3.0.0 — search params are string-typed,
+// and the server rejects the string form for MINHASH refinement.
 ```
 
 </TabItem>

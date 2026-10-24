@@ -57,7 +57,7 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 BM25 全文検索で検索語句をハイライトするには、`LexicalHighlighter` を作成し、BM25 全文検索の検索語句ハイライトを有効にします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -134,6 +134,23 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",            // Tag inserted before each highlighted term
+        ["post_tags"] = "[\"}\"]",           // Tag inserted after each highlighted term
+        ["highlight_search_text"] = "true"   // Enable search term highlighting for BM25 full text search
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -159,7 +176,7 @@ const highlighter = {
 
 Highlighter オブジェクトを作成したら、その設定を BM25 全文検索リクエストに適用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -286,6 +303,34 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },        // Search term used in BM25 full text search
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter         // Pass highlighter config here
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -344,7 +389,7 @@ This document explains how text filtering works in Milvus.
 
 フィルタリングで使用されるクエリ語句をハイライトするには、`LexicalHighlighter` を作成し、フィルタリング条件に対応する `highlight_query` を定義します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,6 +475,23 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",                       // Tag inserted before each highlighted term
+        ["post_tags"] = "[\"}\"]",                      // Tag inserted after each highlighted term
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"text filtering\"}]"
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -455,7 +517,7 @@ const highlighter = {
 
 Highlighter オブジェクトを作成したら、同じフィルタリング式とハイライター設定を検索リクエストに適用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -592,6 +654,35 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    Expression = "TEXT_MATCH(text, \"text filtering\")",
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"text filtering\"}]"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -642,7 +733,7 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 ハイライトされたフラグメントの形状を制御するには、`LexicalHighlighter` でフラグメント関連のオプションを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -734,6 +825,26 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "5",      // Number of characters to reserve before the first matched term
+        ["fragment_size"] = "60",       // Max. length of each fragment to return
+        ["num_of_fragments"] = "1"      // Max. number of fragments to return
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -761,7 +872,7 @@ const highlighter = {
 
 Highlighter オブジェクトを作成したら、ハイライター設定を検索リクエストに適用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -888,6 +999,37 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "5",
+        ["fragment_size"] = "60",
+        ["num_of_fragments"] = "1"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -940,7 +1082,7 @@ const res = await client.search({
 
 <summary><strong>コレクションを準備する</strong></summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1223,6 +1365,59 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
+const string collectionName = "highlighter_demo";
+
+// Clean up existing collection
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = collectionName })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+}
+
+// Define schema
+var schema = new CollectionSchema { Name = collectionName };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true));
+schema.Fields.Add(FieldSchema.CreateVarchar("text", maxLength: 2000, enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
+schema.Functions.Add(FunctionSchema.CreateBm25("text_bm25", "text", "sparse_vector"));
+
+// Create collection and index
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = new[] { new IndexParam("sparse_vector", null, IndexType.SparseInvertedIndex, MetricType.Bm25)
+    {
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE", ["bm25_k1"] = "1.2", ["bm25_b"] = "0.75" }
+    } }
+});
+
+// Insert sample documents
+string[] docs =
+[
+    "my first test doc",
+    "my second test doc",
+    "my first test doc. Milvus is an open-source vector database built for GenAI applications.",
+    "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."
+];
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData = docs.Select(text => (IDictionary<string, object?>)new Dictionary<string, object?> { ["text"] = text }).ToList()
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1250,7 +1445,7 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 
 - ハイライターは、"test" のすべての出現箇所を `{` タグと `}` タグで囲みます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1397,6 +1592,36 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"   // Highlight BM25 query terms
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1437,7 +1662,7 @@ const res = await client.search({
 
 - ハイライターは、一致したすべての語句（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1596,6 +1821,37 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",   // Also highlight BM25 term
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"my doc\"}]"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1636,7 +1892,7 @@ const res = await client.search({
 
 - `num_of_fragments` は、テキスト値ごとに返されるフラグメント数を制限します（デフォルトは 5）。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1794,6 +2050,38 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "20",   // Keep 20 chars before match
+        ["fragment_size"] = "60"      // Max ~60 chars per fragment
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "Milvus" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1832,7 +2120,7 @@ BM25 全文検索で複数のクエリを使用して検索する場合、各ク
 
 - 2 つ目のクエリは、結果セット内の `"Milvus"` をハイライトします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1983,6 +2271,36 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test", "Milvus" },   // Two queries
+    MetricType = MetricType.Bm25,
+    Limit = 2,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2019,7 +2337,7 @@ Query 'Milvus':
 
 ハイライトには、Web UI 向けの HTML セーフなタグなど、任意のタグを使用できます。これは、ブラウザーで検索結果をレンダリングする場合に便利です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2166,6 +2484,36 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"<mark>\"]",
+        ["post_tags"] = "[\"</mark>\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 2,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2193,3 +2541,4 @@ const res = await client.search({
 ```
 
 </details>
+
