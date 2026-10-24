@@ -3353,3 +3353,92 @@ test('translation workers authenticate exact source checkpoint inputs without bi
   assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.doesNotMatch(source, /generated\/en\/manifests\/reference\.json[\s\S]*sourceCommit/)
 })
+
+test('shared-docs workflow policy rejects trigger, permission, input, writer and exact-validation boundary mutations', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'shared-docs-policy-'))
+  const validateFile = 'shared-docs-validate.yml', lockFile = 'shared-docs-lock.yml'
+  const validation = fs.readFileSync(path.join('.github/workflows', validateFile), 'utf8')
+  const locking = fs.readFileSync(path.join('.github/workflows', lockFile), 'utf8')
+  const objectMutation = mutate => source => { const workflow = yaml.load(source); mutate(workflow); return yaml.dump(workflow, {lineWidth: -1, noRefs: true}) }
+  const step = (workflow, job, name) => workflow.jobs[job].steps.find(item => item.name === name)
+  const fixtures = [
+    [validateFile, objectMutation(w => { delete w.on.pull_request.branches }), 'PR triggers must target only master'],
+    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['dev'] }), 'PR triggers must target only master'],
+    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'PR triggers must target only master'],
+    [validateFile, objectMutation(w => { w.permissions.contents = 'write' }), 'validation must be read-only'],
+    [validateFile, objectMutation(w => { w.jobs.validate.permissions = {contents: 'write'} }), 'validation must be read-only'],
+    [validateFile, objectMutation(w => { w.jobs.validate.env = {TOKEN: '${{ secrets.APP_SECRET }}'} }), 'isolate credentials'],
+    [validateFile, objectMutation(w => { w.on.pull_request.paths = ['shared-docs/**'] }), 'without a path filter'],
+    [validateFile, objectMutation(w => { w.jobs.validate.if = "github.event_name == 'workflow_dispatch'" }), 'without a path filter'],
+    [validateFile, objectMutation(w => { w.jobs.validate.name = 'dynamic validation name' }), 'stable required PR check'],
+    [validateFile, objectMutation(w => { w.on.workflow_dispatch.inputs.source_sha.required = false }), 'dispatch must expose immutable identities'],
+    [validateFile, objectMutation(w => { w['run-name'] = 'shared-docs-validate' }), 'discoverable request ID'],
+    [validateFile, objectMutation(w => { w.concurrency['cancel-in-progress'] = false }), 'separate per-PR concurrency'],
+    [validateFile, objectMutation(w => { w.concurrency.group = 'shared-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}' }), 'separate per-PR concurrency'],
+    [validateFile, objectMutation(w => { w.jobs.validate['timeout-minutes'] = 45 }), 'validation timeout must remain 30 minutes'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Check out exact PR head').with.ref = '${{ github.head_ref }}' }), 'exact immutable PR head'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Check out exact PR head').with['persist-credentials'] = true }), 'disable credential persistence'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Validate immutable PR identities').env.SOURCE_SHA = '${{ github.sha }}' }), 'identity env must bind exact PR head/base'],
+    [validateFile, s => s.replace('test "$GITHUB_SHA" = "$SOURCE_SHA"', 'true'), 'bind dispatch to github.sha'],
+    [validateFile, s => s.replace('comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA")', 'comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA") || true'), 'fail-closed merge base'],
+    [validateFile, s => s.replace('--no-renames --name-only -z', '--name-only -z'), 'NUL-safe no-renames diff'],
+    [validateFile, s => s.replace('--no-renames --name-only -z', '--no-renames --name-only'), 'NUL-safe no-renames diff'],
+    [validateFile, objectMutation(w => { delete step(w, 'validate', 'Install tooling').if }), 'skip install'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Check out read-only upstream dev snapshot').with.ref = 'dev' }), 'exact resolved SHA'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Check out read-only upstream dev snapshot').with.repository = '${{ github.repository }}' }), 'exact resolved SHA'],
+    [validateFile, objectMutation(w => { step(w, 'validate', 'Check out read-only upstream dev snapshot').with['sparse-checkout-cone-mode'] = true }), 'sparsely read upstream dev'],
+    [validateFile, s => s.replace('shared-docs build --shared-docs', 'shared-docs build --page example --shared-docs'), 'complete shared-page candidate'],
+    [validateFile, s => s.replace('exit "$status"', 'exit 0'), 'complete shared-page candidate'],
+    [validateFile, s => s.replace('git clone --single-branch', 'git clone --depth 1 --single-branch'), 'complete single-branch tracking history'],
+    [validateFile, s => s.replace('^https:\\/\\/github\\.com\\/', '^https?:\\/\\/.*\\/'), 'public GitHub source URL'],
+    [lockFile, objectMutation(w => { delete w.on.pull_request.branches }), 'PR triggers must target only master'],
+    [lockFile, objectMutation(w => { w.on.pull_request.branches = ['dev'] }), 'PR triggers must target only master'],
+    [lockFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'PR triggers must target only master'],
+    [lockFile, objectMutation(w => { w.jobs.lock.if = 'true' }), 'same-repository lock job'],
+    [lockFile, objectMutation(w => { delete w.jobs.infrastructure_report.permissions }), 'only the same-repository lock job'],
+    [lockFile, objectMutation(w => { w.jobs.fork_notice.permissions.actions = 'write' }), 'only the same-repository lock job'],
+    [lockFile, objectMutation(w => { w.on.workflow_dispatch = {} }), 'PR-only lock'],
+    [lockFile, objectMutation(w => { w.on.pull_request.paths = ['shared-docs/**'] }), 'trigger must be scoped'],
+    [lockFile, objectMutation(w => { w.concurrency['cancel-in-progress'] = true }), 'cancellation rule'],
+    [lockFile, objectMutation(w => { w.jobs.lock['timeout-minutes'] = 30 }), 'lock timeout must remain 45 minutes'],
+    [lockFile, s => s.replace('Please submit this onboarding PR from a branch in this repository', 'Generate a lock locally'), 'exact successful warning'],
+    [lockFile, objectMutation(w => { step(w, 'lock', 'Install tooling').env = {GH_TOKEN: '${{ github.token }}'} }), 'credentials must be scoped only'],
+    [lockFile, objectMutation(w => { w.jobs.lock.env = {GH_TOKEN: '${{ github.token }}'} }), 'isolate credentials'],
+    [lockFile, objectMutation(w => { step(w, 'lock', 'Create missing initial locks').env = {APP_SECRET: '${{ secrets.APP_SECRET }}'} }), 'only best-effort infrastructure card steps'],
+    [lockFile, s => s.replace("status !== 'A'", "status !== 'M'"), 'only new regular locks'],
+    [lockFile, s => s.replace("entry.startsWith('100644 ')", 'true'), 'only new regular locks'],
+    [lockFile, s => s.replace('test "$remote_head" = "$SOURCE_SHA"', 'test -n "$remote_head"'), 'recheck the remote head'],
+    [lockFile, s => s.replace('git push "https:', 'git push --force "https:'), 'without force'],
+    [lockFile, s => s.replace('GIT_CONFIG_COUNT=1', 'GIT_CONFIG_COUNT=0'), 'ephemeral HTTP authorization'],
+    [lockFile, objectMutation(w => { step(w, 'lock', 'Dispatch and wait for exact pushed validation').if = 'always()' }), 'dispatch only actual pushes'],
+    [lockFile, objectMutation(w => { step(w, 'lock', 'Dispatch and wait for exact pushed validation').env.SOURCE_SHA = '${{ github.event.pull_request.head.sha }}' }), 'exact SHA, branch and unique request ID'],
+    [lockFile, s => s.replace('request_id="lock-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"', 'request_id="lock-static"'), 'unique request ID'],
+    [lockFile, s => s.replace('gh workflow run shared-docs-validate.yml --repo "$GITHUB_REPOSITORY"', 'gh workflow run shared-docs-validate.yml'), 'explicitly select the current repository'],
+    [lockFile, s => s.replace('run.headSha === process.env.SOURCE_SHA', 'true'), 'authenticate/wait for the exact SHA'],
+    [lockFile, s => s.replace("run.event === 'workflow_dispatch'", 'true'), 'authenticate/wait for the exact SHA'],
+    [lockFile, s => s.replace('run.headBranch === process.env.PR_HEAD_BRANCH', 'true'), 'authenticate/wait for the exact SHA'],
+    [lockFile, s => s.replace('run.displayTitle === `shared-docs-validate ${process.env.VALIDATION_REQUEST_ID}`', 'true'), 'authenticate/wait for the exact SHA'],
+    [lockFile, s => s.replace('--exit-status || status=$?', '--exit-status || true'), 'authenticate/wait for the exact SHA'],
+    [lockFile, s => s.replace(" && result.conclusion !== 'cancelled'", ''), 'cancelled or unconfirmed child runs'],
+    [lockFile, objectMutation(w => { const dispatch = step(w, 'lock', 'Dispatch and wait for exact pushed validation'); dispatch.run = dispatch.run.replace("echo 'failure_class=infrastructure'", "echo 'failure_class=validation'") }), 'cancelled or unconfirmed child runs'],
+    [lockFile, s => s.replace("1) echo 'failure_class=content'", "1) echo 'failure_class=infrastructure'"), 'distinguish content'],
+    [lockFile, objectMutation(w => { step(w, 'lock', 'Classify failure for isolated reporting').if = 'failure()' }), 'distinguish content'],
+    [lockFile, objectMutation(w => { w.jobs.infrastructure_report.if = 'failure()' }), 'isolated, same-repository'],
+    [lockFile, objectMutation(w => { step(w, 'infrastructure_report', 'Check out trusted reporting tooling').with.ref = '${{ github.event.pull_request.head.sha }}' }), 'trusted PR base'],
+    [lockFile, s => s.replace('--file tmp/shared-docs-infrastructure-failure.md', '--file /tmp/shared-docs-failure.md'), 'repository-relative input'],
+    [lockFile, s => s.replace('--status failure', '--status failed'), 'supported failure status'],
+    [lockFile, s => s.replaceAll("${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}", ''), 'honor the kill switch'],
+  ]
+  try {
+    for (const [file, mutate, expected] of fixtures) {
+      const original = file === validateFile ? validation : locking
+      const changed = mutate(original)
+      assert.notEqual(changed, original, `${file}: ${expected} mutation must change the source`)
+      const destination = path.join(directory, file)
+      fs.writeFileSync(destination, changed)
+      const errors = validateWorkflowPolicies(directory)
+      assert.ok(errors.some(error => error.includes(`${file}: shared-docs`) && error.includes(expected)), `${file}: expected ${expected}; got ${errors.join('\n')}`)
+      fs.unlinkSync(destination)
+    }
+  } finally { fs.rmSync(directory, {recursive: true, force: true}) }
+})
