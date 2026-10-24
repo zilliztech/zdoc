@@ -125,6 +125,59 @@ describe('translation candidates', () => {
     ]);
   });
 
+  it('does not re-queue a changed source whose cache already matches the published version', () => {
+    const repositoryRoot = fixture();
+    const published = `${GUIDES_ROOT}/published.md`;
+    const forcedPath = `${GUIDES_ROOT}/forced.md`;
+    const pending = `${GUIDES_ROOT}/pending.md`;
+    for (const [sourcePath, contents] of [
+      [published, '# published\n'], [forcedPath, '# forced\n'], [pending, '# pending\n'],
+    ]) write(repositoryRoot, sourcePath, contents);
+    for (const sourcePath of [published, forcedPath]) {
+      write(repositoryRoot, sourcePath.replace(
+        GUIDES_ROOT,
+        'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
+      ), '# 翻訳済み\n');
+    }
+    writeJson(repositoryRoot, '.translation-cache/ja-JP.json', {files: {
+      [published]: {sourceHash: sha256('# published\n')},
+      [forcedPath]: {sourceHash: sha256('# forced\n')},
+      [pending]: {sourceHash: 'old'},
+    }});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      changedSourcePaths: [published, forcedPath, pending],
+      forceTranslationPaths: [forcedPath],
+    }));
+
+    expect(result.candidates.map(candidate => [candidate.sourcePath, candidate.reason])).toEqual([
+      [forcedPath, 'current_delta'],
+      [pending, 'current_delta'],
+    ]);
+  });
+
+  it('does not re-queue a changed reference source whose manifest already matches the published version', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/published.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/published.md';
+    write(repositoryRoot, sourcePath, '# published\n');
+    write(repositoryRoot, targetPath, '# 已发布\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({sourcePath, targetPath, sourceHash: sha256('# published\n')}),
+    ]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [],
+      changedSourcePaths: [sourcePath],
+    }));
+
+    expect(result.candidates).toEqual([]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
   it('emits every active group source in full mode and only actionable sources in incremental mode', () => {
     const repositoryRoot = fixture();
     const complete = `${GUIDES_ROOT}/complete.md`;
