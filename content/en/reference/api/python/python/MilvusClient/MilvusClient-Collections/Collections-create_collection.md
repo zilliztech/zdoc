@@ -101,7 +101,7 @@ create_collection(
 
 - **auto_id** (*bool*) -
 
-    A flag that indicates whether he.
+    A flag that indicates whether the primary field automatically increments upon data insertions into this collection. The value defaults to False. Setting this to True makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors. The auto-generated IDs have a fixed length and cannot be altered. This parameter is designed for the quick setup of a collection and will be ignored if schema is not None.
 
 - **timeout** (*float | None*) -
 

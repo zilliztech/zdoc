@@ -33,6 +33,12 @@ import Admonition from '@theme/Admonition';
 
 This operation removes all entities while preserving the collection's schema, constraints, and indexes. It is more efficient than deleting entities because it hides all entities flushed before the current timestamp from searches and queries and drops them in the background.
 
+<Admonition type="info" title="Notes">
+
+This does not apply to external collections.
+
+</Admonition>
+
 <Admonition type="info" title="Note">
 
 This does not apply to external collections.
@@ -55,7 +61,7 @@ truncate_collection(
 
 - **timeout** (*float*) -
 
-    The timeout i.
+    The timeout (in seconds) for the RPC request. If None, the call waits indefinitely.
 
 **RETURN TYPE:**
 

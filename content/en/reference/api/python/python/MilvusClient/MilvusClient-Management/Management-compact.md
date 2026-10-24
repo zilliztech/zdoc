@@ -49,11 +49,11 @@ compact(
 
 - **is_clustering** (*bool*) -
 
-    A flag that indicates whether he.
+    A flag that indicates whether to perform a clustering compaction. Defaults to False.
 
 - **is_l0** (*bool*) -
 
-    A flag that indicates whether he.
+    A flag that indicates whether to perform an L0 compaction, which specifically handles L0 segments by merging delete operations into existing data segments. Defaults to False.
 
 - **target_size** (*int*) -
 

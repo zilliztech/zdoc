@@ -51,11 +51,11 @@ run_analyzer(
 
 - **with_hash** (*bool*) -
 
-    An optional p.
+    An optional flag indicating whether to include hash-based processing.
 
 - **with_detail** (*bool*) -
 
-    An optional p.
+    An optional flag indicating whether to return detailed analysis output.
 
 - **collection_name** (*str | None*) -
 

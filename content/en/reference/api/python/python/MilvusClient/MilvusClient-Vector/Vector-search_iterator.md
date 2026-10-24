@@ -91,7 +91,7 @@ search_iterator(
 
 - **group_by_field** (*str*) -
 
-    An option that r o.
+    An option that groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
 - **timeout** (*float | None*) -
 

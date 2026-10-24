@@ -69,7 +69,7 @@ describe_collection(
 
 - **kwargs** (*Any*) -
 
-    The timeout i.
+    The timeout (float | None): The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURN TYPE:**
 

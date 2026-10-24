@@ -101,7 +101,7 @@ search(
 
 - **group_by_field** (*str*) -
 
-    An option that r o.
+    An option that groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group. This parameter is used by Grouping Search. In PyMilvus 3.0.1 or later, do not use this parameter together with search_aggregation.
 
 - **group_size** (*int*) -
 

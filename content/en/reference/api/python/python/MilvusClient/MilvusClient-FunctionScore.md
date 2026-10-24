@@ -47,7 +47,7 @@ class pymilvus.FunctionScore
 
 - **params** (*Dict*) -
 
-    An option that p e.
+    An option that specifies how the above Function instances are to be combined. It provides the following settings: boost_mode (str): Specifies how the specified weights influence the scores of any matching entities. Possible values are: Multiply: Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight. This is the default value. Sum: Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight. function_mode (str): Specifies how the weighted values from various Boost Rankers are processed. Possible values are: Multiply: Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost Rankers. This is the default value. Sum: Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost Rankers. RETURN TYPE: *FunctionScore* RETURNS: A set of Functions that are combined in the configured manner ## Examples.
 
 ## Examples\{#examples}
 

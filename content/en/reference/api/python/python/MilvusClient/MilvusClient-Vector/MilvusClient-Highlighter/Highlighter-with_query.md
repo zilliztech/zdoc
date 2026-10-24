@@ -33,6 +33,30 @@ import Admonition from '@theme/Admonition';
 
 Adds a query-term definition to a `LexicalHighlighter` configuration for highlighting text matched by filtering expressions (e.g., TEXT_MATCH). This augments `highlight_query` with one entry describing which field and terms to highlight and which filter type produced them. Highlighting runs as post-processing and does not affect retrieval, filtering, ranking, or scoring.
 
+## Request Syntax\{#request-syntax}
+
+```python
+with_query(
+    field: str,
+    text: str,
+    query_type: str
+)
+```
+
+**PARAMETERS:**
+
+- **field** (*str*) -
+
+    The target text field name whose content should be annotated when matches are found by the filtering expression. Must correspond to a VARCHAR text field in the collection schema.
+
+- **text** (*str*) -
+
+    The terms or phrase to highlight from the filtering expression. For example, "my doc" will highlight matches of "my" and "doc" in the specified field.
+
+- **query_type** (*str*) -
+
+    The filtering type that provides the terms to highlight. For text-based filtering, use "TextMatch" to correspond to the TEXT_MATCH condition.
+
 **RETURN TYPE:**
 
 *with_query*

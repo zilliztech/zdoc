@@ -63,7 +63,7 @@ add_field(
 
 - **mmap_enabled** (*bool*) -
 
-    A flag that indicates whether he.
+    A flag that indicates whether Milvus maps the field data into memory instead of fully loading it. For details settings, refer to MMap-enabled Data Storage.
 
 **RETURN TYPE:**
 
