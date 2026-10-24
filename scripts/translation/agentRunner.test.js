@@ -4096,6 +4096,46 @@ async function testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft() {
   })
 }
 
+async function testFrontmatterBracedDescriptionDoesNotFailMdxValidation() {
+  // Docusaurus strips frontmatter (gray-matter) before MDX compilation, so a
+  // YAML-quoted description carrying escaped braces (`\\{blob\\}`) is
+  // metadata, never expression text. The validator must agree: compiling the
+  // raw frontmatter made such sources permanently untranslatable (source
+  // preflight failed with "Could not parse expression with acorn") while the
+  // site itself builds fine — go v2-FileResources-NewRoaringBitmapBlob is the
+  // real incident.
+  const document = [
+    '---',
+    'title: "NewRoaringBitmapBlob | Go | v2"',
+    'description: "Builds a roaring bitmap blob for membershipmatch(field, \\\\{blob\\\\}, type=roaring). | Go | v2"',
+    '---',
+    '',
+    'import Admonition from \'@theme/Admonition\';',
+    '',
+    '# NewRoaringBitmapBlob',
+    '',
+    'The blob feeds a membership_match(field, \\{blob\\}, type=roaring) filter expression.',
+    '',
+    '## Request Syntax\\{#request-syntax}',
+    '',
+    '```go',
+    'blob, err := milvusclient.NewRoaringBitmapBlob(members)',
+    '```',
+    '',
+  ].join('\n')
+  assert.deepEqual(await validateTranslatedContent(document), [])
+  const brokenFrontmatter = '---\ntitle: "unterminated\n---\n\n# Body\n\nParagraph.\n'
+  assert.ok(
+    (await validateTranslatedContent(brokenFrontmatter)).some(error => error.startsWith('YAML frontmatter error:')),
+    'a malformed frontmatter scalar must still be reported',
+  )
+  const brokenBody = '---\ntitle: ok\n---\n\n# Body\n\n{ not valid javascript }\n'
+  assert.ok(
+    (await validateTranslatedContent(brokenBody)).some(error => error.startsWith('MDX compile error:')),
+    'a broken body expression must still be reported',
+  )
+}
+
 async function testCorrectionsPreserveProtectedBytesAcrossMultipleRounds() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/api/java/multi-correction.md'
@@ -4232,6 +4272,7 @@ async function run() {
   await testUnalignedMandatoryLocaleIssueFailsWithoutCorrection()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()
   await testOnlyValidatedReviewerIssuesReachCorrection()
+  await testFrontmatterBracedDescriptionDoesNotFailMdxValidation()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()
   await testCorrectionsPreserveProtectedBytesAcrossMultipleRounds()
   await testBoostRankerVectorIdentifierCorrectionAlignsAllContracts()
