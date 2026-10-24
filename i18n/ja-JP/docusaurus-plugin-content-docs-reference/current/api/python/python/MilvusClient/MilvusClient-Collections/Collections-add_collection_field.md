@@ -33,6 +33,18 @@ import Admonition from '@theme/Admonition';
 
 この操作は、既存のコレクションを再作成せずに、新しいスカラーフィールドを追加します。内部スキーマ同期により、このフィールドは最小限の遅延でほぼ即座に利用可能になります。
 
+<Admonition type="info" title="Notes">
+
+コレクションで動的フィールドが有効になっており、既存の動的フィールドのキーと同じ名前の静的フィールドを追加すると、静的フィールドがその動的フィールドのキーをマスクします。元の動的な値には、`$meta['field_name']` 構文を使用して引き続きアクセスできます。
+
+</Admonition>
+
+<Admonition type="info" title="Notes">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
 <Admonition type="info" title="Note">
 
 コレクションで動的フィールドが有効になっており、既存の動的フィールドのキーと同じ名前の静的フィールドを追加すると、静的フィールドがその動的フィールドのキーをマスクします。元の動的な値には、$meta['field_name'] 構文を使用して引き続きアクセスできます。
@@ -77,7 +89,7 @@ add_collection_field(
 
 - **timeout** (*float*) -
 
-    タイムアウト i。
+    RPC リクエストのタイムアウト（秒単位）です。None の場合、呼び出しは無期限に待機します。
 
 - **kwargs** (*dict, optional*) -
 

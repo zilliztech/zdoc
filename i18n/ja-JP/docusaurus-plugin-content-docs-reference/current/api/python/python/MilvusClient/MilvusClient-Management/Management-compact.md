@@ -49,11 +49,11 @@ compact(
 
 - **is_clustering** (*bool*) -
 
-    L0 Compaction を実行するかどうかを示すフラグです。
+    クラスタリング Compaction を実行するかどうかを示すフラグです。デフォルトは False です。
 
 - **is_l0** (*bool*) -
 
-    L0 Compaction を実行するかどうかを示すフラグです。
+    L0 Compaction を実行するかどうかを示すフラグです。L0 Compaction は、削除操作を既存のデータセグメントにマージすることで、L0 セグメントを専用に処理します。デフォルトは False です。
 
 - **target_size** (*int*) -
 

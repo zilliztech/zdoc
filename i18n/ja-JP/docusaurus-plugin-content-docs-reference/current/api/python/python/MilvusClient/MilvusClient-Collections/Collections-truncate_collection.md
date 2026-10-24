@@ -33,6 +33,12 @@ import Admonition from '@theme/Admonition';
 
 この操作は、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティを削除します。現在のタイムスタンプより前にフラッシュされたすべてのエンティティを検索とクエリから隠し、バックグラウンドで削除するため、エンティティを削除するよりも効率的です。
 
+<Admonition type="info" title="Notes">
+
+これは外部コレクションには適用されません。
+
+</Admonition>
+
 <Admonition type="info" title="Note">
 
 これは外部コレクションには適用されません。
@@ -55,7 +61,7 @@ truncate_collection(
 
 - **timeout** (*float*) -
 
-    タイムアウトです。
+    RPC リクエストのタイムアウト（秒単位）。None の場合、呼び出しは無期限に待機します。
 
 **戻り値の型:**
 

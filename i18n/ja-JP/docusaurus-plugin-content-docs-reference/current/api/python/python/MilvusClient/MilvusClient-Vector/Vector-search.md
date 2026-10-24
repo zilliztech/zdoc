@@ -101,7 +101,7 @@ search(
 
 - **group_by_field** (*str*) -
 
-    オプションです。r o.
+    指定したフィールドで検索結果をグループ化して多様性を確保し、同じグループから複数の結果が返されるのを防ぐオプションです。このパラメーターはグループ化検索で使用されます。PyMilvus 3.0.1 以降では、このパラメーターを search_aggregation と一緒に使用しないでください。
 
 - **group_size** (*int*) -
 
@@ -324,4 +324,3 @@ res = client.search(
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
-

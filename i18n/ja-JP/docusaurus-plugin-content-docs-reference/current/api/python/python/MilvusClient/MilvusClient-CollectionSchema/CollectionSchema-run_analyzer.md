@@ -51,11 +51,11 @@ run_analyzer(
 
 - **with_hash** (*bool*) -
 
-    オプションの p です。
+    ハッシュベースの処理を含めるかどうかを示すオプションフラグです。
 
 - **with_detail** (*bool*) -
 
-    オプションの p です。
+    詳細な分析出力を返すかどうかを示すオプションフラグです。
 
 - **collection_name** (*str | None*) -
 
