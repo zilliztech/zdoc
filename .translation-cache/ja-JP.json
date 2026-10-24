@@ -2271,9 +2271,9 @@
       "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "b951a860867b6b3a25c940fc1f2dba60d38aa0ccce1126b4e9a7d0565831d2e5",
+      "sourceHash": "9133e1df5378dee9f311edf71524419d87e65fa0ad4d395a269eed64d9aa332d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-10-24T04:10:41.659Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
       "sourceHash": "d4e2123bc561bc520b28fd21d2f13939393df6a9d557c15e13958a1880209c23",

@@ -135,7 +135,7 @@ export TOKEN="YOUR_API_KEY"
 
     ボリュームは Zilliz Cloud プロジェクトに固有です。ボリュームを作成するときは、次のようにプロジェクト ID、リージョン ID、およびボリューム名を指定する必要があります。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -239,6 +239,14 @@ export TOKEN="YOUR_API_KEY"
     console.log(res.data);
     
     // { volumeName: "managed_volume" }
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -453,7 +461,7 @@ export TOKEN="YOUR_API_KEY"
 
 - **SDK を使用する場合**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -562,6 +570,14 @@ export TOKEN="YOUR_API_KEY"
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -907,7 +923,7 @@ export TOKEN="YOUR_API_KEY"
 
     マネージドボリュームは次のように削除できます。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1005,6 +1021,14 @@ export TOKEN="YOUR_API_KEY"
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -1093,3 +1117,4 @@ export TOKEN="YOUR_API_KEY"
 | --- | --- |
 | **Available** | ボリュームはアクティブで使用可能です。 |
 | **Frozen** | [請求書](./manage-invoice)の支払い遅延により組織が凍結されています。ボリュームは新しい操作には使用できません。ボリュームの使用を続けるには、請求書を支払ってください。 |
+
