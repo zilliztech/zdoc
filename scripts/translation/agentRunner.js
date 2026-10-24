@@ -646,7 +646,9 @@ async function processItemWithRetry(item, options) {
 async function validateTranslatedContent(content) {
   const errors = []
   const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  let mdxBody = content
   if (fmMatch) {
+    mdxBody = content.slice(fmMatch[0].length)
     try {
       yaml.load(fmMatch[1])
     } catch (error) {
@@ -660,7 +662,11 @@ async function validateTranslatedContent(content) {
     ])
     // The site builds with remark-math; math-bearing pages (`$$` blocks with
     // `{}` subscripts) are valid documents, not MDX expression errors.
-    await compile(content, { development: false, remarkPlugins: [remarkMath.default || remarkMath] })
+    // MDX never sees the frontmatter: Docusaurus strips it (gray-matter) before
+    // compilation, so quoted values like `description: "...\\{blob\\}..."` are
+    // metadata, not expression text — compiling them raw fails with acorn
+    // errors no translation could repair.
+    await compile(mdxBody, { development: false, remarkPlugins: [remarkMath.default || remarkMath] })
   } catch (error) {
     errors.push(`MDX compile error: ${String(error.message || error).split('\n')[0]}`)
   }
