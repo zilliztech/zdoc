@@ -89,7 +89,7 @@ Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the in
 
 The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -218,6 +218,27 @@ const cloudIndexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// On Milvus
+Dictionary<string, object> indexParams = new()
+{
+    ["metric_type"] = "L2",
+    ["index_type"] = "IVF_FLAT",
+    ["params"] = new Dictionary<string, object> { ["nlist"] = 1024 }
+};
+
+// On Zilliz Cloud
+Dictionary<string, object> cloudIndexParams = new()
+{
+    ["index_type"] = "AUTOINDEX",
+    ["metric_type"] = "L2"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -240,7 +261,7 @@ cloud_index_params='{
 
 The differences between the search parameter settings are as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -346,6 +367,24 @@ const searchParams = {
 // On Zilliz Cloud
 const cloudSearchParams = {
   params: { level: 1 }, // The default value applies when left unspecified
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// On Milvus
+Dictionary<string, object> searchParams = new()
+{
+    ["params"] = new Dictionary<string, object> { ["nprobe"] = 10 }
+};
+
+// On Zilliz Cloud
+Dictionary<string, object> cloudSearchParams = new()
+{
+    ["params"] = new Dictionary<string, object> { ["level"] = 1 } // The default value applies when left unspecified
 };
 ```
 

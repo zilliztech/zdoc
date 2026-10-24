@@ -135,7 +135,7 @@ You can create a volume on the web console or via SDK.
 
     A volume is specific to a Zilliz Cloud project. When creating a volume, you need to provide the project ID, region ID, and the name of the volume, as follows:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -239,6 +239,14 @@ You can create a volume on the web console or via SDK.
     console.log(res.data);
     
     // { volumeName: "managed_volume" }
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -453,7 +461,7 @@ You can also check the details of a specific managed volume.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -562,6 +570,14 @@ You can also check the details of a specific managed volume.
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -907,7 +923,7 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
 
     You can delete a managed volume as follows:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1001,6 +1017,14 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>

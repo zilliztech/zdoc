@@ -2,7 +2,7 @@
 title: "Pattern Matching | BYOC"
 slug: /pattern-match
 sidebar_label: "Pattern Matching"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

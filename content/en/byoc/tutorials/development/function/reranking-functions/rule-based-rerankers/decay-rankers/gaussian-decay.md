@@ -106,7 +106,7 @@ Before using decay functions, you must first create a collection with appropriat
 
 After your collection is set up with a numeric field (in this example, `distance` in meters from the user), create a Gaussian decay ranker:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,6 +223,23 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Create a Gaussian decay ranker for location-based restaurant search
+DecayRerank rerank = new DecayRerank("restaurant_distance_decay") // Function identifier
+    .WithInputField("distance")                        // Numeric field for distance in meters
+    .WithFunction("gauss")                             // Choose Gaussian decay
+    .WithOrigin(0)                                     // Your current location (0 meters)
+    .WithOffset(300)                                   // 300m no-decay zone
+    .WithDecay(0.5f)                                   // Half score at scale distance
+    .WithScale(2000);                                  // 2 km scale (2000 meters)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -248,7 +265,7 @@ rerank='{
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -376,6 +393,41 @@ const result = await milvusClient.search({
   output_fields: ["name", "cuisine", "distance"],
   rerank: rerank,
   consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.1f, 0.2f, 0.3f, 0.4f]; // Replace with your query vector
+
+// Apply decay ranker to restaurant vector search
+SearchResp resp = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "restaurant_db",
+    VectorFieldName = "dense",
+    Vectors = [queryVector],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "name", "cuisine", "distance" },
+        FunctionScoreReranker = rerank,
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 
