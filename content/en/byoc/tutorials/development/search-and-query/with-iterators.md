@@ -39,7 +39,7 @@ Specifically, you can use the SearchIterators as follows:
 
 The following code snippet demonstrates how to create a SearchIterator.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,6 +223,37 @@ const iterator = await milvusClient.searchIterator({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// create iterator
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
+
+SearchIterator iterator = client.SearchIteratorAsync(new SearchIteratorReq
+{
+    CollectionName = "iterator_collection",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    MetricType = MetricType.L2,
+    BatchSize = 50,
+    Parameters = new SearchParameters { OutputFields = { "color" } },
+    Limit = 20000
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -271,7 +302,7 @@ In the above examples, you have set the number of entities to return per search 
 
 Once the SearchIterator is ready, you can call its next() method to get the search results in a paginated manner.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -382,6 +413,20 @@ while (true) {
 ```javascript
 for await (const result of iterator) {
     console.log(result);
+}
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Responses.Dql;
+
+// Use SearchIterator
+await foreach (SingleResult result in iterator)
+{
+    Console.WriteLine(result.Scores);
 }
 ```
 

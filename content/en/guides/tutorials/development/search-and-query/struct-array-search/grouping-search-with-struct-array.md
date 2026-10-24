@@ -56,7 +56,7 @@ For index setup, see [Index StructArray Fields](./index-struct-array).
 
 The following example searches individual chunks first, then groups the element hits by the parent entity's primary key.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -287,6 +287,44 @@ for (const hit of res.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
+    }
+});
+
+foreach (long id in results.Ids.LongIds ?? [])
+{
+    Console.WriteLine($"doc_id: {id}");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -318,7 +356,7 @@ Without grouping, the same `doc_id` can appear multiple times if several chunks 
 
 You can combine grouping search with StructArray scalar filtering. Use `element_filter` when the scalar condition should constrain which Struct elements participate in element-level vector search.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -505,6 +543,42 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+string filterExpr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filterExpr,
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -536,7 +610,7 @@ Hybrid grouping with StructArray is an element-level feature. It is supported on
 
 The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both are indexed with regular vector metrics.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -771,6 +845,58 @@ const res = await client.hybridSearch({
   limit: 5,
   group_by_field: "doc_id",
   output_fields: ["doc_id", "title", "chunks[text]", "chunks[section]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+float[] codeQueryVector = [0.18f, 0.23f, 0.29f, 0.36f];
+
+AnnSearchReq indexChunkReq = new()
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Expression = "element_filter(chunks, $[section] == \"index\")"
+};
+
+AnnSearchReq codeChunkReq = new()
+{
+    VectorFieldName = "chunks[code_emb]",
+    Vectors = [codeQueryVector],
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Expression = "element_filter(chunks, $[has_code] == true)"
+};
+
+SearchResp results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = [indexChunkReq, codeChunkReq],
+    Reranker = new RrfReranker(),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]" }
+    }
 });
 ```
 

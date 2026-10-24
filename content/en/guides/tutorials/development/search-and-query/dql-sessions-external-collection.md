@@ -31,7 +31,7 @@ A project endpoint is designed to provide your access to on-demand compute resou
 
 The following code example assumes that you have an external collection named `my_collection` in the default database. And you should always use a valid API key with sufficient permissions to set up the connection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -124,6 +124,24 @@ client.hasCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "https://{project-id}.{region}.vectordb.zillizcloud.com",
+    ApiKey = "YOUR_API_KEY"
+});
+await client.ConnectAsync();
+
+var has = await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -154,7 +172,7 @@ For RESTful requests, instead of creating a session, you should pass the cluster
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +226,14 @@ const session = client.session("inxx-xxxxxxxxxxxxxxxxx");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -221,7 +247,7 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 
 Once the session is ready, you can conduct searches. The following example uses a basic vector search as an example. This also applies to query, get, and hybrid search.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -331,6 +357,14 @@ const res = session.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -376,7 +410,7 @@ RESTful calls do not need this.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -421,6 +455,14 @@ session->Close();
 
 ```javascript
 session.close();
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

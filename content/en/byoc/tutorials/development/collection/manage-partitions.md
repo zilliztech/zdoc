@@ -43,7 +43,7 @@ This feature will not be discussed on this page. To find more, refer to [Use Par
 
 When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. You can list the partitions in a collection as follows.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,8 +217,51 @@ console.log(res);
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Partition;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Partition;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -241,14 +284,11 @@ curl --request POST \
 # }
 ```
 
-</TabItem>
-</Tabs>
-
 ## Create Partition\{#create-partition}
 
 You can add more partitions to the collection and insert entities into these partitions based on certain criteria.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -397,8 +437,45 @@ console.log(res)
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.CreatePartitionAsync(new CreatePartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.CreatePartitionAsync(new CreatePartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -437,14 +514,11 @@ curl --request POST \
 # }
 ```
 
-</TabItem>
-</Tabs>
-
 ## Check for a Specific Partition\{#check-for-a-specific-partition}
 
 The following code snippets demonstrate how to check whether a partition exists in a specific collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -554,8 +628,29 @@ console.log(res.value)
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+var res = await client.HasPartitionAsync(new HasPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+Console.WriteLine(res.Has);
+```
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+var res = await client.HasPartitionAsync(new HasPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+Console.WriteLine(res.Has);
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -579,9 +674,6 @@ curl --request POST \
 # }
 ```
 
-</TabItem>
-</Tabs>
-
 ## Load and Release Partitions\{#load-and-release-partitions}
 
 You can separately load or release one or certain partitions.
@@ -590,7 +682,7 @@ You can separately load or release one or certain partitions.
 
 You can separately load specific partitions in a collection. It is worth noting that the load status of a collection stays unloaded if there is an unloaded partition in the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -749,8 +841,43 @@ console.log(res)
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.LoadPartitionsAsync(new LoadPartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.LoadPartitionsAsync(new LoadPartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -791,14 +918,11 @@ curl --request POST \
 # }
 ```
 
-</TabItem>
-</Tabs>
-
 ### Release Partitions\{#release-partitions}
 
 You can also release specific partitions.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -951,8 +1075,43 @@ console.log(res)
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -993,9 +1152,6 @@ curl --request POST \
 # }
 ```
 
-</TabItem>
-</Tabs>
-
 ## Data Operations Within Partitions\{#data-operations-within-partitions}
 
 ### Insert and Delete Entities\{#insert-and-delete-entities}
@@ -1020,7 +1176,7 @@ You can conduct searches and queries within specific partitions. For details, re
 
 You can drop partitions that are no longer needed. Before dropping a partition, ensure that the partition has been released.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1207,8 +1363,57 @@ console.log(res)
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+await client.DropPartitionAsync(new DropPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+await client.DropPartitionAsync(new DropPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -1260,6 +1465,3 @@ curl --request POST \
 #     ]
 # }
 ```
-
-</TabItem>
-</Tabs>

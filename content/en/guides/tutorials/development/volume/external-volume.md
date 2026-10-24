@@ -51,7 +51,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -168,6 +168,14 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -244,7 +252,7 @@ You can view all existing volumes in a project.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -339,6 +347,14 @@ You can view all existing volumes in a project.
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -364,7 +380,7 @@ You can check the details of a specific volume.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -459,6 +475,14 @@ You can check the details of a specific volume.
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -500,7 +524,7 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -590,6 +614,14 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>

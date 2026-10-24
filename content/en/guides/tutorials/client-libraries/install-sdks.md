@@ -183,3 +183,10 @@ async fn main() -> Result<()> {
 
 </TabItem>
 </Tabs>
+
+## Install C# SDK\{#install-c-sdk}
+
+```bash
+# Install the C# SDK compatible with Milvus v3.0.x
+dotnet add package Milvus.Client.V2
+```

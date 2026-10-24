@@ -53,7 +53,7 @@ Comparison operators are used to filter data based on equality, inequality, or s
 
 Assume you have a field named `status` and you want to find all entities where `status` is "active". You can use the equality operator `==`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -102,6 +102,14 @@ const filter = 'status == "active"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "status == \"active\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -115,7 +123,7 @@ filter='status == "active"'
 
 To find entities where `status` is not "inactive":
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -164,6 +172,14 @@ const filter = 'status != "inactive"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -177,7 +193,7 @@ filter='status != "inactive"'
 
 If you want to find all entities with an `age` greater than 30:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -226,6 +242,14 @@ const filter = 'age > 30';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > 30";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -239,7 +263,7 @@ filter='age > 30'
 
 To find entities where `price` is less than 100:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -288,6 +312,14 @@ const filter = 'price < 100';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price < 100";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -301,7 +333,7 @@ filter='price < 100'
 
 If you want to find all entities with `rating` greater than or equal to 4:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -350,6 +382,14 @@ const filter = 'rating >= 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "rating >= 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -363,7 +403,7 @@ filter='rating >= 4'
 
 To find entities with `discount` less than or equal to 10%:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -412,6 +452,14 @@ const filter = 'discount <= 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "discount <= 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -427,7 +475,7 @@ Range operators help filter data based on a specific set of values. Zilliz Cloud
 
 If you want to find all entities where the `color` is either "red", "green", or "blue":
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -476,6 +524,14 @@ const filter = 'color in ["red", "green", "blue"]';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -499,7 +555,7 @@ Pattern matching operators help filter string values based on wildcard patterns 
 
 To find entities where `name` starts with `Prod`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -548,6 +604,14 @@ const filter = 'name LIKE "Prod%"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -559,7 +623,7 @@ filter='name LIKE "Prod%"'
 
 To find entities whose `code` contains an error code such as `E1001`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -608,6 +672,14 @@ const filter = 'code =~ "E[0-9]{4}"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -619,7 +691,7 @@ filter='code =~ "E[0-9]{4}"'
 
 To exclude entities whose `message` starts with `DEBUG`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -668,6 +740,14 @@ const filter = 'message !~ "^DEBUG"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -701,7 +781,7 @@ Arithmetic operators allow you to create conditions based on calculations involv
 
 To find entities where the `id` is an even number (i.e., divisible by 2):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -750,6 +830,14 @@ const filter = 'id % 2 == 0';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "id % 2 == 0";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -763,7 +851,7 @@ filter='id % 2 == 0'
 
 To find entities where `price` raised to the power of 2 is greater than 1000:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,6 +900,14 @@ const filter = 'price ** 2 > 1000';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price > 1000";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -850,7 +946,7 @@ For example, `permissions = 5` means that the `READ` and `SHARE` bits are set, b
 
 To find entities where the `SHARE` bit is set, use bitwise AND (`&`):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -899,6 +995,14 @@ const filter = '(permissions & 4) == 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -910,7 +1014,7 @@ filter='(permissions & 4) == 4'
 
 To find entities where setting the `WRITE` bit produces the `READ + WRITE + SHARE` permission set, use bitwise OR (`|`):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -959,6 +1063,14 @@ const filter = '(permissions | 2) == 7';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -970,7 +1082,7 @@ filter='(permissions | 2) == 7'
 
 To find entities whose permission bits differ from `READ + WRITE + SHARE` by only the `WRITE` bit, use bitwise XOR (`^`):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1019,6 +1131,14 @@ const filter = '(permissions ^ 7) == 2';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1046,7 +1166,7 @@ Logical operators are used to combine multiple conditions into a more complex fi
 
 To find all products where `price` is greater than 100 and `stock` is greater than 50:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1095,6 +1215,14 @@ const filter = 'price > 100 AND stock > 50';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1108,7 +1236,7 @@ filter='price > 100 AND stock > 50'
 
 To find all products where `color` is either "red" or "blue":
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1157,6 +1285,14 @@ const filter = 'color == "red" OR color == "blue"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1170,7 +1306,7 @@ filter='color == "red" OR color == "blue"'
 
 To find all products where `color` is not "green":
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1219,6 +1355,14 @@ const filter = 'NOT color == "green"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "NOT (color == \"green\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1257,7 +1401,7 @@ Collection creation and data insertion are omitted. For those steps, see [Nullab
 
 To find entities that still need an embedding, query for `embedding IS NULL`. Adjust the connection settings for your server.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1414,6 +1558,41 @@ console.log(results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "products",
+    Expression = "category IS NULL",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id" },
+        Limit = 10
+    }
+});
+
+for (int i = 0; i < results.RowCount; i++)
+{
+    Console.WriteLine(results.GetRow(i)["id"]);
+}
+// Output
+// 2
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1478,7 +1657,7 @@ While the basic operators in Zilliz Cloud clusters are versatile and can be appl
 
 For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1527,6 +1706,14 @@ const filter = 'product["price"] > 1000';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1538,7 +1725,7 @@ filter='product["price"] > 1000'
 
 To find records where the first temperature in an array of recorded temperatures exceeds a certain value, use:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1583,6 +1770,14 @@ std::string filter = "history_temperatures[0] > 30";
 
 ```javascript
 const filter = 'history_temperatures[0] > 30';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "history_temperatures[0] > 30";
 ```
 
 </TabItem>

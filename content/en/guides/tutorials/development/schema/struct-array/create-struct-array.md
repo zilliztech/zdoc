@@ -98,7 +98,7 @@ To create a StructArray field, first define the Struct schema used by each eleme
 
 1. Set `max_capacity` to limit how many Struct elements each entity can store in the field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -550,6 +550,56 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        // Collection-level fields.
+        new FieldSchema("doc_id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("title", 512),
+        FieldSchema.CreateVarchar("category", 128),
+        new FieldSchema("title_vector", DataType.FloatVector) { Dimension = 4 }
+    }
+};
+
+// StructArray field.
+var chunks = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1000,
+    Nullable = true
+};
+chunks.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
+chunks.Fields.Add(FieldSchema.CreateVarchar("section", 128));
+chunks.Fields.Add(new FieldSchema("page", DataType.Int64));
+chunks.Fields.Add(new FieldSchema("quality_score", DataType.Float));
+chunks.Fields.Add(new FieldSchema("has_code", DataType.Bool));
+chunks.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+schema.StructFields.Add(chunks);
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "tech_articles",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -606,7 +656,7 @@ After you create a StructArray field, refer to its subfields with the `structArr
 
 Clusters compatible with Milvus v3.0.x support nullable StructArray fields. A nullable StructArray field allows an entity to store `null` for the entire StructArray field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -710,6 +760,24 @@ const chunksField = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Add a StructArray field to the schema.
+var chunks = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1000,
+    Nullable = true
+};
+chunks.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
+
+schema.StructFields.Add(chunks);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -763,7 +831,7 @@ Clusters compatible with Milvus v3.0.x support adding a StructArray field to an 
 
 To add a StructArray field to an existing collection, define the Struct schema first. Then call `add_collection_struct_field()` and set `nullable=True`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -975,6 +1043,41 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+var updatedChunkSchema = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1000,
+    Nullable = true
+};
+updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
+updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("section", 128));
+updatedChunkSchema.Fields.Add(new FieldSchema("page", DataType.Int64));
+updatedChunkSchema.Fields.Add(new FieldSchema("quality_score", DataType.Float));
+updatedChunkSchema.Fields.Add(new FieldSchema("has_code", DataType.Bool));
+updatedChunkSchema.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+
+await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
+{
+    CollectionName = "tech_articles",
+    StructField = updatedChunkSchema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1010,7 +1113,7 @@ After the StructArray field is added, existing entities return `null` for the ne
 
 After a StructArray field is created, you cannot add new subfields to that existing StructArray field. If you need additional element attributes later, call `drop_collection_field()` to drop the StructArray field, and then add a new StructArray field with the updated Struct schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1160,6 +1263,26 @@ await client.addCollectionField({
       { name: "emb", data_type: DataType.FloatVector, dim: 4 },
     ],
   },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "tech_articles",
+    FieldName = "chunks"
+});
+
+await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
+{
+    CollectionName = "tech_articles",
+    StructField = updatedChunkSchema
 });
 ```
 

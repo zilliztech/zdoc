@@ -65,7 +65,7 @@ The workflow for using a `GEOMETRY` field involves defining it in your collectio
 
 To use a `GEOMETRY` field, explicitly define it in your collection schema when creating the collection. The following example demonstrates how to create a collection with a `geo` field of type `DataType.GEOMETRY`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,6 +260,46 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+const int DIM = 8;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Create schema with a GEOMETRY field
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("embeddings", dimension: DIM),
+        new FieldSchema("geo", DataType.Geometry) { Nullable = true },
+        FieldSchema.CreateVarchar("name", maxLength: 128)
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema,
+    ConsistencyLevel = ConsistencyLevel.Strong
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -321,7 +361,7 @@ In this example, the `GEOMETRY` field defined in the collection schema allows nu
 
 Insert entities with geometry data in [WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format. Here’s an example with several geo points:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -563,6 +603,55 @@ console.log(insert_result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+const string COLLECTION_NAME = "geo_collection";
+
+var geoPoints = new[]
+{
+    "POINT(13.399710 52.518010)",
+    "POINT(13.403934 52.522877)",
+    "POINT(13.405088 52.521124)",
+    "POINT(13.408223 52.516876)",
+    "POINT(13.400092 52.521507)",
+    "POINT(13.408529 52.519274)"
+};
+var names = new[] { "Shop A", "Shop B", "Shop C", "Shop D", "Shop E", "Shop F" };
+float[][] vectors =
+[
+    [0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f],
+    [0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f],
+    [0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f],
+    [0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f],
+    [0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f],
+    [0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f, 0.3f]
+];
+
+var rows = new List<IDictionary<string, object?>>();
+for (int i = 0; i < geoPoints.Length; i++)
+{
+    rows.Add(new Dictionary<string, object?>
+    {
+        ["id"] = (long)(i + 1),
+        ["geo"] = geoPoints[i],
+        ["name"] = names[i],
+        ["embeddings"] = vectors[i]
+    });
+}
+
+var insertResult = await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    RowsData = rows
+});
+Console.WriteLine($"insert_count: {insertResult.InsertCount}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -630,7 +719,7 @@ Before you can perform filtering operations on `GEOMETRY` fields, make sure:
 
 <summary>Show code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -794,6 +883,29 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = COLLECTION_NAME,
+    Indexes = new[]
+    {
+        new IndexParam("embeddings", "embeddings", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = COLLECTION_NAME });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -857,7 +969,7 @@ The following examples demonstrate how to use different geometry-specific operat
 
 #### Example 1: Find entities within a rectangular area\{#example-1-find-entities-within-a-rectangular-area}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1040,6 +1152,34 @@ for (const ret of query_results.data) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+float topLeftLon = 13.403683f;
+float topLeftLat = 52.520711f;
+float bottomRightLon = 13.455868f;
+float bottomRightLat = 52.495862f;
+string boundingBoxWkt = $"POLYGON(({topLeftLon} {topLeftLat}, {bottomRightLon} {topLeftLat}, {bottomRightLon} {bottomRightLat}, {topLeftLon} {bottomRightLat}, {topLeftLon} {topLeftLat}))";
+
+var queryResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = COLLECTION_NAME,
+    Expression = $"st_within(geo, '{boundingBoxWkt}')",
+    Parameters = new QueryParameters { OutputFields = { "name", "geo" } }
+});
+for (int i = 0; i < queryResults.RowCount; i++)
+{
+    Console.WriteLine(string.Join(", ", queryResults.GetRow(i).Select(pair => $"{pair.Key}={pair.Value}")));
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1061,7 +1201,7 @@ curl --request POST \
 
 #### Example 2: Find entities within 1km of a central point\{#example-2-find-entities-within-1km-of-a-central-point}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1243,6 +1383,33 @@ for (const ret of query_results_dwithin.data) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+float centerPointLon = 13.403683f;
+float centerPointLat = 52.520711f;
+float radiusMeters = 1000.0f;
+string centralPointWkt = $"POINT({centerPointLon} {centerPointLat})";
+
+var queryResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = COLLECTION_NAME,
+    Expression = $"st_dwithin(geo, '{centralPointWkt}', {radiusMeters})",
+    Parameters = new QueryParameters { OutputFields = { "name", "geo" } }
+});
+for (int i = 0; i < queryResults.RowCount; i++)
+{
+    Console.WriteLine(string.Join(", ", queryResults.GetRow(i).Select(pair => $"{pair.Key}={pair.Value}")));
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1264,7 +1431,7 @@ curl --request POST \
 
 #### Example 3: Combine vector similarity with a spatial filter\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1457,6 +1624,32 @@ const search_results = await client.search({
 for (const hit of search_results.results) {
   console.log(`hit: ${JSON.stringify(hit)}`);
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+string boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
+
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = COLLECTION_NAME,
+    VectorFieldName = "embeddings",
+    Vectors = new[] { new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f }) },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "name", "geo" },
+        Expression = $"st_within(geo, '{boundingBoxWkt}')"
+    }
+});
+Console.WriteLine(result.SingleResults?.FirstOrDefault()?.Scores.Count ?? 0);
 ```
 
 </TabItem>

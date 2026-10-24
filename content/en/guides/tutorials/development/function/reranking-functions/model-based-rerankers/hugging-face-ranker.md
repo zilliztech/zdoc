@@ -83,7 +83,7 @@ The following setup creates a collection with three fields: `id` as the primary 
 
 <summary>**Prepare a collection with sample data**</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -435,6 +435,53 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+string collectionName = "hugging_face_rerank_demo";
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("document", DataType.VarChar) { MaxLength = 1000 },
+        new FieldSchema("dense", DataType.FloatVector) { Dimension = 4 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = [new IndexParam("dense", null, IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Recent renewable energy developments include improved solar efficiency.", ["dense"] = new[] { 0.12f, 0.21f, 0.29f, 0.41f } },
+        new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Advances in battery storage enable longer grid resilience.", ["dense"] = new[] { 0.11f, 0.22f, 0.30f, 0.40f } }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -489,7 +536,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
 
 Define a `RERANK` function that uses the text stored in `document` to rerank the candidates returned by vector search. The function also specifies the query text, Hugging Face model, and model provider integration.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -619,6 +666,23 @@ const huggingFaceRanker = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+ModelRerank huggingFaceRanker = new ModelRerank("hugging_face_semantic_ranker")
+    // Use the text stored in the "document" VARCHAR field for reranking.
+    .WithProvider("huggingface")
+    .WithQueries(["renewable energy developments"]);
+huggingFaceRanker.InputFieldNames.Add("document");
+huggingFaceRanker.Params["model_name"] = "sentence-transformers/all-MiniLM-L6-v2";
+huggingFaceRanker.Params["integration_id"] = "YOUR_INTEGRATION_ID";
+huggingFaceRanker.Params["max_client_batch_size"] = "32";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -661,7 +725,7 @@ Do not include the Hugging Face credential in the function definition.
 
 Pass the function to `search()` through the `ranker` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -788,6 +852,31 @@ const results = await client.search({
 });
 
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+float[] queryVector = [0.12f, 0.21f, 0.29f, 0.41f];
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Vectors = [queryVector],
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "document" },
+        FunctionScoreReranker = huggingFaceRanker
+    }
+});
 ```
 
 </TabItem>

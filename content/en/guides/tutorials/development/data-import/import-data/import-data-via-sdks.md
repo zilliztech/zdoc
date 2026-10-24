@@ -173,7 +173,7 @@ Once your data and collection are ready, you can import your data into a specifi
 
 To import data from a volume, first create a [managed or external volume](./managed-volume). For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -295,6 +295,45 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// The value of the URL is fixed.
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+string VOLUME_NAME = "my-first-volume";
+string DATA_PATH = "dataPath";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = "medium_articles",
+    ClusterId = CLUSTER_ID,
+    VolumeName = VOLUME_NAME,
+    DataPaths = new[] { new[] { DATA_PATH } }
+});
+
+Console.WriteLine(resp);
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -321,7 +360,7 @@ curl --request POST \
 
 If you prefer to import data via external storage, do as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -479,6 +518,47 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Bulk-import your data from the prepared data files
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+string STORAGE_URL = "";
+string ACCESS_KEY = "";
+string SECRET_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = "medium_articles",
+    ClusterId = CLUSTER_ID,
+    ObjectUrl = STORAGE_URL,
+    AccessKey = ACCESS_KEY,
+    SecretKey = SECRET_KEY
+});
+
+Console.WriteLine(resp);
+// {"code":0,"data":{"jobId":"9d0bc230-6b99-4739-a872-0b91cfe2515a"}}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -509,7 +589,7 @@ For successful data import, ensure the target collection has less than 10,000 ru
 
 You can check the progress of a specified bulk-import job.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -635,6 +715,41 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// Get bulk-insert job progress
+var resp = await bulkImport.GetImportProgressAsync(new GetImportProgressRequest
+{
+    JobId = "job-01fa0e5d42cjxudhpuehyp",
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -656,7 +771,7 @@ curl --request POST \
 
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -772,6 +887,40 @@ async fn main() -> Result<()> {
 
 ```javascript
 // Note: Cloud import-jobs listing is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// List bulk-insert jobs
+var resp = await bulkImport.ListImportJobsAsync(new ListImportJobsRequest
+{
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
 ```
 
 </TabItem>

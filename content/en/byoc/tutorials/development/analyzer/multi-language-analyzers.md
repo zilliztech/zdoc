@@ -204,6 +204,13 @@ const multi_analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var multiAnalyzerParams = new Dictionary<string, object>
 {
     // Define language-specific analyzers
@@ -538,9 +545,14 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-// Step 2.1: Add a primary key field for unique document identification
-// Step 2.2: Add language identifier field (must match the "by_field" value)
-// Step 2.3: Add text content field with multi-language analysis capability
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Add fields: id (primary key), language (analyzer selection), text (multi-language analysis), sparse (BM25 output)
 var text = FieldSchema.CreateVarchar("text", maxLength: 8192, enableAnalyzer: true);
 text.MultiAnalyzerParams = multiAnalyzerParams;
 
@@ -548,10 +560,10 @@ var schema = new CollectionSchema
 {
     Fields =
     {
-        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),  // Primary key, auto-generated
-        new FieldSchema("language", DataType.VarChar) { MaxLength = 255 },        // Language identifier field
-        text,                                                                     // Text field with multi-language analysis
-        new FieldSchema("sparse", DataType.SparseFloatVector)                     // Sparse vector field for BM25 output
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        new FieldSchema("language", DataType.VarChar) { MaxLength = 255 },
+        text,
+        new FieldSchema("sparse", DataType.SparseFloatVector)
     }
 };
 ```
@@ -699,6 +711,13 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 // Create the BM25 function and add it to the schema
 schema.Functions.Add(FunctionSchema.CreateBm25("text_to_vector", "text", "sparse"));
 ```
@@ -824,6 +843,13 @@ const index_params = [{
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 // Configure index parameters: add index for the sparse vector field
 var indexParams = new[]
 {
@@ -996,12 +1022,18 @@ await client.loadCollection({ collection_name: COLLECTION_NAME });
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "multilingual_documents";
 
-// Check if collection already exists and drop it for this example
+// Drop the existing collection if any, then create and load
 await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
 
-// Create the collection
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = collectionName,
@@ -1235,13 +1267,20 @@ console.log("Documents by language: 2 English, 2 Chinese");
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "multilingual_documents";
+
 // Prepare multilingual documents
 var documents = new List<IDictionary<string, object?>>
 {
-    // English documents (full language name and its alias)
     new Dictionary<string, object?> { ["text"] = "Artificial intelligence is transforming technology", ["language"] = "english" },
     new Dictionary<string, object?> { ["text"] = "Machine learning models require large datasets", ["language"] = "en" },
-    // Chinese documents
     new Dictionary<string, object?> { ["text"] = "人工智能正在改变技术领域", ["language"] = "chinese" },
     new Dictionary<string, object?> { ["text"] = "机器学习模型需要大型数据集", ["language"] = "cn" },
 };
@@ -1504,10 +1543,19 @@ english_results.results.forEach((hit, i) => {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "multilingual_documents";
+
 // Configure search parameters
 var searchParams = new SearchParameters
 {
-    OutputFields = { "text", "language" },   // Fields to include in the output
+    OutputFields = { "text", "language" },
     DropRatioSearch = 0,                     // Keep all terms in search (tweak as needed)
     AnalyzerName = "english"                 // Analyzer that matches the query language
 };
@@ -1719,6 +1767,13 @@ cn_results.results.forEach((hit, i) => {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 searchParams.AnalyzerName = "cn";
 
 // Execute the search

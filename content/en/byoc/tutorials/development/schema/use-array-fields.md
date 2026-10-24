@@ -60,7 +60,7 @@ If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud a
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -301,6 +301,36 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Define the collection schema
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        // Add `tags` and `ratings` ARRAY fields with nullable=True
+        new FieldSchema("tags", DataType.Array) { ElementDataType = DataType.VarChar, MaxCapacity = 10, MaxLength = 65535, Nullable = true },
+        new FieldSchema("ratings", DataType.Array) { ElementDataType = DataType.Int64, MaxCapacity = 5, Nullable = true },
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("embedding", DataType.FloatVector) { Dimension = 3 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -360,7 +390,7 @@ Indexing helps improve search and query performance. In Zilliz Cloud clusters, i
 
 The following example creates indexes on the vector field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,6 +502,23 @@ const indexParams = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Set index params
+IndexParam[] indexes =
+[
+    // Index `tags` with AUTOINDEX
+    new IndexParam("tags", "tags_index", IndexType.AutoIndex),
+    // Index `embedding` with AUTOINDEX and specify similarity metric type
+    new IndexParam("embedding", null, IndexType.AutoIndex, MetricType.Cosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -496,7 +543,7 @@ export indexParams='[
 
 Once the schema and index are defined, create a collection that includes ARRAY fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -623,6 +670,27 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexes
+});
+
+// Load the collection into memory before performing searches and queries
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -654,7 +722,7 @@ curl --request POST \
 
 After creating the collection, you can insert data that includes ARRAY fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -827,6 +895,26 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Sample data
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["tags"] = new[] { "pop", "rock", "classic" }, ["ratings"] = new long[] { 5, 4, 3 }, ["pk"] = 1L, ["embedding"] = new[] { 0.12f, 0.34f, 0.56f } },
+        new Dictionary<string, object?> { ["tags"] = null, ["ratings"] = new long[] { 4, 5 }, ["pk"] = 2L, ["embedding"] = new[] { 0.78f, 0.91f, 0.23f } }, // Entire ARRAY is null
+        new Dictionary<string, object?> { ["ratings"] = new long[] { 9, 5 }, ["pk"] = 3L, ["embedding"] = new[] { 0.18f, 0.11f, 0.23f } } // The tags field is completely missing
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -874,7 +962,7 @@ After inserting entities, use the `query` method to retrieve entities that match
 
 To retrieve entities where the `tags` is not null:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -989,6 +1077,28 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Query entities where `tags` is not null
+string filter = "tags IS NOT NULL";
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "tags", "ratings", "pk" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1009,7 +1119,7 @@ curl --request POST \
 
 To retrieve entities where the value of the first element of `ratings` is greater than 4:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1124,6 +1234,27 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string filter = "ratings[0] > 4";
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "tags", "ratings", "embedding" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1147,7 +1278,7 @@ curl --request POST \
 
 In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1296,6 +1427,31 @@ await client.search({
     limit: 5,
     output_fields: ['tags', 'ratings', 'embedding'],
     filter: 'tags[0] == "pop"'
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string filter = "tags[0] == \"pop\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "embedding",
+    Vectors = [new[] { 0.3f, -0.6f, 0.1f }],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "tags", "ratings", "embedding" }
+    }
 });
 ```
 

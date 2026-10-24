@@ -121,7 +121,7 @@ For both `whatlang` and `lingua`, use the language names as shown in their respe
 
 - [lingua supported languages](https://github.com/pemistahl/lingua?tab=readme-ov-file#3-which-languages-are-supported)
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,6 +250,29 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier", // Must be `language_identifier`
+        ["identifier"] = "whatlang", // or `lingua`
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" }, // fallback if language detection fails
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["Mandarin"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -280,7 +303,7 @@ analyzerParams='{
 
 If you prefer to use custom analyzer names or need to maintain compatibility with existing configurations, you can use the `mapping` parameter. This creates aliases for your analyzers—both the original detection engine names and your custom names will work.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -434,6 +457,34 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "lingua",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["english_analyzer"] = new Dictionary<string, object> { ["type"] = "english" }, // Custom analyzer name
+            ["chinese_analyzer"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        },
+        ["mapping"] = new Dictionary<string, object>
+        {
+            ["English"] = "english_analyzer",
+            ["Chinese"] = "chinese_analyzer"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -472,7 +523,7 @@ Here are some ready-to-use configurations for common scenarios. Each example inc
 
 ### English and Chinese detection\{#english-and-chinese-detection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -768,6 +819,56 @@ console.log('Chinese:', resultCn);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+// Configuration
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "whatlang",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["Mandarin"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        }
+    }
+};
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// English text
+RunAnalyzerResp resultEn = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["The Milvus vector database is built for scale!"]
+});
+Console.WriteLine("English: " + string.Join(", ", resultEn.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+
+// Chinese text
+RunAnalyzerResp resultCn = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["Milvus向量数据库专为大规模应用而设计"]
+});
+Console.WriteLine("Chinese: " + string.Join(", ", resultCn.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -796,7 +897,7 @@ curl --request POST \
 
 ### European languages with accent normalization\{#european-languages-with-accent-normalization}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1045,6 +1146,52 @@ const resultFr = await client.runAnalyzer({
   analyzer_params: analyzer_params
 });
 console.log('French:', resultFr);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+// Configuration for French, German, Spanish, etc.
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "lingua",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["French"] = new Dictionary<string, object>
+            {
+                ["tokenizer"] = "standard",
+                ["filter"] = new List<object> { "lowercase", "asciifolding" }
+            }
+        }
+    }
+};
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Test with accented text
+RunAnalyzerResp resultFr = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["Café français très délicieux"]
+});
+Console.WriteLine("French: " + string.Join(", ", resultFr.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>

@@ -157,7 +157,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
 - Initialize the schema for the Caption Struct.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -566,6 +566,27 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the caption struct
+    var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024, description: "plain description of the ego vehicle's behavior"));
+    schemaForCaption.Fields.Add(new FieldSchema("plain_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 2048));
+    schemaForCaption.Fields.Add(new FieldSchema("rich_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 512));
+    schemaForCaption.Fields.Add(new FieldSchema("risk_vector", DataType.FloatVector) { Dimension = 768 });
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -583,7 +604,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     </Admonition>
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -759,6 +780,24 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the front car struct
+    var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("distance", DataType.Float, description: "distance to the leading vehicle"));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -770,7 +809,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
 - Initialize the schema for the collection
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -923,6 +962,25 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    var schema = new CollectionSchema
+    {
+        Fields =
+        {
+            FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
+            FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
+            new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
+        },
+        StructFields = { schemaForCaption, schemaForFrontCar }
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -936,7 +994,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
 All vector fields must be indexed. To index the vector fields in an element Struct, you need to use `AUTOINDEX` as the index type and the `MAX_SIM` series metric type to measure the similarities between embedding lists.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1065,6 +1123,21 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam[] indexParams =
+[
+    new("captions[plain_cap_vector]", "captions_plain_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[rich_cap_vector]", "captions_rich_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[risk_vector]", "captions_risk_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1080,7 +1153,7 @@ You are advised to enable JSON shredding for JSON fields to accelerate filtering
 
 Once the schemas and indexes are ready, you can create the target collection as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1164,6 +1237,21 @@ await client.createCollection({
     collection_name: "covla_dataset",
     schema,
     index_params: indexParams,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "covla_dataset",
+    Schema = schema,
+    Indexes = indexParams
 });
 ```
 
@@ -1264,7 +1352,7 @@ data = {
 
 Once you have processed the data accordingly, you can insert it as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1601,6 +1689,51 @@ const data = {
 };
 
 await client.insert({ collection_name: "covla_dataset", data: [data] });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var vector768 = Enumerable.Repeat(0.1f, 768).ToArray();
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "covla_dataset",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["video_id"] = "0a0fc7a5db365174",
+            ["video_url"] = "https://your-storage.com/0a0fc7a5db365174",
+            ["traffic_lights"] = new[]
+            {
+                new Dictionary<string, object?> { ["index"] = 0, ["class"] = "red", ["bbox"] = new[] { 1f, 2f, 3f, 4f } },
+                new Dictionary<string, object?> { ["index"] = 1, ["class"] = "green", ["bbox"] = new[] { 5f, 6f, 7f, 8f } }
+            },
+            ["captions"] = new object[]
+            {
+                new Dictionary<string, object?>
+                {
+                    ["frame_id"] = 0L,
+                    ["plain_caption"] = "Merge left while yielding to oncoming traffic",
+                    ["plain_cap_vector"] = vector768,
+                    ["rich_caption"] = "Merge left while yielding to oncoming traffic on a sunny highway",
+                    ["rich_cap_vector"] = vector768,
+                    ["risk"] = "Potential collision with the leading vehicle",
+                    ["risk_vector"] = vector768
+                }
+            },
+            ["front_cars"] = new object[]
+            {
+                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["distance"] = 5.5f }
+            }
+        }
+    ]
+});
 ```
 
 </TabItem>

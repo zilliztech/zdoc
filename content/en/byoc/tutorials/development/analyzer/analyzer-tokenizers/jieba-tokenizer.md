@@ -37,7 +37,7 @@ Milvus supports two configuration approaches for the `jieba` tokenizer: a simple
 
 With the simple configuration, you only need to set the tokenizer to `"jieba"`. For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -95,8 +95,27 @@ const analyzer_params = {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using System.Collections.Generic;
+
+// Simple configuration: only specifying the tokenizer name
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba" // Use the default settings: dict=["_default_"], mode="search", hmm=True
+};
+```
+
+```csharp
+using System.Collections.Generic;
+
+// Simple configuration: only specifying the tokenizer name
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba" // Use the default settings: dict=["_default_"], mode="search", hmm=True
+};
+```
 
 ```bash
 # restful
@@ -105,12 +124,9 @@ analyzerParams='{
 }'
 ```
 
-</TabItem>
-</Tabs>
-
 This simple configuration is equivalent to the following custom configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -200,8 +216,39 @@ const analyzer_params = {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration equivalent to the simple configuration above
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object> // Tokenizer configuration
+    {
+        ["type"] = "jieba",           // Tokenizer type, fixed as "jieba"
+        ["dict"] = new[] { "_default_" }, // Use the default dictionary
+        ["mode"] = "search",          // Use search mode for improved recall (see mode details below)
+        ["hmm"] = true                // Enable HMM for probabilistic segmentation
+    }
+};
+```
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration equivalent to the simple configuration above
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object> // Tokenizer configuration
+    {
+        ["type"] = "jieba",           // Tokenizer type, fixed as "jieba"
+        ["dict"] = new[] { "_default_" }, // Use the default dictionary
+        ["mode"] = "search",          // Use search mode for improved recall (see mode details below)
+        ["hmm"] = true                // Enable HMM for probabilistic segmentation
+    }
+};
+```
 
 ```bash
 # restful
@@ -215,16 +262,13 @@ export analyzerParams='{
 }'
 ```
 
-</TabItem>
-</Tabs>
-
 For details on parameters, refer to [Custom configuration](./jieba-tokenizer#custom-configuration).
 
 ### Custom configuration\{#custom-configuration}
 
 For more control, you can provide a custom configuration that allows you to specify a custom dictionary, select the segmentation mode, and enable or disable the Hidden Markov Model (HMM). For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -314,8 +358,39 @@ const analyzer_params = {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration with user-defined settings
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",           // Fixed tokenizer type
+        ["dict"] = new[] { "customDictionary" }, // Custom dictionary list; replace with your own terms
+        ["mode"] = "exact",           // Use exact mode (non-overlapping tokens)
+        ["hmm"] = false               // Disable HMM; unmatched text will be split into individual characters
+    }
+};
+```
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration with user-defined settings
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",           // Fixed tokenizer type
+        ["dict"] = new[] { "customDictionary" }, // Custom dictionary list; replace with your own terms
+        ["mode"] = "exact",           // Use exact mode (non-overlapping tokens)
+        ["hmm"] = false               // Disable HMM; unmatched text will be split into individual characters
+    }
+};
+```
 
 ```bash
 # restful
@@ -328,9 +403,6 @@ export analyzerParams='{
   }
 }'
 ```
-
-</TabItem>
-</Tabs>
 
 <table>
    <tr>
@@ -368,7 +440,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -457,8 +529,73 @@ const analyzer_params = {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
+        ["mode"] = "exact",
+        ["hmm"] = false,
+        ["extra_dict_file"] = new Dictionary<string, object>
+        {
+            ["type"] = "remote",
+            ["resource_name"] = "zh_terms",
+            ["file_name"] = "zh_terms.txt"
+        }
+    }
+};
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { "milvus结巴分词器中文测试" }
+});
+```
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
+        ["mode"] = "exact",
+        ["hmm"] = false,
+        ["extra_dict_file"] = new Dictionary<string, object>
+        {
+            ["type"] = "remote",
+            ["resource_name"] = "zh_terms",
+            ["file_name"] = "zh_terms.txt"
+        }
+    }
+};
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { "milvus结巴分词器中文测试" }
+});
+```
 
 ```bash
 # restful
@@ -472,12 +609,9 @@ export analyzerParams='{
 }'
 ```
 
-</TabItem>
-</Tabs>
-
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -627,8 +761,37 @@ console.log(result.results);
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "结巴分词器" },
+        ["mode"] = "exact",
+        ["hmm"] = false
+    }
+};
+```
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "结巴分词器" },
+        ["mode"] = "exact",
+        ["hmm"] = false
+    }
+};
+```
 
 ```bash
 curl --request POST \
@@ -640,9 +803,6 @@ curl --request POST \
   "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"结巴分词器\"],\"mode\":\"exact\",\"hmm\":false}}"
 }'
 ```
-
-</TabItem>
-</Tabs>
 
 ### Expected output\{#expected-output}
 

@@ -49,7 +49,7 @@ The following steps repurpose the code to connect to a Zilliz Cloud cluster, qui
 
 ### Step 1: Create a collection\{#step-1-create-a-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +208,30 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// 1. Set up a Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+// 2. Create a collection
+await client.CreateCollectionAsync(new CreateSimpleCollectionReq
+{
+    CollectionName = "quick_setup",
+    Dimension = 5
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -219,7 +243,7 @@ await client.createCollection({
 
 ### Step 2: Insert randomly generated entities\{#step-2-insert-randomly-generated-entities}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -511,6 +535,35 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// 3. Insert randomly generated vectors
+string[] colors = { "green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey" };
+Random random = new();
+
+var rows = new List<IDictionary<string, object?>>();
+for (int i = 0; i < 10000; i++)
+{
+    string currentColor = colors[random.Next(colors.Length)];
+    int currentTag = random.Next(1000, 9999);
+    rows.Add(new Dictionary<string, object?>
+    {
+        ["id"] = i,
+        ["vector"] = new[] { (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1) },
+        ["color"] = currentColor,
+        ["tag"] = currentTag,
+        ["color_tag"] = $"{currentColor}_{currentTag}"
+    });
+}
+
+await client.InsertAsync(new InsertReq { CollectionName = "quick_setup", RowsData = rows });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -536,7 +589,7 @@ To export data using iterators, do as follows:
 
 The following code snippets demonstrate how to append the exported data into a file using the **QueryIterator** API.  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -825,6 +878,30 @@ for await (const batch of iterator) {
   count += batch.length;
 }
 console.log("exported " + count + " rows");
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// 6. Query with iterator
+int count = 0;
+await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
+{
+    CollectionName = "quick_setup",
+    Expression = "color_tag like \"brown_8%\"",
+    Parameters = new QueryParameters { OutputFields = { "color_tag", "vector" } },
+    BatchSize = 50
+}))
+{
+    count += batch.FirstOrDefault()?.RowCount ?? 0;
+}
+
+Console.WriteLine($"exported {count} rows");
 ```
 
 </TabItem>

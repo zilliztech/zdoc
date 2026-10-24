@@ -110,7 +110,7 @@ If you are using a dedicated cluster with small performance-optimized CUs and th
 
 The following example assumes connecting to a performance-optimized dedicated cluster and demonstrates how to enable mmap on a VarChar field named **doc_chunk** while adding the field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -405,6 +405,49 @@ await client.alterCollectionFieldProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 5 },
+        // Disable mmap on a field upon creating the schema for a collection
+        new FieldSchema("doc_chunk", DataType.VarChar) { MaxLength = 512, TypeParams = { ["mmap.enabled"] = "false" } }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema
+});
+
+// Enable mmap on an existing field
+// The following assumes that you have a collection named `my_collection`
+await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "doc_chunk",
+    Properties = { ["mmap.enabled"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -479,7 +522,7 @@ For scalar fields involved in metadata filtering or used as output fields, consi
 
 The following example assumes connecting to a capacity-optimized dedicated cluster and demonstrates how to disable mmap on the index of a VarChar field named **title** for quick retrieval. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -678,6 +721,31 @@ await client.alterIndexProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create index on the varchar field with mmap settings
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "my_collection",
+    Indexes = [new IndexParam("title", "title_index", IndexType.AutoIndex) { ExtraParams = { ["mmap.enabled"] = "false" } }]
+});
+
+// Change mmap settings for an index
+// The following assumes that you have a collection named `my_collection`
+await client.AlterIndexPropertiesAsync(new AlterIndexPropertiesReq
+{
+    CollectionName = "my_collection",
+    IndexName = "title_index",
+    Properties = { ["mmap.enabled"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -728,7 +796,7 @@ You can disable mmap settings in a collection so that Zilliz Cloud fully loads t
 
 The following example assumes connecting to a performance-optimized dedicated cluster and demonstrates how to disable mmap when you create a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -824,6 +892,22 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Disable mmap when creating a collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Properties = { ["mmap.enabled"] = "false" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -846,7 +930,7 @@ curl --request POST \
 
 You can also change the mmap settings of an existing collection as follows. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -991,6 +1075,34 @@ await client.alterCollectionProperties({
 // Load the collection to make the above change take effect
 await client.loadCollection({
     collection_name: "my_collection"
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Release collection before change mmap settings
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Ensure that the collection has already been released
+// and run the following
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["mmap.enabled"] = "false" }
+});
+
+// Load the collection to make the above change take effect
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
 });
 ```
 

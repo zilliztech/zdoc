@@ -67,7 +67,7 @@ The following procedure assumes that you have already created a serving cluster 
 
 Once you have obtained the cluster credentials, you can use it to connect to your cluster.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -180,6 +180,26 @@ await client.connectPromise;
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
+const string TOKEN = "YOUR_ZILLIZ_API_KEY";
+
+// 1. Set up a Milvus client
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = SERVING_CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -198,7 +218,7 @@ export TOKEN="YOUR_ZILLIZ_API_KEY"
 
 A serving cluster ships with a default database. If you choose that, skip this step. You can also create a database as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -281,6 +301,16 @@ await client.createDatabase({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Database;
+
+await client.CreateDatabaseAsync(new CreateDatabaseReq { DatabaseName = "my_database" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -302,7 +332,7 @@ Once the database is ready, you can create managed collections in it. Unlike an 
 
 The following example demonstrates how to set up the collection schema and create a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -427,6 +457,24 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("product_id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("product_name", maxLength: 512),
+        FieldSchema.CreateFloatVector("embedding", dimension: 768)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -460,7 +508,7 @@ export schema='{
 
 Then you can create a collection with the above schema. If you decide to use the default database, you can safely skip the `db_name` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -565,6 +613,23 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Utility;
+
+await client.UseDatabaseAsync(new UseDatabaseReq { DatabaseName = "my_database" });
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "prod_collection",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -586,7 +651,7 @@ curl --request POST \
 
 You need to create indexes for all vector fields and, optionally, for selected scalar fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -745,6 +810,26 @@ await client.createIndex([
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    Indexes =
+    [
+        new IndexParam("embedding", "embedding", IndexType.AutoIndex, MetricType.Cosine),
+        new IndexParam("product_name", "product_name", IndexType.AutoIndex)
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -780,7 +865,7 @@ curl --request POST \
 
 Once indexes are ready, load the collection into memory.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -863,6 +948,20 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -885,7 +984,7 @@ Once everything is set up, you can import the processed data. The following exam
 
 For the data format in your bucket or storage integrations, refer to [Format Options](./data-import-format-options).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1044,6 +1143,36 @@ const res = await httpClient.createImportJobs({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+const string CLOUD_PLATFORM_ENDPOINT = "https://api.cloud.zilliz.com";
+const string API_KEY = "YOUR_ZILLIZ_API_KEY";
+
+using var importer = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_PLATFORM_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var res = await importer.BulkImportAsync(new BulkImportRequest
+{
+    ClusterId = "inxx-xxxxxxxxxxxxxxxxxxx",
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    ObjectUrls = new[] { new[] { "https://s3.us-west-2.amazonaws.com/your-bucket/path/in/external/storage.json" } },
+    AccessKey = "YOUR_STORAGE_ACCESS_KEY",
+    SecretKey = "YOUR_STORAGE_SECRET_KEY"
+});
+
+// job-xxxxxxxxxxxxxxxxxxxxx
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1071,7 +1200,7 @@ curl --request POST \
 
 With the returned job ID, you can monitor its progress.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1185,6 +1314,30 @@ console.log(JSON.stringify(resp, null, 2));
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+const string CLOUD_PLATFORM_ENDPOINT = "https://api.cloud.zilliz.com";
+const string API_KEY = "YOUR_ZILLIZ_API_KEY";
+
+using var importer = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_PLATFORM_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var progress = await importer.GetImportProgressAsync(new GetImportProgressRequest
+{
+    ClusterId = "inxx-xxxxxxxxxxxxxxxxxxx",
+    JobId = "job-xxxxxxxxxxxxxxxxxxxxx"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1206,7 +1359,7 @@ curl --request POST \
 
 Once the import completes, you can invite users to consume your data through searches, queries, and hybrid searches.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1328,6 +1481,31 @@ const results = await client.search({
   data: [queryVector],
   limit: 3,
   output_fields: ['product_name'],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f,
+    -0.26286205330961354f, 0.9029438446296592f /* ...remaining dims */
+}) };
+
+var res = await client.SearchAsync(new SearchReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { OutputFields = { "product_name" } }
 });
 ```
 

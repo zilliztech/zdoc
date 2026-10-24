@@ -117,7 +117,7 @@ Before you start, ensure you have [installed](./install-sdks) SDKs and also ensu
 
 ### Connection guide\{#connection-guide}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -218,6 +218,26 @@ const client = new MilvusClient({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Use the global endpoint for automatic routing
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_GLOBAL_ENDPOINT",  // Global endpoint from the console
+    Username = "YOUR_CLUSTER_TOKEN" // API key or username:password
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -235,7 +255,7 @@ curl --request POST \
 
 Each cluster in the global cluster has its own public endpoint. Use this when you need to target a specific cluster directly.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -332,6 +352,26 @@ const client = new MilvusClient({
     address: "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
     token: "YOUR_CLUSTER_TOKEN"  // API key or username:password
 })
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Connect directly to a specific cluster
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
+    Username = "YOUR_CLUSTER_TOKEN"        // API key or username:password
+});
 ```
 
 </TabItem>

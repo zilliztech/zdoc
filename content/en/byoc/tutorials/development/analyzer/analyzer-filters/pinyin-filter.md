@@ -29,7 +29,7 @@ The `pinyin` filter is typically used with the [Jieba](./jieba-tokenizer) tokeni
 
 To use the default options, specify `"pinyin"` in the `filter` section of `analyzer_params`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -103,6 +103,20 @@ let analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -120,7 +134,7 @@ This shorthand keeps the original Chinese tokens and emits character-level Pinyi
 
 For full control, specify the filter as an object and configure the Pinyin token forms that Zilliz Cloud emits.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -241,6 +255,30 @@ analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = true,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -277,7 +315,7 @@ The filter operates on tokens produced by the tokenizer. For Chinese text, use i
 
 Before applying the analyzer configuration to your collection schema, verify its behavior with `run_analyzer`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +418,24 @@ const sample_text = "中文测试";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var sampleText = "中文测试";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -394,7 +450,7 @@ const sample_text = "中文测试";
 
 The default `pinyin` filter keeps the original Chinese tokens and emits character-level Pinyin tokens.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,6 +571,30 @@ console.log(char_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -541,7 +621,7 @@ Expected output:
 
 Enable `keep_joined_full_pinyin` when you need a Chinese term to match its full joined Pinyin form.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -708,6 +788,40 @@ console.log(joined_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = true,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -734,7 +848,7 @@ Expected output:
 
 Enable `keep_separate_first_letter` when you need a Chinese term to match the initials of its Pinyin form.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -897,6 +1011,40 @@ const initials_result = await client.runAnalyzer({
     analyzer_params,
 });
 console.log(initials_result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = true
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>

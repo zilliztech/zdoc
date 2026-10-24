@@ -46,7 +46,7 @@ When you load a collection, Zilliz Cloud loads the index files and the raw data 
 
 The following code snippets demonstrate how to load a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -264,6 +264,37 @@ console.log(res.state)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 7. Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -312,7 +343,7 @@ Zilliz Cloud can load only the fields involved in searches and queries, reducing
 
 The following code snippet assumes that you have created a collection named **my_collection**, and there are two fields named **my_id** and **my_vector** in the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,6 +503,32 @@ console.log(res.state);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection",
+    LoadFields = new[] { "my_id", "my_vector" }, // Load only the specified fields
+    SkipLoadDynamicField = true // Skip loading the dynamic field
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -494,7 +551,7 @@ Searches and queries are memory-intensive operations. To save the cost, you are 
 
 The following code snippet demonstrates how to release a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -641,6 +698,30 @@ console.log(res.state)
 // 
 // LoadStateNotLoad
 // 
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+// 8. Release the collection
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
 ```
 
 </TabItem>

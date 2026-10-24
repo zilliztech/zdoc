@@ -79,7 +79,7 @@ The fundamental workflow for using a JSON field involves defining it in your sch
 
 To use a JSON field, explicitly define it in your collection schema when creating the collection. The following example demonstrates how to create a collection with a `metadata` field of type `DataType.JSON`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -311,6 +311,35 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// Set up a Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+// Create schema
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("product_id", DataType.Int64, isPrimaryKey: true), // Primary field
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 5 }, // Vector field
+        // Define a JSON field that allows null values
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -360,7 +389,7 @@ In this example, the JSON field defined in the collection schema allows null val
 
 Once the collection is created, insert entities that contain structured JSON objects in your designated JSON field. Your data should be formatted as a list of dictionaries.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -583,6 +612,47 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Insert data
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "product_catalog",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["product_id"] = 1L,
+            ["vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f },
+            ["metadata"] = new Dictionary<string, object?> // JSON field
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -633,7 +703,7 @@ Before you can perform filtering operations on JSON fields, make sure:
 
 <summary>Show example code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -792,6 +862,29 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an index on the vector field
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = [new IndexParam("vector", "vector_index", IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "product_catalog"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -837,7 +930,7 @@ To query a specific key, use bracket notation to access JSON keys: `json_field_n
 
 To filter for entities where the `category` is `"electronics"`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -974,6 +1067,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "metadata[\"category\"] == \"electronics\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -999,7 +1118,7 @@ curl --request POST \
 
 To filter for entities where the nested key `supplier["country"]` is `"USA"`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1138,6 +1257,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "metadata[\"supplier\"][\"country\"] == \"USA\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1173,7 +1318,7 @@ Zilliz Cloud also provides special operators for querying array values on specif
 
 To find a product that has the `"summer_sale"` value under the `tags` key:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1312,6 +1457,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "json_contains(metadata[\"tags\"], \"summer_sale\")";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1337,7 +1508,7 @@ curl --request POST \
 
 To find a product that has at least one of the `"electronics"`, `"new"`, or `"clearance"` values under the `tags` key:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1472,6 +1643,32 @@ const res = await client.search({
 });
 
 console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "json_contains_any(metadata[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
 ```
 
 </TabItem>

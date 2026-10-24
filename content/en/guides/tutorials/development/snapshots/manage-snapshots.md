@@ -49,7 +49,7 @@ When naming a snapshot, use clear, descriptive names, such as `"daily_backup_202
 
 The code examples below assume that you already have a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -228,6 +228,37 @@ await client.createSnapshot({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Recommended: Flush data before creating snapshot to ensure all data is included
+await client.FlushAsync(new FlushReq { CollectionNames = ["my_collection"] });
+
+// Create snapshot for entire collection
+await client.CreateSnapshotAsync(new CreateSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101",
+    Description = "Daily backup for January 1st, 2024"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -258,7 +289,7 @@ curl --request POST \
 
 You can list the names of existing snapshots.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -348,6 +379,24 @@ console.log(snapshots);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// List all snapshots for a collection
+ListSnapshotsResp snapshots = await client.ListSnapshotsAsync(new ListSnapshotsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (string name in snapshots.Snapshots)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -368,7 +417,7 @@ curl --request POST \
 
 You can get the detailed information about a specific snapshot.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -470,6 +519,25 @@ console.log(snapshot_info);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Describe a snapshot
+DescribeSnapshotResp snapshotInfo = await client.DescribeSnapshotAsync(new DescribeSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101"
+});
+Console.WriteLine($"Snapshot name: {snapshotInfo.Name}");
+Console.WriteLine($"Collection: {snapshotInfo.CollectionName}");
+Console.WriteLine($"Created: {snapshotInfo.CreateTs}");
+Console.WriteLine($"Description: {snapshotInfo.Description}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -493,7 +561,7 @@ During restoration, you can pin a snapshot to temporarily protect its underlying
 
 You can also set a time-to-live (TTL) duration for the pin operation so that the pinned data will be released when the duration expires.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -623,6 +691,28 @@ await client.unpinSnapshotData({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Pin snapshot data
+long pinId = (await client.PinSnapshotDataAsync(new PinSnapshotDataReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101",
+    TtlSeconds = 3600
+})).PinId;
+
+// Unpin snapshot data
+await client.UnpinSnapshotDataAsync(new UnpinSnapshotDataReq
+{
+    PinId = pinId
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -657,7 +747,7 @@ The restoration uses a **copy-segment** mechanism instead of data import, which 
 
 To restore a snapshot, do as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -760,6 +850,22 @@ console.log(restore_resp);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Restore snapshot to new collection
+long jobId = (await client.RestoreSnapshotAsync(new RestoreSnapshotReq
+{
+    SnapshotName = "backup_20240101",
+    SourceCollectionName = "my_collection",
+    TargetCollectionName = "restored_collection"
+})).JobId;
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -784,7 +890,7 @@ For details on monitoring the progress of a restoration job, refer to Monitor re
 
 You can drop a snapshot if it is no longer needed. You are advised to remove old snapshots regularly to save storage.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -869,6 +975,20 @@ await client.dropSnapshot({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+await client.DropSnapshotAsync(new DropSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -890,7 +1010,7 @@ curl --request POST \
 
 You can use this API to get a list of snapshots already created for the target collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -980,6 +1100,25 @@ console.log(jobs);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// List all restore jobs
+ListRestoreSnapshotJobsResp jobs = await client.ListRestoreSnapshotJobsAsync(new ListRestoreSnapshotJobsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (RestoreSnapshotJobInfo job in jobs.Jobs)
+{
+    Console.WriteLine($"Job {job.JobId}: {job.SnapshotName} -> Collection {job.CollectionName}");
+    Console.WriteLine($"  State: {job.State}, Progress: {job.Progress}%");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1000,7 +1139,7 @@ curl --request POST \
 
 Once you have a restoration job ID, you can use it to retrieve restoration progress.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1102,6 +1241,27 @@ const state = await client.getRestoreSnapshotState({
   job_id: 12345
 });
 console.log(state);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Get restoration state
+GetRestoreSnapshotStateResp state = await client.GetRestoreSnapshotStateAsync(new GetRestoreSnapshotStateReq
+{
+    JobId = 12345
+});
+RestoreSnapshotJobInfo jobInfo = state.JobInfo;
+Console.WriteLine($"Job ID: {jobInfo.JobId}");
+Console.WriteLine($"Snapshot Name: {jobInfo.SnapshotName}");
+Console.WriteLine($"Collection: {jobInfo.CollectionName}");
+Console.WriteLine($"State: {jobInfo.State}");
+Console.WriteLine($"Progress: {jobInfo.Progress}%");
+Console.WriteLine($"Time Cost: {jobInfo.TimeCost}ms");
 ```
 
 </TabItem>

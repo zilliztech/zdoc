@@ -58,7 +58,7 @@ A vector field or vector subfield accepts only one index. If you need both Embed
 
 Use EmbeddingList search when the query itself contains multiple vectors and the target StructArray vector subfield is indexed with a `MAX_SIM*` metric. The result is an entity-level match.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -294,6 +294,41 @@ console.log(JSON.stringify(results.results, null, 2));
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var query = new EmbeddingList();
+query.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
+query.Add(new ReadOnlyMemory<float>(new[] { 0.18f, 0.23f, 0.29f, 0.36f }));
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb_list_vector]",
+    EmbeddingLists = new[] { query },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]" }
+    }
+});
+Console.WriteLine(string.Join(", ", results.SingleResults.SelectMany(r => r.Scores)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -336,7 +371,7 @@ For a full ColBERT or ColPali-style walkthrough, see [Search with Embedding List
 
 Use element-level search when each Struct element should participate in vector search independently. The query is a regular vector, and the target vector subfield must be indexed with a regular vector metric.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -561,6 +596,42 @@ const results = await client.search({
 });
 
 console.log(JSON.stringify(results.results, null, 2));
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
+    }
+});
+foreach (var result in results.SingleResults)
+{
+    Console.WriteLine(string.Join(", ", result.Scores));
+}
 ```
 
 </TabItem>

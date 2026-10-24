@@ -57,7 +57,7 @@ For index setup, see [Index StructArray Fields](./index-struct-array).
 
 EmbeddingList search on a StructArray vector subfield is entity-level in hybrid search. It behaves like an entity-level vector search request and does not return one matched Struct element offset.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,6 +316,55 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var queryList = new EmbeddingList();
+queryList.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
+queryList.Add(new ReadOnlyMemory<float>(new[] { 0.18f, 0.23f, 0.29f, 0.36f }));
+
+var titleReq = new AnnSearchReq
+{
+    VectorFieldName = "title_vector",
+    Vectors = new[] { queryVector },
+    Limit = 10
+};
+
+var chunkListReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb_list_vector]",
+    EmbeddingLists = new[] { queryList },
+    Limit = 10
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { titleReq, chunkListReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -357,7 +406,7 @@ When all `AnnSearchRequest` objects target element-level vector subfields under 
 
 The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both use regular vector metrics.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -609,6 +658,46 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+var codeQueryVector = new ReadOnlyMemory<float>(new[] { 0.20f, 0.25f, 0.31f, 0.38f });
+
+var indexChunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 10,
+    Expression = "element_filter(chunks, $[section] == \"index\")"
+};
+
+var codeChunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[code_emb]",
+    Vectors = new[] { codeQueryVector },
+    Limit = 10,
+    Expression = "element_filter(chunks, $[has_code] == true)"
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { indexChunkReq, codeChunkReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -652,7 +741,7 @@ If a hybrid search mixes a StructArray element-level `AnnSearchRequest` with a c
 
 Use `element_scope` inside the `params` of the StructArray element-level `AnnSearchRequest` when you need to control how multiple matched elements from the same entity are collapsed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -891,6 +980,45 @@ const results = await client.search({
   rerank: { strategy: "rrf", params: { k: 60 } },
   limit: 5,
   output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var titleReq = new AnnSearchReq
+{
+    VectorFieldName = "title_vector",
+    Vectors = new[] { queryVector },
+    Limit = 10
+};
+
+var chunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 30,
+    Expression = "element_filter(chunks, $[quality_score] > 0.8)",
+    ExtraParameters = { ["params"] = "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}" }
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { titleReq, chunkReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
 });
 ```
 

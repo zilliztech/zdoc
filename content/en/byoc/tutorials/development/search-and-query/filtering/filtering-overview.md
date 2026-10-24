@@ -43,7 +43,7 @@ Zilliz Cloud supports several basic operators for filtering data:
 
 To find entities with primary colors (red, green, or blue) in a scalar field `color`, use the following filter expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -92,6 +92,14 @@ const filter = 'color in ["red", "green", "blue"]';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -105,7 +113,7 @@ filter='color in ["red", "green", "blue"]'
 
 To find entities whose integer `permissions` field has the `SHARE` bit set, use the bitwise AND operator (`&`):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -154,6 +162,14 @@ const filter = '(permissions & 4) == 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -167,7 +183,7 @@ filter='(permissions & 4) == 4'
 
 To find entities whose `message` field contains an error code such as `E1001`, use the regex match operator `=~`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -216,6 +232,14 @@ const filter = 'message =~ "E[0-9]{4}"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -231,7 +255,7 @@ Regex filters use substring matching. To require the entire field value to match
 
 Zilliz Cloud allows referencing keys in JSON fields. For instance, if you have a JSON field `product` with keys `price` and `model`, and want to find products with a specific model and price lower than 1,850, use this filter expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -280,6 +304,14 @@ const filter = 'product["model"] == "JSN-087" AND product["price"] < 1850';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "product[\"model\"] == \"JSN-087\" AND product[\"price\"] < 1850";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -293,7 +325,7 @@ filter='product["model"] == "JSN-087" AND product["price"] < 1850'
 
 If you have an array field `history_temperatures` containing the records of average temperatures reported by observatories since the year 2000, and want to find observatories where the temperature in 2009 (the 10th recorded ) exceeds 23°C, use this expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -342,6 +374,14 @@ const filter = 'history_temperatures[10] > 23';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "history_temperatures[10] > 23";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -361,7 +401,7 @@ Zilliz Cloud introduces filter expression templating to optimize performance whe
 
 To find individuals over the age of `25` living in either `"北京"` (Beijing) or `"上海"` (Shanghai), use the following template expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +450,14 @@ const filter = "age > 25 AND city IN ['北京', '上海']";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > 25 AND city IN ['北京', '上海']";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -421,7 +469,7 @@ filter="age > 25 AND city IN ['北京', '上海']"
 
 To improve performance, use this variation with parameters:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -492,6 +540,21 @@ const exprValues = { age: 25, city: ["北京", "上海"] };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+string filter = "age > {age} AND city in {city}";
+var filterTemplateValues = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -514,7 +577,7 @@ Zilliz Cloud offers advanced operators for querying JSON fields, enabling precis
 
 **`JSON_CONTAINS(identifier, jsonExpr)`**: Checks if a JSON expression exists in the field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,6 +632,15 @@ const filter = 'json_contains(tags, "sale")';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains(tags, \"sale\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -581,7 +653,7 @@ filter='json_contains(tags, "sale")'
 
 **`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: Ensures all elements of the JSON expression are present.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -636,6 +708,15 @@ const filter = 'json_contains_all(tags, ["electronics", "sale", "new"])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+string filter = "json_contains_all(tags, [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -648,7 +729,7 @@ filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 
 **`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: Filters for entities where at least one element exists in the JSON expression.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -703,6 +784,15 @@ const filter = 'json_contains_any(tags, ["electronics", "new", "clearance"])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains_any(tags, [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -721,7 +811,7 @@ Zilliz Cloud provides advanced filtering operators for array fields, such as `AR
 
 **`ARRAY_CONTAINS`**: Filters entities containing a specific element.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -770,6 +860,14 @@ const filter = 'ARRAY_CONTAINS(history_temperatures, 23)';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS(history_temperatures, 23)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -781,7 +879,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 
 **`ARRAY_CONTAINS_ALL`**: Filters entities where all elements in a list are present.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -830,6 +928,14 @@ const filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -841,7 +947,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 
 **`ARRAY_CONTAINS_ANY`**: Filters entities containing any element from the list.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -890,6 +996,14 @@ const filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -901,7 +1015,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 
 **`ARRAY_LENGTH`**: Filters based on the length of the array.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -946,6 +1060,14 @@ std::string filter = "ARRAY_LENGTH(history_temperatures) < 10";
 
 ```javascript
 const filter = 'ARRAY_LENGTH(history_temperatures) < 10';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_LENGTH(history_temperatures) < 10";
 ```
 
 </TabItem>

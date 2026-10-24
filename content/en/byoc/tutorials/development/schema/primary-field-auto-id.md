@@ -71,7 +71,7 @@ You can let Zilliz Cloud handle ID generation automatically.
 
 Enable `auto_id=True` in your primary field definition. Zilliz Cloud will handle ID generation automatically.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -331,6 +331,44 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Milvus generates IDs automatically
+        FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
+        FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
+    }
+};
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "demo_autoid" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "demo_autoid" });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo_autoid",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -379,7 +417,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 **Important:** Do not include the primary field column in your data. Zilliz Cloud generates IDs automatically.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,6 +553,38 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+using Milvus.Client.V2.Types;
+
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["embedding"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+        ["category"] = "book"
+    },
+    new Dictionary<string, object?>
+    {
+        ["embedding"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f },
+        ["category"] = "toy"
+    }
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo_autoid",
+    RowsData = data
+});
+Console.WriteLine("Generated IDs: " + string.Join(", ", res.LongIds ?? []));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -554,7 +624,7 @@ If you need to control IDs manually, disable AutoID and provide your own values.
 
 ### Step 1: Create a collection without AutoID\{#step-1-create-a-collection-without-autoid}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,6 +882,44 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        FieldSchema.CreateVarchar("product_id", maxLength: 100, isPrimaryKey: true, autoId: false), // You provide IDs manually
+        FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
+        FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
+    }
+};
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "demo_manual_ids" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "demo_manual_ids" });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo_manual_ids",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -862,7 +970,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 You must include the primary field column in every insert operation.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -997,6 +1105,41 @@ const insert = await client.insert({
 });
 
 console.log(insert);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+using Milvus.Client.V2.Types;
+
+// Each entity must contain the primary field `product_id`
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["product_id"] = "PROD-001",
+        ["embedding"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+        ["category"] = "book"
+    },
+    new Dictionary<string, object?>
+    {
+        ["product_id"] = "PROD-002",
+        ["embedding"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f },
+        ["category"] = "toy"
+    }
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo_manual_ids",
+    RowsData = data
+});
+Console.WriteLine("Generated IDs: " + string.Join(", ", res.StringIds ?? []));
 ```
 
 </TabItem>
