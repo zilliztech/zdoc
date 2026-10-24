@@ -702,6 +702,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob",
+        "label": "NewRoaringBitmapBlob",
+        "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-newroaringbitmapblob"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource",
         "label": "RemoveFileResource",
         "key": "doc:api/go/go/v2/v2-FileResources/v2-fileresources-removefileresource"

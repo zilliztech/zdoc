@@ -64,15 +64,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx"
     }
   ],
-  "pendingRecords": [
-    {
-      "manual": "go",
-      "sourceCommit": "95a7f2ec930334d166bf393e376787c115d5d118",
-      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
-      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
-    }
-  ],
+  "pendingRecords": [],
   "records": [
     {
       "manual": "cli",
@@ -3475,6 +3467,15 @@
       "status": "translated",
       "targetHash": "1c0975d35a26ad91c43f156cc4cf818323894daad922a5fc7de2e026a6f94ece",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md"
+    },
+    {
+      "manual": "go",
+      "sourceCommit": "95a7f2ec930334d166bf393e376787c115d5d118",
+      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
+      "status": "translated",
+      "targetHash": "5b26606efa589c037094c8ee054b1213fed9f456a0ea35c8e7fb44d7f7608dd7",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
     },
     {
       "manual": "go",
