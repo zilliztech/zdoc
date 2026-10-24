@@ -72,15 +72,16 @@ function mergeDispatchPlan({plan, observations, now}) {
         unit.current = {...next, status: 'cleared', clearedAt: now, lastDispatch: current.lastDispatch || null}
       }
     } else if (current && isOpenStatus(current.status) && current.sourceCheckpointSha === observation.sourceCheckpointSha) {
-      // dispatchFailures is the backoff budget for THIS checkpoint; merges
-      // must carry it (a fresh merge shape would otherwise reset the budget
-      // every cycle) and any newer checkpoint naturally starts without it.
-      unit.current = {...next, status: current.status, lastDispatch: current.lastDispatch || null, dispatchFailures: current.dispatchFailures || 0}
+      // dispatchFailures and stalledCycles are the backoff budgets for THIS
+      // checkpoint; merges must carry them (a fresh merge shape would
+      // otherwise reset the budgets every cycle) and any newer checkpoint
+      // naturally starts without them.
+      unit.current = {...next, status: current.status, lastDispatch: current.lastDispatch || null, dispatchFailures: current.dispatchFailures || 0, stalledCycles: current.stalledCycles || 0}
     } else if (current && current.status === 'blocked' && current.sourceCheckpointSha === observation.sourceCheckpointSha) {
       // A blocked entry is carried verbatim except for the refreshed count:
-      // firstSeenAt and dispatchFailures belong to the blocked checkpoint's
+      // firstSeenAt and the backoff budgets belong to the blocked checkpoint's
       // story and must not drift while the block stands.
-      unit.current = {...next, firstSeenAt: current.firstSeenAt, dispatchFailures: current.dispatchFailures || 0, status: 'blocked', blockedAt: current.blockedAt, blockedReason: current.blockedReason || null, lastDispatch: current.lastDispatch || null}
+      unit.current = {...next, firstSeenAt: current.firstSeenAt, dispatchFailures: current.dispatchFailures || 0, stalledCycles: current.stalledCycles || 0, status: 'blocked', blockedAt: current.blockedAt, blockedReason: current.blockedReason || null, blockedKind: current.blockedKind || null, lastDispatch: current.lastDispatch || null}
     } else {
       if (current && (isOpenStatus(current.status) || current.status === 'blocked')) {
         unit.history.push({...current, status: 'superseded', supersededAt: now})
@@ -122,14 +123,16 @@ function markDispatched({plan, unitKeys, runId, requestId, dispatchedAt}) {
 // Backoff terminal state: the unit keeps its dispatch evidence for triage but
 // stops counting as open work. Any newer source checkpoint reopens the unit
 // through the normal merge (supersede), which is the budget reset — the
-// dispatcher never unblocks a unit on its own.
-function markBlocked({plan, unitKeys, blockedAt, reason}) {
+// dispatcher never unblocks a unit on its own. The optional kind separates
+// failure-budget blocks from no-progress (stall) blocks so alert and summary
+// text can name the right remediation.
+function markBlocked({plan, unitKeys, blockedAt, reason, kind}) {
   const merged = {...plan, units: {}}
   const wanted = new Set(unitKeys)
   for (const [unitKey, unit] of Object.entries(plan.units)) {
     if (wanted.has(unitKey)) {
       if (!unit.current || unit.current.status !== 'dispatched') throw new Error(`Cannot block a unit that has no dispatched work: ${unitKey}`)
-      merged.units[unitKey] = {...unit, current: {...unit.current, status: 'blocked', blockedAt, blockedReason: reason || null}}
+      merged.units[unitKey] = {...unit, current: {...unit.current, status: 'blocked', blockedAt, blockedReason: reason || null, blockedKind: kind || null}}
       wanted.delete(unitKey)
     } else {
       merged.units[unitKey] = unit
@@ -171,7 +174,7 @@ function summarizePlan(plan) {
     dispatched: rows.filter(row => row.status === 'dispatched').length,
     blocked: rows.filter(row => row.status === 'blocked').length,
     cleared: rows.filter(row => row.status === 'cleared').length,
-    rows: rows.map(row => ({unitKey: row.unitKey, status: row.status, pendingCount: row.pendingCount, lastDispatch: row.lastDispatch ? row.lastDispatch.runId : null})),
+    rows: rows.map(row => ({unitKey: row.unitKey, status: row.status, pendingCount: row.pendingCount, lastDispatch: row.lastDispatch ? row.lastDispatch.runId : null, blockedKind: row.blockedKind || null})),
   }
 }
 

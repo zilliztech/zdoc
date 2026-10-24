@@ -28,6 +28,12 @@ const DEFAULT_GUIDES_MAX_FILES = 150
 // the unit blocks until the source checkpoint moves — which resets the
 // budget through the normal supersede.
 const MAX_DISPATCH_FAILURES = 2
+// A producer run that concludes successfully while the pending count does not
+// move is the same paid retry loop wearing a green run: the pending files
+// cannot pass the deterministic source preflight, so no translation can ever
+// succeed and no failure conclusion ever surfaces. Stalls count into their
+// own per-checkpoint budget with the same supersede reset.
+const MAX_STALLED_CYCLES = 2
 const FAILURE_CONCLUSIONS = new Set(['failure', 'startup_failure', 'cancelled', 'timed_out', 'stale'])
 const PRODUCER_WORKFLOWS = ['translate-codex.yml', 'publish-translation.yml', 'recover-translation.yml']
 const ACTIVE_RUN_STATUSES = new Set(['queued', 'requested', 'in_progress', 'waiting', 'pending', 'action_required', 'stale'])
@@ -124,7 +130,7 @@ async function runDispatcher({plan, budget = DEFAULT_BUDGET, guidesMaxFiles = DE
   }
 
   const mergedPlan = mergeDispatchPlan({plan, observations, now})
-  const backoff = applyDispatchBackoff({plan: mergedPlan, adapters, now, log})
+  const backoff = applyDispatchBackoff({plan: mergedPlan, previousPlan: plan, adapters, now, log})
   for (const blocked of backoff.blocked) emit(backoffEvent(blocked))
   if (backoff.unknown) {
     log.log('[translation-dispatcher] dispatch conclusions cannot be determined; refusing to dispatch this cycle')
@@ -310,7 +316,12 @@ async function gateSourceBuild({plan, selection, unitFiles, adapters, log, now})
 // exhausted — an hourly redispatch of deterministic breakage is a paid retry
 // loop. The right remediation for a failed producer run is usually
 // recover-translation (salvaging completed batches), not a fresh dispatch.
-function applyDispatchBackoff({plan, adapters, now, log, maxFailures = MAX_DISPATCH_FAILURES}) {
+// A SUCCESSFUL run that left the pending count unchanged is the same loop in
+// green: the pending files fail the deterministic source preflight, so no
+// translation can ever reduce the count and no failure conclusion ever
+// surfaces. Such cycles count into a sibling per-checkpoint budget and block
+// with a fix-the-source alert instead of the salvage hint.
+function applyDispatchBackoff({plan, previousPlan, adapters, now, log, maxFailures = MAX_DISPATCH_FAILURES, maxStalls = MAX_STALLED_CYCLES}) {
   let gated = plan
   const blocked = []
   for (const unit of Object.values(plan.units)) {
@@ -321,7 +332,15 @@ function applyDispatchBackoff({plan, adapters, now, log, maxFailures = MAX_DISPA
       log.log(`[translation-dispatcher] conclusion for run ${current.lastDispatch.runId} (${current.unitKey}) is unknown; safe stop`)
       return {plan, unknown: true, blocked}
     }
-    if (!FAILURE_CONCLUSIONS.has(conclusion)) continue
+    if (!FAILURE_CONCLUSIONS.has(conclusion)) {
+      if (conclusion !== 'success') continue
+      const stall = applyStalledCycleBudget({plan: gated, previousPlan, current, now, log, maxStalls})
+      if (stall) {
+        gated = stall.plan
+        if (stall.blocked) blocked.push(gated.units[current.unitKey].current)
+      }
+      continue
+    }
     const failures = (current.dispatchFailures || 0) + 1
     gated = {...gated, units: {...gated.units, [current.unitKey]: {
       ...unit,
@@ -331,14 +350,56 @@ function applyDispatchBackoff({plan, adapters, now, log, maxFailures = MAX_DISPA
       log.log(`[translation-dispatcher] dispatch failure ${failures} for ${current.unitKey} ended ${conclusion}; retry remains before backoff`)
       continue
     }
-    gated = markBlocked({plan: gated, unitKeys: [current.unitKey], blockedAt: now, reason: `${failures} failed dispatch conclusion(s), last ${conclusion} (run ${current.lastDispatch.runId})`})
+    gated = markBlocked({plan: gated, unitKeys: [current.unitKey], blockedAt: now, reason: `${failures} failed dispatch conclusion(s), last ${conclusion} (run ${current.lastDispatch.runId})`, kind: 'failed-conclusions'})
     log.log(`[translation-dispatcher] blocked ${current.unitKey} after ${failures} failed dispatch conclusion(s); salvage with: gh workflow run recover-translation.yml --ref master -f previous_translation_run_id=${current.lastDispatch.runId} -f publish=false`)
     blocked.push(gated.units[current.unitKey].current)
   }
   return {plan: gated, unknown: false, blocked}
 }
 
+// Stall accounting for one unit whose last dispatch concluded successfully.
+// Returns null when the cycle is not a stall (progress happened, the
+// checkpoint moved, or there is no prior count to compare); otherwise a plan
+// carrying the incremented counter with blocked:false while budget remains,
+// and the blocked plan with blocked:true once the budget is exhausted. The
+// comparison is against the count the PREVIOUS cycle observed for the SAME
+// checkpoint: dispatching is the only path that changes target state, so an
+// unchanged count after a concluded run means the run changed nothing.
+function applyStalledCycleBudget({plan, previousPlan, current, now, log, maxStalls}) {
+  const previous = previousPlan && previousPlan.units && previousPlan.units[current.unitKey] && previousPlan.units[current.unitKey].current
+  const stalled = Boolean(
+    previous &&
+    previous.sourceCheckpointSha === current.sourceCheckpointSha &&
+    Number.isInteger(previous.pendingCount) &&
+    previous.pendingCount === current.pendingCount &&
+    current.pendingCount > 0,
+  )
+  if (!stalled) return null
+  const stalls = (current.stalledCycles || 0) + 1
+  if (stalls < maxStalls) {
+    log.log(`[translation-dispatcher] run ${current.lastDispatch.runId} succeeded but left ${current.unitKey} at ${current.pendingCount} pending; stall ${stalls}/${maxStalls} before backoff`)
+    return {blocked: false, plan: {...plan, units: {...plan.units, [current.unitKey]: {
+      ...plan.units[current.unitKey],
+      current: {...current, stalledCycles: stalls},
+    }}}}
+  }
+  const reason = `${stalls} successful dispatch(es) left the pending count unchanged at ${current.pendingCount} (last run ${current.lastDispatch.runId}); the pending file(s) likely fail the deterministic source preflight — fix the source document`
+  log.log(`[translation-dispatcher] blocked ${current.unitKey} after ${stalls} successful dispatch(es) with an unchanged pending count; fix the source document (a newer source checkpoint reopens the unit)`)
+  return {blocked: true, plan: markBlocked({plan, unitKeys: [current.unitKey], blockedAt: now, reason, kind: 'stalled'})}
+}
+
 function backoffEvent(current) {
+  if (current.blockedKind === 'stalled') {
+    return {
+      key: `stalled:${current.unitKey}:${current.sourceCheckpointSha}`,
+      title: 'Translation unit stopped making progress',
+      body: [
+        `${current.unitKey} blocked after ${current.stalledCycles || 'multiple'} successful dispatch(es) left the pending count unchanged at ${current.pendingCount}; last producer run ${current.lastDispatch.runId}.`,
+        'The pending file(s) likely fail the deterministic source preflight (the English source cannot pass MDX/structure validation), so no translation can succeed; the producer runs stay green, which is why no failure backoff ever saw them.',
+        'Fix the source document. A newer source checkpoint reopens the unit automatically.',
+      ].join('\n'),
+    }
+  }
   return {
     key: `backoff:${current.unitKey}:${current.sourceCheckpointSha}`,
     title: 'Translation dispatch backoff engaged',
@@ -555,7 +616,9 @@ function main() {
         `- Open units: ${summary.open}, dispatched: ${summary.dispatched}, cleared: ${summary.cleared}, blocked: ${summary.blocked}`,
         ...summary.rows.slice(0, 8).map(row => `- ${row.unitKey}: ${row.status} (${row.pendingCount} pending${row.lastDispatch ? `, run ${row.lastDispatch}` : ''})`),
         ...summary.rows.filter(row => row.status === 'blocked').slice(0, 8).map(row =>
-          `- Blocked ${row.unitKey}: salvage with \`gh workflow run recover-translation.yml --ref master -f previous_translation_run_id=${row.lastDispatch} -f publish=false\``),
+          row.blockedKind === 'stalled'
+            ? `- Blocked ${row.unitKey} (no progress): fix the source document; a newer source checkpoint reopens the unit`
+            : `- Blocked ${row.unitKey}: salvage with \`gh workflow run recover-translation.yml --ref master -f previous_translation_run_id=${row.lastDispatch} -f publish=false\``),
         '',
       ].join('\n'))
     }
@@ -573,6 +636,7 @@ module.exports = {
   DEFAULT_BUDGET,
   DEFAULT_GUIDES_MAX_FILES,
   MAX_DISPATCH_FAILURES,
+  MAX_STALLED_CYCLES,
   PRODUCER_WORKFLOWS,
   aggregateGroupTotals,
   selectDispatchGroups,
