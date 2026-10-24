@@ -35,7 +35,7 @@ function handoffUnits() {
   ]
 }
 
-function adapters({counts = {}, active = [], failCountFor, conclusions = {}, files = {}, gate = {}} = {}) {
+function adapters({counts = {}, active = [], failCountFor, conclusions = {}, files = {}, gate = {}, checkpointSha = SHA} = {}) {
   const calls = {buildHandoff: [], countUnit: [], dispatched: [], runSourceBuildGate: []}
   return {
     calls,
@@ -51,7 +51,7 @@ function adapters({counts = {}, active = [], failCountFor, conclusions = {}, fil
       const selected = handoffUnits().filter(unit => groups === 'all' || groups.split(',').includes(unit.group))
       // Mirror build-manual-translation-handoff: subset units are renumbered
       // to the selection order they are dispatched in.
-      const units = selected.map((unit, index) => ({...unit, publicationOrder: index}))
+      const units = selected.map((unit, index) => ({...unit, publicationOrder: index, sourceCheckpointSha: checkpointSha}))
       return {schemaVersion: 3, locale: 'all', group: groups, toolingSha: SHA, targetBranch: 'dev', targetBaselineSha: SHA, units}
     },
     countUnit: unit => {
@@ -441,7 +441,9 @@ test('backoff alerts retry until delivery is acknowledged', async () => {
   }
   assert.equal(current.units['translation/ja-JP/guides'].current.status, 'blocked')
   // First send fails (nothing marked): the next cycle must find the event again.
-  const standing = {counts: {'translation/ja-JP/guides': 60, 'translation/ja-JP/python': 5}}
+  // The shared run fixture cannot give python real progress, so it clears:
+  // a green no-progress cycle would otherwise count as a stall for it too.
+  const standing = {counts: {'translation/ja-JP/guides': 60, 'translation/ja-JP/python': 0}}
   const undelivered = await runDispatcher({plan: current, now: '2026-10-13T15:30:00.000Z', dispatch: true, adapters: adapters(standing), log: QUIET_LOG})
   assert.deepEqual(undelivered.alerts.map(event => event.key), [`backoff:translation/ja-JP/guides:${SHA}`], 'an unacknowledged backoff alert re-fires')
   // After delivery marks the ledger, the cycle goes quiet.
@@ -501,6 +503,69 @@ test('the failure budget counts failed conclusions, not successful partial re-di
   plan = (await runDispatcher({plan, now: '2026-10-13T14:30:00.000Z', dispatch: true, adapters: adapters({counts, conclusions: {'382400': 'failure'}}), log: QUIET_LOG})).plan
   assert.equal(plan.units['translation/ja-JP/guides'].current.status, 'blocked')
   assert.equal(plan.units['translation/ja-JP/guides'].current.dispatchFailures, 2)
+})
+
+test('a successful dispatch that clears no work stalls the unit and blocks with a fix-the-source alert', async () => {
+  let plan = createDispatchPlan({generatedAt: NOW})
+  plan = (await runDispatcher({plan, now: NOW, dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 60}}), log: QUIET_LOG})).plan
+  const firstStall = await runDispatcher({
+    plan,
+    now: '2026-10-13T12:30:00.000Z',
+    dispatch: true,
+    adapters: adapters({counts: {'translation/ja-JP/guides': 60}, conclusions: {'382400': 'success'}}),
+    log: QUIET_LOG,
+  })
+  assert.equal(firstStall.action, 'dispatched', 'the first no-progress cycle only counts')
+  assert.equal(firstStall.plan.units['translation/ja-JP/guides'].current.stalledCycles, 1)
+  assert.deepEqual(firstStall.alerts, [], 'no alert before the stall budget exhausts')
+  const secondStall = await runDispatcher({
+    plan: firstStall.plan,
+    now: '2026-10-13T13:30:00.000Z',
+    dispatch: true,
+    adapters: adapters({counts: {'translation/ja-JP/guides': 60}, conclusions: {'382400': 'success'}}),
+    log: QUIET_LOG,
+  })
+  assert.equal(secondStall.action, 'idle', 'the stall-blocked unit leaves selection')
+  const current = secondStall.plan.units['translation/ja-JP/guides'].current
+  assert.equal(current.status, 'blocked')
+  assert.equal(current.blockedKind, 'stalled')
+  assert.match(current.blockedReason, /unchanged/)
+  assert.match(current.blockedReason, /source preflight/)
+  const stalledAlert = secondStall.alerts.find(event => event.key === `stalled:translation/ja-JP/guides:${SHA}`)
+  assert.ok(stalledAlert, JSON.stringify(secondStall.alerts))
+  assert.match(stalledAlert.body, /Fix the source document/)
+  assert.doesNotMatch(stalledAlert.body, /recover-translation/, 'a preflight-broken file has nothing to salvage')
+})
+
+test('stall cycles accumulate across a recovering checkpoint like the failure budget does', async () => {
+  let plan = createDispatchPlan({generatedAt: NOW})
+  plan = (await runDispatcher({plan, now: NOW, dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 60}}), log: QUIET_LOG})).plan
+  plan = (await runDispatcher({plan, now: '2026-10-13T12:30:00.000Z', dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 60}, conclusions: {'382400': 'success'}}), log: QUIET_LOG})).plan
+  assert.equal(plan.units['translation/ja-JP/guides'].current.stalledCycles, 1)
+  plan = (await runDispatcher({plan, now: '2026-10-13T13:30:00.000Z', dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 25}, conclusions: {'382400': 'success'}}), log: QUIET_LOG})).plan
+  assert.equal(plan.units['translation/ja-JP/guides'].current.status, 'dispatched')
+  assert.equal(plan.units['translation/ja-JP/guides'].current.stalledCycles, 1, 'progress does not increment, and the carried counter survives the merge')
+  const blocked = await runDispatcher({plan, now: '2026-10-13T14:30:00.000Z', dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 25}, conclusions: {'382400': 'success'}}), log: QUIET_LOG})
+  assert.equal(blocked.plan.units['translation/ja-JP/guides'].current.status, 'blocked', 'the carried stall budget exhausts on the next no-progress cycle')
+  assert.equal(blocked.plan.units['translation/ja-JP/guides'].current.blockedKind, 'stalled')
+})
+
+test('a moved source checkpoint never counts as a stall', async () => {
+  let plan = createDispatchPlan({generatedAt: NOW})
+  plan = (await runDispatcher({plan, now: NOW, dispatch: true, adapters: adapters({counts: {'translation/ja-JP/guides': 60}}), log: QUIET_LOG})).plan
+  const moved = await runDispatcher({
+    plan,
+    now: '2026-10-13T12:30:00.000Z',
+    dispatch: true,
+    adapters: adapters({counts: {'translation/ja-JP/guides': 60}, conclusions: {'382400': 'success'}, checkpointSha: OTHER_SHA}),
+    log: QUIET_LOG,
+  })
+  const current = moved.plan.units['translation/ja-JP/guides'].current
+  assert.equal(current.sourceCheckpointSha, OTHER_SHA)
+  assert.equal(current.status, 'dispatched', 'the newer checkpoint is fresh work')
+  assert.equal(current.lastDispatch.attempts, 1, 'the superseded dispatch evidence is not carried')
+  assert.equal(current.stalledCycles, undefined, 'no stall is counted across checkpoints')
+  assert.deepEqual(moved.plan.units['translation/ja-JP/guides'].history.map(entry => entry.status), ['superseded'])
 })
 
 test('warning lines never count as build-failure evidence, in either direction', async () => {
