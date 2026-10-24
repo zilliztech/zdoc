@@ -571,6 +571,7 @@
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-FileResource.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-ListFileResources.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md",
+    "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewAISAQIndex.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Management-Index/v2-Index-NewAutoIndex.md",
