@@ -2,7 +2,7 @@
 title: "StructArray 演算子 | Cloud"
 slug: /struct-array-filtering
 sidebar_label: "StructArray"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

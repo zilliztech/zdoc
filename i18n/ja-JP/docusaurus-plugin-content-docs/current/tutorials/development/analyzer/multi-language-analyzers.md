@@ -77,7 +77,7 @@ Zilliz Cloud がテキスト分析を実行する場合、通常はコレクシ�
 
 `multi_analyzer_params` は、Zilliz Cloud が各エンティティに適切なアナライザーを選択する方法を決定する単一の JSON オブジェクトです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -201,6 +201,30 @@ const multi_analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var multiAnalyzerParams = new Dictionary<string, object>
+{
+    // Define language-specific analyzers
+    // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
+    ["analyzers"] = new Dictionary<string, object>
+    {
+        ["english"] = new Dictionary<string, object> { ["type"] = "english" },   // English-optimized analyzer
+        ["chinese"] = new Dictionary<string, object> { ["type"] = "chinese" },   // Chinese-optimized analyzer
+        ["default"] = new Dictionary<string, object> { ["tokenizer"] = "icu" }   // Required fallback analyzer
+    },
+    ["by_field"] = "language",                    // Field determining analyzer selection
+    ["alias"] = new Dictionary<string, object>
+    {
+        ["cn"] = "chinese",                       // Use "cn" as shorthand for Chinese
+        ["en"] = "english"                        // Use "en" as shorthand for English
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -271,7 +295,7 @@ export multi_analyzer_params='{
 
 - **ベクトルフィールド**（`sparse`）: このフィールドは、BM25 関数によって生成されるスパースベクトルを保存します。これらのベクトルは、テキストデータの分析可能な形式を表し、Zilliz Cloud が実際に検索する対象です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -511,6 +535,29 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Step 2.1: Add a primary key field for unique document identification
+// Step 2.2: Add language identifier field (must match the "by_field" value)
+// Step 2.3: Add text content field with multi-language analysis capability
+var text = FieldSchema.CreateVarchar("text", maxLength: 8192, enableAnalyzer: true);
+text.MultiAnalyzerParams = multiAnalyzerParams;
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),  // Primary key, auto-generated
+        new FieldSchema("language", DataType.VarChar) { MaxLength = 255 },        // Language identifier field
+        text,                                                                     // Text field with multi-language analysis
+        new FieldSchema("sparse", DataType.SparseFloatVector)                     // Sparse vector field for BM25 output
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -556,7 +603,7 @@ export sparseField='{
 
 生のテキストデータからスパースベクトル表現を生成する BM25 関数を定義します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -649,6 +696,15 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Create the BM25 function and add it to the schema
+schema.Functions.Add(FunctionSchema.CreateBm25("text_to_vector", "text", "sparse"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -683,7 +739,7 @@ export schema="{
 
 効率的な検索を可能にするには、スパースベクトルフィールドにインデックスを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -765,6 +821,18 @@ const index_params = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Configure index parameters: add index for the sparse vector field
+var indexParams = new[]
+{
+    new IndexParam("sparse", null, IndexType.AutoIndex, MetricType.Bm25)   // Must be BM25 for this feature
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -794,7 +862,7 @@ export IndexParams='[
 
 - `index_params=index_params` は、効率的な検索のためのインデックス作成戦略を実装します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -925,6 +993,27 @@ await client.loadCollection({ collection_name: COLLECTION_NAME });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+const string collectionName = "multilingual_documents";
+
+// Check if collection already exists and drop it for this example
+await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+
+// Create the collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = indexParams
+});
+
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = collectionName });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -957,7 +1046,7 @@ curl --request POST \
 
 多言語コレクションにドキュメントを追加する場合、各ドキュメントにはテキストコンテンツと言語識別子の両方を含める必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1143,6 +1232,30 @@ console.log("Documents by language: 2 English, 2 Chinese");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Prepare multilingual documents
+var documents = new List<IDictionary<string, object?>>
+{
+    // English documents (full language name and its alias)
+    new Dictionary<string, object?> { ["text"] = "Artificial intelligence is transforming technology", ["language"] = "english" },
+    new Dictionary<string, object?> { ["text"] = "Machine learning models require large datasets", ["language"] = "en" },
+    // Chinese documents
+    new Dictionary<string, object?> { ["text"] = "人工智能正在改变技术领域", ["language"] = "chinese" },
+    new Dictionary<string, object?> { ["text"] = "机器学习模型需要大型数据集", ["language"] = "cn" },
+};
+
+// Insert the documents
+var result = await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData = documents
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1205,7 +1318,7 @@ curl --request POST \
 
 - `params={"drop_ratio_search": "0"}` は BM25 固有の動作を制御します。ここでは、検索内のすべての用語を保持します。詳細については、[Sparse ベクトル](./use-sparse-vector) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1388,6 +1501,31 @@ english_results.results.forEach((hit, i) => {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Configure search parameters
+var searchParams = new SearchParameters
+{
+    OutputFields = { "text", "language" },   // Fields to include in the output
+    DropRatioSearch = 0,                     // Keep all terms in search (tweak as needed)
+    AnalyzerName = "english"                 // Analyzer that matches the query language
+};
+
+// Execute the search
+var englishResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,             // Collection to search
+    VectorFieldName = "sparse",                  // Field to search against
+    Texts = new[] { "artificial intelligence" }, // Query text
+    MetricType = MetricType.Bm25,                // Must match index configuration
+    Limit = 3,                                   // Max results to return
+    Parameters = searchParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1418,7 +1556,7 @@ curl --request POST \
 
 この例では、異なるクエリテキストに対して中国語アナライザー（エイリアス `"cn"` を使用）に切り替える方法を示します。他のパラメーターはすべて同じままですが、クエリテキストは中国語固有のトークン化ルールを使用して処理されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1573,6 +1711,25 @@ cn_results.results.forEach((hit, i) => {
     `${i + 1}. [${hit.score.toFixed(4)}] ${hit.text} ` +
       `(Language: ${hit.language})`
   );
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+searchParams.AnalyzerName = "cn";
+
+// Execute the search
+var chineseResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,     // Collection to search
+    VectorFieldName = "sparse",          // Field to search against
+    Texts = new[] { "人工智能" },        // Query text
+    MetricType = MetricType.Bm25,        // Must match index configuration
+    Limit = 3,                           // Max results to return
+    Parameters = searchParams
 });
 ```
 

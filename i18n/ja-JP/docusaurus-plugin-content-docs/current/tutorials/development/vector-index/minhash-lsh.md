@@ -251,7 +251,7 @@ MinHash ベクトルと元のトークンセットを準備したら、Zilliz Cl
 
 ### クラスターに接続する\{#connect-to-your-cluster}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -337,6 +337,22 @@ const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT", // Update if your URI is different
+    Username = "root",
+    Password = "Milvus"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -359,7 +375,7 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 
 - オプションで、元のテキスト用の `document` フィールド
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -464,6 +480,28 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// 256 × 64 = 16384 bits
+int vectorDim = 256 * 64;
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("doc_id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("minhash_signature", DataType.BinaryVector) { Dimension = vectorDim },
+        FieldSchema.CreateVarchar("token_set", 1000), // required for refinement
+        FieldSchema.CreateVarchar("document", 1000)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -486,7 +524,7 @@ SCHEMA='{
 
 Jaccard による絞り込みを有効にして `MINHASH_LSH` インデックスを構築します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -622,6 +660,32 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+IndexParam indexParam = new("minhash_signature", "vector_index", IndexType.MinHashLsh, MetricType.MhJaccard)
+{
+    ExtraParams =
+    {
+        ["mh_element_bit_width"] = 64, // Must match signature bit width
+        ["mh_lsh_band"] = 16,          // Band count (256/16 = 16 hashes per band)
+        ["with_raw_data"] = true       // Required for Jaccard refinement
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "minhash_demo",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -659,7 +723,7 @@ curl --request POST \
 
 - （オプション）元のテキスト
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -856,6 +920,41 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+string[] documents =
+{
+    "machine learning algorithms process data automatically",
+    "deep learning uses neural networks to model patterns"
+};
+string[] tokenSets =
+{
+    "automatically learning data machine algorithms process",
+    "learning uses deep neural networks to model patterns"
+};
+ReadOnlyMemory<byte>[] signatures = { signature0, signature1 }; // 2048 bytes each
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "minhash_demo",
+    ColumnsData =
+    [
+        FieldData.Create("doc_id", new long[] { 0, 1 }),
+        new BinaryVectorFieldData("minhash_signature", signatures),
+        FieldData.Create("token_set", tokenSets),
+        FieldData.Create("document", documents)
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -903,7 +1002,7 @@ Zilliz Cloud では、MinHash LSH を使用した 2 つの類似検索モード�
 
 類似検索を実行するには、クエリドキュメントの MinHash シグネチャを生成します。このシグネチャは、データ挿入時に使用したものと同じ次元とエンコード形式に一致する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -963,6 +1062,16 @@ const querySignature = querySignatureBytes; // Buffer(2048)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string queryText = "deep learning uses neural networks to model patterns";
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+byte[] querySignature = querySignatureBytes; // 2048 bytes
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -985,7 +1094,7 @@ curl --request POST \
 
 高速でスケーラブルですが、近い一致を見逃したり、誤検出を含んだりする可能性があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1152,6 +1261,35 @@ for (const hit of approx_results.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+SearchResp resp = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "minhash_demo",
+    VectorFieldName = "minhash_signature",
+    BinaryVectors = [querySignature],
+    MetricType = MetricType.MhJaccard,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "document" }
+    }
+});
+
+for (int i = 0; i < resp.Scores.Count; i++)
+{
+    Console.WriteLine($"{i + 1}. Similarity: {resp.Scores[i]:F3}");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1178,7 +1316,7 @@ curl --request POST \
 
 Zilliz Cloud に保存された元のトークンセットを使用して、正確な Jaccard 比較を有効にします。わずかに遅くなりますが、品質が重要なタスクに推奨されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1335,6 +1473,18 @@ for (const hit of refined_results.results) {
   const sim = hit.score;
   console.log(`Similarity: ${sim.toFixed(3)} | ${hit.document}`);
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: Refined search (`mh_search_with_jaccard` / `refine_k`) is not supported
+// in milvus-sdk-csharp as of v3.0.0 — search params are string-typed, and the
+// server rejects the string form for MINHASH refinement. Use the approximate
+// LSH search above instead; refined Jaccard search is available in the
+// Python, Java, Go, and Node.js SDKs.
 ```
 
 </TabItem>

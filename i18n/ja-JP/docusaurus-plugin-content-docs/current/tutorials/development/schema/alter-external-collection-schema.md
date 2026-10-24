@@ -45,7 +45,7 @@ Unlike managed コレクション, values for the added field are read from the 
 
 Use `add_collection_field()` to add a スカラー field when you want to return the field in query results or use it in filters. The following example adds a `score` field that maps to the `score` field in the external data source.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -149,6 +149,16 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp does not support adding a field to an external
+// collection as of v3.0.0 (AddCollectionFieldAsync cannot set the
+// external_field mapping).
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -168,7 +178,7 @@ You can also add a ベクトル field if the external data source already contai
 
 The following example adds a dense ベクトル field named `image_embedding_v2`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,6 +285,16 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp does not support adding a field to an external
+// collection as of v3.0.0 (AddCollectionFieldAsync cannot set the
+// external_field mapping).
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -288,7 +308,7 @@ await client.addCollectionField({
 
 If you plan to run ベクトル search on the added ベクトル field, create an インデックス for the field before refreshing the external コレクション.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -440,6 +460,32 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_embeddings",
+    Indexes =
+    [
+        new IndexParam("image_embedding_v2", null, IndexType.AutoIndex, MetricType.Cosine)
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -469,7 +515,7 @@ curl --request POST \
 
 After altering an external コレクション スキーマ, refresh the external コレクション so Zilliz Cloud updates the external コレクション metadata and makes the スキーマ change effective in query, search, and filter results.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -590,6 +636,30 @@ const client = new MilvusClient({address, token});
 await client.refreshExternalCollection({
    collection_name: 'product_embeddings',
  });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+RefreshExternalCollectionResp resp = await client.RefreshExternalCollectionAsync(
+    new RefreshExternalCollectionReq
+    {
+        CollectionName = "product_embeddings"
+    });
 ```
 
 </TabItem>
