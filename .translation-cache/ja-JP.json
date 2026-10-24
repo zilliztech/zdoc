@@ -4470,6 +4470,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewBloomFilterBlob.md",
       "translatedAt": "2026-10-23T06:45:03.072Z"
     },
+    "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md": {
+      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
+      "translatedAt": "2026-10-24T13:51:19.738Z"
+    },
     "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md": {
       "sourceHash": "cca8e02b1080bbd30660926960f770c5da9e0b3adf1ab10a41d618e4ca668c3a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md",
