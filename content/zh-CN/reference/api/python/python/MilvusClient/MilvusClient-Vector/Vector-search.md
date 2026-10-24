@@ -101,7 +101,7 @@ search(
 
 - **group_by_field** (*str*) -
 
-    一个选项，r o。
+    一个选项，用于按指定字段对搜索结果进行分组，以确保多样性并避免返回来自同一组的多个结果。此参数供分组搜索使用。在 PyMilvus 3.0.1 或更高版本中，请勿将此参数与 search_aggregation 一起使用。
 
 - **group_size** (*int*) -
 
@@ -324,4 +324,3 @@ res = client.search(
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
-

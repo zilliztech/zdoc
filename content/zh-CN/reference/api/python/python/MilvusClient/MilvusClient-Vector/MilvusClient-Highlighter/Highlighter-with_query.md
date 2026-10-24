@@ -33,6 +33,30 @@ import Admonition from '@theme/Admonition';
 
 向 `LexicalHighlighter` 配置添加查询词定义，用于高亮由过滤表达式（例如 TEXT_MATCH）匹配的文本。这会为 `highlight_query` 增加一个条目，用于说明要高亮的字段和词项，以及生成这些词项的过滤类型。高亮作为后处理运行，不会影响检索、过滤、排序或评分。
 
+## 请求语法\{#request-syntax}
+
+```python
+with_query(
+    field: str,
+    text: str,
+    query_type: str
+)
+```
+
+**参数：**
+
+- **field** （*str*） -
+
+    目标文本字段名称，当过滤表达式找到匹配项时，应标注该字段的内容。必须与 Collection Schema 中的 VARCHAR 文本字段相对应。
+
+- **text** （*str*） -
+
+    要从过滤表达式中高亮的词项或短语。例如，“my doc” 会高亮指定字段中 “my” 和 “doc” 的匹配项。
+
+- **query_type** （*str*） -
+
+    提供要高亮词项的过滤类型。对于基于文本的过滤，请使用 “TextMatch” 以对应 TEXT_MATCH 条件。
+
 **返回类型：**
 
 *with_query*

@@ -49,11 +49,11 @@ compact(
 
 - **is_clustering** (*bool*) -
 
-    一个用于指示是否 he 的标志。
+    一个指示是否执行聚类 Compaction 的标志。该值默认为 False。
 
 - **is_l0** (*bool*) -
 
-    一个用于指示是否 he 的标志。
+    一个指示是否执行 L0 Compaction 的标志，该 Compaction 专门通过将删除操作合并到现有数据 Segment 中来处理 L0 Segment。该值默认为 False。
 
 - **target_size** (*int*) -
 

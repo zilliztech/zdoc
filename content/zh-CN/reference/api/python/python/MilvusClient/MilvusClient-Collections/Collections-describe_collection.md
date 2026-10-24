@@ -69,7 +69,7 @@ describe_collection(
 
 - **kwargs** （*Any*） -
 
-    超时时间 i。
+    超时时间（float | None）：此操作的超时持续时间。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 

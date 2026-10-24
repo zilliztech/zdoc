@@ -33,6 +33,18 @@ import Admonition from '@theme/Admonition';
 
 此操作会向现有 Collection 添加一个新的标量字段，而无需重新创建该 Collection。由于内部 Schema 同步，该字段几乎会立即可用，延迟极低。
 
+<Admonition type="info" title="Notes">
+
+如果该 Collection 启用了动态字段，并且您添加的静态字段与现有动态字段键同名，则静态字段将遮蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
+
+</Admonition>
+
+<Admonition type="info" title="Notes">
+
+这不适用于外部 Collection。
+
+</Admonition>
+
 <Admonition type="info" title="Note">
 
 如果该 Collection 启用了动态字段，并且您添加的静态字段与现有动态字段键同名，则静态字段将遮蔽该动态字段键。原始动态值仍可通过 $meta['field_name'] 语法访问。
@@ -77,7 +89,7 @@ add_collection_field(
 
 - **timeout** （*float*） -
 
-    超时时间 i。
+    RPC 请求的超时时间（单位为秒）。如果为 None，则调用将无限期等待。
 
 - **kwargs** （*dict, optional*） -
 

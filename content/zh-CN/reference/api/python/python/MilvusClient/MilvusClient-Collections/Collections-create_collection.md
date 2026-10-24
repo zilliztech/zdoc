@@ -101,7 +101,7 @@ create_collection(
 
 - **auto_id**（*bool*）-
 
-    一个指示是否 he 的标志。
+    一个标志，用于指示向此 Collection 插入数据时主字段是否自动递增。该值默认为 False。将其设置为 True 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。自动生成的 ID 长度固定且无法更改。此参数用于 Collection 的快速设置；如果 Schema 不为 None，则会忽略此参数。
 
 - **timeout**（*float* | *None*）-
 

@@ -91,7 +91,7 @@ search_iterator(
 
 - **group_by_field** (*str*) -
 
-    一个 r o 选项。
+    此选项按指定字段对搜索结果进行分组，以确保结果多样性，并避免从同一分组中返回多个结果。
 
 - **timeout** (*float | None*) -
 
@@ -198,4 +198,3 @@ while True:
 外部 Collection 不支持此操作。
 
 </Admonition>
-

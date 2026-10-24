@@ -47,7 +47,7 @@ class pymilvus.FunctionScore
 
 - **params** (*Dict*) -
 
-    一个选项，p e。
+    一个选项，用于指定上述 Function 实例的组合方式。它提供以下设置：boost_mode（str）：指定权重如何影响任何匹配 Entity 的分数。可选值包括：Multiply：表示加权值等于匹配 Entity 的原始分数乘以指定的权重。这是默认值。Sum：表示加权值等于匹配 Entity 的原始分数与指定权重之和。function_mode（str）：指定如何处理来自各个 Boost Ranker 的加权值。可选值包括：Multiply：表示匹配 Entity 的最终分数等于所有 Boost Ranker 加权值的乘积。这是默认值。Sum：表示匹配 Entity 的最终分数等于所有 Boost Ranker 加权值之和。返回类型：*FunctionScore* 返回值：一组按配置方式组合的 Function。 ## 示例。
 
 ## 示例\{#examples}
 

@@ -51,11 +51,11 @@ run_analyzer(
 
 - **with_hash** （*bool*） -
 
-    一个可选的 p。
+    一个可选标志，用于指示是否包含基于哈希的处理。
 
 - **with_detail** （*bool*） -
 
-    一个可选的 p。
+    一个可选标志，用于指示是否返回详细的分析输出。
 
 - **collection_name** （*str | None*） -
 

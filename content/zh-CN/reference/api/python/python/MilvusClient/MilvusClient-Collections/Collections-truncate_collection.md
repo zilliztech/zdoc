@@ -33,6 +33,12 @@ import Admonition from '@theme/Admonition';
 
 此操作会移除所有 Entity，同时保留 Collection 的 Schema、约束和索引。相比删除 Entity，此操作更高效，因为它会从搜索和查询中隐藏当前时间戳之前已 flush 的所有 Entity，并在后台删除这些 Entity。
 
+<Admonition type="info" title="Notes">
+
+这不适用于外部 Collection。
+
+</Admonition>
+
 <Admonition type="info" title="Note">
 
 这不适用于外部 Collection。
@@ -55,7 +61,7 @@ truncate_collection(
 
 - **timeout** （*float*） -
 
-    超时时长。
+    RPC 请求的超时时间（以秒为单位）。如果为 None，调用将无限期等待。
 
 **返回类型：**
 
