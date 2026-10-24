@@ -32,7 +32,9 @@ test('matrix entries have unique identities, existing path roots, and nonempty r
     for (const pattern of entry.paths) {
       const declaredRoot = pattern.replace(/(?:\/\*\*|\*)$/u, '')
       const declaredByOwnership = ownership.devOwnedPaths.includes(declaredRoot) || ownership.masterAuthoritativePaths.includes(declaredRoot)
-      assert.equal(patternHasMatch(pattern) || declaredByOwnership, true, `${entry.id}: ${pattern}`)
+      // This runtime input tree is created by the first onboarding PR, not by tooling installation.
+      const prospectiveSharedDocsInputs = entry.id === 'shared-docs' && pattern === 'shared-docs/**'
+      assert.equal(patternHasMatch(pattern) || declaredByOwnership || prospectiveSharedDocsInputs, true, `${entry.id}: ${pattern}`)
     }
     for (const key of ['focusedTests', 'harnesses', 'gates']) assert.equal(Array.isArray(entry[key]), true, `${entry.id}: ${key}`)
     for (const command of [...entry.focusedTests, ...entry.harnesses, ...entry.gates]) {
@@ -80,6 +82,27 @@ test('selector maps shared contracts and recovery changes to focused, replay, an
     assert.equal(selected.commands.includes(command), true, command)
   }
   assert.equal(selected.commands.includes('pnpm test:replay:recovery'), false)
+})
+
+test('selector maps root shared-docs onboarding inputs before the first page exists', () => {
+  const inputs = [
+    'shared-docs/source.yaml',
+    'shared-docs/Variables.json',
+    'shared-docs/links.yaml',
+    'shared-docs/product-names.yaml',
+    'shared-docs/presentation/cloud-sdk-tabs.yaml',
+    'shared-docs/pages/delete-entities/page.yaml',
+    'shared-docs/pages/delete-entities/lock.yaml',
+  ]
+  for (const input of inputs) {
+    const selected = selectTests([input])
+    assert.deepEqual(selected.areas.map(area => area.id), ['shared-docs'], input)
+    assert.equal(selected.branchPolicies[0].targetBranch, 'master', input)
+    for (const command of ['pnpm test:shared-docs', 'pnpm typecheck', 'pnpm test:workflow-matrix', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+  }
+  assert.throws(() => selectTests(['shared-docs-unrelated/source.yaml']), /no entry/u)
 })
 
 test('selector maps shared MDX normalization to its regression and aggregate replay', () => {

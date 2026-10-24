@@ -1,0 +1,169 @@
+name: shared docs validate
+run-name: shared-docs-validate ${{ inputs.request_id || github.event.pull_request.number }}
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number
+        required: true
+        type: string
+      source_sha:
+        description: Exact PR head to validate
+        required: true
+        type: string
+      base_sha:
+        description: Exact PR comparison base
+        required: true
+        type: string
+      request_id:
+        description: Optional caller identity for run discovery
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: shared-docs-validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Validate immutable PR identities
+        id: identity
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || inputs.source_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$PR_NUMBER" =~ ^[1-9][0-9]*$ ]] || exit 1
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ && "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            test "$GITHUB_SHA" = "$SOURCE_SHA"
+          fi
+          printf 'source_sha=%s\nbase_sha=%s\n' "$SOURCE_SHA" "$BASE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Check out exact PR head
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.identity.outputs.source_sha }}
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Detect shared input changes
+        id: changes
+        env:
+          SOURCE_SHA: ${{ steps.identity.outputs.source_sha }}
+          BASE_SHA: ${{ steps.identity.outputs.base_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          git fetch --no-tags origin "$BASE_SHA"
+          comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA")
+          [[ "$comparison_base" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          git diff --no-renames --name-only -z "$comparison_base" "$SOURCE_SHA" -- shared-docs/ > "$RUNNER_TEMP/shared-docs-paths"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const paths = fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-paths');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `changed=${paths.length > 0}\n`);
+          NODE
+
+      - name: Report unchanged shared inputs
+        if: steps.changes.outputs.changed != 'true'
+        run: echo 'No shared-docs inputs changed; validation passed without dependency installation or generation.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install pnpm
+        if: steps.changes.outputs.changed == 'true'
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        if: steps.changes.outputs.changed == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Read public source configuration
+        id: source
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const { loadTypeScript } = require('./scripts/lib/load-typescript');
+          const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
+          const result = parseSourceConfig(fs.readFileSync('shared-docs/source.yaml', 'utf8'));
+          if ('errors' in result) throw new Error(JSON.stringify(result.errors));
+          const { repository, track } = result.config;
+          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+            throw new Error('Source repository must be a credential-free GitHub HTTPS repository URL');
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          NODE
+
+      - name: Clone complete tracking history
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          SOURCE_REPOSITORY: ${{ steps.source.outputs.repository }}
+          TRACK: ${{ steps.source.outputs.track }}
+        run: |
+          set -euo pipefail
+          git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"
+          git -C "$RUNNER_TEMP/milvus-docs" show-ref --verify "refs/heads/$TRACK"
+          test "$(git -C "$RUNNER_TEMP/milvus-docs" rev-parse --is-shallow-repository)" = false
+
+      - name: Resolve exact upstream dev snapshot
+        id: dev
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git ls-remote --exit-code https://github.com/zilliztech/zdoc.git refs/heads/dev > "$RUNNER_TEMP/shared-docs-dev-ref"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const match = /^([0-9a-f]{40})\trefs\/heads\/dev\n$/.exec(fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-dev-ref', 'utf8'));
+          if (!match) throw new Error('Upstream dev identity is unavailable or ambiguous');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `sha=${match[1]}\n`);
+          NODE
+
+      - name: Check out read-only upstream dev snapshot
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/checkout@v5
+        with:
+          repository: zilliztech/zdoc
+          ref: ${{ steps.dev.outputs.sha }}
+          path: .shared-docs-dev
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /content/en/guides/
+            /content/en/byoc/
+            /packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+
+      - name: Generate all shared pages
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          status=0
+          pnpm docs-tooling shared-docs build --shared-docs shared-docs --repo "$RUNNER_TEMP/milvus-docs" \
+            --dev .shared-docs-dev --out "$RUNNER_TEMP/shared-docs-output" > "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/shared-docs-validation.log"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const log = fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-validation.log', 'utf8');
+          const excerpt = log.split('\n').slice(-200).join('\n').slice(-32000).replace(/```/g, '[code fence]');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Shared docs generation diagnostics (last 200 lines, up to 32000 characters):\n\n\`\`\`text\n${excerpt}\n\`\`\`\n`);
+          NODE
+          exit "$status"

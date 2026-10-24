@@ -92,10 +92,14 @@ export class GitMilvusDocsReader implements InspectionReader {
     await this.commit(descendant)
     return this.ancestor(ancestor, descendant)
   }
-  private async ancestor(ancestor: string, descendant: string): Promise<boolean> {
+  /** Reject shallow clones without claiming every historical object is present. */
+  async requireNonShallowHistory(): Promise<void> {
     if ((await this.run(['rev-parse', '--is-shallow-repository'])).trim() === 'true') {
-      throw new MilvusDocsReaderError('GIT_ERROR', 'Complete local history is required for ancestry checks')
+      throw new MilvusDocsReaderError('GIT_ERROR', 'Shallow Git history is not supported')
     }
+  }
+  private async ancestor(ancestor: string, descendant: string): Promise<boolean> {
+    await this.requireNonShallowHistory()
     const result = await this.git(['merge-base', '--is-ancestor', ancestor, descendant])
     if (result.status === 0) return true
     if (result.status === 1) return false

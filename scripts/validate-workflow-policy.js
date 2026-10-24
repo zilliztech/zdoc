@@ -30,9 +30,11 @@ const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
 ]))
 const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
+  ['shared-docs-lock.yml', new Set(['lock'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
 const publishingWorkflows = new Set([
+  'shared-docs-lock.yml',
   'fetch-docs.yml',
   'publish-translation.yml',
   'fetch-guides-requested.yml',
@@ -280,6 +282,138 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   }
 }
 
+function validateSharedDocsWorkflow(workflow, source, file, errors) {
+  const fail = message => errors.push(`${file}: shared-docs ${message}`)
+  const lock = file === 'shared-docs-lock.yml'
+  const jobs = workflow.jobs || {}
+  const stepsOf = job => jobs[job]?.steps || []
+  const step = (job, name) => stepsOf(job).find(item => item.name === name)
+  const run = (job, name) => String(step(job, name)?.run || '')
+  const sameRepo = 'github.event.pull_request.head.repo.full_name == github.repository'
+  const allSteps = Object.values(jobs).flatMap(job => job.steps || [])
+  const primary = lock ? 'lock' : 'validate'
+  const requiredConcurrency = lock
+    ? 'shared-docs-lock-${{ github.event.pull_request.number }}'
+    : 'shared-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.event_name }}'
+  if (workflow.concurrency?.group !== requiredConcurrency || workflow.concurrency?.['cancel-in-progress'] !== !lock ||
+      workflow.concurrency?.queue !== undefined || Object.values(jobs).some(job => job.concurrency !== undefined)) {
+    fail('must use its separate per-PR concurrency and cancellation rule, with validation isolated by event')
+  }
+  if (jobs[primary]?.['timeout-minutes'] !== (lock ? 45 : 30)) {
+    fail(lock ? 'lock timeout must remain 45 minutes to cover child validation and setup' : 'validation timeout must remain 30 minutes')
+  }
+  if (Object.keys(workflow.on || {}).sort().join(',') !== (lock ? 'pull_request' : 'pull_request,workflow_dispatch') ||
+      JSON.stringify(workflow.on?.pull_request?.types) !== JSON.stringify(['opened', 'synchronize', 'reopened', 'ready_for_review'])) {
+    fail('must keep the explicit PR-only lock / PR-and-dispatch validation triggers')
+  }
+  if (JSON.stringify(workflow.on?.pull_request?.branches) !== JSON.stringify(['master'])) {
+    fail('PR triggers must target only master')
+  }
+  if (workflow.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(workflow.env || {})) ||
+      Object.values(jobs).some(job => job.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(job.env || {}))) ||
+      allSteps.some(item => /\$\{\{/.test(item.run || ''))) fail('must isolate credentials and pass expressions only through step inputs or env')
+  const checkouts = allSteps.filter(item => String(item.uses || '').startsWith('actions/checkout@'))
+  if (checkouts.some(item => item.uses !== 'actions/checkout@v5' || item.with?.['persist-credentials'] !== false)) {
+    fail('every checkout must disable credential persistence')
+  }
+  const headCheckout = step(primary, 'Check out exact PR head')
+  if (headCheckout?.with?.ref !== (lock ? '${{ github.event.pull_request.head.sha }}' : '${{ steps.identity.outputs.source_sha }}') ||
+      headCheckout?.with?.['fetch-depth'] !== 0) fail('must check out the exact immutable PR head with full history')
+  const identityStep = step(primary, 'Validate immutable PR identities')
+  const identityEnv = identityStep?.env || {}
+  const expectedIdentityEnv = lock
+    ? {PR_NUMBER: '${{ github.event.pull_request.number }}', SOURCE_SHA: '${{ github.event.pull_request.head.sha }}', BASE_SHA: '${{ github.event.pull_request.base.sha }}', PR_HEAD_BRANCH: '${{ github.event.pull_request.head.ref }}'}
+    : {PR_NUMBER: '${{ github.event.pull_request.number || inputs.pr_number }}', SOURCE_SHA: '${{ github.event.pull_request.head.sha || inputs.source_sha }}', BASE_SHA: '${{ github.event.pull_request.base.sha || inputs.base_sha }}'}
+  if (Object.entries(expectedIdentityEnv).some(([key, value]) => identityEnv[key] !== value)) fail('identity env must bind exact PR head/base or dispatch inputs')
+  const identity = run(primary, 'Validate immutable PR identities')
+  if (!identity.includes('^[1-9][0-9]*$') || !identity.includes('^[0-9a-f]{40}$') ||
+      !lock && !identity.includes('test "$GITHUB_SHA" = "$SOURCE_SHA"')) fail('must validate PR/SHA identities and bind dispatch to github.sha')
+  const clone = run(primary, 'Clone complete tracking history')
+  const sourceConfig = run(primary, 'Read public source configuration')
+  if (!clone.includes('git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"') ||
+      !clone.includes('show-ref --verify "refs/heads/$TRACK"') || !clone.includes('rev-parse --is-shallow-repository)" = false') ||
+      /--depth|--filter|blob:none|GH_TOKEN|secrets\./.test(clone) ||
+      !sourceConfig.includes('parseSourceConfig') || !sourceConfig.includes('^https:\\/\\/github\\.com\\/') ||
+      !sourceConfig.includes('credential-free GitHub HTTPS repository URL')) fail('must parse a public GitHub source URL and clone complete single-branch tracking history')
+  if (!lock) {
+    if (JSON.stringify(workflow.permissions) !== JSON.stringify({contents: 'read'}) || Object.keys(jobs).join(',') !== 'validate' ||
+        jobs.validate?.permissions !== undefined || /secrets\.|GH_TOKEN|git push|report-card/.test(source)) fail('validation must be read-only without secrets or writers')
+    if (workflow.on?.pull_request?.paths !== undefined || workflow.on?.pull_request?.['paths-ignore'] !== undefined || jobs.validate?.if !== undefined ||
+        jobs.validate?.name !== 'shared-docs-validate') fail('validation must always create the stable required PR check without a path filter')
+    const inputs = workflow.on?.workflow_dispatch?.inputs || {}
+    if (['pr_number', 'source_sha', 'base_sha'].some(name => inputs[name]?.type !== 'string' || inputs[name]?.required !== true) ||
+        inputs.request_id?.type !== 'string' || inputs.request_id?.required !== false ||
+        workflow['run-name'] !== 'shared-docs-validate ${{ inputs.request_id || github.event.pull_request.number }}') fail('dispatch must expose immutable identities and a discoverable request ID')
+    const changes = run('validate', 'Detect shared input changes')
+    if (!changes.includes('comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA")') ||
+        !changes.includes('git diff --no-renames --name-only -z "$comparison_base" "$SOURCE_SHA" -- shared-docs/') ||
+        !changes.includes('set -euo pipefail') || /merge-base[^\n]*\|\||git diff[^\n]*\|\|/.test(changes)) fail('must detect all shared input changes with a fail-closed merge base and NUL-safe no-renames diff')
+    const guardedNames = ['Install pnpm', 'Set up Node.js', 'Install tooling', 'Read public source configuration', 'Clone complete tracking history',
+      'Resolve exact upstream dev snapshot', 'Check out read-only upstream dev snapshot', 'Generate all shared pages']
+    if (guardedNames.some(name => step('validate', name)?.if !== "steps.changes.outputs.changed == 'true'")) fail('must skip install, external reads and generation when unchanged')
+    const dev = step('validate', 'Check out read-only upstream dev snapshot')
+    if (dev?.with?.repository !== 'zilliztech/zdoc' || dev?.with?.ref !== '${{ steps.dev.outputs.sha }}' ||
+        dev?.with?.['sparse-checkout-cone-mode'] !== false ||
+        String(dev?.with?.['sparse-checkout'] || '').trim() !== '/content/en/guides/\n/content/en/byoc/\n/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json' ||
+        !run('validate', 'Resolve exact upstream dev snapshot').includes('git ls-remote --exit-code https://github.com/zilliztech/zdoc.git refs/heads/dev')) fail('must sparsely read upstream dev at an exact resolved SHA')
+    if (!run('validate', 'Generate all shared pages').includes('pnpm docs-tooling shared-docs build') ||
+        /--page\b/.test(run('validate', 'Generate all shared pages')) || !run('validate', 'Generate all shared pages').includes('GITHUB_STEP_SUMMARY') || !run('validate', 'Generate all shared pages').includes('exit \"$status\"')) fail('must generate the complete shared-page candidate')
+    return
+  }
+  if (JSON.stringify(workflow.permissions) !== JSON.stringify({contents: 'write', actions: 'write'}) ||
+      Object.keys(jobs).join(',') !== 'fork_notice,lock,infrastructure_report' || jobs.lock?.permissions !== undefined || jobs.lock?.if !== sameRepo ||
+      JSON.stringify(jobs.fork_notice?.permissions) !== JSON.stringify({contents: 'read'}) ||
+      JSON.stringify(jobs.infrastructure_report?.permissions) !== JSON.stringify({contents: 'read'})) fail('only the same-repository lock job may inherit contents/actions write')
+  if (JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(['shared-docs/pages/**'])) fail('lock trigger must be scoped to shared-docs/pages/**')
+  const notice = run('fork_notice', 'Explain fork onboarding boundary')
+  if (jobs.fork_notice?.if !== 'github.event.pull_request.head.repo.full_name != github.repository' || stepsOf('fork_notice').length !== 1 ||
+      !notice.includes('::warning title=LOCK_FORK_PR::Please submit this onboarding PR from a branch in this repository') ||
+      !notice.includes('LOCK_FORK_PR: Please submit this onboarding PR from a branch in this repository\' >> "$GITHUB_STEP_SUMMARY"')) fail('forks must receive the exact successful warning and summary without checkout')
+  const permittedTokenSteps = new Set(['Push only new regular lock files', 'Dispatch and wait for exact pushed validation'])
+  if (allSteps.some(item => item.env?.GH_TOKEN !== undefined && (!permittedTokenSteps.has(item.name) || item.env.GH_TOKEN !== '${{ github.token }}'))) {
+    fail('GitHub credentials must be scoped only to push and dispatch steps')
+  }
+  const push = run('lock', 'Push only new regular lock files')
+  const pushRequirements = ['git diff --quiet', 'git diff --cached --quiet', "'--others', '--exclude-standard', '-z'", "status !== 'A'",
+    'fs.lstatSync(file).isFile()', "entry.startsWith('100644 ')", 'git ls-remote --exit-code', 'test "$remote_head" = "$SOURCE_SHA"',
+    'GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader',
+    'git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$PR_HEAD_BRANCH"', 'pushed_sha=%s']
+  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('shared-docs\\/pages\\/') ||
+      /git add -A|git add \.|--force|credential.helper|remote set-url|git config.*extraheader/.test(push) ||
+      stepsOf('lock').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1) fail('push must allow only new regular locks, recheck the remote head and use ephemeral HTTP authorization without force')
+  const dispatchStep = step('lock', 'Dispatch and wait for exact pushed validation')
+  const dispatch = dispatchStep?.run || ''
+  const dispatchRequirements = ['request_id="lock-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"',
+    'gh workflow run shared-docs-validate.yml --repo "$GITHUB_REPOSITORY" --ref "$PR_HEAD_BRANCH"', '-f source_sha="$SOURCE_SHA" -f base_sha="$BASE_SHA" -f pr_number="$PR_NUMBER" -f request_id="$request_id"',
+    '--event workflow_dispatch', 'run.headSha === process.env.SOURCE_SHA', 'run.headBranch === process.env.PR_HEAD_BRANCH',
+    'run.event === \'workflow_dispatch\'', 'run.displayTitle === `shared-docs-validate ${process.env.VALIDATION_REQUEST_ID}`',
+    '--repo "$GITHUB_REPOSITORY"', 'Validation run: %s/%s/actions/runs/%s', 'attempt<30', 'gh run watch "$validation_run_id" --repo "$GITHUB_REPOSITORY" --exit-status || status=$?', 'gh run view "$validation_run_id" --repo "$GITHUB_REPOSITORY" --json status,conclusion', 'failure_class=validation']
+  if (dispatchStep?.if !== "steps.push.outputs.pushed == 'true'" || dispatchStep?.env?.SOURCE_SHA !== '${{ steps.push.outputs.pushed_sha }}' ||
+      dispatchRequirements.some(text => !dispatch.includes(text)) || /\|\| true|continue-on-error/.test(dispatch) || dispatchStep?.['continue-on-error'] === true) fail('must dispatch only actual pushes and authenticate/wait for the exact SHA, branch and unique request ID')
+  if (dispatch.split('\n').filter(line => /\bgh (?:workflow|run)\b/.test(line)).some(line => !line.includes('--repo \"$GITHUB_REPOSITORY\"'))) fail('every GitHub CLI operation must explicitly select the current repository')
+  if (!dispatch.includes("echo 'failure_class=infrastructure' >> \"$GITHUB_OUTPUT\"") ||
+      !dispatch.includes("result.status === 'completed' && result.conclusion && result.conclusion !== 'success' && result.conclusion !== 'cancelled'")) {
+    fail('must keep cancelled or unconfirmed child runs classified as infrastructure')
+  }
+  const command = run('lock', 'Create missing initial locks')
+  if (!command.includes('pnpm docs-tooling shared-docs lock') || !command.includes('1) echo \'failure_class=content\'') ||
+      !command.includes('*) echo \'failure_class=infrastructure\'') || !command.includes('exit "$status"') ||
+      step('lock', 'Classify failure for isolated reporting')?.if !== 'always()' ||
+      !run('lock', 'Classify failure for isolated reporting').includes('${SOURCE_FAILURE:-${COMMAND_FAILURE:-${VALIDATION_FAILURE:-infrastructure}}}')) fail('must distinguish content, child validation and infrastructure failures')
+  const report = jobs.infrastructure_report
+  if (report?.needs !== 'lock' || report?.if !== `always() && ${sameRepo} && needs.lock.outputs.failure_class == 'infrastructure'` ||
+      step('infrastructure_report', 'Check out trusted reporting tooling')?.with?.ref !== '${{ github.event.pull_request.base.sha }}') fail('infrastructure reporting must be isolated, same-repository and checked out from the trusted PR base')
+  if (!run('infrastructure_report', 'Finish infrastructure failure card').includes('--status failure')) fail('infrastructure card must use the supported failure status')
+  if (!run('infrastructure_report', 'Attach infrastructure failure note').includes('--file tmp/shared-docs-infrastructure-failure.md')) fail('card notes must use a repository-relative input accepted by report-card')
+  const cardNames = ['Create infrastructure failure card', 'Attach infrastructure failure note', 'Finish infrastructure failure card']
+  if (Object.entries(jobs).some(([jobName, job]) => (job.steps || []).some(item => /secrets\./.test(JSON.stringify(item)) && (jobName !== 'infrastructure_report' || !cardNames.includes(item.name)))) ||
+      cardNames.some(name => {
+        const item = step('infrastructure_report', name)
+        return item?.['continue-on-error'] !== true || item?.env?.FEISHU_NOTIFICATIONS_DISABLED !== "${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}" ||
+          !/pnpm docs-tooling report-card (?:create|note|finish)/.test(item?.run || '')
+      })) fail('only best-effort infrastructure card steps may receive Feishu secrets and must honor the kill switch')
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => /\.ya?ml$/.test(file)).sort()
@@ -462,6 +596,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!/^permissions:\n(?:  .+\n)+/m.test(source)) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }
+    if (file === 'shared-docs-lock.yml' || file === 'shared-docs-validate.yml') validateSharedDocsWorkflow(workflow, source, file, errors)
     const primaryJobs = Object.values(workflow.jobs || {}).filter(job => job?.['runs-on'])
     if (primaryJobs.some(job => !Number.isFinite(job?.['timeout-minutes']))) {
       errors.push(`${file}: every primary job must have a timeout`)

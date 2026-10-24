@@ -1,0 +1,301 @@
+name: shared docs lock
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - shared-docs/pages/**
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: shared-docs-lock-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  fork_notice:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Explain fork onboarding boundary
+        run: |
+          echo '::warning title=LOCK_FORK_PR::Please submit this onboarding PR from a branch in this repository'
+          echo 'LOCK_FORK_PR: Please submit this onboarding PR from a branch in this repository' >> "$GITHUB_STEP_SUMMARY"
+
+  lock:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    # Must exceed validation's 30 minutes plus install, clone and child discovery.
+    timeout-minutes: 45
+    outputs:
+      failure_class: ${{ steps.classify.outputs.failure_class }}
+      pushed_sha: ${{ steps.push.outputs.pushed_sha }}
+    steps:
+      - name: Validate immutable PR identities
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          [[ "$PR_NUMBER" =~ ^[1-9][0-9]*$ ]] || exit 1
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ && "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          git check-ref-format "refs/heads/$PR_HEAD_BRANCH"
+
+      - name: Check out exact PR head
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Read public source configuration
+        id: source
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const { loadTypeScript } = require('./scripts/lib/load-typescript');
+          const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
+          const failInput = message => {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'failure_class=content\n');
+            console.error(message);
+            process.exit(1);
+          };
+          let text;
+          try { text = fs.readFileSync('shared-docs/source.yaml', 'utf8'); }
+          catch (error) { if (error.code === 'ENOENT') failInput('Missing shared-docs/source.yaml'); throw error; }
+          const result = parseSourceConfig(text);
+          if ('errors' in result) failInput(JSON.stringify(result.errors));
+          const { repository, track } = result.config;
+          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+            failInput('Source repository must be a credential-free GitHub HTTPS repository URL');
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          NODE
+
+      - name: Clone complete tracking history
+        env:
+          SOURCE_REPOSITORY: ${{ steps.source.outputs.repository }}
+          TRACK: ${{ steps.source.outputs.track }}
+        run: |
+          set -euo pipefail
+          git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"
+          git -C "$RUNNER_TEMP/milvus-docs" show-ref --verify "refs/heads/$TRACK"
+          test "$(git -C "$RUNNER_TEMP/milvus-docs" rev-parse --is-shallow-repository)" = false
+
+      - name: Create missing initial locks
+        id: command
+        run: |
+          set -euo pipefail
+          status=0
+          pnpm docs-tooling shared-docs lock --shared-docs shared-docs --repo "$RUNNER_TEMP/milvus-docs" || status=$?
+          case "$status" in
+            0) ;;
+            1) echo 'failure_class=content' >> "$GITHUB_OUTPUT" ;;
+            *) echo 'failure_class=infrastructure' >> "$GITHUB_OUTPUT" ;;
+          esac
+          exit "$status"
+
+      - name: Push only new regular lock files
+        id: push
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          git diff --quiet
+          git diff --cached --quiet
+          node <<'NODE'
+          const fs = require('node:fs');
+          const { execFileSync } = require('node:child_process');
+          const git = args => execFileSync('git', args, { encoding: 'utf8' });
+          const paths = git(['ls-files', '--others', '--exclude-standard', '-z', '--', 'shared-docs/pages/']).split('\0').filter(Boolean);
+          for (const file of paths) {
+            if (!/^shared-docs\/pages\/[a-z0-9]+(?:-[a-z0-9]+)*\/lock\.yaml$/.test(file) || !fs.lstatSync(file).isFile() || fs.lstatSync(file).isSymbolicLink()) {
+              throw new Error(`Refusing non-lock or non-regular path: ${JSON.stringify(file)}`);
+            }
+          }
+          if (paths.length) git(['add', '--', ...paths]);
+          const changes = git(['diff', '--cached', '--no-renames', '--name-status', '-z']).split('\0');
+          changes.pop();
+          for (let i = 0; i < changes.length; i += 2) {
+            const [status, file] = changes.slice(i, i + 2);
+            if (status !== 'A' || !paths.includes(file)) throw new Error('Staged changes must contain only new initial locks');
+            const entry = git(['ls-files', '--stage', '-z', '--', file]);
+            if (!entry.startsWith('100644 ')) throw new Error('Lock must have regular non-executable file mode');
+          }
+          NODE
+          if git diff --cached --quiet; then
+            echo 'No missing locks; no commit, push, or dispatch was needed.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'pushed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          remote_head=$(git ls-remote --exit-code "https://github.com/$GITHUB_REPOSITORY.git" "refs/heads/$PR_HEAD_BRANCH")
+          test "$remote_head" = "$SOURCE_SHA"$'\t'"refs/heads/$PR_HEAD_BRANCH"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(shared-docs): pin initial source locks'
+          pushed_sha=$(git rev-parse HEAD)
+          [[ "$pushed_sha" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          authorization=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 | tr -d '\n')
+          GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $authorization" \
+            git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$PR_HEAD_BRANCH"
+          printf 'pushed=true\npushed_sha=%s\n' "$pushed_sha" >> "$GITHUB_OUTPUT"
+          printf 'Pushed shared docs lock SHA: %s\n' "$pushed_sha" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Dispatch and wait for exact pushed validation
+        id: validation
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ steps.push.outputs.pushed_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          echo 'failure_class=infrastructure' >> "$GITHUB_OUTPUT"
+          request_id="lock-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          gh workflow run shared-docs-validate.yml --repo "$GITHUB_REPOSITORY" --ref "$PR_HEAD_BRANCH" \
+            -f source_sha="$SOURCE_SHA" -f base_sha="$BASE_SHA" -f pr_number="$PR_NUMBER" -f request_id="$request_id"
+          export VALIDATION_REQUEST_ID="$request_id"
+          validation_run_id=''
+          for ((attempt=0; attempt<30; attempt++)); do
+            gh run list --repo "$GITHUB_REPOSITORY" --workflow shared-docs-validate.yml --branch "$PR_HEAD_BRANCH" \
+              --event workflow_dispatch --limit 100 --json databaseId,headSha,displayTitle,event,headBranch > "$RUNNER_TEMP/shared-docs-runs.json"
+            validation_run_id=$(node <<'NODE'
+          const fs = require('node:fs');
+          const runs = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-runs.json', 'utf8'));
+          const exact = runs.filter(run => run.headSha === process.env.SOURCE_SHA && run.event === 'workflow_dispatch'
+            && run.headBranch === process.env.PR_HEAD_BRANCH && run.displayTitle === `shared-docs-validate ${process.env.VALIDATION_REQUEST_ID}`);
+          if (exact.length > 1) throw new Error('Ambiguous exact validation run');
+          if (exact.length) {
+            if (!Number.isSafeInteger(exact[0].databaseId) || exact[0].databaseId <= 0) throw new Error('Invalid validation run ID');
+            process.stdout.write(String(exact[0].databaseId));
+          }
+          NODE
+            )
+            [[ -n "$validation_run_id" ]] && break
+            sleep 2
+          done
+          [[ "$validation_run_id" =~ ^[1-9][0-9]*$ ]] || exit 1
+          printf 'run_id=%s\n' "$validation_run_id" >> "$GITHUB_OUTPUT"
+          printf 'Pushed shared docs lock SHA: %s\nValidation run: %s/%s/actions/runs/%s\n' \
+            "$SOURCE_SHA" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$validation_run_id" >> "$GITHUB_STEP_SUMMARY"
+          status=0
+          gh run watch "$validation_run_id" --repo "$GITHUB_REPOSITORY" --exit-status || status=$?
+          if ((status != 0)); then
+            gh run view "$validation_run_id" --repo "$GITHUB_REPOSITORY" --json status,conclusion > "$RUNNER_TEMP/shared-docs-result.json"
+            node <<'NODE'
+          const fs = require('node:fs');
+          const result = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-result.json', 'utf8'));
+          if (result.status === 'completed' && result.conclusion && result.conclusion !== 'success' && result.conclusion !== 'cancelled') {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'failure_class=validation\n');
+          }
+          NODE
+            exit "$status"
+          fi
+
+      - name: Classify failure for isolated reporting
+        id: classify
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          SOURCE_FAILURE: ${{ steps.source.outputs.failure_class }}
+          COMMAND_FAILURE: ${{ steps.command.outputs.failure_class }}
+          VALIDATION_FAILURE: ${{ steps.validation.outputs.failure_class }}
+        run: |
+          set -euo pipefail
+          failure_class=''
+          if [[ "$JOB_STATUS" == failure ]]; then
+            failure_class=${SOURCE_FAILURE:-${COMMAND_FAILURE:-${VALIDATION_FAILURE:-infrastructure}}}
+          fi
+          printf 'failure_class=%s\n' "$failure_class" >> "$GITHUB_OUTPUT"
+
+  infrastructure_report:
+    needs: lock
+    if: always() && github.event.pull_request.head.repo.full_name == github.repository && needs.lock.outputs.failure_class == 'infrastructure'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted reporting tooling
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install trusted reporting tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Prepare infrastructure failure note
+        run: |
+          mkdir -p tmp
+          printf '%s\n' "Shared docs lock infrastructure failed: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > tmp/shared-docs-infrastructure-failure.md
+
+      - name: Create infrastructure failure card
+        id: card
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+        run: pnpm docs-tooling report-card create --title "Shared docs lock infrastructure failure" --stages "Create initial locks"
+
+      - name: Attach infrastructure failure note
+        if: steps.card.outputs.card_id != ''
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+        run: pnpm docs-tooling report-card note --file tmp/shared-docs-infrastructure-failure.md
+
+      - name: Finish infrastructure failure card
+        if: steps.card.outputs.card_id != ''
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+          CARD_ID: ${{ steps.card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.card.outputs.card_title }}
+        run: |
+          pnpm docs-tooling report-card finish --message-id "$CARD_ID" --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" --title "$CARD_TITLE" --status failure

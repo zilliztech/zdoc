@@ -267,6 +267,21 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
   if (argv[0] === 'shared-docs') {
+    if (argv[1] === 'lock') {
+      const options = parseOptions(argv.slice(2));
+      for (const key of Object.keys(options)) {
+        if (!['sharedDocs', 'repo', 'page', 'fromFork'].includes(key)) throw new Error(`Unknown lock option: --${key}`);
+      }
+      if (options.fromFork !== undefined && options.fromFork !== true) throw new Error('--from-fork must be a flag');
+      const {runLock} = await import('./shared-docs/commands/lock.ts');
+      if (options.fromFork === true) {
+        process.exitCode = await runLock({fromFork: true});
+        return true;
+      }
+      process.exitCode = await runLock({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
+        page: options.page === undefined ? undefined : requiredOption(options, 'page')});
+      return true;
+    }
     if (argv[1] === 'links-seed') {
       const options = parseOptions(argv.slice(2));
       for (const key of Object.keys(options)) {
@@ -290,7 +305,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text));
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed or build');
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build or lock');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['pages', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);

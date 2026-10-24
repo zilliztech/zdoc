@@ -1197,7 +1197,8 @@
     {
       "id": "shared-docs",
       "paths": [
-        "packages/docs-tooling/src/shared-docs/**"
+        "packages/docs-tooling/src/shared-docs/**",
+        "shared-docs/**"
       ],
       "focusedTests": [
         "pnpm test:shared-docs"
@@ -1208,7 +1209,28 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs types, test helpers, fixtures and adapter contracts must stay isolated from external systems and keep the requirement coverage ledger complete."
+      "reason": "Shared docs types, test helpers, fixtures, adapter contracts and root onboarding source/page inputs must keep complete requirement coverage and all-page candidate validation without external test dependencies."
+    },
+    {
+      "id": "shared-docs-pr-workflows",
+      "paths": [
+        ".github/workflows/shared-docs-lock.yml",
+        ".github/workflows/shared-docs-validate.yml",
+        "packages/docs-tooling/src/shared-docs/testing/workflows.test.ts",
+        "scripts/validate-workflow-policy.js",
+        "scripts/validate-workflow-policy.test.js",
+        "scripts/sdk-reference-workflow.test.js"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/workflows.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Shared docs PR checks must preserve the read-only all-page candidate boundary, same-repository lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
     }
   ]
 }

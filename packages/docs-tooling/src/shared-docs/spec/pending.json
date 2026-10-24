@@ -1,6 +1,4 @@
 {
-  "3-2": "WP8",
-  "3-3": "WP8",
   "3-6": "WP14",
   "4-1": "WP10",
   "4-2": "WP10",
@@ -49,7 +47,6 @@
   "T08": "WP15",
   "T09": "WP15",
   "T10": "WP15",
-  "T12": "WP8",
   "T13": "WP11",
   "TRANSFORM_TARGET_NOT_FOUND": "WP10",
   "TRANSFORM_TARGET_KIND": "WP10",
