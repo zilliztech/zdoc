@@ -334,7 +334,11 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
       const targetPath = mappedTarget(sourcePath, mapping);
       const targetExists = targetIsRegular(options.repositoryRoot, targetPath);
       const prior = previousBySource.get(sourcePath);
-      if (options.mode !== 'full' && !changed.has(sourcePath) && !forced.has(sourcePath) && prior?.status !== 'retired' && targetExists && prior?.sourceHash === sourceHash) continue;
+      // A source-delta file whose previous record already matches the current
+      // source hash was translated and published at exactly this version, so
+      // it is fresh even though it sits in the delta; re-counting a published
+      // checkpoint must not re-queue it. Forced paths always retranslate.
+      if (options.mode !== 'full' && !forced.has(sourcePath) && prior?.status !== 'retired' && targetExists && prior?.sourceHash === sourceHash) continue;
       const reason: TranslationCandidateReason = changed.has(sourcePath)
         ? 'current_delta'
         : !targetExists ? 'missing_target' : 'stale_source';
