@@ -165,7 +165,7 @@ Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 
 組み込みアナライザーを使用するには、フィールドスキーマを定義するときに `analyzer_params` でそのタイプを指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,6 +275,23 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Using built-in English analyzer
+Dictionary<string, object> analyzerParams = new()
+{
+    ["type"] = "english"
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -312,10 +329,10 @@ export textField='{
 
 <table>
    <tr>
-     <th><p>トークナイザー</p></th>
-     <th><p>動作</p></th>
-     <th><p>最適な用途</p></th>
-     <th><p>例</p></th>
+     <th><p>Tokenizer</p></th>
+     <th><p>How It Works</p></th>
+     <th><p>Best For</p></th>
+     <th><p>Examples</p></th>
    </tr>
    <tr>
      <td><p><a href="./standard-tokenizer"><code>standard</code></a></p></td>
@@ -423,10 +440,10 @@ export textField='{
 
 <table>
    <tr>
-     <th><p>フィルター</p></th>
-     <th><p>動作</p></th>
-     <th><p>使用する場合</p></th>
-     <th><p>例</p></th>
+     <th><p>Filter</p></th>
+     <th><p>How It Works</p></th>
+     <th><p>When to Use</p></th>
+     <th><p>Examples</p></th>
    </tr>
    <tr>
      <td><p><a href="./lowercase-filter"><code>lowercase</code></a></p></td>
@@ -551,7 +568,7 @@ export textField='{
 
 カスタムアナライザーを作成するには、`analyzer_params` ディクショナリーでトークナイザーとフィルターのリストを定義します。フィルターは、リストに記載された順序で適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -676,6 +693,24 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Example: A custom analyzer for technical content
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new List<object> { "lowercase", "alphanumonly" }
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -697,7 +732,7 @@ export textField='{
 
 コレクションに適用する前に、必ず構成を検証してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -818,6 +853,36 @@ const result = await client.runAnalyzer({
   analyzer_params,
 });
 console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -1108,7 +1173,7 @@ curl --request POST \
 
 **基本的な多言語構成（ステミングなし）**：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1180,6 +1245,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "icu",
+    ["filter"] = new List<object> { "lowercase", "asciifolding" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1205,3 +1284,4 @@ export analyzerParams='{
 Zilliz Cloud では、コードを書かずに [Zilliz Cloud](https://cloud.zilliz.com/) [コンソール](https://cloud.zilliz.com/) から直接テキストアナライザーを構成してテストできます。
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+

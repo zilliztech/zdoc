@@ -75,7 +75,7 @@ compile 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
 
 次のコードは、可能なすべてのデータ型を持つコレクションスキーマを作成します。また、このスキーマは、プライマリフィールドの自動インクリメントを無効にし、動的フィールドを有効にします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,6 +217,14 @@ private static byte[] genBinaryVector() {
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
 </Tabs>
 
 ### BulkWriter の作成\{#create-a-bulkwriter}
@@ -311,7 +319,7 @@ private static byte[] genBinaryVector() {
 
     <TabItem value="aws">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -378,13 +386,21 @@ private static byte[] genBinaryVector() {
     ```
 
     </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
     </Tabs>
 
     </TabItem>
 
     <TabItem value="azure">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -432,6 +448,14 @@ private static byte[] genBinaryVector() {
     ```
 
     </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
     </Tabs>
 
     </TabItem>
@@ -440,7 +464,7 @@ private static byte[] genBinaryVector() {
 
     接続パラメーターの準備ができたら、次のように **RemoteBulkWriter** で参照できます。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -474,6 +498,14 @@ private static byte[] genBinaryVector() {
             .build();
     
     RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -710,7 +742,7 @@ private static List<Long> genIntArray(int length) {
 
 デモンストレーションのため、次のコードはランダムに生成されたデータを追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -784,13 +816,21 @@ private static String generateString(int length) {
 </TabItem>
 </Tabs>
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
 </Tabs>
 
 ## 結果の確認\{#verify-the-result}
 
 結果を確認するには、ライターの **data_path** プロパティを出力して実際の出力パスを取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -810,6 +850,14 @@ List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
 System.out.println(batchFiles);
 
 // [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>
@@ -895,3 +943,4 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリにそ
 - [RESTful API でのデータのインポート](./import-data-via-restful-api)
 
 - [SDK でのデータのインポート](./import-data-via-sdks)
+

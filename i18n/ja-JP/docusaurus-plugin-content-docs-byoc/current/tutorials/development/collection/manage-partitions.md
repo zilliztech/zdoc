@@ -25,17 +25,17 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。ほかのパーティションを追加する予定がない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに格納され、すべての検索およびクエリもデフォルトパーティション内で実行されます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。ほかのパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに格納され、すべての検索とクエリもデフォルトパーティション内で実行されます。
 
-特定の基準に基づいてパーティションを追加し、そのパーティションにエンティティを挿入できます。その後、検索およびクエリを特定のパーティション内に制限することで、検索パフォーマンスを向上できます。
+特定の基準に基づいて、さらにパーティションを追加し、それらにエンティティを挿入できます。その後、検索とクエリを特定のパーティション内に制限できるため、検索パフォーマンスが向上します。
 
-1 つのコレクションには最大 1,024 個のパーティションを作成できます。
+1 つのコレクションに作成できるパーティションは最大 1,024 個です。
 
 <Admonition type="info" title="Notes">
 
-**Partition Key** 機能はパーティションに基づく検索の最適化であり、特定のスカラーフィールドの値に基づいて、Zilliz Cloud がエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーの実装に役立ち、検索パフォーマンスを向上させます。
+**Partition Key** 機能は、パーティションに基づく検索最適化であり、特定のスカラーフィールドの値に基づいて Zilliz Cloud がエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーを実装するのに役立ち、検索パフォーマンスを向上させます。
 
-この機能については、このページでは説明しません。詳細については、[Partition Key の使用](./use-partition-key) を参照してください。
+この機能については、このページでは説明しません。詳細については、[パーティションキーの使用](./use-partition-key) を参照してください。
 
 </Admonition>
 
@@ -43,7 +43,7 @@ import TabItem from '@theme/TabItem';
 
 コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションは、次のように一覧表示できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -218,6 +218,32 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Partition;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -246,9 +272,9 @@ curl --request POST \
 
 ## パーティションの作成\{#create-partition}
 
-特定の基準に基づいて、コレクションにパーティションを追加し、これらのパーティションにエンティティを挿入できます。
+特定の基準に基づいて、コレクションにさらにパーティションを追加し、これらのパーティションにエンティティを挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -398,6 +424,29 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.CreatePartitionAsync(new CreatePartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -442,9 +491,9 @@ curl --request POST \
 
 ## 特定のパーティションの確認\{#check-for-a-specific-partition}
 
-以下のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
+次のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -555,6 +604,21 @@ console.log(res.value)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+var res = await client.HasPartitionAsync(new HasPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+Console.WriteLine(res.Has);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -588,9 +652,9 @@ curl --request POST \
 
 ### パーティションのロード\{#load-partitions}
 
-コレクション内の特定のパーティションを個別にロードできます。コレクション内に未ロードのパーティションがある場合、コレクションのロード状態は未ロードのままであることに注意してください。
+コレクション内の特定のパーティションを個別にロードできます。コレクション内にロードされていないパーティションがある場合、コレクションのロード状態は未ロードのままになることに注意してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -750,6 +814,28 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.LoadPartitionsAsync(new LoadPartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -798,7 +884,7 @@ curl --request POST \
 
 特定のパーティションをリリースすることもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -952,6 +1038,28 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1000,17 +1108,17 @@ curl --request POST \
 
 ### エンティティの挿入と削除\{#insert-and-delete-entities}
 
-特定の操作で挿入、upsert、削除の操作を実行できます。詳細については、以下を参照してください。
+特定のパーティション内で挿入、アップサート、削除の各操作を実行できます。詳細については、次を参照してください。
 
 - [パーティションへのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
 
-- [パーティションへのエンティティの Upsert](./upsert-entities#upsert-entities-in-a-partition)
+- [パーティションへのエンティティのアップサート](./upsert-entities#upsert-entities-in-a-partition)
 
 - [パーティションからのエンティティの削除](./delete-entities#delete-entities-from-partitions)
 
 ### 検索とクエリ\{#search-and-query}
 
-特定のパーティション内で検索およびクエリを実行できます。詳細については、以下を参照してください。
+特定のパーティション内で検索とクエリを実行できます。詳細については、次を参照してください。
 
 - [パーティション内での ANN 検索の実行](./single-vector-search#ann-search-in-partition)
 
@@ -1018,9 +1126,9 @@ curl --request POST \
 
 ## パーティションの削除\{#drop-partition}
 
-不要になったパーティションを削除できます。パーティションを削除する前に、そのパーティションがリリースされていることを確認してください。
+不要になったパーティションは削除できます。パーティションを削除する前に、そのパーティションがリリース済みであることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1204,6 +1312,35 @@ console.log(res)
 
 // Output
 // ["_default"]
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+await client.DropPartitionAsync(new DropPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
 ```
 
 </TabItem>
