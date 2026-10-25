@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -62,9 +61,9 @@ query_iterator(
 
 - **expr** (*str*)
 
-    一致するエンティティを絞り込むための scalar フィルタリング条件。
+    A スカラー filtering condition to filter matching entities.
 
-    デフォルト値は **None** で、scalar フィルタリングが無視されることを示します。scalar フィルタリング条件の構築については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
+    The value defaults to **None**, indicating that スカラー filtering is ignored. To build a スカラー filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
 
 - **output_fields** (*list*)
 

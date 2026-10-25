@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は現在の compaction プランを取得します。 | Python | ORM"
+description: "This operation gets the current Compaction plans. | Python | ORM"
 type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-この操作は現在の compaction プランを取得します。
+This operation gets the current Compaction plans.
 
 ## リクエスト構文\{#request-syntax}
 

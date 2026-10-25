@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection のプロパティを設定します。 | Python | ORM"
+description: "This operation sets properties for the コレクション. | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27
 keywords: 
-  - rag vector database
-  - vector db とは
-  - vector databases とは何か
-  - vector databases の比較
+  - rag ベクトル データベース
+  - what is ベクトル db
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # set_properties()
 
-この操作は collection のプロパティを設定します。
+This operation sets properties for the コレクション.
 
 ## Request Syntax\{#request-syntax}
 
@@ -47,15 +46,15 @@ set_properties(
 
 - **properties** (dict) -
 
-    辞書形式の collection プロパティのセットです。現在、以下のプロパティを設定できます。
+    A set of コレクション properties in the form of a dictionary. Currently, you can set the following properties:
 
-    - **collection.ttl.seconds**
+    - **コレクション.ttl.seconds**
 
-        このプロパティを設定すると、現在の collection 内のデータは指定された時間で期限切れになります。期限切れのデータは collection からクリーンアップされ、search や query には使用されません。
+        Once this property is set, data in the current コレクション expires in the specified time. Expired data in the コレクション will be cleaned up and will not be involved in searches or queries.
 
     - **mmap.enabled**
 
-        collection レベルでメモリマップドストレージを有効にするかどうか。詳細については、[メモリマッピングの設定](https://milvus.io/docs/mmap.md#Configure-memory-mapping) を参照してください。
+        Whether to enable memory-mapped storage at the コレクション level. For more information, refer to [Configure memory mapping](https://milvus.io/docs/mmap.md#Configure-memory-mapping).
 
 - **timeout** (*float*)  -
 

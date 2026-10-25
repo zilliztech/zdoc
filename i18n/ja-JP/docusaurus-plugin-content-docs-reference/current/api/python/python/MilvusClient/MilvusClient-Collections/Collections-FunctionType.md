@@ -14,7 +14,7 @@ sidebar_position: 19
 keywords: 
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,7 +40,7 @@ import Admonition from '@theme/Admonition';
 
 - TEXTEMBEDDING = 2
 
-    関数タイプを TEXTEMBEDDING に設定します。これは、Milvus が外部モデルプロバイダーを自動的に呼び出して、VARCHAR または TEXT フィールドの生テキストデータを vector embeddings に変換することを示します。
+    Sets the function type to TEXTEMBEDDING. This indicates that Milvus will transform raw text data from a VARCHAR or TEXT field into ベクトル embeddings by automatically calling external model providers.
 
 - RERANK = 3
 

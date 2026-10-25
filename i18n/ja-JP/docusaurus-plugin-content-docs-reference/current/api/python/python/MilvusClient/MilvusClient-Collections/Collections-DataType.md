@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -93,24 +92,24 @@ import Admonition from '@theme/Admonition';
 
 - FLOAT_VECTOR
 
-    データ型を **Float Vector** に設定します。
+    Sets the data type to **Float ベクトル**.
 
 - BINARY_VECTOR
 
-    データ型を **Binary Vector** に設定します。
+    Sets the data type to **Binary ベクトル**.
 
 - FLOAT16_VECTOR
 
-    データ型を **Float16 Vector** に設定します。
+    Sets the data type to **Float16 ベクトル**.
 
 - BFLOAT16_VECTOR
 
-    データ型を **BFloat16 Vector** に設定します。
+    Sets the data type to **BFloat16 ベクトル**.
 
 - INT8_VECTOR
 
-    データ型を **Int8 Vector** に設定します。このデータ型は、量子化された深層学習モデル（例: ResNet、EfficientNet）向けに設計されており、精度の損失を最小限に抑えながら、モデルサイズを削減し、推論を高速化します。
+    Sets the data type to **Int8 ベクトル**. This data type is designed for quantized deep learning models (e.g., ResNet, EfficientNet), which reduces model size and speeds up inference with minimal precision loss.
 
 - SPARSE_FLOAT_VECTOR
 
-    データ型を **Sparse Vector** に設定します。
+    Sets the data type to **Sparse ベクトル**.

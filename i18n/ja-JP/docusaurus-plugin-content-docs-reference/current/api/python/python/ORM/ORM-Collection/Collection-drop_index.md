@@ -12,10 +12,10 @@ type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag ベクトル データベース
+  - what is ベクトル db
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -109,7 +108,7 @@ collection.has_index() # False
 
 - [has_index()](./Collection-has_index)
 
-- [index()](./Collection-index)
+- [インデックス()](./Collection-index)
 
 - [index_building_progress()](./utility-index_building_progress)
 

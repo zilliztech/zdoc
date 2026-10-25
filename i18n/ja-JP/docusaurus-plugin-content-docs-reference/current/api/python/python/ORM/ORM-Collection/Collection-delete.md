@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,7 +54,7 @@ delete(
 
     一致したエンティティを削除する partition の名前。
 
-    partition が指定されている場合、その partition 内のエンティティのみがフィルタリング対象になります。それ以外の場合、collection 内のすべてのエンティティが対象になります。
+    If a partition is specified, only its entities are involved in filtering. Otherwise, all entities in the コレクション are involved.
 
 - **timeout** (*float* | *None*)  
 

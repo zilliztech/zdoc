@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のすべての index を一覧表示します。 | Python | ORM"
+description: "This operation lists all インデックス of a specific コレクション. | Python | ORM"
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
   - milvus
   - Zilliz
-  - milvus ベクターデータベース
+  - milvus ベクトル データベース
   - milvus db
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-この操作は、特定の collection のすべての index を一覧表示します。
+This operation lists all インデックス of a specific コレクション.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -49,17 +48,17 @@ list_indexes(
 
     **[必須]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
-    存在しない collection を指定すると、**CollectionNotExistException** が発生します。
+    Setting this to a non-existing コレクション leads to a **CollectionNotExistException**.
 
 - **index_name** (*str*) -
 
-    この操作の対象 index の名前です。
+    The name of the target インデックス of this operation.
 
-    指定しない場合は、デフォルトの index が適用されます。collection に複数の index がある場合、このパラメーターは必須です。
+    If left unspecified, the default インデックス applies. If the コレクション has multiple インデックス, this parameter is mandatory.
 
-    存在しない index を指定すると、**IndexNotExistException** が発生します。
+    Setting this to a non-existing インデックス leads to an **IndexNotExistException**.
 
 - **using** (*str*) - 
 
@@ -77,13 +76,13 @@ list_indexes(
 
 **戻り値:**
 
-構築済みのすべての index の名前をリストで返します。
+The names of all built インデックス in a list.
 
 **例外:**
 
 - **CollectionNotExistException**
 
-    指定した collection が存在しない場合に、この例外が発生します。
+    This exception will be raised if the specified コレクション does not exist.
 
 ## 例\{#examples}
 
@@ -146,7 +145,7 @@ utility.list_indexes(
 
 - [has_index()](./Collection-has_index)
 
-- [index()](./Collection-index)
+- [インデックス()](./Collection-index)
 
 - [index_building_progress()](./utility-index_building_progress)
 

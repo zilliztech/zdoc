@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -243,3 +242,4 @@ client.describe_index(
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
+

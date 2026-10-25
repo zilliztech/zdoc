@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -160,3 +159,4 @@ utility.transfer_node(
 - [list_resource_groups()](./utility-list_resource_groups)
 
 - [transfer_node()](./utility-transfer_node)
+

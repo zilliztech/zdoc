@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は現在の collection にデータを挿入します。 | Python | ORM"
+description: "This operation inserts data into the current コレクション. | Python | ORM"
 type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-この操作は現在の collection にデータを挿入します。
+This operation inserts data into the current コレクション.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,9 +48,9 @@ insert(
 
     **[REQUIRED]**
 
-    現在の collection に挿入するデータです。
+    The data to insert into the current コレクション.
 
-    挿入するデータは現在の collection の schema に一致している必要があります。データは次のいずれかの形式で構成できます。
+    The data to insert should match the スキーマ of the current コレクション. You can organize your data into:
 
     - 列のリスト
 
@@ -107,7 +106,7 @@ insert(
 
 - **partition_name** (*string* | *None*) -
 
-    現在の collection 内の partition の名前です。 
+    The name of a partition in the current コレクション. 
 
     指定した場合、データは指定された partition に挿入されます。
 

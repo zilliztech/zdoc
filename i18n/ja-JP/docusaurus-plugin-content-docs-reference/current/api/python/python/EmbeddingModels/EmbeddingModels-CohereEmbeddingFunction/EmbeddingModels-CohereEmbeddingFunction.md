@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -66,9 +65,9 @@ CohereEmbeddingFunction(
 
     モデルに渡される入力の種類です。v3 以降の埋め込みモデルでは必須です。
 
-    - `"search_document"`: 検索ユースケースのために vector database に保存される埋め込みに使用されます。
+    - `"search_document"`: Used for embeddings stored in a ベクトル データベース for search use-cases.
 
-    - `"search_query"`: 関連ドキュメントを見つけるために vector DB に対して実行される検索クエリの埋め込みに使用されます。
+    - `"search_query"`: Used for embeddings of search queries run against a ベクトル DB to find relevant documents.
 
     - `"classification"`: テキスト分類器に渡される埋め込みに使用されます。
 

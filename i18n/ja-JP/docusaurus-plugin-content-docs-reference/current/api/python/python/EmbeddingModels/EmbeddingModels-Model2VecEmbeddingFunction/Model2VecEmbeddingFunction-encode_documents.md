@@ -13,7 +13,7 @@ token: WJY1dMUO5owB1gxkOlLcaB2Rn7g
 sidebar_position: 1
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
+  - hybrid ベクトル search
   - Video deduplication
   - Video similarity search
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

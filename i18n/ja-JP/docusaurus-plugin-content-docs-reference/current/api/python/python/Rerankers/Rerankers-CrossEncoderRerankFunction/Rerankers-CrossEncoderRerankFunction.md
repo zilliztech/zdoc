@@ -12,8 +12,8 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - マネージド vector database
-  - Pinecone vector database
+  - Managed ベクトル データベース
+  - Pinecone ベクトル データベース
   - 音声検索
   - semantic search とは
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

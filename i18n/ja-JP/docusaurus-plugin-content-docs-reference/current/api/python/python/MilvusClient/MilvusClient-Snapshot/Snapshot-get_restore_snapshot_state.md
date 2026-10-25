@@ -13,7 +13,7 @@ token: Ky0pdpA6WorUvbxwN3ucwUjgnec
 sidebar_position: 4
 keywords: 
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - how does milvus work
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -86,11 +85,11 @@ get_restore_snapshot_state(
 
 - **db_name** (*str*) -
 
-    対象 database 名。
+    The target データベース name.
 
 - **collection_name** (*str*) -
 
-    対象 collection 名。
+    The target コレクション name.
 
 - **state** (*str*) -
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、対象の collection に partition を作成します。 | Python | ORM"
+description: "This operation creates a partition in the target コレクション. | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
@@ -15,7 +15,7 @@ keywords:
   - knn algorithm
   - HNSW
   - What is unstructured data
-  - Vector embeddings
+  - ベクトル embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-この操作は、対象の collection に partition を作成します。
+This operation creates a partition in the target コレクション.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -95,7 +94,7 @@ partition = collection.create_partition(partition_name="test_partition")
 
 以下の操作は `create_partition()` に関連しています。
 
-- [Collection](./ORM-Collection)
+- [コレクション](./ORM-Collection)
 
 - [Partition](./ORM-Partition)
 

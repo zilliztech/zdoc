@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -188,3 +187,4 @@ schema = CollectionSchema(
 ## メソッド\{#methods}
 
 以下は `CollectionSchema` クラスのメソッドです。
+

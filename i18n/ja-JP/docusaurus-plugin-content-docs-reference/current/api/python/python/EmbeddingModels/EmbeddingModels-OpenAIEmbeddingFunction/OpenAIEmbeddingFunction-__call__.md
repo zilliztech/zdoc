@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "OpenAIEmbeddingFunction のこの操作は、テキスト文字列のリストを受け取り、それらを直接 vector embeddings にエンコードします。 | Python"
+description: "This operation in OpenAIEmbeddingFunction takes a list of text strings and directly encodes them into ベクトル embeddings. | Python"
 type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
 keywords: 
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
+  - ベクトル データベース open source
+  - open source ベクトル db
+  - ベクトル データベース example
+  - rag ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[OpenAIEmbeddingFunction](./EmbeddingModels-OpenAIEmbeddingFunction) のこの操作は、テキスト文字列のリストを受け取り、それらを直接 vector embeddings にエンコードします。
+This operation in [OpenAIEmbeddingFunction](./EmbeddingModels-OpenAIEmbeddingFunction) takes a list of text strings and directly encodes them into ベクトル embeddings.
 
 OpenAIEmbeddingFunction の **\_\_call\_\_()** メソッドは、[encode_documents()](./OpenAIEmbeddingFunction-encode_documents) および [encode_queries()](./OpenAIEmbeddingFunction-encode_queries) と同じ機能を持ちます。
 
@@ -51,7 +50,7 @@ openai_ef(
 
 - **texts** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるテキストを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **RETURN TYPE:**
 

@@ -14,7 +14,7 @@ sidebar_position: 1
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

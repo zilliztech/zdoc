@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -191,7 +190,7 @@ search(
 
             **distance** のエイリアスです。
 
-        - **vector** (*list[float]*)
+        - **vector** (*list[float]*)   
 
             ヒットしたエンティティのベクトルフィールドです。
 
@@ -274,3 +273,4 @@ for hits in res:
 - [query()](./Partition-query)
 
 - [upsert()](./Partition-upsert)
+

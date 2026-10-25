@@ -12,10 +12,10 @@ type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ベクトル db comparison
+  - openai ベクトル db
+  - natural language processing データベース
+  - cheap ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -47,7 +46,7 @@ append_row(
 
     追加する entity を表す辞書です。
 
-    辞書内のキーとその値は、現在の **[LocalBulkWriter](./DataImport-LocalBulkWriter)** で参照されている schema と一致している必要があります。
+    The keys and their values in the dictionary should match the スキーマ referenced in the current **[LocalBulkWriter](./DataImport-LocalBulkWriter)**.
 
 ## 例\{#examples}
 

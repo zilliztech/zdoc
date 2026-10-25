@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,10 +35,10 @@ import Admonition from '@theme/Admonition';
 ## リクエスト構文\{#request-syntax}
 
 ```python
-# インスタンスを作成
+# Instance created
 voyage_rf = VoyageRerankFunction()
 
-# __call__ メソッドが呼び出されます
+# __call__ method will be called
 voyage_rf(
     query: str,
     documents: List[str],
@@ -95,10 +94,10 @@ voyage_rf(
 ```python
 from pymilvus.model.reranker import VoyageRerankFunction
 
-# rerank 関数を定義
+# Define the rerank function
 voyage_rf = VoyageRerankFunction(
-    model_name="rerank-lite-1",  # モデル名を指定します。デフォルトは `rerank-lite-1` です。
-    api_key=VOYAGE_API_KEY # ご自身の Voyage API key に置き換えてください
+    model_name="rerank-lite-1",  # Specify the model name. Defaults to `rerank-lite-1`.
+    api_key=VOYAGE_API_KEY # Replace with your Voyage API key
 )
 
 query = "What event in 1956 marked the official birth of artificial intelligence as a discipline?"

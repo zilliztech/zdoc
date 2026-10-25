@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、compaction リクエストが完了するまで現在のセッションをブロックします。 | Python | ORM"
+description: "This operation blocks the current session until the Compaction request is completed. | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_compaction_completed()
 
-この操作は、compaction リクエストが完了するまで現在のセッションをブロックします。
+This operation blocks the current session until the Compaction request is completed.
 
 ## Request Syntax\{#request-syntax}
 

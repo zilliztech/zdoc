@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection がロードされるまで現在のプロセスをブロックします。 | Python | ORM"
+description: "This operation blocks the current process until the specified コレクション has been loaded. | Python | ORM"
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
 keywords: 
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - milvus はどのように動作するか
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_loading_complete()
 
-この操作は、指定された collection がロードされるまで現在のプロセスをブロックします。
+This operation blocks the current process until the specified コレクション has been loaded.
 
 ## リクエスト構文\{#request-syntax}
 

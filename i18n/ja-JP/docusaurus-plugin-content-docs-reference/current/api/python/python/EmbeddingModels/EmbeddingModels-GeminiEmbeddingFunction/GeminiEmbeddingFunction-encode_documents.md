@@ -13,9 +13,9 @@ token: Tjq5dE0wdodKcgxH0yZcmNdrnSg
 sidebar_position: 1
 keywords: 
   - cosine distance
-  - vector database とは
+  - what is a ベクトル データベース
   - vectordb
-  - multimodal vector database retrieval
+  - multimodal ベクトル データベース retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

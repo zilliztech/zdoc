@@ -12,10 +12,10 @@ type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - ベクターストア
-  - オープンソース vector database
-  - Vector index
-  - オープンソース vector database
+  - ベクトル store
+  - open source ベクトル データベース
+  - ベクトル インデックス
+  - ベクトル データベース open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

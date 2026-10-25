@@ -12,9 +12,9 @@ type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - 安価な vector database
-  - マネージド vector database
-  - Pinecone vector database
+  - cheap ベクトル データベース
+  - Managed ベクトル データベース
+  - Pinecone ベクトル データベース
   - 音声検索
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +44,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    collection schema を構築するための生データを含む辞書です。
+    A dictionary containing the raw data to construct the コレクション スキーマ.
 
 **RETURN TYPE:**
 

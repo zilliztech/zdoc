@@ -12,9 +12,9 @@ type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - ベクターデータベースはどのように動作するか
-  - vector db comparison
-  - openai vector db
+  - how do ベクトル データベース work
+  - ベクトル db comparison
+  - openai ベクトル db
   - 自然言語処理データベース
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

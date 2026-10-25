@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

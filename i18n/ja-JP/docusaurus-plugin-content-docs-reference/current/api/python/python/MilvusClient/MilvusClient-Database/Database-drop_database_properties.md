@@ -13,7 +13,7 @@ token: AdSXdtNDsoTMnJx1QoGcSsnZnWd
 sidebar_position: 5
 keywords: 
   - マルチモーダル検索
-  - vector search algorithms
+  - ベクトル search algorithms
   - Question answering system
   - llm-as-a-judge
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,29 +56,29 @@ drop_database_properties(
 
     削除するプロパティの名前。使用可能なデータベースプロパティは次のとおりです。
 
-    - **database.replica.number** (*int*) - データベースのレプリカ数。
+    - **データベース.replica.number** (*int*) - Number of replicas for the データベース.
 
-    - **database.resource_groups** (*list[str]*) - データベース専用のリソースグループ。
+    - **データベース.resource_groups** (*list[str]*) - Resource groups dedicated to the データベース.
 
-    - **database.diskQuota.mb** (*int*) - データベースに割り当てられたディスククォータ（メガバイト、**MB**）。
+    - **データベース.diskQuota.mb** (*int*) - Disk quota allocated to the データベース in megabytes (**MB**).
 
-    - **database.max.collections** (*int*) - データベースで許可される collection の最大数。
+    - **データベース.max.コレクション** (*int*) - Maximum number of コレクション allowed in the データベース.
 
-    - **database.force.deny.writing** (*bool*) - データベース内のすべての書き込み操作を拒否するかどうか。
+    - **データベース.force.deny.writing** (*bool*) - Whether to deny all write operations in the データベース.
 
-    - **database.force.deny.reading** (*bool*) - データベース内のすべての読み取り操作を拒否するかどうか。
+    - **データベース.force.deny.reading** (*bool*) - Whether to deny all read operations in the データベース.
 
-    - **database.replica.number** (*int*) - データベースのレプリカ数。
+    - **データベース.replica.number** (*int*) - Number of replicas for the データベース.
 
-    - **database.resource_groups** (*list[str]*) - データベース専用のリソースグループ。
+    - **データベース.resource_groups** (*list[str]*) - Resource groups dedicated to the データベース.
 
-    - **database.diskQuota.mb** (*int*) - データベースに割り当てられたディスククォータ（メガバイト、**MB**）。
+    - **データベース.diskQuota.mb** (*int*) - Disk quota allocated to the データベース in megabytes (**MB**).
 
-    - **database.max.collections** (*int*) - データベースで許可される collection の最大数。
+    - **データベース.max.コレクション** (*int*) - Maximum number of コレクション allowed in the データベース.
 
-    - **database.force.deny.writing** (*bool*) - データベース内のすべての書き込み操作を拒否するかどうか。
+    - **データベース.force.deny.writing** (*bool*) - Whether to deny all write operations in the データベース.
 
-    - **database.force.deny.reading** (*bool*) - データベース内のすべての読み取り操作を拒否するかどうか。
+    - **データベース.force.deny.reading** (*bool*) - Whether to deny all read operations in the データベース.
 
 **戻り値の型:**
 

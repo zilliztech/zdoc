@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はドキュメントを受け取り、それらを vector embedding にエンコードします。 | Python"
+description: "This operation takes in documents and encodes them into ベクトル embeddings. | Python"
 type: docx
 token: SeFLdfKVjoGX8Xx11e3cmkY4n7g
 sidebar_position: 1
 keywords: 
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_documents()
 
-この操作はドキュメントを受け取り、それらを vector embedding にエンコードします。
+This operation takes in documents and encodes them into ベクトル embeddings.
 
 ## Request syntax\{#request-syntax}
 
@@ -45,7 +44,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるドキュメントを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents a document that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **RETURN TYPE:**
 

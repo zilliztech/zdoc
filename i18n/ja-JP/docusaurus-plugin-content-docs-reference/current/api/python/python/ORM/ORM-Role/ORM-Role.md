@@ -1,7 +1,7 @@
 ---
 title: "ロール | Python | ORM"
 slug: /python/python/ORM-Role
-sidebar_label: "ロール"
+sidebar_label: "Role"
 beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - ロール
+  - Role
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

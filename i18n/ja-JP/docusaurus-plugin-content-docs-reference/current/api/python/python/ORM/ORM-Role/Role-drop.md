@@ -13,9 +13,9 @@ token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
   - ANN Search
-  - vector embeddings とは
-  - vector database チュートリアル
-  - vector databases の仕組み
+  - What are ベクトル embeddings
+  - ベクトル データベース tutorial
+  - how do ベクトル データベース work
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,7 +40,7 @@ drop()
 
 **PARAMETERS:**
 
-該当なし
+N/A
 
 **RETURN TYPE:**
 

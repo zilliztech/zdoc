@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,9 +53,9 @@ list_bulk_insert_tasks(
 
 - **collection_name** (*list[str]*) -
 
-    collection 名のリストです。
+    A list of コレクション names.
 
-    値のデフォルトは **None** で、すべての collection が含まれることを示します。
+    The value defaults to **None**, indicating that all コレクション are included.
 
 - **using** (*str*) - 
 
@@ -103,7 +102,7 @@ list_bulk_insert_tasks(
 
 - **state** (*int*)
 
-    指定された bulk_insert タスクの状態を整数で表したものです。使用可能な値は次の整数です。
+    指定された bulk_insert タスクの状態名です。使用可能な値は次のとおりです。
 
     - **0**: タスクが保留状態であることを示します
 
@@ -153,9 +152,9 @@ list_bulk_insert_tasks(
 
         現在の bulk-insert タスクに関係するファイル名を、カンマ区切りの文字列で表したものです。
 
-    - **[collection](./ORM-Collection)** (*str*)
+    - **[コレクション](./ORM-Collection)** (*str*)
 
-        対象 collection の名前です。
+        The name of the target コレクション.
 
     - **[partition](./ORM-Partition)** (*str*)
 
@@ -195,7 +194,7 @@ list_bulk_insert_tasks(
 
 - **collection_name** (str)
 
-    対象 collection の名前です。
+    The name of the target コレクション.
 
 **EXCEPTIONS:**
 

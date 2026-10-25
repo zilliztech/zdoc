@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,7 +54,7 @@ encode_documents(
 
 ドキュメント埋め込みを含む辞書。
 
-[BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) を初期化する際に、**return_dense**、**return_sparse**、**return_colbert_vecs** が **True** に設定されている場合、返される辞書には **dense**、**sparse**、**colbert_vecs** のキーが含まれ、それぞれ対応する dense embeddings、sparse word embeddings、ColBERT vectors が格納されます。
+When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT ベクトル.
 
 **Exceptions:**
 

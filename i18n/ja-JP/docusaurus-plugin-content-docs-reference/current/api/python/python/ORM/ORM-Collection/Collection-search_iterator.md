@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,15 +55,15 @@ search_iterator(
 
     **[REQUIRED]**
 
-    vector embeddings のリスト。
+    A list of ベクトル embeddings.
 
-    Zilliz Cloud は、指定されたものに最も類似する vector embeddings を検索します。
+    Zilliz Cloud searches for the most similar ベクトル embeddings to the specified ones.
 
 - **anns_field** (str) -
 
     **[REQUIRED]**
 
-    現在の collection 内の vector field の名前。
+    The name of the ベクトル field in the current コレクション.
 
 - **param** (dict) -
 
@@ -74,7 +73,7 @@ search_iterator(
 
     - **metric_type** (*str*) -
 
-        この操作に適用される metric type。これは、上で指定した vector field を index 化するときに使用したものと同じである必要があります。 
+        The metric type applied to this operation. This should be the same as the one used when you インデックス the ベクトル field specified above. 
 
         使用可能な値は **L2**、**IP**、および **COSINE** です。
 
@@ -88,7 +87,7 @@ search_iterator(
 
         - **range_filter**  (float) -  
 
-            特定の類似度範囲内の vectors に検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合、この値が **radius** の値より大きいことを確認してください。それ以外の場合、この値は **radius** の値より小さくする必要があります。
+            Refines the search to ベクトル within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
 
     他の適用可能な検索パラメーターの詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
 
@@ -106,9 +105,9 @@ search_iterator(
 
 - **expr** (*str*) -
 
-    一致する entities を絞り込むための scalar filtering 条件。
+    A スカラー filtering condition to filter matching entities.
 
-    デフォルト値は **None** で、scalar filtering が無視されることを示します。scalar filtering 条件の構築については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
+    The value defaults to **None**, indicating that スカラー filtering is ignored. To build a スカラー filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
 
 - **output_fields** (*list*) -
 

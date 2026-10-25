@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -153,3 +152,4 @@ utility.do_bulk_insert(
 - [get_bulk_insert_state()](./utility-get_bulk_insert_state)
 
 - [list_bulk_insert_tasks()](./utility-list_bulk_insert_tasks)
+

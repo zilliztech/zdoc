@@ -1,37 +1,36 @@
 ---
-title: "index() | Python | ORM"
+title: "インデックス() | Python | ORM"
 slug: /python/python/Collection-index
-sidebar_label: "index()"
+sidebar_label: "インデックス()"
 beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection の指定された index を取得します。 | Python | ORM"
+description: "This operation gets the specified インデックス of the current コレクション. | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
+  - Faiss ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
-  - index()
+  - インデックス()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# index()
+# インデックス()
 
-この操作は、現在の collection の指定された index を取得します。
+This operation gets the specified インデックス of the current コレクション.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,27 +48,27 @@ index(
 
     - **index_name** (*str*) -
 
-        index の名前です。index が指定されていない場合は、デフォルトの index 名が使用されます。
+        The name of the インデックス. If no インデックス is specified, the default インデックス name is used.
 
-        デフォルトの index 名は、次の形式です: `_default_idx_{field_id}`。
+        A default インデックス name is in the following format: `_default_idx_{field_id}`.
 
 **RETURN TYPE:**
 
-*Index*
+*インデックス*
 
 **RETURNS:**
 
-現在の collection の Index オブジェクト。
+An インデックス object of the current コレクション.
 
 **EXCEPTIONS:**
 
 - **IndexNotExistException**
 
-    指定された index が存在しない場合に、この例外が発生します。
+    This exception will be raised when the specified インデックス does not exist.
 
 - **AmbiguousIndexName**
 
-    複数の index が存在するにもかかわらず、index 名が指定されていない場合に、この例外が発生します。 
+    This exception will be raised when multiple インデックス exist but no インデックス name has been specified. 
 
 ## Examples\{#examples}
 

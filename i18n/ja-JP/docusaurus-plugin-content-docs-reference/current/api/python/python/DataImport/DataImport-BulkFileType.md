@@ -14,7 +14,7 @@ sidebar_position: 1
 keywords: 
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

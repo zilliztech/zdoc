@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection に構築済みの index があるかどうかを確認します。 | Python | ORM"
+description: "This operation checks whether the current コレクション has a built インデックス. | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # has_index()
 
-この操作は、現在の collection に構築済みの index があるかどうかを確認します。
+This operation checks whether the current コレクション has a built インデックス.
 
 ## Request Syntax\{#request-syntax}
 
@@ -51,7 +50,7 @@ has_index(timeout: float | None)
 
 **RETURNS:**
 
-現在の collection に構築済みの index があるかどうかを示すブール値です。
+A boolean value indicating whether the current コレクション has a built インデックス or not.
 
 **EXCEPTIONS:**
 
@@ -109,7 +108,7 @@ collection.has_index() # False
 
 - [drop_index()](./Collection-drop_index)
 
-- [index()](./Collection-index)
+- [インデックス()](./Collection-index)
 
 - [index_building_progress()](./utility-index_building_progress)
 

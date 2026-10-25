@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -84,11 +83,11 @@ query(
         <Admonition type="info" title="Note">
 
         整合性レベルとは何ですか？
-
+        
                 分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する特性を指します。
-
+        
                 Zilliz Cloud は **Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトでは **Bounded Staleness** が設定されています。
-
+        
                 ベクトル類似検索やクエリを実行するときに整合性レベルを簡単に調整して、アプリケーションに最適な状態にできます。
 
         </Admonition>
@@ -241,3 +240,4 @@ res = collection.query(
 - [query_iterator()](./Collection-query_iterator)
 
 - [upsert()](./Collection-upsert)
+

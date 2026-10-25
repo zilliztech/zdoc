@@ -12,10 +12,10 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - openai vector db
+  - openai ベクトル db
   - 自然言語処理データベース
-  - 安価な vector データベース
-  - Managed vector データベース
+  - cheap ベクトル データベース
+  - Managed ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

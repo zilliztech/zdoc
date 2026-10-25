@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,7 +40,7 @@ is_exist()
 
 **パラメータ:**
 
-該当なし
+N/A
 
 **戻り値の型:**
 

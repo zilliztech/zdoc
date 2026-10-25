@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,7 +57,7 @@ SpladeEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    エンコードに使用する SPLADE モデルの名前です。有効なオプションは **naver/splade-cocondenser-ensembledistil**（デフォルト）、**naver/splade_v2_max**、**naver/splade_v2_distil**、および **naver/splade-cocondenser-selfdistil** です。詳細については、[モデルを試す](https://github.com/naver/splade?tab=readme-ov-file#playing-with-the-model) を参照してください。
+    The name of the SPLADE model to use for encoding. Valid options are **naver/splade-cocondenser-ensembledistil** (default), **naver/splade_v2_max**, **naver/splade_v2_distil**, and **naver/splade-cocondenser-selfdistil**. For more information, refer to [Play with models](https://github.com/naver/splade?tab=readme-ov-file#playing-with-the-model).
 
 - **batch_size** (*int*) -
 

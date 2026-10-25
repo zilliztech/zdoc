@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -77,7 +76,7 @@ InstructorEmbeddingFunction(
 
 - **normalize_embeddings** (*bool*)
 
-    `True` に設定すると、返される vector の長さは 1 になり、正規化されていることを示します。この場合、類似性検索ではコサイン類似度の代わりに、より高速なドット積 (`util.dot_score`) が使用されます。
+    If set to `True`, the returned ベクトル will have a length of 1, indicating that they are normalized. In this case, similarity search would use the faster dot-product (`util.dot_score`), instead of cosine similarity.
 
 - **kwargs**
 

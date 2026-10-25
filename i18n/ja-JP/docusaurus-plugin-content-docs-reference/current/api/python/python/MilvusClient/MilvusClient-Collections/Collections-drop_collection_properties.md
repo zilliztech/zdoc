@@ -12,7 +12,7 @@ type: docx
 token: HTnvdQ8SbodURtxPEv5cURL0n5b
 sidebar_position: 12
 keywords: 
-  - マルチモーダルベクターデータベース検索
+  - multimodal vector データベース retrieval
   - Retrieval Augmented Generation
   - 大規模言語モデル
   - ベクトル化
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

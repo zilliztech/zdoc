@@ -13,7 +13,7 @@ token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
   - 音声類似性検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -47,7 +46,7 @@ append_row(
 
     追加する entity を表す辞書です。
 
-    辞書内のキーとその値は、現在の **[LocalBulkWriter](./DataImport-LocalBulkWriter)** で参照されている schema と一致している必要があります。
+    The keys and their values in the dictionary should match the スキーマ referenced in the current **[LocalBulkWriter](./DataImport-LocalBulkWriter)**.
 
 ## 例\{#examples}
 

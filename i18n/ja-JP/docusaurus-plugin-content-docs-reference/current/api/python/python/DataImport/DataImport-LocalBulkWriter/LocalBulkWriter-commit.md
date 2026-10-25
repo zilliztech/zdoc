@@ -13,8 +13,8 @@ token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
   - 非構造化データとは
-  - Vector embeddings
-  - Vector store
+  - ベクトル embeddings
+  - ベクトル store
   - オープンソースのベクトルデータベース
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "MistralAIEmbeddingFunction のこの操作は、テキスト文字列のリストを受け取り、それらを直接 vector embeddings にエンコードします。 | Python"
+description: "This operation in MistralAIEmbeddingFunction takes a list of text strings and directly encodes them into ベクトル embeddings. | Python"
 type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +30,18 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[MistralAIEmbeddingFunction](./EmbeddingModels-MistralAIEmbeddingFunction) のこの操作は、テキスト文字列のリストを受け取り、それらを直接 vector embeddings にエンコードします。
+This operation in [MistralAIEmbeddingFunction](./EmbeddingModels-MistralAIEmbeddingFunction) takes a list of text strings and directly encodes them into ベクトル embeddings.
 
 MistralAIEmbeddingFunction の **\_\_call\_\_()** メソッドは、[encode_documents()](./MistralAIEmbeddingFunction-encode_documents) および [encode_queries()](./MistralAIEmbeddingFunction-encode_queries) と同じ機能を共有します。
 
 ## リクエスト構文\{#request-syntax}
 
 ```python
-# インスタンスを作成済み
+# Instance created
 
 ef = MistralAIEmbeddingFunction()
 
-# __call__ メソッドが呼び出されます
+# __call__ method will be called
 ef(
     texts: List[str]
 ) -> List[np.array]
@@ -52,7 +51,7 @@ ef(
 
 - **texts** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるテキストを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **戻り値の型:**
 
@@ -74,8 +73,8 @@ ef(
 from pymilvus.model.dense import MistralAIEmbeddingFunction
 
 ef = MistralAIEmbeddingFunction(
-    model_name="mistral-embed", # デフォルトは `mistral-embed`
-    api_key="MISTRAL_API_KEY" # Mistral AI API key を指定します
+    model_name="mistral-embed", # Defaults to `mistral-embed`
+    api_key="MISTRAL_API_KEY" # Provide your Mistral AI API key
 )
 
 docs = [

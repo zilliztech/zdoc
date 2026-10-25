@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection が存在するかどうかを確認します。 | Python | ORM"
+description: "This operation checks whether a コレクション exists. | Python | ORM"
 type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # has_collection()
 
-この操作は、collection が存在するかどうかを確認します。
+This operation checks whether a コレクション exists.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -48,7 +47,7 @@ has_collection(
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **using** (*str*) - 
 

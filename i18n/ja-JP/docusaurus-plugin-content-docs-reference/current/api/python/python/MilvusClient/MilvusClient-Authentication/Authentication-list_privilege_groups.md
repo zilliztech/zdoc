@@ -13,7 +13,7 @@ token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル similarity search
   - approximate nearest neighbor search
   - DiskANN
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

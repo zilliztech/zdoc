@@ -13,8 +13,8 @@ token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
   - Milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - 非構造化データ
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

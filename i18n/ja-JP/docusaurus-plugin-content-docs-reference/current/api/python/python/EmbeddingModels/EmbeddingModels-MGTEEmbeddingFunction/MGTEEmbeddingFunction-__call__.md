@@ -12,10 +12,10 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
+  - Faiss ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +51,7 @@ ef(
 
 - **texts** (*List[str]*)
 
-    文字列値のリストで、各文字列はエンコードのために embedding model に渡されるテキストを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **戻り値の型:**
 

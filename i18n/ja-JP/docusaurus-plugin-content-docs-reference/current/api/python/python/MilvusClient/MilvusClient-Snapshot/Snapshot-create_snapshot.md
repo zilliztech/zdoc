@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のポイントインタイムスナップショットを作成します。スナップショットを使用して、障害復旧や移行のために collection のデータとメタデータをバックアップします。 | Python | MilvusClient"
+description: "This operation creates a point-in-time snapshot of a コレクション. Use snapshots to back up コレクション data and metadata for disaster recovery or migration. | Python | MilvusClient"
 type: docx
 token: C8vld732kopQNMxbHyLcrORNnze
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # create_snapshot()
 
-この操作は、collection のポイントインタイムスナップショットを作成します。スナップショットを使用して、障害復旧や移行のために collection のデータとメタデータをバックアップします。
+This operation creates a point-in-time snapshot of a コレクション. Use snapshots to back up コレクション data and metadata for disaster recovery or migration.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -48,8 +47,8 @@ create_snapshot(
 **パラメータ:**
 
 - **collection_name** (*str*) -<br/>
-  **[必須]**<br/>
-  スナップショットを作成する collection の名前。
+  **[REQUIRED]**<br/>
+  The name of the コレクション to snapshot.
 
 - **snapshot_name** (*str*) -<br/>
   **[必須]**<br/>
@@ -69,7 +68,7 @@ create_snapshot(
 
 - **MilvusException**
 
-    collection が存在しない場合、スナップショット名がすでに使用されている場合、またはその他の理由で操作が失敗した場合。
+    If the コレクション does not exist, the snapshot name is already taken, or the operation fails for any other reason.
 
 ## 例\{#examples}
 
@@ -78,7 +77,7 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# 推奨: メモリ内データを永続化するため、スナップショット作成前に flush を実行します
+# Recommended: flush before creating snapshot to persist in-memory data
 client.flush(collection_name="my_collection")
 
 client.create_snapshot(

@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -160,3 +159,4 @@ except Exception:
 - [transfer_node()](./utility-transfer_node)
 
 - [transfer_replica()](./utility-transfer_replica)
+

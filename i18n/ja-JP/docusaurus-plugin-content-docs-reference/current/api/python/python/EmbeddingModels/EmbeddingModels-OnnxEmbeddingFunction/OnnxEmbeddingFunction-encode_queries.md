@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +44,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるクエリを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **戻り値の型:**
 

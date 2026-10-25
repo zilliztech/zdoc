@@ -13,7 +13,7 @@ token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
   - 非構造化データ
-  - vector database
+  - ベクトル データベース
   - IVF
   - knn
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -79,8 +78,8 @@ OpenAIEmbeddingFunction(
 from pymilvus import model
 
 openai_ef = model.dense.OpenAIEmbeddingFunction(
-    model_name='text-embedding-3-large', # モデル名を指定します
-    dimensions=512 # MRL 機能に応じて埋め込みの次元数を設定します。
+    model_name='text-embedding-3-large', # Specify the model name
+    dimensions=512 # Set the embedding dimensionality according to MRL feature.
 )
 ```
 

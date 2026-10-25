@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,3 +50,4 @@ assert op.op == FieldOpType.ARRAY_APPEND
 - ARRAY_APPEND は、受信した要素を現在の配列に追加します。
 
 - ARRAY_REMOVE は、現在の配列から、一致する受信要素をすべて削除します。
+

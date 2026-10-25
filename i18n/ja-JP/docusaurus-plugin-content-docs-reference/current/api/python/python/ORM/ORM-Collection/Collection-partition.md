@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection 内の指定された partition を取得します。 | Python | ORM"
+description: "This operation gets the specified partition in the current コレクション. | Python | ORM"
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # partition()
 
-この操作は、現在の collection 内の指定された partition を取得します。
+This operation gets the specified partition in the current コレクション.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -55,7 +54,7 @@ partition(
 
 **RETURNS:**
 
-**Partition** オブジェクト。現在の collection に指定した名前の partition が存在しない場合は、**None** が返されます。
+A **Partition** object. If the current コレクション does not have a partition of the specified name, **None** is returned.
 
 **EXCEPTIONS:**
 
@@ -87,7 +86,7 @@ partition = collection.partition(partition_name="test_partition")
 
 以下の操作は `partition()` に関連しています。
 
-- [Collection](./ORM-Collection)
+- [コレクション](./ORM-Collection)
 
 - [Partition](./ORM-Partition)
 

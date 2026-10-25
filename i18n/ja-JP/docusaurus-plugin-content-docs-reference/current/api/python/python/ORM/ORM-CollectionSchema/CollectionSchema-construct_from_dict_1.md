@@ -14,7 +14,7 @@ sidebar_position: 3
 keywords: 
   - 質問応答システム
   - llm-as-a-judge
-  - hybrid vector search
+  - hybrid ベクトル search
   - 動画重複排除
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +44,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    collection schema を構築するための生データを含む辞書。
+    A dictionary containing the raw data to construct the コレクション スキーマ.
 
 **戻り値の型:**
 

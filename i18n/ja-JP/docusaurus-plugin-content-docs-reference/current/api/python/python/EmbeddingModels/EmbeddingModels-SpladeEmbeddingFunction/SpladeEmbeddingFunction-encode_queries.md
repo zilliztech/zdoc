@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +58,7 @@ encode_queries(
 
 - **ImportError**
 
-    `transformers` ライブラリがインストールされていない場合に、この例外が発生します。
+    This exception will be raised when the transformers library is not installed.
 
 ## 例\{#examples}
 

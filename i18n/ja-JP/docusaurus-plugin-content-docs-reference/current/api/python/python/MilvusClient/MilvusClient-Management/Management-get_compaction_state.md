@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -92,3 +91,4 @@ job_id = client.compact(collection_name="my_collection")
 state = client.get_compaction_state(job_id=job_id)
 print(state)  # "Executing" or "Completed"
 ```
+

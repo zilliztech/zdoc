@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -138,3 +137,4 @@ reset_password(
 - [list_usernames()](./utility-list_usernames)
 
 - [update_password()](./utility-update_password)
+

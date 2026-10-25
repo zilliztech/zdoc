@@ -15,7 +15,7 @@ keywords:
   - knn algorithm
   - HNSW
   - 非構造化データとは
-  - Vector embeddings
+  - ベクトル embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

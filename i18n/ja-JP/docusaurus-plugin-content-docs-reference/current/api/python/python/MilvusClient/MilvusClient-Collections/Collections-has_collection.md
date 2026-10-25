@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -114,3 +113,4 @@ client.has_collection(collection_name="test_collection_2")
 
 # False
 ```
+

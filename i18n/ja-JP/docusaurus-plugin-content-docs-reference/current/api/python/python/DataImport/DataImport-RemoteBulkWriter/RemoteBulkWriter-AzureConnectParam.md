@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -105,3 +104,4 @@ connect_param = RemoteBulkWriter.AzureConnectParam(
 - **Exception**
 
     接続に失敗した場合、この例外が発生します。
+

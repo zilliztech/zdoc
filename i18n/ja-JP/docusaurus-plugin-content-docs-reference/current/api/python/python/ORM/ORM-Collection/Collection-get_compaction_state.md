@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は現在の compaction 状態を取得します。 | Python | ORM"
+description: "This operation gets the current Compaction state. | Python | ORM"
 type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_state()
 
-この操作は現在の compaction 状態を取得します。 
+This operation gets the current Compaction state. 
 
 ## リクエスト構文\{#request-syntax}
 

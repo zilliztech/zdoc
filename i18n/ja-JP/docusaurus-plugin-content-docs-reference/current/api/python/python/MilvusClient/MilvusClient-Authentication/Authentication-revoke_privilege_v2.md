@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +66,7 @@ revoke_privilege_v2(
 
     **[REQUIRED]**
 
-    collection の名前。現在のデータベース内のすべての collection に関する権限を取り消すには、このパラメータを `*` に設定します。 
+    The name of a コレクション. To revoke privileges regarding all コレクション in the current データベース, set this parameter to `*`. 
 
 - **db_name** (*str*) -
 

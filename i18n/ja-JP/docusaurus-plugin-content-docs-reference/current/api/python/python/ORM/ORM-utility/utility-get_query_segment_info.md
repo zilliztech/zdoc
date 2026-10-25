@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、query cluster 内の sealed セグメントおよび growing セグメントに関する情報を取得します。 | Python | ORM"
+description: "This operation gets information about the sealed and growing segments in the query クラスター. | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get_query_segment_info()
 
-この操作は、query cluster 内の sealed セグメントおよび growing セグメントに関する情報を取得します。
+This operation gets information about the sealed and growing segments in the query クラスター.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,7 +48,7 @@ get_query_segment_info(
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **using** (*str*) - 
 
@@ -71,7 +70,7 @@ get_query_segment_info(
 
 **EXCEPTIONS:**
 
-該当なし
+N/A
 
 ## Examples\{#examples}
 

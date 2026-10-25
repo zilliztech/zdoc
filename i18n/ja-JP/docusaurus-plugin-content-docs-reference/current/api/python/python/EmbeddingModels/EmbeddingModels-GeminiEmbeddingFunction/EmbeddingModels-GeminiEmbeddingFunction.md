@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +53,7 @@ GeminiEmbeddingFunction(
 
 - **model_name (string) -**
 
-    エンコードに使用する Gemini モデルの名前。有効なオプションは **gemini-embedding-exp-03-07**（デフォルト）、**models/embedding-001**、および **models/text-embedding-004** です。
+    The name of the Gemini model to use for encoding. Valid options are **gemini-embedding-exp-03-07**(default), **models/embedding-001**, and **models/text-embedding-004**.
 
 - **api_key (*string*)-**
 
@@ -78,7 +77,7 @@ Gemini API にアクセスするための API key。
         | --- | --- |
         | SEMANTIC_SIMILARITY | テキストの類似性を評価するために最適化された embeddings を生成するために使用されます。 |
         | CLASSIFICATION | 事前設定されたラベルに従ってテキストを分類するために最適化された embeddings を生成するために使用されます。 |
-        | CLUSTERING | 類似性に基づいてテキストをクラスタリングするために最適化された embeddings を生成するために使用されます。 |
+        | CLUSTERING | Used to generate embeddings that are optimized to クラスター texts based on their similarities. |
         | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | ドキュメント検索または情報検索向けに最適化された embeddings を生成するために使用されます。 |
         | CODE_RETRIEVAL_QUERY | sort an array や reverse a linked list のような自然言語クエリに基づいてコードブロックを取得するために使用されます。コードブロックの embeddings は RETRIEVAL_DOCUMENT を使用して計算されます。 |
 

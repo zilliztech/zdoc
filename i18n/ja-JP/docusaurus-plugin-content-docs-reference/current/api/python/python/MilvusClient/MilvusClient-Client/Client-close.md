@@ -12,10 +12,10 @@ type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
+  - ベクトル Dimension
   - ANN Search
   - ベクトル埋め込みとは
-  - vector database tutorial
+  - ベクトル データベース tutorial
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

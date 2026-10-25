@@ -14,8 +14,8 @@ sidebar_position: 18
 keywords: 
   - milvus open source
   - milvus はどのように動作しますか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -49,9 +48,9 @@ has_partition(
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
-    既存の collection の名前。
+    The name of an existing コレクション.
 
-    存在しない collection を指定すると、**MilvusException** が発生します。
+    Setting this to a non-existing コレクション results in a **MilvusException**.
 
 - **partition_name** (*str*) -
 

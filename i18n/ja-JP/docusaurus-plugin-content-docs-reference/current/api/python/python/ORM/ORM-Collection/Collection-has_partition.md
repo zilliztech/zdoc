@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された partition が現在の collection に存在するかどうかを確認します。 | Python | ORM"
+description: "This operation checks whether the specified partition exists in the current コレクション. | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
   - milvus open source
   - Milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-この操作は、指定された partition が現在の collection に存在するかどうかを確認します。
+This operation checks whether the specified partition exists in the current コレクション.
 
 ## Request Syntax\{#request-syntax}
 
@@ -58,7 +57,7 @@ has_partition(
 
 **RETURNS:**
 
-現在の collection が指定された partition を持っているかどうかを示すブール値
+A boolean value indicating whether the current コレクション has the specified partition or not
 
 **EXCEPTIONS:**
 
@@ -99,7 +98,7 @@ collection.has_partition("test_partition") # False
 
 以下の操作は `has_collection()` に関連しています。
 
-- [Collection](./ORM-Collection)
+- [コレクション](./ORM-Collection)
 
 - [Partition](./ORM-Partition)
 

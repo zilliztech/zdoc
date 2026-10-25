@@ -13,7 +13,7 @@ token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
 keywords: 
   - Sparse と Dense
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +44,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるクエリを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **戻り値の型:**
 
@@ -55,7 +54,7 @@ encode_queries(
 
 クエリの埋め込みを含む辞書です。
 
-[BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) を初期化する際に、**return_dense**、**return_sparse**、および **return_colbert_vecs** が **True** に設定されている場合、返される辞書には **dense**、**sparse**、および **colbert_vecs** のキーが含まれ、それぞれ対応する dense embedding、sparse word embedding、および ColBERT vector が格納されます。
+When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT ベクトル.
 
 **例外:**
 

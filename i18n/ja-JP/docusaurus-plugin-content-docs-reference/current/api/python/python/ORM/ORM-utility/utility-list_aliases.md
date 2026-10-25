@@ -7,12 +7,12 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に存在するすべての alias を一覧表示します。 | Python | ORM"
+description: "This operation lists all existing aliases for a specific コレクション. | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - ベクターストア
+  - ベクトル store
   - オープンソースベクトルデータベース
   - ベクトルインデックス
   - ベクトルデータベース オープンソース
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-この操作は、特定の collection に存在するすべての alias を一覧表示します。
+This operation lists all existing aliases for a specific コレクション.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,7 +48,7 @@ list_aliases(
 
     **[REQUIRED]**
 
-    alias を一覧表示する対象の collection 名。
+    The name of the コレクション whose aliases are to be listed.
 
 - **using** (*str*) - 
 
@@ -67,7 +66,7 @@ list_aliases(
 
 **RETURNS:**
 
-指定した collection の alias のリスト。collection に alias がない場合は、空のリストが返されます。
+A list of aliases for the specified コレクション. If the コレクション has no aliases, an empty list will be returned.
 
 **EXCEPTIONS:**
 

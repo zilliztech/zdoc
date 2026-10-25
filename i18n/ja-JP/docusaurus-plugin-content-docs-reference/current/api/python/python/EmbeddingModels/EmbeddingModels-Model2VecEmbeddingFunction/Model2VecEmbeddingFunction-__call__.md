@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -65,7 +64,7 @@ model2vec_ef(
 
 - **ImportError**
 
-    `model2vec` モジュールがインストールされていない場合に、この例外が発生します。
+    This exception will be raised when the model2vec module is not installed.
 
 ## 例\{#examples}
 

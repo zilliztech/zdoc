@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection から指定された partition を削除します。 | Python | ORM"
+description: "This operation drops a specified partition from the current コレクション. | Python | ORM"
 type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-この操作は、現在の collection から指定された partition を削除します。
+This operation drops a specified partition from the current コレクション.
 
 ```python
 drop_partition(
@@ -111,7 +110,7 @@ collection.has_partition("test_partition") # False
 
 以下の操作は `drop_collection()` に関連しています。
 
-- [Collection](./ORM-Collection)
+- [コレクション](./ORM-Collection)
 
 - [Partition](./ORM-Partition)
 

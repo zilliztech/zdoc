@@ -14,8 +14,8 @@ sidebar_position: 13
 keywords: 
   - milvus open source
   - Milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -112,7 +111,7 @@ RETURN TYPE:
 
 - **state** (*int*)
 
-    指定された bulk_insert タスクの状態を整数で表したものです。指定可能な値は次の整数です。
+    指定された bulk_insert タスクの状態を文字列で表したものです。指定可能な値は次のとおりです。
 
     - **0**: タスクが保留状態であることを示します
 
@@ -162,9 +161,9 @@ RETURN TYPE:
 
         現在の bulk-insert タスクに含まれるファイル名。カンマ区切りの文字列です。
 
-    - **[collection](./ORM-Collection)** (*str*)
+    - **[コレクション](./ORM-Collection)** (*str*)
 
-        対象 collection の名前。
+        The name of the target コレクション.
 
     - **[partition](./ORM-Partition)** (*str*)
 
@@ -204,7 +203,7 @@ RETURN TYPE:
 
 - **collection_name** (str)
 
-    対象 collection の名前。
+    The name of the target コレクション.
 
 **EXCEPTIONS:**
 

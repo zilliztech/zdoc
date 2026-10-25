@@ -13,7 +13,7 @@ token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
   - Milvus とは
-  - milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +58,7 @@ BGEM3EmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    エンコードに使用するモデルの名前です。デフォルト値は **BAAI/bge-m3** です。
+    The name of the model to use for encoding. The value defaults to **BAAI/bge-m3**.
 
 - **batch_size** (*int*) -
 

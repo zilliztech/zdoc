@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のロード進行状況を返します。 | Python | ORM"
+description: "This operation returns the load progress of a specific コレクション. | Python | ORM"
 type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 keywords: 
   - milvus ベクトルデータベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # loading_progress()
 
-この操作は、特定の collection のロード進行状況を返します。
+This operation returns the load progress of a specific コレクション.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -50,7 +49,7 @@ loading_progress(
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **partition_names** (*list[str]*) -
 
@@ -80,7 +79,7 @@ index_building の進行状況に関する情報を含む辞書。
 
 - **loading_progress** (*str*)
 
-    指定された collection のロード進行状況。
+    The load progress of the specified コレクション.
 
 **例外:**
 

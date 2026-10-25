@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -77,7 +76,7 @@ SentenceTransformerEmbeddingFunction(
 
 - **normalize_embeddings** (*bool*)
 
-    返される vector を長さ 1 に正規化するかどうかを指定します。その場合、cosine similarity の代わりに、より高速な dot-product (`util.dot_score`) を使用できます。
+    Whether to normalize returned ベクトル to have length 1. In that case, the faster dot-product (util.dot_score) instead of cosine similarity can be used.
 
 - **&ast;&ast;kwargs**
 

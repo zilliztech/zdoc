@@ -12,8 +12,8 @@ type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - vector データベースとは
-  - vector データベース比較
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - Faiss
   - Video search
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

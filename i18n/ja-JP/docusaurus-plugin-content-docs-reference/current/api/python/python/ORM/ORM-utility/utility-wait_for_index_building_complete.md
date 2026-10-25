@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された index が構築されるまで現在のプロセスをブロックします。 | Python | ORM"
+description: "This operation blocks the current process until the specified インデックス has been built. | Python | ORM"
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
+  - ベクトル インデックス
+  - ベクトル データベース open source
+  - open source ベクトル db
+  - ベクトル データベース example
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_index_building_complete()
 
-この操作は、指定された index が構築されるまで現在のプロセスをブロックします。
+This operation blocks the current process until the specified インデックス has been built.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -50,17 +49,17 @@ wait_for_index_building_complete(
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
-    存在しない collection に設定すると、**CollectionNotExistException** が発生します。
+    Setting this to a non-existing コレクション leads to a **CollectionNotExistException**.
 
 - **index_name** (*str*) -
 
-    この操作の対象となる index の名前です。
+    The name of the target インデックス of this operation.
 
-    指定しない場合、デフォルトの index が適用されます。collection に複数の index がある場合、このパラメーターは必須です。
+    If left unspecified, the default インデックス applies. If the コレクション has multiple インデックス, this parameter is mandatory.
 
-    存在しない index に設定すると、**IndexNotExistException** が発生します。
+    Setting this to a non-existing インデックス leads to an **IndexNotExistException**.
 
 - **using** (*str*) - 
 
@@ -84,15 +83,15 @@ None
 
 - **CollectionNotExistException**
 
-    指定された collection が存在しない場合に、この例外が発生します。
+    This exception will be raised if the specified コレクション does not exist.
 
 - **IndexNotExistException**
 
-    指定された index が存在しない場合に、この例外が発生します。
+    This exception will be raised if the specified インデックス does not exist.
 
 - **AmbiguousIndexName**
 
-    複数の index が存在するにもかかわらず、index 名が指定されていない場合に、この例外が発生します。
+    This exception will be raised if multiple インデックス exist but the インデックス name is left unspecified.
 
 ## 例\{#examples}
 
@@ -161,7 +160,7 @@ utility.wait_for_index_building_complete(
 
 - [has_index()](./Collection-has_index)
 
-- [index()](./Collection-index)
+- [インデックス()](./Collection-index)
 
 - [index_building_progress()](./utility-index_building_progress)
 

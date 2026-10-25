@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -129,3 +128,4 @@ role.revoke("Collection", collection_name, "Insert")
 - [list_grants()](./Role-list_grants)
 
 - [remove_user()](./Role-remove_user)
+

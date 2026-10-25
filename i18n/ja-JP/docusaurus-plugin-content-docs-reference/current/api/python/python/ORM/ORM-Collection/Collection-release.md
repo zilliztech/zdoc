@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection のデータをメモリから解放します。 | Python | ORM"
+description: "This operation releases the data of the current コレクション from memory. | Python | ORM"
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # release()
 
-この操作は、現在の collection のデータをメモリから解放します。
+This operation releases the data of the current コレクション from memory.
 
 ## リクエスト構文\{#request-syntax}
 

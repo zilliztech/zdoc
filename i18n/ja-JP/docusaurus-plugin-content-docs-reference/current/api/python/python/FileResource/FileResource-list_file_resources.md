@@ -7,13 +7,13 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "現在 Milvus cluster に登録されているすべての file resource を返します。各エントリは `FileResourceInfo` オブジェクトで、`addfileresource()` を通じて resource が登録されたときの `name` と、それが指す `path`（設定された object store 内のオブジェクトキー）を公開します。単一の resource に対する専用の \"get\" API はありません。登録済み resource を確認する標準的な方法は `listfileresources()` です。 | Python"
+description: "Returns all file resources currently registered on the Milvus クラスター. Each entry is a `FileResourceInfo` object exposing the `name` under which the resource was registered via `addfileresource()` and the `path` (object key in the configured object store) that it points to. There is no dedicated \"get\" API for a single resource — `listfileresources()` is the canonical way to inspect registered resources. | Python"
 type: docx
 token: VWCwdHpnbofX9pxw4D1chAghnJg
 sidebar_position: 2
 keywords: 
-  - マネージド vector database
-  - Pinecone vector database
+  - Managed ベクトル データベース
+  - Pinecone ベクトル データベース
   - 音声検索
   - セマンティック検索とは
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list_file_resources()
 
-現在 Milvus cluster に登録されているすべての file resource を返します。各エントリは `FileResourceInfo` オブジェクトで、`add_file_resource()` を通じて resource が登録されたときの `name` と、それが指す `path`（設定された object store 内のオブジェクトキー）を公開します。単一の resource に対する専用の "get" API はありません。登録済み resource を確認する標準的な方法は `list_file_resources()` です。
+Returns all file resources currently registered on the Milvus クラスター. Each entry is a `FileResourceInfo` object exposing the `name` under which the resource was registered via `add_file_resource()` and the `path` (object key in the configured object store) that it points to. There is no dedicated "get" API for a single resource — `list_file_resources()` is the canonical way to inspect registered resources.
 
 ## リクエスト構文\{#request-syntax}
 

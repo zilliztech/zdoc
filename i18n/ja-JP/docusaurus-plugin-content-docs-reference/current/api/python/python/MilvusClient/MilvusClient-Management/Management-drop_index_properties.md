@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -119,3 +118,4 @@ client.drop_index_properties(
     property_keys = ["mmap.enabled"]
 )
 ```
+

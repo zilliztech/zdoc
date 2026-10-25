@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -127,3 +126,4 @@ user = utility.create_user(user="admin", password="123456")
 - [reset_password()](./utility-reset_password)
 
 - [update_password()](./utility-update_password)
+

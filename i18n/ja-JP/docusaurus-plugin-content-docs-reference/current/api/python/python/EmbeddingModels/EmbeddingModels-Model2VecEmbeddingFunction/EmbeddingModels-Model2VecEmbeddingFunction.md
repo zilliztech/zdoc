@@ -13,9 +13,9 @@ token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
   - ベクトルストア
-  - オープンソース vector database
-  - Vector index
-  - オープンソース vector database
+  - open source ベクトル データベース
+  - ベクトル インデックス
+  - ベクトル データベース open source
   - zilliz
   - zilliz cloud
   - クラウド
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +53,7 @@ Model2VecEmbeddingFunction(
 
     モデルのソースです。Hugging Face の model identifier、または model2vec embedding model へのローカルパスのいずれかを指定できます。 
 
-    Hugging Face model identifier として有効なオプションは、**minishlab/potion-base-8M**（デフォルト）、**minishlab/potion-base-4M**、**minishlab/potion-base-2M**、**minishlab/potion-base-32M**、および **minishlab/potion-retrieval-32M** です。
+    Valid options for Hugging Face model identifier are **minishlab/potion-base-8M** (default), **minishlab/potion-base-4M**, **minishlab/potion-base-2M**, **minishlab/potion-base-32M**, and **minishlab/potion-retrieval-32M**
 
 - **&ast;&ast;kwargs**
 
@@ -66,7 +65,7 @@ Model2VecEmbeddingFunction(
 from pymilvus import model
 
 model2vec_ef = Model2VecEmbeddingFunction(
-    model_source="minishlab/potion-base-8M" # モデルソースを指定します（Hugging Face またはローカルパスから読み込みます）
+    model_source="minishlab/potion-base-8M" # Specify the model source (loads from Hugging Face or local path)
 )
 ```
 

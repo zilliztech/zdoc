@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,17 +49,17 @@ index_building_progress(
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
-    存在しない collection に設定すると、**CollectionNotExistException** が発生します。
+    Setting this to a non-existing コレクション leads to a **CollectionNotExistException**.
 
 - **index_name** (*str*) -
 
-    この操作の対象となる index の名前です。
+    The name of the target インデックス of this operation.
 
-    指定しない場合、デフォルトの index が適用されます。collection に複数の index がある場合、このパラメータは必須です。
+    If left unspecified, the default インデックス applies. If the コレクション has multiple インデックス, this parameter is mandatory.
 
-    存在しない index に設定すると、**IndexNotExistException** が発生します。
+    Setting this to a non-existing インデックス leads to an **IndexNotExistException**.
 
 - **using** (*str*) - 
 
@@ -77,16 +76,16 @@ index_building_progress(
 *dict*
 
 **RETURNS:**
-指定された collection 内の、インデックス済み entity 数と総 entity 数を含む辞書です。
-この辞書には以下のキーがあります。
+A dictionary that contains the number of indexed entities as well as that of total entities in the specified コレクション.
+The dictionary has the following keys:
 
 - **total_rows** (*int*)
 
-    指定された collection 内の entity の総数です。
+    The total number of entities in the specified コレクション.
 
 - **indexed_rows** (*int*)
 
-    指定された collection 内のインデックス済み entity 数です。
+    The number of indexed entities in the specified コレクション.
 
 - **pending_index_rows** (*int*)
 
@@ -96,15 +95,15 @@ index_building_progress(
 
 - **CollectionNotExistException**
 
-    指定された collection が存在しない場合に発生します。
+    This exception will be raised if the specified コレクション does not exist.
 
 - **IndexNotExistException**
 
-    指定された index が存在しない場合に発生します。
+    This exception will be raised if the specified インデックス does not exist.
 
 - **AmbiguousIndexName**
 
-    複数の index が存在するにもかかわらず、index 名が指定されていない場合に発生します。
+    This exception will be raised if multiple インデックス exist but the インデックス name is left unspecified.
 
 ## Examples\{#examples}
 

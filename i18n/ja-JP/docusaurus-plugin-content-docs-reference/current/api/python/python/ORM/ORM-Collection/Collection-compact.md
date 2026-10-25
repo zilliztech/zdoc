@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection 内の小さなセグメントを圧縮してマージします。 | Python | ORM"
+description: "This operation compacts and merges small segments in the current コレクション. | Python | ORM"
 type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - Zilliz
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-この操作は、現在の collection 内の小さなセグメントを圧縮してマージします。
+This operation compacts and merges small segments in the current コレクション.
 
 ## Request Syntax\{#request-syntax}
 

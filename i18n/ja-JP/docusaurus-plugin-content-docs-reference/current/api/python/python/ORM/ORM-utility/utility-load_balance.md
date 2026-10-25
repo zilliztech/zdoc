@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に対して 2 つの query node 間にロードバランシンググループを設定します。 | Python | ORM"
+description: "This operation sets up a load-balancing group between two query nodes for a specific コレクション. | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # load_balance()
 
-この操作は、特定の collection に対して 2 つの query node 間にロードバランシンググループを設定します。
+This operation sets up a load-balancing group between two query nodes for a specific コレクション.
 
 ## リクエスト構文\{#request-syntax}
 
@@ -51,12 +50,12 @@ load_balance(
 - **collection_name** (*str*) -<br/>
   **[必須]**
 
-    ロードバランシンググループを設定する既存の collection の名前。
+    The name of an existing コレクション for which a load-balancing group is set up.
 
 - **src_node_id** (*int*) -<br/>
   **[必須]**
 
-    現在その collection が使用している query node の ID。
+    The ID of the query node the コレクション currently uses.
 
 - **dst_node_ids** (*list[int]*) -
 
@@ -85,7 +84,7 @@ load_balance(
 
 **例外:**
 
-該当なし
+N/A
 
 ## 例\{#examples}
 

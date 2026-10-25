@@ -12,10 +12,10 @@ type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - vector db の比較
-  - openai vector db
+  - ベクトル db comparison
+  - openai ベクトル db
   - 自然言語処理データベース
-  - 安価な vector データベース
+  - cheap ベクトル データベース
   - zilliz
   - zilliz cloud
   - クラウド
@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

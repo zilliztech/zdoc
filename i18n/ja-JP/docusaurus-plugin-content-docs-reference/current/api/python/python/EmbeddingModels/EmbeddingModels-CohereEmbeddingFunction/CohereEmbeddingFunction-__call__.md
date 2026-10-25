@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +37,11 @@ CohereEmbeddingFunction の **\_\_call\_\_()** メソッドは、[encode_documen
 ## リクエスト構文\{#request-syntax}
 
 ```python
-# インスタンスを作成済み
+# Instance created
 
 cohere_ef = CohereEmbeddingFunction()
 
-# __call__ メソッドが呼び出されます
+# __call__ method will be called
 cohere_ef(
     texts: List[str]
 ) -> List[np.array]
@@ -52,7 +51,7 @@ cohere_ef(
 
 - **texts** (*List[str]*)
 
-    文字列値のリストです。各文字列は、エンコードのために embedding model に渡されるテキストを表します。モデルは、リスト内の各文字列に対して embedding vector を生成します。
+    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding ベクトル for each string in the list.
 
 **戻り値の型:**
 
