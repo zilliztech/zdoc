@@ -16,7 +16,7 @@ import {analyzeBrokenLinksCommand} from './links/brokenLinkAnalysis.ts';
 import {reportBrokenLinksCommand} from './links/reportBrokenLinks.ts';
 import {reportCanonicalLinksCommand} from './links/reportCanonicalLinks.ts';
 import {reportExternalLinksCommand} from './links/reportExternalLinks.ts';
-import {applyMdxPatches} from './mdx/index.ts';
+import {applyMdxPatches, validateFrontmatter} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
 import type {
   RevisionGroup,
@@ -250,6 +250,7 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
   for (const file of files) {
     if (verbose) process.stdout.write(`Processing ${path.relative(repositoryRoot, file)}...\n`);
     const original = readFileSync(file, 'utf8');
+    validateFrontmatter(original, path.relative(repositoryRoot, file));
     const result = await applyMdxPatches(original);
     if (result !== original) {
       if (write) {
