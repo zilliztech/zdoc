@@ -23,7 +23,6 @@ keywords:
   - Node.js 3.0
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

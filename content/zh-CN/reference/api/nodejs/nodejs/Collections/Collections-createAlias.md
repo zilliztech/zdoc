@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -132,3 +131,4 @@ const milvusClient = new MilvusClient({
    collection_name: 'my_collection',
  });
 ```
+

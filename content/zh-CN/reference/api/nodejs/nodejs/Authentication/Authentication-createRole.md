@@ -4,26 +4,25 @@ slug: /node/node/Authentication-createRole
 sidebar_label: "createRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于创建自定义角色。 | Node.js"
+description: "此操作会在 Milvus 服务器中创建一个新角色。 | Node.js"
 type: docx
-token: SDoYdccLWo1W3PxkNFncibwDnch
+token: TR8xdMnzEo85sLxAtizcJWZdn6b
 sidebar_position: 6
 keywords: 
-  - 什么是 milvus
-  - milvus Database
-  - milvus lite
-  - milvus benchmark
-  - zilliz
-  - zilliz cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - createRole()
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,66 +30,56 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-此操作用于创建自定义角色。
-
-```javascript
-await milvusClient.createRole(data)
-```
+此操作会在 Milvus 服务器中创建一个新角色。
 
 ## 请求语法\{#request-syntax}
 
-```javascript
-await milvusClient.createRole({
-   roleName: string,
-   timeout?: number
- })
+```typescript
+milvusClient.createRole({ roleName, description?, timeout? })
 ```
 
 **参数：**
 
-- **roleName** (*string*) -
+- **roleName**（*string*）-
 
-    **[必需]**
+    新角色的名称。
 
-    要创建的角色名称。
+- **description**（*string*）-
 
-- **timeout** (*number*) -
+    新角色的可选描述。
 
-    此操作的超时时长。
+- **timeout**（*number*）-
 
-    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
+    允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-**返回值** *Promise\<ResStatus>*
+**返回类型：**
 
-此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
+*ResStatus*
 
-```javascript
-{
-    code: number,
-    error_code: string | number,
-    reason: string
-}
-```
+**返回：**
+
+响应状态：`{error_code, reason}`。
 
 **参数：**
 
-- **code** (*number*) -
+- **error_code**（*number*）-
 
-    表示操作结果的代码。如果此操作成功，则其值为 **0**。
+    错误代码编号：0 表示成功。
 
-- **error_code** (*string* | *number*) -
+- **reason**（*string*）-
 
-    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
+    错误的原因（如有）。
 
-- **reason** (*string*) - 
+**异常：**
 
-    表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
+- **MilvusError**
+
+    当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.createRole({
-   roleName: 'exampleRole',
- })
+  roleName: 'exampleRole',
+});
 ```
-

@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -232,3 +231,4 @@ new MilvusClient(config: ClientConfig)
 - 将 **configOrAddress** 设置为您的集群 Endpoint。您可以在 Zilliz Cloud 控制台的 Cluster details 中找到相关信息。
 
 </Admonition>
+

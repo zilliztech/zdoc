@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -85,7 +84,7 @@ await milvusClient.createCollection({
 
 - **auto_id**（*boolean*） - 
 
-    是否在向此 Collection 插入数据时让主字段自动递增。
+    向此 Collection 插入数据时，主字段是否自动递增。
 
     该值默认为 **False**。设置为 **True** 时，主字段将自动递增。在这种情况下，待插入数据中不应包含主字段，以避免错误。自动生成的 ID 长度固定且不可更改。
 
@@ -290,7 +289,7 @@ await milvusClient.createCollection({
 
         - **dim**（*string* | *number*） -
 
-            保存向量嵌入的 Collection 字段的维度。
+            包含向量嵌入的 Collection 字段的维度。
 
             该值应为大于 1 的整数，通常由您用于生成向量嵌入的模型决定。
 
@@ -314,15 +313,15 @@ await milvusClient.createCollection({
 
         - **enable_analyzer**（*boolean*） -
 
-            是否为指定的 `VarChar` 字段启用文本分析。设置为 `true` 时，将指示 Milvus 使用文本 Analyzer，对该字段的文本内容执行分词和过滤。
+            是否为指定的 `VarChar` 字段启用文本分析。设置为 `true` 时，会指示 Milvus 使用文本 Analyzer，对字段中的文本内容进行分词和过滤。
 
         - **enable_match**（*boolean*）
 
-            是否为指定的 `VarChar` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，以便快速高效地进行关键词查找。`enable_match` 会与 `enable_analyzer` 配合使用，以提供结构化的基于术语的文本搜索，其中 `enable_analyzer` 负责分词，`enable_match` 负责基于这些词元执行搜索操作。
+            是否为指定的 `VarChar` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而实现快速高效的关键词查找。`enable_match` 与 `enable_analyzer` 配合使用，可提供结构化的基于术语的文本搜索，其中 `enable_analyzer` 负责分词，`enable_match` 负责对这些词元执行搜索操作。
 
         - **analyzer_params**（*object*）
 
-            为文本处理配置 Analyzer，特别适用于 `VarChar` 字段。此参数用于配置分词器和过滤器设置，尤其适用于 [关键词匹配](https://milvus.io/docs/keyword-match.md) 或 [全文搜索](https://milvus.io/docs/full-text-search.md) 中使用的文本字段。根据 Analyzer 的类型，可以通过以下任一方式进行配置：
+            配置用于文本处理的 Analyzer，特别适用于 `VarChar` 字段。此参数用于配置分词器和过滤器设置，尤其适用于 [关键词匹配](https://milvus.io/docs/keyword-match.md) 或 [全文搜索](https://milvus.io/docs/full-text-search.md) 中使用的文本字段。根据 Analyzer 的类型，可通过以下任一方式进行配置：
 
             - 内置 Analyzer
 
@@ -332,7 +331,7 @@ await milvusClient.createCollection({
 
                 - `type`（*string*） -
 
-                    Milvus 内置的预配置 Analyzer 类型，只需指定其名称即可开箱即用。可选值：`standard`、`english`、`chinese`。更多信息，请参见 [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md) 和 [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md)。
+                    Milvus 内置的预配置 Analyzer 类型，只需指定其名称即可开箱即用。可能的值包括：`standard`、`english`、`chinese`。更多信息，请参见 [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md) 和 [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md)。
 
             - 自定义 Analyzer
 
@@ -345,15 +344,15 @@ await milvusClient.createCollection({
 
                 - `tokenizer`（*string*） -
 
-                    定义分词器类型。可选值：`standard`（默认）、`whitespace`、`jieba`。更多信息，请参见 [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md) 和 [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md)。
+                    定义分词器类型。可能的值包括：`standard`（默认）、`whitespace`、`jieba`。更多信息，请参见 [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md) 和 [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md)。
 
                 - `filter`（*list*） -
 
-                    列出用于优化分词器生成词元的过滤器，包括内置过滤器和自定义过滤器。更多信息，请参见 [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) 等。
+                    列出用于优化分词器生成词元的过滤器，可选择内置过滤器和自定义过滤器。更多信息，请参见 [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) 等。
 
         - **multi_analyzer_params**（*object*） -
 
-            为文本处理配置多个 Analyzer。该参数的值是一个 JSON 对象，用于确定 Milvus 如何为每个 Entity 选择合适的 Analyzer：
+            配置多个 Analyzer 用于文本处理。该参数的值是一个 JSON 对象，用于确定 Milvus 如何为每个 Entity 选择合适的 Analyzer：
 
             ```javascript
             const multi_analyzer_params = {
@@ -374,9 +373,9 @@ await milvusClient.createCollection({
 
     - **autoID**（*boolean*） -
 
-        是否在向此 Collection 插入数据时让主字段自动递增。
+        向此 Collection 插入数据时，主字段是否自动递增。
 
-        该值默认为 **False**。设置为 **True** 时，主字段将自动递增。如果您需要使用自定义 Schema 设置 Collection，请跳过此参数。
+        该值默认为 **False**。将其设置为 **True** 会使主字段自动递增。如果您需要创建具有自定义 Schema 的 Collection，请跳过此参数。
 
     - **nullable**（*boolean*） -
 
@@ -406,17 +405,17 @@ await milvusClient.createCollection({
 
     - **type**（*[FunctionType](./Collections-FunctionType)*）
 
-        用于处理原始数据的函数类型。可能的值包括：
+        用于处理原始数据的函数类型。可能的值如下：
 
         - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
     - **input_field_names**（*string[]*）
 
-        包含需要转换为向量表示的原始数据的字段的名称。对于使用 `FunctionType.BM25` 的函数，此参数只接受一个字段名。
+        包含需要转换为向量表示形式的原始数据的字段的名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
     - **output_field_names**（*string[]*）
 
-        用于存储生成嵌入的字段的名称。此字段应与 Collection Schema 中定义的向量字段对应。对于使用 `FunctionType.BM25` 的函数，此参数只接受一个字段名。
+        用于存储生成嵌入的字段的名称。此字段应与 Collection Schema 中定义的向量字段对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - **num_partitions**（*number*） -
 
@@ -426,7 +425,7 @@ await milvusClient.createCollection({
 
     什么是分区？
     
-        数据分区是一种基于特定条件组织数据的技术。通过数据分区，您可以分别创建、加载、释放和删除各个 Partition，还可以在其中执行搜索和查询。
+        数据分区是一种基于特定条件组织数据的技术。借助数据分区，您可以分别创建、加载、释放和删除 Partition，也可以在其中执行搜索和查询。
 
     </Admonition>
 
@@ -438,13 +437,13 @@ await milvusClient.createCollection({
 
     什么是 Partition 键？
     
-        Partition 键用于根据键值将 Entity 存储到不同的 Partition 中。换句话说，Partition 键会将具有相同键的 Entity 分组在一起，因此当您按键字段进行过滤时，可以避免扫描无关的 Partition。与传统过滤方法相比，Partition 键可以大幅提升查询性能。
+        Partition 键用于根据键值将 Entity 存储到不同的 Partition 中。换句话说，Partition 键会将具有相同键的 Entity 分组在一起，因此在按键字段过滤时，可以避免扫描无关的 Partition。与传统过滤方法相比，Partition 键可以大幅提升查询性能。
 
     </Admonition>
 
 - **shards_num**（*number*） -
 
-    在创建此 Collection 时要同时创建的分片数量。
+    创建此 Collection 时一并创建的分片数量。
 
     该值默认为 **1**，表示创建此 Collection 时会同时创建一个分片。
 
@@ -452,7 +451,7 @@ await milvusClient.createCollection({
 
     什么是分片？
     
-        分片是指将写入操作分布到不同节点，以最大化利用 Milvus 集群在数据写入方面的并行计算能力。
+        分片是指将写入操作分配到不同节点，以充分利用 Milvus 集群在数据写入方面的并行计算能力。
     
         默认情况下，一个 Collection 包含一个分片。
 
@@ -460,7 +459,7 @@ await milvusClient.createCollection({
 
 - **properties** (Record&lt;string, string | number | boolean&gt;) 
 
-    Collection 的额外属性，以键值对形式指定。可能的值包括：
+    Collection 的附加属性，以键值对形式提供。可能的值包括：
 
     - **collection.ttl.seconds**（*number*） -
 

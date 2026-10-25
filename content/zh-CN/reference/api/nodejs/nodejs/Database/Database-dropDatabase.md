@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -101,3 +100,4 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
+

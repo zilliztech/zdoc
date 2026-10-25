@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -134,3 +133,4 @@ const resStatus = await milvusClient.alterAlias({
    collection_name: 'my_collection',
 });
 ```
+
