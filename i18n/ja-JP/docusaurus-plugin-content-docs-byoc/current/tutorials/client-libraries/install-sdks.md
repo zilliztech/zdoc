@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供しています。クラスター接続を容易にする 6つの SDK オプションがあります。Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk)、[C++](./install-sdks#install-c-sdk)、および [Rust. | BYOC"
+description: "Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供しています。クラスター接続を容易にする 6 つの SDK オプションがあります。Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk)、[C++](./install-sdks#install-c-sdk)、および [Rust。 | BYOC"
 type: origin
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
 sidebar_position: 1
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # SDK のインストール
 
-Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供しています。クラスター接続を容易にする 6つの SDK オプションがあります。[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk)、[C++](./install-sdks#install-c-sdk)、および [Rust](./install-sdks#install-rust-sdk) です。
+Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供しています。クラスター接続を容易にする 6 つの SDK オプションとして、[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk)、[C++](./install-sdks#install-c-sdk)、および [Rust](./install-sdks#install-rust-sdk) があります。
 
 <Admonition type="info" title="Notes">
 
-- Zilliz Cloud は、バージョンの互換性を確保するためにクラスターを継続的にアップグレードします。詳細については、[組織設定の管理](./organization-settings) ページを参照してください。SDK のバージョンの不一致により接続の問題が発生した場合は、表示されるプロンプトに従って互換性のある SDK バージョンに戻してください。メンテナンス後に通知しますので、その後は問題なく SDK をアップグレードできます。
+- Zilliz Cloud は、バージョンの互換性を確保するためにクラスターを継続的にアップグレードします。詳細については、[組織設定の管理](./organization-settings) ページを参照してください。SDK のバージョンの不一致によって接続の問題が発生した場合は、表示されるプロンプトに従い、互換性のある SDK バージョンに戻してください。メンテナンス後に通知しますので、その後は問題なく SDK をアップグレードできます。
 
-- 以下に示すすべての SDK には、安定版とベータ版の両方があります。安定版は通常のクラスターを対象とし、ベータ版はベータ版クラスターに対応します。クラスターをベータ版にアップグレードした場合は、SDK もベータ版にアップグレードしてください。
+- 以下に示すすべての SDK には、安定版とベータ版の両方があります。安定版は通常のクラスターを対象とし、ベータ版はベータ版クラスターに対応します。クラスターをベータ版にアップグレードした場合は、SDK もベータ版にアップグレード済みであることを確認してください。
 
 </Admonition>
 
@@ -119,7 +119,7 @@ SDK を取得するには、Apache Maven または Gradle/Grails を使用しま
     </dependency>
     ```
 
-- Gradle/Grails, を使用する場合は、次を実行します。
+- Gradle/Grails, の場合は、次を実行します。
 
     ```bash
     # Install the Java SDK compatible with Milvus v3.0.x
@@ -183,3 +183,10 @@ async fn main() -> Result<()> {
 
 </TabItem>
 </Tabs>
+
+## C# SDK のインストール\{#install-c-sdk}
+
+```bash
+# Install the C# SDK compatible with Milvus v3.0.x
+dotnet add package Milvus.Client.V2
+```

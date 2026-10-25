@@ -26,9 +26,9 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/byoc/tutorials/client-libraries/install-sdks.md": {
-      "sourceHash": "95f522cf5a04c6cf08e117c97146055c8f4254cedfdcbd16c6e20892bf139083",
+      "sourceHash": "fbbe13658ebfd9618b1e232ff41695f89f385e09687a144e2e85f251d81151bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/client-libraries/install-sdks.md",
-      "translatedAt": "2026-10-19T15:32:03.235Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/deployment/byoc-intro.md": {
       "sourceHash": "596b7006022a6899173d379ca8732e83fe696eede302f1b7c6efcb7651e541fe",
@@ -141,14 +141,14 @@
       "translatedAt": "2026-10-24T04:01:05.886Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/arabic-normalization.md": {
-      "sourceHash": "10e898c5882a326513740475b511ff393de1bef53bf02752ae3a2f5d67c34ca7",
+      "sourceHash": "d9ee0bebe3637f4bf8abfb9aeb57e5cc953d8e1ccf570462468bea93732c1b40",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/arabic-normalization.md",
-      "translatedAt": "2026-10-19T14:14:00.247Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md": {
-      "sourceHash": "d68acf602d066d8e28211316f37a6f649dfccfff4f7557d3214b2ba9c4ff7e6a",
+      "sourceHash": "a9169758492222db0bd4ad44d9b67aeaaed84ac80e9c7c5edb9ff62ac41f3a3b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-      "translatedAt": "2026-10-19T15:32:03.235Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md": {
       "sourceHash": "24a5f450c081a6d67d1404a0bfd97c63a413d6819295d6ec8c47e129f15377e9",
@@ -156,14 +156,14 @@
       "translatedAt": "2026-10-25T04:59:38.132Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md": {
-      "sourceHash": "5279010b05847c5cc265c1a7dd723bb8c2907627bdf5a97c1c9bfec93849b64a",
+      "sourceHash": "e898184b6596ae1b65b4dfa8fc6da4068c57044370e5de98186e0b1ce7d57c8e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
-      "translatedAt": "2026-10-19T14:14:00.247Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md": {
-      "sourceHash": "10a55134dbe31b0aa6dc366ad5f357cca5bea413b60a00ed461dd815124a3b27",
+      "sourceHash": "43c3f4bd62ecc46590124ed8a3b9729a1695a812804f0b144ba79e6d7bd63ec4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
-      "translatedAt": "2026-10-19T14:14:00.247Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/length-filter.md": {
       "sourceHash": "7eab4b83604397922439df2c8434e01940c64f8677718cebb8611eae1b5b8f0f",
@@ -176,9 +176,9 @@
       "translatedAt": "2026-10-24T04:01:05.886Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md": {
-      "sourceHash": "1b7ca0da48a54df2b238671f85f38402c0a952c4d6b5323f6331d279889eaa70",
+      "sourceHash": "a0dc0d72329159fd63928f59dd34bf99c804393188af7fb15b1895cb8a96d903",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
-      "translatedAt": "2026-10-19T15:32:03.235Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
       "sourceHash": "973ce097cdaada8908651ad0d3dc65312b60e049a3a38d0a26743bf17901eb02",
@@ -2111,19 +2111,19 @@
       "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "c49eedef1ee634e98d0be5fa8fa7adcc71301fc0aa43abaf44d55d31ff3f0fb7",
+      "sourceHash": "6d1c4bcd688f515554c45e2fd6b9c98642e66e0a1ab23aa1b9db037317bda7b1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "45022f12b9ffbafde13c65943654bd8a5ce51ae11b95c35863f9ed900ef009b7",
+      "sourceHash": "65a46093ff7e70a507d68330a27424485041d6da8f31acacb27a2543f8428caf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/primary-key-search.md": {
-      "sourceHash": "13d9eb496419bd33b2cef510d447362a02836a055e47b0b787cd9491b5af0687",
+      "sourceHash": "7effc59a481fef9d0479d6f613b1f80d0797e7831289115fd6776becf211250a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/primary-key-search.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/range-search.md": {
       "sourceHash": "d226855c7fbea40b098d70104f9cac0f7ecde8d64f21dff32f143d06dd9718cf",
@@ -2146,9 +2146,9 @@
       "translatedAt": "2026-10-23T21:01:45.272Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "22d9066cee29091ad7fe68ea2566a0fd306cc3260aaa4e80c531be8caebf32aa",
+      "sourceHash": "b02ec1ee303040ac239599cb243caa8528a2f4c9a2a7ec9a18004f54122cf466",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-19T15:12:29.324Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
       "sourceHash": "2ce5065adec00e96f2098bf39804cffbccf7e773f62dd0a01164f23fb3d88400",
@@ -2161,9 +2161,9 @@
       "translatedAt": "2026-10-19T15:12:29.324Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md": {
-      "sourceHash": "4957d7bd83b48651c28513009cfbd7ae76c8aa8d28ba68b04708e17fd251038d",
+      "sourceHash": "64acefb0d8482579c5684f7b073e5ccc1833f95591ae5868e2fc7abdedfd244f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-19T15:12:29.324Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
       "sourceHash": "e2f7b61831818576fbbcfa264332b58b0745fd277dda70680918f59e5e1616aa",
@@ -2196,9 +2196,9 @@
       "translatedAt": "2026-10-19T15:12:29.324Z"
     },
     "content/en/guides/tutorials/development/search-and-query/use-partition-key.md": {
-      "sourceHash": "72bbaeb3b9a7595c8f792440f23122322c5258c44417370d338b600405614dd7",
+      "sourceHash": "8d1815109378007b18df49566b82bea3f0c3111ead56c8d02e2e12c43de21714",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/use-partition-key.md",
-      "translatedAt": "2026-10-19T17:49:29.775Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/search-and-query/with-iterators.md": {
       "sourceHash": "9b38a13982edcedfda0793d7cd5ef8fd0cc7463cc5749835e8db0eb9e9d5fc50",
@@ -2261,9 +2261,9 @@
       "translatedAt": "2026-10-24T04:09:25.569Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "e79ce43d3d4b134bd9c1889ebe986f00622f667a47b0851ce42755d4e44f34e0",
+      "sourceHash": "bedcb7d2bc909946ef0a3d6a3b3362764175bc603bf79087eaabe005fe150098",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
       "sourceHash": "b14b1bccc74b6da6738898c612913c43cb8ebe2ced0ae8cfcc091a8103581705",
@@ -2581,9 +2581,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "57ff7e1653bbde985ee9708ab4f980abf3bb3de3f1eb9c16da2e8f395afa5931",
+      "sourceHash": "33ed2563f3f4563e636b53423b7fa4854f49f040328016cca8fe727d1a90e7be",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-10-19T17:49:29.775Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
       "sourceHash": "51898fd5af62aae5e6bbf4104547527bf2f3b489605ed8534814aa03ae523073",
@@ -2596,9 +2596,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
-      "sourceHash": "2eed195671961bd5c7faa050dec13c28b1008cffaa7e2a84c54be04b8090c3d8",
+      "sourceHash": "99770bb69382cb0b7581ff3d9fc64f9bfa51a61c0c94bcb9e11a7c14c98ab3df",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
-      "translatedAt": "2026-10-19T17:49:29.775Z"
+      "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
       "sourceHash": "faf6108a7b7b2743c94bccbe048e589cba498aa21c1e547dd74778b3b7dbb33a",

@@ -57,7 +57,7 @@ import TabItem from '@theme/TabItem';
 
 特定の `VARCHAR` フィールドでフレーズ一致を有効にするには、フィールドスキーマを定義するときに `enable_analyzer` と `enable_match` の両方を `True` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -230,6 +230,38 @@ const schema = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+
+// Create a schema for a new collection
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        // Add a primary key field
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        // Add a VARCHAR field configured for phrase matching
+        FieldSchema.CreateVarchar("text", 1000, enableAnalyzer: true, enableMatch: true),
+        new FieldSchema("embeddings", DataType.FloatVector) { Dimension = 5 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -320,7 +352,7 @@ zilliz collection create --collection-name tech_articles --schema '{
 
 必要なフィールドを定義したら、以下のコードを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,6 +462,28 @@ await client.createCollection(schema);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Create the collection
+const string COLLECTION_NAME = "tech_articles";
+
+if (await client.HasCollectionAsync(new HasCollectionReq { CollectionName = COLLECTION_NAME }) is { Has: true })
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = COLLECTION_NAME });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -519,7 +573,7 @@ zilliz collection create --collection-name tech_articles --schema '{
 
 <summary>サンプルコードを表示</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -690,6 +744,28 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Insert sample data with text containing "machine learning" phrases
+const string COLLECTION_NAME = "tech_articles";
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["text"] = "Machine learning is a subset of artificial intelligence that focuses on algorithms.", ["embeddings"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f } },
+        new Dictionary<string, object?> { ["text"] = "Deep learning machine algorithms require large datasets for training.", ["embeddings"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f } },
+        new Dictionary<string, object?> { ["text"] = "The machine learning model showed excellent performance.", ["embeddings"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f } }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -781,7 +857,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 `PHRASE_MATCH` 式を使用して、検索時にフィールド、フレーズ、およびオプションの柔軟性（`slop`）を指定します。構文は以下の通りです：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -818,6 +894,14 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 ```javascript
 PHRASE_MATCH(field_name, phrase, slop)
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "PHRASE_MATCH(text, 'machine learning')";
 ```
 
 </TabItem>
@@ -864,7 +948,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 この例では、間に余分なトークンを挟まずに、完全なフレーズ **"machine learning"** を含むドキュメントを返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -956,6 +1040,26 @@ const result = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Match documents containing exactly "machine learning"
+string filter = "PHRASE_MATCH(text, 'machine learning')";
+
+QueryResp result = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "tech_articles",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "id", "text" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -995,7 +1099,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 ここでは slop を 1 に設定します。フィルターは、わずかな柔軟性を持ってフレーズ **"learning machine"** を含むドキュメントに適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1109,6 +1213,32 @@ const result_slop1 = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "learning machine" with slop=1
+string filter = "PHRASE_MATCH(text, 'learning machine', 1)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1153,7 +1283,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 この例では slop を 2 に設定しており、**"machine"** と **"learning"** の間に最大 2 つの追加トークン（または語順の逆転）が許可されることを意味します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1261,6 +1391,32 @@ const result_slop2 = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "machine learning" with slop=2
+string filter = "PHRASE_MATCH(text, 'machine learning', 2)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1299,7 +1455,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 この例では slop を 3 に設定しており、さらに高い柔軟性を提供します。フィルターは、単語間に最大 3 つのトークン位置を許可して **"machine learning"** を検索します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1402,6 +1558,32 @@ const result_slop3 = await client.search({
   filter: filter_slop3,
   limit: 10,
   output_fields: ["id", "text"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "machine learning" with slop=3
+string filter = "PHRASE_MATCH(text, 'machine learning', 3)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
 });
 ```
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "中国語のテキスト検索では、多くの場合、インデックス付きテキストに表示される中国語文字をそのまま入力する必要があります。名前検索、オートコンプリート、入力しながら検索するワークフローでは、ユーザーは中国語文字ではなく Pinyin を入力することがよくあります。たとえば、ユーザーは `zuqiu` と入力して `足球` を検索できます。`pinyin` フィルターはアナライザーの出力に Pinyin トークンを追加するため、別個の Pinyin フィールドを維持しなくても、中国語テキストを Pinyin 入力に一致させることができます。 | BYOC"
+description: "中国語のテキスト検索では、多くの場合、ユーザーはインデックスされたテキストに表示される中国語文字を正確に入力する必要があります。名前検索、オートコンプリート、入力しながら検索するワークフローでは、ユーザーは中国語文字ではなく Pinyin を入力することがよくあります。たとえば、ユーザーは `zuqiu` と入力して `足球` を検索できます。`pinyin` フィルターはアナライザーの出力に Pinyin トークンを追加するため、別個の Pinyin フィールドを維持しなくても、中国語のテキストを Pinyin 入力に一致させることができます。 | BYOC"
 type: origin
 token: EhXXwmJzBi8pg9kJcC4ccm9OnDe
 sidebar_position: 6
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Pinyin
 
-中国語のテキスト検索では、多くの場合、インデックス付きテキストに表示される中国語文字をそのまま入力する必要があります。名前検索、オートコンプリート、入力しながら検索するワークフローでは、ユーザーは中国語文字ではなく Pinyin を入力することがよくあります。たとえば、ユーザーは `zuqiu` と入力して `足球` を検索できます。`pinyin` フィルターはアナライザーの出力に Pinyin トークンを追加するため、別個の Pinyin フィールドを維持しなくても、中国語テキストを Pinyin 入力に一致させることができます。
+中国語のテキスト検索では、多くの場合、ユーザーはインデックスされたテキストに表示される中国語文字を正確に入力する必要があります。名前検索、オートコンプリート、入力しながら検索するワークフローでは、ユーザーは中国語文字ではなく Pinyin を入力することがよくあります。たとえば、ユーザーは `zuqiu` と入力して `足球` を検索できます。`pinyin` フィルターはアナライザーの出力に Pinyin トークンを追加するため、別個の Pinyin フィールドを維持しなくても、中国語のテキストを Pinyin 入力に一致させることができます。
 
-`pinyin` フィルターは通常、中国語テキスト用の [Jieba](./jieba-tokenizer) トークナイザーと組み合わせて使用します。カスタムアナライザーのフィルターパイプラインで動作し、同じ中国語トークンに対して複数の Pinyin トークン形式を出力できます。
+`pinyin` フィルターは通常、中国語のテキストに対して [Jieba](./jieba-tokenizer) トークナイザーと組み合わせて使用します。カスタムアナライザーのフィルターパイプラインで動作し、同じ中国語トークンに対して複数の Pinyin トークン形式を出力できます。
 
 ## 設定\{#configuration}
 
-デフォルトオプションを使用するには、`analyzer_params` の `filter` セクションに `"pinyin"` を指定します。
+デフォルトのオプションを使用するには、`analyzer_params` の `filter` セクションに `"pinyin"` を指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -103,6 +103,20 @@ let analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -116,11 +130,11 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-この省略形では、元の中国語トークンを保持し、文字単位の Pinyin トークンを出力します。結合 Pinyin や Pinyin の頭文字は、それらのオプションを明示的に有効にしない限り出力されません。
+この省略形では、元の中国語トークンを保持し、文字単位の Pinyin トークンを出力します。結合 Pinyin や Pinyin の頭文字は、これらのオプションを明示的に有効にしない限り出力されません。
 
 詳細に制御するには、フィルターをオブジェクトとして指定し、Zilliz Cloud が出力する Pinyin トークン形式を設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -241,6 +255,30 @@ analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = true,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -271,13 +309,13 @@ analyzerParams='{
 | `keep_joined_full_pinyin` | Boolean | `false` | ソーストークンごとに結合 Pinyin トークンを出力します。たとえば、`中文` から `zhongwen` が生成されます。 |
 | `keep_separate_first_letter` | Boolean | `false` | ソーストークンごとに Pinyin の頭文字トークンを出力します。たとえば、`中文` から `zw` が生成されます。 |
 
-このフィルターは、トークナイザーによって生成されたトークンを処理します。中国語テキストには、`jieba` などのトークナイザーと組み合わせて使用します。
+このフィルターは、トークナイザーによって生成されたトークンを処理します。中国語のテキストには、`jieba` などのトークナイザーと組み合わせて使用します。
 
 ## 例\{#examples}
 
 アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` を使用してその動作を確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +418,24 @@ const sample_text = "中文测试";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var sampleText = "中文测试";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -394,7 +450,7 @@ const sample_text = "中文测试";
 
 デフォルトの `pinyin` フィルターは、元の中国語トークンを保持し、文字単位の Pinyin トークンを出力します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,6 +571,30 @@ console.log(char_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -541,7 +621,7 @@ curl --request POST \
 
 中国語の語句を、その完全な結合 Pinyin 形式に一致させる必要がある場合は、`keep_joined_full_pinyin` を有効にします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -708,6 +788,40 @@ console.log(joined_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = true,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -734,7 +848,7 @@ curl --request POST \
 
 中国語の語句を、その Pinyin 形式の頭文字に一致させる必要がある場合は、`keep_separate_first_letter` を有効にします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -897,6 +1011,40 @@ const initials_result = await client.runAnalyzer({
     analyzer_params,
 });
 console.log(initials_result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = true
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>

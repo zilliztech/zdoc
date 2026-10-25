@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`asciifolding` フィルターは、Basic Latin Unicode ブロック外の文字を ASCII の同等文字に変換します。たとえば、`í` を `i` に変換するため、特に多言語コンテンツにおいてテキスト処理がより簡単かつ一貫したものになります。 | BYOC"
+description: "`asciifolding` フィルターは、Basic Latin Unicode ブロック外の文字を ASCII の同等文字に変換します。たとえば、`í` などの文字を `i` に変換し、テキスト処理をよりシンプルかつ一貫したものにします。特に多言語コンテンツに適しています。 | BYOC"
 type: origin
 token: SFLCweOuaiChuVkjazqcqyE7neb
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # ASCII フォールディング
 
-`asciifolding` フィルターは、[Basic Latin Unicode ブロック](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を ASCII の同等文字に変換します。たとえば、`í` を `i` に変換するため、特に多言語コンテンツにおいてテキスト処理がより簡単かつ一貫したものになります。
+`asciifolding` フィルターは、[Basic Latin Unicode ブロック](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を ASCII の同等文字に変換します。たとえば、`í` などの文字を `i` に変換し、テキスト処理をよりシンプルかつ一貫したものにします。特に多言語コンテンツに適しています。
 
 ## 設定\{#configuration}
 
 `asciifolding` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -91,6 +91,20 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "asciifolding" }
 };
 ```
 
@@ -111,7 +125,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`asciifolding` フィルターはトークナイザーによって生成された用語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+`asciifolding` フィルターはトークナイザーが生成した用語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
 `analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
 
@@ -121,7 +135,7 @@ analyzerParams='{
 
 ### アナライザーの設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -185,6 +199,20 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "asciifolding" }
 };
 ```
 
@@ -207,7 +235,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -368,6 +396,39 @@ const result = await client.runAnalyzer({
   analyzer_params: analyzer_params,
   text: sampleText,
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "Café Möller serves crème brûlée and piñatas.";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
 ```
 
 </TabItem>

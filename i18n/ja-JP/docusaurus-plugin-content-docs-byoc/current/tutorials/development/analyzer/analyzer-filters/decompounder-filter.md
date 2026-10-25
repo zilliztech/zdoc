@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に便利です。 | BYOC"
+description: "`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。 | BYOC"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
 sidebar_position: 9
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Decompounder
 
-`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語に特に便利です。
+`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。
 
 ## 構成\{#configuration}
 
-`decompounder` フィルターは、構成要素の辞書を `word_list` パラメーターでインライン指定するか、`word_list_file` パラメーターで登録済みのファイルリソースから指定できます。
+`decompounder` フィルターは、構成要素の辞書を、`word_list` パラメーターでインラインに指定するか、登録済みのファイルリソースから `word_list_file` パラメーターで受け取ります。
 
 ### インライン単語リスト\{#inline-word-list}
 
-`decompounder` フィルターは、Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター構成で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを併せて指定します。
+`decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター構成で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -125,6 +125,27 @@ let analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "decompounder", // Specifies the filter type as decompounder
+            ["word_list"] = new[] { "dampf", "schiff", "fahrt", "brot", "backen", "automat" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -150,23 +171,23 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`decompounder` フィルターは、次の構成可能なパラメーターを受け入れます。
+`decompounder` フィルターでは、次の構成可能なパラメーターを使用できます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `word_list` | 複合語を分割するために使用する単語構成要素のリストです。この辞書により、複合語を個々の用語に分解する方法が決まります。 |
+| `word_list` | 複合語の分割に使用する単語構成要素のリストです。この辞書により、複合語が個々の用語に分解される方法が決まります。 |
 
-`decompounder` フィルターは、トークナイザーによって生成されたトークンを処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+`decompounder` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義するときに、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的にトークン化およびフィルタリングできます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザーの構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザーの構成\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,6 +281,27 @@ analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "decompounder", // Specifies the filter type as decompounder
+            ["word_list"] = new[] { "dampf", "schiff", "fahrt", "brot", "backen", "automat" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -287,7 +329,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -459,6 +501,31 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "dampfschifffahrt brotbackautomat";
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+foreach (var r in result.Results)
+{
+    Console.WriteLine("Standard analyzer output: " + string.Join(", ", r.Tokens.Select(t => t.Token)));
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -481,4 +548,3 @@ curl --request POST \
 ```python
 ['dampf', 'schiff', 'fahrt', 'brotbackautomat']
 ```
-

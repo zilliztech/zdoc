@@ -67,7 +67,7 @@ import TabItem from '@theme/TabItem';
 
 次の例では、`chunks[emb]` ベクトルがクエリベクトルに十分類似している個々のチャンクを検索します。各結果ヒットは、一致した Struct 要素を表します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -296,6 +296,40 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Radius = "0.80",
+        RangeFilter = "0.95",
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -336,7 +370,7 @@ curl --request POST \
 
 要素レベルの範囲検索を StructArray のスカラーフィルタリングと組み合わせることができます。親エンティティのフィールドにはトップレベルの述語を使用し、`element_filter` を使用してベクトル範囲検索に参加する Struct 要素を制限します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,6 +603,43 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+string filterExpr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Radius = "0.80",
+        RangeFilter = "0.95",
+        Expression = filterExpr,
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -610,7 +681,7 @@ curl --request POST \
 
 StructArray の要素レベルのベクトルフィールドは、ハイブリッド検索での範囲検索をサポートしています。`radius` と、必要に応じて `range_filter` を、StructArray の要素レベルのベクトルフィールドを対象とする `AnnSearchRequest` に追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -885,6 +956,42 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+AnnSearchReq titleReq = new()
+{
+    VectorFieldName = "title_vector",
+    Vectors = [queryVector],
+    Limit = 10
+};
+
+AnnSearchReq chunkReq = new()
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Radius = "0.80",
+    RangeFilter = "0.95",
+    Limit = 10
+};
+
+SearchResp results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = [titleReq, chunkReq],
+    Reranker = new RrfReranker(),
+    Limit = 10
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -969,3 +1076,4 @@ curl --request POST \
 1. サポートされている場合に親エンティティごとに最大 1 つの結果を返すには、[StructArray でのグループ化検索](./grouping-search-with-struct-array) をお読みください。
 
 1. バージョン固有の検索制限を確認するには、[StructArray の制限](./struct-array-limits) をお読みください。
+
