@@ -1,13 +1,13 @@
 ---
-title: "データインポート実践ガイド | Cloud"
+title: "データインポートのハンズオン | Cloud"
 slug: /data-import-zero-to-hero
-sidebar_label: "ゼロから実践まで"
+sidebar_label: "ゼロから始める"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud でデータのインポートをすぐに開始できるよう、データの準備やコレクションの設定から実際のデータインポートプロセスまでを扱う速習コースです。このチュートリアルでは、次の内容を学びます | Cloud"
+description: "Zilliz Cloud でのデータインポートをすぐに始められるように、データの準備とコレクションの設定から実際のデータインポートプロセスまでを扱う速習コースです。このチュートリアルでは、次のことを学びます | Cloud"
 type: origin
 token: BjHZwBkk0iFScik49QMc1Wwjndb
 sidebar_position: 5
@@ -19,33 +19,33 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# データインポート実践ガイド
+# データインポートのハンズオン
 
-Zilliz Cloud でデータのインポートをすぐに開始できるよう、データの準備やコレクションの設定から実際のデータインポートプロセスまでを扱う速習コースです。このチュートリアルでは、次の内容を学びます。
+Zilliz Cloud でのデータインポートをすぐに始められるように、データの準備とコレクションの設定から実際のデータインポートプロセスまでを扱う速習コースです。このチュートリアルでは、次のことを学びます。
 
 - スキーマを定義し、ターゲットコレクションを設定する方法
 
 - **BulkWriter** を使用してソースデータを準備し、リモートストレージバケットに書き込む方法
 
-- bulk-import API を呼び出してデータをインポートする方法
+- 一括インポート API を呼び出してデータをインポートする方法
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud では、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
+Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
-低レイテンシーで安定したエクスペリエンスを実現するには、ターゲットクラスターと同じプロバイダーの同じリージョンにあるバケットまたは BLOB コンテナーを使用することをお勧めします。
+低レイテンシーで安定したエクスペリエンスを確保するため、ターゲットクラスターと同じプロバイダーかつ同じリージョンのバケットまたは BLOB コンテナーを使用することをお勧めします。
 
 </Admonition>
 
 ## 事前準備\{#before-you-start}
 
-スムーズに進められるよう、次の設定を完了していることを確認してください。
+スムーズに進めるため、以下の設定を完了していることを確認してください。
 
 ### Zilliz Cloud クラスターを設定する\{#set-up-your-zilliz-cloud-cluster}
 
-- まだ作成していない場合は、[クラスターを作成](./create-cluster)してください。
+- まだ作成していない場合は、[クラスターを作成](./create-cluster) してください。
 
-- **クラスター Endpoint**、**API Key**、**クラスター ID** の詳細を確認してください。
+- **クラスター Endpoint**、**API Key**、**クラスター ID** を収集してください。
 
 ### 依存関係をインストールする\{#install-dependencies}
 
@@ -55,7 +55,7 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 
 <TabItem value='python'>
 
-Python API を使用するには、ターミナルで次のコマンドを実行し、**pymilvus** と **minio** をインストールするか、最新バージョンにアップグレードします。
+Python API を使用するには、ターミナルで次のコマンドを実行して **pymilvus** と **minio** をインストールするか、最新バージョンにアップグレードします。
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -65,7 +65,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 <TabItem value='java'>
 
-- Apache Maven の場合は、次の内容を **pom.xml** の依存関係に追加します。
+- Apache Maven の場合は、**pom.xml** の依存関係に次を追加します。
 
 ```java
 <dependency>
@@ -80,7 +80,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- Gradle/Grails, を使用する場合は、次のコマンドを実行します。
+- Gradle/Grails, の場合は、次を実行します。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:3.0.10'
@@ -95,17 +95,17 @@ compile 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
 
 - AWS S3、Google GCS、または Azure Blob を使用してリモートバケットを設定します。
 
-- 次の内容を記録します。
+- 次の情報を控えます。
 
-    - S3 互換ブロックストレージサービスの場合は、**Access Key**、**Secret Key**、**Bucket Name**。
+    - S3 互換ブロックストレージサービスの **Access Key**、**Secret Key**、**Bucket Name**。
 
-    - Microsoft Azure Blob ストレージサービスの場合は、**AccountName**、**AccountKey**、**ContainerName**。
+    - Microsoft Azure Blob Storage サービスの **AccountName**、**AccountKey**、**ContainerName**。
 
-    これらの詳細は、バケットをホストしているクラウドプロバイダーのコンソールで確認できます。
+    これらの詳細情報は、バケットをホストしているクラウドプロバイダーのコンソールで確認できます。
 
-サンプルコードを活用しやすくするため、構成の詳細を変数に格納することをお勧めします。
+サンプルコードを活用しやすくするため、設定の詳細を変数に格納することをお勧めします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -147,6 +147,29 @@ String SECRET_KEY = "";
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// The value of the URL is fixed.
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string API_KEY = "";
+
+// Configs for Zilliz Cloud cluster
+string CLUSTER_ENDPOINT = "";
+string CLUSTER_ID = ""; // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
+string COLLECTION_NAME = "zero_to_hero";
+
+// Configs for remote bucket
+string BUCKET_NAME = "";
+string ACCESS_KEY = "";
+string SECRET_KEY = "";
+```
+
+</TabItem>
 </Tabs>
 
 ## ターゲットコレクションのスキーマを設定する\{#set-up-target-collection-schema}
@@ -157,6 +180,9 @@ String SECRET_KEY = "";
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
+<TabItem value='python'>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -193,11 +219,44 @@ schema.verify()
 print(schema)
 ```
 
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// You need to work out a collection schema out of your dataset.
+int DIM = 512;
+
+var schema = new CollectionSchema { EnableDynamicFields = true };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(new FieldSchema("bool", DataType.Bool));
+schema.Fields.Add(new FieldSchema("int8", DataType.Int8));
+schema.Fields.Add(new FieldSchema("int16", DataType.Int16));
+schema.Fields.Add(new FieldSchema("int32", DataType.Int32));
+schema.Fields.Add(new FieldSchema("int64", DataType.Int64));
+schema.Fields.Add(new FieldSchema("float", DataType.Float));
+schema.Fields.Add(new FieldSchema("double", DataType.Double));
+schema.Fields.Add(new FieldSchema("varchar", DataType.VarChar) { MaxLength = 512 });
+schema.Fields.Add(new FieldSchema("json", DataType.Json));
+schema.Fields.Add(new FieldSchema("array_str", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.VarChar, MaxLength = 128 });
+schema.Fields.Add(new FieldSchema("array_int", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.Int64 });
+schema.Fields.Add(FieldSchema.CreateFloatVector("float_vector", DIM));
+schema.Fields.Add(new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = DIM });
+schema.Fields.Add(new FieldSchema("float16_vector", DataType.Float16Vector) { Dimension = DIM });
+schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
+```
+
+</TabItem>
+</Tabs>
+
 上記のコードのパラメーターは次のとおりです。
 
-- フィールド:
+- フィールド：
 
-    - `id` は主フィールドです。
+    - `id` はプライマリフィールドです。
 
     - `float_vector` は浮動小数点ベクトルフィールドです。
 
@@ -211,14 +270,17 @@ print(schema)
 
 - `auto_id=False`
 
-    これはデフォルト値です。**True** に設定すると、**BulkWriter** は生成ファイルに主フィールドを含めなくなります。
+    これがデフォルト値です。**True** に設定すると、**BulkWriter** が生成ファイルにプライマリフィールドを含めなくなります。
 
 - `enable_dynamic_field=True`
 
-    値のデフォルトは **False** です。**True** に設定すると、**BulkWriter** は生成ファイルから未定義のフィールドとその値をキーと値のペアとして含め、**&#36;meta** という名前の予約済み JSON フィールドに配置できるようになります。
+    デフォルト値は **False** です。**True** に設定すると、**BulkWriter** は未定義のフィールドとその値を生成ファイルからキーと値のペアとして含め、**&#36;meta** という予約済み JSON フィールドに配置できるようになります。
 
 </TabItem>
 
+<TabItem value='java'>
+
+<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='java'>
 
 ```java
@@ -334,11 +396,44 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
 }
 ```
 
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// You need to work out a collection schema out of your dataset.
+int DIM = 512;
+
+var schema = new CollectionSchema { EnableDynamicFields = true };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(new FieldSchema("bool", DataType.Bool));
+schema.Fields.Add(new FieldSchema("int8", DataType.Int8));
+schema.Fields.Add(new FieldSchema("int16", DataType.Int16));
+schema.Fields.Add(new FieldSchema("int32", DataType.Int32));
+schema.Fields.Add(new FieldSchema("int64", DataType.Int64));
+schema.Fields.Add(new FieldSchema("float", DataType.Float));
+schema.Fields.Add(new FieldSchema("double", DataType.Double));
+schema.Fields.Add(new FieldSchema("varchar", DataType.VarChar) { MaxLength = 512 });
+schema.Fields.Add(new FieldSchema("json", DataType.Json));
+schema.Fields.Add(new FieldSchema("array_str", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.VarChar, MaxLength = 128 });
+schema.Fields.Add(new FieldSchema("array_int", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.Int64 });
+schema.Fields.Add(FieldSchema.CreateFloatVector("float_vector", DIM));
+schema.Fields.Add(new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = DIM });
+schema.Fields.Add(new FieldSchema("float16_vector", DataType.Float16Vector) { Dimension = DIM });
+schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
+```
+
+</TabItem>
+</Tabs>
+
 上記のコードブロックでは、
 
-- `id` フィールドは、`withAutoID` が `false` に設定された主フィールドであり、インポートするデータに `id` フィールドを含める必要があることを示します。
+- `id` フィールドは、`withAutoID` が `false` に設定されたプライマリフィールドです。これは、インポートするデータに `id` フィールドを含める必要があることを示します。
 
-- `float_vector`、`binary_vector`、`float16_vector`、`sparse_vector` の各フィールドはベクトルフィールドです。
+- `float_vector`、`binary_vector`、`float16_vector`、`sparse_vector` フィールドはベクトルフィールドです。
 
 - スキーマでは `withEnableDynamicField` が `true` に設定されており、インポートするデータにスキーマで定義されていないフィールドを含められることを示します。
 
@@ -346,9 +441,9 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
 
 </Tabs>
 
-スキーマを設定したら、次のようにしてターゲットコレクションを作成できます。
+スキーマを設定したら、次のようにターゲットコレクションを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -456,17 +551,53 @@ milvusClient.createCollection(request);
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// 1. Set up a Milvus client
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    Username = "root",
+    Password = "Milvus"
+});
+
+// 2. Set index parameters
+var indexParams = new[]
+{
+    new IndexParam("float_vector", "float_vector_idx", IndexType.AutoIndex, MetricType.Ip),
+    new IndexParam("binary_vector", "binary_vector_idx", IndexType.AutoIndex, MetricType.Hamming),
+    new IndexParam("float16_vector", "float16_vector_idx", IndexType.AutoIndex, MetricType.Ip),
+    new IndexParam("sparse_vector", "sparse_vector_idx", IndexType.AutoIndex, MetricType.Ip)
+};
+
+// 3. Create collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
 </Tabs>
 
 ## ソースデータを準備する\{#prepare-source-data}
 
-**BulkWriter** は、データセットを JSON、Parquet、または NumPy ファイルに書き換えることができます。ここでは、**RemoteBulkWriter** を作成し、このライターを使用してデータをこれらの形式に書き換えます。
+**BulkWriter** はデータセットを JSON、Parquet、または NumPy ファイルに書き換えることができます。**RemoteBulkWriter** を作成し、このライターを使用してデータをこれらの形式に書き換えます。
 
 ### RemoteBulkWriter を作成する\{#create-remotebulkwriter}
 
-スキーマの準備ができたら、そのスキーマを使用して **RemoteBulkWriter** を作成できます。**RemoteBulkWriter** では、リモートバケットにアクセスするための権限が必要です。リモートバケットにアクセスするための接続パラメーターを **ConnectParam** オブジェクトに設定し、それを **RemoteBulkWriter** で参照してください。
+スキーマの準備ができたら、そのスキーマを使用して **RemoteBulkWriter** を作成できます。**RemoteBulkWriter** はリモートバケットへのアクセス許可を要求します。**ConnectParam** オブジェクトでリモートバケットにアクセスするための接続パラメーターを設定し、それを **RemoteBulkWriter** で参照する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
@@ -556,28 +687,42 @@ storageConnectParam = AzureConnectParam.newBuilder()
 </TabItem>
 </Tabs>
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
 **endpoint** パラメーターは、クラウドプロバイダーのストレージサービス URI を指します。
 
-S3 互換ストレージサービスの場合、使用できる URI は次のとおりです。
+S3 互換ストレージサービスでは、次の URI を使用できます。
 
 - `s3.amazonaws.com`(AWS S3)
 
 - `storage.googleapis.com` (GCS)
 
-Azure Blob ストレージコンテナーの場合は、次のような[有効な接続文字列](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys)を使用してください。
+Azure Blob Storage コンテナーの場合は、次のような[有効な接続文字列](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys)を使用してください。
 
 `DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>;EndpointSuffix=core.windows.net`
 
 </Admonition>
 
-続いて、接続パラメーターを **RemoteBulkWriter** で次のように参照できます。
+次に、接続パラメーターを **RemoteBulkWriter** で次のように参照できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
+<TabItem value='python'>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -595,17 +740,31 @@ writer = RemoteBulkWriter(
 # - BulkFileType.PARQUET
 ```
 
-上記のライターは、JSON 形式のファイルを生成し、指定したバケットのルートフォルダーにアップロードします。
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
+</Tabs>
+
+上記のライターは、JSON 形式でファイルを生成し、指定したバケットのルートフォルダーにアップロードします。
 
 - `remote_path="/"`
 
-    生成されたファイルのリモートバケット内の出力パスを決定します。
+    生成ファイルのリモートバケット内の出力パスを決定します。
 
-    `"/"` に設定すると、**RemoteBulkWriter** は生成されたファイルをリモートバケットのルートフォルダーに配置します。他のパスを使用する場合は、リモートバケットのルートからの相対パスを設定します。
+    `"/"` に設定すると、**RemoteBulkWriter** は生成ファイルをリモートバケットのルートフォルダーに配置します。他のパスを使用する場合は、リモートバケットのルートからの相対パスに設定します。
 
 - `file_type=BulkFileType.PARQUET`
 
-    生成するファイルの種類を決定します。使用できる値は次のとおりです。
+    生成ファイルの種類を決定します。指定できる値は次のとおりです。
 
     - **BulkFileType.JSON**
 
@@ -615,10 +774,13 @@ writer = RemoteBulkWriter(
 
 - `segment_size=1024*1024*1024`
 
-    **BulkWriter** が生成ファイルを分割するかどうかを決定します。値のデフォルトは 1024 MB（1024 &ast; 1024 &ast; 1024）です。データセットに大量のレコードが含まれている場合は、**segment_size** を適切な値に設定してデータを分割することをお勧めします。
+    生成ファイルを **BulkWriter** がセグメント化するかどうかを決定します。デフォルト値は 1024 MB（1024 &ast; 1024 &ast; 1024）です。データセットに大量のレコードが含まれる場合は、**segment_size** を適切な値に設定してデータをセグメント化することをお勧めします。
 
 </TabItem>
 
+<TabItem value='java'>
+
+<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='java'>
 
 ```java
@@ -641,21 +803,35 @@ RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
 // - BulkFileType.PARQUET
 ```
 
-上記のライターは、Parquet 形式のファイルを生成し、指定したバケットのルートフォルダーにアップロードします。
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
+</Tabs>
+
+上記のライターは、Parquet 形式でファイルを生成し、指定したバケットのルートフォルダーにアップロードします。
 
 - `withRemotePath("/")`
 
-    生成されたファイルのリモートバケット内の出力パスを決定します。
+    生成ファイルのリモートバケット内の出力パスを決定します。
 
-    `"/"` に設定すると、**RemoteBulkWriter** は生成されたファイルをリモートバケットのルートフォルダーに配置します。他のパスを使用する場合は、リモートバケットのルートからの相対パスを設定します。
+    `"/"` に設定すると、**RemoteBulkWriter** は生成ファイルをリモートバケットのルートフォルダーに配置します。他のパスを使用する場合は、リモートバケットのルートからの相対パスに設定します。
 
 - `withFileType(BulkFileType.PARQUET)`
 
-    生成するファイルの種類を決定します。現在は **PARQUET** のみを使用できます。
+    生成ファイルの種類を決定します。現在は **PARQUET** のみ使用できます。
 
 - `withChunkSize(1024*1024*1024)`
 
-    **BulkWriter** が生成ファイルを分割するかどうかを決定します。値のデフォルトは 1024 MB（1024 &ast; 1024 &ast; 1024）です。データセットに大量のレコードが含まれている場合は、**withChunkSize** を適切な値に設定してデータを分割することをお勧めします。
+    生成ファイルを **BulkWriter** がセグメント化するかどうかを決定します。デフォルト値は 1024 MB（1024 &ast; 1024 &ast; 1024）です。データセットに大量のレコードが含まれる場合は、**withChunkSize** を適切な値に設定してデータをセグメント化することをお勧めします。
 
 </TabItem>
 
@@ -663,11 +839,11 @@ RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
 
 ### ライターを使用する\{#use-the-writer}
 
-ライターには 2 つのメソッドがあります。1 つはソースデータセットから行を追加するためのもので、もう 1 つはデータをリモートファイルにコミットするためのものです。
+ライターには 2 つのメソッドがあります。1 つはソースデータセットから行を追加するためのもの、もう 1 つはデータをリモートファイルにコミットするためのものです。
 
 次のようにして、ソースデータセットから行を追加できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -884,15 +1060,26 @@ public static void main(String[] args) throws Exception {
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
 </Tabs>
 
-ライターの **append_row()** メソッドは、行ディクショナリを受け入れます。
+ライターの **append_row()** メソッドは行ディクショナリを受け取ります。
 
-行ディクショナリには、スキーマで定義されたすべてのフィールドをキーとして含める必要があります。動的フィールドが許可されている場合は、未定義のフィールドを含めることもできます。詳細については、[Use BulkWriter](./use-bulkwriter#dynamic-schema-support) を参照してください。
+行ディクショナリには、スキーマで定義されたすべてのフィールドをキーとして含める必要があります。動的フィールドが許可されている場合は、未定義のフィールドも含めることができます。詳細については、[BulkWriter の使用方法](./use-bulkwriter#dynamic-schema-support) を参照してください。
 
-**BulkWriter** がファイルを生成するのは、**commit()** メソッドを呼び出した後だけです。
+**BulkWriter** は、**commit()** メソッドを呼び出した後にのみファイルを生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -908,13 +1095,24 @@ remoteBulkWriter.commit(false);
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
 </Tabs>
 
-ここまでで、**BulkWriter** は指定したリモートバケット内にソースデータを準備しました。
+ここまでで、**BulkWriter** は指定したリモートバケットにソースデータを準備しました。
 
 生成されたファイルを確認するには、ライターの **data_path** プロパティを出力して実際の出力パスを取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -937,25 +1135,36 @@ System.out.println(batchFiles);
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
+// Write and upload your data files with your own tooling, then import them with BulkImport.
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
-**BulkWriter** は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用してサブフォルダーを作成して、生成されたすべてのファイルをそのサブフォルダーに配置します。
+**BulkWriter** は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用してサブフォルダーを作成し、生成されたすべてのファイルをそのサブフォルダーに配置します。
 
 </Admonition>
 
-詳細については、[Use BulkWriter](./use-bulkwriter#verify-the-result) を参照してください。
+詳細については、[BulkWriter の使用方法](./use-bulkwriter#verify-the-result) を参照してください。
 
-## 準備済みのデータをインポートする\{#import-prepared-data}
+## 準備したデータをインポートする\{#import-prepared-data}
 
-この手順の前に、準備したデータが目的のバケットにすでにアップロードされていることを確認してください。
+このステップの前に、準備したデータが目的のバケットにすでにアップロードされていることを確認してください。
 
 ### インポートを開始する\{#start-importing}
 
 準備したソースデータをインポートするには、次のように **bulk_import()** 関数を呼び出す必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1016,21 +1225,53 @@ System.out.println(jobId);
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+// Publicly accessible URL for the prepared data in the remote bucket
+string objectUrl = $"s3://{BUCKET_NAME}/{dataPath}/";
+// Change `s3` to `gs` for Google Cloud Storage
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = COLLECTION_NAME,
+    ClusterId = CLUSTER_ID,
+    ObjectUrl = objectUrl,
+    AccessKey = ACCESS_KEY,
+    SecretKey = SECRET_KEY
+});
+
+string jobId = resp.JobId ?? "";
+Console.WriteLine(jobId);
+// job-0103f039ccdq9aip1xd4rf
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
 **object_url** は、リモートバケット内のファイルまたはフォルダーへの有効な URL である必要があります。提供されているコードでは、**format()** メソッドを使用してバケット名とライターから返されたデータパスを組み合わせ、有効なオブジェクト URL を作成しています。
 
-データとターゲットコレクションが AWS でホストされている場合、オブジェクト URL は **s3://remote-bucket/file-path**. のようになります。ライターから返されたデータパスに付加する URI として使用できるものについては、[Storage Options](./data-import-storage-options) を参照してください。
+データとターゲットコレクションが AWS でホストされている場合、オブジェクト URL は **s3://remote-bucket/file-path**. のようになります。ライターから返されたデータパスの前に付ける適用可能な URI については、[ストレージオプション](./data-import-storage-options) を参照してください。
 
 </Admonition>
 
 ### タスクの進行状況を確認する\{#check-task-progress}
 
-次のコードは、5 秒ごとに bulk-import の進行状況を確認し、進行状況をパーセントで出力します。
+次のコードは、5 秒ごとに一括インポートの進行状況を確認し、進行状況をパーセンテージで出力します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1108,17 +1349,58 @@ while (true) {
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+while (true)
+{
+    Console.WriteLine("Wait 5 seconds to check the import job state...");
+    await Task.Delay(5000);
+    var progress = await bulkImport.GetImportProgressAsync(new GetImportProgressRequest
+    {
+        JobId = jobId,
+        ClusterId = CLUSTER_ID
+    });
+    string state = progress.State ?? "";
+    if (state == "Completed")
+    {
+        Console.WriteLine($"The job {jobId} completed");
+        break;
+    }
+    if (state == "Failed")
+    {
+        Console.WriteLine($"The job {jobId} failed, reason: {progress.Reason}");
+        break;
+    }
+    Console.WriteLine($"The job {jobId} is running, state: {state}, progress: {progress.Progress}");
+}
+// The job job-01f36d8fd67u94avjfnxi0 is running, state: Importing progress: 0
+// The job job-01f36d8fd67u94avjfnxi0 is running, state: Importing progress: 49
+// The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
-**get_import_progress()** の **url** を、ターゲットコレクションのクラウドリージョンに対応するものに置き換えます。
+**get_import_progress()** の **url** を、ターゲットコレクションのクラウドリージョンに対応するものに置き換えてください。
 
 </Admonition>
 
-次のようにして、すべての bulk-import ジョブを一覧表示できます。
+次のようにして、すべての一括インポートジョブを一覧表示できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1171,19 +1453,41 @@ System.out.println(listImportJobsResult);
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.ListImportJobsAsync(new ListImportJobsRequest
+{
+    CollectionName = COLLECTION_NAME,
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
+```
+
+</TabItem>
 </Tabs>
 
 ## まとめ\{#recaps}
 
-このコースでは、データインポートのプロセス全体を扱いました。振り返りのポイントは次のとおりです。
+このコースでは、データインポートのプロセス全体を扱いました。振り返りのポイントを次に示します。
 
-- データを調べて、ターゲットコレクションのスキーマを作成します。
+- データを調査して、ターゲットコレクションのスキーマを作成します。
 
 - **BulkWriter** を使用する場合は、次の点に注意してください。
 
     - 追加する各行に、スキーマで定義されたすべてのフィールドをキーとして含めます。動的フィールドが許可されている場合は、該当する未定義のフィールドも含めます。
 
-    - すべての行を追加した後に **commit()** を呼び出すことを忘れないでください。
+    - すべての行を追加した後で **commit()** を呼び出すことを忘れないでください。
 
-- **bulk_import()** を使用する場合は、準備したデータをホストするクラウドプロバイダーのエンドポイントと、ライターから返されたデータパスを連結してオブジェクト URL を構築します。
-
+- **bulk_import()** を使用する場合は、準備したデータをホストしているクラウドプロバイダーのエンドポイントと、ライターから返されたデータパスを連結してオブジェクト URL を構築します。

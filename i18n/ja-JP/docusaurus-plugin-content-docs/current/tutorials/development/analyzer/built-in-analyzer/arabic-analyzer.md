@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`arabic` アナライザーは、アラビア語テキスト用の組み込みアナライザーです。Zilliz Cloud でアラビア語の文字異形を正規化し、発音記号とタトゥイールを削除し、アラビア・インド数字を変換し、アラビア語のステミングを適用し、アラビア語のストップワードを削除する場合は、このアナライザーを使用してください。 | Cloud"
+description: "`arabic` アナライザーは、アラビア語テキスト用の組み込みアナライザーです。Zilliz Cloud でアラビア文字の異形を正規化し、分音記号とタトウィールを削除し、アラビア・インド数字を変換し、アラビア語のステミングを適用し、アラビア語のストップワードを削除する必要がある場合に、このアナライザーを使用します。 | Cloud"
 type: origin
 token: BgS6wjwgiiYARGkHlNccfdqznKF
 sidebar_position: 4
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # アラビア語
 
-`arabic` アナライザーは、アラビア語テキスト用の組み込みアナライザーです。Zilliz Cloud でアラビア語の文字異形を正規化し、発音記号とタトゥイールを削除し、アラビア・インド数字を変換し、アラビア語のステミングを適用し、アラビア語のストップワードを削除する場合は、このアナライザーを使用してください。
+`arabic` アナライザーは、アラビア語テキスト用の組み込みアナライザーです。Zilliz Cloud でアラビア文字の異形を正規化し、分音記号とタトウィールを削除し、アラビア・インド数字を変換し、アラビア語のステミングを適用し、アラビア語のストップワードを削除する必要がある場合に、このアナライザーを使用します。
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-組み込みアナライザーは、Milvus が提供するアナライザーテンプレートです。組み込みアナライザーを使用するには、`analyzer_params` で `type` に定義済みのアナライザー名を設定します。
+組み込みアナライザーは、Milvus が提供するアナライザーテンプレートです。組み込みアナライザーを使用するには、`analyzer_params` の `type` に定義済みのアナライザー名を設定します。
 
-組み込みのアラビア語アナライザーを使用するには、`type` を `arabic` に設定します。
+組み込みのアラビア語アナライザーを使用するには、`type` に `arabic` を設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -90,6 +90,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["type"] = "arabic"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -102,15 +115,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`arabic` アナライザーは、次のオプションのパラメーターを受け入れます。
+`arabic` アナライザーは、次のオプションパラメーターを受け入れます。
 
 | **パラメーター** | **型** | **デフォルト** | **説明** |
 | --- | --- | --- | --- |
-| `stop_words` | `list[str]` | `_arabic_` | トークン化から削除する追加ストップワードのリストです。デフォルトでは、`arabic` アナライザーは組み込みの `_arabic_` 辞書を使用します。デフォルトの辞書を確認するには、[アラビア語のストップワードリスト](https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/arabic.txt) を参照してください。このリストは、Apache Lucene の[アラビア語のストップワードファイル](https://github.com/apache/lucene/blob/main/lucene/analysis/common/src/resources/org/apache/lucene/analysis/ar/stopwords.txt)から取得されています。 |
+| `stop_words` | `list[str]` | `_arabic_` | トークン化から削除する追加のストップワードのリストです。デフォルトでは、`arabic` アナライザーは組み込みの `_arabic_` 辞書を使用します。デフォルトの辞書を確認するには、[アラビア語のストップワードリスト](https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/arabic.txt) を参照してください。このリストは、Apache Lucene の[アラビア語ストップワードファイル](https://github.com/apache/lucene/blob/main/lucene/analysis/common/src/resources/org/apache/lucene/analysis/ar/stopwords.txt) を基にしています。 |
 
 カスタムストップワードを追加するには、`stop_words` を含めます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -177,6 +190,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["type"] = "arabic",
+    ["stop_words"] = new[] { "ميلفوس" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -194,9 +221,9 @@ analyzerParams='{
 
 Zilliz Cloud は、組み込みの `_arabic_` 辞書に加えてカスタムストップワードを適用します。
 
-組み込みの `arabic` アナライザーは、次のカスタムアナライザー設定と同等です。
+組み込みの `arabic` アナライザーは、次のカスタムアナライザー構成と同等です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -309,6 +336,27 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        "lowercase",
+        "decimaldigit",
+        "arabic_normalization",
+        new Dictionary<string, object> { ["type"] = "stemmer", ["language"] = "arabic" },
+        new Dictionary<string, object> { ["type"] = "stop", ["stop_words"] = new[] { "_arabic_" } }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -334,27 +382,27 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-このアナライザーは、次の処理ステップを適用します。
+このアナライザーは、次の処理手順を適用します。
 
 - **トークン化**: `standard` トークナイザーを使用して、テキストをトークンに分割します。
 
-- **数字の正規化**: `decimaldigit` フィルターを使用して、アラビア・インド数字およびその他の Unicode の 10 進数字を ASCII 数字に変換します。
+- **数字の正規化**: `decimaldigit` フィルターを使用して、アラビア・インド数字やその他の Unicode 10 進数字を ASCII 数字に変換します。
 
-- **アラビア語の正規化**: `arabic_normalization` フィルターを使用して、アレフの異形、ターマルブータ、アレフマクスラを正規化し、ハラカートとタトゥイールを削除します。
+- **アラビア語の正規化**: `arabic_normalization` フィルターを使用して、アレフの異形、ターマルブータ、アレフ・マクスーラを正規化し、ハラカートとタトウィールを削除します。
 
 - **ステミング**: `language` を `arabic` に設定して `stemmer` フィルターを使用します。
 
 - **ストップワードの削除**: 組み込みの `_arabic_` 辞書で `stop` フィルターを使用します。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義するときに、アナライザーを `VARCHAR` フィールドに適用できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、アナライザーを `VARCHAR` フィールドに適用できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザーの構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -415,6 +463,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["type"] = "arabic"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -429,7 +490,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -573,6 +634,34 @@ const res = await client.runAnalyzer({
 });
 
 console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var sampleText = "كِتَابٌ عـــربي ١٢٣";
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+foreach (var r in result.Results)
+{
+    Console.WriteLine(string.Join(", ", r.Tokens.Select(t => t.Token)));
+}
 ```
 
 </TabItem>

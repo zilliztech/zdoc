@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、当社の SDK を使用して bulk-writer API と bulk-import API でコレクションにデータをインポートする方法を説明します。 | Cloud"
+description: "このガイドでは、bulk-writer API と bulk-import API を使用して、SDK でコレクションにデータをインポートする方法について説明します。 | Cloud"
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # データのインポート（SDK）
 
-このガイドでは、当社の SDK を使用して bulk-writer API と bulk-import API でコレクションにデータをインポートする方法を説明します。
+このガイドでは、bulk-writer API と bulk-import API を使用して、SDK でコレクションにデータをインポートする方法について説明します。
 
-または、データの準備と Zilliz Cloud コレクションへのデータのインポートの両方を扱う[短期集中のエンドツーエンドコース](./data-import-zero-to-hero)も参照してください。
+または、データの準備から Zilliz Cloud のコレクションへのデータのインポートまでを扱う [高速なエンドツーエンドコース](./data-import-zero-to-hero) も参照してください。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud では、クラスターをホストするクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
+Zilliz Cloud では、クラスターをホストするクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
-低レイテンシで安定した体験を確保するために、ターゲットクラスターと同じプロバイダーかつ同じリージョンのバケットまたは BLOB コンテナーを使用することをお勧めします。
+低レイテンシーで安定したエクスペリエンスを確保するには、ターゲットクラスターと同じプロバイダーの同じリージョンにあるバケットまたは BLOB コンテナを使用することをお勧めします。
 
 </Admonition>
 
@@ -39,7 +39,7 @@ Zilliz Cloud では、クラスターをホストするクラウドプロバイ�
 
 <TabItem value='python'>
 
-**pymilvus** と **minio** をインストールするか、最新バージョンにアップグレードするには、ターミナルで次のコマンドを実行します。
+ターミナルで次のコマンドを実行し、**pymilvus** と **minio** をインストールするか、最新バージョンにアップグレードします。
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -49,7 +49,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 <TabItem value='java'>
 
-- Apache Maven の場合は、**pom.xml** の依存関係に以下を追加します。
+- Apache Maven を使用する場合は、以下を **pom.xml** の依存関係に追加します。
 
 ```java
 <dependency>
@@ -71,7 +71,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- Gradle/Grails, の場合は、次を実行します。
+- Gradle/Grails, を使用する場合は、次を実行します。
 
 ```shell
 implementation 'io.milvus:milvus-sdk-java:3.0.10'
@@ -85,7 +85,7 @@ implementation 'io.minio:minio:8.5.9'
 
 ## 準備済みデータの確認\{#check-prepared-data}
 
-[BulkWriter ツール](./use-bulkwriter)を使用してデータを準備し、準備済みファイルのパスを取得したら、それらを Zilliz Cloud コレクションにインポートする準備が整います。準備ができているかどうかを確認するには、次のようにします。
+[BulkWriter ツール](./use-bulkwriter) を使用してデータを準備し、準備済みファイルのパスを取得したら、そのデータを Zilliz Cloud のコレクションにインポートする準備が整います。データの準備ができているか確認するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -167,13 +167,13 @@ for (Result<Item> result : results) {
 
 ## データのインポート\{#import-data}
 
-データとコレクションの準備ができたら、ボリューム経由または外部ストレージ（オブジェクトストレージバケットやブロックストレージの BLOB コンテナーなど）経由で、特定のコレクションにデータをインポートできます。
+データとコレクションの準備ができたら、ボリュームを介するか、オブジェクトストレージバケットやブロックストレージ BLOB コンテナなどの外部ストレージを介して、特定のコレクションにデータをインポートできます。
 
-### ボリューム経由でのデータのインポート\{#import-data-via-volume}
+### ボリュームを介したデータのインポート\{#import-data-via-volume}
 
-ボリュームからデータをインポートするには、まず[マネージドボリュームまたは外部ボリューム](./managed-volume)を作成します。マネージドボリュームの場合は、データファイルをボリュームにアップロードします。外部ボリュームの場合は、データファイルがマッピングされたクラウドストレージバケットにあることを確認します。その後、次のようにしてデータをインポートします。
+ボリュームからデータをインポートするには、まず [マネージドボリュームまたは外部ボリューム](./managed-volume) を作成します。マネージドボリュームの場合は、データファイルをボリュームにアップロードします。外部ボリュームの場合は、データファイルがマッピングされたクラウドストレージバケットにあることを確認します。その後、次のようにデータをインポートします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -295,6 +295,45 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// The value of the URL is fixed.
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+string VOLUME_NAME = "my-first-volume";
+string DATA_PATH = "dataPath";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = "medium_articles",
+    ClusterId = CLUSTER_ID,
+    VolumeName = VOLUME_NAME,
+    DataPaths = new[] { new[] { DATA_PATH } }
+});
+
+Console.WriteLine(resp);
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -317,11 +356,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 外部ストレージ経由でのデータのインポート\{#import-data-via-external-storage}
+### 外部ストレージを介したデータのインポート\{#import-data-via-external-storage}
 
-外部ストレージ経由でデータをインポートする場合は、次のようにします。
+外部ストレージを介してデータをインポートする場合は、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -479,6 +518,47 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Bulk-import your data from the prepared data files
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+string STORAGE_URL = "";
+string ACCESS_KEY = "";
+string SECRET_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = "medium_articles",
+    ClusterId = CLUSTER_ID,
+    ObjectUrl = STORAGE_URL,
+    AccessKey = ACCESS_KEY,
+    SecretKey = SECRET_KEY
+});
+
+Console.WriteLine(resp);
+// {"code":0,"data":{"jobId":"9d0bc230-6b99-4739-a872-0b91cfe2515a"}}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -501,7 +581,7 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-データのインポートを成功させるには、ターゲットコレクションの実行中または保留中のインポートジョブが 10,000 未満であることを確認してください。
+データのインポートを成功させるには、ターゲットコレクションの実行中または保留中のインポートジョブが 10,000 件未満であることを確認してください。
 
 </Admonition>
 
@@ -509,7 +589,7 @@ curl --request POST \
 
 指定した bulk-import ジョブの進行状況を確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -635,6 +715,41 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// Get bulk-insert job progress
+var resp = await bulkImport.GetImportProgressAsync(new GetImportProgressRequest
+{
+    JobId = "job-01fa0e5d42cjxudhpuehyp",
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -654,9 +769,9 @@ curl --request POST \
 
 ### すべてのインポートジョブの一覧表示\{#list-all-import-jobs}
 
-すべての bulk-import タスクについても確認したい場合は、次のように list-import-jobs API を呼び出します。
+すべての bulk-import タスクについても確認する場合は、次のように list-import-jobs API を呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -776,6 +891,40 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// List bulk-insert jobs
+var resp = await bulkImport.ListImportJobsAsync(new ListImportJobsRequest
+{
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -794,13 +943,13 @@ curl --request POST \
 
 ## FAQ\{#faq}
 
-**外部ボリュームと外部ストレージから直接インポートする場合の違いは何ですか？**
+**外部ボリュームと外部ストレージからの直接インポートにはどのような違いがありますか？**
 
-どちらも、独自の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
+どちらの方法でも、独自の S3 バケットまたは GCS バケットからデータをインポートできます。主な違いは次のとおりです。
 
-- 外部ボリュームでは、認証情報管理のために [AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure BLOB ストレージコンテナー](./integrate-with-azure-blob-storage)を Zilliz Cloud と統合する必要があります。認証情報は一度設定すると、複数のボリュームと操作で再利用されます。データエンジニアはクラウドストレージのキーに直接アクセスする必要はありません。
+- 外部ボリュームでは、認証情報を管理するために、[AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure BLOB ストレージコンテナ](./integrate-with-azure-blob-storage) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すると、複数のボリュームと操作で再利用されます。データエンジニアは、クラウドストレージのキーに直接アクセスする必要はありません。
 
-- 直接 [外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)を実行する場合は、インポートリクエストごとに認証情報（access key と secret key）を指定する必要があります。これは 1 回限りのインポートには簡単ですが、認証情報の分離や再利用はできません。
+- 直接 [外部ストレージからインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) する場合は、インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。これは 1 回限りのインポートには簡単ですが、認証情報の分離や再利用性は提供されません。
 
 ## 関連トピック\{#related-topics}
 
@@ -808,6 +957,6 @@ curl --request POST \
 
 - [フォーマットオプション](./data-import-format-options)
 
-- [RESTful API 経由でのデータのインポート](./import-data-via-restful-api)
+- [RESTful API を使用したデータのインポート](./import-data-via-restful-api)
 
-- [データインポートをゼロから習得する](./data-import-zero-to-hero) 
+- [ゼロから始めるデータインポート](./data-import-zero-to-hero) 

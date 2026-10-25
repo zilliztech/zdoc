@@ -1,13 +1,13 @@
 ---
 title: "イテレーターを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
-sidebar_label: "イテレーターの使用"
+sidebar_label: "イテレーターを使用する"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を紹介します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud のコレクションからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # イテレーターを使用したデータのエクスポート
 
-このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を紹介します。
+このガイドでは、Zilliz Cloud のコレクションからデータをエクスポートする方法の例を紹介します。
 
 ## 概要\{#overview}
 
-Milvus の Python SDK と Java SDK はどちらも、コレクション内のエンティティをメモリ効率よく反復処理するための一連のイテレーター API を提供しています。詳細については、[検索イテレーター](./with-iterators) を参照してください。
+Milvus の Python SDK と Java SDK はどちらも、メモリー効率の高い方法でコレクション内のエンティティを反復処理するためのイテレーター API セットを提供しています。詳細は、[Search Iterator](./with-iterators) を参照してください。
 
 イテレーターを使用すると、次の利点があります。
 
-- **シンプル**: 複雑な **offset** と **limit** の設定が不要になります。
+- **簡潔さ**: 複雑な **offset** および **limit** 設定が不要になります。
 
 - **効率性**: 必要なデータのみを取得することで、スケーラブルなデータ取得を実現します。
 
-- **一貫性**: ブールフィルターを使用して、データセットのサイズを一定に保ちます。
+- **一貫性**: ブールフィルターを使用して、一貫したデータセットサイズを確保します。
 
-これらの API を使用すると、Zilliz Cloud コレクションから一部またはすべてのエンティティをエクスポートできます。
+これらの API を使用すると、Zilliz Cloud のコレクションから一部またはすべてのエンティティをエクスポートできます。
 
 <Admonition type="info" title="Notes">
 
@@ -45,11 +45,11 @@ Milvus の Python SDK と Java SDK はどちらも、コレクション内のエ
 
 ## 事前準備\{#preparations}
 
-以下の手順では、コードを再利用して Zilliz Cloud クラスターに接続し、コレクションをすばやくセットアップし、10,000 を超えるランダムに生成されたエンティティをコレクションに挿入します。
+次の手順では、Zilliz Cloud クラスターに接続し、コレクションをすばやく作成し、10,000 を超えるランダムに生成されたエンティティをコレクションに挿入するコードを再利用します。
 
 ### ステップ 1: コレクションを作成する\{#step-1-create-a-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +208,30 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// 1. Set up a Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+// 2. Create a collection
+await client.CreateCollectionAsync(new CreateSimpleCollectionReq
+{
+    CollectionName = "quick_setup",
+    Dimension = 5
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -217,10 +241,9 @@ await client.createCollection({
 </TabItem>
 </Tabs>
 
-
 ### ステップ 2: ランダムに生成されたエンティティを挿入する\{#step-2-insert-randomly-generated-entities}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -512,6 +535,35 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// 3. Insert randomly generated vectors
+string[] colors = { "green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey" };
+Random random = new();
+
+var rows = new List<IDictionary<string, object?>>();
+for (int i = 0; i < 10000; i++)
+{
+    string currentColor = colors[random.Next(colors.Length)];
+    int currentTag = random.Next(1000, 9999);
+    rows.Add(new Dictionary<string, object?>
+    {
+        ["id"] = i,
+        ["vector"] = new[] { (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1) },
+        ["color"] = currentColor,
+        ["tag"] = currentTag,
+        ["color_tag"] = $"{currentColor}_{currentTag}"
+    });
+}
+
+await client.InsertAsync(new InsertReq { CollectionName = "quick_setup", RowsData = rows });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -525,19 +577,19 @@ await client.insert({
 
 イテレーターを使用してデータをエクスポートするには、次の手順を実行します。
 
-1. 検索イテレーターを初期化し、検索パラメーターと出力フィールドを定義します。`batch_size` パラメーターを設定すると、イテレーションごとにエクスポートするエンティティの数を制限できます。
+1. 検索パラメーターと出力フィールドを定義するために、検索イテレーターを初期化します。`batch_size` パラメーターを設定すると、反復ごとにエクスポートするエンティティの数を制限できます。
 
-1. ループ内で `next()` メソッドを使用して、検索結果をページングします。
+1. ループ内で `next()` メソッドを使用して、検索結果をページ単位で反復処理します。
 
     - メソッドが空の配列を返した場合、ループは終了します。
 
-    - それ以外の場合は、適切な方法で返されたデータを保存します。たとえば、返されたデータをファイルに追加したり、データベースに保存したり、他のコンシューマープログラムに渡したりできます。
+    - それ以外の場合は、返された結果を任意の方法で保存します。たとえば、返された結果をファイルに追加したり、データベースに保存したり、他のコンシューマープログラムに渡したりできます。
 
 1. すべてのデータを取得したら、`close()` メソッドを呼び出してイテレーターを閉じます。
 
-次のコードスニペットでは、**QueryIterator** API を使用して、エクスポートしたデータをファイルに追加する方法を示します。  
+次のコードスニペットは、**QueryIterator** API を使用してエクスポートしたデータをファイルに追加する方法を示しています。  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -830,6 +882,30 @@ console.log("exported " + count + " rows");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// 6. Query with iterator
+int count = 0;
+await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
+{
+    CollectionName = "quick_setup",
+    Expression = "color_tag like \"brown_8%\"",
+    Parameters = new QueryParameters { OutputFields = { "color_tag", "vector" } },
+    BatchSize = 50
+}))
+{
+    count += batch.FirstOrDefault()?.RowCount ?? 0;
+}
+
+Console.WriteLine($"exported {count} rows");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -838,3 +914,4 @@ console.log("exported " + count + " rows");
 
 </TabItem>
 </Tabs>
+

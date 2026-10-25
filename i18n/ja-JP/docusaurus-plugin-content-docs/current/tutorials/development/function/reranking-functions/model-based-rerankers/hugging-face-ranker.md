@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル検索は結果をベクトル距離で並べ替えますが、初期の順序は各候補のテキストがクエリにどの程度適合しているかを反映していない場合があります。Hugging Face モデルプロバイダー統合を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を並べ替えます。 | Cloud"
+description: "ベクトル検索では結果がベクトル距離に基づいて並べられますが、初期の順序は、各候補のテキストがクエリにどれだけ適切に回答しているかを反映しない場合があります。Hugging Face モデルプロバイダー統合を使用すると、Hugging Face Ranker は、Hugging Face の sentence-similarity タスクによるスコアを使用して、ベクトル検索で返された候補を並べ替えます。 | Cloud"
 type: origin
 token: P4UywHFH2iDFJWk2kwwcs22SnRc
 sidebar_position: 3
@@ -21,69 +21,69 @@ import TabItem from '@theme/TabItem';
 
 # Hugging Face Ranker
 
-ベクトル検索は結果をベクトル距離で並べ替えますが、初期の順序は各候補のテキストがクエリにどの程度適合しているかを反映していない場合があります。[Hugging Face モデルプロバイダー統合](./integrate-with-model-providers)を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を並べ替えます。
+ベクトル検索では、結果はベクトル距離に基づいて並べられますが、初期の順序は、各候補のテキストがクエリにどれだけ適切に回答しているかを反映しない場合があります。[Hugging Face モデルプロバイダー統合](./integrate-with-model-providers) を使用すると、Hugging Face Ranker は、Hugging Face の sentence-similarity タスクによるスコアを使用して、ベクトル検索で返された候補を並べ替えます。
 
 ## 仕組み\{#how-it-works}
 
-Hugging Face Ranker は、ベクトル検索後に候補エンティティをリランクします。次の図は、アプリケーション、Zilliz Cloud、Hugging Face 間の一般的なワークフローを示しています。
+Hugging Face Ranker は、ベクトル検索後に候補エンティティを再ランク付けします。次の図は、アプリケーション、Zilliz Cloud、Hugging Face の間の一般的なワークフローを示しています。
 
 ![KDOBw9YpBhRHkJbwjL3cmZfWnvf](https://zdoc-images.s3.us-west-2.amazonaws.com/KDOBw9YpBhRHkJbwjL3cmZfWnvf.png)
 
-一般的なワークフローは4つのステップで構成されます。
+一般的なワークフローは、次の 4 つのステップで構成されます。
 
-1. **候補エンティティを取得します。** Zilliz Cloud は、構成されたベクトルフィールドに対してベクトル検索を実行し、候補エンティティを返します。
+1. **候補エンティティを取得します。** Zilliz Cloud は、設定されたベクトルフィールドに対してベクトル検索を実行し、候補エンティティを返します。
 
-1. **リランク用のテキストを準備します。** ランカーは、クエリテキストを `params.queries` から、候補テキストを `input_field_names` で指定された null 非許容の `VARCHAR` フィールドから読み取ります。
+1. **再ランク付け用のテキストを準備します。** Ranker は、`params.queries` からクエリテキストを読み取り、`input_field_names` で指定された null を許容しない `VARCHAR` フィールドから候補テキストを読み取ります。
 
-1. **リランクスコアをリクエストします。** Zilliz Cloud はクエリと候補テキストを Hugging Face に送信し、各候補について新たに計算された類似度スコアを受信します。
+1. **再ランク付けスコアをリクエストします。** Zilliz Cloud はクエリと候補テキストを Hugging Face に送信し、候補ごとに新しく計算された類似度スコアを受け取ります。
 
-1. **リランクして結果を返します。** Zilliz Cloud はスコアを候補エンティティにマッピングし、スコアの高い順から低い順に並べ替えて、リランクされた結果を返します。
+1. **結果を再ランク付けして返します。** Zilliz Cloud はスコアを候補エンティティにマッピングし、スコアの高い順に並べ替えて、再ランク付けされた結果を返します。
 
-**リランクスコアの計算方法**
+**再ランク付けスコアの計算方法**
 
-上記の一般的なワークフローは、リランクが行われる場所を示しています。次のプロセスは、Hugging Face が各候補の新しい類似度スコアを計算する方法を説明します。
+上記の一般的なワークフローは、再ランク付けが行われる場所を示しています。次のプロセスでは、Hugging Face が候補ごとに新しい類似度スコアを計算する方法を説明します。
 
 ![L1jQwyef6hP51bb9EYjc6pV6nTd](https://zdoc-images.s3.us-west-2.amazonaws.com/L1jQwyef6hP51bb9EYjc6pV6nTd.png)
 
-1. **テキスト入力を準備します。** ランカーは、クエリテキストを `params.queries` から、空でない候補テキストを `input_field_names` で指定された `VARCHAR` フィールドから読み取ります。
+1. **テキスト入力を準備します。** Ranker は、`params.queries` からクエリテキストを読み取り、`input_field_names` で指定された `VARCHAR` フィールドから空でない候補テキストを読み取ります。
 
-1. **埋め込みを作成します。** Zilliz Cloud は、クエリテキストを `source_sentence` として、候補テキストを `sentences` として、`hf-inference` を介して Hugging Face に送信し、[Sentence Similarity](https://huggingface.co/docs/huggingface_hub/package_reference/inference_client#huggingface_hub.InferenceClient.sentence_similarity) タスクを実行します。モデルは、概念的にはクエリ埋め込みと候補テキスト用の個別の埋め込みを作成します。
+1. **埋め込みを作成します。** Zilliz Cloud は、クエリテキストを `source_sentence` として、候補テキストを `sentences` として、`hf-inference` を介して Hugging Face に送信し、[Sentence Similarity](https://huggingface.co/docs/huggingface_hub/package_reference/inference_client#huggingface_hub.InferenceClient.sentence_similarity) タスクを実行します。モデルは概念的には、クエリ埋め込みと候補テキスト用の個別の埋め込みを作成します。
 
-1. **スコアを計算して返します。** モデルはクエリ埋め込みを各候補埋め込みと比較し、候補ごとに1つの類似度スコアを返します。
+1. **スコアを計算して返します。** モデルはクエリ埋め込みを各候補の埋め込みと比較し、候補ごとに 1 つの類似度スコアを返します。
 
-図に示されている埋め込みはモデル処理の中間結果であり、Hugging Face API は類似度スコアのみを返します。ベクトル取得とリランクでは、別々の表現とスコアが使用されます。Hugging Face Ranker は、候補ベクトルや取得スコアを再利用しません。検索ベクトルの作成に使用される埋め込みモデルと、リランクに使用される Hugging Face モデルは独立しており、異なる場合があります。
+図に示されている埋め込みはモデル処理の中間結果であり、Hugging Face API は類似度スコアのみを返します。ベクトル検索と再ランク付けでは、別々の表現とスコアが使用されます。Hugging Face Ranker は、候補ベクトルや検索スコアを再利用しません。検索ベクトルの作成に使用される埋め込みモデルと、再ランク付けに使用される Hugging Face モデルは独立しており、異なる場合があります。
 
-事前計算されたベクトルを挿入する場合は、Hugging Face Ranker がリランク時に読み取れるよう、元の候補テキストも `VARCHAR` フィールドに保存してください。
+事前に計算されたベクトルを挿入する場合は、再ランク付け中に Hugging Face Ranker が読み取れるよう、元の候補テキストも `VARCHAR` フィールドに保存してください。
 
 ## 事前準備\{#before-you-start}
 
-Hugging Face Ranker を使用する前に、次の点を確認してください。
+Hugging Face Ranker を使用する前に、以下を確認してください。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud は、[`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) を介して Hugging Face に接続し、Hugging Face Ranker に [`sentence-similarity`](https://huggingface.co/tasks/sentence-similarity) タスクを使用します。Zilliz Cloud は、特定のモデルが現在 `hf-inference` によって提供されているか、引き続き利用可能か、または安定性、レイテンシ、出力品質に関する要件を満たしているかを制御しません。実稼働環境で使用する前に、Hugging Face で選択したモデルを確認し、ワークロードに対して評価してください。
+Zilliz Cloud は、[`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) を介して Hugging Face に接続し、Hugging Face Ranker に [`sentence-similarity`](https://huggingface.co/tasks/sentence-similarity) タスクを使用します。Zilliz Cloud は、特定のモデルが現在 `hf-inference` によって提供されているか、引き続き利用可能か、または安定性、レイテンシ、出力品質に関する要件を満たしているかを制御できません。選択したモデルを Hugging Face で確認し、本番環境で使用する前にワークロードに対して評価してください。
 
 </Admonition>
 
-- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーすること。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーすること。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
-- モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認すること。`hf-inference` が現在 `sentence-similarity` タスク用にこのモデルを提供していることを確認してください。
+- モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認すること。`hf-inference` が現在、`sentence-similarity` タスク用にそのモデルを提供していることを確認してください。
 
-- コレクションが候補テキストを null 非許容の `VARCHAR` フィールドに保存していることを確認すること。リランク関数は、`input_field_names` でそのようなフィールドを正確に1つ参照する必要があります。コレクションには他のテキストフィールドを含めることができます。
+- コレクションが、null を許容しない `VARCHAR` フィールドに候補テキストを保存していること。再ランク関数は、`input_field_names` 内のそのようなフィールドを正確に 1 つ参照する必要があります。コレクションには他のテキストフィールドを含めることができます。
 
-## Hugging Face Ranker を使用する\{#use-hugging-face-ranker}
+## Hugging Face Ranker の使用\{#use-hugging-face-ranker}
 
-Hugging Face Ranker は検索時に定義および適用されます。コレクションスキーマを変更せずに、検索リクエストごとにランカーを有効化、無効化、または変更できます。
+Hugging Face Ranker は、検索時に定義および適用されます。コレクションスキーマを変更せずに、検索リクエストごとに Ranker を有効化、無効化、または変更できます。
 
 ### 準備\{#preparations}
 
-次の設定では、`id` を主キー、`document` をリランクに使用する候補テキストを保存する `VARCHAR` フィールド、`dense` を初期検索に使用するベクトルフィールドとする3つのフィールドを持つコレクションを作成します。また、検索とリランクの例で使用するサンプルデータを挿入します。
+次の設定では、3 つのフィールドを持つコレクションを作成します。`id` は主キー、`document` は再ランク付けに使用する候補テキストを保存する `VARCHAR` フィールド、`dense` は最初の検索に使用するベクトルフィールドです。また、検索と再ランク付けの例に使用するサンプルデータも挿入します。
 
 <details>
 
 <summary>**サンプルデータを含むコレクションを準備する**</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -435,6 +435,53 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+string collectionName = "hugging_face_rerank_demo";
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("document", DataType.VarChar) { MaxLength = 1000 },
+        new FieldSchema("dense", DataType.FloatVector) { Dimension = 4 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = [new IndexParam("dense", null, IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Recent renewable energy developments include improved solar efficiency.", ["dense"] = new[] { 0.12f, 0.21f, 0.29f, 0.41f } },
+        new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Advances in battery storage enable longer grid resilience.", ["dense"] = new[] { 0.11f, 0.22f, 0.30f, 0.40f } }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -485,11 +532,11 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
 
 </details>
 
-### リランク関数を定義する\{#define-the-rerank-function}
+### 再ランク関数を定義する\{#define-the-rerank-function}
 
-ベクトル検索で返された候補をリランクするために、`document` に保存されたテキストを使用する `RERANK` 関数を定義します。この関数では、クエリテキスト、Hugging Face モデル、モデルプロバイダー統合も指定します。
+ベクトル検索で返された候補を再ランク付けするために、`document` に保存されたテキストを使用する `RERANK` 関数を定義します。この関数では、クエリテキスト、Hugging Face モデル、およびモデルプロバイダー統合も指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -619,6 +666,23 @@ const huggingFaceRanker = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+ModelRerank huggingFaceRanker = new ModelRerank("hugging_face_semantic_ranker")
+    // Use the text stored in the "document" VARCHAR field for reranking.
+    .WithProvider("huggingface")
+    .WithQueries(["renewable energy developments"]);
+huggingFaceRanker.InputFieldNames.Add("document");
+huggingFaceRanker.Params["model_name"] = "sentence-transformers/all-MiniLM-L6-v2";
+huggingFaceRanker.Params["integration_id"] = "YOUR_INTEGRATION_ID";
+huggingFaceRanker.Params["max_client_batch_size"] = "32";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -642,26 +706,26 @@ export RANKER='{
 </TabItem>
 </Tabs>
 
-この例では、構成をデモンストレーションする目的でのみ `sentence-transformers/all-MiniLM-L6-v2` を使用しています。このモデルは、Zilliz Cloud による推奨または認定を意味するものではありません。
+この例では、構成を説明する目的でのみ `sentence-transformers/all-MiniLM-L6-v2` を使用しています。このモデルは、Zilliz Cloud による推奨または認定を示すものではありません。
 
-次の表では、Hugging Face Ranker の `params` でユーザーが設定できるすべてのエントリについて説明します。
+次の表では、Hugging Face Ranker の `params` でユーザーが構成可能なすべてのエントリについて説明します。
 
 | パラメーター | 必須 | 説明 |
 | --- | --- | --- |
-| `reranker` | はい | リランクの実装です。この値は `model` に設定します。 |
-| `provider` | はい | Zilliz Cloud のモデルプロバイダーです。この値は `huggingface` に設定します。 |
+| `reranker` | はい | 再ランク付けの実装です。この値には `model` を設定します。 |
+| `provider` | はい | Zilliz Cloud のモデルプロバイダーです。この値には `huggingface` を設定します。 |
 | `model_name` | はい | `sentence-similarity` タスク用に `hf-inference` を介して現在提供されているモデルの Hugging Face モデル ID です。 |
-| `queries` | はい | リランクに使用するクエリテキストのリストです。初期検索でクエリベクトルを使用する場合でも、検索クエリ（`nq`）ごとに1つの文字列を指定します。 |
-| `integration_id` | はい | Hugging Face モデルプロバイダー統合の ID です。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。 |
-| `max_client_batch_size` | いいえ | 1回のリクエストで Hugging Face に送信する候補テキストの最大数です。デフォルト値は `32` です。値は `0` より大きい必要があります。 |
+| `queries` | はい | 再ランク付けに使用するクエリテキストのリストです。最初の検索でクエリベクトルを使用する場合でも、検索クエリ（`nq`）ごとに 1 つの文字列を指定します。 |
+| `integration_id` | はい | Hugging Face モデルプロバイダー統合の ID です。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。 |
+| `max_client_batch_size` | いいえ | 1 回のリクエストで Hugging Face に送信する候補テキストの最大数です。デフォルト値は `32` です。値は `0` より大きい必要があります。 |
 
-Hugging Face の認証情報を関数定義に含めないでください。
+関数定義に Hugging Face の認証情報を含めないでください。
 
-### リランク関数を使用して検索する\{#search-with-the-rerank-function}
+### 再ランク関数を使用した検索\{#search-with-the-rerank-function}
 
 `ranker` パラメーターを介して関数を `search()` に渡します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -792,6 +856,31 @@ console.log(results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+float[] queryVector = [0.12f, 0.21f, 0.29f, 0.41f];
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Vectors = [queryVector],
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "document" },
+        FunctionScoreReranker = huggingFaceRanker
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -830,20 +919,20 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-検索では、まず `dense` ベクトルフィールドから候補エンティティを取得します。次に、Hugging Face Ranker は `queries` のクエリテキストと各候補の `document` テキストを使用して、sentence-similarity タスクを通じて類似度スコアを計算します。Zilliz Cloud は候補をスコアの降順で返します。
+検索では、まず `dense` ベクトルフィールドから候補エンティティを取得します。次に、Hugging Face Ranker は、`queries` のクエリテキストと各候補の `document` テキストを使用して、sentence-similarity タスクを通じて類似度スコアを計算します。Zilliz Cloud は、スコアの降順で候補を返します。
 
 ## トラブルシューティング\{#troubleshooting}
 
-### sentence-similarity タスクでモデルを利用できない\{#the-model-is-unavailable-for-the-sentence-similarity-task}
+### sentence-similarity タスクでモデルを利用できない場合\{#the-model-is-unavailable-for-the-sentence-similarity-task}
 
-Hugging Face でモデルページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在このモデルを提供しており、モデルが `sentence-similarity` をサポートしていることを確認してください。いずれかの要件が満たされていない場合は、別のモデルを選択し、そのモデルページで確認してください。Zilliz Cloud は、Hugging Face モデル用のサポート対象モデルカタログを維持していません。
+Hugging Face でモデルページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在そのモデルを提供しており、モデルが `sentence-similarity` をサポートしていることを確認してください。いずれかの要件が満たされていない場合は、別のモデルを選択し、そのモデルページで確認してください。Zilliz Cloud は、Hugging Face モデルのサポート対象モデルカタログを維持していません。
 
 ### クエリテキストの数が検索リクエストと一致しない\{#the-number-of-query-texts-does-not-match-the-search-request}
 
-`queries` 内の文字列の数は、検索クエリ（`nq`）の数と等しい必要があります。1つのクエリベクトルを使用する検索では、クエリ文字列を正確に1つ指定してください。
+`queries` 内の文字列の数は、検索クエリ（`nq`）の数と等しくなければなりません。1 つのクエリベクトルを使用する検索では、クエリ文字列を正確に 1 つ指定してください。
 
 ## 次のステップ\{#next-steps}
 
-Hugging Face Ranker はハイブリッド検索でも使用できます。検索とハイブリッド検索では、同じ方法でランカーが適用されます。検索時に `ranker` パラメーターを介してリランク関数を渡します。
+Hugging Face Ranker は、ハイブリッド検索でも使用できます。検索とハイブリッド検索では、同じ方法で Ranker が適用されます。検索時に、`ranker` パラメーターを介して再ランク関数を渡します。
 
 詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。
