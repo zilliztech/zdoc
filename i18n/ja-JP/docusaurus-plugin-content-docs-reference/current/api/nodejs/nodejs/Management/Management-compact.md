@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -49,7 +48,7 @@ milvusClient.compact()
 
     **[REQUIRED]**
 
-    エイリアスを再割り当てする対象 collection の名前。
+    The name of the target コレクション to reassign an alias to.
 
 - **timeout** (*number*)  
 
@@ -72,10 +71,10 @@ milvusClient.compact()
 **PARAMETERS:**
 
 - **compactionID** (*string*) -<br/>
-  圧縮操作の識別子。この値を `getCompactionState()` または `getCompactionStateWithPlans()` に渡して進行状況をポーリングします。
+  The identifier of the Compaction operation. Pass this value to `getCompactionState()` or `getCompactionStateWithPlans()` to poll progress.
 
 - **compactionPlanCount** (*number*) -<br/>
-  この操作のために生成された圧縮プランの数。
+  The number of Compaction plans generated for this operation.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

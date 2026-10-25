@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のロード進行状況を取得します。 | Node.js"
+description: "This operation gets the loading progress of a specific コレクション. | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadingProgress()
 
-この操作は、特定の collection のロード進行状況を取得します。
+This operation gets the loading progress of a specific コレクション.
 
 ```javascript
 await milvusClient.getLoadingProgress(data)
@@ -52,13 +51,13 @@ await milvusClient.getLoadingProgress({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    対象の collection の名前。
+    The name of the target コレクション.
 
 - **partition_names** (*string[]*) -
 
@@ -82,7 +81,7 @@ await milvusClient.getLoadingProgress({
 **パラメータ:**
 
 - **progress** (*string*) -<br/>
-  ロード操作の完了率。**"0"** から **"100"** までの整数で表されます。この値が **"100"** に達すると、collection は完全にロードされています。
+  The completion percentage of the load operation as an integer between **"0"** and **"100"**. The コレクション is fully loaded once this value reaches **"100"**.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

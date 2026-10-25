@@ -15,7 +15,7 @@ keywords:
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
+  - ベクトル search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

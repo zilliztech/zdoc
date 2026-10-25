@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、単一の呼び出しで複数の collection のスキーマとメタデータを取得します。 | Node.js"
+description: "This operation retrieves スキーマ and metadata for multiple コレクション in a single call. | Node.js"
 type: docx
 token: ByKKdHVcAojjyZxKK3PciOTVnQg
 sidebar_position: 23
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollections()
 
-この操作は、単一の呼び出しで複数の collection のスキーマとメタデータを取得します。
+This operation retrieves スキーマ and metadata for multiple コレクション in a single call.
 
 ```typescript
 await milvusClient.batchDescribeCollections(data: BatchDescribeCollectionReq)
@@ -52,17 +51,17 @@ await milvusClient.batchDescribeCollections({
 **パラメータ:**
 
 - **collection_names** (*string[]*) -<br/>
-  **[必須]**<br/>
-  説明対象の collection の名前です。
+  **[REQUIRED]**<br/>
+  The names of the コレクション to describe.
 
 - **db_name** (*string*) -<br/>
   データベース名です。任意です。
 
 - **collectionIDs** (*number[]*) -<br/>
-  説明対象の collection の ID です。任意です。
+  The IDs of the コレクション to describe. Optional.
 
 - **timeout** (*number*) -<br/>
-  RPC に許可するオプションの時間（ミリ秒）です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID です。任意です。
@@ -81,7 +80,7 @@ await milvusClient.batchDescribeCollections({
 **パラメータ:**
 
 - **responses** (*DescribeCollectionResponse[]*) -<br/>
-  要求された各 collection のスキーマとメタデータを含む配列です。エントリは入力された collection 名と同じ順序で並びます。**DescribeCollectionResponse** の完全なフィールドリファレンスについては、`describeCollection()` ドキュメントを参照してください。
+  An array containing the スキーマ and metadata for every requested コレクション. Entries appear in the same order as the input コレクション names. For the full **DescribeCollectionResponse** field reference, refer to the `describeCollection()` doc.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。

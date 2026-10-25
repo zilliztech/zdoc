@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection field のプロパティを変更します。 | Node.js"
+description: "This operation modifies the properties of a specified コレクション field. | Node.js"
 type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFieldProperties()
 
-この操作は、指定された collection field のプロパティを変更します。
+This operation modifies the properties of a specified コレクション field.
 
 ```javascript
 await milvusClient.alterCollectionFieldProperties(data)
@@ -53,13 +52,13 @@ await milvusClient.alterCollectionFieldProperties({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    エイリアスを再割り当てする対象 collection の名前。
+    The name of the target コレクション to reassign an alias to.
 
 - **field_name** (*string*) -
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection が存在するかどうかを確認します。 | Node.js"
+description: "This operation checks whether a specific コレクション exists. | Node.js"
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 13
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-この操作は、特定の collection が存在するかどうかを確認します。
+This operation checks whether a specific コレクション exists.
 
 ```javascript
 await milvusClient.hasCollection(data)
@@ -51,13 +50,13 @@ await milvusClient.hasCollection({
 
 - **db_name** (*str*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **timeout** (*number*) -
 
@@ -79,7 +78,7 @@ await milvusClient.hasCollection({
 **PARAMETERS:**
 
 - **value** (*boolean*) -<br/>
-  要求された collection が存在するかどうかを示すブール値。collection が存在する場合は **true**、存在しない場合は **false** です。
+  A boolean that indicates whether the requested コレクション exists. It is **true** when the コレクション exists and **false** when it does not.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

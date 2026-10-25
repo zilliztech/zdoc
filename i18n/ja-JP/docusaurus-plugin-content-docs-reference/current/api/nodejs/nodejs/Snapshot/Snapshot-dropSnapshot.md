@@ -7,14 +7,14 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のスナップショットを削除します。 | Node.js"
+description: "This operation deletes a snapshot for a コレクション. | Node.js"
 type: docx
 token: DgiOdVOuLoKWFPxzKyucGV8Tnfb
 sidebar_position: 3
 keywords: 
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropSnapshot()
 
-この操作は、collection のスナップショットを削除します。
+This operation deletes a snapshot for a コレクション.
 
 ```typescript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
@@ -52,8 +51,8 @@ await milvusClient.dropSnapshot({
 **パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットが属する collection の名前。
+  **[REQUIRED]**<br/>
+  The name of the コレクション the snapshot belongs to.
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
@@ -63,7 +62,7 @@ await milvusClient.dropSnapshot({
   データベースの名前。任意です。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可する任意の時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。任意です。

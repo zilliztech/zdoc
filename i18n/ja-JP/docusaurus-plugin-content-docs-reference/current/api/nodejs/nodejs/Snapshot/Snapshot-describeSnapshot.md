@@ -12,10 +12,10 @@ type: docx
 token: KNOwdbcYXoVwGEx8ysScLO1CnUd
 sidebar_position: 2
 keywords: 
-  - vector search algorithms
+  - ベクトル search algorithms
   - Question answering system
   - llm-as-a-judge
-  - hybrid vector search
+  - hybrid ベクトル search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,7 +52,7 @@ await milvusClient.describeSnapshot({
 
 - **collection_name** (*string*) -<br/>
   **[REQUIRED]**<br/>
-  snapshot が属する collection の名前。
+  The name of the コレクション the snapshot belongs to.
 
 - **snapshot_name** (*string*) -<br/>
   **[REQUIRED]**<br/>
@@ -63,7 +62,7 @@ await milvusClient.describeSnapshot({
   データベースの名前。省略可能です。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可する時間の長さ（ミリ秒）の省略可能な値です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。省略可能です。
@@ -93,7 +92,7 @@ await milvusClient.describeSnapshot({
   snapshot 作成時に指定された説明、指定されなかった場合は空文字列です。
 
 - **collection_name** (*string*) -<br/>
-  snapshot を所有する collection。
+  The コレクション that owns the snapshot.
 
 - **partition_names** (*string[]*) -<br/>
   snapshot によって取得された partition 名。

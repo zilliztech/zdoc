@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,8 +52,8 @@ await milvusClient.pinSnapshotData({
 **パラメータ:**
 
 - **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットが属する collection の名前です。
+  **[REQUIRED]**<br/>
+  The name of the collection the snapshot belongs to.
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
@@ -67,7 +66,7 @@ await milvusClient.pinSnapshotData({
   データベース名です。省略可能です。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可するオプションの時間（ミリ秒）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID です。省略可能です。

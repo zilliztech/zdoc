@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、shard の詳細を含む情報を返します。 | Node.js"
+description: "This operation gets replicas of a コレクション, returning information about each replica including its ID, node assignments, and shard details. | Node.js"
 type: docx
 token: XKRWdKvQVolmduxrtrDc0dhjnzc
 sidebar_position: 28
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getReplicas()
 
-この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、shard の詳細を含む情報を返します。
+This operation gets replicas of a コレクション, returning information about each replica including its ID, node assignments, and shard details.
 
 ```javascript
 await milvusClient.getReplicas(data: GetReplicaReq)
@@ -53,7 +52,7 @@ await milvusClient.getReplicas({
 
     **[REQUIRED]**
 
-    collection の ID。
+    The ID of the コレクション.
 
 - **with_shard_nodes** (*boolean*) -
 
@@ -77,7 +76,7 @@ await milvusClient.getReplicas({
 **PARAMETERS:**
 
 - **replicas** (*ReplicaInfo[]*) -<br/>
-  リクエストされた collection を現在処理している replicas の一覧。
+  A list of replicas currently serving the requested コレクション.
 
     - **replicaID** (*string*) -
 
@@ -85,7 +84,7 @@ await milvusClient.getReplicas({
 
     - **collectionID** (*string*) -
 
-        collection 識別子。
+        The コレクション identifier.
 
     - **partition_ids** (*string[]*) -
 

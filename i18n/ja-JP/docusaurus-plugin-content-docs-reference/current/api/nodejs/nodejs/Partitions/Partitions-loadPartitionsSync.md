@@ -13,9 +13,9 @@ token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

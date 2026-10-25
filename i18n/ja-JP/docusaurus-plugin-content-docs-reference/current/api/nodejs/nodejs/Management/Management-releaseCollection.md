@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のデータをメモリから解放します。 | Node.js"
+description: "This operation releases the data of a specific コレクション from memory. | Node.js"
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 20
 keywords: 
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
+  - ベクトル search
   - knn algorithm
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-この操作は、特定の collection のデータをメモリから解放します。
+This operation releases the data of a specific コレクション from memory.
 
 ```javascript
 await milvusClient.releaseCollection(data)
@@ -51,13 +50,13 @@ await milvusClient.releaseCollection({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*str*) -
 
     **[必須]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **timeout** (*number*) -
 

@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection にデータを挿入または更新します。 | Node.js"
+description: "This operation inserts or updates data in a specific コレクション. | Node.js"
 type: docx
 token: LEptdqqfcoqdtCx0LO1c3yxvnBo
 sidebar_position: 8
 keywords: 
-  - Vector 埋め込み
-  - Vector ストア
-  - オープンソースの vector データベース
-  - Vector インデックス
+  - ベクトル embeddings
+  - ベクトル store
+  - open source ベクトル データベース
+  - ベクトル インデックス
   - zilliz
   - zilliz cloud
   - クラウド
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-この操作は、特定の collection にデータを挿入または更新します。
+This operation inserts or updates data in a specific コレクション.
 
 ```typescript
 await milvusClient.upsert(data)
@@ -57,17 +56,17 @@ await milvusClient.upsert({
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **data** (*RowData[]*) -
 
     **[REQUIRED]**
 
-    upsert するデータです。各要素は、キーが collection スキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。主キーが既存レコードと一致するエンティティは更新され、一致しない場合は新しいエンティティが挿入されます。
+    The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the コレクション スキーマ. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted.
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前です。
+    The name of the データベース that holds the target コレクション.
 
 - **hash_keys** (*number[]*) -
 
@@ -79,7 +78,7 @@ await milvusClient.upsert({
 
 - **partition_name** (*string*) -
 
-    現在の collection 内の partition 名です。指定した場合、データはその partition に upsert されます。
+    The name of a partition in the current コレクション. If specified, the data is upserted into that partition.
 
 - **timeout** (*number*) -
 

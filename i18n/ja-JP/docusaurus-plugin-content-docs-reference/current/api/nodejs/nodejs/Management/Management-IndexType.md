@@ -14,8 +14,8 @@ sidebar_position: 15
 keywords: 
   - ベクトルデータベース チュートリアル
   - ベクトルデータベース 仕組み
-  - vector db comparison
-  - openai vector db
+  - ベクトル db comparison
+  - openai ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

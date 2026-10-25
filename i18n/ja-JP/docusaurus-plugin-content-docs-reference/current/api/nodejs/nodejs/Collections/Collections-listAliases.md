@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,13 +52,13 @@ listAliases({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **timeout** (*number*) -
 
@@ -86,10 +85,10 @@ listAliases({
   一覧表示された alias を所有するデータベース。
 
 - **aliases** (*string[]*) -<br/>
-  要求された collection を指すすべての alias のリスト。
+  A list of all aliases that point to the requested コレクション.
 
 - **collection_name** (*string*) -<br/>
-  一覧表示された alias が指す collection 名。
+  The コレクション name to which the listed aliases point.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

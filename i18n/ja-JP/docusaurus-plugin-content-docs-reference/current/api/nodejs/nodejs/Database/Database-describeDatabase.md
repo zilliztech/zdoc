@@ -13,9 +13,9 @@ token: PzXldcfljoU9rOx9TFUcIoNknt6
 sidebar_position: 8
 keywords: 
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -84,7 +83,7 @@ await milvusClient.describeDatabase({
   データベースの作成タイムスタンプ（ミリ秒単位）。
 
 - **properties** (*KeyValuePair[]*) -<br/>
-  作成時に宣言された、または `alterDatabaseProperties()` によって設定されたデータベースレベルのプロパティ（例: **database.replica.number**、**database.resource_groups**）。
+  データベース-level properties (for example, **データベース.replica.number**, **データベース.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

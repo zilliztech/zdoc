@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -110,8 +109,8 @@ await milvusClient.describeAlias({
 - **alias** (*string*) -<br/>
   エイリアス名。
 
-- **collection** (*string*) -<br/>
-  エイリアスが現在指しているコレクション名。
+- **コレクション** (*string*) -<br/>
+  The collection name to which the alias currently points.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

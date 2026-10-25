@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての collection を flush し、flush 操作が完了するまで待機します。内部的には flushAll を呼び出し、その後 flush が完了するまで getFlushAllState をポーリングします。 | Node.js"
+description: "This operation flushes all コレクション and waits until the flush operation is completed. It internally calls flushAll followed by polling getFlushAllState until the flush is complete. | Node.js"
 type: docx
 token: HoRIdZtHjosja7xOdNPc8CConrb
 sidebar_position: 23
 keywords: 
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - milvus とは
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # flushAllSync()
 
-この操作はすべての collection を flush し、flush 操作が完了するまで待機します。内部的には flushAll を呼び出し、その後 flush が完了するまで getFlushAllState をポーリングします。
+This operation flushes all コレクション and waits until the flush operation is completed. It internally calls flushAll followed by polling getFlushAllState until the flush is complete.
 
 ```typescript
 await milvusClient.flushAllSync(data?: FlushAllReq)
@@ -53,7 +52,7 @@ await milvusClient.flushAllSync({
   データベース名です。省略可能です。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可される時間の長さをミリ秒単位で指定する省略可能な値です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID です。省略可能です。

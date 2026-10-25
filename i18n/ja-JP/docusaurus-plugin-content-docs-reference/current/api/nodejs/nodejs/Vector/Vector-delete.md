@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,17 +58,17 @@ await milvusClient.delete({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[必須]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **partition_name** (*string*) -
 
-    collection 内の既存の partition の名前。
+    The name of an existing partition in the コレクション.
 
 - **ids** (*string[]* | *number[]*) -
 
@@ -77,11 +76,11 @@ await milvusClient.delete({
 
     特定のエンティティ ID、またはエンティティ ID のリスト。
 
-    デフォルト値は **None** で、scalar フィルタリング条件が適用されることを示します。
+    The value defaults to **None**, indicating that a スカラー filtering condition applies.
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象 collection の整合性レベル。デフォルト値は **Bounded** (**1**) で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) を選択できます。
+    The consistency level of the target コレクション. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
 - **timeout** (*number*) -
 

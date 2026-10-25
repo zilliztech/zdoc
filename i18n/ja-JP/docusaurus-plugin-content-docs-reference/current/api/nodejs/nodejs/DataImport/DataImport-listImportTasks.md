@@ -12,7 +12,7 @@ type: docx
 token: KX8pd5PnGoo8UAx8QhhcI5YpnHg
 sidebar_position: 15
 keywords: 
-  - milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、対象の cluster ID にバインドされた軽量な DQL session を作成します。この session は search/query/get リクエストに `clusterid` を注入します。 | Node.js"
+description: "This operation creates a lightweight DQL session bound to a target クラスター ID. The session injects `clusterid` into search/query/get requests. | Node.js"
 type: docx
 token: LPfrdnntOogNMRxwqvCccBgnnve
 sidebar_position: 7
@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # session()
 
-この操作は、対象の cluster ID にバインドされた軽量な DQL session を作成します。この session は search/query/get リクエストに `cluster_id` を注入します。
+This operation creates a lightweight DQL session bound to a target クラスター ID. The session injects `cluster_id` into search/query/get requests.
 
 ```typescript
 const session = milvusClient.session(clusterId: string)
@@ -49,7 +48,7 @@ const session = milvusClient.session('cluster-a')
 
     **[REQUIRED]**
 
-    DQL リクエストのルーティングに使用される対象 cluster ID。
+    Target クラスター ID used for routing DQL requests.
 
 **RETURNS:**
 

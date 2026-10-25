@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection を削除します。 | Node.js"
+description: "This operation drops a コレクション. | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 10
 keywords: 
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollection()
 
-この操作は collection を削除します。
+This operation drops a コレクション.
 
 ```javascript
 await milvusClient.dropCollection(data)
@@ -51,13 +50,13 @@ await milvusClient.dropCollection({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持しているデータベースの名前です。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[必須]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **timeout** (*number*)  
 

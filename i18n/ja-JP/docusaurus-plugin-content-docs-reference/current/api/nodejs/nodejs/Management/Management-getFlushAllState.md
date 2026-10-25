@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,13 +54,13 @@ await milvusClient.getFlushAllState({
   flush-all タイムスタンプです。任意であり、非推奨です。
 
 - **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  database 名から flush-all タイムスタンプへのマップです。任意です。
+  A map of データベース names to flush-all timestamps. Optional.
 
 - **db_name** (*string*) -<br/>
-  database の名前です。任意であり、非推奨です。
+  The name of the データベース. Optional and deprecated.
 
 - **timeout** (*number*) -<br/>
-  RPC に許可する任意の時間（ミリ秒単位）です。`undefined` に設定されている場合、client は server が応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID です。任意です。

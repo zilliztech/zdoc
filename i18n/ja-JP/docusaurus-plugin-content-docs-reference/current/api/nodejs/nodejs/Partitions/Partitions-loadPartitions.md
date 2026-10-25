@@ -7,12 +7,12 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内の特定の partition セットをメモリにロードします。 | Node.js"
+description: "This operation loads a specific set of partitions in a specified コレクション into memory. | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - ベクターデータベース
+  - ベクトル データベース
   - IVF
   - knn
   - 画像検索
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-この操作は、指定された collection 内の特定の partition セットをメモリにロードします。
+This operation loads a specific set of partitions in a specified コレクション into memory.
 
 ```javascript
 await milvusClient.loadPartitions(data)
@@ -54,13 +53,13 @@ await milvusClient.loadPartitions({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前です。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **partition_names** (string[]) -
 

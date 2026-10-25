@@ -7,13 +7,13 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は scalar filtering query を反復的に実行し、結果をバッチで返します。大規模な結果セットを段階的に処理する必要がある場合や、結果総数が単一の query() 呼び出しで返せる件数を超える場合は、単一の query() 呼び出しの代わりにこれを使用します。 | Node.js"
+description: "This operation conducts a スカラー filtering query iteratively and returns results in batches. Use this instead of a single query() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return. | Node.js"
 type: docx
 token: K5APdBqphoQG7vxU4P2ccr5Wnig
 sidebar_position: 9
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-この操作は scalar filtering query を反復的に実行し、結果をバッチで返します。大規模な結果セットを段階的に処理する必要がある場合や、結果総数が単一の query() 呼び出しで返せる件数を超える場合は、単一の query() 呼び出しの代わりにこれを使用します。
+This operation conducts a スカラー filtering query iteratively and returns results in batches. Use this instead of a single query() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
 
 ```javascript
 await milvusClient.queryIterator(data: QueryIteratorReq)
@@ -59,7 +58,7 @@ await milvusClient.queryIterator({
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **batchSize** (*number*) -
 
@@ -69,7 +68,7 @@ await milvusClient.queryIterator({
 
 - **filter** (*string*) -
 
-    一致する entity を絞り込むための scalar filtering 条件です。すべての entity を返すには空文字列を設定します。scalar filtering 条件の構築方法については、Boolean Expression Rules を参照してください。
+    A スカラー filtering condition to filter matching entities. Set to an empty string to return all entities. To build a スカラー filtering condition, refer to Boolean Expression Rules.
 
 - **limit** (*number*) -
 
@@ -85,11 +84,11 @@ await milvusClient.queryIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    この操作の整合性レベルです。オプション: Strong (0)、Bounded (1)、Session (2)、Eventually (3)。デフォルトでは、collection 作成時に設定された整合性レベルが使用されます。
+    The consistency level for this operation. Options: Strong (0), Bounded (1), Session (2), Eventually (3). Defaults to the consistency level set when the コレクション was created.
 
 - **db_name** (*string*) -
 
-    collection を含むデータベースの名前です。
+    The name of the データベース containing the コレクション.
 
 - **timeout** (*number*) -
 

@@ -14,7 +14,7 @@ sidebar_position: 6
 keywords: 
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
+  - ベクトル search algorithms
   - Question answering system
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

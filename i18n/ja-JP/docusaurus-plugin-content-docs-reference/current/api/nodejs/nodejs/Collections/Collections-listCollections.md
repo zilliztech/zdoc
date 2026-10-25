@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、既存のすべての collection を一覧表示します。 | Node.js"
+description: "This operation lists all existing コレクション. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
   - Milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - 非構造化データ
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-この操作は、既存のすべての collection を一覧表示します。
+This operation lists all existing コレクション.
 
 ```javascript
 milvusClient.listCollections();
@@ -53,7 +52,7 @@ listCollections({
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **type** (*ShowCollectionsType*) 
 
@@ -81,13 +80,13 @@ listCollections({
 **PARAMETERS:**
 
 - **data** (*CollectionData[]*) -<br/>
-  collection データオブジェクトの一覧です。各エントリには、collection 名、ID、タイムスタンプ、およびロード率が含まれます。
+  A list of コレクション data objects. Each entry contains the コレクション name, ID, timestamp, and loaded percentage.
 
 - **created_timestamps** (*string[]*) -<br/>
-  各 collection が作成された時刻を示すハイブリッドタイムスタンプの一覧です。
+  A list of hybrid timestamps indicating when each コレクション was created.
 
 - **created_utc_timestamps** (*string[]*) -<br/>
-  各 collection が作成された時刻を示す UTC タイムスタンプの一覧です。
+  A list of UTC timestamps indicating when each コレクション was created.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。

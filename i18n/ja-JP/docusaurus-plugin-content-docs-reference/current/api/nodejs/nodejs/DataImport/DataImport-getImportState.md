@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - Sparse ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -98,7 +97,7 @@ await milvusClient.getImportState({
 
 - **collection_id** (*number*) -
 
-    インポートタスクに関連付けられた collection ID。
+    The コレクション ID associated with the import task.
 
 - **segment_ids** (*number[]*) -
 

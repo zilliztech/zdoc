@@ -12,10 +12,10 @@ type: docx
 token: AKpldMJPTo6MfuxxrpicBKRInCh
 sidebar_position: 27
 keywords: 
-  - vector similarity search
+  - ベクトル similarity search
   - approximate nearest neighbor search
   - DiskANN
-  - Sparse vector
+  - Sparse ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

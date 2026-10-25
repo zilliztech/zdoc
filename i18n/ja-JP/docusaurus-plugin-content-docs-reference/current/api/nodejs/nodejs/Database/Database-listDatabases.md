@@ -13,7 +13,7 @@ token: DZMUdKbtfoT1HbxaXEDcgFkJnsh
 sidebar_position: 5
 keywords: 
   - 音声類似性検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

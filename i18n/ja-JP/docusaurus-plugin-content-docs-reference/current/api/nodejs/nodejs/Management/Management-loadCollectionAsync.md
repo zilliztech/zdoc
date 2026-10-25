@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection データを query node にロードし、その後この collection に対して vector search を実行できるようにします。これは非同期関数です — ロード状態の確認には `getLoadState()` または `getLoadingProgress()` を使用してください。 | Node.js"
+description: "This operation loads コレクション data into query nodes, then you can do ベクトル search on this コレクション. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status. | Node.js"
 type: docx
 token: SqSZdmSoVoBuiSxe1a1cdOuZnDd
 sidebar_position: 30
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollectionAsync()
 
-この操作は collection データを query node にロードし、その後この collection に対して vector search を実行できるようにします。これは非同期関数です — ロード状態の確認には `getLoadState()` または `getLoadingProgress()` を使用してください。
+This operation loads コレクション data into query nodes, then you can do ベクトル search on this コレクション. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status.
 
 ```javascript
 await milvusClient.loadCollectionAsync(data: LoadCollectionReq)
@@ -58,7 +57,7 @@ await milvusClient.loadCollectionAsync({
 
     **[必須]**
 
-    ロードする collection の名前。
+    The name of the コレクション to load.
 
 - **db_name** (*string*) -
 

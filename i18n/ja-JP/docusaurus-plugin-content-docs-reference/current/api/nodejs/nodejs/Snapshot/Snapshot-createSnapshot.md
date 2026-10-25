@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態を記録します。 | Node.js"
+description: "This operation creates a snapshot for a コレクション. A snapshot captures the current state of a コレクション and its data. | Node.js"
 type: docx
 token: NeUFdr0OXo90RExodnccqc3OnYU
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態を記録します。
+This operation creates a snapshot for a コレクション. A snapshot captures the current state of a コレクション and its data.
 
 ```typescript
 await milvusClient.createSnapshot(data: CreateSnapshotReq)
@@ -54,8 +53,8 @@ await milvusClient.createSnapshot({
 **パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットを作成する collection の名前。
+  **[REQUIRED]**<br/>
+  The name of the コレクション to snapshot.
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
@@ -65,13 +64,13 @@ await milvusClient.createSnapshot({
   任意のスナップショット説明。
 
 - **compaction_protection_seconds** (*number | string*) -<br/>
-  参照されるセグメントを compaction から保護する期間。任意。
+  Duration to protect referenced segments from Compaction. Optional.
 
 - **db_name** (*string*) -<br/>
   データベースの名前。任意。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可する任意の時間（ミリ秒単位）。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。任意。

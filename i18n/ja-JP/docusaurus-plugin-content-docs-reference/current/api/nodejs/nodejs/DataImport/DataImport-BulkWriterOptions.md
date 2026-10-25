@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -39,7 +38,7 @@ interface BulkWriterOptions
 
 **FIELDS:**
 
-- **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
+- **スキーマ** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
 
     **[必須]**
 

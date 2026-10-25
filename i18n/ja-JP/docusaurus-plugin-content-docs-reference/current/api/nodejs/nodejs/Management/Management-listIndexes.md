@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection の index を一覧表示します | Node.js"
+description: "This operation lists the インデックス of a specific コレクション | Node.js"
 type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listIndexes()
 
-この操作は、特定の collection の index を一覧表示します
+This operation lists the インデックス of a specific コレクション
 
 ```javascript
 await milvusClient.listIndexes(data)
@@ -53,21 +52,21 @@ await milvusClient.listIndexes({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **field_name** (*string*) -
 
-    collection 内の既存フィールドの名前。 
+    The name of an existing field in the コレクション. 
 
 - **index_name** (*string*) -
 
-    説明対象の index の名前。
+    The name of the インデックス to describe.
 
 - **timeout** (*number*)  
 
@@ -86,8 +85,8 @@ await milvusClient.listIndexes({
 
 **PARAMETERS:**
 
-- **indexes** (*string[]*) -<br/>
-  要求された collection に定義されている index 名の一覧。
+- **インデックス** (*string[]*) -<br/>
+  A list of インデックス names defined on the requested コレクション.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

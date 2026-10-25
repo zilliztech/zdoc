@@ -12,10 +12,10 @@ type: docx
 token: WA81dokeYotwt9xAiKKcaaIpnxc
 sidebar_position: 8
 keywords: 
-  - vector database の例
-  - rag vector database
-  - vector db とは
-  - vector databases とは
+  - ベクトル データベース example
+  - rag ベクトル データベース
+  - what is ベクトル db
+  - what are ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

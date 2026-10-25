@@ -12,10 +12,10 @@ type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - Serverless ベクターデータベース
+  - Serverless ベクトル データベース
   - milvus オープンソース
   - milvus はどのように動作するか
-  - Zilliz ベクターデータベース
+  - Zilliz ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

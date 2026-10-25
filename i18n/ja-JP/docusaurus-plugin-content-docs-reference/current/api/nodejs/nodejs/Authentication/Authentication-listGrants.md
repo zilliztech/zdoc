@@ -13,7 +13,7 @@ token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
   - マネージドベクトルデータベース
-  - Pinecone vector database
+  - Pinecone ベクトル データベース
   - 音声検索
   - セマンティック検索とは
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

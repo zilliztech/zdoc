@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection で収集された統計情報を一覧表示します。 | Node.js"
+description: "This operation lists the statistics collected on a specific コレクション. | Node.js"
 type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
   - milvus ベンチマーク
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionState()
 
-この操作は、特定の collection で収集された統計情報を一覧表示します。
+This operation lists the statistics collected on a specific コレクション.
 
 ```javascript
 await milvusClient.getCompactionState(data)
@@ -52,7 +51,7 @@ await milvusClient.getCompactionState({
 
     **[必須]**
 
-    [`compact()`](./Management-compact) の呼び出しによって返される compaction ジョブの ID。
+    The ID of a Compaction job that is returned by a call to [`compact()`](./Management-compact).
 
 - **timeout** (*number*) -
 
@@ -78,7 +77,7 @@ await milvusClient.getCompactionState({
 **パラメータ:**
 
 - **state** (*CompactionState*) -<br/>
-  compaction の集約状態。指定可能な値は **UndefiedState**、**Executing**、**Completed** です。
+  The aggregate state of the Compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
 
 - **executingPlanNo** (*string*) -<br/>
   まだ実行中のプラン数。

@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、HTTP import job API を通じて送信された import ジョブを一覧表示します。ジョブ ID、collection 名、進行状況、状態の確認に使用します。 | Node.js"
+description: "This operation lists import jobs submitted through the HTTP import job API. Use it to review job IDs, コレクション names, progress, and state. | Node.js"
 type: docx
 token: CdK7dr8pyo36PZxpGFKcrZsjnEf
 sidebar_position: 8
 keywords: 
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
+  - ベクトル search
   - knn algorithm
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listImportJobs()
 
-この操作は、HTTP import job API を通じて送信された import ジョブを一覧表示します。ジョブ ID、collection 名、進行状況、状態の確認に使用します。
+This operation lists import jobs submitted through the HTTP import job API. Use it to review job IDs, コレクション names, progress, and state.
 
 ```typescript
 await milvusClient.listImportJobs(params: HttpBaseReq)

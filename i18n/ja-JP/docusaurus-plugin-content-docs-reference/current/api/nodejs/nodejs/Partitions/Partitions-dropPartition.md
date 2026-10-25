@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection から指定された partition を削除します。 | Node.js"
+description: "This operation drops a specified partition from the current コレクション. | Node.js"
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-この操作は、現在の collection から指定された partition を削除します。
+This operation drops a specified partition from the current コレクション.
 
 ```javascript
 await milvusClient.dropPartition(data)
@@ -52,13 +51,13 @@ await milvusClient.dropPartition({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **partition_name** (*string*)
 

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、snapshot から新規または既存の collection に collection を復元します。 | Node.js"
+description: "This operation restores a コレクション from a snapshot to a new or existing コレクション. | Node.js"
 type: docx
 token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
 sidebar_position: 8
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-この操作は、snapshot から新規または既存の collection に collection を復元します。
+This operation restores a コレクション from a snapshot to a new or existing コレクション.
 
 ```typescript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
@@ -58,21 +57,21 @@ await milvusClient.restoreSnapshot({
   復元元の snapshot の名前。
 
 - **source_collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  ソース collection の名前。
+  **[REQUIRED]**<br/>
+  The name of the source コレクション.
 
 - **target_collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  復元先のターゲット collection の名前。
+  **[REQUIRED]**<br/>
+  The name of the target コレクション to restore to.
 
 - **source_db_name** (*string*) -<br/>
-  ソース database 名。任意です。
+  The source データベース name. Optional.
 
 - **target_db_name** (*string*) -<br/>
-  ターゲット database 名。任意です。
+  The target データベース name. Optional.
 
 - **timeout** (*number*) -<br/>
-  RPC に許容する時間（ミリ秒）の任意の期間です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。任意です。

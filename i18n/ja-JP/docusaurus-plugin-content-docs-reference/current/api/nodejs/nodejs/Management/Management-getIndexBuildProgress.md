@@ -7,12 +7,12 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された index のビルド進捗を取得します。 | Node.js"
+description: "This operation gets the build progress of the specified インデックス. | Node.js"
 type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - Pinecone vector database
+  - Pinecone ベクトル データベース
   - Audio search
   - what is semantic search
   - Embedding model
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getIndexBuildProgress()
 
-この操作は、指定された index のビルド進捗を取得します。
+This operation gets the build progress of the specified インデックス.
 
 ```javascript
 await milvusClient.getIndexBuildProgress(data)
@@ -53,25 +52,25 @@ await milvusClient.getIndexBuildProgress({
 
 - **db_name** (*string*) -
 
-    ターゲット collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **index_name** (*string*) -
 
     **[REQUIRED]**
 
-    ターゲット index の名前。このパラメータと `field_name` は相互排他的です。 
+    The name of the target インデックス. This parameter and `field_name` are mutually exclusive. 
 
 - **field_name** (*string*) -
 
     **[REQUIRED]**
 
-    ターゲット field の名前。このパラメータと `index_name` は相互排他的です。このパラメータを使用する場合は、指定した field に対して index が構築されていることを確認してください。
+    The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an インデックス has been built upon the specified field.
 
 - **timeout** (number) -
 
@@ -92,10 +91,10 @@ await milvusClient.getIndexBuildProgress({
 **PARAMETERS:**
 
 - **indexed_rows** (*number*) -<br/>
-  これまでに index 化された行数。
+  これまでに インデックス 化された行数。
 
 - **total_rows** (*number*) -<br/>
-  index が対象とする総行数。**indexed_rows** が **total_rows** と等しくなると、ビルドは完了です。
+  The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

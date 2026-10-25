@@ -13,7 +13,7 @@ token: RC5YdaKIhoRU0ZxU48OcJxn7nS2
 sidebar_position: 13
 keywords: 
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - milvus はどのように動作するか
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

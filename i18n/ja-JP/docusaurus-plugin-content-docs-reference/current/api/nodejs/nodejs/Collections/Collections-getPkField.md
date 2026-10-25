@@ -12,7 +12,7 @@ type: docx
 token: LmnudtyV5owY2zx5D9WcENcsnFg
 sidebar_position: 25
 keywords: 
-  - vector database の比較
+  - ベクトル データベース comparison
   - Faiss
   - Video search
   - AI Hallucination
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

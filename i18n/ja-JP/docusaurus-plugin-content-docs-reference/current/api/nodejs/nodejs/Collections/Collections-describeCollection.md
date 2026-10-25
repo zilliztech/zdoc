@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -97,8 +96,8 @@ await milvusClient.describeCollection({
 
 **PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -<br/>
-  コレクションのスキーマ。
+- **スキーマ** (*CollectionSchema*) -<br/>
+  The スキーマ of the コレクション.
 
     - **name** (*string*) -
 
@@ -122,7 +121,7 @@ await milvusClient.describeCollection({
 
     - **functions** (*FunctionObject[]*) -
 
-        コレクションにアタッチされた doc-in / doc-out 関数（例: BM25 sparse-vector 関数）。
+        Doc-in / doc-out functions attached to the コレクション (for example, the BM25 sparse-ベクトル function).
 
 - **collectionID** (*string*) -<br/>
   Milvus によって割り当てられた内部コレクション ID。
@@ -137,7 +136,7 @@ await milvusClient.describeCollection({
   このコレクションを指すエイリアスの一覧。
 
 - **properties** (*KeyValuePair[]*) -<br/>
-  コレクションレベルのプロパティ（例: **mmap.enabled**、**collection.ttl.seconds**）。作成時に宣言するか、`alterCollectionProperties()` を使用して設定します。
+  コレクション-level properties (for example, **mmap.enabled**, **コレクション.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
 
 - **created_timestamp** (*string*) -<br/>
   コレクションが作成された時点のハイブリッドタイムスタンプ。

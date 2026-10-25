@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,13 +53,13 @@ await milvusClient.bulkInsert({
 
 - **db_name** (*string*) -
 
-    対象 collection が属するデータベースの名前。
+    The name of the データベース to which the target コレクション belongs.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    対象 collection の名前。
+    The name of the target コレクション.
 
 - **partition_name** (*string*) -
 

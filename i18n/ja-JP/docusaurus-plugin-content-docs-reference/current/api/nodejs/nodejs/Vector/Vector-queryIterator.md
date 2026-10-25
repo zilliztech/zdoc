@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は vector 類似検索を反復的に実行し、結果をバッチ単位で返します。大量の結果セットを段階的に処理する必要がある場合や、単一のクエリで返せる総結果数を超える場合は、単一の search() 呼び出しの代わりにこれを使用します。 | Node.js"
+description: "This operation conducts a ベクトル similarity search iteratively and returns results in batches. Use this instead of a single search() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return. | Node.js"
 type: docx
 token: YZ3GdmklAolLnux8LRhcw7hxnvd
 sidebar_position: 11
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-この操作は vector 類似検索を反復的に実行し、結果をバッチ単位で返します。大量の結果セットを段階的に処理する必要がある場合や、単一のクエリで返せる総結果数を超える場合は、単一の `search()` 呼び出しの代わりにこれを使用します。
+This operation conducts a ベクトル similarity search iteratively and returns results in batches. Use this instead of a single search() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
 
 ```javascript
 await milvusClient.searchIterator(data: SearchIteratorReq)
@@ -68,13 +67,13 @@ await milvusClient.searchIterator({
 
     **[必須]**
 
-    検索対象の collection の名前。
+    The name of the コレクション to search.
 
 - **data** (*SearchData | SearchData[]*) -
 
     **[必須]**
 
-    クエリ vector。サポートされる型には、FloatVector (`number[]`)、BFloat16Vector (`Uint8Array`)、Float16Vector (`Uint8Array`)、BinaryVector (`number[]`)、および SparseFloatVector が含まれます。
+    The query ベクトル(s). Supported types include FloatVector (number[]), BFloat16Vector (Uint8Array), Float16Vector (Uint8Array), BinaryVector (number[]), and SparseFloatVector.
 
 - **batchSize** (*number*) -
 
@@ -88,11 +87,11 @@ await milvusClient.searchIterator({
 
 - **filter** (*string*) -
 
-    検索前に一致する entity を絞り込むための scalar フィルタリング条件。デフォルトは空文字列です（フィルタなし）。
+    A スカラー filtering condition to filter matching entities before the search. Defaults to an empty string (no filter).
 
 - **anns_field** (*string*) -
 
-    対象 vector フィールドの名前。collection に複数の vector フィールドがある場合は必須です。
+    The name of the target ベクトル field. Required when the コレクション has multiple ベクトル fields.
 
 - **output_fields** (*string[]*) -
 
@@ -108,7 +107,7 @@ await milvusClient.searchIterator({
 
 - **metric_type** (*string*) -
 
-    vector 間の類似度を測定するために使用される metric タイプ。デフォルトでは、index が作成されたフィールドの metric タイプが使用されます。
+    The metric type used to measure similarity between ベクトル. Defaults to the metric type of the indexed field.
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
@@ -132,7 +131,7 @@ await milvusClient.searchIterator({
 
 - **transformers** (*OutputTransformers*) -
 
-    BFloat16Vector や Float16Vector などの特殊な vector データ型向けのカスタム transformer。
+    Custom transformers for special ベクトル data types such as BFloat16Vector and Float16Vector.
 
 - **external_filter_fn** (*(row: SearchResultData) => boolean*) -
 
@@ -140,7 +139,7 @@ await milvusClient.searchIterator({
 
 - **db_name** (*string*) -
 
-    collection を含むデータベースの名前。
+    The name of the データベース containing the コレクション.
 
 - **element_indices** (*ElementIndices[]*) -
 

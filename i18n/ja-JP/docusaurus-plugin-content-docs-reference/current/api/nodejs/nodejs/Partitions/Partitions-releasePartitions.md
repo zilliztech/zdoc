@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定した collection 内の partition をメモリから解放します。 | Node.js"
+description: "This operation releases the partitions in a specified コレクション from memory. | Node.js"
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 8
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-この操作は、指定した collection 内の partition をメモリから解放します。
+This operation releases the partitions in a specified コレクション from memory.
 
 ```javascript
 await milvusClient.releasePartitions(data)
@@ -52,13 +51,13 @@ await milvusClient.releasePartitions({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **partition_names** (*string[]*) -
 

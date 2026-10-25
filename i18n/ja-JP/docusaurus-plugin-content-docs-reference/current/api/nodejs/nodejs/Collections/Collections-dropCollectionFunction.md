@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、既存の collection からカスタム関数を削除します。 | Node.js"
+description: "This operation removes a custom function from an existing コレクション. | Node.js"
 type: docx
 token: T6xNdPPtsotGiYxL1WActF3qnxb
 sidebar_position: 24
 keywords: 
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-この操作は、既存の collection からカスタム関数を削除します。
+This operation removes a custom function from an existing コレクション.
 
 ```javascript
 await milvusClient.dropCollectionFunction(data: DropCollectionFunctionReq)
@@ -54,7 +53,7 @@ dropCollectionFunction({
 
     **[REQUIRED]**
 
-    削除する関数を含む collection の名前。
+    The name of the コレクション containing the function to remove.
 
 - **function_name** (*string*) -
 
@@ -64,7 +63,7 @@ dropCollectionFunction({
 
 - **db_name** (*string*) -
 
-    collection が存在するデータベースの名前。オプションです。
+    The name of the データベース where the コレクション resides. Optional.
 
 - **timeout** (*number*) -
 

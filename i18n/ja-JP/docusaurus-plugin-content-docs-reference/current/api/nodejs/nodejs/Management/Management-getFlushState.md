@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -108,3 +107,4 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
+

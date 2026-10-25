@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作では、指定した collection または partition がロードされているかどうかを表示します。 | Node.js"
+description: "This operation displays whether a specified コレクション or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-この操作では、指定した collection または partition がロードされているかどうかを表示します。
+This operation displays whether a specified コレクション or partition is loaded or not.
 
 ```javascript
 await milvusClient.getLoadState(data)
@@ -52,13 +51,13 @@ await milvusClient.getLoadState({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **partition_names** (*string[]*) -
 

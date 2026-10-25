@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection にデータを挿入します。 | Node.js"
+description: "This operation inserts data into a specific コレクション. | Node.js"
 type: docx
 token: SZNQds74zoKniRxtJwdcfdz1nCh
 sidebar_position: 5
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-この操作は、特定の collection にデータを挿入します。
+This operation inserts data into a specific コレクション.
 
 ```javascript
 await milvusClient.insert(data: InsertReq)
@@ -53,21 +52,21 @@ await milvusClient.insert({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **data** (*RowData[]*) -
 
-    現在の collection に挿入するデータ。
+    The data to insert into the current コレクション.
 
-    挿入するデータは、現在の collection のスキーマに一致する辞書、またはそのような辞書のリストである必要があります。 
+    The data to insert should be a dictionary that matches the スキーマ of the current コレクション or a list of such dictionaries. 
 
-    次のコードは、現在の collection のスキーマに **id** と **vector** という名前の 2 つのフィールドがあることを前提としています。前者は主フィールドであり、後者は 5 次元の vector 埋め込みを保持するためのフィールドです。
+    The following code assumes that the スキーマ of the current コレクション has two fields named **id** and **ベクトル**. The former is the primary field and the latter is a field to hold 5-dimensional ベクトル embeddings.
 
     ```javascript
     // A dictionary, or
@@ -115,7 +114,7 @@ await milvusClient.insert({
 
 - **partition_name** (*string* | *None*) -
 
-    現在の collection 内の partition の名前。 
+    The name of a partition in the current コレクション. 
 
     指定した場合、データは指定された partition に挿入されます。
 
@@ -161,7 +160,7 @@ await milvusClient.insert({
   書き込みが可視になった時点のハイブリッドタイムスタンプ。time-travel クエリにはこの値を使用します。
 
 - **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  挿入された行に割り当てられた主キー。autoID collection の場合、Milvus がこれらの値を生成します。それ以外の場合は、入力キーがそのまま返されます。
+  The primary keys assigned to the inserted rows. For autoID コレクション, Milvus generates these values; otherwise, they echo the input keys.
 
     - **int_id** (*\{ data: number[] }*) -
 

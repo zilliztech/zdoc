@@ -14,7 +14,7 @@ sidebar_position: 9
 keywords: 
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

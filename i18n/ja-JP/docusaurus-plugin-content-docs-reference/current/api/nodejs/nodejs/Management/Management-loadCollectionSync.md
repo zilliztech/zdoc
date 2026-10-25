@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のデータをメモリに読み込みます。これは、指定した collection が読み込まれたことを確実にするのに役立つ同期関数です。 | Node.js"
+description: "This operation loads the data of a specific コレクション into memory. This is the synchronous function that helps to ensure that the specified コレクション has been loaded. | Node.js"
 type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 18
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollectionSync()
 
-この操作は、特定の collection のデータをメモリに読み込みます。これは、指定した collection が読み込まれたことを確実にするのに役立つ同期関数です。
+This operation loads the data of a specific コレクション into memory. This is the synchronous function that helps to ensure that the specified コレクション has been loaded.
 
 ```javascript
 loadCollectionSync: ((data) => Promise<ResStatus>) = ...
@@ -54,25 +53,25 @@ await milvusClient.loadCollectionSync({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **refresh** (*boolean*) -
 
-    すでに読み込まれている collection のロード状態を更新するかどうか。
+    Whether to refresh the load status of an already loaded コレクション.
 
 - **replica_number** (*number*) -
 
-    読み込む collection のレプリカ数。
+    The number of replicas of the コレクション to load.
 
 - **resource_groups** (*string[]*) -
 
-    読み込む collection 内の resource group の数。
+    The number of resource groups in the コレクション to load.
 
 - **timeout** (*number*) -
 

@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection から index を削除します。 | Node.js"
+description: "This operation drops an インデックス from a specific コレクション. | Node.js"
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 5
 keywords: 
-  - vector database はどのように動作するか
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - how do ベクトル データベース work
+  - ベクトル db comparison
+  - openai ベクトル db
+  - natural language processing データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-この操作は、特定の collection から index を削除します。
+This operation drops an インデックス from a specific コレクション.
 
 ```javascript
 await milvusClient.dropIndex(data)
@@ -53,21 +52,21 @@ await milvusClient.dropPartition({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **field_name** (*string*) -
 
-    collection 内の既存フィールドの名前。
+    The name of an existing field in the コレクション.
 
 - **index_name** (string) -
 
-    削除する index の名前。
+    The name of the インデックス to drop.
 
 - **timeout** (*number*) -
 

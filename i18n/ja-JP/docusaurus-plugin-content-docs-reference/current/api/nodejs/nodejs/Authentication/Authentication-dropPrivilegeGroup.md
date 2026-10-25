@@ -12,10 +12,10 @@ type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 12
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
+  - Faiss ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

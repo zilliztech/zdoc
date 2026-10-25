@@ -12,10 +12,10 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
 keywords: 
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

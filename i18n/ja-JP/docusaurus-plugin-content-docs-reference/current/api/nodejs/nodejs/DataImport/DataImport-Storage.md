@@ -15,7 +15,7 @@ keywords:
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

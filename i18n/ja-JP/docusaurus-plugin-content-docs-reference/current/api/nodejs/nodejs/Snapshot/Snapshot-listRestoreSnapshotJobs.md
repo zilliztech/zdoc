@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべてのスナップショット復元ジョブを一覧表示します。ターゲット collection 名とデータベース名でフィルタリングできます。 | Node.js"
+description: "This operation lists all snapshot restore jobs. You can filter by target コレクション name and データベース name. | Node.js"
 type: docx
 token: TIXDdW1BmoPA3FxX0ONczHFqnKf
 sidebar_position: 5
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-この操作はすべてのスナップショット復元ジョブを一覧表示します。ターゲット collection 名とデータベース名でフィルタリングできます。
+This operation lists all snapshot restore jobs. You can filter by target コレクション name and データベース name.
 
 ```typescript
 await milvusClient.listRestoreSnapshotJobs(data?: ListRestoreSnapshotJobsReq)
@@ -51,7 +50,7 @@ await milvusClient.listRestoreSnapshotJobs({
 **PARAMETERS:**
 
 - **collection_name** (*string*) -<br/>
-  ターゲット collection 名でのオプションのフィルタです。
+  Optional filter by target コレクション name.
 
 - **db_name** (*string*) -<br/>
   データベース名でのオプションのフィルタです。
@@ -76,7 +75,7 @@ await milvusClient.listRestoreSnapshotJobs({
 **PARAMETERS:**
 
 - **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
-  要求されたデータベースおよび collection フィルタに一致する復元ジョブの一覧です。**RestoreSnapshotJobInfo** の完全なフィールドリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
+  A list of restore jobs that match the requested データベース and コレクション filters. For the full **RestoreSnapshotJobInfo** field reference, refer to the `getRestoreSnapshotState()` doc.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。

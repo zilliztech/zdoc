@@ -15,7 +15,7 @@ keywords:
   - ベクトルデータベース チュートリアル
   - ベクトルデータベースの仕組み
   - ベクトル db 比較
-  - openai vector db
+  - openai ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -115,7 +114,7 @@ await milvusClient.describeRole({
 
         - **object** (*ObjectEntity*) -
 
-        権限が適用されるオブジェクトタイプ（例: **Collection**、**Global**、**User**）。
+        The object type the privilege applies to (for example, **コレクション**, **Global**, **User**).
 
         - **object_name** (*string*) -
 
@@ -143,7 +142,7 @@ await milvusClient.describeRole({
 
         - **object** (*ObjectEntity*) -
 
-            権限が適用されるオブジェクトタイプ（例: **Collection**、**Global**、**User**）。
+            The object type the privilege applies to (for example, **コレクション**, **Global**, **User**).
 
         - **object_name** (*string*) -
 

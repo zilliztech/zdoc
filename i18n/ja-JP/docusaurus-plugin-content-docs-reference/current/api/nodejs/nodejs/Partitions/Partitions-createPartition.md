@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、対象の collection に partition を作成します。 | Node.js"
+description: "This operation creates a partition in the target コレクション. | Node.js"
 type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createPartition()
 
-この操作は、対象の collection に partition を作成します。
+This operation creates a partition in the target コレクション.
 
 ```javascript
 await milvusClient.createPartition(data)
@@ -52,13 +51,13 @@ await milvusClient.createPartition({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **partition_name** (*string*)
 

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、index プロパティをデフォルト値にリセットします。 | Node.js"
+description: "This operation resets the インデックス properties to their default values. | Node.js"
 type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 6
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndexProperties()
 
-この操作は、index プロパティをデフォルト値にリセットします。
+This operation resets the インデックス properties to their default values.
 
 ```javascript
 await milvusClient.dropIndexProperties(data)
@@ -53,29 +52,29 @@ await milvusClient.dropIndexProperties({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **index_name** (*string*) -
 
     **[REQUIRED]**
 
-    対象の index の名前。
+    The name of the target インデックス.
 
 - **properties** (*string[]*) -
 
     **[REQUIRED]**
 
-    リセットする index プロパティの名前。指定可能なプロパティは次のとおりです。
+    The names of the インデックス properties to reset. Possible properties are as follows:
 
     - **mmap.enabled** -
 
-        指定した index に対して mmap を有効にするかどうか。これを `True` に設定すると、指定した index はディスクにオフロードされます。詳細については、[Use mmap](/docs/use-mmap) を参照してください。
+        Whether to enable mmap for the specified インデックス. Setting this to `True` offloads the specified インデックス onto the disk. For details, refer to [Use mmap](/docs/use-mmap)
 
 - **timeout** (number) -
 

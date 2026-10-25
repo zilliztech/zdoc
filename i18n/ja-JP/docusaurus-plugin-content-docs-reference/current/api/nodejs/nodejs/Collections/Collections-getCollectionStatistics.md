@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に対して収集された統計情報を一覧表示します。 | Node.js"
+description: "This operation lists the statistics collected on a specific コレクション. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 12
@@ -15,7 +15,7 @@ keywords:
   - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStatistics()
 
-この操作は、特定の collection に対して収集された統計情報を一覧表示します。
+This operation lists the statistics collected on a specific コレクション.
 
 ```javascript
 await milvusClient.getCollectionStatistics(data)
@@ -51,13 +50,13 @@ await milvusClient.getCollectionStatistics({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **timeout** (*number*) -
 

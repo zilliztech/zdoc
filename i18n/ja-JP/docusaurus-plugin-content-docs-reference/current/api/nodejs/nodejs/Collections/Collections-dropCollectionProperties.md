@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -66,7 +65,7 @@ await milvusClient.dropCollectionProperties({
 
     TypeScript の **Record** 内で変更するプロパティとその期待値です。指定可能な値は次のとおりです。
 
-    - **collection.ttl.seconds** -
+    - **コレクション.ttl.seconds** -
 
         コレクションの有効期間（TTL）を秒単位で指定します。
 

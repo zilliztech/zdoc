@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に対して index を作成します。 | Node.js"
+description: "This operation creates an インデックス for a specific コレクション. | Node.js"
 type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-この操作は、特定の collection に対して index を作成します。
+This operation creates an インデックス for a specific コレクション.
 
 ```javascript
 await milvusClient.createIndex(data)
@@ -67,37 +66,37 @@ await milvusClient.createIndex([
 
 - **db_name** (*string*) -
 
-    対象の collection が属するデータベースの名前です。
+    The name of the データベース to which the target コレクション belongs.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **field_name** (*string*) -
 
     **[REQUIRED]**
 
-    index を作成するフィールドの名前です。
+    The name of the field in which to create an インデックス.
 
 - **index_name** (*string*) -
 
-    作成する index の名前です。
+    The name of the インデックス to create.
 
 - **index_type** (*string*) -
 
-    作成する index のタイプです。
+    The type of the インデックス to create.
 
 - **metric_type** (*string*) -
 
-    vector 距離の測定に使用される metric タイプです。指定可能な値: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25`（フルテキスト検索でのみ使用）。詳細については、[Metric Types](https://milvus.io/docs/metric.md) を参照してください。
+    The metric type used to measure ベクトル distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
 
-    これは、指定されたフィールドが vector フィールドである場合にのみ使用できます。
+    This is available only when the specified field is a ベクトル field.
 
 - **params** (*string*) -
 
-    index 固有のその他のパラメータです。
+    Other インデックス-specific parameters.
 
 - **timeout** (number) -
 

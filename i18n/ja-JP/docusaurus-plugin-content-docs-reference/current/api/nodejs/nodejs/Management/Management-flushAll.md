@@ -7,12 +7,12 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての collection を flush し、すべての segment を sealed にして、データをディスクに永続化します。 | Node.js"
+description: "This operation flushes all コレクション, sealing all segments and persisting data on disk. | Node.js"
 type: docx
 token: Zyi9dGUnQodt7MxIq17cyN54nOd
 sidebar_position: 22
 keywords: 
-  - Pinecone vector database
+  - Pinecone ベクトル データベース
   - Audio search
   - semantic search とは
   - Embedding model
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # flushAll()
 
-この操作はすべての collection を flush し、すべての segment を sealed にして、データをディスクに永続化します。
+This operation flushes all コレクション, sealing all segments and persisting data on disk.
 
 ```typescript
 await milvusClient.flushAll(data?: FlushAllReq)
@@ -75,20 +74,20 @@ await milvusClient.flushAll({
 **パラメータ:**
 
 - **flush_all_ts** (*number*) -<br/>
-  flush を識別する単一の hybrid timestamp です。非推奨です。マルチ cluster デプロイでは **flush_all_tss** を使用してください。
+  A single hybrid timestamp identifying the flush. Deprecated; prefer **flush_all_tss** for multi-クラスター deployments.
 
 - **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  cluster ID から、その cluster で flush が完了した時点の hybrid timestamp へのマッピングです。
+  A mapping from クラスター ID to the hybrid timestamp at which the flush completed in that クラスター.
 
 - **flush_all_msgs** (*Record&lt;string, any&gt;*) -<br/>
   physical channel 名から、ストレージレイヤーで使用される flush メタデータへのマッピングです。
 
 - **cluster_info** (*FlushClusterInfo*) -<br/>
-  flush に参加した cluster トポロジーです。
+  The クラスター topology that participated in the flush.
 
     - **cluster_id** (*string*) -
 
-        cluster 識別子です。
+        The クラスター identifier.
 
     - **cchannel** (*string*) -
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内の partition を一覧表示します。 | Node.js"
+description: "This operation lists the partitions in a specified コレクション. | Node.js"
 type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-この操作は、指定された collection 内の partition を一覧表示します。
+This operation lists the partitions in a specified コレクション.
 
 ```javascript
 await milvusClient.listPartitions(data)
@@ -52,13 +51,13 @@ await milvusClient.listPartitions({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[必須]**
 
-    既存の collection の名前。
+    The name of an existing コレクション.
 
 - **timeout** (*number*)  
 
@@ -92,7 +91,7 @@ await milvusClient.listPartitions({
 **パラメーター:**
 
 - **partition_names** (*string[]*) -<br/>
-  collection に定義されている partition 名の一覧。
+  A list of partition names defined on the コレクション.
 
 - **partitionIDs** (*number[]*) -<br/>
   **partition_names** と同じ順序の、partition の内部識別子。

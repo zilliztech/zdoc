@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -85,23 +84,23 @@ import Admonition from '@theme/Admonition';
 
 - BinaryVector = 100
 
-    データ型を **Binary Vector** に設定します。
+    Sets the data type to **Binary ベクトル**.
 
 - FloatVector = 101
 
-    データ型を **Float Vector** に設定します。
+    Sets the data type to **Float ベクトル**.
 
 - Float16Vector = 102
 
-    データ型を **Float16 Vector** に設定します。
+    Sets the data type to **Float16 ベクトル**.
 
 - BFloat16Vector = 103
 
-    データ型を **BFloat16 Vector** に設定します。
+    Sets the data type to **BFloat16 ベクトル**.
 
 - SparseFloatVector = 104
 
-    データ型を **Sparse Vector** に設定します。
+    Sets the data type to **Sparse ベクトル**.
 
 - Int8Vector = 105
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のデータをメモリに読み込みます。 | Node.js"
+description: "This operation loads the data of a specific コレクション into memory. | Node.js"
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
@@ -15,7 +15,7 @@ keywords:
   - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - Dense ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-この操作は、特定の collection のデータをメモリに読み込みます。
+This operation loads the data of a specific コレクション into memory.
 
 ```javascript
 await milvusClient.loadCollection(data)
@@ -54,25 +53,25 @@ await milvusClient.loadCollection({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **refresh** (*boolean*) -
 
-    すでに読み込まれている collection のロード状態を更新するかどうか。
+    Whether to refresh the load status of an already loaded コレクション.
 
 - **replica_number** (*number*) -
 
-    読み込む collection のレプリカ数。
+    The number of replicas of the コレクション to load.
 
 - **resource_groups** (*string[]*) -
 
-    読み込む collection 内の resource group の数。
+    The number of resource groups in the コレクション to load.
 
 - **timeout** (*number*) -
 

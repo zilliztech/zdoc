@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection のプロパティを変更します。 | Node.js"
+description: "This operation modifies the properties of a specified コレクション. | Node.js"
 type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
   - Zilliz Cloud
   - Milvus とは
-  - Milvus database
+  - milvus データベース
   - Milvus lite
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionProperties()
 
-この操作は、指定された collection のプロパティを変更します。
+This operation modifies the properties of a specified コレクション.
 
 ```javascript
 await milvusClient.alterCollectionProperties(data)
@@ -53,13 +52,13 @@ await milvusClient.alterCollectionProperties({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持する database の名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    エイリアスを再割り当てする対象 collection の名前。
+    The name of the target コレクション to reassign an alias to.
 
 - **delete_keys** (*string[]*) -
 
@@ -71,13 +70,13 @@ await milvusClient.alterCollectionProperties({
 
     変更するプロパティとその期待値を、TypeScript の **Record** で指定します。指定可能な値は以下のとおりです。
 
-    - **collection.ttl.seconds** (*number*) -
+    - **コレクション.ttl.seconds** (*number*) -
 
-        collection の有効期間（TTL）を秒単位で指定します。
+        The time-to-live (TTL) of a コレクション in seconds.
 
     - **mmap.enabled** (*bool*) -
 
-        collection 内のすべての field の生データおよび index に対して mmap を有効にするかどうか。
+        Whether to enable mmap for the raw data and インデックス of all fields in the コレクション.
 
 - **timeout** (*number*)  
 

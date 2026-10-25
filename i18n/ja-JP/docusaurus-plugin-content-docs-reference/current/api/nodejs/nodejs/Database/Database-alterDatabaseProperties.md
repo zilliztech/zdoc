@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -162,3 +161,4 @@ const resStatus = await milvusClient.alterDatabaseProperties({
     delete_properties: {'database.replica.number': 3} 
 });
 ```
+

@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,19 +51,19 @@ await milvusClient.count({
 
 - **db_name** (*str*) -
 
-    対象の collection を保持するデータベースの名前。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    エイリアスを作成する collection の名前。
+    The name of the コレクション to create an alias for.
 
 - **expr** (*string*) -
 
-    一致するエンティティを絞り込むための scalar フィルタリング条件。 
+    A スカラー filtering condition to filter matching entities. 
 
-    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件の作成については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    You can set this parameter to an empty string to skip スカラー filtering. To build a スカラー filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
 - **timeout** (*number*)  
 
@@ -84,7 +83,7 @@ await milvusClient.count({
 **PARAMETERS:**
 
 - **data** (*number*) -<br/>
-  指定されたフィルタ式に一致する collection 内の行数。式が指定されていない場合、これは総行数です。
+  The number of rows in the コレクション that match the supplied filter expression. When no expression is supplied, this is the total row count.
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。

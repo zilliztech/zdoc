@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のロード状態を更新します。 | Node.js"
+description: "This operation refreshes the loading status of a specific コレクション. | Node.js"
 type: docx
 token: Jc43d397doxCRkxal2XcQ1Wyn2g
 sidebar_position: 19
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshLoad()
 
-この操作は、特定の collection のロード状態を更新します。
+This operation refreshes the loading status of a specific コレクション.
 
 ```javascript
 await milvusClient.refreshLoad(data)
@@ -51,13 +50,13 @@ await milvusClient.refreshLoad({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベース名。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    The name of a コレクション.
 
 - **timeout** (*number*) -
 

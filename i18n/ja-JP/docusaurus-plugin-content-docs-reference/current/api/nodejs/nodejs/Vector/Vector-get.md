@@ -12,7 +12,7 @@ type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - vector databases comparison
+  - ベクトル データベース comparison
   - Faiss
   - Video search
   - AI Hallucination
@@ -23,7 +23,6 @@ keywords:
   - nodejs30
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,13 +56,13 @@ await milvusClient.get({
 
 - **db_name** (*string*) -
 
-    ターゲット collection を保持するデータベースの名前です。
+    The name of the データベース that holds the target コレクション.
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    The name of an existing コレクション.
 
 - **ids** (*string[]* | *number[]*) -
 
@@ -73,7 +72,7 @@ await milvusClient.get({
 
 - **consistency_level** (*string*) -
 
-    ターゲット collection の整合性レベルです。
+    The consistency level of the target コレクション.
 
 - **limit** (*number*) -
 
@@ -93,7 +92,7 @@ await milvusClient.get({
 
 - **partition_names** (*string[]*) -
 
-    ターゲット collection 内の partition 名のリストです。
+    A list of the names of the partitions in the target コレクション.
 
 - **output_fields** (*string[]*) -
 
