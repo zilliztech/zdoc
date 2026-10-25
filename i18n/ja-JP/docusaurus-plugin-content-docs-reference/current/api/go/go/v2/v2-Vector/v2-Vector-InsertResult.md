@@ -10,7 +10,7 @@ notebook: false
 description: "挿入されたエンティティの件数と ID を含む Insert 操作の結果です。 | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

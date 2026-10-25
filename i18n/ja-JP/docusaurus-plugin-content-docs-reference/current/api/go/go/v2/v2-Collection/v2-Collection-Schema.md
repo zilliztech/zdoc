@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -189,3 +188,4 @@ fmt.Println(err)
 
         指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
+    

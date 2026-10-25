@@ -4,7 +4,7 @@ slug: /go/go/v2-DataImport-CommitImport
 sidebar_label: "CommitImport"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、RESTful import API を介して一括インポートジョブをコミットします。データを先にステージングして最後にコミットするインポートモードに使用します。たとえば、インポートしたデータをクエリ可能にする前に、インポートジョブで明示的な最終コミットが必要な場合です。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

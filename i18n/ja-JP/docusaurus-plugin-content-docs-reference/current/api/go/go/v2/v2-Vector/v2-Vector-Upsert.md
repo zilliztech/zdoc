@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、struct-array およびフィールドレベルの配列操作を使用して行または列をアップサートし、この操作のクライアントテレメトリを記録します。 | Go | v2"
 type: docx
 token: PB5kdtzs8ok748xwRWacJbEUnze
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - milvus ベクトルデータベース
   - milvus DB
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

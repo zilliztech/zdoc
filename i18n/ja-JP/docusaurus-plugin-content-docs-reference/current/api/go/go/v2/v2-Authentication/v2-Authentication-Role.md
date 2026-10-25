@@ -14,7 +14,7 @@ sidebar_position: 24
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -12,7 +12,7 @@ type: docx
 token: GwIxdz90jojeBNx965VcTJHnnFd
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
+  - Chroma ベクトル データベース
   - nlp search
   - hallucinations llm
   - Multimodal search
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

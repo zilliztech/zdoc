@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnBinaryVectorArray インスタンスは、行に共通の次元を持つバイナリベクトル値を含む ArrayOfVector バイナリベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: VKeBdnkoXoI29txzTuncqsaDnte
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - ベクトル検索
   - kNN アルゴリズム
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

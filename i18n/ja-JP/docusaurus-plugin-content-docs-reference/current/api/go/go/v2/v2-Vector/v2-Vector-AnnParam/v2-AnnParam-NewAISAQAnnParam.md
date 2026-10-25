@@ -7,13 +7,13 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、AISAQ 検索パラメーター設定を作成し、AISAQ インデックスの検索時動作を調整します。 | Go | v2"
+description: "この操作は、AISAQ インデックスの検索時の動作を調整する AISAQ 検索パラメーター構成を作成します。 | Go | v2"
 type: docx
 token: D61ndr0TSocZRbxxLnRcfXr3nVg
 sidebar_position: 11
 keywords: 
-  - milvus オープンソース
-  - milvus の仕組み
+  - Milvus オープンソース
+  - Milvus の仕組み
   - Zilliz ベクトルデータベース
   - Zilliz データベース
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # NewAISAQAnnParam
 
-この操作では、AISAQ 検索パラメーター設定を作成し、AISAQ インデックスの検索時動作を調整します。
+この操作は、AISAQ インデックスの検索時の動作を調整する AISAQ 検索パラメーター構成を作成します。
 
 ```go
 func NewAISAQAnnParam(searchList int) *aisaqAnnParam
@@ -39,7 +38,7 @@ func NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 ## リクエスト構文\{#request-syntax}
 
-指定された検索リスト長で AISAQ 検索パラメーター設定を作成します。
+指定された検索リストの長さで AISAQ 検索パラメーター構成を作成します。
 
 ```go
 NewAISAQAnnParam(searchList int) *aisaqAnnParam
@@ -47,7 +46,7 @@ NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 **パラメーター:**
 
-- **searchList**（*int*） -
+- **searchList** (*int*) -
 
     **[必須]**
 
@@ -59,11 +58,11 @@ NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 - `WithPQReadPageCacheSize(bytes int) *aisaqAnnParam`
 
-    プロダクト量子化の読み取りに使用するページキャッシュサイズを設定します。
+    プロダクト量子化の読み取りに使用するページキャッシュのサイズを設定します。
 
 - `WithVectorsBeamwidth(beamwidth int) *aisaqAnnParam`
 
-    ベクトルの読み取りに使用するビーム幅を設定します。
+    ベクトル読み取りに使用するビーム幅を設定します。
 
 - `Params() map[string]any`
 
@@ -75,15 +74,15 @@ NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 **戻り値:**
 
-AISAQ 検索パラメーター設定を返します。
+AISAQ 検索パラメーター構成を返します。
 
 **パラメーター:**
 
-- **annParam**（&ast;*aisaqAnnParam*） -
+- **annParam** (&ast;*aisaqAnnParam*) -
 
-    AISAQ 検索パラメーター設定です。WithAnnParam() を介して検索またはハイブリッド検索のオプションに渡します。
+    AISAQ 検索パラメーター構成です。WithAnnParam() を使用して、検索オプションまたはハイブリッド検索オプションに渡します。
 
-**エラー処理:**
+**エラーハンドリング:**
 
 - **error**
 

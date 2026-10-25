@@ -10,7 +10,7 @@ notebook: false
 description: "この操作では、プライマリキー値またはフィルター式によってコレクションからエンティティを削除します。 | Go | v2"
 type: docx
 token: UsNSd8reIoOaBCxH2s7cvMIDnUf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - ベクトルデータベースの例
   - RAG ベクトルデータベース
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

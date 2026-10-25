@@ -4,7 +4,7 @@ slug: /go/go/v2-Authentication-GrantV2
 sidebar_label: "GrantV2"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、v2 API を使用してロールに権限を付与します。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -10,7 +10,7 @@ notebook: false
 description: "Upsert 操作の結果には、影響を受けたエンティティの件数と ID が含まれます。 | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - 動画類似検索
   - ベクトル検索
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

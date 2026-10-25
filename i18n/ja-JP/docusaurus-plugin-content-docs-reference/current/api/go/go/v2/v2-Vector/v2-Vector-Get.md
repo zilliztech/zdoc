@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、主キー値によってエンティティを取得します。 | Go | v2"
 type: docx
 token: PUZvdUzxzomdrFxCMlSc4UUqnGg
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - 質問応答システム
   - llm-as-a-judge
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

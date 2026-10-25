@@ -4,12 +4,12 @@ slug: /go/go/v2-Authentication-RBACMeta
 sidebar_label: "RBACMeta"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "ユーザー、ロール、権限付与、権限グループを含む RBAC メタデータの完全なスナップショットです。BackupRBAC/RestoreRBAC. とともに使用されます。 | Go | v2"
 type: docx
-token: GyCrdXyvzobrrAxzFRbcRTlSnUb
+token: QiqfdWnrkorbVuxiuUUcx6rznSb
 sidebar_position: 18
 keywords: 
   - ベクトルデータベースとは
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,18 +43,29 @@ type RBACMeta struct {
 
 **FIELDS:**
 
-- **Users** (<em>[]</em>UserInfo&ast;)
+- **Users** (<em>[]</em>UserInfo&ast;) -
 
-    ユーザーです。
+    RBACMeta のユーザーです。
 
-- **Roles** (<em>[]</em>Role&ast;)
+- **Roles** (<em>[]</em>Role&ast;) -
 
-    割り当てられたロールのリストです。
+    RBACMeta のロールです。
 
-- **RoleGrants** (<em>[]</em>RoleGrants&ast;)
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;) -
 
-    ロールの権限付与です。
+    RBACMeta の権限付与です。
 
-- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;)
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;) -
 
-    権限グループです。
+    RBACMeta の権限グループです。
+
+## 例\{#example}
+
+```go
+type RBACMeta struct {
+    Users []*UserInfo
+    Roles []*Role
+    RoleGrants []*RoleGrants
+    PrivilegeGroups []*PrivilegeGroup
+}
+```

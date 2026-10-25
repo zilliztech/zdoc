@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この型は、RESTful API を介して collection の一括インポートジョブを一覧表示するリクエストを構成します。`NewListImportJobsOption()` で構築すると、デフォルトで `CurrentPage 1, PageSize: 10` になります。`With` ビルダーメソッドをチェーンして、ページネーションの変更、API key の追加、またはデフォルト値の上書きができます。 | Go | v2"
+description: "This type configures a request to list bulk import jobs for a コレクション via the RESTful API. Construct it with `NewListImportJobsOption()`, which defaults to `CurrentPage 1, PageSize: 10`. Chain `With` builder methods to change pagination, add API keys, or override defaults. | Go | v2"
 type: docx
 token: KUFtdKbFpoTdtkxw4y3cYWhHnUe
 sidebar_position: 8
 keywords: 
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListImportJobsOption
 
-この型は、RESTful API を介して collection の一括インポートジョブを一覧表示するリクエストを構成します。`NewListImportJobsOption()` で構築すると、デフォルトで `CurrentPage: 1, PageSize: 10` になります。`With*` ビルダーメソッドをチェーンして、ページネーションの変更、API key の追加、またはデフォルト値の上書きができます。
+This type configures a request to list bulk import jobs for a コレクション via the RESTful API. Construct it with `NewListImportJobsOption()`, which defaults to `CurrentPage: 1, PageSize: 10`. Chain `With*` builder methods to change pagination, add API keys, or override defaults.
 
 ```go
 type ListImportJobsOption struct {
@@ -47,13 +46,13 @@ type ListImportJobsOption struct {
 **FIELDS:**
 
 - **URL** (*string*) -<br/>
-  Milvus または Zilliz Cloud cluster のベース URL です。パスは含めないでください。関数が `/v2/vectordb/jobs/import/list` を自動的に追加します。
+  The base URL of the Milvus or Zilliz Cloud クラスター. Do not include the path; the function appends `/v2/vectordb/jobs/import/list` automatically.
 
 - **CollectionName** (*string*) -<br/>
-  一覧表示するインポートジョブの対象となる collection の名前です。必須です。
+  The name of the コレクション whose import jobs should be listed. Required.
 
 - **ClusterID** (*string*) -<br/>
-  Zilliz Cloud cluster ID です。省略可能で、cloud インポートでのみ使用されます。
+  The Zilliz Cloud クラスター ID. Optional; used only for cloud imports.
 
 - **APIKey** (*string*) -<br/>
   `Bearer` ヘッダーとして送信される認可トークンです。省略可能ですが、サーバーがトークンベース認証を強制する場合は必須です。

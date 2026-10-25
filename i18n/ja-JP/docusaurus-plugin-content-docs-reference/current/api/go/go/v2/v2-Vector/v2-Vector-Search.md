@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、指定したコレクションに対して近似最近傍（ANN）検索を実行します。ベクトルベースの検索には `NewSearchOption` を、主キー ID による検索には `NewSearchByIDsOption` を使用できます。 | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - ベクトルインデックス
   - ベクトルデータベース オープンソース
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

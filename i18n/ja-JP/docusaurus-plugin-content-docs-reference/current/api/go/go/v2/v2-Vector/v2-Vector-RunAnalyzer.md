@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。 | Go | v2"
 type: docx
 token: FMtsdyToloE8zxx6CR2cSycTndd
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - Zilliz
   - Milvus ベクトルデータベース
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

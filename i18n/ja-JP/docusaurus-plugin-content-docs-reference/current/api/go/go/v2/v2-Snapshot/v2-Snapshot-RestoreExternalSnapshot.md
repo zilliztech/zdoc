@@ -4,7 +4,7 @@ slug: /go/go/v2-Snapshot-RestoreExternalSnapshot
 sidebar_label: "RestoreExternalSnapshot"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、外部スナップショットをターゲットコレクションに復元します。復元は非同期で実行されます — 進行状況の監視には `GetRestoreSnapshotState()` を使用します。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

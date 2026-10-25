@@ -1,7 +1,7 @@
 ---
 title: "User | Go | v2"
 slug: /go/go/v2-Authentication-User
-sidebar_label: "ユーザー"
+sidebar_label: "User"
 beta: false
 added_since: v2.6.x
 last_modified: false
@@ -15,15 +15,14 @@ keywords:
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
-  - ユーザー
+  - User
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

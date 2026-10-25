@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnBFloat16VectorArray インスタンスは、行が共有次元の bfloat16 ベクトル値を含む ArrayOfVector bfloat16 ベクトル列を表します。v3.0.0 では null 許容セマンティクスが適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - LLMs
   - 機械学習
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

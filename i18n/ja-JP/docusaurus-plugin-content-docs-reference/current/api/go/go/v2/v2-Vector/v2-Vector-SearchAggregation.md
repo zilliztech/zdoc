@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、`Search()` のバケット集計の 1 レベルを記述します。`NewSearchAggregation()` を使用して集計仕様を作成し、`WithSearchAggregation()` を介して検索オプションに渡します。 | Go | v2"
 type: docx
 token: MSU5d8sIDonFYFxLv0Cc88dvnqL
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - ベクトル埋め込みとは
   - ベクトルデータベースのチュートリアル
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

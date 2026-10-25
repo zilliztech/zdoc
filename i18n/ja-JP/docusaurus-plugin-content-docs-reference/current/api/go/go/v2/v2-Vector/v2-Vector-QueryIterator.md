@@ -10,7 +10,7 @@ notebook: false
 description: "この操作では、コレクションから一致するエンティティをバッチ単位で取得するクエリイテレーターを作成します。結果セットが大きく、一度にすべてをメモリに読み込むべきでない場合に使用します。 | Go | v2"
 type: docx
 token: AGM3dTL6Vorr6XxS3IjcBAbBnVg
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - 次元削減
   - hnsw アルゴリズム
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

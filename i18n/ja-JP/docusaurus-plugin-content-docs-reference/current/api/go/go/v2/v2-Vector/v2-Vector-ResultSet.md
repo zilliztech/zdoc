@@ -10,7 +10,7 @@ notebook: false
 description: "ResultSet インスタンスは、`Search()`、`HybridSearch()`、`Query()`、および `Get()` によって返される検索結果またはクエリ結果セットです。返されたエントリ数、主キー、出力フィールド、およびスコアを保持します。 | Go | v2"
 type: docx
 token: N4dudTInDoPuE4xPup5c0a60ngO
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - ハイブリッドベクトル検索
   - 動画重複排除
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

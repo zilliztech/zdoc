@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,7 +54,7 @@ entity.NewStructSchema()
 
 - `Validate(parentName string) error`
 
-    空、重複、ネスト済み、sparse-vector、nullable、key、auto-ID、dynamic、およびデフォルト値を持つサブフィールドを拒否します。
+    This rejects empty, duplicate, nested, sparse-vector, nullable, key, auto-ID, dynamic, and default-valued sub-fields.
 
 **戻り値の型:**
 

@@ -13,8 +13,8 @@ token: ZG2ndWgIwogyOAxAzH5ciWY3nlb
 sidebar_position: 2
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

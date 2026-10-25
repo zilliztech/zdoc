@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnInt8VectorArray インスタンスは、行に共通の次元を持つ int8 ベクトル値を含む ArrayOfVector int8 ベクトル列を表します。Nullable セマンティクスは v3.0.0 で適用されます。null 許容フラグと有効値の記録は、スタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: Snk1duMEtoe1VexGeJYcXW7VnXe
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - LLM
   - 機械学習
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

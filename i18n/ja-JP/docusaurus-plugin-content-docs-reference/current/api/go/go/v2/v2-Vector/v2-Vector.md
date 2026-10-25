@@ -10,7 +10,7 @@ notebook: false
 description: "ベクトルデータのインターフェースです。実装には、FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector、Text があります。 | Go | v2"
 type: docx
 token: CE0odAFVdoh2ehxNFRecD8WEn3f
-sidebar_position: 20
+sidebar_position: 21
 keywords: 
   - 動画検索
   - AI ハルシネーション
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

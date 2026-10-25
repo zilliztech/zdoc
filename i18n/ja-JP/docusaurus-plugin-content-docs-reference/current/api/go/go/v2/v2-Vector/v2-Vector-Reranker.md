@@ -10,7 +10,7 @@ notebook: false
 description: "Reranker インスタンスは、`HybridSearch()` に対する複数の ANN サブリクエストの結果を結合してランク付けします。インスタンスを作成するには、`NewRRFReranker()` または `NewWeightedReranker()` を使用します。 | Go | v2"
 type: docx
 token: TkDpdz2mHoZJojx0njDcdtDqnFg
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - セマンティック検索とは
   - 埋め込みモデル
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

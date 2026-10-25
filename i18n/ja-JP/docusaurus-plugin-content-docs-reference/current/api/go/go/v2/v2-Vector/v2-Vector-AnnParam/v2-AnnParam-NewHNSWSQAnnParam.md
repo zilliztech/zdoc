@@ -1,55 +1,54 @@
 ---
-title: "NewHNSWPRQAnnParam | Go | v2"
-slug: /go/go/v2-AnnParam-NewHNSWPRQAnnParam
-sidebar_label: "NewHNSWPRQAnnParam"
+title: "NewHNSWSQAnnParam | Go | v2"
+slug: /go/go/v2-AnnParam-NewHNSWSQAnnParam
+sidebar_label: "NewHNSWSQAnnParam"
 beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、HNSWPRQ インデックスの検索パラメーター設定を作成し、プロダクト残差量子化された HNSW グラフの検索時動作を調整します。 | Go | v2"
+description: "この操作は、スカラー量子化された HNSW グラフの検索時の動作を調整する、HNSW_SQ インデックス用の検索パラメーター設定を作成します。 | Go | v2"
 type: docx
-token: Q0fhdp89yoorcSxu0nxct5unnWe
-sidebar_position: 13
+token: EYsfdEOCqow86txk8EUcXRB6ndf
+sidebar_position: 14
 keywords: 
-  - セマンティック検索
-  - 異常検知
-  - sentence transformers
-  - レコメンダーシステム
+  - ディープラーニング
+  - ナレッジベース
+  - 自然言語処理
+  - AI チャットボット
   - zilliz
   - zilliz cloud
   - クラウド
-  - NewHNSWPRQAnnParam
+  - NewHNSWSQAnnParam
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# NewHNSWPRQAnnParam
+# NewHNSWSQAnnParam
 
-この操作では、HNSW_PRQ インデックスの検索パラメーター設定を作成し、プロダクト残差量子化された HNSW グラフの検索時動作を調整します。
+この操作は、スカラー量子化された HNSW グラフの検索時の動作を調整する、HNSW_SQ インデックス用の検索パラメーター設定を作成します。
 
 ```go
-func NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
+func NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-指定された検索エフォート ef を使用して、量子化 HNSW 検索パラメーター設定を作成します。
+指定された検索エフォート ef を使用して、量子化 HNSW の検索パラメーター設定を作成します。
 
 ```go
-NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
+NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
 ```
 
 **パラメーター:**
 
-- **ef**（*int*） -
+- **ef** (*int*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
 **ビルダーメソッド:**
 
@@ -59,7 +58,7 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 - `WithSeedEf(seedEf int) *hnswQuantAnnParam`
 
-    グラフ検索のウォームアップに使用するシード検索エフォートを設定します。
+    グラフ検索をウォームアップするために使用するシード検索エフォートを設定します。
 
 - `Params() map[string]any`
 
@@ -71,13 +70,13 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 **戻り値:**
 
-量子化 HNSW 検索パラメーター設定を返します。
+量子化 HNSW の検索パラメーター設定を返します。
 
 **パラメーター:**
 
-- **annParam**（&ast;*hnswQuantAnnParam*） -
+- **annParam** (&ast;*hnswQuantAnnParam*) -
 
-    量子化 HNSW 検索パラメーター設定です。WithAnnParam() を介して検索またはハイブリッド検索のオプションに渡します。
+    量子化 HNSW の検索パラメーター設定です。WithAnnParam() を介して、検索またはハイブリッド検索のオプションに渡します。
 
 **エラー処理:**
 
@@ -87,7 +86,7 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 ## 例\{#example}
 
-NewHNSWPRQAnnParam の使用例を示します。
+NewHNSWSQAnnParam の使用例を示します。
 
 ```go
 import (
@@ -110,7 +109,7 @@ if err != nil {
 defer cli.Close(ctx)
 
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("books", 10, vectors).
-	WithAnnParam(index.NewHNSWPRQAnnParam(64)))
+	WithAnnParam(index.NewHNSWSQAnnParam(64)))
 if err != nil {
 	// handle error
 }

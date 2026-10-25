@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は行または列を挿入し、構造体配列の入力に対応し、操作のクライアントテレメトリを記録します。 | Go | v2"
 type: docx
 token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - ベクトル データベース tutorial
   - how do ベクトル データベース work
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

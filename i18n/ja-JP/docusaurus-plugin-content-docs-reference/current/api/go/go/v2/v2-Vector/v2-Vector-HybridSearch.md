@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、複数の検索リクエストを使用してコレクション内の複数のベクトルフィールドを対象に ANN 検索を実行し、その結果を reranker で結合してランク付けします。 | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - 音声検索
   - セマンティック検索とは
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

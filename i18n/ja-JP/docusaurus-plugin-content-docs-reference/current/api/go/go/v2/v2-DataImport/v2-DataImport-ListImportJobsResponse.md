@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -79,3 +78,4 @@ type ImportJobRecord struct {
 
 - **Reason** (*string*) -<br/>
   `State == "Failed"` の場合の失敗理由です。それ以外の場合は空です。
+

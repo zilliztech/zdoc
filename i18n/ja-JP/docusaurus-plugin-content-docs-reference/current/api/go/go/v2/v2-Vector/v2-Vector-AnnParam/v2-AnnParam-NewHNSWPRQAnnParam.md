@@ -1,55 +1,54 @@
 ---
-title: "NewHNSWSQAnnParam | Go | v2"
-slug: /go/go/v2-AnnParam-NewHNSWSQAnnParam
-sidebar_label: "NewHNSWSQAnnParam"
+title: "NewHNSWPRQAnnParam | Go | v2"
+slug: /go/go/v2-AnnParam-NewHNSWPRQAnnParam
+sidebar_label: "NewHNSWPRQAnnParam"
 beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、HNSWSQ インデックス用の検索パラメーター構成を作成し、スカラー量子化された HNSW グラフの検索時の動作を調整します。 | Go | v2"
+description: "この操作は、HNSWPRQ インデックス用の検索パラメーター構成を作成し、プロダクト残差量子化された HNSW グラフの検索時の動作をチューニングします。 | Go | v2"
 type: docx
-token: EYsfdEOCqow86txk8EUcXRB6ndf
-sidebar_position: 14
+token: Q0fhdp89yoorcSxu0nxct5unnWe
+sidebar_position: 13
 keywords: 
-  - ディープラーニング
-  - ナレッジベース
-  - 自然言語処理
-  - AI チャットボット
+  - セマンティック検索
+  - 異常検知
+  - sentence transformers
+  - レコメンダーシステム
   - zilliz
   - zilliz cloud
   - クラウド
-  - NewHNSWSQAnnParam
+  - NewHNSWPRQAnnParam
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# NewHNSWSQAnnParam
+# NewHNSWPRQAnnParam
 
-この操作は、HNSW_SQ インデックスの検索パラメーター構成を作成し、スカラー量子化された HNSW グラフの検索時の動作を調整します。
+この操作は、HNSW_PRQ インデックス用の検索パラメーター構成を作成し、プロダクト残差量子化された HNSW グラフの検索時の動作をチューニングします。
 
 ```go
-func NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
+func NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-指定された検索エフォート ef を使用して、量子化 HNSW の検索パラメーター構成を作成します。
+指定した検索エフォート ef を使用して、量子化 HNSW の検索パラメーター構成を作成します。
 
 ```go
-NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
+NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 ```
 
 **パラメーター:**
 
 - **ef** (*int*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
 **ビルダーメソッド:**
 
@@ -77,7 +76,7 @@ NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
 
 - **annParam** (&ast;*hnswQuantAnnParam*) -
 
-    量子化 HNSW の検索パラメーター構成です。WithAnnParam() を介して、検索またはハイブリッド検索のオプションに渡します。
+    量子化 HNSW の検索パラメーター構成です。WithAnnParam() を介して、検索オプションまたはハイブリッド検索オプションに渡します。
 
 **エラー処理:**
 
@@ -87,7 +86,7 @@ NewHNSWSQAnnParam(ef int) *hnswQuantAnnParam
 
 ## 例\{#example}
 
-NewHNSWSQAnnParam の使用方法を示します。
+NewHNSWPRQAnnParam の使用例を示します。
 
 ```go
 import (
@@ -110,7 +109,7 @@ if err != nil {
 defer cli.Close(ctx)
 
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("books", 10, vectors).
-	WithAnnParam(index.NewHNSWSQAnnParam(64)))
+	WithAnnParam(index.NewHNSWPRQAnnParam(64)))
 if err != nil {
 	// handle error
 }

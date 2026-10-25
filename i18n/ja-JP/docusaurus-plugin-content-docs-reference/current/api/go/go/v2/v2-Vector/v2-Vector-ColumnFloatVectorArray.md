@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnFloatVectorArray インスタンスは、各行に共通の次元を持つ float ベクトル値が格納された ArrayOfVector の float ベクトル列を表します。v3.0.0 では Nullable セマンティクスが適用され、nullability フラグと有効値の記録はスタブではなく実際の操作です。 | Go | v2"
 type: docx
 token: FEsedrkZpoiR3YxNgL4csDP4nEe
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - ハイブリッド検索
   - lexical search
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnText インスタンスは、挿入、upsert、クエリ出力に使用する文字列値を保持する TEXT フィールドの列を表します。NewColumnText() で作成します。 | Go | v2"
 type: docx
 token: RPoPdeGegozh2sxjgXBcKppfneb
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - NLP 検索
   - LLM ハルシネーション
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

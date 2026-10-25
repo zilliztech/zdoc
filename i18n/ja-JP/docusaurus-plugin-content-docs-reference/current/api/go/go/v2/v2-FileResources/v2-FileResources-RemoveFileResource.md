@@ -4,7 +4,7 @@ slug: /go/go/v2-FileResources-RemoveFileResource
 sidebar_label: "RemoveFileResource"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "この操作は、Milvus からリモートファイルの登録を解除します。参照されなくなったファイルリソースをクリーンアップする場合に使用します。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

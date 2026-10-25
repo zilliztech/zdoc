@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,9 +44,9 @@ type IndexDescription struct {
 
 **フィールド:**
 
-- **インデックス.Index** *（埋め込み）*
+- **インデックス.Index** *(embedded)*
 
-    index.Index からメソッドを継承します。
+    Inherits methods from index.Index.
 
 - **State** (*index.IndexState*)
 

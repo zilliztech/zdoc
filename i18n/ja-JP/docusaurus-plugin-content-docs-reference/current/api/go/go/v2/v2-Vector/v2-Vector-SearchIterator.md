@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、ANN 検索結果をバッチ単位で取得する検索イテレーターを作成します。大規模な結果セットを一度にメモリへ読み込む必要がない場合に使用します。 | Go | v2"
 type: docx
 token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - 非構造化データとは
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

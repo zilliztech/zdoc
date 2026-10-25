@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、検索精度レベルを設定できる AUTOINDEX 用の ANN 検索パラメーターセットを作成します。 | Go | v2"
+description: "この関数は、検索精度レベルを設定可能な AUTOINDEX 用の ANN 検索パラメーターセットを作成します。 | Go | v2"
 type: docx
 token: VFR6dvKoyo0Pl5x6a44cbIJ8n3f
 sidebar_position: 2
@@ -18,12 +18,11 @@ keywords:
   - 字句検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - NewAutoAnnParam()
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +30,23 @@ import Admonition from '@theme/Admonition';
 
 # NewAutoAnnParam()
 
-この関数は、検索精度レベルを設定できる AUTOINDEX 用の ANN 検索パラメーターセットを作成します。
+この関数は、設定可能な検索精度レベルを使用して AUTOINDEX 用の ANN 検索パラメーターセットを作成します。
 
 ```go
 func NewAutoAnnParam(level int) autoAnnParam
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **level** (*int*)
 
-    検索精度レベル（1〜5）です。値を大きくすると再現率が向上しますが、その代わりにレイテンシーが増加します。
+    検索精度レベル（1〜5）です。値が大きいほど、レイテンシは増加しますが再現率が向上します。
 
-**戻り値:**
+**RETURNS:**
 
 *[AnnParam](./v2-Vector-AnnParam)*
 
-ANN 検索パラメーターのインスタンスです。これを `WithAnnParam()` を介して検索オプションに渡します。
+ANN 検索パラメーターのインスタンスです。`WithAnnParam()` を使用して検索オプションに渡します。
 
 ## 例\{#example}
 
