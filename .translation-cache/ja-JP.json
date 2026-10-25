@@ -4471,9 +4471,9 @@
       "translatedAt": "2026-10-23T06:45:03.072Z"
     },
     "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md": {
-      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
+      "sourceHash": "2ad461d2f0e2584a64f5854e386c6b81b0c4714dbcabf1c342b8b66a6235bd28",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
-      "translatedAt": "2026-10-24T13:51:19.738Z"
+      "translatedAt": "2026-10-25T04:57:41.768Z"
     },
     "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-RemoveFileResource.md": {
       "sourceHash": "cca8e02b1080bbd30660926960f770c5da9e0b3adf1ab10a41d618e4ca668c3a",
