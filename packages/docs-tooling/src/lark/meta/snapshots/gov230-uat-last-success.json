@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-24T10:37:17.472Z",
+  "generated_at": "2026-10-25T02:47:57.356Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
@@ -6455,14 +6455,14 @@
       "doc_token": "O8dIdQuMyofLmVxGXYScUSK0nOe",
       "doc_link": "https://zilliverse.feishu.cn/docx/O8dIdQuMyofLmVxGXYScUSK0nOe",
       "source_file": "O8dIdQuMyofLmVxGXYScUSK0nOe.json",
-      "source_hash": "69a74ea357920f4d55cd409cc740ea77c9c8b3b9510495fb63852c4014e294ef",
+      "source_hash": "723338a0a6011ce03a0f4657152e07a4406fffaffc82f55ca2cf25137c57338a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "4",
+      "revision_id": "10",
       "publish_targets": [
         "Milvus",
         "Zilliz"
