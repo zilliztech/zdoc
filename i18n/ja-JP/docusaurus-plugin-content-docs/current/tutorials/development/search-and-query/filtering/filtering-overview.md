@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、データを正確にクエリするための強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込めます。このガイドでは、クエリ操作に焦点を当てた例を交えながら、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。 | Cloud"
+description: "Zilliz Cloud は、データを正確にクエリできる強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込めます。このガイドでは、クエリ操作に焦点を当てた例を交え、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。 | Cloud"
 type: origin
 token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # フィルタリングの概要
 
-Zilliz Cloud は、データを正確にクエリするための強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込めます。このガイドでは、クエリ操作に焦点を当てた例を交えながら、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。
+Zilliz Cloud は、データを正確にクエリできる強力なフィルタリング機能を提供します。フィルター式を使用すると、フィールド値に基づいてエンティティを選択し、さまざまな条件で検索結果を絞り込めます。このガイドでは、クエリ操作に焦点を当てた例を交え、Zilliz Cloud クラスターでフィルター式を使用する方法を説明します。これらのフィルターは、検索リクエストと削除リクエストにも適用できます。
 
 ## 基本演算子\{#basic-operators}
 
@@ -29,21 +29,21 @@ Zilliz Cloud は、データのフィルタリングに使用できるいくつ�
 
 - **比較演算子**: `==`、`!=`、`>`、`<`、`>=`、`<=` を使用すると、数値フィールドまたはテキストフィールドに基づいてフィルタリングできます。
 
-- **範囲フィルターとパターンフィルター**: `IN`、`LIKE`、`=~`、`!~` は、値、ワイルドカードパターン、または正規表現パターンに一致します。文字列パターンの詳細については、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
+- **範囲フィルターとパターンフィルター**: `IN`、`LIKE`、`=~`、`!~` は、値、ワイルドカードパターン、または正規表現パターンに一致します。文字列パターンの詳細は、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
 
-- **算術演算子**: `+`、`-`、`*`、`/`、`%`、`**` は、数値フィールドを含む計算に使用されます。
+- **算術演算子**: `+`、`-`、`*`、`/`、`%`、`**` は、数値フィールドを含む計算に使用します。
 
-- **ビット演算子**: 以降では、`&`、`|`、`^` を使用して、権限やステータスビットなど複数のフラグをエンコードした整数フィールドをフィルタリングできます。詳細については、[基本演算子](https://milvus.io/docs/basic-operators.md#Bitwise-operators) を参照してください。
+- **ビット演算子**: 以降では、`&`、`|`、`^` を使用して、権限やステータスビットなど複数のフラグをエンコードした整数フィールドをフィルタリングします。詳細は、[基本演算子](https://milvus.io/docs/basic-operators.md#Bitwise-operators) を参照してください。
 
 - **論理演算子**: `AND`、`OR`、`NOT` は、複数の条件を組み合わせて複雑な式を作成します。
 
-- **IS NULL 演算子と IS NOT NULL 演算子**: `IS NULL` を使用してフィールド値が NULL のエンティティを選択するか、`IS NOT NULL` を使用してフィールド値が NULL 以外のエンティティを選択します。これらの演算子はスカラーフィールドをサポートします。サポートされる型、構文、例については、[IS NULL 演算子と IS NOT NULL 演算子](./basic-filtering-operators#is-null-and-is-not-null-operators) を参照してください。
+- **IS NULL 演算子と IS NOT NULL 演算子**: `IS NULL` を使用してフィールド値が NULL のエンティティを選択し、`IS NOT NULL` を使用してフィールド値が NULL 以外のエンティティを選択します。これらの演算子はスカラーフィールドをサポートしています。サポートされる型、構文、および例については、[IS NULL 演算子と IS NOT NULL 演算子](./basic-filtering-operators#is-null-and-is-not-null-operators) を参照してください。
 
 ### 例: 色によるフィルタリング\{#example-filtering-by-color}
 
-スカラーフィールド `color` で原色（赤、緑、青）を持つエンティティを検索するには、次のフィルター式を使用します。
+スカラーフィールド `color` で原色（赤、緑、青）を持つエンティティを検索するには、次のフィルター式を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -92,6 +92,14 @@ const filter = 'color in ["red", "green", "blue"]';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -101,11 +109,11 @@ filter='color in ["red", "green", "blue"]'
 </TabItem>
 </Tabs>
 
-### 例: パーミッションビットによるフィルタリング\{#example-filtering-by-permission-bits}
+### 例: 権限ビットによるフィルタリング\{#example-filtering-by-permission-bits}
 
-整数の `permissions` フィールドで `SHARE` ビットが設定されているエンティティを検索するには、ビット単位の AND 演算子（`&`）を使用します。
+整数の `permissions` フィールドで `SHARE` ビットが設定されているエンティティを検索するには、ビット単位の AND 演算子（`&`）を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -154,6 +162,14 @@ const filter = '(permissions & 4) == 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -165,9 +181,9 @@ filter='(permissions & 4) == 4'
 
 ### 例: 正規表現パターンによるフィルタリング\{#example-filtering-by-regex-pattern}
 
-`message` フィールドに `E1001` などのエラーコードが含まれるエンティティを検索するには、正規表現一致演算子 `=~` を使用します。
+`message` フィールドに `E1001` などのエラーコードが含まれるエンティティを検索するには、正規表現一致演算子 `=~` を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -216,6 +232,14 @@ const filter = 'message =~ "E[0-9]{4}"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -225,13 +249,13 @@ filter='message =~ "E[0-9]{4}"'
 </TabItem>
 </Tabs>
 
-正規表現フィルターは部分文字列の一致を使用します。フィールド値全体がパターンに一致するようにするには、`^` と `$` のアンカーを追加します。詳細については、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
+正規表現フィルターは部分文字列の一致を使用します。フィールド値全体がパターンに一致する必要がある場合は、`^` と `$` のアンカーを追加します。詳細は、[パターンマッチング](https://milvus.io/docs/pattern-matching.md) を参照してください。
 
-### 例: JSON フィールドによるフィルタリング\{#example-filtering-json-fields}
+### 例: JSON フィールドのフィルタリング\{#example-filtering-json-fields}
 
-Zilliz Cloud では、JSON フィールド内のキーを参照できます。たとえば、キー `price` と `model` を持つ JSON フィールド `product` があり、特定のモデルかつ価格が 1,850 未満の商品を検索する場合は、次のフィルター式を使用します。
+Zilliz Cloud では、JSON フィールド内のキーを参照できます。たとえば、キー `price` と `model` を持つ JSON フィールド `product` があり、特定のモデルで価格が 1,850 未満の商品を検索する場合は、次のフィルター式を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -280,6 +304,14 @@ const filter = 'product["model"] == "JSN-087" AND product["price"] < 1850';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "product[\"model\"] == \"JSN-087\" AND product[\"price\"] < 1850";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -289,11 +321,11 @@ filter='product["model"] == "JSN-087" AND product["price"] < 1850'
 </TabItem>
 </Tabs>
 
-### 例: 配列フィールドによるフィルタリング\{#example-filtering-array-fields}
+### 例: 配列フィールドのフィルタリング\{#example-filtering-array-fields}
 
-2000 年以降に天文台が報告した平均気温の記録を含む配列フィールド `history_temperatures` があり、2009 年（記録された 10 番目の値）の気温が 23°C を超える天文台を検索する場合は、次の式を使用します。
+2000 年以降に観測所が報告した平均気温の記録を含む配列フィールド `history_temperatures` があり、2009 年の気温（10 番目に記録されたもの）が 23°C を超える観測所を検索する場合は、次の式を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -342,6 +374,14 @@ const filter = 'history_temperatures[10] > 23';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "history_temperatures[10] > 23";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -351,17 +391,17 @@ filter='history_temperatures[10] > 23'
 </TabItem>
 </Tabs>
 
-これらの基本演算子の詳細については、[基本演算子](https://milvus.io/docs/basic-operators.md) を参照してください。
+これらの基本演算子の詳細は、[基本演算子](https://milvus.io/docs/basic-operators.md) を参照してください。
 
 ## フィルター式テンプレート\{#filter-expression-templates}
 
-CJK 文字を使用してフィルタリングする場合、文字セットが大きくエンコーディングが異なるため、処理がより複雑になることがあります。その結果、特に `IN` 演算子でパフォーマンスが低下する可能性があります。
+CJK 文字を使用してフィルタリングする場合、文字セットが大きく、エンコーディングも異なるため、処理がより複雑になることがあります。その結果、特に `IN` 演算子を使用するとパフォーマンスが低下する可能性があります。
 
-Zilliz Cloud は、CJK 文字を扱う際のパフォーマンスを最適化するために、フィルター式テンプレートを導入しました。動的な値をフィルター式から分離することで、クエリエンジンはパラメーターの挿入をより効率的に処理します。
+Zilliz Cloud は、CJK 文字を扱う際のパフォーマンスを最適化するために、フィルター式テンプレートを導入しています。動的な値をフィルター式から分離することで、クエリエンジンがパラメーターの挿入をより効率的に処理します。
 
-`"北京"`（Beijing）または `"上海"`（Shanghai）に住む `25` 歳を超える個人を検索するには、次のテンプレート式を使用します。
+年齢が `25` を超え、`"北京"`（北京）または `"上海"`（上海）に住む個人を検索するには、次のテンプレート式を使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +450,14 @@ const filter = "age > 25 AND city IN ['北京', '上海']";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > 25 AND city IN ['北京', '上海']";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -419,9 +467,9 @@ filter="age > 25 AND city IN ['北京', '上海']"
 </TabItem>
 </Tabs>
 
-パフォーマンスを向上させるには、パラメーターを使用するこのバリエーションを使用します。
+パフォーマンスを向上させるには、パラメーターを使用する次のバリエーションを使用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -492,6 +540,21 @@ const exprValues = { age: 25, city: ["北京", "上海"] };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+string filter = "age > {age} AND city in {city}";
+var filterTemplateValues = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -502,19 +565,19 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 </TabItem>
 </Tabs>
 
-このアプローチにより、解析のオーバーヘッドが削減され、クエリ速度が向上します。詳細については、[フィルターテンプレート](./filtering-templating) を参照してください。
+この方法では、解析のオーバーヘッドが減り、クエリ速度が向上します。詳細は、[フィルターテンプレート](./filtering-templating) を参照してください。
 
 ## データ型固有の演算子\{#data-type-specific-operators}
 
-Zilliz Cloud は、JSON、ARRAY、VARCHAR フィールドなどの特定のデータ型向けに高度なフィルタリング演算子を提供します。
+Zilliz Cloud は、JSON、ARRAY、VARCHAR フィールドなど、特定のデータ型向けの高度なフィルタリング演算子を提供しています。
 
 ### JSON フィールド固有の演算子\{#json-field-specific-operators}
 
-Zilliz Cloud は、JSON フィールドをクエリするための高度な演算子を提供し、複雑な JSON 構造内での正確なフィルタリングを可能にします。
+Zilliz Cloud は、JSON フィールドをクエリするための高度な演算子を提供し、複雑な JSON 構造内で正確なフィルタリングを可能にします:
 
-**`JSON_CONTAINS(identifier, jsonExpr)`**: フィールドに JSON 式が存在するかどうかを確認します。
+**`JSON_CONTAINS(identifier, jsonExpr)`**: フィールド内に JSON 式が存在するかどうかを確認します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,6 +632,15 @@ const filter = 'json_contains(tags, "sale")';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains(tags, \"sale\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -579,9 +651,9 @@ filter='json_contains(tags, "sale")'
 </TabItem>
 </Tabs>
 
-**`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: JSON 式のすべての要素が存在することを確認します。
+**`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: JSON 式のすべての要素が存在することを保証します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -636,6 +708,15 @@ const filter = 'json_contains_all(tags, ["electronics", "sale", "new"])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+string filter = "json_contains_all(tags, [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -646,9 +727,9 @@ filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 </TabItem>
 </Tabs>
 
-**`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: JSON 式内の少なくとも 1 つの要素が存在するエンティティをフィルタリングします。
+**`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: JSON 式の少なくとも 1 つの要素が存在するエンティティをフィルタリングします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -703,6 +784,15 @@ const filter = 'json_contains_any(tags, ["electronics", "new", "clearance"])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains_any(tags, [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -713,15 +803,15 @@ filter='json_contains_any(tags, ["electronics", "new", "clearance"])'
 </TabItem>
 </Tabs>
 
-JSON 演算子の詳細については、[JSON 演算子](./json-filtering-operators) を参照してください。
+JSON 演算子の詳細は、[JSON 演算子](./json-filtering-operators) を参照してください。
 
 ### ARRAY フィールド固有の演算子\{#array-field-specific-operators}
 
-Zilliz Cloud は、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` など、配列フィールド向けの高度なフィルタリング演算子を提供し、配列データを細かく制御できます。
+Zilliz Cloud は、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` など、配列フィールド向けの高度なフィルタリング演算子を提供し、配列データをきめ細かく制御できます:
 
 **`ARRAY_CONTAINS`**: 特定の要素を含むエンティティをフィルタリングします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -770,6 +860,14 @@ const filter = 'ARRAY_CONTAINS(history_temperatures, 23)';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS(history_temperatures, 23)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -781,7 +879,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 
 **`ARRAY_CONTAINS_ALL`**: リスト内のすべての要素が存在するエンティティをフィルタリングします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -830,6 +928,14 @@ const filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -841,7 +947,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 
 **`ARRAY_CONTAINS_ANY`**: リスト内のいずれかの要素を含むエンティティをフィルタリングします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -890,6 +996,14 @@ const filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -901,7 +1015,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 
 **`ARRAY_LENGTH`**: 配列の長さに基づいてフィルタリングします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -950,6 +1064,14 @@ const filter = 'ARRAY_LENGTH(history_temperatures) < 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "ARRAY_LENGTH(history_temperatures) < 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -959,32 +1081,32 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 </TabItem>
 </Tabs>
 
-配列演算子の詳細については、[ARRAY 演算子](./array-filtering-operators) を参照してください。
+配列演算子の詳細は、[ARRAY 演算子](./array-filtering-operators) を参照してください。
 
 ### VARCHAR フィールド固有の演算子\{#varchar-field-specific-operators}
 
-Zilliz Cloud は、VARCHAR フィールドでの正確なテキスト検索用に特化した演算子を提供します。
+Zilliz Cloud は、VARCHAR フィールドで正確なテキスト検索を行うための専用演算子を提供しています:
 
 #### パターンマッチング演算子\{#pattern-matching-operators}
 
 `LIKE`、`=~`、`!~` 演算子は、`VARCHAR` フィールド、JSON 文字列パス、および特定の `ARRAY<VARCHAR>` 要素で文字列パターンに一致します。単純なワイルドカードパターンには `LIKE` を使用します。RE2 正規表現には `=~` と `!~` を使用します。
 
-詳細については、[パターンマッチング](./pattern-match) を参照してください。
+詳細は、[パターンマッチング](./pattern-match) を参照してください。
 
 #### `TEXT_MATCH` 演算子\{#textmatch-operator}
 
-`TEXT_MATCH` 演算子を使用すると、特定のクエリ用語に基づいてドキュメントを正確に取得できます。これは、スカラーフィルターとベクトル類似性検索を組み合わせたフィルター検索に特に役立ちます。セマンティック検索とは異なり、Text Match は用語の完全一致に焦点を当てます。
+`TEXT_MATCH` 演算子を使用すると、特定のクエリ用語に基づいてドキュメントを正確に取得できます。これは、スカラーフィルターとベクトル類似検索を組み合わせたフィルター検索に特に便利です。Text Match は、セマンティック検索とは異なり、用語の完全一致に焦点を当てます。
 
-Zilliz Cloud は Tantivy を使用して、転置インデックスと用語ベースのテキスト検索をサポートしています。このプロセスには次の内容が含まれます。
+Zilliz Cloud は Tantivy を使用して、転置インデックスと用語ベースのテキスト検索をサポートしています。このプロセスは次のとおりです:
 
 1. **アナライザー**: 入力テキストをトークン化して処理します。
 
 1. **インデックス作成**: 一意のトークンをドキュメントにマッピングする転置インデックスを作成します。
 
-詳細については、Text Match を参照してください。
+詳細は、Text Match を参照してください。
 
 #### `PHRASE_MATCH` 演算子\{#phrasematch-operator}
 
-**PHRASE_MATCH** 演算子を使用すると、クエリ用語の順序と隣接性の両方を考慮して、完全なフレーズ一致に基づいてドキュメントを正確に取得できます。
+**PHRASE_MATCH** 演算子を使用すると、クエリ用語の順序と隣接関係の両方を考慮して、完全なフレーズ一致に基づくドキュメントの正確な取得が可能になります。
 
-詳細については、[フレーズマッチング](./phrase-match) を参照してください。
+詳細は、[フレーズマッチ](./phrase-match) を参照してください。

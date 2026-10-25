@@ -39,23 +39,23 @@ Zilliz Cloud では、フィルタリング検索は、フィルタリングを�
 
 - フィルタリングされたエンティティ内で ANN 検索を実行します。
 
-- 上位 K 件のエンティティを返します。
+- top-K 件のエンティティを返します。
 
 ### 反復フィルタリング\{#iterative-filtering}
 
-標準フィルタリングのプロセスは、検索範囲を効果的に小さな範囲に絞り込みます。ただし、フィルタリング式が過度に複雑な場合、検索レイテンシが非常に高くなる可能性があります。そのような場合は、反復フィルタリングを代替手段として使用でき、スカラーフィルタリングのワークロードを削減できます。
+標準フィルタリングのプロセスは、検索範囲を効果的に小さな範囲に絞り込みます。ただし、過度に複雑なフィルタリング式を使用すると、検索レイテンシーが非常に高くなる可能性があります。そのような場合には、反復フィルタリングを代替手段として使用でき、スカラーフィルタリングのワークロードを削減できます。
 
 ![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
 
-上の図に示すように、反復フィルタリングを使用する検索では、ベクトル検索を反復して実行します。イテレーターから返される各エンティティに対してスカラーフィルタリングが実行され、指定した topK 件の結果が得られるまでこのプロセスが続きます。
+上の図に示すように、反復フィルタリングを使用した検索では、ベクトル検索を反復して実行します。イテレーターが返す各エンティティにはスカラーフィルタリングが適用され、指定した topK 件の結果が得られるまでこのプロセスが続きます。
 
 この方法は、スカラーフィルタリングの対象となるエンティティ数を大幅に削減するため、非常に複雑なフィルタリング式を処理する場合に特に有効です。
 
-ただし、イテレーターはエンティティを 1 つずつ処理することに注意してください。この順次処理のアプローチにより、特に多数のエンティティがスカラーフィルタリングの対象となる場合、処理時間が長くなったり、パフォーマンスの問題が発生したりする可能性があります。
+ただし、イテレーターがエンティティを 1 つずつ処理することに注意が必要です。この順次処理のアプローチでは、特に多数のエンティティがスカラーフィルタリングの対象となる場合、処理時間が長くなったり、パフォーマンスの問題が発生したりする可能性があります。
 
 ## 例\{#examples}
 
-このセクションでは、フィルタリング検索を実行する方法を説明します。このセクションのコードスニペットは、コレクションに以下のエンティティがすでに存在することを前提としています。各エンティティには、**id**、**vector**、**color**、**likes** の 4 つのフィールドがあります。
+このセクションでは、フィルタリング検索を実行する方法を説明します。このセクションのコードスニペットは、コレクションに以下のエンティティがすでに存在することを前提としています。各エンティティには、**id**、**ベクトル**、**color**、**likes** の 4 つのフィールドがあります。
 
 ```json
 [
@@ -74,15 +74,15 @@ Zilliz Cloud では、フィルタリング検索は、フィルタリングを�
 
 <Admonition type="info" title="Notes">
 
-クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にクエリベクトルを取得する代わりに `ids` の使用を検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にクエリベクトルを取得する代わりに `ids` の使用を検討してください。詳細は、[主キー検索](./primary-key-search) を参照してください。
 
 </Admonition>
 
 ### 標準フィルタリングを使用した検索\{#search-with-standard-filtering}
 
-以下のコードスニペットは、標準フィルタリングを使用した検索を示しています。以下のコードスニペットのリクエストには、フィルタリング条件といくつかの出力フィールドが含まれています。
+以下のコードスニペットは、標準フィルタリングを使用した検索を示しています。次のコードスニペットのリクエストには、フィルタリング条件といくつかの出力フィールドが含まれています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -303,6 +303,43 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f
+});
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = "color like \"red%\" and likes > 50",
+        OutputFields = { "color", "likes" }
+    }
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -385,13 +422,13 @@ zilliz vector search \
 ]
 ```
 
-メタデータフィルタリングで使用できる演算子の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+メタデータフィルタリングで使用できる演算子の詳細は、[フィルタリングの概要](./filtering-overview) を参照してください。
 
 ### 反復フィルタリングを使用した検索\{#search-with-iterative-filtering}
 
 反復フィルタリングを使用してフィルタリング検索を実行するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -611,6 +648,46 @@ const filteredRes = await client.search({
     output_fields: ["color", "likes"]
     // highlight-end
 })
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f
+});
+
+var searchParams = new SearchParameters
+{
+    Expression = "color like \"red%\" and likes > 50",
+    Hints = "iterative_filter",
+    OutputFields = { "color", "likes" }
+};
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = searchParams
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
 ```
 
 </TabItem>

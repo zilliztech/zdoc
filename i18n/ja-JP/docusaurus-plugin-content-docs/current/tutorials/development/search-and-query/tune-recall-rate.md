@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、ユーザーが検索の再現率とパフォーマンスのバランスを取れるようにするための検索パラメーター `level` を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。 | Cloud"
+description: "Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定再現率を取得するための別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。 | Cloud"
 type: origin
 token: Fz9swr5WwixkH8kKHircWCejnye
 sidebar_position: 3
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # 再現率を調整する
 
-Zilliz Cloud は、ユーザーが検索の再現率とパフォーマンスのバランスを取れるようにするための検索パラメーター `level` を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、もう 1 つの検索パラメーター `enable_recall_calculation` を提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。
+Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメーター `enable_recall_calculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。
 
 <Admonition type="info" title="Notes">
 
@@ -31,7 +31,7 @@ Zilliz Cloud は、ユーザーが検索の再現率とパフォーマンスの�
 
 ## 概要\{#overview}
 
-Zilliz Cloud における再現率とは、通常、検索によって正常に取得された関連結果の割合を指します。これは、システムがコレクションからすべての関連項目を取得する能力を測る指標です。
+Zilliz Cloud における再現率とは、通常、検索によって正常に取得された関連結果の割合を指します。これは、システムがコレクションからすべての関連項目を取得する能力を測るものです。
 
 ![OdMnbeHYOoAEqKxNEEnc9SwNnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/odmnbehyooaeqkxneenc9swnnmf.png "OdMnbeHYOoAEqKxNEEnc9SwNnmf")
 
@@ -43,7 +43,7 @@ Zilliz Cloud における再現率とは、通常、検索によって正常に�
 
 再現率を調整可能な検索リクエストを設定するには、次のように、検索パラメーター内に `level` パラメーターを含める必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -248,6 +248,39 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    Limit = 3, // The number of results to return
+    Parameters = new SearchParameters
+    {
+        // The precision control
+        ExtraParameters = { ["level"] = "1" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -273,7 +306,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`level` パラメーターは `1` から `10` の範囲で、デフォルト値は `1` です。デフォルト値では再現率が 90% となり、通常はほとんどのユースケースで十分です。
+`level` パラメーターの範囲は `1` から `10` で、デフォルト値は `1` です。デフォルト値では再現率が 90% となり、通常はほとんどのユースケースで十分です。
 
 高い再現率（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` までの整数に設定してみてください。検索効率を気にしない場合は、このパラメーターを `10` に設定すると、最も精度の高い結果を得られます。
 
@@ -285,9 +318,9 @@ curl --request POST \
 
 ## 再現率を調整する\{#tune-recall-rate}
 
-Zilliz Cloud は、調整プロセスを容易にするために、`enable_recall_calculation` というもう 1 つの検索パラメーターも導入しています。このパラメーターを `True` に設定すると、Zilliz Cloud が現在の検索の再現率を推定し、その推定値を検索結果とともに返すようになります。
+Zilliz Cloud は、調整プロセスを容易にするために、`enable_recall_calculation` という別の検索パラメーターも導入しています。このパラメーターを `True` に設定すると、Zilliz Cloud が現在の検索の再現率を推定し、その推定値を検索結果とともに返すようになります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -509,6 +542,42 @@ console.log(res.recalls);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    Limit = 3, // The number of results to return
+    Parameters = new SearchParameters
+    {
+        ExtraParameters =
+        {
+            ["level"] = "6", // The precision control
+            ["enable_recall_calculation"] = "true" // Ask for recall rate calculation
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -537,7 +606,7 @@ curl --request POST \
 
 上記の検索リクエストを使用すると、次のように、現在の検索の推定再現率を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -586,6 +655,14 @@ curl --request POST \
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// searchResults: [...], recalls: [0.98]
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -599,7 +676,7 @@ curl --request POST \
 
 1. ユーザー定義の値に設定された `level` パラメーターを使用して検索を実行し、
 
-1. 内部の高精度モードでさらに検索を実行します。
+1. 内部の高精度モードで別の検索を実行します。
 
 1. 2 回目の検索をグラウンドトゥルースとして使用し、再現率を推定します。
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Boolean フィールドまたは数値フィールドは、Boolean 値または数値を格納するスカラーフィールドです。これらの値は、2 つの値のいずれか、または整数（integer）や小数（浮動小数点数）です。通常は、数量、測定値、または論理的あるいは数学的に処理する必要があるデータを表すために使用します。 | Cloud"
+description: "Boolean フィールドまたは数値フィールドは、Boolean 値または数値を格納するスカラー型フィールドです。これらの値は、2 つの取りうる値のいずれか、または整数（整数値）および小数（浮動小数点数）です。通常、数量、測定値、または論理的もしくは数学的に処理する必要のあるデータを表すために使用されます。 | Cloud"
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 8
@@ -21,31 +21,31 @@ import TabItem from '@theme/TabItem';
 
 # Boolean と数値
 
-Boolean フィールドまたは数値フィールドは、Boolean 値または数値を格納するスカラーフィールドです。これらの値は、2 つの値のいずれか、または整数（**integer**）や小数（**浮動小数点数**）です。通常は、数量、測定値、または論理的あるいは数学的に処理する必要があるデータを表すために使用します。
+Boolean フィールドまたは数値フィールドは、Boolean 値または数値を格納するスカラー型フィールドです。これらの値は、2 つの取りうる値のいずれか、または整数（**整数値**）および小数（**浮動小数点数**）です。通常、数量、測定値、または論理的もしくは数学的に処理する必要のあるデータを表すために使用されます。
 
-次の表では、Zilliz Cloud クラスターで使用できる数値フィールドのデータ型について説明します。
+次の表は、Zilliz Cloud クラスターで使用できる数値フィールドのデータ型について説明しています。
 
-| フィールドタイプ | 説明 |
+| フィールド型 | 説明 |
 | --- | --- |
-| `BOOL` | `true` または `false` を格納する Boolean 型で、バイナリ状態の記述に適しています。 |
-| `INT8` | 8 ビット整数で、小範囲の整数データの格納に適しています。 |
-| `INT16` | 16 ビット整数で、中範囲の整数データ用です。 |
-| `INT32` | 32 ビット整数で、商品数量やユーザー ID などの一般的な整数データの格納に最適です。 |
-| `INT64` | 64 ビット整数で、タイムスタンプや識別子などの大範囲データの格納に適しています。 |
-| `FLOAT` | 32 ビット浮動小数点数で、評価や温度など、一般的な精度が求められるデータ用です。 |
-| `DOUBLE` | 64 ビット倍精度浮動小数点数で、財務情報や科学計算などの高精度データ用です。 |
+| `BOOL` | `true` または `false` を格納する Boolean 型で、バイナリ状態を表すのに適しています。 |
+| `INT8` | 8 ビット整数で、範囲の狭い整数データを格納するのに適しています。 |
+| `INT16` | 16 ビット整数で、中程度の範囲の整数データに適しています。 |
+| `INT32` | 32 ビット整数で、製品の数量やユーザー ID などの一般的な整数データの保存に最適です。 |
+| `INT64` | 64 ビット整数で、タイムスタンプや識別子など、広い範囲のデータを格納するのに適しています。 |
+| `FLOAT` | 32 ビット浮動小数点数で、評価や温度など、一般的な精度を必要とするデータに適しています。 |
+| `DOUBLE` | 64 ビット倍精度浮動小数点数で、財務情報や科学計算などの高精度データに適しています。 |
 
-Boolean フィールドを宣言するには、`datatype` を `BOOL` に設定します。数値フィールドを宣言するには、利用可能な数値データ型のいずれかに設定します。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を設定します。
+Boolean フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値フィールドを宣言するには、使用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を指定します。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud は、Boolean フィールドと数値フィールドの null 値およびデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
+Zilliz Cloud では、Boolean フィールドと数値フィールドの null 値およびデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ## Boolean フィールドと数値フィールドを追加する\{#add-boolean-and-number-fields}
 
-Boolean データまたは数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は、2 つの数値フィールドを含むコレクションスキーマの例です：
+Boolean データまたは数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は、2 つの数値フィールドを含むコレクションスキーマの例です。
 
 - `age`: 整数データを格納し、null 値を許可し、デフォルト値は `18` です。
 
@@ -55,11 +55,11 @@ Boolean データまたは数値データを格納するには、コレクショ
 
 <Admonition type="info" title="Notes">
 
-スキーマの定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[動的フィールド](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -298,6 +298,36 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Define server address
+string SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT";
+
+// Create a MilvusClient instance
+var client = new MilvusClientV2(new ConnectConfig { Uri = SERVER_ADDR });
+
+// Define the collection schema
+var schema = new CollectionSchema { EnableDynamicFields = true };
+
+// Add an INT64 field `age` that supports null values with default value 18
+schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true, DefaultValue = 18 });
+schema.Fields.Add(new FieldSchema("broken", DataType.Bool) { Nullable = true });
+// Add a FLOAT field `price` that supports null values without default value
+schema.Fields.Add(new FieldSchema("price", DataType.Float) { Nullable = true });
+schema.Fields.Add(new FieldSchema("pk", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(FieldSchema.CreateFloatVector("embedding", 3));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -353,9 +383,9 @@ export schema="{
 
 インデックス作成は、検索とクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` に、いずれも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細は、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` に、どちらも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細は、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -469,6 +499,28 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Set index params
+var indexParams = new[]
+{
+    // Index `age` with AUTOINDEX
+    new IndexParam("age", "age_index", IndexType.AutoIndex, null),
+    // Index `embedding` with AUTOINDEX and specify similarity metric type
+    new IndexParam("embedding", null, IndexType.AutoIndex, MetricType.Cosine)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -493,7 +545,7 @@ export indexParams='[
 
 スキーマとインデックスを定義したら、数値フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -586,6 +638,27 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create Collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -608,7 +681,7 @@ curl --request POST \
 
 コレクションを作成したら、スキーマに一致するエンティティを挿入します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -779,6 +852,36 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Sample data
+var data = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["age"] = 25L, ["price"] = 99.99f, ["pk"] = 1L, ["embedding"] = new[] { 0.1f, 0.2f, 0.3f } },
+    new Dictionary<string, object?> { ["age"] = 30L, ["pk"] = 2L, ["embedding"] = new[] { 0.4f, 0.5f, 0.6f } }, // `price` field is missing, which should be null
+    new Dictionary<string, object?> { ["age"] = null, ["price"] = null, ["pk"] = 3L, ["embedding"] = new[] { 0.2f, 0.3f, 0.1f } },  // `age` should default to 18, `price` is null
+    new Dictionary<string, object?> { ["age"] = 45L, ["price"] = null, ["pk"] = 4L, ["embedding"] = new[] { 0.9f, 0.1f, 0.4f } },  // `price` is null
+    new Dictionary<string, object?> { ["age"] = null, ["price"] = 59.99f, ["pk"] = 5L, ["embedding"] = new[] { 0.8f, 0.5f, 0.3f } },  // `age` should default to 18
+    new Dictionary<string, object?> { ["age"] = 60L, ["price"] = null, ["pk"] = 6L, ["embedding"] = new[] { 0.1f, 0.6f, 0.9f } }  // `price` is null
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -803,13 +906,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルター式を使用してクエリする\{#query-with-filter-expressions}
+## フィルター式を使用したクエリ\{#query-with-filter-expressions}
 
 エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`age` が 30 より大きいエンティティを取得するには、次のようにします：
+`age` が 30 より大きいエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -947,6 +1050,30 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+string filter = "age > 30";
+
+var res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "age", "price", "pk" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -967,9 +1094,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`price` が null のエンティティを取得するには、次のようにします：
+`price` が null のエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1105,6 +1232,30 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+string filter = "price is null";
+
+var res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "age", "price", "pk" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1126,7 +1277,7 @@ curl --request POST \
 
 `age` の値が `18` であるエンティティを取得するには、次の式を使用します。`age` のデフォルト値は `18` であるため、期待される結果には、`age` が明示的に `18` に設定されたエンティティ、または `age` が null に設定されたエンティティが含まれるはずです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1265,6 +1416,30 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+string filter = "age == 18";
+
+var res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "age", "price", "pk" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1286,9 +1461,9 @@ curl --request POST \
 
 ## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的な数値フィールドのフィルタリングに加えて、ベクトル類似検索と数値フィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索に数値フィールドのフィルターを追加する方法を示しています：
+基本的な数値フィールドのフィルタリングに加えて、ベクトル類似検索と数値フィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索に数値フィールドのフィルターを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1461,6 +1636,37 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+string filter = "25 <= age <= 35";
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "embedding",
+    Vectors = new[] { new ReadOnlyMemory<float>(new[] { 0.3f, -0.6f, 0.1f }) },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "age", "price" },
+        Nprobe = 10,
+        Expression = filter
+    }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1485,4 +1691,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定した年齢範囲も満たすことが保証されます。詳細は、[Filtering Explained](./filtering-overview) を参照してください。
+この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定された年齢範囲も満たすことが保証されます。詳細は、[フィルタリングの概要](./filtering-overview) を参照してください。

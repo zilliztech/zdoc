@@ -1,13 +1,13 @@
 ---
-title: "StructArray によるグループ化検索 | Cloud"
+title: "StructArray によるグループ検索 | Cloud"
 slug: /grouping-search-with-struct-array
-sidebar_label: "グループ化検索"
+sidebar_label: "グループ検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray の要素レベルの検索結果を親エンティティでグループ化する方法を説明します。要素レベルの検索では、複数の Struct 要素がクエリに一致すると、同じエンティティから複数のヒットが返されることがあります。グループ化により、それらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。 | Cloud"
+description: "このページでは、StructArray の要素レベルの検索結果を親エンティティごとにグループ化する方法について説明します。複数の Struct 要素がクエリに一致すると、要素レベルの検索で同じエンティティから複数のヒットが返されることがあります。グループ化すると、それらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。 | Cloud"
 type: origin
 token: I60hwuYrSiVSWBkYq9RcqRcpnFh
 sidebar_position: 4
@@ -19,44 +19,44 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# StructArray によるグループ化検索
+# StructArray によるグループ検索
 
-このページでは、StructArray の要素レベルの検索結果を親エンティティでグループ化する方法を説明します。要素レベルの検索では、複数の Struct 要素がクエリに一致すると、同じエンティティから複数のヒットが返されることがあります。グループ化により、それらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。
+このページでは、StructArray の要素レベルの検索結果を親エンティティごとにグループ化する方法について説明します。複数の Struct 要素がクエリに一致すると、要素レベルの検索で同じエンティティから複数のヒットが返されることがあります。グループ化すると、それらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。
 
-このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには `chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドには、通常のベクトルメトリクスを使用した要素レベルの検索用のインデックスが作成されています。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) で作成した `tech_articles` コレクションを使用します。コレクションには `chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドは、通常のベクトルメトリクスを使用した要素レベルの検索用にインデックス付けされています。
 
-## StructArray にグループ化が適用される仕組み\{#how-grouping-applies-to-structarray}
+## StructArray におけるグループ化の適用\{#how-grouping-applies-to-structarray}
 
 | 検索モード | グループ化の動作 | 結果の動作 |
 | --- | --- | --- |
 | EmbeddingList 検索 | サポートされていません。 | 該当しません。 |
-| 要素レベルの検索 | 主キーによるグループ化がサポートされています。 | 親エンティティごとに最大 1 件の結果を返します。要素レベルのメタデータは保持されるため、API または SDK が公開している場合は、選択された要素のインデックスまたはオフセットを返すことができます。 |
-| ハイブリッド検索 | すべてのサブ検索が同じ StructArray フィールドの下にある要素レベルのベクトルフィールドを対象とする場合にのみサポートされています。 | 要素レベルのサブ検索は、最終的な結果処理の前に主キーでグループ化されます。 |
+| 要素レベルの検索 | プライマリキーによるグループ化でサポートされます。 | 親エンティティごとに最大 1 件の結果を返します。要素レベルのメタデータは保持されるため、API または SDK によって公開されている場合は、選択された要素のインデックスまたはオフセットを返すことができます。 |
+| ハイブリッド検索 | すべてのサブ検索が同じ StructArray フィールド配下の要素レベルのベクトルフィールドを対象とする場合にのみサポートされます。 | 要素レベルのサブ検索は、最終的な結果処理の前にプライマリキーでグループ化されます。 |
 
 <Admonition type="info" title="Notes">
 
-グループ化されていない要素レベルの検索で重複する親エンティティが多すぎる場合は、グループ化を使用します。一致するすべての Struct 要素を個別のヒットとして取得する場合は、`group_by_field` を指定せずに [StructArray の基本的なベクトル検索](./search-with-struct-array) を使用します。
+グループ化されていない要素レベルの検索で重複する親エンティティが多すぎる場合は、グループ化を使用します。一致する各 Struct 要素を個別のヒットとして取得する場合は、`group_by_field` を指定せずに [StructArray による基本ベクトル検索](./search-with-struct-array) を使用します。
 
 </Admonition>
 
 ## 事前準備\{#before-you-begin}
 
-グループ化検索を実行する前に、コレクション、データ、およびインデックスを準備します。
+グループ検索を実行する前に、コレクション、データ、インデックスを準備してください。
 
 | 要件 | 詳細 |
 | --- | --- |
-| 要素レベルのベクトルサブフィールド | `chunks[emb]` などの StructArray ベクトルサブフィールドを使用し、通常のベクトルメトリクスでインデックスを作成します。 |
+| 要素レベルのベクトルサブフィールド | `chunks[emb]` など、通常のベクトルメトリクスでインデックス付けされた StructArray のベクトルサブフィールドを使用します。 |
 | 通常のベクトルクエリ | `EmbeddingList` ではなく、通常のクエリベクトルを使用します。 |
-| 主キーによるグループ化 | `doc_id` など、コレクションの主キーを `group_by_field` として使用します。 |
-| 範囲パラメーターの不使用 | グループ化検索を、`radius` や `range_filter` などの範囲検索パラメーターと組み合わせないでください。 |
+| プライマリキーによるグループ化 | コレクションのプライマリキーを、`doc_id` などの `group_by_field` として使用します。 |
+| 範囲パラメーターを使用しない | グループ検索を、`radius` や `range_filter` などの範囲検索パラメーターと組み合わせないでください。 |
 
-インデックスの設定については、[StructArray フィールドのインデックス](./index-struct-array) を参照してください。
+インデックスの設定については、[StructArray フィールドのインデックスを作成する](./index-struct-array) を参照してください。
 
 ## グループ化された要素レベルの検索を実行する\{#run-grouped-element-level-search}
 
-次の例では、最初に個々のチャンクを検索し、その後、要素のヒットを親エンティティの主キーでグループ化します。
+次の例では、まず個々のチャンクを検索し、その後、要素ヒットを親エンティティのプライマリキーでグループ化します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -287,6 +287,44 @@ for (const hit of res.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
+    }
+});
+
+foreach (long id in results.Ids.LongIds ?? [])
+{
+    Console.WriteLine($"doc_id: {id}");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -316,9 +354,9 @@ curl --request POST \
 
 ## スカラーフィルターを追加する\{#add-scalar-filters}
 
-グループ化検索と StructArray のスカラーフィルタリングを組み合わせることができます。スカラー条件によって、要素レベルのベクトル検索に参加する Struct 要素を制限する場合は、`element_filter` を使用します。
+グループ検索を StructArray のスカラーフィルタリングと組み合わせることができます。スカラー条件によって、要素レベルのベクトル検索に参加する Struct 要素を制限する場合は、`element_filter` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -505,6 +543,42 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+
+string filterExpr = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filterExpr,
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -528,15 +602,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-トップレベルの述語により、候補となるエンティティが選択されます。`element_filter` 述語により、要素レベルのベクトル検索が一致する Struct 要素に制限されます。その後、グループ化により、一致する要素のヒットが主キーでまとめられます。
+最上位の述語は候補エンティティを選択します。`element_filter` 述語は、要素レベルのベクトル検索を一致する Struct 要素に制限します。その後、グループ化によって一致する要素ヒットがプライマリキーごとにまとめられます。
 
 ## ハイブリッド検索でグループ化を使用する\{#use-grouping-in-hybrid-search}
 
-StructArray を使用したハイブリッドグループ化は、要素レベルの機能です。すべてのサブ検索が同じ StructArray フィールドの下にある要素レベルのベクトルフィールドを対象とする場合にのみサポートされています。グループ化された StructArray ハイブリッド検索では、EmbeddingList レベルのリクエストを使用しないでください。
+StructArray でのハイブリッドグループ化は要素レベルの機能です。すべてのサブ検索が同じ StructArray フィールド配下の要素レベルのベクトルフィールドを対象とする場合にのみサポートされます。グループ化された StructArray ハイブリッド検索では、EmbeddingList レベルのリクエストを使用しないでください。
 
-次の例では、`chunks` StructArray フィールドに 2 つの要素レベルのベクトルサブフィールド `chunks[emb]` と `chunks[code_emb]` があり、両方に通常のベクトルメトリクスでインデックスが作成されていることを前提としています。
+次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つの要素レベルのベクトルサブフィールドがあり、両方とも通常のベクトルメトリクスでインデックス付けされていることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -776,6 +850,58 @@ const res = await client.hybridSearch({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
+float[] codeQueryVector = [0.18f, 0.23f, 0.29f, 0.36f];
+
+AnnSearchReq indexChunkReq = new()
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = [queryVector],
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Expression = "element_filter(chunks, $[section] == \"index\")"
+};
+
+AnnSearchReq codeChunkReq = new()
+{
+    VectorFieldName = "chunks[code_emb]",
+    Vectors = [codeQueryVector],
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Expression = "element_filter(chunks, $[has_code] == true)"
+};
+
+SearchResp results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = [indexChunkReq, codeChunkReq],
+    Reranker = new RrfReranker(),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "doc_id",
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -809,52 +935,52 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、両方のサブリクエストが同じ StructArray フィールド `chunks` の下にある要素レベルのベクトルフィールドを対象としています。ハイブリッド検索で通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在している場合、要素レベルのグループ化はサポートされません。
+この例では、両方のサブリクエストが同じ StructArray フィールド `chunks` 配下の要素レベルのベクトルフィールドを対象としています。ハイブリッド検索で通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在している場合、要素レベルの group-by はサポートされません。
 
 ## グループ化された結果を解釈する\{#interpret-grouped-results}
 
 | 結果項目 | 意味 |
 | --- | --- |
-| `id` | グループ化された親エンティティの主キーです。 |
+| `id` | グループ化された親エンティティのプライマリキーです。 |
 | `distance` またはスコア | その親エンティティに対して選択された Struct 要素のスコアまたは距離です。 |
 | `offset` | 返される場合の、選択された Struct 要素の 0 から始まる位置です。 |
-| 主キーの重複 | 主キーでグループ化する場合は想定されません。 |
+| 重複するプライマリキー | プライマリキーでグループ化する場合、想定されません。 |
 | `limit` | グループ化された親エンティティの結果に適用されます。 |
 
 ## 制限事項\{#limitations}
 
-- グループ化検索は、要素レベルの StructArray ベクトル検索にのみ適用されます。EmbeddingList 検索および EmbeddingList レベルのハイブリッド検索では、グループ化はサポートされていません。
+- グループ検索は、要素レベルの StructArray ベクトル検索にのみ適用されます。EmbeddingList 検索および EmbeddingList レベルのハイブリッド検索は、group-by をサポートしていません。
 
-- 主キーを `group_by_field` として使用します。StructArray の要素レベルのグループ化は、任意のスカラーフィールドに対する汎用的なグループ化ではありません。
+- `group_by_field` としてプライマリキーを使用します。StructArray の要素レベルのグループ化は、任意のスカラーフィールドに対する汎用的な group-by ではありません。
 
-- グループ化検索を範囲検索と組み合わせないでください。
+- グループ検索を範囲検索と組み合わせないでください。
 
-- グループ化検索に `EmbeddingList` クエリまたは `MAX_SIM*` メトリクスを使用しないでください。
+- グループ検索には、`EmbeddingList` クエリまたは `MAX_SIM*` メトリクスを使用しないでください。
 
-- ハイブリッドグループ化は、すべてのサブ検索が同じ StructArray フィールドの下にある要素レベルのベクトルフィールドを対象とする場合にのみサポートされています。
+- ハイブリッドグループ化は、すべてのサブ検索が同じ StructArray フィールド配下の要素レベルのベクトルフィールドを対象とする場合にのみサポートされます。
 
 - ハイブリッド検索で通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在している場合、ハイブリッドグループ化はサポートされません。
 
 ## よくある間違い\{#common-mistakes}
 
-- EmbeddingList 検索を目的とした `chunks[emb_list_vector]` でグループ化を使用している。
+- EmbeddingList 検索を目的とした `chunks[emb_list_vector]` でグループ化を使用する。
 
-- 主キー以外のスカラーフィールドでグループ化している。
+- プライマリキー以外のスカラーフィールドでグループ化する。
 
-- 複数のフィールドでグループ化している。StructArray の要素レベルのグループ化では、主キーによるグループ化のみがサポートされています。
+- 複数のフィールドでグループ化する。StructArray の要素レベルのグループ化は、プライマリキーによるグループ化のみをサポートしています。
 
-- グループ化された結果が一致するすべての Struct 要素を表すと期待している。グループ化では、親エンティティごとに最大 1 件の結果が返されます。
+- グループ化された結果が一致するすべての Struct 要素を表すことを期待する。グループ化では、親エンティティごとに最大 1 件の結果が返されます。
 
-- グループ化された要素レベルの検索が EmbeddingList 形式の `MAX_SIM*` スコアを再計算すると想定している。グループ化は要素レベルのヒットをまとめるものであり、スコアリングモデルを変更するものではありません。
+- グループ化された要素レベルの検索が EmbeddingList 形式の `MAX_SIM*` スコアを再計算すると想定する。グループ化は要素レベルのヒットをまとめるだけであり、スコアリングモデルを変更しません。
 
-- `group_by_field` を `radius` または `range_filter` と組み合わせている。
+- `group_by_field` を `radius` または `range_filter` と組み合わせる。
 
 ## 次のステップ\{#next-steps}
 
-1. グループ化されていない要素レベルの検索について先に学習するには、[StructArray の基本的なベクトル検索](./search-with-struct-array) を参照してください。
+1. グループ化されていない要素レベルの検索について先に学ぶには、[StructArray による基本ベクトル検索](./search-with-struct-array) を参照してください。
 
-1. グループ化検索にスカラーフィルターを追加するには、[StructArray のフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
+1. グループ検索にスカラーフィルターを追加するには、[StructArray によるフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. グループ化の代わりにスコアまたは距離の境界を使用するには、[StructArray の範囲検索](./range-search-with-struct-arrays) を参照してください。
+1. グループ化の代わりにスコアまたは距離の境界を使用するには、[StructArray による範囲検索](./range-search-with-struct-arrays) を参照してください。
 
 1. StructArray 検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。

@@ -137,6 +137,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -306,6 +313,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -478,6 +492,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -657,6 +678,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -828,6 +856,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -864,7 +899,7 @@ var highlighter = new SearchParameters
 
 この設定では次のようになります。
 
-- `fragment_offset` は、最初のハイライト対象用語の前に先行コンテキストを確保します。
+- `fragment_offset` は、最初にハイライトされた用語の前に先行コンテキストを確保します。
 
 - `fragment_size` は、各フラグメントに含めるテキスト量を制限します。
 
@@ -1002,6 +1037,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -1371,6 +1413,7 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
 
@@ -1595,6 +1638,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -1824,6 +1874,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2053,6 +2110,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2274,6 +2338,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2487,6 +2558,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2541,4 +2619,3 @@ var results = await client.SearchAsync(new SearchReq
 ```
 
 </details>
-

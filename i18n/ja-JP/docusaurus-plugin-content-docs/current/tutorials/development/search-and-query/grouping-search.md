@@ -45,7 +45,7 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 <Admonition type="info" title="Notes">
 
-デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに返す結果の数を増やしたい場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
+デフォルトでは、Grouping Search は各グループにつき 1つのエンティティのみを返します。グループごとに返す結果の数を増やしたい場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
 
 </Admonition>
 
@@ -70,7 +70,7 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 検索リクエストでは、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は結果を指定されたフィールドでグループ化し、各グループで最も類似したエンティティを、返される各エンティティの `docId` の値を含めて返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -254,6 +254,41 @@ var docIds = res.results.map(result => result.docId)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVectors = new[] { 0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f };
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",
+        OutputFields = { "docId" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -309,13 +344,13 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似した 1 つのエンティティが含まれることを示します。
+上記のリクエストでは、`limit=3` は、システムが 3つのグループから検索結果を返し、各グループにクエリベクトルに最も類似した 1つのエンティティが含まれることを示します。
 
 ## グループサイズを設定する\{#configure-group-size}
 
-デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
+デフォルトでは、Grouping Search は各グループにつき 1つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,6 +524,34 @@ var docIds = res.results.map(result => result.docId)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },  // Query vector
+    Limit = 5,                               // Number of groups to return
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",              // Grouping field
+        GroupSize = 2,                       // Up to 2 entities to return from each group
+        StrictGroupSize = true,              // Return exactly 2 entities from each group
+        OutputFields = { "docId" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -547,9 +610,9 @@ zilliz vector search \
 
 上記の例では、次のとおりです。
 
-- `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2 つの段落（または **チャンク**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
+- `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2つの段落（または **チャンク**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
 
-- `strict_group_size`: このブール値のパラメーターは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するよりも、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
+- `strict_group_size`: このブール値のパラメーターは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するよりも、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
 
 パラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
 
@@ -557,9 +620,9 @@ zilliz vector search \
 
 Grouping Search を `order_by_fields` と組み合わせることで、スカラーフィールドによってグループを並べ替えることができます。これは、グループ間で多様な結果を得ながら、価格や評価などビジネス上有意味な順序にグループを従わせたい場合に役立ちます。
 
-次の例では、検索結果を `category` でグループ化し、各グループにつき最大 3 つのエンティティを返し、返されたグループを `price` の低い順に並べ替えます。
+次の例では、検索結果を `category` でグループ化し、各グループにつき最大 3つのエンティティを返し、返されたグループを `price` の低い順に並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -708,6 +771,17 @@ console.log(response.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: Ordering groups by a scalar field uses the project-endpoint session API,
+// which is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -782,3 +856,4 @@ zilliz vector search \
 - **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに対して指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保つことができますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が必要ない場合は、`strict_group_size=False` に設定するとクエリ速度を向上させることができます。
 
 - クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+

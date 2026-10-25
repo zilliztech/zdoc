@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray のベクトル検索とその他のベクトル検索を 1 つのハイブリッド検索リクエストに組み合わせる方法について説明します。StructArray のハイブリッド検索では、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を生成できます。 | Cloud"
+description: "このページでは、StructArray のベクトル検索と他のベクトル検索を 1 つのハイブリッド検索リクエストで組み合わせる方法について説明します。StructArray のハイブリッド検索では、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を返すことができます。 | Cloud"
 type: origin
 token: EqSpwh9BaiEISgkG5YVcDbCUnpe
 sidebar_position: 5
@@ -21,22 +21,22 @@ import TabItem from '@theme/TabItem';
 
 # StructArray を使用したハイブリッド検索
 
-このページでは、StructArray のベクトル検索とその他のベクトル検索を 1 つのハイブリッド検索リクエストに組み合わせる方法について説明します。StructArray のハイブリッド検索では、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を生成できます。
+このページでは、StructArray のベクトル検索と他のベクトル検索を 1 つのハイブリッド検索リクエストで組み合わせる方法について説明します。StructArray のハイブリッド検索では、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を返すことができます。
 
-このページでは、[StructArray フィールドを作成する](./create-struct-array) で作成する `tech_articles` コレクションを使用します。このコレクションには、`title_vector` という名前のトップレベルのベクトルフィールドと、`chunks` という名前の StructArray フィールドがあります。`chunks[emb_list_vector]` サブフィールドは EmbeddingList 検索用にインデックスされ、`chunks[emb]` は要素レベルの検索用にインデックスされます。
+このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには、`title_vector` という名前のトップレベルのベクトルフィールドと、`chunks` という名前の StructArray フィールドがあります。`chunks[emb_list_vector]` サブフィールドは EmbeddingList 検索用にインデックスが作成され、`chunks[emb]` は要素レベル検索用にインデックスが作成されています。
 
-## StructArray にハイブリッド検索を適用する方法\{#how-hybrid-search-applies-to-structarray}
+## StructArray に対するハイブリッド検索の適用方法\{#how-hybrid-search-applies-to-structarray}
 
 | `AnnSearchRequest` の組み合わせ | 最終候補のスコープ | 結果の動作 | `element_scope` |
 | --- | --- | --- | --- |
-| コレクションレベルのベクトルフィールド + StructArray の EmbeddingList サブフィールド | エンティティレベル | 最終候補はプライマリキーで識別されます。 | 使用しないでください。 |
-| コレクションレベルのベクトルフィールド + StructArray の要素レベルのサブフィールド | エンティティレベル | 要素レベルのヒットは、ハイブリッド再ランキングの前にエンティティレベルの候補に集約されます。 | StructArray の要素レベルの `AnnSearchRequest` にオプションの集約設定を指定します。 |
-| 同じ StructArray フィールド内の複数の要素レベルのサブフィールド | 要素レベル | 最終候補はプライマリキーと Struct 要素のオフセットで識別されます。 | 使用しないでください。 |
-| 異なる StructArray フィールド内の要素レベルのサブフィールド | エンティティレベル | 要素のオフセットは同一性を共有しないため、各 StructArray の要素レベルの `AnnSearchRequest` は再ランキングの前に集約されます。 | 各 StructArray の要素レベルの `AnnSearchRequest` にオプションの集約設定を指定します。 |
+| コレクションレベルのベクトルフィールド + StructArray の EmbeddingList サブフィールド | エンティティレベル | 最終候補は主キーで識別されます。 | 使用しないでください。 |
+| コレクションレベルのベクトルフィールド + StructArray の要素レベルサブフィールド | エンティティレベル | 要素レベルのヒットは、ハイブリッド再ランキングの前にエンティティレベルの候補に集約されます。 | StructArray の要素レベル `AnnSearchRequest` で任意の集約設定を使用できます。 |
+| 同一の StructArray フィールド配下にある複数の要素レベルサブフィールド | 要素レベル | 最終候補は、主キーと Struct 要素のオフセットで識別されます。 | 使用しないでください。 |
+| 異なる StructArray フィールド配下の要素レベルサブフィールド | エンティティレベル | 要素のオフセットは同一のものを指さないため、各 StructArray の要素レベル `AnnSearchRequest` は再ランキングの前に集約されます。 | 各 StructArray の要素レベル `AnnSearchRequest` で任意の集約設定を使用できます。 |
 
 <Admonition type="warning" title="Warning">
 
-`element_scope` は、異なる StructArray にまたがる要素レベルのハイブリッド検索で、StructArray の要素レベルの `AnnSearchRequest` オブジェクトの集約を設定する場合にのみ使用してください。EmbeddingList リクエスト、コレクションレベルのベクトルリクエスト、または同じ StructArray 内の要素レベルのハイブリッド検索には使用しないでください。
+`element_scope` は、同一の StructArray 内ではない要素レベルのハイブリッド検索で、StructArray の要素レベル `AnnSearchRequest` オブジェクトの集約を設定する場合にのみ使用してください。EmbeddingList リクエスト、コレクションレベルのベクトルリクエスト、または同一 StructArray の要素レベルハイブリッド検索には使用しないでください。
 
 </Admonition>
 
@@ -46,18 +46,18 @@ import TabItem from '@theme/TabItem';
 
 | 要件 | 詳細 |
 | --- | --- |
-| StructArray フィールド | コレクションに `chunks` などの StructArray フィールドが含まれていること。 |
-| ベクトルサブフィールド | EmbeddingList 検索と要素レベルの検索には、別々のベクトルサブフィールドを使用してください。 |
-| インデックス | `chunks[emb_list_vector]` は `MAX_SIM*` メトリクスを使用します。`chunks[emb]` は `COSINE`、`IP`、`L2` などの通常のベクトルメトリクスを使用します。 |
-| 再ランカー | `RRFRanker` や、アプリケーションでサポートされている別の再ランカーなど、ハイブリッド再ランカーを選択してください。 |
+| StructArray フィールド | コレクションに `chunks` などの StructArray フィールドが含まれています。 |
+| ベクトルサブフィールド | EmbeddingList 検索と要素レベル検索には、別々のベクトルサブフィールドを使用してください。 |
+| インデックス | `chunks[emb_list_vector]` は `MAX_SIM*` メトリックを使用します。`chunks[emb]` は `COSINE`、`IP`、`L2` などの通常のベクトルメトリックを使用します。 |
+| リランカー | `RRFRanker` などのハイブリッドリランカー、またはアプリケーションでサポートされている別のリランカーを選択してください。 |
 
-インデックスの設定については、[StructArray フィールドのインデックスを作成する](./index-struct-array) を参照してください。
+インデックスの設定については、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
-## EmbeddingList リクエストを使用してハイブリッド検索を実行する\{#run-hybrid-search-with-an-embeddinglist-request}
+## EmbeddingList リクエストを使用したハイブリッド検索の実行\{#run-hybrid-search-with-an-embeddinglist-request}
 
 StructArray のベクトルサブフィールドに対する EmbeddingList 検索は、ハイブリッド検索ではエンティティレベルです。これはエンティティレベルのベクトル検索リクエストと同様に動作し、一致した Struct 要素のオフセットを 1 つ返すことはありません。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,6 +316,55 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var queryList = new EmbeddingList();
+queryList.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
+queryList.Add(new ReadOnlyMemory<float>(new[] { 0.18f, 0.23f, 0.29f, 0.36f }));
+
+var titleReq = new AnnSearchReq
+{
+    VectorFieldName = "title_vector",
+    Vectors = new[] { queryVector },
+    Limit = 10
+};
+
+var chunkListReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb_list_vector]",
+    EmbeddingLists = new[] { queryList },
+    Limit = 10
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { titleReq, chunkListReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -349,15 +398,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、両方の `AnnSearchRequest` オブジェクトがエンティティレベルの候補を生成します。最終結果は親エンティティのプライマリキーで識別されます。EmbeddingList リクエストに `element_scope` を追加しないでください。
+この例では、両方の `AnnSearchRequest` オブジェクトがエンティティレベルの候補を生成します。最終結果は、親エンティティの主キーで識別されます。EmbeddingList リクエストには `element_scope` を追加しないでください。
 
-## 同じ StructArray 内の要素レベルのハイブリッド検索を実行する\{#run-same-structarray-element-level-hybrid-search}
+## 同一 StructArray の要素レベルハイブリッド検索の実行\{#run-same-structarray-element-level-hybrid-search}
 
-すべての `AnnSearchRequest` オブジェクトが同じ StructArray フィールド内の要素レベルのベクトルサブフィールドを対象とする場合、ハイブリッド検索は再ランキングを通じて要素レベルの候補を保持できます。最終結果が要素レベルのままになる StructArray ハイブリッドモードはこれだけです。
+すべての `AnnSearchRequest` オブジェクトが同一の StructArray フィールド配下にある要素レベルのベクトルサブフィールドを対象とする場合、ハイブリッド検索では再ランキングを通じて要素レベルの候補を維持できます。最終結果が要素レベルのままになるのは、StructArray のハイブリッドモードではこの場合だけです。
 
-次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つの要素レベルのベクトルサブフィールドがあり、両方とも通常のベクトルメトリクスを使用していることを前提としています。
+次の例では、`chunks` StructArray フィールドに 2 つの要素レベルベクトルサブフィールド `chunks[emb]` と `chunks[code_emb]` があり、どちらも通常のベクトルメトリックを使用していることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -609,6 +658,46 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+var codeQueryVector = new ReadOnlyMemory<float>(new[] { 0.20f, 0.25f, 0.31f, 0.38f });
+
+var indexChunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 10,
+    Expression = "element_filter(chunks, $[section] == \"index\")"
+};
+
+var codeChunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[code_emb]",
+    Vectors = new[] { codeQueryVector },
+    Limit = 10,
+    Expression = "element_filter(chunks, $[has_code] == true)"
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { indexChunkReq, codeChunkReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -644,15 +733,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-両方の `AnnSearchRequest` オブジェクトは `chunks` 内のベクトルサブフィールドを検索します。同じ 0 から始まるオフセットは同じ Struct 要素を指すため、ハイブリッド再ランカーは要素の候補を直接ランキングできます。このモードではエンティティレベルの集約が実行されないため、`element_scope` を設定しないでください。
+両方の `AnnSearchRequest` オブジェクトは `chunks` 配下のベクトルサブフィールドを検索します。同じゼロベースのオフセットは同じ Struct 要素を指すため、ハイブリッドリランカーは要素候補を直接ランク付けできます。このモードではエンティティレベルの集約が行われないため、`element_scope` を設定しないでください。
 
-## エンティティレベルのハイブリッド検索のために要素レベルのヒットを集約する\{#collapse-element-level-hits-for-entity-level-hybrid-search}
+## エンティティレベルのハイブリッド検索で要素レベルのヒットを集約する\{#collapse-element-level-hits-for-entity-level-hybrid-search}
 
-ハイブリッド検索で StructArray の要素レベルの `AnnSearchRequest` と、コレクションレベルのベクトルリクエスト、EmbeddingList リクエスト、または異なる StructArray フィールド内の要素レベルのリクエストを組み合わせると、最終候補のスコープはエンティティレベルになります。この場合、各 StructArray の要素レベルの `AnnSearchRequest` は、ハイブリッド再ランキングの前にエンティティレベルの候補に集約されます。
+ハイブリッド検索で、StructArray の要素レベル `AnnSearchRequest` を、コレクションレベルのベクトルリクエスト、EmbeddingList リクエスト、または異なる StructArray フィールド配下の要素レベルリクエストと組み合わせた場合、最終候補のスコープはエンティティレベルになります。この場合、各 StructArray の要素レベル `AnnSearchRequest` はハイブリッド再ランキングの前にエンティティレベルの候補に集約されます。
 
-同じエンティティから一致した複数の要素を集約する方法を制御する必要がある場合は、StructArray の要素レベルの `AnnSearchRequest` の `params` 内で `element_scope` を使用します。
+同じエンティティから一致した複数の要素を集約する方法を制御する必要がある場合は、StructArray の要素レベル `AnnSearchRequest` の `params` 内で `element_scope` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -896,6 +985,45 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var titleReq = new AnnSearchReq
+{
+    VectorFieldName = "title_vector",
+    Vectors = new[] { queryVector },
+    Limit = 10
+};
+
+var chunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 30,
+    Expression = "element_filter(chunks, $[quality_score] > 0.8)",
+    ExtraParameters = { ["params"] = "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}" }
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { titleReq, chunkReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -935,71 +1063,71 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、`title_req` がエンティティレベルであるため、最終的なハイブリッド結果もエンティティレベルになります。`chunk_req` リクエストはまず `chunks[emb]` から要素のヒットを返し、次に同じエンティティから返された要素を、最上位 3 つの要素スコアを合計して集約します。エンティティレベルの集約が必要なときに `element_scope` を省略すると、集約戦略はデフォルトで `max` になります。
+この例では、`title_req` はエンティティレベルであるため、最終的なハイブリッド結果もエンティティレベルになります。`chunk_req` リクエストはまず `chunks[emb]` から要素のヒットを返し、次に同じエンティティから返された要素を、上位 3 つの要素スコアを合計して集約します。エンティティレベルの集約が必要なときに `element_scope` を省略した場合、集約戦略はデフォルトで `max` になります。
 
-## 集約戦略を選択する\{#choose-a-collapse-strategy}
+## 集約戦略の選択\{#choose-a-collapse-strategy}
 
-| 戦略 | 動作 | `topk` | メトリクスの要件 |
+| 戦略 | 動作 | `topk` | メトリック要件 |
 | --- | --- | --- | --- |
-| `max` | エンティティについて返された最良の要素スコアを保持します。 | 使用できません。 | サポートされている任意の通常のベクトルメトリクス。 |
-| `sum` | エンティティについて返されたすべての要素スコアを合計します。 | 使用できません。 | `IP` や `COSINE` など、正の相関を持つメトリクスのみ。 |
-| `avg` | エンティティについて返されたすべての要素スコアを平均します。 | 使用できません。 | サポートされている任意の通常のベクトルメトリクス。 |
-| `topk_sum` | エンティティについて返された上位 `K` 個の要素スコアを合計します。 | 必須で、正の値である必要があります。 | `IP` や `COSINE` など、正の相関を持つメトリクスのみ。 |
-| `topk_avg` | エンティティについて返された上位 `K` 個の要素スコアを平均します。 | 必須で、正の値である必要があります。 | サポートされている任意の通常のベクトルメトリクス。 |
+| `max` | エンティティについて返された要素スコアのうち、最良のスコアを保持します。 | 使用できません。 | サポートされている任意の通常のベクトルメトリック。 |
+| `sum` | エンティティについて返されたすべての要素スコアを合計します。 | 使用できません。 | `IP` や `COSINE` など、正の相関を持つメトリックのみ。 |
+| `avg` | エンティティについて返されたすべての要素スコアを平均します。 | 使用できません。 | サポートされている任意の通常のベクトルメトリック。 |
+| `topk_sum` | エンティティについて返された要素スコアのうち、上位 `K` 個のスコアを合計します。 | 必須で、正の値である必要があります。 | `IP` や `COSINE` など、正の相関を持つメトリックのみ。 |
+| `topk_avg` | エンティティについて返された要素スコアのうち、上位 `K` 個のスコアを平均します。 | 必須で、正の値である必要があります。 | サポートされている任意の通常のベクトルメトリック。 |
 
-集約では、その StructArray の要素レベルの `AnnSearchRequest` によって返された要素のヒットのみを使用します。ANN 検索後にエンティティ内のすべての Struct 要素をスキャンすることはありません。集約に使用できるようにする要素を十分に提供できるよう、リクエストの `limit` を高く設定してください。
+集約では、その StructArray の要素レベル `AnnSearchRequest` から返された要素のヒットのみを使用します。ANN 検索後にエンティティ内のすべての Struct 要素をスキャンするわけではありません。集約に使用する要素を十分に得られるよう、リクエストの `limit` を高めに設定してください。
 
-## フィルター、範囲検索、グループ化を追加する\{#add-filters-range-search-and-grouping}
+## フィルター、範囲検索、グループ化の追加\{#add-filters-range-search-and-grouping}
 
-スカラー条件を、ベクトル検索に参加する同じ Struct 要素に適用する必要がある場合は、StructArray の要素レベルの `AnnSearchRequest` に `element_filter` を付加できます。また、`hybrid_search()` のトップレベルの `filter` を使用して、親エンティティの条件を指定することもできます。
+スカラー条件を、ベクトル検索に参加する同じ Struct 要素に適用する必要がある場合は、StructArray の要素レベル `AnnSearchRequest` に `element_filter` を付加できます。また、親エンティティの条件には、`hybrid_search()` のトップレベル `filter` を使用できます。
 
-StructArray の要素レベルのベクトルフィールドは、ハイブリッド検索での範囲検索をサポートしています。要素レベルの `AnnSearchRequest` に `radius` と、オプションで `range_filter` を追加します。EmbeddingList レベルの StructArray リクエストは範囲検索をサポートしていません。
+StructArray の要素レベルベクトルフィールドは、ハイブリッド検索での範囲検索をサポートしています。要素レベル `AnnSearchRequest` に `radius` を追加し、必要に応じて `range_filter` も追加します。EmbeddingList レベルの StructArray リクエストは範囲検索をサポートしていません。
 
-要素レベルのハイブリッドグループ化は、すべての `AnnSearchRequest` オブジェクトが同じ StructArray フィールド内の要素レベルのベクトルフィールドを対象とし、`group_by_field` がプライマリキーである場合にのみサポートされます。リクエストにコレクションレベルのベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在する場合、ハイブリッドグループ化はサポートされません。範囲検索とグループ化を組み合わせないでください。
+要素レベルのハイブリッドグループ化は、すべての `AnnSearchRequest` オブジェクトが同一の StructArray フィールド配下の要素レベルベクトルフィールドを対象とする場合にのみサポートされ、`group_by_field` は主キーである必要があります。リクエストがコレクションレベルのベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストを組み合わせる場合、ハイブリッドグループ化はサポートされません。範囲検索とグループ化を組み合わせないでください。
 
-## ハイブリッド検索の結果を解釈する\{#interpret-hybrid-results}
+## ハイブリッド結果の解釈\{#interpret-hybrid-results}
 
 | 最終候補のスコープ | 結果キー | オフセットの動作 | 発生する条件 |
 | --- | --- | --- | --- |
-| エンティティレベル | プライマリキー。 | 最終結果に要素のオフセットは含まれません。 | ハイブリッドリクエストに、コレクションレベルのベクトルフィールド、EmbeddingList リクエスト、または異なる StructArray フィールド内の要素レベルのリクエストが含まれる場合。 |
-| 要素レベル | プライマリキー、親 StructArray フィールド、要素のオフセット。 | API または SDK で公開されている場合、選択した要素のオフセットを返すことができます。 | すべての `AnnSearchRequest` オブジェクトが要素レベルで、同じ StructArray フィールド内にある場合。 |
+| エンティティレベル | 主キー。 | 最終結果には要素のオフセットが含まれません。 | ハイブリッドリクエストに、コレクションレベルのベクトルフィールド、EmbeddingList リクエスト、または異なる StructArray フィールド配下の要素レベルリクエストが含まれる場合。 |
+| 要素レベル | 主キー、親 StructArray フィールド、要素のオフセット。 | 選択された要素のオフセットは、API または SDK によって公開されている場合に返すことができます。 | すべての `AnnSearchRequest` オブジェクトが要素レベルで、同一の StructArray フィールド配下にある場合。 |
 
 ## 制限事項\{#limitations}
 
-- ハイブリッド検索でエンティティレベルの候補に集約する必要がある StructArray の要素レベルの `AnnSearchRequest` オブジェクトにのみ、`element_scope` を使用してください。
+- `element_scope` は、ハイブリッド検索でエンティティレベルの候補に集約する必要がある StructArray の要素レベル `AnnSearchRequest` オブジェクトにのみ使用してください。
 
-- EmbeddingList リクエスト、コレクションレベルのベクトルリクエスト、または同じ StructArray 内の要素レベルのハイブリッド検索には、`element_scope` を使用しないでください。
+- EmbeddingList リクエスト、コレクションレベルのベクトルリクエスト、または同一 StructArray の要素レベルハイブリッド検索には、`element_scope` を使用しないでください。
 
-- `sum` および `topk_sum` の集約戦略では、`IP` や `COSINE` など、正の相関を持つメトリクスが必要です。`L2` と組み合わせて使用しないでください。
+- `sum` および `topk_sum` の集約戦略には、`IP` や `COSINE` など、正の相関を持つメトリックが必要です。`L2` と組み合わせて使用しないでください。
 
-- `topk_sum` および `topk_avg` では、正の `topk` 値が必要です。その他の集約戦略には `topk` を含めないでください。
+- `topk_sum` および `topk_avg` には、正の `topk` 値が必要です。その他の集約戦略には `topk` を含めないでください。
 
 - EmbeddingList レベルの StructArray リクエストは、範囲検索またはグループ化をサポートしていません。
 
-- ハイブリッドのグループ化は、同じ StructArray 内の要素レベルのハイブリッド検索でのみ、かつプライマリキーによる場合にのみサポートされます。
+- ハイブリッドグループ化は、同一 StructArray の要素レベルハイブリッド検索でのみ、かつ主キーによる場合にのみサポートされます。
 
 - 範囲検索とグループ化を組み合わせないでください。
 
 ## よくある間違い\{#common-mistakes}
 
-- 同じ StructArray 内の要素レベルのハイブリッドリクエストに `element_scope` を追加する。このリクエストは要素レベルのままであり、エンティティレベルの集約は実行されません。
+- 同一 StructArray の要素レベルハイブリッドリクエストに `element_scope` を追加するケースです。そのリクエストは要素レベルのままで、エンティティレベルの集約は行われません。
 
-- `chunks[emb_list_vector]` に `element_scope` を追加する。EmbeddingList 検索はすでにエンティティレベルです。
+- `chunks[emb_list_vector]` に `element_scope` を追加するケースです。EmbeddingList 検索はすでにエンティティレベルです。
 
-- 2 つの StructArray フィールドが要素のオフセットを共有していると想定する。`chunks` のオフセット `3` と別の StructArray フィールドのオフセット `3` は異なる要素であるため、ハイブリッドリクエストはエンティティレベルになります。
+- 2 つの StructArray フィールドが要素のオフセットを共有していると想定するケースです。`chunks` のオフセット `3` と、別の StructArray フィールドのオフセット `3` は異なる要素であるため、ハイブリッドリクエストはエンティティレベルになります。
 
-- `topk_sum` を `L2` とともに使用する。負の距離メトリクスには、`max`、`avg`、または `topk_avg` を使用してください。
+- `topk_sum` を `L2` とともに使用するケースです。負の距離メトリックには、`max`、`avg`、または `topk_avg` を使用してください。
 
-- 集約後のエンティティレベルのハイブリッド結果に、選択した Struct 要素のオフセットが含まれることを期待する。
+- 集約後のエンティティレベルハイブリッド結果に、選択された Struct 要素のオフセットが含まれることを期待するケースです。
 
 ## 次のステップ\{#next-steps}
 
-1. StructArray の 2 つの基本的なベクトル検索モードについては、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
+1. StructArray の 2 つの基本的なベクトル検索モードについて確認するには、[StructArray を使用した基本のベクトル検索](./search-with-struct-array) を参照してください。
 
-1. ハイブリッド検索にスカラーフィルターを追加する方法については、[StructArray を使用したフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
+1. ハイブリッド検索にスカラーフィルターを追加するには、[StructArray を使用したフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. ハイブリッド検索でスコアまたは距離の境界を使用する方法については、[StructArray を使用した範囲検索](./range-search-with-struct-arrays) を参照してください。
+1. ハイブリッド検索でスコアまたは距離の境界を使用するには、[StructArray を使用した範囲検索](./range-search-with-struct-arrays) を参照してください。
 
-1. 要素レベルのハイブリッド結果を親エンティティでグループ化する方法については、[StructArray を使用したグループ化検索](./grouping-search-with-struct-array) を参照してください。
+1. 要素レベルのハイブリッド結果を親エンティティでグループ化するには、[StructArray を使用したグループ化検索](./grouping-search-with-struct-array) を参照してください。
 
-1. StructArray の検索制限については、[StructArray の制限事項](./struct-array-limits) を参照してください。
+1. StructArray の検索制限を確認するには、[StructArray の制限事項](./struct-array-limits) を参照してください。
