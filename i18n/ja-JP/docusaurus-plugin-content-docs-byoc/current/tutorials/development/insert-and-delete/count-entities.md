@@ -61,7 +61,7 @@ Zilliz Cloud では、コレクション内のエンティティをカウント�
 
 正確なエンティティ数を取得するには、コレクションをロードし、`count(*)` を出力フィールドとするクエリを実行して、クエリの整合性レベルを `Strong` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -319,6 +319,48 @@ console.log(res.data[0]['count(*)'])
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Count without the entities in growing segments
+var count = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters { OutputFields = { "count(*)" } }
+});
+
+// Count with the entities in growing segments
+count = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "count(*)" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+
+// Count the entities in a specific partition
+var countR = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "count(*)" },
+        PartitionNames = { "_default" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -347,7 +389,7 @@ curl --request POST \
 
 次の例では、`test_collection` という名前のコレクションが存在することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -542,6 +584,41 @@ await milvusClient.getPartitionStats({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Partition;
+
+// 1. Set up a Milvus client
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// 2. Get the entity count of a collection
+var stats = await client.GetCollectionStatsAsync(new GetCollectionStatsReq { CollectionName = "test_collection" });
+Console.WriteLine(stats.RowCount);
+
+// 3. Get the entity count of a partition
+var partitionStats = await client.GetPartitionStatsAsync(new GetPartitionStatsReq
+{
+    CollectionName = "test_collection",
+    PartitionName = "_default"
+});
+Console.WriteLine(partitionStats.RowCount);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -614,3 +691,4 @@ curl --request POST \
     **Loaded Entities** に表示される値は正確です。この値と通常のクエリで取得されるエンティティ数との間に差がある場合、コレクション内の一部のエンティティが同じプライマリキーを持っている可能性があります。
 
     `count(*)` を出力フィールドとするクエリは、同じプライマリキーを持つエンティティを別々のエンティティとして扱いますが、その他のクエリは、最終的な結果を返す前に同じプライマリキーを持つエンティティを省略します。
+

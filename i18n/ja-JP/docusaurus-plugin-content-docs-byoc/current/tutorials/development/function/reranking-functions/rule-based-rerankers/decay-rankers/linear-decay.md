@@ -126,7 +126,7 @@ decay 関数を使用する前に、まず decay 計算に使用する適切な�
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -258,6 +258,27 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Calculate current time
+long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+// Create a linear decay ranker for event listings
+// Note: All time parameters must use the same unit as your collection data
+var rerank = new DecayRerank("event_relevance") // Function identifier
+    .WithInputField("event_date") // Numeric field to use
+    .WithFunction("linear") // Choose linear decay
+    .WithOrigin(currentTime) // Current time (seconds, matching collection data)
+    .WithOffset(12L * 60 * 60) // 12 hour immediate events window (seconds)
+    .WithDecay(0.5f) // Half score at scale distance
+    .WithScale(7L * 24 * 60 * 60); // 7 days (in seconds, matching collection data)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -271,7 +292,7 @@ const rerank = {
 
 decay ranker を定義した後、それを `ranker` パラメーターに渡すことで、検索操作中に適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -400,6 +421,30 @@ const result = await milvusClient.search({
   output_fields: ["title", "venue", "event_date"],
   rerank: rerank,
   consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// Apply decay ranker to vector search
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense", // Vector field to search
+    Vectors = new[] { yourQueryVector }, // Replace with your query vector
+    Limit = 10, // Number of results
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "title", "venue", "event_date" }, // Fields to return
+        FunctionScoreReranker = rerank, // Apply the decay ranker
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

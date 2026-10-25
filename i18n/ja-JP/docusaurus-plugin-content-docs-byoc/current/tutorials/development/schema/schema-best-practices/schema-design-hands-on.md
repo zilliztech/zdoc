@@ -140,7 +140,7 @@ Zilliz Cloud では、スキーマの一部として組み込み関数を定義�
 
 まず、空のスキーマを作成する必要があります。このステップでは、データモデルを定義するための基盤構造を確立します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -221,6 +221,16 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+CollectionSchema schema = new();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -234,7 +244,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 スキーマを作成したら、次のステップでは、データを構成するフィールドを指定します。各フィールドには、それぞれのデータ型と属性が関連付けられています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -434,6 +444,21 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("article_id", DataType.Int64, isPrimaryKey: true, autoId: true, description: "article id"));
+schema.Fields.Add(FieldSchema.CreateVarchar("title", 200, description: "article title", enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("timestamp", DataType.Int32, description: "publish date"));
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 2000, description: "article text content", enableAnalyzer: true));
+schema.Fields.Add(new FieldSchema("text_dense_vector", DataType.FloatVector, description: "text dense vector") { Dimension = 768 });
+schema.Fields.Add(new FieldSchema("text_sparse_vector", DataType.SparseFloatVector, description: "text sparse vector"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -498,7 +523,7 @@ export schema="{
 
 データクエリ機能を強化するために、関数をスキーマに組み込むことができます。たとえば、特定のフィールドに関連する処理を行う関数を作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -590,6 +615,17 @@ const functions = [
       params: {},
     },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+FunctionSchema bm25Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse_vector", "bm25 function");
+schema.Functions.Add(bm25Function);
 ```
 
 </TabItem>

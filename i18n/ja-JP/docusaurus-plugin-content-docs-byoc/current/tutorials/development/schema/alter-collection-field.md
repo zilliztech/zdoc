@@ -39,7 +39,7 @@ VarChar フィールドには `max_length` というプロパティがあり、�
 
 次の例では、コレクションに `varchar` という名前の VarChar フィールドがあることを前提に、その `max_length` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,6 +179,21 @@ await client.alterCollectionFieldProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "varchar",
+    Properties = { ["max_length"] = "1024" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -206,7 +221,7 @@ curl --request POST \
 
 次の例では、コレクションに `array` という名前の配列フィールドがあることを前提に、その `max_capacity` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -304,6 +319,21 @@ await client.alterCollectionFieldProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "array",
+    Properties = { ["max_capacity"] = "64" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -331,7 +361,7 @@ curl --request POST \
 
 次の例では、コレクションに `doc_chunk` という名前のフィールドがあることを前提に、その `mmap_enabled` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -420,6 +450,21 @@ await client.alterCollectionFieldProperties({
   collection_name: 'my_collection',
   field_name: 'doc_chunk',
   properties: { 'mmap.enabled': true },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "doc_chunk",
+    Properties = { ["mmap.enabled"] = "true" }
 });
 ```
 

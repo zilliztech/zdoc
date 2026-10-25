@@ -51,7 +51,7 @@ Zilliz Cloud は `RTREE` インデックスを使用して、2 段階のプロ�
 
 コレクションスキーマで定義された `GEOMETRY` フィールドに `RTREE` インデックスを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -212,6 +212,37 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Assume you have defined a GEOMETRY field named "geo" in your collection schema
+
+// Prepare index parameters
+var indexParam = new IndexParam(
+    fieldName: "geo",
+    indexName: "rtree_geo",
+    indexType: IndexType.Rtree);
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "geo_demo",
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -249,7 +280,7 @@ curl --request POST \
 
 指定されたポリゴン内にあるすべてのジオメトリオブジェクトを検索します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -367,6 +398,27 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+string filterExpr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "geo_demo",
+    Expression = filterExpr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "geo" },
+        Limit = 10
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -394,7 +446,7 @@ EOF
 
 直線と交差する最近傍ベクトルを検索します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -530,6 +582,33 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Assume you've also created an index on "vec" and loaded the collection.
+var queryVec = new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f });
+string filterExpr = "ST_INTERSECTS(geo, 'LINESTRING (1 1, 2 2)')";
+
+SearchResp hits = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "geo_demo",
+    Vectors = [queryVec],
+    VectorFieldName = "vec",
+    MetricType = MetricType.L2,
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filterExpr
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -567,7 +646,7 @@ EOF
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -644,6 +723,20 @@ if (!status.IsOk()) {
 await client.dropIndex({
     collection_name: "geo_demo",
     index_name: "rtree_geo",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+await client.DropIndexAsync(new DropIndexReq
+{
+    CollectionName = "geo_demo", // Name of the collection
+    IndexName = "rtree_geo" // Name of the index to drop
 });
 ```
 

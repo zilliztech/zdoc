@@ -51,7 +51,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud でビットマップインデックスを作成するには、`create_index()` メソッドを使用し、`index_type` パラメーターを `"BITMAP"` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -222,6 +222,35 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Prepare index building params
+var indexParam = new IndexParam(
+    fieldName: "category",
+    indexType: IndexType.Bitmap,
+    indexName: "category_bitmap_index");
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "my_collection",
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -273,7 +302,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -402,6 +431,20 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 await client.dropIndex({
     collection_name: "my_collection",
     index_name: "category_bitmap_index",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+await client.DropIndexAsync(new DropIndexReq
+{
+    CollectionName = "my_collection", // Name of the collection
+    IndexName = "category_bitmap_index" // Name of the index to drop
 });
 ```
 

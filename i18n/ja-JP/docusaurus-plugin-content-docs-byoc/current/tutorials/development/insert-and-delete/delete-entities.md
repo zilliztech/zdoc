@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 属性を共有する複数のエンティティを一括で削除する場合は、フィルター式を使用できます。以下のサンプルコードでは、**in** 演算子を使用して、**color** フィールドが **red** および **purple** に設定されているすべてのエンティティを一括削除します。要件に合わせて他の演算子を使用し、フィルター式を構築することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -174,6 +174,32 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+MutationResp res = await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "quick_setup",
+    Expression = "color in [\"red_7025\", \"purple_4976\"]"
+});
+Console.WriteLine(res.DeleteCount);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -198,7 +224,7 @@ curl --request POST \
 
 ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定すると、エンティティを削除できます。以下のサンプルコードは、プライマリキーが **18** と **19** の2つのエンティティを削除する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -301,6 +327,22 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+
+MutationResp res = await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "quick_setup",
+    Ids = [18, 19]
+});
+Console.WriteLine(res.DeleteCount);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -326,7 +368,7 @@ curl --request POST \
 
 特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,6 +472,23 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+
+MutationResp res = await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "quick_setup",
+    Ids = [18, 19],
+    PartitionName = "partitionA"
+});
+Console.WriteLine(res.DeleteCount);
 ```
 
 </TabItem>

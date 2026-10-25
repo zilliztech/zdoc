@@ -103,7 +103,7 @@ WeightedRanker 戦略を使用する場合、重みの値を入力する必要�
 
 たとえば、ハイブリッド検索にテキスト検索と画像検索という 2 つの基本 ANN 検索リクエストがあるとします。テキスト検索の重要度が高いと見なされる場合は、より大きな重みを割り当てる必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -207,6 +207,18 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: defining a weighted rerank function with FunctionSchema params
+// (reranker/weights/norm_score) is not yet supported in milvus-sdk-csharp as of v3.0.0
+// (FunctionSchema.Params cannot be populated externally). Use WeightedReranker instead.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -239,7 +251,7 @@ export rerank='{
 
 Weighted Ranker は、複数のベクトルフィールドを組み合わせるハイブリッド検索操作向けに特別に設計されています。ハイブリッド検索を実行する際は、各検索パスの重みを指定する必要があります：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -449,6 +461,53 @@ const search = await milvusClient.search({
   data: [text_search, image_search],
   rerank: rerank,
   output_fields: ["product_name", "price", "category"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Define text vector search request
+var textSearch = new AnnSearchReq
+{
+    VectorFieldName = "text_vector",
+    Texts = new[] { "modern dining table" },
+    Limit = 10
+};
+
+// Define image vector search request
+var imageSearch = new AnnSearchReq
+{
+    VectorFieldName = "image_vector",
+    Vectors = new[] { new ReadOnlyMemory<float>(imageEmbedding) },  // Image embedding vector
+    Limit = 10
+};
+
+// Apply Weighted Ranker to product hybrid search
+// Text search has 0.8 weight, image search has 0.3 weight
+var hybridResults = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = collectionName,
+    SearchRequests = new[] { textSearch, imageSearch },  // Multiple search requests
+    Reranker = rerank,  // Apply the weighted ranker
+    Limit = 10,
+    Parameters = new SearchParameters { OutputFields = { "product_name", "price", "category" } }
 });
 ```
 
