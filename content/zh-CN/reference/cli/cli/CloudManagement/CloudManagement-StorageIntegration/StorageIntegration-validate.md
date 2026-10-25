@@ -1,7 +1,7 @@
 ---
 title: "验证 | Cloud"
 slug: /cli/cli/StorageIntegration-validate
-sidebar_label: "验证"
+sidebar_label: "validate"
 beta: false
 added_since: v1.4.x
 last_modified: false
@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 验证
+  - validate
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

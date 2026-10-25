@@ -1,7 +1,7 @@
 ---
 title: "创建 | Cloud"
 slug: /cli/cli/StorageIntegration-create
-sidebar_label: "创建"
+sidebar_label: "create"
 beta: false
 added_since: v1.4.x
 last_modified: false
@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - 云
-  - 创建
+  - create
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

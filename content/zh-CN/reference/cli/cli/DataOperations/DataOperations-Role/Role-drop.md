@@ -19,11 +19,10 @@ keywords:
   - Zilliz
   - Zilliz Cloud
   - 云
-  - 删除
+  - drop
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

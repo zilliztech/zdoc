@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - Zilliz Cloud
   - 云
-  - 创建
+  - create
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

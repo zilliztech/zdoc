@@ -356,7 +356,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create",
-            "label": "创建",
+            "label": "create",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-create"
           },
           {
@@ -386,7 +386,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate",
-            "label": "验证",
+            "label": "validate",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-validate"
           }
         ]

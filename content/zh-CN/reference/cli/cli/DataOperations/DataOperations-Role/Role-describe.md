@@ -13,8 +13,8 @@ token: Fj9Yd4SOPoppxTx7K8WcyMd7ncd
 sidebar_position: 2
 keywords: 
   - 什么是向量数据库
-  - 有哪些向量数据库
-  - 向量数据库比较
+  - what are vector databases
+  - vector databases comparison
   - Faiss
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

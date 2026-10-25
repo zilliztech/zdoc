@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - 云
-  - 导出
+  - export
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
