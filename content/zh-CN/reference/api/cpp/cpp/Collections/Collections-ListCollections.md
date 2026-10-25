@@ -12,18 +12,17 @@ type: docx
 token: A5FAdLCowoBG4sxh5vEcRH0Nnkb
 sidebar_position: 29
 keywords: 
-  - vector database
+  - 向量 Database
   - IVF
   - knn
-  - Image Search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 图像搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListCollections()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -49,17 +48,17 @@ auto request = ListCollectionsRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该名称为空，则使用默认 Database。
 
 - `WithOnlyShowLoaded(bool only_show_loaded)`
 
-    设置是否仅显示已加载的 Collection 或显示所有 Collection。默认值：`false`。
+    设置该标志是仅显示已加载的 Collection，还是显示所有 Collection。默认值：`false`。
 
 **返回值：**
 
 包含 *ListCollectionsResponse* 的 *Status*
 
-检查 `status.IsOk()` 以确认操作成功。
+检查 `status.IsOk()` 以确认成功。
 
 **异常：**
 

@@ -4,13 +4,13 @@ slug: /cpp/cpp/Collections-AddCollectionStructField
 sidebar_label: "AddCollectionStructField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "向现有 Collection 添加结构体字段。| Cloud"
 type: docx
 token: GWPxd80BYoQleSxNCPNcFvWsnzb
-sidebar_position: 33
+sidebar_position: 34
 keywords: 
   - 自然语言搜索
   - 相似性搜索
@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -43,7 +42,7 @@ Status AddCollectionStructField(const AddCollectionStructFieldRequest& request)
 auto request = AddCollectionStructFieldRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithStructField(field_schema);
+    .WithStructField(struct_field_schema);
 ```
 
 **请求方法：**

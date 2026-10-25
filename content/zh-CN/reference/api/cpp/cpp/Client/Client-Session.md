@@ -4,26 +4,25 @@ slug: /cpp/cpp/Client-Session
 sidebar_label: "Session()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "创建一个集群范围的会话，仅暴露 DQL 接口。| Cloud"
+description: "创建一个仅暴露 DQL 接口的集群级会话。 | Cloud"
 type: docx
 token: VTkhdUYKvoYBPRx7EDiczhJhnhe
-sidebar_position: 13
+sidebar_position: 15
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - RAG LLM 架构
+  - 私有 LLM
+  - 最近邻搜索
+  - LLM 评估
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - Session()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,35 +30,83 @@ import Admonition from '@theme/Admonition';
 
 # Session()
 
-创建一个集群范围的会话，仅暴露 DQL 接口。
-
-## 请求语法\{#request-syntax}
+创建一个仅暴露 DQL 接口的集群级会话。
 
 ```c++
 Status Session(const std::string& cluster_id, MilvusClientV2SessionPtr& session)
 ```
 
-**返回值：**
+**参数：**
+
+- **cluster_id**（*const std::string&*）
+
+    目标集群标识符。
+
+- **session**（*MilvusClientV2SessionPtr&*）
+
+    用于接收集群级客户端视图的输出参数。
+
+**返回：**
 
 *Status*
 
-返回一个状态，用于指示操作是否成功。
+检查 `status.IsOk()` 以确认成功。
 
-**错误处理：**
+**异常：**
 
-- **std::exception**
+- **StatusCode**
 
-    当请求构造、传输或响应处理失败时抛出此异常。请检查异常消息或返回的 Status 以获取失败详情。
+    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
+
+### MilvusClientV2Session\{#milvusclientv2session}
+
+一种集群级客户端视图，暴露绑定到特定集群的只读（DQL）接口。
+
+**方法：**
+
+- `const std::string& ClusterID() const`
+
+    返回目标集群的标识符。
+
+- `Status Search(const SearchRequest& request, SearchResponse& response)`
+
+    针对目标集群运行搜索。请参见 [Search](./Vector-Search)。
+
+- `Status SearchIterator(const SearchIteratorRequest& request, SearchIteratorPtr& iterator)`
+
+    为目标集群创建搜索迭代器。请参见 [SearchIterator](./Vector-SearchIterator)。
+
+- `Status HybridSearch(const HybridSearchRequest& request, HybridSearchResponse& response)`
+
+    针对目标集群运行混合搜索。请参见 [HybridSearch](./Vector-HybridSearch)。
+
+- `Status Query(const QueryRequest& request, QueryResponse& response)`
+
+    针对目标集群运行查询。请参见 [Query](./Vector-Query)。
+
+- `Status Get(const GetRequest& request, GetResponse& response)`
+
+    针对目标集群运行按主键查询。请参见 [Get](./Vector-Get)。
+
+- `Status QueryIterator(const QueryIteratorRequest& request, QueryIteratorPtr& iterator)`
+
+    为目标集群创建查询迭代器。请参见 [QueryIterator](./Vector-QueryIterator)。
 
 ## 示例\{#example}
 
-演示如何在 C++ SDK 中使用 Session()。
-
 ```c++
+#include "milvus/MilvusClientV2.h"
 auto client = milvus::MilvusClientV2::Create();
+
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
 milvus::MilvusClientV2SessionPtr session;
-util::CheckStatus(client->Session("cluster-a", session));
+status = client->Session(cluster_id, session);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

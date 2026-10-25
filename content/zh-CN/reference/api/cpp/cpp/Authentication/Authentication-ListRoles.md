@@ -7,23 +7,22 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回角色列表。 | Cloud"
+description: "此操作会返回角色列表。 | Cloud"
 type: docx
 token: Syt3dskDpo3VcQxMu43cXcBFnre
 sidebar_position: 14
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量数据库
+  - 多模态向量 Database 检索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListRoles()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +30,23 @@ import Admonition from '@theme/Admonition';
 
 # ListRoles()
 
-此操作返回角色列表。
+此操作会返回角色列表。
 
 ```c++
 Status ListRoles(const ListRolesRequest& request, ListRolesResponse& response)
 ```
 
-**返回值：**
+**返回：**
 
-包含 *ListRolesResponse* 的 *Status*
+*Status* 与 *ListRolesResponse*
 
-检查 `status.IsOk()` 以确认是否成功。
+请检查 `status.IsOk()` 以确认操作成功。
 
 **异常：**
 
 - **StatusCode**
 
-    查看 `status.Code()` 和 `status.Message()` 获取错误详情。
+    检查 `status.Code()` 和 `status.Message()` 以了解错误详情。
 
 ## 示例\{#example}
 

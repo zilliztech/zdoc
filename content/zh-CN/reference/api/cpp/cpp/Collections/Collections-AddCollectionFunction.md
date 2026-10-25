@@ -7,23 +7,22 @@ added_since: v2.6.3
 last_modified: v3.0.x
 deprecate_since: v3.0.x
 notebook: false
-description: "向现有 Collection 添加函数。| Cloud"
+description: "此操作会向现有 Collection 添加函数。 | Cloud"
 type: docx
 token: OrRqdvj4yoN2cMxbHUkcEE9Xnbg
 sidebar_position: 2
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是向量 Database
+  - 向量 Database
+  - 多模态向量 Database 检索
+  - 检索增强生成
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - AddCollectionFunction()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionFunction()
 
-向现有 Collection 添加函数。
+此操作会向现有 Collection 添加函数。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Notes">
 
-在 v3.0.x 中已弃用。请使用 AddFunctionField() 将函数与新的输出字段及绑定索引一同添加。
+在 v3.0.x 中已废弃。请使用 [AddFunctionField()](./Collections-AddFunctionField) 将函数与新的输出字段及绑定索引一同添加。
 
 </Admonition>
 
@@ -52,43 +51,50 @@ auto request = AddCollectionFunctionRequest()
     .WithFunction(function);
 ```
 
-### AddCollectionFunctionRequest\{#addcollectionfunctionrequest}
-
 **请求方法：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称；若为空，则使用默认 Database。
+    设置目标 Database 名称；如果该名称为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置要添加函数的 Collection 名称。
 
 - `WithFunction(const FunctionPtr& function)`
 
-    设置要添加的函数。
+    设置要添加到 Collection 的函数，该函数以指向函数定义的共享指针表示。
 
-**返回值：**
+**返回：**
 
 *Status*
 
-返回一个状态，用于指示操作是否成功。
+返回一个 Status，指示函数是否已成功添加。
 
-**错误处理：**
+**异常处理：**
 
 - **std::exception**
 
-    当请求构造、传输或响应处理失败时抛出此异常。请检查异常消息或返回的 Status 以获取失败详情。
+    当请求构造、传输或响应处理失败时抛出。请检查异常消息或返回的 Status 以获取失败详情。
 
 ## 示例\{#example}
 
-演示如何使用 C++ SDK 调用 AddCollectionFunction()。
+在已连接的 MilvusClientV2 上调用 AddCollectionFunction()，向现有 Collection 添加函数。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::AddCollectionFunctionRequest();
-util::CheckStatus(client->AddCollectionFunction(request));
+auto request = milvus::AddCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFunction(function);
+status = client->AddCollectionFunction(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

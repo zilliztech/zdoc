@@ -4,26 +4,25 @@ slug: /cpp/cpp/Client-Create
 sidebar_label: "Create()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作创建一个 MilvusClientV2 实例。 | Cloud"
+description: "此操作创建一个新的 MilvusClientV2 实例。 | Cloud"
 type: docx
-token: J3Rqd884xoiTSTxl4YjcbtvunWf
+token: CfaudoM2CocOHtxYirFcJqbKnof
 sidebar_position: 4
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Create()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # Create()
 
-此操作创建一个 MilvusClientV2 实例。
+此操作创建一个新的 MilvusClientV2 实例。
 
 ```c++
 static std::shared_ptr<MilvusClientV2> Create()
@@ -39,22 +38,22 @@ static std::shared_ptr<MilvusClientV2> Create()
 
 **返回值：**
 
-*Status*
+*std::shared_ptr&lt;milvus::MilvusClientV2&gt;*
 
-检查 `status.IsOk()` 以确认是否成功。
+返回新创建的客户端实例，该实例已准备好通过 Connect() 进行配置。
 
-**异常：**
+**错误处理：**
 
-- **StatusCode**
+- **std::exception**
 
-    查看 `status.Code()` 和 `status.Message()` 获取错误详情。
+    当无法构造客户端实例时抛出。请检查异常消息以了解失败详情。
 
 ## 示例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+创建客户端实例，然后将其连接到 Milvus 服务器。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {

@@ -12,18 +12,17 @@ type: docx
 token: NSvXdtRoioS4NKxdjANcGFd9nrc
 sidebar_position: 15
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListUsers()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';

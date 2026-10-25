@@ -7,23 +7,22 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于检查指定 Partition 是否存在。 | Cloud"
+description: "此操作检查 Partition 是否存在。 | Cloud"
 type: docx
 token: M7O7df6KLoqRS2x6ls0cuSwlnNh
 sidebar_position: 4
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 开源向量 Database
+  - 开源向量 Database
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - HasPartition()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # HasPartition()
 
-此操作用于检查指定 Partition 是否存在。
+此操作检查 Partition 是否存在。
 
 ```c++
 Status HasPartition(const HasPartitionRequest& request, HasPartitionResponse& response)
@@ -50,27 +49,27 @@ auto request = HasPartitionRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionName(const std::string& partition_name)`
 
-    设置 Partition 名称。
+    设置 Partition 的名称。
 
 **返回值：**
 
-包含 *HasPartitionResponse* 的 *Status*
+包含 *HasPartitionResponse* 的 *Status*。
 
-请检查 `status.IsOk()` 以确认操作成功。
+检查 `status.IsOk()` 以确认操作是否成功。
 
 **异常：**
 
 - **StatusCode**
 
-    请检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
+    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
 
 ## 示例\{#example}
 

@@ -7,23 +7,22 @@ added_since: v2.6.1
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "本页介绍 `RoleDesc` 和 `GrantItem`。`RoleDesc` 表示 Milvus 角色及其关联权限的元数据，可通过在 `DescribeRoleResponse` 上调用 `Desc()` 获取该对象。每个权限条目均为一个 `GrantItem` 结构体。 | Cloud"
+description: "本页同时介绍 `RoleDesc` 和 `GrantItem`。`RoleDesc` 表示 Milvus 角色的元数据及其关联权限。它通过调用 `DescribeRoleResponse` 上的 `Desc()` 返回。每个权限条目都是一个 `GrantItem` 结构体。 | Cloud"
 type: docx
 token: UuNVdIvAYoTy3GxmbcGcQ1chn3b
 sidebar_position: 20
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - RoleDesc
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RoleDesc
 
-本页介绍 `RoleDesc` 和 `GrantItem`。`RoleDesc` 表示 Milvus 角色及其关联权限的元数据，可通过在 `DescribeRoleResponse` 上调用 `Desc()` 获取该对象。每个权限条目均为一个 `GrantItem` 结构体。
+本页同时介绍 `RoleDesc` 和 `GrantItem`。`RoleDesc` 表示 Milvus 角色的元数据及其关联权限。它通过调用 `DescribeRoleResponse` 上的 `Desc()` 返回。每个权限条目都是一个 `GrantItem` 结构体。
 
 ## RoleDesc\{#roledesc}
 
@@ -44,15 +43,15 @@ RoleDesc(const std::string& name, std::vector<GrantItem>&& grant_items);
 
 - `const std::string& Name() const`
 
-    角色的名称。
+    角色名称。
 
 - `const std::vector<GrantItem>& GrantItems() const`
 
-    分配给该角色的权限授予列表。每个条目均为一个 GrantItem 结构体（见下文）。
+    分配给此角色的权限授权列表。每一项都是一个 GrantItem 结构体（见下文）。
 
 ## GrantItem\{#grantitem}
 
-`GrantItem` 是一个普通结构体，用于描述单个权限授予。
+`GrantItem` 是一个普通结构体，用于描述单个权限授权。
 
 ```c++
 struct GrantItem {

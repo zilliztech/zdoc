@@ -4,13 +4,13 @@ slug: /cpp/cpp/Collections-AddFunctionField
 sidebar_label: "AddFunctionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "向现有 Collection 添加函数生成的输出字段。| Cloud"
 type: docx
 token: TcF2doHmuoNHsKxRRJbcsYevnph
-sidebar_position: 34
+sidebar_position: 35
 keywords: 
   - Video search
   - AI Hallucination
@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +44,7 @@ auto request = AddFunctionFieldRequest()
     .WithCollectionName(collection_name)
     .WithField(field_schema)
     .WithFunction(function)
-    .WithIndex(index);
+    .WithIndex(index_desc);
 ```
 
 **请求方法：**

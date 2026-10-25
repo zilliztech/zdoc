@@ -4,26 +4,25 @@ slug: /cpp/cpp/Authentication-UpdateUser
 sidebar_label: "UpdateUser()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "更新用户密码。| Cloud"
+description: "此操作会更新用户的描述。 | Cloud"
 type: docx
 token: XXBwdXvCWo1te0xWjifc19kUnjf
 sidebar_position: 22
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - UpdateUser()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # UpdateUser()
 
-更新指定用户的密码。
+此操作会更新用户的描述。
 
 ```c++
 Status UpdateUser(const UpdateUserRequest& request)
@@ -49,31 +48,42 @@ auto request = UpdateUserRequest()
 
 - `WithUserName(const std::string& user_name)`
 
-    由 MilvusClientV2::UpdateUser() 使用。
+    设置用户的名称。
 
 - `WithDescription(const std::string& description)`
+
+    设置用户的描述。
 
 **返回值：**
 
 *Status*
 
-返回一个状态，用于指示操作是否成功。
+检查 `status.IsOk()` 以确认成功。
 
-**错误处理：**
+**异常：**
 
-- **std::exception**
+- **StatusCode**
 
-    当请求构造、传输或响应处理失败时抛出此异常。请检查异常消息或返回的 Status 以获取详细的失败信息。
+    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
 
 ## 示例\{#example}
 
-演示如何使用 C++ SDK 调用 UpdateUser()。
-
 ```c++
+#include "milvus/MilvusClientV2.h"
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
 
-auto request = milvus::UpdateUserRequest();
-util::CheckStatus(client->UpdateUser(request));
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->UpdateUser(
+    milvus::UpdateUserRequest()
+        .WithUserName(user_name)
+        .WithDescription(description)
+);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

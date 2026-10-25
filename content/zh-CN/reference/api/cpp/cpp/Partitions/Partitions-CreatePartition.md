@@ -7,23 +7,22 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于在 Collection 中创建 Partition。 | Cloud"
+description: "此操作会在 Collection 中创建一个 Partition。 | Cloud"
 type: docx
 token: W65adsrWqolU5Lx7C5Oc19b2ne6
 sidebar_position: 1
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - IVF
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - CreatePartition()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CreatePartition()
 
-此操作用于在 Collection 中创建 Partition。
+此操作会在 Collection 中创建一个 Partition。
 
 ```c++
 Status CreatePartition(const CreatePartitionRequest& request)
@@ -50,27 +49,27 @@ auto request = CreatePartitionRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionName(const std::string& partition_name)`
 
-    设置 Partition 名称。
+    设置 Partition 的名称。
 
-**返回值：**
+**返回：**
 
 *Status*
 
-检查 `status.IsOk()` 以确认操作是否成功。
+检查 `status.IsOk()` 以确认是否成功。
 
 **异常：**
 
 - **StatusCode**
 
-    检查 `status.Code()` 和 `status.Message()` 获取错误详情。
+    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
 
 ## 示例\{#example}
 

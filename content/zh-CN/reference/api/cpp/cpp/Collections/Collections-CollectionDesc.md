@@ -7,23 +7,22 @@ added_since: v2.6.1
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类表示 Collection 的完整 Schema 及运行时元数据。可通过在 `Desc()` 对象上调用 `DescribeCollectionResponse` 获取。 | Cloud"
+description: "此类表示 Collection 的完整 Schema 和运行时元数据。它由在 `DescribeCollectionResponse` 对象上调用 `Desc()` 返回。 | Cloud"
 type: docx
 token: QZ7hdS2KRofUiYx9c8TcMXkknPc
 sidebar_position: 9
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量 Database
+  - 向量 Database 示例
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - CollectionDesc
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CollectionDesc
 
-此类表示 Collection 的完整 Schema 及运行时元数据。可通过在 `Desc()` 对象上调用 `DescribeCollectionResponse` 获取。
+此类表示 Collection 的完整 Schema 和运行时元数据。它由在 `DescribeCollectionResponse` 对象上调用 `Desc()` 返回。
 
 ```c++
 const CollectionDesc& desc = response.Desc();
@@ -45,7 +44,7 @@ const CollectionDesc& desc = response.Desc();
 
 - `const std::string& CollectionName() const`
 
-    Collection 名称。
+    Collection 的名称。
 
 - `const std::string& Description() const`
 
@@ -53,23 +52,23 @@ const CollectionDesc& desc = response.Desc();
 
 - `int64_t NumShards() const`
 
-    Collection 的分片数量。
+    该 Collection 中分片的数量。
 
 - `const CollectionSchema& Schema() const`
 
-    Collection 的 Schema，包含字段定义和动态字段设置。详情请参见 CollectionSchema。
+    Collection 的 Schema，包括字段定义和动态字段设置。有关详细信息，请参见 CollectionSchema。
 
 - `int64_t ID() const`
 
-    服务端分配的 Collection ID。
+    由服务器分配的 Collection ID。
 
 - `const std::vector<std::string>& Alias() const`
 
-    关联到此 Collection 的别名列表。
+    附加到该 Collection 的别名列表。
 
 - `uint64_t CreatedTime() const`
 
-    Collection 创建时的 UTC 时间戳（微秒）。
+    创建该 Collection 的 UTC 时间戳（微秒）。
 
 - `uint64_t UpdateTime() const`
 
@@ -77,7 +76,7 @@ const CollectionDesc& desc = response.Desc();
 
 - `const std::unordered_map<std::string, std::string>& Properties() const`
 
-    Collection 级别的属性，以键值对形式存储（如 TTL 设置）。
+    Collection 级属性，以键值对形式表示（例如 TTL 设置）。
 
 ## 示例\{#example}
 

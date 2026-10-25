@@ -13,17 +13,16 @@ token: Wom0dLES1ojjtKxa8OdckAK3n1C
 sidebar_position: 6
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量数据库
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - Disconnect()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # Disconnect()
 
-此操作用于关闭客户端与服务器之间的连接。
+此操作会关闭客户端与服务器之间的连接。
 
 ```c++
 Status Disconnect()

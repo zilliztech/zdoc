@@ -7,23 +7,22 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于列出快照恢复任务。您可以通过该操作查看恢复历史记录及当前正在执行的恢复任务。 | Cloud"
+description: "此操作会列出恢复快照作业。您可以使用它查看恢复历史记录和正在进行的恢复操作。 | Cloud"
 type: docx
 token: ObE8dlNmooAuRQxQnyEci9RInxH
 sidebar_position: 5
 keywords: 
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListRestoreSnapshotJobs()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRestoreSnapshotJobs()
 
-此操作用于列出快照恢复任务。您可以通过该操作查看恢复历史记录及当前正在执行的恢复任务。
+此操作会列出恢复快照作业。您可以使用它查看恢复历史记录和正在进行的恢复操作。
 
 ```c++
 Status ListRestoreSnapshotJobs(const ListRestoreSnapshotJobsRequest& request, ListRestoreSnapshotJobsResponse& response)
@@ -55,7 +54,7 @@ auto request = milvus::ListRestoreSnapshotJobsRequest()
 
     设置 Collection 名称。
 
-**返回值：**
+**返回类型：**
 
 *Status*
 
@@ -63,7 +62,7 @@ auto request = milvus::ListRestoreSnapshotJobsRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，可能会引发此异常。
 
 ## 示例\{#example}
 

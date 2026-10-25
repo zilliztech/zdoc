@@ -7,23 +7,22 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于获取 Partition 统计信息。 | Cloud"
+description: "此操作会获取 Partition 统计信息。 | Cloud"
 type: docx
 token: LaPcdArhDo6aGnxpX8Oc5azCnCe
 sidebar_position: 3
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 开源向量 Database
+  - 开源向量 db
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - GetPartitionStatistics()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # GetPartitionStatistics()
 
-此操作用于获取 Partition 统计信息。
+此操作会获取 Partition 统计信息。
 
 ```c++
 Status GetPartitionStatistics(const GetPartitionStatsRequest& request, GetPartitionStatsResponse& response)
@@ -50,21 +49,21 @@ auto request = GetPartitionStatsRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 名称。如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置 Collection 的名称。
 
 - `WithPartitionName(const std::string& partition_name)`
 
-    设置 Partition 名称。
+    设置 Partition 的名称。
 
-**返回值：**
+**返回：**
 
-包含 *GetPartitionStatsResponse* 的 *Status*
+*Status* 与 *GetPartitionStatsResponse*
 
-请检查 `status.IsOk()` 以确认操作是否成功。当前响应仅包含行数。
+请检查 `status.IsOk()` 以确认操作成功。目前，响应中仅包含行数。
 
 **异常：**
 

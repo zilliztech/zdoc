@@ -4,26 +4,25 @@ slug: /cpp/cpp/Collections-CreateAlias
 sidebar_label: "CreateAlias()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作为 Collection 创建别名。在搜索或查询时，您可以使用别名代替 Collection 名称。 | Cloud"
+description: "此操作为 Collection 创建别名，以便搜索和查询调用可以使用该别名而非 Collection 名称来访问该 Collection。 | Cloud"
 type: docx
-token: TCOmduhQKosBcNxfUQOcLdzqnAf
+token: Pz42dXmiqoCNScx0MPzcjmXLnib
 sidebar_position: 13
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - OpenAI 向量 Database
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateAlias()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CreateAlias()
 
-此操作为 Collection 创建别名。在搜索或查询时，您可以使用别名代替 Collection 名称。
+此操作为 Collection 创建别名，以便搜索和查询调用可以使用该别名而非 Collection 名称来访问该 Collection。
 
 ```c++
 Status CreateAlias(const CreateAliasRequest& request)
@@ -50,44 +49,45 @@ auto request = CreateAliasRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置目标 Database 名称。若未指定，则使用默认 Database。
+    设置目标 Database 的名称；如果该值为空，则使用默认 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置 Collection 名称。
+    设置要为其创建别名的 Collection 的名称。
 
 - `WithAlias(const std::string& alias)`
 
-    设置别名。
+    设置要创建的别名的名称。
 
-**返回值：**
+**返回：**
 
 *Status*
 
-检查 `status.IsOk()` 以确认操作成功。
+返回一个 Status，指示别名是否已成功创建。
 
-**异常：**
+**错误处理：**
 
-- **StatusCode**
+- **std::exception**
 
-    检查 `status.Code()` 和 `status.Message()` 以获取错误详情。
+    当请求构建、传输或响应处理失败时抛出。请检查异常消息或返回的 Status，以了解失败详情。
 
 ## 示例\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+在已连接的 MilvusClientV2 上调用 CreateAlias()，创建一个引用现有 Collection 的别名。
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-status = client->CreateAlias(
-    milvus::CreateAliasRequest()
-        .WithCollectionName("my_collection")
-        .WithAlias("my_alias"));
+auto request = milvus::CreateAliasRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithAlias(alias);
+status = client->CreateAlias(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

@@ -4,26 +4,25 @@ slug: /cpp/cpp/Authentication-UpdatePassword
 sidebar_label: "UpdatePassword()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于更新用户密码。 | Cloud"
+description: "此操作会更新用户的密码。 | Cloud"
 type: docx
-token: BXaGduFMvolXlnxaIFkcKy3Nnhu
+token: Livud2dUIotCQbxD8SFc8oWwnGp
 sidebar_position: 21
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量数据库
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - UpdatePassword()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # UpdatePassword()
 
-此操作用于更新用户密码。
+此操作会更新用户的密码。
 
 ```c++
 Status UpdatePassword(const UpdatePasswordRequest& request)
@@ -43,22 +42,32 @@ Status UpdatePassword(const UpdatePasswordRequest& request)
 auto request = UpdatePasswordRequest()
     .WithUserName(name)
     .WithOldPassword(password1)
-    .WithNewPassword(password2);
+    .WithNewPassword(password2)
+    .WithDescription(description)
+    .WithResetConnection(reset_connection);
 ```
 
 **请求方法：**
 
 - `WithUserName(const std::string& name)`
 
-    设置用户名。
+    设置用户的名称。
 
 - `WithOldPassword(const std::string& password)`
 
-    设置用户密码。
+    设置用户的密码。
 
 - `WithNewPassword(const std::string& password)`
 
     设置用户的新密码。
+
+- `WithDescription(const std::string& description)`
+
+    设置用户的描述。
+
+- `WithResetConnection(bool reset_connection)`
+
+    是否在密码更新后重置客户端连接。在尝试重新连接之前，密码已在服务器上更新。如果重新连接失败，返回的 Status 会报告密码已更新，但必须使用新凭据手动重新建立连接。
 
 **返回值：**
 

@@ -12,18 +12,17 @@ type: docx
 token: Ls7kdwtuJoZfVUx1N3vc5tkznuh
 sidebar_position: 3
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - ListImportJobs()
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,23 +54,23 @@ auto resp = milvus::BulkImport::ListImportJobs(
 
 - `url` (*const std::string&*)
 
-    **[必填]**
+    **[必需]**
 
     Milvus 服务器的 URL，例如 `"YOUR_CLUSTER_ENDPOINT"`。
 
 - `collection_name` (*const std::string&*)
 
-    **[必填]**
+    **[必需]**
 
-    要查询导入任务的 Collection 名称。
+    要列出其导入任务的 Collection 名称。
 
 - `db_name` (*const std::string&*)
 
-    该 Collection 所属的 Database 名称。默认值为 `"default"`。
+    包含该 Collection 的 Database 名称。该值默认为 `"default"`。
 
 - `api_key` (*const std::string&*)
 
-    用于身份验证的 API 密钥。对于 Milvus，请传入 `"username:password"`；对于 Zilliz Cloud，请使用云 API 密钥。
+    用于身份验证的 API key。对于 Milvus，请传入 `"username:password"`；对于 Zilliz Cloud，请使用云 API key。
 
 **返回值：**
 

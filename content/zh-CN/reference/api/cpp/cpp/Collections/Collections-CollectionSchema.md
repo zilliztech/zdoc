@@ -7,23 +7,22 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类通过指定字段及动态字段配置来定义 Collection 的 Schema。为便于使用，提供了别名 `CollectionSchemaPtr`（即 `std:sharedptr`）。创建 Collection 时，请将该指针传递给 `CreateCollectionRequest::WithCollectionSchema()`。 | Cloud"
+description: "此类通过指定字段及动态字段设置来定义 Collection 的 Schema。为便于使用，提供了别名 `CollectionSchemaPtr`（即 `std:sharedptr`）。创建 Collection 时，请将该指针传递给 `CreateCollectionRequest::WithCollectionSchema()`。 | Cloud"
 type: docx
 token: AKq1dk2CLofyBXxCjAIcYdDNnae
 sidebar_position: 11
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - CollectionSchema
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CollectionSchema
 
-此类通过指定字段及动态字段配置来定义 Collection 的 Schema。为便于使用，提供了别名 `CollectionSchemaPtr`（即 `std::shared_ptr<CollectionSchema>`）。创建 Collection 时，请将该指针传递给 `CreateCollectionRequest::WithCollectionSchema()`。
+此类通过指定字段及动态字段设置来定义 Collection 的 Schema。为便于使用，提供了别名 `CollectionSchemaPtr`（即 `std::shared_ptr<CollectionSchema>`）。创建 Collection 时，请将该指针传递给 `CreateCollectionRequest::WithCollectionSchema()`。
 
 ```c++
 CollectionSchema();
@@ -44,19 +43,19 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
 **参数：**
 
-- **name** (*std::string*)
+- **name**（*std::string*）
 
     设置 Collection 名称。在 MilvusClientV2 中，名称需通过 `CreateCollectionRequest::WithCollectionName()` 设置，此构造函数参数将被忽略。
 
-- **desc** (*std::string*)
+- **desc**（*std::string*）
 
-    设置可选的可读描述。默认值：`""`。
+    设置可选的人类可读描述。默认值：`""`。
 
-- **shard_num** (*int32_t*)
+- **shard_num**（*int32_t*）
 
     设置分片数。该值必须大于 `0`。默认值：`1`。在 MilvusClientV2 中，请改用 `CreateCollectionRequest::WithNumShards()` 进行设置。
 
-- **enable_dynamic_field** (*bool*)
+- **enable_dynamic_field**（*bool*）
 
     当设置为 `true` 时，Entity 可包含未在 Schema 中声明的字段。这些额外字段将作为名为 `$meta` 的 JSON 字段存储在内部。默认值：`true`。
 
@@ -66,7 +65,7 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
 - `bool AddField(const FieldSchema& field_schema)`
 
-    向 Schema 追加一个普通字段。成功时返回 `true`。使用 `FieldSchema` 指定字段名、`DataType` 以及特定类型的配置（例如：向量字段的 `WithDimension()`、VARCHAR 字段的 `WithMaxLength()`、主键的 `WithPrimaryKey(true)`）。
+    向 Schema 追加一个普通字段。成功时返回 `true`。使用 `FieldSchema` 指定字段名、`DataType` 以及特定类型的设置（例如：向量字段的 `WithDimension()`、VARCHAR 字段的 `WithMaxLength()`、主键的 `WithPrimaryKey(true)`）。
 
 - `const std::vector<FieldSchema>& Fields() const`
 
@@ -82,7 +81,7 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
 - `void AddFunction(const FunctionPtr& function)`
 
-    将内置函数（如 BM25 分词函数）绑定到 Schema。
+    将内置函数（例如 BM25 分词函数）绑定到 Schema。
 
 - `const std::vector<FunctionPtr>& Functions() const`
 

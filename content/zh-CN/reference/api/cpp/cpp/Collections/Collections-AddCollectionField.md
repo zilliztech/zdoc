@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "向现有 Collection 添加字段。| Cloud"
+description: "此操作会向现有 Collection 的 Schema 中添加一个新字段。 | Cloud"
 type: docx
 token: KMuzdtwSaoadnbx0caLcHCAGn1b
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-向现有 Collection 添加字段。
+此操作会向现有 Collection 的 Schema 中添加一个新字段。
 
 ```c++
 Status AddCollectionField(const AddCollectionFieldRequest& request)
@@ -58,7 +57,7 @@ auto request = AddCollectionFieldRequest()
 
 - `WithField(FieldSchema&& field_schema)`
 
-    设置字段 Schema。
+    设置要添加的字段的 Schema。该请求通过右值引用取得字段 Schema 的所有权，因此请使用 std::move 传递。
 
 **返回值：**
 
@@ -74,13 +73,25 @@ auto request = AddCollectionFieldRequest()
 
 ## 示例\{#example}
 
-演示如何使用 C++ SDK 调用 AddCollectionField()。
+在已连接的 MilvusClientV2 上调用 AddCollectionField()，向现有 Collection 添加一个新字段。
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::AddCollectionFieldRequest();
-util::CheckStatus(client->AddCollectionField(request));
+milvus::FieldSchema field_schema{"age", milvus::DataType::INT64};
+field_schema.WithNullable(true);  // Nullable so rows can omit the value.
+
+auto request = milvus::AddCollectionFieldRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithField(std::move(field_schema));
+status = client->AddCollectionField(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

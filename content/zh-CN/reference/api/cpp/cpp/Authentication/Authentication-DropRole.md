@@ -12,10 +12,10 @@ type: docx
 token: QRNudMVJXoG1flxBkEocI2pynef
 sidebar_position: 9
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';

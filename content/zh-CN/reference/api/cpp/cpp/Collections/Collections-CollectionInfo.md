@@ -7,23 +7,22 @@ added_since: v2.6.1
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类包含列表结果中单个 Collection 的摘要信息。`ListCollectionsResponse:CollectionInfos()` 返回一个 `CollectionsInfo` 值，它是 `std::vector` 的类型别名。 | Cloud"
+description: "此类保存列表中单个 Collection 的摘要信息。`ListCollectionsResponse:CollectionInfos()` 返回一个 `CollectionsInfo` 值，该值是 `std::vector` 的类型别名。 | Cloud"
 type: docx
 token: Er8qdUCUAok3j4xBCP0cVYIQnk0
 sidebar_position: 10
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - CollectionInfo
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CollectionInfo
 
-此类包含列表结果中单个 Collection 的摘要信息。`ListCollectionsResponse::CollectionInfos()` 返回一个 `CollectionsInfo` 值，它是 `std::vector<CollectionInfo>` 的类型别名。
+此类保存列表中单个 Collection 的摘要信息。`ListCollectionsResponse::CollectionInfos()` 返回一个 `CollectionsInfo` 值，该值是 `std::vector<CollectionInfo>` 的类型别名。
 
 ```c++
 CollectionInfo();
