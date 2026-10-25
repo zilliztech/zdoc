@@ -396,6 +396,8 @@ function deleteStagingWithLease(options) {
 }
 
 module.exports = {
+  BOT_EMAIL,
+  BOT_NAME,
   deterministicStagingRef,
   prepareStagingWorktree,
   commitAppliedBatch,
