@@ -4,7 +4,7 @@ slug: /go/go/v2-Snapshot-GetExportSnapshotState
 sidebar_label: "GetExportSnapshotState"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作查询异步快照导出任务的状态和进度。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

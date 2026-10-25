@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnBinaryVectorArray 实例表示一个 ArrayOfVector 二进制向量列，其各行包含具有相同维度的二进制向量值。可空语义在 v3.0.0 中强制执行：可空性标志和有效值记录都是真实操作，而不是占位实现。 | Go | v2"
 type: docx
 token: VKeBdnkoXoI29txzTuncqsaDnte
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - 向量搜索
   - knn 算法
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

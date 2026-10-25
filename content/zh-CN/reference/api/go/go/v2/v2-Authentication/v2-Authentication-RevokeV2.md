@@ -4,7 +4,7 @@ slug: /go/go/v2-Authentication-RevokeV2
 sidebar_label: "RevokeV2"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作使用 v2 API 撤销角色的某项权限。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

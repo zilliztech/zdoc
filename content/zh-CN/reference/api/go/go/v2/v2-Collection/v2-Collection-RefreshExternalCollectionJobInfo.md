@@ -4,16 +4,16 @@ slug: /go/go/v2-Collection-RefreshExternalCollectionJobInfo
 sidebar_label: "RefreshExternalCollectionJobInfo"
 beta: false
 added_since: v3.0.0
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此类型包含有关刷新外部 Collection 作业的信息。 | Go | v2"
+description: "RefreshExternalCollectionJobInfo 实例包含有关刷新外部 Collection 作业的信息。 | Go | v2"
 type: docx
 token: TxIQdcx34oB2CUxHIRMcRGPNnic
-sidebar_position: 29
+sidebar_position: 34
 keywords: 
-  - 向量数据库对比
-  - openai 向量数据库
+  - 向量 Database 对比
+  - openai 向量 Database
   - 自然语言处理 Database
   - 低成本向量 Database
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,44 +30,87 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionJobInfo
 
-此类型包含有关刷新外部 Collection 作业的信息。
+RefreshExternalCollectionJobInfo 实例包含有关刷新外部 Collection 作业的信息。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
-    JobID          int64
+    JobID int64
     CollectionName string
-    State          RefreshExternalCollectionState
-    Progress       int64
-    Reason         string
+    State RefreshExternalCollectionState
+    Progress int64
+    Reason string
     ExternalSource string
-    StartTime      int64
-    EndTime        int64
+    ExternalSpec string
+    StartTime int64
+    EndTime int64
 }
 ```
 
 **字段：**
 
-- **JobID** (*int64*) -<br/>
-  刷新作业的唯一标识符。
+- **JobID** (*int64*) -
 
-- **CollectionName** (*string*) -<br/>
-  正在刷新的 Collection 的名称。
+    刷新作业的唯一标识符。
 
-- **State** (*[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)*) -<br/>
-  刷新作业的当前状态。
+- **CollectionName** (*string*) -
 
-- **Progress** (*int64*) -<br/>
-  刷新作业的进度百分比。
+    正在刷新的 Collection 的名称。
 
-- **Reason** (*string*) -<br/>
-  当前状态的附加信息或原因。
+- **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-- **ExternalSource** (*string*) -<br/>
-  外部数据源标识符。
+    刷新作业的当前状态。
 
-- **StartTime** (*int64*) -<br/>
-  作业开始时的 Unix 时间戳。
+- **Progress** (*int64*) -
 
-- **EndTime** (*int64*) -<br/>
-  作业完成时的 Unix 时间戳。
+    刷新作业的进度百分比。
 
+- **Reason** (*string*) -
+
+    当前状态的附加信息或原因。
+
+- **ExternalSource** (*string*) -
+
+    外部数据源标识符。
+
+- **ExternalSpec** (*string*) -
+
+    外部数据源规范（JSON），描述文件格式和对象存储设置。
+
+- **StartTime** (*int64*) -
+
+    作业开始时的 Unix 时间戳。
+
+- **EndTime** (*int64*) -
+
+    作业完成时的 Unix 时间戳。
+
+## 示例\{#example}
+
+演示 RefreshExternalCollectionJobInfo 的用法。
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+jobs, err := cli.ListRefreshExternalCollectionJobs(ctx, milvusclient.NewListRefreshExternalCollectionJobsOption())
+if err != nil {
+	// handle error
+}
+for _, job := range jobs {
+	fmt.Println(job.JobID, job.State)
+}
+```

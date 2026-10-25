@@ -10,7 +10,7 @@ notebook: false
 description: "此操作插入行或列，支持结构体数组输入，并记录此操作的客户端遥测数据。 | Go | v2"
 type: docx
 token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - 向量 Database 教程
   - 向量 Database 如何工作
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

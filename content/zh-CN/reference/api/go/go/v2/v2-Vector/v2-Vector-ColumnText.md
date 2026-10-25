@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnText 实例表示一个保存字符串值的 TEXT 字段列，用于插入、upsert 和查询输出。请使用 NewColumnText() 创建该实例。 | Go | v2"
 type: docx
 token: RPoPdeGegozh2sxjgXBcKppfneb
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - NLP 搜索
   - LLM 幻觉
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

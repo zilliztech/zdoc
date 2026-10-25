@@ -10,7 +10,7 @@ notebook: false
 description: "此操作在指定的 Collection 上执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。 | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - 向量索引
   - 开源向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

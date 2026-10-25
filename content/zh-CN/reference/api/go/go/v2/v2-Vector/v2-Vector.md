@@ -10,7 +10,7 @@ notebook: false
 description: "向量数据的接口。实现包括 FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector 和 Text。 | Go | v2"
 type: docx
 token: CE0odAFVdoh2ehxNFRecD8WEn3f
-sidebar_position: 20
+sidebar_position: 21
 keywords: 
   - 视频搜索
   - AI 幻觉
@@ -19,11 +19,10 @@ keywords:
   - Zilliz
   - Zilliz Cloud
   - 云
-  - 向量
+  - Vector
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

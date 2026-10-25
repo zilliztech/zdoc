@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会检索与布尔过滤表达式匹配的 Entity。 | Go | v2"
 type: docx
 token: KwEzdcoZ6o2rkgxUAp4ct66nnDf
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - 视频搜索
   - AI 幻觉
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

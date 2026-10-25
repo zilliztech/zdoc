@@ -10,7 +10,7 @@ notebook: false
 description: "AnalyzerResult 实例表示文本 Analyzer 的分词输出，由 RunAnalyzer 返回。每个结果包含从一段输入文本中生成的 token。 | Go | v2"
 type: docx
 token: UnYWdCXhjoKpCbxN8eEcYfB2neO
-sidebar_position: 21
+sidebar_position: 22
 keywords: 
   - 开源向量 Database
   - 开源向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,17 +40,29 @@ type AnalyzerResult struct {
 
 **字段：**
 
-- **Text**（*string*） - token 的文本。
+- **Text** (*string*) -
 
-- **StartOffset**（*int64*） - token 在输入文本中的起始偏移量。
+    token 的文本。
 
-- **EndOffset**（*int64*） - token 在输入文本中的结束偏移量。
+- **StartOffset** (*int64*) -
 
-- **Position**（*int64*） - token 的位置。
+    token 在输入文本中的起始偏移量。
 
-- **PositionLength**（*int64*） - token 位置的长度。
+- **EndOffset** (*int64*) -
 
-- **Hash**（*uint32*） - token 的哈希值。
+    token 在输入文本中的结束偏移量。
+
+- **Position** (*int64*) -
+
+    token 的位置。
+
+- **PositionLength** (*int64*) -
+
+    token 位置的长度。
+
+- **Hash** (*uint32*) -
+
+    token 的哈希值。
 
 ## 示例\{#example}
 

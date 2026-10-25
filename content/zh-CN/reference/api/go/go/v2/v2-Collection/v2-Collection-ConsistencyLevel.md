@@ -4,12 +4,12 @@ slug: /go/go/v2-Collection-ConsistencyLevel
 sidebar_label: "ConsistencyLevel"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "指定 Collection 上读取操作的一致性保证级别。 | Go | v2"
+description: "ConsistencyLevel 实例指定 Collection 上读取操作的一致性保证级别。 | Go | v2"
 type: docx
-token: CBg7dbZZ7oxxvJx1eV4cJXWGnbe
+token: U2DXdRPC4o7hUDx6JECc0LQWnub
 sidebar_position: 7
 keywords: 
   - ANNS
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-指定 Collection 上读取操作的一致性保证级别。
+ConsistencyLevel 实例指定 Collection 上读取操作的一致性保证级别。
 
 ```go
 type ConsistencyLevel commonpb
@@ -49,7 +48,7 @@ type ConsistencyLevel commonpb
 
 - **ClSession** = ConsistencyLevel(commonpb.ConsistencyLevel_Session)
 
-    会话一致性。读取可见同一会话中的写入。
+    会话一致性。读取操作可以看到同一会话中的写入。
 
 - **ClEventually** = ConsistencyLevel(commonpb.ConsistencyLevel_Eventually)
 
@@ -61,13 +60,15 @@ type ConsistencyLevel commonpb
 
 ## 示例\{#example}
 
+演示 ConsistencyLevel 的用法。
+
 ```go
 import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

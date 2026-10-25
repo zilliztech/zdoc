@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnFloat16VectorArray 实例表示一个 ArrayOfVector float16 向量列，其各行包含具有共享维度的 float16 向量值。在 v3.0.0 中强制执行可空语义：可空性标志和有效值记录是实际的操作，而非占位实现。 | Go | v2"
 type: docx
 token: Ip2HdObkAodufpxSIoTcJ6rbnWf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - 向量 Database 对比
   - Faiss
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

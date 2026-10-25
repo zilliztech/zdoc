@@ -4,7 +4,7 @@ slug: /go/go/v2-DataImport-CommitImport
 sidebar_label: "CommitImport"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作通过 RESTful 导入 API 提交批量导入任务。适用于先暂存数据、最后再提交的导入模式，例如当导入任务需要显式执行最终提交后，导入的数据才可查询。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -10,7 +10,7 @@ notebook: false
 description: "此操作使用多个搜索请求对 Collection 中的多个向量字段执行 ANN 搜索，然后使用 reranker 合并并排序结果。 | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - 音频搜索
   - 什么是语义搜索
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

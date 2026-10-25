@@ -10,7 +10,7 @@ notebook: false
 description: "此操作通过主键值或筛选表达式从 Collection 中删除 Entity。 | Go | v2"
 type: docx
 token: UsNSd8reIoOaBCxH2s7cvMIDnUf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - 向量 Database 示例
   - RAG 向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

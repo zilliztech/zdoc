@@ -10,7 +10,7 @@ notebook: false
 description: "Reranker 实例会为 `HybridSearch()` 合并多个 ANN 子请求的结果并对其进行排序。可使用 `NewRRFReranker()` 或 `NewWeightedReranker()` 创建实例。 | Go | v2"
 type: docx
 token: TkDpdz2mHoZJojx0njDcdtDqnFg
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - 什么是语义搜索
   - Embedding 模型
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -188,3 +187,5 @@ fmt.Println(err)
         目标源数据文件的格式。
 
         可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+    

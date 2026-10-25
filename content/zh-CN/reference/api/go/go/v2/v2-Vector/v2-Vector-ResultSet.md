@@ -10,7 +10,7 @@ notebook: false
 description: "ResultSet 实例是由 `Search()`、`HybridSearch()`、`Query()` 和 `Get()` 返回的搜索或查询结果集。它保存返回的条目数、主键、输出字段和分数。 | Go | v2"
 type: docx
 token: N4dudTInDoPuE4xPup5c0a60ngO
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - 混合向量搜索
   - 视频去重
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

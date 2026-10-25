@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会按主键值检索 Entity。 | Go | v2"
 type: docx
 token: PUZvdUzxzomdrFxCMlSc4UUqnGg
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - 问答系统
   - LLM 作为评判者
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnInt8VectorArray 实例表示一个 ArrayOfVector int8 向量列，其各行包含具有共享维度的 int8 向量值。Nullable 语义在 v3.0.0 中强制执行：可空性标志和有效值记录是实际执行的操作，而不是桩实现。 | Go | v2"
 type: docx
 token: Snk1duMEtoe1VexGeJYcXW7VnXe
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - 大语言模型
   - 机器学习
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

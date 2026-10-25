@@ -4,13 +4,13 @@ slug: /go/go/v2-Collection-GetRefreshExternalCollectionProgress
 sidebar_label: "GetRefreshExternalCollectionProgress()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回指定外部 Collection 刷新作业的进度。 | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
-sidebar_position: 26
+sidebar_position: 31
 keywords: 
   - 低成本向量 Database
   - 托管向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -39,6 +38,8 @@ func (c *Client) GetRefreshExternalCollectionProgress(ctx context.Context, optio
 
 ## 请求语法\{#request-syntax}
 
+为 GetRefreshExternalCollectionProgress() 创建请求。
+
 ```go
 option := client.NewGetRefreshExternalCollectionProgressOption(jobID)
 
@@ -47,17 +48,17 @@ result, err := client.GetRefreshExternalCollectionProgress(option)
 
 **参数：**
 
-- **jobID** (*int64*) -
+- **jobID** （*int64*） -
 
-    由 `refresh_external_collection()` 返回的作业 ID。
+    **[必需]**
 
 **返回类型：**
 
-*&ast;entity.RefreshExternalCollectionJobInfo*
+&ast;*entity.RefreshExternalCollectionJobInfo*
 
-**返回值：**
+**返回：**
 
-一个用于记录指定外部 Collection 刷新作业详细信息的结构体类型。
+一个 Entity 结构体类型，用于记录指定外部 Collection 刷新作业的详细信息。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -72,51 +73,53 @@ type RefreshExternalCollectionJobInfo struct {
 }
 ```
 
-参数：
-
 **参数：**
 
-- **JobID** (*int64*) -
+- **JobID** （*int64*） -
 
-    当前请求中指定的作业 ID。
+    刷新作业的唯一标识符。
 
-- **CollectionName** (*string*) -
+- **CollectionName** （*string*） -
 
-    在 `RefreshExternalCollection()` 中指定的外部 Collection 名称。
+    正在刷新的 Collection 的名称。
 
-- **State** (*string*) -
+- **State** （[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)） -
 
-    指定作业的当前状态。可能的值包括：
+    刷新作业的当前状态。
 
-    - RefreshPending
+- **Progress** （*int64*） -
 
-    - RefreshInProgress
+    刷新作业的进度百分比。
 
-    - RefreshFailed
+- **Reason** （*string*） -
 
-    - RefreshCompleted
+    当前状态的补充信息或原因。
 
-- **Progress** (*int64*) -
+- **ExternalSource** （*string*） -
 
-    指定作业的当前进度。该值为 0 到 100 之间的整数。
+    外部数据源标识符。
 
-- **Reason** (*string*) -
+- **ExternalSpec** （*string*） -
 
-    如果刷新操作失败，则显示错误提示。在正常情况下，该值为空字符串。
+    外部数据源规范（JSON），用于描述文件格式和对象存储设置。
 
-- **ExternalSource** (*string*) -
+- **StartTime** （*int64*） -
 
-    在 `RefreshExternalCollection()` 中指定的外部源 URI。
+    作业开始时的 Unix 时间戳。
 
-- **StartTime** (*int64*) -
+- **EndTime** （*int64*） -
 
-    指定作业开始时的毫秒级时间戳。
+    作业完成时的 Unix 时间戳。
 
-- **EndTime** (*int64*) -  
+**异常处理：**
 
-    指定作业结束时的毫秒级时间戳。
+- **error**
 
-## 示例：\{#examples}
+    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
+
+## 示例\{#example}
+
+演示 GetRefreshExternalCollectionProgress() 的用法。
 
 ```go
 refreshResult, err := client.RefreshExternalCollection(ctx,

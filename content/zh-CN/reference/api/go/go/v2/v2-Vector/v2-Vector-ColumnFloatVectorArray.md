@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnFloatVectorArray 实例表示一个 ArrayOfVector 浮点向量列，其各行包含维度相同的浮点向量值。可空语义在 v3.0.0 中强制执行；可空性标志和有效值记录都是实际的操作，而不是桩。 | Go | v2"
 type: docx
 token: FEsedrkZpoiR3YxNgL4csDP4nEe
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - 混合搜索
   - 词法搜索
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

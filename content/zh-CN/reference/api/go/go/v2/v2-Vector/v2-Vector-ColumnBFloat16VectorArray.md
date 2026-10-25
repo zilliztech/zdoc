@@ -10,7 +10,7 @@ notebook: false
 description: "ColumnBFloat16VectorArray 实例表示一个 ArrayOfVector bfloat16 向量列，其各行包含具有相同维度的 bfloat16 向量值。Nullable 语义在 v3.0.0 中生效：可空性标志和有效值记录是实际实现的操作，而非桩实现。 | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - 大语言模型
   - 机器学习
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

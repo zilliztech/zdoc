@@ -13,8 +13,8 @@ token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
 sidebar_position: 5
 keywords: 
   - 什么是向量数据库
-  - 什么是向量数据库
-  - 向量数据库对比
+  - what are vector databases
+  - vector databases comparison
   - Faiss
   - Zilliz
   - Zilliz Cloud
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

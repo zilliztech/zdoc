@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会对输入文本运行文本 Analyzer，并返回分词后的输出。 | Go | v2"
 type: docx
 token: FMtsdyToloE8zxx6CR2cSycTndd
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - Zilliz
   - milvus 向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -14,8 +14,8 @@ sidebar_position: 4
 keywords: 
   - rag 向量 Database
   - 什么是向量数据库
-  - 什么是向量数据库
-  - 向量数据库比较
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - 云
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

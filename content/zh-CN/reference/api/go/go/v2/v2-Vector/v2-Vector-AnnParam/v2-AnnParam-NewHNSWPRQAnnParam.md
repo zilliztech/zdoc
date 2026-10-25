@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会为 HNSWPRQ 索引创建搜索参数配置，用于调整乘积残差量化 HNSW 图的搜索时行为。 | Go | v2"
+description: "此操作会为 HNSWPRQ 索引创建搜索参数配置，用于调整乘积残差量化的 HNSW 图在搜索时的行为。 | Go | v2"
 type: docx
 token: Q0fhdp89yoorcSxu0nxct5unnWe
 sidebar_position: 13
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # NewHNSWPRQAnnParam
 
-此操作会为 HNSW_PRQ 索引创建搜索参数配置，用于调整乘积残差量化 HNSW 图的搜索时行为。
+此操作会为 HNSW_PRQ 索引创建搜索参数配置，用于调整乘积残差量化的 HNSW 图在搜索时的行为。
 
 ```go
 func NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
@@ -47,7 +46,7 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 **参数：**
 
-- **ef** （*int*） -
+- **ef**（*int*） -
 
     **[必需]**
 
@@ -55,7 +54,7 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 - `WithRefineK(refineK float64) *hnswQuantAnnParam`
 
-    此方法设置应用于量化候选距离的细化因子。
+    此方法设置应用于量化候选距离的细化系数。
 
 - `WithSeedEf(seedEf int) *hnswQuantAnnParam`
 
@@ -71,19 +70,19 @@ NewHNSWPRQAnnParam(ef int) *hnswQuantAnnParam
 
 **返回：**
 
-返回量化 HNSW 的搜索参数配置。
+返回量化 HNSW 搜索参数配置。
 
 **参数：**
 
-- **annParam** （&ast;*hnswQuantAnnParam*） -
+- **annParam**（&ast;*hnswQuantAnnParam*） -
 
-    量化 HNSW 的搜索参数配置。通过 WithAnnParam() 将其传递给搜索或混合搜索选项。
+    量化 HNSW 搜索参数配置。请通过 WithAnnParam() 将其传递给搜索或混合搜索选项。
 
-**异常处理：**
+**错误处理：**
 
 - **error**
 
-    校验、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    校验、请求构建或 RPC 失败。请检查返回的错误以获取失败详情。
 
 ## 示例\{#example}
 

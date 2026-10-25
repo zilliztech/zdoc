@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会创建一个搜索迭代器，以批处理方式检索 ANN 搜索结果。对于不应一次性全部加载到内存的大型结果集，请使用此迭代器。 | Go | v2"
 type: docx
 token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - 什么是非结构化数据
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -7,23 +7,22 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个 AISAQ 搜索参数配置，用于调整 AISAQ 索引在搜索时的行为。 | Go | v2"
+description: "此操作会创建 AISAQ 搜索参数配置，用于调整 AISAQ 索引的搜索时行为。 | Go | v2"
 type: docx
 token: D61ndr0TSocZRbxxLnRcfXr3nVg
 sidebar_position: 11
 keywords: 
-  - Milvus 开源
-  - Milvus 如何运作
+  - 什么是 Milvus
+  - Milvus 如何工作
   - Zilliz 向量 Database
   - Zilliz Database
-  - Zilliz
-  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
   - 云
   - NewAISAQAnnParam
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # NewAISAQAnnParam
 
-此操作会创建一个 AISAQ 搜索参数配置，用于调整 AISAQ 索引在搜索时的行为。
+此操作会创建 AISAQ 搜索参数配置，用于调整 AISAQ 索引的搜索时行为。
 
 ```go
 func NewAISAQAnnParam(searchList int) *aisaqAnnParam
@@ -39,7 +38,7 @@ func NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 ## 请求语法\{#request-syntax}
 
-使用给定的搜索列表长度创建一个 AISAQ 搜索参数配置。
+使用给定的搜索列表长度创建 AISAQ 搜索参数配置。
 
 ```go
 NewAISAQAnnParam(searchList int) *aisaqAnnParam
@@ -55,19 +54,19 @@ NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 - `WithBeamwidth(beamwidth int) *aisaqAnnParam`
 
-    设置搜索 beam 宽度。
+    设置搜索波束宽度。
 
 - `WithPQReadPageCacheSize(bytes int) *aisaqAnnParam`
 
-    设置乘积量化读取所使用的页缓存大小。
+    设置用于乘积量化读取的页缓存大小。
 
 - `WithVectorsBeamwidth(beamwidth int) *aisaqAnnParam`
 
-    设置读取向量时使用的 beam 宽度。
+    设置用于向量读取的波束宽度。
 
 - `Params() map[string]any`
 
-    以 map 形式返回当前的搜索参数。
+    以映射形式返回当前搜索参数。
 
 **返回类型：**
 
@@ -81,13 +80,13 @@ NewAISAQAnnParam(searchList int) *aisaqAnnParam
 
 - **annParam** （&ast;*aisaqAnnParam*） -
 
-    AISAQ 搜索参数配置。通过 WithAnnParam() 将其传给搜索或混合搜索选项。
+    AISAQ 搜索参数配置。通过 WithAnnParam() 将其传递给搜索或混合搜索选项。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    校验、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
+    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
 
 ## 示例\{#example}
 

@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -139,3 +138,4 @@ defer cli.Close(ctx)
 ## 说明\{#notes}
 
 - `TelemetryConfig` 用于控制 v3 客户端中的客户端遥测行为。
+

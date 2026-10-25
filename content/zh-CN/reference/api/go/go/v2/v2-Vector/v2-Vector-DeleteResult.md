@@ -10,7 +10,7 @@ notebook: false
 description: "包含 Delete 操作的结果，包括已删除 Entity 的数量。 | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - Pinecone 向量 Database
   - 音频搜索
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

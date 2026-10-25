@@ -10,7 +10,7 @@ notebook: false
 description: "包含插入操作的结果，包括已插入 Entity 的数量和 ID。 | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - 低成本向量 Database
   - 托管向量 Database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

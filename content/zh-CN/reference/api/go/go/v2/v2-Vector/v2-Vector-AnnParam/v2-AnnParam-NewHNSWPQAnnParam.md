@@ -7,23 +7,22 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建由 HNSW 量化索引系列（HNSWSQ、HNSWPQ、HNSWPRQ）共享的搜索参数配置，用于调整量化 HNSW 索引的搜索时行为。NewHNSWPRQAnnParam() 和 NewHNSWSQAnnParam() 会返回类型相同、构建器方法也相同的配置。 | Go | v2"
+description: "此操作会创建一个由 HNSW 量化索引系列（HNSWSQ、HNSWPQ 和 HNSWPRQ）共享的搜索参数配置，用于调整量化 HNSW 索引在搜索时的行为。NewHNSWPRQAnnParam() 和 NewHNSWSQAnnParam() 返回相同类型的配置，并具有相同的构建器方法。 | Go | v2"
 type: docx
 token: Fq1YdfEGFof2dixygELcgaomnrb
 sidebar_position: 12
 keywords: 
   - 机器学习
   - RAG
-  - 自然语言处理
+  - NLP
   - 神经网络
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - NewHNSWPQAnnParam
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # NewHNSWPQAnnParam
 
-此操作会创建由 HNSW 量化索引系列（HNSW_SQ、HNSW_PQ、HNSW_PRQ）共享的搜索参数配置，用于调整量化 HNSW 索引的搜索时行为。NewHNSWPRQAnnParam() 和 NewHNSWSQAnnParam() 会返回类型相同、构建器方法也相同的配置。
+此操作会创建一个由 HNSW 量化索引系列（HNSW_SQ、HNSW_PQ 和 HNSW_PRQ）共享的搜索参数配置，用于调整量化 HNSW 索引在搜索时的行为。NewHNSWPRQAnnParam() 和 NewHNSWSQAnnParam() 返回相同类型的配置，并具有相同的构建器方法。
 
 ```go
 func NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
@@ -39,7 +38,7 @@ func NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
 
 ## 请求语法\{#request-syntax}
 
-使用指定的搜索工作量 ef 创建量化 HNSW 搜索参数配置。
+使用给定的搜索力度 ef 创建量化 HNSW 搜索参数配置。
 
 ```go
 NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
@@ -47,7 +46,7 @@ NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
 
 **参数：**
 
-- **ef** (*int*) -
+- **ef**（*int*） -
 
     **[必需]**
 
@@ -55,15 +54,15 @@ NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
 
 - `WithRefineK(refineK float64) *hnswQuantAnnParam`
 
-    设置应用于量化候选距离的细化因子。
+    此方法设置应用于量化候选距离的细化系数。
 
 - `WithSeedEf(seedEf int) *hnswQuantAnnParam`
 
-    设置用于预热图搜索的种子搜索工作量。
+    此方法设置用于预热图搜索的种子搜索力度。
 
 - `Params() map[string]any`
 
-    以 map 形式返回当前的搜索参数。
+    此方法以 map 形式返回当前搜索参数。
 
 **返回类型：**
 
@@ -75,15 +74,15 @@ NewHNSWPQAnnParam(ef int) *hnswQuantAnnParam
 
 **参数：**
 
-- **annParam** (&ast;*hnswQuantAnnParam*) -
+- **annParam**（&ast;*hnswQuantAnnParam*） -
 
-    量化 HNSW 搜索参数配置。通过 WithAnnParam() 将其传递给搜索或混合搜索选项。
+    量化 HNSW 搜索参数配置。请通过 WithAnnParam() 将其传递给搜索或混合搜索选项。
 
 **错误处理：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    校验、请求构建或 RPC 失败。请检查返回的错误以获取失败详情。
 
 ## 示例\{#example}
 

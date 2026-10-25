@@ -4,7 +4,7 @@ slug: /go/go/v2-Authentication-OperatePrivilegeGroup
 sidebar_label: "OperatePrivilegeGroup"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作使用底层 v2 API 在权限组中添加或移除权限。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

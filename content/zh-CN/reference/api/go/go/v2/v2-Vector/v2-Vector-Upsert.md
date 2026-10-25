@@ -10,7 +10,7 @@ notebook: false
 description: "使用结构体数组和字段级数组操作对行或列执行 Upsert，并记录该操作的客户端遥测数据。 | Go | v2"
 type: docx
 token: PB5kdtzs8ok748xwRWacJbEUnze
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - milvus 向量 Database
   - milvus 数据库
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

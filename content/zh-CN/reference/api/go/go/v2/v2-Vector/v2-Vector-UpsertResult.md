@@ -10,7 +10,7 @@ notebook: false
 description: "包含 Upsert 操作的结果，包括受影响 Entity 的数量和 ID。 | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - 视频相似度搜索
   - 向量检索
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

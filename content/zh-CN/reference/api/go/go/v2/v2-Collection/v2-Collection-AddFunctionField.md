@@ -4,7 +4,7 @@ slug: /go/go/v2-Collection-AddFunctionField
 sidebar_label: "AddFunctionField"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会在客户端校验字段和函数选项后，向现有 Collection 添加函数字段。 | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

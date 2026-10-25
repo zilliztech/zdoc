@@ -19,11 +19,10 @@ keywords:
   - Zilliz
   - Zilliz Cloud
   - 云
-  - 索引
+  - Index
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

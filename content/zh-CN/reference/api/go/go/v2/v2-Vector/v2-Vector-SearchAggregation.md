@@ -10,7 +10,7 @@ notebook: false
 description: "此操作描述 `Search()` 的一级桶聚合。使用 `NewSearchAggregation()` 创建聚合规范，并通过 `WithSearchAggregation()` 将其传递给搜索选项。 | Go | v2"
 type: docx
 token: MSU5d8sIDonFYFxLv0Cc88dvnqL
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - 什么是向量嵌入
   - 向量 Database 教程
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

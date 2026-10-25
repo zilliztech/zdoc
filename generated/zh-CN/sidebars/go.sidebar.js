@@ -248,7 +248,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-New",
-        "label": "New()",
+        "label": "New",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-new"
       },
       {
@@ -393,7 +393,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-RenameCollection",
-        "label": "RenameCollection()",
+        "label": "RenameCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-renamecollection"
       },
       {
@@ -1050,6 +1050,30 @@ module.exports = [
             "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam",
             "label": "NewAutoAnnParam()",
             "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newautoannparam"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam",
+            "label": "NewAISAQAnnParam",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newaisaqannparam"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam",
+            "label": "NewHNSWPQAnnParam",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newhnswpqannparam"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam",
+            "label": "NewHNSWPRQAnnParam",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newhnswprqannparam"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam",
+            "label": "NewHNSWSQAnnParam",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newhnswsqannparam"
           }
         ]
       },

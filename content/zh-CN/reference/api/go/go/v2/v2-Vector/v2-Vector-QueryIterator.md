@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会创建一个查询迭代器，以分批方式从 Collection 中检索匹配的 Entity。此操作适用于不应一次性加载到内存的大型结果集。 | Go | v2"
 type: docx
 token: AGM3dTL6Vorr6XxS3IjcBAbBnVg
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - 降维
   - HNSW 算法
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
