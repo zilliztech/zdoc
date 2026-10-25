@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、クラスターユーザーを作成してクラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。 | Cloud"
+description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義することで、データセキュリティを実現できます。 | Cloud"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 2
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # クラスターユーザーの管理（SDK）
 
-Zilliz Cloud では、クラスターユーザーを作成してクラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。
+Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義することで、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、およびユーザーの削除の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
 
-## ユーザーを作成する\{#create-a-user}
+## ユーザーの作成\{#create-a-user}
 
-次の例では、ユーザー名が `user_1`、パスワードが `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります：
+次の例では、ユーザー名 `user_1`、パスワード `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります。
 
-- ユーザー名：英字で始まり、大文字または小文字の英字、数字、アンダースコアのみを含める必要があります。
+- ユーザー名：英字で始まり、大文字または小文字の英字、数字、およびアンダースコアのみを含めることができます。
 
-- パスワード：8-64 文字で、大文字英字、小文字英字、数字、特殊文字のうち 3 種類を含める必要があります。
+- パスワード：8-64 文字で、大文字、小文字、数字、および特殊文字のうち 3 種類を含める必要があります。
 
-- （任意）説明：最大 1024（UTF-8 バイト単位）です。
+- （任意）説明：最大 1024（UTF-8 バイト）です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -176,6 +176,35 @@ await client.createUser({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.CreateUserAsync(new CreateUserReq
+{
+    UserName = "user_1",
+    Password = "P@ssw0rd",
+    Description = "a new user in the developers team"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -196,11 +225,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーを一覧表示する\{#list-users}
+## ユーザーの一覧表示\{#list-users}
 
 複数のユーザーを作成した後、既存のすべてのユーザーを一覧表示して確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -272,6 +301,23 @@ await client.listUsers();
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var resp = await client.ListUsersAsync(new ListUsersReq());
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -285,17 +331,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`root` は自動的に生成されるデフォルトユーザーです。`user_1` は作成したばかりの新しいユーザーです。
+以下は出力例です。`root` は自動生成されるデフォルトユーザーです。`user_1` は作成したばかりの新しいユーザーです。
 
 ```bash
 ['root', 'user_1']
 ```
 
-## ユーザーにロールを付与する\{#grant-a-role-to-a-user}
+## ユーザーへのロールの付与\{#grant-a-role-to-a-user}
 
 次の例では、ユーザー `user_1` にロール `role_a` を付与する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -433,6 +479,34 @@ await client.grantRole({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.GrantRoleAsync(new GrantRoleReq
+{
+    UserName = "user_1",
+    RoleName = "role_a"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -452,13 +526,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの詳細を表示する\{#describe-user}
+## ユーザーの詳細表示\{#describe-user}
 
 ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
 次の例では、ユーザー `user_1` のロールを確認する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -536,6 +610,26 @@ await client.describeUser({username: 'user_1'});
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var resp = await client.DescribeUserAsync(new DescribeUserReq
+{
+    UserName = "user_1"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -557,13 +651,13 @@ curl --request POST \
 {'user_name': 'user_1', 'description':'a new user in the developers team', 'roles': 'role_a'}
 ```
 
-## ロールを取り消す\{#revoke-a-role}
+## ロールの取り消し\{#revoke-a-role}
 
 ユーザーに割り当てられたロールを取り消すこともできます。
 
 次の例では、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -647,6 +741,27 @@ await client.revokeRole({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.RevokeRoleAsync(new RevokeRoleReq
+{
+    UserName = "user_1",
+    RoleName = "role_a"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -663,9 +778,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーを削除する\{#drop-user}
+## ユーザーの削除\{#drop-user}
 
-次の例では、ユーザー `user_1` を削除する方法を示します。 
+次の例では、ユーザー `user_1` を削除する方法を示します。
 
 <Admonition type="info" title="Notes">
 
@@ -673,7 +788,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -804,6 +919,31 @@ await client.deleteUser({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Drop the user
+await client.DropUserAsync(new DropUserReq { UserName = "user_1" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -822,9 +962,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ユーザーを削除した後、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。 
+ユーザーを削除した後、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -896,6 +1036,23 @@ await client.listUsers();
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Rbac;
+
+var resp = await client.ListUsersAsync(new ListUsersReq());
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -909,8 +1066,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。一覧に `user_1` はありません。削除操作は成功しました。
+以下は出力例です。一覧に `user_1` が含まれていません。削除操作は成功しています。
 
 ```bash
 ['root']
 ```
+

@@ -113,7 +113,7 @@ def get_output_fields(use_new_schema=False):
 
 たとえば、次のコードは NULL を許可する `category` フィールドを追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -263,6 +263,29 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "documents",
+    Field = FieldSchema.CreateVarchar("category", 64, nullable: true)
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -298,7 +321,7 @@ curl --request POST \
 
 新しいフィールドがコレクションのスキーマで利用可能になったら、更新されたライターを有効にして、新しい挿入と全行アップサートのすべてでこれらのフィールドに値が設定されるようにします。
 
-たとえば、以前に準備したライターの経路を有効にします。
+たとえば、以前に準備した書き込み経路を有効にします。
 
 ```python
 USE_NEW_SCHEMA = True
@@ -313,7 +336,7 @@ client.insert(
 
 全行アップサートの場合は、ペイロードにも新しいフィールドを含めます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -475,6 +498,23 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "documents",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1001L, ["text"] = "example text", ["embedding"] = new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }, ["category"] = "electronics" }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -554,7 +594,7 @@ curl --request POST \
 
 まず、バックフィルで処理された履歴エンティティと、ライターの切り替え後に挿入または更新されたエンティティの両方を含む、代表的なエンティティのセットをクエリします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -694,6 +734,23 @@ const results = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "documents",
+    Expression = "id in [1001, 1002, 1003]",
+    Parameters = new QueryParameters { OutputFields = { "id", "category" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -731,7 +788,7 @@ curl --request POST \
 
 移行が検証されたら、アプリケーションのリーダーを更新して新しいフィールドを使用するようにします。
 
-たとえば、以前に準備したリーダーの経路を有効にします。
+たとえば、以前に準備した読み取り経路を有効にします。
 
 ```python
 USE_NEW_SCHEMA = True

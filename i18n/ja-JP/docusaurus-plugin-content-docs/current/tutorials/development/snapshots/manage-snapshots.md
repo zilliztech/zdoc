@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、スナップショットの作成と管理の方法について説明します。 | Cloud"
+description: "このガイドでは、以下を含むスナップショットの作成と管理の方法について説明します。 | Cloud"
 type: origin
 token: J0jDwYQb8il1biknRo4cazHPn5d
 sidebar_position: 1
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットの管理
 
-このガイドでは、スナップショットの作成と管理の方法について説明します。内容は次のとおりです。
+このガイドでは、以下を含むスナップショットの作成と管理の方法について説明します。
 
 - [スナップショットを作成する](./manage-snapshots#create-snapshot)、
 
 - [スナップショットを一覧表示する](./manage-snapshots#list-snapshots)、
 
-- [スナップショットを詳細表示する](./manage-snapshots#describe-snapshot)、
+- [スナップショットの詳細を取得する](./manage-snapshots#describe-snapshot)、
 
-- [Pin/unpin スナップショットデータ](./manage-snapshots#pinunpin-snapshot-data)、
+- [Pin/unpin スナップショット](./manage-snapshots#pinunpin-snapshot-data)、
 
 - [スナップショットを復元する](./manage-snapshots#restore-snapshot)、
 
@@ -41,15 +41,15 @@ import TabItem from '@theme/TabItem';
 
 ## スナップショットを作成する\{#create-snapshot}
 
-スナップショットを作成する前に、データ損失の可能性を避けるため、対象コレクションへのデータ書き込みを停止し、`flush()` を呼び出すことをお勧めします。
+スナップショットを作成する前に、データ損失の可能性を回避するため、対象コレクションへのデータ書き込みを停止し、`flush()` を呼び出すことをお勧めします。
 
-`flush()` の呼び出しは必須ではありませんが、データ損失を避けるために強くお勧めします。これを省略した場合、スナップショットにはすでにフラッシュされたデータのみが含まれます。
+`flush()` の呼び出しは必須ではありませんが、データ損失を回避するために強くお勧めします。これを省略した場合、スナップショットにはすでにフラッシュされたデータのみが含まれます。
 
-スナップショットに名前を付ける際は、`"daily_backup_20240101"` や `"v2.1_production_release"` など、明確で説明的な名前を使用し、`"backup1"` や `"test"` などの一般的な用語は避けてください。バージョン、環境、ステージ間でスナップショットを区別できるよう、スナップショット名を適切に使用してください。
+スナップショットに名前を付けるときは、`"daily_backup_20240101"` や `"v2.1_production_release"` のように明確で説明的な名前を使用し、`"backup1"` や `"test"` のような一般的な用語は避けてください。バージョン、環境、ステージ間でスナップショットを区別できるよう、スナップショット名を適切に使用してください。
 
-以下のコード例では、`my_collection` という名前のコレクションがすでに作成されていることを前提としています。
+以下のコード例では、`my_collection` という名前のコレクションがすでに存在することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -228,6 +228,37 @@ await client.createSnapshot({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Recommended: Flush data before creating snapshot to ensure all data is included
+await client.FlushAsync(new FlushReq { CollectionNames = ["my_collection"] });
+
+// Create snapshot for entire collection
+await client.CreateSnapshotAsync(new CreateSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101",
+    Description = "Daily backup for January 1st, 2024"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -258,7 +289,7 @@ curl --request POST \
 
 既存のスナップショットの名前を一覧表示できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -348,6 +379,24 @@ console.log(snapshots);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// List all snapshots for a collection
+ListSnapshotsResp snapshots = await client.ListSnapshotsAsync(new ListSnapshotsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (string name in snapshots.Snapshots)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -364,11 +413,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## スナップショットを詳細表示する\{#describe-snapshot}
+## スナップショットの詳細を取得する\{#describe-snapshot}
 
 特定のスナップショットの詳細情報を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -470,6 +519,25 @@ console.log(snapshot_info);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Describe a snapshot
+DescribeSnapshotResp snapshotInfo = await client.DescribeSnapshotAsync(new DescribeSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101"
+});
+Console.WriteLine($"Snapshot name: {snapshotInfo.Name}");
+Console.WriteLine($"Collection: {snapshotInfo.CollectionName}");
+Console.WriteLine($"Created: {snapshotInfo.CreateTs}");
+Console.WriteLine($"Description: {snapshotInfo.Description}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -489,11 +557,11 @@ curl --request POST \
 
 ## Pin/unpin スナップショットデータ\{#pinunpin-snapshot-data}
 
-復元中にスナップショットをピン留めすると、その基盤データをガベージコレクションから一時的に保護できます。ピン留めを解除すると、データが解放されます。
+復元中にスナップショットをピン留めすると、その基になるデータをガベージコレクションから一時的に保護でき、ピン留めを解除するとデータが解放されます。
 
-また、ピン操作に有効期限（TTL）を設定すると、期限が切れたときにピン留めされたデータが解放されるようにできます。
+ピン操作の有効期間（TTL）を設定して、期間の経過時にピン留めされたデータが解放されるようにすることもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -623,6 +691,28 @@ await client.unpinSnapshotData({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Pin snapshot data
+long pinId = (await client.PinSnapshotDataAsync(new PinSnapshotDataReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101",
+    TtlSeconds = 3600
+})).PinId;
+
+// Unpin snapshot data
+await client.UnpinSnapshotDataAsync(new UnpinSnapshotDataReq
+{
+    PinId = pinId
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -643,21 +733,21 @@ curl --request POST \
 
 ## スナップショットを復元する\{#restore-snapshot}
 
-スナップショットを新しいコレクションに復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブ ID を返します。
+スナップショットは新しいコレクションに復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブIDを返します。
 
-復元では、データインポートではなく **copy-segment** メカニズムが使用されます。このメカニズムは、次の理由からより効率的です。
+復元では、データインポートではなく **セグメントコピー** メカニズムが使用されるため、次の理由でより効率的です。
 
-- スナップショットストレージからセグメントファイル（binlog、deltalog、インデックスファイル）を直接コピーします。
+- スナップショットストレージからセグメントファイル（binlogs、deltalogs、インデックスファイル）を直接コピーします。
 
-- フィールド ID とインデックス ID を保持し、既存のデータファイルとの互換性を確保します。
+- 既存のデータファイルとの互換性を確保するため、フィールドIDとインデックスIDを保持します。
 
-- データの書き換えとインデックスの再構築を回避するため、復元時間が大幅に短縮されます。
+- データの書き換えとインデックスの再構築を回避するため、復元時間が大幅に短縮され、
 
-- 従来のバックアップおよび復元方法と比較して、10〜100 倍のパフォーマンス向上を実現します。
+- 従来のバックアップおよび復元方法と比較して、パフォーマンスが 10〜100 倍向上します。
 
-スナップショットを復元するには、次の手順に従います。
+スナップショットを復元するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -760,6 +850,22 @@ console.log(restore_resp);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Restore snapshot to new collection
+long jobId = (await client.RestoreSnapshotAsync(new RestoreSnapshotReq
+{
+    SnapshotName = "backup_20240101",
+    SourceCollectionName = "my_collection",
+    TargetCollectionName = "restored_collection"
+})).JobId;
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -778,13 +884,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-復元ジョブの進行状況の監視について詳しくは、復元の進行状況の監視を参照してください。
+復元ジョブの進行状況の監視について詳しくは、「復元の進行状況の監視」を参照してください。
 
 ## スナップショットを削除する\{#drop-snapshot}
 
 スナップショットが不要になった場合は削除できます。ストレージを節約するため、古いスナップショットを定期的に削除することをお勧めします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -869,6 +975,20 @@ await client.dropSnapshot({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+await client.DropSnapshotAsync(new DropSnapshotReq
+{
+    CollectionName = "my_collection",
+    SnapshotName = "backup_20240101"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -890,7 +1010,7 @@ curl --request POST \
 
 この API を使用すると、対象コレクションに対してすでに作成されたスナップショットの一覧を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -980,6 +1100,25 @@ console.log(jobs);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// List all restore jobs
+ListRestoreSnapshotJobsResp jobs = await client.ListRestoreSnapshotJobsAsync(new ListRestoreSnapshotJobsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (RestoreSnapshotJobInfo job in jobs.Jobs)
+{
+    Console.WriteLine($"Job {job.JobId}: {job.SnapshotName} -> Collection {job.CollectionName}");
+    Console.WriteLine($"  State: {job.State}, Progress: {job.Progress}%");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1000,7 +1139,7 @@ curl --request POST \
 
 復元ジョブ ID を取得したら、それを使用して復元の進行状況を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1102,6 +1241,27 @@ const state = await client.getRestoreSnapshotState({
   job_id: 12345
 });
 console.log(state);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Snapshot;
+
+// Get restoration state
+GetRestoreSnapshotStateResp state = await client.GetRestoreSnapshotStateAsync(new GetRestoreSnapshotStateReq
+{
+    JobId = 12345
+});
+RestoreSnapshotJobInfo jobInfo = state.JobInfo;
+Console.WriteLine($"Job ID: {jobInfo.JobId}");
+Console.WriteLine($"Snapshot Name: {jobInfo.SnapshotName}");
+Console.WriteLine($"Collection: {jobInfo.CollectionName}");
+Console.WriteLine($"State: {jobInfo.State}");
+Console.WriteLine($"Progress: {jobInfo.Progress}%");
+Console.WriteLine($"Time Cost: {jobInfo.TimeCost}ms");
 ```
 
 </TabItem>

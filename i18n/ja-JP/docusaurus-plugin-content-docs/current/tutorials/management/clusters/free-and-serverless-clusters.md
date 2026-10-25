@@ -75,10 +75,10 @@ curl --request POST \
 
 | パラメーター | 説明 |
 | --- | --- |
-| `API_KEY` | control-plane API リクエストの認証に使用する API キー。 |
-| `clusterName` | 作成するクラスターの名前。 |
-| `projectId` | クラスターを作成するプロジェクトの ID。 |
-| `regionId` | クラスターを作成するクラウドリージョンの ID。 |
+| `API_KEY` | コントロールプレーン API リクエストの認証に使用する API キーです。 |
+| `clusterName` | 作成するクラスターの名前です。 |
+| `projectId` | クラスターを作成するプロジェクトの ID です。 |
+| `regionId` | クラスターを作成するクラウドリージョンの ID です。 |
 
 ## 接続\{#connect}
 
@@ -90,7 +90,7 @@ https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 
 クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -189,6 +189,25 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -211,7 +230,7 @@ print(collections)
 
 ## 管理\{#manage}
 
-Free および Serverless クラスターは、クラスター詳細ページから管理できます。
+Free および Serverless クラスターは、クラスターの詳細ページから管理できます。
 
 | 操作 | Free クラスター | Serverless クラスター |
 | --- | --- | --- |

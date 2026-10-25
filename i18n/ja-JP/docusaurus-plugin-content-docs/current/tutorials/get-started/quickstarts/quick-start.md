@@ -31,7 +31,7 @@ Serving クラスターは、リアルタイムの本番サービング向けに
 
 クラスターの認証情報または API キーを取得したら、それを使用してクラスターに接続できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -144,6 +144,26 @@ await client.connectPromise;
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
+const string TOKEN = "YOUR_ZILLIZ_API_KEY";
+
+// 1. Set up a Milvus client
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = SERVING_CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -162,7 +182,7 @@ export TOKEN="YOUR_ZILLIZ_API_KEY"
 
 Serving クラスターにはデフォルトのデータベースが付属しています。これを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -245,6 +265,16 @@ await client.createDatabase({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Database;
+
+await client.CreateDatabaseAsync(new CreateDatabaseReq { DatabaseName = "my_database" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -262,11 +292,11 @@ curl --request POST \
 
 ## ステップ 3: コレクションを作成する\{#step-3-create-a-collection}
 
-データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションの列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは、大幅なパフォーマンス向上を得るためにデータをインポートする必要があります。
+データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションのカラムを外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは、大幅なパフォーマンス向上を得るためにデータをインポートする必要があります。
 
 次の例では、コレクションスキーマを設定してコレクションを作成する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -391,6 +421,24 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("product_id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("product_name", maxLength: 512),
+        FieldSchema.CreateFloatVector("embedding", dimension: 768)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -424,7 +472,7 @@ export schema='{
 
 その後、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを安全に省略できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -529,6 +577,23 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Utility;
+
+await client.UseDatabaseAsync(new UseDatabaseReq { DatabaseName = "my_database" });
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "prod_collection",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -550,7 +615,7 @@ curl --request POST \
 
 すべてのベクトルフィールドに対してインデックスを作成する必要があります。また、任意で選択したスカラーフィールドにもインデックスを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -709,6 +774,26 @@ await client.createIndex([
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    Indexes =
+    [
+        new IndexParam("embedding", "embedding", IndexType.AutoIndex, MetricType.Cosine),
+        new IndexParam("product_name", "product_name", IndexType.AutoIndex)
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -744,7 +829,7 @@ curl --request POST \
 
 インデックスの準備ができたら、コレクションをメモリにロードします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -827,6 +912,20 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -845,11 +944,11 @@ curl --request POST \
 
 ## ステップ 6: データをインポートする\{#step-6-import-data}
 
-すべての設定が完了したら、処理済みのデータをインポートできます。次の例では、処理済みのデータを外部ストレージバケットに保存していることを前提としています。
+すべての設定が完了したら、処理済みのデータをインポートできます。次の例は、処理済みのデータを外部ストレージバケットに保存済みであることを前提としています。
 
 バケットまたはストレージ統合でのデータ形式については、[フォーマットオプション](./data-import-format-options) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1008,6 +1107,36 @@ const res = await httpClient.createImportJobs({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+const string CLOUD_PLATFORM_ENDPOINT = "https://api.cloud.zilliz.com";
+const string API_KEY = "YOUR_ZILLIZ_API_KEY";
+
+using var importer = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_PLATFORM_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var res = await importer.BulkImportAsync(new BulkImportRequest
+{
+    ClusterId = "inxx-xxxxxxxxxxxxxxxxxxx",
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    ObjectUrls = new[] { new[] { "https://s3.us-west-2.amazonaws.com/your-bucket/path/in/external/storage.json" } },
+    AccessKey = "YOUR_STORAGE_ACCESS_KEY",
+    SecretKey = "YOUR_STORAGE_SECRET_KEY"
+});
+
+// job-xxxxxxxxxxxxxxxxxxxxx
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1035,7 +1164,7 @@ curl --request POST \
 
 返されたジョブ ID を使用して、その進行状況を監視できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1149,6 +1278,30 @@ console.log(JSON.stringify(resp, null, 2));
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+
+const string CLOUD_PLATFORM_ENDPOINT = "https://api.cloud.zilliz.com";
+const string API_KEY = "YOUR_ZILLIZ_API_KEY";
+
+using var importer = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_PLATFORM_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var progress = await importer.GetImportProgressAsync(new GetImportProgressRequest
+{
+    ClusterId = "inxx-xxxxxxxxxxxxxxxxxxx",
+    JobId = "job-xxxxxxxxxxxxxxxxxxxxx"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1170,7 +1323,7 @@ curl --request POST \
 
 インポートが完了したら、検索、クエリ、ハイブリッド検索を通じてデータを利用するようユーザーに案内できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1292,6 +1445,31 @@ const results = await client.search({
   data: [queryVector],
   limit: 3,
   output_fields: ['product_name'],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f,
+    -0.26286205330961354f, 0.9029438446296592f /* ...remaining dims */
+}) };
+
+var res = await client.SearchAsync(new SearchReq
+{
+    DatabaseName = "my_database",
+    CollectionName = "prod_collection",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { OutputFields = { "product_name" } }
 });
 ```
 

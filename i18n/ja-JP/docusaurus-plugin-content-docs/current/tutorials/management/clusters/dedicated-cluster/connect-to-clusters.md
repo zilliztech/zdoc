@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。 | Cloud"
+description: "アプリケーションで、スキーマ管理、挿入、アップサート、削除、検索、クエリ、ハイブリッド検索を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。 | Cloud"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -21,57 +21,57 @@ import TabItem from '@theme/TabItem';
 
 # クラスターへの接続
 
-アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。
+アプリケーションで、スキーマ管理、挿入、アップサート、削除、検索、クエリ、ハイブリッド検索を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。
 
 <Admonition type="info" title="Note">
 
-このページでは、Dedicated サービングクラスターへの接続方法を説明します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービス提供クラスターへの接続方法について説明します。Free または Serverless クラスターに接続する方法については、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## エンドポイント形式\{#endpoint-formats}
 
-| クラスタータイプ | エンドポイントパターン | 備考 |
+| クラスタータイプ | エンドポイントパターン | 注記 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイムサービングエンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムサービスエンドポイントを使用します。 |
 
 ## 事前準備\{#before-you-begin}
 
 Dedicated クラスターに接続する前に、以下を確認してください。
 
-- Zilliz Cloud にアカウントを登録していること。詳細については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
+- Zilliz Cloud のアカウントを登録していること。詳細については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
 
 - Dedicated クラスターを作成していること。
 
-- ユースケースに合った Milvus SDK をインストールしていること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+- ユースケースに応じた Milvus SDK をインストールしていること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-- クラスターのパブリックエンドポイントを取得していること。
+- クラスターのパブリックエンドポイントを持っていること。
 
-- 認証トークンを取得していること。これは、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
+- 認証トークンを持っていること。これは、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
 クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールから取得できます。対象クラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
 
 <Admonition type="info" title="Note">
 
-SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンス型の通信モデルに従うため、継続的な接続は確立されません。
+SDK ではなく RESTful API を使用する場合、HTTP はリクエストとレスポンスの通信モデルに従うため、継続的な接続は確立されません。
 
 </Admonition>
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーションで使用する言語の SDK をインストールします。
+アプリケーションの言語に対応する SDK をインストールします。
 
 ```bash
 pip install pymilvus
 ```
 
-Java、Node.js、Go のプロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
+Java、Node.js、Go プロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
 
 ## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-クラスターのエンドポイントとトークンは、すべての SDK で一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
+SDK 間でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -170,6 +170,24 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -194,6 +212,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じクライアントインスタンスを使用して、コレクションの作成、データのロード、および Dedicated クラスターに対するリアルタイムの search または query 操作を実行します。
+接続後、同じクライアントインスタンスを使用して、Dedicated クラスターに対してコレクションの作成、データのロード、リアルタイムの検索またはクエリ操作を実行します。
 
-Free または Serverless のサービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
+Free または Serverless のサービス提供クラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
