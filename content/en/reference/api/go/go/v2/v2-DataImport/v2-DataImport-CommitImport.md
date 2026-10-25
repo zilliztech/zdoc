@@ -4,7 +4,7 @@ slug: /go/go/v2-DataImport-CommitImport
 sidebar_label: "CommitImport"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation commits a bulk import job via the RESTful import API. Use it for import modes that stage data first and commit at the end, such as when the import job requires an explicit final commit before the imported data becomes queryable. | Go | v2"
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

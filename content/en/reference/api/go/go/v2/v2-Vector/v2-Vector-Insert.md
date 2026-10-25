@@ -10,7 +10,7 @@ notebook: false
 description: "This operation inserts rows or columns, supports struct-array input, and records client telemetry for the operation. | Go | v2"
 type: docx
 token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - vector database tutorial
   - how do vector databases work
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

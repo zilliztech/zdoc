@@ -10,7 +10,7 @@ notebook: false
 description: "An AnalyzerResult instance represents the tokenized output of a text analyzer, returned by RunAnalyzer. Each result holds the tokens produced from one input text. | Go | v2"
 type: docx
 token: UnYWdCXhjoKpCbxN8eEcYfB2neO
-sidebar_position: 21
+sidebar_position: 22
 keywords: 
   - vector database open source
   - open source vector db
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

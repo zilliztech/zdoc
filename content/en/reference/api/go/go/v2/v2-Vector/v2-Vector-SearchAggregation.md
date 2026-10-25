@@ -10,7 +10,7 @@ notebook: false
 description: "This operation describes one level of bucket aggregation for `Search()`. Use `NewSearchAggregation()` to create an aggregation spec and pass it to a search option via `WithSearchAggregation()`. | Go | v2"
 type: docx
 token: MSU5d8sIDonFYFxLv0Cc88dvnqL
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - What are vector embeddings
   - vector database tutorial
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

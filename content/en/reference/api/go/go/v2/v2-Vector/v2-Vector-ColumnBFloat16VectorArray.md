@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnBFloat16VectorArray instance represents an ArrayOfVector bfloat16-vector column whose rows contain bfloat16-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - LLMs
   - Machine Learning
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

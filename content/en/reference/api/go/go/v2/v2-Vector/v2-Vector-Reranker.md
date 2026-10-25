@@ -10,7 +10,7 @@ notebook: false
 description: "A Reranker instance combines and ranks the results of multiple ANN sub-requests for `HybridSearch()`. Use `NewRRFReranker()` or `NewWeightedReranker()` to create instances. | Go | v2"
 type: docx
 token: TkDpdz2mHoZJojx0njDcdtDqnFg
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - what is semantic search
   - Embedding model
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

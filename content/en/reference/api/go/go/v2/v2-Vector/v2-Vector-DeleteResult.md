@@ -10,7 +10,7 @@ notebook: false
 description: "Contains the result of a Delete operation including the count of deleted entities. | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - Pinecone vector database
   - Audio search
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

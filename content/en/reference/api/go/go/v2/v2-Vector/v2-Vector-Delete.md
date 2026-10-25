@@ -10,7 +10,7 @@ notebook: false
 description: "This operation deletes entities from a collection by primary key values or filter expression. | Go | v2"
 type: docx
 token: UsNSd8reIoOaBCxH2s7cvMIDnUf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - vector database example
   - rag vector database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

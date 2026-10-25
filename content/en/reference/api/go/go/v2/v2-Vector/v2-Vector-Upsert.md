@@ -10,7 +10,7 @@ notebook: false
 description: "This operation upserts rows or columns with struct-array and field-level array operations, and records client telemetry for the operation. | Go | v2"
 type: docx
 token: PB5kdtzs8ok748xwRWacJbEUnze
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - milvus vector database
   - milvus db
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

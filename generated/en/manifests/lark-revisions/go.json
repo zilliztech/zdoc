@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-10-10T02:49:57.978Z",
-  "sourceRunId": "38017355992",
+  "generatedAt": "2026-10-25T18:42:54.921Z",
+  "sourceRunId": "40220709288",
   "records": [
     {
       "canonicalToken": "A0bMdNQyvon0rhxJIQpcHbPPn3f",
@@ -179,7 +179,7 @@
     {
       "canonicalToken": "D61ndr0TSocZRbxxLnRcfXr3nVg",
       "title": "NewAISAQAnnParam",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -341,7 +341,7 @@
     {
       "canonicalToken": "EYsfdEOCqow86txk8EUcXRB6ndf",
       "title": "NewHNSWSQAnnParam",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -449,7 +449,7 @@
     {
       "canonicalToken": "Fq1YdfEGFof2dixygELcgaomnrb",
       "title": "NewHNSWPQAnnParam",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -549,15 +549,6 @@
       "canonicalToken": "GwIxdz90jojeBNx965VcTJHnnFd",
       "title": "Alias",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Alias.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "GyCrdXyvzobrrAxzFRbcRTlSnUb",
-      "title": "RBACMeta",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1169,7 +1160,7 @@
     {
       "canonicalToken": "Q0fhdp89yoorcSxu0nxct5unnWe",
       "title": "NewHNSWPRQAnnParam",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1215,6 +1206,15 @@
       "canonicalToken": "QKItdAf6HoDzMVxzWEbcDVL9n5r",
       "title": "DropRole",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QiqfdWnrkorbVuxiuUUcx6rznSb",
+      "title": "RBACMeta",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1664,7 +1664,7 @@
     {
       "canonicalToken": "VFR6dvKoyo0Pl5x6a44cbIJ8n3f",
       "title": "NewAutoAnnParam()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1853,7 +1853,7 @@
     {
       "canonicalToken": "XV3adWSVho0zgfx6CZDc30GAnMc",
       "title": "AnnParam",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

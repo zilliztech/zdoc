@@ -10,7 +10,7 @@ notebook: false
 description: "This operation creates a search iterator that retrieves ANN search results in batches. Use this for large result sets that should not be loaded into memory all at once. | Go | v2"
 type: docx
 token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - What is unstructured data
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

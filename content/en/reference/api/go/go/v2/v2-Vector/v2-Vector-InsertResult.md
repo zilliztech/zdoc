@@ -10,7 +10,7 @@ notebook: false
 description: "Contains the result of an Insert operation including the count and IDs of inserted entities. | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - cheap vector database
   - Managed vector database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

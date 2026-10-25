@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnText instance represents a TEXT field column holding string values for insertion, upsert, and query output. Create it with NewColumnText(). | Go | v2"
 type: docx
 token: RPoPdeGegozh2sxjgXBcKppfneb
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - nlp search
   - hallucinations llm
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

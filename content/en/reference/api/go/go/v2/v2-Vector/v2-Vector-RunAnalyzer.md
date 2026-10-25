@@ -10,7 +10,7 @@ notebook: false
 description: "This operation runs a text analyzer on input text and returns the tokenized output. | Go | v2"
 type: docx
 token: FMtsdyToloE8zxx6CR2cSycTndd
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - Zilliz
   - milvus vector database
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

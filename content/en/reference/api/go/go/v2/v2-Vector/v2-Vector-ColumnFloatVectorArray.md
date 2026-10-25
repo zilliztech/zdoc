@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnFloatVectorArray instance represents an ArrayOfVector float-vector column whose rows contain float-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: FEsedrkZpoiR3YxNgL4csDP4nEe
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - hybrid search
   - lexical search
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

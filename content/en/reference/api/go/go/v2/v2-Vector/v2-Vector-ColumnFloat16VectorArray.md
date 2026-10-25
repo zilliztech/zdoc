@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnFloat16VectorArray instance represents an ArrayOfVector float16-vector column whose rows contain float16-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: Ip2HdObkAodufpxSIoTcJ6rbnWf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - vector databases comparison
   - Faiss
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnBinaryVectorArray instance represents an ArrayOfVector binary-vector column whose rows contain binary-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: VKeBdnkoXoI29txzTuncqsaDnte
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - Vector search
   - knn algorithm
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

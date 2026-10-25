@@ -10,7 +10,7 @@ notebook: false
 description: "A ResultSet instance is a search or query result set returned by `Search()`, `HybridSearch()`, `Query()`, and `Get()`. It holds the returned entry count, primary keys, output fields, and scores. | Go | v2"
 type: docx
 token: N4dudTInDoPuE4xPup5c0a60ngO
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - hybrid vector search
   - Video deduplication
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

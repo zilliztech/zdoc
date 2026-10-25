@@ -10,7 +10,7 @@ notebook: false
 description: "This operation creates a query iterator that retrieves matching entities from a collection in batches. Use this for large result sets that should not be loaded into memory all at once. | Go | v2"
 type: docx
 token: AGM3dTL6Vorr6XxS3IjcBAbBnVg
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - dimension reduction
   - hnsw algorithm
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

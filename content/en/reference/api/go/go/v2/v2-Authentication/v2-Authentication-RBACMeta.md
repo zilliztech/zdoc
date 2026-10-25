@@ -4,12 +4,12 @@ slug: /go/go/v2-Authentication-RBACMeta
 sidebar_label: "RBACMeta"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "A full snapshot of RBAC metadata including users, roles, grants, and privilege groups. Used with BackupRBAC/RestoreRBAC. | Go | v2"
 type: docx
-token: GyCrdXyvzobrrAxzFRbcRTlSnUb
+token: QiqfdWnrkorbVuxiuUUcx6rznSb
 sidebar_position: 18
 keywords: 
   - what are vector databases
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,18 +43,29 @@ type RBACMeta struct {
 
 **FIELDS:**
 
-- **Users** (<em>[]</em>UserInfo&ast;)
+- **Users** (<em>[]</em>UserInfo&ast;) -
 
-    The users.
+    The Users of the RBACMeta.
 
-- **Roles** (<em>[]</em>Role&ast;)
+- **Roles** (<em>[]</em>Role&ast;) -
 
-    The list of assigned roles.
+    The Roles of the RBACMeta.
 
-- **RoleGrants** (<em>[]</em>RoleGrants&ast;)
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;) -
 
-    The role grants.
+    The RoleGrants of the RBACMeta.
 
-- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;)
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;) -
 
-    The privilege groups.
+    The PrivilegeGroups of the RBACMeta.
+
+## Example\{#example}
+
+```go
+type RBACMeta struct {
+    Users []*UserInfo
+    Roles []*Role
+    RoleGrants []*RoleGrants
+    PrivilegeGroups []*PrivilegeGroup
+}
+```

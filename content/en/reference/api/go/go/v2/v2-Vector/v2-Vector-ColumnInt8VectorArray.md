@@ -10,7 +10,7 @@ notebook: false
 description: "A ColumnInt8VectorArray instance represents an ArrayOfVector int8-vector column whose rows contain int8-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: Snk1duMEtoe1VexGeJYcXW7VnXe
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - LLMs
   - Machine Learning
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';

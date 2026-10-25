@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves entities that match a boolean filter expression. | Go | v2"
 type: docx
 token: KwEzdcoZ6o2rkgxUAp4ct66nnDf
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - Video search
   - AI Hallucination
@@ -23,7 +23,6 @@ keywords:
   - gov230
 displayed_sidebar: goSidebar
 
-displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
