@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作对 Collection 执行多向量搜索，并在重排序后返回搜索结果。 | Python | MilvusClient"
+description: "此操作跨多个向量字段执行混合向量搜索，并合并和重新排序多个 ANN 搜索的结果。 | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
@@ -31,27 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-此操作对 Collection 执行多向量搜索，并在重排序后返回搜索结果。
-
-<Admonition type="info" title="Notes">
-
-此方法仅适用于 Dedicated serving 集群和按需计算。
-
-- 若要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
-
-    - **Free & Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- 若要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以连接到按需集群进行搜索。
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
-
-</Admonition>
+此操作跨多个向量字段执行混合向量搜索，并合并和重新排序多个 ANN 搜索的结果。
 
 ## 请求语法\{#request-syntax}
 
@@ -78,33 +58,52 @@ hybrid_search(
   **[必需]**<br/>
   混合搜索所组合的 ANN 搜索请求。请使用 `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)` 构造每个请求。
 
-    - **data** (*Union[List, SparseMatrixInputType]*) -<br/>
-      **[必需]**<br/>
-      用于此 ANN 搜索请求的查询向量或稀疏矩阵。
+    - **data** (*Union[List, SparseMatrixInputType]*) -
 
-    - **anns_field** (*str*) -<br/>
-      **[必需]**<br/>
-      要搜索的向量字段名称。
+**[必需]**
+此 ANN 搜索请求所使用的查询向量或稀疏矩阵。
 
-    - **param** (*Dict*) -<br/>
-      **[必需]**<br/>
-      ANN 搜索参数，例如度量类型及特定于搜索的设置。
+```plaintext
+- **anns_field** (*str*) -
+```
 
-    - **limit** (*int*) -<br/>
-      **[必需]**<br/>
-      此 ANN 搜索请求返回的最大匹配数。
+**[必需]**
+要搜索的向量字段的名称。
 
-    - **expr** (*Optional[str]*) -<br/>
-      默认值：`None`<br/>
-      在 ANN 搜索前应用的布尔过滤表达式。请勿同时提供 `expr` 和 `filter`。
+```plaintext
+- **param** (*Dict*) -
+```
 
-    - **expr_params** (*Optional[dict]*) -<br/>
-      默认值：`None`<br/>
-      替换到表达式模板占位符中的值。
+**[必需]**
+ANN 搜索参数，例如度量类型和搜索专属设置。
 
-    - **filter** (*Optional[str]*) -<br/>
-      默认值：`None`<br/>
-      `expr` 的别名。请勿同时提供这两个值。解析后的表达式可通过只读属性 `filter` 获取，即 `request.filter`。
+```plaintext
+- **limit** (*int*) -
+```
+
+**[必需]**
+此 ANN 搜索请求返回的最大匹配数。
+
+```plaintext
+- **expr** (*Optional[str]*) -
+```
+
+默认值：`None`
+在 ANN 搜索前应用的布尔过滤表达式。请勿同时提供 `expr` 和 `filter`。
+
+```plaintext
+- **expr_params** (*Optional[dict]*) -
+```
+
+默认值：`None`
+代入表达式模板占位符的值。
+
+```plaintext
+- **filter** (*Optional[str]*) -
+```
+
+默认值：`None`
+`expr` 的别名。请勿同时提供这两个值。解析后的表达式可通过只读 `filter` 属性以 `request.filter` 的形式获取。
 
 - **ranker** (*Union[BaseRanker, Function]*) -<br/>
   **[必需]**<br/>
@@ -127,7 +126,11 @@ hybrid_search(
   要搜索的 Partition 名称。
 
 - **kwargs** (*Any*) -<br/>
-  其他搜索选项，包括分页偏移量和一致性级别。
+  附加搜索选项，包括用于分页的顶层 `offset` 和用于搜索的 `consistency_level`。
+
+    顶层 `offset` 会在候选结果融合和重新排序后应用于最终结果。请注意，混合搜索不支持 **AnnSearchRequest** 的 `param` 中的 `offset`，Milvus 会忽略它。
+
+    要使分页按预期工作，**reqs** 中每个 **AnnSearchRequest** 的 `limit` 应覆盖分页窗口，即顶层 `offset` 与 `limit` 之和。这两个值之和应小于或等于 16,384。
 
 **返回类型：**
 
@@ -139,30 +142,60 @@ hybrid_search(
 
 **异常：**
 
-- **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败详情。
+- **MilvusException**
+
+    当服务器拒绝请求或 RPC 失败时引发。请查看服务器错误消息，以获取确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例构造一个 ANN 请求并执行混合搜索。
+此示例运行带分页的混合搜索。顶层 `offset` 会在候选结果融合和重新排序后应用于最终结果，因此每个 `AnnSearchRequest.limit` 都会覆盖分页窗口（`offset + limit`）。
 
 ```python
-from pymilvus import AnnSearchRequest, MilvusClient
+from pymilvus import AnnSearchRequest, MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-request = AnnSearchRequest(
-    data=[[0.1, 0.2, 0.3]],
-    anns_field="vector",
-    param={"metric_type": "COSINE"},
-    limit=10,
-    filter='category == "paper"',
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+
+# Create a collection, insert data, and load it
+schema = client.create_schema(auto_id=False)
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="text_vector", datatype=DataType.FLOAT_VECTOR, dim=3)
+schema.add_field(field_name="image_vector", datatype=DataType.FLOAT_VECTOR, dim=3)
+client.create_collection(collection_name="book_chunks", schema=schema)
+index_params = client.prepare_index_params()
+index_params.add_index(field_name="text_vector", index_type="AUTOINDEX", metric_type="IP")
+index_params.add_index(field_name="image_vector", index_type="AUTOINDEX", metric_type="IP")
+client.create_index(collection_name="book_chunks", index_params=index_params)
+client.insert(collection_name="book_chunks", data=[
+    {"id": i, "text_vector": [0.1, 0.2, 0.3], "image_vector": [0.3, 0.2, 0.1]}
+    for i in range(30)
+])
+client.load_collection(collection_name="book_chunks")
+
+requests = [
+    AnnSearchRequest(
+        data=[[0.1, 0.2, 0.3]],
+        anns_field="text_vector",
+        param={"metric_type": "IP"},
+        limit=30,  # cover the pagination window (offset 20 + limit 10)
+    ),
+    AnnSearchRequest(
+        data=[[0.3, 0.2, 0.1]],
+        anns_field="image_vector",
+        param={"metric_type": "IP"},
+        limit=30,
+    ),
+]
+
+# NOTE: Set the consistency level to Strong so that the entities inserted above
+# are immediately visible and the example returns results. In production,
+# choose a consistency level (for example, Bounded) that fits your scenario.
 results = client.hybrid_search(
     collection_name="book_chunks",
-    reqs=[request],
+    reqs=requests,
     ranker=None,
     limit=10,
+    offset=20,  # return the third page of the fused and reranked results
+    consistency_level="Strong",
 )
-print(request.filter)
 print(results)
 ```
