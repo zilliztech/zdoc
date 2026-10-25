@@ -77,7 +77,7 @@ Milvus は、Cohere が提供する埋め込みモデルをサポートしてい
 
 次の例では、テキストデータを格納する 1 つのスカラーフィールド `"document"` と、Function モジュールによって生成される埋め込みを格納する 1 つのベクトルフィールド `"dense"` を持つスキーマを定義します。選択した埋め込みモデルの出力に合わせてベクトルの次元（`dim`）を設定することを忘れないでください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -215,6 +215,34 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// Initialize Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Create a new schema for the collection
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("document", 9000), // Store text data
+        new FieldSchema("dense", DataType.FloatVector) { Dimension = 1024 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -239,7 +267,7 @@ Milvus の Function モジュールは、スカラーフィールドに格納さ
 
 埋め込み関数を定義したら、それをコレクションスキーマに追加します。これにより、Milvus は指定された埋め込み関数を使用して、テキストデータから埋め込みを処理して格納するようになります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -360,6 +388,16 @@ const functions = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp as of v3.0.0 cannot set text-embedding function
+// params (provider / model_name / integration_id) — FunctionSchema.Params is
+// not publicly settable. Use another SDK for the Cohere embedding function.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -384,7 +422,7 @@ FUNCTION='{
 
 必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -471,6 +509,25 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Prepare index parameters
+var indexParams = new[]
+{
+    new IndexParam("dense", null, IndexType.AutoIndex, MetricType.Cosine)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -490,7 +547,7 @@ indexParams='{
 
 次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -586,6 +643,27 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create collection named "demo"
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -632,7 +710,7 @@ curl --request POST \
 
 コレクションとインデックスを設定したら、生データを挿入する準備が整います。このプロセスでは、生テキストを提供するだけで済みます。先ほど定義した Function モジュールが、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -751,6 +829,33 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Insert sample documents
+var rows = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["id"] = 0L, ["document"] = "Milvus simplifies semantic search through embeddings." },
+    new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Vector embeddings convert text into searchable numeric data." },
+    new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Semantic search helps users find relevant information quickly." },
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo",
+    RowsData = rows
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -775,7 +880,7 @@ curl --request POST \
 
 データを挿入したら、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似度に基づいて関連するドキュメントを取得して、最も一致する結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -896,6 +1001,31 @@ const results = await client.search({
   output_fields: ['document'],
 });
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Perform semantic search
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "demo",
+    VectorFieldName = "dense",
+    Texts = new[] { "How does Milvus handle semantic search?" }, // Use text query rather than query vector
+    Limit = 1,
+    Parameters = new SearchParameters { OutputFields = { "document" } }
+});
+
+Console.WriteLine(results);
 ```
 
 </TabItem>

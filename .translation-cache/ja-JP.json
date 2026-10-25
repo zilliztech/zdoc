@@ -1641,9 +1641,9 @@
       "translatedAt": "2026-10-25T05:11:00.677Z"
     },
     "content/en/guides/tutorials/development/collection/modify-collections.md": {
-      "sourceHash": "e1e59afcaa81e72db7ce078147135454fb99f932488c398c07e12751f1694f0e",
+      "sourceHash": "080b94ca0da0493faa1a019558e3bf46d1b28da63dc34002bd8c31082f23f19f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/modify-collections.md",
-      "translatedAt": "2026-10-23T20:58:56.810Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/collection/set-collection-ttl.md": {
       "sourceHash": "d99dffd18a4c56b9665cdbd51454071bd14af4dfa0f6f5e7b0e5248381c81951",
@@ -1656,14 +1656,14 @@
       "translatedAt": "2026-10-19T14:57:52.764Z"
     },
     "content/en/guides/tutorials/development/collection/use-large-topk.md": {
-      "sourceHash": "9c62c5776cc22044c68658c24702626e9ff54300263fd25bf01e5821309ac2e1",
+      "sourceHash": "ab36a40de49b812fec0d92ebcd13967453455847ff3c1c4205c97a819d16a016",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/use-large-topk.md",
-      "translatedAt": "2026-10-19T16:54:02.117Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/collection/view-collections.md": {
-      "sourceHash": "fa9aad1b6ddefe3bd475ceb0ae38b24e98ac79c860cb7ebf54a1dec389f86dae",
+      "sourceHash": "75ae3c80b8e197ba4252057b539123883453bddcab2f1adb0e6e4f6086fbc77b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/view-collections.md",
-      "translatedAt": "2026-10-19T16:54:02.117Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/connect-for-on-demand-search.md": {
       "sourceHash": "ac2f3b6087ae515f4d10207adda644bc42e572b9ded7b4f91e330687039a9b35",
@@ -1736,9 +1736,9 @@
       "translatedAt": "2026-08-04T05:03:50.791Z"
     },
     "content/en/guides/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
-      "sourceHash": "322013b6dcf1b2259e7e1672e6b1ccf4f9fc9d92b71ee36e2907d45e47b608bf",
+      "sourceHash": "5bc8305d64ddf2b27552b622d58666095fe1088109f3005cbeb1aa3b8e6d136c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md",
-      "translatedAt": "2026-10-10T05:51:48.141Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/database/database-concept.md": {
       "sourceHash": "d604f6ffb87a7f69d527af4a06b29474429a2e28debdd0315a4c8106897f8b6f",
@@ -1766,14 +1766,14 @@
       "translatedAt": "2026-10-24T04:09:25.569Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md": {
-      "sourceHash": "91a191f0febd85a02b71e1b9ed1f08edd964c5b94b10940fc39d5b8ca9981dbf",
+      "sourceHash": "ce4327c5a199e096a80452067641b5a04f67f6137983d05081b3d8d049be958b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md",
-      "translatedAt": "2026-10-19T17:08:47.161Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md": {
-      "sourceHash": "293914f6f9292642363d1e552281e305b73465b4eefefaa3a3b41233cf830cd9",
+      "sourceHash": "4630bf560c6c7bb6589767cba9ebf3f61b16f5d0b8a83c540f5d361f8508e7a7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md",
-      "translatedAt": "2026-10-19T17:08:47.161Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md": {
       "sourceHash": "2eecf32e63eefa65fe153a3b32aa049f61d69c919c7cbad4ca3604cf51d63cee",
@@ -1786,9 +1786,9 @@
       "translatedAt": "2026-10-19T17:08:47.161Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md": {
-      "sourceHash": "a6ebf853b6aad5eaf3518bd98638c54404dbd0d544058dd877a9ecc335df49c1",
+      "sourceHash": "e70f2604b27f67c49586efe305ac4e0ec4f1b1c56188e261f3eb4c7cfc44ec37",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md",
-      "translatedAt": "2026-10-19T17:08:47.161Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md": {
       "sourceHash": "e6ae560d608bca2a8ae6d6af481071c8bf2be85b11abe2cc4645f51d94441a95",
@@ -1796,9 +1796,9 @@
       "translatedAt": "2026-10-19T17:08:47.161Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview.md": {
-      "sourceHash": "e116df97f8ba7a4535c73bd13b9e96e684c520955b209b10a97a1fde89923db2",
+      "sourceHash": "15c22bc64c21ec44348ebcc1c5cfc7d1b482e2f8e706b0ddcf310e04b6771103",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview.md",
-      "translatedAt": "2026-10-19T14:57:52.764Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay.md": {
       "sourceHash": "c52fe4783d117605a4ccdad9c6827513d53546b16d1d1d79f4095c32ff9ddcaa",
@@ -1811,9 +1811,9 @@
       "translatedAt": "2026-10-24T04:09:25.569Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md": {
-      "sourceHash": "c55c22577ea0149c9adec6588625106eb2b6306009b61e016b986165536b0177",
+      "sourceHash": "c7141f8455622baf06a2aaef115d86ae3d2d5ee2bbf5efbf9346e16362764638",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
-      "translatedAt": "2026-10-19T14:57:52.764Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
       "sourceHash": "c9a6459383048d8d0cddca2b4eecc27d786b08da183b8ad28b2ab4151ee52cf0",
@@ -1821,9 +1821,9 @@
       "translatedAt": "2026-10-19T14:57:52.764Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/cohere.md": {
-      "sourceHash": "e1f9cd0fce03d030aa0d1b2a58fd7c053f9491e2e005400f96c91514fe9ae3fe",
+      "sourceHash": "3013e0f67d10d1b3ce5a540aced1f78d4f3ae37c5b908078048d211a5566c1e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/cohere.md",
-      "translatedAt": "2026-10-19T17:08:47.161Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/hugging-face.md": {
       "sourceHash": "3070061a9d30000a54c36b97bbfcad4a6700f752eb7f7914babed99967eb3e90",
@@ -1841,14 +1841,14 @@
       "translatedAt": "2026-10-19T14:57:52.764Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/count-entities.md": {
-      "sourceHash": "3770772712c920d469976f8db956bcd9b44b4189e4b2f3ad48f82ddb10b48b52",
+      "sourceHash": "5ae10bbf04feee14bea36ccce61f97b0ea86a4325d7a1176ffb41aa55b288225",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/count-entities.md",
-      "translatedAt": "2026-10-10T05:53:05.021Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md": {
-      "sourceHash": "9930bd46601d2880adf5e4cfcb799c628c87bd940915b79c80748bc236748c50",
+      "sourceHash": "dc3921705080e5ff6d02af8fb8d0008a5fcda81680a9f9e13b8657d98bcf12fd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/delete-entities.md",
-      "translatedAt": "2026-10-19T14:57:52.764Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md": {
       "sourceHash": "5654ba1ebc24d0004628534a46af2d3cf15b05f6ca1366d85fea3ec700568b79",
@@ -1861,9 +1861,9 @@
       "translatedAt": "2026-10-10T05:24:59.064Z"
     },
     "content/en/guides/tutorials/development/scalar-index/bitmap-index-type.md": {
-      "sourceHash": "c6d091924cdab349542c55e02c05ef0c4fa4d864e7582df4d6f371133f551cde",
+      "sourceHash": "d07d9b3f5b04f0a7a4cdc20f93441bcdf064c3c86a68652d5a1a9aa873c2fdfb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/bitmap-index-type.md",
-      "translatedAt": "2026-10-10T05:53:05.021Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/scalar-index/inverted-index-type.md": {
       "sourceHash": "9e8bc93b72f86309b60e2953d3deede5dfca8e127590c24c98a3d8d1eee9d715",
@@ -1876,9 +1876,9 @@
       "translatedAt": "2026-10-19T14:57:52.764Z"
     },
     "content/en/guides/tutorials/development/scalar-index/rtree-index-type.md": {
-      "sourceHash": "fe9c3dd853d63dc4fdf5be12bb15a6542520cc4cc27411379721b4fedb133441",
+      "sourceHash": "a8a83f72848a505ee0b22bb189f29ca48f4ae4def2ecf359cf39ebe303e82911",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/rtree-index-type.md",
-      "translatedAt": "2026-10-19T17:21:29.382Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/scalar-index/slt-sort-index-type.md": {
       "sourceHash": "95a2556af59503a0ee0d45df7fda72a6dc004132fc3b0a0c42ce6e406ba3c791",
@@ -1886,9 +1886,9 @@
       "translatedAt": "2026-10-10T05:53:05.021Z"
     },
     "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md": {
-      "sourceHash": "3138f48e1df347da33a3267481ad35a0df6916b07501e2e3839355141da4d128",
+      "sourceHash": "7a0108c135a985f754b11ea178904cc8d1f4208ccc1b1486dd4505f358c559c7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "translatedAt": "2026-10-23T20:58:56.810Z"
+      "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
       "sourceHash": "6cbcdb1146d74273f5b4187048b195a573253876d274156ec906f45813d7de95",

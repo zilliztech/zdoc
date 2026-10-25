@@ -103,7 +103,7 @@ import TabItem from '@theme/TabItem';
 
 次の例では、`product_catalog` という名前の既存のコレクションに、nullable な `source` フィールドを追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -282,6 +282,25 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateVarchar("source", maxLength: 128, nullable: true)
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -315,7 +334,7 @@ curl --request POST \
 
 既存のエンティティで `NULL` ではなく具体的な値を返す必要がある場合は、フィールドの追加時に `default_value` を指定します。次の例では、`review_status` フィールドを追加し、デフォルト値として `"unreviewed"` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -503,6 +522,21 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateVarchar("review_status", maxLength: 32, nullable: true, defaultValue: "unreviewed")
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -545,7 +579,7 @@ curl --request POST \
 
 **例：nullable な StructArray フィールドを追加する**
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -846,6 +880,41 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Create a struct schema
+var structSchema = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1024,
+    Nullable = true
+};
+
+// add a scalar field to the struct
+structSchema.Fields.Add(FieldSchema.CreateVarchar("text", maxLength: 65535));
+structSchema.Fields.Add(FieldSchema.CreateVarchar("chapter", maxLength: 512));
+
+// add a vector field to the struct with mmap enabled
+var textVector = FieldSchema.CreateFloatVector("text_vector", dimension: 5);
+textVector.TypeParams["mmap.enabled"] = "true";
+structSchema.Fields.Add(textVector);
+
+var chapterVector = FieldSchema.CreateFloatVector("chapter_vector", dimension: 5);
+chapterVector.TypeParams["mmap.enabled"] = "true";
+structSchema.Fields.Add(chapterVector);
+
+await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
+{
+    CollectionName = "books",
+    StructField = structSchema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -867,7 +936,7 @@ StructArray フィールドの追加後、コレクションにすでに存在�
 
 次の例では、`embedding_v2` という名前の nullable な密ベクトルフィールドを既存のコレクションに追加します。`dim` には、アプリケーションが生成する埋め込みの次元数を設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1050,6 +1119,24 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var embeddingV2 = FieldSchema.CreateFloatVector("embedding_v2", dimension: 768);
+embeddingV2.Nullable = true;
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = embeddingV2
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1079,7 +1166,7 @@ curl --request POST \
 
 フィールドの追加後、新しいベクトルフィールドを検索する前に、そのフィールドにインデックスを作成します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1248,6 +1335,24 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = new[]
+    {
+        new IndexParam("embedding_v2", "embedding_v2", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1303,7 +1408,7 @@ curl --request POST \
 
 次の例では、`text_bm25` という名前の BM25 Function と、その生成スパースベクトルフィールドである `text_sparse` を既存のコレクションに追加します。コレクションには、アナライザーが有効な `text` という名前の `VARCHAR` フィールドがすでに存在している必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1595,6 +1700,27 @@ await client.addFunctionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.AddFunctionFieldAsync(new AddFunctionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateSparseFloatVector("text_sparse", description: "BM25-generated sparse vector field"),
+    Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse"),
+    IndexParam = new IndexParam("text_sparse", "text_sparse", IndexType.SparseInvertedIndex, MetricType.Bm25)
+    {
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE", ["bm25_k1"] = "1.2", ["bm25_b"] = "0.75" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1656,7 +1782,7 @@ MinHash Function とその生成バイナリベクトルフィールドは、近
 
 次の例では、`experiment_tag` が `product_catalog` 内のユーザー定義スカラーフィールドであることを前提とし、これをコレクションから削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1798,6 +1924,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    FieldName = "experiment_tag"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1813,7 +1953,7 @@ await client.dropCollectionField({
 
 次の例では、`chunks` フィールドが `my_collection` 内の StructArray フィールドであることを前提とし、これをコレクションから削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1955,6 +2095,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "chunks"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1970,7 +2124,7 @@ await client.dropCollectionField({
 
 次の例では、`image_vector` が `hybrid_catalog` 内のユーザー定義ベクトルフィールドであり、コレクションに `text_vector` などの別のベクトルフィールドがまだ残っていることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2112,6 +2266,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "hybrid_catalog",
+    FieldName = "image_vector"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2133,7 +2301,7 @@ Function 名を指定して `drop_function_field()` を呼び出します。こ�
 
 次の例では、`text_bm25` が `product_catalog` 内の BM25 Function であり、`text_sparse` という名前のスパースベクトル出力フィールドを生成することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2270,6 +2438,20 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 await client.dropFunctionField({
     collection_name: "product_catalog",
     function_name: "text_bm25",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropFunctionFieldAsync(new DropFunctionFieldReq
+{
+    CollectionName = "product_catalog",
+    FunctionName = "text_bm25"
 });
 ```
 

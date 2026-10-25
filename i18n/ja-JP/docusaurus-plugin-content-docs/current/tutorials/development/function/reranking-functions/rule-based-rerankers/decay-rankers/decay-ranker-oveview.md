@@ -173,7 +173,7 @@ Decay 関数を使用する前に、まず減衰計算に使用する適切な�
 
 Decay ランキングを実装するには、まず適切な設定で `Function` オブジェクトを定義します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -300,6 +300,24 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Create a decay function for timestamp-based decay
+// Note: All time parameters must use the same unit as your collection data
+var rerank = new DecayRerank("time_decay")     // Function identifier
+    .WithInputField("timestamp")                // Numeric field to use for decay
+    .WithFunction("gauss")                       // Choose decay function type: "gauss", "exp", or "linear"
+    .WithOrigin(new DateTimeOffset(2025, 1, 15, 0, 0, 0, TimeSpan.Zero).ToUnixTimeSeconds()) // Reference point (seconds)
+    .WithScale(7 * 24 * 60 * 60)                 // 7 days in seconds (must match collection data unit)
+    .WithOffset(24 * 60 * 60)                    // 1 day no-decay zone (must match collection data unit)
+    .WithDecay(0.5f);                            // Half score at scale distance
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -376,7 +394,7 @@ const rerank = {
 
 Decay Ranker を定義したら、`ranker` パラメーターに渡すことで検索操作中に適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -500,6 +518,39 @@ const result = await milvusClient.search({
   output_fields: ["document", "timestamp"],
   rerank: rerank,
   consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Use the decay function in standard vector search
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    Vectors = [yourQueryVector], // Replace with your query vector
+    VectorFieldName = "vector_field",
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "document", "timestamp" },  // Include the decay field in outputs to see values
+        FunctionScoreReranker = rerank,              // Apply the decay ranker here
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

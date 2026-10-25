@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 コレクションの名前は次のように変更できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -164,6 +164,30 @@ const res = await client.renameCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+await client.RenameCollectionAsync(new RenameCollectionReq
+{
+    CollectionName = "my_collection",
+    NewCollectionName = "my_new_collection"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -235,7 +259,7 @@ curl --request POST \
 
 次のコードスニペットは、コレクション TTL を設定する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -324,6 +348,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["collection.ttl.seconds"] = "60" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -352,7 +390,7 @@ curl --request POST \
 
 エンティティ単位の TTL の一連のワークフロー（スキーマの設定、挿入、クエリ、リフレッシュ、削除）については、[エンティティ単位の TTL を設定する](./modify-collections) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -440,6 +478,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -466,7 +518,7 @@ curl --request POST \
 
 次のコードスニペットは、mmap を有効にする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -555,6 +607,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["mmap.enabled"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -581,7 +647,7 @@ curl --request POST \
 
 次のコードスニペットは、パーティションキーを有効にする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -668,6 +734,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["partitionkey.isolation"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -694,7 +774,7 @@ curl --request POST \
 
 次のコードスニペットは、動的フィールドを有効にする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -781,6 +861,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["dynamicfield.enabled"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -809,7 +903,7 @@ curl --request POST \
 
 次の例は、`allow_insert_auto_id` を有効にする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -898,6 +992,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["allow_insert_auto_id"] = "true" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -928,7 +1036,7 @@ curl --request POST \
 
 次の例は、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1016,6 +1124,20 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["timezone"] = "Asia/Shanghai" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1042,7 +1164,7 @@ curl --request POST \
 
 コレクションプロパティを削除してリセットすることもできます。方法は次のとおりです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1124,6 +1246,20 @@ if (!status.IsOk()) {
 await client.dropCollectionProperties({
     collection_name: "my_collection",
     properties: ['collection.ttl.seconds'],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["collection.ttl.seconds"]
 });
 ```
 

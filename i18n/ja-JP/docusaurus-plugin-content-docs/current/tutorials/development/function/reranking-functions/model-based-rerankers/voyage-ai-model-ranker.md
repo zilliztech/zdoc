@@ -65,7 +65,7 @@ rerank 関数は検索時に定義および適用されるため、クエリご�
 
 <summary><strong>サンプルデータを含むコレクションを準備する</strong></summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -406,6 +406,25 @@ await client.insert({ collection_name, data });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_ZILLIZ_CLOUD_URI",
+    ApiKey = "YOUR_ZILLIZ_CLOUD_TOKEN"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+string collectionName = "voyage_rerank_demo";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -459,7 +478,7 @@ rerank 関数では、次の項目を指定します。
 
 - クエリとドキュメントをどのように切り捨てるか、または検証するか
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -586,6 +605,14 @@ const voyage_ranker = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Creating a rerank function via FunctionSchema is not supported in milvus-sdk-csharp as of v3.0.0; use ModelRerank on the search instead.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -605,7 +632,7 @@ const voyage_ranker = {
 
 ### rerank 関数を使用して検索する\{#search-with-the-rerank-function}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -738,6 +765,36 @@ const results = await client.search({
 });
 
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var voyageRanker = new ModelRerank("voyage_semantic_ranker")
+    .WithProvider("voyageai")
+    .WithQueries(new[] { "renewable energy developments" });
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.29f, 0.41f });
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    Vectors = [queryVector],
+    VectorFieldName = "dense",
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "document" },
+        FunctionScoreReranker = voyageRanker
+    }
+});
+Console.WriteLine(results);
 ```
 
 </TabItem>
