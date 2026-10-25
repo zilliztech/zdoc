@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
+description: "This operation conducts a hybrid vector search across multiple vector fields, combining and reranking the results of several ANN searches. | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
@@ -31,27 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-This operation performs multi-vector search on a collection and returns search results after reranking.
-
-<Admonition type="info" title="Notes">
-
-This method applies only to dedicated serving clusters and on-demand compute. 
-
-- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
-
-    - **Free & Serverless**
-
-        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-
-    - **Dedicated**
-
-        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-
-- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
-
-    `https://{project-id}.{region}.api.zillizcloud.com`
-
-</Admonition>
+This operation conducts a hybrid vector search across multiple vector fields, combining and reranking the results of several ANN searches.
 
 ## Request Syntax\{#request-syntax}
 
@@ -78,33 +58,52 @@ hybrid_search(
   **[REQUIRED]**<br/>
   The ANN search requests combined by the hybrid search. Construct each request with `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)`.
 
-    - **data** (*Union[List, SparseMatrixInputType]*) -<br/>
-      **[REQUIRED]**<br/>
-      The query vectors or sparse matrix used for this ANN search request.
+    - **data** (*Union[List, SparseMatrixInputType]*) -
 
-    - **anns_field** (*str*) -<br/>
-      **[REQUIRED]**<br/>
-      The name of the vector field to search.
+**[REQUIRED]**
+The query vectors or sparse matrix used for this ANN search request.
 
-    - **param** (*Dict*) -<br/>
-      **[REQUIRED]**<br/>
-      The ANN search parameters, such as the metric type and search-specific settings.
+```plaintext
+- **anns_field** (*str*) -
+```
 
-    - **limit** (*int*) -<br/>
-      **[REQUIRED]**<br/>
-      The maximum number of matches returned by this ANN search request.
+**[REQUIRED]**
+The name of the vector field to search.
 
-    - **expr** (*Optional[str]*) -<br/>
-      Default: `None`<br/>
-      The Boolean filtering expression applied before the ANN search. Do not provide both `expr` and `filter`.
+```plaintext
+- **param** (*Dict*) -
+```
 
-    - **expr_params** (*Optional[dict]*) -<br/>
-      Default: `None`<br/>
-      The values substituted into expression-template placeholders.
+**[REQUIRED]**
+The ANN search parameters, such as the metric type and search-specific settings.
 
-    - **filter** (*Optional[str]*) -<br/>
-      Default: `None`<br/>
-      The alias for `expr`. Do not provide both values. The resolved expression is available through the read-only `filter` property as `request.filter`.
+```plaintext
+- **limit** (*int*) -
+```
+
+**[REQUIRED]**
+The maximum number of matches returned by this ANN search request.
+
+```plaintext
+- **expr** (*Optional[str]*) -
+```
+
+Default: `None`
+The Boolean filtering expression applied before the ANN search. Do not provide both `expr` and `filter`.
+
+```plaintext
+- **expr_params** (*Optional[dict]*) -
+```
+
+Default: `None`
+The values substituted into expression-template placeholders.
+
+```plaintext
+- **filter** (*Optional[str]*) -
+```
+
+Default: `None`
+The alias for `expr`. Do not provide both values. The resolved expression is available through the read-only `filter` property as `request.filter`.
 
 - **ranker** (*Union[BaseRanker, Function]*) -<br/>
   **[REQUIRED]**<br/>
@@ -127,7 +126,11 @@ hybrid_search(
   The names of the partitions to search.
 
 - **kwargs** (*Any*) -<br/>
-  The additional search options, including the pagination offset and consistency level.
+  The additional search options, including the top-level `offset` for pagination and the `consistency_level` for the search.
+
+    The top-level `offset` is applied to the final results after candidate fusion and reranking. Note that the `offset` inside the `param` of an **AnnSearchRequest** is not supported in hybrid search and is ignored by Milvus.
+
+    To make pagination work as expected, the `limit` of each **AnnSearchRequest** in **reqs** should cover the pagination window, that is, the sum of the top-level `offset` and `limit`. The sum of these two values should be less than or equal to 16,384.
 
 **RETURN TYPE:**
 
@@ -139,30 +142,60 @@ Search results for the combined ANN requests after applying each request's expre
 
 **EXCEPTIONS:**
 
-- **MilvusException**<br/>
-  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**
+
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
-The example constructs an ANN request and runs a hybrid search.
+The example runs a hybrid search with pagination. The top-level `offset` is applied to the final results after candidate fusion and reranking, so each `AnnSearchRequest.limit` covers the pagination window (`offset + limit`).
 
 ```python
-from pymilvus import AnnSearchRequest, MilvusClient
+from pymilvus import AnnSearchRequest, MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-request = AnnSearchRequest(
-    data=[[0.1, 0.2, 0.3]],
-    anns_field="vector",
-    param={"metric_type": "COSINE"},
-    limit=10,
-    filter='category == "paper"',
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+
+# Create a collection, insert data, and load it
+schema = client.create_schema(auto_id=False)
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="text_vector", datatype=DataType.FLOAT_VECTOR, dim=3)
+schema.add_field(field_name="image_vector", datatype=DataType.FLOAT_VECTOR, dim=3)
+client.create_collection(collection_name="book_chunks", schema=schema)
+index_params = client.prepare_index_params()
+index_params.add_index(field_name="text_vector", index_type="AUTOINDEX", metric_type="IP")
+index_params.add_index(field_name="image_vector", index_type="AUTOINDEX", metric_type="IP")
+client.create_index(collection_name="book_chunks", index_params=index_params)
+client.insert(collection_name="book_chunks", data=[
+    {"id": i, "text_vector": [0.1, 0.2, 0.3], "image_vector": [0.3, 0.2, 0.1]}
+    for i in range(30)
+])
+client.load_collection(collection_name="book_chunks")
+
+requests = [
+    AnnSearchRequest(
+        data=[[0.1, 0.2, 0.3]],
+        anns_field="text_vector",
+        param={"metric_type": "IP"},
+        limit=30,  # cover the pagination window (offset 20 + limit 10)
+    ),
+    AnnSearchRequest(
+        data=[[0.3, 0.2, 0.1]],
+        anns_field="image_vector",
+        param={"metric_type": "IP"},
+        limit=30,
+    ),
+]
+
+# NOTE: Set the consistency level to Strong so that the entities inserted above
+# are immediately visible and the example returns results. In production,
+# choose a consistency level (for example, Bounded) that fits your scenario.
 results = client.hybrid_search(
     collection_name="book_chunks",
-    reqs=[request],
+    reqs=requests,
     ranker=None,
     limit=10,
+    offset=20,  # return the third page of the fused and reranked results
+    consistency_level="Strong",
 )
-print(request.filter)
 print(results)
 ```

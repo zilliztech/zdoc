@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-24T10:46:15.528Z",
+  "generated_at": "2026-10-25T02:57:25.763Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -4585,23 +4585,21 @@
       "doc_token": "Iv1PdIVxYoDOMax47xDcLnbEnXb",
       "doc_link": "https://zilliverse.feishu.cn/docx/Iv1PdIVxYoDOMax47xDcLnbEnXb",
       "source_file": "Iv1PdIVxYoDOMax47xDcLnbEnXb.json",
-      "source_hash": "4d04468ed550ed7268d6079e9ef13b27312cd069547a775fb285e84acdfc1b5b",
+      "source_hash": "b875ff43ae1b8adb3d319f7d63e8506f81d231ee94e3c8aca55352029026438c",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "230",
+      "revision_id": "235",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "SojTdgw1joOuA8xMzb5cMUFYnce"
-      ],
+      "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md"
       ]
