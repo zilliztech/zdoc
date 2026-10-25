@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "95a7f2ec930334d166bf393e376787c115d5d118",
+  "sourceCommit": "60907c1fa81be4ddd9289de7093e2270d90a2f24",
   "records": [
     {
       "manual": "cli",
@@ -1895,7 +1895,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
-      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef"
+      "sourceHash": "2ad461d2f0e2584a64f5854e386c6b81b0c4714dbcabf1c342b8b66a6235bd28"
     },
     {
       "manual": "go",
@@ -5200,7 +5200,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md",
-      "sourceHash": "fad5ae8d844ce9853cb57ffb4fc4ac34a0cd4f89e46abf7555a1c621d12c3576"
+      "sourceHash": "05ed44527c2313bf7dc2b0ddc3100c377fbccd73cb78d0a5b3dc3d706e66a125"
     },
     {
       "manual": "python",
