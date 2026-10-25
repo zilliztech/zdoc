@@ -6,6 +6,7 @@ const validator = require('./validate.cjs');
 export const {
   applyMdxPatches,
   validateMdxStructure,
+  validateFrontmatter,
   normalizeNestedPlaintextFences,
   createFenceTracker,
   getFencedCodeRanges,

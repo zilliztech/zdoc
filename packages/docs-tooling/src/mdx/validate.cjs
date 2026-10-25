@@ -7,6 +7,8 @@
  * reverted for retranslation instead of auto-repaired).
  */
 
+const yaml = require('js-yaml');
+
 // Known JSX block components that must never be backslash-escaped.
 const KNOWN_JSX_TAGS = new Set([
     'Admonition', 'Tabs', 'TabItem', 'DocCard', 'DocCardList',
@@ -14,6 +16,36 @@ const KNOWN_JSX_TAGS = new Set([
     'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures',
     'RestSpecs', 'Stories', 'Supademo', 'FeatureNote', 'FeatureCardGrid', 'FeatureCard',
 ]);
+
+// The MDX body validators below never see frontmatter bytes (the MDX compiler
+// rejects YAML syntax that is legal there), so frontmatter is checked here as
+// plain YAML instead. This must mirror the Docusaurus front matter parser
+// (js-yaml default schema): anything it rejects has to fail here, or invalid
+// front matter only surfaces at the site build after publication.
+function extractFrontmatterBlock(source) {
+    const lines = source.split(/\r?\n/);
+    if ((lines[0] ?? '').trim() !== '---') return null;
+    for (let index = 1; index < lines.length; index += 1) {
+        if (lines[index].trim() === '---') return lines.slice(1, index).join('\n');
+    }
+    return null;
+}
+
+function validateFrontmatter(source, label) {
+    const frontmatter = extractFrontmatterBlock(source);
+    if (frontmatter === null) return null;
+    const where = label ? ` in ${label}` : '';
+    let parsed;
+    try {
+        parsed = yaml.load(frontmatter);
+    } catch (error) {
+        throw new Error(`Invalid YAML frontmatter${where}: ${String(error.message).split('\n')[0]}`);
+    }
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        throw new Error(`YAML frontmatter must be a mapping${where}`);
+    }
+    return parsed;
+}
 
 function createFenceTracker() {
     return {
@@ -1167,6 +1199,7 @@ async function applyMdxPatches(content, options = {}) {
 module.exports = {
     applyMdxPatches,
     validateMdxStructure,
+    validateFrontmatter,
     normalizeNestedPlaintextFences,
     createFenceTracker,
     getFencedCodeRanges,

@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const {
     applyMdxPatches,
     validateMdxStructure,
+    validateFrontmatter,
     normalizeNestedPlaintextFences,
     normalizeCodeTagContent,
     convertHtmlCommentsToMdx,
@@ -97,6 +98,77 @@ async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
     return String(await compile(content, { development: false }));
 }
+
+// Regression: the ja translation of v2-FileResources-NewRoaringBitmapBlob escaped
+// the YAML-escaped backslash once more (`\\\{`), which js-yaml rejects as an
+// unknown escape sequence while the MDX body compiles cleanly. This mirror of the
+// incident kept sailing through validate-mdx and only died at the site build.
+const newRoaringBitmapBlobBrokenFrontmatter = [
+    '---',
+    'title: "NewRoaringBitmapBlob | Go | v2"',
+    'slug: /go/go/v2-FileResources-NewRoaringBitmapBlob',
+    'sidebar_label: "NewRoaringBitmapBlob"',
+    'beta: false',
+    'added_since: v3.0.x',
+    'last_modified: false',
+    'deprecate_since: false',
+    'notebook: false',
+    'description: "この操作は、メンバーシップセットからシリアル化された roaring bitmap blob を構築します。この blob は、membershipmatch(field, \\\\\\{blob\\\\}, type=roaring) フィルター式に渡されます。 | Go | v2"',
+    'type: docx',
+    'token: O8dIdQuMyofLmVxGXYScUSK0nOe',
+    'sidebar_position: 5',
+    'keywords: ',
+    '  - Serverless ベクトルデータベース',
+    '---',
+    '',
+    'This operation builds a serialized roaring bitmap blob from a membership set.',
+    '',
+].join('\n');
+const newRoaringBitmapBlobValidFrontmatter = newRoaringBitmapBlobBrokenFrontmatter.replace(
+    '\\\\\\{blob\\\\}',
+    '\\\\{blob\\\\}',
+);
+
+function testFrontmatterRejectsUnknownYamlEscape() {
+    assert.throws(
+        () => validateFrontmatter(
+            newRoaringBitmapBlobBrokenFrontmatter,
+            'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md',
+        ),
+        /Invalid YAML frontmatter in .*NewRoaringBitmapBlob\.md: .*unknown escape sequence/,
+    );
+}
+
+function testFrontmatterAcceptsEscapedBackslashBeforeBraces() {
+    const parsed = validateFrontmatter(newRoaringBitmapBlobValidFrontmatter, 'content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md');
+    assert.match(parsed.description, /membershipmatch\(field, \\\{blob\\\}, type=roaring\)/);
+}
+
+function testFrontmatterAcceptsQuotedBracesAndBackticks() {
+    const source = [
+        '---',
+        'title: "Quoted | Go | v2"',
+        'description: "The blob feeds `membership_match(field, {blob}, type=roaring)` filter expression."',
+        '---',
+        '',
+        'Body text.',
+        '',
+    ].join('\n');
+    const parsed = validateFrontmatter(source, 'content/en/reference/api/go/go/v2/example.md');
+    assert.match(parsed.description, /`membership_match\(field, \{blob\}, type=roaring\)`/);
+}
+
+function testFrontmatterRejectsNonMappingDocument() {
+    assert.throws(
+        () => validateFrontmatter('---\njust a plain string\n---\n\nBody.\n', 'content/en/example.md'),
+        /YAML frontmatter must be a mapping in content\/en\/example\.md/,
+    );
+}
+
+function testFrontmatterSkipsFilesWithoutFrontmatter() {
+    assert.equal(validateFrontmatter('# Heading\n\nBody without frontmatter.\n', 'content/en/plain.md'), null);
+}
+
 
 async function testNormalizeCodeTagContent() {
     assert.equal(
@@ -509,6 +581,11 @@ async function testFindUnmatchedOpeningBraces() {
 }
 
 async function run() {
+    testFrontmatterRejectsUnknownYamlEscape();
+    testFrontmatterAcceptsEscapedBackslashBeforeBraces();
+    testFrontmatterAcceptsQuotedBracesAndBackticks();
+    testFrontmatterRejectsNonMappingDocument();
+    testFrontmatterSkipsFilesWithoutFrontmatter();
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
     await testApplyMdxPatchesAvoidsRuntimeExpressions();
