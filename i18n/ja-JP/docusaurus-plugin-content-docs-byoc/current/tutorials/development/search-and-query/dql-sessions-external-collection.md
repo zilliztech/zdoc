@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "オンデマンドコンピューティング向けのコレクションでの DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズに合わせてセッションを作成できます。 | BYOC"
+description: "オンデマンドコンピューティング向けのコレクションでの DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | BYOC"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
 sidebar_position: 2
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド DQL 操作
 
-オンデマンドコンピューティング向けのコレクションでの DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズに合わせてセッションを作成できます。
+オンデマンドコンピューティング向けにコレクション内で実行する DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
 
-この記事では、プロジェクトエンドポイントを使用してデータベースにコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
+この記事では、プロジェクトエンドポイントを使用してデータベース内にコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
 
 ## プロジェクトエンドポイントに接続する\{#connect-to-a-project-endpoint}
 
-プロジェクトエンドポイントは、オンデマンドのコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理し、コレクションに保存されているデータを操作できます。
+プロジェクトエンドポイントは、オンデマンドコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースの管理、およびコレクションに格納されたデータの操作を行えます。
 
-以下のコード例では、デフォルトデータベースに `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際には、十分な権限を持つ有効な API キーを常に使用してください。
+次のコード例では、デフォルトデータベースに `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際は、十分な権限を持つ有効な API キーを常に使用してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -124,6 +124,24 @@ client.hasCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "https://{project-id}.{region}.vectordb.zillizcloud.com",
+    ApiKey = "YOUR_API_KEY"
+});
+await client.ConnectAsync();
+
+var has = await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -146,7 +164,7 @@ curl --request POST \
 
 プロジェクトエンドポイントへの接続を設定したら、セッションを作成して、指定したオンデマンドクラスターのコンピューティングリソースをアタッチします。
 
-以下の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成していることを前提としています。
+次の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成済みであることを前提としています。
 
 <Admonition type="info" title="Notes">
 
@@ -154,7 +172,7 @@ RESTful リクエストの場合は、セッションを作成する代わりに
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +226,14 @@ const session = client.session("inxx-xxxxxxxxxxxxxxxxx");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -219,9 +245,9 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 
 ## DQL 操作を実行する\{#conduct-dql-operations}
 
-セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは、クエリ、取得、ハイブリッド検索にも適用されます。
+セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは query、get、ハイブリッド検索にも当てはまります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -331,6 +357,14 @@ const res = session.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -368,15 +402,15 @@ curl --request POST \
 
 ## セッションを閉じる\{#close-a-session}
 
-オンデマンドのコンピューティングタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
+オンデマンドコンピューティングのタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
 
 <Admonition type="info" title="Notes">
 
-RESTful 呼び出しでは、これは必要ありません。
+RESTful 呼び出しでは、この操作は不要です。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -425,6 +459,14 @@ session.close();
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: the cluster session is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -433,4 +475,3 @@ session.close();
 
 </TabItem>
 </Tabs>
-

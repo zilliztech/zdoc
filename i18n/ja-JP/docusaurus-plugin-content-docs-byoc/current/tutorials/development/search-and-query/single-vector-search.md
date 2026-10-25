@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル埋め込みの並び順を記録したインデックスファイルに基づき、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルをそのサブグループ内のベクトルと比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索エクスペリエンスを提供します。このページでは、基本的な ANN 検索を実行する方法について説明します。 | BYOC"
+description: "ベクトル埋め込みの並び順を記録したインデックスファイルに基づき、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルを基にベクトル埋め込みのサブセットを特定し、クエリベクトルをそのサブグループ内のベクトルと比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索エクスペリエンスを提供します。このページでは、基本的な ANN 検索を実行する方法について説明します。 | BYOC"
 type: origin
 token: BaGlwzDmyiyVvVk6NurcFclInCd
 sidebar_position: 1
@@ -21,55 +21,55 @@ import TabItem from '@theme/TabItem';
 
 # 基本的なベクトル検索
 
-ベクトル埋め込みの並び順を記録したインデックスファイルに基づき、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルをそのサブグループ内のベクトルと比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索エクスペリエンスを提供します。このページでは、基本的な ANN 検索を実行する方法について説明します。
+ベクトル埋め込みの並び順を記録したインデックスファイルに基づき、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルを基にベクトル埋め込みのサブセットを特定し、クエリベクトルをそのサブグループ内のベクトルと比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索エクスペリエンスを提供します。このページでは、基本的な ANN 検索を実行する方法について説明します。
 
 <Admonition type="info" title="Notes">
 
-コレクションの作成後に新しいフィールドを追加すると、これらのフィールドを含む検索では、値を明示的に設定していないエンティティに対して、定義済みのデフォルト値または `NULL` が返されます。詳細については、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
+コレクションの作成後に新しいフィールドを追加した場合、これらのフィールドを含む検索では、値を明示的に設定していないエンティティに対して、定義されたデフォルト値または `NULL` が返されます。詳細は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-ANN 検索と k 近傍法（kNN）検索は、ベクトル類似検索で一般的な手法です。kNN 検索では、検索リクエストに含まれるクエリベクトルとベクトル空間内のすべてのベクトルを比較してから、最も類似したものを特定する必要があるため、時間とリソースを大量に消費します。
+ANN 検索と k-Nearest Neighbors（kNN）検索は、ベクトル類似検索で一般に使用される手法です。kNN 検索では、検索リクエストに含まれるクエリベクトルとベクトル空間内のすべてのベクトルを比較してから、最も類似したベクトルを特定する必要があるため、時間とリソースがかかります。
 
-kNN 検索とは異なり、ANN 検索アルゴリズムでは、ベクトル埋め込みの並び順を記録した **インデックス**ファイルが必要です。検索リクエストを受信すると、インデックスファイルを参照して、クエリベクトルに最も類似したベクトル埋め込みを含む可能性が高いサブグループを迅速に特定できます。次に、指定した **メトリクスタイプ**を使用してクエリベクトルとサブグループ内のベクトルとの類似性を測定し、クエリベクトルとの類似性に基づいてグループメンバーを並べ替え、**上位 K 件**のグループメンバーを特定できます。
+kNN 検索とは異なり、ANN 検索アルゴリズムでは、ベクトル埋め込みの並び順を記録した **インデックス** ファイルが必要です。検索リクエストを受信すると、インデックスファイルを参照して、クエリベクトルに最も類似したベクトル埋め込みを含む可能性があるサブグループをすばやく特定できます。次に、指定された **メトリックタイプ** を使用してクエリベクトルとサブグループ内のベクトル間の類似度を測定し、クエリベクトルとの類似度に基づいてグループのメンバーを並べ替え、**上位 K 件** のグループメンバーを特定します。
 
-ANN 検索は事前に構築されたインデックスに依存しており、検索スループット、メモリ使用量、検索の正確性は、選択するインデックスタイプによって変わる場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。
+ANN 検索は事前に構築されたインデックスに依存しており、検索スループット、メモリ使用量、検索の正確性は、選択するインデックスの種類によって異なる場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。
 
-学習負担を軽減するため、Zilliz Cloud は **AUTOINDEX** を提供しています。**AUTOINDEX** を使用すると、Zilliz Cloud はインデックスの構築中にコレクション内のデータ分布を分析し、その分析に基づいて最適化されたインデックスパラメーターを設定し、検索パフォーマンスと正確性のバランスを取ることができます。
+学習曲線を緩和するため、Zilliz Cloud は **AUTOINDEX** を提供しています。**AUTOINDEX** を使用すると、Zilliz Cloud はインデックスの構築中にコレクション内のデータ分布を分析し、その分析に基づいて最適化されたインデックスパラメーターを設定し、検索パフォーマンスと正確性のバランスを取ります。
 
-AUTOINDEX と適用可能なメトリクスタイプの詳細については、[AUTOINDEX の説明](./autoindex-explained) および [メトリクスタイプ](./search-metrics-explained) を参照してください。このセクションでは、以下のトピックについて詳しく説明します。
+AUTOINDEX と適用可能なメトリックタイプの詳細は、[AUTOINDEX の説明](./autoindex-explained) および [メトリックタイプ](./search-metrics-explained) を参照してください。このセクションでは、次のトピックについて詳しく説明します。
 
 - [単一ベクトル検索](./single-vector-search#single-vector-search)
 
 - [一括ベクトル検索](./single-vector-search#bulk-vector-search)
 
-- [パーティション内の ANN 検索](./single-vector-search#ann-search-in-partition)
+- [パーティションでの ANN 検索](./single-vector-search#ann-search-in-partition)
 
-- [出力フィールドを使用する](./single-vector-search#use-output-fields)
+- [出力フィールドの使用](./single-vector-search#use-output-fields)
 
-- [limit と offset を使用する](./single-vector-search#use-limit-and-offset)
+- [limit と offset の使用](./single-vector-search#use-limit-and-offset)
 
-- [level を使用する](./single-vector-search#use-level)
+- [level の使用](./single-vector-search#use-level)
 
-- [再現率を取得する](./single-vector-search#get-recall-rate)
+- [再現率の取得](./single-vector-search#get-recall-rate)
 
-- [ANN 検索を強化する](./single-vector-search#enhancing-ann-search)
+- [ANN 検索の強化](./single-vector-search#enhancing-ann-search)
 
 ## 単一ベクトル検索\{#single-vector-search}
 
-ANN 検索において、単一ベクトル検索とは、クエリベクトルを 1 つだけ使用する検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリクスタイプに基づき、Zilliz Cloud はクエリベクトルに最も類似した上位 K 件のベクトルを検索します。
+ANN 検索では、単一ベクトル検索とは、1 つのクエリベクトルのみを使用する検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づいて、Zilliz Cloud はクエリベクトルに最も類似した上位 K 件のベクトルを検索します。
 
-このセクションでは、単一ベクトル検索を実行する方法について説明します。検索リクエストには 1 つのクエリベクトルが含まれ、Zilliz Cloud は内積（IP）を使用してクエリベクトルとコレクション内のベクトルとの類似性を計算し、最も類似した 3 件を返します。
+このセクションでは、単一ベクトル検索を実行する方法について説明します。検索リクエストには 1 つのクエリベクトルが含まれ、Zilliz Cloud が内積（IP）を使用してクエリベクトルとコレクション内のベクトル間の類似度を計算し、最も類似した 3 件を返すように要求します。
 
 <Admonition type="info" title="Notes">
 
-データプレーンの RESTful API エンドポイントを呼び出す際は、`username:password` のように、対象クラスターのユーザー名とパスワードをコロンで区切ったものを認証トークンとして使用してください。
+データプレーン RESTful API エンドポイントを呼び出す際は、`username:password` のように、ターゲットクラスターのユーザー名とパスワードをコロンで区切って認証トークンとして使用します。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -308,6 +308,42 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 4. Single vector search
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3
+});
+
+var single = res.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -373,23 +409,23 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-Milvus は、クエリベクトルに対する類似度スコアの降順で検索結果をランク付けします。類似度スコアはクエリベクトルまでの距離とも呼ばれ、その値の範囲は使用するメトリクスタイプによって異なります。
+Milvus は検索結果をクエリベクトルとの類似度スコアの降順で並べ替えます。類似度スコアはクエリベクトルとの距離とも呼ばれ、その値の範囲は使用するメトリックタイプによって異なります。
 
-以下の表に、適用可能なメトリクスタイプと対応する距離範囲を示します。
+次の表に、適用可能なメトリックタイプと対応する距離の範囲を示します。
 
-| メトリクスタイプ | 特性 | 距離範囲 |
+| メトリックタイプ | 特性 | 距離の範囲 |
 | --- | --- | --- |
-| `L2` | 値が小さいほど類似性が高くなります。 | [0, ∞) |
-| `IP` | 値が大きいほど類似性が高くなります。 | [-1, 1] |
-| `COSINE` | 値が大きいほど類似性が高くなります。 | [-1, 1] |
-| `JACCARD` | 値が小さいほど類似性が高くなります。 | [0, 1] |
-| `HAMMING` | 値が小さいほど類似性が高くなります。 | [0, dim(ベクトル)] |
+| `L2` | 値が小さいほど類似度が高くなります。 | [0, ∞) |
+| `IP` | 値が大きいほど類似度が高くなります。 | [-1, 1] |
+| `COSINE` | 値が大きいほど類似度が高くなります。 | [-1, 1] |
+| `JACCARD` | 値が小さいほど類似度が高くなります。 | [0, 1] |
+| `HAMMING` | 値が小さいほど類似度が高くなります。 | [0, dim(vector)] |
 
 ## 一括ベクトル検索\{#bulk-vector-search}
 
-同様に、検索リクエストに複数のクエリベクトルを含めることもできます。Zilliz Cloud は各クエリベクトルに対して ANN 検索を並行して実行し、2 セットの結果を返します。
+同様に、検索リクエストに複数のクエリベクトルを含めることができます。Zilliz Cloud はクエリベクトルに対して ANN 検索を並列に実行し、2 組の結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -630,6 +666,32 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// 7. Search with multiple vectors
+// 7.1. Prepare query vectors
+var queryVectors = new[]
+{
+    new ReadOnlyMemory<float>(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
+    new ReadOnlyMemory<float>(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
+};
+
+// 7.2. Start search
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVectors,
+    Limit = 3
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -722,9 +784,9 @@ zilliz vector search \
 
 ## 主キー検索\{#primary-key-search}
 
-クエリベクトルを設定する代わりに、クエリベクトルが対象コレクションにすでに存在する場合は、主キーを使用できます。
+クエリベクトルを設定する代わりに、クエリベクトルがターゲットコレクションにすでに存在する場合は、主キーを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -870,6 +932,24 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Ids = new object[] { 551L, 296L, 43L },
+    Limit = 3,
+    MetricType = MetricType.Ip
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -909,13 +989,13 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## パーティション内の ANN 検索\{#ann-search-in-partition}
+## パーティションでの ANN 検索\{#ann-search-in-partition}
 
-コレクション内に複数のパーティションを作成し、検索範囲を特定の数のパーティションに絞り込めるものとします。その場合は、検索リクエストに対象のパーティション名を含めることで、検索範囲を指定したパーティション内に制限できます。検索対象のパーティション数を減らすと、検索パフォーマンスが向上します。
+コレクション内に複数のパーティションを作成済みで、検索範囲を特定の数のパーティションに絞り込める場合は、検索リクエストに対象のパーティション名を含めて、検索範囲を指定したパーティション内に制限できます。検索に関与するパーティションの数を減らすと、検索パフォーマンスが向上します。
 
-以下のコードスニペットでは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。
+次のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1105,6 +1185,25 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { PartitionNames = { "partitionA" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1175,11 +1274,11 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## 出力フィールドを使用する\{#use-output-fields}
+## 出力フィールドの使用\{#use-output-fields}
 
-検索結果では、Zilliz Cloud はデフォルトで、上位 K 件のベクトル埋め込みを含むエンティティの主フィールド値と類似度の距離/scores を含めます。対象フィールドの名前（ベクトルフィールドとスカラーフィールドの両方）を出力フィールドとして検索リクエストに含めることで、検索結果にこれらのエンティティの他のフィールドの値を含めることができます。
+検索結果には、Zilliz Cloud によってデフォルトで、上位 K 件のベクトル埋め込みを含むエンティティのプライマリフィールドの値と類似度の距離（distance/scores）が含まれます。検索リクエストで出力フィールドとして対象フィールド（ベクトルフィールドとスカラーフィールドの両方）の名前を指定すると、検索結果にこれらのエンティティの他のフィールドの値を含めることができます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1350,6 +1449,25 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { OutputFields = { "color" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1425,13 +1543,13 @@ zilliz vector search \
 
 ## スカラーフィールドで検索結果を並べ替える | PUBLIC\{#sort-search-results-by-scalar-fields-or-public}
 
-デフォルトでは、Zilliz Cloud はクエリベクトルに対する類似度スコアで検索結果を並べ替えます。返されるエンティティをスカラーフィールドの順序に従わせたい場合は、`order_by_fields` を検索リクエストに追加します。
+デフォルトでは、Zilliz Cloud はクエリベクトルとの類似度スコア順に検索結果を並べ替えます。返されるエンティティをスカラーフィールドの順序に従わせる場合は、`order_by_fields` を検索リクエストに追加します。
 
-`order_by_fields` の各項目では、スカラーフィールドと並べ替え方向を指定します。昇順には `"asc"`、降順には `"desc"` を使用します。`order` を省略した場合、Zilliz Cloud はそのフィールドを昇順で並べ替えます。
+`order_by_fields` の各項目は、スカラーフィールドと並べ替え方向を指定します。昇順には `"asc"`、降順には `"desc"` を使用します。`order` を省略すると、Zilliz Cloud はフィールドを昇順で並べ替えます。
 
-以下の例では、検索結果を `price` の低い順から高い順に並べ替えます。レスポンスでフィールド値を確認したい場合は、並べ替えフィールドを `output_fields` に含めてください。
+次の例では、検索結果を `price` の低い順から高い順に並べ替えます。レスポンスでフィールド値を確認する場合は、並べ替えフィールドを `output_fields` に含めます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1597,6 +1715,29 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 20,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "id", "price", "rating", "category" },
+        ExtraParameters = { ["order_by_fields"] = "price:asc" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1635,9 +1776,9 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-複数のスカラーフィールドで並べ替えることもできます。Zilliz Cloud は指定した順序でフィールドを適用します。以下の例では、Zilliz Cloud は結果を `price` の昇順で並べ替えます。`price` が同じエンティティについては、続いて `rating` の降順で並べ替え、Zilliz Cloud は該当する結果を返します。
+複数のスカラーフィールドで並べ替えることもできます。Zilliz Cloud は指定した順序でフィールドを適用します。次の例では、Zilliz Cloud は結果を `price` の昇順で並べ替えます。`price` が同じエンティティについては、Zilliz Cloud は次に `rating` の降順で並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1817,6 +1958,29 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 20,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "id", "price", "rating", "category" },
+        ExtraParameters = { ["order_by_fields"] = "price:asc,rating:desc" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1857,26 +2021,26 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-指定したすべての order-by フィールドで値が同じエンティティについては、Zilliz Cloud は元の類似度スコアの順序を維持します。
+指定したすべての並べ替えフィールドで同じ値を持つエンティティについては、Zilliz Cloud は元の類似度スコア順を維持します。
 
-## limit と offset を使用する\{#use-limit-and-offset}
+## limit と offset の使用\{#use-limit-and-offset}
 
-検索リクエストに含まれる `limit` パラメーターが、検索結果に含めるエンティティ数を決定することにお気づきかもしれません。このパラメーターは 1 回の検索で返すエンティティの最大数を指定し、通常 **上位 K 件** と呼ばれます。
+検索リクエストに含まれる `limit` パラメーターが検索結果に含めるエンティティの数を決定することに気付くかもしれません。このパラメーターは 1 回の検索で返すエンティティの最大数を指定し、通常 **上位 K 件** と呼ばれます。
 
-ページ分割されたクエリを実行したい場合は、ループを使用して複数の検索リクエストを送信し、各クエリリクエストに **Limit** パラメーターと **Offset** パラメーターを含めることができます。具体的には、**Limit** パラメーターを現在のクエリ結果に含めたいエンティティ数に設定し、**Offset** をすでに返されたエンティティの合計数に設定します。
+ページ分割されたクエリを実行する場合は、ループを使用して複数の検索リクエストを送信し、各クエリリクエストに **Limit** パラメーターと **Offset** パラメーターを含めます。具体的には、**Limit** パラメーターに現在のクエリ結果に含めるエンティティの数を設定し、**Offset** にすでに返されたエンティティの合計数を設定します。
 
-以下の表は、一度に 100 件のエンティティを返す場合に、ページ分割されたクエリで **Limit** パラメーターと **Offset** パラメーターを設定する方法をまとめたものです。
+次の表は、一度に 100 件のエンティティを返す場合に、ページ分割されたクエリの **Limit** パラメーターと **Offset** パラメーターを設定する方法を示しています。
 
 | クエリ | クエリごとに返すエンティティ数 | すでに返されたエンティティの合計数 |
 | --- | --- | --- |
-| **1 回目**のクエリ | 100 | 0 |
-| **2 回目**のクエリ | 100 | 100 |
-| **3 回目**のクエリ | 100 | 200 |
-| **n 回目**のクエリ | 100 | 100 x (n-1) |
+| **1 回目** のクエリ | 100 | 0 |
+| **2 回目** のクエリ | 100 | 100 |
+| **3 回目** のクエリ | 100 | 200 |
+| **n 回目** のクエリ | 100 | 100 x (n-1) |
 
-単一の ANN 検索における `limit` と `offset` の合計は 16,384 未満にする必要があることに注意してください。
+1 回の ANN 検索における `limit` と `offset` の合計は 16,384 未満である必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2035,6 +2199,25 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { Offset = 10 }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2084,19 +2267,19 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## level を使用する\{#use-level}
+## level の使用\{#use-level}
 
-ANN 検索を最適化するため、Zilliz Cloud は、簡素化された検索最適化によって検索精度を制御する `level` という名前のパラメーターを提供しています。
+ANN 検索を最適化するため、Zilliz Cloud は、検索の最適化を簡素化しながら検索精度を制御する `level` という名前のパラメーターを提供しています。
 
-このパラメーターは `1` から `10` の範囲で、デフォルトは `1` です。値を大きくすると検索の再現率は向上しますが、検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大 90% の再現率が得られます。必要に応じて値を大きくできます。
+このパラメーターの範囲は `1` から `10` で、デフォルトは `1` です。値を大きくすると検索パフォーマンスが低下する代わりに検索の再現率が向上します。通常、デフォルト値では最大 90% の再現率が得られます。必要に応じて値を大きくできます。
 
 <Admonition type="info" title="Notes">
 
-`level` パラメーターはまだ **Public Preview** です。`5` より大きい値に設定できない場合、クラスターがこの機能を完全にはサポートしていない可能性があります。回避策として、代わりに `1` から `5` の範囲内の値を設定するか、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
+`level` パラメーターは現在も **Public Preview** です。`5` より大きい値を設定できない場合、クラスターがこの機能を完全にはサポートしていない可能性があります。回避策として、代わりに `1` から `5` の範囲内の値を設定するか、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2264,6 +2447,25 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { ExtraParameters = { ["level"] = "10" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2322,17 +2524,17 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## 再現率を取得する\{#get-recall-rate}
+## 再現率の取得\{#get-recall-rate}
 
-`level` パラメーターを調整する際に `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索の精度を評価できます。
+`level` パラメーターを調整するときに `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索精度を評価できます。
 
 <Admonition type="info" title="Notes">
 
-`enable_recall_calculation` パラメーターはまだ **Public Preview** であり、互換性の問題により使用できない場合があります。サポートが必要な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) までお問い合わせください。
+`enable_recall_calculation` パラメーターは現在も **Public Preview** であり、互換性の問題により使用できない場合があります。サポートが必要な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) までお問い合わせください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2507,6 +2709,28 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        ExtraParameters = { ["level"] = "10", ["enable_recall_calculation"] = "true" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2551,13 +2775,13 @@ curl --request POST \
 
 ## 検索のタイムゾーンを一時的に設定する\{#temporarily-set-a-timezone-for-a-search}
 
-コレクションに `TIMESTAMPTZ` フィールドがある場合、検索呼び出しで `timezone` パラメーターを設定することで、単一の操作に対してデータベースまたはコレクションのデフォルトタイムゾーンを一時的に上書きできます。これにより、操作中の `TIMESTAMPTZ` 値の表示方法と比較方法が制御されます。
+コレクションに `TIMESTAMPTZ` フィールドがある場合、検索呼び出しで `timezone` パラメーターを設定すると、1 回の操作に対してデータベースまたはコレクションのデフォルトタイムゾーンを一時的に上書きできます。これは、操作中に `TIMESTAMPTZ` 値が表示および比較される方法を制御します。
 
-`timezone` の値は、たとえば **Asia/Shanghai**, **America/Chicago**, または **UTC** など、有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
+`timezone` の値は、有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（たとえば、**Asia/Shanghai**, **America/Chicago**, または **UTC**）である必要があります。`TIMESTAMPTZ` フィールドの使用方法の詳細は、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
 
-以下の例は、検索操作のタイムゾーンを一時的に設定する方法を示しています。
+次の例は、検索操作のタイムゾーンを一時的に設定する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2707,6 +2931,25 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { Timezone = "America/Havana" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2757,60 +3000,60 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-## ANN 検索を強化する\{#enhancing-ann-search}
+## ANN 検索の強化\{#enhancing-ann-search}
 
-AUTOINDEX は ANN 検索の学習曲線を大幅に緩やかにします。ただし、上位 K 件が増えるにつれて、検索結果が常に正確であるとは限りません。検索範囲の縮小、検索結果の関連性の向上、検索結果の多様化により、Zilliz Cloud は以下の検索拡張機能を実現します。
+AUTOINDEX は ANN 検索の学習曲線を大幅に緩和します。ただし、上位 K 件が増えるにつれて、検索結果が常に正確であるとは限りません。Zilliz Cloud は、検索範囲を狭め、検索結果の関連性を高め、検索結果を多様化することで、次の検索機能強化を実現しています。
 
-- フィルター検索
+- フィルタ検索
 
-    検索リクエストにフィルター条件を含めることで、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から指定したフィルター条件に一致するエンティティのみに縮小できます。
+    検索リクエストにフィルタリング条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から指定したフィルタリング条件に一致するエンティティのみに絞り込むことができます。
 
-    メタデータフィルタリングとフィルター条件の詳細については、[フィルター検索](./filtered-search) および [フィルタリングの説明](./filtering-overview) を参照してください。
+    メタデータフィルタリングとフィルタリング条件の詳細は、[フィルタ検索](./filtered-search) および [フィルタリングの説明](./filtering-overview) を参照してください。
 
 - 範囲検索
 
-    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上できます。Zilliz Cloud では、範囲検索は、クエリベクトルに最も類似したベクトル埋め込みを中心とする 2 つの同心円を描くことを伴います。検索リクエストで両方の円の半径を指定すると、Zilliz Cloud は外側の円の内側かつ内側の円の外側にあるすべてのベクトル埋め込みを返します。
+    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を高めることができます。Zilliz Cloud では、範囲検索は、クエリベクトルに最も類似したベクトル埋め込みを中心として 2 つの同心円を描くことを含みます。検索リクエストで両方の円の半径を指定すると、Zilliz Cloud は外側の円内にあり、内側の円内にないすべてのベクトル埋め込みを返します。
 
-    範囲検索の詳細については、[範囲検索](./range-search) を参照してください。
+    範囲検索の詳細は、[範囲検索](./range-search) を参照してください。
 
 - グループ化検索
 
     返されるエンティティが特定のフィールドで同じ値を持つ場合、検索結果はベクトル空間内のすべてのベクトル埋め込みの分布を表していない可能性があります。検索結果を多様化するには、グループ化検索の使用を検討してください。
 
-    グループ化検索の詳細については、[グループ化検索](./grouping-search) を参照してください。
+    グループ化検索の詳細は、[グループ化検索](./grouping-search) を参照してください。
 
 - ハイブリッド検索
 
-    コレクションは複数のベクトルフィールドを含み、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存できます。これにより、ハイブリッド検索を使用してこれらのベクトルフィールドからの検索結果を再ランク付けし、再現率を向上できます。
+    コレクションには、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存するために、複数のベクトルフィールドを含めることができます。これにより、ハイブリッド検索を使用してこれらのベクトルフィールドからの検索結果を再ランク付けし、再現率を向上させることができます。
 
-    ハイブリッド検索の詳細については、[ハイブリッド検索](./hybrid-search) を参照してください。
+    ハイブリッド検索の詳細は、[ハイブリッド検索](./hybrid-search) を参照してください。
 
-    コレクションで許可されるベクトルフィールド数の制限の詳細については、[Zilliz Cloud の制限](./limits#fields) を参照してください。
+    コレクションで許可されるベクトルフィールドの数の制限の詳細は、[Zilliz Cloud の制限](./limits#fields) を参照してください。
 
 - 検索イテレーター
 
     1 回の ANN 検索では最大 16,384 件のエンティティが返されます。1 回の検索でより多くのエンティティを返す必要がある場合は、検索イテレーターの使用を検討してください。
 
-    検索イテレーターの詳細については、[検索イテレーター](./with-iterators) を参照してください。
+    検索イテレーターの詳細は、[検索イテレーター](./with-iterators) を参照してください。
 
 - 全文検索
 
-    全文検索は、テキストデータセット内で特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性があるセマンティック検索の制限を克服し、最も正確で文脈に関連した結果を受け取れるようにします。さらに、生のテキスト入力を受け付け、テキストデータを自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成する必要がなく、ベクトル検索を簡素化します。
+    全文検索は、テキストデータセット内の特定の用語またはフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性があるセマンティック検索の制限を克服し、最も正確で文脈に関連した結果を得られるようにします。さらに、生のテキスト入力を受け付け、手動でベクトル埋め込みを生成することなくテキストデータを自動的にスパース埋め込みに変換することで、ベクトル検索を簡素化します。
 
-    全文検索の詳細については、[全文検索](./full-text-search) を参照してください。
+    全文検索の詳細は、[全文検索](./full-text-search) を参照してください。
 
-- テキストマッチ
+- テキスト一致
 
-    Zilliz Cloud のキーワードマッチにより、特定の用語に基づく正確なドキュメント取得が可能になります。この機能は主に、特定の条件を満たすためのフィルター検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込み、スカラー条件を満たすベクトル内での類似検索を可能にします。
+    Zilliz Cloud のキーワード一致により、特定の用語に基づく正確なドキュメント取得が可能になります。この機能は主に、特定の条件を満たすためのフィルタ検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込み、スカラー条件を満たすベクトル内での類似検索を可能にします。
 
-    キーワードマッチの詳細については、[キーワードマッチ](./text-match) を参照してください。
+    キーワード一致の詳細は、[キーワード一致](./text-match) を参照してください。
 
-- パーティションキーを使用する
+- パーティションキーの使用
 
-    メタデータフィルタリングに複数のスカラーフィールドを含めたり、かなり複雑なフィルター条件を使用したりすると、検索効率に影響する可能性があります。スカラーフィールドをパーティションキーとして設定し、パーティションキーを含むフィルター条件を検索リクエストで使用すると、検索範囲を指定したパーティションキー値に対応するパーティション内に制限するのに役立ちます。
+    メタデータフィルタリングに複数のスカラーフィールドを含め、かなり複雑なフィルタリング条件を使用すると、検索効率に影響する可能性があります。スカラーフィールドをパーティションキーとして設定し、検索リクエストでパーティションキーを含むフィルタリング条件を使用すると、指定したパーティションキー値に対応するパーティション内に検索範囲を制限するのに役立ちます。
 
-    パーティションキーの詳細については、[パーティションキーを使用する](./use-partition-key) を参照してください。
+    パーティションキーの詳細は、[パーティションキーの使用](./use-partition-key) を参照してください。
 
-- mmap を使用する
+- mmap の使用
 
-    mmap 設定の詳細については、[mmap を使用する](./use-mmap) を参照してください。
+    mmap 設定の詳細は、[mmap の使用](./use-mmap) を参照してください。

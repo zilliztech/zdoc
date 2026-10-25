@@ -137,6 +137,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -306,6 +313,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -373,11 +387,11 @@ var results = await client.SearchAsync(new SearchReq
 
 <Admonition type="info" title="Notes">
 
-現在、クエリ語句のハイライトでは、`TEXT_MATCH` フィルタリング条件のみがサポートされています。詳細は、[テキスト一致](./text-match) を参照してください。
+現在、クエリ語句のハイライトでは `TEXT_MATCH` フィルタリング条件のみがサポートされています。詳細は、[テキストマッチ](./text-match) を参照してください。
 
 </Admonition>
 
-このシナリオでは、ハイライトされる語句はテキストベースのフィルタリング式から取得されます。フィルタリングによって一致するドキュメントが決まり、Highlighter が一致したテキストスパンに注釈を付けます。
+このシナリオでは、ハイライトされる語句はテキストベースのフィルタリング式から取得されます。フィルタリングはどのドキュメントが一致するかを決定し、Highlighter は一致したテキストの範囲に注釈を付けます。
 
 テキストフィールドに次の内容が格納されているとします。
 
@@ -478,6 +492,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -515,7 +536,7 @@ var highlighter = new SearchParameters
 
 - `highlight_query` は、ハイライトするフィルタリング語句を定義します。
 
-Highlighter オブジェクトを作成したら、同じフィルタリング式とハイライター設定を検索リクエストに適用します。
+Highlighter オブジェクトを作成したら、同じフィルタリング式と Highlighter 設定を検索リクエストに適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -657,6 +678,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -702,7 +730,7 @@ var results = await client.SearchAsync(new SearchReq
 
 **ハイライト出力**
 
-フィルタリングでクエリ語句のハイライトが有効になると、Zilliz Cloud は専用の `highlight` フィールドにハイライトされたテキストを返します。デフォルトでは、ハイライト出力は最初に一致した語句から始まるフラグメントとして返されます。
+フィルタリングでクエリ語句のハイライトが有効な場合、Zilliz Cloud は専用の `highlight` フィールドにハイライトされたテキストを返します。デフォルトでは、ハイライト出力は最初に一致した語句から始まるフラグメントとして返されます。
 
 この例では、最初に一致した語句は `"text"` であるため、返されるハイライトされたテキストはその位置から始まります。
 
@@ -721,7 +749,7 @@ var results = await client.SearchAsync(new SearchReq
 
 ## フラグメントベースのハイライト出力\{#fragment-based-highlighting-output}
 
-デフォルトでは、Zilliz Cloud は最初に一致した語句から始まるフラグメントとしてハイライトされたテキストを返します。フラグメント関連の設定では、ハイライトされる語句を変更せずに、フラグメントの返却方法をさらに制御できます。
+デフォルトでは、Zilliz Cloud は最初に一致した語句から始まるフラグメントとしてハイライトされたテキストを返します。フラグメント関連の設定を使用すると、ハイライトする語句を変更せずに、フラグメントの返却方法をさらに制御できます。
 
 テキストフィールドに次の内容が格納されているとします。
 
@@ -828,6 +856,13 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -870,7 +905,7 @@ var highlighter = new SearchParameters
 
 - `num_of_fragments` は、返されるフラグメントの数を制御します。
 
-Highlighter オブジェクトを作成したら、ハイライター設定を検索リクエストに適用します。
+Highlighter オブジェクトを作成したら、Highlighter 設定を検索リクエストに適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1002,6 +1037,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -1074,7 +1116,7 @@ var results = await client.SearchAsync(new SearchReq
 
 ### 事前準備\{#preparation}
 
-ハイライターを使用する前に、コレクションが適切に設定されていることを確認してください。
+Highlighter を使用する前に、コレクションが適切に設定されていることを確認してください。
 
 次の例では、BM25 全文検索と `TEXT_MATCH` クエリをサポートするコレクションを作成し、サンプルドキュメントを挿入します。
 
@@ -1371,6 +1413,7 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
 
@@ -1443,7 +1486,7 @@ await client.InsertAsync(new InsertReq
 
 - BM25 全文検索では、`"test"` を検索語句として使用します。
 
-- ハイライターは、"test" のすべての出現箇所を `{` タグと `}` タグで囲みます。
+- Highlighter は、"test" のすべての出現箇所を `{` タグと `}` タグで囲みます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1595,6 +1638,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -1660,7 +1710,7 @@ var results = await client.SearchAsync(new SearchReq
 
 - `queries` パラメーターは、`"my doc"` をハイライトリストに追加します。
 
-- ハイライターは、一致したすべての語句（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます。
+- Highlighter は、一致したすべての語句（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1824,6 +1874,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2053,6 +2110,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2274,6 +2338,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2487,6 +2558,13 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2541,4 +2619,3 @@ var results = await client.SearchAsync(new SearchReq
 ```
 
 </details>
-

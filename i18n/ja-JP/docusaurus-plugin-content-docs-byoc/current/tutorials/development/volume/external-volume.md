@@ -37,9 +37,9 @@ import Procedures from '@site/src/components/Procedures';
 
 - ボリュームを作成および管理するには、**Project Admin** である必要があります。
 
-- ボリュームは作成後に設定を編集できません。ボリューム設定を変更する場合は、目的の設定で新しいボリュームを作成してください。
+- 作成後にボリュームの構成を編集することはできません。ボリューム設定を変更する場合は、希望する設定で新しいボリュームを作成してください。
 
-- 外部ボリュームの場合、データはご自身のバケットに残ります。そのため、データファイルは外部ボリューム上ではなく、ご自身のクラウドオブジェクトストレージで管理する必要があります。
+- 外部ボリュームの場合、データはバケットに保持されます。そのため、データファイルは外部ボリューム上ではなく、クラウドオブジェクトストレージで管理する必要があります。
 
 - 各組織は最大 **100 個の外部ボリューム** を作成できます。
 
@@ -49,9 +49,9 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 外部ボリュームを作成する\{#create-an-external-volume}
 
-- **SDK を使用する場合**
+- **SDK を使用する**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -168,6 +168,14 @@ import Procedures from '@site/src/components/Procedures';
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -200,19 +208,19 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-    パラメーターの説明は以下の通りです。
+    次の表に、パラメーターの説明を示します。
 
     | **パラメーター** | **説明** |
     | --- | --- |
     | `projectId` | ボリュームを作成するプロジェクトの ID です。 |
-    | `regionId` | 作成するボリュームのリージョンは、データのインポートまたは移行先として計画しているターゲットクラスターのクラウドプロバイダーおよびリージョンと一致する必要があります。 |
-    | `volumeName` | 作成するボリュームの名前は、組織全体で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、およびアンダースコアのみを含む必要があります。 |
+    | `regionId` | 作成するボリュームのリージョンは、データのインポートまたは移行先となるターゲットクラスターのクラウドプロバイダーおよびリージョンと一致する必要があります。 |
+    | `volumeName` | 作成するボリュームの名前は組織全体で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含む必要があります。 |
     | `type` | 外部ボリュームを作成するには、このパラメーターを `EXTERNAL` に設定します。デフォルトは `MANAGED` です。 |
-    | `storageIntegrationId` | 参照するストレージ統合の ID です。`type=EXTERNAL` の場合は必須です。選択するストレージ統合は、作成する外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
-    | `path` | ストレージパスです。`type=EXTERNAL` の場合は必須です。 |
+    | `storageIntegrationId` | 参照するストレージ統合の ID です。`type=EXTERNAL` の場合に必須です。選択するストレージ統合は、作成する外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
+    | `path` | ストレージパスです。`type=EXTERNAL` の場合に必須です。 |
     | `description`（オプション） | 作成するボリュームの説明です。最大 255 文字です。 |
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     <Supademo id="cmo15qfif005fy90jzr8ov1sd" title=""  />
 
@@ -222,17 +230,17 @@ import Procedures from '@site/src/components/Procedures';
 
     1. ボリュームページで **+ Volume** をクリックします。
 
-    1. ボリューム設定を指定します。
+    1. ボリュームの構成を設定します。
 
-        以下の表は、外部ボリュームの作成時に使用する各パラメーターについて説明します。
+        次の表に、外部ボリュームを作成するときに使用する各パラメーターの説明を示します。
 
         | **パラメーター** | **説明** |
         | --- | --- |
-        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、およびアンダースコアのみを含む必要があります。 |
-        | Description | このパラメーターはオプションです。最大 255 文字です。 |
-        | Volume Type | ボリュームタイプとして「External」を選択します。 |
-        | Cloud Provider & Region | ボリュームのクラウドプロバイダーおよびリージョンは、データのインポートまたは移行先として計画しているターゲットクラスターのクラウドプロバイダーおよびリージョンと一致する必要があります。 |
-        | Storage Integration & Path | ストレージ統合（[Amazon S3 バケット](./integrate-with-aws-s3)）は、クラウドストレージへのアクセス設定をカプセル化する認証情報オブジェクトです。<br/>パスは、データが配置されている場所を指すポインターです（例: `folder/`）。 |
+        | 名前 | ボリューム名は組織全体で一意である必要があり、64 文字以下で、英字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含む必要があります。 |
+        | 説明 | このパラメーターはオプションです。最大 255 文字です。 |
+        | ボリュームタイプ | ボリュームタイプとして「External」を選択します。 |
+        | クラウドプロバイダーとリージョン | ボリュームのクラウドプロバイダーおよびリージョンは、データのインポートまたは移行先となるターゲットクラスターのクラウドプロバイダーおよびリージョンと一致する必要があります。 |
+        | ストレージ統合とパス | ストレージ統合（[Amazon S3 バケット](./integrate-with-aws-s3)）は、クラウドストレージのアクセス構成をカプセル化する認証情報オブジェクトです。<br/>パスは、データが配置されている場所を指すポインターです（例: `folder/`）。 |
 
     1. **Create** をクリックします。
 
@@ -240,11 +248,11 @@ import Procedures from '@site/src/components/Procedures';
 
 ## ボリュームを一覧表示する\{#list-volumes}
 
-プロジェクト内の既存のすべてのボリュームを表示できます。
+プロジェクト内の既存のボリュームをすべて表示できます。
 
-- **SDK を使用する場合**
+- **SDK を使用する**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -339,6 +347,14 @@ import Procedures from '@site/src/components/Procedures';
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -354,17 +370,17 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
-## 外部ボリュームの詳細を表示する\{#describe-external-volume}
+## 外部ボリュームを詳細表示する\{#describe-external-volume}
 
 特定のボリュームの詳細を確認できます。
 
-- **SDK を使用する場合**
+- **SDK を使用する**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -459,6 +475,14 @@ import Procedures from '@site/src/components/Procedures';
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -488,19 +512,19 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
 
 ## 外部ボリュームを削除する\{#delete-an-external-volume}
 
-不要になった外部ボリュームはいつでも削除できます。
+外部ボリュームが不要になった場合は、いつでも削除できます。
 
-外部ボリュームを削除すると、Zilliz Cloud からボリュームのメタデータのみが削除されます。データはご自身のクラウドオブジェクトストレージにそのまま残ります。
+外部ボリュームを削除すると、Zilliz Cloud からボリュームのメタデータのみが削除されます。データはクラウドオブジェクトストレージ内にそのまま保持されます。
 
-- **SDK を使用する場合**
+- **SDK を使用する**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -594,6 +618,14 @@ import Procedures from '@site/src/components/Procedures';
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -617,7 +649,7 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソールを使用する場合**
+- **Web コンソールを使用する**
 
     <Supademo id="cmo168p180083y90jhb7al4cb" title=""  />
 
@@ -633,35 +665,35 @@ import Procedures from '@site/src/components/Procedures';
 
 ## FAQ\{#faqs}
 
-**組織が請求書の未払いにより凍結された場合、ボリュームはどうなりますか？**
+**請求書の支払い遅延により組織が凍結された場合、ボリュームはどうなりますか？**
 
-組織が凍結されると、すべてのマネージドボリューム（無料トライアルと従量課金の両方）とそれらに保存されているすべてのファイルが削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できませんが、ご自身のバケット内のデータは影響を受けません。
+組織が凍結されると、すべてのマネージドボリューム（無料トライアルおよび従量課金）と、それらに保存されているすべてのファイルが削除され、復元できなくなります。外部ボリュームも凍結され、新しい操作には使用できませんが、ご自身のバケット内のデータは影響を受けません。
 
-ボリュームの使用を継続するには、まず未払いの請求書をすべて決済してください。
+ボリュームを引き続き使用するには、まず未払いの請求書をすべて決済してください。
 
 **外部ボリュームと外部ストレージからの直接インポートの違いは何ですか？**
 
 どちらも、ご自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
 
-- 外部ボリュームでは、認証情報管理のために [Amazon S3 バケット](./integrate-with-aws-s3) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すると、複数のボリュームと操作で再利用されます。データエンジニアはクラウドストレージのキーに直接アクセスする必要はありません。
+- 外部ボリュームでは、認証情報管理のために [Amazon S3 バケット](./integrate-with-aws-s3) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すると、複数のボリュームや操作で再利用されます。データエンジニアは、クラウドストレージのキーに直接アクセスする必要はありません。
 
-- 直接 [外部ストレージからのインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を提供する必要があります。これは 1 回限りのインポートには簡単ですが、認証情報の分離や再利用はできません。
+- 直接の [外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。これは 1 回限りのインポートには簡単ですが、認証情報の分離や再利用はできません。
 
-**作成後に外部ボリュームのストレージ統合またはパスを変更できますか？**
+**外部ボリュームの作成後に、ストレージ統合またはパスを変更できますか？**
 
-いいえ。外部ボリュームの作成後に、ストレージ統合とパスを変更することはできません。別のストレージ統合またはパスを使用する場合は、新しい外部ボリュームを作成してください。
+いいえ。外部ボリュームの作成後に、ストレージ統合とパスを変更することはできません。別のストレージ統合またはパスを使用するには、新しい外部ボリュームを作成してください。
 
 **アクティブなジョブまたは外部コレクションから参照されている外部ボリュームを削除できますか？**
 
 いいえ。ダウンストリームの外部コレクションまたはアクティブなジョブがボリュームを参照している場合、削除はブロックされます。
 
-**外部ボリュームを使用すると、データ転送料金が請求されますか？**
+**外部ボリュームを使用すると、データ転送料金が発生しますか？**
 
-いいえ。外部ボリュームは、クラスターと同じクラウドプロバイダーおよびリージョンにある必要があります。すべてのデータアクセスが同じリージョン内で行われるため、Zilliz Cloud ではクロスリージョンのデータ転送料金は発生しません。
+いいえ。外部ボリュームは、クラスターと同じクラウドプロバイダーおよびリージョンにある必要があります。すべてのデータアクセスは同じリージョン内で行われるため、Zilliz Cloud ではリージョン間のデータ転送料金は発生しません。
 
 **ボリュームのステータスにはどのような意味がありますか？**
 
-以下の表に、使用可能なボリュームステータスを示します。
+次の表に、考えられるボリュームのステータスを示します。
 
 <table>
    <tr>
@@ -670,14 +702,14 @@ import Procedures from '@site/src/components/Procedures';
    </tr>
    <tr>
      <td><p><strong>Available</strong></p></td>
-     <td><p>ボリュームはアクティブで使用可能です。</p></td>
+     <td><p>ボリュームはアクティブで、使用可能です。</p></td>
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>組織が<a href="/docs/view-invoice">請求書</a>の未払いにより凍結されています。ボリュームは新しい操作には使用できません。ボリュームの使用を継続するには、請求書をお支払いください。</p></td>
+     <td><p>請求書の支払い遅延により組織が凍結されています。ボリュームは新しい操作には使用できません。ボリュームを引き続き使用するには、<a href="/docs/view-invoice">請求書</a>をお支払いください。</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>ストレージ統合の検証に失敗しました。設定を確認して再試行してください。</p><p>適用可能なストレージ統合は次のとおりです。</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 バケット</a></li></ul></td>
+     <td><p>ストレージ統合の検証に失敗しました。構成を確認して、再試行してください。</p><p>適用可能なストレージ統合は次のとおりです。</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 バケット</a></li></ul></td>
    </tr>
 </table>

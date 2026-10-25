@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN Search では、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search のみでは、大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。 | BYOC"
+description: "ANN Search では 1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search を使用するだけでは大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。 | BYOC"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
 sidebar_position: 18
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Search Iterator
 
-ANN Search では、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search のみでは、大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。
+ANN Search では 1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search を使用するだけでは大規模な検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをお勧めします。このセクションでは、SearchIterator の使用方法と関連する考慮事項について説明します。
 
-## 概要\{#overview}
+## Overview\{#overview}
 
 Search リクエストは検索結果を返しますが、SearchIterator はイテレーターを返します。このイテレーターの **next()** メソッドを呼び出すと、検索結果を取得できます。
 
@@ -35,11 +35,11 @@ Search リクエストは検索結果を返しますが、SearchIterator はイ�
 
 1. **next()** メソッドが空の結果を返した場合は、イテレーターの **close()** メソッドを呼び出してループを終了します。
 
-## SearchIterator を作成する\{#create-searchiterator}
+## Create SearchIterator\{#create-searchiterator}
 
-SearchIterator を作成する方法を次のコードスニペットに示します。
+次のコードスニペットは、SearchIterator を作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,6 +223,37 @@ const iterator = await milvusClient.searchIterator({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// create iterator
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
+
+SearchIterator iterator = client.SearchIteratorAsync(new SearchIteratorReq
+{
+    CollectionName = "iterator_collection",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    MetricType = MetricType.L2,
+    BatchSize = 50,
+    Parameters = new SearchParameters { OutputFields = { "color" } },
+    Limit = 20000
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -265,13 +296,13 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 </TabItem>
 </Tabs>
 
-上記の例では、1 回の検索で返すエンティティ数 (**batch_size**/**batchSize**) を 50 に、返すエンティティの総数 (**topK**) を 20,000 に設定しています。
+上記の例では、検索ごとに返すエンティティ数 (**batch_size**/**batchSize**) を 50 に、返すエンティティの総数（**topK**）を 20,000 に設定しています。
 
-## SearchIterator を使用する\{#use-searchiterator}
+## Use SearchIterator\{#use-searchiterator}
 
 SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページ単位で検索結果を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -387,6 +418,20 @@ for await (const result of iterator) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Responses.Dql;
+
+// Use SearchIterator
+await foreach (SingleResult result in iterator)
+{
+    Console.WriteLine(result.Scores);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -457,4 +502,4 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 </TabItem>
 </Tabs>
 
-上記のコード例では、無限ループを作成してループ内で **next()** メソッドを呼び出し、検索結果を変数に格納しています。また、**next()** が何も返さない場合はイテレーターを閉じています。
+上記のコード例では、無限ループを作成し、ループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さないときにイテレーターを閉じています。

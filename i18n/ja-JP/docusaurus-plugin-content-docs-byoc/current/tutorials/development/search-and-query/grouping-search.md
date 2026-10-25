@@ -1,13 +1,13 @@
 ---
-title: "Grouping Search | BYOC"
+title: "グループ検索 | BYOC"
 slug: /grouping-search
-sidebar_label: "Grouping Search"
+sidebar_label: "グループ検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Grouping Search を使用すると、Zilliz Cloud は検索結果を指定されたフィールドの値ごとにグループ化し、より高いレベルでデータを集約できます。たとえば、基本的な ANN 検索を使用して手元の本に似た本を見つけることはできますが、Grouping Search を使用すると、その本で議論されているトピックに関連する可能性のある本のカテゴリを見つけることができます。このトピックでは、主な考慮事項とあわせて Grouping Search の使用方法について説明します。 | BYOC"
+description: "グループ検索を使用すると、Zilliz Cloud は検索結果を指定したフィールドの値でグループ化し、より上位のレベルでデータを集計できます。たとえば、基本的な ANN 検索を使用して手持ちの書籍に類似する書籍を探せますが、グループ検索を使用すると、その書籍で扱われているトピックに関連する可能性がある書籍カテゴリを見つけられます。このトピックでは、グループ検索の使用方法と主な考慮事項について説明します。 | BYOC"
 type: origin
 token: JWZGw89MBiUDBNkhtGfcyyUcnsd
 sidebar_position: 6
@@ -19,39 +19,39 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Grouping Search
+# グループ検索
 
-Grouping Search を使用すると、Zilliz Cloud は検索結果を指定されたフィールドの値ごとにグループ化し、より高いレベルでデータを集約できます。たとえば、基本的な ANN 検索を使用して手元の本に似た本を見つけることはできますが、Grouping Search を使用すると、その本で議論されているトピックに関連する可能性のある本のカテゴリを見つけることができます。このトピックでは、主な考慮事項とあわせて Grouping Search の使用方法について説明します。
+グループ検索を使用すると、Zilliz Cloud は検索結果を指定したフィールドの値でグループ化し、より上位のレベルでデータを集計できます。たとえば、基本的な ANN 検索を使用して手持ちの書籍に類似する書籍を探せますが、グループ検索を使用すると、その書籍で扱われているトピックに関連する可能性がある書籍カテゴリを見つけられます。このトピックでは、グループ検索の使用方法と主な考慮事項について説明します。
 
 ## 概要\{#overview}
 
-検索結果内のエンティティがスカラーフィールドで同じ値を共有している場合、それらが特定の属性において類似していることを示しており、検索結果に悪影響を与える可能性があります。
+検索結果内のエンティティがスカラーフィールドで同じ値を持つ場合、それらのエンティティは特定の属性において類似していることを示しており、検索結果に悪影響を与える可能性があります。
 
-あるコレクションに複数のドキュメント（**docId** で示す）が保存されているとします。ドキュメントをベクトルに変換する際にできるだけ多くの意味情報を保持するため、各ドキュメントはより小さく扱いやすい段落（または **chunks**）に分割され、個別のエンティティとして保存されます。ドキュメントがより小さなセクションに分割されていても、ユーザーは多くの場合、どのドキュメントが自分のニーズに最も関連しているかを特定したいと考えています。
+コレクションに複数のドキュメントが保存されているとします（**docId** で識別されます）。ドキュメントをベクトルに変換する際にできるだけ多くの意味情報を保持するため、各ドキュメントは管理しやすい小さな段落（または **チャンク**）に分割され、個別のエンティティとして保存されます。ドキュメントが小さなセクションに分割されていても、ユーザーは多くの場合、どのドキュメントが自分のニーズに最も関連しているかを特定することに関心があります。
 
 ![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
-このようなコレクションに対して近似最近傍（ANN）検索を実行すると、検索結果に同じドキュメントの複数の段落が含まれることがあり、その結果、他のドキュメントが見落とされる可能性があり、意図したユースケースに沿わないことがあります。
+このようなコレクションで近似最近傍（ANN）検索を実行すると、検索結果に同じドキュメントの複数の段落が含まれる可能性があり、他のドキュメントが見落とされる原因になることがあります。これは、想定されるユースケースに合わない場合があります。
 
 ![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
-検索結果の多様性を向上させるには、検索リクエストに `group_by_field` パラメーターを追加して Grouping Search を有効にできます。図に示すように、`group_by_field` を `docId` に設定できます。このリクエストを受信すると、Zilliz Cloud は次の処理を行います。
+検索結果の多様性を向上させるには、検索リクエストに `group_by_field` パラメーターを追加してグループ検索を有効にします。図に示すように、`group_by_field` を `docId` に設定できます。このリクエストを受け取ると、Zilliz Cloud は次の処理を行います：
 
-- 指定されたクエリベクトルに基づいて ANN 検索を実行し、クエリに最も類似したすべてのエンティティを見つけます。
+- 提供されたクエリベクトルに基づいて ANN 検索を実行し、クエリに最も類似するすべてのエンティティを検索します。
 
-- 検索結果を、指定された `group_by_field`（たとえば `docId`）でグループ化します。
+- 指定した `group_by_field`（`docId` など）で検索結果をグループ化します。
 
-- `limit` パラメーターで定義された各グループの上位結果を、各グループで最も類似したエンティティとともに返します。
+- `limit` パラメーターで定義されたとおりに各グループの上位結果を返します。各グループからは最も類似するエンティティが返されます。
 
 <Admonition type="info" title="Notes">
 
-デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに返す結果の数を増やしたい場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
+デフォルトでは、グループ検索はグループごとに 1 つのエンティティのみを返します。グループごとに返す結果の数を増やす場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
 
 </Admonition>
 
-## Grouping Search を実行する\{#perform-grouping-search}
+## グループ検索を実行する\{#perform-grouping-search}
 
-このセクションでは、Grouping Search の使用方法を示すサンプルコードを提供します。次の例では、コレクションに `id`、`vector`、`chunk`、`docId` の各フィールドが含まれていることを前提としています。
+このセクションでは、グループ検索の使用方法を示すサンプルコードを提供します。次の例では、コレクションに `id`、`vector`、`chunk`、`docId` のフィールドが含まれていることを前提としています。
 
 ```plaintext
 [
@@ -68,9 +68,9 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 ]
 ```
 
-検索リクエストでは、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は結果を指定されたフィールドでグループ化し、各グループで最も類似したエンティティを、返される各エンティティの `docId` の値を含めて返します。
+検索リクエストで、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は、指定したフィールドで結果をグループ化し、各グループから最も類似するエンティティを返します。返される各エンティティには `docId` の値が含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -254,6 +254,41 @@ var docIds = res.results.map(result => result.docId)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVectors = new[] { 0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f };
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",
+        OutputFields = { "docId" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -309,13 +344,13 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似した 1 つのエンティティが含まれることを示します。
+上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似する単一のエンティティが含まれることを示します。
 
-## グループサイズを設定する\{#configure-group-size}
+## グループサイズを構成する\{#configure-group-size}
 
-デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
+デフォルトでは、グループ検索はグループごとに 1 つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,6 +524,34 @@ var docIds = res.results.map(result => result.docId)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },  // Query vector
+    Limit = 5,                               // Number of groups to return
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",              // Grouping field
+        GroupSize = 2,                       // Up to 2 entities to return from each group
+        StrictGroupSize = true,              // Return exactly 2 entities from each group
+        OutputFields = { "docId" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -547,19 +610,19 @@ zilliz vector search \
 
 上記の例では：
 
-- `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2 つの段落（または **chunks**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
+- `group_size`: グループごとに返すエンティティの希望数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似する 2 つの段落（または **チャンク**）を返します。`group_size` を設定しない場合、システムはデフォルトでグループごとに 1 つの結果を返します。
 
-- `strict_group_size`: このブール値のパラメーターは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するよりも、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
+- `strict_group_size`: このブール値パラメーターは、`group_size` で設定された数をシステムが厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するのではなく、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般に効率的です。
 
-追加のパラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
+パラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
 
 ## スカラーフィールドでグループを並べ替える | PUBLIC\{#order-groups-by-a-scalar-field-or-public}
 
-Grouping Search を `order_by_fields` と組み合わせることで、スカラーフィールドによってグループを並べ替えることができます。これは、グループ間で多様な結果を得たい一方で、価格や評価のようなビジネス上重要な順序に従ってグループを並べ替えたい場合に役立ちます。
+グループ検索を `order_by_fields` と組み合わせることで、グループをスカラーフィールドで並べ替えられます。これは、グループ間で多様な結果を得ながら、価格や評価などのビジネス上重要な順序でグループを並べたい場合に便利です。
 
-次の例では、検索結果を `category` でグループ化し、各グループにつき最大 3 つのエンティティを返し、返されたグループを `price` の低い順に並べ替えます。
+次の例では、検索結果を `category` でグループ化し、グループごとに最大 3 つのエンティティを返し、返されたグループを `price` の低い順から高い順に並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -708,6 +771,17 @@ console.log(response.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: Ordering groups by a scalar field uses the project-endpoint session API,
+// which is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -769,16 +843,16 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記のリクエストでは、`limit=20` は、Zilliz Cloud が最大 20 個のグループを選択することを意味し、20 個のエンティティを選択することを意味するものではありません。`group_size=3` であるため、フラットな結果リストには合計で最大 60 個のエンティティを含めることができます。
+上記のリクエストでは、`limit=20` は、Zilliz Cloud が 20 個のエンティティではなく最大 20 個のグループを選択することを意味します。`group_size=3` であるため、フラットな結果リストには合計で最大 60 個のエンティティを含めることができます。
 
-`group_by_field` とあわせて `order_by_fields` を使用すると、Zilliz Cloud は各グループの先頭エンティティの指定されたスカラーフィールド値に基づいてグループを並べ替えます。各グループ内では、エンティティはクエリベクトルに対する類似度スコアの順に保たれます。
+`order_by_fields` を `group_by_field` と共に使用すると、Zilliz Cloud は各グループの先頭エンティティの指定されたスカラーフィールド値でグループを並べ替えます。各グループ内では、エンティティはクエリベクトルとの類似度スコア順に並べられたままになります。
 
 ## 考慮事項\{#considerations}
 
-- **グループ数**: `limit` パラメーターは、各グループ内の具体的なエンティティ数ではなく、検索結果が返されるグループ数を制御します。適切な `limit` を設定すると、検索の多様性とクエリのパフォーマンスを制御しやすくなります。データが密に分布している場合やパフォーマンスが懸念される場合は、`limit` を減らすことで計算コストを削減できます。
+- **グループ数**: `limit` パラメーターは、各グループ内の具体的なエンティティ数ではなく、検索結果を返すグループ数を制御します。適切な `limit` を設定すると、検索の多様性とクエリのパフォーマンスを制御できます。データが密に分布している場合やパフォーマンスが懸念される場合は、`limit` を減らすことで計算コストを削減できます。
 
-- **グループあたりのエンティティ数**: `group_size` パラメーターは、グループごとに返されるエンティティ数を制御します。ユースケースに応じて `group_size` を調整すると、検索結果の豊富さを高めることができます。ただし、データが不均一に分布している場合、特にデータが限られているシナリオでは、一部のグループが `group_size` で指定された数よりも少ないエンティティしか返さないことがあります。
+- **グループあたりのエンティティ数**: `group_size` パラメーターは、グループごとに返されるエンティティ数を制御します。ユースケースに合わせて `group_size` を調整すると、検索結果の充実度を高めることができます。ただし、データが不均一に分布している場合、特にデータが限られているシナリオでは、一部のグループが `group_size` で指定された数より少ないエンティティを返すことがあります。
 
-- **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに対して指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保つことができますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が必要ない場合は、`strict_group_size=False` に設定するとクエリ速度を向上させることができます。
+- **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保てますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が不要な場合は、`strict_group_size=False` に設定するとクエリ速度を向上させられます。
 
-- クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+- クエリベクトルが対象のコレクションにすでに存在する場合は、検索前に取得するのではなく、`ids` を使用することを検討してください。詳細は、[Primary-Key Search](./primary-key-search) を参照してください。
