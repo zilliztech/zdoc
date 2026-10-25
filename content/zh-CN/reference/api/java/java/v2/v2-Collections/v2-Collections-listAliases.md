@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-listAliases
 sidebar_label: "listAliases()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.5.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作列出特定 Collection 的所有现有别名。 | Java | v2"
 type: docx
-token: X6JXdPN7IoRffJxnaZccBvRanIM
-sidebar_position: 19
+token: DqOKdIhSZoQpDWxsUeocILbXn4g
+sidebar_position: 17
 keywords: 
   - milvus 向量数据库
   - Zilliz Cloud
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -88,6 +87,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.ListAliasesReq;
 import io.milvus.v2.service.utility.response.ListAliasResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

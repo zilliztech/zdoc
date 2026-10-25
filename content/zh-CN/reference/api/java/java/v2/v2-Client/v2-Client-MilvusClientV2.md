@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -209,3 +208,4 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
 将 **uri** 设置为您的集群 Endpoint。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
+

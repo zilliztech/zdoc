@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出所有现有的 Collection。| Java | v2"
 type: docx
-token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
-sidebar_position: 20
+token: VtCvd8vpoo1P7hxhJltcAIldnDg
+sidebar_position: 18
 keywords: 
   - 稠密向量
   - 分层可导航小世界
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -81,6 +80,8 @@ listCollections()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.response.ListCollectionsResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -93,4 +94,3 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 // 2. List collections
 ListCollectionsResp listAliasResp = client.listCollections();
 ```
-

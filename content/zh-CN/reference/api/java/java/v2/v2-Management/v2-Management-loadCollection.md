@@ -23,7 +23,6 @@ keywords:
   - Java v2.3.0
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

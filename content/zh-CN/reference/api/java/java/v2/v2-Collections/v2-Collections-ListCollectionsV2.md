@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-ListCollectionsV2
 sidebar_label: "ListCollectionsV2()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作会列出指定 Database 中所有现有的 Collection。 | Java | v2"
 type: docx
-token: WY4idJdzCozGGnxmLoFcIjC2ndw
-sidebar_position: 29
+token: Ot93dm25goTTYOxcXsWcbjq0nsb
+sidebar_position: 26
 keywords: 
   - 句子转换器
   - 推荐系统
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -91,6 +90,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.ListCollectionsReq;
 import io.milvus.v2.service.collection.response.ListCollectionsResp;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -101,10 +102,9 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. List collections
-ListCollectionReq listCollectionReq = ListCollectionReq.builder()
+ListCollectionsReq listCollectionReq = ListCollectionsReq.builder()
     .databaseName("my_database")
     .build();
 
 ListCollectionsResp listAliasResp = client.listCollectionsV2(listCollectionReq);
 ```
-

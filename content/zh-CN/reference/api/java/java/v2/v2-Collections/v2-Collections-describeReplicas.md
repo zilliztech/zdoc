@@ -4,13 +4,13 @@ slug: /java/java/v2-Collections-describeReplicas
 sidebar_label: "describeReplicas()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "此操作返回特定 Collection 的副本信息。| Java | v2"
 type: docx
-token: WRSYdEZwroNY1Txpk2DcI1sSnVg
-sidebar_position: 25
+token: E2hHdOb5BoCYhnxR9FWcerHrnsb
+sidebar_position: 22
 keywords: 
   - 视频去重
   - 视频相似性搜索
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -129,6 +128,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.ReplicaInfo;
 import io.milvus.v2.service.collection.request.DescribeReplicasReq;
 import io.milvus.v2.service.collection.response.DescribeReplicasResp;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -138,7 +138,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// describe the replicas of a collection named `test`
+// describe the replicas of a collection named \`test\`
 DescribeReplicasReq describeReplicasReq = DescribeReplicasReq.builder()
         .collectionName("test")
         .build();
@@ -147,4 +147,3 @@ for (ReplicaInfo replica : descReplicaResp.getReplicas()) {
     System.out.println(replica.getReplicaID());
 }
 ```
-

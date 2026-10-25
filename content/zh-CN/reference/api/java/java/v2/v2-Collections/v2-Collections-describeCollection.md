@@ -10,7 +10,7 @@ notebook: false
 description: "此操作列出特定 Collection 的详细信息。 | Java | v2"
 type: docx
 token: WEE6ddFntowCIixVMCmc3pESnug
-sidebar_position: 12
+sidebar_position: 11
 keywords: 
   - knn 算法
   - HNSW
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -62,11 +61,95 @@ describeCollection(DescribeCollectionReq.builder()
 
     Collection 的数字 ID。当您需要通过 ID 而不是名称来标识 Collection 时，请使用此项。
 
-**返回：**
+**返回类型：**
 
 *DescribeCollectionResp*
 
-包含指定 Collection 详细信息的 **DescribeCollectionResp** 对象。
+**返回：**
+
+一个包含指定 Collection 详细信息的 **DescribeCollectionResp** 对象。
+
+**参数：**
+
+- **collectionName** （*String*） -
+
+    Collection 的名称。
+
+- **collectionID** （*Long*） -
+
+    Collection 的数字 ID。
+
+- **databaseName** （*String*） -
+
+    Collection 所属 Database 的名称。
+
+- **description** （*String*） -
+
+    Collection 的描述。
+
+- **numOfPartitions** （*Long*） -
+
+    Collection 中 Partition 的数量。
+
+- **fieldNames** （*List&lt;String&gt;*） -
+
+    Collection Schema 中所有字段的名称。
+
+- **vectorFieldNames** （*List&lt;String&gt;*） -
+
+    向量字段的名称。
+
+- **primaryFieldName** （*String*） -
+
+    主键字段的名称。
+
+- **enableDynamicField** （*Boolean*） -
+
+    是否启用了动态字段。
+
+- **autoID** （*Boolean*） -
+
+    主键是否自动生成。
+
+- **collectionSchema** （*CreateCollectionReq.CollectionSchema*） -
+
+    Collection 的 Schema。
+
+- **createTime** （*Long*） -
+
+    创建时间戳。
+
+- **createUtcTime** （*Long*） -
+
+    UTC 创建时间戳。
+
+- **consistencyLevel** （*ConsistencyLevel*） -
+
+    Collection 的一致性级别。
+
+- **shardsNum** （*Integer*） -
+
+    分片数量。
+
+- **properties** （*Map&lt;String,String&gt;*） -
+
+    Collection 的属性。
+
+- **aliases** （*List&lt;String&gt;*） -
+
+    附加到 Collection 的别名。
+
+- **updateTimestamp** （*Long*） -
+
+    最后更新时间戳。
+
+- **enableNamespace** （*Boolean*） -
+
+    是否启用了命名空间。
+
+- **schemaVersion** （*Integer*） -
+
+    Schema 版本。
 
 **异常：**
 
@@ -81,6 +164,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.DescribeCollectionReq;
 import io.milvus.v2.service.collection.response.DescribeCollectionResp;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

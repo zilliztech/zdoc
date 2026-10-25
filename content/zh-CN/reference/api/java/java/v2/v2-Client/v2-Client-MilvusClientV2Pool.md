@@ -4,12 +4,12 @@ slug: /java/java/v2-Client-MilvusClientV2Pool
 sidebar_label: "MilvusClientV2Pool"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "MilvusClientV2Pool 实例是 MilvusClientV2 对象的连接池。MilvusClientV2 对象的数量会自动增加或减少，以避免频繁打开和关闭连接，从而提升应用程序性能。 | Java | v2"
 type: docx
-token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
+token: Trm7dn8V2o4jEUxPJFmcuO15nkc
 sidebar_position: 2
 keywords: 
   - 什么是向量数据库
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -151,18 +150,20 @@ PoolConfig poolConfig = PoolConfig.builder()
 
 ## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
 
-请阅读 **[MilvusClientV2](./v2-Client-MilvusClientV2#connectconfigv2-client-connectconfig)** 页面上的说明。
+Read the description on the **[MilvusClientV2](https://zilliverse.feishu.cn/docx/IeOWd0yR2onm5Ex6XyqcrGjKnpS)** page.
 
 ## 示例\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.pool.PoolConfig;
 import io.milvus.pool.MilvusClientV2Pool;
+import java.time.Duration;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531")
-        .token("user:password") // replace this with your token
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN") // replace this with your token
         .build();
         
 PoolConfig poolConfig = PoolConfig.builder()
@@ -182,4 +183,3 @@ try {
     pool.returnClient("client_name", client); // make sure the client is returned after use
 }
 ```
-
