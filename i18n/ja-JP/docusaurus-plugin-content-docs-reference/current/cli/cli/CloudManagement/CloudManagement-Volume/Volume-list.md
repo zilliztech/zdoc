@@ -12,18 +12,17 @@ type: docx
 token: OShTd6lMhoaxK2xDlExcmzXTnLd
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
-  - 一覧
+  - list
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

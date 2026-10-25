@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ストレージを最適化するために collection セグメントを compaction します。 | Cloud"
+description: "This operation compacts コレクション segments to optimize storage. | Cloud"
 type: docx
 token: PgZ0dL39ho6wLbxJKANcm0jyn9b
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +30,13 @@ import Admonition from '@theme/Admonition';
 
 # compact
 
-この操作は、ストレージを最適化するために collection セグメントを compaction します。
+This operation compacts コレクション segments to optimize storage.
 
 ## Description\{#description}
 
-Zilliz Cloud は一定間隔で collection セグメントを自動的に compaction します。ほとんどの場合、collection 内のストレージを最適化する必要がある場合を除き、このコマンドを手動で実行する必要はありません。
+Zilliz Cloud automatically compacts コレクション segments at intervals. In most cases, you do not need to run this command manually unless you need to optimize storage in the コレクション.
 
-Clustering compaction は、大規模な collection において検索パフォーマンスを向上させ、コストを削減するために設計されています。このガイドは、clustering compaction と、この機能がどのように検索パフォーマンスを向上させるのかを理解するのに役立ちます。通常の compaction とは異なり、clustering compaction は scalar field 内の値に基づいて collection のセグメント内で entity を再配置します。
+Clustering Compaction is designed to improve search performance and reduce costs in large コレクション. This guide will help you understand clustering Compaction and how this feature can improve search performance. Unlike normal Compaction, clustering Compaction redistributes entities within a コレクション's segments based on values in a スカラー field.
 
 オプションを指定せずにこのコマンドを実行すると、設定を支援する対話型プロンプトが開始されます。
 
@@ -59,13 +58,13 @@ zilliz collection compact
 
     **[REQUIRED]**
 
-    collection 名を示します。`zilliz collection list` を実行して、既存のすべての collection の一覧を取得できます。
+    Indicates the コレクション name. You can run `zilliz collection list` to obtain the list of all existing コレクション.
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションを設定しなければ、その cluster が属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 
@@ -81,7 +80,7 @@ zilliz collection compact
 
 - **--clustering** (*boolean*) -
 
-    clustering compaction を実行するかどうかを示します。
+    Indicates whether to perform clustering Compaction.
 
 ## Example\{#example}
 

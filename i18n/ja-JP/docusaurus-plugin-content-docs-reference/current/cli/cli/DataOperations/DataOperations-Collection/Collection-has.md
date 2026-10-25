@@ -12,9 +12,9 @@ type: docx
 token: CidCduwW8oIywtxiHMQc8v2XnBe
 sidebar_position: 8
 keywords: 
-  - Zilliz database
+  - Zilliz データベース
   - 非構造化データ
-  - vector database
+  - ベクトル データベース
   - IVF
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

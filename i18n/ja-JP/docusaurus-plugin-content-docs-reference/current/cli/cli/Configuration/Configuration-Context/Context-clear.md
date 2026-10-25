@@ -7,7 +7,7 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はアクティブな cluster context を削除します。Cluster ID、endpoint、database、plan はすべてクリアされます。organization を切り替える前、または古い context 状態のトラブルシューティング時に使用してください。 | Cloud"
+description: "This operation removes the active クラスター context. クラスター ID, endpoint, データベース, and plan are all cleared. Use this before switching organizations or when troubleshooting stale context state. | Cloud"
 type: docx
 token: TjRGdbrZsol6MHxRLWLcy8Rinbi
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # clear
 
-この操作はアクティブな cluster context を削除します。Cluster ID、endpoint、database、plan はすべてクリアされます。organization を切り替える前、または古い context 状態のトラブルシューティング時に使用してください。
+This operation removes the active クラスター context. クラスター ID, endpoint, データベース, and plan are all cleared. Use this before switching organizations or when troubleshooting stale context state.
 
 ## 概要\{#synopsis}
 

@@ -14,7 +14,7 @@ sidebar_position: 3
 keywords: 
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -63,15 +62,15 @@ zilliz upgrade
 ## Example\{#example}
 
 ```bash
-# インストールせずに更新を確認
+# Check for updates without installing
 zilliz upgrade --check
 
-# 確認プロンプト付きでアップグレード
+# Upgrade with confirmation prompt
 zilliz upgrade
 
-# プロンプトなしでアップグレード
+# Upgrade without prompt
 zilliz upgrade --yes
 
-# 再インストールを強制
+# Force re-install
 zilliz upgrade --force --yes
 ```

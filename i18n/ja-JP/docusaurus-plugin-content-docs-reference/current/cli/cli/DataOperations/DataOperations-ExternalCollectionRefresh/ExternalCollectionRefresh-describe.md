@@ -7,7 +7,7 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、単一の external-collection refresh ジョブのステータスを取得します。 | Cloud"
+description: "This operation gets the status of a single external-コレクション refresh job. | Cloud"
 type: docx
 token: NV6mdzUocoqBpjxpf6Lc649mnjh
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-この操作は、単一の external-collection refresh ジョブのステータスを取得します。
+This operation gets the status of a single external-コレクション refresh job.
 
 ## 説明\{#description}
 
-1 つの external-collection refresh ジョブの現在のステータスと詳細を取得します。`zilliz external-collection refresh trigger` によって返される `jobId` を渡します。
+Gets the current status and details for one external-コレクション refresh job. Pass the `jobId` returned by `zilliz external-collection refresh trigger`.
 
 ## Synopsis\{#synopsis}
 

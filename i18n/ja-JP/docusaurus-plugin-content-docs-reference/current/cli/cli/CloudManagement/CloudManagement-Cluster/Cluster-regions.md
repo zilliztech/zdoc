@@ -13,8 +13,8 @@ token: YHtudYo81oBKruxujL5cw0yZnxd
 sidebar_position: 8
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -74,9 +73,9 @@ zilliz cluster regions
 ## Example\{#example}
 
 ```bash
-# すべてのリージョンを一覧表示
+# List all regions
 zilliz cluster regions
 
-# AWS リージョンのみを一覧表示
+# List AWS regions only
 zilliz cluster regions --cloud-id aws
 ```

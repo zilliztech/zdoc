@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection を指す alias を作成します。 | Cloud"
+description: "This operation creates an alias pointing to a コレクション. | Cloud"
 type: docx
 token: WxTjdBaBqoNhRex5kR0cfekqnOc
 sidebar_position: 2
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-この操作は、collection を指す alias を作成します。
+This operation creates an alias pointing to a コレクション.
 
 ## Description\{#description}
 
-collection に alias を割り当て、その alias に対して検索/クエリを実行すると、関連付けられた collection が応答するようにできます。指定した alias に関連付けられた collection を変更するには、このコマンドを使用します。
+You can assign an alias to a コレクション and conduct searches/queries against the alias so that the associated コレクション responds. Use this command to change the コレクション associated with the specified alias.
 
 プロンプトを指定せずにこのコマンドを実行すると、セットアップを支援する一連の対話型プロンプトが開始されます。
 
@@ -57,7 +56,7 @@ zilliz alias create
 
     **[REQUIRED]**
 
-    対象の collection 名を示します。
+    Indicates the target コレクション name.
 
 - **--alias** (*string*) -
 
@@ -69,9 +68,9 @@ zilliz alias create
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションを設定しなくても、それが属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

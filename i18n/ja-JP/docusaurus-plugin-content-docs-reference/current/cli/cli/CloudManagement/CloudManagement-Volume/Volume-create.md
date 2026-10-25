@@ -14,8 +14,8 @@ sidebar_position: 1
 keywords: 
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Faiss ベクトル データベース
+  - Chroma ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 ## Description\{#description}
 
-volume は、構造化データまたは非構造化データファイルの collection を保持するオブジェクトストアです。これにより、これらのデータ資産にアクセスし、保存し、管理し、整理するための統一された場所が提供されます。ローカルファイルシステムまたはクラウドオブジェクトストレージ内の構造化データと非構造化データは、まず Zilliz Cloud の volume にアップロードされます。そこから、構造化データを直接 collection にインポートまたは移行したり、ETL パイプラインを実行して非構造化データを embedding に変換し、その embedding を collection にロードしたりできます。
+A volume is an object store that holds either structured data or コレクション of unstructured data files. It provides a unified place to access, store, govern, and organize these data assets. Structured and unstructured data from local file systems or cloud object storage are first uploaded into a volume in Zilliz Cloud. From there, you can import or migrate structured data directly into コレクション, or run ETL pipelines to transform unstructured data into embeddings and then load those embeddings into コレクション.
 
 オプションを指定せずにこのコマンドを実行すると、コマンドを設定するための一連の対話型プロンプトが開始されます。
 

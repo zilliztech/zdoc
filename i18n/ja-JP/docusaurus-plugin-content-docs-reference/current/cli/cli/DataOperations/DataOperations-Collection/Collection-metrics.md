@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - Sparse ベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -83,12 +82,12 @@ zilliz collection metrics
 ## 例\{#example}
 
 ```bash
-# 過去 1 時間の insert + search QPS のインラインチャート
+# Inline chart of insert + search QPS over the last hour
 zilliz collection metrics -c my_collection -m INSERT_QPS -m SEARCH_QPS
 
-# 過去 24 時間のレイテンシのピボットテーブル（5 分単位の粒度）
+# Pivot table of latency for the last 24 hours, 5-minute granularity
 zilliz collection metrics -c my_collection -m SEARCH_LATENCY_P99 -m QUERY_LATENCY_P99 --period 24h -g 5m -o table
 
-# ダウンストリームツール向けの未加工 JSON
+# Raw JSON for downstream tooling
 zilliz collection metrics -c my_collection -m ENTITIES -o json
 ```

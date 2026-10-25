@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection の名前を変更します。 | Cloud"
+description: "This operation renames a コレクション. | Cloud"
 type: docx
 token: N1uadJS98ojQhixbOQacLOwknke
 sidebar_position: 13
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # rename
 
-この操作は collection の名前を変更します。
+This operation renames a コレクション.
 
 ## Synopsis\{#synopsis}
 
@@ -52,23 +51,23 @@ zilliz collection rename
 
     **[REQUIRED]**
 
-    現在の collection 名を示します。
+    Indicates the current コレクション name.
 
 - **--new-name** (*string*) -
 
     **[REQUIRED]**
 
-    新しい collection 名を示します。
+    Indicates the new コレクション name.
 
     値は、先頭がアンダースコア (_) または英字で始まる、最大 255 文字の英数字文字列である必要があります。
 
 - **--database** (*string*) -
 
-    現在の database 名を示します。
+    Indicates the current データベース name.
 
 - **--new-database** (*string*) -
 
-    対象の database 名を示します（cross-db rename 用）。
+    Indicates the target データベース name (for cross-db rename).
 
 - **--output, -o** (*string*) -
 

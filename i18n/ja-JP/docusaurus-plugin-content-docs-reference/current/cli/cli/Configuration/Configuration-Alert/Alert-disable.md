@@ -13,17 +13,16 @@ token: AVX3dxX68oYAc1x06uVc7bgcnx1
 sidebar_position: 3
 keywords: 
   - オープンソースのベクトルデータベース
-  - オープンソース vector db
+  - open source ベクトル db
   - ベクトルデータベースの例
-  - rag vector database
+  - rag ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
-  - 無効化
+  - disable
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

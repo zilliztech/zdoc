@@ -15,15 +15,14 @@ keywords:
   - ベクトル埋め込みとは
   - ベクトルデータベースチュートリアル
   - ベクトルデータベースはどのように動作するか
-  - vector db comparison
+  - ベクトル db comparison
   - zilliz
   - zilliz cloud
   - cloud
-  - ログイン
+  - login
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

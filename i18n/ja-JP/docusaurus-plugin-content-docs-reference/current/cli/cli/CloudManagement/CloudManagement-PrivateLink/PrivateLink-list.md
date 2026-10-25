@@ -14,8 +14,8 @@ sidebar_position: 4
 keywords: 
   - milvus オープンソース
   - milvus はどのように動作するか
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz ベクトル データベース
+  - Zilliz データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

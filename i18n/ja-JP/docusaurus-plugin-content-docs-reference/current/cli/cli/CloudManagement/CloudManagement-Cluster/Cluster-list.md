@@ -13,7 +13,7 @@ token: F2RtdzmQ0oQlWfxf7SYcT200nNf
 sidebar_position: 4
 keywords: 
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - what is milvus
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

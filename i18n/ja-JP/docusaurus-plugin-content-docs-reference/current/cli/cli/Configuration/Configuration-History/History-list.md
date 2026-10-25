@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,12 +53,12 @@ zilliz history list
 ## Example\{#example}
 
 ```bash
-# 直近 50 件のエントリ
+# Last 50 entries
 zilliz history list
 
-# 直近 10 件のエントリを JSON として表示
+# Last 10 entries as JSON
 zilliz history list --limit 10 -o json
 
-# 全履歴
+# Full history
 zilliz history list --all
 ```

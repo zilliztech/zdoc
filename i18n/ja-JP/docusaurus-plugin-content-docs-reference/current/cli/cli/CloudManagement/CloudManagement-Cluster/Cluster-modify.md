@@ -13,8 +13,8 @@ token: AYlXdnqMKoQOzRxSbWScn0A5nqf
 sidebar_position: 6
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - ANN Search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -100,7 +99,7 @@ zilliz cluster modify
 
 - **--body** (*string*) -
 
-    以下のスキーマに一致する JSON ペイロードを示します。具体例については、[Modify Cluster](/reference/restful/modify-cluster-v2) を参照してください。
+    Indicates the JSON payload that match the following スキーマ. For concrete examples, refer to [Modify クラスター](/reference/restful/modify-cluster-v2).
 
     ```json
     {
@@ -128,9 +127,9 @@ zilliz cluster modify
 ## Example\{#example}
 
 ```bash
-# 2 CUs にスケール
+# Scale to 2 CUs
 zilliz cluster modify --cluster-id in01-xxxxxxxxxxxx --cu-size 2
 
-# レプリカを設定
+# Set replicas
 zilliz cluster modify --cluster-id in01-xxxxxxxxxxxx --replica 2
 ```

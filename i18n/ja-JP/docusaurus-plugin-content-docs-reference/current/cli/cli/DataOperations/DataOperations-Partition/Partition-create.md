@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection に partition を作成します。 | Cloud"
+description: "This operation creates a partition in a コレクション. | Cloud"
 type: docx
 token: JBRhd3cb5owndqxODOxcd08InRe
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,17 +30,17 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-この操作は collection に partition を作成します。
+This operation creates a partition in a コレクション.
 
 ## Description\{#description}
 
-partition は collection のサブセットです。各 partition は親 collection と同じデータ構造を共有しますが、collection 内のデータの一部のみを含みます。
+A partition is a subset of a コレクション. Each partition shares the same data structure with its parent コレクション but contains only a subset of the data in the コレクション.
 
-collection を作成すると、Zilliz Cloud は collection 内に **default** という名前の partition も作成します。他の partition を追加しない場合、collection に挿入されるすべての entity は default partition に格納され、すべての検索およびクエリはその中で実行されます。
+When creating a コレクション, Zilliz Cloud also creates a partition named **default** in the コレクション. If you are not going to add any other partitions, all entities inserted into the コレクション go into the default partition, and all searches and queries are carried out within it.
 
 特定の条件に基づいて、さらに partition を追加し、それらに entity を挿入できます。その後、特定の partition 内に検索やクエリを制限でき、検索パフォーマンスを向上させることができます。
 
-1 つの collection には最大 1,024 個の partition を作成できます。
+A コレクション can have up to 1,024 partitions.
 
 ## Synopsis\{#synopsis}
 
@@ -61,7 +60,7 @@ zilliz partition create
 
     **[REQUIRED]**
 
-    collection 名を指定します。
+    Indicates a コレクション name.
 
 - **--partition** (*string*) -
 
@@ -73,7 +72,7 @@ zilliz partition create
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

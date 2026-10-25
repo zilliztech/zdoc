@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection の統計情報（行数など）を取得します。 | Cloud"
+description: "This operation gets コレクション statistics (row count, etc.). | Cloud"
 type: docx
 token: XTHTd7x3soBmeTx9ftwc369PnCe
 sidebar_position: 7
 keywords: 
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
+  - ベクトル インデックス
+  - ベクトル データベース open source
+  - open source ベクトル db
+  - ベクトル データベース example
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get-stats
 
-この操作は collection の統計情報（行数など）を取得します。
+This operation gets コレクション statistics (row count, etc.).
 
 ## Synopsis\{#synopsis}
 
@@ -51,13 +50,13 @@ zilliz collection get-stats
 
     **[REQUIRED]**
 
-    collection 名を指定します。
+    Indicates the コレクション name.
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Indicates the データベース name.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションを設定しなくても、それが属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

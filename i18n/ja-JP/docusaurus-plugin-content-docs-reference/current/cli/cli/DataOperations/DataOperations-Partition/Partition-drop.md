@@ -13,17 +13,16 @@ token: DT7Jduvj2osqF0xVhwMcU2t7nmd
 sidebar_position: 2
 keywords: 
   - milvus db
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - Milvus とは
   - zilliz
   - zilliz cloud
   - cloud
-  - 削除
+  - drop
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +51,7 @@ zilliz partition drop
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--partition** (*string*) -
 
@@ -62,7 +61,7 @@ zilliz partition drop
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

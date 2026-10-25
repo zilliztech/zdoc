@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: v1.4.x
 deprecate_since: false
 notebook: false
-description: "この操作では、後続のデータプレーンコマンドが使用するデフォルトの cluster endpoint と database を選択します。collection、vector、index、partition、user、role、または alias コマンドを実行する前に context を設定してください。 | Cloud"
+description: "This operation selects the default クラスター endpoint and データベース that later data-plane commands use. Set a context before running コレクション, ベクトル, インデックス, partition, user, role, or alias commands. | Cloud"
 type: docx
 token: WF1JdhGAgodzpExXO1hcPjADn8b
 sidebar_position: 3
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # set
 
-この操作では、後続のデータプレーンコマンドが使用するデフォルトの cluster endpoint と database を選択します。collection、vector、index、partition、user、role、または alias コマンドを実行する前に context を設定してください。
+This operation selects the default クラスター endpoint and データベース that later data-plane commands use. Set a context before running コレクション, ベクトル, インデックス, partition, user, role, or alias commands.
 
 ## Description\{#description}
 
-後続のデータプレーンコマンドが使用するデフォルトの cluster endpoint と database を設定します。collection、vector、index、partition、user、role、または alias コマンドを実行する前に context を設定してください。
+Sets the default クラスター endpoint and データベース that later data-plane commands use. Set a context before running コレクション, ベクトル, インデックス, partition, user, role, or alias commands.
 
 ## Synopsis\{#synopsis}
 
@@ -51,19 +50,19 @@ zilliz context set
 
 - **--cluster-id** (*string*) -
 
-    後続のデータプレーンコマンドで使用する cluster を指定します。--endpoint を省略すると、CLI はこの cluster ID から cluster endpoint を解決します。
+    Specifies the クラスター to use for subsequent data-plane commands. If you omit --endpoint, the CLI resolves the クラスター endpoint from this クラスター ID.
 
 - **--endpoint** (*string*) -
 
-    cluster endpoint を直接指定します。endpoint をすでに把握している場合や、CLI に cluster ID から解決させたくない場合に使用します。
+    Specifies the クラスター endpoint directly. Use this when you already know the endpoint or do not want the CLI to resolve it from a クラスター ID.
 
 - **--database** (*string*) -
 
-    現在の context において、後続のデータプレーンコマンドで使用するデフォルトの database を指定します。これは database を作成するものではありません。
+    Specifies the default データベース for subsequent data-plane commands in the current context. This does not create a データベース.
 
 - **--on-demand** (*boolean*) -
 
-    on-demand cluster の cluster 詳細を解決します。cluster ID が on-demand cluster に属している場合に使用します。
+    Resolves クラスター details for an on-demand クラスター. Use this when the クラスター ID belongs to an on-demand クラスター.
 
 ## Example\{#example}
 

@@ -7,7 +7,7 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では外部ストレージ統合を一覧表示し、import または external collection ワークフローで使用する前に、統合 ID、名前、ステータス、リージョン、バケット、およびサーバーメッセージを確認できます。 | Cloud"
+description: "This operation lists external storage integrations so you can review integration IDs, names, status, regions, buckets, and server messages before using them with import or external コレクション workflows. | Cloud"
 type: docx
 token: XScGdoVr8oYyWVxQzqKcy7eQnFG
 sidebar_position: 5
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-この操作では外部ストレージ統合を一覧表示し、import または external collection ワークフローで使用する前に、統合 ID、名前、ステータス、リージョン、バケット、およびサーバーメッセージを確認できます。
+This operation lists external storage integrations so you can review integration IDs, names, status, regions, buckets, and server messages before using them with import or external コレクション workflows.
 
 ## 概要\{#synopsis}
 

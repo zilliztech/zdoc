@@ -13,17 +13,16 @@ token: MLrJdT9TdojvcJxhauic8s9anBf
 sidebar_position: 4
 keywords: 
   - オープンソースベクトルデータベース
-  - Vector index
+  - ベクトル インデックス
   - ベクトルデータベース オープンソース
-  - オープンソース vector db
+  - open source ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
-  - 有効化
+  - enable
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -7,14 +7,14 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、プロジェクト/リージョン内のオンデマンドクラスターを一覧表示します。 | Cloud"
+description: "This operation lists on-demand クラスター in a project/region. | Cloud"
 type: docx
 token: BZ6WdvA0eoRUJyxAqfMcJe6QnMd
 sidebar_position: 4
 keywords: 
   - Zilliz Cloud
   - Milvus とは
-  - milvus database
+  - milvus データベース
   - milvus lite
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-この操作は、プロジェクト/リージョン内のオンデマンドクラスターを一覧表示します。
+This operation lists on-demand クラスター in a project/region.
 
 ## Description\{#description}
 
@@ -87,5 +86,5 @@ zilliz -o json on-demand-cluster list --project-id proj-xxxx --region-id aws-us-
 #   ]
 # }
 
-# クラスターは、一時停止中に一時的に SUSPENDING と表示されることもあります。
+# A cluster can also temporarily report SUSPENDING while it is being suspended.
 ```

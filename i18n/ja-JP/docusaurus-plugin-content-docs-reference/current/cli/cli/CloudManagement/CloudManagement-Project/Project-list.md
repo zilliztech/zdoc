@@ -14,7 +14,7 @@ sidebar_position: 3
 keywords: 
   - 動画重複排除
   - 動画類似検索
-  - Vector retrieval
+  - ベクトル retrieval
   - 音声類似検索
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

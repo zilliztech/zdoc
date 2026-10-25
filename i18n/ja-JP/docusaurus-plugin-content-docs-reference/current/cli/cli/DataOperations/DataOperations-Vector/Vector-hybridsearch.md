@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、複数の vector と reranking によるハイブリッド検索を実行します。 | Cloud"
+description: "This operation performs hybrid search with multiple ベクトル and reranking. | Cloud"
 type: docx
 token: EiCXdUuf2oTB3HxiL20clnSPn8g
 sidebar_position: 3
@@ -15,7 +15,7 @@ keywords:
   - nlp search
   - llm のハルシネーション
   - マルチモーダル検索
-  - vector 検索アルゴリズム
+  - ベクトル search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +30,19 @@ import Admonition from '@theme/Admonition';
 
 # hybrid-search
 
-この操作は、複数の vector と reranking によるハイブリッド検索を実行します。
+This operation performs hybrid search with multiple ベクトル and reranking.
 
 ## Description\{#description}
 
-多くのアプリケーションでは、オブジェクトはタイトルや説明といった豊富な情報セット、あるいはテキスト、画像、音声などの複数モダリティによって検索できます。Zilliz Cloud は、複数の vector field にまたがる検索を可能にし、複数の Approximate Nearest Neighbor (ANN) 検索を同時に実行することで、これをサポートします。マルチ vector ハイブリッド検索は、テキストと画像の両方、同じオブジェクトを説明する複数のテキスト field、あるいは dense と sparse の vector を検索して検索品質を向上させたい場合に特に有用です。
+In many applications, an object can be searched by a rich set of information, such as title and description, or with multiple modalities, such as text, images, and audio. Zilliz Cloud supports this by allowing searches across multiple ベクトル fields and conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-ベクトル hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse ベクトル to improve search quality.
 
 主なハイブリッド検索には次の 2 種類があります。
 
-- Sparse-Dense Vector Search
+- Sparse-Dense ベクトル Search
 
-- Multimodal Vector Search
+- Multimodal ベクトル Search
 
-詳細については、[Multi-Vector Hybrid Search](/docs/hybrid-search) を参照してください。
+For details, refer to [Multi-ベクトル Hybrid Search](/docs/hybrid-search).
 
 ## Synopsis\{#synopsis}
 
@@ -68,13 +67,13 @@ zilliz vector hybrid-search
 
     **[REQUIRED]**
 
-    collection 名を指定します。
+    Indicates the コレクション name.
 
 - **--search** (*array*) -
 
     **[REQUIRED]**
 
-    検索リクエストを JSON 配列として指定します（`--body` を使用しない場合）。`--body` が指定されていない場合は必須です。
+    Indicates the search requests as JSON array (unless --body). Required unless `--body` is provided.
 
     JSON 配列は次のスキーマに一致する必要があります。
 
@@ -165,7 +164,7 @@ zilliz vector hybrid-search
 
     **[REQUIRED]**
 
-    reranking 戦略を JSON として指定します（`--body` を使用しない場合）。`--body` が指定されていない場合は必須です。
+    Indicates the reranking strategy as JSON (unless --body). Required unless `--body` is provided.
 
     JSON オブジェクトは次のスキーマに一致する必要があります。
 
@@ -216,7 +215,7 @@ zilliz vector hybrid-search
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

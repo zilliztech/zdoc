@@ -12,10 +12,10 @@ type: docx
 token: QcWcdXbgxooJO4xuwADc9YqAn8c
 sidebar_position: 6
 keywords: 
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
-  - vector db とは
+  - open source ベクトル db
+  - ベクトル データベース example
+  - rag ベクトル データベース
+  - what is ベクトル db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -37,9 +36,9 @@ import Admonition from '@theme/Admonition';
 
 ANN と k-Nearest Neighbors（kNN）検索は、ベクトル類似性検索で最も一般的な方法です。kNN 検索では、最も類似したベクトルを特定する前に、ベクトル空間内のすべてのベクトルを検索リクエストに含まれるクエリベクトルと比較する必要があるため、時間がかかり、リソース消費も大きくなります。
 
-ANN 検索は事前構築された index に依存しており、検索スループット、メモリ使用量、検索の正確性は、選択する index タイプによって異なる場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。
+ANN searches depend on pre-built インデックス, and the search throughput, memory usage, and search correctness may vary with the インデックス types you choose. You need to balance search performance and correctness.
 
-学習コストを下げるために、Zilliz Cloud は **AUTOINDEX** を提供しています。**AUTOINDEX** を使用すると、Zilliz Cloud は index の構築中に collection 内のデータ分布を分析し、その分析に基づいて最適化された index パラメータを設定して、検索パフォーマンスと正確性のバランスを取ることができます。
+To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your コレクション while building the インデックス and set the most optimized インデックス parameters based on the analysis to strike a balance between search performance and correctness.
 
 AUTOINDEX および適用可能な metric type の詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) および [Metric Types](/docs/search-metrics-explained) を参照してください。
 
@@ -67,7 +66,7 @@ zilliz vector search
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--data** (*array*) -
 
@@ -95,7 +94,7 @@ zilliz vector search
 
 - **--anns-field** (*string*) -
 
-    検索対象の vector field を示します。
+    Indicates the vector field to search on.
 
 - **--limit** (*integer*) -
 
@@ -105,7 +104,7 @@ zilliz vector search
 
 - **--filter** (*string*) -
 
-    scalar フィルター式を示します。
+    Indicates the スカラー filter expression.
 
 - **--output-fields** (*array*) -
 
@@ -113,7 +112,7 @@ zilliz vector search
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

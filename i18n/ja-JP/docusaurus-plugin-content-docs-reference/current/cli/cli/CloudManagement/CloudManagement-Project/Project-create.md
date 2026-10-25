@@ -14,7 +14,7 @@ sidebar_position: 1
 keywords: 
   - milvus
   - Zilliz
-  - Milvus vector database
+  - milvus ベクトル データベース
   - Milvus db
   - zilliz
   - Zilliz Cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

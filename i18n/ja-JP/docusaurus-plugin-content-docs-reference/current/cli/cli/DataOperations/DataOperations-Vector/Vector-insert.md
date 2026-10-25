@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection にエンティティを挿入します。 | Cloud"
+description: "This operation inserts entities into a コレクション. | Cloud"
 type: docx
 token: IyKzdBU2zoXcNUxvmhvcJCISnJe
 sidebar_position: 4
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # insert
 
-この操作は collection にエンティティを挿入します。
+This operation inserts entities into a コレクション.
 
 ## Description\{#description}
 
-データを挿入または upsert する際は、データ構造が対象 collection のスキーマと一致していることを確認してください。次のいずれかを使用できます
+When inserting or upserting data, ensure the data structure matches the スキーマ of the target コレクション. You can either
 
 ## Synopsis\{#synopsis}
 
@@ -57,7 +56,7 @@ zilliz vector insert
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--data** (*array*) -
 
@@ -81,7 +80,7 @@ zilliz vector insert
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

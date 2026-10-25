@@ -7,7 +7,7 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、初めてのユーザー向けにサインイン、organization の選択、cluster コンテキスト、および一般的な操作の短いメニュー（cluster の一覧表示、コンテキストの設定、collection の一覧表示、請求の表示）を案内します。stdout が TTY ではない場合、または `--non-interactive` が設定されている場合は、チートシートのみが表示されます。 | Cloud"
+description: "This operation walks first-time users through sign-in, organization selection, クラスター context, and a short menu of common operations (list クラスター, set context, list コレクション, view billing). When stdout is not a TTY or `--non-interactive` is set, only the cheatsheet is printed. | Cloud"
 type: docx
 token: Aio6dbDToo45XdxkSX1cp9tKnkl
 sidebar_position: 1
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # quickstart
 
-この操作では、初めてのユーザー向けにサインイン、organization の選択、cluster コンテキスト、および一般的な操作の短いメニュー（cluster の一覧表示、コンテキストの設定、collection の一覧表示、請求の表示）を案内します。stdout が TTY ではない場合、または `--non-interactive` が設定されている場合は、チートシートのみが表示されます。
+This operation walks first-time users through sign-in, organization selection, クラスター context, and a short menu of common operations (list クラスター, set context, list コレクション, view billing). When stdout is not a TTY or `--non-interactive` is set, only the cheatsheet is printed.
 
 ## Synopsis\{#synopsis}
 

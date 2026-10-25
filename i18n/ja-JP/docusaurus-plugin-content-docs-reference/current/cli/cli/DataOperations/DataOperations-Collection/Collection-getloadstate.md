@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection のロード状態を取得します。 | Cloud"
+description: "This operation gets コレクション load state. | Cloud"
 type: docx
 token: ROPbdTU6doxFGRxxcfYcgyBPnqg
 sidebar_position: 6
 keywords: 
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - what is ベクトル db
+  - what are ベクトル データベース
+  - ベクトル データベース comparison
   - Faiss
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get-load-state
 
-この操作は collection のロード状態を取得します。
+This operation gets コレクション load state.
 
 ## Synopsis\{#synopsis}
 
@@ -51,13 +50,13 @@ zilliz collection get-load-state
 
     **[必須]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
-    クラスターが `zilliz context set` を使用して設定されている場合、このオプションを設定しなくても、そのクラスターに属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

@@ -13,8 +13,8 @@ token: HrwTdhnBeoZwoBxokBJcQZWznKh
 sidebar_position: 1
 keywords: 
   - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Faiss ベクトル データベース
+  - Chroma ベクトル データベース
   - nlp search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

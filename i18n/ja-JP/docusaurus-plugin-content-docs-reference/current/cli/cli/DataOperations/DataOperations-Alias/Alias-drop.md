@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,9 +54,9 @@ zilliz alias drop
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Indicates the データベース name.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションを設定しなくても、それが属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

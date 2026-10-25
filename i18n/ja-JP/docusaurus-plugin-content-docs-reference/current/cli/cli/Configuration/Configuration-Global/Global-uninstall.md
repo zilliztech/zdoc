@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - アンインストール
+  - uninstall
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,15 +57,15 @@ zilliz uninstall
 ## Example\{#example}
 
 ```bash
-# 確認ありでアンインストール
+# Uninstall with confirmation
 zilliz uninstall
 
-# zz エイリアスも使用できます
+# You can also use the zz alias
 zz uninstall
 
-# 確認なしでアンインストール
+# Uninstall without confirmation
 zilliz uninstall --yes
 
-# アンインストールしてすべての設定を削除
+# Uninstall and remove all config
 zilliz uninstall --purge --yes
 ```

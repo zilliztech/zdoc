@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - クラウド
-  - ログアウト
+  - logout
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

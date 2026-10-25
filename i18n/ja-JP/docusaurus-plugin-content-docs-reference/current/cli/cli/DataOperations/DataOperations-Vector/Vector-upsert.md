@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 ## Description\{#description}
 
-このコマンドを実行すると、upsert リクエストで指定された主キーが collection 内に存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新するかを選択できます。主キーが見つからない場合は、挿入操作が実行されます。それ以外の場合は、更新操作が実行されます。
+You can run this command to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the コレクション. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed.
 
 upsert リクエストは insert と delete を組み合わせたものです。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロード内のデータを挿入すると同時に、データ内で指定された元の主キーを持つ既存のエンティティを削除します。
 
@@ -62,13 +61,13 @@ zilliz vector upsert
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--data** (*array*) -
 
     **[REQUIRED]**
 
-    エンティティを JSON 配列または file://path.json として指定します。`--body` が指定されていない限り必須です。
+    Indicates the entities as JSON array or file://path.json. Required unless `--body` is provided.
 
     JSON 配列は次のスキーマに一致する必要があります。
 
@@ -90,7 +89,7 @@ zilliz vector upsert
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

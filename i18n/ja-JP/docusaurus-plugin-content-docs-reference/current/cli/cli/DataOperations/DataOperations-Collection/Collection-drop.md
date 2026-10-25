@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection を削除します。この操作は元に戻せません。 | Cloud"
+description: "This operation drops a コレクション. This action is irreversible. | Cloud"
 type: docx
 token: IM2CdOqn5oKCTUxFVImcbDCRnFc
 sidebar_position: 4
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-この操作は collection を削除します。この操作は元に戻せません。
+This operation drops a コレクション. This action is irreversible.
 
 ## Synopsis\{#synopsis}
 
@@ -51,13 +50,13 @@ zilliz collection drop
 
     **[REQUIRED]**
 
-    削除する collection 名を示します。
+    Indicates the コレクション name to drop.
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションが未設定であれば、それが属する database が自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

@@ -15,7 +15,7 @@ keywords:
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,15 +54,15 @@ zilliz import start
 
     **[REQUIRED]**
 
-    `inxx-xxxxx` のようなターゲット cluster ID を示します。
+    Indicates the target クラスター ID, which is similar to `inxx-xxxxx`.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションが未設定であれば自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    ターゲット collection 名を示します。
+    Indicates the target コレクション name.
 
 - **--output, -o** (*string*) -
 
@@ -110,9 +109,9 @@ zilliz import start
 ## 例\{#example}
 
 ```bash
-# S3 からインポート
+# Import from S3
 zilliz import start --cluster-id in01-xxxx --collection my_col --body '{"files": [["s3://bucket/data.json"]]}'
 
-# JSON ファイルを使用してインポート
+# Import using a JSON file
 zilliz import start --cluster-id in01-xxxx --collection my_col --body file://import-spec.json
 ```

@@ -12,8 +12,8 @@ type: docx
 token: Lu5EdzR9So5gUCxL71YcX30Enkh
 sidebar_position: 3
 keywords: 
-  - マネージド vector データベース
-  - Pinecone vector データベース
+  - Managed ベクトル データベース
+  - Pinecone ベクトル データベース
   - 音声検索
   - セマンティック検索とは
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,9 +55,9 @@ zilliz import status
 
     **[REQUIRED]**
 
-    指定した import job に関係する cluster の ID を指定します。これは `inxx-xxxxx` に似た形式です。
+    Indicates the ID of the involved クラスター in the specified import job, which is similar to `inxx-xxxxx`.
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションを設定しなくても自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
 
 - **--output, -o** (*string*) -
 

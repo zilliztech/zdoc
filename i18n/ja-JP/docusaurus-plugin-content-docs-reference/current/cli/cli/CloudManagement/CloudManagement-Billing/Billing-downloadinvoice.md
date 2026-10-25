@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -60,12 +59,12 @@ zilliz billing download-invoice
 ## Example\{#example}
 
 ```bash
-# ./<invoiceId>.pdf に保存
+# Save to ./<invoiceId>.pdf
 zilliz billing download-invoice --invoice-id inv-xxxx
 
-# 特定のディレクトリに保存
+# Save to a specific directory
 zilliz billing download-invoice --invoice-id inv-xxxx -d ~/Downloads
 
-# 明示的なファイルパスに保存
+# Save to an explicit file path
 zilliz billing download-invoice --invoice-id inv-xxxx -o ~/Downloads/march.pdf
 ```

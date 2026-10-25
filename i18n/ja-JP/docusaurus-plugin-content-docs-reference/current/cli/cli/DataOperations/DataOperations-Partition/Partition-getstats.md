@@ -15,7 +15,7 @@ keywords:
   - 自然言語処理
   - AIチャットボット
   - コサイン距離
-  - ベクターデータベースとは
+  - what is a ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

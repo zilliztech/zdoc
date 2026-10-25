@@ -12,8 +12,8 @@ type: docx
 token: KYQYdyaoToUGCjxVUVTc16fqn1e
 sidebar_position: 1
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
+  - Faiss ベクトル データベース
+  - Chroma ベクトル データベース
   - nlp search
   - hallucinations llm
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -12,7 +12,7 @@ type: docx
 token: GYyKdrbkvozJxVx6uGhcpMfonoe
 sidebar_position: 6
 keywords: 
-  - milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

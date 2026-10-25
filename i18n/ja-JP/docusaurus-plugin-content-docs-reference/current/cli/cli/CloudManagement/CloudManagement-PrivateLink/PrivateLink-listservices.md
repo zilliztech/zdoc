@@ -14,7 +14,7 @@ sidebar_position: 5
 keywords: 
   - 次元削減
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル similarity search
   - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection 内の partition を一覧表示します。 | Cloud"
+description: "This operation lists partitions in a コレクション. | Cloud"
 type: docx
 token: QVxadXWKIo8YcHxZgD1c0F0VnXf
 sidebar_position: 5
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-この操作は collection 内の partition を一覧表示します。
+This operation lists partitions in a コレクション.
 
 ## Synopsis\{#synopsis}
 
@@ -50,11 +49,11 @@ zilliz partition list
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

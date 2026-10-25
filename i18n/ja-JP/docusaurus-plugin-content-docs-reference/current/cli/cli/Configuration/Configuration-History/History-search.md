@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,9 +50,9 @@ zilliz history search
 ## Example\{#example}
 
 ```bash
-# 記録された `cluster create` の呼び出しをすべて検索
+# Find every recorded `cluster create` invocation
 zilliz history search --keyword "cluster create"
 
-# 特定の cluster ID に言及したコマンドを検索
+# Find any command that mentioned a specific cluster ID
 zilliz history search --keyword inxx-1234567890ab
 ```

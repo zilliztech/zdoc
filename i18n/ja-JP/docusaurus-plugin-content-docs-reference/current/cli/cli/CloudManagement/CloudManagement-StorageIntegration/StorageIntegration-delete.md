@@ -15,15 +15,14 @@ keywords:
   - 情報検索
   - 次元削減
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル similarity search
   - zilliz
   - zilliz cloud
   - cloud
-  - 削除
+  - delete
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -12,10 +12,10 @@ type: docx
 token: BVHRdq4miotjdVxI72fcI7XznKc
 sidebar_position: 5
 keywords: 
-  - オープンソース vector database
-  - オープンソース vector db
-  - vector database の例
-  - rag vector database
+  - ベクトル データベース open source
+  - open source ベクトル db
+  - ベクトル データベース example
+  - rag ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

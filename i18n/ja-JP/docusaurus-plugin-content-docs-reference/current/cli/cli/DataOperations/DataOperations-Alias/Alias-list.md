@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -47,11 +46,11 @@ zilliz alias list [OPTIONS]
 
     データベース名を指定します。
 
-    `zilliz context set` を使用して cluster が設定されている場合、このオプションが未設定であれば、それが属するデータベースが自動的に適用されます。
+    If a クラスター is configured using `zilliz context set`, the データベース it belongs automatically applies if this option is left unconfigured.
 
 - **--collection** (*string*) -
 
-    collection 名によるフィルターを指定します。
+    Indicates the filter by コレクション name.
 
 - **--output, -o** (*string*) -
 

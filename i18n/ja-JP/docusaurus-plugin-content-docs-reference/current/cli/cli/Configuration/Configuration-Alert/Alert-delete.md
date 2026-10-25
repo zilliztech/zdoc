@@ -12,18 +12,17 @@ type: docx
 token: L6dIdJaeGoNfmcxAXC2cW82znke
 sidebar_position: 2
 keywords: 
-  - milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
-  - 削除
+  - delete
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';

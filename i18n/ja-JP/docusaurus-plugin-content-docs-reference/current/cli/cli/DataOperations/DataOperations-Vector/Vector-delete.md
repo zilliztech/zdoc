@@ -19,11 +19,10 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 削除
+  - delete
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,7 +56,7 @@ zilliz vector delete
 
     **[REQUIRED]**
 
-    collection 名を示します。
+    Indicates the コレクション name.
 
 - **--filter** (*string*) -
 
@@ -71,7 +70,7 @@ zilliz vector delete
 
 - **--database** (*string*) -
 
-    database 名を示します。
+    Indicates the データベース name.
 
 - **--output, -o** (*string*) -
 

@@ -7,7 +7,7 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は external-collection の refresh ジョブを一覧表示します（必要に応じて collection でフィルタリング可能）。 | Cloud"
+description: "This operation lists external-コレクション refresh jobs (optionally filtered by コレクション). | Cloud"
 type: docx
 token: YRQbd0bSOoMIDixpInlcg05jn4g
 sidebar_position: 2
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-この操作は external-collection の refresh ジョブを一覧表示します（必要に応じて collection でフィルタリング可能）。
+This operation lists external-コレクション refresh jobs (optionally filtered by コレクション).
 
 ## Description\{#description}
 
-現在の cluster コンテキスト内の external-collection refresh ジョブを一覧表示します。結果セットを絞り込むには `--name` と `--database` を使用します。
+Lists external-コレクション refresh jobs in the current クラスター context. Use `--name` and `--database` to narrow the result set.
 
 ## Synopsis\{#synopsis}
 
@@ -49,11 +48,11 @@ zilliz external-collection refresh list
 
 - **--name** (*string*) -
 
-    external collection 名でフィルタリングします。
+    Filter by external コレクション name.
 
 - **--database** (*string*) -
 
-    database 名を指定します。
+    Specifies the データベース name.
 
 ## Example\{#example}
 

@@ -12,7 +12,7 @@ type: docx
 token: OBDNd4bW2oCJqhxEPDSccggSnif
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
+  - Chroma ベクトル データベース
   - nlp search
   - hallucinations llm
   - Multimodal search
@@ -23,7 +23,6 @@ keywords:
   - cliv14
 displayed_sidebar: cliSidebar
 
-displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
