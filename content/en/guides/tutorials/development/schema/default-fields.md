@@ -39,7 +39,7 @@ When creating a collection, use the `default_value` parameter in `add_field()` t
 
 The following example creates a collection with two scalar fields that have default values: `age` defaults to `18` and `status` defaults to `"active"`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -428,6 +428,64 @@ await client.loadCollection({ collection_name: collectionName });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Drop the collection if it already exists
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "my_collection" });
+}
+
+// Define collection schema
+var ageField = new FieldSchema("age", DataType.Int64) { DefaultValue = 18L };
+var statusField = FieldSchema.CreateVarchar("status", maxLength: 10);
+statusField.DefaultValue = "active";
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("vector", dimension: 5),
+        ageField,
+        statusField
+    }
+};
+
+// Set index params
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.L2);
+
+// Create collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "my_collection" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -503,7 +561,7 @@ curl --request POST \
 
 When inserting data, if you omit a field that has a default value or explicitly set it to NULL, Zilliz Cloud automatically uses the configured default value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -743,6 +801,47 @@ await client.flush({ collection_names: [collectionName] });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var data = new[]
+{
+    // All fields provided explicitly
+    new Dictionary<string, object?>
+    {
+        ["id"] = 1L, ["vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }, ["age"] = 30L, ["status"] = "premium"
+    },
+    // age and status omitted → both use default values (18 and "active")
+    new Dictionary<string, object?>
+    {
+        ["id"] = 2L, ["vector"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f }
+    },
+    // status set to None → uses default value "active"
+    new Dictionary<string, object?>
+    {
+        ["id"] = 3L, ["vector"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f }, ["age"] = 25L, ["status"] = null
+    },
+    // age set to None → uses default value 18
+    new Dictionary<string, object?>
+    {
+        ["id"] = 4L, ["vector"] = new[] { 0.4f, 0.5f, 0.6f, 0.7f, 0.8f }, ["age"] = null, ["status"] = "inactive"
+    }
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+
+// Flush so the inserted rows are immediately queryable
+await client.FlushAsync(new Milvus.Client.V2.Requests.Utility.FlushReq { CollectionNames = ["my_collection"] });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -796,7 +895,7 @@ Entities containing default values behave the same as any other entities during 
 
 The following example searches for entities where `age` equals the default value `18`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -983,6 +1082,32 @@ for (const hit of searchResults.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = [new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.4f, 0.3f, 0.5f })],
+    VectorFieldName = "vector",
+    MetricType = MetricType.L2,
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 16,
+        Expression = "age == 18",
+        OutputFields = { "id", "age", "status" }
+    }
+});
+Console.WriteLine("Search results (age == 18):");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1024,7 +1149,7 @@ Search results (age == 18):
 
 You can also query entities by matching default values directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1264,6 +1389,38 @@ console.log("\nQuery results (status == 'active'):");
 for (const row of defaultStatusResults.data) {
   console.log(`  id: ${row.id}, age: ${row.age}, status: ${row.status}`);
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+QueryResp defaultAgeResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "age == 18",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "age", "status" }
+    }
+});
+
+Console.WriteLine("Query results (age == 18):");
+
+QueryResp defaultStatusResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "status == \"active\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "age", "status" }
+    }
+});
+
+Console.WriteLine("Query results (status == 'active'):");
 ```
 
 </TabItem>

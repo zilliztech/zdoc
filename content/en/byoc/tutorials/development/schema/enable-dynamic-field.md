@@ -106,7 +106,7 @@ Each of the above keys and values would be stored inside the `$meta` field.
 
 To use the dynamic field feature, set `enable_dynamic_field=True` when creating the collection schema:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -308,6 +308,36 @@ const res = await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Initialize client
+var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
+
+// Create schema with dynamic field enabled
+var schema = new CollectionSchema
+{
+    Name = "my_collection",
+    EnableDynamicFields = true
+};
+
+// Add explicitly defined fields
+schema.Fields.Add(new FieldSchema("my_id", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(FieldSchema.CreateFloatVector("my_vector", 5));
+
+// Create the collection
+await client.CreateCollectionAsync(new CreateCollectionReq { CollectionName = "my_collection", Schema = schema });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -357,7 +387,7 @@ curl --request POST \
 
 The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `$meta`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -528,6 +558,38 @@ const res = await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var entities = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?>
+    {
+        ["my_id"] = 1L,  // Explicitly defined primary field
+        ["my_vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f },  // Explicitly defined vector field
+        ["overview"] = "Great product",        // Scalar key not defined in schema
+        ["words"] = 150,                       // Scalar key not defined in schema
+        ["dynamic_json"] = new Dictionary<string, object?>  // JSON key not defined in schema
+        {
+            ["varchar"] = "some text",
+            ["nested"] = new Dictionary<string, object?> { ["value"] = 42.5 },
+            ["string_price"] = "99.99"         // Number stored as string
+        }
+    }
+};
+
+await client.InsertAsync(new InsertReq { CollectionName = "my_collection", RowsData = entities });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -596,7 +658,7 @@ Since the dynamic field is a JSON field, you can index any key within it using J
 
 - For nested keys: `dynamic_json['varchar']`, `dynamic_json['nested']['value']`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -867,6 +929,45 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var indexParams = new List<IndexParam>();
+
+// Index a simple string key
+indexParams.Add(new IndexParam("overview", "overview_index", IndexType.AutoIndex, null)
+{
+    ExtraParams = { ["json_cast_type"] = "varchar", ["json_path"] = "overview" }
+});
+
+// Index a simple numeric key
+indexParams.Add(new IndexParam("words", "words_index", IndexType.AutoIndex, null)
+{
+    ExtraParams = { ["json_cast_type"] = "double", ["json_path"] = "words" }
+});
+
+// Index a nested key within a JSON object
+indexParams.Add(new IndexParam("dynamic_json", "json_varchar_index", IndexType.AutoIndex, null)
+{
+    ExtraParams = { ["json_cast_type"] = "varchar", ["json_path"] = "dynamic_json['varchar']" }
+});
+
+// Index a deeply nested key
+indexParams.Add(new IndexParam("dynamic_json", "json_nested_index", IndexType.AutoIndex, null)
+{
+    ExtraParams = { ["json_cast_type"] = "double", ["json_path"] = "dynamic_json['nested']['value']" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -921,7 +1022,7 @@ export nestedIndex='{
 
 If a dynamic field key contains values in an incorrect format, (e.g. numbers stored as strings), you can use a cast function to convert it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1029,6 +1130,30 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Convert a string to double before indexing
+indexParams.Add(new IndexParam("dynamic_json", "json_string_price_index", IndexType.AutoIndex, null)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "dynamic_json['string_price']",
+        ["json_cast_type"] = "double",        // Must be the output type of the cast function
+        ["json_cast_function"] = "STRING_TO_DOUBLE"  // Case insensitive; convert string to double
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1062,7 +1187,7 @@ export stringPriceIndex='{
 
 After defining the index parameters, you can apply them to the collection using `create_index()`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1232,6 +1357,27 @@ await client.loadCollection({ collection_name: 'my_collection' });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Add a vector index on the vector field so the collection can be loaded
+indexParams.Add(new IndexParam("my_vector", null, IndexType.AutoIndex, MetricType.Cosine));
+
+await client.CreateIndexAsync(new CreateIndexReq { CollectionName = "my_collection", Indexes = indexParams });
+
+// Load the collection before searching
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "my_collection" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1288,7 +1434,7 @@ After inserting entities with dynamic field keys, you can filter them using stan
 
 Based on [the ](./enable-dynamic-field#insert-entities-to-the-collection)[example entity](./enable-dynamic-field#insert-entities-to-the-collection) from the previous section, valid filter expressions include:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1349,6 +1495,23 @@ filter = 'dynamic_json["nested"]["value"] < 50'       // JSON object key
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+string filter = "overview == \"Great product\"";             // Non-JSON key
+string filter1 = "words >= 100";                             // Non-JSON key
+string filter2 = "dynamic_json[\"nested\"][\"value\"] > 10"; // Nested JSON key
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1363,7 +1526,7 @@ export filter='dynamic_json["nested"]["value"] < 50'
 
 **Retrieving dynamic field keys**: To return dynamic field keys in search or query results, you must explicitly specify them in the `output_fields` parameter using the same JSON path syntax as filtering:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1522,6 +1685,33 @@ const res = await client.search({
     limit: 10,
     filter: filter,
     output_fields: ["overview", "dynamic_json"]
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Example: Include dynamic field keys in search results
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "my_vector",
+    Vectors = new[] { new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }) },
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,  // Filter expression defined earlier
+        OutputFields = { "overview", "dynamic_json" }  // Simple and nested dynamic field keys
+    }
 });
 ```
 

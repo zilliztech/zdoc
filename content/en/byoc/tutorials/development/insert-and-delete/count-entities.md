@@ -61,7 +61,7 @@ Instead of obtaining the entity count programmatically, you can also access the 
 
 To get the precise entity count, load the collection and run a query with `count(*)` as the output field and set the consistency level for the query to `Strong`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -319,6 +319,48 @@ console.log(res.data[0]['count(*)'])
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Count without the entities in growing segments
+var count = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters { OutputFields = { "count(*)" } }
+});
+
+// Count with the entities in growing segments
+count = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "count(*)" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+
+// Count the entities in a specific partition
+var countR = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "test_collection",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "count(*)" },
+        PartitionNames = { "_default" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -347,7 +389,7 @@ As described above, the `get_collection_stats()` returns an estimated number of 
 
 The following example assumes that a collection named `test_collection` exists.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -538,6 +580,41 @@ await milvusClient.getPartitionStats({
 // {
 //      data: {'row_count': 1000 }
 // }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Partition;
+
+// 1. Set up a Milvus client
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// 2. Get the entity count of a collection
+var stats = await client.GetCollectionStatsAsync(new GetCollectionStatsReq { CollectionName = "test_collection" });
+Console.WriteLine(stats.RowCount);
+
+// 3. Get the entity count of a partition
+var partitionStats = await client.GetPartitionStatsAsync(new GetPartitionStatsReq
+{
+    CollectionName = "test_collection",
+    PartitionName = "_default"
+});
+Console.WriteLine(partitionStats.RowCount);
 ```
 
 </TabItem>

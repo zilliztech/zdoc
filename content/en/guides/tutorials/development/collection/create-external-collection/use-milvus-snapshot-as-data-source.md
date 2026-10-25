@@ -49,7 +49,7 @@ In the following example, you will create a `milvus-table` external collection f
 
 Create or choose a snapshot from a normal Milvus collection, and then describe it to get its object-storage location.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -196,6 +196,30 @@ const externalSource = `s3://bucket/${snapshotInfo.s3_location}`;
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var snapshotInfo = await client.DescribeSnapshotAsync(new DescribeSnapshotReq
+{
+    SnapshotName = "analytics_snapshot_20260321",
+    CollectionName = "analytics"
+});
+var externalSource = $"s3://bucket/{snapshotInfo.S3Location}";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -215,7 +239,7 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/snapshots/describe' \
 
 Create an external collection whose schema matches the snapshot source collection. Set `external_spec.format` to `"milvus-table"`, and set each target data field's `external_field` to the corresponding source field name.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -438,6 +462,15 @@ await client.createCollection({
     },
   }),
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: creating an external collection from a snapshot (external_source/external_spec with
+// per-field external_field mappings) is not yet supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

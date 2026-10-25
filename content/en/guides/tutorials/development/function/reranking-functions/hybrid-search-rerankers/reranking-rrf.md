@@ -105,7 +105,7 @@ When using the RRF reranking strategy, you need to configure the parameter `k`. 
 
 After your collection is set up with multiple vector fields, create an RRF Ranker with an appropriate smoothing parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -209,6 +209,14 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Creating a rerank function via FunctionSchema is not supported in milvus-sdk-csharp as of v3.0.0; use RrfReranker instead.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -244,7 +252,7 @@ functions='[
 
 RRF Ranker is designed specifically for hybrid search operations that combine multiple vector fields. Here's how to use it in a hybrid search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -519,6 +527,57 @@ const search = await milvusClient.search({
   output_fields: ["product_name", "price", "category"],
   limit: 10,
   rerank: rerank,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Connect to Milvus server
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Assume you have a collection setup
+
+// Define text vector search request
+var textSearch = new AnnSearchReq
+{
+    VectorFieldName = "text_vector",
+    Texts = ["modern dining table"],
+    Limit = 10
+};
+
+// Define image vector search request
+var imageSearch = new AnnSearchReq
+{
+    VectorFieldName = "image_vector",
+    Vectors = [imageEmbedding], // Image embedding vector
+    Limit = 10
+};
+
+// Apply RRF Ranker to product hybrid search
+// The smoothing parameter k controls the balance
+SearchResp hybridResults = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = collectionName,
+    SearchRequests = [textSearch, imageSearch], // Multiple search requests
+    Reranker = rerank, // Apply the RRF ranker
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "product_name", "price", "category" }
+    }
 });
 ```
 

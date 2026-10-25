@@ -140,7 +140,7 @@ For more information on schemas and detailed guidance on adding various types of
 
 To begin, we need to create an empty schema. This step establishes a foundational structure for defining the data model.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -221,6 +221,16 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+CollectionSchema schema = new();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -234,7 +244,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 Once the schema is created, the next step is to specify the fields that will comprise your data. Each field is associated with their respective data types and attributes.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -434,6 +444,21 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("article_id", DataType.Int64, isPrimaryKey: true, autoId: true, description: "article id"));
+schema.Fields.Add(FieldSchema.CreateVarchar("title", 200, description: "article title", enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("timestamp", DataType.Int32, description: "publish date"));
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 2000, description: "article text content", enableAnalyzer: true));
+schema.Fields.Add(new FieldSchema("text_dense_vector", DataType.FloatVector, description: "text dense vector") { Dimension = 768 });
+schema.Fields.Add(new FieldSchema("text_sparse_vector", DataType.SparseFloatVector, description: "text sparse vector"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -498,7 +523,7 @@ In this example, the following attributes are specified for fields:
 
 To enhance data querying capabilities, functions can be incorporated into the schema. For instance, a function can be created to process related to specific fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -590,6 +615,17 @@ const functions = [
       params: {},
     },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+FunctionSchema bm25Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse_vector", "bm25 function");
+schema.Functions.Add(bm25Function);
 ```
 
 </TabItem>

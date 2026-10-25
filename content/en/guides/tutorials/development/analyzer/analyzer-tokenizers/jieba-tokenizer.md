@@ -37,7 +37,7 @@ Milvus supports two configuration approaches for the `jieba` tokenizer: a simple
 
 With the simple configuration, you only need to set the tokenizer to `"jieba"`. For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -95,7 +95,8 @@ const analyzer_params = {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using System.Collections.Generic;
@@ -107,15 +108,9 @@ var analyzerParams = new Dictionary<string, object>
 };
 ```
 
-```csharp
-using System.Collections.Generic;
+</TabItem>
 
-// Simple configuration: only specifying the tokenizer name
-var analyzerParams = new Dictionary<string, object>
-{
-    ["tokenizer"] = "jieba" // Use the default settings: dict=["_default_"], mode="search", hmm=True
-};
-```
+<TabItem value='bash'>
 
 ```bash
 # restful
@@ -124,9 +119,12 @@ analyzerParams='{
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 This simple configuration is equivalent to the following custom configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -216,7 +214,8 @@ const analyzer_params = {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using System.Collections.Generic;
@@ -234,21 +233,9 @@ var analyzerParams = new Dictionary<string, object>
 };
 ```
 
-```csharp
-using System.Collections.Generic;
+</TabItem>
 
-// Custom configuration equivalent to the simple configuration above
-var analyzerParams = new Dictionary<string, object>
-{
-    ["tokenizer"] = new Dictionary<string, object> // Tokenizer configuration
-    {
-        ["type"] = "jieba",           // Tokenizer type, fixed as "jieba"
-        ["dict"] = new[] { "_default_" }, // Use the default dictionary
-        ["mode"] = "search",          // Use search mode for improved recall (see mode details below)
-        ["hmm"] = true                // Enable HMM for probabilistic segmentation
-    }
-};
-```
+<TabItem value='bash'>
 
 ```bash
 # restful
@@ -262,13 +249,16 @@ export analyzerParams='{
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 For details on parameters, refer to [Custom configuration](./jieba-tokenizer#custom-configuration).
 
 ### Custom configuration\{#custom-configuration}
 
 For more control, you can provide a custom configuration that allows you to specify a custom dictionary, select the segmentation mode, and enable or disable the Hidden Markov Model (HMM). For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -358,7 +348,8 @@ const analyzer_params = {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using System.Collections.Generic;
@@ -376,21 +367,9 @@ var analyzerParams = new Dictionary<string, object>
 };
 ```
 
-```csharp
-using System.Collections.Generic;
+</TabItem>
 
-// Custom configuration with user-defined settings
-var analyzerParams = new Dictionary<string, object>
-{
-    ["tokenizer"] = new Dictionary<string, object>
-    {
-        ["type"] = "jieba",           // Fixed tokenizer type
-        ["dict"] = new[] { "customDictionary" }, // Custom dictionary list; replace with your own terms
-        ["mode"] = "exact",           // Use exact mode (non-overlapping tokens)
-        ["hmm"] = false               // Disable HMM; unmatched text will be split into individual characters
-    }
-};
-```
+<TabItem value='bash'>
 
 ```bash
 # restful
@@ -403,6 +382,9 @@ export analyzerParams='{
   }
 }'
 ```
+
+</TabItem>
+</Tabs>
 
 <table>
    <tr>
@@ -449,7 +431,7 @@ The file is plain UTF‑8 text with one term per line. For example:
 
 Upload the file to the object store that your Milvus cluster is configured to use, then register it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -538,6 +520,26 @@ await client.addFileResource({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Register the uploaded file under a name you'll reference from analyzer configs.
+await client.AddFileResourceAsync(new AddFileResourceReq
+{
+    Name = "zh_terms",
+    Path = "file/zh_terms.txt" // full S3 object key, including the rootPath prefix
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -549,7 +551,7 @@ await client.addFileResource({
 
 Reference the registered resource in the tokenizer via `extra_dict_file`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -715,9 +717,11 @@ console.log(result.results);
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Types;
@@ -725,29 +729,33 @@ using Milvus.Client.V2.Types;
 using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
 await client.ConnectAsync();
 
-// Register the uploaded file under a name you'll reference from analyzer configs.
-await client.AddFileResourceAsync(new AddFileResourceReq
+var analyzerParams = new Dictionary<string, object>
 {
-    Name = "zh_terms",
-    Path = "file/zh_terms.txt" // full S3 object key, including the rootPath prefix
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
+        ["mode"] = "exact",
+        ["hmm"] = false,
+        ["extra_dict_file"] = new Dictionary<string, object>
+        {
+            ["type"] = "remote",
+            ["resource_name"] = "zh_terms",
+            ["file_name"] = "zh_terms.txt"
+        }
+    }
+};
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { "milvus结巴分词器中文测试" }
 });
 ```
 
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-using Milvus.Client.V2.Types;
+</TabItem>
 
-using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
-await client.ConnectAsync();
-
-// Register the uploaded file under a name you'll reference from analyzer configs.
-await client.AddFileResourceAsync(new AddFileResourceReq
-{
-    Name = "zh_terms",
-    Path = "file/zh_terms.txt" // full S3 object key, including the rootPath prefix
-});
-```
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -759,6 +767,9 @@ curl --request POST \
   "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"_default_\"],\"mode\":\"exact\",\"hmm\":false,\"extra_dict_file\":{\"type\":\"remote\",\"resource_name\":\"zh_terms\",\"file_name\":\"zh_terms.txt\"}}}"
 }'
 ```
+
+</TabItem>
+</Tabs>
 
 The `extra_dict_file` parameter accepts an object with the following fields:
 
@@ -776,7 +787,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -865,73 +876,27 @@ const analyzer_params = {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using System.Collections.Generic;
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-using Milvus.Client.V2.Types;
-
-using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
-await client.ConnectAsync();
 
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = new Dictionary<string, object>
     {
         ["type"] = "jieba",
-        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
+        ["dict"] = new[] { "结巴分词器" },
         ["mode"] = "exact",
-        ["hmm"] = false,
-        ["extra_dict_file"] = new Dictionary<string, object>
-        {
-            ["type"] = "remote",
-            ["resource_name"] = "zh_terms",
-            ["file_name"] = "zh_terms.txt"
-        }
+        ["hmm"] = false
     }
 };
-
-var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
-{
-    AnalyzerParams = analyzerParams,
-    Texts = new[] { "milvus结巴分词器中文测试" }
-});
 ```
 
-```csharp
-using System.Collections.Generic;
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-using Milvus.Client.V2.Types;
+</TabItem>
 
-using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
-await client.ConnectAsync();
-
-var analyzerParams = new Dictionary<string, object>
-{
-    ["tokenizer"] = new Dictionary<string, object>
-    {
-        ["type"] = "jieba",
-        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
-        ["mode"] = "exact",
-        ["hmm"] = false,
-        ["extra_dict_file"] = new Dictionary<string, object>
-        {
-            ["type"] = "remote",
-            ["resource_name"] = "zh_terms",
-            ["file_name"] = "zh_terms.txt"
-        }
-    }
-};
-
-var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
-{
-    AnalyzerParams = analyzerParams,
-    Texts = new[] { "milvus结巴分词器中文测试" }
-});
-```
+<TabItem value='bash'>
 
 ```bash
 # restful
@@ -945,9 +910,12 @@ export analyzerParams='{
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1097,37 +1065,36 @@ console.log(result.results);
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
 
-var analyzerParams = new Dictionary<string, object>
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    ["tokenizer"] = new Dictionary<string, object>
-    {
-        ["type"] = "jieba",
-        ["dict"] = new[] { "结巴分词器" },
-        ["mode"] = "exact",
-        ["hmm"] = false
-    }
-};
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "milvus结巴分词器中文测试";
+
+// Run the standard analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
 ```
 
-```csharp
-using System.Collections.Generic;
+</TabItem>
 
-var analyzerParams = new Dictionary<string, object>
-{
-    ["tokenizer"] = new Dictionary<string, object>
-    {
-        ["type"] = "jieba",
-        ["dict"] = new[] { "结巴分词器" },
-        ["mode"] = "exact",
-        ["hmm"] = false
-    }
-};
-```
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -1139,6 +1106,9 @@ curl --request POST \
   "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"结巴分词器\"],\"mode\":\"exact\",\"hmm\":false}}"
 }'
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

@@ -103,7 +103,7 @@ Scalar filter expressions do not match `NULL` scalar values. For details, refer 
 
 The following example adds a nullable `source` field to an existing collection named `product_catalog`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -282,6 +282,25 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateVarchar("source", maxLength: 128, nullable: true)
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -315,7 +334,7 @@ After the field is added, entities that already existed in the collection return
 
 If existing entities should return a concrete value instead of `NULL`, specify `default_value` when adding the field. The following example adds a `review_status` field and uses `"unreviewed"` as the default value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -503,6 +522,21 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateVarchar("review_status", maxLength: 32, nullable: true, defaultValue: "unreviewed")
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -545,7 +579,7 @@ Use `add_collection_struct_field()` to add a StructArray field that accepts arra
 
 **Example: Add a nullable StructArray field**
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -846,6 +880,41 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Create a struct schema
+var structSchema = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1024,
+    Nullable = true
+};
+
+// add a scalar field to the struct
+structSchema.Fields.Add(FieldSchema.CreateVarchar("text", maxLength: 65535));
+structSchema.Fields.Add(FieldSchema.CreateVarchar("chapter", maxLength: 512));
+
+// add a vector field to the struct with mmap enabled
+var textVector = FieldSchema.CreateFloatVector("text_vector", dimension: 5);
+textVector.TypeParams["mmap.enabled"] = "true";
+structSchema.Fields.Add(textVector);
+
+var chapterVector = FieldSchema.CreateFloatVector("chapter_vector", dimension: 5);
+chapterVector.TypeParams["mmap.enabled"] = "true";
+structSchema.Fields.Add(chapterVector);
+
+await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
+{
+    CollectionName = "books",
+    StructField = structSchema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -867,7 +936,7 @@ Every added user-defined vector field must be nullable. Existing entities have `
 
 The following example adds a nullable dense vector field named `embedding_v2` to an existing collection. Set `dim` to the dimensionality of the embeddings generated by your application.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1050,6 +1119,24 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var embeddingV2 = FieldSchema.CreateFloatVector("embedding_v2", dimension: 768);
+embeddingV2.Nullable = true;
+
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = embeddingV2
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1079,7 +1166,7 @@ curl --request POST \
 
 After the field is added, create an index on the new vector field before searching it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1248,6 +1335,24 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = new[]
+    {
+        new IndexParam("embedding_v2", "embedding_v2", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1303,7 +1408,7 @@ The generated vector field must not already exist in the collection, and it cann
 
 The following example adds a BM25 Function named `text_bm25` and its generated sparse vector field named `text_sparse` to an existing collection. The collection must already have a `VARCHAR` field named `text` with analyzer enabled.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1595,6 +1700,27 @@ await client.addFunctionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.AddFunctionFieldAsync(new AddFunctionFieldReq
+{
+    CollectionName = "product_catalog",
+    Field = FieldSchema.CreateSparseFloatVector("text_sparse", description: "BM25-generated sparse vector field"),
+    Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse"),
+    IndexParam = new IndexParam("text_sparse", "text_sparse", IndexType.SparseInvertedIndex, MetricType.Bm25)
+    {
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE", ["bm25_k1"] = "1.2", ["bm25_b"] = "0.75" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1656,7 +1782,7 @@ Storage cleanup is handled separately from schema cleanup. For details, refer to
 
 The following example assumes that `experiment_tag` is a user-defined scalar field in `product_catalog`, and drops it from the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1798,6 +1924,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "product_catalog",
+    FieldName = "experiment_tag"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1813,7 +1953,7 @@ After dropping a field, you can call `describe_collection()` to verify that the 
 
 The following example assumes that the `chunks` field is a StructArray field in `my_collection`, and drops it from the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1955,6 +2095,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    FieldName = "chunks"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1970,7 +2124,7 @@ You can drop a vector field with the same `drop_collection_field()` method, but 
 
 The following example assumes that `image_vector` is a user-defined vector field in `hybrid_catalog`, and that the collection still retains another vector field, such as `text_vector`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2112,6 +2266,20 @@ await client.dropCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionFieldAsync(new DropCollectionFieldReq
+{
+    CollectionName = "hybrid_catalog",
+    FieldName = "image_vector"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2133,7 +2301,7 @@ Call `drop_function_field()` with the Function name. The operation removes the F
 
 The following example assumes that `text_bm25` is a BM25 Function in `product_catalog` and generates a sparse vector output field named `text_sparse`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2270,6 +2438,20 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 await client.dropFunctionField({
     collection_name: "product_catalog",
     function_name: "text_bm25",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropFunctionFieldAsync(new DropFunctionFieldReq
+{
+    CollectionName = "product_catalog",
+    FunctionName = "text_bm25"
 });
 ```
 

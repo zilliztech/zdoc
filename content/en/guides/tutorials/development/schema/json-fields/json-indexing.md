@@ -190,7 +190,7 @@ The examples below assume you have a `MilvusClient` named `client` connected to 
 
 <summary>Connect and create a sample collection</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -578,6 +578,76 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Define a schema with a JSON field
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true, autoId: false),
+        FieldSchema.CreateFloatVector("vec", dimension: 4),
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+
+// Minimal vector index so the collection can be loaded
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "your_collection_name",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("vec", "vec_index", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+// Insert one row that matches the sample JSON structure above
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "your_collection_name",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["vec"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+            ["metadata"] = new Dictionary<string, object?>
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -609,7 +679,7 @@ curl --request POST \
 
 Prepare an index-params object to collect the index definitions added in the examples below:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -658,6 +728,16 @@ const indexParams = [];
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var indexParams = new List<IndexParam>();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -674,7 +754,7 @@ Each example that follows shows one `index_params.add_index(...)` call. Pick the
 
 Index the `category` field for fast filtering by product category. With `AUTOINDEX`, Zilliz Cloud picks `BITMAP` or `STL_SORT` based on how many distinct categories exist in your data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -780,6 +860,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -801,7 +898,7 @@ export categoryIndex='{
 
 Index the deeply nested `email` field for supplier contact lookups. The `json_path` parameter accepts any depth of bracket notation.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -907,6 +1004,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "email_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"][\"contact\"][\"email\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -928,7 +1042,7 @@ export emailIndex='{
 
 When you know your queries on a path will be dominated by range comparisons (`>`, `<`, `>=`, `<=`), pick `STL_SORT` directly. This bypasses cardinality measurement and builds the sorted layout immediately.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1034,6 +1148,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "price_index", IndexType.StlSort)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"price\"]",
+        ["json_cast_type"] = "DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1057,7 +1188,7 @@ After indexing, range queries like `metadata["price"] > 50 AND metadata["price"]
 
 For low-cardinality keys — status codes, booleans, enum-like strings — pick `BITMAP` directly. Equality and `IN` queries become bitmap operations.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1163,6 +1294,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "in_stock_index", IndexType.Bitmap)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"in_stock\"]",
+        ["json_cast_type"] = "BOOL"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1186,7 +1334,7 @@ export inStockIndex='{
 
 When numeric data is mistakenly stored as strings, use `STRING_TO_DOUBLE` to convert the value to a number during index build.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1300,6 +1448,24 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "string_to_double_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"string_price\"]",
+        ["json_cast_type"] = "DOUBLE",
+        ["json_cast_function"] = "STRING_TO_DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1334,7 +1500,7 @@ For compatible existing workloads, setting `json_cast_type="JSON"` indexes the f
 
 Index the entire `metadata` object:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1440,6 +1606,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "metadata_full_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1459,7 +1642,7 @@ export metadataFullIndex='{
 
 Or index a sub-object — for example, all `supplier` information:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1565,6 +1748,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "supplier_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"]",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1588,7 +1788,7 @@ Indexing entire objects increases index size. For new workloads with deeply nest
 
 After adding all your index parameters, apply them to your collection:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1670,6 +1870,21 @@ await client.createIndex(indexParams);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "your_collection_name",
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1697,7 +1912,7 @@ curl --request POST \
 
 Index builds run asynchronously. Use `client.describe_index(...)` to check the build state of a specific index — the `state` field shows `Finished` once the build is done, and `total_rows` / `indexed_rows` / `pending_index_rows` show progress along the way.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1786,6 +2001,20 @@ await client.describeIndex({ collection_name: "your_collection_name", index_name
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var describeResp = await client.DescribeIndexAsync(new DescribeIndexReq
+{
+    CollectionName = "your_collection_name",
+    IndexName = "category_index"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1852,7 +2081,7 @@ No. Zilliz Cloud allows at most one index per `(field, json_path)` pair, regardl
 
 By default, `AUTOINDEX` picks `BITMAP` when the indexed values have **100 or fewer distinct values** and `STL_SORT` otherwise. You can override this threshold by adding `"bitmap_cardinality_limit"` to your index parameters (range: 1–1000):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1960,6 +2189,24 @@ indexParams.push({
     json_cast_type: "VARCHAR",
     bitmap_cardinality_limit: 200,
   },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR",
+        ["bitmap_cardinality_limit"] = "200" // use BITMAP up to 200 distinct values
+    }
 });
 ```
 

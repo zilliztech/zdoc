@@ -63,7 +63,7 @@ The following example creates two vector indexes. The first index uses a `MAX_SI
 
 Use `AUTOINDEX` for StructArray vector subfields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +208,25 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[emb_list_vector]", "chunks_emb_list_auto", IndexType.AutoIndex, MetricType.MaxSimCosine),
+        new IndexParam("chunks[emb]", "chunks_emb_auto", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -249,7 +268,7 @@ Create scalar indexes on StructArray scalar subfields when you use them in filte
 
 Use `AUTOINDEX` for StructArray scalar subfields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,6 +443,27 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[section]", "chunks_section_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[has_code]", "chunks_has_code_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[quality_score]", "chunks_quality_score_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[page]", "chunks_page_auto", IndexType.AutoIndex)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -486,7 +526,7 @@ For version-specific support and other limits, see [StructArray Limits](./struct
 
 After creating indexes, describe the collection or list indexes to confirm that the expected subfield paths are indexed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -571,6 +611,20 @@ console.log(indexes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var indexes = await client.ListIndexesAsync(new ListIndexesReq
+{
+    CollectionName = "tech_articles"
+});
+Console.WriteLine(string.Join(", ", indexes.IndexNames));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -588,7 +642,7 @@ curl --request POST \
 
 You can also describe a specific index if your SDK version exposes index-description APIs.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -673,6 +727,21 @@ const index = await client.describeIndex({
   index_name: "chunks_emb_cosine",
 });
 console.log(index);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var index = await client.DescribeIndexAsync(new DescribeIndexReq
+{
+    CollectionName = "tech_articles",
+    IndexName = "chunks_emb_cosine"
+});
+Console.WriteLine(index.Indexes.Count);
 ```
 
 </TabItem>

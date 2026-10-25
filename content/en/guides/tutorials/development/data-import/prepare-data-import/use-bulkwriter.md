@@ -75,7 +75,7 @@ Decide on the schema for the collection you wish to import your dataset into. Th
 
 The following code creates a collection schema with all possible data types. In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,6 +217,14 @@ private static byte[] genBinaryVector() {
 ```
 
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
 </Tabs>
 
 ### Create a BulkWriter\{#create-a-bulkwriter}
@@ -311,7 +319,7 @@ There are two types of **BulkWriter**s available.
 
     <TabItem value="aws">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -378,13 +386,21 @@ There are two types of **BulkWriter**s available.
     ```
 
     </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
     </Tabs>
 
     </TabItem>
 
     <TabItem value="azure">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -432,6 +448,14 @@ There are two types of **BulkWriter**s available.
     ```
 
     </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
     </Tabs>
 
     </TabItem>
@@ -440,7 +464,7 @@ There are two types of **BulkWriter**s available.
 
     Once the connection parameters are ready, you can reference it in the **RemoteBulkWriter** as follows:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
     <TabItem value='python'>
 
     ```python
@@ -474,6 +498,14 @@ There are two types of **BulkWriter**s available.
             .build();
     
     RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -710,7 +742,7 @@ In [the previous section](./use-bulkwriter#set-up-a-collection-schema), we refer
 
 For demonstration purposes, the following code appends randomly generated data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -784,13 +816,21 @@ private static String generateString(int length) {
 </TabItem>
 </Tabs>
 </TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
 </Tabs>
 
 ## Verify the result\{#verify-the-result}
 
 To check the results, you can get the actual output path by printing the **data_path** property of the writer.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -810,6 +850,14 @@ List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
 System.out.println(batchFiles);
 
 // [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

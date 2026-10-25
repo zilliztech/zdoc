@@ -94,7 +94,7 @@ The `chunks` value is an array of Struct elements. Each element is an object who
 
 Use `client.insert()` to insert rows that contain StructArray values.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -635,6 +635,34 @@ console.log(res.status.error_code, res.insert_cnt);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "tech_articles",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["doc_id"] = 1L,
+            ["title"] = "StructArray indexing patterns",
+            ["category"] = "index",
+            ["title_vector"] = new[] { 0.12f, 0.08f, 0.32f, 0.48f },
+            ["chunks"] = new object[]
+            {
+                new Dictionary<string, object?> { ["text"] = "Create one index for each vector subfield.", ["section"] = "index", ["page"] = 1L, ["quality_score"] = 0.95f },
+                new Dictionary<string, object?> { ["text"] = "Load the collection before search.", ["section"] = "search", ["page"] = 2L, ["quality_score"] = 0.88f }
+            }
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -793,7 +821,7 @@ curl --request POST \
 
 If the `chunks` field is nullable, an entity can set the entire `chunks` field to null. In Python, use `None` to represent a null value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -925,6 +953,30 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "tech_articles",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["doc_id"] = 10L,
+            ["title"] = "Article without chunks yet",
+            ["category"] = "draft",
+            ["title_vector"] = new[] { 0.05f, 0.10f, 0.15f, 0.20f },
+            ["chunks"] = null
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -964,7 +1016,7 @@ Nullable StructArray fields are available only in clusters compatible with Milvu
 
 You can query the collection and return the StructArray field or selected subfields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1081,6 +1133,31 @@ const rows = await client.query({
   output_fields: ["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
 });
 console.log(rows.data.length);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "tech_articles"
+});
+
+QueryResp rows = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "tech_articles",
+    Expression = "doc_id in [1, 2, 3]",
+    Parameters = new QueryParameters { OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" } }
+});
+
+Console.WriteLine($"rows: {rows.FieldsData.FirstOrDefault()?.RowCount ?? 0}");
 ```
 
 </TabItem>

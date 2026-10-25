@@ -165,7 +165,7 @@ Built-in analyzers are pre-configured solutions for common languages. They are t
 
 To use a built-in analyzer, simply specify its type in the `analyzer_params` when defining your field schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -271,6 +271,23 @@ const schema = [
     analyzer_params,
   },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Using built-in English analyzer
+Dictionary<string, object> analyzerParams = new()
+{
+    ["type"] = "english"
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
 ```
 
 </TabItem>
@@ -551,7 +568,7 @@ These filters handle specific language characteristics:
 
 To create your custom analyzer, you define the tokenizer and a list of filters in the `analyzer_params` dictionary. The filters are applied in the order they are listed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -676,6 +693,24 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Example: A custom analyzer for technical content
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new List<object> { "lowercase", "alphanumonly" }
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -697,7 +732,7 @@ export textField='{
 
 Always validate your configuration before applying to a collection:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -818,6 +853,36 @@ const result = await client.runAnalyzer({
   analyzer_params,
 });
 console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -1108,7 +1173,7 @@ When working with content that spans multiple languages or uses scripts unpredic
 
 **Basic multilingual configuration (no stemming)**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1175,6 +1240,20 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
   tokenizer: "icu",
   filter: ["lowercase", "asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "icu",
+    ["filter"] = new List<object> { "lowercase", "asciifolding" }
 };
 ```
 

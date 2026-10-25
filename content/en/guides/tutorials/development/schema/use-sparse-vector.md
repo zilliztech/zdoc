@@ -92,7 +92,7 @@ To use sparse vectors in Zilliz Cloud clusters, you need to create a collection 
 
 - Typically, the raw text that the sparse vector represents is also stored in the collection. You can use a `VARCHAR` field for storing the raw text.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,7 +284,8 @@ const schema = [
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2;
@@ -305,24 +306,9 @@ var schema = new CollectionSchema
 };
 ```
 
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Types;
+</TabItem>
 
-using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
-await client.ConnectAsync();
-
-var schema = new CollectionSchema
-{
-    EnableDynamicFields = true,
-    Fields =
-    {
-        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
-        new FieldSchema("sparse_vector", DataType.SparseFloatVector),
-        FieldSchema.CreateVarchar("text", maxLength: 65535, enableAnalyzer: true)
-    }
-};
-```
+<TabItem value='bash'>
 
 ```bash
 export primaryField='{
@@ -358,6 +344,9 @@ export schema="{
 }"
 ```
 
+</TabItem>
+</Tabs>
+
 In this example, three fields are added:
 
 - `pk`: This field stores primary keys using the `VARCHAR` data type, which is auto-generated with a maximum length of 100 bytes.
@@ -376,7 +365,7 @@ To enable  or Zilliz Cloud to generate sparse vector embeddings from a specified
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -466,7 +455,8 @@ const indexParams = {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2.Requests.Index;
@@ -485,22 +475,9 @@ await client.CreateIndexAsync(new CreateIndexReq
 });
 ```
 
-```csharp
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+</TabItem>
 
-await client.CreateIndexAsync(new CreateIndexReq
-{
-    CollectionName = "my_collection",
-    Indexes = new[]
-    {
-        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
-        {
-            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
-        }
-    }
-});
-```
+<TabItem value='bash'>
 
 ```bash
 export indexParams='[
@@ -513,6 +490,9 @@ export indexParams='[
     ]'
 ```
 
+</TabItem>
+</Tabs>
+
 This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric. For more details, see the following resources:
 
 - [Metric Types](./search-metrics-explained): Supported metric types for different field types
@@ -523,7 +503,7 @@ This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric
 
 Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the [`create_collection`](./manage-collections-sdks) method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -636,7 +616,8 @@ await client.loadCollection({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2.Requests.Collection;
@@ -655,22 +636,9 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 });
 ```
 
-```csharp
-using Milvus.Client.V2.Requests.Collection;
+</TabItem>
 
-await client.CreateCollectionAsync(new CreateCollectionReq
-{
-    CollectionName = "my_collection",
-    Schema = schema,
-    Indexes = new[]
-    {
-        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
-        {
-            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" }
-        }
-    }
-});
-```
+<TabItem value='bash'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -688,11 +656,14 @@ curl --request POST \
 }"
 ```
 
+</TabItem>
+</Tabs>
+
 ## Insert data\{#insert-data}
 
 You must provide data for all fields defined during collection creation, except for fields that are auto-generated (such as the primary key with `auto_id` enabled). If you are using the built-in BM25 function to auto-generate sparse vectors, you should also omit the sparse vector field when inserting data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -862,7 +833,8 @@ await client.insert({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2.Requests.Dml;
@@ -886,27 +858,9 @@ await client.InsertAsync(new InsertReq
 });
 ```
 
-```csharp
-using Milvus.Client.V2.Requests.Dml;
+</TabItem>
 
-await client.InsertAsync(new InsertReq
-{
-    CollectionName = "my_collection",
-    RowsData = new[]
-    {
-        new Dictionary<string, object?>
-        {
-            ["text"] = "information retrieval is a field of study.",
-            ["sparse_vector"] = new SparseVector<float>(new[] { 1, 100, 500 }, new[] { 0.5f, 0.3f, 0.8f })
-        },
-        new Dictionary<string, object?>
-        {
-            ["text"] = "information retrieval focuses on finding relevant information in large datasets.",
-            ["sparse_vector"] = new SparseVector<float>(new[] { 10, 200, 1000 }, new[] { 0.1f, 0.7f, 0.9f })
-        }
-    }
-});
-```
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -929,11 +883,14 @@ curl --request POST \
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## Perform Similarity Search\{#perform-similarity-search}
 
 To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1030,7 +987,8 @@ const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2.Types;
@@ -1045,18 +1003,9 @@ var searchParams = new SearchParameters
 var queryData = new[] { new SparseVector<float>(new[] { 1, 50, 1000 }, new[] { 0.2f, 0.4f, 0.7f }) };
 ```
 
-```csharp
-using Milvus.Client.V2.Types;
+</TabItem>
 
-// Prepare search parameters
-var searchParams = new SearchParameters
-{
-    ExtraParameters = { ["drop_ratio_search"] = "0.2" } // A tunable drop ratio parameter with a valid range between 0 and 1
-};
-
-// Query with sparse vector
-var queryData = new[] { new SparseVector<float>(new[] { 1, 50, 1000 }, new[] { 0.2f, 0.4f, 0.7f }) };
-```
+<TabItem value='bash'>
 
 ```bash
 # Prepare search parameters
@@ -1066,9 +1015,12 @@ export searchParams='{"drop_ratio_search": 0.2}'
 export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 ```
 
+</TabItem>
+</Tabs>
+
 Then, execute the similarity search using the `search` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1221,7 +1173,8 @@ await client.search({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='csharp'>
 
 ```csharp
 using Milvus.Client.V2.Requests.Dql;
@@ -1242,24 +1195,9 @@ var res = await client.SearchAsync(new SearchReq
 });
 ```
 
-```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
+</TabItem>
 
-var res = await client.SearchAsync(new SearchReq
-{
-    CollectionName = "my_collection",
-    VectorFieldName = "sparse_vector",
-    SparseVectors = queryData,
-    Limit = 3,
-    Parameters = new SearchParameters
-    {
-        OutputFields = { "pk" },
-        ExtraParameters = { ["drop_ratio_search"] = "0.2" },
-        ConsistencyLevel = ConsistencyLevel.Strong
-    }
-});
-```
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -1277,6 +1215,9 @@ curl --request POST \
     \"consistencyLevel\": \"Strong\"
 }"
 ```
+
+</TabItem>
+</Tabs>
 
 For more information on similarity search parameters, refer to [Basic Vector Search](./single-vector-search).
 

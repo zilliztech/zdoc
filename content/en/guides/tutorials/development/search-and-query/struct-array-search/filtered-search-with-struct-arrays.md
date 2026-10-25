@@ -43,7 +43,7 @@ This page explains how to use StructArray filters in search workflows. For the f
 
 Use regular filter expressions when the condition belongs to the parent entity, not to an individual Struct element. This works with both EmbeddingList search and element-level search.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -238,6 +238,40 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var query = new EmbeddingList();
+query.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
+query.Add(new ReadOnlyMemory<float>(new[] { 0.18f, 0.23f, 0.29f, 0.36f }));
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb_list_vector]",
+    EmbeddingLists = new[] { query },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        Expression = "category == \"search\"",
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -267,7 +301,7 @@ The filter above selects only entities whose top-level `category` field is `"sea
 
 Use `element_filter(structArrayField, predicate)` when the scalar conditions must apply to the same Struct element that participates in element-level vector search. Inside the predicate, use `$[subfield]` to refer to scalar subfields of the current Struct element.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -470,6 +504,36 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var filterExpr = "category == \"search\" && " +
+    "element_filter(chunks, " +
+    "$[section] == \"index\" && " +
+    "$[quality_score] > 0.9 && " +
+    "$[has_code] == true)";
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filterExpr,
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -513,7 +577,7 @@ Use `MATCH_*` operators when the filter should decide whether a parent entity qu
 | `MATCH_MOST` | At most `N` Struct elements must satisfy the predicate. | `MATCH_MOST(chunks, $[section] == "appendix", threshold=1)` |
 | `MATCH_EXACT` | Exactly `N` Struct elements must satisfy the predicate. | `MATCH_EXACT(chunks, $[section] == "summary", threshold=1)` |
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -712,6 +776,35 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var query = new EmbeddingList();
+query.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
+query.Add(new ReadOnlyMemory<float>(new[] { 0.18f, 0.23f, 0.29f, 0.36f }));
+
+var filterExpr = "category == \"search\" && " +
+    "MATCH_ANY(chunks, $[section] == \"index\" && $[quality_score] > 0.9)";
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "chunks[emb_list_vector]",
+    EmbeddingLists = new[] { query },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        Expression = filterExpr,
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -741,7 +834,7 @@ Use `MATCH_ANY` here because the EmbeddingList search result is entity-level. Th
 
 In hybrid search, apply StructArray filters where the condition should take effect. A top-level filter can be shared by the whole hybrid search. An `element_filter` should be attached to the StructArray element-level request that needs element-level constraints.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -973,6 +1066,45 @@ const results = await client.search({
   rerank: { strategy: "rrf", params: { k: 60 } },
   limit: 5,
   output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
+
+var titleReq = new AnnSearchReq
+{
+    VectorFieldName = "title_vector",
+    Vectors = new[] { queryVector },
+    Limit = 10,
+    Expression = "category == \"search\""
+};
+
+var chunkReq = new AnnSearchReq
+{
+    VectorFieldName = "chunks[emb]",
+    Vectors = new[] { queryVector },
+    Limit = 10,
+    Expression = "category == \"search\" && element_filter(chunks, $[section] == \"index\" && $[quality_score] > 0.9)"
+};
+
+var results = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "tech_articles",
+    SearchRequests = new[] { titleReq, chunkReq },
+    Reranker = new RrfReranker(60),
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
 });
 ```
 

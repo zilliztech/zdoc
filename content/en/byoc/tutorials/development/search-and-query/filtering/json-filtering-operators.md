@@ -49,7 +49,7 @@ The `json_contains` operator checks if a specific element or subarray exists wit
 
 Imagine you have a collection of products, each with a `tags` field that contains a JSON array of strings, such as `["electronics", "sale", "new"]`. You want to filter products that have the tag `"sale"`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -104,6 +104,15 @@ const filter = 'json_contains(product["tags"], "sale")';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -124,7 +133,7 @@ The `json_contains_all` operator ensures that all elements of a specified JSON e
 
 Continuing with the product tags scenario, if you want to find all products that have the tags `"electronics"`, `"sale"`, and `"new"`, you can use the `json_contains_all` operator.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,6 +188,15 @@ const filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+string filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -199,7 +217,7 @@ The `json_contains_any` operator filters entities where at least one member of t
 
 Let’s say you want to filter products that have at least one of the tags `"electronics"`, `"sale"`, or `"new"`. You can use the `json_contains_any` operator to achieve this.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,6 +268,15 @@ std::string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"n
 ```javascript
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 const filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
 ```
 
 </TabItem>

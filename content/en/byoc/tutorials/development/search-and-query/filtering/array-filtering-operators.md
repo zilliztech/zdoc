@@ -52,7 +52,7 @@ The `ARRAY_CONTAINS` operator checks if a specific element exists in an array fi
 
 Suppose you have an array field `history_temperatures`, which contains the recorded lowest temperatures for different years. To find all entities where the array contains the value `23`, you can use the following filter expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,6 +101,15 @@ const filter = 'ARRAY_CONTAINS(history_temperatures, 23)';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS filter
+var filter = "ARRAY_CONTAINS(history_temperatures, 23)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -120,7 +129,7 @@ The `ARRAY_CONTAINS_ALL` operator ensures that all elements of the specified lis
 
 If you want to find all entities where the `history_temperatures` array contains both `23` and `24`, you can use:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -169,6 +178,15 @@ const filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ALL filter
+var filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -188,7 +206,7 @@ The `ARRAY_CONTAINS_ANY` operator checks if any of the elements from the specifi
 
 To find all entities where the `history_temperatures` array contains either `23` or `24`, you can use:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -237,6 +255,15 @@ const filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ANY filter
+var filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -256,7 +283,7 @@ The `ARRAY_LENGTH` returns the length (number of elements) of an array field. It
 
 To find all entities where the `history_temperatures` array has fewer than 10 elements:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -305,6 +332,15 @@ const filter = 'ARRAY_LENGTH(history_temperatures) < 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_LENGTH filter
+var filter = "ARRAY_LENGTH(history_temperatures) < 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -322,7 +358,7 @@ The `ARRAY_APPEND` operator appends payload elements to an existing ARRAY field 
 
 The following example appends `"premium"` to the `tags` ARRAY field of the entity whose primary key is `1`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -438,6 +474,32 @@ const res = await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "premium" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayAppend)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -463,7 +525,7 @@ The `ARRAY_REMOVE` operator removes every element from an existing ARRAY field t
 
 The following example removes `"trial"` from the `tags` ARRAY field of the entity whose primary key is `1`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -574,6 +636,32 @@ const res = await client.upsert({
     collection_name: "users",
     data: [{ pk: 1, tags: ["trial"] }],
     field_ops: [{ field_name: "tags", op: "ARRAY_REMOVE" }]
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "trial" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayRemove)
+    }
 });
 ```
 

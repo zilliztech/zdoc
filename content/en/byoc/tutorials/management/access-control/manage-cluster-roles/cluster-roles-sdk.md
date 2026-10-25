@@ -37,7 +37,7 @@ The following example demonstrates how to create a role named `role_a`.
 
 The role name must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,6 +145,20 @@ await client.createRole({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.CreateRoleAsync(new CreateRoleReq
+{
+    RoleName = "role_a",
+    Description = "a cluster read only role"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -168,7 +182,7 @@ curl --request POST \
 
 After creating several roles, you can list and view all existing roles.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,6 +279,21 @@ console.log(roles);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
+foreach (RoleResult role in resp.Roles)
+{
+    Console.WriteLine(role.Role);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -305,7 +334,7 @@ In Zilliz Cloud, you can grant the followings to a role:
 
 The following example demonstrates how to grant a custom privilege group named `privilege_group_1` and a built-in privilege group `ClusterReadOnly` to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -463,6 +492,30 @@ await client.grantPrivilegeV2({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "privilege_group_1",
+    CollectionName = "collection_01",
+    DatabaseName = "default"
+});
+
+await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "ClusterReadOnly",
+    CollectionName = "*",
+    DatabaseName = "*"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -546,7 +599,7 @@ The following are the parameters and corresponding explanations.
 
 The following example demonstrates how to view the privileges granted to the role `role_a` using the `describe_role` method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -653,6 +706,18 @@ console.log(role);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+DescribeRoleResp resp = await client.DescribeRoleAsync(new DescribeRoleReq { RoleName = "role_a" });
+Console.WriteLine($"Description: {resp.Description}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -685,7 +750,7 @@ Below is an example output.
 
 The following example demonstrates how to revoke the customprivilege group `privilege_group_1` and the built-in privilege group `ClusterReadOnly` that have been granted to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -830,6 +895,30 @@ await client.revokePrivilegeV2({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "privilege_group_1",
+    CollectionName = "collection_01",
+    DatabaseName = "default"
+});
+
+await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "ClusterReadOnly",
+    CollectionName = "*",
+    DatabaseName = "*"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -872,7 +961,7 @@ The built-in role `admin` cannot be dropped.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -959,6 +1048,16 @@ await client.dropRole({ roleName: 'role_a' });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.DropRoleAsync(new DropRoleReq { RoleName = "role_a" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -979,7 +1078,7 @@ curl --request POST \
 
 Once the role is dropped, you can list all existing roles to check if the drop operation is successful. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1072,6 +1171,21 @@ const client = new MilvusClient({
 
 const roles = await client.listRoles();
 console.log(roles);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
+foreach (RoleResult role in resp.Roles)
+{
+    Console.WriteLine(role.Role);
+}
 ```
 
 </TabItem>

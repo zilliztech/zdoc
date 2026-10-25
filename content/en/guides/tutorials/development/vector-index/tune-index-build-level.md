@@ -109,7 +109,7 @@ To set `build_level`, you need to do it when you [index a vector field](./autoin
 
 The following example assumes that you have already created a collection. Setting `build_level` to `1` indicates that the **Balanced** option applies.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +284,48 @@ await client.createIndex({
 // 5. List indexes
 const res = await client.listIndexes({ collection_name: collectionName });
 console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Responses.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 4. Set up index
+// 4.1. Set up the index parameters
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    metricType: MetricType.Cosine,
+    indexType: IndexType.AutoIndex,
+    indexName: "vector_index")
+{
+    ExtraParams =
+    {
+        ["build_level"] = 1
+    }
+};
+
+// 4.3. Create the index
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "customized_setup",
+    Indexes = [indexParam]
+});
+
+// 5. List indexes
+ListIndexesResp res = await client.ListIndexesAsync(new ListIndexesReq { CollectionName = "customized_setup" });
 ```
 
 </TabItem>

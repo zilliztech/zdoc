@@ -67,7 +67,7 @@ Before enabling Large TopK, be aware of the following trade-offs:
 
 If you know your collection will require Large TopK, specify it at creation time to avoid the cost of switching later:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -257,6 +257,50 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "your_uri",
+    ApiKey = "your_token"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("scenario_id", maxLength: 64),
+        FieldSchema.CreateVarchar("title", maxLength: 128),
+        FieldSchema.CreateFloatVector("vector", dimension: 4)
+    }
+};
+
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    indexName: "vector_idx",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.Cosine);
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "scenarios_corpus",
+    Schema = schema,
+    Indexes = [indexParam],
+    Properties = { ["query_mode"] = "large_topk" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -290,7 +334,7 @@ curl --request POST \
 
 For an existing collection without a vector index, you can enable Large TopK directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,6 +533,40 @@ await client.loadCollection({ collection_name: "scenarios_corpus" });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "your_uri",
+    ApiKey = "your_token"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 1. Enable Large TopK
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "scenarios_corpus",
+    Properties = { ["query_mode"] = "large_topk" }
+});
+
+// 2. Create the vector index and load the collection
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "scenarios_corpus",
+    Indexes = [new IndexParam("vector", "vector_idx", IndexType.AutoIndex, MetricType.Cosine)]
+});
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "scenarios_corpus" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -521,7 +599,7 @@ curl --request POST \
 
 For an existing collection **with** a vector index, you must first drop the index, then enable the mode, and finally recreate the index:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -747,6 +825,44 @@ await client.loadCollection({ collection_name: "scenarios_corpus" });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "your_uri",
+    ApiKey = "your_token"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 1. Release and drop the existing index
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq { CollectionName = "scenarios_corpus" });
+await client.DropIndexAsync(new DropIndexReq { CollectionName = "scenarios_corpus", IndexName = "vector_idx" });
+
+// 2. Enable Large TopK
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "scenarios_corpus",
+    Properties = { ["query_mode"] = "large_topk" }
+});
+
+// 3. Recreate the index and load the collection
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "scenarios_corpus",
+    Indexes = [new IndexParam("vector", "vector_idx", IndexType.AutoIndex, MetricType.Cosine)]
+});
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "scenarios_corpus" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -782,7 +898,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
 
 ### Check current query mode\{#check-current-query-mode}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -889,6 +1005,27 @@ const queryMode = properties.query_mode; // undefined means default mode
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+
+var config = new ConnectConfig
+{
+    Uri = "your_uri",
+    ApiKey = "your_token"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+DescribeCollectionResp info = await client.DescribeCollectionAsync(new DescribeCollectionReq { CollectionName = "scenarios_corpus" });
+info.Properties.TryGetValue("query_mode", out string? queryMode); // None means default mode
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -909,7 +1046,7 @@ curl --request POST \
 
 To return to the default query mode, drop the `query_mode` property. Note that this also requires releasing and dropping the existing index first:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1132,6 +1269,44 @@ await client.loadCollection({ collection_name: "scenarios_corpus" });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "your_uri",
+    ApiKey = "your_token"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 1. Release and drop the existing index
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq { CollectionName = "scenarios_corpus" });
+await client.DropIndexAsync(new DropIndexReq { CollectionName = "scenarios_corpus", IndexName = "vector_idx" });
+
+// 2. Drop query_mode to return to the default mode
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "scenarios_corpus",
+    DeleteKeys = ["query_mode"]
+});
+
+// 3. Recreate the index and load the collection
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "scenarios_corpus",
+    Indexes = [new IndexParam("vector", "vector_idx", IndexType.AutoIndex, MetricType.Cosine)]
+});
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "scenarios_corpus" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1171,7 +1346,7 @@ Once Large TopK is enabled, use the standard `search` method with a large `limit
 
 ### Online search (Serving Cluster)\{#online-search-serving-cluster}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1301,6 +1476,14 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Large TopK (top-K > 16384) is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1324,7 +1507,7 @@ curl --request POST \
 
 ### Offline search (On-demand Compute)\{#offline-search-on-demand-compute}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1454,6 +1637,14 @@ const results = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Large TopK (top-K > 16384) is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1479,7 +1670,7 @@ curl --request POST \
 
 There is no dedicated export API for Large TopK results. You can compose existing capabilities to write results to a Managed Volume:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1578,6 +1769,14 @@ UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
 
 ```javascript
 // Note: Zilliz Cloud Managed Volume upload is not available in the Node.js SDK as of v3.0.5.
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

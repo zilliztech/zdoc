@@ -37,7 +37,7 @@ Filter expression templating allows you to create filter expressions with placeh
 
 Let's say you have a filter expression involving two fields, `age` and `city`, and you want to find all people whose age is greater than 25 and who live in either "北京" (Beijing) or "上海" (Shanghai). Instead of directly embedding the values in the filter expression, you can use a template:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -108,6 +108,19 @@ const exprValues = { age: 25, city: ["北京", "上海"] };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -136,7 +149,7 @@ Using filter expression templating in Zilliz Cloud has several key advantages:
 
 For search operations in Zilliz Cloud, the `filter` expression is used to define the filtering condition, and the `filter_params` parameter is used to specify the values for the placeholders. The `filter_params` dictionary contains the dynamic values that Zilliz Cloud will use to substitute into the filter expression.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +297,42 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "hello_milvus",
+    Vectors = [new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f })],
+    VectorFieldName = "vector",
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = expr,
+        OutputFields = { "age", "city" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -314,7 +363,7 @@ In this example, Zilliz Cloud will dynamically replace `{age}` with `25` and `{c
 
 The same templating mechanism can be applied to query operations in Zilliz Cloud. In the `query` function, you define the filter expression and use the `filter_params` to specify the values to substitute.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -443,6 +492,36 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "age", "city" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -470,7 +549,7 @@ By using `filter_params`, Zilliz Cloud efficiently handles the dynamic insertion
 
 You can also use filter expression templating in delete operations. Similar to search and query, the `filter` expression defines the conditions, and the `filter_params` provides the dynamic values for the placeholders.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -592,6 +671,32 @@ const res = await client.delete({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    FilterTemplates =
+    {
+        ["age"] = 25,
+        ["city"] = new[] { "北京", "上海" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -618,7 +723,7 @@ This approach improves the performance of delete operations, especially when dea
 
 You can use filter expression templating with regex filters. This is useful when the regex pattern is provided at request time.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -743,6 +848,34 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+string expr = "message =~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "E[0-9]{4}"
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "message" },
+        FilterTemplates =
+        {
+            ["pattern"] = "E[0-9]{4}"
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -766,7 +899,7 @@ curl --request POST \
 
 You can also use template parameters with `!~`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -829,6 +962,18 @@ std::unordered_map<std::string, nlohmann::json> filterTemplates = {
 ```javascript
 const expr = "message !~ {pattern}";
 const exprValues = { pattern: "^DEBUG" };
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string expr = "message !~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "^DEBUG"
+};
 ```
 
 </TabItem>
