@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 `removepunct` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -102,6 +102,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "removepunct" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -127,7 +139,7 @@ analyzerParams='{
 
 ### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -196,6 +208,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "icu",
+    ["filter"] = new[] { "removepunct" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -213,7 +237,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -368,6 +392,34 @@ console.log("Standard analyzer output:", result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Sample text to analyze
+string sampleText = "Привет! Как дела?";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    Texts = [sampleText],
+    AnalyzerParams = analyzerParams
+});
+Console.WriteLine($"Standard analyzer output: {result}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -389,3 +441,4 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 ```python
 ['Привет', 'Как', 'дела']
 ```
+

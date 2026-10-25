@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 ロール名は英字で始まる必要があり、大文字または小文字の英字、数字、およびアンダースコアのみを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,6 +145,20 @@ await client.createRole({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.CreateRoleAsync(new CreateRoleReq
+{
+    RoleName = "role_a",
+    Description = "a cluster read only role"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -168,7 +182,7 @@ curl --request POST \
 
 複数のロールを作成した後は、既存のすべてのロールを一覧表示して確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,6 +279,21 @@ console.log(roles);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
+foreach (RoleResult role in resp.Roles)
+{
+    Console.WriteLine(role.Role);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -305,7 +334,7 @@ Zilliz Cloud では、ロールに次のものを付与できます。
 
 次の例では、`role_a` というロールに、`privilege_group_1` という名前のカスタム権限グループと、組み込み権限グループ `ClusterReadOnly` を付与する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -463,6 +492,30 @@ await client.grantPrivilegeV2({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "privilege_group_1",
+    CollectionName = "collection_01",
+    DatabaseName = "default"
+});
+
+await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "ClusterReadOnly",
+    CollectionName = "*",
+    DatabaseName = "*"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -546,7 +599,7 @@ curl --request POST \
 
 次の例では、`describe_role` メソッドを使用して、`role_a` ロールに付与されている権限を表示する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -653,6 +706,18 @@ console.log(role);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+DescribeRoleResp resp = await client.DescribeRoleAsync(new DescribeRoleReq { RoleName = "role_a" });
+Console.WriteLine($"Description: {resp.Description}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -685,7 +750,7 @@ curl --request POST \
 
 次の例では、`role_a` ロールに付与されているカスタム権限グループ `privilege_group_1` と組み込み権限グループ `ClusterReadOnly` を取り消す方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -830,6 +895,30 @@ await client.revokePrivilegeV2({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "privilege_group_1",
+    CollectionName = "collection_01",
+    DatabaseName = "default"
+});
+
+await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
+{
+    RoleName = "role_a",
+    Privilege = "ClusterReadOnly",
+    CollectionName = "*",
+    DatabaseName = "*"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -872,7 +961,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -959,6 +1048,16 @@ await client.dropRole({ roleName: 'role_a' });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.DropRoleAsync(new DropRoleReq { RoleName = "role_a" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -979,7 +1078,7 @@ curl --request POST \
 
 ロールを削除した後、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1076,6 +1175,21 @@ console.log(roles);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
+foreach (RoleResult role in resp.Roles)
+{
+    Console.WriteLine(role.Role);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1097,3 +1211,4 @@ curl --request POST \
 ```bash
 ['admin']
 ```
+

@@ -153,7 +153,7 @@ Zilliz Cloud では、コレクション、データベース、クラスター�
 
 次の例では、`privilege_group_1` という名前の権限グループを作成する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,6 +229,19 @@ await client.createPrivilegeGroup({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.CreatePrivilegeGroupAsync(new CreatePrivilegeGroupReq
+{
+    GroupName = "privilege_group_1"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -250,7 +263,7 @@ curl --request POST \
 
 次の例では、作成したばかりの権限グループ `privilege_group_1` に権限 `PrivilegeBackupRBAC` と `PrivilegeRestoreRBAC` を追加する方法を示します。Zilliz Cloud で利用可能なすべての権限の詳細については、[すべての権限](./cluster-privileges#all-privileges) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -333,6 +346,20 @@ await client.addPrivilegesToGroup({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.AddPrivilegesToGroupAsync(new AddPrivilegesToGroupReq
+{
+    GroupName = "privilege_group_1",
+    Privileges = ["Query", "Search"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -355,7 +382,7 @@ curl --request POST \
 
 次の例では、権限グループ `privilege_group_1` から権限 `PrivilegeRestoreRBAC` を削除する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -437,6 +464,20 @@ await client.removePrivilegesFromGroup({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.RemovePrivilegesFromGroupAsync(new RemovePrivilegesFromGroupReq
+{
+    GroupName = "privilege_group_1",
+    Privileges = ["Search"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -457,7 +498,7 @@ curl --request POST \
 
 次の例では、既存のすべての権限グループを一覧表示する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -537,6 +578,21 @@ await client.listPrivilegeGroups();
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
+
+ListPrivilegeGroupsResp resp = await client.ListPrivilegeGroupsAsync(new ListPrivilegeGroupsReq());
+foreach (PrivilegeGroupInfo group in resp.Groups)
+{
+    Console.WriteLine(group.GroupName);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -560,7 +616,7 @@ PrivilegeGroupItem: <privilege_group:privilege_group_1>, <privileges:('Search', 
 
 次の例では、権限グループ `privilege_group_1` を削除する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -630,6 +686,19 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.dropPrivilegeGroup({group_name: 'privilege_group_1'});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Rbac;
+
+await client.DropPrivilegeGroupAsync(new DropPrivilegeGroupReq
+{
+    GroupName = "privilege_group_1"
+});
 ```
 
 </TabItem>
@@ -746,3 +815,4 @@ Zilliz Cloud で利用可能なすべての権限は以下の通りです。
 | DropPrivilegeGroup | 権限グループを削除します。 |
 | ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します。 |
 | OperatePrivilegeGroup | 権限グループに権限を追加、または権限グループから権限を削除します。 |
+

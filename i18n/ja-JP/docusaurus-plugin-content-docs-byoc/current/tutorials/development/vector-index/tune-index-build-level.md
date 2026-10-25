@@ -109,7 +109,7 @@ Zilliz Cloud では、`build_level` をプログラムから、または Zilliz 
 
 次の例では、コレクションがすでに作成されていることを前提としています。`build_level` を `1` に設定すると、**Balanced** オプションが適用されることを示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -288,6 +288,48 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Responses.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 4. Set up index
+// 4.1. Set up the index parameters
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    metricType: MetricType.Cosine,
+    indexType: IndexType.AutoIndex,
+    indexName: "vector_index")
+{
+    ExtraParams =
+    {
+        ["build_level"] = 1
+    }
+};
+
+// 4.3. Create the index
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "customized_setup",
+    Indexes = [indexParam]
+});
+
+// 5. List indexes
+ListIndexesResp res = await client.ListIndexesAsync(new ListIndexesReq { CollectionName = "customized_setup" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -324,13 +366,13 @@ curl --request POST \
 
 <Supademo id="cmfkua8whed1839ozdau9fzqp?utm_source=link" title=""  />
 
-1. 対象クラスターの コレクション タブで **+ Create Collection** をクリックします。
+1. Click **+ Create コレクション** on the Collection tab in the target cluster.
 
-1. **Create Collection** ページでスキーマを設定します。
+1. On the **Create Collection** page, set up the スキーマ.
 
     ベクトルフィールドのデータ型が、**FLOAT_VECTOR**、**FLOAT16_VECTOR**、**BFLOAT16_VECTOR** のいずれかの有効なオプションであることを確認してください。
 
-1. **Create インデックス** セクションで **Edit Index** をクリックします。
+1. In the **Create インデックス** section, click **Edit Index**.
 
-1. 表示される Edit ベクトル Index フィールドで、**Metric Type** と **Index Build Level** を設定できます。
+1. In the prompted Edit ベクトル Index field, you can set **Metric Type** and **Index Build Level**.
 

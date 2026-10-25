@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。 | Cloud"
+description: "`jieba` トークナイザーは、中国語のテキストを構成する単語に分割して処理します。 | Cloud"
 type: origin
 token: JGURwBQNOijp2DkspFFctbAGnLh
 sidebar_position: 3
@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # Jieba
 
-`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
+`jieba` トークナイザーは、中国語のテキストを構成する単語に分割して処理します。
 
 <Admonition type="info" title="Notes">
 
-`jieba` トークナイザーは、出力時に句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
+`jieba` トークナイザーは、出力内で句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-Milvus では、`jieba` トークナイザーに対してシンプル設定とカスタム設定の 2 通りの設定方法がサポートされています。
+Milvus では、`jieba` トークナイザーに対して、シンプル構成とカスタム構成の 2 つの構成方法をサポートしています。
 
-### シンプル設定\{#simple-configuration}
+### シンプル構成\{#simple-configuration}
 
-シンプル設定では、トークナイザーを `"jieba"` に指定するだけです。例:
+シンプル構成では、トークナイザーを `"jieba"` に設定するだけで済みます。例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -96,6 +96,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Simple configuration: only specifying the tokenizer name
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba" // Use the default settings: dict=["_default_"], mode="search", hmm=True
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -108,9 +122,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-このシンプル設定は、以下のカスタム設定と同等です。
+このシンプル構成は、次のカスタム構成と同等です：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -201,6 +215,26 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration equivalent to the simple configuration above
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object> // Tokenizer configuration
+    {
+        ["type"] = "jieba",           // Tokenizer type, fixed as "jieba"
+        ["dict"] = new[] { "_default_" }, // Use the default dictionary
+        ["mode"] = "search",          // Use search mode for improved recall (see mode details below)
+        ["hmm"] = true                // Enable HMM for probabilistic segmentation
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -218,13 +252,13 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-パラメーターの詳細については、[カスタム設定](./jieba-tokenizer#custom-configuration) を参照してください。
+パラメーターの詳細については、[カスタム構成](./jieba-tokenizer#custom-configuration) を参照してください。
 
-### カスタム設定\{#custom-configuration}
+### カスタム構成\{#custom-configuration}
 
-より詳細に制御するには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model（HMM）の有効化・無効化が可能なカスタム設定を指定できます。例:
+より細かく制御するには、カスタム構成を指定できます。カスタム構成では、カスタム辞書の指定、分割モードの選択、および隠れマルコフモデル（HMM）の有効化または無効化が可能です。例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -315,6 +349,26 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration with user-defined settings
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",           // Fixed tokenizer type
+        ["dict"] = new[] { "customDictionary" }, // Custom dictionary list; replace with your own terms
+        ["mode"] = "exact",           // Use exact mode (non-overlapping tokens)
+        ["hmm"] = false               // Disable HMM; unmatched text will be split into individual characters
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -340,44 +394,44 @@ export analyzerParams='{
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>トークナイザーのタイプ。これは <code>&quot;jieba&quot;</code> に固定されています。</p></td>
+     <td><p>トークナイザーの種類です。これは <code>&quot;jieba&quot;</code> に固定されています。</p></td>
      <td><p><code>&quot;jieba&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>&quot;_default_&quot;</code>: エンジン組み込みの簡体字中国語辞書を読み込みます。詳細については、<a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: <code>&quot;_default_&quot;</code> の内容に加えて、繁体字中国語の補足辞書を読み込みます。詳細については、<a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を組み合わせることもできます。例: <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
+     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプション：</p><ul><li><p><code>&quot;_default_&quot;</code>：エンジン組み込みの簡体字中国語辞書を読み込みます。詳細については、<a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>：<code>&quot;_default_&quot;</code> のすべてに加えて、繁体字中国語の補足辞書を読み込みます。詳細については、<a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を組み合わせることもできます。例：<code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
      <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>分割モード。指定可能な値:</p><ul><li><p><code>&quot;exact&quot;</code>: 文を可能な限り正確に分割しようとします。テキスト分析に最適です。</p></li><li><p><code>&quot;search&quot;</code>: exact モードを基に、長い単語をさらに分割して再現率を高めます。検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
+     <td><p>分割モードです。指定可能な値：</p><ul><li><p><code>&quot;exact&quot;</code>：文を可能な限り正確に分割しようとするため、テキスト分析に最適です。</p></li><li><p><code>&quot;search&quot;</code>：exact モードを基に、長い単語をさらに分割して再現率を向上させるため、検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
      <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に見つからない単語を確率的に分割するために Hidden Markov Model（HMM）を有効にするかどうかを示すブール値のフラグです。</p></td>
+     <td><p>辞書にない単語を確率的に分割するために、隠れマルコフモデル（HMM）を有効にするかどうかを示すブール値のフラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`dict` でインライン指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込むには、後述の[辞書ファイルを使用したカスタム設定](./jieba-tokenizer)を参照してください。
+`dict` で直接指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込むには、後述の [辞書ファイルを使用したカスタム構成](./jieba-tokenizer) を参照してください。
 
-`analyzer_params` を定義した後は、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-### 辞書ファイルを使用したカスタム設定 | PUBLIC\{#custom-configuration-with-a-dictionary-file-or-public}
+### 辞書ファイルを使用したカスタム構成 | PUBLIC\{#custom-configuration-with-a-dictionary-file-or-public}
 
-大規模なカスタム語彙（ドメイン用語集、製品用語、固有名詞リストなど）では、単語をファイルに格納し、そのファイルをリモートファイルリソースとして登録してから、`extra_dict_file` パラメーターを介してトークナイザーから参照します。アナライザーはこれらの単語を、組み込み辞書に加えて語彙に読み込みます。
+大規模なカスタム語彙（ドメイン用語集、製品用語、固有名詞リストなど）の場合は、単語をファイルに保存し、そのファイルをリモートファイルリソースとして登録してから、`extra_dict_file` パラメーターを介してトークナイザーから参照します。アナライザーはこれらの単語を組み込み辞書に追加して語彙に読み込みます。
 
-ファイルはプレーンな UTF-8 テキストで、1 行に 1 つの用語を記述します。例:
+ファイルはプレーンテキストの UTF‑8 形式で、1 行に 1 つの用語を記述します。例：
 
 ```plaintext
 结巴分词器
 向量数据库
 ```
 
-ファイルを、Milvus クラスターが使用するように構成されているオブジェクトストアにアップロードしてから、登録します:
+ファイルを、Milvus クラスターで使用するように構成されているオブジェクトストアにアップロードし、登録します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -466,6 +520,26 @@ await client.addFileResource({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Register the uploaded file under a name you'll reference from analyzer configs.
+await client.AddFileResourceAsync(new AddFileResourceReq
+{
+    Name = "zh_terms",
+    Path = "file/zh_terms.txt" // full S3 object key, including the rootPath prefix
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -475,9 +549,9 @@ await client.addFileResource({
 </TabItem>
 </Tabs>
 
-`extra_dict_file` を介して、登録済みのリソースをトークナイザーで参照します:
+登録したリソースを、`extra_dict_file` を介してトークナイザーから参照します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -644,6 +718,43 @@ console.log(result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "_default_" }, // keep the built-in dictionary
+        ["mode"] = "exact",
+        ["hmm"] = false,
+        ["extra_dict_file"] = new Dictionary<string, object>
+        {
+            ["type"] = "remote",
+            ["resource_name"] = "zh_terms",
+            ["file_name"] = "zh_terms.txt"
+        }
+    }
+};
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { "milvus结巴分词器中文测试" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -660,23 +771,23 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`extra_dict_file` パラメーターは、以下のフィールドを持つオブジェクトを受け入れます:
+`extra_dict_file` パラメーターは、次のフィールドを持つオブジェクトを受け入れます：
 
 | フィールド | 説明 |
 | --- | --- |
-| `type` | リソースのタイプ。`add_file_resource` で登録したファイルには `"remote"` を使用します。 |
-| `resource_name` | `add_file_resource` でファイルを登録した際に使用した名前。 |
-| `file_name` | 登録済みリソースのオブジェクトストアパスのファイル名部分（たとえば、リソースを `path="file/zh_terms.txt"` で登録した場合は `"zh_terms.txt"`）。 |
+| `type` | リソースタイプです。`add_file_resource` を介して登録されたファイルには `"remote"` を使用します。 |
+| `resource_name` | `add_file_resource` でファイルを登録したときに使用した名前です。 |
+| `file_name` | 登録されたリソースのオブジェクトストアパスのファイル名部分です（たとえば、リソースを `path="file/zh_terms.txt"` で登録した場合、`"zh_terms.txt"`）。 |
 
-`extra_dict_file` を介して追加された単語は組み込み辞書とマージされるため、jieba の分割アルゴリズムは既存のエントリーとともにそれらを認識します。特定の用語が単独のトークンとして現れるかどうかは、jieba の確率重み付き DAG 選択に依存します。`向量数据库` のような長いカスタム用語でも、より短い `向量` と `数据库` のエントリーが組み込み辞書内で高い頻度を持つ場合は、依然としてそれらに分割されることがあります。
+`extra_dict_file` を介して追加された単語は組み込み辞書とマージされるため、jieba の分割アルゴリズムは既存のエントリと同様にそれらを認識します。特定の用語が単独のトークンとして現れるかどうかは、jieba の確率加重 DAG 選択によって決まります。`向量数据库` のような長いカスタム用語でも、組み込み辞書内でそれらの短いエントリの頻度が高い場合は、`向量` + `数据库` に分割されることがあります。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使ってその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -766,6 +877,25 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "结巴分词器" },
+        ["mode"] = "exact",
+        ["hmm"] = false
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -783,9 +913,9 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -936,6 +1066,34 @@ console.log(result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "milvus结巴分词器中文测试";
+
+// Run the standard analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -957,3 +1115,4 @@ curl --request POST \
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']
 ```
+

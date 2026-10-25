@@ -49,7 +49,7 @@ import TabItem from '@theme/TabItem';
 
 通常の Milvus コレクションからスナップショットを作成するか選択し、そのスナップショットの詳細を取得してオブジェクトストレージのロケーションを取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -196,6 +196,30 @@ const externalSource = `s3://bucket/${snapshotInfo.s3_location}`;
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var snapshotInfo = await client.DescribeSnapshotAsync(new DescribeSnapshotReq
+{
+    SnapshotName = "analytics_snapshot_20260321",
+    CollectionName = "analytics"
+});
+var externalSource = $"s3://bucket/{snapshotInfo.S3Location}";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -215,7 +239,7 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/snapshots/describe' \
 
 スナップショットのソースコレクションとスキーマが一致する外部コレクションを作成します。`external_spec.format` を `"milvus-table"` に設定し、各ターゲットデータフィールドの `external_field` を対応するソースフィールド名に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -442,6 +466,15 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: creating an external collection from a snapshot (external_source/external_spec with
+// per-field external_field mappings) is not yet supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -468,3 +501,4 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ## データを更新する\{#refresh-data}
 
 コレクションの準備ができたら、それを更新してデータのメタデータとインデックスを作成します。詳細については、[Create an External コレクション](./create-external-collection#step-5-refresh-data) を参照してください。
+
