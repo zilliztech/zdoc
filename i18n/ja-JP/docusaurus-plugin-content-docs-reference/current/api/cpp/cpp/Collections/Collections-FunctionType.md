@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,3 +53,4 @@ auto function_type = milvus::FunctionType::BM25;
 - MINHASH = 4
 
 - MOLFINGERPRINT = 5
+

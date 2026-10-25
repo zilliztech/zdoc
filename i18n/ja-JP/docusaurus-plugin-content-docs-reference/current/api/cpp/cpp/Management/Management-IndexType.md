@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +58,7 @@ enum class IndexType {
 
 - **FLAT**（1） - ブルートフォースによる厳密検索です。再現率は 100% で、トレーニングは不要です。小規模なデータセット（100 万ベクトル未満）に最適です。
 
-- **IVF_FLAT**（2） - 転置ファイルインデックスです。ベクトルを `nlist` 個のバケットにクラスタリングし、最も近い `nprobe` 個のバケットを検索します。追加パラメーター：`nlist`（必須）。
+- **IVF_FLAT** (2) - Inverted file インデックス. クラスター ベクトル into `nlist` buckets and searches the closest `nprobe` buckets. Extra params: `nlist` (required).
 
 - **IVF_SQ8**（3） - スカラー量子化（int8）を使用する IVF です。再現率がわずかに低下しますが、`IVF_FLAT` よりメモリ使用量を抑えられます。追加パラメーター：`nlist`（必須）。
 

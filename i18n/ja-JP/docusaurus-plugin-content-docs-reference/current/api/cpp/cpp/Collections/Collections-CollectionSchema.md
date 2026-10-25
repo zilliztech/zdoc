@@ -23,7 +23,6 @@ keywords:
   - cppv30
 displayed_sidebar: cppSidebar
 
-displayed_sidbar: cppSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -68,7 +67,7 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
     通常のフィールドをスキーマに追加します。成功時は `true` を返します。`FieldSchema` を使用して、フィールド名、`DataType`、および型固有の設定（例: ベクトルフィールドの `WithDimension()`、VARCHAR フィールドの `WithMaxLength()`、主キーの `WithPrimaryKey(true)`）を指定します。
 
-- `const std::ベクトル<FieldSchema>& Fields() const`
+- `const std::vector<FieldSchema>& Fields() const`
 
     これまでに追加されたフィールドスキーマの一覧を返します。
 
@@ -76,7 +75,7 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
     構造体フィールド（マルチベクトル型）を追加します。成功時は `true` を返します。
 
-- `const std::ベクトル<StructFieldSchema>& StructFields() const`
+- `const std::vector<StructFieldSchema>& StructFields() const`
 
     構造体フィールドスキーマの一覧を返します。
 
@@ -84,7 +83,7 @@ using CollectionSchemaPtr = std::shared_ptr<CollectionSchema>;
 
     組み込み関数（BM25 トークナイザー関数など）をスキーマにアタッチします。
 
-- `const std::ベクトル<FunctionPtr>& Functions() const`
+- `const std::vector<FunctionPtr>& Functions() const`
 
     スキーマにアタッチされた関数の一覧を返します。
 
