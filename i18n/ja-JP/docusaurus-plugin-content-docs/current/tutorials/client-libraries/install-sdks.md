@@ -33,7 +33,7 @@ Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサ�
 
 ## SDK の互換性\{#sdk-compatibility}
 
-次の表は、各 Milvus バージョンに対応する SDK バージョンを示しています。
+次の表は、各 Milvus バージョンに対応する互換性のある SDK バージョンを示しています。
 
 | **Milvus バージョン** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** | **Rust SDK** |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -43,7 +43,7 @@ Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサ�
 
 ## PyMilvus のインストール: Python SDK\{#install-pymilvus-python-sdk}
 
-PyMilvus は Milvus の Python SDK です。[GitHub のソースコード](https://github.com/milvus-io/pymilvus) を参照してください。
+PyMilvus は Milvus の Python SDK です。ソースコードは [GitHub](https://github.com/milvus-io/pymilvus) で参照できます。
 
 <Admonition type="info" title="Notes">
 
@@ -64,7 +64,7 @@ python -c "from pymilvus import __version__; print(__version__)"
 
 ## Node.js SDK のインストール\{#install-nodejs-sdk}
 
-Milvus の Node.js SDK では、**npm** または **yarn** を使用します。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-node) を参照してください。
+Milvus の Node.js SDK では、**npm** または **yarn** を使用します。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-node) で参照できます。
 
 <Admonition type="info" title="Notes">
 
@@ -100,7 +100,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
 ## Java SDK のインストール\{#install-java-sdk}
 
-SDK を入手するには、Apache Maven または Gradle/Grails を使用します。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-java) を参照してください。
+SDK を入手するには、Apache Maven または Gradle/Grails を使用します。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-java) で参照できます。
 
 - Apache Maven の場合は、`pom.xml` の依存関係に以下を追加します。
 
@@ -119,7 +119,7 @@ SDK を入手するには、Apache Maven または Gradle/Grails を使用しま
     </dependency>
     ```
 
-- Gradle/Grails, を使用する場合は、次を実行します。
+- Gradle/Grails, の場合は、次を実行します。
 
     ```bash
     # Install the Java SDK compatible with Milvus v3.0.x
@@ -130,7 +130,7 @@ SDK を入手するには、Apache Maven または Gradle/Grails を使用しま
 
 ## Go SDK のインストール\{#install-go-sdk}
 
-Go SDK は `go get` で利用できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-go) を参照してください。
+Go SDK は `go get` で利用できます。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-go) で参照できます。
 
 ```bash
 # Install the Go SDK compatible with Milvus v3.0.x
@@ -139,7 +139,7 @@ go get -u github.com/milvus-io/milvus/client/v3
 
 ## C++ SDK のインストール\{#install-c-sdk}
 
-C++ SDK は次のように利用できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-cpp) を参照してください。
+C++ SDK は次のように利用できます。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-cpp) で参照できます。
 
 ```shell
 # Install the C++ SDK (Milvus 3.0.x, release v3.0.3) from source
@@ -183,3 +183,10 @@ async fn main() -> Result<()> {
 
 </TabItem>
 </Tabs>
+
+## C# SDK のインストール\{#install-c-sdk}
+
+```bash
+# Install the C# SDK compatible with Milvus v3.0.x
+dotnet add package Milvus.Client.V2
+```

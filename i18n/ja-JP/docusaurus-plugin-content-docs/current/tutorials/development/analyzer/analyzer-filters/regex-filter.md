@@ -1,13 +1,13 @@
 ---
-title: "Regex | Cloud"
+title: "正規表現 | Cloud"
 slug: /regex-filter
-sidebar_label: "Regex Analyzer Filter"
+sidebar_label: "正規表現アナライザーフィルター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。 | Cloud"
+description: "`regex` フィルターは正規表現フィルターです。トークナイザーが生成するトークンは、指定した式に一致する場合にのみ保持され、それ以外はすべて破棄されます。 | Cloud"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
 sidebar_position: 12
@@ -19,21 +19,21 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Regex
+# 正規表現
 
-`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
+`regex` フィルターは正規表現フィルターです。トークナイザーが生成するトークンは、指定した式に一致する場合にのみ保持され、それ以外はすべて破棄されます。
 
 <Admonition type="info" title="Note">
 
-このページでは、アナライザーパイプラインにおける regex フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成される用語に影響を与えます。query、search、またはハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使用してエンティティをフィルタリングする方法については、[パターンマッチング](./pattern-match) を参照してください。
+このページでは、アナライザーパイプラインの regex フィルターについて説明します。このフィルターは、トークナイザーが生成したトークンをフィルタリングし、テキスト分析中に生成されるタームに影響します。クエリ、検索、ハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使用してエンティティをフィルタリングする場合は、[パターンマッチング](./pattern-match) を参照してください。
 
 </Admonition>
 
 ## 設定\{#configuration}
 
-`regex` フィルターは、Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "regex"` を指定するとともに、適用したい正規表現を `expr` パラメーターで指定します。
+`regex` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "regex"` を指定し、目的の正規表現を指定する `expr` パラメーターを併せて指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -122,6 +122,27 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "regex",
+            ["expr"] = "^(?!test)" // keep tokens that do NOT start with "test"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -140,23 +161,23 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-The `regex` filter accepts the following configurable parameters.
+`regex` フィルターでは、次の構成可能なパラメーターを使用できます。
 
 | パラメーター | 説明 |
 | --- | --- |
 | `expr` | 各トークンに適用される正規表現パターンです。一致するトークンは保持され、一致しないトークンは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` フィルターはトークナイザーが生成した用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`regex` フィルターは、トークナイザーが生成するタームを処理するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義したら、コレクションスキーマの定義時にそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に、それを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールドのテキストを処理し、効率的にトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
 ### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -244,6 +265,27 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "regex",
+            ["expr"] = "^(?!test)"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -264,7 +306,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -428,6 +470,35 @@ console.log("Standard analyzer output:", result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "testItem apple testCase banana";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -448,9 +519,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 期待される出力\{#expected-output}
+### 想定される出力\{#expected-output}
 
 ```python
 ['apple', 'banana']
 ```
-

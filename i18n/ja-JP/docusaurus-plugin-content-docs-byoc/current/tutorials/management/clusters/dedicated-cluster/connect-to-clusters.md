@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Note">
 
-このページでは、Dedicated サービス用クラスターへの接続方法を説明します。Free または Serverless クラスターに接続する場合は、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービングクラスターへの接続方法を説明します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 | クラスタータイプ | エンドポイントのパターン | 注記 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムのサービス提供エンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムサービングエンドポイントを使用します。 |
 
 ## 事前準備\{#before-you-begin}
 
@@ -57,9 +57,9 @@ Dedicated クラスターに接続する前に、以下を満たしているこ�
 
 - クラスターのパブリックエンドポイントを取得していること。
 
-- 認証トークンを取得していること。これは、ターゲットクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
+- 認証トークンを取得していること。これは、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールから取得できます。対象のクラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
+クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールから取得できます。対象クラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
 
 <Admonition type="info" title="Note">
 
@@ -69,7 +69,7 @@ SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・�
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーションの言語に対応する SDK をインストールします。
+アプリケーションで使用する言語の SDK をインストールします。
 
 ```bash
 pip install pymilvus
@@ -79,9 +79,9 @@ Java、Node.js、Go プロジェクトでは、以下の例を使用する前に
 
 ## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-SDK 間でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイントで、`YOUR_CLUSTER_TOKEN` はターゲットクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
+クラスターのエンドポイントとトークンは、すべての SDK で一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -180,6 +180,24 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -206,4 +224,4 @@ print(collections)
 
 接続したら、同じクライアントインスタンスを使用して、Dedicated クラスターに対してコレクションの作成、データのロード、リアルタイムの検索またはクエリ操作を実行します。
 
-Free または Serverless のサービス用クラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピューティングについては、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
+Free または Serverless のサービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。

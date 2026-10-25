@@ -35,7 +35,7 @@ Free クラスターまたは Serverless クラスターを作成する前に、
 
 <Admonition type="info" title="Note">
 
-各組織に作成できる Free クラスターは 1 つだけです。追加のサービングクラスターには、Serverless または Dedicated を使用してください。
+各組織が保有できる Free クラスターは 1 つだけです。追加のサービングクラスターには、Serverless または Dedicated を使用してください。
 
 </Admonition>
 
@@ -90,7 +90,7 @@ https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 
 クラスターの詳細ページにある **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -189,6 +189,25 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -218,7 +237,7 @@ Free クラスターと Serverless クラスターは、クラスターの詳細
 | 名前の変更 | サポートされています。 | サポートされています。 |
 | 再開 | Free クラスターは、7 日間連続でアクティビティがないと自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは、一時停止および再開操作をサポートしていません。 |
 | デプロイメントオプションのアップグレード | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Free クラスターからデータを移行します。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Serverless クラスターからデータを移行します。 |
-| 削除 | サポートされています。Free クラスターは、削除後にリサイクルビンから復元できません。 | サポートされています。 |
+| 削除 | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
 アップグレードで新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを必ず更新してください。
 

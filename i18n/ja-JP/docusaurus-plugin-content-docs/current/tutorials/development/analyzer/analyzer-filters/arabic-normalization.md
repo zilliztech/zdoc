@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`arabicnormalization` フィルターは、アラビア語テキスト向けの組み込みトークンフィルターです。アラビア語固有の文字バリアントを正規化し、テキスト分析時に同等のアラビア語の語句が異なる形で表示される原因となる任意の記号を削除します。 | Cloud"
+description: "`arabicnormalization` フィルターは、アラビア語テキスト用の組み込みトークンフィルターです。アラビア語固有の文字異形を正規化し、テキスト分析時に同等のアラビア語用語が異なるように見える可能性がある省略可能な記号を削除します。 | Cloud"
 type: origin
 token: HNE5w9HfNidqWukjovgcrVT0n8e
 sidebar_position: 14
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # アラビア語の正規化
 
-`arabic_normalization` フィルターは、アラビア語テキスト向けの組み込みトークンフィルターです。アラビア語固有の文字バリアントを正規化し、テキスト分析時に同等のアラビア語の語句が異なる形で表示される原因となる任意の記号を削除します。
+`arabic_normalization` フィルターは、アラビア語テキスト用の組み込みトークンフィルターです。アラビア語固有の文字異形を正規化し、テキスト分析時に同等のアラビア語用語が異なるように見える可能性がある省略可能な記号を削除します。
 
 ## 設定\{#configuration}
 
 <Admonition type="info" title="Notes">
 
-アラビア語テキストには、ほとんどの場合、組み込みの [アラビア語アナライザー](./arabic-analyzer) を使用してください。この組み込みアナライザーには、このフィルターと、標準トークン化、小文字化、10 進数字の正規化、アラビア語のステミング、およびアラビア語のストップワード削除が含まれています。`arabic_normalization` を直接使用するのは、カスタムアナライザーパイプラインを構築する必要がある場合だけです。
+アラビア語テキストでは、ほとんどの場合、組み込みの [アラビア語アナライザー](./arabic-analyzer) を使用してください。組み込みアナライザーには、このフィルターと、標準トークン化、小文字化、10 進数字の正規化、アラビア語のステミング、アラビア語のストップワード削除が含まれています。カスタムアナライザーパイプラインを構築する必要がある場合にのみ、`arabic_normalization` を直接使用してください。
 
 </Admonition>
 
-カスタムアナライザーで `arabic_normalization` フィルターを使用するには、`analyzer_params` の `filter` セクションに追加します：
+カスタムアナライザーで `arabic_normalization` フィルターを使用するには、`analyzer_params` の `filter` セクションに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -100,6 +100,25 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[] { "arabic_normalization" },
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -117,25 +136,25 @@ analyzerParams='{
 
 `arabic_normalization` フィルターには設定可能なパラメーターはありません。
 
-このフィルターは次の変換を適用します：
+このフィルターは次の変換を適用します。
 
 | **変換** | **変換前** | **変換後** |
 | --- | --- | --- |
-| Hamza + Alef のバリアント | `آ`, `أ`, `إ` | `ا` |
-| Teh Marbuta | `ة` | `ه` |
-| Alef Maksura | `ى` | `ي` |
-| Harakat | `U+064B` から `U+065F` | 削除 |
-| Tatweel / Kashida | `ـ` | 削除 |
+| ハムザ + アリフの異形 | `آ`, `أ`, `إ` | `ا` |
+| ターマルブータ | `ة` | `ه` |
+| アリフ・マクスーラ | `ى` | `ي` |
+| ハラカート | `U+064B` から `U+065F` まで | 削除 |
+| タトウィール / カシーダ | `ـ` | 削除 |
 
-このフィルターは、トークナイザーによって生成されたトークンに対して動作します。上記の設定は意図的にカスタムアナライザーの例として示したものであり、完全なアラビア語処理パイプラインを含みません。
+このフィルターは、トークナイザーによって生成されたトークンに対して動作します。上記の設定は意図的にカスタムアナライザーの例として示したものであり、アラビア語処理パイプライン全体を含むものではありません。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザーの設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用して動作を検証してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザーの設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,6 +221,25 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[] { "arabic_normalization" },
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -217,9 +255,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -374,6 +412,37 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+string sampleText = "آدم أحمد إسلام مدرسة كبرى كِتَابٌ عـــربي";
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -391,7 +460,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 想定される出力\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```plaintext
 ['ادم', 'احمد', 'اسلام', 'مدرسه', 'كبري', 'كتاب', 'عربي']
