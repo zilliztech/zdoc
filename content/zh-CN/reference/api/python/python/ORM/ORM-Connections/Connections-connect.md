@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -222,3 +221,4 @@ connections.connect(db_name="books")
 - [list_connections()](./Connections-list_connections)
 
 - [remove_connection()](./Connections-remove_connection)
+

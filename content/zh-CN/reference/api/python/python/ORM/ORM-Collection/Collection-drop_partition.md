@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从当前 Collection 中删除指定的 Partition。 | Python | ORM"
+description: "此操作会从当前 Collection 中删除指定的 Partition。 | Python | ORM"
 type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
@@ -16,14 +16,13 @@ keywords:
   - Zilliz Database
   - 非结构化数据
   - 向量 Database
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - drop_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-此操作从当前 Collection 中删除指定的 Partition。
+此操作会从当前 Collection 中删除指定的 Partition。
 
 ```python
 drop_partition(
@@ -56,19 +55,19 @@ collection.drop_partition(
 
 **参数：**
 
-- **partition_name** (*str*) -
+- **partition_name** （*str*） -
 
-    要删除的 Partition 名称。
+    要删除的 Partition 的名称。
 
-- **timeout** (*float* | *None*)  
+- **timeout** （*float* | *None*）  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时间。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -76,7 +75,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -117,7 +116,6 @@ collection.has_partition("test_partition") # False
 
 - [create_partition()](./Collection-create_partition)
 
-- [partition()](./Collection-partition)
+- [Partition()](./Collection-partition)
 
 - [has_partition()](./Collection-has_partition)
-

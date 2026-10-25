@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -66,7 +65,7 @@ Collection(
     <Admonition type="info" title="Note">
 
     什么是 Schema？
-
+    
         Schema 负责组织目标 Collection 中的数据。有效的 Schema 应包含多个字段，其中必须包括主键字段、向量字段以及若干标量字段。
 
     </Admonition>
@@ -86,9 +85,9 @@ Collection(
     <Admonition type="info" title="Note">
 
     什么是分片？
-
+    
         分片是指将写操作分发到不同节点，以最大限度利用 Milvus 集群在数据写入方面的并行计算能力。
-
+    
         默认情况下，一个 Collection 包含一个分片。
 
     </Admonition>
@@ -102,11 +101,11 @@ Collection(
     <Admonition type="info" title="Note">
 
     什么是一致性级别？
-
+    
         在分布式 Database 中，一致性特指这样一种属性：在某一时刻进行数据写入或读取时，确保每个节点或副本看到的数据视图相同。
-
+    
         Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认级别为 **Bounded Staleness**。
-
+    
         在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。
 
     </Admonition>
@@ -161,3 +160,4 @@ collection = Collection(
 ## 成员\{#members}
 
 以下是 `Collection` 类的成员：
+

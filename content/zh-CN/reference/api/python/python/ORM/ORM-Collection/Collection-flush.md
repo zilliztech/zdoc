@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -123,3 +122,4 @@ collection.num_entities # 5
 - [get_replicas()](./Collection-get_replicas)
 
 - [set_properties()](./Collection-set_properties)
+

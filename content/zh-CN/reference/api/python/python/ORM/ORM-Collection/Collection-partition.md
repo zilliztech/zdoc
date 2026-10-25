@@ -1,7 +1,7 @@
 ---
-title: "partition() | Python | ORM"
+title: "Partition() | Python | ORM"
 slug: /python/python/Collection-partition
-sidebar_label: "partition()"
+sidebar_label: "Partition()"
 beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
@@ -19,17 +19,16 @@ keywords:
   - zilliz
   - zilliz cloud
   - 云
-  - partition()
+  - Partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# partition()
+# Partition()
 
 此操作获取当前 Collection 中指定的 Partition。
 
@@ -96,4 +95,3 @@ partition = collection.partition(partition_name="test_partition")
 - [drop_partition()](./Collection-drop_partition)
 
 - [has_partition()](./Collection-has_partition)
-

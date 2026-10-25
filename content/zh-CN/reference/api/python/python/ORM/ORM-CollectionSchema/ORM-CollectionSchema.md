@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +58,7 @@ CollectionSchema(
     <Admonition type="info" title="Note">
 
     什么是字段 Schema？
-
+    
         字段 Schema 表示并包含单个字段的元数据，而 **CollectionSchema** 会将一组 FieldSchema 对象组合在一起，以定义完整的 Schema。
 
     </Admonition>
@@ -87,7 +86,7 @@ CollectionSchema(
         <Admonition type="info" title="Note">
 
         什么是动态字段？
-
+        
                 如果插入到目标 Collection 的数据包含 Collection Schema 中未定义的字段，这些字段将作为键值对保存在动态字段中。
 
         </Admonition>
@@ -113,11 +112,11 @@ CollectionSchema(
         <Admonition type="info" title="Note">
 
         什么是 Partition 键？
-
+        
                 一旦某个字段被指定为 Partition 键，Zilliz Cloud 就会自动为该字段中的每个唯一值创建一个 Partition，并相应地将 Entity 保存到这些 Partition 中。
-
+        
                 这在基于特定键实现数据分离时特别有用，例如面向 Partition 的多租户。
-
+        
                 或者，您也可以在创建 **CollectionSchema** 对象时设置 **partition_key_field**。
 
         </Admonition>

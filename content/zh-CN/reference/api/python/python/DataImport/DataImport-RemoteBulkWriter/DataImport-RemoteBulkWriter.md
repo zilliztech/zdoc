@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -88,9 +87,9 @@ writer = RemoteBulkWriter(
 
     <Admonition type="info" title="Note">
 
-    BulkWriter 如何划分我的数据？
+    How does BulkWriter segment my data?
     
-        **BulkWriter** 划分您数据的方式会因目标文件类型而异。
+        The way **BulkWriter** segments your data varies with the target file type.
     
         如果生成的文件超过指定的 Segment 大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该 Segment 大小。
 

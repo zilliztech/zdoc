@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -95,3 +94,4 @@ connections.has_connection(alias="default")
 - [list_connections()](./Connections-list_connections)
 
 - [remove_connection()](./Connections-remove_connection)
+

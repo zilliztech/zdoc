@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -89,3 +88,4 @@ client.list_roles()
 每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。有关详细信息，请参阅 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
+

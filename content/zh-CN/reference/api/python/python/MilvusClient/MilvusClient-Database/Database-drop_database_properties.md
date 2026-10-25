@@ -15,15 +15,14 @@ keywords:
   - 多模态搜索
   - 向量搜索算法
   - 问答系统
-  - llm-as-a-judge
-  - Zilliz
+  - LLM 作为评判者
+  - zilliz
   - Zilliz Cloud
   - 云
   - drop_database_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,47 +44,47 @@ drop_database_properties(
 
 **参数：**
 
-- **db_name** (*str*) -
+- **db_name** （*str*） -
 
     **[必需]**
 
-    要删除其属性的 Database 名称。
+    要删除属性设置的 Database 名称。
 
-- **property_keys** (*list[str]*) -
+- **property_keys** （*list[str]*） -
 
     **[必需]**
 
-    要删除的属性名称。可用的 Database 属性如下：
+    要删除的属性的名称。可能的 Database 属性如下：
 
-    - **database.replica.number** (*int*) - Database 的副本数量。
+    - **database.replica.number** （*int*） - 该 Database 属性指定该 Database 的副本数。
 
-    - **database.resource_groups** (*list[str]*) - 专用于该 Database 的资源组。
+    - **database.resource_groups** （*list[str]*） - 该 Database 属性指定专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** （*int*） - 该 Database 属性指定分配给该 Database 的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) - 该 Database 中允许的最大 Collection 数量。
+    - **database.max.collections** （*int*） - 该 Database 属性指定该 Database 中允许的 Collection 最大数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否拒绝该 Database 中的所有写入操作。
+    - **database.force.deny.writing** （*bool*） - 该 Database 属性指定是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否拒绝该 Database 中的所有读取操作。
+    - **database.force.deny.reading** （*bool*） - 该 Database 属性指定是否拒绝该 Database 中的所有读取操作。
 
-    - **database.replica.number** (*int*) - Database 的副本数量。
+    - **database.replica.number** （*int*） - 该 Database 属性指定该 Database 的副本数。
 
-    - **database.resource_groups** (*list[str]*) - 专用于该 Database 的资源组。
+    - **database.resource_groups** （*list[str]*） - 该 Database 属性指定专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** （*int*） - 该 Database 属性指定分配给该 Database 的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) - 该 Database 中允许的最大 Collection 数量。
+    - **database.max.collections** （*int*） - 该 Database 属性指定该 Database 中允许的 Collection 最大数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否拒绝该 Database 中的所有写入操作。
+    - **database.force.deny.writing** （*bool*） - 该 Database 属性指定是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否拒绝该 Database 中的所有读取操作。
+    - **database.force.deny.reading** （*bool*） - 该 Database 属性指定是否拒绝该 Database 中的所有读取操作。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 
@@ -93,7 +92,7 @@ drop_database_properties(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

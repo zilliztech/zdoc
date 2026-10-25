@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,19 +44,19 @@ set_properties(
 
 **参数：**
 
-- **properties** (dict) -
+- **properties** （dict） -
 
-    以字典形式提供的一组 Collection 属性。目前，您可以设置以下属性：
+    以字典形式提供的一组 Collection 属性。目前，您可以设置 Collection 的以下属性：
 
     - **collection.ttl.seconds**
 
-        设置此属性后，当前 Collection 中的数据会在指定时间后过期。Collection 中已过期的数据将被清理，且不会参与搜索或查询。
+        设置此属性后，当前 Collection 中的数据将在指定时间后过期。Collection 中已过期的数据将被清理，且不会参与搜索或查询。
 
     - **mmap.enabled**
 
         是否在 Collection 级别启用内存映射存储。更多信息，请参见 [配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
 
-- **timeout** (*float*)  -
+- **timeout** （*float*）  -
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
@@ -65,7 +64,7 @@ set_properties(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -104,4 +103,3 @@ collection.set_properties(
 - [flush()](./Collection-flush)
 
 - [get_replicas()](./Collection-get_replicas)
-

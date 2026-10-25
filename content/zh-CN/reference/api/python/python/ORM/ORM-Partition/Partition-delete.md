@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -162,3 +161,4 @@ res = partition.delete("id in [ 0, 1 ]")
 - [search()](./Partition-search)
 
 - [upsert()](./Partition-upsert)
+

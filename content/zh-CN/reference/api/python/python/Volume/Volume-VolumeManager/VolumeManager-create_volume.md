@@ -7,23 +7,22 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于在指定项目和区域中创建卷。 | Python"
+description: "此操作会在指定项目和区域中创建卷。 | Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - vector database
+  - 向量 Database
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - create_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-此操作用于在指定项目和区域中创建卷。
+此操作会在指定项目和区域中创建卷。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,46 +47,46 @@ create_volume(
 
 **参数：**
 
-- **project_id** (*str*) -<br/>
-  **[必填]**<br/>
-  待创建卷所属的Zilliz Cloud项目 ID。
+- **project_id** （*str*） -<br/>
+  **[必需]**<br/>
+  要在其中创建卷的 Zilliz Cloud 项目 ID。
 
-- **region_id** (*str*) -<br/>
-  **[必填]**<br/>
-  待创建卷所属的Zilliz Cloud区域 ID。
+- **region_id** （*str*） -<br/>
+  **[必需]**<br/>
+  要在其中创建卷的 Zilliz Cloud 区域 ID。
 
-- **volume_name** (*str*) -<br/>
-  **[必填]**<br/>
-  待创建的卷名称。
+- **volume_name** （*str*） -<br/>
+  **[必需]**<br/>
+  要创建的卷的名称。
 
-- **volume_type** (*Optional[str]*) -<br/>
-  默认值：`None`<br/>
-  卷类型。支持的值包括`MANAGED`和`EXTERNAL`，默认为`MANAGED`。
+- **volume_type** （*Optional[str]*） -<br/>
+  该值默认为 `None`。<br/>
+  卷类型。支持的值为 `MANAGED` 和 `EXTERNAL`；默认值为 `MANAGED`。
 
-- **storage_integration_id** (*Optional[str]*) -<br/>
-  默认值：`None`<br/>
-  `EXTERNAL`卷所需的存储集成 ID。
+- **storage_integration_id** （*Optional[str]*） -<br/>
+  该值默认为 `None`。<br/>
+  `EXTERNAL` 卷所需的存储集成 ID。
 
-- **path** (*Optional[str]*) -<br/>
-  默认值：`None`<br/>
-  `EXTERNAL`卷的存储路径。若未指定，则使用存储集成的根目录；若指定路径，则必须以`/`结尾。
+- **path** （*Optional[str]*） -<br/>
+  该值默认为 `None`。<br/>
+  `EXTERNAL` 卷的存储路径。省略时，将使用存储集成的根目录；提供的路径必须以 `/` 结尾。
 
 **返回类型：**
 
 *requests.Response*
 
-**返回值：**
+**返回：**
 
-包含卷创建请求信息的 HTTP 响应。
+描述卷创建请求的 HTTP 响应。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 调用失败时抛出。请查看服务器错误消息以了解具体的失败原因。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例展示了如何创建卷。
+以下示例演示了创建卷的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

@@ -1828,7 +1828,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "api/python/python/ORM/ORM-Collection/Collection-partition",
-            "label": "partition()",
+            "label": "Partition()",
             "key": "doc:api/python/python/ORM/ORM-Collection/collection-partition"
           },
           {

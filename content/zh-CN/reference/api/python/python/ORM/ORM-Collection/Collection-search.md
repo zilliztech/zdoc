@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -328,3 +327,4 @@ for hits in res:
 - [query_iterator()](./Collection-query_iterator)
 
 - [upsert()](./Collection-upsert)
+

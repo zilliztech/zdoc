@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -150,3 +149,4 @@ client.create_alias(collection_name="test_collection", alias="test")
 - [drop_alias()](./Collections-drop_alias)
 
 - [list_aliases()](./Collections-list_aliases)
+

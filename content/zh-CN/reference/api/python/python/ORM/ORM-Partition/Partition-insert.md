@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -214,3 +213,4 @@ res.insert_count
 - [search()](./Partition-search)
 
 - [upsert()](./Partition-upsert)
+

@@ -7,23 +7,22 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此函数用于向开源 Milvus 或 Zilliz Cloud 提交批量导入任务。 | Python"
+description: "此函数为开源 Milvus 或 Zilliz Cloud 提交批量导入任务。 | Python"
 type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
+  - 向量 Database 比较
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - bulk_import()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-此函数用于向开源 Milvus 或 Zilliz Cloud 提交批量导入任务。
+此函数为开源 Milvus 或 Zilliz Cloud 提交批量导入任务。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,91 +58,91 @@ bulk_import(
 
 **参数：**
 
-- **url** (*str*) -<br/>
-  **[必填]**
+- **url** （*str*） -<br/>
+  **[必需]**
 
     Zilliz Cloud API 服务器 Endpoint，即 `https://api.cloud.zilliz.com`。
 
-- **collection_name** (*str*) -<br/>
-  **[必填]**<br/>
+- **collection_name** （*str*） -<br/>
+  **[必需]**<br/>
   目标 Collection 的名称。
 
-- **db_name** (*str*) -<br/>
-  默认值：`""`<br/>
+- **db_name** （*str*） -<br/>
+  该值默认为 `""`。<br/>
   目标 Database 的名称。
 
-- **object_url** (*str*) -<br/>
-  默认值：`""`<br/>
+- **object_url** （*str*） -<br/>
+  该值默认为 `""`。<br/>
   已弃用的对象存储 URL。对于新的 Zilliz Cloud 集成，请使用 `object_urls`。
 
-- **object_urls** (*Optional[List[List[str]]]*) -<br/>
-  默认值：`None`<br/>
-  包含导入数据的对象存储 URL。每个嵌套列表对应一个对象或文件夹。
+- **object_urls** （*Optional[List[List[str]]]*） -<br/>
+  该值默认为 `None`。<br/>
+  包含导入数据的对象存储 URL。每个嵌套列表标识一个对象或文件夹。
 
-- **cluster_id** (*str*) -<br/>
-  默认值：`""`<br/>
+- **cluster_id** （*str*） -<br/>
+  该值默认为 `""`。<br/>
   目标 Zilliz Cloud 集群的 ID。
 
-- **project_id** (*str*) -<br/>
-  默认值：`""`<br/>
+- **project_id** （*str*） -<br/>
+  该值默认为 `""`。<br/>
   包含目标项目 Database 的 Zilliz Cloud 项目 ID。
 
-- **region_id** (*str*) -<br/>
-  默认值：`""`<br/>
-  包含目标项目 Database 的 Zilliz Cloud 地域 ID。
+- **region_id** （*str*） -<br/>
+  该值默认为 `""`。<br/>
+  包含目标项目 Database 的 Zilliz Cloud 区域 ID。
 
-- **api_key** (*str*) -<br/>
-  默认值：`""`
+- **api_key** （*str*） -<br/>
+  该值默认为 `""`。
 
-    用于验证请求身份的 Zilliz Cloud API 密钥。
+    Zilliz Cloud API key，用于对请求进行身份验证。
 
-- **access_key** (*str*) -<br/>
-  默认值：`""`<br/>
-  Zilliz Cloud 所使用的对象存储凭据中的访问密钥。
+- **access_key** （*str*） -<br/>
+  该值默认为 `""`。<br/>
+  Zilliz Cloud 使用的对象存储凭据的访问密钥。
 
-- **secret_key** (*str*) -<br/>
-  默认值：`""`<br/>
-  Zilliz Cloud 所使用的对象存储凭据中的私有密钥。
+- **secret_key** （*str*） -<br/>
+  该值默认为 `""`。<br/>
+  Zilliz Cloud 使用的对象存储凭据的私有密钥。
 
-- **token** (*str*) -<br/>
-  默认值：`""`<br/>
-  Zilliz Cloud 所使用的临时对象存储凭据的会话令牌。
+- **token** （*str*） -<br/>
+  该值默认为 `""`。<br/>
+  Zilliz Cloud 使用的临时对象存储凭据的会话 token。
 
-- **volume_name** (*str*) -<br/>
-  默认值：`""`<br/>
-  包含导入数据的 Zilliz Cloud 卷名称。
+- **volume_name** （*str*） -<br/>
+  该值默认为 `""`。<br/>
+  包含导入数据的 Zilliz Cloud 存储卷名称。
 
-- **data_paths** (*Optional[List[List[str]]]*) -<br/>
-  默认值：`None`<br/>
-  Zilliz Cloud 卷中包含导入数据的路径。
+- **data_paths** （*Optional[List[List[str]]]*） -<br/>
+  该值默认为 `None`。<br/>
+  包含导入数据的 Zilliz Cloud 存储卷中的路径。
 
-- **verify** (*Optional[Union[bool, str]]*) -<br/>
-  默认值：`True`<br/>
-  TLS 验证设置。设为 `True` 可使用默认信任库进行验证，也可指定 CA 证书路径。
+- **verify** （*Optional[Union[bool, str]]*） -<br/>
+  该值默认为 `True`。<br/>
+  TLS 验证设置。使用 `True` 通过默认信任存储进行验证，或提供 CA 证书路径。
 
-- **cert** (*Optional[Union[str, tuple]]*) -<br/>
-  默认值：`None`<br/>
-  客户端证书路径，或用于双向 TLS 认证的证书与私钥对。
+- **cert** （*Optional[Union[str, tuple]]*） -<br/>
+  该值默认为 `None`。<br/>
+  客户端证书路径，或用于双向 TLS 的证书和私钥对。
 
-- **kwargs** (*Any*) -<br/>
-  传递给 HTTP 请求的额外选项。
+- **kwargs** （*Any*） -<br/>
+  转发到 HTTP 请求的额外选项。
 
 **返回类型：**
 
 *requests.Response*
 
-**返回值：**
+**返回：**
 
-批量导入 Endpoint 返回的 HTTP 响应。请查看 JSON 载荷以获取已提交任务的标识符。
+批量导入 Endpoint 返回的 HTTP 响应。请检查 JSON 载荷，获取所提交任务的标识符。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 调用失败时抛出。请检查服务器错误信息以了解具体的失败原因。
+  当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息，以获取确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例演示如何将对象存储中的数据提交至 Zilliz Cloud。
+以下示例将对象存储数据提交到 Zilliz Cloud。
 
 ```python
 from pymilvus.bulk_writer import bulk_import

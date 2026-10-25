@@ -7,23 +7,22 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将在目标 Collection 中创建一个 Partition。 | Python | ORM"
+description: "此操作会在目标 Collection 中创建一个 Partition。 | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - knn algorithm
+  - knn 算法
   - HNSW
   - 什么是非结构化数据
   - 向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-此操作将在目标 Collection 中创建一个 Partition。
+此操作会在目标 Collection 中创建一个 Partition。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,7 +51,7 @@ create_partition(
 
 - **description** (*string*)
 
-    此 Partition 的描述。
+    此 Partition 的说明。
 
 **返回类型：**
 
@@ -66,7 +65,7 @@ create_partition(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果在执行此 Partition 操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -104,4 +103,3 @@ partition = collection.create_partition(partition_name="test_partition")
 - [drop_partition()](./Collection-drop_partition)
 
 - [has_partition()](./Collection-has_partition)
-

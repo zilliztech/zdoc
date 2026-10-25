@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -125,3 +124,4 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 - **Exception**
 
     如果连接失败，将引发此异常。
+

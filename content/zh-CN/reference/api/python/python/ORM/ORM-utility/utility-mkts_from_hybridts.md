@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -110,3 +109,4 @@ mkts_from_hybridts(
 - [hybridts_to_unixtime()](./utility-hybridts_to_unixtime)
 
 - [mkts_from_unixtime()](./utility-mkts_from_unixtime)
+

@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -161,3 +160,4 @@ collection, results = Collection.construct_from_dataframe(
 - [CollectionSchema](./ORM-CollectionSchema)
 
 - [FieldSchema](./MilvusClient-FieldSchema)
+

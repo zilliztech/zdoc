@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -105,7 +104,6 @@ collection.has_partition("test_partition") # False
 
 - [create_partition()](./Collection-create_partition)
 
-- [partition()](./Collection-partition)
+- [Partition()](./Collection-partition)
 
 - [drop_partition()](./Collection-drop_partition)
-

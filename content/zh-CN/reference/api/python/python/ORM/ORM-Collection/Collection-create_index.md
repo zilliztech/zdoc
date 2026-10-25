@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -151,3 +150,4 @@ collection.has_index() # True
 - [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
 
 - [list_indexes()](./utility-list_indexes)
+

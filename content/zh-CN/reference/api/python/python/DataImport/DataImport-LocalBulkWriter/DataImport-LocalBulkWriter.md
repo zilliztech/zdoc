@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -149,3 +148,4 @@ writer = LocalBulkWriter(
 ## 方法\{#methods}
 
 以下是 **LocalBulkWriter** 类的方法：
+

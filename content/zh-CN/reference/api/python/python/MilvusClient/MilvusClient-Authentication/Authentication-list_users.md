@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -96,3 +95,4 @@ client.list_users()
 - [drop_user()](./Authentication-drop_user)
 
 - [update_password()](./Authentication-update_password)
+

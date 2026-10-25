@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -86,3 +85,4 @@ volume_manager = VolumeManager(
     api_key="YOUR_API_KEY"
 )
 ```
+

@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,6 +35,7 @@ import Admonition from '@theme/Admonition';
 <Admonition type="info" title="Notes">
 
 此方法仅适用于 dedicated serving 集群和按需计算。
+
 - 对于 dedicated serving 集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**

@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -135,3 +134,4 @@ utility.rename_collection(
 - [has_partition()](./utility-has_partition)
 
 - [list_collections()](./utility-list_collections)
+

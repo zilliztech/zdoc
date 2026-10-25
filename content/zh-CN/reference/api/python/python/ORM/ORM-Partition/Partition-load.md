@@ -23,7 +23,6 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -112,3 +111,4 @@ partition.load(
 - [get_replicas()](./Partition-get_replicas)
 
 - [release()](./Partition-release)
+
