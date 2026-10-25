@@ -457,6 +457,7 @@
         "packages/docs-tooling/src/lark/larkDocWriter.js",
         "packages/docs-tooling/src/lark/larkDocWriter.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
+        "packages/docs-tooling/src/lark/larkDriveWriter.js",
         "packages/docs-tooling/src/lark/regression.test.js",
         "scripts/docs-workflow/generate-guides-sidebars*",
         "scripts/docs-workflow/prepare-guides-bootstrap-stage*",
