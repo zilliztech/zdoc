@@ -1,13 +1,13 @@
 ---
 title: "データのインポート（SDK） | BYOC"
 slug: /import-data-via-sdks
-sidebar_label: "SDK"
+sidebar_label: "SDKs"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、bulk-writer API と bulk-import API を使用して SDK でコレクションにデータをインポートする方法を説明します。 | BYOC"
+description: "このガイドでは、SDK を使用して bulk-writer および bulk-import API でコレクションにデータをインポートする方法を説明します。 | BYOC"
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # データのインポート（SDK）
 
-このガイドでは、bulk-writer API と bulk-import API を使用して SDK でコレクションにデータをインポートする方法を説明します。
+このガイドでは、SDK を使用して bulk-writer および bulk-import API でコレクションにデータをインポートする方法を説明します。
 
-あるいは、データの準備と Zilliz Cloud コレクションへのデータのインポートの両方を扱う [当社の fast-track エンドツーエンドコース](./data-import-zero-to-hero) も参照してください。
+代わりに、データの準備から Zilliz Cloud コレクションへのデータインポートまでを扱う、[当社の短期集中エンドツーエンドコース](./data-import-zero-to-hero)も参照できます。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud では、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
+Zilliz Cloud では、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
-低レイテンシで安定したエクスペリエンスを確保するには、ターゲットクラスターと同じプロバイダー、同じリージョンにあるバケットまたは BLOB コンテナーを使用することをお勧めします。
+低レイテンシーで安定したエクスペリエンスを確保するには、ターゲットクラスターと同じプロバイダーおよび同じリージョンのバケットまたは BLOB コンテナーを使用することをお勧めします。
 
 </Admonition>
 
-## 依存関係をインストールする\{#install-dependencies}
+## 依存関係のインストール\{#install-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -83,9 +83,9 @@ implementation 'io.minio:minio:8.5.9'
 
 </Tabs>
 
-## 準備済みデータを確認する\{#check-prepared-data}
+## 準備済みデータの確認\{#check-prepared-data}
 
-[BulkWriter ツール](./use-bulkwriter) を使用してデータを準備し、準備したファイルのパスを取得したら、それらを Zilliz Cloud コレクションにインポートする準備が整います。準備ができているかどうかを確認するには、次のようにします。
+[BulkWriter ツール](./use-bulkwriter)を使用してデータを準備し、準備済みファイルのパスを取得したら、それらを Zilliz Cloud コレクションにインポートする準備が整います。準備ができているかどうかを確認するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -165,15 +165,15 @@ for (Result<Item> result : results) {
 </TabItem>
 </Tabs>
 
-## データをインポートする\{#import-data}
+## データのインポート\{#import-data}
 
-データとコレクションの準備ができたら、オブジェクトストレージのバケットやブロックストレージの BLOB コンテナーなどの外部ストレージを介して、特定のコレクションにデータをインポートできます。
+データとコレクションの準備ができたら、オブジェクトストレージバケットやブロックストレージ BLOB コンテナーなどの外部ストレージを介して、特定のコレクションにデータをインポートできます。
 
-### データをインポートする\{#import-data}
+### データのインポート\{#import-data}
 
 外部ストレージを介してデータをインポートする場合は、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -331,6 +331,47 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Bulk-import your data from the prepared data files
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+string STORAGE_URL = "";
+string ACCESS_KEY = "";
+string SECRET_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
+{
+    CollectionName = "medium_articles",
+    ClusterId = CLUSTER_ID,
+    ObjectUrl = STORAGE_URL,
+    AccessKey = ACCESS_KEY,
+    SecretKey = SECRET_KEY
+});
+
+Console.WriteLine(resp);
+// {"code":0,"data":{"jobId":"9d0bc230-6b99-4739-a872-0b91cfe2515a"}}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -353,15 +394,15 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-データインポートを成功させるには、ターゲットコレクションの実行中または保留中のインポートジョブが 10,000 件未満であることを確認してください。
+データのインポートを成功させるには、ターゲットコレクションの実行中または保留中のインポートジョブが 10,000 件未満であることを確認してください。
 
 </Admonition>
 
-### インポートの進行状況を確認する\{#check-import-progress}
+### インポートの進行状況の確認\{#check-import-progress}
 
 指定した bulk-import ジョブの進行状況を確認できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -487,6 +528,41 @@ async fn main() -> Result<()> {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// Get bulk-insert job progress
+var resp = await bulkImport.GetImportProgressAsync(new GetImportProgressRequest
+{
+    JobId = "job-01fa0e5d42cjxudhpuehyp",
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -504,11 +580,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### すべてのインポートジョブを一覧表示する\{#list-all-import-jobs}
+### すべてのインポートジョブの一覧表示\{#list-all-import-jobs}
 
-すべての bulk-import タスクについても把握したい場合は、次のように list-import-jobs API を呼び出します。
+すべての bulk-import タスクについても確認する場合は、次のように list-import-jobs API を呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -624,6 +700,40 @@ async fn main() -> Result<()> {
 
 ```javascript
 // Note: Cloud import-jobs listing is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+// Zilliz Cloud constants
+string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+string API_KEY = "";
+
+using var bulkImport = new BulkImport(new BulkImportConfig
+{
+    Url = CLOUD_API_ENDPOINT,
+    ApiKey = API_KEY
+});
+
+// List bulk-insert jobs
+var resp = await bulkImport.ListImportJobsAsync(new ListImportJobsRequest
+{
+    ClusterId = CLUSTER_ID
+});
+
+Console.WriteLine(resp.Data);
 ```
 
 </TabItem>

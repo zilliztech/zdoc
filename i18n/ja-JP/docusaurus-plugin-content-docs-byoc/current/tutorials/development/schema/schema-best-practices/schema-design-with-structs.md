@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最新の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを含むセンサー読み取り値、エラーコードと音声スニペットを含む診断ログ、位置、速度、シーンコンテキストを含む走行区間など、豊富で構造化されたイベントを推論します。これらでは、データベースがネストされたデータの取り込みと検索をネイティブにサポートする必要があります。 | BYOC"
+description: "最新の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、タイムスタンプとベクトル埋め込みを含むセンサー読み取り値、エラーコードと音声スニペットを含む診断ログ、位置、速度、シーンコンテキストを含む走行区間など、豊富で構造化されたイベントを通常推論します。これらには、データベースによるネストデータの取り込みと検索のネイティブサポートが必要です。 | BYOC"
 type: origin
 token: VOkIwd5adiziGQkoDO1cRoRFnre
 sidebar_position: 2
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Struct の配列によるデータモデル設計
 
-最新の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを含むセンサー読み取り値、エラーコードと音声スニペットを含む診断ログ、位置、速度、シーンコンテキストを含む走行区間など、豊富で構造化されたイベントを推論します。これらでは、データベースがネストされたデータの取り込みと検索をネイティブにサポートする必要があります。
+最新の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、タイムスタンプとベクトル埋め込みを含むセンサー読み取り値、エラーコードと音声スニペットを含む診断ログ、位置、速度、シーンコンテキストを含む走行区間など、豊富で構造化されたイベントを通常推論します。これらには、データベースによるネストデータの取り込みと検索のネイティブサポートが必要です。 
 
-Zilliz Cloud では、ユーザーが原子的な構造化イベントをフラットなデータモデルに変換する必要はありません。代わりに Struct の配列を導入します。配列内の各 Struct はスカラーとベクトルを保持できるため、意味の整合性が維持されます。
+ユーザーに原子的な構造化イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud は Struct の配列を導入します。配列内の各 Struct はスカラーとベクトルを保持できるため、意味の整合性が維持されます。
 
 ## Struct の配列を使用する理由\{#why-array-of-structs}
 
-現代の AI アプリケーションは、自動運転からマルチモーダル検索まで、ネストされた異種データにますます依存しています。従来のフラットなデータモデルでは、「**1 つの文書に多数の注釈付きチャンクが含まれる**」や「**1 つの運転シーンで複数の観測された操作が行われる**」といった複雑な関係を表現するのが困難です。Zilliz Cloud の Struct の配列データ型は、まさにこのような場面で真価を発揮します。
+自動運転からマルチモーダル検索まで、現代の AI アプリケーションはネストされた異種データにますます依存しています。従来のフラットなデータモデルでは、「**1 つの文書に多数の注釈付きチャンクが含まれる**」や「**1 つの運転シーンで複数の観測された操作が行われる**」といった複雑な関係を表現するのが困難です。Zilliz Cloud の Struct の配列データ型は、まさにこのような場面で真価を発揮します。
 
-Struct の配列を使用すると、構造化された要素を順序付きで保存できます。各 Struct はスカラーフィールドとベクトル埋め込みを独自に組み合わせて保持します。そのため、次の用途に最適です。
+Struct の配列を使用すると、構造化された要素を順序付きで保存できます。各 Struct はスカラーフィールドとベクトル埋め込みを独自に組み合わせて保持するため、次の用途に最適です。
 
 - **階層データ**: 多数の子レコードを持つ親エンティティ。たとえば、多数のテキストチャンクを持つ書籍や、多数の注釈付きフレームを持つ動画です。
 
@@ -37,7 +37,7 @@ Struct の配列を使用すると、構造化された要素を順序付きで�
 
 - **時系列データまたはシーケンシャルデータ**: 配列フィールド内の Struct は、時系列イベントや段階的なイベントを自然に表現します。
 
-JSON BLOB を保存したり、データを複数のコレクションに分割したりする従来の回避策とは異なり、Struct の配列は Zilliz Cloud 内でネイティブなスキーマ適用、ベクトルインデックス、効率的なストレージを提供します。
+JSON BLOB を保存したり、データを複数のコレクションに分割したりする従来の回避策とは異なり、Struct の配列は Zilliz Cloud 内でネイティブなスキーマ適用、ベクトルインデックス作成、効率的なストレージを提供します。
 
 ## スキーマ設計のガイドライン\{#schema-design-guidelines}
 
@@ -47,37 +47,37 @@ JSON BLOB を保存したり、データを複数のコレクションに分割�
 
 コレクションに配列フィールドを追加する前に、内部の Struct スキーマを定義します。Struct 内の各フィールドは、スカラー（**VARCHAR**、**INT**、**BOOLEAN** など）またはベクトル（**FLOAT_VECTOR**）のいずれかとして明示的に型指定する必要があります。
 
-Struct スキーマは、取得または表示に使用するフィールドのみを含めて簡潔に保つことをお勧めします。未使用のメタデータで肥大化しないようにしてください。
+Struct スキーマは、取得または表示に使用するフィールドのみを含めて簡潔に保つことをお勧めします。未使用のメタデータで肥大化させないでください。
 
 ### 最大容量を慎重に設定する\{#set-the-max-capacity-thoughtfully}
 
-各配列フィールドには、エンティティごとに配列フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、文書ごとに 1,000 個のテキストチャンク、運転シーンごとに 100 個の操作があります。
+各配列フィールドには、エンティティごとに配列フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、文書ごとに 1,000 個のテキストチャンク、運転シーンごとに 100 個の操作があります。 
 
-過度に高い値を設定するとメモリが浪費されるため、配列フィールド内の Struct の最大数を決定するには計算が必要です。
+値を過度に大きくするとメモリが浪費されます。また、配列フィールド内の Struct の最大数を決定するには、いくつかの計算が必要です。
 
 ### Struct 内のベクトルフィールドにインデックスを作成する\{#index-vector-fields-in-structs}
 
-ベクトルフィールドには、コレクション内のベクトルフィールドと Struct で定義されたベクトルフィールドの両方を含め、インデックス作成が必須です。Struct 内のベクトルフィールドには、インデックスタイプとして `AUTOINDEX`、メトリックタイプとして `MAX_SIM` シリーズを使用してください。
+ベクトルフィールドには、コレクション内のベクトルフィールドと Struct 内で定義されたベクトルフィールドの両方を含め、インデックス作成が必須です。Struct 内のベクトルフィールドには、インデックスタイプとして `AUTOINDEX` を、メトリックタイプとして `MAX_SIM` シリーズを使用してください。
 
-適用可能なすべての制限については、[制限事項](./use-array-of-structs) を参照してください。
+適用されるすべての制限については、[制限](./use-array-of-structs) を参照してください。
 
 ## 実例: 自動運転向け CoVLA データセットのモデリング\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
-[Turing Motors](https://tur.ing/posts/s1QUA1uh) が紹介し、2025 年の Winter Conference on Applications of Computer Vision（WACV）に採択された Comprehensive Vision-Language-Action（CoVLA）データセットは、自動運転における Vision-Language-Action（VLA）モデルのトレーニングと評価に豊富な基盤を提供します。通常は動画クリップである各データポイントには、生の視覚入力だけでなく、次の内容を説明する構造化キャプションも含まれます。
+[Turing Motors](https://tur.ing/posts/s1QUA1uh) が導入し、Winter Conference on Applications of Computer Vision（WACV）2025 で採択された Comprehensive Vision-Language-Action（CoVLA）データセットは、自動運転における Vision-Language-Action（VLA）モデルのトレーニングと評価のための豊富な基盤を提供します。各データポイントは通常、動画クリップであり、生の視覚入力だけでなく、次を説明する構造化キャプションも含みます。
 
-- **自車の行動**（例: 「対向車に道を譲りながら左車線に合流する」）
+- **自車両の動作**（例: 「対向車に道を譲りながら左に合流する」）
 
-- 存在する**検出済みオブジェクト**（例: 先行車両、歩行者、信号機）
+- 存在する**検出オブジェクト**（例: 先行車両、歩行者、信号機）、および
 
-- シーンのフレームレベルの**キャプション**
+- シーンのフレームレベルの**キャプション**。
 
 この階層的でマルチモーダルな性質により、Struct の配列機能に最適です。CoVLA データセットの詳細については、[CoVLA データセットのウェブサイト](https://turingmotors.github.io/covla-ad/) を参照してください。
 
 ### ステップ 1: データセットをコレクションスキーマにマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
 
-CoVLA データセットは、10,000 個の動画クリップで構成され、合計 80 時間を超える映像を含む大規模なマルチモーダル運転データセットです。20 Hz のレートでフレームをサンプリングし、各フレームに詳細な自然言語キャプション、車両状態の情報、検出されたオブジェクトの座標を注釈として付けます。
+CoVLA データセットは、10,000 個の動画クリップ、合計 80 時間以上の映像で構成される大規模なマルチモーダル運転データセットです。20 Hz のレートでフレームをサンプリングし、各フレームに詳細な自然言語キャプション、車両の状態、検出オブジェクトの座標を注釈として付けます。
 
-データセットの構造は次のとおりです。
+データセットの構造は以下の通りです。
 
 ```python
 ├── video_1                                       (VIDEO) # video.mp4
@@ -133,7 +133,7 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
 - `video_id` は主キーとして機能し、INT64 型の整数を受け入れます。
 
-- `states` は、現在の動画の各フレームにおける自車の状態を含む生の JSON 本文です。
+- `states` は、現在の動画の各フレームにおける自車両の状態を含む生の JSON 本文です。
 
 - `captions` は Struct の配列であり、各 Struct には次のフィールドがあります。
 
@@ -143,9 +143,9 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
     - `rich_caption` は、周囲環境を含む現在のフレームの説明であり、`rich_cap_vector` は対応するベクトル埋め込みです。
 
-    - `risk` は、現在のフレームで自車が直面するリスクの説明であり、`risk_vector` は対応するベクトル埋め込みです。
+    - `risk` は、現在のフレームで自車両が直面するリスクの説明であり、`risk_vector` は対応するベクトル埋め込みです。また、
 
-    - `road`、`weather`、`is_tunnel`、`has_pedestrain` など、フレームのその他すべての属性。
+    - `road`、`weather`、`is_tunnel`、`has_pedestrain` など、フレームのその他すべての属性です。
 
 - `traffic_lights` は、現在のフレームで識別されたすべての信号機の信号を含む JSON 本文です。
 
@@ -157,7 +157,7 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
 - キャプション Struct のスキーマを初期化します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -566,6 +566,27 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the caption struct
+    var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024, description: "plain description of the ego vehicle's behavior"));
+    schemaForCaption.Fields.Add(new FieldSchema("plain_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 2048));
+    schemaForCaption.Fields.Add(new FieldSchema("rich_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 512));
+    schemaForCaption.Fields.Add(new FieldSchema("risk_vector", DataType.FloatVector) { Dimension = 768 });
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -575,7 +596,7 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
     </TabItem>
     </Tabs>
 
-- Front Car Struct のスキーマを初期化します。
+- 先行車 Struct のスキーマを初期化します。
 
     <Admonition type="info" title="Notes">
 
@@ -583,7 +604,7 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
     </Admonition>
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -759,6 +780,24 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the front car struct
+    var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("distance", DataType.Float, description: "distance to the leading vehicle"));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -770,7 +809,7 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
 - コレクションのスキーマを初期化します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -923,6 +962,25 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    var schema = new CollectionSchema
+    {
+        Fields =
+        {
+            FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
+            FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
+            new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
+        },
+        StructFields = { schemaForCaption, schemaForFrontCar }
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -934,9 +992,9 @@ Zilliz Cloud では、コレクションスキーマ内にネスト構造を作�
 
 ### ステップ 3: インデックスパラメーターを設定する\{#step-3-set-index-parameters}
 
-すべてのベクトルフィールドにはインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、インデックスタイプとして `AUTOINDEX`、埋め込みリスト間の類似度を測定するメトリックタイプとして `MAX_SIM` シリーズを使用する必要があります。
+すべてのベクトルフィールドにはインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、インデックスタイプとして `AUTOINDEX` を、埋め込みリスト間の類似度を測定するメトリックタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1065,6 +1123,21 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam[] indexParams =
+[
+    new("captions[plain_cap_vector]", "captions_plain_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[rich_cap_vector]", "captions_rich_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[risk_vector]", "captions_risk_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1074,13 +1147,13 @@ const indexParams = [
 </TabItem>
 </Tabs>
 
-これらのフィールド内のフィルタリングを高速化するために、JSON フィールドで JSON シュレッディングを有効にすることをお勧めします。
+JSON フィールド内のフィルタリングを高速化するには、JSON フィールドで JSON shredding を有効にすることをお勧めします。
 
 ### ステップ 4: コレクションを作成する\{#step-4-create-a-collection}
 
 スキーマとインデックスの準備ができたら、次のようにターゲットコレクションを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1169,6 +1242,21 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "covla_dataset",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1180,9 +1268,9 @@ await client.createCollection({
 
 ### ステップ 5: データを挿入する\{#step-5-insert-the-data}
 
-Turing Motos は、CoVLA データセットを複数のファイルに整理しています。これには、生の動画クリップ（`.mp4`）、状態（`states.jsonl`）、キャプション（`captions.jsonl`）、信号機（`traffic_lights.jsonl`）、先行車（`front_cars.jsonl`）が含まれます。
+Turing Motos は CoVLA データセットを複数のファイルに整理しています。これには、生の動画クリップ（`.mp4`）、状態（`states.jsonl`）、キャプション（`captions.jsonl`）、信号機（`traffic_lights.jsonl`）、先行車（`front_cars.jsonl`）が含まれます。
 
-これらのファイルから各動画クリップのデータ部分をマージし、データを挿入する必要があります。次に、特定の動画クリップのデータ部分をマージするスクリプトを示します。
+これらのファイルから各動画クリップのデータをマージし、データを挿入する必要があります。以下は、特定の動画クリップのデータをマージするスクリプトです。
 
 ```python
 import json
@@ -1264,7 +1352,7 @@ data = {
 
 データを適切に処理したら、次のように挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1601,6 +1689,51 @@ const data = {
 };
 
 await client.insert({ collection_name: "covla_dataset", data: [data] });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var vector768 = Enumerable.Repeat(0.1f, 768).ToArray();
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "covla_dataset",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["video_id"] = "0a0fc7a5db365174",
+            ["video_url"] = "https://your-storage.com/0a0fc7a5db365174",
+            ["traffic_lights"] = new[]
+            {
+                new Dictionary<string, object?> { ["index"] = 0, ["class"] = "red", ["bbox"] = new[] { 1f, 2f, 3f, 4f } },
+                new Dictionary<string, object?> { ["index"] = 1, ["class"] = "green", ["bbox"] = new[] { 5f, 6f, 7f, 8f } }
+            },
+            ["captions"] = new object[]
+            {
+                new Dictionary<string, object?>
+                {
+                    ["frame_id"] = 0L,
+                    ["plain_caption"] = "Merge left while yielding to oncoming traffic",
+                    ["plain_cap_vector"] = vector768,
+                    ["rich_caption"] = "Merge left while yielding to oncoming traffic on a sunny highway",
+                    ["rich_cap_vector"] = vector768,
+                    ["risk"] = "Potential collision with the leading vehicle",
+                    ["risk_vector"] = vector768
+                }
+            },
+            ["front_cars"] = new object[]
+            {
+                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["distance"] = 5.5f }
+            }
+        }
+    ]
+});
 ```
 
 </TabItem>

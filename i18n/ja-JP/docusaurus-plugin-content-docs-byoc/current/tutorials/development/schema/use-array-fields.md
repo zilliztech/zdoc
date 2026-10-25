@@ -1,7 +1,7 @@
 ---
-title: "Array フィールド | BYOC"
+title: "ARRAY フィールド | BYOC"
 slug: /use-array-fields
-sidebar_label: "Array"
+sidebar_label: "ARRAY"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,11 +19,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Array フィールド
+# ARRAY フィールド
 
 ARRAY フィールドは、同じデータ型の要素を順序付きリストとして格納します。
 
-ARRAY フィールドがデータを格納する方法の例を次に示します。
+ARRAY フィールドがデータを格納する方法の例は次のとおりです。
 
 ```json
 {
@@ -36,11 +36,11 @@ ARRAY フィールドがデータを格納する方法の例を次に示しま�
 
 - **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を許可できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
-- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメータで定義される同じデータ型を共有する必要があります。`element_type` が `VARCHAR` に設定されている場合は、配列要素の `max_length` も指定する必要があります。`element_type` は任意のスカラーデータ型、`JSON`、および `STRUCT` を受け入れます。
+- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型である必要があります。`element_type` を `VARCHAR` に設定する場合は、配列要素の `max_length` も指定する必要があります。`element_type` は、任意のスカラーデータ型、`JSON`、`STRUCT` を受け入れます。
 
-- **配列容量**: ARRAY フィールド内の要素数は、Array の作成時に `max_capacity` で指定された最大容量以下である必要があります。値は **1** から **4096** の範囲内の整数である必要があります。
+- **配列容量**: ARRAY フィールドの要素数は、ARRAY の作成時に `max_capacity` で指定された最大容量以下である必要があります。値は **1** から **4096** までの範囲の整数である必要があります。
 
-- **文字列の扱い**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
+- **文字列の扱い**: ARRAY フィールドの文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
 ## ARRAY フィールドを追加する\{#add-array-field}
 
@@ -48,11 +48,11 @@ Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コ
 
 1. `datatype` を、サポートされている Array データ型 `ARRAY` に設定します。
 
-1. `element_type` パラメータを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は同じデータ型である必要があります。
+1. `element_type` パラメーターを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は同じデータ型である必要があります。
 
-1. `max_capacity` パラメータを使用して、配列の最大容量、つまり含めることができる要素の最大数を定義します。
+1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり含めることができる要素の最大数を定義します。
 
-ARRAY フィールドを含むコレクションスキーマを定義する方法を次に示します。
+ARRAY フィールドを含むコレクションスキーマを定義する方法は次のとおりです。
 
 <Admonition type="info" title="Notes">
 
@@ -60,7 +60,7 @@ ARRAY フィールドを含むコレクションスキーマを定義する方�
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -301,6 +301,36 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Define the collection schema
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        // Add `tags` and `ratings` ARRAY fields with nullable=True
+        new FieldSchema("tags", DataType.Array) { ElementDataType = DataType.VarChar, MaxCapacity = 10, MaxLength = 65535, Nullable = true },
+        new FieldSchema("ratings", DataType.Array) { ElementDataType = DataType.Int64, MaxCapacity = 5, Nullable = true },
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("embedding", DataType.FloatVector) { Dimension = 3 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -354,13 +384,13 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## インデックスパラメータを設定する\{#set-index-params}
+## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックスの作成は、検索とクエリのパフォーマンスの向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
+インデックスを作成すると、検索とクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
 次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプを使用すると、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,6 +502,23 @@ const indexParams = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Set index params
+IndexParam[] indexes =
+[
+    // Index `tags` with AUTOINDEX
+    new IndexParam("tags", "tags_index", IndexType.AutoIndex),
+    // Index `embedding` with AUTOINDEX and specify similarity metric type
+    new IndexParam("embedding", null, IndexType.AutoIndex, MetricType.Cosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -496,7 +543,7 @@ export indexParams='[
 
 スキーマとインデックスを定義したら、ARRAY フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -623,6 +670,27 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexes
+});
+
+// Load the collection into memory before performing searches and queries
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -654,7 +722,7 @@ curl --request POST \
 
 コレクションを作成したら、ARRAY フィールドを含むデータを挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -827,6 +895,26 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Sample data
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["tags"] = new[] { "pop", "rock", "classic" }, ["ratings"] = new long[] { 5, 4, 3 }, ["pk"] = 1L, ["embedding"] = new[] { 0.12f, 0.34f, 0.56f } },
+        new Dictionary<string, object?> { ["tags"] = null, ["ratings"] = new long[] { 4, 5 }, ["pk"] = 2L, ["embedding"] = new[] { 0.78f, 0.91f, 0.23f } }, // Entire ARRAY is null
+        new Dictionary<string, object?> { ["ratings"] = new long[] { 9, 5 }, ["pk"] = 3L, ["embedding"] = new[] { 0.18f, 0.11f, 0.23f } } // The tags field is completely missing
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -864,7 +952,7 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-完全な配列を挿入するだけでなく、`ARRAY` フィールドは `upsert` API の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらの演算子を使用すると、既存の配列の現在値を先に取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+`ARRAY` フィールドは、配列全体を挿入するだけでなく、`upsert` API で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在の値を取得せずに、要素を追加したり、一致する要素を削除したりできるため、クライアント側の読み取り・変更・書き込みパターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 </Admonition>
 
@@ -874,7 +962,7 @@ curl --request POST \
 
 `tags` が null でないエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -989,6 +1077,28 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Query entities where `tags` is not null
+string filter = "tags IS NOT NULL";
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "tags", "ratings", "pk" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1009,7 +1119,7 @@ curl --request POST \
 
 `ratings` の最初の要素の値が 4 より大きいエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1124,6 +1234,27 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string filter = "ratings[0] > 4";
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "tags", "ratings", "embedding" } }
+});
+
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1147,7 +1278,7 @@ curl --request POST \
 
 基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似度検索とスカラーフィールドフィルターを組み合わせることもできます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1301,6 +1432,31 @@ await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string filter = "tags[0] == \"pop\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "embedding",
+    Vectors = [new[] { 0.3f, -0.6f, 0.1f }],
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "tags", "ratings", "embedding" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1324,4 +1480,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-また、Zilliz Cloud は、クエリ機能をさらに強化するために、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な Array フィルタリング演算子をサポートしています。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
+さらに、Zilliz Cloud は `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な ARRAY フィルタリング演算子をサポートし、クエリ機能をさらに強化します。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。

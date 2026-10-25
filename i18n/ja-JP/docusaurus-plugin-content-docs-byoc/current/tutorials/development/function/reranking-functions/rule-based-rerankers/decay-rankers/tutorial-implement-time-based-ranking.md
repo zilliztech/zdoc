@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文はすべて、意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、Decay Ranker を使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。 | BYOC"
+description: "多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスティング、ソーシャルメディアの投稿、研究論文はすべて、セマンティックな関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、減衰ランカーを使用して Zilliz Cloud に時間ベースのランキングを実装する方法を説明します。 | BYOC"
 type: origin
 token: Dj2NwrlqTiYlmDkwfAbcJNWSntd
 sidebar_position: 5
@@ -21,27 +21,27 @@ import TabItem from '@theme/TabItem';
 
 # チュートリアル: 時間ベースのランキングを実装する
 
-多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスト、ソーシャルメディアの投稿、研究論文はすべて、意味的な関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、Decay Ranker を使用して Zilliz Cloud で時間ベースのランキングを実装する方法を説明します。
+多くの検索アプリケーションでは、コンテンツの鮮度は関連性と同じくらい重要です。ニュース記事、商品リスティング、ソーシャルメディアの投稿、研究論文はすべて、セマンティックな関連性と新しさのバランスを取るランキングシステムの恩恵を受けます。このチュートリアルでは、減衰ランカーを使用して Zilliz Cloud に時間ベースのランキングを実装する方法を説明します。
 
-## Decay Ranker を理解する\{#understand-decay-rankers}
+## 減衰ランカーを理解する\{#understand-decay-rankers}
 
-Decay Ranker を使用すると、基準点からの相対的な数値（タイムスタンプなど）に基づいてドキュメントをブーストまたはペナルティできます。時間ベースのランキングでは、これにより、意味的な関連性が同程度であっても、新しいドキュメントが古いドキュメントより高いスコアを受け取ることができます。
+減衰ランカーを使用すると、基準点に対する数値（タイムスタンプなど）に基づいてドキュメントをブーストしたりペナルティを課したりできます。時間ベースのランキングでは、セマンティックな関連性が同程度であっても、新しいドキュメントが古いドキュメントより高いスコアを受け取ることができます。
 
-Zilliz Cloud は 3 種類の Decay Ranker をサポートしています。
+Zilliz Cloud は 3 種類の減衰ランカーをサポートしています:
 
-- **Gaussian**（`gauss`）：滑らかで緩やかな減衰を提供するベル型曲線です。
+- **ガウス** (`gauss`): 滑らかで段階的な減衰を実現するベル型の曲線
 
-- **Exponential**（`exp`）：最近のコンテンツを強く重視するために、初期の低下をより急峻にします。
+- **指数関数** (`exp`): 最近のコンテンツを強く重視するために、初期の低下をより急峻にします
 
-- **Linear**（`linear`）：予測可能で理解しやすい直線的な減衰です。
+- **線形** (`linear`): 予測しやすく理解しやすい直線的な減衰
 
-各 Decay Ranker には異なる特性があり、さまざまなユースケースに適しています。詳細については、[Decay Ranker の概要](./decay-ranker-oveview) を参照してください。
+各ランカーには異なる特性があり、さまざまなユースケースに適しています。詳細は、[Decay Ranker Overview](./decay-ranker-oveview) を参照してください。
 
 ## 時間を考慮した検索システムを構築する\{#build-a-time-aware-search-system}
 
-関連性と時間の両方に基づいてコンテンツを効果的にランキングする方法を示すニュース記事検索システムを作成します。まずは実装を始めます。
+ニュース記事の検索システムを作成し、関連性と時間の両方に基づいてコンテンツを効果的にランキングする方法を説明します。実装を始めましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -159,6 +159,28 @@ await client.dropCollection({ collection_name });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Define collection name
+const string collectionName = "news_articles_tutorial";
+
+// Clean up any existing collection with the same name
+await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -177,9 +199,9 @@ curl --request POST \
 
 ## ステップ 1: スキーマを設計する\{#step-1-design-the-schema}
 
-時間ベースの検索では、コンテンツとともに公開タイムスタンプを保存する必要があります。
+時間ベースの検索では、コンテンツとともに公開タイムスタンプを保存する必要があります:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -276,6 +298,28 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Create schema with fields for content and temporal information
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateVarchar("headline", maxLength: 200, enableAnalyzer: true),
+        FieldSchema.CreateVarchar("content", maxLength: 2000, enableAnalyzer: true),
+        FieldSchema.CreateFloatVector("dense", dimension: 1024), // For dense embeddings
+        new FieldSchema("sparse_vector", DataType.SparseFloatVector), // For sparse (BM25) search
+        new FieldSchema("publish_date", DataType.Int64) // Timestamp for decay ranking
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -294,9 +338,9 @@ fields='[
 
 ## ステップ 2: 埋め込み関数を設定する\{#step-2-set-up-embedding-functions}
 
-密（セマンティック）と疎（キーワード）の両方の埋め込み関数を設定します。
+密（セマンティック）と疎（キーワード）の両方の埋め込み関数を構成します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -452,6 +496,20 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Create BM25 function for keyword search
+schema.Functions.Add(FunctionSchema.CreateBm25("bm25", "content", "sparse_vector"));
+
+// Note: TEXTEMBEDDING function params (provider/model_name/credential) are not yet
+// publicly settable in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -475,11 +533,11 @@ functions='[
 </TabItem>
 </Tabs>
 
-## ステップ 3: インデックスパラメーターを設定する\{#step-3-configure-index-parameters}
+## ステップ 3: インデックスパラメーターを構成する\{#step-3-configure-index-parameters}
 
-高速なベクトル検索に適したインデックスパラメーターを設定します。
+高速なベクトル検索に適したインデックスパラメーターを設定しましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -637,6 +695,30 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Set up indexes for fast search and create the collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    ConsistencyLevel = ConsistencyLevel.Strong,
+    Indexes = new[]
+    {
+        // Dense vector index
+        new IndexParam("dense", "dense", IndexType.AutoIndex, MetricType.L2),
+        // Sparse vector index
+        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.AutoIndex, MetricType.Bm25)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -677,9 +759,9 @@ curl --request POST \
 
 ## ステップ 4: サンプルデータを準備する\{#step-4-prepare-sample-data}
 
-このチュートリアルでは、公開日の異なるニュース記事のセットを作成します。減衰ランキングの効果を明確に示すために、内容がほぼ同じで日付の異なる記事のペアを含めている点に注目してください。
+このチュートリアルでは、公開日が異なるニュース記事のセットを作成します。内容がほぼ同じで日付が異なる記事のペアを含めて、減衰ランキングの効果を明確に示している点に注目してください:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -884,6 +966,45 @@ await client.insert({ collection_name, data });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Get current time
+long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+DateTimeOffset currentDate = DateTimeOffset.FromUnixTimeSeconds(currentTime);
+Console.WriteLine($"Current time: {currentDate:yyyy-MM-dd HH:mm:ss}");
+
+// Sample news articles spanning different dates
+var articles = new List<IDictionary<string, object?>>();
+string[][] articleData =
+[
+    ["AI Breakthrough Enables Medical Diagnosis Advancement", "Researchers announced a major breakthrough in AI-based medical diagnostics, enabling faster and more accurate detection of rare diseases.", "120"],
+    ["Tech Giants Compete in New AI Race", "Major technology companies are investing billions in a new race to develop the most advanced artificial intelligence systems.", "60"],
+    ["AI Ethics Guidelines Released by International Body", "A consortium of international organizations has released new guidelines addressing ethical concerns in artificial intelligence development and deployment.", "30"],
+    ["Latest Deep Learning Models Show Remarkable Progress", "The newest generation of deep learning models demonstrates unprecedented capabilities in language understanding and generation.", "15"],
+    ["AI Research Advancements Published in January", "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.", "90"],
+    ["New AI Research Results Released This Week", "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.", "5"],
+    ["AI Development Updates Released Yesterday", "Recent developments in artificial intelligence research are showing promising results across various applications.", "1"]
+];
+foreach (var row in articleData)
+{
+    articles.Add(new Dictionary<string, object?>
+    {
+        ["headline"] = row[0],
+        ["content"] = row[1],
+        ["publish_date"] = currentTime - long.Parse(row[2]) * 24L * 60 * 60
+    });
+}
+
+// Insert articles into the collection
+await client.InsertAsync(new InsertReq { CollectionName = collectionName, RowsData = articles });
+Console.WriteLine($"Inserted {articles.Count} articles into the collection");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -905,11 +1026,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: 異なる Decay Ranker を設定する\{#step-5-configure-different-decay-rankers}
+## ステップ 5: さまざまな減衰ランカーを構成する\{#step-5-configure-different-decay-rankers}
 
-次に、それぞれの違いを明確にするために、異なるパラメーターを持つ 3 つの Decay Ranker を作成します。
+次に、それぞれ異なるパラメーターを持つ 3 つの減衰ランカーを作成し、その違いを際立たせましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1168,6 +1289,44 @@ const linear_ranker = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Use current time as reference point
+Console.WriteLine("Using current time as reference point");
+
+// Create a Gaussian decay ranker
+var gaussianRanker = new DecayRerank("time_decay_gaussian")
+    .WithInputField("publish_date")
+    .WithFunction("gauss")           // Gaussian/bell curve decay
+    .WithOrigin(currentTime)         // Current time as reference point
+    .WithOffset(7L * 24 * 60 * 60)   // One week (full relevance)
+    .WithDecay(0.5f)                 // Articles from two weeks ago have half relevance
+    .WithScale(14L * 24 * 60 * 60);  // Two weeks scale parameter
+
+// Create an exponential decay ranker with different parameters
+var exponentialRanker = new DecayRerank("time_decay_exponential")
+    .WithInputField("publish_date")
+    .WithFunction("exp")             // Exponential decay
+    .WithOrigin(currentTime)         // Current time as reference point
+    .WithOffset(3L * 24 * 60 * 60)   // Shorter offset (3 days vs 7 days)
+    .WithDecay(0.3f)                 // Steeper decay (0.3 vs 0.5)
+    .WithScale(10L * 24 * 60 * 60);  // Different scale (10 days vs 14 days)
+
+// Create a linear decay ranker
+var linearRanker = new DecayRerank("time_decay_linear")
+    .WithInputField("publish_date")
+    .WithFunction("linear")          // Linear decay
+    .WithOrigin(currentTime)         // Current time as reference point
+    .WithOffset(7L * 24 * 60 * 60)   // One week (full relevance)
+    .WithDecay(0.5f)                 // Articles from two weeks ago have half relevance
+    .WithScale(14L * 24 * 60 * 60);  // Two weeks scale parameter
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1183,27 +1342,27 @@ gaussian_ranker='{
 </TabItem>
 </Tabs>
 
-上記のコードの内容は次のとおりです。
+上記のコードでは:
 
-- `reranker`: 時間ベースの減衰関数では `decay` に設定します。
+- `reranker`: 時間ベースの減衰関数では `decay` に設定します
 
-- `function`: 減衰関数の種類（gauss、exp、linear）です。
+- `function`: 減衰関数の種類（gauss、exp、または linear）
 
-- `origin`: 基準点（通常は現在時刻）です。
+- `origin`: 基準点（通常は現在時刻）
 
-- `offset`: ドキュメントが完全な関連性を維持する期間です。
+- `offset`: ドキュメントが完全な関連性を維持する期間
 
-- `scale`: offset を超えた後に関連性が低下する速度を制御します。
+- `scale`: オフセットを超えて関連性が低下する速さを制御します
 
-- `decay`: offset+scale における減衰係数です（例：0.5 は関連性が半分であることを意味します）。
+- `decay`: オフセット + スケールでの減衰係数（例: 0.5 は関連性が半分であることを意味します）
 
-異なる動作を得るためにこれらの関数をどのように調整できるかを示すため、Exponential Ranker を異なるパラメーターで設定している点に注目してください。
+異なる動作に合わせてこれらの関数を調整する方法を示すため、指数関数ランカーに異なるパラメーターを構成している点に注目してください。
 
-## ステップ 6: Decay Ranker を可視化する\{#step-6-visualize-the-decay-rankers}
+## ステップ 6: 減衰ランカーを可視化する\{#step-6-visualize-the-decay-rankers}
 
-検索を実行する前に、設定の異なる Decay Ranker の動作を視覚的に比較する図を作成します。
+検索を実行する前に、これらの異なる構成の減衰ランカーがどのように動作するかを視覚的に比較してみましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1284,6 +1443,14 @@ for days in [0, 3, 7, 10, 14, 21, 30, 60, 90]:
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: This visualization step uses Python matplotlib and is not applicable to milvus-sdk-csharp.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1293,7 +1460,7 @@ for days in [0, 3, 7, 10, 14, 21, 30, 60, 90]:
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === TIME DECAY EFFECT VISUALIZATION ===
@@ -1312,7 +1479,7 @@ Days ago | Gaussian | Exponential | Linear
 
 ## ステップ 7: 結果表示用のヘルパー関数\{#step-7-helper-function-for-results-display}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1467,6 +1634,38 @@ function printSearchResults(results, title) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Responses.Dql;
+
+// Helper function to format search results with dates and scores
+static void PrintSearchResults(SearchResp results, string title)
+{
+    Console.WriteLine($"\n=== {title} ===");
+    long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    SingleResult? single = results.SingleResults?.FirstOrDefault();
+    if (single is null)
+    {
+        return;
+    }
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        IReadOnlyDictionary<string, object?> row = single.GetRow(i);
+        long publishDate = Convert.ToInt64(row["publish_date"]);
+        long daysFromNow = (currentTime - publishDate) / (24 * 60 * 60);
+        DateTimeOffset date = DateTimeOffset.FromUnixTimeSeconds(publishDate);
+        Console.WriteLine($"{i + 1}. {row["headline"]}");
+        Console.WriteLine($"   Published: {date:yyyy-MM-dd} ({daysFromNow} days ago)");
+        Console.WriteLine($"   Score: {single.Scores[i]:F4}");
+        Console.WriteLine();
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1495,9 +1694,9 @@ print_search_results() {
 
 ## ステップ 8: 標準検索と減衰ベースの検索を比較する\{#step-8-compare-standard-vs-decay-based-search}
 
-次に、検索クエリを実行し、減衰ランキングありの場合となしの場合の結果を比較します。
+次に、検索クエリを実行し、減衰ランキングありとなしで結果を比較しましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1768,6 +1967,94 @@ const linear = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// Define our search query
+string query = "artificial intelligence advancements";
+
+// 1. Search without decay ranking (purely based on semantic relevance)
+SearchResp standardResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Texts = new[] { query },
+    Limit = 7, // Get all our articles
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "headline", "content", "publish_date" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+PrintSearchResults(standardResults, "SEARCH RESULTS WITHOUT DECAY RANKING");
+
+// Store original scores for later comparison
+var originalScores = new Dictionary<string, float>();
+SingleResult? standardSingle = standardResults.SingleResults?.FirstOrDefault();
+if (standardSingle is not null)
+{
+    for (int i = 0; i < standardSingle.Scores.Count; i++)
+    {
+        string headline = Convert.ToString(standardSingle.GetRow(i)["headline"]) ?? "";
+        originalScores[headline] = standardSingle.Scores[i];
+    }
+}
+
+// 2. Search with each decay function
+// Gaussian decay
+SearchResp gaussianResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Texts = new[] { query },
+    Limit = 7,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "headline", "content", "publish_date" },
+        FunctionScoreReranker = gaussianRanker,
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+PrintSearchResults(gaussianResults, "SEARCH RESULTS WITH GAUSSIAN DECAY RANKING");
+
+// Exponential decay
+SearchResp exponentialResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Texts = new[] { query },
+    Limit = 7,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "headline", "content", "publish_date" },
+        FunctionScoreReranker = exponentialRanker,
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+PrintSearchResults(exponentialResults, "SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING");
+
+// Linear decay
+SearchResp linearResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",
+    Texts = new[] { query },
+    Limit = 7,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "headline", "content", "publish_date" },
+        FunctionScoreReranker = linearRanker,
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
+});
+PrintSearchResults(linearResults, "SEARCH RESULTS WITH LINEAR DECAY RANKING");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1794,7 +2081,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === SEARCH RESULTS WITHOUT DECAY RANKING ===
@@ -1914,11 +2201,11 @@ curl --request POST \
    Score: 0.2158
 ```
 
-## ステップ 9: スコア計算を理解する\{#step-9-understand-score-calculation}
+## ステップ 9: スコアの計算を理解する\{#step-9-understand-score-calculation}
 
-元の関連性と減衰係数を組み合わせて最終スコアがどのように計算されるかを詳しく見ていきます。
+元の関連性と減衰係数を組み合わせて最終スコアがどのように計算されるかを詳しく見てみましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2038,6 +2325,39 @@ console.log(`Expected final score = Original x Decay: ${expected_score.toFixed(4
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Add a detailed breakdown for the first 3 results from Gaussian decay
+Console.WriteLine("\n=== SCORE CALCULATION BREAKDOWN (GAUSSIAN DECAY) ===");
+SingleResult? gaussSingle = gaussianResults.SingleResults?.FirstOrDefault();
+if (gaussSingle is not null)
+{
+    for (int i = 0; i < Math.Min(3, gaussSingle.Scores.Count); i++)
+    {
+        IReadOnlyDictionary<string, object?> row = gaussSingle.GetRow(i);
+        string headline = Convert.ToString(row["headline"]) ?? "";
+        long publishDate = Convert.ToInt64(row["publish_date"]);
+        long daysAgo = (currentTime - publishDate) / (24 * 60 * 60);
+        DateTimeOffset date = DateTimeOffset.FromUnixTimeSeconds(publishDate);
+        // Get the original score
+        float originalScore = originalScores.TryGetValue(headline, out float os) ? os : 0;
+        // Calculate decay factor (Gaussian): 1.0 within offset, then 0.5^((days-offset)/scale)
+        double decayFactor = daysAgo <= 7 ? 1.0 : Math.Pow(0.5, (daysAgo - 7) / 14.0);
+        // Show breakdown
+        Console.WriteLine($"Item: {headline}");
+        Console.WriteLine($"  Published: {date:yyyy-MM-dd} ({daysAgo} days ago)");
+        Console.WriteLine($"  Original relevance score: {originalScore:F4}");
+        Console.WriteLine($"  Decay factor (Gaussian): {decayFactor:F4}");
+        Console.WriteLine($"  Expected final score = Original x Decay: {originalScore * decayFactor:F4}");
+        Console.WriteLine($"  Actual final score: {gaussSingle.Scores[i]:F4}");
+        Console.WriteLine();
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2047,7 +2367,7 @@ console.log(`Expected final score = Original x Decay: ${expected_score.toFixed(4
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === SCORE CALCULATION BREAKDOWN (GAUSSIAN DECAY) ===
@@ -2075,9 +2395,9 @@ Item: AI Development Updates Released Yesterday
 
 ## ステップ 10: 時間減衰を使用したハイブリッド検索\{#step-10-hybrid-search-with-time-decay}
 
-より複雑なシナリオでは、ハイブリッド検索を使用して密（セマンティック）ベクトルと疎（キーワード）ベクトルを組み合わせることができます。
+より複雑なシナリオでは、ハイブリッド検索を使用して密（セマンティック）ベクトルと疎（キーワード）ベクトルを組み合わせることができます:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2256,6 +2576,53 @@ const hybrid = await client.hybridSearch({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// Set up hybrid search (combining dense and sparse vectors)
+var denseSearch = new AnnSearchReq
+{
+    VectorFieldName = "dense", // Search dense vectors
+    Texts = new[] { query },
+    Limit = 7
+};
+
+var sparseSearch = new AnnSearchReq
+{
+    VectorFieldName = "sparse_vector", // Search sparse vectors (BM25)
+    Texts = new[] { query },
+    Limit = 7
+};
+
+// Execute hybrid search with each decay function
+// Gaussian decay
+SearchResp hybridGaussianResults = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = collectionName,
+    SearchRequests = new[] { denseSearch, sparseSearch },
+    Reranker = gaussianRanker,
+    Limit = 7,
+    Parameters = new SearchParameters { OutputFields = { "headline", "content", "publish_date" } }
+});
+PrintSearchResults(hybridGaussianResults, "HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING");
+
+// Exponential decay
+SearchResp hybridExponentialResults = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = collectionName,
+    SearchRequests = new[] { denseSearch, sparseSearch },
+    Reranker = exponentialRanker,
+    Limit = 7,
+    Parameters = new SearchParameters { OutputFields = { "headline", "content", "publish_date" } }
+});
+PrintSearchResults(hybridExponentialResults, "HYBRID SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2285,7 +2652,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING ===
@@ -2349,9 +2716,9 @@ curl --request POST \
 
 ## ステップ 11: さまざまなパラメーター値を試す\{#step-11-experiment-with-different-parameter-values}
 
-scale パラメーターを調整すると Gaussian 減衰関数にどのような影響があるかを確認します。
+スケールパラメーターを調整すると、ガウス減衰関数にどのような影響があるかを見てみましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2545,6 +2912,43 @@ for (const scale_days of [7, 14, 30]) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// Create variations of the Gaussian decay function with different scale parameters
+Console.WriteLine("\n=== PARAMETER VARIATION EXPERIMENT: SCALE ===");
+foreach (int scaleDays in new[] { 7, 14, 30 })
+{
+    var scaledRanker = new DecayRerank($"time_decay_gaussian_{scaleDays}")
+        .WithInputField("publish_date")
+        .WithFunction("gauss")
+        .WithOrigin(currentTime)
+        .WithOffset(7L * 24 * 60 * 60) // Fixed offset of 7 days
+        .WithDecay(0.5f)               // Fixed decay of 0.5
+        .WithScale(scaleDays * 24L * 60 * 60); // Variable scale
+    // Get results
+    SearchResp scaleResults = await client.SearchAsync(new SearchReq
+    {
+        CollectionName = collectionName,
+        VectorFieldName = "dense",
+        Texts = new[] { query },
+        Limit = 7,
+        Parameters = new SearchParameters
+        {
+            OutputFields = { "headline", "content", "publish_date" },
+            FunctionScoreReranker = scaledRanker,
+            ConsistencyLevel = ConsistencyLevel.Strong
+        }
+    });
+    Console.WriteLine($"scale = {scaleDays} days, hits = {scaleResults.SingleResults?.FirstOrDefault()?.Scores.Count ?? 0}");
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2554,7 +2958,7 @@ for (const scale_days of [7, 14, 30]) {
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === PARAMETER VARIATION EXPERIMENT: SCALE ===
@@ -2647,11 +3051,11 @@ for (const scale_days of [7, 14, 30]) {
    Score: 0.0000
 ```
 
-## ステップ 12: さまざまなクエリでテストする\{#step-12-testing-with-different-queries}
+## ステップ 12: 異なるクエリでテストする\{#step-12-testing-with-different-queries}
 
-減衰ランキングがさまざまな検索クエリでどのように機能するかを確認します。
+減衰ランキングがさまざまな検索クエリでどのように機能するかを見てみましょう:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2784,6 +3188,43 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// Try different queries with Gaussian decay
+foreach (string testQuery in new[] { "machine learning", "neural networks", "ethics in AI" })
+{
+    Console.WriteLine($"\n=== TESTING QUERY: '{testQuery}' WITH GAUSSIAN DECAY ===");
+    SearchResp testResults = await client.SearchAsync(new SearchReq
+    {
+        CollectionName = collectionName,
+        VectorFieldName = "dense",
+        Texts = new[] { testQuery },
+        Limit = 4,
+        Parameters = new SearchParameters
+        {
+            OutputFields = { "headline", "content", "publish_date" },
+            FunctionScoreReranker = gaussianRanker,
+            ConsistencyLevel = ConsistencyLevel.Strong
+        }
+    });
+    Console.WriteLine($"TOP 4 RESULTS FOR '{testQuery}'");
+    SingleResult? testSingle = testResults.SingleResults?.FirstOrDefault();
+    if (testSingle is not null)
+    {
+        for (int i = 0; i < testSingle.Scores.Count; i++)
+        {
+            Console.WriteLine($"  {testSingle.GetRow(i)["headline"]} (score={testSingle.Scores[i]:F4})");
+        }
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2793,7 +3234,7 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 </TabItem>
 </Tabs>
 
-期待される出力：
+想定される出力:
 
 ```plaintext
 === TESTING QUERY: 'machine learning' WITH GAUSSIAN DECAY ===
@@ -2856,13 +3297,13 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 
 ## まとめ\{#conclusion}
 
-Milvus で減衰関数を使用した時間ベースのランキングは、意味的な関連性と新しさのバランスを取る強力な方法を提供します。適切な減衰関数とパラメーターを設定すると、意味的な関連性を維持しながら新しいコンテンツを強調する検索体験を作成できます。
+Milvus で減衰関数を使用した時間ベースのランキングは、セマンティックな関連性と新しさのバランスを取る強力な方法を提供します。適切な減衰関数とパラメーターを構成することで、セマンティックな関連性を尊重しながら新しいコンテンツを強調する検索エクスペリエンスを作成できます。
 
-このアプローチは、特に次のような場合に役立ちます。
+このアプローチは、特に次のような場合に役立ちます:
 
 - ニュースおよびメディアプラットフォーム
 
-- E コマースの商品リスト
+- E コマースの商品リスティング
 
 - ソーシャルメディアのコンテンツフィード
 
@@ -2870,4 +3311,4 @@ Milvus で減衰関数を使用した時間ベースのランキングは、意�
 
 - 研究論文リポジトリ
 
-減衰関数の背後にある数学を理解し、さまざまなパラメーターを試すことで、特定のユースケースに合わせて関連性と鮮度の最適なバランスを実現するように検索システムを微調整できます。
+減衰関数の背後にある数学を理解し、さまざまなパラメーターを試すことで、検索システムを微調整し、特定のユースケースに合わせて関連性と鮮度の最適なバランスを実現できます。

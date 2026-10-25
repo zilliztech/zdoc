@@ -1,13 +1,13 @@
 ---
-title: "Geometry フィールド | BYOC"
+title: "ジオメトリフィールド | BYOC"
 slug: /use-geometry-field
-sidebar_label: "Geometry フィールド"
+sidebar_label: "ジオメトリ"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "GIS、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何データを格納およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを格納およびクエリするネイティブな手段を提供し、この課題を解決します。 | BYOC"
+description: "地理情報システム（GIS）、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何学データを格納し、クエリを実行する必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何学データをネイティブに格納およびクエリする方法を提供することで、この課題を解決します。 | BYOC"
 type: origin
 token: H2GHwE8umiuP6WkwjxPcQOfGn0e
 sidebar_position: 12
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Geometry フィールド
+# ジオメトリフィールド
 
-GIS、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何データを格納およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを格納およびクエリするネイティブな手段を提供し、この課題を解決します。
+地理情報システム（GIS）、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何学データを格納し、クエリを実行する必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何学データをネイティブに格納およびクエリする方法を提供することで、この課題を解決します。
 
-ベクトル類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。例：
+ベクトルの類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。たとえば、次のような場合です。
 
-- 位置情報サービス（LBS）：「この街区**内**にある類似の POI を検索する」
+- 位置情報サービス（LBS）:「この街区の**範囲内**で類似する POI を検索する」
 
-- マルチモーダル検索：「この地点から **1 km** 以内にある類似の写真を取得する」
+- マルチモーダル検索:「この地点から **1km 以内**にある類似写真を取得する」
 
-- 地図・物流：「地域**内**の資産」または「パスと**交差する**ルート」
+- 地図と物流:「リージョン**内**のアセット」または「パスと**交差**するルート」
 
 <Admonition type="info" title="Notes">
 
@@ -39,33 +39,33 @@ GEOMETRY フィールドを使用するには、SDK を最新バージョンに�
 
 ## GEOMETRY フィールドとは？\{#what-is-a-geometry-field}
 
-GEOMETRY フィールドは、Zilliz Cloud のスキーマで定義されたデータ型（`DataType.GEOMETRY`）で、幾何データを格納します。ジオメトリフィールドを扱う場合、データの挿入とクエリの両方に使用される人間が読める形式である [Well-Known Text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud は効率的な格納と処理のために WKT を [Well-Known Binary（WKB）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、WKB を直接処理する必要はありません。
+GEOMETRY フィールドは、Zilliz Cloud のスキーマで定義されるデータ型（`DataType.GEOMETRY`）で、幾何学データを格納します。ジオメトリフィールドを扱う場合、データの挿入とクエリの両方に使用される人間が読める形式である [Well-Known Text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式を使用してデータを操作します。内部では、Zilliz Cloud が効率的な格納と処理のために WKT を [Well-Known Binary（WKB）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、WKB を直接扱う必要はありません。
 
-`GEOMETRY` データ型は、次の幾何オブジェクトをサポートします：
+`GEOMETRY` データ型は、次の幾何学オブジェクトをサポートします。
 
-- **POINT**: `POINT (x y)`。例：`POINT (13.403683 52.520711)`。ここで、`x` は経度、`y` は緯度です。
+- **POINT**: `POINT (x y)`。たとえば、`POINT (13.403683 52.520711)` で、`x` は経度、`y` は緯度です。
 
-- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`。例：`LINESTRING (13.40 52.52, 13.41 52.51)`
+- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`。たとえば、`LINESTRING (13.40 52.52, 13.41 52.51)` です。
 
-- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`。例：`POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
+- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`。たとえば、`POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))` です。
 
-- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`。例：`MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
+- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`。たとえば、`MULTIPOINT ((10 40), (40 30), (20 20), (30 10))` です。
 
-- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`。例：`MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
+- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`。たとえば、`MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))` です。
 
-- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`。例：`MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
+- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`。たとえば、`MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))` です。
 
-- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`。例：`GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
+- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`。たとえば、`GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))` です。
 
-## 基本的な操作\{#basic-operations}
+## 基本操作\{#basic-operations}
 
-`GEOMETRY` フィールドを使用するワークフローでは、コレクションスキーマでフィールドを定義し、幾何データを挿入してから、特定のフィルター式を使用してデータをクエリします。
+`GEOMETRY` フィールドを使用するワークフローでは、コレクションスキーマでフィールドを定義し、幾何学データを挿入してから、特定のフィルター式を使用してデータをクエリします。
 
 ### ステップ 1: GEOMETRY フィールドを定義する\{#step-1-define-a-geometry-field}
 
-`GEOMETRY` フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例では、型が `DataType.GEOMETRY` の `geo` フィールドを持つコレクションを作成する方法を示します。
+`GEOMETRY` フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例では、`DataType.GEOMETRY` 型の `geo` フィールドを持つコレクションを作成する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,6 +260,46 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+const int DIM = 8;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Create schema with a GEOMETRY field
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("embeddings", dimension: DIM),
+        new FieldSchema("geo", DataType.Geometry) { Nullable = true },
+        FieldSchema.CreateVarchar("name", maxLength: 128)
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema,
+    ConsistencyLevel = ConsistencyLevel.Strong
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -313,15 +353,15 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` により null 値を許可します。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
+この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` により null 値を許可します。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-幾何データを含むエンティティを [WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で挿入します。以下は、複数の地理ポイントを使用した例です：
+[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で幾何学データを含むエンティティを挿入します。次に、複数の地理ポイントを含む例を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -563,6 +603,55 @@ console.log(insert_result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+const string COLLECTION_NAME = "geo_collection";
+
+var geoPoints = new[]
+{
+    "POINT(13.399710 52.518010)",
+    "POINT(13.403934 52.522877)",
+    "POINT(13.405088 52.521124)",
+    "POINT(13.408223 52.516876)",
+    "POINT(13.400092 52.521507)",
+    "POINT(13.408529 52.519274)"
+};
+var names = new[] { "Shop A", "Shop B", "Shop C", "Shop D", "Shop E", "Shop F" };
+float[][] vectors =
+[
+    [0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f],
+    [0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f],
+    [0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f],
+    [0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f],
+    [0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f],
+    [0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f, 0.3f]
+];
+
+var rows = new List<IDictionary<string, object?>>();
+for (int i = 0; i < geoPoints.Length; i++)
+{
+    rows.Add(new Dictionary<string, object?>
+    {
+        ["id"] = (long)(i + 1),
+        ["geo"] = geoPoints[i],
+        ["name"] = names[i],
+        ["embeddings"] = vectors[i]
+    });
+}
+
+var insertResult = await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    RowsData = rows
+});
+Console.WriteLine($"insert_count: {insertResult.InsertCount}");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -620,7 +709,7 @@ curl --request POST \
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`GEOMETRY` フィールドでフィルタリング操作を実行する前に、次のことを確認してください：
+`GEOMETRY` フィールドでフィルタリング操作を実行する前に、次の点を確認してください。
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -630,7 +719,7 @@ curl --request POST \
 
 <summary>コードを表示</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -794,6 +883,29 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = COLLECTION_NAME,
+    Indexes = new[]
+    {
+        new IndexParam("embeddings", "embeddings", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = COLLECTION_NAME });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -833,19 +945,19 @@ sleep 3
 
 </details>
 
-これらの要件を満たすと、専用のジオメトリ演算子を含む式を使用して、幾何値に基づいてコレクションをフィルタリングできます。
+これらの要件を満たしたら、専用のジオメトリ演算子を含む式を使用して、幾何学値に基づいてコレクションをフィルターできます。
 
 #### フィルター式を定義する\{#define-filter-expressions}
 
-`GEOMETRY` フィールドでフィルタリングするには、式でジオメトリ演算子を使用します：
+`GEOMETRY` フィールドをフィルターするには、式でジオメトリ演算子を使用します。
 
-- 一般：`{operator}(geo_field, '{wkt}')`
+- 一般: `{operator}(geo_field, '{wkt}')`
 
-- 距離ベース：`ST_DWITHIN(geo_field, '{wkt}', distance)`
+- 距離ベース: `ST_DWITHIN(geo_field, '{wkt}', distance)`
 
-ここで：
+各要素の意味は次のとおりです。
 
-- `operator` は、サポートされているジオメトリ演算子の 1 つです（例：`ST_CONTAINS`、`ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字である必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators) を参照してください。
+- `operator` は、サポートされているジオメトリ演算子の 1 つです（例: `ST_CONTAINS`、`ST_INTERSECTS`）。演算子名は、すべて大文字またはすべて小文字で指定する必要があります。サポートされている演算子の一覧については、[Supported geometry operators](./geometry-operators) を参照してください。
 
 - `geo_field` は、`GEOMETRY` フィールドの名前です。
 
@@ -853,11 +965,11 @@ sleep 3
 
 - `distance` は、`ST_DWITHIN` 専用のしきい値です。
 
-次の例では、フィルター式でさまざまなジオメトリ固有の演算子を使用する方法を示します：
+次の例では、フィルター式でさまざまなジオメトリ固有の演算子を使用する方法を示します。
 
 #### 例 1: 矩形領域内のエンティティを検索する\{#example-1-find-entities-within-a-rectangular-area}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1040,6 +1152,34 @@ for (const ret of query_results.data) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+float topLeftLon = 13.403683f;
+float topLeftLat = 52.520711f;
+float bottomRightLon = 13.455868f;
+float bottomRightLat = 52.495862f;
+string boundingBoxWkt = $"POLYGON(({topLeftLon} {topLeftLat}, {bottomRightLon} {topLeftLat}, {bottomRightLon} {bottomRightLat}, {topLeftLon} {bottomRightLat}, {topLeftLon} {topLeftLat}))";
+
+var queryResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = COLLECTION_NAME,
+    Expression = $"st_within(geo, '{boundingBoxWkt}')",
+    Parameters = new QueryParameters { OutputFields = { "name", "geo" } }
+});
+for (int i = 0; i < queryResults.RowCount; i++)
+{
+    Console.WriteLine(string.Join(", ", queryResults.GetRow(i).Select(pair => $"{pair.Key}={pair.Value}")));
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1059,9 +1199,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 2: 中心点から 1 km 以内のエンティティを検索する\{#example-2-find-entities-within-1km-of-a-central-point}
+#### 例 2: 中心点から 1km 以内のエンティティを検索する\{#example-2-find-entities-within-1km-of-a-central-point}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1243,6 +1383,33 @@ for (const ret of query_results_dwithin.data) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+
+float centerPointLon = 13.403683f;
+float centerPointLat = 52.520711f;
+float radiusMeters = 1000.0f;
+string centralPointWkt = $"POINT({centerPointLon} {centerPointLat})";
+
+var queryResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = COLLECTION_NAME,
+    Expression = $"st_dwithin(geo, '{centralPointWkt}', {radiusMeters})",
+    Parameters = new QueryParameters { OutputFields = { "name", "geo" } }
+});
+for (int i = 0; i < queryResults.RowCount; i++)
+{
+    Console.WriteLine(string.Join(", ", queryResults.GetRow(i).Select(pair => $"{pair.Key}={pair.Value}")));
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1262,9 +1429,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 3: ベクトル類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
+#### 例 3: ベクトルの類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1461,6 +1628,32 @@ for (const hit of search_results.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+const string COLLECTION_NAME = "geo_collection";
+string boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
+
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = COLLECTION_NAME,
+    VectorFieldName = "embeddings",
+    Vectors = new[] { new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f }) },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "name", "geo" },
+        Expression = $"st_within(geo, '{boundingBoxWkt}')"
+    }
+});
+Console.WriteLine(result.SingleResults?.FirstOrDefault()?.Scores.Count ?? 0);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1497,20 +1690,20 @@ curl --request POST \
 
 ## 次のステップ: クエリを高速化する\{#next-accelerate-queries}
 
-デフォルトでは、インデックスのない `GEOMETRY` フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。幾何クエリを高速化するには、GEOMETRY フィールドに `AUTOINDEX` インデックスを作成します。
+デフォルトでは、インデックスのない `GEOMETRY` フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。幾何学クエリを高速化するには、GEOMETRY フィールドに `AUTOINDEX` インデックスを作成します。
 
 詳細は、[RTREE](./rtree-index-type) を参照してください。
 
 ## よくある質問\{#faq}
 
-### コレクションで動的フィールド機能を有効にしている場合、動的フィールドキーに幾何データを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
+### コレクションで動的フィールド機能を有効にした場合、幾何学データを動的フィールドのキーに挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
 
-いいえ、幾何データは動的フィールドに挿入できません。幾何データを挿入する前に、`GEOMETRY` フィールドがコレクションスキーマで明示的に定義されていることを確認してください。
+いいえ、幾何学データを動的フィールドに挿入することはできません。幾何学データを挿入する前に、コレクションスキーマで `GEOMETRY` フィールドが明示的に定義されていることを確認してください。
 
 ### GEOMETRY フィールドは mmap 機能をサポートしていますか？\{#does-the-geometry-field-support-the-mmap-feature}
 
-はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細は、[mmap の使用](./use-mmap) を参照してください。
+はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細は、[Use mmap](./use-mmap) を参照してください。
 
-### GEOMETRY フィールドを nullable に定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
+### GEOMETRY フィールドを nullable に設定したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
 
-はい、GEOMETRY フィールドは `nullable` 属性と WKT 形式のデフォルト値をサポートしています。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
+はい、GEOMETRY フィールドは `nullable` 属性と WKT 形式のデフォルト値をサポートしています。詳細は、[Nullable & Default](./nullable-fields) を参照してください。

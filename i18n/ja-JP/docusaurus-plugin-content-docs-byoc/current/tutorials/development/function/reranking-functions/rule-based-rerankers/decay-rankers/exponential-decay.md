@@ -108,7 +108,7 @@ $\lambda$ の計算では、scale パラメーターと decay パラメーター
 
 <Admonition type="info" title="Notes">
 
-減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker Tutorial](./tutorial-implement-time-based-ranking) を参照してください。
+減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: 時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -122,7 +122,7 @@ $\lambda$ の計算では、scale パラメーターと decay パラメーター
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -257,6 +257,29 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an exponential decay ranker for news recency
+// Note: All time parameters must use the same unit as your collection data
+var rerank = new DecayRerank("news_recency")  // Function identifier
+    .WithInputField("publish_time")           // Numeric field to use
+    .WithFunction("exp")                      // Choose exponential decay
+    .WithOrigin(DateTimeOffset.UtcNow.ToUnixTimeSeconds())  // Current time (seconds, matching collection data)
+    .WithOffset(3 * 60 * 60)                  // 3 hour breaking news window (seconds)
+    .WithDecay(0.5f)                          // Half score at scale distance
+    .WithScale(24 * 60 * 60);                 // 24 hours (in seconds, matching collection data)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -272,7 +295,7 @@ const rerank = {
 
 減衰ランカーを定義したら、検索操作時に `ranker` パラメーターに渡すことで適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +433,34 @@ const result = await milvusClient.search({
   output_fields: ["title", "publish_time"],
   rerank: rerank, // Apply the decay ranker
   consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Apply decay ranker to vector search
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",                    // Vector field to search
+    Vectors = new[] { new ReadOnlyMemory<float>(yourQueryVector) },  // Replace with your query vector
+    Limit = 10,                                   // Number of results
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "title", "publish_time" }, // Fields to return
+        FunctionScoreReranker = rerank,             // Apply the decay ranker
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

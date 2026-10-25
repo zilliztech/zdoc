@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # 密ベクトル
 
-密ベクトルは、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、ほとんどの要素またはすべての要素がゼロ以外です。スパースベクトルと比較して、密ベクトルは同じ次元レベルでより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現は複雑なパターンや関係を効果的に捉えることができ、高次元空間でのデータの分析と処理を容易にします。密ベクトルは通常、固定された次元数を持ち、特定のアプリケーションと要件に応じて数十から数百、あるいは数千に及ぶこともあります。
+密ベクトルは、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、ほとんどの要素またはすべての要素がゼロ以外です。スパースベクトルと比較して、密ベクトルは同じ次元レベルでより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現により、複雑なパターンや関係を効果的に捉えることができ、高次元空間でのデータの分析と処理が容易になります。密ベクトルは通常、固定された次元数を持ち、特定のアプリケーションと要件に応じて数十から数百、あるいは数千に及ぶこともあります。
 
-密ベクトルは主に、セマンティック検索やレコメンデーションシステムなど、データのセマンティクスを理解する必要があるシナリオで使用されます。セマンティック検索では、密ベクトルはクエリとドキュメント間の潜在的なつながりを捉え、検索結果の関連性を向上させるのに役立ちます。レコメンデーションシステムでは、ユーザーとアイテム間の類似性を特定し、よりパーソナライズされた提案を提供するのに役立ちます。
+密ベクトルは主に、セマンティック検索やレコメンデーションシステムなど、データのセマンティクスを理解する必要があるシナリオで使用されます。セマンティック検索では、密ベクトルによってクエリとドキュメント間の潜在的なつながりを捉え、検索結果の関連性を向上させることができます。レコメンデーションシステムでは、ユーザーとアイテム間の類似性を特定し、よりパーソナライズされた提案を提供するのに役立ちます。
 
 ## 概要\{#overview}
 
-密ベクトルは通常、固定長の浮動小数点数配列として表されます（例：`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`）。これらのベクトルの次元数は通常、128、256、768、1024 などの数百から数千の範囲です。各次元はオブジェクトの特定のセマンティック特徴を捉え、類似度計算を通じてさまざまなシナリオに適用できるようにします。
+密ベクトルは通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]` のような固定長の浮動小数点数配列として表されます。これらのベクトルの次元数は通常、128、256、768、1024 などの数百から数千の範囲です。各次元はオブジェクトの特定のセマンティックな特徴を捉え、類似度計算を通じてさまざまなシナリオに適用できるようにします。
 
 ![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
 
-上の図は、2D 空間における密ベクトルの表現を示しています。実際のアプリケーションの密ベクトルははるかに高次元であることがよくありますが、この 2D の図は、いくつかの主要な概念を効果的に伝えています。
+上の図は、2D 空間における密ベクトルの表現を示しています。実際のアプリケーションでは密ベクトルの次元がはるかに高いことがよくありますが、この 2D の図はいくつかの主要な概念を効果的に伝えています。
 
 - **多次元表現:** 各点は概念的なオブジェクト（**Milvus**、**ベクトルデータベース**、**検索システム** など）を表し、その位置は各次元の値によって決まります。
 
-- **セマンティックな関係:** 点間の距離は、概念間のセマンティックな類似性を反映します。点が近いほど、意味的に関連する概念であることを示します。
+- **セマンティックな関係:** 点間の距離は概念間のセマンティックな類似性を反映します。点の距離が近いほど、概念の関連性が高いことを示します。
 
-- **クラスタリング効果:** 関連する概念（**Milvus**、**ベクトルデータベース**、**検索システム**）は空間内で互いに近くに配置され、セマンティッククラスターを形成します。
+- **クラスタリング効果:** 関連する概念（**Milvus**、**ベクトルデータベース**、**検索システム** など）は空間内で互いに近くに配置され、セマンティックなクラスターを形成します。
 
 以下は、テキスト `"Milvus is an efficient vector database"` を表す実際の密ベクトルの例です。
 
@@ -55,9 +55,9 @@ import TabItem from '@theme/TabItem';
 ]
 ```
 
-密ベクトルは、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。たとえば、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec)）などがあります。これらのモデルは、生データを高次元空間内の点に変換し、データのセマンティック特徴を捉えます。さらに、Zilliz Cloud は、密ベクトルを生成および処理するための便利な方法を提供しています。詳細は Embeddings で説明しています。
+密ベクトルは、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html) など）やテキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec) など）を含む、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。これらのモデルは、生データを高次元空間内の点に変換し、データのセマンティックな特徴を捉えます。また、Zilliz Cloud は密ベクトルの生成と処理に役立つ便利な方法を提供しています。詳細は Embeddings で説明しています。
 
-データがベクトル化されると、管理およびベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は基本的なプロセスを示しています。
+データがベクトル化されると、管理とベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は基本的なプロセスを示しています。
 
 ![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
@@ -69,17 +69,17 @@ import TabItem from '@theme/TabItem';
 
 ## 密ベクトルを使用する\{#use-dense-vectors}
 
-### ベクトルフィールドの追加\{#add-vector-field}
+### ベクトルフィールドを追加する\{#add-vector-field}
 
-Zilliz Cloud クラスターで密ベクトルを使用するには、まずコレクションを作成するときに密ベクトルを保存するベクトルフィールドを定義します。このプロセスには以下が含まれます。
+Zilliz Cloud クラスターで密ベクトルを使用するには、まずコレクションの作成時に密ベクトルを保存するベクトルフィールドを定義します。このプロセスには以下が含まれます。
 
 1. `datatype` を、サポートされている密ベクトルのデータ型に設定します。サポートされている密ベクトルのデータ型については、Data Types を参照してください。
 
 1. `dim` パラメーターを使用して、密ベクトルの次元数を指定します。
 
-次の例では、密ベクトルを保存するために `dense_vector` という名前のベクトルフィールドを追加します。このフィールドのデータ型は `FLOAT_VECTOR`、次元数は `4` です。
+以下の例では、密ベクトルを保存する `dense_vector` という名前のベクトルフィールドを追加します。このフィールドのデータ型は `FLOAT_VECTOR` で、次元数は `4` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -244,6 +244,32 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateFloatVector("dense_vector", dimension: 4)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -280,16 +306,16 @@ export schema="{
 
 | データ型 | 説明 |
 | --- | --- |
-| `FLOAT_VECTOR` | 32 ビットの浮動小数点数を格納します。科学計算や機械学習で実数を表現するためによく使用され、類似したベクトルを区別するなど、高い精度が求められるシナリオに最適です。 |
+| `FLOAT_VECTOR` | 32 ビットの浮動小数点数を格納します。科学計算や機械学習で実数を表現するためによく使用されます。類似したベクトルを区別するなど、高い精度が求められるシナリオに適しています。 |
 | `FLOAT16_VECTOR` | 16 ビットの半精度浮動小数点数を格納し、深層学習や GPU 計算で使用されます。レコメンデーションシステムの低精度リコールフェーズなど、精度がそれほど重要でないシナリオではストレージスペースを節約します。 |
 | `BFLOAT16_VECTOR` | 16 ビットの Brain Floating Point（bfloat16）数値を格納し、Float32 と同じ指数範囲を持ちながら精度が低くなります。大規模な画像検索など、大量のベクトルを高速に処理する必要があるシナリオに適しています。 |
-| `INT8_VECTOR` | 各次元の個々の要素が 8 ビット整数（int8）であるベクトルを格納し、各要素の範囲は –128 から 127 です。量子化された深層学習モデル（ResNet、EfficientNet など）向けに設計されており、INT8_VECTOR は精度の損失を最小限に抑えながらモデルサイズを削減し、推論を高速化します。 |
+| `INT8_VECTOR` | 各次元の個々の要素が 8 ビット整数（int8）であるベクトルを格納します。各要素の範囲は –128 から 127 です。量子化された深層学習モデル（ResNet、EfficientNet など）向けに設計されており、INT8_VECTOR は精度の損失を最小限に抑えながらモデルサイズを削減し、推論を高速化します。 |
 
 ### ベクトルフィールドのインデックスパラメーターを設定する\{#set-index-params-for-vector-field}
 
 セマンティック検索を高速化するには、ベクトルフィールドにインデックスを作成する必要があります。インデックス作成により、大規模なベクトルデータの検索効率を大幅に向上できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +406,24 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var indexParams = new[]
+{
+    new IndexParam(
+        fieldName: "dense_vector",
+        indexName: "dense_vector_index",
+        indexType: IndexType.AutoIndex,
+        metricType: MetricType.Ip)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -400,11 +444,11 @@ export indexParams='[
 
 Zilliz Cloud は他のメトリクスタイプもサポートしています。詳細については、[メトリクスタイプ](./search-metrics-explained) を参照してください。
 
-### コレクションの作成\{#create-collection}
+### コレクションを作成する\{#create-collection}
 
-密ベクトルとインデックスパラメーターの設定が完了したら、密ベクトルを含むコレクションを作成できます。次の例では、`create_collection` メソッドを使用して、`my_collection` という名前のコレクションを作成します。
+密ベクトルとインデックスパラメーターの設定が完了したら、密ベクトルを含むコレクションを作成できます。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -509,6 +553,23 @@ console.log(createRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -530,11 +591,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### データの挿入\{#insert-data}
+### データを挿入する\{#insert-data}
 
 コレクションを作成したら、`insert` メソッドを使用して、密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドの追加時に定義した `dim` の値と一致していることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -669,6 +730,34 @@ console.log(insertRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.7f }
+    },
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.2f, 0.3f, 0.4f, 0.8f }
+    }
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -694,11 +783,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 類似検索の実行\{#perform-similarity-search}
+### 類似検索を実行する\{#perform-similarity-search}
 
-密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
+密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけられます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -859,6 +948,33 @@ const searchRes = await client.search({
 });
 
 console.log(searchRes);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.7f });
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "dense_vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 10,
+        OutputFields = { "pk" }
+    }
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
 ```
 
 </TabItem>
