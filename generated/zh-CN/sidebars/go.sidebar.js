@@ -6,49 +6,6 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "AnnParam",
-    "key": "category:api/go/go/v2/v2-vector-annparam",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-Vector-AnnParam",
-        "label": "AnnParam",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-vector-annparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam",
-        "label": "NewAutoAnnParam()",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newautoannparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewAISAQAnnParam",
-        "label": "NewAISAQAnnParam",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newaisaqannparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPQAnnParam",
-        "label": "NewHNSWPQAnnParam",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswpqannparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWPRQAnnParam",
-        "label": "NewHNSWPRQAnnParam",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswprqannparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Vector-AnnParam/v2-AnnParam-NewHNSWSQAnnParam",
-        "label": "NewHNSWSQAnnParam",
-        "key": "doc:api/go/go/v2/v2-Vector-AnnParam/v2-annparam-newhnswsqannparam"
-      }
-    ]
-  },
-  {
-    "type": "category",
     "label": "Authentication",
     "key": "category:api/go/go/v2/v2-authentication",
     "items": [
@@ -1077,6 +1034,25 @@ module.exports = [
     "label": "Vector",
     "key": "category:api/go/go/v2/v2-vector",
     "items": [
+      {
+        "type": "category",
+        "label": "AnnParam",
+        "key": "category:api/go/go/v2/v2-Vector/v2-vector-annparam",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam",
+            "label": "AnnParam",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-vector-annparam"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam",
+            "label": "NewAutoAnnParam()",
+            "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newautoannparam"
+          }
+        ]
+      },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray",
