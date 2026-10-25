@@ -109,7 +109,7 @@ Use collection-level TTL when every entity in the collection should follow the s
 
 Pass `collection.ttl.seconds` (integer, in seconds) through the `properties` map at creation time.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -309,6 +309,41 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 128 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)],
+    Properties = { ["collection.ttl.seconds"] = "1209600" } // 14 days
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -367,7 +402,7 @@ curl --request POST \
 
 Call `alter_collection_properties` with `collection.ttl.seconds` in the `properties` map to apply TTL to a collection that is already in use.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -615,6 +650,31 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Assumes "my_collection" was created earlier without TTL
+if (await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" }) is not { Has: true })
+{
+    await client.CreateCollectionAsync(new CreateCollectionReq
+    {
+        CollectionName = "my_collection",
+        Schema = schema,
+        Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)]
+    });
+}
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["collection.ttl.seconds"] = "1209600" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -689,7 +749,7 @@ curl --request POST \
 
 If you decide to keep the data in a collection indefinitely, you can simply drop the TTL setting from that collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -815,6 +875,20 @@ await client.dropCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["collection.ttl.seconds"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -845,7 +919,7 @@ Entity-level TTL lets each entity carry its own absolute expiration time. The ti
 
 Enabling entity-level TTL at creation time takes two additions in the same `create_collection` call: a `TIMESTAMPTZ` field in the schema, and the `ttl_field` property pointing to that field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1047,6 +1121,42 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("expire_at", DataType.Timestamptz) { Nullable = true },
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 128 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)],
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1108,7 +1218,7 @@ curl --request POST \
 
 Once the collection exists, insert entities with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp strings.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1331,6 +1441,28 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var vector = Enumerable.Repeat(0.1f, 128).ToArray();
+
+// Assumes "my_collection" was created earlier with `ttl_field`: "expire_at"
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["expire_at"] = null, ["vector"] = vector }, // Never expires
+        new Dictionary<string, object?> { ["id"] = 2L, ["expire_at"] = "2026-12-31T00:00:00Z", ["vector"] = vector }, // Expires at 2026-12-31 UTC midnight
+        new Dictionary<string, object?> { ["id"] = 3L, ["expire_at"] = "2027-01-01T00:00:00+08:00", ["vector"] = vector } // Shanghai local time — normalized to UTC internally
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1352,7 +1484,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --he
 
 On every query and vector search, the server auto-injects the TTL filter — you never write one yourself, and expired entities never appear in the results:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1530,6 +1662,30 @@ console.log(results.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Expired rows are filtered out automatically
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "id >= 0",
+    Parameters = new QueryParameters { OutputFields = { "id", "expire_at" }, Limit = 10 }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1565,7 +1721,7 @@ The same auto-filter applies to `client.search()`.
 
 To extend an entity's lifetime before compaction physically removes it, upsert with a later expiration timestamp — or `None` — to return the entity to the queryable set.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1738,6 +1894,23 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 2L, ["vector"] = vector, ["expire_at"] = "2028-01-01T00:00:00Z" }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1759,7 +1932,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 
 If the collection already exists and does not have `collection.ttl.seconds` set, add a `TIMESTAMPTZ` column with `add_collection_field`, then mark it as the TTL field with `alter_collection_properties`. Optionally upsert historical rows to backfill their expiration timestamps — rows you do not backfill keep `NULL` and never expire.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2028,6 +2201,29 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Step 1 — add a TIMESTAMPTZ column to the schema
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    Field = new FieldSchema("expire_at", DataType.Timestamptz) { Nullable = true }
+});
+
+// Step 2 — mark the new column as the TTL field
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2067,7 +2263,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 
 Call `drop_collection_properties` with `ttl_field` in `property_keys` to stop per-entity expiration. The `TIMESTAMPTZ` column itself remains on the schema — you can still query on it as a regular field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2192,6 +2388,20 @@ await client.dropCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["ttl_field"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2224,7 +2434,7 @@ The two TTL modes are mutually exclusive, so switching between them is a multi-s
 
 If your collection was created with `collection.ttl.seconds` and you want to switch to per-entity expiration, follow these four steps. Skipping Step 1 causes Step 3 to fail with `collection TTL is already set, cannot be set ttl field`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2533,6 +2743,36 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["collection.ttl.seconds"]
+});
+
+// Step 2 — add a TIMESTAMPTZ column to the schema
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    Field = new FieldSchema("expire_at", DataType.Timestamptz) { Nullable = true }
+});
+
+// Step 3 — set the ttl_field property on the column you just added
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2583,7 +2823,7 @@ Historical entities for which you do not backfill `expire_at` will have `NULL` i
 
 To move in the other direction, drop `ttl_field` and set `collection.ttl.seconds`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2743,6 +2983,27 @@ await client.dropCollectionProperties({
 await client.alterCollectionProperties({
   collection_name: "my_collection",
   properties: { "collection.ttl.seconds": 1209600 }, // 14 days
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Assumes "my_collection" already exists with `ttl_field` set.
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["ttl_field"]
+});
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["collection.ttl.seconds"] = "1209600" } // 14 days
 });
 ```
 
