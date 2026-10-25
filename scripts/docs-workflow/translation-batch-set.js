@@ -6,7 +6,7 @@ const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 
 const { mergeCache } = require('./apply-checkpoint-artifact')
-const { commitAppliedBatch } = require('./translation-staging')
+const { BOT_EMAIL, commitAppliedBatch } = require('./translation-staging')
 const { validateTranslationBatch } = require('./validate-translation-batch')
 
 const SHA = /^[0-9a-f]{40}$/
@@ -270,6 +270,42 @@ function sourceBaselineIdentity(repository, sha) {
   return { files, deletions: [] }
 }
 
+// The Guides lane publishes each applied batch as its own commit on the target
+// branch, authored by the translation bot with this exact subject. The
+// publication history of the translation roots is therefore machine-checkable,
+// which is what lets a continuation baseline be authenticated against a
+// checkpoint whose tutorial tree it has legitimately moved past.
+const TRANSLATION_PUBLICATION_SUBJECT = /^docs\(i18n\): apply Guides translation batch [1-9][0-9]*\/[1-9][0-9]*$/
+
+function translationPublicationCommits(repository, sourceCheckpointSha, expectedTargetSha) {
+  try { git(repository, ['merge-base', '--is-ancestor', sourceCheckpointSha, expectedTargetSha]) }
+  catch { throw new Error('Source checkpoint SHA is not an ancestor of the expected target SHA') }
+  const records = git(repository, [
+    'log',
+    '--format=%H%x00%ae%x00%ce%x00%s%x01',
+    `${sourceCheckpointSha}..${expectedTargetSha}`,
+    '--',
+    ...TRANSLATION_ROOTS,
+  ], { buffer: true }).toString('utf8')
+  return records.split('\x01')
+    .map(record => record.replace(/^\n/, ''))
+    .filter(Boolean)
+    .map(record => {
+      const [sha, authorEmail, committerEmail, subject] = record.split('\x00')
+      return { sha, authorEmail, committerEmail, subject }
+    })
+}
+
+function assertBaselinePublicationProvenance({ repository, sourceCheckpointSha, expectedTargetSha }) {
+  const commits = translationPublicationCommits(repository, sourceCheckpointSha, expectedTargetSha)
+  for (const commit of commits) {
+    if (commit.authorEmail !== BOT_EMAIL || commit.committerEmail !== BOT_EMAIL || !TRANSLATION_PUBLICATION_SUBJECT.test(commit.subject || '')) {
+      throw new Error(`Unexpected non-translation commit in the target translation history: ${commit.sha} ${commit.subject}`)
+    }
+  }
+  return commits.length
+}
+
 function compareNonMutablePayload(result, baseline) {
   const selectFiles = manifest => manifest.files.filter(entry => !isMutablePath(entry.path))
     .map(entry => ({ path: entry.path, size: entry.size, sha256: entry.sha256 }))
@@ -436,7 +472,21 @@ async function planTranslationBatchSet({ pairs, sourceRepository, sourceCheckpoi
   const baselineIdentity = normalizedBaselineIdentity(validated[0].baseline)
   for (const pair of validated.slice(1)) if (canonical(normalizedBaselineIdentity(pair.baseline)) !== canonical(baselineIdentity)) throw new Error('Translation batch baseline identity mismatch')
   const sourceIdentity = sourceBaselineIdentity(sourceRepository, sourceCheckpointSha)
-  if (canonical(baselineIdentity) !== canonical(sourceIdentity)) throw new Error('Translation baseline does not match source checkpoint Git tree')
+  if (canonical(baselineIdentity) !== canonical(sourceIdentity)) {
+    // Guides continuation runs translate the tail of one fetch backlog after a
+    // prior run already published against the same checkpoint, so the run
+    // baseline legitimately carries that publication's tutorial-tree deltas —
+    // the workflow materializes the baseline from the target side precisely to
+    // avoid rewinding published translations. Byte equality with the checkpoint
+    // tree is then impossible, so provenance takes over: every target-side
+    // commit that touched the translation roots between the checkpoint and the
+    // expected target must be a translation bot batch publication, and the
+    // baseline must byte-match the expected target's tutorial tree. Anything
+    // else (manual edits, syncs, foreign automation) still fails closed.
+    assertBaselinePublicationProvenance({ repository: targetRepository, sourceCheckpointSha, expectedTargetSha })
+    const targetIdentity = sourceBaselineIdentity(targetRepository, expectedTargetSha)
+    if (canonical(baselineIdentity) !== canonical(targetIdentity)) throw new Error('Translation baseline does not match the expected target translation tree')
+  }
   const body = {
     schemaVersion: 1,
     group: 'guides',
@@ -643,9 +693,11 @@ if (require.main === module) {
 
 module.exports = {
   SOURCE_AUTHORITY,
+  assertBaselinePublicationProvenance,
   assertGuidesSourceAuthority,
   composeTranslationBatchSetLatestTip,
   normalizedBaselineIdentity,
   planTranslationBatchSet,
   resolveAuthorityCheckpoint,
+  translationPublicationCommits,
 }

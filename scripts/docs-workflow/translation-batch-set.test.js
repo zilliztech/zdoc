@@ -13,11 +13,14 @@ const { createCheckpointArtifact } = require('./create-checkpoint-artifact')
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact')
 
 const {
+  assertBaselinePublicationProvenance,
   assertGuidesSourceAuthority,
   normalizedBaselineIdentity,
   planTranslationBatchSet,
   resolveAuthorityCheckpoint,
+  translationPublicationCommits,
 } = require('./translation-batch-set')
+const { BOT_EMAIL } = require('./translation-staging')
 
 const MASTER_SHA = 'a'.repeat(40)
 const DEFAULT_CACHE = Buffer.from('{"files":{}}\n')
@@ -112,7 +115,7 @@ async function createPair(fixture, batchNumber, options = {}) {
   const suffix = `${batchNumber}-${Math.random().toString(16).slice(2)}`
   const baselineDir = path.join(fixture.root, `baseline-${suffix}`)
   const workspace = path.join(fixture.root, `workspace-${suffix}`)
-  copyTree(fixture.sourceRepository, baselineDir)
+  copyTree(options.baselineRepository || fixture.sourceRepository, baselineDir)
   if (!fs.existsSync(path.join(baselineDir, CACHE_PATH))) write(baselineDir, CACHE_PATH, DEFAULT_CACHE)
   await options.mutateBaseline?.(baselineDir)
   copyTree(baselineDir, workspace)
@@ -277,6 +280,126 @@ test('tolerates a shared cache that another group advanced past the source check
   // A publication landing between the two batch jobs leaves their caches apart.
   state = await twoPairFixture({}, { mutateBaseline: advanced })
   await assert.doesNotReject(planFor(state.fixture, [state.first, state.second]))
+})
+
+function commitOnTarget(fixture, message, files, identity) {
+  for (const [relative, bytes] of Object.entries(files)) write(fixture.targetRepository, relative, bytes)
+  git(fixture.targetRepository, 'add', '.')
+  git(fixture.targetRepository, '-c', `user.name=${identity?.name || 'Zilliz Docs Translation Bot'}`, '-c', `user.email=${identity?.email || BOT_EMAIL}`, 'commit', '-m', message)
+  fixture.expectedTargetSha = git(fixture.targetRepository, 'rev-parse', 'HEAD')
+}
+
+test('plans a Guides continuation baseline that carries prior same-checkpoint publications', async () => {
+  // A capped Guides backlog drains across runs: run 1 already published batches
+  // against this checkpoint, so the continuation baseline is the target tree
+  // (checkpoint tutorial tree plus run 1's batch commits) rather than the
+  // checkpoint tree itself.
+  const fixture = await repositoryFixture()
+  commitOnTarget(fixture, 'docs(i18n): apply Guides translation batch 1/10', { [`${SAAS_ROOT}/old.md`]: '# 古い（更新済み）\n' })
+  const history = translationPublicationCommits(fixture.targetRepository, fixture.sourceCheckpointSha, fixture.expectedTargetSha)
+  assert.equal(history.length, 1)
+  assert.equal(history[0].authorEmail, BOT_EMAIL)
+  assert.equal(history[0].committerEmail, BOT_EMAIL)
+  assert.equal(history[0].subject, 'docs(i18n): apply Guides translation batch 1/10')
+  const first = await createPair(fixture, 1, { baselineRepository: fixture.targetRepository })
+  const second = await createPair(fixture, 2, { baselineRepository: fixture.targetRepository })
+  const plan = await planFor(fixture, [first, second])
+  assert.deepEqual(plan.batches.map(batch => batch.batchNumber), [1, 2])
+  assert.deepEqual(plan.batches[0].writes.map(item => item.path), [first.targetPath])
+  assert.deepEqual(plan.batches[1].writes.map(item => item.path), [second.targetPath])
+  assert.equal(assertBaselinePublicationProvenance({
+    repository: fixture.targetRepository,
+    sourceCheckpointSha: fixture.sourceCheckpointSha,
+    expectedTargetSha: fixture.expectedTargetSha,
+  }), 1)
+})
+
+test('rejects a continuation whose translation history contains a non-publication commit', async () => {
+  const fixture = await repositoryFixture()
+  commitOnTarget(fixture, 'hand edit of a published tutorial', { [`${SAAS_ROOT}/old.md`]: '# 手直し\n' }, { name: 'Hand Editor', email: 'hand@example.com' })
+  const first = await createPair(fixture, 1, { baselineRepository: fixture.targetRepository })
+  await assert.rejects(
+    planFor(fixture, [first, await createPair(fixture, 2, { baselineRepository: fixture.targetRepository })]),
+    /Unexpected non-translation commit in the target translation history/,
+  )
+
+  // A batch-format subject from any identity other than the translation bot is
+  // equally foreign: the subject alone is not publication provenance.
+  const spoofed = await repositoryFixture()
+  commitOnTarget(spoofed, 'docs(i18n): apply Guides translation batch 1/10', { [`${SAAS_ROOT}/old.md`]: '# なりすまし\n' }, { name: 'Someone Else', email: 'someone-else@example.com' })
+  const spoofedFirst = await createPair(spoofed, 1, { baselineRepository: spoofed.targetRepository })
+  await assert.rejects(
+    planFor(spoofed, [spoofedFirst, await createPair(spoofed, 2, { baselineRepository: spoofed.targetRepository })]),
+    /Unexpected non-translation commit in the target translation history/,
+  )
+})
+
+test('rejects a continuation baseline that does not match the expected target translation tree', async () => {
+  // The baselines were captured after run 1's publication but a second
+  // publication landed on the target before dispatch: provenance holds, yet
+  // the baselines no longer describe the expected target tree.
+  const fixture = await repositoryFixture()
+  commitOnTarget(fixture, 'docs(i18n): apply Guides translation batch 1/10', { [`${SAAS_ROOT}/old.md`]: '# 古い（更新済み）\n' })
+  commitOnTarget(fixture, 'docs(i18n): apply Guides translation batch 2/10', { [`${SAAS_ROOT}/same.md`]: '# 同じ（更新済み）\n' })
+  const staleBaseline = root => write(root, `${SAAS_ROOT}/old.md`, '# 古い（更新済み）\n')
+  const first = await createPair(fixture, 1, { mutateBaseline: staleBaseline })
+  const second = await createPair(fixture, 2, { mutateBaseline: staleBaseline })
+  await assert.rejects(
+    planFor(fixture, [first, second]),
+    /Translation baseline does not match the expected target translation tree/,
+  )
+})
+
+test('rejects a continuation when the source checkpoint is not an ancestor of the expected target', async () => {
+  const fixture = await repositoryFixture()
+  const branch = git(fixture.targetRepository, 'rev-parse', '--abbrev-ref', 'HEAD')
+  git(fixture.targetRepository, 'checkout', '--orphan', 'divergent')
+  commitOnTarget(fixture, 'docs(i18n): apply Guides translation batch 1/10', { [`${SAAS_ROOT}/old.md`]: '# 分岐\n' })
+  const divergentSha = git(fixture.targetRepository, 'rev-parse', 'HEAD')
+  git(fixture.targetRepository, 'checkout', branch)
+  const baseline = root => write(root, `${SAAS_ROOT}/old.md`, '# 分岐\n')
+  const first = await createPair(fixture, 1, { mutateBaseline: baseline })
+  const second = await createPair(fixture, 2, { mutateBaseline: baseline })
+  await assert.rejects(
+    planTranslationBatchSet({
+      pairs: [
+        { artifactDir: first.artifactDir, baselineDir: first.baselineDir },
+        { artifactDir: second.artifactDir, baselineDir: second.baselineDir },
+      ],
+      sourceRepository: fixture.sourceRepository,
+      sourceCheckpointSha: fixture.sourceCheckpointSha,
+      targetRepository: fixture.targetRepository,
+      expectedTargetSha: divergentSha,
+    }),
+    /Source checkpoint SHA is not an ancestor of the expected target SHA/,
+  )
+})
+
+test('holds only the tutorial roots to publication provenance, not the shared cache', async () => {
+  // A ja-JP Reference publication between the checkpoint and this run commits
+  // the shared cache with its own message; the cache is excluded from the
+  // baseline identity and from the provenance walk, so the Guides plan is
+  // unaffected.
+  const fixture = await repositoryFixture()
+  write(fixture.targetRepository, CACHE_PATH, `${JSON.stringify({ files: {
+    'content/en/reference/api/python/python/advanced.md': {
+      sourceHash: 'b'.repeat(64),
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/advanced.md',
+      translatedAt: '2026-10-25T08:00:00.000Z',
+    },
+  } }, null, 2)}\n`)
+  git(fixture.targetRepository, 'add', CACHE_PATH)
+  git(fixture.targetRepository, '-c', 'user.name=Zilliz Docs Translation Bot', '-c', `user.email=${BOT_EMAIL}`, 'commit', '-m', 'docs(i18n): apply Reference translation batch 3/7')
+  const advanced = root => write(root, CACHE_PATH, `${JSON.stringify({ files: {
+    'content/en/reference/api/python/python/advanced.md': {
+      sourceHash: 'b'.repeat(64),
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/advanced.md',
+      translatedAt: '2026-10-25T08:00:00.000Z',
+    },
+  } }, null, 2)}\n`)
+  const first = await createPair(fixture, 1, { mutateBaseline: advanced })
+  const second = await createPair(fixture, 2, { mutateBaseline: advanced })
+  await assert.doesNotReject(planFor(fixture, [first, second]))
 })
 
 test('uses a bounded number of Git processes for a large mutable baseline', async t => {
