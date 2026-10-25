@@ -52,7 +52,7 @@ Zilliz Cloud の ARRAY 演算子は、次の 2 つの用途に対応します。
 
 各年の記録された最低気温を含む配列フィールド `history_temperatures` があるとします。配列に値 `23` が含まれるすべてのエンティティを検索するには、次のフィルタ式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,6 +101,15 @@ const filter = 'ARRAY_CONTAINS(history_temperatures, 23)';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS filter
+var filter = "ARRAY_CONTAINS(history_temperatures, 23)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -120,7 +129,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 
 `history_temperatures` 配列に `23` と `24` の両方が含まれるすべてのエンティティを検索するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -169,6 +178,15 @@ const filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ALL filter
+var filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -188,7 +206,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 
 `history_temperatures` 配列に `23` または `24` のいずれかが含まれるすべてのエンティティを検索するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -237,6 +255,15 @@ const filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ANY filter
+var filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -256,7 +283,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 
 `history_temperatures` 配列の要素数が 10 未満であるすべてのエンティティを検索するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -305,6 +332,15 @@ const filter = 'ARRAY_LENGTH(history_temperatures) < 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_LENGTH filter
+var filter = "ARRAY_LENGTH(history_temperatures) < 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -322,7 +358,7 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 
 次の例では、主キーが `1` のエンティティの `tags` ARRAY フィールドに `"premium"` を追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -438,6 +474,32 @@ const res = await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "premium" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayAppend)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -463,7 +525,7 @@ curl --request POST \
 
 次の例では、主キーが `1` のエンティティの `tags` ARRAY フィールドから `"trial"` を削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -574,6 +636,32 @@ const res = await client.upsert({
     collection_name: "users",
     data: [{ pk: 1, tags: ["trial"] }],
     field_ops: [{ field_name: "tags", op: "ARRAY_REMOVE" }]
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "trial" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayRemove)
+    }
 });
 ```
 

@@ -65,7 +65,7 @@ import TabItem from '@theme/TabItem';
 
 テキストフィールドに対して全文検索を実行するために組み込みの BM25 アルゴリズムを使用するため、Milvus の `Function` をスキーマに追加する必要があります。詳細については、[全文検索](./full-text-search) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -302,6 +302,27 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, description: "product id"),
+        FieldSchema.CreateVarchar("text", 512, enableAnalyzer: true),
+        new FieldSchema("text_dense", DataType.FloatVector) { Dimension = 768 },
+        new FieldSchema("text_sparse", DataType.SparseFloatVector),
+        new FieldSchema("image_dense", DataType.FloatVector) { Dimension = 512 }
+    }
+};
+schema.Functions.Add(FunctionSchema.CreateBm25("text_bm25_emb", "text", "text_sparse", "text bm25 embedding"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -396,7 +417,7 @@ EOF
 
 - `image_dense_index`: 画像の密ベクトルフィールドに対して、タイプが `AUTOINDEX`、メトリクスタイプが `IP` のインデックスを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -520,6 +541,21 @@ const index_params = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam[] indexes =
+[
+    new("text_dense", "text_dense_index", IndexType.AutoIndex, MetricType.Ip),
+    new("text_sparse", "text_sparse_index", IndexType.SparseInvertedIndex, MetricType.Bm25) { ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } },
+    new("image_dense", "image_dense_index", IndexType.AutoIndex, MetricType.Ip)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -568,7 +604,7 @@ EOF
 
 前の 2 つのステップで構成したコレクションスキーマとインデックスを使用して、`demo` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -630,6 +666,21 @@ const res = await client.createCollection({
     fields: fields,
     index_params: index_params,
 })
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexes
+});
 ```
 
 </TabItem>
@@ -704,7 +755,7 @@ zilliz collection create --body file://collection.json
 
 この例では、組み込みの BM25 Function を使用してテキストフィールドからスパース埋め込みを生成するため、スパースベクトルを手動で指定する必要はありません。ただし、BM25 を使用しない場合は、スパース埋め込みを事前に計算して自分で指定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -862,6 +913,28 @@ var res = await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var textDense = Enumerable.Repeat(0.1f, 768).ToArray();
+var imageDense = Enumerable.Repeat(0.1f, 512).ToArray();
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 0L, ["text"] = "Red cotton t-shirt with round neck", ["text_dense"] = textDense, ["image_dense"] = imageDense },
+        new Dictionary<string, object?> { ["id"] = 1L, ["text"] = "Wireless noise-cancelling over-ear headphones", ["text_dense"] = textDense, ["image_dense"] = imageDense },
+        new Dictionary<string, object?> { ["id"] = 2L, ["text"] = "Stainless steel water bottle, 500ml", ["text_dense"] = textDense, ["image_dense"] = imageDense }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -914,7 +987,7 @@ zilliz vector insert --collection my_collection --body file://insert.json
 
 - `image_dense` はマルチモーダルのテキストから画像への検索用で、クエリのセマンティックな内容に基づいて関連する商品画像を取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1066,6 +1139,43 @@ const search_param_3 = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+float[] queryDenseVector = Enumerable.Repeat(0.1f, 768).ToArray();
+float[] queryMultimodalVector = Enumerable.Repeat(0.1f, 512).ToArray();
+
+// text semantic search (dense)
+AnnSearchReq req1 = new()
+{
+    VectorFieldName = "text_dense",
+    Vectors = [queryDenseVector],
+    Limit = 2
+};
+
+// text semantic search (sparse / BM25)
+AnnSearchReq req2 = new()
+{
+    VectorFieldName = "text_sparse",
+    Texts = ["white headphones, quiet and comfortable"],
+    MetricType = MetricType.Bm25,
+    Limit = 2
+};
+
+// multimodal semantic search (dense)
+AnnSearchReq req3 = new()
+{
+    VectorFieldName = "image_dense",
+    Vectors = [queryMultimodalVector],
+    Limit = 2
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1115,7 +1225,7 @@ ANN 検索結果のセットをマージして再ランキングするには、�
 
 この例では、特定の検索クエリを特に重視する必要がないため、RRFRanker 戦略を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1189,6 +1299,16 @@ const ranker = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+RrfReranker ranker = new(100);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1226,7 +1346,7 @@ EOF
 
 ハイブリッド検索を開始する前に、コレクションがロードされていることを確認してください。コレクション内のベクトルフィールドにインデックスがない場合や、メモリにロードされていない場合、ハイブリッド検索メソッドの実行時にエラーが発生します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1330,6 +1450,29 @@ const search = await client.search({
   limit: 2,
   rerank: ranker
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+SearchResp res = await client.HybridSearchAsync(new HybridSearchReq
+{
+    CollectionName = "my_collection",
+    SearchRequests = [req1, req2, req3],
+    Reranker = ranker,
+    Limit = 2
+});
+
+foreach (long id in res.Ids.LongIds ?? [])
+{
+    Console.WriteLine(id);
+}
 ```
 
 </TabItem>

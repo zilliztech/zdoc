@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スパースベクトルは、情報検索や自然言語処理において、表層的な用語一致を捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、スパースベクトルは、特に特殊な用語やテキスト識別子を検索する際に、より予測可能な一致結果を提供することがよくあります。 | BYOC"
+description: "スパースベクトルは、情報検索および自然言語処理において、表層的な用語マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、スパースベクトルは、特に特殊な用語やテキスト識別子を検索する場合に、より予測可能なマッチング結果を提供することがよくあります。 | BYOC"
 type: origin
 token: JbPDwHqd0iZZSuk5tYicGqKbn9c
 sidebar_position: 5
@@ -21,37 +21,37 @@ import TabItem from '@theme/TabItem';
 
 # スパースベクトル
 
-スパースベクトルは、情報検索や自然言語処理において、表層的な用語一致を捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、スパースベクトルは、特に特殊な用語やテキスト識別子を検索する際に、より予測可能な一致結果を提供することがよくあります。
+スパースベクトルは、情報検索および自然言語処理において、表層的な用語マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、スパースベクトルは、特に特殊な用語やテキスト識別子を検索する場合に、より予測可能なマッチング結果を提供することがよくあります。
 
 ## 概要\{#overview}
 
-スパースベクトルは、ほとんどの要素がゼロで、一部の次元のみが非ゼロ値を持つ特殊な高次元ベクトルです。以下の図に示すように、密ベクトルは通常、各位置が値を持つ連続的な配列として表現されます（例：`[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、スパースベクトルは非ゼロ要素とその次元のインデックスのみを格納し、多くの場合 `{ index: value}` のキーと値のペアとして表現されます（例：`[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。
+スパースベクトルは、ほとんどの要素がゼロで、ごく一部の次元だけが非ゼロ値を持つ特殊な高次元ベクトルです。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表現されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。これに対し、スパースベクトルは非ゼロ要素とその次元のインデックスのみを保存し、多くの場合 `{ index: value}` のキーと値のペアとして表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。
 
 ![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
-トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメントに含まれる単語のみが非ゼロ値を持ち、スパースベクトル表現が生成されます。スパースベクトルは、次の 2 つのアプローチで生成できます。
+トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現できます。各次元は語彙内の特定の単語に対応します。ドキュメント内に存在する単語だけが非ゼロ値を持ち、スパースベクトル表現が作成されます。スパースベクトルは、次の 2 つのアプローチで生成できます。
 
-- **従来の統計手法**は、[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）などの手法で、コーパス全体における単語の頻度と重要度に基づいて単語に重みを割り当てます。これらの手法は、トークンを表す各次元のスコアとして単純な統計量を計算します。Zilliz Cloud は、BM25 方式によるビルトインの**全文検索**を提供しており、テキストを自動的にスパースベクトルに変換するため、手動での前処理が不要になります。このアプローチは、精度と完全一致が重要となるキーワードベースの検索に最適です。詳細については、[全文検索](./full-text-search) を参照してください。
+- **従来の統計的手法**は、[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）などの手法で、コーパス全体での出現頻度と重要度に基づいて単語に重みを割り当てます。これらの手法は、トークンを表す各次元のスコアとして単純な統計量を計算します。Zilliz Cloud は BM25 方式の組み込み **全文検索** を提供しており、テキストを自動的にスパースベクトルに変換するため、手動で前処理する必要はありません。このアプローチは、精度と完全一致が重要なキーワードベースの検索に最適です。詳細については、[全文検索](./full-text-search) を参照してください。
 
-- **ニューラルスパース埋め込みモデル**は、大規模なデータセットでトレーニングすることによりスパース表現を生成する学習ベースの手法です。これらは通常、Transformer アーキテクチャを採用した深層学習モデルであり、意味的なコンテキストに基づいて用語を拡張し重み付けできます。Zilliz Cloud は、[SPLADE](https://arxiv.org/abs/2109.10086) などのモデルによって外部で生成されたスパース埋め込みもサポートしています。詳細については、[Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
+- **ニューラルスパース埋め込みモデル**は、大規模なデータセットでトレーニングしてスパース表現を生成する学習済みの手法です。通常は Transformer アーキテクチャを備えた深層学習モデルであり、意味的なコンテキストに基づいて用語を拡張し、重み付けできます。Zilliz Cloud は、[SPLADE](https://arxiv.org/abs/2109.10086) などのモデルで外部生成されたスパース埋め込みもサポートしています。詳細については、[Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
-スパースベクトルと元のテキストは、効率的な取得のために Zilliz Cloud に保存できます。以下の図は、全体的なプロセスを示しています。
+スパースベクトルと元のテキストは、効率的な取得のために Zilliz Cloud に保存できます。以下の図に全体的なプロセスを示します。
 
 ![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
 <Admonition type="info" title="Notes">
 
-スパースベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味的関係を捉えるのに最適であり、バイナリベクトルは高速な類似度比較やコンテンツの重複排除といったシナリオに優れています。詳細については、[密ベクトル](./use-dense-vector) と [バイナリベクトル](./use-binary-vector) を参照してください。
+スパースベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味的関係を捉えるのに最適で、バイナリベクトルは類似性の迅速な比較やコンテンツの重複排除などのシナリオで優れています。詳細については、[密ベクトル](./use-dense-vector) と [バイナリベクトル](./use-binary-vector) を参照してください。
 
 </Admonition>
 
 ## データ形式\{#data-formats}
 
-以降のセクションでは、SPLADE のような学習済みスパース埋め込みモデルのベクトルを格納する方法を説明します。密ベクトルベースのセマンティック検索を補完するものをお探しの場合は、簡便さの観点から SPLADE よりも [全文検索](./full-text-search) と BM25 の組み合わせをおすすめします。品質評価を実施したうえで SPLADE を使用することを決定した場合は、SPLADE でスパースベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
+以下のセクションでは、SPLADE などの学習済みスパース埋め込みモデルからベクトルを保存する方法を説明します。密ベクトルベースのセマンティック検索を補完するものを探している場合は、シンプルさを重視して SPLADE より BM25 を使用した [全文検索](./full-text-search) をおすすめします。品質評価を実行し、SPLADE を使用することに決めた場合は、SPLADE でスパースベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
-Zilliz Cloud は、次の形式でスパースベクトル入力を受け付けます。
+Zilliz Cloud は、次の形式でのスパースベクトル入力に対応しています。
 
-- **辞書のリスト（形式は** `{dimension_index: value, ...}`**）**
+- **辞書のリスト（形式:** `{dimension_index: value, ...}` **）**
 
     ```python
     # Represent each sparse vector using a dictionary
@@ -70,7 +70,7 @@ Zilliz Cloud は、次の形式でスパースベクトル入力を受け付け�
     sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **タプルの反復可能オブジェクトのリスト（例:** `[(dimension_index, value)]`**）**
+- **タプルのイテラブルのリスト（例:** `[(dimension_index, value)]` **）**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -82,17 +82,17 @@ Zilliz Cloud は、次の形式でスパースベクトル入力を受け付け�
 
 ## コレクションスキーマを定義する\{#define-collection-schema}
 
-コレクションを作成する前に、コレクションスキーマを指定する必要があります。スキーマではフィールドを定義し、オプションでテキストフィールドを対応するスパースベクトル表現に変換する関数を指定します。
+コレクションを作成する前に、コレクションスキーマを指定する必要があります。スキーマはフィールドを定義し、オプションでテキストフィールドを対応するスパースベクトル表現に変換する関数を定義します。
 
 ### フィールドを追加する\{#add-fields}
 
-Zilliz Cloud クラスターでスパースベクトルを使用するには、以下のフィールドを含むスキーマを持つコレクションを作成する必要があります。
+Zilliz Cloud クラスターでスパースベクトルを使用するには、次のフィールドを含むスキーマでコレクションを作成する必要があります。
 
-- スパースベクトルを格納するために予約された `SPARSE_FLOAT_VECTOR` フィールドで、`VARCHAR` フィールドから自動生成されるか、入力データ内で直接指定されます。
+- スパースベクトルを保存するために予約された `SPARSE_FLOAT_VECTOR` フィールド。`VARCHAR` フィールドから自動生成するか、入力データで直接指定します。
 
-- 通常、スパースベクトルが表す生のテキストもコレクションに格納されます。生のテキストの格納には `VARCHAR` フィールドを使用できます。
+- 通常、スパースベクトルが表す元のテキストもコレクションに保存されます。元のテキストの保存には `VARCHAR` フィールドを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,6 +285,29 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        new FieldSchema("sparse_vector", DataType.SparseFloatVector),
+        FieldSchema.CreateVarchar("text", maxLength: 65535, enableAnalyzer: true)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -324,25 +347,25 @@ export schema="{
 </TabItem>
 </Tabs>
 
-この例では、3つのフィールドを追加します。
+この例では、3 つのフィールドが追加されます。
 
-- `pk`: このフィールドは、`VARCHAR` データ型を使用して主キーを格納します。主キーは最大長 100 バイトで自動生成されます。
+- `pk`: このフィールドは、`VARCHAR` データ型を使用して主キーを保存します。主キーは最大長 100 バイトで自動生成されます。
 
-- `sparse_vector`: このフィールドは、`SPARSE_FLOAT_VECTOR` データ型を使用してスパースベクトルを格納します。
+- `sparse_vector`: このフィールドは、`SPARSE_FLOAT_VECTOR` データ型を使用してスパースベクトルを保存します。
 
-- `text`: このフィールドは、`VARCHAR` データ型を使用してテキスト文字列を格納します。最大長は 65535 バイトです。
+- `text`: このフィールドは、`VARCHAR` データ型を使用してテキスト文字列を保存します。最大長は 65535 バイトです。
 
 <Admonition type="info" title="Notes">
 
-データ挿入時に、指定されたテキストフィールドからスパースベクトル埋め込みを Zilliz Cloud が生成できるようにするには、関数を含む追加の手順を実行する必要があります。詳細については、[全文検索](./full-text-search) を参照してください。
+データ挿入時に指定したテキストフィールドから Zilliz Cloud がスパースベクトル埋め込みを生成できるようにするには、関数を使用する追加の手順を実行する必要があります。詳細については、[全文検索](./full-text-search) を参照してください。
 
 </Admonition>
 
 ## インデックスパラメーターを設定する\{#set-index-parameters}
 
-スパースベクトルのインデックスを作成するプロセスは、[密ベクトル](./use-dense-vector) のプロセスと似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリック（`metric_type`）、インデックスパラメーター（`params`）が異なります。
+スパースベクトルのインデックスを作成するプロセスは[密ベクトル](./use-dense-vector)の場合と同様ですが、指定するインデックスタイプ（`index_type`）、距離メトリック（`metric_type`）、インデックスパラメーター（`params`）が異なります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -433,6 +456,27 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "my_collection",
+    Indexes = new[]
+    {
+        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
+        {
+            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -449,17 +493,17 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-この例では、メトリックに `IP` を指定した `SPARSE_INVERTED_INDEX` インデックスタイプを使用します。詳細については、以下のリソースを参照してください。
+この例では、`SPARSE_INVERTED_INDEX` インデックスタイプを使用し、メトリックとして `IP` を指定します。詳細については、次のリソースを参照してください。
 
-- [メトリクスタイプ](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリクスタイプ
+- [Metric Types](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリックタイプ
 
-- [全文検索](./full-text-search): 全文検索に関する詳細なチュートリアル
+- [全文検索](./full-text-search): 全文検索の詳細なチュートリアル
 
 ## コレクションを作成する\{#create-collection}
 
-スパースベクトルとインデックスの設定が完了したら、スパースベクトルを含むコレクションを作成できます。以下の例では、[`create_collection`](./manage-collections-sdks) メソッドを使用して `my_collection` という名前のコレクションを作成します。
+スパースベクトルとインデックスの設定が完了したら、スパースベクトルを含むコレクションを作成できます。次の例では、[`create_collection`](./manage-collections-sdks) メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -573,6 +617,27 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
+        {
+            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -596,9 +661,9 @@ curl --request POST \
 
 ## データを挿入する\{#insert-data}
 
-コレクション作成時に定義されたすべてのフィールドのデータを指定する必要があります。ただし、自動生成されるフィールド（`auto_id` が有効な主キーなど）は除きます。ビルトインの BM25 関数を使用してスパースベクトルを自動生成する場合は、データを挿入する際にスパースベクトルフィールドも省略する必要があります。
+コレクション作成時に定義したすべてのフィールドにデータを指定する必要があります。ただし、自動生成されるフィールド（`auto_id` が有効な主キーなど）は除きます。組み込みの BM25 関数を使用してスパースベクトルを自動生成する場合は、データ挿入時にスパースベクトルフィールドも省略してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -769,6 +834,32 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval is a field of study.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 1, 100, 500 }, new[] { 0.5f, 0.3f, 0.8f })
+        },
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval focuses on finding relevant information in large datasets.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 10, 200, 1000 }, new[] { 0.1f, 0.7f, 0.9f })
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -799,7 +890,7 @@ curl --request POST \
 
 スパースベクトルを使用して類似検索を実行するには、クエリデータと検索パラメーターの両方を準備します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -897,6 +988,23 @@ const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Prepare search parameters
+var searchParams = new SearchParameters
+{
+    ExtraParameters = { ["drop_ratio_search"] = "0.2" } // A tunable drop ratio parameter with a valid range between 0 and 1
+};
+
+// Query with sparse vector
+var queryData = new[] { new SparseVector<float>(new[] { 1, 50, 1000 }, new[] { 0.2f, 0.4f, 0.7f }) };
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -912,7 +1020,7 @@ export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 
 次に、`search` メソッドを使用して類似検索を実行します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1061,6 +1169,29 @@ await client.search({
     output_fields: ['pk'],
     params: searchParams,
     consistency_level: "Strong"
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "sparse_vector",
+    SparseVectors = queryData,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "pk" },
+        ExtraParameters = { ["drop_ratio_search"] = "0.2" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

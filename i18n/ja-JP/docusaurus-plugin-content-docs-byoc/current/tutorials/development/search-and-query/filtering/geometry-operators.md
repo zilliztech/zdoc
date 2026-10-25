@@ -74,7 +74,7 @@ Zilliz Cloud の `GEOMETRY` フィールドの詳細については、[ジオメ
 
 保存されたジオメトリ（ポイントやポリゴンなど）がターゲットジオメトリとまったく同じかどうかを確認したいとします。たとえば、保存されたポイントを特定の関心地点と比較できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -129,6 +129,15 @@ const filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to check if a geometry matches a specific point
+string filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -147,7 +156,7 @@ filter="ST_EQUALS(geo_field, 'POINT(10 20)')"
 
 都市の地区のコレクションがあり、特定の地区の境界内にある特定の関心地点（レストランなど）を見つけたいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,6 +211,15 @@ const filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries completely within a specific polygon.
+string filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -220,7 +238,7 @@ filter="ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 特定の境界線（別のラインストリング）と交差する、または保護区域（ポリゴン）に進入するすべてのハイキングコース（ラインストリング）を検索したいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,6 +293,15 @@ const filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries that cross a line string.
+string filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -293,7 +320,7 @@ filter="ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
 
 道路のコレクションがあり、提案された新しい道路を表す特定のラインストリングと交差または接触するすべての道路を検索したい場合は、`ST_INTERSECTS` を使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -348,6 +375,15 @@ const filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries that intersect with a specific line string.
+string filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -366,7 +402,7 @@ filter="ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')"
 
 重なり合う販売地域のセットがあり、提案された新しい販売ゾーンと部分的に重なるすべての地域を検索したいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -421,6 +457,15 @@ const filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries that partially overlap with a polygon.
+string filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -439,7 +484,7 @@ filter="ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')"
 
 地番区画のマップがあり、公共の公園に直接隣接し、重なりがないすべての区画を検索したいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -494,6 +539,15 @@ const filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries that only touch a line string at their boundaries.
+string filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -512,7 +566,7 @@ filter="ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')"
 
 より大きな指定公園区域内に完全に位置するすべての小さな住宅地域を検索したいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -567,6 +621,15 @@ const filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 1
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// The filter expression to find geometries that are completely within a larger polygon.
+string filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -587,7 +650,7 @@ filter="ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))'
 
 店舗所在地のコレクションがあり、特定の顧客の場所から 5,000 メートル以内にあるすべての店舗を検索したいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -638,6 +701,15 @@ std::string filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
 ```javascript
 // Find all stores within 5000 meters of the point (120 30)
 const filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Find all stores within 5000 meters of the point (120 30)
+string filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
 ```
 
 </TabItem>

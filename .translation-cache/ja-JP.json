@@ -611,9 +611,9 @@
       "translatedAt": "2026-10-25T05:01:21.841Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md": {
-      "sourceHash": "b34eab3cb6cd85b0ce9763b1f63ce669d92723b97b4a88dc920eec6c30c8e7b9",
+      "sourceHash": "118a08ec61916af52ac3740e31bc88e9b0e3eff520962f6f4f24eab032e6be7b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/insert-struct-array.md",
-      "translatedAt": "2026-10-19T14:27:06.280Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md": {
       "sourceHash": "971708c37613ec9de2965af0d377b20efd089d5cd22ce108579d7b42c0cac0d4",
@@ -651,9 +651,9 @@
       "translatedAt": "2026-10-19T16:20:55.674Z"
     },
     "content/en/byoc/tutorials/development/schema/use-sparse-vector.md": {
-      "sourceHash": "c72d8bdc4f99425853de6a3adec63715179478600b488d75f1813164ccd2d132",
+      "sourceHash": "69376b2cfd3c3e0391184122ac7b580111a562d582b8694382fd9915d7aa0f11",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-sparse-vector.md",
-      "translatedAt": "2026-10-19T16:20:55.674Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/schema/use-string-field.md": {
       "sourceHash": "2450bddaf886b6c531fd5ff885880436ff87b4c784390273077a1661e8451c7d",
@@ -681,9 +681,9 @@
       "translatedAt": "2026-10-19T16:20:55.674Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md": {
-      "sourceHash": "57376b273e98624d7bb709d3740ea6f355461aa8f0c9326292e836c3491649ea",
+      "sourceHash": "92389502a498139323268a243cf0e87e7664f3b8aac59cd356e70e5974e5017a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md",
-      "translatedAt": "2026-10-19T16:20:55.674Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtered-search.md": {
       "sourceHash": "a6dc2dca34e50222f2aa2a9a07298a3af38e51ab4099042d1248dde3a621de18",
@@ -691,9 +691,9 @@
       "translatedAt": "2026-10-19T14:27:06.280Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
-      "sourceHash": "8b88faacdd193ed47618717620891d875430dd4acb2be7815b8a5f553bc7cbd9",
+      "sourceHash": "6c5cff282cad715e31350073bac238f900fcd08ebd597cb9c1e9c4a1f06df54e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
-      "translatedAt": "2026-10-10T05:46:29.774Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/basic-filtering-operators.md": {
       "sourceHash": "295ac44d03b95fdf14394563f935b7a3bf676d892c7a6cd2b998096a744fc887",
@@ -706,19 +706,19 @@
       "translatedAt": "2026-10-19T16:20:55.674Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/filtering-templating.md": {
-      "sourceHash": "89d238558f9b00a5673b066ceeb2d6aa3143cf0610867d9c80b5e41aa3b7dee1",
+      "sourceHash": "71c1068336d622b5290ecbbcf82fcd14703c55c86eecfdcbe05b8e7692493533",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/filtering-templating.md",
-      "translatedAt": "2026-10-19T16:20:55.674Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/geometry-operators.md": {
-      "sourceHash": "378e61ae844d5fe0d16495969dd4c704c073761a6bd1cd44c9568bf8de46dd10",
+      "sourceHash": "6d0b7653de304671ea43dec04c962eabfa9d8b33e03370e83b799ceb4f6f56a1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/geometry-operators.md",
-      "translatedAt": "2026-10-10T04:48:31.471Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/json-filtering-operators.md": {
-      "sourceHash": "0ad74efae5d2304c62a252c8bd717175e4683a3c1ade198c716d64f17b7c618a",
+      "sourceHash": "2e064168da7dc3687d65acdf9423d5d95639e44bd489dfb58415ff5a7575640b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/json-filtering-operators.md",
-      "translatedAt": "2026-10-10T05:46:29.774Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/membership-match.md": {
       "sourceHash": "7204056a6513a1c8a2f5e468845c1c40cb9c345ee6c5e558ec826c653e8fa362",
@@ -726,9 +726,9 @@
       "translatedAt": "2026-10-24T04:01:05.886Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/pattern-match.md": {
-      "sourceHash": "a26dc92f46e41896a8fb9c50ea4fd37a547e2ecdbf95b5a4db4ba0359cd4a824",
+      "sourceHash": "116671d6192c6379e67876e7805d8b4e31d886600e6a0771687f56adc6614430",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/pattern-match.md",
-      "translatedAt": "2026-10-24T04:01:05.886Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/ramdom-sampling.md": {
       "sourceHash": "ad43abaacb444713e9a54ff2b6a08c07298cb671e29ea0002dfacd4a72cba611",
@@ -746,9 +746,9 @@
       "translatedAt": "2026-10-10T04:48:31.471Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/get-and-scalar-query.md": {
-      "sourceHash": "14491e699f3a25ec35f7684da5d8d219ab1203ea511365a97999d6232aee1647",
+      "sourceHash": "6c34db37bd7b5ed49e9bf5e0901bc1ac3d5163b761793f740d378fdeeb962191",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "translatedAt": "2026-10-23T20:58:56.810Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/grouping-search.md": {
       "sourceHash": "deea268e8724026bc4dc8befdcaf46887139dcb893722f0d4923dde3f8525826",
@@ -756,19 +756,19 @@
       "translatedAt": "2026-10-23T20:58:56.810Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "662f0539a6880e631bd2e30ab47359643ddfb9c83325940e2854a17f5d49f67d",
+      "sourceHash": "e464eed142d2d64ff9e09820fe6c9d271f9028df7e6a64a2cdd7e9289ea46b61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-10-19T16:33:23.760Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "e7f88cf7833ad529d7c51ede2e3e6e27c044b236ae5747f7f5a3ba18b5dc2dde",
+      "sourceHash": "970bd59b18593720fa2879c8769171a24dfc826021fc5b814e40c7bc34aa066c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-10-19T16:33:23.760Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
-      "sourceHash": "e075604f49265b32e566c120d7b86e6855a1e6df1fb95292f14fd581d3d2af4c",
+      "sourceHash": "68d5217d0aea7a5aa09dd4553a0c2aef1811b601796a17d20b77819d83e77bdb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/primary-key-search.md",
-      "translatedAt": "2026-10-19T16:33:23.760Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/range-search.md": {
       "sourceHash": "c378f05b9d6264e4469948dcf5ba5be1c52a7bdd7036d0e4dd91e5e7aff1bd6f",
@@ -791,9 +791,9 @@
       "translatedAt": "2026-10-23T20:58:56.810Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "723edec5eca14c56a348b73b9de25378e7b21509d7ee32aa0cf1b728b77bd8f9",
+      "sourceHash": "94bb5fda06660ccb0b07c6441a9cf8154b41324370f70e484ed08701109cc07f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-19T14:37:53.819Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
       "sourceHash": "6cd574b549ff9ca58f4dafcd1e242a681299658b822633d215243c86d86d0fea",
@@ -806,9 +806,9 @@
       "translatedAt": "2026-10-19T14:37:53.819Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md": {
-      "sourceHash": "6d5a794f999aed402e6eb02db4d06b76892b596a180167f047d06826ec4b24c2",
+      "sourceHash": "a7b6182dc7492ff09106d7676295f8179162b46d4833e7ed8720058f19ab04a4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-19T14:37:53.819Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
       "sourceHash": "a3c70ed6c0f5e746b5cfcf83b340fd37bc60eacbeb9101024aa9b6c57fb6b1cf",
@@ -841,9 +841,9 @@
       "translatedAt": "2026-10-19T14:37:53.819Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/use-partition-key.md": {
-      "sourceHash": "911614dc5671e3fc31d84a255bb9e16bd020156edc8242afeaa24085a7d7e120",
+      "sourceHash": "507b7aa827222543376c16156c082f377703e19f4793cbbce90a24b4a8451d28",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/use-partition-key.md",
-      "translatedAt": "2026-10-19T16:33:23.760Z"
+      "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/with-iterators.md": {
       "sourceHash": "1cc8736ce31d9bb80f94177f9e78a8704f305c396f00f46ea6f3ccf4a07d0df4",
