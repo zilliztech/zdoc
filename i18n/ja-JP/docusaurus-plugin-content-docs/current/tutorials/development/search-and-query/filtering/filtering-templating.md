@@ -37,7 +37,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 `age` と `city` の 2 つのフィールドを含むフィルター式で、年齢が 25 より大きく、かつ「北京」（Beijing）または「上海」（Shanghai）に住んでいるすべての人を検索するとします。値をフィルター式に直接埋め込む代わりに、次のようなテンプレートを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -108,6 +108,19 @@ const exprValues = { age: 25, city: ["北京", "上海"] };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -136,7 +149,7 @@ Zilliz Cloud でフィルター式テンプレートを使用すると、次の�
 
 Zilliz Cloud の検索操作では、`filter` 式を使用してフィルター条件を定義し、`filter_params` パラメーターを使用してプレースホルダーの値を指定します。`filter_params` 辞書には、Zilliz Cloud がフィルター式への代入に使用する動的な値が格納されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +297,42 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "hello_milvus",
+    Vectors = [new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f })],
+    VectorFieldName = "vector",
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = expr,
+        OutputFields = { "age", "city" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -314,7 +363,7 @@ curl --request POST \
 
 同じテンプレートの仕組みは、Zilliz Cloud のクエリ操作にも適用できます。`query` 関数でフィルター式を定義し、`filter_params` を使用して代入する値を指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -443,6 +492,36 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "age", "city" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -470,7 +549,7 @@ curl --request POST \
 
 削除操作でもフィルター式テンプレートを使用できます。検索やクエリと同様に、`filter` 式で条件を定義し、`filter_params` でプレースホルダーの動的な値を指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -592,6 +671,32 @@ const res = await client.delete({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    FilterTemplates =
+    {
+        ["age"] = 25,
+        ["city"] = new[] { "北京", "上海" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -618,7 +723,7 @@ curl --request POST \
 
 フィルター式テンプレートは、正規表現フィルターと組み合わせて使用できます。これは、正規表現パターンがリクエスト時に指定される場合に役立ちます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -743,6 +848,34 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+string expr = "message =~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "E[0-9]{4}"
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "message" },
+        FilterTemplates =
+        {
+            ["pattern"] = "E[0-9]{4}"
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -766,7 +899,7 @@ curl --request POST \
 
 `!~` でテンプレートパラメーターを使用することもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -829,6 +962,18 @@ std::unordered_map<std::string, nlohmann::json> filterTemplates = {
 ```javascript
 const expr = "message !~ {pattern}";
 const exprValues = { pattern: "^DEBUG" };
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string expr = "message !~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "^DEBUG"
+};
 ```
 
 </TabItem>

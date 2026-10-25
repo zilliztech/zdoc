@@ -63,7 +63,7 @@ EmbeddingList 検索では、StructArray のベクトルサブフィールド内
 
 StructArray のベクトルサブフィールドには `AUTOINDEX` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,6 +208,25 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[emb_list_vector]", "chunks_emb_list_auto", IndexType.AutoIndex, MetricType.MaxSimCosine),
+        new IndexParam("chunks[emb]", "chunks_emb_auto", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -249,7 +268,7 @@ StructArray のスカラーサブフィールドをフィルターで使用す�
 
 StructArray のスカラーサブフィールドには `AUTOINDEX` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,6 +443,27 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[section]", "chunks_section_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[has_code]", "chunks_has_code_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[quality_score]", "chunks_quality_score_auto", IndexType.AutoIndex),
+        new IndexParam("chunks[page]", "chunks_page_auto", IndexType.AutoIndex)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -486,7 +526,7 @@ StructArray のベクトルサブフィールドには `AUTOINDEX` を使用し�
 
 インデックスを作成した後、コレクションを describe するか、インデックスを一覧表示して、想定したサブフィールドパスにインデックスが作成されていることを確認します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -571,6 +611,20 @@ console.log(indexes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var indexes = await client.ListIndexesAsync(new ListIndexesReq
+{
+    CollectionName = "tech_articles"
+});
+Console.WriteLine(string.Join(", ", indexes.IndexNames));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -588,7 +642,7 @@ curl --request POST \
 
 SDK のバージョンでインデックス記述 API が公開されている場合は、特定のインデックスを describe することもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -673,6 +727,21 @@ const index = await client.describeIndex({
   index_name: "chunks_emb_cosine",
 });
 console.log(index);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var index = await client.DescribeIndexAsync(new DescribeIndexReq
+{
+    CollectionName = "tech_articles",
+    IndexName = "chunks_emb_cosine"
+});
+Console.WriteLine(index.Indexes.Count);
 ```
 
 </TabItem>

@@ -190,7 +190,7 @@ JSON オブジェクト全体に対する既存のインデックス（`json_cas
 
 <summary>接続してサンプルコレクションを作成する</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -578,6 +578,76 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Define a schema with a JSON field
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true, autoId: false),
+        FieldSchema.CreateFloatVector("vec", dimension: 4),
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+
+// Minimal vector index so the collection can be loaded
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "your_collection_name",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("vec", "vec_index", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+// Insert one row that matches the sample JSON structure above
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "your_collection_name",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["vec"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+            ["metadata"] = new Dictionary<string, object?>
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -609,7 +679,7 @@ curl --request POST \
 
 以下の例で追加するインデックス定義を収集するためのインデックスパラメータオブジェクトを準備します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -658,6 +728,16 @@ const indexParams = [];
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var indexParams = new List<IndexParam>();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -674,7 +754,7 @@ export indexParams="[]"
 
 商品カテゴリによるフィルタリングを高速化するため、`category` フィールドにインデックスを作成します。`AUTOINDEX` を使用すると、Zilliz Cloud はデータに存在する異なるカテゴリの数に基づいて `BITMAP` または `STL_SORT` を選択します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -780,6 +860,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -801,7 +898,7 @@ export categoryIndex='{
 
 サプライヤーの連絡先を検索するため、深くネストされた `email` フィールドにインデックスを作成します。`json_path` パラメーターでは、任意の深さのブラケット表記を使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -907,6 +1004,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "email_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"][\"contact\"][\"email\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -928,7 +1042,7 @@ export emailIndex='{
 
 パスに対するクエリの大半が範囲比較（`>`、`<`、`>=`、`<=`）になるとわかっている場合は、`STL_SORT` を直接選択してください。これにより、カーディナリティの測定を省略し、ソートされたレイアウトをすぐに構築します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1034,6 +1148,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "price_index", IndexType.StlSort)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"price\"]",
+        ["json_cast_type"] = "DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1057,7 +1188,7 @@ export priceIndex='{
 
 カーディナリティの低いキー（ステータスコード、ブール値、列挙型のような文字列）には、`BITMAP` を直接選択してください。等価クエリと `IN` クエリはビットマップ演算になります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1163,6 +1294,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "in_stock_index", IndexType.Bitmap)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"in_stock\"]",
+        ["json_cast_type"] = "BOOL"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1186,7 +1334,7 @@ export inStockIndex='{
 
 数値データが誤って文字列として保存されている場合は、`STRING_TO_DOUBLE` を使用して、インデックス構築時に値を数値に変換します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1300,6 +1448,24 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "string_to_double_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"string_price\"]",
+        ["json_cast_type"] = "DOUBLE",
+        ["json_cast_function"] = "STRING_TO_DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1334,7 +1500,7 @@ Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオ�
 
 `metadata` オブジェクト全体にインデックスを作成します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1440,6 +1606,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "metadata_full_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1459,7 +1642,7 @@ export metadataFullIndex='{
 
 または、サブオブジェクトにインデックスを作成します。たとえば、`supplier` のすべての情報です:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1565,6 +1748,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "supplier_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"]",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1588,7 +1788,7 @@ export supplierIndex='{
 
 すべてのインデックスパラメーターを追加したら、それらをコレクションに適用します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1670,6 +1870,21 @@ await client.createIndex(indexParams);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "your_collection_name",
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1697,7 +1912,7 @@ curl --request POST \
 
 インデックスの構築は非同期で実行されます。`client.describe_index(...)` を使用して、特定のインデックスの構築状態を確認してください。`state` フィールドは構築が完了すると `Finished` を示し、`total_rows` / `indexed_rows` / `pending_index_rows` は進行状況を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1786,6 +2001,20 @@ await client.describeIndex({ collection_name: "your_collection_name", index_name
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var describeResp = await client.DescribeIndexAsync(new DescribeIndexReq
+{
+    CollectionName = "your_collection_name",
+    IndexName = "category_index"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1852,7 +2081,7 @@ curl --request POST \
 
 デフォルトでは、`AUTOINDEX` はインデックス対象の値に**100 個以下の異なる値**がある場合は `BITMAP` を選択し、それ以外の場合は `STL_SORT` を選択します。インデックスパラメーターに `"bitmap_cardinality_limit"` を追加することで、このしきい値を上書きできます（範囲: 1〜1000）:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1960,6 +2189,24 @@ indexParams.push({
     json_cast_type: "VARCHAR",
     bitmap_cardinality_limit: 200,
   },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR",
+        ["bitmap_cardinality_limit"] = "200" // use BITMAP up to 200 distinct values
+    }
 });
 ```
 

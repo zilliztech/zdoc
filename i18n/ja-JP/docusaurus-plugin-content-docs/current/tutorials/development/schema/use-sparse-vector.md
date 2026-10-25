@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 ![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
-トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメント内に存在する単語のみが非ゼロの値を持ち、スパースベクトル表現が作成されます。スパースベクトルは、次の2つのアプローチで生成できます。
+トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメント内に存在する単語のみが非ゼロの値を持ち、スパースベクトル表現が作成されます。スパースベクトルは、次の 2 つのアプローチで生成できます。
 
 - **従来の統計的手法**（[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）など）は、コーパス全体における頻度と重要度に基づいて単語に重みを割り当てます。これらの手法は、トークンを表す各次元のスコアとして単純な統計量を計算します。Zilliz Cloud は、BM25 方式の組み込み **全文検索** を提供しており、テキストを自動的にスパースベクトルに変換するため、手動での前処理が不要です。このアプローチは、精度と完全一致が重要となるキーワードベースの検索に最適です。詳細は [フルテキスト検索](./full-text-search) を参照してください。
 
@@ -92,7 +92,7 @@ Zilliz Cloud クラスターでスパースベクトルを使用するには、�
 
 - 通常、スパースベクトルが表す元のテキストもコレクションに保存されます。元のテキストの格納には `VARCHAR` フィールドを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,6 +285,29 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        new FieldSchema("sparse_vector", DataType.SparseFloatVector),
+        FieldSchema.CreateVarchar("text", maxLength: 65535, enableAnalyzer: true)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -324,7 +347,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-この例では、3つのフィールドを追加します。
+この例では、3 つのフィールドを追加します。
 
 - `pk`: このフィールドは、`VARCHAR` データ型を使用して主キーを格納します。主キーは最大長 100 バイトで自動生成されます。
 
@@ -342,7 +365,7 @@ export schema="{
 
 スパースベクトルのインデックスを作成するプロセスは [密ベクトル](./use-dense-vector) の場合と似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリクス（`metric_type`）、インデックスパラメーター（`params`）が異なります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -433,6 +456,27 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "my_collection",
+    Indexes = new[]
+    {
+        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
+        {
+            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -459,7 +503,7 @@ export indexParams='[
 
 スパースベクトルとインデックスの設定が完了したら、スパースベクトルを含むコレクションを作成できます。以下の例では、[`create_collection`](./manage-collections-sdks) メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -573,6 +617,27 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
+        {
+            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -598,7 +663,7 @@ curl --request POST \
 
 コレクション作成時に定義したすべてのフィールドに対してデータを指定する必要があります。ただし、自動生成されるフィールド（`auto_id` が有効な主キーなど）は除きます。組み込みの BM25 関数を使用してスパースベクトルを自動生成する場合は、データ挿入時にスパースベクトルフィールドも省略してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -769,6 +834,32 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval is a field of study.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 1, 100, 500 }, new[] { 0.5f, 0.3f, 0.8f })
+        },
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval focuses on finding relevant information in large datasets.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 10, 200, 1000 }, new[] { 0.1f, 0.7f, 0.9f })
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -799,7 +890,7 @@ curl --request POST \
 
 スパースベクトルを使用して類似度検索を実行するには、クエリデータと検索パラメーターの両方を準備します。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -897,6 +988,23 @@ const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Prepare search parameters
+var searchParams = new SearchParameters
+{
+    ExtraParameters = { ["drop_ratio_search"] = "0.2" } // A tunable drop ratio parameter with a valid range between 0 and 1
+};
+
+// Query with sparse vector
+var queryData = new[] { new SparseVector<float>(new[] { 1, 50, 1000 }, new[] { 0.2f, 0.4f, 0.7f }) };
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -912,7 +1020,7 @@ export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 
 次に、`search` メソッドを使用して類似度検索を実行します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1061,6 +1169,29 @@ await client.search({
     output_fields: ['pk'],
     params: searchParams,
     consistency_level: "Strong"
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "sparse_vector",
+    SparseVectors = queryData,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "pk" },
+        ExtraParameters = { ["drop_ratio_search"] = "0.2" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

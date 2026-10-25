@@ -33,7 +33,7 @@ Zilliz Cloud では、これらのパターン制約をスカラーフィルタ�
 
 パターンマッチング式は `filter` パラメーターに記述します。たとえば、次のクエリは `E1001` などのエラーコードを含むログメッセージに一致します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -133,6 +133,34 @@ async function main() {
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "log_events",
+    Expression = "message =~ \"E[0-9]{4}\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "message", "severity" }
+    }
 });
 ```
 
@@ -260,7 +288,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -297,6 +325,14 @@ filter := `filename =~ r"\.json$"`
 
 ```javascript
 const filter = 'filename =~ r"\\.json$"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"\\d{4}-\\d{2}-\\d{2}\"";
 ```
 
 </TabItem>
@@ -339,7 +375,7 @@ zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"'
 
 複数の単語のいずれかに一致させるには、`|` による選択を使用します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +416,14 @@ const filter = 'message =~ "error|failed|timeout"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"error|failed|timeout\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -399,7 +443,7 @@ zilliz vector query --collection my_collection --filter 'message =~ "error|faile
 
 正規表現のメタ文字をリテラルとして一致させる場合は、正規表現パターン内でエスケープします。たとえば、リテラルのドット（正規表現では `\.`）に一致させるには、Python のフィルター文字列で `\\.` と記述します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -440,6 +484,14 @@ const filter = 'email =~ "@gmail\\.com$"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "email =~ \"@gmail\\.com$\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -465,7 +517,7 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 
 Zilliz Cloud の正規表現マッチングは、部分文字列のセマンティクスを使用します。パターンはフィールド値全体に一致する必要はありません。たとえば、次のフィルターは `E1001` と `failed with E1001 after retry` の両方に一致します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -506,6 +558,14 @@ const filter = 'message =~ "E[0-9]{4}"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -525,7 +585,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 フィールド値全体に一致させるには、`^` と `$` のアンカーを使用します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -570,6 +630,15 @@ const filter = 'code =~ "^E[0-9]{4}$"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Match only values that are exactly E followed by four digits
+string filter = "code =~ \"^E[0-9]{4}$\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -591,7 +660,7 @@ zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' 
 
 正規表現フィルターは null 値に一致しません。これは `=~` と `!~` の両方に当てはまります。正規表現パターンを除外しつつ null 値を保持する場合は、`OR field IS NULL` を明示的に追加します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -628,6 +697,14 @@ filter := `message !~ "^DEBUG" OR message IS NULL`
 
 ```javascript
 const filter = 'message !~ "^DEBUG" OR message IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message !~ \"^DEBUG\" OR message IS NULL";
 ```
 
 </TabItem>

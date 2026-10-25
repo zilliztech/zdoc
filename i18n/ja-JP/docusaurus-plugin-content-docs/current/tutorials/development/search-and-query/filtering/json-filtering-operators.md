@@ -49,7 +49,7 @@ Zilliz Cloud は、JSON データのフィルタリングとクエリに役立�
 
 製品のコレクションがあり、各製品に `["electronics", "sale", "new"]` などの文字列の JSON 配列を含む `tags` フィールドがあるとします。タグ `"sale"` を持つ製品をフィルタリングしたいとします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -104,6 +104,15 @@ const filter = 'json_contains(product["tags"], "sale")';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -124,7 +133,7 @@ filter='json_contains(product["tags"], "sale")'
 
 製品タグのシナリオを引き続き使用して、タグ `"electronics"`、`"sale"`、`"new"` を持つすべての製品を検索する場合は、`json_contains_all` 演算子を使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,6 +188,15 @@ const filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+string filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -199,7 +217,7 @@ filter='json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 
 タグ `"electronics"`、`"sale"`、`"new"` の少なくとも 1 つを持つ製品をフィルタリングしたいとします。これは `json_contains_any` 演算子を使用して実現できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,6 +268,15 @@ std::string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"n
 ```javascript
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 const filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
 ```
 
 </TabItem>
