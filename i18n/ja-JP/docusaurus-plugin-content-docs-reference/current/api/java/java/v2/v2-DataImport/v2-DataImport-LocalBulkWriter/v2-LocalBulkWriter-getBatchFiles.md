@@ -15,7 +15,7 @@ keywords:
   - ハイブリッドベクトル検索
   - 動画の重複排除
   - 動画の類似検索
-  - Vector retrieval
+  - ベクトル retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

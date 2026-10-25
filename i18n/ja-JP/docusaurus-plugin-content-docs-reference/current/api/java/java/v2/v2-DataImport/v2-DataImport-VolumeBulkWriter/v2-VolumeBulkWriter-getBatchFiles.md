@@ -13,7 +13,7 @@ token: VlvQdg0fHoy8Uhxr8d6cpUnLn5y
 sidebar_position: 4
 keywords: 
   - 非構造化データ
-  - vector database
+  - ベクトル データベース
   - IVF
   - knn
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

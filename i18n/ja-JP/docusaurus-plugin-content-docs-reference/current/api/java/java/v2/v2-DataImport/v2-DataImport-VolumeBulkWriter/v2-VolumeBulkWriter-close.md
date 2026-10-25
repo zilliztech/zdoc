@@ -13,7 +13,7 @@ token: XNDudZqpgo0Fj3xnXYnckQlYn3d
 sidebar_position: 2
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
+  - hybrid ベクトル search
   - Video deduplication
   - Video similarity search
   - zilliz
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

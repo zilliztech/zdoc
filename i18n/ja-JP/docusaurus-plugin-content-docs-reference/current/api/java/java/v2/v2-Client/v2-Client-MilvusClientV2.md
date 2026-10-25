@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -209,3 +208,4 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
 **uri** にはクラスターのエンドポイントを設定してください。**token** パラメーターには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスターユーザーの認証情報を指定できます。
+

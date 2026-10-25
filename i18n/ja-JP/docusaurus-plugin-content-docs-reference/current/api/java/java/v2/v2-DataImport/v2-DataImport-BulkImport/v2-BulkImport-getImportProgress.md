@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,13 +56,13 @@ CloudDescribeImportRequest.builder()
   認証資格情報です。Cloud リクエストには Zilliz Cloud API key を、Milvus リクエストには `username:password` を使用します。
 
 - **clusterId** (*String*) -<br/>
-  cluster ベースのデプロイメント用の Cluster 識別子です。project database デプロイメントでは、代わりに `projectId` と `regionId` を使用します。
+  クラスター identifier for クラスター-based deployments. For project データベース deployments, use `projectId` and `regionId` instead.
 
 - **projectId** (*String*) -<br/>
-  project database デプロイメント用の Project 識別子です。`clusterId` の代わりに `regionId` と組み合わせて使用します。
+  Project identifier for project データベース deployments. Use with `regionId` instead of `clusterId`.
 
 - **regionId** (*String*) -<br/>
-  project database デプロイメント用の Region 識別子です。`clusterId` の代わりに `projectId` と組み合わせて使用します。
+  Region identifier for project データベース deployments. Use with `projectId` instead of `clusterId`.
 
 - **jobId** (*String*) -<br/>
   確認する import ジョブの識別子です。
@@ -72,7 +71,7 @@ CloudDescribeImportRequest.builder()
 
 *String*
 
-`import` ジョブの状態、進行状況、および関連する詳細を含む JSON レスポンスです。
+A JSON response containing the import job state, progress, and related details.
 
 ## Example\{#example}
 

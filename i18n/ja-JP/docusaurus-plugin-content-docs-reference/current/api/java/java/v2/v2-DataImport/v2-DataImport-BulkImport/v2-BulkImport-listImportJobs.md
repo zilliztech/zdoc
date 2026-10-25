@@ -12,10 +12,10 @@ type: docx
 token: KZc2dLt74oh6VzxS4EYc7cEsn3d
 sidebar_position: 4
 keywords: 
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - what is milvus
-  - milvus database
+  - milvus データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,13 +57,13 @@ CloudListImportJobsRequest.builder()
   認証資格情報です。Cloud リクエストには Zilliz Cloud API key を使用し、Milvus リクエストには `username:password` を使用します。
 
 - **clusterId** (*String*) -<br/>
-  cluster ベースのデプロイメント用の cluster 識別子です。project database デプロイメントの場合は、代わりに `projectId` と `regionId` を使用します。
+  クラスター identifier for クラスター-based deployments. For project データベース deployments, use `projectId` and `regionId` instead.
 
 - **projectId** (*String*) -<br/>
-  project database デプロイメント用の project 識別子です。`clusterId` の代わりに `regionId` と組み合わせて使用します。
+  Project identifier for project データベース deployments. Use with `regionId` instead of `clusterId`.
 
 - **regionId** (*String*) -<br/>
-  project database デプロイメント用のリージョン識別子です。`clusterId` の代わりに `projectId` と組み合わせて使用します。
+  Region identifier for project データベース deployments. Use with `projectId` instead of `clusterId`.
 
 - **pageSize** (*Integer*) -<br/>
   1 ページあたりに返される import ジョブの数です。
@@ -80,7 +79,7 @@ CloudListImportJobsRequest.builder()
 
 ## Example\{#example}
 
-Zilliz Cloud の project database の import ジョブを一覧表示します。
+Lists import jobs for a Zilliz Cloud project データベース.
 
 ```java
 CloudListImportJobsRequest request = CloudListImportJobsRequest.builder()

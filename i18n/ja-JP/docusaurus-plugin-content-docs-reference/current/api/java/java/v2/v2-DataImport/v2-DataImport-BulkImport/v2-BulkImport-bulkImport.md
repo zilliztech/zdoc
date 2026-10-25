@@ -15,7 +15,7 @@ keywords:
   - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +23,6 @@ keywords:
   - javaV230
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -65,24 +64,24 @@ CloudImportRequest.builder()
   認証資格情報。Cloud リクエストには Zilliz Cloud API key を使用し、Milvus リクエストには `username:password` を使用します。
 
 - **clusterId** (*String*) -<br/>
-  cluster ベースのデプロイ向けの cluster 識別子。project database デプロイでは、代わりに `projectId` と `regionId` を使用します。
+  クラスター identifier for クラスター-based deployments. For project データベース deployments, use `projectId` and `regionId` instead.
 
 - **projectId** (*String*) -<br/>
-  project database デプロイ向けの project 識別子。`clusterId` の代わりに `regionId` と組み合わせて使用します。
+  Project identifier for project データベース deployments. Use with `regionId` instead of `clusterId`.
 
 - **regionId** (*String*) -<br/>
-  project database デプロイ向けのリージョン識別子。`clusterId` の代わりに `projectId` と組み合わせて使用します。
+  Region identifier for project データベース deployments. Use with `projectId` instead of `clusterId`.
 
 - **dbName** (*String*) -<br/>
   デフォルト: `default`<br/>
   Dedicated デプロイ向けの対象データベース名。
 
 - **collectionName** (*String*) -<br/>
-  対象 collection 名。
+  Target コレクション name.
 
 - **partitionName** (*String*) -<br/>
-  デフォルト: `default`<br/>
-  collection が partition key を使用しない場合の対象 partition 名。
+  Default: `default`<br/>
+  Target partition name when the コレクション does not use a partition key.
 
 - **objectUrls** (*List&lt;List&lt;String&gt;&gt;*) -<br/>
   インポートする bucket フォルダまたはファイル。複数のパスとファイルグループをサポートします。
@@ -110,7 +109,7 @@ CloudImportRequest.builder()
 
 ## Example\{#example}
 
-Zilliz Cloud 内の project database 用のインポートジョブを作成します。
+Creates an import job for a project データベース in Zilliz Cloud.
 
 ```java
 CloudImportRequest request = CloudImportRequest.builder()
