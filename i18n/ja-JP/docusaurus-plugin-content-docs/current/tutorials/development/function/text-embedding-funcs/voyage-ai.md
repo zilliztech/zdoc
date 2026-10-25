@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Milvus で Voyage AI の埋め込み関数を構成して使用する方法について説明します。 | Cloud"
+description: "このトピックでは、Milvus で Voyage AI 埋め込み関数を構成および使用する方法について説明します。 | Cloud"
 type: origin
 token: P4KNwDdqaivEZFk7RpOcYeyhn2N
 sidebar_position: 2
@@ -21,66 +21,66 @@ import TabItem from '@theme/TabItem';
 
 # Voyage AI
 
-Milvus で Voyage AI の埋め込み関数を構成して使用する方法について説明します。
+このトピックでは、Milvus で Voyage AI 埋め込み関数を構成および使用する方法について説明します。
 
 ## モデルの選択\{#model-choices}
 
-Milvus は、Voyage AI が提供する埋め込みモデルをサポートしています。現在利用可能な埋め込みモデルを、簡単な参照用として以下に示します。
+Milvus は、Voyage AI が提供する埋め込みモデルをサポートしています。現在利用可能な埋め込みモデルの概要は以下の通りです。
 
-| モデル名 | 次元 | 最大トークン数 | 説明 |
+| モデル名 | 次元数 | 最大トークン数 | 説明 |
 | --- | --- | --- | --- |
-| `voyage-4-large` | 1024（デフォルト）、256、512、2048 | 32,000 | 汎用および多言語検索において最高品質を実現します。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細は[ブログ投稿](https://blog.voyageai.com/2026/01/15/voyage-4/)を参照してください。 |
-| `voyage-4` | 1024（デフォルト）、256、512、2048 | 32,000 | 汎用および多言語検索の品質に最適化されています。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細は[ブログ投稿](https://blog.voyageai.com/2026/01/15/voyage-4/)を参照してください。 |
-| `voyage-4-lite` | 1024（デフォルト）、256、512、2048 | 32,000 | レイテンシーとコストに最適化されています。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細は[ブログ投稿](https://blog.voyageai.com/2026/01/15/voyage-4/)を参照してください。 |
-| voyage-3-large | 1,024（デフォルト）、256、512、2,048 | 32,000 | 汎用および多言語検索において最高品質を実現します。 |
-| voyage-3 | 1,024 | 32,000 | 汎用および多言語検索の品質に最適化されています。詳細は[ブログ投稿](https://blog.voyageai.com/2024/09/18/voyage-3/)を参照してください。 |
-| voyage-3-lite | 512 | 32,000 | レイテンシーとコストに最適化されています。詳細は[ブログ投稿](https://blog.voyageai.com/2024/09/18/voyage-3/)を参照してください。 |
-| voyage-code-3 | 1,024（デフォルト）、256、512、2,048 | 32,000 | コード検索に最適化されています。詳細は[ブログ投稿](https://blog.voyageai.com/2024/12/04/voyage-code-3/)を参照してください。 |
-| voyage-finance-2 | 1,024 | 32,000 | 金融検索および RAG に最適化されています。詳細は[ブログ投稿](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/)を参照してください。 |
-| voyage-law-2 | 1,024 | 16,000 | 法務検索および RAG に最適化されています。また、すべてのドメインでパフォーマンスが向上しています。詳細は[ブログ投稿](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/)を参照してください。 |
-| voyage-code-2 | 1,536 | 16,000 | コード検索に最適化されています（代替手段より 17% 優れています）。コード埋め込みの前世代です。詳細は[ブログ投稿](https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/)を参照してください。 |
+| `voyage-4-large` | 1024（デフォルト）, 256, 512, 2048 | 32,000 | 汎用および多言語の検索品質が最も優れています。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細については、[ブログ記事](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| `voyage-4` | 1024（デフォルト）, 256, 512, 2048 | 32,000 | 汎用および多言語の検索品質向けに最適化されています。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細については、[ブログ記事](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| `voyage-4-lite` | 1024（デフォルト）, 256, 512, 2048 | 32,000 | レイテンシとコスト向けに最適化されています。4 シリーズで作成されたすべての埋め込みは相互に互換性があります。詳細については、[ブログ記事](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| voyage-3-large | 1,024（デフォルト）, 256, 512, 2,048 | 32,000 | 汎用および多言語の検索品質が最も優れています。 |
+| voyage-3 | 1,024 | 32,000 | 汎用および多言語の検索品質向けに最適化されています。詳細については、[ブログ記事](https://blog.voyageai.com/2024/09/18/voyage-3/) を参照してください。 |
+| voyage-3-lite | 512 | 32,000 | レイテンシとコスト向けに最適化されています。詳細については、[ブログ記事](https://blog.voyageai.com/2024/09/18/voyage-3/) を参照してください。 |
+| voyage-code-3 | 1,024（デフォルト）, 256, 512, 2,048 | 32,000 | コード検索向けに最適化されています。詳細については、[ブログ記事](https://blog.voyageai.com/2024/12/04/voyage-code-3/) を参照してください。 |
+| voyage-finance-2 | 1,024 | 32,000 | 金融検索および RAG 向けに最適化されています。詳細については、[ブログ記事](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/) を参照してください。 |
+| voyage-law-2 | 1,024 | 16,000 | 法務検索および RAG 向けに最適化されています。また、すべてのドメインでパフォーマンスが向上しています。詳細については、[ブログ記事](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/) を参照してください。 |
+| voyage-code-2 | 1,536 | 16,000 | コード検索向けに最適化されています（代替手段より 17% 優れています） / 前世代のコード埋め込みです。詳細については、[ブログ記事](https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/) を参照してください。 |
 
-詳細は、[Text embedding models](https://docs.voyageai.com/reference/embeddings-api) を参照してください。
+詳細については、[Text embedding models](https://docs.voyageai.com/reference/embeddings-api) を参照してください。
 
 ## 事前準備\{#before-you-start}
 
 テキスト埋め込み関数を使用する前に、以下の前提条件を満たしていることを確認してください。
 
-- **埋め込みモデルを選択する**
+- **埋め込みモデルを選択すること**
 
-    使用する埋め込みモデルを決定してください。この選択によって、埋め込みの動作と出力形式が決まります。詳細は、[埋め込みモデルの選択](./voyage-ai#model-choices)を参照してください。
+    この選択によって埋め込みの動作と出力形式が決まるため、使用する埋め込みモデルを決定します。詳細については、[埋め込みモデルを選択する](./voyage-ai#model-choices) を参照してください。
 
-- **Voyage AI と統合し、統合 ID を取得する**
+- **Voyage AI と統合して統合 ID を取得すること**
 
-    Voyage AI が提供する埋め込みモデルを使用する前に、Voyage AI とのモデルプロバイダー統合を作成し、統合 ID を取得する必要があります。詳細は、[モデルプロバイダーとの統合](./integrate-with-model-providers)を参照してください。
+    Voyage AI が提供する埋め込みモデルを使用する前に、Voyage AI とのモデルプロバイダー統合を作成し、統合 ID を取得する必要があります。詳細については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
-- **互換性のあるコレクションスキーマを設計する**
+- **互換性のあるコレクションスキーマを設計すること**
 
-    コレクションスキーマに以下を含めるように計画してください。
+    コレクションスキーマには、次の項目が含まれるように計画してください：
 
     - 生の入力テキスト用のテキストフィールド（`VARCHAR`）
 
-    - データ型と次元が選択した埋め込みモデルと一致する密ベクトルフィールド
+    - データ型と次元数が選択した埋め込みモデルと一致する密ベクトルフィールド
 
-- **挿入時と検索時に生テキストを扱う準備をする**
+- **挿入時と検索時に生テキストを扱う準備をすること**
 
-    テキスト埋め込み関数を有効にすると、生テキストを直接挿入してクエリできます。埋め込みはシステムによって自動的に生成されます。
+    テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動的に生成されます。
 
 ## ステップ 1: テキスト埋め込み関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
 
 ### スキーマフィールドを定義する\{#define-schema-fields}
 
-埋め込み関数を使用するには、特定のスキーマを持つコレクションを作成します。このスキーマには、少なくとも 3 つの必須フィールドを含める必要があります。
+埋め込み関数を使用するには、特定のスキーマを持つコレクションを作成します。このスキーマには、少なくとも 3 つの必須フィールドを含める必要があります：
 
-- コレクション内の各エンティティを一意に識別する主フィールド。
+- コレクション内の各エンティティを一意に識別する主フィールドです。
 
-- 埋め込み対象の生データを格納する `VARCHAR` フィールド。
+- 埋め込む生データを格納する `VARCHAR` フィールドです。
 
-- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する密ベクトル埋め込みを格納するために予約されたベクトルフィールド。
+- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する密ベクトル埋め込みを格納するために予約されたベクトルフィールドです。
 
-次の例では、テキストデータを格納する 1 つの `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数によって生成される密埋め込みを格納する 1 つのベクトルフィールド `"dense"` を持つスキーマを定義します。ベクトルの次元（`dim`）は、選択した埋め込みモデルの出力に一致するように設定してください。
+次の例では、テキストデータを格納する `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数が生成する密ベクトル埋め込みを格納するベクトルフィールド `"dense"` を持つスキーマを定義します。ベクトルの次元数（`dim`）は、選択した埋め込みモデルの出力に一致するように設定してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -283,6 +283,38 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// Initialize Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Create a new schema for the collection
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        // Add primary field "id"
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        // Add scalar field "document" for storing textual data
+        FieldSchema.CreateVarchar("document", 9000),
+        // Add vector field "dense" for storing embeddings.
+        // IMPORTANT: Set dim to match the exact output dimension of the embedding model.
+        new FieldSchema("dense", DataType.FloatVector) { Dimension = 1024 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -320,11 +352,11 @@ export schema='{
 
 テキスト埋め込み関数は、`VARCHAR` フィールドに格納された生データを自動的に埋め込みに変換し、明示的に定義されたベクトルフィールドに格納します。
 
-次の例では、スカラーフィールド `"document"` を埋め込みに変換し、結果のベクトルを先ほど定義した `"dense"` ベクトルフィールドに格納する Function モジュール（`voya`）を追加します。
+次の例では、スカラーフィールド `"document"` を埋め込みに変換し、得られたベクトルを先ほど定義した `"dense"` ベクトルフィールドに格納する Function モジュール（`voya`）を追加します。
 
-埋め込み関数を定義したら、それをコレクションスキーマに追加します。これにより、指定した埋め込み関数を使用してテキストデータから埋め込みを処理および格納するよう Milvus に指示します。
+埋め込み関数を定義したら、それをコレクションスキーマに追加します。これにより、Milvus は指定された埋め込み関数を使用して、テキストデータから埋め込みを処理および格納するようになります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -447,6 +479,16 @@ const functions = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp as of v3.0.0 cannot set text-embedding function
+// params (provider / model_name / integration_id) — FunctionSchema.Params is
+// not publicly settable. Use another SDK for the text embedding function.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -472,9 +514,9 @@ export functionSchema='{
 
 ### インデックスを構成する\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡略化するには、`index_type` として `AUTOINDEX` を使用します。これは、データ構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるオプションです。
+必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -561,6 +603,25 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Prepare index parameters
+var indexParams = new[]
+{
+    new IndexParam("dense", null, IndexType.AutoIndex, MetricType.Cosine)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -580,7 +641,7 @@ indexParams='{
 
 次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -676,6 +737,27 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create collection named "demo"
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -722,7 +804,7 @@ curl --request POST \
 
 コレクションとインデックスを設定したら、生データを挿入する準備が整います。このプロセスでは、生テキストを提供するだけで済みます。先ほど定義した Function モジュールは、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -841,6 +923,33 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Insert sample documents
+var rows = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["id"] = 0L, ["document"] = "Milvus simplifies semantic search through embeddings." },
+    new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Vector embeddings convert text into searchable numeric data." },
+    new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Semantic search helps users find relevant information quickly." },
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo",
+    RowsData = rows
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -863,9 +972,9 @@ curl --request POST \
 
 ## ステップ 3: テキストで検索する\{#step-3-search-with-text}
 
-データを挿入したら、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似度に基づいて関連するドキュメントを取得して、一致度の高い結果を返します。
+データを挿入したら、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似性に基づいて関連するドキュメントを取得して、最も一致する結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -986,6 +1095,31 @@ const results = await client.search({
   output_fields: ['document'],
 });
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Perform semantic search
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "demo",
+    VectorFieldName = "dense",
+    Texts = new[] { "How does Milvus handle semantic search?" }, // Use text query rather than query vector
+    Limit = 1,
+    Parameters = new SearchParameters { OutputFields = { "document" } }
+});
+
+Console.WriteLine(results);
 ```
 
 </TabItem>

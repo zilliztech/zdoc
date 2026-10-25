@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。 | Cloud"
+description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティをあいまいさなく挿入、更新、クエリ、削除できます。 | Cloud"
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # プライマリフィールドと AutoID
 
-Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。
+Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティをあいまいさなく挿入、更新、クエリ、削除できます。
 
 ユースケースに応じて、Zilliz Cloud に ID を自動生成させる（AutoID）か、独自の ID を手動で割り当てることができます。
 
-## プライマリフィールドとは\{#what-is-a-primary-field}
+## プライマリフィールドとは？\{#what-is-a-primary-field}
 
-プライマリフィールドは、従来のデータベースの主キーと同様に、コレクション内の各エンティティの一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリ操作中にプライマリフィールドを使用してエンティティを管理します。
+プライマリフィールドは、従来のデータベースの主キーと同様に、コレクション内の各エンティティの一意キーとして機能します。Zilliz Cloud は、挿入、アップサート、削除、クエリの各操作でエンティティを管理するためにプライマリフィールドを使用します。
 
-主な要件：
+主な要件は次のとおりです。
 
-- 各コレクションには、プライマリフィールドが **正確に1つ**必要です。
+- 各コレクションには、プライマリフィールドが **正確に 1 つ** 必要です。
 
 - プライマリフィールドの値は null にできません。
 
@@ -43,35 +43,35 @@ Zilliz Cloud のすべてのコレクションには、各エンティティを�
 
 | データ型 | 説明 |
 | --- | --- |
-| `INT64` | 64 ビット整数型。AutoID でよく使用されます。ほとんどのユースケースで推奨されるオプションです。 |
-| `VARCHAR` | 可変長文字列型。エンティティ識別子が外部システム（製品コードやユーザー ID など）から取得される場合に使用します。値ごとに許可される最大バイト数を定義する `max_length` プロパティが必要です。 |
+| `INT64` | 64 ビット整数型で、通常は AutoID と組み合わせて使用します。ほとんどのユースケースで推奨されるオプションです。 |
+| `VARCHAR` | 可変長文字列型です。エンティティ識別子が外部システム（例：製品コードやユーザー ID）に由来する場合に使用します。値ごとに許容される最大バイト数を定義するには、`max_length` プロパティが必要です。 |
 
-## AutoID と手動 ID のどちらかを選択する\{#choose-between-autoid-and-manual-ids}
+## AutoID と手動 ID の選択\{#choose-between-autoid-and-manual-ids}
 
-Zilliz Cloud では、主キー値を割り当てる 2つのモードをサポートしています。
+Zilliz Cloud では、主キー値を割り当てる 2 つのモードをサポートしています。
 
 | モード | 説明 | 推奨される用途 |
 | --- | --- | --- |
-| AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティの一意の識別子を自動生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
-| Manual ID | データを挿入またはインポートするときに、独自の一意の ID を指定します。 | ID を外部システムまたは既存のデータセットと一致させる必要がある場合。 |
+| AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティの一意の識別子を自動的に生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
+| Manual ID | データを挿入またはインポートするときに、一意の ID を自分で指定します。 | ID を外部システムや既存のデータセットと一致させる必要がある場合。 |
 
 <Admonition type="info" title="Notes">
 
-- どのモードを選択すべきかわからない場合は、よりシンプルな取り込みと一意性の保証のために [AutoID から始める](./primary-field-auto-id#quickstart-use-autoid) ことをお勧めします。
+- どちらのモードを選択するかわからない場合は、取り込みを簡素化し、一意性を保証するために [AutoID から始める](./primary-field-auto-id#quickstart-use-autoid) ことをお勧めします。
 
-- 主キーを手動で設定することが有益でない限り、すべての場合で `autoId` に依存することをお勧めします。
+- 主キーの手動設定が有益な場合を除き、すべての場合で `autoId` を使用することをお勧めします。
 
 </Admonition>
 
 ## クイックスタート：AutoID を使用する\{#quickstart-use-autoid}
 
-Zilliz Cloud に ID の生成を自動で処理させることができます。
+Zilliz Cloud に ID 生成を自動的に処理させることができます。
 
 ### ステップ 1: AutoID を使用してコレクションを作成する\{#step-1-create-a-collection-with-autoid}
 
-プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID の生成を自動的に処理します。
+プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID 生成を自動的に処理します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -331,6 +331,44 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Milvus generates IDs automatically
+        FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
+        FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
+    }
+};
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "demo_autoid" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "demo_autoid" });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo_autoid",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -377,9 +415,9 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-**重要：** データにプライマリフィールド列を含めないでください。Zilliz Cloud が ID を自動生成します。
+**重要：** データにプライマリフィールド列を含めないでください。Zilliz Cloud が ID を自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,6 +553,38 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+using Milvus.Client.V2.Types;
+
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["embedding"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+        ["category"] = "book"
+    },
+    new Dictionary<string, object?>
+    {
+        ["embedding"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f },
+        ["category"] = "toy"
+    }
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo_autoid",
+    RowsData = data
+});
+Console.WriteLine("Generated IDs: " + string.Join(", ", res.LongIds ?? []));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -544,17 +614,17 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 
 <Admonition type="info" title="Notes">
 
-既存のエンティティを扱う場合は、重複 ID エラーを避けるために `insert()` の代わりに `upsert()` を使用してください。
+重複 ID エラーを回避するため、既存のエンティティを扱うときは `insert()` ではなく `upsert()` を使用してください。
 
 </Admonition>
 
 ## 手動 ID を使用する\{#use-manual-ids}
 
-ID を手動で制御する必要がある場合は、AutoID を無効にして独自の値を指定します。
+ID を手動で制御する必要がある場合は、AutoID を無効にし、独自の値を指定してください。
 
-### ステップ 1: AutoID を使用せずにコレクションを作成する\{#step-1-create-a-collection-without-autoid}
+### ステップ 1: AutoID なしでコレクションを作成する\{#step-1-create-a-collection-without-autoid}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,6 +882,44 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        FieldSchema.CreateVarchar("product_id", maxLength: 100, isPrimaryKey: true, autoId: false), // You provide IDs manually
+        FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
+        FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
+    }
+};
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "demo_manual_ids" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "demo_manual_ids" });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "demo_manual_ids",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -858,11 +966,11 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
-### ステップ 2: 独自の ID を使用してデータを挿入する\{#step-2-insert-data-with-your-ids}
+### ステップ 2: 自分の ID でデータを挿入する\{#step-2-insert-data-with-your-ids}
 
 すべての挿入操作にプライマリフィールド列を含める必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1001,6 +1109,41 @@ console.log(insert);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
+using Milvus.Client.V2.Types;
+
+// Each entity must contain the primary field `product_id`
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["product_id"] = "PROD-001",
+        ["embedding"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+        ["category"] = "book"
+    },
+    new Dictionary<string, object?>
+    {
+        ["product_id"] = "PROD-002",
+        ["embedding"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f },
+        ["category"] = "toy"
+    }
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    CollectionName = "demo_manual_ids",
+    RowsData = data
+});
+Console.WriteLine("Generated IDs: " + string.Join(", ", res.StringIds ?? []));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1031,10 +1174,10 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 </TabItem>
 </Tabs>
 
-お客様の責任：
+ご自身で行う必要があること：
 
-- すべてのエンティティ間ですべての ID が一意であることを確認してください。
+- すべてのエンティティ間で、すべての ID が一意であることを確認してください。
 
 - すべての insert/import 操作にプライマリフィールドを含めてください。
 
-- ID の競合と重複の検出を自身で処理してください。
+- ID の競合と重複検出はご自身で処理してください。

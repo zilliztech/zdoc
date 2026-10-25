@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。これには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが必要です。 | Cloud"
+description: "モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。このため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | Cloud"
 type: origin
 token: VOkIwd5adiziGQkoDO1cRoRFnre
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Array of Structs を使用したデータモデル設計
 
-モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。これには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが必要です。
+モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。このため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。
 
 ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud は Array of Structs を導入します。配列内の各 Struct はスカラーとベクトルを保持でき、意味的な整合性を維持します。
 
 ## Array of Structs を使用する理由\{#why-array-of-structs}
 
-自動運転からマルチモーダル検索まで、モダンな AI アプリケーションはネストされた異種データにますます依存しています。従来のフラットなデータモデルでは、「**多数の注釈付きチャンクを含む 1 つのドキュメント**」や「**複数の観測された操作を含む 1 つの運転シーン**」のような複雑な関係を表現するのは困難です。ここで、Zilliz Cloud の Array of Structs データ型が威力を発揮します。
+自動運転からマルチモーダル検索まで、モダンな AI アプリケーションはネストされた異種データにますます依存しています。従来のフラットなデータモデルでは、「**多数の注釈付きチャンクを含む 1 つのドキュメント**」や「**複数の観測された運転操作を含む 1 つの運転シーン**」のような複雑な関係を表現するのは困難です。ここで、Zilliz Cloud の Array of Structs データ型が威力を発揮します。
 
 Array of Structs を使用すると、構造化要素の順序付きセットを保存できます。各 Struct はスカラーフィールドとベクトル埋め込みの独自の組み合わせを保持します。このため、次の用途に最適です。
 
@@ -51,7 +51,7 @@ Struct スキーマは、取得や表示に使用するフィールドのみを�
 
 ### 最大容量を慎重に設定する\{#set-the-max-capacity-thoughtfully}
 
-各 Array フィールドには、エンティティごとに Array フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、ドキュメントごとに 1,000 個のテキストチャンク、運転シーンごとに 100 個の操作がある場合です。
+各 Array フィールドには、エンティティごとに Array フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、ドキュメントごとに 1,000 個のテキストチャンク、運転シーンごとに 100 個の運転操作がある場合です。
 
 値を過度に大きくするとメモリが浪費されるため、Array フィールド内の Struct の最大数を決めるには計算が必要です。
 
@@ -75,7 +75,7 @@ Struct スキーマは、取得や表示に使用するフィールドのみを�
 
 ### ステップ 1: データセットをコレクションスキーマにマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
 
-CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時間以上の映像で構成される大規模なマルチモーダル運転データセットです。20Hz のレートでフレームをサンプリングし、各フレームに、詳細な自然言語キャプション、車両状態に関する情報、検出オブジェクトの座標を注釈付けします。
+CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時間以上の映像で構成される大規模なマルチモーダル運転データセットです。20 Hz のレートでフレームをサンプリングし、各フレームに、詳細な自然言語キャプション、車両状態に関する情報、検出オブジェクトの座標を注釈付けします。
 
 データセットの構造は以下の通りです。
 
@@ -153,11 +153,11 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
 ### ステップ 2: スキーマを初期化する\{#step-2-initialize-the-schemas}
 
-まず、Caption Struct、front_cars Struct、およびコレクションのスキーマを初期化する必要があります。
+まず、caption Struct、front_cars Struct、およびコレクションのスキーマを初期化する必要があります。
 
 - Caption Struct のスキーマを初期化します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -566,6 +566,27 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the caption struct
+    var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024, description: "plain description of the ego vehicle's behavior"));
+    schemaForCaption.Fields.Add(new FieldSchema("plain_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 2048));
+    schemaForCaption.Fields.Add(new FieldSchema("rich_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 512));
+    schemaForCaption.Fields.Add(new FieldSchema("risk_vector", DataType.FloatVector) { Dimension = 768 });
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -583,7 +604,7 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
     </Admonition>
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -759,6 +780,24 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    // create the schema for the front car struct
+    var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("distance", DataType.Float, description: "distance to the leading vehicle"));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -770,7 +809,7 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
 - コレクションのスキーマを初期化します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -923,6 +962,25 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Types;
+    
+    var schema = new CollectionSchema
+    {
+        Fields =
+        {
+            FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
+            FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
+            new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
+        },
+        StructFields = { schemaForCaption, schemaForFrontCar }
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -936,7 +994,7 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
 すべてのベクトルフィールドにインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、インデックスタイプとして `AUTOINDEX` を、埋め込みリスト間の類似度を測定するメトリックタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1065,6 +1123,21 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam[] indexParams =
+[
+    new("captions[plain_cap_vector]", "captions_plain_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[rich_cap_vector]", "captions_rich_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[risk_vector]", "captions_risk_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1080,7 +1153,7 @@ const indexParams = [
 
 スキーマとインデックスの準備ができたら、次のようにしてターゲットコレクションを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1164,6 +1237,21 @@ await client.createCollection({
     collection_name: "covla_dataset",
     schema,
     index_params: indexParams,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "covla_dataset",
+    Schema = schema,
+    Indexes = indexParams
 });
 ```
 
@@ -1264,7 +1352,7 @@ data = {
 
 データを適切に処理したら、次のようにして挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1605,6 +1693,51 @@ await client.insert({ collection_name: "covla_dataset", data: [data] });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var vector768 = Enumerable.Repeat(0.1f, 768).ToArray();
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "covla_dataset",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["video_id"] = "0a0fc7a5db365174",
+            ["video_url"] = "https://your-storage.com/0a0fc7a5db365174",
+            ["traffic_lights"] = new[]
+            {
+                new Dictionary<string, object?> { ["index"] = 0, ["class"] = "red", ["bbox"] = new[] { 1f, 2f, 3f, 4f } },
+                new Dictionary<string, object?> { ["index"] = 1, ["class"] = "green", ["bbox"] = new[] { 5f, 6f, 7f, 8f } }
+            },
+            ["captions"] = new object[]
+            {
+                new Dictionary<string, object?>
+                {
+                    ["frame_id"] = 0L,
+                    ["plain_caption"] = "Merge left while yielding to oncoming traffic",
+                    ["plain_cap_vector"] = vector768,
+                    ["rich_caption"] = "Merge left while yielding to oncoming traffic on a sunny highway",
+                    ["rich_cap_vector"] = vector768,
+                    ["risk"] = "Potential collision with the leading vehicle",
+                    ["risk_vector"] = vector768
+                }
+            },
+            ["front_cars"] = new object[]
+            {
+                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["distance"] = 5.5f }
+            }
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1613,3 +1746,4 @@ await client.insert({ collection_name: "covla_dataset", data: [data] });
 
 </TabItem>
 </Tabs>
+

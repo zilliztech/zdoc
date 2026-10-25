@@ -1,5 +1,5 @@
 ---
-title: "スキーマの概要 | Cloud"
+title: "スキーマについて | Cloud"
 slug: /schema-explained
 sidebar_label: "概要"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるようにします。 | Cloud"
+description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるように説明します。 | Cloud"
 type: origin
 token: Vs4YwNnvzitoQ8kunlGcWMJInbf
 sidebar_position: 1
@@ -19,29 +19,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# スキーマの概要
+# スキーマについて
 
-スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるようにします。
+スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を検討する必要があります。このページでは、コレクションスキーマを理解し、独自のサンプルスキーマを設計できるように説明します。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、コレクションスキーマはリレーショナルデータベースのテーブルを構成し、Zilliz Cloud がコレクション内でデータをどのように整理するかを定義します。
+Zilliz Cloud では、コレクションスキーマはリレーショナルデータベースのテーブルに相当し、Zilliz Cloud がコレクション内のデータをどのように整理するかを定義します。
 
-適切に設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するため、不可欠です。さらに、コレクションに挿入されるデータの各行はスキーマに従う必要があるため、データの一貫性と長期的な品質の維持に役立ちます。技術的な観点では、適切に定義されたスキーマにより、列データのストレージが整理され、インデックス構造がよりクリーンになり、検索パフォーマンスが向上します。
+適切に設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するため、重要です。さらに、コレクションに挿入されるすべてのデータ行はスキーマに従う必要があるため、データの一貫性と長期的な品質の維持に役立ちます。技術的な観点では、適切に定義されたスキーマによって列データのストレージが整理され、インデックス構造がクリーンになり、検索パフォーマンスが向上します。
 
-コレクションスキーマには、プライマリキー、少なくとも 1 つのベクトルフィールド、および複数のスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
+コレクションスキーマには、主キー、少なくとも 1 つのベクトルフィールド、および複数のスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
 
 ![RoJFbyTsuoY8mHxoBBicgBH9nTc](https://zdoc-images.s3.us-west-2.amazonaws.com/rojfbytsuoy8mhxobbicgbh9ntc.png "RoJFbyTsuoY8mHxoBBicgBH9nTc")
 
-検索システムのデータモデル設計では、ビジネスニーズを分析し、情報をスキーマで表現されるデータモデルに抽象化します。たとえば、テキストを検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を有効にして「インデックス付け」する必要があります。この必須要件に加えて、公開タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、フィルタリングを通じてセマンティック検索を絞り込み、特定の日付以降に公開されたテキストや特定の著者によるテキストのみを返すことができます。また、これらのスカラーをメインテキストとともに取得して、アプリケーションで検索結果をレンダリングできます。これらのテキストを整理するには、それぞれに整数または文字列として表現される一意の識別子を割り当てる必要があります。これらの要素は、高度な検索ロジックを実現するために不可欠です。
+検索システムのデータモデル設計では、ビジネスニーズを分析し、情報をスキーマで表現されるデータモデルに抽象化します。たとえば、テキストを検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を有効にして「インデックス化」する必要があります。この必須要件に加えて、公開タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、フィルタリングを通じてセマンティック検索を絞り込み、特定の日付以降に公開されたテキストや特定の著者によるテキストのみを返すことができます。また、これらのスカラーをメインテキストとともに取得して、アプリケーションで検索結果をレンダリングすることもできます。これらのテキストを整理するために、各テキストに一意の識別子を割り当て、整数または文字列で表現する必要があります。これらの要素は、高度な検索ロジックを実現するために不可欠です。
 
-適切に設計されたスキーマを作成する方法については、[スキーマ設計の実践](./schema-design-hands-on) を参照してください。
+適切に設計されたスキーマの作成方法については、[スキーマ Design Hands-On](./schema-design-hands-on) を参照してください。
 
 ## スキーマを作成する\{#create-schema}
 
 次のコードスニペットは、スキーマを作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -103,6 +103,16 @@ const schema = []
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+CollectionSchema schema = new();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -114,11 +124,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## プライマリフィールドを追加する\{#add-primary-field}
+## 主キーフィールドを追加する\{#add-primary-field}
 
-コレクションのプライマリフィールドは、エンティティを一意に識別します。**Int64** または **VarChar** の値のみを受け入れます。次のコードスニペットは、プライマリフィールドを追加する方法を示しています。
+コレクションの主キーフィールドは、エンティティを一意に識別します。**Int64** または **VarChar** の値のみを受け入れます。次のコードスニペットは、主キーフィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -209,6 +219,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_id", DataType.Int64, isPrimaryKey: true));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -229,23 +249,23 @@ export schema="{
 </TabItem>
 </Tabs>
 
-フィールドを追加する際、`is_primary` プロパティを `True` に設定することで、そのフィールドがプライマリフィールドであることを明示できます。プライマリフィールドはデフォルトで **Int64** 値を受け入れます。この場合、プライマリフィールドの値は `12345` のような整数である必要があります。プライマリフィールドで **VarChar** 値を使用する場合は、値は `my_entity_1234` のような文字列である必要があります。
+フィールドを追加する際、`is_primary` プロパティを `True` に設定することで、そのフィールドを主キーフィールドとして明示できます。主キーフィールドはデフォルトで **Int64** 値を受け入れます。この場合、主キーフィールドの値は `12345` のような整数である必要があります。主キーフィールドで **VarChar** 値を使用する場合、値は `my_entity_1234` のような文字列である必要があります。
 
-また、`autoId` プロパティを `True` に設定すると、データ挿入時に Zilliz Cloud がプライマリフィールドの値を自動的に割り当てるようにできます。
+`autoId` プロパティを `True` に設定して、データ挿入時に Zilliz Cloud が主キーフィールドの値を自動的に割り当てるようにすることもできます。
 
 <Admonition type="info" title="Notes">
 
-手動でプライマリキーを設定することが有益な場合を除き、すべての場合で `autoId` に依存することをお勧めします。
+手動で主キーを設定することが有益な場合を除き、すべてのケースで `autoId` に依存することをお勧めします。
 
 </Admonition>
 
-詳細については、[プライマリフィールドと AutoId](./primary-field-auto-id) を参照してください。
+詳細については、[Primary Field & AutoId](./primary-field-auto-id) を参照してください。
 
 ## ベクトルフィールドを追加する\{#add-vector-fields}
 
 ベクトルフィールドは、さまざまなスパースおよびデンスのベクトル埋め込みを受け入れます。Zilliz Cloud では、コレクションに 4 つのベクトルフィールドを追加できます。次のコードスニペットは、ベクトルフィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -327,6 +347,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_vector", DataType.FloatVector) { Dimension = 5 });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -350,37 +380,37 @@ export schema="{
 </TabItem>
 </Tabs>
 
-上記のコードスニペットの `dim` パラメーターは、ベクトルフィールドに格納されるベクトル埋め込みの次元数を示します。`FLOAT_VECTOR` 値は、ベクトルフィールドが 32 ビット浮動小数点数のリストを保持することを示します。これらは通常、逆対数を表すために使用されます。さらに、Zilliz Cloud は次の種類のベクトル埋め込みもサポートしています。
+上記のコードスニペットの `dim` パラメーターは、ベクトルフィールドに保持されるベクトル埋め込みの次元数を示します。`FLOAT_VECTOR` 値は、ベクトルフィールドが 32 ビット浮動小数点数のリストを保持することを示し、これらは通常、逆対数の表現に使用されます。さらに、Zilliz Cloud は次の種類のベクトル埋め込みもサポートしています：
 
 - `FLOAT16_VECTOR`
 
-    このタイプのベクトルフィールドは、16 ビット半精度浮動小数点数のリストを保持し、通常、メモリまたは帯域幅が制限された深層学習や GPU ベースのコンピューティングシナリオに適用されます。
+    このタイプのベクトルフィールドは、16 ビット半精度浮動小数点数のリストを保持し、通常、メモリまたは帯域幅が制限された深層学習や GPU ベースのコンピューティングのシナリオに適用されます。
 
 - `BFLOAT16_VECTOR`
 
-    このタイプのベクトルフィールドは、精度は低いものの Float32 と同じ指数範囲を持つ 16 ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えることなくメモリ使用量を削減できるため、深層学習のシナリオで一般的に使用されます。
+    このタイプのベクトルフィールドは、精度が低減されているものの Float32 と同じ指数範囲を持つ 16 ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えずにメモリ使用量を削減できるため、深層学習のシナリオで一般的に使用されます。
 
 - `INT8_VECTOR`
 
-    このタイプのベクトルフィールドは、8 ビット符号付き整数（int8）で構成されるベクトルを格納し、各コンポーネントの範囲は –128 から 127 です。ResNet や EfficientNet などの量子化された深層学習アーキテクチャ向けに調整されており、精度の損失を最小限に抑えながら、モデルサイズを大幅に縮小し、推論速度を向上させます。**注記**: このベクトルタイプは HNSW インデックスでのみサポートされています。
+    このタイプのベクトルフィールドは、8 ビット符号付き整数（int8）で構成されるベクトルを格納し、各コンポーネントの範囲は –128～127 です。ResNet や EfficientNet などの量子化された深層学習アーキテクチャ向けに調整されており、精度の低下を最小限に抑えながら、モデルサイズを大幅に縮小し、推論速度を向上させます。**注記**：このベクトルタイプは HNSW インデックスでのみサポートされています。
 
 - `BINARY_VECTOR`
 
-    このタイプのベクトルフィールドは、0 と 1 のリストを保持します。これらは、画像処理や情報検索のシナリオでデータを表すためのコンパクトな特徴として機能します。
+    このタイプのベクトルフィールドは、0 と 1 のリストを保持します。これらは、画像処理や情報検索のシナリオでデータを表すコンパクトな特徴として機能します。
 
 - `SPARSE_FLOAT_VECTOR`
 
-    このタイプのベクトルフィールドは、非ゼロの数値とそのシーケンス番号のリストを保持して、スパースなベクトル埋め込みを表します。
+    このタイプのベクトルフィールドは、非ゼロの数値とそのシーケンス番号のリストを保持し、スパースベクトル埋め込みを表します。
 
 ## スカラーフィールドを追加する\{#add-scalar-fields}
 
-一般的なケースでは、スカラーフィールドを使用して、Zilliz Cloud クラスターに格納されているベクトル埋め込みのメタデータを保存し、メタデータフィルタリングを伴う ANN 検索を実行して、検索結果の正確性を向上させることができます。Zilliz Cloud は、**VarChar**、**TEXT**、**Boolean**、**Int**、**Float**、**Double** など、複数のスカラーフィールドタイプをサポートしています。
+一般的なケースでは、スカラーフィールドを使用して、Zilliz Cloud クラスターに格納されているベクトル埋め込みのメタデータを保存し、メタデータフィルタリングを使用して ANN 検索を実行することで、検索結果の正確性を向上させることができます。Zilliz Cloud は、**VarChar**、**TEXT**、**Boolean**、**Int**、**Float**、**Double** など、複数のスカラーフィールドタイプをサポートしています。
 
 ### VarChar フィールドを追加する\{#add-varchar-fields}
 
-Zilliz Cloud クラスターでは、VarChar フィールドを使用して文字列を格納できます。VarChar フィールドの詳細については、[文字列フィールド](./use-string-field) を参照してください。
+Zilliz Cloud クラスターでは、VarChar フィールドを使用して文字列を保存できます。VarChar フィールドの詳細については、[String Field](./use-string-field) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -461,6 +491,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(FieldSchema.CreateVarchar("my_varchar", 512));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -487,9 +527,9 @@ export schema="{
 
 ### TEXT フィールドを追加する\{#add-text-fields}
 
-Milvus 3.0 以降では、`TEXT` フィールドを使用して、ドキュメントテキスト、パッセージ、ログ、その他の長いテキストコンテンツを格納できます。`VARCHAR` とは異なり、`TEXT` フィールドには `max_length` は必要ありません。`TEXT` フィールドの詳細については、[TEXT フィールド](./use-text-field) を参照してください。
+Milvus 3.0 以降では、`TEXT` フィールドを使用して、ドキュメントのテキスト、パッセージ、ログ、その他の長いテキストコンテンツを保存できます。`VARCHAR` とは異なり、`TEXT` フィールドには `max_length` は必要ありません。`TEXT` フィールドの詳細については、[TEXT Field](./use-text-field) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -556,6 +596,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_text", DataType.Text));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -580,9 +630,9 @@ export schema="{
 
 ### 数値フィールドを追加する\{#add-number-fields}
 
-Zilliz Cloud がサポートする数値のタイプは、`Int8`、`Int16`、`Int32`、`Int64`、`Float`、`Double` です。数値フィールドの詳細については、[数値フィールド](./use-number-field) を参照してください。
+Zilliz Cloud がサポートする数値のタイプは、`Int8`、`Int16`、`Int32`、`Int64`、`Float`、`Double` です。数値フィールドの詳細については、[Number Field](./use-number-field) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -655,6 +705,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_int64", DataType.Int64));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -678,11 +738,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### ブールフィールドを追加する\{#add-boolean-fields}
+### Boolean フィールドを追加する\{#add-boolean-fields}
 
-Zilliz Cloud はブールフィールドをサポートしています。次のコードスニペットは、ブールフィールドを追加する方法を示しています。
+Zilliz Cloud は Boolean フィールドをサポートしています。次のコードスニペットは、Boolean フィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -755,6 +815,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_bool", DataType.Bool));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -781,13 +851,13 @@ export schema="{
 
 ## 複合フィールドを追加する\{#add-composite-fields}
 
-Zilliz Cloud では、複合フィールドは、JSON フィールドのキーや Array フィールドのインデックスなど、より小さなサブフィールドに分割できるフィールドです。
+Zilliz Cloud では、複合フィールドは、JSON フィールドのキーや Array フィールドのインデックスのように、より小さなサブフィールドに分割できるフィールドです。
 
 ### JSON フィールドを追加する\{#add-json-fields}
 
-JSON フィールドは通常、半構造化 JSON データを格納します。JSON フィールドの詳細については、[JSON Field Overview](./json-field-overview) を参照してください。
+A JSON フィールドは通常、半構造化 JSON データを格納します。JSON フィールドの詳細については、[JSON Field Overview](./json-field-overview) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -860,6 +930,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_json", DataType.Json));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -885,11 +965,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### 配列フィールドを追加する\{#add-array-fields}
+### Array フィールドを追加する\{#add-array-fields}
 
-配列フィールドは要素のリストを格納します。配列フィールド内のすべての要素のデータ型は同じである必要があります。配列フィールドの詳細については、[Array Field](./use-array-fields) を参照してください。
+Array フィールドは要素のリストを格納します。Array フィールド内のすべての要素のデータタイプは同じである必要があります。Array フィールドの詳細については、[Array Field](./use-array-fields) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -975,6 +1055,21 @@ schema.push({
     element_type: DataType.VarChar,
     max_capacity: 5,
     max_length: 512
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("my_array", DataType.Array)
+{
+    ElementDataType = DataType.VarChar,
+    MaxCapacity = 5,
+    MaxLength = 512
 });
 ```
 

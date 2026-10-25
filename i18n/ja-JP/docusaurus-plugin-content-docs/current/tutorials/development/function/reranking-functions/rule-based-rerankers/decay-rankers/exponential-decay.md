@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "指数減衰は、検索結果の冒頭で急激に低下した後、長い裾を引くように推移します。速報サイクルのように、関連性が最初は急速に低下しつつも、一部の記事は時間の経過とともに重要性を保ちます。指数減衰は、理想的な範囲をわずかに超えた項目に鋭いペナルティを適用しながら、遠く離れた項目も引き続き発見できる状態に保ちます。このアプローチは、近接性や新しさを強く優先しつつ、より遠い選択肢を完全に排除したくない場合に最適です。 | Cloud"
+description: "指数減衰では、検索結果の最初に急激な低下が生じ、その後に長いテールが続きます。関連性が最初は急速に低下しながら、一部の記事は時間の経過とともに重要性を保ち続ける速報ニュースサイクルのように、指数減衰は理想的な範囲をわずかに超えたアイテムに強いペナルティを課しながら、遠くのアイテムも引き続き見つけられるようにします。このアプローチは、近接性や新しさを大きく優先しつつ、より遠くの選択肢を完全には排除したくない場合に最適です。 | Cloud"
 type: origin
 token: FbVmwmuaei9WkIkIWJmcs3ManEd
 sidebar_position: 3
@@ -21,64 +21,64 @@ import TabItem from '@theme/TabItem';
 
 # 指数減衰
 
-指数減衰は、検索結果の冒頭で急激に低下した後、長い裾を引くように推移します。速報サイクルのように、関連性は最初に急速に低下しますが、一部の記事は時間の経過とともに重要性を保ち続けます。指数減衰は、理想的な範囲をわずかに超えた項目に鋭いペナルティを適用しながら、遠く離れた項目も引き続き発見できる状態に保ちます。このアプローチは、近接性や新しさを強く優先しつつ、より遠い選択肢を完全に排除したくない場合に最適です。
+指数減衰では、検索結果の最初に急激な低下が生じ、その後に長いテールが続きます。関連性が最初は急速に低下しながら、一部の記事は時間の経過とともに重要性を保ち続ける速報ニュースサイクルのように、指数減衰は理想的な範囲をわずかに超えたアイテムに強いペナルティを課しながら、遠くのアイテムも引き続き見つけられるようにします。このアプローチは、近接性や新しさを大きく優先しつつ、より遠くの選択肢を完全には排除したくない場合に最適です。
 
-他の減衰関数とは次の点が異なります。
+他の減衰関数との違いは次の通りです。
 
-- ガウス減衰は、より緩やかなベル型の低下を生み出します。
+- ガウス減衰では、より緩やかなベル型の低下が生じます。
 
-- 線形減衰は、ちょうどゼロに達するまで一定の割合で減少します。
+- 線形減衰では、正確にゼロに達するまで一定の割合で減少します。
 
-指数減衰は、ペナルティを独自に「前倒し」します。つまり、関連性の低下の大部分を早い段階で適用しながら、最小限ではあるもののゼロではない関連性の長い裾を維持します。
+指数減衰は、ペナルティを「前方に集中」させるという独特の特徴があり、関連性の低下の大部分を早期に適用しながら、最小限ではあるもののゼロではない関連性のロングテールを維持します。
 
 ## 指数減衰を使用する場合\{#when-to-use-exponential-decay}
 
-指数減衰は、特に次のような用途で効果を発揮します。
+指数減衰は、次のような用途で特に効果を発揮します。
 
-| ユースケース | 例 | 指数減衰が効果的な理由 |
+| ユースケース | 例 | 指数減衰が適している理由 |
 | --- | --- | --- |
-| ニュースフィード | 速報ニュースポータル | 古いニュースの関連性をすばやく下げつつ、数日前の重要な記事も引き続き表示します。 |
-| SNS タイムライン | アクティビティフィード、ステータス更新 | 新しいコンテンツを強調しつつ、バイラル化した古いコンテンツも浮上させます。 |
-| 通知システム | アラートの優先順位付け | 最近のアラートに緊急性を持たせつつ、重要なアラートの可視性を維持します。 |
-| フラッシュセール | 期間限定オファー | 期限が近づくにつれて可視性を急速に低下させます。 |
+| ニュースフィード | 速報ニュースポータル | 古いニュースの関連性をすばやく下げながら、数日前の重要な記事も引き続き表示します。 |
+| ソーシャルメディアのタイムライン | アクティビティフィード、ステータス更新 | 新しいコンテンツを重視しつつ、過去に拡散したコンテンツも表示できるようにします。 |
+| 通知システム | アラートの優先順位付け | 最近のアラートに緊急性を持たせながら、重要なアラートの表示も維持します。 |
+| フラッシュセール | 期間限定オファー | 期限が近づくにつれて表示されやすさを急速に下げます。 |
 
-次のような場合は指数減衰を選択します。
+次のような場合は、指数減衰を選択します。
 
-- ユーザーが、ごく最近の項目や近くの項目が検索結果を強く占めることを期待する場合。
+- ユーザーが、非常に新しいアイテムまたは近くのアイテムが検索結果を強く占有することを期待している場合。
 
-- 古い項目やより遠い項目であっても、非常に関連性が高ければ引き続き発見可能であることが望ましい場合。
+- 古いアイテムまたは遠いアイテムでも、非常に高い関連性があれば引き続き見つけられるようにする場合。
 
-- 関連性の低下を前倒しにする（最初はより急で、その後はより緩やかになる）必要がある場合。
+- 関連性の低下が初期に集中する（最初は急峻で、その後は緩やかになる）場合。
 
 ## 急激な低下の原則\{#sharp-drop-off-principle}
 
-指数減衰は、最初は急速に下降し、その後徐々に平坦になって、ゼロに近づくものの到達することはない長い裾を描く曲線を作り出します。この数学的なパターンは、放射性崩壊、人口減少、時間の経過に伴う情報の関連性など、自然界の現象に頻繁に現れます。
+指数減衰では、最初は急速に低下し、その後は徐々に平坦になってゼロに近づくものの決してゼロには達しないロングテールへと変化する曲線が描かれます。この数学的パターンは、放射性崩壊、人口減少、時間の経過に伴う情報の関連性といった自然現象に頻繁に現れます。
 
 <Admonition type="info" title="Notes">
 
-すべての時間パラメーター（`origin`、`offset`、`scale`）は、コレクションのデータと同じ単位を使用する必要があります。コレクションがタイムスタンプを異なる単位（ミリ秒、マイクロ秒）で保存している場合は、すべてのパラメーターをそれに合わせて調整してください。
+すべての時間パラメーター（`origin`、`offset`、`scale`）は、コレクションのデータと同じ単位を使用する必要があります。コレクションがタイムスタンプを別の単位（ミリ秒、マイクロ秒）で保存している場合は、すべてのパラメーターをそれに合わせて調整してください。
 
 </Admonition>
 
 ![YaRsbolv9oqomcxrFe5cXBa4nNg](https://zdoc-images.s3.us-west-2.amazonaws.com/yarsbolv9oqomcxrfe5cxba4nng.png "YaRsbolv9oqomcxrFe5cXBa4nNg")
 
-上のグラフは、デジタルニュースプラットフォームにおいて、指数減衰がニュース記事のランキングにどのように影響するかを示しています。
+上のグラフは、デジタルニュースプラットフォームのニュース記事ランキングに指数減衰が与える影響を示しています。
 
-- `origin`（現在時刻）：関連性が最大（1.0）になる現時点です。
+- `origin`（現在時刻）：関連性が最大（1.0）になる現在の時点です。
 
-- `offset`（3 時間）：「速報ウィンドウ」です。過去 3 時間以内に公開されたすべての記事は完全な関連性スコア（1.0）を維持するため、ごく最近のニュースがわずかな時間差によって不必要にペナルティを受けることはありません。
+- `offset`（3 時間）：「速報ニュースのウィンドウ」です。過去 3 時間以内に公開された記事はすべて完全な関連性スコア（1.0）を維持するため、ごく最近のニュースがわずかな時間差だけで不必要にペナルティを受けることはありません。
 
-- `decay`（0.5）：スケール距離におけるスコアです。このパラメーターは、時間の経過とともにスコアがどの程度急激に減少するかを制御します。
+- `decay`（0.5）：スケール距離でのスコアです。このパラメーターは、スコアが時間とともにどれほど大きく減少するかを制御します。
 
-- `scale`（24 時間）：関連性が decay 値まで低下する期間です。ちょうど 24 時間前のニュース記事は、関連性スコアが半分（0.5）になります。
+- `scale`（24 時間）：関連性が減衰値まで下がる期間です。公開からちょうど 24 時間経過したニュース記事の関連性スコアは半分（0.5）になります。
 
-曲線からわかるように、24 時間より古いニュース記事は関連性が低下し続けますが、完全にゼロに達することはありません。数日前の記事であっても最小限の関連性は保持されるため、重要で古いニュースも（順位は下がりますが）引き続きフィードに表示されます。
+曲線からわかるように、24 時間を超えたニュース記事は関連性が低下し続けますが、ゼロに達することはありません。数日前の記事でも最小限の関連性は維持されるため、重要で古いニュースもフィードに表示されます（ただしランキングは低くなります）。
 
-この動作は、ニュースの関連性が通常どのように機能するかを模倣しています。ごく最近の記事が強く優勢になりますが、重要で古い記事であっても、ユーザーの関心に非常に関連していれば依然として浮上することができます。
+この動作は、ニュースの関連性が通常どのように機能するかを再現しています。ごく最近の記事が強く優先されますが、ユーザーの関心に非常に強く関連していれば、重要な古い記事も上位に表示される可能性があります。
 
-## 数式\{#formula}
+## 計算式\{#formula}
 
-指数減衰スコアを計算する数式は次のとおりです。
+指数減衰スコアを計算する数式は次の通りです。
 
 $$
 S(doc) = \exp\left( \lambda \cdot \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)
@@ -92,15 +92,15 @@ $$
 
 これを平易な言葉で分解すると、次のようになります。
 
-1. フィールド値が origin からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$。
+1. フィールド値が原点からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$。
 
-1. オフセットを減算します（存在する場合）。ただし、ゼロを下回ることはありません：$\max(0, distance - offset)$。
+1. オフセットがある場合は減算しますが、ゼロを下回らないようにします：$\max(0, distance - offset)$。
 
-1. スケールと decay パラメーターから計算される $\lambda$ を掛けます。
+1. スケールと減衰パラメーターから計算される $\lambda$ を掛けます。
 
-1. 指数を取ります。これにより 0 から 1 の間の値が得られます：$\exp(\lambda \cdot value)$。
+1. 指数を計算すると、0 から 1 の間の値が得られます：$\exp(\lambda \cdot value)$。
 
-$\lambda$ の計算は、スケールと decay パラメーターを指数関数のレートパラメーターに変換します。$\lambda$ がより負であるほど、初期の低下がより急になります。
+$\lambda$ の計算では、スケールと減衰パラメーターを指数関数のレートパラメーターに変換します。$\lambda$ がより負の値になると、初期の低下が急峻になります。
 
 ## 指数減衰を使用する\{#use-exponential-decay}
 
@@ -108,7 +108,7 @@ $\lambda$ の計算は、スケールと decay パラメーターを指数関数
 
 <Admonition type="info" title="Notes">
 
-減衰関数を使用する前に、まず、減衰の計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データの挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
+減衰関数を使用する前に、まず、減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -118,11 +118,11 @@ $\lambda$ の計算は、スケールと decay パラメーターを指数関数
 
 <Admonition type="info" title="Notes">
 
-**時間単位の一貫性**：時間ベースの減衰を使用する場合は、`origin`、`scale`、`offset` パラメーターがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメーターに秒を使用します。コレクションがタイムスタンプをミリ秒で保存している場合は、すべてのパラメーターにミリ秒を使用します。
+**時間単位の統一**：時間ベースの減衰を使用する場合は、`origin`、`scale`、`offset` パラメーターがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒単位で保存している場合は、すべてのパラメーターに秒を使用します。ミリ秒単位で保存している場合は、すべてのパラメーターにミリ秒を使用します。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -257,6 +257,29 @@ const rerank = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an exponential decay ranker for news recency
+// Note: All time parameters must use the same unit as your collection data
+var rerank = new DecayRerank("news_recency")  // Function identifier
+    .WithInputField("publish_time")           // Numeric field to use
+    .WithFunction("exp")                      // Choose exponential decay
+    .WithOrigin(DateTimeOffset.UtcNow.ToUnixTimeSeconds())  // Current time (seconds, matching collection data)
+    .WithOffset(3 * 60 * 60)                  // 3 hour breaking news window (seconds)
+    .WithDecay(0.5f)                          // Half score at scale distance
+    .WithScale(24 * 60 * 60);                 // 24 hours (in seconds, matching collection data)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -272,7 +295,7 @@ const rerank = {
 
 減衰ランカーを定義したら、検索操作時に `ranker` パラメーターに渡すことで適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +433,34 @@ const result = await milvusClient.search({
   output_fields: ["title", "publish_time"],
   rerank: rerank, // Apply the decay ranker
   consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Apply decay ranker to vector search
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "dense",                    // Vector field to search
+    Vectors = new[] { new ReadOnlyMemory<float>(yourQueryVector) },  // Replace with your query vector
+    Limit = 10,                                   // Number of results
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "title", "publish_time" }, // Fields to return
+        FunctionScoreReranker = rerank,             // Apply the decay ranker
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

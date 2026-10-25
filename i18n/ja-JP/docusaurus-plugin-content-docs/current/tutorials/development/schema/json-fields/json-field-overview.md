@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "商品カタログ、コンテンツ管理システム、ユーザー設定エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品の属性はカテゴリによって異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持ちます。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存・クエリできるようにすることで、この課題を解決します。 | Cloud"
+description: "商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリによって異なり、ユーザーの嗜好は時間の経過とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。 | Cloud"
 type: origin
 token: Neq4wR0EdiXokRkhXwbcMPfanCd
 sidebar_position: 1
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # JSON フィールドの概要
 
-商品カタログ、コンテンツ管理システム、ユーザー設定エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品の属性はカテゴリによって異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持ちます。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存・クエリできるようにすることで、この課題を解決します。
+商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリによって異なり、ユーザーの嗜好は時間の経過とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。
 
-## JSON フィールドとは？\{#what-is-a-json-field}
+## JSON フィールドとは何か？\{#what-is-a-json-field}
 
-JSON フィールドは、Zilliz Cloud において構造化されたキーと値のデータを保存する、スキーマで定義されたデータ型（`DataType.JSON`）です。従来の固定的なデータベース列とは異なり、JSON フィールドはネストされたオブジェクト、配列、混合データ型を格納でき、高速なクエリのための複数のインデックスオプションを提供します。
+JSON フィールドは、Zilliz Cloud のスキーマ定義されたデータ型（`DataType.JSON`）で、構造化されたキーと値のデータを保存します。従来の硬直したデータベース列とは異なり、JSON フィールドはネストされたオブジェクト、配列、混在したデータ型に対応し、高速なクエリのための複数のインデックス作成オプションを提供します。
 
-JSON フィールドの構造例:
+JSON フィールドの構造例は以下の通りです。
 
 ```json
 {
@@ -50,26 +50,26 @@ JSON フィールドの構造例:
 }
 ```
 
-この例では、`metadata` は、フラットな値（例: `category`、`in_stock`）、配列（`tags`）、ネストされたオブジェクト（`supplier`）を組み合わせて含む単一の JSON フィールドです。
+この例では、`metadata` は1つの JSON フィールドであり、フラットな値（`category`、`in_stock` など）、配列（`tags`）、ネストされたオブジェクト（`supplier`）が混在しています。
 
 <Admonition type="info" title="Notes">
 
-**命名規則:** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリの解析で問題を引き起こす可能性があるため、使用しないでください。
+**命名規則：** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリの解析で問題を引き起こす可能性があるため、使用しないでください。
 
 </Admonition>
 
-## JSON フィールドと動的フィールド\{#json-field-vs-dynamic-field}
+## JSON フィールドと動的フィールドの違い\{#json-field-vs-dynamic-field}
 
-よく混同される点は、JSON フィールドと[動的フィールド](./enable-dynamic-field)の違いです。どちらも JSON に関連していますが、目的は異なります。
+JSON フィールドと[動的フィールド](./enable-dynamic-field)の違いは、よく混同されるポイントです。どちらも JSON に関連していますが、目的は異なります。
 
-以下の表に、JSON フィールドと動的フィールドの主な違いをまとめます。
+次の表は、JSON フィールドと動的フィールドの主な違いをまとめたものです。
 
 | 機能 | JSON フィールド | 動的フィールド |
 | --- | --- | --- |
-| スキーマ定義 | `DataType.JSON` 型を使用してコレクションスキーマで明示的に宣言する必要があるスカラーフィールドです。 | 宣言されていないフィールドを自動的に保存する非表示の JSON フィールド（名前は `$meta`）です。 |
-| ユースケース | スキーマが既知で一貫している構造化データを保存します。 | 固定スキーマに適合しない、柔軟で変化するデータや半構造化データを保存します。 |
-| 制御 | フィールド名と構造を制御できます。 | 未定義のフィールドはシステムによって管理されます。 |
-| クエリ | JSON フィールド内のフィールド名または対象キーを使用してクエリします（例: `metadata["key"]`）。 | 動的フィールドのキー（`"dynamic_key"`）または `$meta`（`$meta["dynamic_key"]`）を使用して直接クエリします。 |
+| スキーマ定義 | コレクションスキーマで `DataType.JSON` 型を指定して明示的に宣言する必要があるスカラーフィールドです。 | 宣言されていないフィールドを自動的に保存する非表示の JSON フィールド（`$meta` という名前）です。 |
+| 用途 | スキーマが既知で一貫している構造化データを保存します。 | 固定スキーマに適合しない、柔軟で変化する半構造化データを保存します。 |
+| 制御 | フィールド名と構造はユーザーが制御します。 | 宣言されていないフィールドについてはシステムが管理します。 |
+| クエリ | JSON フィールド内のフィールド名または対象キーを使用してクエリします（例：`metadata["key"]`）。 | 動的フィールドキーを直接使用してクエリします（`"dynamic_key"`）。または `$meta` を介してクエリします（`$meta["dynamic_key"]`）。 |
 
 ## 基本操作\{#basic-operations}
 
@@ -77,9 +77,9 @@ JSON フィールドを使用する基本的なワークフローは、スキー
 
 ### JSON フィールドを定義する\{#define-a-json-field}
 
-JSON フィールドを使用するには、コレクションの作成時にコレクションスキーマで明示的に定義します。次の例では、`DataType.JSON` 型の `metadata` フィールドを持つコレクションを作成します。
+JSON フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例では、`DataType.JSON` 型の `metadata` フィールドを持つコレクションを作成する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -311,6 +311,35 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// Set up a Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+// Create schema
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("product_id", DataType.Int64, isPrimaryKey: true), // Primary field
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 5 }, // Vector field
+        // Define a JSON field that allows null values
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -352,15 +381,15 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-この例では、コレクションスキーマで定義された JSON フィールドは、`nullable=True` により null 値を許可します。詳細については、[Nullable とデフォルト値](./nullable-fields) を参照してください。
+この例では、コレクションスキーマで定義された JSON フィールドは、`nullable=True` により null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ### データを挿入する\{#insert-data}
 
-コレクションを作成したら、指定した JSON フィールドに構造化された JSON オブジェクトを含むエンティティを挿入します。データは辞書のリストとしてフォーマットする必要があります。
+コレクションを作成したら、指定した JSON フィールドに構造化 JSON オブジェクトを含むエンティティを挿入します。データはディクショナリのリストとしてフォーマットする必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -583,6 +612,47 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Insert data
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "product_catalog",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["product_id"] = 1L,
+            ["vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f },
+            ["metadata"] = new Dictionary<string, object?> // JSON field
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -623,7 +693,7 @@ curl --request POST \
 
 ### フィルタリング操作\{#filtering-operations}
 
-JSON フィールドに対してフィルタリング操作を実行する前に、以下の条件を満たしていることを確認してください。
+JSON フィールドでフィルタリング操作を実行する前に、次の条件を満たしていることを確認してください：
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -633,7 +703,7 @@ JSON フィールドに対してフィルタリング操作を実行する前に
 
 <summary>サンプルコードを表示</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -792,6 +862,29 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an index on the vector field
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = [new IndexParam("vector", "vector_index", IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "product_catalog"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -829,15 +922,15 @@ curl --request POST \
 
 </details>
 
-これらの要件を満たしたら、以下の式を使用して、JSON フィールド内の値に基づいてコレクションをフィルタリングできます。これらのフィルター式は、専用の JSON パス構文と演算子を利用します。
+これらの要件を満たしたら、以下の式を使用して、JSON フィールド内の値に基づいてコレクションをフィルタリングできます。これらのフィルター式は、特定の JSON パス構文と専用の演算子を利用します。
 
 #### JSON パス構文によるフィルタリング\{#filtering-with-json-path-syntax}
 
-特定のキーをクエリするには、ブラケット記法を使用して JSON キーにアクセスします（`json_field_name["key"]`）。ネストされたキーの場合は、連結します（`json_field_name["key1"]["key2"]`）。
+特定のキーをクエリするには、ブラケット記法を使用して JSON キーにアクセスします：`json_field_name["key"]`。ネストされたキーの場合は、`json_field_name["key1"]["key2"]` のように連結します。
 
-`category` が `"electronics"` であるエンティティをフィルタリングするには、次のようにします:
+`category` が `"electronics"` であるエンティティをフィルタリングするには、次の式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -974,6 +1067,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "metadata[\"category\"] == \"electronics\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -997,9 +1116,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ネストされたキー `supplier["country"]` が `"USA"` であるエンティティをフィルタリングするには、次のようにします:
+ネストされたキー `supplier["country"]` が `"USA"` であるエンティティをフィルタリングするには、次の式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1138,6 +1257,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "metadata[\"supplier\"][\"country\"] == \"USA\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1163,17 +1308,17 @@ curl --request POST \
 
 #### JSON 固有の演算子によるフィルタリング\{#filtering-with-json-specific-operators}
 
-Zilliz Cloud は、特定の JSON フィールドキーの配列値をクエリするための特別な演算子も提供しています。例:
+Zilliz Cloud では、特定の JSON フィールドキーで配列値をクエリするための特別な演算子も提供しています。例を次に示します。
 
-- `json_contains(identifier, expr)`: JSON 配列内に特定の要素またはサブ配列が存在するかどうかを確認します。
+- `json_contains(identifier, expr)`: JSON 配列内に特定の要素またはサブ配列が存在するかどうかを確認します
 
-- `json_contains_all(identifier, expr)`: 指定された JSON 式のすべての要素がフィールド内に存在することを確認します。
+- `json_contains_all(identifier, expr)`: 指定された JSON 式のすべての要素がフィールド内に存在することを確認します
 
-- `json_contains_any(identifier, expr)`: JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。
+- `json_contains_any(identifier, expr)`: JSON 式の少なくとも1つのメンバーがフィールド内に存在するエンティティをフィルタリングします
 
-`tags` キーの下に `"summer_sale"` 値を持つ商品を検索するには、次のようにします:
+`tags` キーの下に `"summer_sale"` 値を持つ商品を検索するには、次の式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1312,6 +1457,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "json_contains(metadata[\"tags\"], \"summer_sale\")";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1335,9 +1506,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`tags` キーの下に `"electronics"`、`"new"`、`"clearance"` のいずれかの値を持つ商品を検索するには、次のようにします:
+`tags` キーの下に `"electronics"`、`"new"`、`"clearance"` の少なくとも1つの値を持つ商品を検索するには、次の式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1476,6 +1647,32 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Define filter expression
+string filter = "json_contains_any(metadata[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1499,35 +1696,35 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-JSON 固有の演算子の詳細については、[JSON 演算子](./json-filtering-operators) を参照してください。
+JSON 固有の演算子の詳細については、[JSON Operators](./json-filtering-operators) を参照してください。
 
-## 次のステップ: JSON クエリを高速化する\{#next-accelerate-json-queries}
+## 次へ：JSON クエリを高速化する\{#next-accelerate-json-queries}
 
-デフォルトでは、高速化を適用していない JSON フィールドへのクエリはすべての行をフルスキャンするため、大規模なデータセットでは遅くなる場合があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成機能とストレージ最適化機能を提供しています。
+デフォルトでは、高速化されていない JSON フィールドのクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成とストレージ最適化の機能を提供しています。
 
 <Admonition type="warning" title="Warning">
 
-Milvus 3.0.0 以降、オブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`、JSON flat indexing とも呼ばれます）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されません。既知のクエリパスには JSON パスインデックス作成を使用するか、複雑または変化するドキュメント全体のクエリ高速化には [JSON Shredding](./json-shredding) の使用を検討してください。
+Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されません。既知のクエリパスには JSON パスインデックスを使用するか、複雑または変化するドキュメント全体のクエリ高速化には [JSON Shredding](./json-shredding) の使用を検討してください。
 
 </Admonition>
 
-以下の表に、各手法の違いと最適な使用シナリオをまとめます。
+次の表は、それらの違いと最適な使用シナリオをまとめたものです。
 
-| 手法 | 最適な用途 | 配列の高速化 | 注記 |
+| 手法 | 最適な用途 | 配列の高速化 | 備考 |
 | --- | --- | --- | --- |
-| JSON Indexing | 頻繁にアクセスされる少数のキー、特定の配列キー上の配列 | 可（インデックスされた配列キーに対して） | キーを事前に選択する必要があり、スキーマが変化した場合はメンテナンスが必要です。 |
-| JSON Shredding | 多くのキーにわたる全般的な高速化、多様なクエリへの柔軟な対応 | 可（ブルートフォースクエリと比較して配列の値をわずかに高速化） | 追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です。 |
-| NGRAM Index | ワイルドカード検索、テキストフィールドの部分文字列マッチング | N/A | 数値/range フィルターには使用できません。 |
+| JSON インデックス作成 | 頻繁にアクセスされる少数のキー、特定の配列キー上の配列 | はい（インデックス付き配列キーに対して） | キーを事前に選択する必要があり、スキーマが変化した場合はメンテナンスが必要です |
+| JSON Shredding | 多数のキーにわたる一般的な高速化、多様なクエリに対応 | はい（ブルートフォースクエリと比較して配列値をわずかに高速化） | 追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です |
+| NGRAM インデックス | テキストフィールドでのワイルドカード検索、部分文字列一致 | N/A | 数値や範囲（numeric/range）フィルターには使用できません |
 
-**ヒント:** これらのアプローチは組み合わせることができます。たとえば、広範なクエリ高速化には JSON Shredding、高頻度の配列キーには JSON インデックス作成、柔軟なテキスト検索には NGRAM インデックスを使用します。
+**ヒント：** これらのアプローチを組み合わせることができます。たとえば、広範なクエリの高速化には JSON Shredding、高頻度の配列キーには JSON インデックス作成、柔軟なテキスト検索には NGRAM インデックス作成を使用します。
 
-実装の詳細については、以下を参照してください:
+実装の詳細については、以下を参照してください。
 
-- [JSON インデックス作成](./json-indexing)
+-  [JSON インデックス作成](./json-indexing)
 
 - [JSON Shredding](./json-shredding)
 
-- [NGRAM](./ngram-index-type)
+- [NGRAM インデックス](./ngram-index-type)
 
 ## FAQ\{#faq}
 
@@ -1537,31 +1734,31 @@ Milvus 3.0.0 以降、オブジェクト全体の JSON インデックス作成�
 
 ### JSON フィールドはデフォルト値の設定をサポートしていますか？\{#does-a-json-field-support-setting-a-default-value}
 
-いいえ、JSON フィールドはデフォルト値をサポートしていません。ただし、フィールドを定義するときに `nullable=True` を設定すると、空のエントリを許可できます。
+いいえ。JSON フィールドはデフォルト値をサポートしていません。ただし、フィールドを定義するときに `nullable=True` を設定すると、空のエントリを許可できます。
 
-詳細については、[Nullable とデフォルト値](./nullable-fields) を参照してください。
+詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
-### JSON フィールドのキーの命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
+### JSON フィールドキーの命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
 
-はい。クエリおよびインデックス作成との互換性を確保するには、次の点に従ってください:
+はい。クエリおよびインデックス作成との互換性を確保するには、次の点に注意してください：
 
 - JSON キーには英字、数字、アンダースコアのみを使用してください。
 
-- 特殊文字、スペース、ドット（`.`、`/` など）は使用しないでください。
+- 特殊文字、スペース、ドット（`.`、`/` など）を使用しないでください。
 
 - 互換性のないキーは、フィルター式の解析で問題を引き起こす可能性があります。
 
 ### Zilliz Cloud は JSON フィールドの文字列値をどのように処理しますか？\{#how-does-zilliz-cloud-handle-string-values-in-json-fields}
 
-Zilliz Cloud は、文字列値を JSON 入力に含まれるとおりに、意味的な変換を行わずに保存します。引用符の付け方が不適切な文字列は、解析時にエラーになる可能性があります。
+Zilliz Cloud は文字列値を JSON 入力に表示されるそのままの形式で、意味的な変換を行わずに保存します。引用符が不適切な文字列は、解析中にエラーになる可能性があります。
 
-**有効な文字列の例**:
+**有効な文字列の例**：
 
 ```plaintext
 "a\"b", "a'b", "a\\b"
 ```
 
-**無効な文字列の例**:
+**無効な文字列の例**：
 
 ```plaintext
 'a"b', 'a\'b'

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法を紹介します。 | Cloud"
+description: "コレクション内のエンティティは、同じフィールドのセットを共有するデータレコードです。各データレコードのフィールド値によって 1 つのエンティティが構成されます。このページでは、コレクションにエンティティを挿入する方法を紹介します。 | Cloud"
 type: origin
 token: L5jawEj7FiBXWZkGhLgcQCWQnDd
 sidebar_position: 1
@@ -21,31 +21,31 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの挿入
 
-コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法を紹介します。
+コレクション内のエンティティは、同じフィールドのセットを共有するデータレコードです。各データレコードのフィールド値によって 1 つのエンティティが構成されます。このページでは、コレクションにエンティティを挿入する方法を紹介します。
 
 <Admonition type="info" title="Notes">
 
-- **コレクション作成後に追加されたフィールド**: 作成後にコレクションへ新しいフィールドを追加し、挿入時に値を指定しない場合、MilvusZilliz Cloud は定義済みのデフォルト値で自動的に値を設定します。デフォルト値が設定されていない場合は `NULL` で値を設定します。詳細は、[Alter コレクション スキーマ](./add-fields-to-an-existing-collection) を参照してください。
+- **コレクション作成後に追加されるフィールド**: 作成後にコレクションへ新しいフィールドを追加し、挿入時に値を指定しない場合、MilvusZilliz Cloud は、定義済みのデフォルト値、またはデフォルト値が設定されていない場合は `NULL` を自動的に設定します。詳細は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
-- **重複の処理**: 標準の `insert` 操作では、主キーの重複はチェックされません。既存の主キーを持つデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複やアプリケーションの問題が発生する可能性があります。既存のエンティティを更新する場合や重複を避ける場合は、代わりに **`upsert`** 操作を使用してください。詳細は、[Upsert Entities](./upsert-entities) を参照してください。
+- **重複の処理**: 標準の `insert` 操作では、主キーの重複はチェックされません。既存の主キーと同じ値のデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複やアプリケーションの問題につながる可能性があります。既存のエンティティを更新する、または重複を避けるには、代わりに **`upsert`** 操作を使用してください。詳細は、[エンティティの upsert](./upsert-entities) を参照してください。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-Zilliz Cloud クラスターでは、**エンティティ**は同じ**スキーマ**を共有する**コレクション**内のデータレコードを指し、行の各フィールドにあるデータがエンティティを構成します。したがって、同じコレクション内のエンティティは、同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
+Zilliz Cloud のクラスターでは、**エンティティ**とは、同じ**スキーマ**を共有する**コレクション**内のデータレコードを指し、行の各フィールドのデータによって 1 つのエンティティが構成されます。したがって、同じコレクション内のエンティティは、同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
 
-コレクションにエンティティを挿入する場合、挿入するエンティティにスキーマで定義されたすべてのフィールドが含まれている場合にのみ、正常に追加できます。挿入されたエンティティは、挿入順に **_default** という名前のパーティションに入ります。特定のパーティションが存在する場合は、挿入リクエストでパーティション名を指定することで、そのパーティションにもエンティティを挿入できます。
+コレクションにエンティティを挿入する場合、挿入するエンティティにスキーマで定義されたすべてのフィールドが含まれている場合に限り、そのエンティティを正常に追加できます。挿入されたエンティティは、挿入順に **_default** という名前のパーティションに入ります。特定のパーティションが存在する場合は、挿入リクエストでパーティション名を指定することで、そのパーティションにもエンティティを挿入できます。
 
-Zilliz Cloud は、コレクションの拡張性を維持するための動的フィールドもサポートしています。動的フィールドが有効な場合は、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**&#36;meta** という名前の予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細は、Dynamic Field を参照してください。
+Zilliz Cloud は、コレクションの拡張性を維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**&#36;meta** という名前の予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細は、動的フィールドを参照してください。
 
 ## コレクションへのエンティティの挿入\{#insert-entities-into-a-collection}
 
-データを挿入する前に、スキーマに従ってデータを辞書のリストに整理する必要があります。各辞書はエンティティを表し、スキーマで定義されたすべてのフィールドを含んでいる必要があります。コレクションで動的フィールドが有効な場合は、各辞書にスキーマで定義されていないフィールドも含めることができます。
+データを挿入する前に、スキーマに従ってデータをディクショナリのリストとして整理する必要があります。各ディクショナリは 1 つのエンティティを表し、スキーマで定義されたすべてのフィールドを含みます。コレクションで動的フィールドが有効になっている場合、各ディクショナリにはスキーマで定義されていないフィールドを含めることもできます。
 
-このセクションでは、クイックセットアップ方式で作成したコレクションにエンティティを挿入します。この方式で作成したコレクションには、**id** と **ベクトル** という名前の 2 つのフィールドだけがあります。また、このコレクションでは動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない **color** というフィールドが含まれています。
+このセクションでは、クイックセットアップ方式で作成されたコレクションにエンティティを挿入します。この方式で作成されたコレクションには、**id** と **ベクトル** という名前の 2 つのフィールドしかありません。また、このコレクションでは動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない **color** というフィールドが含まれています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -290,6 +290,69 @@ console.log(res.insert_cnt)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+var vectors = new[]
+{
+    new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }),
+    new ReadOnlyMemory<float>(new[] { 0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f }),
+    new ReadOnlyMemory<float>(new[] { 0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f }),
+    new ReadOnlyMemory<float>(new[] { 0.3172005263489739f, 0.9719044792798428f, -0.36981146090600725f, -0.4860894583077995f, 0.95791889146345f }),
+    new ReadOnlyMemory<float>(new[] { 0.4452349528804562f, -0.8757026943054742f, 0.8220779437047674f, 0.46406290649483184f, 0.30337481143159106f }),
+    new ReadOnlyMemory<float>(new[] { 0.985825131989184f, -0.8144651566660419f, 0.6299267002202009f, 0.1206906911183383f, -0.1446277761879955f }),
+    new ReadOnlyMemory<float>(new[] { 0.8371977790571115f, -0.015764369584852833f, -0.31062937026679327f, -0.562666951622192f, -0.8984947637863987f }),
+    new ReadOnlyMemory<float>(new[] { -0.33445148015177995f, -0.2567135004164067f, 0.8987539745369246f, 0.9402995886420709f, 0.5378064918413052f }),
+    new ReadOnlyMemory<float>(new[] { 0.39524717779832685f, 0.4000257286739164f, -0.5890507376891594f, -0.8650502298996872f, -0.6140360785406336f }),
+    new ReadOnlyMemory<float>(new[] { 0.5718280481994695f, 0.24070317428066512f, -0.3737913482606834f, -0.06726932177492717f, -0.6980531615588608f }),
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    CollectionName = "quick_setup",
+    ColumnsData =
+    [
+        FieldData.Create("id", new long[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }),
+        FieldData.CreateFloatVector("vector", vectors),
+        FieldData.CreateVarChar("color", new[]
+        {
+            "pink_8682",
+            "red_7025",
+            "orange_6781",
+            "pink_9298",
+            "red_4794",
+            "yellow_4222",
+            "red_9392",
+            "grey_8510",
+            "white_9381",
+            "purple_4976"
+        }, isDynamic: true)
+    ]
+});
+
+Console.WriteLine($"insert_count: {res.InsertCount}");
+Console.WriteLine($"ids: [{string.Join(", ", res.LongIds ?? Array.Empty<long>())}]");
+
+// Output
+// insert_count: 10
+// ids: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -342,9 +405,9 @@ curl --request POST \
 
 ## パーティションへのエンティティの挿入\{#insert-entities-into-a-partition}
 
-指定したパーティションにもエンティティを挿入できます。以下のコードスニペットでは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+指定したパーティションにもエンティティを挿入できます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -549,6 +612,60 @@ console.log(res.insert_cnt)
 // 
 // 10
 // 
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var vectors = new[]
+{
+    new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }),
+    new ReadOnlyMemory<float>(new[] { 0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f }),
+    new ReadOnlyMemory<float>(new[] { 0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f }),
+    new ReadOnlyMemory<float>(new[] { 0.3172005263489739f, 0.9719044792798428f, -0.36981146090600725f, -0.4860894583077995f, 0.95791889146345f }),
+    new ReadOnlyMemory<float>(new[] { 0.4452349528804562f, -0.8757026943054742f, 0.8220779437047674f, 0.46406290649483184f, 0.30337481143159106f }),
+    new ReadOnlyMemory<float>(new[] { 0.985825131989184f, -0.8144651566660419f, 0.6299267002202009f, 0.1206906911183383f, -0.1446277761879955f }),
+    new ReadOnlyMemory<float>(new[] { 0.8371977790571115f, -0.015764369584852833f, -0.31062937026679327f, -0.562666951622192f, -0.8984947637863987f }),
+    new ReadOnlyMemory<float>(new[] { -0.33445148015177995f, -0.2567135004164067f, 0.8987539745369246f, 0.9402995886420709f, 0.5378064918413052f }),
+    new ReadOnlyMemory<float>(new[] { 0.39524717779832685f, 0.4000257286739164f, -0.5890507376891594f, -0.8650502298996872f, -0.6140360785406336f }),
+    new ReadOnlyMemory<float>(new[] { 0.5718280481994695f, 0.24070317428066512f, -0.3737913482606834f, -0.06726932177492717f, -0.6980531615588608f }),
+};
+
+MutationResp res = await client.InsertAsync(new InsertReq
+{
+    PartitionName = "partitionA",
+    CollectionName = "quick_setup",
+    ColumnsData =
+    [
+        FieldData.Create("id", new long[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }),
+        FieldData.CreateFloatVector("vector", vectors),
+        FieldData.CreateVarChar("color", new[]
+        {
+            "pink_8682",
+            "red_7025",
+            "orange_6781",
+            "pink_9298",
+            "red_4794",
+            "yellow_4222",
+            "red_9392",
+            "grey_8510",
+            "white_9381",
+            "purple_4976"
+        }, isDynamic: true)
+    ]
+});
+
+Console.WriteLine($"insert_count: {res.InsertCount}");
+Console.WriteLine($"ids: [{string.Join(", ", res.LongIds ?? Array.Empty<long>())}]");
+
+// Output
+// insert_count: 10
+// ids: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 ```
 
 </TabItem>

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換では、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージコストと計算コストも削減されます。重要ではない特徴に厳密な精度が必要ない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | Cloud"
+description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換では、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージコストと計算コストも削減されます。重要でない特徴量に厳密な精度が必要ない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | Cloud"
 type: origin
 token: NTwawtvYdiXTkukbss7ccw2RnXc
 sidebar_position: 4
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # バイナリベクトル
 
-バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換では、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージコストと計算コストも削減されます。重要ではない特徴に厳密な精度が必要ない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
+バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換では、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージコストと計算コストも削減されます。重要でない特徴量に厳密な精度が必要ない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
 
 バイナリベクトルは幅広い用途があり、特に計算効率とストレージの最適化が重要な状況で役立ちます。検索エンジンやレコメンデーションシステムなどの大規模な AI システムでは、大量のデータをリアルタイムで処理することが鍵となります。ベクトルのサイズを削減することで、バイナリベクトルは精度を大きく犠牲にすることなく、レイテンシと計算コストの削減に役立ちます。また、バイナリベクトルは、メモリと処理能力が限られているモバイルデバイスや組み込みシステムなど、リソースに制約のある環境でも有用です。バイナリベクトルを使用することで、こうした制約のある環境でも高いパフォーマンスを維持しながら複雑な AI 機能を実装できます。
 
@@ -39,9 +39,9 @@ import TabItem from '@theme/TabItem';
 
 - **高速な計算:** ベクトル間の類似度は、XOR などのビット演算を使用して高速に計算できます。
 
-- **固定長:** 元のテキストの長さに関係なくベクトルの長さは一定であるため、インデックス作成と検索が容易になります。
+- **固定長:** 元のテキストの長さに関係なくベクトルの長さは一定であるため、インデックス作成と取得が容易になります。
 
-- **シンプルで直感的:** キーワードの存在を直接反映するため、特定の専門的な検索タスクに適しています。
+- **シンプルで直感的:** キーワードの存在を直接反映するため、特定の専門的な取得タスクに適しています。
 
 バイナリベクトルはさまざまな方法で生成できます。テキスト処理では、事前定義された語彙を使用し、単語の有無に基づいて対応するビットを設定できます。画像処理では、知覚ハッシュアルゴリズム（[pHash](https://en.wikipedia.org/wiki/Perceptual_hashing) など）によって画像のバイナリ特徴を生成できます。機械学習アプリケーションでは、モデルの出力を二値化してバイナリベクトル表現を取得できます。
 
@@ -65,7 +65,7 @@ Zilliz Cloud クラスターでバイナリベクトルを使用するには、�
 
 1. `dim` パラメータを使用してベクトルの次元数を指定します。バイナリベクトルは挿入時にバイト配列に変換する必要があるため、`dim` は 8 の倍数でなければならない点に注意してください。8 個の boolean 値（0 または 1）ごとに 1 バイトにパックされます。たとえば、`dim=128` の場合、挿入には 16 バイトの配列が必要です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -237,6 +237,34 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("pk", DataType.VarChar, isPrimaryKey: true, autoId: true) { MaxLength = 100 },
+        new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = 128 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -274,9 +302,9 @@ export schema="{
 
 ### ベクトルフィールドのインデックスパラメータを設定する\{#set-index-params-for-vector-field}
 
-検索を高速化するには、バイナリベクトルフィールドにインデックスを作成する必要があります。インデックスを作成すると、大規模なベクトルデータの検索効率を大幅に向上できます。
+検索を高速化するには、バイナリベクトルフィールドにインデックスを作成する必要があります。インデックスを作成すると、大規模なベクトルデータの取得効率を大幅に向上できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,6 +392,20 @@ const indexParams = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var indexParam = new IndexParam(
+    fieldName: "binary_vector",
+    indexName: "binary_vector_index",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.Hamming);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -388,7 +430,7 @@ export indexParams='[
 
 バイナリベクトルとインデックスの設定が完了したら、バイナリベクトルを含むコレクションを作成します。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -482,6 +524,21 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -506,7 +563,7 @@ curl --request POST \
 
 たとえば、128 次元のバイナリベクトルには 16 バイトの配列が必要です（128 ビット ÷ 8 ビット/byte = 16 バイト）。以下はデータを挿入するためのコード例です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -664,6 +721,35 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+// Binary vectors (128 bits = 16 bytes)
+// vector1: [1,0,0,1,1,0,1,1, 0,1,0,1,0,1,0,0] + [0]*112
+byte[] vector1 = { 0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+// vector2: [0,1,0,1,0,1,0,0, 1,1,0,0,1,1,0,1] + [0]*112
+byte[] vector2 = { 0x2A, 0xB3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    ColumnsData =
+    [
+        new BinaryVectorFieldData("binary_vector", new ReadOnlyMemory<byte>[]
+        {
+            vector1,
+            vector2
+        })
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -692,7 +778,7 @@ curl --request POST \
 
 検索操作中も、バイナリベクトルはバイト配列の形式で指定する必要があります。クエリベクトルの次元数が `dim` の定義時に指定した次元と一致していること、および 8 個の boolean 値ごとに 1 バイトに変換されていることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -855,6 +941,34 @@ await client.search({
     output_fields: ['pk'],
     params: { nprobe: 10 }
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// query vector = vector1
+byte[] queryBytes = { 0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    BinaryVectors = [new ReadOnlyMemory<byte>(queryBytes)],
+    VectorFieldName = "binary_vector",
+    MetricType = MetricType.Hamming,
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 10,
+        OutputFields = { "pk" }
+    }
+});
+Console.WriteLine(res);
 ```
 
 </TabItem>

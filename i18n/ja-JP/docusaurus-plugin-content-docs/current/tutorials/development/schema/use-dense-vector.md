@@ -79,7 +79,7 @@ Zilliz Cloud クラスターで密ベクトルを使用するには、まずコ�
 
 次の例では、密ベクトルを保存するために `dense_vector` という名前のベクトルフィールドを追加します。このフィールドのデータ型は `FLOAT_VECTOR`、次元数は `4` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -244,6 +244,32 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateFloatVector("dense_vector", dimension: 4)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -289,7 +315,7 @@ export schema="{
 
 セマンティック検索を高速化するには、ベクトルフィールドにインデックスを作成する必要があります。インデックスを作成すると、大規模なベクトルデータの検索効率を大幅に向上できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +406,24 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var indexParams = new[]
+{
+    new IndexParam(
+        fieldName: "dense_vector",
+        indexName: "dense_vector_index",
+        indexType: IndexType.AutoIndex,
+        metricType: MetricType.Ip)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -404,7 +448,7 @@ Zilliz Cloud は他のメトリクスタイプもサポートしています。�
 
 密ベクトルとインデックスパラメーターの設定が完了したら、密ベクトルを含むコレクションを作成できます。次の例では、`create_collection` メソッドを使用して、`my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -509,6 +553,23 @@ console.log(createRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -534,7 +595,7 @@ curl --request POST \
 
 コレクションを作成したら、`insert` メソッドを使用して密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドを追加したときに定義した `dim` の値と一致していることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -669,6 +730,34 @@ console.log(insertRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.7f }
+    },
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.2f, 0.3f, 0.4f, 0.8f }
+    }
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -698,7 +787,7 @@ curl --request POST \
 
 密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核機能の 1 つです。ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -859,6 +948,33 @@ const searchRes = await client.search({
 });
 
 console.log(searchRes);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.7f });
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "dense_vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 10,
+        OutputFields = { "pk" }
+    }
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
 ```
 
 </TabItem>
