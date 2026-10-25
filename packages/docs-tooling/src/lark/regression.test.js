@@ -243,6 +243,22 @@ function testDescriptionSkipsFeatureNoteBlocks() {
   );
 }
 
+function testFrontMatterEmitsDisplayedSidebarExactlyOnce() {
+  const writer = new larkDocWriter('', '', '', '/tmp');
+  const frontMatter = writer.__front_matters(
+    'Title', 'Suffix', 'slug', false, false, 'docx', 'token', 1, 'Label', 'kw', 'goSidebar', 'desc'
+  );
+  const matches = frontMatter.match(/^displayed_sidebar:/gm) || [];
+  assert.equal(matches.length, 1);
+}
+
+function testDriveWriterDoesNotReinjectMisspelledSidebarKey() {
+  // The misspelled key shipped in every drive-writer page's frontmatter for
+  // months (3.5k+ files on dev); guard against reintroduction.
+  const source = fs.readFileSync(path.join(__dirname, 'larkDriveWriter.js'), 'utf8');
+  assert.ok(!source.includes('displayed_sidbar'));
+}
+
 async function run() {
   await testConvertLinkResolvesWikiByNodeTokenWhenOriginMissing();
   await testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility();
@@ -254,6 +270,8 @@ async function run() {
   await testIframeImageUrlEscapesSpacesInGeneratedMarkdown();
   await testBoardImageUrlUsesEscapedMarkdownUrl();
   testDescriptionSkipsFeatureNoteBlocks();
+  testFrontMatterEmitsDisplayedSidebarExactlyOnce();
+  testDriveWriterDoesNotReinjectMisspelledSidebarKey();
   console.log('lark-docs regression tests passed');
 }
 

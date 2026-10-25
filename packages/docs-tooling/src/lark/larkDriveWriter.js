@@ -390,7 +390,6 @@ class larkDriveWriter extends larkDocWriter {
                 })
 
                 front_matter = front_matter.split('\n')
-                front_matter.splice(front_matter.length - 1, 0, `displayed_sidbar: ${this.displayedSidebar}`)
                 front_matter.splice(5, 0, `added_since: ${addedSince ? addedSince : 'FALSE'}`)
                 front_matter.splice(6, 0, `last_modified: ${lastModified ? lastModified : 'FALSE'}`)
                 front_matter.splice(7, 0, `deprecate_since: ${deprecateSince ? deprecateSince : 'FALSE'}`)
