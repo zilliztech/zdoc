@@ -315,6 +315,28 @@ Stop at the first failed boundary and classify the failure before retrying:
 - **Expired or incompatible Translation artifacts:** use [`recover-translation.yml`](.github/workflows/recover-translation.yml) with the previous Translation producer workflow run ID (not a job ID, and not the `publish translation` publisher run ID). For a split run the planner reads the `docs-translation-publication-handoff-*` metadata artifact to discover and authenticate the publisher run's progress/results evidence automatically. First run with `publish=false` to authenticate the recovery plan and inspect rejected units. Only after the plan is compatible should you rerun with `publish=true`; the recovery run translates on its own read-only concurrency group and publishes through the `publish-translation.yml` short lock like any other producer. The plan excludes units whose retained files are already superseded on `dev` by a newer published source generation (listed under rejected units with reason `superseded source generation`); those units belong to a fresh translation, not to recovery. `allow_full_retranslate=true` is an advanced, explicitly authorized path for the case where no retained file is compatible; it may invoke paid models and must not be enabled casually. Prompt-contract changes (for example, editing the Japanese style guide or advancing the locale contract) do not invalidate retained artifacts outright: records downgrade from `strict` to `revalidated` and are restored or resumed after passing the current deterministic gates, while review receipts are not inherited across the boundary.
 - **Reconciliation review:** a `translation-reconciliation-review-*.json` artifact is produced when a deletion or path change requires human authorization. Generate the deterministic approval PR with `scripts/docs-workflow/reconciliation-review-pr.js`, review the exact plan, expected mutations, source/target identities, and policy exception body, then merge only when the decision should remain standing. Do not hand-edit or push policy files directly to `dev`; after merge, run the normal master-to-dev tooling sync.
 - **Card/reporting failure:** the card is observability, not the Git writer. Preserve the publication selection/results and final verification artifacts, then use the final card artifact or monitor finalization evidence to determine whether the business flow actually succeeded.
+- **Every `build:en`-gated publication fails on a file already on `dev`:** pipeline-owned output (translated pages, generated state) can deadlock the whole pipeline — see [Unlock dev when pipeline-owned output blocks every build](#unlock-dev-when-pipeline-owned-output-blocks-every-build).
+
+### Unlock dev when pipeline-owned output blocks every build
+
+A broken file that is already published on `dev` (for example invalid YAML front matter in a translated reference page — incident 2026-10-24, commit `460f7d921`) deadlocks the pipeline: every `build:en`-gated validation fails, so Fetch cannot publish the source change that would trigger retranslation, and no workflow can repair the file by itself. A manual hotfix commit to `dev` is then the only repair path, and it must follow this exact pattern. `dev` currently has no branch protection, so the guardrails are procedural:
+
+1. **Confirm the true fatal cause before touching anything.** Publication failure messages carry only the first 500 characters of stderr and can mislabel the cause (the 2026-10-24 incident surfaced as "Docusaurus found broken links" — a perennial non-fatal warning — while the fatal error was a YAML exception). Reproduce the failing gate locally on the failing tree, or validate the suspect file directly, before concluding.
+2. **Verify the deadlock actually holds.** The pattern applies only when no normal path can self-heal: the broken file is pipeline-owned (translated output or generated state, never hand-authored source), the pending source change would have to land through the same failing gate, and no retained recovery artifact can republish a good version. If the English source can still land or a recovery run covers it, use the normal paths instead.
+3. **Repair in an isolated worktree, broken bytes only.** Start from the current `origin/dev` tip in a detached worktree, change exactly the broken bytes in exactly the broken file, and do not "improve" anything else in the same commit.
+4. **Run the failing gate locally before pushing.** Install in the worktree and run the gate that was failing in CI (for a `build:en` deadlock, `pnpm run build`). Never push an unverified hotfix — a hotfix that fails the next run doubles the incident.
+5. **Confirm no production writer is active, then push forward-only.** Check that no Fetch/Translation producer or publisher run is in flight (a manual push bypasses the `docs-production-dev` queue), then `git push origin HEAD:dev` from the worktree. Any rejection (non-fast-forward) is a safe stop: stop and re-diagnose. Never force-push, reset, or rebase `dev`.
+6. **Close the loop.** Watch the next Fetch run land the previously blocked units, and file the tooling gate that would have caught the file class at the publication boundary as a `master` PR, so the manual unlock stays a last resort.
+
+```bash
+git fetch origin dev
+git worktree add --detach .claude/worktrees/dev-hotfix origin/dev
+cd .claude/worktrees/dev-hotfix && pnpm install --frozen-lockfile
+# fix only the broken bytes in the one broken file, then:
+pnpm run build                     # the exact gate that was failing in CI
+git commit -am "hotfix(dev): repair <path> (<incident reference>)"
+git push origin HEAD:dev
+```
 
 ### Migrate the Japanese publication manifest
 
