@@ -3470,11 +3470,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "95a7f2ec930334d166bf393e376787c115d5d118",
-      "sourceHash": "01cad0f83d0f2b40965917063120a29aa4518f29999396825c95b06b060d43ef",
+      "sourceCommit": "60907c1fa81be4ddd9289de7093e2270d90a2f24",
+      "sourceHash": "2ad461d2f0e2584a64f5854e386c6b81b0c4714dbcabf1c342b8b66a6235bd28",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md",
       "status": "translated",
-      "targetHash": "5b26606efa589c037094c8ee054b1213fed9f456a0ea35c8e7fb44d7f7608dd7",
+      "targetHash": "93578088146a34c82e7c60d718560d07215a4ef504f42a3708094d7a4063e9f3",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-FileResources/v2-FileResources-NewRoaringBitmapBlob.md"
     },
     {
