@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`thai` トークナイザーは、スペースに依存せずにタイ語のテキストを単語トークンに分割します。タイ語またはタイ語/English が混在するテキスト用のカスタムアナライザーパイプラインを構築する必要がある場合は、このトークナイザーを使用してください。 | BYOC"
+description: "`thai` トークナイザーは、スペースに依存せずにタイ語テキストを単語トークンに分割します。タイ語または Thai/English が混在するテキスト用のカスタムアナライザーパイプラインを構築する必要がある場合に、このトークナイザーを使用します。 | BYOC"
 type: origin
 token: KT4yw9ZWriYDilkhFR7cr00Znfb
 sidebar_position: 7
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # タイ語
 
-`thai` トークナイザーは、スペースに依存せずにタイ語のテキストを単語トークンに分割します。タイ語またはタイ語/English が混在するテキスト用のカスタムアナライザーパイプラインを構築する必要がある場合は、このトークナイザーを使用してください。
+`thai` トークナイザーは、スペースに依存せずにタイ語テキストを単語トークンに分割します。タイ語または Thai/English が混在するテキスト用のカスタムアナライザーパイプラインを構築する必要がある場合に、このトークナイザーを使用します。
 
 ## 設定\{#configuration}
 
 <Admonition type="info" title="Notes">
 
-タイ語のテキストには、ほとんどの場合、組み込みの `thai` アナライザーを使用してください。組み込みアナライザーには、このトークナイザーに加えて、小文字化、10 進数字の正規化、タイ語のストップワードの削除が含まれています。カスタムアナライザーパイプラインを構築する必要がある場合にのみ、`thai` トークナイザーを直接使用してください。詳細については、[タイ語アナライザー](./thai-analyzer) を参照してください。
+タイ語テキストには、ほとんどの場合、組み込みの `thai` アナライザーを使用してください。組み込みアナライザーには、このトークナイザーに加えて、小文字化、10進数字の正規化、およびタイ語のストップワード除去が含まれています。`thai` トークナイザーを直接使用するのは、カスタムアナライザーパイプラインを構築する必要がある場合だけです。詳細については、[タイ語アナライザー](./thai-analyzer) を参照してください。
 
 </Admonition>
 
-`thai` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` で `tokenizer` を `thai` に設定します。
+`thai` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` で `tokenizer` を `thai` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -94,6 +94,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "thai"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -106,11 +119,11 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`thai` トークナイザーには、構成可能なパラメーターはありません。
+`thai` トークナイザーには設定可能なパラメーターはありません。
 
-トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次の構成では、`thai` トークナイザーと `lowercase` および `decimaldigit` フィルターを使用します。
+トークナイザーは 1 つ以上のフィルターと組み合わせて使用できます。たとえば、次の設定では、`thai` トークナイザーと `lowercase` および `decimaldigit` フィルターを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -180,6 +193,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "thai",
+    ["filter"] = new List<object> { "lowercase", "decimaldigit" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -196,29 +223,29 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-このカスタムパイプラインは、組み込みの `_thai_` ストップワード辞書を含まないため、組み込みの `thai` アナライザーと同等ではありません。完全な定義済みパイプラインを使用するには、`{"type": "thai"}` を使用してください。
+このカスタムパイプラインは、組み込みの `_thai_` ストップワード辞書を含まないため、組み込みの `thai` アナライザーと同等ではありません。定義済みの完全なパイプラインを使用するには、`{"type": "thai"}` を使用します。
 
-トークナイザーは、次の動作を適用します。
+トークナイザーは次のように動作します。
 
-- **タイ語の分割**: 空白に依存せずに、タイ語のテキストを単語トークンに分割します。
+- **タイ語の分割**: スペースに依存せずに、タイ語テキストを単語トークンに分割します。
 
 - **空白と句読点のフィルタリング**: 空白および句読点のみのセグメントを除外します。これは、句読点とスペースをトークンとして保持できる `icu` トークナイザーとは異なります。
 
-- **混在スクリプトのテキスト**: タイ語/English が混在するテキストでは、ラテン文字の単語トークンを出力します。
+- **複数スクリプトが混在するテキスト**: Thai/English が混在するテキスト内のラテン単語トークンを出力します。
 
 - **トークナイザーのみ**: トークンの小文字化、Unicode 数字の正規化、ストップワードの削除は行いません。これらの処理には、フィルターを追加するか、組み込みの `thai` アナライザーを使用してください。
 
-- **位置のセマンティクス**: スキップされた空白と句読点を含む文字ベースのトークン位置を使用します。これにより、フレーズマッチングと近接マッチングの動作が他の非ラテン語トークナイザーと一貫します。
+- **位置のセマンティクス**: スキップされた空白と句読点を含む文字ベースのトークン位置を使用します。これにより、フレーズおよび近接マッチングの動作が他の非ラテン文字用トークナイザーと一貫します。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義するときに、アナライザーを `VARCHAR` フィールドに適用できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に、アナライザーを `VARCHAR` フィールドに適用できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザーの構成\{#analyzer-configuration}
+### アナライザーの設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -279,6 +306,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "thai"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -293,7 +333,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -441,6 +481,37 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+string sampleText = "สวัสดี! ทดสอบ, ระบบ Milvus ๑๒๓";
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -458,7 +529,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 期待される出力\{#expected-output}
+### 想定される出力\{#expected-output}
 
 ```plaintext
 ['สวัสดี', 'ทดสอบ', 'ระบบ', 'Milvus', '๑๒๓']

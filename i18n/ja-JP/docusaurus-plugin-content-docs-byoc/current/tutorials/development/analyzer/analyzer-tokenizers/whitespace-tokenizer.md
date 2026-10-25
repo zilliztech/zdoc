@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`whitespace` トークナイザーは、テキストをタブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの5つの ASCII 空白文字で分割します。 | BYOC"
+description: "`whitespace` トークナイザーは、タブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。 | BYOC"
 type: origin
 token: F2QrwjFSziSUkJkyXzbcwovUnCg
 sidebar_position: 2
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # Whitespace
 
-`whitespace` トークナイザーは、タブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの5つの ASCII 空白文字でテキストを分割します。
+`whitespace` トークナイザーは、タブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。
 
 ## トークン化ルール\{#tokenization-rules}
 
-`whitespace` トークナイザーは、以下の5つの ASCII 空白文字でのみテキストを分割します。
+`whitespace` トークナイザーは、次の 5 つの ASCII 空白文字でのみテキストを分割します。
 
 | 文字 | 名前 | Unicode コードポイント |
 | --- | --- | --- |
 | `\t` | 水平タブ | U+0009 |
 | `\n` | ラインフィード | U+000A |
-| `\x0C` または `\f` | フォームフィード | U+000C |
+| `\x0C` or `\f` | フォームフィード | U+000C |
 | `\r` | キャリッジリターン | U+000D |
 | `' '` | スペース | U+0020 |
 
-これらの区切り文字は破棄され、連続する区切り文字が空のトークンを生成することはありません。句読点やその他の文字はトークン内に残ります。特に、垂直タブ（`\x0B`、U+000B）、ノーブレークスペース（`\u00A0`）、および表意文字スペース（`\u3000`）は分割をトリガーしません。
+これらの区切り文字は破棄され、連続する区切り文字から空のトークンは生成されません。句読点やその他の文字はトークン内に残ります。特に、垂直タブ（`\x0B`、U+000B）、非改行スペース（`\u00A0`）、および全角スペース（`\u3000`）では分割されません。
 
-このセットは Rust の [`char::is_ascii_whitespace()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii_whitespace) に従っており、他の Unicode 空白文字は除外されています。
+このセットは Rust の [`char::is_ascii_whitespace()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii_whitespace) に従っており、他の Unicode 空白文字は除外されます。
 
-以下の例では、フィルターを指定せずに `{"tokenizer": "whitespace"}` を使用します。入力と出力は Python の文字列表記を使用しており、`\t` や `\u00A0` などのエスケープシーケンスは実際の文字を表します。
+次の例では、フィルターを指定せずに `{"tokenizer": "whitespace"}` を使用します。入力と出力では Python の文字列表記を使用しており、`\t` や `\u00A0` などのエスケープシーケンスは実際の文字を表します。
 
 | 入力 | 出力トークン |
 | --- | --- |
@@ -50,11 +50,11 @@ import TabItem from '@theme/TabItem';
 | `"a\u3000b"` | `["a\u3000b"]` |
 | `"\x20a\x20\x20b\x20"` | `["a", "b"]` |
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-`whitespace` トークナイザーを使用するアナライザーを設定するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
+`whitespace` トークナイザーを使用するアナライザーを構成するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,6 +110,24 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -122,9 +140,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-whitespace トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter) を使用するアナライザーを定義しています。
+whitespace トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter) を使用するアナライザーを定義します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,6 +197,25 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "whitespace",
     "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new[] { "lowercase" }
 };
 ```
 
@@ -199,15 +236,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は、効率的なトークン化とフィルタリングのために、指定されたアナライザーを使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -262,6 +299,25 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "whitespace",
     "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new[] { "lowercase" }
 };
 ```
 
@@ -284,7 +340,7 @@ analyzerParams='{
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -439,6 +495,39 @@ console.log("Whitespace analyzer output:", result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using Milvus.Client.V2.Requests.Utility;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run the whitespace analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Whitespace analyzer output: " + string.Join(",", result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token)) ?? Array.Empty<string>()));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -462,4 +551,3 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 ```sql
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']
 ```
-

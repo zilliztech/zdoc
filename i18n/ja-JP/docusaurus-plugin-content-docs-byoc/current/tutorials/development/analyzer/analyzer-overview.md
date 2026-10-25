@@ -25,7 +25,7 @@ import Supademo from '@site/src/components/Supademo';
 
 テキスト処理において、**アナライザー**は生のテキストを構造化され検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、**トークナイザー**と**フィルター**という 2 つのコア要素で構成されます。これらが連携して入力テキストをトークンに変換し、トークンを調整して、効率的なインデックス作成と検索に備えます。
 
-Zilliz Cloud では、コレクションのスキーマに `VARCHAR` フィールドを追加する際、コレクションの作成時にアナライザーを設定します。アナライザーが生成したトークンは、キーワードマッチング用のインデックスの構築、または全文検索用のスパースベクトルへの変換に使用できます。詳細は、[全文検索](./full-text-search) または [テキスト一致](./text-match) を参照してください。
+Zilliz Cloud では、コレクションのスキーマに `VARCHAR` フィールドを追加する際、コレクションの作成時にアナライザーを設定します。アナライザーが生成したトークンは、キーワードマッチング用のインデックスの構築、または全文検索用のスパース埋め込みへの変換に使用できます。詳細は、[全文検索](./full-text-search) または [テキスト一致](./text-match) を参照してください。
 
 <Admonition type="info" title="Notes">
 
@@ -73,11 +73,11 @@ Zilliz Cloud は、さまざまなテキスト処理のニーズに対応する 
 
 ### 組み込みアナライザー\{#built-in-analyzer}
 
-Zilliz Cloud クラスターの組み込みアナライザーには、特定のトークナイザーとフィルターが事前に構成されているため、これらのコンポーネントを自分で定義することなくすぐに使用できます。各組み込みアナライザーは、事前設定されたトークナイザーとフィルターを含むテンプレートとして機能し、カスタマイズ用のオプションのパラメーターを備えています。
+Zilliz Cloud クラスターの組み込みアナライザーには、特定のトークナイザーとフィルターが事前に構成されているため、これらのコンポーネントを自分で定義することなくすぐに使用できます。各組み込みアナライザーは、事前設定されたトークナイザーとフィルターを含むテンプレートとして機能し、カスタマイズ用のオプションパラメーターを備えています。
 
-たとえば、`standard` 組み込みアナライザーを使用するには、その名前 `standard` を `type` として指定するだけで、必要に応じて `stop_words` など、このアナライザータイプに固有の追加構成を含めることができます：
+たとえば、`standard` 組み込みアナライザーを使用するには、その名前 `standard` を `type` として指定し、必要に応じて `stop_words` など、このアナライザータイプに固有の追加構成を含めます：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -142,6 +142,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["type"] = "standard", // Uses the standard built-in analyzer
+    ["stop_words"] = new[] { "a", "an", "for" } // Defines a list of common words (stop words) to exclude from tokenization
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -156,7 +170,7 @@ export analyzerParams='{
 
 アナライザーの実行結果を確認するには、`run_analyzer` メソッドを使用します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,6 +279,24 @@ const result = await client.runAnalyzer({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Utility;
+
+// Sample text to analyze
+var text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
+
+// Run analyzer
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { text }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -283,17 +315,17 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 </TabItem>
 </Tabs>
 
-The output will be:
+出力は次のとおりです：
 
 ```sql
 ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```
 
-This demonstrates that the analyzer properly tokenizes the input text by filtering out the stop words `"a"`, `"an"`, and `"for"`, while returning the remaining meaningful tokens.
+これは、アナライザーがストップワード `"a"`、`"an"`、`"for"` を除外しつつ、残りの意味のあるトークンを返すことで、入力テキストを正しくトークン化していることを示しています。
 
-The configuration of the `standard` built-in analyzer above is equivalent to setting up a [custom analyzer](./analyzer-overview#custom-analyzer) with the following parameters, where `tokenizer` and `filter` options are explicitly defined to achieve similar functionality:
+上記の `standard` 組み込みアナライザーの構成は、`tokenizer` と `filter` オプションを明示的に定義して同様の機能を実現する、次のパラメーターで[カスタムアナライザー](./analyzer-overview#custom-analyzer)を設定する場合と同等です：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -377,6 +409,28 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        "lowercase",
+        new Dictionary<string, object>
+        {
+            ["type"] = "stop",
+            ["stop_words"] = new[] { "a", "an", "for" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -419,7 +473,7 @@ Zilliz Cloud は、それぞれ特定のテキスト処理のニーズに合わ�
 
 **トークナイザーを指定する例**：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -475,6 +529,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -502,7 +569,7 @@ export analyzerParams='{
 
     - `asciifolding`：非 ASCII 文字を ASCII の同等文字に変換し、多言語テキストの処理を簡素化します。詳細は、[ASCII folding](./ascii-folding-filter) を参照してください。
 
-    - `alphanumonly`：英数字のみを保持し、それ以外を削除します。詳細は、[Alphanumonly](./alphanumonly-filter) を参照してください。
+    - `alphanumonly`：英数字以外を削除して、英数字のみを保持します。詳細は、[Alphanumonly](./alphanumonly-filter) を参照してください。
 
     - `cnalphanumonly`：中国語の文字、英字、数字以外の文字を含むトークンを削除します。詳細は、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
@@ -512,7 +579,7 @@ export analyzerParams='{
 
     **組み込みフィルターを使用する例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -573,6 +640,20 @@ export analyzerParams='{
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using System.Collections.Generic;
+    
+    var analyzerParams = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
+        ["filter"] = new object[] { "lowercase" } // Optional: Built-in filter that converts text to lowercase
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -587,7 +668,7 @@ export analyzerParams='{
 
 - **カスタムフィルター**：カスタムフィルターでは、専門的な構成が可能です。有効なフィルタータイプ（`filter.type`）を選択し、フィルタータイプごとに固有の設定を追加することで、カスタムフィルターを定義できます。カスタマイズをサポートするフィルタータイプの例は次のとおりです：
 
-    - `stop`：ストップワードのリスト（例：`"stop_words": ["of", "to"]`）を設定して、指定した一般的な単語を削除します。詳細は、[Stop](./stop-filter) を参照してください。
+    - `stop`：ストップワードのリスト（例： `"stop_words": ["of", "to"]`）を設定して、指定した一般的な単語を削除します。詳細は、[Stop](./stop-filter) を参照してください。
 
     - `length`：最大トークン長の設定など、長さの基準に基づいてトークンを除外します。詳細は、[Length](./length-filter) を参照してください。
 
@@ -595,7 +676,7 @@ export analyzerParams='{
 
     **カスタムフィルターを構成する例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -676,6 +757,27 @@ export analyzerParams='{
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using System.Collections.Generic;
+    
+    var analyzerParams = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
+        ["filter"] = new object[]
+        {
+            new Dictionary<string, object>
+            {
+                ["type"] = "stop", // Specifies 'stop' as the filter type
+                ["stop_words"] = new[] { "of", "to" } // Customizes stop words for this filter type
+            }
+        }
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -711,7 +813,7 @@ export analyzerParams='{
 
 まず、Milvus クライアントを設定し、新しいスキーマを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -828,6 +930,26 @@ const client = new MilvusClient({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+// Set up a Milvus client
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Create a new schema
+var schema = new CollectionSchema();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -859,7 +981,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     - **検証：** `run_analyzer` を使用して、構成が期待どおりのトークン化を生成することを確認します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -985,6 +1107,29 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Requests.Utility;
+    
+    // Built-in analyzer configuration for English text processing
+    var analyzerParamsBuiltIn = new Dictionary<string, object>
+    {
+        ["type"] = "english"
+    };
+    
+    // Verify built-in analyzer configuration
+    var sampleText = "Milvus simplifies text analysis for search.";
+    var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+    {
+        AnalyzerParams = analyzerParamsBuiltIn,
+        Texts = new[] { sampleText }
+    });
+    Console.WriteLine("Built-in analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -1005,11 +1150,11 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
 1. **カスタムアナライザーを構成して検証する：**
 
-    - **構成：** 標準トークナイザー、組み込みの小文字フィルター、およびトークン長とストップワード用のカスタムフィルターを使用するカスタムアナライザーを定義します。
+    - **構成：** 標準のトークナイザー、組み込みの小文字フィルター、およびトークン長とストップワード用のカスタムフィルターを使用するカスタムアナライザーを定義します。
 
-    - **検証：** `run_analyzer` を使用して、カスタム構成がテキストを意図どおりに処理することを確認します。
+    - **検証：** `run_analyzer` を使用して、カスタム構成が意図したとおりにテキストを処理することを確認します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1191,6 +1336,43 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    using Milvus.Client.V2.Requests.Utility;
+    
+    // Custom analyzer configuration with a standard tokenizer and custom filters
+    var analyzerParamsCustom = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard",
+        ["filter"] = new object[]
+        {
+            "lowercase", // Built-in filter: convert tokens to lowercase
+            new Dictionary<string, object>
+            {
+                ["type"] = "length", // Custom filter: restrict token length
+                ["max"] = 40
+            },
+            new Dictionary<string, object>
+            {
+                ["type"] = "stop", // Custom filter: remove specified stop words
+                ["stop_words"] = new[] { "of", "for" }
+            }
+        }
+    };
+    
+    // Verify custom analyzer configuration
+    var sampleText = "Milvus provides flexible, customizable analyzers for robust text processing.";
+    var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+    {
+        AnalyzerParams = analyzerParamsCustom,
+        Texts = new[] { sampleText }
+    });
+    Console.WriteLine("Custom analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -1214,7 +1396,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
 アナライザーの構成を検証したので、それをスキーマフィールドに追加します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1387,6 +1569,26 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Add VARCHAR field 'title_en' using the built-in analyzer configuration
+schema.Fields.Add(FieldSchema.CreateVarchar("title_en", maxLength: 1000, enableAnalyzer: true, analyzerParams: analyzerParamsBuiltIn, enableMatch: true));
+
+// Add VARCHAR field 'title' using the custom analyzer configuration
+schema.Fields.Add(FieldSchema.CreateVarchar("title", maxLength: 1000, enableAnalyzer: true, analyzerParams: analyzerParamsCustom, enableMatch: true));
+
+// Add a vector field for embeddings
+schema.Fields.Add(FieldSchema.CreateFloatVector("embedding", dimension: 3));
+
+// Add a primary key field
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1436,7 +1638,7 @@ export SCHEMA_CONFIG='{
 
 ### ステップ 4：インデックスパラメーターを準備してコレクションを作成する\{#step-4-prepare-index-parameters-and-create-the-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1567,6 +1769,27 @@ await client.createCollection({
 });
 
 console.log("Collection created successfully!");
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Set up index parameters for the vector field
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("embedding", "embedding", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
 ```
 
 </TabItem>

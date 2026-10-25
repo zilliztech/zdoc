@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "不要になったコレクションは削除できます。 | BYOC"
+description: "コレクションが不要になった場合は削除できます。 | BYOC"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
 sidebar_position: 12
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # コレクションの削除
 
-不要になったコレクションは削除できます。
+コレクションが不要になった場合は削除できます。
 
 ## 例\{#examples}
 
-以下のコードスニペットは、**my_collection** という名前のコレクションがあることを前提としています。
+以下のコードスニペットでは、**my_collection** という名前のコレクションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -171,6 +171,27 @@ console.log(res.error_code);
 // Output
 //
 // Success
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+
+await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "my_collection" });
 ```
 
 </TabItem>

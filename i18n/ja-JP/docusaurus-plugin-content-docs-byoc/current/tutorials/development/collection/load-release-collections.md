@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションをロードすることは、そのコレクション内で類似検索やクエリを実行するための前提条件です。このページでは、コレクションをロードおよびリリースする手順に焦点を当てます。 | BYOC"
+description: "コレクションをロードすることは、そのコレクション内で類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順について説明します。 | BYOC"
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
 sidebar_position: 8
@@ -21,32 +21,32 @@ import TabItem from '@theme/TabItem';
 
 # ロードとリリース
 
-コレクションをロードすることは、そのコレクション内で類似検索やクエリを実行するための前提条件です。このページでは、コレクションをロードおよびリリースする手順に焦点を当てます。
+コレクションをロードすることは、そのコレクション内で類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順について説明します。
 
 ## 事前準備\{#prerequisites}
 
 コレクションをロードする前に、以下を確認してください。
 
-- 外部コレクションの場合は、インデックスを作成する前に、コレクションとボリュームの間でデータを同期するサブ秒リフレッシュを呼び出していること。
+- 外部コレクションの場合は、インデックスを作成する前に、コレクションとボリュームの間でデータを同期するためのサブ秒リフレッシュを呼び出していること。
 
-- 少なくともすべてのベクトルフィールドにインデックスを作成し、必要に応じて特定のスカラーフィールドにもインデックスを作成していること。
+- すべてのベクトルフィールドにインデックスを作成済みであり、必要に応じて一部のスカラーフィールドにもインデックスを作成していること。
 
 ## ロードの動作\{#loading-behaviors}
 
-同じロードリクエストが外部コレクションとマネージドコレクションの両方に適用されますが、外部コレクションのロード戦略はターゲットアーキテクチャによって異なります。
+外部コレクションとマネージドコレクションには同じロードリクエストが適用されますが、外部コレクションのロード戦略は対象のアーキテクチャによって異なります。
 
 | 環境 | メモリの動作 | 実行の詳細 |
 | --- | --- | --- |
-| サービングクラスター内のマネージドコレクション | フルロード | すべてのインデックスとデータ（ベクトルおよびスカラーフィールド）をメモリに直接ロードし、高性能なアクセスを実現します。 |
-| スタンドアロンデータベース内の外部コレクション | インデックスのみのロード | インデックスのみをメモリにロードします。生データは、アクティブな検索またはクエリの実行中にオンデマンドでディスクから取得されます。 |
+| サービングクラスター内のマネージドコレクション | フルロード | 高性能なアクセスのために、すべてのインデックスとデータ（ベクトルフィールドおよびスカラーフィールド）を直接メモリにロードします。 |
+| スタンドアロンデータベース内の外部コレクション | インデックスのみのロード | インデックスのみをメモリにロードします。生データは、検索やクエリの実行中に必要に応じてディスクから取得されます。 |
 
-## コレクションをロードする\{#load-collection}
+## コレクションのロード\{#load-collection}
 
-コレクションをロードすると、Zilliz Cloud はインデックスファイルとすべてのフィールドの生データをメモリにロードし、検索やクエリに迅速に応答できるようにします。コレクションのロード後に挿入されたエンティティは、自動的にインデックスが作成され、ロードされます。
+コレクションをロードすると、Zilliz Cloud は検索やクエリに迅速に応答できるように、インデックスファイルとすべてのフィールドの生データをメモリにロードします。コレクションのロード後に挿入されたエンティティは、自動的にインデックスが作成され、ロードされます。
 
-以下のコードスニペットは、コレクションをロードする方法を示しています。
+次のコードスニペットは、コレクションをロードする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -264,6 +264,37 @@ console.log(res.state)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 7. Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -306,14 +337,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-
 ## 特定のフィールドをロードする\{#load-specific-fields}
 
-Zilliz Cloud は、検索とクエリに関与するフィールドのみをロードできるため、メモリ使用量を削減し、検索パフォーマンスを向上させます。
+Zilliz Cloud は、検索やクエリに関係するフィールドのみをロードできるため、メモリ使用量を削減し、検索パフォーマンスを向上できます。
 
-以下のコードスニペットは、**my_collection** という名前のコレクションが作成済みで、コレクション内に **my_id** と **my_vector** という名前の2つのフィールドがあることを前提としています。
+次のコードスニペットでは、**my_collection** という名前のコレクションを作成済みで、そのコレクションに **my_id** と **my_vector** という名前の 2 つのフィールドがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -473,6 +503,32 @@ console.log(res.state);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection",
+    LoadFields = new[] { "my_id", "my_vector" }, // Load only the specified fields
+    SkipLoadDynamicField = true // Skip loading the dynamic field
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -483,19 +539,19 @@ console.log(res.state);
 </TabItem>
 </Tabs>
 
-特定のフィールドをロードする場合、`load_fields` に含めたフィールドだけが、検索およびクエリのフィルターと出力フィールドとして使用できることに注意してください。`load_fields` には、常にプライマリフィールドの名前と少なくとも1つのベクトルフィールドの名前を含める必要があります。
+特定のフィールドをロードする場合、検索やクエリでフィルターおよび出力フィールドとして使用できるのは、`load_fields` に含まれるフィールドのみであることに注意してください。`load_fields` には、プライマリフィールドの名前と少なくとも 1 つのベクトルフィールドの名前を常に含める必要があります。
 
-`skip_load_dynamic_field` を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは、**\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、そのフィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できるようになります。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定します。
+`skip_load_dynamic_field` を使用して、動的フィールドをロードするかどうかを指定することもできます。動的フィールドは **\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、そのフィールド内のすべてのキーがロードされ、フィルタリングや出力に使用できるようになります。動的フィールド内のすべてのキーがメタデータのフィルタリングや出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定します。
 
-コレクションのロード後にさらにフィールドをロードするには、インデックスの変更によって発生する可能性のあるエラーを防ぐため、先にコレクションをリリースする必要があります。
+コレクションのロード後にさらにフィールドをロードするには、インデックスの変更によって発生する可能性のあるエラーを避けるため、まずコレクションをリリースする必要があります。
 
-## コレクションをリリースする\{#release-collection}
+## コレクションのリリース\{#release-collection}
 
-検索とクエリはメモリを大量に消費する操作です。コストを節約するために、現在使用していないコレクションをリリースすることをお勧めします。
+検索やクエリはメモリを大量に消費する操作です。コストを節約するには、現在使用していないコレクションをリリースすることをお勧めします。
 
-以下のコードスニペットは、コレクションをリリースする方法を示しています。
+次のコードスニペットは、コレクションをリリースする方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -642,6 +698,30 @@ console.log(res.state)
 // 
 // LoadStateNotLoad
 // 
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+// 8. Release the collection
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
 ```
 
 </TabItem>
