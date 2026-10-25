@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、メンバーシップセットからシリアル化された roaring bitmap blob を構築します。この blob は、membershipmatch(field, \\\{blob\\}, type=roaring) フィルター式に渡されます。 | Go | v2"
+description: "この操作は、メンバーシップセットからシリアル化された roaring bitmap blob を構築します。この blob は、membershipmatch(field, \\{blob\\}, type=roaring) フィルター式に渡されます。 | Go | v2"
 type: docx
 token: O8dIdQuMyofLmVxGXYScUSK0nOe
 sidebar_position: 5
