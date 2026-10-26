@@ -1443,7 +1443,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "45dc4aa8667813ac79af78fe310e5df469e87cb01d3490f5da5ed7c040c85dc6",
+      "sha256": "28b119de2893628635b20648bdf9664532ec59a06330330b843a0b4376f18539",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3045,7 +3045,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "28f8497b5784128c46bda6d26748c855a1c29a7e28eb8f099bd96d8fcb353676",
+      "sha256": "cdc0ea419f8ab82a6b5e5982622e5fd52d5af1305213f7d0f4d298794c3922e1",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3507,9 +3507,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "sha256": "cf296b1181609c62a6dd6e6aa4d3657ffe31e031e79314a9524610eb7ded07fa",
+      "sha256": "94069ca1f1726b73a0aacd2463b0c6b7b8ab585c22219620808f26d665de8611",
       "docToken": "DwklwhvhBi1xiQkdaxVcbIK0ned",
-      "revisionId": "497"
+      "revisionId": "503"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/create-backup.md",
