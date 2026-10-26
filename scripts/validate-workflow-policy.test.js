@@ -3160,9 +3160,19 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
     ))
 
-    fs.writeFileSync(workflow, workflowSource.replace('--batch-count "$BATCH_COUNT"', ''))
+    fs.writeFileSync(workflow, workflowSource.replace('--target ja-JP --group guides --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT"', ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('Restore per-artifact batch download layout', 'Restore per-artifact download layout'))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides batch downloads must be restored to per-artifact layout before pairing',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('--kind checkpoint', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides batch downloads must be restored to per-artifact layout before pairing',
     ))
 
     fs.writeFileSync(workflow, workflowSource.replace('path: ${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar', 'path: ${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar'))

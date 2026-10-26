@@ -1547,6 +1547,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests`)
       }
 
+      const guidesReadySteps = guidesReady?.steps || []
+      const layoutStepName = 'Restore per-artifact batch download layout'
+      const layoutStep = guidesReadySteps.find(step => step?.name === layoutStepName)
+      const layoutStepRun = String(layoutStep?.run || '')
+      const layoutStepPosition = guidesReadySteps.indexOf(layoutStep)
+      const downloadStepPositions = ['Download complete Guides translation checkpoints', 'Download complete Guides translation baselines']
+        .map(name => guidesReadySteps.findIndex(step => step?.name === name))
+      const pairingStepPosition = guidesReadySteps.findIndex(step => step?.name === 'Validate and package complete Guides translation batch set')
+      const guidesLayoutNormalized = Boolean(layoutStep) &&
+        layoutStep?.if === "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}" &&
+        downloadStepPositions.every(position => position !== -1 && position < layoutStepPosition) &&
+        layoutStepPosition < pairingStepPosition && pairingStepPosition !== -1 &&
+        /translation-batch-download-normalize\.js/.test(layoutStepRun) &&
+        ['--kind checkpoint', '--kind baseline', '--batch-count "$BATCH_COUNT"'].every(fragment => layoutStepRun.includes(fragment))
+      if (!guidesLayoutNormalized) {
+        errors.push(`${file}: Guides batch downloads must be restored to per-artifact layout before pairing`)
+      }
+
       const aggregateSource = JSON.stringify(aggregate || {})
       const aggregateSteps = aggregate?.steps || []
       const artifactNamesStep = aggregateSteps.find(step => step?.id === 'artifacts')

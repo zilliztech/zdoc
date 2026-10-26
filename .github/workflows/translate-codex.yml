@@ -366,6 +366,22 @@ jobs:
         with:
           pattern: translation-baseline-ja-JP-guides-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-baselines
+      - name: Restore per-artifact batch download layout
+        if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
+        run: |
+          set -euo pipefail
+          # actions/download-artifact@v7 places a pattern match directly in the
+          # download root when exactly one artifact matches, so single-batch
+          # runs bypass the per-artifact subdirectory that
+          # translation-artifact-pairs.js requires. Restore that layout for the
+          # one legitimate collapsed shape; anything ambiguous fails closed
+          # here instead of in the pairing validator.
+          node scripts/docs-workflow/translation-batch-download-normalize.js \
+            --root "$RUNNER_TEMP/translation-checkpoints" --kind checkpoint --target ja-JP --group guides \
+            --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT"
+          node scripts/docs-workflow/translation-batch-download-normalize.js \
+            --root "$RUNNER_TEMP/translation-baselines" --kind baseline --target ja-JP --group guides \
+            --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT"
       - name: Validate and package complete Guides translation batch set
         run: |
           set -euo pipefail
