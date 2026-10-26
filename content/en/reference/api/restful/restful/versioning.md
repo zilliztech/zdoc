@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: restfulSidebar
+displayed_sidebar: restfulSidebar
 slug: /restful-versioning
 title: RESTful API Versioning
 description: This page describes the versioning scheme used by Zilliz Cloud RESTful APIs.
