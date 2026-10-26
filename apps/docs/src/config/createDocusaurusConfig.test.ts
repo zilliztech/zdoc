@@ -703,10 +703,11 @@ describe('createDocusaurusConfig', () => {
     expect(config.future).toMatchObject({
       v4: true,
       faster: {
-        rspackBundler: false,
-        rspackPersistentCache: false,
-        mdxCrossCompilerCache: false,
-        ssgWorkerThreads: false,
+        rspackBundler: true,
+        rspackPersistentCache: true,
+        mdxCrossCompilerCache: true,
+        ssgWorkerThreads: true,
+        gitEagerVcs: true,
       },
     });
   });
@@ -744,7 +745,7 @@ describe('createDocusaurusConfig', () => {
       {path: expect.stringMatching(/packages\/docs-ui\/src\/zh-CN\/pages$/)},
     ]);
     expect(createDocusaurusConfig(chinese).future).toMatchObject({
-      faster: {ssgWorkerThreads: false},
+      faster: {ssgWorkerThreads: true},
     });
   });
 
