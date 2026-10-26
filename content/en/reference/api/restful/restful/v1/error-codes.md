@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: restfulSidebar
+displayed_sidebar: restfulSidebar
 slug: /restful/error-codes
 title: Error Codes
 description: This page lists the error codes returned by Zilliz Cloud RESTful API.

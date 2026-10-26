@@ -1,5 +1,5 @@
 ---
-displayed_sidbar: restfulSidebar
+displayed_sidebar: restfulSidebar
 slug: /restful
 title: RESTful API Overview
 description: Zilliz Cloud offers RESTful APIs for you to manipulate your clusters, collections, and data stored in them.
