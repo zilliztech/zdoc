@@ -280,16 +280,16 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         return true;
       }
       process.exitCode = await runLock({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
-        page: options.page === undefined ? undefined : requiredOption(options, 'page')});
+        page: options.page === undefined ? undefined : requiredOption(options, 'page')}, text => process.stdout.write(text), repositoryRoot);
       return true;
     }
     if (argv[1] === 'links-seed') {
       const options = parseOptions(argv.slice(2));
       for (const key of Object.keys(options)) {
-        if (!['repo', 'commit', 'dev', 'out'].includes(key)) throw new Error(`Unknown links-seed option: --${key}`);
+        if (!['sharedDocs', 'repo', 'commit', 'dev', 'out'].includes(key)) throw new Error(`Unknown links-seed option: --${key}`);
       }
       const {runLinksSeed} = await import('./shared-docs/commands/links-seed.ts');
-      process.exitCode = await runLinksSeed({repo: requiredOption(options, 'repo'), dev: requiredOption(options, 'dev'),
+      process.exitCode = await runLinksSeed({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'), dev: requiredOption(options, 'dev'),
         out: requiredOption(options, 'out'), commit: options.commit === undefined ? undefined : requiredOption(options, 'commit')},
       text => process.stdout.write(text), repositoryRoot);
       return true;
@@ -303,17 +303,17 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       process.exitCode = await runBuild({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
         dev: requiredOption(options, 'dev'), out: requiredOption(options, 'out'),
         page: options.page === undefined ? undefined : requiredOption(options, 'page'),
-        imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text));
+        imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text), {repositoryRoot});
       return true;
     }
     if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build or lock');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
-      if (!['pages', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
+      if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
     }
     const {runInspect} = await import('./shared-docs/commands/inspect.ts');
-    process.exitCode = await runInspect({pages: requiredOption(options, 'pages'), page: requiredOption(options, 'page'),
-      repo: requiredOption(options, 'repo')}, text => process.stdout.write(text));
+    process.exitCode = await runInspect({sharedDocs: requiredOption(options, 'sharedDocs'), page: requiredOption(options, 'page'),
+      repo: requiredOption(options, 'repo')}, text => process.stdout.write(text), repositoryRoot);
     return true;
   }
   if (argv[0] === 'validate-publication-provider') {

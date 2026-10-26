@@ -20,7 +20,7 @@ export async function runLinksDemo(directory: string) {
   const preprocessingReader = new GitMilvusDocsReader(repository)
   const md2md = new RealMd2md()
   const pilots = fileURLToPath(new URL('../../fixtures/pilots/', import.meta.url))
-  const parsed = parseLinkMap(await readFile(join(pilots, 'delete-entities/shared-docs/links.yaml'), 'utf8'), { file: 'shared-docs/links.yaml' })
+  const parsed = parseLinkMap(await readFile(join(pilots, 'delete-entities/shared-docs/guides/links.yaml'), 'utf8'), { file: 'shared-docs/guides/links.yaml' })
   if ('errors' in parsed) throw new Error(JSON.stringify(parsed.errors))
   const linkMap = new Map(parsed.map)
   // This demo exercises WP5 on the original pilot; WP10 will replace the
@@ -34,7 +34,7 @@ export async function runLinksDemo(directory: string) {
   const results = new Map<string, ReturnType<typeof rewriteLinksAndImages>>()
   for (const [page, sourceFile] of pages) {
     const source = await reader.readFile(commit, sourceFile)
-    const variables = JSON.parse(await readFile(join(pilots, page, 'shared-docs/Variables.json'), 'utf8'))
+    const variables = JSON.parse(await readFile(join(pilots, page, 'shared-docs/guides/Variables.json'), 'utf8'))
     const preprocessed = await preprocessingReader.withFragments(commit, snapshot => Promise.resolve(md2md.preprocess({
       content: md2md.stripBlockMarkers(source), fragmentRoot: snapshot.root, variables, sourceName: sourceFile,
     })))

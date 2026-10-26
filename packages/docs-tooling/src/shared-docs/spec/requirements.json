@@ -5,7 +5,7 @@
     "prd": "docs/prd.md",
     "plan": "docs/phase-1.md",
     "errors": "docs/design/09-error-catalog.md",
-    "prd_commit": "9c808b4276dab46e85f4bc08dc87cf521c328251"
+    "prd_commit": "1556bf513b68ab7831efed8debd6f423a18b0dfb"
   },
   "behaviours": [
     {
@@ -195,7 +195,7 @@
       "scenario": 5,
       "scenario_title": "链接与图片",
       "phase": "Phase 1a",
-      "text": "映射表全站一份，每个 Milvus 页面只登记一次，所有共享页共用"
+      "text": "映射表每组一份，Guides 组中每个 Milvus 页面只登记一次，组内所有共享页共用"
     },
     {
       "id": "5-7",
@@ -383,57 +383,64 @@
       "id": "9-1",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "比较时，以及激活后的每次 Fetch，工具都检查：能生成；图片与链接都能解析；飞书表格记录的发布目标、路径与页面配置一致。比较时不通过，就不应激活；Fetch 中不通过，这一页保留网站上现有的版本并通知，不退回飞书重新生成"
     },
     {
       "id": "9-2",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "激活后的第一次 Fetch，在同一个提交中写入这一页的正文、导航与 `active.json`，不会出现只切换了一半的状态"
     },
     {
       "id": "9-3",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
-      "text": "已在 `active.json` 中的页面，表格中的 placement type 被改回其他值时，Fetch 失败并通知，页面保持 Git 版"
+      "phase": "Phase 1a",
+      "text": "已在 `active.json` 中的页面，表格中的 `Docs` 被改回飞书链接时，Fetch 失败并通知，页面保持 Git 版"
     },
     {
       "id": "9-4",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "激活后，飞书的任何任务（全量抓取、旧缓存、删除清单、恢复）都不能改写或删除这一页的页面与译文；未迁移的页面照常从飞书更新"
     },
     {
       "id": "9-5",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "同一个地址既有飞书页面又有 Git 页面时，生成失败"
     },
     {
       "id": "9-6",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "导航位置、顺序和标签 Phase 1 仍由飞书表格和目录决定；这一页的记录与节点保留，只用来决定导航，正文和其余元数据由 Git 生成"
     },
     {
       "id": "9-7",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "激活与提升互不依赖：激活决定这一页由飞书还是 Git 生成，一页只做一次；提升决定 Prod 用哪个 Git 版本，每次发版都做。功能未上线的新页面可以先激活、只在 UAT 显示"
     },
     {
       "id": "9-8",
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
-      "phase": "Phase 1b",
+      "phase": "Phase 1a",
       "text": "网站部署在激活之后进行；部署失败时重试或回滚，编辑来源仍是 Git，不交回飞书"
+    },
+    {
+      "id": "9-9",
+      "scenario": 9,
+      "scenario_title": "从飞书切换到 Git（激活）",
+      "phase": "Phase 1a",
+      "text": "其他飞书页面中指向已激活页面的链接（包括带锚点的）在 Cloud 页面中仍指向这一页的对应位置。激活时被链接的锚点在 Git 版中找不到，9-1 的检查不通过；激活之后新出现、找不到的锚点，链接指到页面顶部，并在运行摘要中列出"
     },
     {
       "id": "10-1",
@@ -497,7 +504,7 @@
     },
     {
       "id": "T07",
-      "text": "混源与切换：覆盖[技术设计 05b 图 1](./design/05b-cutover-and-ownership.md#切换与激活) 中的每一种情况——接入后未激活时不写 dev；标为 `git` 后检查不通过时保留现有版本；激活时 `active.json`、正文、导航、来源记录同批提交；placement type 被改回时失败；部署失败不恢复飞书写权；飞书全量抓取、旧缓存、删除清单与恢复任务都不能改变已迁移页，未迁移页照常更新；比较不写 dev；下线时 `RETIRE-IN-NEXT`、删除记录、目录残留与目录先删四种情况。",
+      "text": "混源与切换：覆盖[技术设计 05b 图 1](./design/05b-cutover-and-ownership.md#切换与激活) 中的每一种情况——接入后未激活时不写 dev；`Docs` 换成页面目录地址后检查不通过时保留现有版本；激活时 `active.json`、正文、导航、来源记录同批提交；`Docs` 被改回飞书链接时失败；其他飞书页面指向已激活页面的链接与锚点仍然正确；部署失败不恢复飞书写权；飞书全量抓取、旧缓存、删除清单与恢复任务都不能改变已迁移页，未迁移页照常更新；比较不写 dev；下线时 `RETIRE-IN-NEXT`、删除记录、目录残留与目录先删四种情况。",
       "blocking": true
     },
     {
@@ -972,19 +979,19 @@
     {
       "code": "ACTIVATE_CHECK_FAILED",
       "area": "发布与切换",
-      "when": "比较时，或标为 `git` 后的 Fetch 中，激活前的检查不通过；`detail` 中列出是哪一项",
+      "when": "比较时，或 `Docs` 换成页面目录地址后的 Fetch 中，激活前的检查不通过，包括被其他飞书页面链接的锚点在 Git 版中找不到；`detail` 中列出是哪一项",
       "area_id": "publish-and-cutover"
     },
     {
       "code": "OWNERSHIP_CONFIG_MISSING",
       "area": "发布与切换",
-      "when": "飞书表格标为 `git`，但没有对应的页面目录",
+      "when": "飞书表格中记录的 `Docs` 既不是飞书文档链接，也不是存在的页面目录地址",
       "area_id": "publish-and-cutover"
     },
     {
       "code": "OWNERSHIP_REVERTED",
       "area": "发布与切换",
-      "when": "`active.json` 中的页面，placement type 被改回其他值",
+      "when": "`active.json` 中的页面，`Docs` 被改回飞书链接",
       "area_id": "publish-and-cutover"
     },
     {

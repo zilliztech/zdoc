@@ -1,7 +1,7 @@
 [
   {
     "code": "CONFIG_FIELD_UNKNOWN",
-    "file": "shared-docs/pages/delete-entities/page.yaml",
+    "file": "shared-docs/guides/pages/delete-entities/page.yaml",
     "line": 7,
     "page": "delete-entities",
     "channel": "both"

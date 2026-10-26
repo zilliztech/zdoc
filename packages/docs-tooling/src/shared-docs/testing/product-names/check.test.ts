@@ -26,18 +26,18 @@ it.each(['current', 'next'] as const)('[T14] checks connection values and every 
   for (const manual of ['guides', 'guides-byoc']) {
     const errors = check('Milvus\nlocalhost:19530\nroot:Milvus\nMilvus\nZilliz Cloud is built on Milvus\nMilvusClient pymilvus milvus.yaml', {
       manual, context: { ...context, channel }, sources: [
-        { kind: 'content-file', file: 'shared-docs/pages/example/cloud.md', text: '# Cloud\nMilvus' },
+        { kind: 'content-file', file: 'shared-docs/guides/pages/example/cloud.md', text: '# Cloud\nMilvus' },
         source('# Page\nlocalhost:19530'),
         { kind: 'fragment', file: 'site/en/fragments/note.md', text: 'Note\nMilvus' },
-        { kind: 'variable', file: 'shared-docs/Variables.json', key: 'example_token', text: 'root:Milvus' },
+        { kind: 'variable', file: 'shared-docs/guides/Variables.json', key: 'example_token', text: 'root:Milvus' },
       ],
     })
     expect(errors).toHaveLength(4)
     expect(errors).toMatchObject([
-      { file: 'shared-docs/pages/example/cloud.md', line: 2, detail: { spelling: 'Milvus', mdxLines: [1, 4] } },
+      { file: 'shared-docs/guides/pages/example/cloud.md', line: 2, detail: { spelling: 'Milvus', mdxLines: [1, 4] } },
       { file: 'site/en/fragments/note.md', line: 2, detail: { spelling: 'Milvus', mdxLines: [1, 4] } },
       { file, line: 2, detail: { spelling: 'localhost:19530', mdxLines: [2] } },
-      { file: 'shared-docs/Variables.json', detail: { spelling: 'root:Milvus', key: 'example_token', mdxLines: [3] } },
+      { file: 'shared-docs/guides/Variables.json', detail: { spelling: 'root:Milvus', key: 'example_token', mdxLines: [3] } },
     ])
     for (const error of errors) expect(error).toMatchObject({ code: 'PRODUCT_NAME_FOUND', page: 'example', channel, detail: { manual } })
     expect(errors[3]).not.toHaveProperty('line')
@@ -171,7 +171,7 @@ it('deduplicates repeated fragment references and inputs while preserving separa
 it('fails only on MDX hits and scans only supplied variables', () => {
   expect(check('Cloud MilvusClient', { sources: [source('Milvus\nlocalhost:19530')] })).toEqual([])
   expect(check('Milvus', { sources: [source('Milvus')] })).toHaveLength(1)
-  const value: ProductNameSource = { kind: 'variable', file: 'shared-docs/Variables.json', text: 'Milvus', key: 'product' }
+  const value: ProductNameSource = { kind: 'variable', file: 'shared-docs/guides/Variables.json', text: 'Milvus', key: 'product' }
   const errors = check('Milvus', { sources: [source('{{var.product}}'), value] })
   expect(errors).toHaveLength(1)
   expect(errors[0]).toMatchObject({ file: value.file, detail: { key: 'product' } })

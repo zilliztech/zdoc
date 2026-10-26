@@ -2,7 +2,7 @@ import type { DiagnosticContext, SharedDocsError, Variables } from './types'
 
 /** Validate configuration structure, leaving referenced leaf values to md2md. */
 export function parseVariables(text: string, context: DiagnosticContext = {}): { variables: Variables } | { errors: SharedDocsError[] } {
-  const location = { file: 'shared-docs/Variables.json', ...context }
+  const location = { file: 'shared-docs/guides/Variables.json', ...context }
   let value: unknown
   try { value = JSON.parse(text) }
   catch (error) {

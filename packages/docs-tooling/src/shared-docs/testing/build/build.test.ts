@@ -3,7 +3,7 @@ import { execFile } from 'node:child_process'
 import { createServer } from 'node:http'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
-import { mkdir, mkdtemp, readFile, readdir, rm, symlink } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, rename, rm, symlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
@@ -35,7 +35,7 @@ async function command(options: Parameters<typeof runBuild>[0], images = fetcher
   return { code, text }
 }
 async function inputs(options: Awaited<ReturnType<typeof demo>>) {
-  const sharedDocs = await readSharedDocs(options.sharedDocs)
+  const sharedDocs = await readSharedDocs(options.sharedDocs, dirname(dirname(options.sharedDocs)))
   if ('errors' in sharedDocs) throw new Error(JSON.stringify(sharedDocs.errors))
   const inspection = new GitMilvusDocsReader(options.repo)
   const links = new GitLinkInputReader(options.repo)
@@ -182,8 +182,12 @@ it('rejects nonempty transforms at their key and continues independent pages wit
   await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })
 })
 
-it('retains source, used-fragment and nested variable attribution independently for each commit and manual', async () => {
+it.each(['custom/guides', ''])('retains source, used-fragment and nested variable attribution with group prefix %j', async prefix => {
   const options = await demo()
+  const custom = join(dirname(dirname(options.sharedDocs)), 'custom', 'guides')
+  await mkdir(dirname(custom))
+  await rename(options.sharedDocs, custom)
+  options.sharedDocs = custom
   const path = 'site/en/build-pipeline.md'
   const first = (await readFile(join(options.repo, path), 'utf8')) + '\nMilvus source current.\n'
   await write(options.repo, path, first)
@@ -197,17 +201,20 @@ it('retains source, used-fragment and nested variable attribution independently 
   await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current, next }))
   await write(options.sharedDocs, 'Variables.json', JSON.stringify({ Cloud: { Product: 'Milvus variable', Region: 'eu-west' }, unused: 'Milvus unused' }))
   const build = await inputs(options)
+  build.sharedDocs.sharedDocsPath = prefix
+  const diagnostic = (file: string) => prefix ? `${prefix}/${file}` : file
   try {
     const result = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md() })
     if (!('errors' in result)) throw new Error('Expected product errors')
     const currentErrors = result.errors.filter(error => error.channel === 'current')
     const nextErrors = result.errors.filter(error => error.channel === 'next')
-    expect(currentErrors.map(error => error.file)).toEqual([path, 'site/en/fragments/used.md', 'shared-docs/Variables.json', path, 'site/en/fragments/used.md', 'shared-docs/Variables.json'])
-    expect(nextErrors.map(error => error.file)).toEqual(['shared-docs/Variables.json', 'shared-docs/Variables.json'])
+    expect(currentErrors.map(error => error.file)).toEqual([path, 'site/en/fragments/used.md', diagnostic('Variables.json'), path, 'site/en/fragments/used.md', diagnostic('Variables.json')])
+    expect(nextErrors.map(error => error.file)).toEqual([diagnostic('Variables.json'), diagnostic('Variables.json')])
     expect(nextErrors.map(error => error.detail)).toEqual([
       expect.objectContaining({ key: 'cloud.product', manual: 'guides' }), expect.objectContaining({ key: 'cloud.product', manual: 'guides-byoc' }),
     ])
     expect(result.errors.some(error => error.file?.includes('unused'))).toBe(false)
+    expect(result.errors.every(error => error.fix?.includes(`to ${diagnostic('product-names.yaml')} allow.`))).toBe(true)
   } finally { await build.reader.dispose() }
 })
 
@@ -430,3 +437,22 @@ it('rejects malformed real CLI invocations before generating files', async () =>
   }
   await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })
 }, 120_000)
+
+
+it('uses relative page and lock paths when the build group is the repository root', async () => {
+  const options = await demo(), build = await inputs(options)
+  build.sharedDocs.sharedDocsPath = ''
+  const page = build.sharedDocs.pages.get('build-pipeline')!
+  const pages = new Map(build.sharedDocs.pages)
+  const sharedDocs = { ...build.sharedDocs, pages }
+  try {
+    pages.set('build-pipeline', { ...page, pageYaml: 'schema_version: 2\n' })
+    const invalidPage = await buildPage({ pageId: 'build-pipeline', ...build, sharedDocs, md2md: new RealMd2md() })
+    if (!('errors' in invalidPage)) throw new Error('Expected invalid page')
+    expect(new Set(invalidPage.errors.map(error => error.file))).toEqual(new Set(['pages/build-pipeline/page.yaml']))
+    pages.set('build-pipeline', { ...page, lockYaml: 'schema_version: 2\n' })
+    const invalidLock = await buildPage({ pageId: 'build-pipeline', ...build, sharedDocs, md2md: new RealMd2md() })
+    if (!('errors' in invalidLock)) throw new Error('Expected invalid lock')
+    expect(new Set(invalidLock.errors.map(error => error.file))).toEqual(new Set(['pages/build-pipeline/lock.yaml']))
+  } finally { await build.reader.dispose() }
+})

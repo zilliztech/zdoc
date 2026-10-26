@@ -1,7 +1,7 @@
 [
   {
     "code": "CONFIG_PATH_UNKNOWN",
-    "file": "shared-docs/pages/build-pipeline/page.yaml",
+    "file": "shared-docs/guides/pages/build-pipeline/page.yaml",
     "line": 6,
     "page": "build-pipeline",
     "channel": "both"

@@ -65,18 +65,7 @@ jobs:
         env:
           SOURCE_SHA: ${{ steps.identity.outputs.source_sha }}
           BASE_SHA: ${{ steps.identity.outputs.base_sha }}
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
-          git fetch --no-tags origin "$BASE_SHA"
-          comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA")
-          [[ "$comparison_base" =~ ^[0-9a-f]{40}$ ]] || exit 1
-          git diff --no-renames --name-only -z "$comparison_base" "$SOURCE_SHA" -- shared-docs/ > "$RUNNER_TEMP/shared-docs-paths"
-          node <<'NODE'
-          const fs = require('node:fs');
-          const paths = fs.readFileSync(process.env.RUNNER_TEMP + '/shared-docs-paths');
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `changed=${paths.length > 0}\n`);
-          NODE
+        run: node packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs
 
       - name: Report unchanged shared inputs
         if: steps.changes.outputs.changed != 'true'
@@ -105,7 +94,7 @@ jobs:
           const path = require('node:path');
           const { loadTypeScript } = require('./scripts/lib/load-typescript');
           const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
-          const result = parseSourceConfig(fs.readFileSync('shared-docs/source.yaml', 'utf8'));
+          const result = parseSourceConfig(fs.readFileSync('shared-docs/guides/source.yaml', 'utf8'));
           if ('errors' in result) throw new Error(JSON.stringify(result.errors));
           const { repository, track } = result.config;
           if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
@@ -157,8 +146,11 @@ jobs:
         run: |
           set -euo pipefail
           status=0
-          pnpm docs-tooling shared-docs build --shared-docs shared-docs --repo "$RUNNER_TEMP/milvus-docs" \
-            --dev .shared-docs-dev --out "$RUNNER_TEMP/shared-docs-output" > "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
+          : > "$RUNNER_TEMP/shared-docs-validation.log"
+          while IFS= read -r group; do
+            pnpm docs-tooling shared-docs build --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/milvus-docs" \
+              --dev .shared-docs-dev --out "$RUNNER_TEMP/shared-docs-output/$group" >> "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
+          done < "$RUNNER_TEMP/shared-docs-groups"
           cat "$RUNNER_TEMP/shared-docs-validation.log"
           node <<'NODE'
           const fs = require('node:fs');

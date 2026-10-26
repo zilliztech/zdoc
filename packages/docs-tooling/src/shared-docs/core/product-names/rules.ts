@@ -4,7 +4,7 @@ import type { ProductNameRules } from './types'
 
 export function parseProductNames(yamlText: string, context: DiagnosticContext):
   { rules: ProductNameRules } | { errors: SharedDocsError[] } {
-  const location = { ...context, file: context.file ?? 'shared-docs/product-names.yaml' }
+  const location = { ...context, file: context.file ?? 'shared-docs/guides/product-names.yaml' }
   const code = 'PRODUCT_NAMES_INVALID'
   const parsed = parseYaml(yamlText, code, location)
   if ('errors' in parsed) return parsed

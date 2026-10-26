@@ -44,8 +44,8 @@ export async function preparePilot(root: string, pageId: string) {
   git('checkout', 'v3.0.x')
   await cp(join(pilot, 'milvus-docs'), demo.repo, { recursive: true })
   await mkdir(join(demo.pages, pageId), { recursive: true })
-  await cp(join(pilot, 'shared-docs/page.yaml'), join(demo.pages, pageId, 'page.yaml'))
-  await cp(join(pilot, 'shared-docs/Variables.json'), join(root, 'shared-docs/Variables.json'))
+  await cp(join(pilot, 'shared-docs/guides/page.yaml'), join(demo.pages, pageId, 'page.yaml'))
+  await cp(join(pilot, 'shared-docs/guides/Variables.json'), join(root, 'shared-docs/guides/Variables.json'))
   git('add', '--all')
   git('commit', '--quiet', '--allow-empty', '-m', 'Retained pilot for temporary site adaptation')
   return { ...demo, page: pageId }
@@ -53,10 +53,10 @@ export async function preparePilot(root: string, pageId: string) {
 
 export async function inspectPilot(root: string, pageId: string) {
   const result = await inspectPage({ pageId,
-    sourceYaml: await readFile(join(root, 'shared-docs/source.yaml'), 'utf8'),
-    pageYaml: await readFile(join(root, 'shared-docs/pages', pageId, 'page.yaml'), 'utf8'),
-    variablesJson: await readFile(join(root, 'shared-docs/Variables.json'), 'utf8'),
-    context: { ...inspectionContext, file: `shared-docs/pages/${pageId}/page.yaml`, page: pageId, channel: 'both' },
+    sourceYaml: await readFile(join(root, 'shared-docs/guides/source.yaml'), 'utf8'),
+    pageYaml: await readFile(join(root, 'shared-docs/guides/pages', pageId, 'page.yaml'), 'utf8'),
+    variablesJson: await readFile(join(root, 'shared-docs/guides/Variables.json'), 'utf8'),
+    context: { ...inspectionContext, file: `shared-docs/guides/pages/${pageId}/page.yaml`, page: pageId, channel: 'both' },
   }, new GitMilvusDocsReader(join(root, 'milvus-docs')), new RealMd2md())
   if ('errors' in result) throw new Error(JSON.stringify(result.errors))
   return result

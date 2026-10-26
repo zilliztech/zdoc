@@ -1,7 +1,7 @@
 [
   {
     "code": "LOCK_NONE_UNSUPPORTED",
-    "file": "shared-docs/pages/delete-entities/lock.yaml",
+    "file": "shared-docs/guides/pages/delete-entities/lock.yaml",
     "line": 3,
     "page": "delete-entities",
     "channel": "next"

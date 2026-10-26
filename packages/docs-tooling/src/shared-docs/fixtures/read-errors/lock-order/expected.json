@@ -1,7 +1,7 @@
 [
   {
     "code": "LOCK_ORDER",
-    "file": "shared-docs/pages/delete-entities/lock.yaml",
+    "file": "shared-docs/guides/pages/delete-entities/lock.yaml",
     "line": 2,
     "page": "delete-entities",
     "channel": "both"

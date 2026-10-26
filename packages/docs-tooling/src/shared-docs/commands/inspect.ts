@@ -1,7 +1,8 @@
 import { readFile } from 'node:fs/promises'
-import { dirname, join, resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
+import { groupContext } from '../adapters/group-context'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { inspectPage } from '../adapters/inspect-page'
 import type { InspectionResult } from '../adapters/inspect-page'
@@ -30,15 +31,17 @@ export function formatInspection(page: string, result: InspectionResult): string
   return output.join('\n') + '\n'
 }
 
-export async function runInspect(options: { pages: string; page: string; repo: string }, write: (text: string) => void): Promise<number> {
+export async function runInspect(options: { sharedDocs: string; page: string; repo: string }, write: (text: string) => void, repositoryRoot = process.cwd()): Promise<number> {
+  const group = groupContext(options.sharedDocs, repositoryRoot)
+  if ('errors' in group) { write(formatInspection(options.page, group)); return 1 }
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) {
     write(formatInspection(options.page, { errors: [{ code: 'CONFIG_PAGE_ID_INVALID',
       message: 'Page ID must contain lowercase letters, numbers, and hyphens', page: options.page,
-      file: 'shared-docs/pages', line: 1 }] }))
+      file: group.file('pages'), line: 1 }] }))
     return 1
   }
-  const pages = resolve(options.pages)
-  const root = dirname(pages)
+  const root = group.root
+  const pages = join(root, 'pages')
   const errors: SharedDocsError[] = []
   async function read(path: string, file: string, optional = false): Promise<string | undefined> {
     try { return await readFile(path, 'utf8') }
@@ -49,15 +52,15 @@ export async function runInspect(options: { pages: string; page: string; repo: s
       return undefined
     }
   }
-  const pageFile = `shared-docs/pages/${options.page}/page.yaml`
+  const pageFile = group.file(`pages/${options.page}/page.yaml`)
   const [sourceYaml, pageYaml, lockYaml, variablesJson] = await Promise.all([
-    read(join(root, 'source.yaml'), 'shared-docs/source.yaml'),
+    read(join(root, 'source.yaml'), group.file('source.yaml')),
     read(join(pages, options.page, 'page.yaml'), pageFile),
-    read(join(pages, options.page, 'lock.yaml'), `shared-docs/pages/${options.page}/lock.yaml`, true),
-    read(join(root, 'Variables.json'), 'shared-docs/Variables.json'),
+    read(join(pages, options.page, 'lock.yaml'), group.file(`pages/${options.page}/lock.yaml`), true),
+    read(join(root, 'Variables.json'), group.file('Variables.json')),
   ])
   const result = errors.length ? { errors } : await inspectPage({ pageId: options.page, sourceYaml: sourceYaml!,
-    pageYaml: pageYaml!, lockYaml, variablesJson: variablesJson!, context: { ...inspectionContext, file: pageFile } },
+    pageYaml: pageYaml!, lockYaml, sharedDocsPath: group.path, variablesJson: variablesJson!, context: { ...inspectionContext, file: pageFile } },
   new GitMilvusDocsReader(resolve(options.repo)), new RealMd2md())
   write(formatInspection(options.page, result))
   return 'errors' in result ? 1 : 0

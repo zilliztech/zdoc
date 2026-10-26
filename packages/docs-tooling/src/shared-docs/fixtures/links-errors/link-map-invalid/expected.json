@@ -1,7 +1,7 @@
 [
   {
     "code": "LINK_MAP_INVALID",
-    "file": "shared-docs/links.yaml",
+    "file": "shared-docs/guides/links.yaml",
     "line": 2,
     "page": "wp5-links",
     "channel": "current"

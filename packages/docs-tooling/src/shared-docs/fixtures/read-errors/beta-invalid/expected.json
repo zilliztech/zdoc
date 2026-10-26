@@ -1,7 +1,7 @@
 [
   {
     "code": "CONFIG_BETA_INVALID",
-    "file": "shared-docs/pages/delete-entities/page.yaml",
+    "file": "shared-docs/guides/pages/delete-entities/page.yaml",
     "line": 8,
     "page": "delete-entities",
     "channel": "both"

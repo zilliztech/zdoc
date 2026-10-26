@@ -8,21 +8,21 @@ import { buildMilvusDocs } from '../fixtures/milvus-docs/build'
 export async function createInspectDemo(directory: string) {
   const root = resolve(directory)
   const repo = join(root, 'milvus-docs')
-  const shared = join(root, 'shared-docs')
+  const shared = join(root, 'shared-docs/guides')
   const pages = join(shared, 'pages')
   const page = 'delete-entities'
   // Exclusive directory creation prevents overwriting a previous demo.
   await mkdir(repo)
-  await mkdir(shared)
+  await mkdir(shared, { recursive: true })
   const fixture = await buildMilvusDocs('02-paragraph')
   try { await cp(fixture.dir, repo, { recursive: true }) }
   finally { await rm(fixture.dir, { recursive: true, force: true }) }
   const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
   execFileSync('git', ['-C', repo, 'branch', 'v3.0.x', fixture.commits['02-paragraph']], { env })
-  const pilot = fileURLToPath(new URL('../fixtures/pilots/delete-entities/shared-docs/', import.meta.url))
+  const pilot = fileURLToPath(new URL('../fixtures/pilots/delete-entities/shared-docs/guides/', import.meta.url))
   await mkdir(join(pages, page), { recursive: true })
   await writeFile(join(pages, page, 'page.yaml'), await readFile(join(pilot, 'page.yaml')))
   await writeFile(join(shared, 'Variables.json'), await readFile(join(pilot, 'Variables.json')))
   await writeFile(join(shared, 'source.yaml'), 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n')
-  return { repo, pages, page, commits: fixture.commits }
+  return { repo, sharedDocs: shared, pages, page, commits: fixture.commits }
 }

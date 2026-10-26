@@ -20,7 +20,7 @@ export function checkProductNames(input: ProductNameInput): { errors: SharedDocs
     const detail: ProductNameDetail = { spelling, manual: input.manual, mdxLines }
     const diagnostic = { ...input.context, code: 'PRODUCT_NAME_FOUND',
       message: `Generated ${input.manual} page contains ${JSON.stringify(spelling)}`,
-      fix: 'Replace the input with a Cloud variable, or add an intentional full phrase to shared-docs/product-names.yaml allow.' }
+      fix: `Replace the input with a Cloud variable, or add an intentional full phrase to ${input.rulesFile ?? 'shared-docs/guides/product-names.yaml'} allow.` }
     const seen = new Set<string>()
     for (const { source, hits } of sources) {
       for (const hit of hits) {

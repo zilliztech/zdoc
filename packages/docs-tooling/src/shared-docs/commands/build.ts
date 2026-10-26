@@ -2,6 +2,7 @@ import { lstat, mkdir, mkdtemp, readFile, readdir, realpath, rename, rmdir, rm, 
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
+import { groupContext } from '../adapters/group-context'
 import { buildPage, createBuildReader, createBuildRuntime } from '../adapters/build-page'
 import type { BuiltPage, SharedDocsInputs } from '../adapters/build-page'
 import { createGuidesSnapshot } from '../adapters/guides-snapshot'
@@ -46,14 +47,17 @@ async function outputState(path: string): Promise<'absent' | 'empty'> {
   return 'empty'
 }
 
-export async function readSharedDocs(root: string): Promise<SharedDocsInputs | { errors: SharedDocsError[] }> {
+export async function readSharedDocs(directory: string, repositoryRoot = process.cwd()): Promise<SharedDocsInputs | { errors: SharedDocsError[] }> {
+  const group = groupContext(directory, repositoryRoot)
+  if ('errors' in group) return group
+  const { root, file } = group
   const errors: SharedDocsError[] = []
   async function read(path: string, optional = false) {
     try { return await readFile(join(root, path), 'utf8') }
     catch (error) {
       if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
-      if (!optional) errors.push({ code: 'CONFIG_FIELD_MISSING', message: `Required file not found: shared-docs/${path}`,
-        file: `shared-docs/${path}`, line: 1, channel: 'both' })
+      if (!optional) errors.push({ code: 'CONFIG_FIELD_MISSING', message: `Required file not found: ${file(path)}`,
+        file: file(path), line: 1, channel: 'both' })
       return undefined
     }
   }
@@ -68,7 +72,7 @@ export async function readSharedDocs(root: string): Promise<SharedDocsInputs | {
   try { entries = await readdir(join(root, 'pages')) }
   catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
-    errors.push({ code: 'CONFIG_FIELD_MISSING', message: 'Required pages directory not found', file: 'shared-docs/pages', line: 1, channel: 'both' })
+    errors.push({ code: 'CONFIG_FIELD_MISSING', message: 'Required pages directory not found', file: group.file('pages'), line: 1, channel: 'both' })
   }
   for (const pageId of entries.sort()) {
     const stat = await lstat(join(root, 'pages', pageId))
@@ -77,20 +81,20 @@ export async function readSharedDocs(root: string): Promise<SharedDocsInputs | {
     const pageYaml = await read(`pages/${pageId}/page.yaml`)
     const lockYaml = await read(`pages/${pageId}/lock.yaml`, true)
     if (pageYaml === undefined) continue
-    const parsed = parsePageConfig(pageId, pageYaml, context)
+    const parsed = parsePageConfig(pageId, pageYaml, { ...context, file: group.file(`pages/${pageId}/page.yaml`) })
     if ('errors' in parsed) errors.push(...parsed.errors)
     else pages.set(pageId, { pageYaml, lockYaml, config: parsed.config })
   }
-  const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: 'shared-docs/source.yaml', channel: 'both' })
-  const variables = variablesJson === undefined ? undefined : parseVariables(variablesJson)
-  const links = linksYaml === undefined ? undefined : parseLinkMap(linksYaml, { file: 'shared-docs/links.yaml', channel: 'both' })
-  const product = productYaml === undefined ? undefined : parseProductNames(productYaml, { file: 'shared-docs/product-names.yaml', channel: 'both' })
-  const tabs = tabsYaml === undefined ? undefined : parseTabsRules(tabsYaml, { file: 'shared-docs/presentation/cloud-sdk-tabs.yaml', channel: 'both' })
+  const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: group.file('source.yaml'), channel: 'both' })
+  const variables = variablesJson === undefined ? undefined : parseVariables(variablesJson, { file: group.file('Variables.json') })
+  const links = linksYaml === undefined ? undefined : parseLinkMap(linksYaml, { file: group.file('links.yaml'), channel: 'both' })
+  const product = productYaml === undefined ? undefined : parseProductNames(productYaml, { file: group.file('product-names.yaml'), channel: 'both' })
+  const tabs = tabsYaml === undefined ? undefined : parseTabsRules(tabsYaml, { file: group.file('presentation/cloud-sdk-tabs.yaml'), channel: 'both' })
   for (const parsed of [source, variables, links, product, tabs]) if (parsed && 'errors' in parsed) errors.push(...parsed.errors)
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !variables || 'errors' in variables || !links || 'errors' in links
     || !product || 'errors' in product || !tabs || 'errors' in tabs) throw new Error('Missing shared-docs build input')
-  return { sourceYaml: sourceYaml!, variablesJson: variablesJson!, variables: variables.variables,
+  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, variablesJson: variablesJson!, variables: variables.variables,
     pages, linkMap: links.map, productNames: product.rules, tabsRules: tabs.rules, context }
 }
 
@@ -123,7 +127,7 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
 }
 
 export async function runBuild(options: BuildOptions, write: (text: string) => void = text => process.stdout.write(text),
-  dependencies: { fetcher?: ImageFetcher } = {}): Promise<number> {
+  dependencies: { fetcher?: ImageFetcher; repositoryRoot?: string } = {}): Promise<number> {
   const print = (errors: readonly SharedDocsError[]) => {
     for (const error of errors) {
       const detail = error.detail
@@ -132,6 +136,8 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       write(`${error.file ?? '<input>'}${error.line ? `:${error.line}` : ''} [${error.page ?? '*'}/${error.channel ?? 'both'}] ${error.code}: ${error.message}${reason}\n`)
     }
   }
+  const group = groupContext(options.sharedDocs, dependencies.repositoryRoot)
+  if ('errors' in group) { print(group.errors); return 1 }
   try {
     const imageTimeoutMs = Math.ceil((options.imageTimeout ?? 120) * 1_000)
     // Larger delays overflow Node's timer range and would time out almost immediately.
@@ -139,11 +145,11 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       throw new Error('--image-timeout must be a positive number of seconds no greater than 2147483.647')
     }
     if (options.page !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) throw new Error('--page must be a lowercase page ID')
-    const sharedRoot = await realpath(resolve(options.sharedDocs)), repo = await realpath(resolve(options.repo)), dev = await realpath(resolve(options.dev))
+    const sharedRoot = await realpath(group.root), repo = await realpath(resolve(options.repo)), dev = await realpath(resolve(options.dev))
     const out = resolve(options.out)
     await outputState(out)
     for (const input of [sharedRoot, repo, dev]) if (overlap(out, input)) throw new Error(`Output overlaps an input directory: ${input}`)
-    const sharedDocs = await readSharedDocs(sharedRoot)
+    const sharedDocs = await readSharedDocs(group.root, dependencies.repositoryRoot)
     if ('errors' in sharedDocs) { print(sharedDocs.errors); return 1 }
     const selected = [...sharedDocs.pages].filter(([page]) => options.page === undefined || page === options.page)
     if (!selected.length) throw new Error(options.page ? `Unknown shared page: ${options.page}` : 'No shared pages configured')

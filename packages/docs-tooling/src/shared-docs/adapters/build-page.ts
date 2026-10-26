@@ -1,4 +1,5 @@
 import { basename } from 'node:path'
+import { groupFile } from './group-context'
 import { parsePageConfig } from '../core/config'
 import { cloudAnchor, headingText, rewriteLinksAndImages } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
@@ -20,6 +21,7 @@ import type { ZdocContentReader, ZdocPage } from './zdoc-content'
 
 export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig }
 export interface SharedDocsInputs {
+  sharedDocsPath?: string
   sourceYaml: string
   variablesJson: string
   variables: Variables
@@ -193,7 +195,7 @@ async function productSources(version: InspectedChannel, source: string, shared:
       if (name === undefined) throw new Error(`Missing used variable: ${key}`)
       value = (value as Record<string, unknown>)[name]
     }
-    sources.push({ kind: 'variable', file: 'shared-docs/Variables.json', key, text: String(value) })
+    sources.push({ kind: 'variable', file: groupFile(shared.sharedDocsPath, 'Variables.json'), key, text: String(value) })
   }
   return sources
 }
@@ -203,7 +205,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const { pageId, sharedDocs: shared, reader, runtime } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
-  const file = `shared-docs/pages/${pageId}/page.yaml`
+  const file = groupFile(shared.sharedDocsPath, `pages/${pageId}/page.yaml`)
   const context = { file, page: pageId, channel: 'both' as const }
   const parsed = parsePageConfig(pageId, page.pageYaml, { ...shared.context, ...context })
   if ('errors' in parsed) return { errors: parsed.errors, failures: [] }
@@ -242,7 +244,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
     } })
   }
   const inspected = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
-    variablesJson: shared.variablesJson, context: { ...shared.context, ...context } }, reader, input.md2md)
+    variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context } }, reader, input.md2md)
   if ('errors' in inspected) return { errors: [...errors, ...inspected.errors], failures }
   // Unsupported transforms block every later content stage, but not independent validation above.
   if (config.transforms?.length) return { errors, failures }
@@ -268,7 +270,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       if ('errors' in adapted) { errors.push(...adapted.errors); continue }
       const mdx = await toMdx(adapted, location)
       if ('errors' in mdx) { errors.push(...mdx.errors); continue }
-      const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources, context: location })
+      const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources, rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
       if (checked.errors.length) { errors.push(...checked.errors); continue }
       output.set(index, { manual: target.manual, path: target.path, mdx: mdx.mdx, images: rewritten.images, notices: rewritten.notices })
     }

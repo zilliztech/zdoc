@@ -31,7 +31,7 @@ export async function createBuildDemo(directory: string, url = externalImage) {
   await mkdir(resolve(directory), { recursive: true })
   // Canonicalize macOS's /var temporary-directory alias before testing output symlinks.
   const root = await realpath(resolve(directory))
-  const sharedDocs = join(root, 'shared-docs'), repo = join(root, 'milvus-docs'), dev = join(root, 'zdoc-dev'), out = join(root, 'output')
+  const sharedDocs = join(root, 'shared-docs/guides'), repo = join(root, 'milvus-docs'), dev = join(root, 'zdoc-dev'), out = join(root, 'output')
   await mkdir(repo); await mkdir(dev)
   const sourceFile = 'site/en/build-pipeline.md'
   await write(repo, sourceFile, (await readFile(new URL('page.md', fixture), 'utf8')).replaceAll('EXTERNAL_IMAGE', url))

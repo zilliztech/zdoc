@@ -1,7 +1,7 @@
 [
   {
     "code": "PRODUCT_NAMES_INVALID",
-    "file": "shared-docs/product-names.yaml",
+    "file": "shared-docs/guides/product-names.yaml",
     "line": 4,
     "page": "example",
     "channel": "both"
