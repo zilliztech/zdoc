@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、以下の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで利用できます。また、リクエストに応じて Google Cloud の `us-central1` および `us-east4` リージョンでも利用できます。この機能は Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -264,7 +264,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 - 元のプライマリは破棄され、ごみ箱に移動されます。**Global Topology** ビューには表示されなくなります。
 
-- 完全なグローバルトポロジーを復元するために、新しいセカンダリクラスターが自動的に作成されます。新しいセカンダリのプロビジョニング中は、グローバルトポロジーからは見えません。代わりに、グローバルクラスターのページに次のバナーが表示されます：*"A new secondary cluster will be created and become available shortly."*
+- 新しいセカンダリクラスターが自動的に作成され、グローバルトポロジー全体が復元されます。新しいセカンダリのプロビジョニング中は、そのクラスターはグローバルトポロジーに表示されません。代わりに、グローバルクラスターページに次のバナーが表示されます: *「新しいセカンダリクラスターが作成され、まもなく利用可能になります。」*
 
 - 残りのセカンダリクラスターもリビルドのために CREATING 状態に遷移し、リビルドが完了すると RUNNING になります。
 

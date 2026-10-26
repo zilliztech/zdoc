@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションの作成
+# コレクションを作成する
 
 スキーマ、インデックスパラメーター、メトリクスタイプ、および作成時のロード有無を定義することで、コレクションを作成できます。このページでは、コレクションをゼロから作成する方法を紹介します。
 
@@ -517,7 +517,7 @@ Boolean loaded = client.getLoadState(customSetupLoadStateReq1);
 System.out.println(loaded);
 
 // Output:
-// true
+// false
 ```
 
 </TabItem>

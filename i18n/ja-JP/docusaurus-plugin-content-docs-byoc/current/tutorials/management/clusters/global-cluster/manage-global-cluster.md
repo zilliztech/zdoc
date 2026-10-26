@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンおよび次の Google Cloud リージョン（gcp-us-central1、gcp-us-east4）で利用できます。Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで利用できます。また、リクエストに応じて Google Cloud の `us-central1` および `us-east4` リージョンでも利用できます。この機能は Microsoft Azure では利用できません。
 
 </FeatureNote>
 

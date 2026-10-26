@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ## フィルター条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
 
-属性を共有する複数のエンティティを一括で削除する場合は、フィルター式を使用できます。以下のサンプルコードでは、**in** 演算子を使用して、**color** フィールドが **red** および **purple** に設定されているすべてのエンティティを一括削除します。要件に合わせて他の演算子を使用し、フィルター式を構築することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+複数のエンティティがいくつかの属性を共有しており、それらを一括で削除する場合は、フィルター式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red_7025** と **purple_4976** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルター式を構築するために、他の演算子を使用することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -178,6 +178,7 @@ console.log(res.delete_cnt)
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Responses.Dml;
 
@@ -222,7 +223,7 @@ curl --request POST \
 
 ## プライマリキーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
-ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定すると、エンティティを削除できます。以下のサンプルコードは、プライマリキーが **18** と **19** の2つのエンティティを削除する方法を示しています。
+ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定することで、エンティティを削除できます。以下のコード例は、プライマリキー **18** と **19** を持つ 2 つのエンティティを削除する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -366,7 +367,7 @@ curl --request POST \
 
 ## パーティションからのエンティティの削除\{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクション内に **partitionA** という名前のパーティションがあることを前提としています。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

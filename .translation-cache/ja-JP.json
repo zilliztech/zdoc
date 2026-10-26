@@ -316,9 +316,9 @@
       "translatedAt": "2026-10-25T04:59:38.132Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-collections-sdks.md": {
-      "sourceHash": "895381d867ab9fc13492e727eb0ab91d2561f4a4df8180b6070c48aa2f2a6f12",
+      "sourceHash": "170ea4bd3fbca177cdc234205dc71cb56e56fb9e71c6f6b4df68b3eb124748cf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-collections-sdks.md",
-      "translatedAt": "2026-10-25T05:33:29.889Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-partitions.md": {
       "sourceHash": "f484d626661ea4ccd640c9bb13f6254be8fea10c1f4c1d1d41d5b9700463825c",
@@ -491,9 +491,9 @@
       "translatedAt": "2026-10-25T05:01:21.841Z"
     },
     "content/en/byoc/tutorials/development/insert-and-delete/delete-entities.md": {
-      "sourceHash": "951b7b6777790c6c676139994ac8ee562e3392a41a66ec398b09ffe2b15db022",
+      "sourceHash": "b2bddc210aca164e7c3a26857964d573193975fb4d7cf64d58eaf14103a63898",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/insert-and-delete/delete-entities.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/development/insert-and-delete/insert-entities.md": {
       "sourceHash": "de3eee03ff4d98f59c8805abe335bcf12652f666742b7cf471b4c8362a022714",
@@ -671,9 +671,9 @@
       "translatedAt": "2026-10-10T05:46:29.774Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "a0c46fd3f9a1f9c8cb26fb762e5eaf0c11ce07ae2d46e46fa7811f04e568ab7d",
+      "sourceHash": "32f8af68f9ef0342a5ed9db9e4c50ecd0525d99ba0adb3095fb8df578149ce5e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-19T16:20:55.674Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "463ef07893d6f250f428e47c8962c234b1eb2a67bf21550e10f02a9d254ce920",
@@ -756,9 +756,9 @@
       "translatedAt": "2026-10-25T06:05:30.641Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "e464eed142d2d64ff9e09820fe6c9d271f9028df7e6a64a2cdd7e9289ea46b61",
+      "sourceHash": "c9bcca33f8377a2b9c3f735a22357ca95e5ebc8f0183c2dfcade14d35ae03997",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-10-25T05:05:32.096Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
       "sourceHash": "970bd59b18593720fa2879c8769171a24dfc826021fc5b814e40c7bc34aa066c",
@@ -1156,39 +1156,39 @@
       "translatedAt": "2026-10-25T10:05:00.371Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "20644df5f31e58e4a3ba7cfd5c4f4a5d9c80a1d4273d71153de8b7946d7ee620",
+      "sourceHash": "834835cd5e30f120f17a3b0c3d61b0d0f5691f4b86ddaeeb094845ba15f477a0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "fb8b7b71de46009d967363a6823e2f38d9f606980b0b137335b5cd4ae82da056",
+      "sourceHash": "1983d8f221e9bb47e1dde1380450b282867726005cce537296cff00a98852c3a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-10-19T16:41:41.512Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
-      "sourceHash": "1b859d6ff4dc8cb3cd0a21d0cb50acd9ce5b267b0056809af15cd82bc4d9805a",
+      "sourceHash": "0e26ceeed5e0b7c44779983d1e60857af17a967430d82894d40c75ad7d4a0062",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "a350283ce11967e159471683f69d9f9d522f59e607e49314c02cab3babd9efd5",
+      "sourceHash": "fd8783c9ae2fcb13ea8d9afc8e9bde97eb138eef1ecf05ed79b091362b5d876e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
-      "sourceHash": "03bab39523a98fc1dfdceafa786b79bf4781a4604986bbcccadc6938493b39ee",
+      "sourceHash": "80dc2ad60f33e390cb810c8975ae1f6f75dc49dd236b6b9862df466fa908f621",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/monitor-global-cluster.md",
-      "translatedAt": "2026-08-04T05:09:26.811Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/scale-global-cluster.md": {
-      "sourceHash": "b1bfe2a4d8dd8558b51aa9266ca328756c5688d7f0a0ba452272efa59e73f312",
+      "sourceHash": "67dca0881e20a7dad02d884ba7a9ce51acc419c78af34c1747c6997f2d16a434",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/scale-global-cluster.md",
-      "translatedAt": "2026-08-04T05:09:08.772Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
-      "sourceHash": "894da58eb26aa3739049a79e9f299b52bd47951d5469a4a25f04d540fcf35354",
+      "sourceHash": "a2c9450c1abbb616b5cc08f58a04eca72e2118f12ce3b575f2e8aa61499c6853",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
       "sourceHash": "204a46a6ffa345aeae526eeda43f62d76ccc0e93cd8b4a23e0a522dd0cf102ea",
@@ -1631,9 +1631,9 @@
       "translatedAt": "2026-10-25T05:11:00.677Z"
     },
     "content/en/guides/tutorials/development/collection/manage-collections-sdks.md": {
-      "sourceHash": "5f1577881ade4c364a0aa79b521a663510a3b18ab3fee309c9add234adfde851",
+      "sourceHash": "020a0863591fa035a8920c817c7ec2cb7022c3109f18bdca4e787c51c13f6022",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-collections-sdks.md",
-      "translatedAt": "2026-10-25T10:09:11.241Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/guides/tutorials/development/collection/manage-partitions.md": {
       "sourceHash": "60c1586b9befeb90736f5d8f7b5494b1c92188a09752c706550de32e41e10259",
@@ -1831,9 +1831,9 @@
       "translatedAt": "2026-10-25T10:10:23.617Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/openai.md": {
-      "sourceHash": "6bcb7da9c19edd1c08832d9d6273732601c7b3366fa41344f081d0e60274d465",
+      "sourceHash": "9eab213cbeb6ff455739159206df39586462925cfdf657568e7cfe5a86b02b7e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/openai.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/voyage-ai.md": {
       "sourceHash": "664280b91ac4db301996099513801a04c3955c9535adda9e3b227138aa0002b5",
@@ -1846,9 +1846,9 @@
       "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md": {
-      "sourceHash": "dc3921705080e5ff6d02af8fb8d0008a5fcda81680a9f9e13b8657d98bcf12fd",
+      "sourceHash": "cfb87ccb37b6cb66f942f7151e1db6d0f83f3538e3e56f1fa39d564d9dbfb905",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/delete-entities.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md": {
       "sourceHash": "d133f2f910983228502237c788b3167427115a14440808dc12b7bc5f81239b85",
@@ -2026,9 +2026,9 @@
       "translatedAt": "2026-10-10T05:54:19.895Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "97da5be0db1b4a39dde8623ce04c7adffdfea310c717079c3b24ab49dc0a5630",
+      "sourceHash": "0806ff894f83e348aafa7a23318417c21049f9d3ed49944da9945ce3f4baa6f0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-19T17:34:53.985Z"
+      "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "18bc6f4f1b69f8941553d4aa0ed13f0ea73d1dc5c05f90ba5ff734a93926c222",

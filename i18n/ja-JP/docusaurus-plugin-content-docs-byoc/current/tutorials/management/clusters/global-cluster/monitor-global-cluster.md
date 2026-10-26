@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンおよび次の Google Cloud リージョンで利用できます: gcp-us-central1 と gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで利用できます。また、リクエストに応じて Google Cloud の `us-central1` および `us-east4` リージョンでも利用できます。この機能は Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -83,4 +83,3 @@ import Admonition from '@theme/Admonition';
 ## クラスターメトリクスとアラート\{#cluster-metrics-and-alerts}
 
 グローバルクラスター内の各クラスター（プライマリクラスターとセカンダリクラスターの両方）は、通常の Dedicated クラスターと同じメトリクスを公開します。これらのメトリクスはクラスター詳細ページで確認でき、これらのメトリクスに対するアラートを作成したり、外部監視システムにエクスポートしたりできます。詳細については、[Metrics Reference](./metrics-alerts-reference) を参照してください。
-

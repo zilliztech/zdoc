@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンおよび以下の Google Cloud リージョン（gcp-us-central1、gcp-us-east4）で利用できます。Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで利用できます。また、リクエストに応じて Google Cloud の `us-central1` および `us-east4` リージョンでも利用できます。この機能は Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -96,13 +96,13 @@ import Procedures from '@site/src/components/Procedures';
 
     1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、クラスターは **RUNNING** ステータスで表示され、データレプリケーションをサポートします。
 
-    データ同期のステータスと遅延は、**Global Cluster** ページの **Global Topology** タブで確認できます。
+    **Global Cluster** ページの **Global Topology** タブで、データ同期のステータスとラグを監視できます。
 
     ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
 
 - **RESTful API を使用する場合**
 
-    以下の例では、AWS us-west-2 にデプロイされたプライマリクラスター 1 つと、AWS eu-west-1 にデプロイされたセカンダリクラスター 1 つから構成されるグローバルクラスターを作成します。API の詳細については、[Create Global Cluster](/reference/restful/create-global-cluster-v2) を参照してください。
+    次の例では、1 つのプライマリクラスターを AWS us-west-2 に、1 つのセカンダリクラスターを AWS eu-west-1 にデプロイしたグローバルクラスターを作成します。API の詳細については、[グローバルクラスターの作成](/reference/restful/create-global-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \
