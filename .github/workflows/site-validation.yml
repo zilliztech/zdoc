@@ -1,9 +1,12 @@
 name: site validation
 
 on:
+  # `dev` is deliberately absent: the only pull requests against dev are
+  # GITHUB_TOKEN sync-bot PRs, whose pull_request runs GitHub holds for manual
+  # approval and discards as failed at merge. The sync workflow validates its
+  # exact candidate via workflow_dispatch instead.
   pull_request:
     branches:
-      - dev
       - master
   push:
     branches:

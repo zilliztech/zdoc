@@ -59,11 +59,13 @@ Reference reconciliation commits must change only the English and Chinese Refere
 
 Do not change validation triggers until the current translation workflow and its real-artifact verification are complete.
 
-Current `site-validation.yml` runs for both pull requests and pushes to `master` and `dev`. For a normal PR into `master`, this performs the expensive site validation before merge and starts it again after merge. Recent evidence includes PR #137 (`pull_request` run `30781527865`, successful) followed by master `push` run `30782402026`; the post-merge run for PR #136 (`30781937769`) was cancelled when the next master update superseded it.
+Current `site-validation.yml` runs for pull requests into `master` and for pushes to `master` and `dev`. For a normal PR into `master`, this performs the expensive site validation before merge and starts it again after merge. Recent evidence includes PR #137 (`pull_request` run `30781527865`, successful) followed by master `push` run `30782402026`; the post-merge run for PR #136 (`30781937769`) was cancelled when the next master update superseded it.
+
+Pull requests into `dev` are excluded from the `pull_request` trigger. Every dev PR on record was created by the GITHUB_TOKEN sync bot, and GitHub holds such pull_request runs for manual approval without ever scheduling them, then discards them as failed when the sync workflow merges. A dev pull_request trigger therefore only ever produced that red phantom run; the dispatched exact-candidate validation below remains the authoritative gate for sync candidates. If a human ever needs to open a dev PR, run `site-validation.yml` manually via `workflow_dispatch` against the PR head SHA.
 
 After translation completion, review and implement the following boundary:
 
-- Keep full validation for pull requests into `master` and `dev`.
+- Keep full validation for pull requests into `master`; keep `dev` out of the `pull_request` trigger because sync-bot PRs are the only dev PRs and GitHub approval-holds their GITHUB_TOKEN-triggered runs (see above).
 - Keep `workflow_dispatch` as the authoritative exact-candidate gate used by master-tooling synchronization.
 - Keep validation for pushes to `dev`, because source and translation publication can update `dev` without a PR.
 - Remove or reduce validation for pushes to `master` to lightweight tooling and contract checks, assuming protected `master` continues to require the pre-merge PR gate.
