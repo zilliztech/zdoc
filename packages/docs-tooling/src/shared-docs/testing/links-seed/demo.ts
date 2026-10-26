@@ -22,7 +22,9 @@ export async function createSeedDemo(directory: string) {
   const repo = join(resolve(directory), 'milvus-docs'), dev = join(resolve(directory), 'zdoc-dev')
   const commit = await createRepository(repo, fixture.milvus)
   const devCommit = await createRepository(dev, fixture.cloud)
-  return { repo, dev, commit, devCommit, out: join(resolve(directory), 'candidate.yaml') }
+  const sharedDocs = join(resolve(directory), 'shared-docs/guides')
+  await mkdir(sharedDocs, { recursive: true })
+  return { sharedDocs, repo, dev, commit, devCommit, out: join(resolve(directory), 'candidate.yaml') }
 }
 
 /** Creates tiny temporary repositories and runs the real CLI, without network access. */
@@ -30,7 +32,7 @@ export async function runSeedDemo(directory: string) {
   const options = await createSeedDemo(directory)
   const repositoryRoot = fileURLToPath(new URL('../../../../../..', import.meta.url))
   const stdout = execFileSync(process.execPath, ['scripts/docs-tooling.js', 'shared-docs', 'links-seed',
-    '--repo', options.repo, '--commit', options.commit, '--dev', options.dev, '--out', options.out],
+    '--shared-docs', options.sharedDocs, '--repo', options.repo, '--commit', options.commit, '--dev', options.dev, '--out', options.out],
   { cwd: repositoryRoot, encoding: 'utf8', timeout: 30_000 })
   return { ...options, summary: JSON.parse(stdout), yaml: await readFile(options.out, 'utf8') }
 }

@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { expect, it } from 'vitest'
 import { parseProductNames } from '../../core/product-names'
 
-const context = { file: 'shared-docs/product-names.yaml', page: 'delete-entities', channel: 'both' as const }
+const context = { file: 'shared-docs/guides/product-names.yaml', page: 'delete-entities', channel: 'both' as const }
 
 it('reads the scenario rules as literal, case-sensitive strings', () => {
   const text = readFileSync(new URL('../../fixtures/product-names/product-names.yaml', import.meta.url), 'utf8')
@@ -38,5 +38,5 @@ it('aggregates independent errors with exact sequence-entry lines', () => {
       { code: 'PRODUCT_NAMES_INVALID', line: 7 },
     ] })
   expect(parseProductNames('check: []', { page: 'page', channel: 'current' }))
-    .toMatchObject({ errors: [{ file: 'shared-docs/product-names.yaml', page: 'page', channel: 'current' }] })
+    .toMatchObject({ errors: [{ file: 'shared-docs/guides/product-names.yaml', page: 'page', channel: 'current' }] })
 })

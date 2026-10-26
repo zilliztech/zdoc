@@ -122,10 +122,9 @@ describe('manual reader and CLI', () => {
     await expect(runLinksSeed(options, write, root)).rejects.toThrow('EEXIST')
     await expect(runLinksSeed({ ...options, out: join(root, 'default.yaml'), commit: undefined }, write, root)).rejects.toThrow('ENOENT')
     // This is a temporary test repository, never the zdoc checkout's shared-docs directory.
-    await mkdir(join(root, 'shared-docs'))
-    await writeFile(join(root, 'shared-docs/source.yaml'), 'schema_version: 1\nrepository: example\ntrack: v3.0.x\n')
+    await writeFile(join(root, 'shared-docs/guides/source.yaml'), 'schema_version: 1\nrepository: example\ntrack: v3.0.x\n')
     expect(await runLinksSeed({ ...options, out: join(root, 'default.yaml'), commit: undefined }, write, root)).toBe(0)
-    for (const out of [join(options.repo, 'source.yaml'), join(options.dev, 'x.yaml'), join(root, 'shared-docs/links.yaml')]) {
+    for (const out of [join(options.repo, 'source.yaml'), join(options.dev, 'x.yaml'), join(root, 'shared-docs/guides/links.yaml')]) {
       await expect(runLinksSeed({ ...options, out }, write, root)).rejects.toThrow('--out')
     }
     await symlink(join(options.repo, 'site/en/userGuide/source.md'), join(root, 'output-link.yaml'))

@@ -96,9 +96,9 @@ export function seedLinkMap(input: { milvusPages: readonly MilvusSeedPage[]; clo
 }
 
 /** JSON-quoted scalars are valid YAML, including unusual filenames and punctuation. */
-export function formatSeed(result: SeedResult): string {
+export function formatSeed(result: SeedResult, linksFile = 'shared-docs/guides/links.yaml'): string {
   const oneLine = (text: string) => text.replace(/[\r\n\u2028\u2029]/g, ' ')
-  const lines = ['# Candidate link map. Review before adopting entries in shared-docs/links.yaml.']
+  const lines = [`# Candidate link map. Review before adopting entries in ${oneLine(linksFile)}.`]
   if (result.provenance) {
     lines.push(`# Milvus commit: ${oneLine(result.provenance.milvusCommit)}`,
       `# zdoc dev commit: ${oneLine(result.provenance.devCommit)}`, `# Generated: ${oneLine(result.provenance.generatedDate)}`)

@@ -84,15 +84,15 @@ test('selector maps shared contracts and recovery changes to focused, replay, an
   assert.equal(selected.commands.includes('pnpm test:replay:recovery'), false)
 })
 
-test('selector maps root shared-docs onboarding inputs before the first page exists', () => {
+test('selector maps grouped shared-docs onboarding inputs before the first page exists', () => {
   const inputs = [
-    'shared-docs/source.yaml',
-    'shared-docs/Variables.json',
-    'shared-docs/links.yaml',
-    'shared-docs/product-names.yaml',
-    'shared-docs/presentation/cloud-sdk-tabs.yaml',
-    'shared-docs/pages/delete-entities/page.yaml',
-    'shared-docs/pages/delete-entities/lock.yaml',
+    'shared-docs/guides/source.yaml',
+    'shared-docs/guides/Variables.json',
+    'shared-docs/guides/links.yaml',
+    'shared-docs/guides/product-names.yaml',
+    'shared-docs/guides/presentation/cloud-sdk-tabs.yaml',
+    'shared-docs/guides/pages/delete-entities/page.yaml',
+    'shared-docs/guides/pages/delete-entities/lock.yaml',
   ]
   for (const input of inputs) {
     const selected = selectTests([input])

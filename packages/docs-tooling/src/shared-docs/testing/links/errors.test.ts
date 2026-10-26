@@ -18,7 +18,7 @@ async function check(name: string) {
   await expectErrorCase(cases.find(item => item.name === name)!, async directory => {
     const data = JSON.parse(await readFile(join(directory, 'case.json'), 'utf8'))
     if (data.yaml) {
-      const parsed = parseLinkMap(data.yaml, { ...context, file: 'shared-docs/links.yaml' })
+      const parsed = parseLinkMap(data.yaml, { ...context, file: 'shared-docs/guides/links.yaml' })
       return 'errors' in parsed ? parsed.errors : []
     }
     const commit = fixture.commits['01-base']

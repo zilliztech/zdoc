@@ -14,7 +14,7 @@ it('[5-1] classifies every link form and rewrites valid references without leavi
   expect(failed.errors?.map(error => error.code)).toEqual(['LINK_ROOT_PATH', 'LINK_UNKNOWN_FORM'])
 })
 it('[5-2] shares one validated map across pages and rejects duplicate keys', () => {
-  const parsed = parseLinkMap('boolean.md: filtering-overview\n', { ...context, file: 'shared-docs/links.yaml' })
+  const parsed = parseLinkMap('boolean.md: filtering-overview\n', { ...context, file: 'shared-docs/guides/links.yaml' })
   expect(parsed).toHaveProperty('map')
   if ('errors' in parsed) throw new Error('Invalid fixture')
   for (const page of ['first', 'second']) expect(rewriteLinksAndImages(input('[x](boolean.md)', { linkMap: parsed.map, context: { ...context, page } })))

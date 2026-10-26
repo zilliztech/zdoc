@@ -1,7 +1,7 @@
 [
   {
     "code": "CONFIG_PAGE_ID_INVALID",
-    "file": "shared-docs/pages/Invalid_ID/page.yaml",
+    "file": "shared-docs/guides/pages/Invalid_ID/page.yaml",
     "line": 1,
     "page": "Invalid_ID",
     "channel": "both"

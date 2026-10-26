@@ -7,7 +7,7 @@ export interface ProductNameRules {
 
 export interface ProductNameSource {
   readonly kind: 'content-file' | 'source' | 'fragment' | 'variable'
-  /** Repository-relative path; variables use shared-docs/Variables.json. */
+  /** Repository-relative path; variables use shared-docs/guides/Variables.json. */
   readonly file: string
   /** Original file text, or the value of an actually used variable. */
   readonly text: string
@@ -15,6 +15,7 @@ export interface ProductNameSource {
 }
 
 export interface ProductNameInput {
+  readonly rulesFile?: string
   readonly mdx: string
   readonly rules: ProductNameRules
   readonly manual: string

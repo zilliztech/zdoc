@@ -36,7 +36,7 @@ async function setup() {
     return sha
   }
   const input = {
-    pageId: demo.page, sourceYaml: await readFile(join(root, 'shared-docs/source.yaml'), 'utf8'),
+    pageId: demo.page, sourceYaml: await readFile(join(root, 'shared-docs/guides/source.yaml'), 'utf8'),
     pageYaml: await readFile(join(demo.pages, demo.page, 'page.yaml'), 'utf8'),
     variablesJson: '{"Product":"Zilliz Cloud"}', context: inspectionContext,
   }
@@ -125,7 +125,7 @@ it('reports all configuration errors before Git or md2md and leaves leaf validat
   const parse = vi.spyOn(f.adapter, 'parseBlocks')
   expect(await inspectPage({ ...f.input, pageYaml: f.input.pageYaml + '\nunknown: true\n',
     variablesJson: '{"unused":{"X":1,"x":2}}' }, f.reader, f.adapter)).toMatchObject({ errors: [
-      { code: 'CONFIG_FIELD_UNKNOWN' }, { code: 'CONFIG_VARIABLES_INVALID', file: 'shared-docs/Variables.json' },
+      { code: 'CONFIG_FIELD_UNKNOWN' }, { code: 'CONFIG_VARIABLES_INVALID', file: 'shared-docs/guides/Variables.json' },
     ] })
   expect(head).not.toHaveBeenCalled()
   expect(parse).not.toHaveBeenCalled()
@@ -150,7 +150,7 @@ it('[3-1] inspects both planned channels at the tracked head without writing a l
 
 it('runs inspect via the real CLI and reports a broken page field with a failing exit', async () => {
   const f = await setup()
-  const args = ['scripts/docs-tooling.js', 'shared-docs', 'inspect', '--pages', f.pages, '--page', f.page, '--repo', f.repo]
+  const args = ['scripts/docs-tooling.js', 'shared-docs', 'inspect', '--shared-docs', f.sharedDocs, '--page', f.page, '--repo', f.repo]
   const success = spawnSync(process.execPath, args, { encoding: 'utf8' })
   expect(success.status, success.stderr).toBe(0)
   expect(success.stdout).toContain('--- next expanded Markdown ---')
@@ -158,7 +158,7 @@ it('runs inspect via the real CLI and reports a broken page field with a failing
   await writeFile(pageFile, f.input.pageYaml.replace('manual: guides\n', 'manual: nonexistent\n'))
   const failure = spawnSync(process.execPath, args, { encoding: 'utf8' })
   expect(failure.status, failure.stderr).toBe(1)
-  expect(failure.stdout).toMatch(/shared-docs\/pages\/delete-entities\/page.yaml:\d+ .*CONFIG_MANUAL_UNKNOWN/)
+  expect(failure.stdout).toMatch(/shared-docs\/guides\/pages\/delete-entities\/page.yaml:\d+ .*CONFIG_MANUAL_UNKNOWN/)
   expect(failure.stdout).not.toContain('expanded Markdown')
 }, 120_000)
 

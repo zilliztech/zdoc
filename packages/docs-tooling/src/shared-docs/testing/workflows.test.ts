@@ -16,6 +16,7 @@ type Workflow = {
   jobs: Record<string, { steps: Step[]; if?: string; permissions?: Record<string, string>; 'timeout-minutes': number }>
 }
 const root = process.cwd()
+const detectorPath = 'packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs'
 const lock = load(readFileSync('.github/workflows/shared-docs-lock.yml', 'utf8')) as Workflow
 const validate = load(readFileSync('.github/workflows/shared-docs-validate.yml', 'utf8')) as Workflow
 const directories: string[] = []
@@ -31,11 +32,13 @@ function fixture() {
   const dir = temporary(), repo = join(dir, 'repo'), remote = join(dir, 'remote.git'), bin = join(dir, 'bin')
   mkdirSync(repo); mkdirSync(bin)
   git(repo, 'init', '-q', '-b', 'onboarding'); git(repo, 'config', 'user.name', 'Workflow Test'); git(repo, 'config', 'user.email', 'test@example.invalid')
-  put(repo, 'shared-docs/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs.git\ntrack: v3.0.x\n')
-  put(repo, 'shared-docs/pages/example/page.yaml')
+  put(repo, 'shared-docs/guides/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs.git\ntrack: v3.0.x\n')
+  put(repo, 'shared-docs/guides/pages/example/page.yaml')
+  put(repo, detectorPath, readFileSync(join(root, detectorPath), 'utf8'))
   const sha = commit(repo)
   git(dir, 'init', '-q', '--bare', remote); git(repo, 'remote', 'add', 'origin', remote); git(repo, 'push', '-q', 'origin', 'HEAD:refs/heads/onboarding')
   git(repo, 'config', `url.${remote}.insteadOf`, 'https://github.com/test-owner/zdoc.git')
+  writeFileSync(join(dir, 'shared-docs-groups'), 'guides\n')
   return { dir, repo, remote, bin, sha }
 }
 let sequence = 0
@@ -58,7 +61,7 @@ function execute(workflow: Workflow, job: string, name: string, setup: ReturnTyp
 }
 function stub(setup: ReturnType<typeof fixture>, name: string, body: string) { const file = join(setup.bin, name); writeFileSync(file, body); chmodSync(file, 0o755) }
 function pnpmStub(setup: ReturnType<typeof fixture>, status: number) {
-  stub(setup, 'pnpm', `#!/bin/sh\nprintf '%s\\n' "$*" > "$RUNNER_TEMP/pnpm-args"\nprintf '%s\\n' 'shared-docs/pages/example/page.yaml:7 [example/current] CONFIG_FIELD_MISSING: fixture diagnostic'\nexit ${status}\n`)
+  stub(setup, 'pnpm', `#!/bin/sh\nprintf '%s\\n' "$*" > "$RUNNER_TEMP/pnpm-args"\nprintf '%s\\n' 'shared-docs/guides/pages/example/page.yaml:7 [example/current] CONFIG_FIELD_MISSING: fixture diagnostic'\nexit ${status}\n`)
 }
 function githubStub(setup: ReturnType<typeof fixture>) {
   stub(setup, 'gh', `#!/usr/bin/env node
@@ -87,6 +90,13 @@ if (args[1] === 'list') {
 const pushName = 'Push only new regular lock files', dispatchName = 'Dispatch and wait for exact pushed validation'
 
 describe('read-only validation shell contracts', () => {
+  it('shares the dependency-free detector before dependency installation', () => {
+    for (const [workflow, job] of [[validate, 'validate'], [lock, 'lock']] as const) {
+      const steps = workflow.jobs[job].steps
+      expect(steps.find(step => step.name === 'Detect shared input changes')?.run?.trim()).toBe(`node ${detectorPath}`)
+      expect(steps.findIndex(step => step.name === 'Detect shared input changes')).toBeLessThan(steps.findIndex(step => step.name === 'Install pnpm'))
+    }
+  })
   it('separates PR and dispatch concurrency while allowing cancellation within each event', () => {
     expect(validate.concurrency.group).toBe('shared-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.event_name }}')
     expect(validate.concurrency['cancel-in-progress']).toBe(true)
@@ -110,20 +120,70 @@ describe('read-only validation shell contracts', () => {
     for (const step of guarded) expect(step.if).toBe("steps.changes.outputs.changed == 'true'")
     expect(execute(validate, 'validate', 'Report unchanged shared inputs', setup).summary).toContain('without dependency installation or generation')
   })
-  it.each(['shared-docs/input\nwith-newline.yaml', 'shared-docs/pages/example/page.yaml'])('[3-3] detects deleted or newline-containing shared inputs: %s', file => {
+  it.each(['shared-docs/guides/input\nwith-newline.yaml', 'shared-docs/guides/pages/example/page.yaml'])('[3-3] detects deleted or newline-containing shared inputs: %s', file => {
     const setup = fixture(); put(setup.repo, file, 'version two\n'); const base = commit(setup.repo); rmSync(join(setup.repo, file)); const head = commit(setup.repo)
     const result = execute(validate, 'validate', 'Detect shared input changes', setup, { BASE_SHA: base, SOURCE_SHA: head })
-    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true')
+    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true'); expect(result.outputs.groups).toBe('["guides"]')
   })
   it('[3-3] treats a rename out of shared-docs as a shared input deletion', () => {
-    const setup = fixture(); git(setup.repo, 'mv', 'shared-docs/pages/example/page.yaml', 'moved.yaml'); const head = commit(setup.repo)
+    const setup = fixture(); git(setup.repo, 'mv', 'shared-docs/guides/pages/example/page.yaml', 'moved.yaml'); const head = commit(setup.repo)
     const result = execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: head })
-    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true')
+    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true'); expect(result.outputs.groups).toBe('["guides"]')
+  })
+  it('[3-3] deduplicates affected groups across page and group configuration changes', () => {
+    const setup = fixture(); put(setup.repo, 'shared-docs/guides/pages/example/page.yaml', 'changed'); put(setup.repo, 'shared-docs/guides/Variables.json', '{}'); const head = commit(setup.repo)
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: head })
+    expect(result.status).toBe(0); expect(result.outputs.groups).toBe('["guides"]')
+    expect(readFileSync(join(setup.dir, 'shared-docs-groups'), 'utf8')).toBe('guides\n')
+  })
+  it.each(['shared-docs/source.yaml', 'shared-docs/pages/old/page.yaml', 'shared-docs/rest/pages/new/page.yaml', 'shared-docs/guides'])('rejects unsupported or ungrouped shared input before external reads: %s', file => {
+    const setup = fixture()
+    if (file === 'shared-docs/guides') rmSync(join(setup.repo, file), { recursive: true })
+    put(setup.repo, file); const head = commit(setup.repo)
+    for (const [workflow, job, name] of [[validate, 'validate', 'Detect shared input changes'], [lock, 'lock', 'Detect shared input changes']] as const) {
+      const result = execute(workflow, job, name, setup, { SOURCE_SHA: head })
+      expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
+      expect(result.stderr).toContain('Only the guides group is supported')
+      const names = workflow.jobs[job].steps.map(step => step.name)
+      expect(names.indexOf(name)).toBeLessThan(names.indexOf('Clone complete tracking history'))
+    }
+  })
+  it.each([['shared-docs/guides/pages/example/page.yaml', 'shared-docs/rest/pages/example/page.yaml'], ['shared-docs/rest/pages/old/page.yaml', 'shared-docs/guides/pages/renamed/page.yaml']])('rejects either unsupported side of a rename: %s -> %s', (from, to) => {
+    const setup = fixture(); put(setup.repo, from, 'rename input\n'); const base = commit(setup.repo)
+    mkdirSync(resolve(setup.repo, to, '..'), { recursive: true }); git(setup.repo, 'mv', from, to); const head = commit(setup.repo)
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup, { BASE_SHA: base, SOURCE_SHA: head })
+    expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
   })
   it.each([1, 128])('fails closed when merge-base exits %s', status => {
     const setup = fixture(); stub(setup, 'git', `#!/bin/sh\nif [ "$1" = merge-base ]; then exit ${status}; fi\nexec '${gitBinary}' "$@"\n`)
     const result = execute(validate, 'validate', 'Detect shared input changes', setup)
     expect(result.status).toBe(status); expect(result.outputs.changed).toBeUndefined()
+  })
+  it.each([{ SOURCE_SHA: 'main' }, { BASE_SHA: 'a'.repeat(39) }, { BASE_SHA: 'A'.repeat(40) }])('rejects malformed detector identities before any Git command: %j', env => {
+    const setup = fixture(); stub(setup, 'git', '#!/bin/sh\nprintf called > "$RUNNER_TEMP/git-called"\nexit 99\n')
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup, env)
+    expect(result.status).toBe(1); expect(result.outputs).toEqual({})
+    expect(result.stderr).toContain('complete lowercase SHA-1')
+    expect(() => readFileSync(join(setup.dir, 'git-called'))).toThrow()
+  })
+  it.each(['fetch', 'diff'])('preserves infrastructure failure from detector Git %s', command => {
+    const setup = fixture(); stub(setup, 'git', `#!/bin/sh\nif [ "$1" = ${command} ]; then echo 'fixture Git failure' >&2; exit 42; fi\nexec '${gitBinary}' "$@"\n`)
+    const result = execute(lock, 'lock', 'Detect shared input changes', setup)
+    expect(result.status).toBe(42); expect(result.outputs).toEqual({})
+    expect(result.stderr).toContain('fixture Git failure')
+  })
+  it('rejects malformed merge-base output before recording success', () => {
+    const setup = fixture(); stub(setup, 'git', `#!/bin/sh\nif [ "$1" = merge-base ]; then echo main; exit 0; fi\nexec '${gitBinary}' "$@"\n`)
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup)
+    expect(result.status).toBe(1); expect(result.outputs).toEqual({})
+    expect(result.stderr).toContain('Merge base must be a complete lowercase SHA-1')
+  })
+  it('preserves the raw NUL-delimited changed-path artifact without dependencies', () => {
+    const setup = fixture(), file = 'shared-docs/guides/new\ninput.yaml'; put(setup.repo, file); const head = commit(setup.repo)
+    const result = execute(lock, 'lock', 'Detect shared input changes', setup, { SOURCE_SHA: head })
+    expect(result.status).toBe(0); expect(result.outputs).toEqual({ changed: 'true', groups: '["guides"]' })
+    expect(readFileSync(join(setup.dir, 'shared-docs-paths'))).toEqual(Buffer.from(`${file}\0`))
+    expect(readFileSync(join(setup.repo, detectorPath), 'utf8')).toBe(readFileSync(join(root, detectorPath), 'utf8'))
   })
   it('rejects checkout SHA drift before comparing paths', () => {
     const setup = fixture(), result = execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: 'a'.repeat(40) })
@@ -132,8 +192,18 @@ describe('read-only validation shell contracts', () => {
   it.each([0, 1])('[3-3] runs all-page generation and preserves status %s with file/line summary diagnostics', status => {
     const setup = fixture(); pnpmStub(setup, status)
     const result = execute(validate, 'validate', 'Generate all shared pages', setup)
-    expect(result.status).toBe(status); expect(result.summary).toContain('shared-docs/pages/example/page.yaml:7')
-    expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).toContain('shared-docs build --shared-docs shared-docs')
+    expect(result.status).toBe(status); expect(result.summary).toContain('shared-docs/guides/pages/example/page.yaml:7')
+    expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).toContain('shared-docs build --shared-docs shared-docs/guides')
+    expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).not.toContain('--page')
+    expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).toContain(`--out ${setup.dir}/shared-docs-output/guides`)
+  })
+  it('[3-3] rebuilds the whole group after a configuration-only change', () => {
+    const setup = fixture(); put(setup.repo, 'shared-docs/guides/pages/unchanged/page.yaml'); const base = commit(setup.repo)
+    put(setup.repo, 'shared-docs/guides/Variables.json', '{}'); const head = commit(setup.repo)
+    const detected = execute(validate, 'validate', 'Detect shared input changes', setup, { BASE_SHA: base, SOURCE_SHA: head })
+    expect(detected.status).toBe(0); expect(detected.outputs.groups).toBe('["guides"]')
+    stub(setup, 'pnpm', '#!/bin/sh\nset -eu\ntest "$5" = shared-docs/guides\ntest -f "$5/pages/example/page.yaml"\ntest -f "$5/pages/unchanged/page.yaml"\nprintf "%s\\n" "$*" > "$RUNNER_TEMP/pnpm-args"\n')
+    expect(execute(validate, 'validate', 'Generate all shared pages', setup).status).toBe(0)
     expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).not.toContain('--page')
   })
   it('bounds untrusted generation diagnostics in the summary', () => {
@@ -145,7 +215,7 @@ describe('read-only validation shell contracts', () => {
 
 describe('source and snapshot setup shell contracts', () => {
   function sourceSetup() {
-    const setup = fixture(); symlinkSync(join(root, 'scripts'), join(setup.repo, 'scripts')); symlinkSync(join(root, 'packages'), join(setup.repo, 'packages')); return setup
+    const setup = fixture(); symlinkSync(join(root, 'scripts'), join(setup.repo, 'scripts')); symlinkSync(join(root, 'packages/docs-tooling/src/shared-docs/core'), join(setup.repo, 'packages/docs-tooling/src/shared-docs/core')); return setup
   }
   it.each([lock, validate])('parses source configuration through the existing parser', workflow => {
     const setup = sourceSetup(), job = workflow === lock ? 'lock' : 'validate'
@@ -153,12 +223,12 @@ describe('source and snapshot setup shell contracts', () => {
     expect(result.status).toBe(0); expect(result.outputs).toEqual({ repository: 'https://github.com/milvus-io/milvus-docs.git', track: 'v3.0.x' })
   })
   it.each(['git@github.com:owner/repo', 'https://token@github.com/owner/repo', 'https://github.com.evil.test/owner/repo', 'https://github.com/owner/repo?token=x', '--upload-pack=evil', 'file:///tmp/repo', 'https://github.com/owner/..'])('rejects a non-public or unsafe source URL: %s', url => {
-    const setup = sourceSetup(); put(setup.repo, 'shared-docs/source.yaml', `schema_version: 1\nrepository: ${JSON.stringify(url)}\ntrack: v3.0.x\n`)
+    const setup = sourceSetup(); put(setup.repo, 'shared-docs/guides/source.yaml', `schema_version: 1\nrepository: ${JSON.stringify(url)}\ntrack: v3.0.x\n`)
     const result = execute(lock, 'lock', 'Read public source configuration', setup)
     expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
   })
   it('rejects newline-bearing tracking refs before writing step outputs', () => {
-    const setup = sourceSetup(); put(setup.repo, 'shared-docs/source.yaml', 'schema_version: 1\nrepository: https://github.com/owner/repo\ntrack: "main\\nrepository=evil"\n')
+    const setup = sourceSetup(); put(setup.repo, 'shared-docs/guides/source.yaml', 'schema_version: 1\nrepository: https://github.com/owner/repo\ntrack: "main\\nrepository=evil"\n')
     const result = execute(lock, 'lock', 'Read public source configuration', setup)
     expect(result.status).toBe(1); expect(result.outputs.repository).toBeUndefined()
   })
@@ -204,14 +274,15 @@ describe('initial-lock writer shell contracts', () => {
     const setup = fixture(); pnpmStub(setup, status)
     const result = execute(lock, 'lock', 'Create missing initial locks', setup)
     expect(result.status).toBe(status); expect(result.outputs.failure_class).toBe(status === 0 ? undefined : status === 1 ? 'content' : 'infrastructure')
+    expect(readFileSync(join(setup.dir, 'pnpm-args'), 'utf8')).toContain('shared-docs lock --shared-docs shared-docs/guides --repo')
   })
   it('[T12] pushes only the initial lock candidate, then dispatches and authenticates its exact validation', () => {
-    const setup = fixture(); put(setup.repo, 'shared-docs/pages/example/lock.yaml', `current: ${setup.sha}\nnext: ${setup.sha}\n`)
+    const setup = fixture(); put(setup.repo, 'shared-docs/guides/pages/example/lock.yaml', `current: ${setup.sha}\nnext: ${setup.sha}\n`)
     const pushed = execute(lock, 'lock', pushName, setup)
     expect(pushed.status).toBe(0); expect(pushed.outputs.pushed).toBe('true'); expect(pushed.outputs.pushed_sha).toMatch(/^[a-f0-9]{40}$/)
     const head = pushed.outputs.pushed_sha
     expect(git(setup.remote, 'rev-parse', 'refs/heads/onboarding')).toBe(head)
-    expect(git(setup.repo, 'diff', '--name-status', setup.sha, head)).toBe('A\tshared-docs/pages/example/lock.yaml')
+    expect(git(setup.repo, 'diff', '--name-status', setup.sha, head)).toBe('A\tshared-docs/guides/pages/example/lock.yaml')
     expect(git(setup.repo, 'config', '--local', '--list')).not.toMatch(/extraheader|test-token|credential/)
     githubStub(setup)
     const dispatch = execute(lock, 'lock', dispatchName, setup, { SOURCE_SHA: head })
@@ -226,14 +297,16 @@ describe('initial-lock writer shell contracts', () => {
     expect(result.status).toBe(0); expect(result.outputs.pushed).toBe('false'); expect(git(setup.repo, 'rev-parse', 'HEAD')).toBe(setup.sha)
     expect(lock.jobs.lock.steps.find(step => step.name === dispatchName)?.if).toBe("steps.push.outputs.pushed == 'true'")
   })
-  it.each(['tracked-modification', 'unrelated-staged', 'unexpected-untracked', 'newline-path', 'symlink', 'executable'])('rejects unsafe staging: %s', kind => {
-    const setup = fixture(), lockPath = 'shared-docs/pages/example/lock.yaml'
+  it.each(['tracked-modification', 'unrelated-staged', 'unexpected-untracked', 'newline-path', 'symlink', 'executable', 'unsupported-group', 'legacy-layout'])('rejects unsafe staging: %s', kind => {
+    const setup = fixture(), lockPath = 'shared-docs/guides/pages/example/lock.yaml'
     put(setup.repo, lockPath)
-    if (kind === 'tracked-modification') put(setup.repo, 'shared-docs/pages/example/page.yaml', 'modified\n')
+    if (kind === 'tracked-modification') put(setup.repo, 'shared-docs/guides/pages/example/page.yaml', 'modified\n')
     if (kind === 'unrelated-staged') { put(setup.repo, 'unrelated.txt'); git(setup.repo, 'add', 'unrelated.txt') }
-    if (kind === 'unexpected-untracked') put(setup.repo, 'shared-docs/pages/example/other.yaml')
-    if (kind === 'newline-path') put(setup.repo, 'shared-docs/pages/example/lock.yaml\nother')
+    if (kind === 'unexpected-untracked') put(setup.repo, 'shared-docs/guides/pages/example/other.yaml')
+    if (kind === 'newline-path') put(setup.repo, 'shared-docs/guides/pages/example/lock.yaml\nother')
     if (kind === 'symlink') { rmSync(join(setup.repo, lockPath)); symlinkSync('page.yaml', join(setup.repo, lockPath)) }
+    if (kind === 'unsupported-group') put(setup.repo, 'shared-docs/rest/pages/example/lock.yaml')
+    if (kind === 'legacy-layout') put(setup.repo, 'shared-docs/pages/example/lock.yaml')
     if (kind === 'executable') chmodSync(join(setup.repo, lockPath), 0o755)
     const result = execute(lock, 'lock', pushName, setup)
     expect(result.status).not.toBe(0); expect(result.outputs.pushed).toBeUndefined(); expect(git(setup.repo, 'rev-parse', 'HEAD')).toBe(setup.sha)
@@ -241,12 +314,12 @@ describe('initial-lock writer shell contracts', () => {
   })
   it('safe-stops on a moved PR branch before committing or pushing', () => {
     const setup = fixture(); put(setup.repo, 'remote-update'); const newer = commit(setup.repo); git(setup.repo, 'push', '-q', 'origin', 'HEAD:refs/heads/onboarding')
-    git(setup.repo, 'checkout', '--detach', setup.sha); put(setup.repo, 'shared-docs/pages/example/lock.yaml')
+    git(setup.repo, 'checkout', '--detach', setup.sha); put(setup.repo, 'shared-docs/guides/pages/example/lock.yaml')
     const result = execute(lock, 'lock', pushName, setup)
     expect(result.status).not.toBe(0); expect(git(setup.repo, 'rev-parse', 'HEAD')).toBe(setup.sha); expect(git(setup.remote, 'rev-parse', 'refs/heads/onboarding')).toBe(newer)
   })
   it('safe-stops when the remote query fails', () => {
-    const setup = fixture(); put(setup.repo, 'shared-docs/pages/example/lock.yaml')
+    const setup = fixture(); put(setup.repo, 'shared-docs/guides/pages/example/lock.yaml')
     stub(setup, 'git', `#!/bin/sh\nif [ "$1" = ls-remote ]; then echo 'remote unavailable' >&2; exit 2; fi\nexec '${gitBinary}' "$@"\n`)
     const result = execute(lock, 'lock', pushName, setup)
     expect(result.status).toBe(2); expect(result.stderr).toContain('remote unavailable'); expect(git(setup.repo, 'rev-parse', 'HEAD')).toBe(setup.sha)
@@ -280,6 +353,7 @@ describe('validation dispatch and failure reporting shell contracts', () => {
   it.each([
     [{ JOB_STATUS: 'success' }, ''],
     [{ JOB_STATUS: 'failure' }, 'infrastructure'],
+    [{ JOB_STATUS: 'failure', GROUP_FAILURE: 'content' }, 'content'],
     [{ JOB_STATUS: 'failure', SOURCE_FAILURE: 'content' }, 'content'],
     [{ JOB_STATUS: 'failure', COMMAND_FAILURE: 'content' }, 'content'],
     [{ JOB_STATUS: 'failure', COMMAND_FAILURE: 'infrastructure' }, 'infrastructure'],
@@ -310,5 +384,14 @@ describe('validation dispatch and failure reporting shell contracts', () => {
     expect(report.steps[0].with?.ref).toBe('${{ github.event.pull_request.base.sha }}')
     expect(report.steps.find(step => step.name === 'Finish infrastructure failure card')?.run).toContain('--status failure')
     for (const step of report.steps.filter(step => /report-card/.test(step.run || ''))) expect(step.env?.FEISHU_NOTIFICATIONS_DISABLED).toBe("${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}")
+  })
+})
+
+describe('grouped workflow test selection', () => {
+  it.each(['shared-docs/guides/source.yaml', 'shared-docs/guides/pages/example/page.yaml', 'shared-docs/source.yaml', 'shared-docs/rest/pages/example/page.yaml'])('keeps valid and invalid shared layouts mapped to master tooling: %s', file => {
+    const selection = JSON.parse(execFileSync(process.execPath, ['scripts/docs-workflow/select-tests-for-changes.js', '--json', file], { cwd: root, encoding: 'utf8' }))
+    expect(selection.branchPolicies[0]).toMatchObject({ owner: 'master-tooling', targetBranch: 'master' })
+    expect(selection.areas.map((area: { id: string }) => area.id)).toContain('shared-docs')
+    expect(selection.commands).toContain('pnpm test:shared-docs')
   })
 })

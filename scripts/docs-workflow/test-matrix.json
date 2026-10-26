@@ -1210,11 +1210,12 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs types, test helpers, fixtures, adapter contracts and root onboarding source/page inputs must keep complete requirement coverage and all-page candidate validation without external test dependencies."
+      "reason": "Shared docs types, test helpers, fixtures, adapter contracts and grouped onboarding source/page inputs (including malformed layouts under shared-docs/**) must keep complete requirement coverage and whole-group candidate validation without external test dependencies."
     },
     {
       "id": "shared-docs-pr-workflows",
       "paths": [
+        "packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs",
         ".github/workflows/shared-docs-lock.yml",
         ".github/workflows/shared-docs-validate.yml",
         "packages/docs-tooling/src/shared-docs/testing/workflows.test.ts",
@@ -1231,7 +1232,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs PR checks must preserve the read-only all-page candidate boundary, same-repository lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
+      "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
     }
   ]
 }

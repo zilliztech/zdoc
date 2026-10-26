@@ -45,7 +45,7 @@ export async function countPilotProductNames(): Promise<PilotCount[]> {
     const counts = (spellings: string[]) => Object.fromEntries(rules.check.map(spelling =>
       [spelling, spellings.filter(value => value === spelling).length]))
     for (const page of pages) {
-      const shared = join(pilots, page, 'shared-docs')
+      const shared = join(pilots, page, 'shared-docs/guides')
       const variablesJson = await readFile(join(shared, 'Variables.json'), 'utf8')
       const inspected = await inspectPage({ pageId: page,
         sourceYaml: 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n',
@@ -72,7 +72,7 @@ export async function countPilotProductNames(): Promise<PilotCount[]> {
             if (name === undefined) throw new Error(`Missing used variable: ${key}`)
             value = value[name]
           }
-          sources.push({ kind: 'variable', file: 'shared-docs/Variables.json', key, text: String(value) })
+          sources.push({ kind: 'variable', file: 'shared-docs/guides/Variables.json', key, text: String(value) })
         }
         for (const { manual } of inspected.config.publish) {
           // WP4 is deliberately not invoked: these counts are the pre-adaptation alignment baseline.

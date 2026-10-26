@@ -9,7 +9,7 @@ import { planLock } from '../core/lock'
 import { expectErrorCase, loadErrorCases } from './errors'
 import { createReaderFixture } from './reader-fixture'
 
-const pilot = readFileSync(fileURLToPath(new URL('../fixtures/pilots/delete-entities/shared-docs/page.yaml', import.meta.url)), 'utf8')
+const pilot = readFileSync(fileURLToPath(new URL('../fixtures/pilots/delete-entities/shared-docs/guides/page.yaml', import.meta.url)), 'utf8')
 const context = { manuals: ['guides', 'guides-byoc'], betaValues: ['PUBLIC', 'BYOC'] }
 const source = 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n'
 const lock = (current: string, next = current) => `schema_version: 1\ncurrent: "${current}"\nnext: "${next}"\n`
@@ -48,7 +48,7 @@ it('[LOCK_FORK_PR] refuses a new onboarding lock for a fork PR', async () => {
   const [fixture] = loadErrorCases(fileURLToPath(new URL('../fixtures/lock-planning-errors/', import.meta.url)))
   await expectErrorCase(fixture, directory => {
     const input = JSON.parse(readFileSync(join(directory, 'plan.json'), 'utf8'))
-    const result = planLock({ ...input, trackedHead: after }, { file: 'shared-docs/pages/delete-entities/lock.yaml', page: 'delete-entities' })
+    const result = planLock({ ...input, trackedHead: after }, { file: 'shared-docs/guides/pages/delete-entities/lock.yaml', page: 'delete-entities' })
     if (!('errors' in result)) throw new Error('Expected planning to fail')
     return result.errors
   })
@@ -68,7 +68,7 @@ it('collects source, page and lock syntax errors before any Git calls', async ()
   const result = await readPageSources({ pageId: 'delete-entities', context, sourceYaml: 'schema_version: [\n',
     pageYaml: pilot + 'unknown: true\nmetadata: {beta: BYOC}\n' }, reader)
   expect(result).toMatchObject({ errors: [
-    { code: 'CONFIG_SYNTAX_INVALID', file: 'shared-docs/source.yaml', line: 2 },
+    { code: 'CONFIG_SYNTAX_INVALID', file: 'shared-docs/guides/source.yaml', line: 2 },
     { code: 'CONFIG_FIELD_UNKNOWN' }, { code: 'CONFIG_BETA_INVALID' }, { code: 'LOCK_INVALID' },
   ] })
   expect(spy).not.toHaveBeenCalled()

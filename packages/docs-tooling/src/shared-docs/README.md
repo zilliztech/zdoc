@@ -99,30 +99,63 @@ unowned pending IDs, missing entries and already-covered pending IDs fail.
   records. The production snapshot on the WP0 base does not yet expose all
   those normalized fields; production adaptation is left to WP8.
 
+## Group directories and local commands
+
+Each group owns its `source.yaml`, `Variables.json`, `links.yaml`,
+`product-names.yaml`, `presentation/`, and `pages/<page>/` below
+`shared-docs/guides/`. All four commands require `--shared-docs` to select
+that group directory. The directory basename must be `guides`; other names,
+including the old flat `shared-docs` root, fail with `CONFIG_FIELD_MISSING`
+before any input/output or Git access. `lock --from-fork` always reports
+`LOCK_FORK_PR` first.
+
+Custom parents such as `inputs/guides` and absolute group paths are supported.
+Diagnostics use the selected directory's path relative to the repository root
+(the CLI working directory) when it is inside that root, and its absolute path
+otherwise. Source Markdown and fragment diagnostics keep
+their upstream `site/en/...` paths.
+
+```sh
+pnpm docs-tooling shared-docs inspect --shared-docs shared-docs/guides --page delete-entities --repo /path/to/milvus-docs
+pnpm docs-tooling shared-docs links-seed --shared-docs shared-docs/guides --repo /path/to/milvus-docs --dev /path/to/zdoc-dev --out /tmp/candidate-links.yaml
+pnpm docs-tooling shared-docs build --shared-docs shared-docs/guides --repo /path/to/milvus-docs --dev /path/to/zdoc-dev --out /tmp/shared-docs-build
+```
+
+`inspect` selects the group with `--shared-docs` instead of `--pages`.
+`links-seed` reads the selected group's `source.yaml` unless `--commit` supplies
+an exact source commit; the group option is required in both cases. Its
+candidate output must be outside both input checkouts, the selected group,
+and the repository-root `shared-docs/` tree. Build output remains an empty or
+absent directory outside all inputs.
+
 ## Initial locks and PR validation (WP8b)
 
 Create missing initial source locks with a complete local Milvus checkout:
 
 ```sh
-pnpm docs-tooling shared-docs lock --shared-docs shared-docs --repo /path/to/milvus-docs
+pnpm docs-tooling shared-docs lock --shared-docs shared-docs/guides --repo /path/to/milvus-docs
 ```
 
 The command validates page/source configuration before writing. Every new
-`shared-docs/pages/<page>/lock.yaml` pins both `current` and `next` to the
+`shared-docs/guides/pages/<page>/lock.yaml` pins both `current` and `next` to the
 tracking branch head; existing lock bytes, including invalid locks, are
 preserved. `--page <id>` selects one page; `--from-fork` rejects onboarding
 without writes. Exit codes are 0 for success, 1 for input/configuration errors,
 and 2 for operational Git/filesystem failures. Lock files created outside CI
 are still checked by all-page generation.
 
-`shared-docs-lock.yml` handles changes under `shared-docs/pages/**` in PRs
+`shared-docs-lock.yml` handles changes under `shared-docs/*/pages/**` in PRs
 targeting `master`. Its writer runs only for PRs from a branch in the same
 repository. A fork receives an Actions warning and summary: `LOCK_FORK_PR:
 Please submit this onboarding PR from a branch in this repository`. It
 performs no fork checkout or write.
-The writer parses the existing source configuration, restricts the source URL
+The writer rejects unsupported or ungrouped changed inputs as content failures
+before cloning source history. Only `guides` is supported. It parses
+`shared-docs/guides/source.yaml`, restricts the source URL
 to credential-free GitHub HTTPS, and clones only the tracking branch with its
-complete history. It creates missing locks, stages only new regular lock files,
+complete history. It passes `shared-docs/guides` to the lock command, creates
+missing locks, and stages only new regular files matching
+`shared-docs/guides/pages/<page-id>/lock.yaml`. It
 rechecks the expected PR head with `git ls-remote`, and performs an ordinary
 fast-forward push. Branch drift or a failed query stops the writer. A no-op
 creates no commit, push or child dispatch. Lock jobs use a separate per-PR
@@ -151,9 +184,15 @@ persisted credentials.
 A fail-closed merge-base comparison and NUL-delimited, no-renames diff cover
 added, modified, renamed and deleted `shared-docs/` inputs. With no changed
 shared inputs, it succeeds before installing packages or reading external
-sources. Otherwise it clones complete single-branch source history, resolves
+sources. Otherwise it deduplicates affected groups from both rename sides and
+deletions, and rejects unsupported groups or directly ungrouped files before
+installation or external reads. Only `guides` is supported. It reads
+`shared-docs/guides/source.yaml`, clones complete single-branch source history, resolves
 an exact upstream `zilliztech/zdoc` dev SHA, sparsely checks out only English
-Guides/BYOC and the Guides snapshot, and runs `shared-docs build` for all pages.
+Guides/BYOC and the Guides snapshot, and runs `shared-docs build` for every page
+in each affected group with `--shared-docs shared-docs/<group>` and a separate
+`$RUNNER_TEMP/shared-docs-output/<group>` directory. It never filters to only
+changed pages.
 Generation diagnostics retain file/line locations in logs and in a bounded
 job summary. It generates a temporary candidate; it does not publish pages.
 Maintainers must configure the stable check as required in branch protection;

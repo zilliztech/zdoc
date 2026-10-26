@@ -335,6 +335,17 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       /--depth|--filter|blob:none|GH_TOKEN|secrets\./.test(clone) ||
       !sourceConfig.includes('parseSourceConfig') || !sourceConfig.includes('^https:\\/\\/github\\.com\\/') ||
       !sourceConfig.includes('credential-free GitHub HTTPS repository URL')) fail('must parse a public GitHub source URL and clone complete single-branch tracking history')
+  const changesStep = step(primary, 'Detect shared input changes')
+  const groupStepIndex = stepsOf(primary).indexOf(changesStep)
+  const expectedChangesEnv = lock
+    ? {SOURCE_SHA: '${{ github.event.pull_request.head.sha }}', BASE_SHA: '${{ github.event.pull_request.base.sha }}'}
+    : {SOURCE_SHA: '${{ steps.identity.outputs.source_sha }}', BASE_SHA: '${{ steps.identity.outputs.base_sha }}'}
+  if (changesStep?.run?.trim() !== 'node packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs' ||
+      changesStep.id !== 'changes' || changesStep.if !== undefined || changesStep['continue-on-error'] !== undefined ||
+      Object.entries(expectedChangesEnv).some(([key, value]) => changesStep.env?.[key] !== value) ||
+      groupStepIndex < 0 || ['Install pnpm', 'Set up Node.js', 'Install tooling', 'Read public source configuration', 'Clone complete tracking history'].some(name =>
+        groupStepIndex >= stepsOf(primary).findIndex(item => item.name === name))) fail('must invoke the shared group detector with immutable identities before install or source reads')
+  if (!sourceConfig.includes("fs.readFileSync('shared-docs/guides/source.yaml', 'utf8')")) fail('must read the supported grouped source configuration')
   if (!lock) {
     if (JSON.stringify(workflow.permissions) !== JSON.stringify({contents: 'read'}) || Object.keys(jobs).join(',') !== 'validate' ||
         jobs.validate?.permissions !== undefined || /secrets\.|GH_TOKEN|git push|report-card/.test(source)) fail('validation must be read-only without secrets or writers')
@@ -344,10 +355,6 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     if (['pr_number', 'source_sha', 'base_sha'].some(name => inputs[name]?.type !== 'string' || inputs[name]?.required !== true) ||
         inputs.request_id?.type !== 'string' || inputs.request_id?.required !== false ||
         workflow['run-name'] !== 'shared-docs-validate ${{ inputs.request_id || github.event.pull_request.number }}') fail('dispatch must expose immutable identities and a discoverable request ID')
-    const changes = run('validate', 'Detect shared input changes')
-    if (!changes.includes('comparison_base=$(git merge-base "$BASE_SHA" "$SOURCE_SHA")') ||
-        !changes.includes('git diff --no-renames --name-only -z "$comparison_base" "$SOURCE_SHA" -- shared-docs/') ||
-        !changes.includes('set -euo pipefail') || /merge-base[^\n]*\|\||git diff[^\n]*\|\|/.test(changes)) fail('must detect all shared input changes with a fail-closed merge base and NUL-safe no-renames diff')
     const guardedNames = ['Install pnpm', 'Set up Node.js', 'Install tooling', 'Read public source configuration', 'Clone complete tracking history',
       'Resolve exact upstream dev snapshot', 'Check out read-only upstream dev snapshot', 'Generate all shared pages']
     if (guardedNames.some(name => step('validate', name)?.if !== "steps.changes.outputs.changed == 'true'")) fail('must skip install, external reads and generation when unchanged')
@@ -356,6 +363,9 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
         dev?.with?.['sparse-checkout-cone-mode'] !== false ||
         String(dev?.with?.['sparse-checkout'] || '').trim() !== '/content/en/guides/\n/content/en/byoc/\n/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json' ||
         !run('validate', 'Resolve exact upstream dev snapshot').includes('git ls-remote --exit-code https://github.com/zilliztech/zdoc.git refs/heads/dev')) fail('must sparsely read upstream dev at an exact resolved SHA')
+    const generation = run('validate', 'Generate all shared pages')
+    if (!generation.includes('while IFS= read -r group; do') || !generation.includes('--shared-docs \"shared-docs/$group\"') ||
+        !generation.includes('--out \"$RUNNER_TEMP/shared-docs-output/$group\"') || !generation.includes('done < \"$RUNNER_TEMP/shared-docs-groups\"')) fail('must generate every affected whole group into separate output directories')
     if (!run('validate', 'Generate all shared pages').includes('pnpm docs-tooling shared-docs build') ||
         /--page\b/.test(run('validate', 'Generate all shared pages')) || !run('validate', 'Generate all shared pages').includes('GITHUB_STEP_SUMMARY') || !run('validate', 'Generate all shared pages').includes('exit \"$status\"')) fail('must generate the complete shared-page candidate')
     return
@@ -364,7 +374,7 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       Object.keys(jobs).join(',') !== 'fork_notice,lock,infrastructure_report' || jobs.lock?.permissions !== undefined || jobs.lock?.if !== sameRepo ||
       JSON.stringify(jobs.fork_notice?.permissions) !== JSON.stringify({contents: 'read'}) ||
       JSON.stringify(jobs.infrastructure_report?.permissions) !== JSON.stringify({contents: 'read'})) fail('only the same-repository lock job may inherit contents/actions write')
-  if (JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(['shared-docs/pages/**'])) fail('lock trigger must be scoped to shared-docs/pages/**')
+  if (JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(['shared-docs/*/pages/**'])) fail('lock trigger must be scoped to shared-docs/*/pages/**')
   const notice = run('fork_notice', 'Explain fork onboarding boundary')
   if (jobs.fork_notice?.if !== 'github.event.pull_request.head.repo.full_name != github.repository' || stepsOf('fork_notice').length !== 1 ||
       !notice.includes('::warning title=LOCK_FORK_PR::Please submit this onboarding PR from a branch in this repository') ||
@@ -378,7 +388,7 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     'fs.lstatSync(file).isFile()', "entry.startsWith('100644 ')", 'git ls-remote --exit-code', 'test "$remote_head" = "$SOURCE_SHA"',
     'GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader',
     'git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$PR_HEAD_BRANCH"', 'pushed_sha=%s']
-  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('shared-docs\\/pages\\/') ||
+  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('^shared-docs\\/guides\\/pages\\/') || !push.includes("'-z', '--', 'shared-docs/'") ||
       /git add -A|git add \.|--force|credential.helper|remote set-url|git config.*extraheader/.test(push) ||
       stepsOf('lock').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1) fail('push must allow only new regular locks, recheck the remote head and use ephemeral HTTP authorization without force')
   const dispatchStep = step('lock', 'Dispatch and wait for exact pushed validation')
@@ -396,10 +406,11 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     fail('must keep cancelled or unconfirmed child runs classified as infrastructure')
   }
   const command = run('lock', 'Create missing initial locks')
-  if (!command.includes('pnpm docs-tooling shared-docs lock') || !command.includes('1) echo \'failure_class=content\'') ||
+  if (!command.includes('pnpm docs-tooling shared-docs lock --shared-docs shared-docs/guides --repo') || !command.includes('1) echo \'failure_class=content\'') ||
       !command.includes('*) echo \'failure_class=infrastructure\'') || !command.includes('exit "$status"') ||
       step('lock', 'Classify failure for isolated reporting')?.if !== 'always()' ||
-      !run('lock', 'Classify failure for isolated reporting').includes('${SOURCE_FAILURE:-${COMMAND_FAILURE:-${VALIDATION_FAILURE:-infrastructure}}}')) fail('must distinguish content, child validation and infrastructure failures')
+      step('lock', 'Classify failure for isolated reporting')?.env?.GROUP_FAILURE !== '${{ steps.changes.outputs.failure_class }}' ||
+      !run('lock', 'Classify failure for isolated reporting').includes('${GROUP_FAILURE:-${SOURCE_FAILURE:-${COMMAND_FAILURE:-${VALIDATION_FAILURE:-infrastructure}}}}')) fail('must distinguish content, child validation and infrastructure failures')
   const report = jobs.infrastructure_report
   if (report?.needs !== 'lock' || report?.if !== `always() && ${sameRepo} && needs.lock.outputs.failure_class == 'infrastructure'` ||
       step('infrastructure_report', 'Check out trusted reporting tooling')?.with?.ref !== '${{ github.event.pull_request.base.sha }}') fail('infrastructure reporting must be isolated, same-repository and checked out from the trusted PR base')

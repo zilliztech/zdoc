@@ -96,7 +96,7 @@ it('[3-7] preserves all pilot identities and publication paths at the existing G
     openai: ['tutorials/development/function/text-embedding-funcs/openai', ['guides']],
   } as const
   for (const [id, [path, manuals]] of Object.entries(pilots)) {
-    const file = fileURLToPath(new URL(`../fixtures/pilots/${id}/shared-docs/page.yaml`, import.meta.url))
+    const file = fileURLToPath(new URL(`../fixtures/pilots/${id}/shared-docs/guides/page.yaml`, import.meta.url))
     const result = parsePageConfig(id, readFileSync(file, 'utf8'), { ...context, manuals: manualRegistry.map(manual => manual.id) })
     if ('errors' in result) throw new Error(JSON.stringify(result.errors))
     expect(result.config.publish).toEqual(manuals.map(manual => ({ manual, path })))

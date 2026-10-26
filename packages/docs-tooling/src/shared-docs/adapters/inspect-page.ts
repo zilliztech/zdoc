@@ -1,3 +1,4 @@
+import { groupFile } from './group-context'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { inventoryBlocks, originalPageLine } from '../core/blocks'
 import { parseLock, planLock } from '../core/lock'
@@ -23,10 +24,11 @@ export type InspectionResult = Omit<ReadSuccess, 'markdown'> & {
 /** No writes to the page or source repository; temporary snapshots belong to the reader. */
 export async function inspectPage(input: ReadPageInput & { variablesJson: string }, reader: InspectionReader, md2md: Md2md): Promise<InspectionResult> {
   const context = { page: input.pageId, channel: 'both' as const }
-  const source = parseSourceConfig(input.sourceYaml, { ...context, file: input.sourceName ?? 'shared-docs/source.yaml' })
-  const page = parsePageConfig(input.pageId, input.pageYaml, input.context)
-  const variables = parseVariables(input.variablesJson, context)
-  const lockContext = { ...context, file: `shared-docs/pages/${input.pageId}/lock.yaml` }
+  const pageFile = input.context.file ?? groupFile(input.sharedDocsPath, `pages/${input.pageId}/page.yaml`)
+  const source = parseSourceConfig(input.sourceYaml, { ...context, file: input.sourceName ?? groupFile(input.sharedDocsPath, 'source.yaml') })
+  const page = parsePageConfig(input.pageId, input.pageYaml, { ...input.context, file: pageFile })
+  const variables = parseVariables(input.variablesJson, { ...context, file: groupFile(input.sharedDocsPath, 'Variables.json') })
+  const lockContext = { ...context, file: pageFile.replace(/[^/]*$/, 'lock.yaml') }
   const existing = input.lockYaml === undefined ? undefined : parseLock(input.lockYaml, lockContext)
   const errors: SharedDocsError[] = []
   for (const result of [source, page, variables, existing]) if (result && 'errors' in result) errors.push(...result.errors)

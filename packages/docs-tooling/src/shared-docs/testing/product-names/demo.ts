@@ -4,13 +4,13 @@ import { checkProductNames, parseProductNames } from '../../core/product-names'
 
 /** Standalone acceptance demo; the caller owns the empty temporary directory. */
 export async function runProductNamesDemo(directory: string, print = console.log): Promise<void> {
-  const shared = join(directory, 'shared-docs')
-  await mkdir(shared)
+  const shared = join(directory, 'shared-docs/guides')
+  await mkdir(shared, { recursive: true })
   const text = '# Example\nMilvus\nMilvusClient\n'
   await writeFile(join(directory, 'example.md'), text)
   const rulesFile = join(shared, 'product-names.yaml')
   await writeFile(rulesFile, 'check:\n  - Milvus\nallow: []\n')
-  const context = { file: 'shared-docs/product-names.yaml', page: 'example', channel: 'current' as const }
+  const context = { file: 'shared-docs/guides/product-names.yaml', page: 'example', channel: 'current' as const }
   const valid = parseProductNames(await readFile(rulesFile, 'utf8'), context)
   if ('errors' in valid) throw new Error(JSON.stringify(valid.errors))
   const errors = checkProductNames({ mdx: text, rules: valid.rules, manual: 'guides',
