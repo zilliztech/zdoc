@@ -1560,7 +1560,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         downloadStepPositions.every(position => position !== -1 && position < layoutStepPosition) &&
         layoutStepPosition < pairingStepPosition && pairingStepPosition !== -1 &&
         /translation-batch-download-normalize\.js/.test(layoutStepRun) &&
-        ['--kind checkpoint', '--kind baseline', '--batch-count "$BATCH_COUNT"'].every(fragment => layoutStepRun.includes(fragment))
+        ['--target ja-JP --group guides', '--run-id "$GITHUB_RUN_ID"', '--kind checkpoint', '--kind baseline', '--batch-count "$BATCH_COUNT"'].every(fragment => layoutStepRun.includes(fragment))
       if (!guidesLayoutNormalized) {
         errors.push(`${file}: Guides batch downloads must be restored to per-artifact layout before pairing`)
       }

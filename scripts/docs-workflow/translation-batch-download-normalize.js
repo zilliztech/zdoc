@@ -53,7 +53,12 @@ function normalizeDownloadedBatchArtifacts(options) {
   if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`Collapsed ${kind} archive must be a regular non-symlink file`)
   const batchDirectory = path.join(root, `${prefix}1`)
   fs.mkdirSync(batchDirectory)
-  fs.renameSync(archive, path.join(batchDirectory, BATCH_ARCHIVE_NAME))
+  try {
+    fs.renameSync(archive, path.join(batchDirectory, BATCH_ARCHIVE_NAME))
+  } catch (error) {
+    try { fs.rmdirSync(batchDirectory) } catch { /* leave residue for the pairing validator to reject */ }
+    throw error
+  }
   return Object.freeze({normalized: true, batchNumber: 1})
 }
 
