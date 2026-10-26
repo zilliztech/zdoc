@@ -136,7 +136,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.VarChar)
         .maxLength(9000)
         .build());
-        
+
 schema.addField(AddFieldReq.builder()
         .fieldName("dense")
         .dataType(DataType.FloatVector)

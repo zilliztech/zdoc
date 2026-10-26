@@ -240,6 +240,7 @@ res = client.search(
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
@@ -377,6 +378,7 @@ res = client.query(
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
 
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")

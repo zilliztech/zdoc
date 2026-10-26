@@ -511,7 +511,7 @@ Boolean loaded = client.getLoadState(customSetupLoadStateReq1);
 System.out.println(loaded);
 
 // Output:
-// true
+// false
 ```
 
 </TabItem>

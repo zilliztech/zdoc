@@ -32,7 +32,7 @@ This feature is available only on Business Critical (SaaS) and BYOC deployments.
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
+This feature is available in all supported AWS regions. It is also available in Google Cloud regions `us-central1` and `us-east4` on request. This feature is not available on Microsoft Azure.
 
 </FeatureNote>
 

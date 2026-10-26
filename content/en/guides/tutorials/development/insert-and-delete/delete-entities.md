@@ -25,7 +25,7 @@ You can delete the entities that are no longer needed by filtering conditions or
 
 ## Delete Entities by Filtering Conditions\{#delete-entities-by-filtering-conditions}
 
-When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all Entities with their **color** field set to the values of **red** and **purple**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering Explained](./filtering-overview).
+When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all entities with their **color** field set to the values of **red_7025** and **purple_4976**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering Explained](./filtering-overview).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -178,6 +178,7 @@ console.log(res.delete_cnt)
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Responses.Dml;
 
@@ -222,7 +223,7 @@ curl --request POST \
 
 ## Delete Entities by Primary Keys\{#delete-entities-by-primary-keys}
 
-In most cases, a primary key uniquely identifies an Entity. You can delete Entities by setting their primary keys in the delete request. The example code below demonstrates how to delete two entities with primary keys **18** and **19**.
+In most cases, a primary key uniquely identifies an entity. You can delete entities by setting their primary keys in the delete request. The example code below demonstrates how to delete two entities with primary keys **18** and **19**.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -366,7 +367,7 @@ curl --request POST \
 
 ## Delete Entities from Partitions\{#delete-entities-from-partitions}
 
-You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **PartitionA** in your collection. 
+You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **partitionA** in your collection. 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

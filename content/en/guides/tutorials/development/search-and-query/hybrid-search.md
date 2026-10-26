@@ -1102,7 +1102,7 @@ auto sub_req2 = milvus::SubSearchRequest()
                     .AddEmbeddedText(query_text)
                     .WithAnnsField("text_sparse")
                     .WithLimit(2);
-                    
+
 auto sub_req3 = milvus::SubSearchRequest()
                     .AddEmbeddedText(query_multimodal_vector)
                     .WithAnnsField("image_dense")
