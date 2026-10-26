@@ -31,15 +31,15 @@ import TabItem from '@theme/TabItem';
 
 上の図が示すように、範囲検索リクエストには **radius** と **range_filter** の 2 つのパラメータが含まれます。範囲検索リクエストを受信すると、Zilliz Cloud は次の処理を行います。
 
-- 指定されたメトリックタイプ（**COSINE**）を使用して、クエリベクトルに最も類似したすべてのベクトル埋め込みを見つけます。
+- 指定されたメトリクスタイプ（**COSINE**）を使用して、クエリベクトルに最も類似したすべてのベクトル埋め込みを見つけます。
 
 - クエリベクトルに対する **距離** または **スコア** が、**radius** および **range_filter** パラメータで指定された範囲内に収まるベクトル埋め込みをフィルタリングします。
 
 - フィルタリングされたものの中から **top-K** のエンティティを返します。
 
-**radius** と **range_filter** の設定方法は、検索のメトリックタイプによって異なります。次の表は、異なるメトリックタイプでこれら 2 つのパラメータを設定する際の要件をまとめたものです。
+**radius** と **range_filter** の設定方法は、検索のメトリクスタイプによって異なります。次の表は、異なるメトリクスタイプでこれら 2 つのパラメータを設定する際の要件をまとめたものです。
 
-| メトリックタイプ | 意味 | radius と range_filter の設定要件 |
+| メトリクスタイプ | 意味 | radius と range_filter の設定要件 |
 | --- | --- | --- |
 | `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
 | `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
@@ -49,11 +49,11 @@ import TabItem from '@theme/TabItem';
 
 ## 例\{#examples}
 
-このセクションでは、範囲検索を実行する方法を説明します。以下のコードスニペットの検索リクエストにはメトリックタイプが指定されていないため、デフォルトのメトリックタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
+このセクションでは、範囲検索を実行する方法を説明します。以下のコードスニペットの検索リクエストにはメトリクスタイプが指定されていないため、デフォルトのメトリクスタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
 以下のコードスニペットでは、クエリベクトルに対する距離またはスコアが **0.4** から **0.6** の範囲に収まるすべてのエンティティを Zilliz Cloud が返すように、`radius` を `0.4`、`range_filter` を `0.6` に設定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -278,6 +278,47 @@ const res = await client.search({
     }
     // highlight-end
 })
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f });
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        Radius = "0.4",
+        RangeFilter = "0.6"
+    }
+});
+
+var single = res.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
+    }
+}
 ```
 
 </TabItem>

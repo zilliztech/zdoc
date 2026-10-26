@@ -1,5 +1,5 @@
 ---
-title: "コレクション TTL を設定する | BYOC"
+title: "コレクションの TTL を設定する | BYOC"
 slug: /set-collection-ttl
 sidebar_label: "TTL"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、Time-to-Live（TTL）ポリシーを使用してエンティティを自動的に期限切れにできます。期限切れのエンティティはクエリおよび検索結果に直ちに表示されなくなり、次の Compaction サイクルでストレージから物理的に削除されます（通常は 24 時間以内）。 | BYOC"
+description: "Zilliz Cloud では、Time-to-Live（TTL）ポリシーを使用してエンティティを自動的に期限切れにできます。期限切れのエンティティはクエリおよび検索結果にすぐに表示されなくなり、次の Compaction サイクルでストレージから物理的に削除されます。通常、これは 24 時間以内に実行されます。 | BYOC"
 type: origin
 token: GthGwnrpEiGpClkV5JXcgWUgn8c
 sidebar_position: 6
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクション TTL を設定する
+# コレクションの TTL を設定する
 
-Zilliz Cloud では、**Time-to-Live（TTL）** ポリシーを使用してエンティティを自動的に期限切れにできます。期限切れのエンティティはクエリおよび検索結果に直ちに表示されなくなり、次の Compaction サイクルでストレージから物理的に削除されます（通常は 24 時間以内）。
+Zilliz Cloud では、**Time-to-Live（TTL）** ポリシーを使用してエンティティを自動的に期限切れにできます。期限切れのエンティティはクエリおよび検索結果にすぐに表示されなくなり、次の Compaction サイクルでストレージから物理的に削除されます。通常、これは 24 時間以内に実行されます。
 
-TTL には 2 つのモードがあります。
+TTL には次の 2 つのモードがあります。
 
-- **コレクションレベル TTL** — すべてのエンティティで共有される単一の保持期間で、`collection.ttl.seconds` プロパティで設定します。
+- **コレクションレベルの TTL** — すべてのエンティティで共有される単一の保持期間です。`collection.ttl.seconds` プロパティで設定します。
 
-- **エンティティレベル TTL** — 各エンティティが専用の `TIMESTAMPTZ` フィールドに独自の絶対有効期限を持ち、`ttl_field` プロパティで TTL フィールドとして指定します。
+- **エンティティレベルの TTL** — 各エンティティは、専用の `TIMESTAMPTZ` フィールドに独自の絶対有効期限を持ちます。このフィールドは、`ttl_field` プロパティによって TTL フィールドとして指定されます。
 
-## 制限事項\{#limits}
+## 制限\{#limits}
 
-- コレクションレベル TTL は、コレクション全体に 1 つの保持期間を適用します。単一の行に異なる有効期間が必要な場合は、エンティティレベル TTL を使用してください。
+- コレクションレベルの TTL は、コレクション全体に 1 つの保持期間を適用します。特定の行に異なる有効期間が必要な場合は、エンティティレベルの TTL を使用してください。
 
-- エンティティレベル TTL のフィールドは `TIMESTAMPTZ` である必要があります。その他の型は拒否されます。
+- エンティティレベルの TTL に使用するフィールドは `TIMESTAMPTZ` である必要があります。その他の型は拒否されます。
 
-- TTL フィールドはコレクションごとに 1 つです。スキーマには複数の `TIMESTAMPTZ` フィールドを含めることができますが、`ttl_field` に指定できるのは 1 つだけです。
+- コレクションごとに TTL フィールドは 1 つだけです。スキーマには複数の `TIMESTAMPTZ` フィールドを含めることができますが、`ttl_field` で指定できるのはそのうち 1 つだけです。
 
-- `ttl_field` を削除しても、期限切れのエンティティが再び表示されることはありません。期限切れのエンティティを復元するには、`NULL` または将来の有効期限タイムスタンプを使用して upsert します。
+- `ttl_field` を削除しても、期限切れのエンティティが再び表示されることはありません。期限切れのエンティティを復元するには、`NULL` または将来の有効期限タイムスタンプを指定して upsert してください。
 
 ## 概要\{#overview}
 
@@ -47,61 +47,61 @@ TTL には 2 つのモードがあります。
 
 ### TTL を使用する場合\{#when-to-use-ttl}
 
-TTL は、保持が **ポリシー** である場合に適したツールです。つまり、特定のエンティティが最終的には削除されるべきであることが事前にわかっており、cron ジョブを書かずにクラスターにそれを適用させたい場合です。
+保持が **ポリシー** である場合、TTL が適切な手段です。特定のエンティティが最終的に削除されるべきであることを事前に把握しており、cron ジョブを作成することなくクラスターにそのポリシーを適用したい場合に使用します。
 
 一般的なシナリオは次のとおりです。
 
-- **期間別データセット。** ログ、メトリクス、イベント、または短命な特徴キャッシュの直近 N 日分のみを保持します。
+- **時間枠で区切られたデータセット。** ログ、メトリクス、イベント、または短命な特徴量キャッシュの直近 N 日分のみを保持します。
 
-- **マルチテナントコレクション。** 同じコレクション内でテナントごとに異なる保持期間を持ちます。
+- **マルチテナントのコレクション。** 同じコレクション内で、テナントごとに異なる保持期間を設定します。
 
-- **レコード単位の保持ポリシー。** IoT パイプライン、ドキュメントストア、または MLOps 特徴ストアにおけるドキュメント単位の有効期間。
+- **レコード単位の保持ポリシー。** IoT パイプライン、ドキュメントストア、または MLOps 特徴量ストアで、ドキュメントごとの有効期間を設定します。
 
-- **ホット／コールドデータの混在。** 同じコレクション内で短命なエンティティと長期間のエンティティが共存します。
+- **ホットデータとコールドデータの混在。** 短命なエンティティと長期間保持するエンティティを同じコレクション内に共存させます。
 
-- **コンプライアンスに基づく期限切れ。** 各レコードが独自の「削除期限」日付を持つ、GDPR 形式のデータ最小化。
+- **コンプライアンスに基づく期限切れ。** 各レコードが独自の「削除期限」を持つ、GDPR 形式のデータ最小化です。
 
-- **ビジネス時刻に基づく期限切れ。** エンティティが、ある絶対時点（キャンペーンの終了、セッションの失効）までのみ有効なレコードを表します。
+- **ビジネス上の時刻に基づく期限切れ。** エンティティが、特定の絶対時点（キャンペーンの終了、セッションの期限切れなど）までのみ有効なレコードを表す場合に使用します。
 
 <Admonition type="info" title="Notes">
 
-期限切れのエンティティは、検索またはクエリの結果に表示されなくなります。ただし、次のデータ Compaction が実行されるまでストレージに残る場合があります。この Compaction は、次の 24 時間以内に実行される必要があります。
+期限切れのエンティティは、検索結果やクエリ結果に表示されません。ただし、後続のデータ Compaction が実行されるまでストレージに残る可能性があります。この Compaction は、次の 24 時間以内に実行される必要があります。
 
 </Admonition>
 
 ### TTL モード\{#ttl-modes}
 
-この 2 つのモードは、異なる保持の疑問に答えます。
+2 つのモードは、保持に関する異なる課題に対応します。
 
-- **コレクションレベル TTL** は、すべてのエンティティに単一の保持期間を適用します。各エンティティは `insert_ts + ttl_seconds` に期限切れになります。
+- **コレクションレベルの TTL** は、すべてのエンティティに単一の保持期間を適用します。各エンティティは `insert_ts + ttl_seconds` で期限切れになります。
 
-- **エンティティレベル TTL** では、各エンティティが `TIMESTAMPTZ` フィールドに独自の絶対有効期限を格納できます。そのフィールドが `NULL` の場合、エンティティは期限切れになりません。
+- **エンティティレベルの TTL** では、各エンティティが独自の絶対有効期限を `TIMESTAMPTZ` フィールドに保存できます。このフィールドの値が `NULL` の場合、そのエンティティは期限切れになりません。
 
-コレクションは一度に **1 つ** のモードを使用します。この 2 つは相互に排他的です。モードの切り替えは複数の手順を伴う操作です。2 つのモード間の移行を参照してください。
+コレクションは一度に **1 つ** のモードを使用します。2 つのモードは相互に排他的です。モードの切り替えは複数の手順を必要とする操作です。2 つのモード間の移行を参照してください。
 
 モードを選択するには、次の表を使用してください。
 
-| **現在の状況が次の場合…** | **使用するモード** |
+| **状況** | **使用するモード** |
 | --- | --- |
-| コレクション内のすべてのエンティティが同じ保持期間に従う必要がある | コレクションレベル TTL |
-| 保持が「挿入時点から N 秒間保持する」である | コレクションレベル TTL |
-| 同じコレクション内でエンティティごとに異なる有効期間が必要（per-tenant, hot/cold, per-document） | エンティティレベル TTL |
-| 保持が絶対的な実時間（たとえば 2027-01-01T00:00:00Z）である | エンティティレベル TTL |
-| 保持が挿入タイムスタンプではなくビジネスタイムスタンプによって決まる | エンティティレベル TTL |
-| 挿入後にエンティティの有効期間を更新または延長したい | エンティティレベル TTL |
-| 一部のエンティティは期限切れにせず、その他は期限切れにしたい | エンティティレベル TTL（無期限にするエンティティには NULL を使用） |
+| コレクション内のすべてのエンティティが同じ保持期間に従う場合 | コレクションレベルの TTL を使用します。 |
+| 保持期間が「挿入時点から N 秒間保持する」である場合 | コレクションレベルの TTL を使用します。 |
+| 同じコレクション内でエンティティごとに異なる有効期間が必要な場合（テナント別、hot/cold, ドキュメント別） | エンティティレベルの TTL を使用します。 |
+| 保持期間が絶対的な実時間（たとえば 2027-01-01T00:00:00Z）である場合 | エンティティレベルの TTL を使用します。 |
+| 保持期間が挿入タイムスタンプではなくビジネスタイムスタンプに基づく場合 | エンティティレベルの TTL を使用します。 |
+| 挿入後にエンティティの有効期間を更新または延長する場合 | エンティティレベルの TTL を使用します。 |
+| 一部のエンティティは期限切れにせず、その他は期限切れにする場合 | エンティティレベルの TTL を使用します（期限切れにしないエンティティには NULL を使用します）。 |
 
 </details>
 
-## コレクションレベル TTL を設定する\{#set-collection-level-ttl}
+## コレクションレベルの TTL を設定する\{#set-collection-level-ttl}
 
-コレクション内のすべてのエンティティが同じ保持期間に従う場合は、コレクションレベル TTL を使用します。
+コレクション内のすべてのエンティティが同じ保持期間に従う場合は、コレクションレベルの TTL を使用してください。
 
 ### 新しいコレクションで有効にする\{#enable-on-a-new-collection}
 
-作成時に `properties` マップで `collection.ttl.seconds`（整数、秒単位）を指定します。
+作成時に、`collection.ttl.seconds`（整数、秒単位）を `properties` マップで指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -301,6 +301,41 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 128 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)],
+    Properties = { ["collection.ttl.seconds"] = "1209600" } // 14 days
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -357,9 +392,9 @@ curl --request POST \
 
 ### 既存のコレクションで有効にする\{#enable-on-an-existing-collection}
 
-すでに使用中のコレクションに TTL を適用するには、`properties` マップに `collection.ttl.seconds` を指定して `alter_collection_properties` を呼び出します。
+使用中のコレクションに TTL を適用するには、`properties` マップで `collection.ttl.seconds` を指定して `alter_collection_properties` を呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -607,6 +642,31 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Assumes "my_collection" was created earlier without TTL
+if (await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" }) is not { Has: true })
+{
+    await client.CreateCollectionAsync(new CreateCollectionReq
+    {
+        CollectionName = "my_collection",
+        Schema = schema,
+        Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)]
+    });
+}
+
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["collection.ttl.seconds"] = "1209600" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -679,9 +739,9 @@ curl --request POST \
 
 ### TTL 設定を削除する\{#drop-the-ttl-setting}
 
-コレクション内のデータを無期限に保持することにした場合は、そのコレクションから TTL 設定を削除するだけです。
+コレクション内のデータを無期限に保持する場合は、そのコレクションから TTL 設定を削除するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -807,6 +867,20 @@ await client.dropCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["collection.ttl.seconds"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -829,15 +903,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エンティティレベル TTL を設定する | PUBLIC\{#set-entity-level-ttl-or-public}
+## エンティティレベルの TTL を設定する | PUBLIC\{#set-entity-level-ttl-or-public}
 
-エンティティレベル TTL では、各エンティティが独自の絶対有効期限を持ちます。この時刻はスキーマで宣言する専用の `TIMESTAMPTZ` 列に格納され、`ttl_field` コレクションプロパティを通じてその列を TTL フィールドとして指定します。
+エンティティレベルの TTL では、各エンティティが独自の絶対有効期限を持ちます。この時刻は、スキーマで宣言する専用の `TIMESTAMPTZ` 列に保存され、コレクションの `ttl_field` プロパティを通じて TTL フィールドとして指定されます。
 
 ### 新しいコレクションで有効にする\{#enable-on-a-new-collection}
 
-作成時にエンティティレベル TTL を有効にするには、同じ `create_collection` 呼び出しで 2 つの追加が必要です。スキーマ内の `TIMESTAMPTZ` フィールドと、そのフィールドを指す `ttl_field` プロパティです。
+作成時にエンティティレベルの TTL を有効にするには、同じ `create_collection` 呼び出しで 2 つの項目を追加します。スキーマに `TIMESTAMPTZ` フィールドを追加し、そのフィールドを指す `ttl_field` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1039,6 +1113,42 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        new FieldSchema("expire_at", DataType.Timestamptz) { Nullable = true },
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 128 }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine)],
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1098,9 +1208,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-コレクションが作成されたら、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式のタイムスタンプ文字列を使用してエンティティを挿入します。
+コレクションを作成したら、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) のタイムスタンプ文字列を使用してエンティティを挿入します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1323,6 +1433,28 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+var vector = Enumerable.Repeat(0.1f, 128).ToArray();
+
+// Assumes "my_collection" was created earlier with `ttl_field`: "expire_at"
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["expire_at"] = null, ["vector"] = vector }, // Never expires
+        new Dictionary<string, object?> { ["id"] = 2L, ["expire_at"] = "2026-12-31T00:00:00Z", ["vector"] = vector }, // Expires at 2026-12-31 UTC midnight
+        new Dictionary<string, object?> { ["id"] = 3L, ["expire_at"] = "2027-01-01T00:00:00+08:00", ["vector"] = vector } // Shanghai local time — normalized to UTC internally
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1342,9 +1474,9 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --he
 </TabItem>
 </Tabs>
 
-すべてのクエリとベクトル検索で、サーバーが TTL フィルターを自動的に挿入します。自分で記述する必要はなく、期限切れのエンティティが結果に表示されることもありません。
+すべてのクエリとベクトル検索で、サーバーは TTL フィルターを自動的に挿入します。フィルターを自分で記述する必要はなく、期限切れのエンティティが結果に表示されることもありません。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1522,6 +1654,30 @@ console.log(results.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Expired rows are filtered out automatically
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "id >= 0",
+    Parameters = new QueryParameters { OutputFields = { "id", "expire_at" }, Limit = 10 }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1555,9 +1711,9 @@ curl --request POST \
 
 同じ自動フィルターは `client.search()` にも適用されます。
 
-Compaction によって物理的に削除される前にエンティティの有効期間を延長するには、より後の有効期限タイムスタンプまたは `None` を使用して upsert し、エンティティをクエリ可能なセットに戻します。
+Compaction によってエンティティが物理的に削除される前にその有効期間を延長するには、より後の有効期限タイムスタンプ、または `None` を指定して upsert し、エンティティをクエリ可能なセットに戻します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1730,6 +1886,23 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 2L, ["vector"] = vector, ["expire_at"] = "2028-01-01T00:00:00Z" }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1749,9 +1922,9 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 
 ### 既存のコレクションで有効にする\{#enable-on-an-existing-collection}
 
-コレクションがすでに存在し、`collection.ttl.seconds` が設定されていない場合は、`add_collection_field` で `TIMESTAMPTZ` 列を追加し、`alter_collection_properties` でそれを TTL フィールドとして指定します。必要に応じて、履歴行を upsert して有効期限タイムスタンプをバックフィルします。バックフィルしない行は `NULL` のままとなり、期限切れになりません。
+コレクションがすでに存在し、`collection.ttl.seconds` が設定されていない場合は、`add_collection_field` で `TIMESTAMPTZ` 列を追加し、`alter_collection_properties` でその列を TTL フィールドとして指定します。オプションで、履歴行の有効期限タイムスタンプをバックフィルするために upsert を実行できます。バックフィルしない行は `NULL` のままで、期限切れになりません。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2020,6 +2193,29 @@ await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+// Step 1 — add a TIMESTAMPTZ column to the schema
+await client.AddCollectionFieldAsync(new AddCollectionFieldReq
+{
+    CollectionName = "my_collection",
+    Field = new FieldSchema("expire_at", DataType.Timestamptz) { Nullable = true }
+});
+
+// Step 2 — mark the new column as the TTL field
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["ttl_field"] = "expire_at" }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2057,9 +2253,9 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 
 ### TTL 設定を削除する\{#drop-the-ttl-setting}
 
-エンティティごとの期限切れを停止するには、`property_keys` に `ttl_field` を指定して `drop_collection_properties` を呼び出します。`TIMESTAMPTZ` 列自体はスキーマに残ります。通常のフィールドとして引き続きクエリできます。
+エンティティごとの期限切れを停止するには、`property_keys` で `ttl_field` を指定して `drop_collection_properties` を呼び出します。`TIMESTAMPTZ` 列自体はスキーマに残るため、通常のフィールドとして引き続きクエリできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2184,6 +2380,20 @@ await client.dropCollectionProperties({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    DeleteKeys = ["ttl_field"]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2206,9 +2416,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`ttl_field` を削除すると、以降のクエリに対する自動フィルターが無効になりますが、すでに期限切れになったエンティティが再び自動的に表示されることはありません。以前に期限切れになったエンティティを表示するには、`None` または将来の有効期限タイムスタンプを使用して upsert します。これが、同じロードセッション内で期限切れの行へのアクセスを復元する唯一の方法です。
+`ttl_field` を削除すると、以降のクエリでは自動フィルターが無効になりますが、すでに期限切れになったエンティティが自動的に再表示されることはありません。以前に期限切れになったエンティティを表示するには、`None` または将来の有効期限タイムスタンプを指定して upsert してください。これが、同じロードセッション内で期限切れの行へのアクセスを復元する唯一の方法です。
 
-## よくある質問\{#faqs}
+## FAQ\{#faqs}
 
 ### TTL 設定によりデータはいつ期限切れになりますか？\{#when-does-data-expire-due-to-ttl-settings}
 
@@ -2216,10 +2426,10 @@ curl --request POST \
 
 ### 期限切れのデータはいつ物理的に削除されますか？\{#when-will-the-expired-data-be-physically-deleted}
 
-データが期限切れになると、検索結果に含まれなくなります。ただし、物理的に削除されるのは、その後のシステム Compaction が完了した後であり、これはクラスターの Compaction ポリシーに従います。
+データは期限切れになると、検索結果に含まれなくなります。ただし、クラスターの Compaction ポリシーに従い、次のシステム Compaction が実行された後にのみ物理的に削除されます。
 
 期限切れ後すぐにデータを削除する必要がある場合は、[お問い合わせください](https://support.zilliz.com/hc/en-us/requests/new)。
 
 ### CU 容量はいつ減少しますか？\{#when-will-the-cu-capacity-decrease}
 
-クラスターの CU 容量は、メモリ使用量とストレージ使用量のうち大きい方です。ストレージ使用量が適用される場合、期限切れのデータが物理的に削除された後に、Zilliz Cloud コンソールで CU 容量の減少を確認できます。
+クラスターの CU 容量は、メモリ使用量とストレージ使用量のうち大きい方になります。ストレージ使用量が適用される場合、期限切れのデータが物理的に削除された後、Zilliz Cloud コンソールで CU 容量の減少を確認できます。

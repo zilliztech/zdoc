@@ -1,5 +1,5 @@
 ---
-title: "Standard Tokenizer | BYOC"
+title: "Standard トークナイザー | BYOC"
 slug: /standard-tokenizer
 sidebar_label: "Standard"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `standard` トークナイザーは、連続する Unicode 文字と数字をトークンにまとめ、それ以外の文字で分割します。 | BYOC"
+description: "`standard` トークナイザーは、Zilliz Cloud において、連続する Unicode の文字と数字をトークンにまとめ、それ以外の文字で分割します。 | BYOC"
 type: origin
 token: GAX8wkC1QiTZhXkLBocc1GoTnke
 sidebar_position: 1
@@ -19,30 +19,30 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard Tokenizer
+# Standard トークナイザー
 
-Zilliz Cloud の `standard` トークナイザーは、連続する Unicode 文字と数字をトークンにまとめ、それ以外の文字で分割します。
+Zilliz Cloud の `standard` トークナイザーは、連続する Unicode の文字と数字をトークンにまとめ、それ以外の文字で分割します。
 
 ## トークン化ルール\{#tokenization-rules}
 
-`standard` トークナイザーは、以下の集合に属する連続した文字を同じトークンに保持します。
+`standard` トークナイザーは、次のセットに属する連続する文字を同じトークンにまとめます：
 
-- **ASCII 文字:** 文字 `A-Z` と `a-z`、および数字 `0-9`。
+- **ASCII 文字：** 文字 `A-Z` と `a-z`、および数字 `0-9`。
 
-- **非 ASCII 文字:** Unicode の `Alphabetic` プロパティ、または数字の一般カテゴリである `Nd`、`Nl`、`No` のいずれかに該当する文字。
+- **非 ASCII 文字：** Unicode の `Alphabetic` プロパティ、または数値に関する一般カテゴリ `Nd`、`Nl`、`No` のいずれかに該当する文字。
 
 | Unicode のプロパティまたはカテゴリ | 意味 | トークンに保持される文字の例 |
 | --- | --- | --- |
-| `Alphabetic` | 漢字や日本語の仮名を含む、さまざまな書記体系の文字、および一部の結合文字 | `中文测试`, `カタカナ` |
-| `Nd`（`Decimal_Number`） | 10 進数字 | `٣` |
-| `Nl`（`Letter_Number`） | 文字に似た数字文字 | `Ⅷ` |
-| `No`（`Other_Number`） | 丸数字、上付き文字、分数などのその他の数字文字 | `①²¾` |
+| `Alphabetic` | 漢字や日本語の仮名を含む各種文字体系の文字、および一部の結合文字 | `中文测试`, `カタカナ` |
+| `Nd` (`Decimal_Number`) | 10 進数字 | `٣` |
+| `Nl` (`Letter_Number`) | 文字のような数値文字 | `Ⅷ` |
+| `No` (`Other_Number`) | 丸囲み数字、上付き文字、分数など、その他の数値文字 | `①²¾` |
 
-これらの集合に含まれない文字はトークンを区切り、破棄されます。これには空白、句読点、アンダースコア（`_`）、ハイフン（`-`）、アポストロフィ（`'`）、および `+`、`$`、`😀` などの記号が含まれます。連続する区切り文字は空のトークンを生成しません。
+これらのセットに含まれない文字はトークンを区切り、破棄されます。これには、空白、句読点、アンダースコア（`_`）、ハイフン（`-`）、アポストロフィ（`'`）、および `+`、`$`、`😀` などの記号が含まれます。連続する区切り文字から空のトークンが生成されることはありません。
 
-文字の分類は Rust の [`char::is_alphanumeric()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_alphanumeric) に従います。プロパティの定義については、[Unicode Standard Annex #44](https://www.unicode.org/reports/tr44/) を参照してください。Unicode 17.0 の完全な文字リストは、`Alphabetic` 用の [`DerivedCoreProperties.txt`](https://www.unicode.org/Public/17.0.0/ucd/DerivedCoreProperties.txt) と、`Nd`、`Nl`、`No` 用の [`DerivedGeneralCategory.txt`](https://www.unicode.org/Public/17.0.0/ucd/extracted/DerivedGeneralCategory.txt) で利用できます。どの文字が該当するかは、デプロイされたバージョンで使用されている Unicode データによって異なります。
+文字の分類は Rust の [`char::is_alphanumeric()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_alphanumeric) に従います。プロパティの定義については、[Unicode Standard Annex #44](https://www.unicode.org/reports/tr44/) を参照してください。Unicode 17.0 の完全な文字リストは、`Alphabetic` については [`DerivedCoreProperties.txt`](https://www.unicode.org/Public/17.0.0/ucd/DerivedCoreProperties.txt)、`Nd`、`Nl`、`No` については [`DerivedGeneralCategory.txt`](https://www.unicode.org/Public/17.0.0/ucd/extracted/DerivedGeneralCategory.txt) で入手できます。文字が含まれるかどうかは、デプロイされたバージョンで使用される Unicode データによって異なります。
 
-以下の例では、フィルターを指定せずに `{"tokenizer": "standard"}` を使用します。このトークナイザーは文字の大文字と小文字を保持し、連続する中国語のテキストを個々の単語に分割しません。
+次の例では、フィルターを使用せずに `{"tokenizer": "standard"}` を使用しています。このトークナイザーは大文字と小文字を保持し、連続する中国語テキストを単語ごとに分割しません。
 
 | 入力 | 出力トークン |
 | --- | --- |
@@ -51,11 +51,11 @@ Zilliz Cloud の `standard` トークナイザーは、連続する Unicode 文�
 | `version①.¾` | `["version①", "¾"]` |
 | `Hello,World!` | `["Hello", "World"]` |
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-`standard` トークナイザーを使用するアナライザーを設定するには、`analyzer_params` で `tokenizer` を `standard` に設定します。
+`standard` トークナイザーを使用するアナライザーを構成するには、`analyzer_params` の `tokenizer` を `standard` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -117,6 +117,19 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -129,9 +142,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-The `standard` tokenizer can work in conjunction with one or more filters. For example, the following code defines an analyzer that uses the `standard` tokenizer and `lowercase` filter:
+`standard` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`standard` トークナイザーと `lowercase` フィルターを使用するアナライザーを定義します：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -195,6 +208,20 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -217,19 +244,19 @@ analyzerParams='{
 
 <Admonition type="info" title="Notes">
 
-よりシンプルに設定するには、[`standard`](./standard-analyzer) [アナライザー](./standard-analyzer) を使用することもできます。これは `standard` トークナイザーと [`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter) を組み合わせたものです。
+より簡単に設定するには、[`standard`](./standard-analyzer) [アナライザー](./standard-analyzer)を使用できます。これは、`standard` トークナイザーと [`lowercase`](./lowercase-filter)[ フィルター](./lowercase-filter)を組み合わせたものです。
 
 </Admonition>
 
-`analyzer_params` を定義したら、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使って当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザーの設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -298,6 +325,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -314,9 +355,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -491,6 +532,39 @@ const result = await client.runAnalyzer({
 });
 
 console.log("Standard analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
 ```
 
 </TabItem>

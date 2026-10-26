@@ -25,35 +25,35 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-範囲検索リクエストを実行すると、Zilliz Cloud は、ANN Search の結果からクエリベクトルに最も類似するベクトルを中心として、検索リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。類似度スコアがこれら 2 つの同心円によって形成される環状領域内にあるすべてのベクトルが返されます。ここで、**range_filter** を **0** に設定すると、指定された類似度スコア（radius）内のすべてのエンティティが返されることを示します。
+範囲検索リクエストを実行するとき、Zilliz Cloud は ANN 検索結果からクエリベクトルに最も類似したベクトルを中心とし、検索リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが収まるすべてのベクトルが返されます。ここで、**range_filter** は **0** に設定することもでき、指定された類似度スコア（radius）内のすべてのエンティティが返されることを示します。
 
 ![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
-上の図は、範囲検索リクエストが **radius** と **range_filter** の 2 つのパラメーターを伴うことを示しています。範囲検索リクエストを受信すると、Zilliz Cloud は次の処理を行います。
+上の図が示すように、範囲検索リクエストには **radius** と **range_filter** の 2 つのパラメータが含まれます。範囲検索リクエストを受信すると、Zilliz Cloud は次の処理を行います。
 
-- 指定されたメトリクスタイプ（**COSINE**）を使用して、クエリベクトルに最も類似するすべてのベクトル埋め込みを検索します。
+- 指定されたメトリクスタイプ（**COSINE**）を使用して、クエリベクトルに最も類似したすべてのベクトル埋め込みを見つけます。
 
-- クエリベクトルとの**距離**または**スコア**が、**radius** および **range_filter** パラメーターで指定された範囲内にあるベクトル埋め込みをフィルタリングします。
+- クエリベクトルに対する **距離** または **スコア** が、**radius** および **range_filter** パラメータで指定された範囲内に収まるベクトル埋め込みをフィルタリングします。
 
-- フィルタリングされたエンティティから **top-K** のエンティティを返します。
+- フィルタリングされたものの中から **top-K** のエンティティを返します。
 
-**radius** と **range_filter** の設定方法は、検索のメトリクスタイプによって異なります。次の表に、さまざまなメトリクスタイプでこれら 2 つのパラメーターを設定するための要件を示します。
+**radius** と **range_filter** の設定方法は、検索のメトリクスタイプによって異なります。次の表は、異なるメトリクスタイプでこれら 2 つのパラメータを設定する際の要件をまとめたものです。
 
 | メトリクスタイプ | 意味 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | L2 距離が小さいほど、類似度が高くなります。 | 最も類似するベクトル埋め込みを無視するには、次の条件を満たしてください。<br/>`range_filter` &lt;= distance < `radius` |
-| `IP` | IP 距離が大きいほど、類似度が高くなります。 | 最も類似するベクトル埋め込みを無視するには、次の条件を満たしてください。<br/>`radius` < distance &lt;= `range_filter` |
-| `COSINE` | COSINE 距離が大きいほど、類似度が高くなります。 | 最も類似するベクトル埋め込みを無視するには、次の条件を満たしてください。<br/>`radius` < distance &lt;= `range_filter` |
-| `JACCARD` | Jaccard 距離が小さいほど、類似度が高くなります。 | 最も類似するベクトル埋め込みを無視するには、次の条件を満たしてください。<br/>`range_filter` &lt;= distance < `radius` |
-| `HAMMING` | ハミング距離が小さいほど、類似度が高くなります。 | 最も類似するベクトル埋め込みを無視するには、次の条件を満たしてください。<br/>`range_filter` &lt;= distance < `radius` |
+| `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
+| `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
+| `COSINE` | COSINE 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
+| `JACCARD` | Jaccard 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
+| `HAMMING` | Hamming 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
 
 ## 例\{#examples}
 
-このセクションでは、範囲検索を実行する方法を示します。次のコードスニペットの検索リクエストにはメトリクスタイプが指定されていないため、デフォルトのメトリクスタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さいことを確認してください。
+このセクションでは、範囲検索を実行する方法を説明します。以下のコードスニペットの検索リクエストにはメトリクスタイプが指定されていないため、デフォルトのメトリクスタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
-次のコードスニペットでは、`radius` を `0.4` に、`range_filter` を `0.6` に設定します。これにより、Zilliz Cloud は、クエリベクトルとの距離またはスコアが **0.4** から **0.6** の範囲内にあるすべてのエンティティを返します。
+以下のコードスニペットでは、クエリベクトルに対する距離またはスコアが **0.4** から **0.6** の範囲に収まるすべてのエンティティを Zilliz Cloud が返すように、`radius` を `0.4`、`range_filter` を `0.6` に設定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -282,6 +282,47 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f });
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        Radius = "0.4",
+        RangeFilter = "0.6"
+    }
+});
+
+var single = res.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -347,6 +388,6 @@ zilliz vector search \
 
 <Admonition type="info" title="Notes">
 
-クエリベクトルが対象コレクションにすでに存在する場合は、検索前に取得する代わりに `ids` を使用することを検討してください。詳細は、[プライマリキー検索](./primary-key-search) を参照してください。
+クエリベクトルがすでに対象のコレクションに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>

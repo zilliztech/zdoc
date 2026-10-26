@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "AI 検索アプリケーションでは、ベクトル検索によって意味的に類似したエンティティを見つけることができますが、アプリケーションは多くの場合、各一致結果の背後にある元のソーステキストも必要とします。LLM またはエージェントは、そのテキストをコンテキストとして使用し、内容の読み取り、引用、要約、またはプロンプトへの結果の埋め込みを行うことができます。 | Cloud"
+description: "AI 検索アプリケーションでは、ベクトル検索によって意味的に類似するエンティティを見つけられますが、アプリケーションは多くの場合、各一致結果の背後にある元のソーステキストも必要とします。LLM またはエージェントは、そのテキストをコンテキストとして使用し、読み取り、引用、要約したり、プロンプトに含めたりできます。 | Cloud"
 type: origin
 token: GBynwwkyBihIHukvJXfc76dMnth
 sidebar_position: 7
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # テキストフィールド
 
-AI 検索アプリケーションでは、ベクトル検索によって意味的に類似したエンティティを見つけることができますが、アプリケーションは多くの場合、各一致結果の背後にある元のソーステキストも必要とします。LLM またはエージェントは、そのテキストをコンテキストとして使用し、内容の読み取り、引用、要約、またはプロンプトへの結果の埋め込みを行うことができます。
+AI 検索アプリケーションでは、ベクトル検索によって意味的に類似するエンティティを見つけられますが、アプリケーションは多くの場合、各一致結果の背後にある元のソーステキストも必要とします。LLM またはエージェントは、そのテキストをコンテキストとして使用し、読み取り、引用、要約したり、プロンプトに含めたりできます。
 
-Zilliz Cloud は、長いソーステキストをエンティティと直接保存するための `TEXT` スカラーフィールドタイプを提供します。一般的な値には、パッセージ、長いドキュメント、記事本文、チケット、ログなどがあります。`VARCHAR` とは異なり、固定の `max_length` は必要なく、`TEXT` ではコレクションスキーマに最大バイト長を設定する必要はありません。
+Zilliz Cloud では、長いソーステキストをエンティティとともに直接保存するための `TEXT` スカラーフィールド型を提供しています。一般的な値には、パッセージ、長いドキュメント、記事本文、チケット、ログなどがあります。固定の `max_length` が必要な `VARCHAR` とは異なり、`TEXT` ではコレクションスキーマで最大バイト長を設定する必要はありません。
 
 コレクションスキーマで `TEXT` フィールドを定義するには、`datatype` を `DataType.TEXT` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,6 +101,15 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// DataType.Text is an alias of VarChar with analyzer support for full-text search
+schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -124,51 +133,51 @@ export contentField='{
 </TabItem>
 </Tabs>
 
-フィールドを定義した後、各エンティティにはそのフィールドに文字列値を含めることができます。値は他のスカラーフィールドと同様に挿入し、`output_fields` にフィールドを指定することでクエリまたは検索結果から返すことができます。
+フィールドを定義した後、各エンティティにはそのフィールドの文字列値を含めることができます。値は他のスカラーフィールドと同様に挿入し、`output_fields` にフィールドを指定することで、クエリまたは検索結果から返すことができます。
 
 <Admonition type="info" title="Notes">
 
-TEXT フィールドは null 値をサポートします。この機能を有効にするには、nullable を True に設定します。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
+TEXT フィールドは null 値をサポートしています。この機能を有効にするには、nullable を True に設定します。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 
 </Admonition>
 
-## 制限事項\{#limits}
+## 制限\{#limits}
 
-- `TEXT` フィールドはプライマリフィールドにできません。プライマリフィールドは `INT64` と `VARCHAR` をサポートします。
+- `TEXT` フィールドを主フィールドにすることはできません。主フィールドは `INT64` と `VARCHAR` をサポートしています。
 
-- `TEXT` フィールドは `PHRASE_MATCH` をサポートしません。
+- `TEXT` フィールドは `PHRASE_MATCH` をサポートしていません。
 
-- `TEXT` フィールドはデフォルト値をサポートしません。
+- `TEXT` フィールドはデフォルト値をサポートしていません。
 
-- `TEXT` フィールドはスカラーインデックスをサポートしません。
+- `TEXT` フィールドはスカラーインデックスをサポートしていません。
 
 - `TEXT` は通常のメタデータフィルタリングを目的としたものではありません。短い文字列メタデータでフィルタリングする必要があり、フィールド値が `VARCHAR` の長さ制限内に収まる場合は、`VARCHAR` を使用してください。
 
-- `TEXT` フィールドは外部コレクションではサポートされていません。
+- 外部コレクションでは `TEXT` フィールドはサポートされていません。
 
 ## TEXT または VARCHAR を選択する\{#choose-text-or-varchar}
 
-`TEXT` と `VARCHAR` はどちらも文字列値を保存しますが、サポートするアプリケーションのニーズが異なります。エンティティの識別、分類、フィルタリングに使用する短く範囲の限られたメタデータには `VARCHAR` を使用します。LLM またはエージェントが読み取り、引用、要約、またはプロンプトの構築を行うための十分なコンテキストを得られる、より長いソースコンテンツには `TEXT` を使用します。
+`TEXT` と `VARCHAR` はどちらも文字列値を保存しますが、サポートするアプリケーションのニーズは異なります。`VARCHAR` は、エンティティを識別、分類、フィルタリングするための短く上限のあるメタデータに使用します。`TEXT` は、LLM またはエージェントが読み取り、引用、要約、あるいはプロンプトを構築するための十分なコンテキストを得られる、より長いソースコンテンツに使用します。
 
 | **観点** | **`VARCHAR`** | **`TEXT`** |
 | --- | --- | --- |
-| 最適な用途 | エンティティの識別、分類、またはフィルタリングに使用する短いメタデータ（`title`、`tag`、`category`、`external_id` など）。 | LLM またはエージェントのワークフローで使用するより長いソースコンテンツ（`content`、`passage`、`article_body`、`log_message` など）。 |
-| 長さの設定 | `max_length` が必要です。これはフィールドが保存できる最大バイト数を定義します。最大値は 65,535 バイトです。値がこの制限を超える可能性がある場合は、`TEXT` を使用してください。 | `max_length` が不要なため、スキーマでテキスト値に固定のバイト制限を設定する必要はありません。 |
-| ストレージの動作 | フィールドに設定された `max_length` の範囲内で各値を保存します。 | より大きなテキスト値には自動ストレージ選択を使用します。 |
-| プライマリフィールドのサポート | プライマリフィールドとして使用できます。 | プライマリフィールドとして使用できません。 |
+| 最適な用途 | エンティティを識別、分類、フィルタリングするために使用する短いメタデータ。例: `title`、`tag`、`category`、`external_id`。 | LLM またはエージェントのワークフローで使用するより長いソースコンテンツ。例: `content`、`passage`、`article_body`、`log_message`。 |
+| 長さの設定 | フィールドが保存できる最大バイト数を定義する `max_length` が必要です。最大値は 65,535 バイトです。値がこの制限を超える可能性がある場合は、`TEXT` を使用します。 | `max_length` が不要なため、スキーマでテキスト値の固定バイト制限を設定する必要はありません。 |
+| ストレージの動作 | 各値をフィールドの設定済み `max_length` 内に保存します。 | より大きなテキスト値には自動ストレージ選択を使用します。 |
+| 主フィールドのサポート | 主フィールドとして使用できます。 | 主フィールドとして使用できません。 |
 | フィルタリング | `category == "news"` や `tag in ["ai", "database"]` など、フィルタ式に含める必要がある短い文字列メタデータに使用します。 | 通常のメタデータフィルタリングを目的としたものではありません。 |
 
 `VARCHAR` フィールドの詳細については、[VARCHAR Field](https://milvus.io/docs/string.md) を参照してください。
 
-`TEXT` の一般的な用途は、BM25 を使用した全文検索です。このパターンでは、`TEXT` フィールドに元のソースコンテンツを保存し、BM25 がテキストを分析して、キーワードベースの一致をランキングするためのスパースベクトルを生成します。検索結果は、LLM またはエージェントのワークフローのコンテキストとして、一致した `TEXT` 値を返すことができます。次の例は、`TEXT` フィールドを BM25 の入力フィールドとして使用する方法を示しています。全文検索の概念とクエリオプションについては、[Full Text Search](./full-text-search) を参照してください。
+`TEXT` の一般的な用途は、BM25 を使用した全文検索です。このパターンでは、`TEXT` フィールドに元のソースコンテンツを保存し、BM25 がテキストを分析して、キーワードに基づく一致をランク付けするためのスパースベクトルを生成します。検索結果は、LLM またはエージェントのワークフローのコンテキストとして一致した `TEXT` 値を返すことができます。次の例は、`TEXT` フィールドを BM25 の入力フィールドとして使用する方法を示しています。全文検索の概念とクエリオプションについては、[Full Text Search](./full-text-search) を参照してください。
 
-## ステップ 1: TEXT フィールドを含むコレクションを作成する\{#step-1-create-a-collection-with-a-text-field}
+## ステップ 1：TEXT フィールドを含むコレクションを作成する\{#step-1-create-a-collection-with-a-text-field}
 
 次の例では、ソースコンテンツ用の `TEXT` フィールドと、BM25 で生成されたスパースベクトル用のスパースベクトルフィールドを含むコレクションを作成します。BM25 関数は、`content` からトークン化されたテキストを、`sparse` に保存されるスパースベクトルに変換します。
 
 BM25 全文検索では、入力 `TEXT` フィールドに `enable_analyzer=True` を設定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -358,6 +367,37 @@ const functions = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+const string COLLECTION_NAME = "text_bm25_collection";
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = COLLECTION_NAME })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = COLLECTION_NAME });
+}
+
+var schema = new CollectionSchema { Name = COLLECTION_NAME };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+// DataType.Text is an alias of VarChar with analyzer support for full-text search
+schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("sparse", DataType.SparseFloatVector));
+schema.Functions.Add(FunctionSchema.CreateBm25("content_bm25", "content", "sparse"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -400,11 +440,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## ステップ 2: スパースベクトルインデックスを作成する\{#step-2-create-a-sparse-vector-index}
+## ステップ 2：スパースベクトルインデックスを作成する\{#step-2-create-a-sparse-vector-index}
 
-BM25 関数で生成されたスパースベクトルフィールドにインデックスを作成します。メトリックタイプは `BM25` に設定する必要があります。
+BM25 関数によって生成されたスパースベクトルフィールドにインデックスを作成します。メトリクスタイプは `BM25` に設定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -549,6 +589,36 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var indexParam = new IndexParam(
+    fieldName: "sparse",
+    indexType: IndexType.SparseInvertedIndex,
+    metricType: MetricType.Bm25)
+{
+    ExtraParams =
+    {
+        ["inverted_index_algo"] = "DAAT_MAXSCORE",
+        ["bm25_k1"] = 1.2,
+        ["bm25_b"] = 0.75
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -589,11 +659,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 3: TEXT データを挿入する\{#step-3-insert-text-data}
+## ステップ 3：TEXT データを挿入する\{#step-3-insert-text-data}
 
-`TEXT` フィールドにテキストを直接挿入します。`sparse` フィールドには値を指定しないでください。Milvus は、`content` に BM25 関数を適用してスパースベクトルを内部的に生成します。
+`TEXT` フィールドにテキストを直接挿入します。`sparse` フィールドには値を指定しないでください。Milvus は、`content` に BM25 関数を適用して、スパースベクトルを内部的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -739,6 +809,34 @@ await client.flushSync({ collection_names: ["text_bm25_collection"] });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var contents = new[]
+{
+    "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.",
+    "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.",
+    "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    ColumnsData =
+    [
+        FieldData.Create("id", new long[] { 1, 2, 3 }),
+        FieldData.CreateVarChar("content", contents)
+    ]
+});
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = COLLECTION_NAME });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -777,11 +875,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 4: BM25 全文検索を実行する\{#step-4-perform-bm25-full-text-search}
+## ステップ 4：BM25 全文検索を実行する\{#step-4-perform-bm25-full-text-search}
 
-生のクエリテキストを検索データとして使用し、スパースベクトルフィールドに対して検索します。Milvus はクエリテキストをスパースベクトルに変換し、BM25 で一致をランキングし、要求された `TEXT` フィールドを `output_fields` で返します。
+生のクエリテキストを検索データとして使用し、スパースベクトルフィールドに対して検索します。Milvus はクエリテキストをスパースベクトルに変換し、BM25 で一致をランク付けして、要求された `TEXT` フィールドを `output_fields` で返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -889,6 +987,28 @@ console.log(JSON.stringify(res.results, null, 2));
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = COLLECTION_NAME,
+    Texts = ["how does Milvus store source text for retrieval"],
+    VectorFieldName = "sparse",
+    Limit = 2,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "content" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -917,11 +1037,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: 返された TEXT 値を読み取る\{#step-5-read-the-returned-text-values}
+## ステップ 5：返された TEXT 値を読み取る\{#step-5-read-the-returned-text-values}
 
 各検索ヒットには、BM25 スコアと元の `TEXT` 値が含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1007,6 +1127,26 @@ for (const hit of res.results) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Responses.Dql;
+
+SingleResult? single = results.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        IReadOnlyDictionary<string, object?> row = single.GetRow(i);
+        long id = results.Ids.LongIds?[i] ?? 0;
+        Console.WriteLine($"id: {id}, score: {single.Scores[i]}");
+        Console.WriteLine(row["content"]);
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1034,4 +1174,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-BM25 関数、スパースベクトルインデックス、および全文検索のクエリ構文の詳細については、[Full Text Search](./full-text-search) を参照してください。
+BM25 関数、スパースベクトルインデックス、全文検索のクエリ構文の詳細については、[全文検索](./full-text-search) を参照してください。
