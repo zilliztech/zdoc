@@ -35,8 +35,12 @@ function resolveArchiveDirectory(parent, basename, label) {
   return archive
 }
 
+function artifactDirectoryPrefix({kind, target, group, runId}) {
+  return `translation-${kind}-${target}-${group}-${runId}-batch-`
+}
+
 function collectArtifacts({root, kind, target, group, runId, batchCount}) {
-  const prefix = `translation-${kind}-${target}-${group}-${runId}-batch-`
+  const prefix = artifactDirectoryPrefix({kind, target, group, runId})
   const found = new Map()
   for (const basename of fs.readdirSync(root).sort()) {
     if (!basename.startsWith(prefix)) throw new Error(`Unexpected ${kind} artifact directory: ${basename}`)
@@ -115,4 +119,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { resolveTranslationArtifactPairs }
+module.exports = { artifactDirectoryPrefix, resolveTranslationArtifactPairs }
