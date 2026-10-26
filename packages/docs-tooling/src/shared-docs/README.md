@@ -123,7 +123,9 @@ pnpm docs-tooling shared-docs build --shared-docs shared-docs/guides --repo /pat
 
 `inspect` selects the group with `--shared-docs` instead of `--pages`.
 `links-seed` reads the selected group's `source.yaml` unless `--commit` supplies
-an exact source commit; the group option is required in both cases. Its
+an exact source commit; the group option is required in both cases. With
+`--commit`, the group directory does not need to exist yet, so the initial link
+map can be seeded before the first page creates `shared-docs/guides/`. Its
 candidate output must be outside both input checkouts, the selected group,
 and the repository-root `shared-docs/` tree. Build output remains an empty or
 absent directory outside all inputs.

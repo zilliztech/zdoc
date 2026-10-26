@@ -14,7 +14,12 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
     for (const error of group.errors) write(`${error.file}:${error.line} ${error.code}: ${error.message}\n`)
     return 1
   }
-  const sharedRoot = await realpath(group.root)
+  // The initial link map is seeded before the first page creates the group directory;
+  // with --commit the group is only an --out guard, so a missing directory is allowed.
+  const sharedRoot = await realpath(group.root).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return group.root
+    throw error
+  })
   const repo = await realpath(resolve(options.repo))
   const dev = await realpath(resolve(options.dev))
   const output = join(await realpath(dirname(resolve(options.out))), basename(resolve(options.out)))
