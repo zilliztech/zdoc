@@ -228,25 +228,3 @@ The table reads row by row: a Delete with `membership_match` removes the in-set 
 
 On sealed segments loaded index-only, without raw scalar data, evaluation uses a bounded reverse lookup when the index supports it. When neither raw field data nor a qualifying index is available, the request fails with `FieldNotLoaded` instead of returning unfiltered entities.
 
-## Operational limits\{#operational-limits}
-
-| Setting | Default | Configurable | What it bounds |
-| --- | --- | --- | --- |
-| `proxy.maxMembershipFilterSize` | 64 MiB | `milvus.yaml` proxy | one blob body |
-| `proxy.maxMembershipFilterPlanSize` | 128 MiB | `milvus.yaml` proxy | per-request aggregate |
-| `proxy.grpc.serverMaxRecvSize` | 128 MiB | `milvus.yaml` proxy | whole request |
-| Roaring high-container cap | 262,144 | fixed in code | per filter |
-| Roaring decoded-memory estimate | 64 MiB | fixed in code | per filter |
-| MBF1 format cap | 128 MiB | fixed in code | blob format ceiling |
-| Bloom `fpr` | 0.005 | client builder | false-positive target |
-
-The `proxy.*` entities are Milvus server configuration: they are set by the cluster operator in `milvus.yaml` under the `proxy` section and cannot be adjusted per request or per expression at filtering time. The **Roaring** admissions and the MBF1 format cap are fixed in the implementation and cannot be configured anywhere. The `fpr` row is the only client-side control: it is chosen when the blob is built, with an accepted range of 0.0001 to 0.05.
-
-The blob body maximum admits about 48.6 million INT64 members at the default fpr, with the fixed 32-byte envelope header allowed on top. The request-wide budget covers the aggregate serialized size of membership-bearing plans plus the aggregate estimated decoded size of Roaring filters, and HybridSearch sub-requests and scorer filters share it. Bloom bodies are powers of two: a member count just past a tier boundary doubles the blob, and a slightly higher fpr often fits the next tier down. When the proxy rejects an oversized Bloom blob, the error suggests an `fpr` that fits.
-
-- Membership expression results are not cached across requests.
-
-- Mixed-version clusters fail closed: QueryNodes running older code reject plans that contain membership plan nodes. Upgrade the proxies first, then complete the rolling upgrade before enabling the operator.
-
-- Server logs redact blob bytes. The expression text contains only the template name; the binary payload is transmitted out of band in the template values.
-
