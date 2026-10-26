@@ -2111,9 +2111,9 @@
       "translatedAt": "2026-10-25T10:11:36.432Z"
     },
     "content/en/guides/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "6d1c4bcd688f515554c45e2fd6b9c98642e66e0a1ab23aa1b9db037317bda7b1",
+      "sourceHash": "a02f3d96dcc2d8b4d0ba8d808dea6c4d2653c059f6ef7430e6f3872e503d66a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-10-25T05:21:41.431Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
       "sourceHash": "65a46093ff7e70a507d68330a27424485041d6da8f31acacb27a2543f8428caf",
@@ -2831,29 +2831,39 @@
       "translatedAt": "2026-10-25T10:12:57.207Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "18bc4aba44bcd29553e5d5631920aef4ed7684e6e116907779c604561378ea7c",
+      "sourceHash": "c5d2bd59cc595514cabeaab6ef28b00d108f111896048092d3e14ddb21e77870",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "1bd54477de13d88cfd866beeefbbcb88e7873dde7ffb0b578357b3c8fc9f194a",
+      "sourceHash": "8eb13c856cf31804a819b8e32e8c11413b875c8291fa6e41df12766f7eb716ac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-10-19T17:54:52.956Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
-      "sourceHash": "969200dc710bfe7564ba680059bbfc81aa1c9c0d79d42fad1a8a2c0c3b19bb43",
+      "sourceHash": "d8e510ef5b992d0e6ed8e7a8846e5283f89256a15bf44d8fae85836b663d149d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "f20b5f4bbf72e98ba8bbe132ef58225c470c66916bdf7c33d0aa528d6a456161",
+      "sourceHash": "854488abb23a7b820bceae1f4bb9ce8501656363dcab8cce058d7748d93a9b31",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
+      "sourceHash": "8fde1eccb307310010350d3c50f7c4f977bd117ab21757d7e4c1ecb95c4742d3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/monitor-global-cluster.md",
+      "translatedAt": "2026-10-26T11:56:32.471Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/scale-global-cluster.md": {
+      "sourceHash": "7ebaafac2e7c719243aadd366c42bfab530ba7cfd920328811784b88d51a2922",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/scale-global-cluster.md",
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
-      "sourceHash": "28c89e97cb8131e4b264700d63060a93e503de7fcbd2b3377a6e7d7eeb9f2215",
+      "sourceHash": "1223e855fa826c74642d32c6bf4dd08bd1d864265507c1074c61656600a9d898",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
       "sourceHash": "b8ab51d57a5d0a6cfb26aeec7e19a994bfe38e048da15dfcb6176bf24d13e3c3",

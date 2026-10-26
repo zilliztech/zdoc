@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、次の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで利用できます。また、Google Cloud のリージョン `us-central1` および `us-east4` では、リクエストに応じて利用できます。この機能は Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -174,4 +174,3 @@ curl --request POST \
 ## グローバルクラスターを削除する\{#drop-global-cluster}
 
 グローバルクラスターを完全に削除するには、まず[すべてのセカンダリクラスターを削除](./manage-global-cluster#drop-secondary-cluster)し、次にプライマリクラスターを削除します。グローバルクラスターは、プライマリクラスターが削除されると自動的に削除されます。
-
