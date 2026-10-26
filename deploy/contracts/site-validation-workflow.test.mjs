@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile, readdir} from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
+import yaml from 'js-yaml';
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../..');
 
@@ -56,6 +57,18 @@ test('site validation selects checks from the versioned path-filter contract', a
   assert.match(workflow, /build_zh_cn: \$\{\{ steps\.manual\.outputs\.build_zh_cn \|\| steps\.filters\.outputs\.build_zh_cn \}\}/);
   assert.match(workflow, /reference_coverage: \$\{\{ steps\.manual\.outputs\.reference_coverage \|\| steps\.filters\.outputs\.reference_coverage \}\}/);
   assert.match(workflow, /tools_coverage: \$\{\{ steps\.manual\.outputs\.tools_coverage \|\| steps\.filters\.outputs\.tools_coverage \}\}/);
+});
+
+test('site validation never triggers pull_request runs for dev sync-bot PRs', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
+  const parsed = yaml.load(workflow);
+  // Every pull request against dev is created by the GITHUB_TOKEN sync bot.
+  // GitHub holds such pull_request runs for manual approval, never schedules
+  // them, and discards them as failed when the sync workflow merges, so a dev
+  // pull_request trigger can only ever produce a red phantom run. The sync
+  // workflow validates its exact candidate through workflow_dispatch instead.
+  assert.deepEqual(parsed.on.pull_request.branches, ['master']);
+  assert.deepEqual(parsed.on.push.branches, ['dev', 'master']);
 });
 
 test('site validation runs isolated named builds and a stable aggregate gate', async () => {
