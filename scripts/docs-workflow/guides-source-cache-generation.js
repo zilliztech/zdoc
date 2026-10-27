@@ -183,6 +183,8 @@ function createGenerationPayload({ site = 'en', workspace, snapshotPath, rootTok
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid generation hooks')
   }
+  const authority = path.join(workspace, 'generated/en/manifests/shared-pages/guides/_publication.json')
+  if (site === 'en' && fs.existsSync(authority) && JSON.parse(fs.readFileSync(authority)).cache_eligible !== true) throw new Error('Partial shared publication cannot save a cache generation')
   const { sourceDir, sourceManifestPath, mediaManifestPath } = liveCachePaths(workspace, site)
   validateSourceCache({ site, sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
   validateMediaCache({ site, sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })

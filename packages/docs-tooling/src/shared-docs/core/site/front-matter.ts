@@ -45,5 +45,30 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
     ...(input.navigation?.sidebar_position === undefined ? [] : [`sidebar_position: ${input.navigation.sidebar_position}`]),
     'displayed_sidebar: default', '', '---', '',
   ]
-  return { lines: text.map(text => ({ text, source: null })), bodyStart }
+  const finalized = input.customEditUrl === undefined ? text : finalizeFetchFrontMatter(text.join('\n'), input).split('\n')
+  return { lines: finalized.map(text => ({ text, source: null })), bodyStart }
+}
+
+/** Canonical Fetch metadata finalizer, also used to verify offline table emission. */
+export function finalizeFetchFrontMatter(markdown: string, input: Pick<AdaptPageInput, 'pageId' | 'customEditUrl' | 'navigation' | 'releaseChannel'>): string {
+  const lines = markdown.split('\n'), end = lines.indexOf('---', 1)
+  if (lines[0] !== '---' || end < 0) throw new Error('Shared output requires front matter')
+  const owned = new Set(['token', 'sidebar_label', 'sidebar_position', 'custom_edit_url', 'channel', 'sidebar_custom_props'])
+  const front: string[] = []
+  let dropping = false
+  for (const line of lines.slice(1, end)) {
+    const key = /^([a-z_]+):/.exec(line)?.[1]
+    if (key) dropping = owned.has(key)
+    else if (line && !/^\s/.test(line)) dropping = false
+    if (!dropping) front.push(line)
+  }
+  while (front.at(-1) === '') front.pop()
+  const quote = (value: string) => JSON.stringify(value.replace(/\r?\n/g, '|'))
+  const fields = [`token: shared-${input.pageId}`,
+    ...(input.navigation?.sidebar_label === undefined ? [] : [`sidebar_label: ${quote(input.navigation.sidebar_label)}`]),
+    ...(input.navigation?.sidebar_position === undefined ? [] : [`sidebar_position: ${input.navigation.sidebar_position}`]),
+    ...(input.customEditUrl === undefined ? [] : [`custom_edit_url: ${quote(input.customEditUrl)}`]),
+    ...(!input.releaseChannel || input.releaseChannel === 'current' ? [] : [`channel: ${input.releaseChannel}`, 'sidebar_custom_props:', `  channel: ${input.releaseChannel}`]),
+  ]
+  return ['---', ...front, ...fields, '', ...lines.slice(end)].join('\n')
 }

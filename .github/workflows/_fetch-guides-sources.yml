@@ -7,6 +7,7 @@ on:
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
       media_upload_mode: { required: false, type: string, default: write }
+      shared_image_timeout: { required: false, type: number, default: 120 }
       force_full_fetch: { required: false, type: boolean, default: false }
       artifact_retention_days: { required: false, type: number, default: 3 }
     outputs:
@@ -40,6 +41,8 @@ jobs:
     timeout-minutes: 180
     env:
       ZDOC_SITE: ${{ inputs.site }}
+      DOCS_TOOLING_SHARED_MASTER_SHA: ${{ inputs.master_sha }}
+      DOCS_TOOLING_SHARED_DEV_SHA: ${{ inputs.dev_baseline_sha }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: guides-sources-${{ inputs.site }}-${{ github.run_id }}
@@ -75,6 +78,19 @@ jobs:
           OSS_REGION: ${{ vars.OSS_REGION }}
           OSS_BUCKET: ${{ vars.OSS_BUCKET }}
           OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
+      - name: Prepare immutable baseline
+        run: |
+          printf 'DOCS_TOOLING_SHARED_BASELINE=%s/baseline\nDOCS_TOOLING_SHARED_PREPARATION=%s/guides-shared-preparation.json\n' "$RUNNER_TEMP" "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
+          git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
+          bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+          if [[ "${{ inputs.site }}" == en ]]; then
+            rm -rf generated/en/manifests/shared-pages/guides
+            if [[ -d "$RUNNER_TEMP/baseline/generated/en/manifests/shared-pages/guides" ]]; then
+              mkdir -p generated/en/manifests/shared-pages
+              cp -a "$RUNNER_TEMP/baseline/generated/en/manifests/shared-pages/guides" generated/en/manifests/shared-pages/
+            fi
+          fi
       - name: Preflight Guides Base before source fetch
         run: node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs --manual guides --guidesBasePreflight --buildEnv uat
         env:
@@ -82,11 +98,22 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           SPACE_ID: ${{ secrets.SPACE_ID }}
-      - name: Prepare immutable baseline
+      - id: shared_selection
+        name: Resolve selected shared Guides tracking branch
+        if: ${{ inputs.site == 'en' }}
         run: |
-          git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
-          git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
-          bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+          tracking=$(node scripts/docs-workflow/guides-shared-sources.js --operation tracking --workspace "$GITHUB_WORKSPACE" --preparation "$DOCS_TOOLING_SHARED_PREPARATION")
+          printf 'tracking=%s\n' "$tracking" >> "$GITHUB_OUTPUT"
+      - name: Prepare selected shared Guides upstream
+        if: ${{ inputs.site == 'en' && steps.shared_selection.outputs.tracking != '' }}
+        run: |
+          node scripts/docs-workflow/guides-shared-sources.js --operation prepare-upstream \
+            --preparation "$DOCS_TOOLING_SHARED_PREPARATION" \
+            --upstream https://github.com/milvus-io/milvus-docs.git --track "$SHARED_TRACKING_BRANCH" \
+            --repo "$GITHUB_WORKSPACE/tmp/shared-milvus-docs" \
+            --upstream-status "$RUNNER_TEMP/guides-shared-upstream.json"
+        env:
+          SHARED_TRACKING_BRANCH: ${{ steps.shared_selection.outputs.tracking }}
       - id: source_cache_keys
         name: Compute Guides cache generation keys
         run: |
@@ -238,6 +265,26 @@ jobs:
           MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_ID: ${{ vars.MODEL_ID }}
+      - name: Generate selected shared Guides sources
+        if: ${{ inputs.site == 'en' }}
+        run: |
+          node scripts/docs-workflow/guides-shared-sources.js \
+            --preparation "$DOCS_TOOLING_SHARED_PREPARATION" \
+            --workspace "$GITHUB_WORKSPACE" --baseline "$RUNNER_TEMP/baseline" \
+            --repo "$GITHUB_WORKSPACE/tmp/shared-milvus-docs" \
+            --upstream-status "$RUNNER_TEMP/guides-shared-upstream.json" \
+            --source-dir "$source_dir" --root-token "$root_token" \
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+            --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --out tmp/docs-tooling/en/shared-pages/guides \
+            --scratch "$RUNNER_TEMP/guides-shared-images" --run-id "${{ github.run_id }}" \
+            --image-timeout "${{ inputs.shared_image_timeout }}"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          SPACE_ID: ${{ secrets.SPACE_ID }}
+          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
       - name: Audit canonical links in fetched Guides sources
         run: |
           node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs \
@@ -307,6 +354,18 @@ jobs:
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           GUIDES_FIGMA_MAX_CONCURRENT: '1'
           GUIDES_FIGMA_MIN_TIME_MS: '1000'
+      - name: Upload accepted shared Guides images
+        if: ${{ inputs.site == 'en' }}
+        run: |
+          node scripts/docs-workflow/guides-shared-images.js \
+            --bundle tmp/docs-tooling/en/shared-pages/guides \
+            --scratch "$RUNNER_TEMP/guides-shared-images" --mode "${{ inputs.media_upload_mode }}"
+        env:
+          AWS_BUCKET: ${{ vars.AWS_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
       - id: source_cache_result
         name: Finalize Guides cache generation state
         run: |
@@ -414,7 +473,10 @@ jobs:
           if-no-files-found: ignore
       - name: Create shared source artifact
         run: |
-          node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
+          # Shared drafts are authenticated by the source artifact, never by final cache completeness.
+          if [[ ! -d tmp/docs-tooling/en/shared-pages/guides ]]; then
+            node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
+          fi
           node scripts/docs-workflow/guides-stage-artifact.js --operation create --site "$ZDOC_SITE" --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload

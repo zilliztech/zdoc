@@ -51,6 +51,7 @@ function cleanupRemovedIncrementalRecords({
   cwd = process.cwd(),
   determineFilePath = null,
   preservePlacementAncestry = false,
+  currentRecords = [],
 }) {
   const root = path.resolve(cwd);
   const sourceRoot = path.resolve(docSourceDir);
@@ -59,6 +60,10 @@ function cleanupRemovedIncrementalRecords({
     throw new Error('Incremental reconciliation directories must stay inside the workspace');
   }
 
+  const currentIds = new Set(require('./canonicalLinkAuditor').canonicalRecordsFrom(currentRecords).map(record => record.record_id));
+  for (const record of plan?.removed_records || []) {
+    if (currentIds.has(record.record_id)) throw new Error(`Refusing cleanup of still canonical record ${record.record_id}: source transition is not removal`);
+  }
   const removedSources = [];
   const removedOutputs = [];
   const placementAncestryTokens = preservePlacementAncestry ? drivePlacementAncestryTokens(sourceRoot) : new Set();

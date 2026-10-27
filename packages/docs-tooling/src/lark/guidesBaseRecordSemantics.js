@@ -28,15 +28,7 @@ function docsLink(record) {
 }
 
 function isFeishuDocumentLink(link) {
-  if (!link) return false
-  try {
-    const url = new URL(link)
-    const host = url.hostname.toLowerCase()
-    if (!host.endsWith('feishu.cn') && !host.endsWith('larksuite.com')) return false
-    return /^\/(?:wiki|doc|docs|docx)\//.test(url.pathname)
-  } catch (_) {
-    return false
-  }
+  return require('./sharedPageRouting').classifySourceRoute(link).kind === 'feishu'
 }
 
 function guidesPlacementType(record, { guidesMode = false } = {}) {

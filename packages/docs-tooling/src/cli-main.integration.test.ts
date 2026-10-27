@@ -142,6 +142,47 @@ function revisionBuildArgs(group: string, extra: string[] = []): string[] {
   ];
 }
 
+it('requires matching shared receipts and accounts for Feishu ownership release without a page retirement', () => {
+  const root = temporaryRoot();
+  try {
+    const sha = 'a'.repeat(64), commit = 'b'.repeat(40);
+    const receiptPath = 'generated/en/manifests/shared-pages/guides/example.json';
+    const outputPath = 'content/en/guides/tutorials/example.md';
+    const shared = {record_id: 'rec', slug: 'example', placement_type: 'canonical', source_kind: 'shared-page', doc_token: null,
+      doc_link: 'https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/example',
+      shared_page: {group: 'guides', page: 'example', inputs_sha256: sha, record: receiptPath},
+      source_file: null, source_hash: null, node_metadata: null, outgoing_tokens: [], output_paths: [outputPath]};
+    writeJson(root, 'snapshot.json', {records: [shared]});
+    writeJson(root, 'generated/en/manifests/lark-revisions/guides.json', revisionInventory('guides', [{
+      canonicalToken: 'old', title: 'Example', contentPath: outputPath, objectToken: 'obj', parentToken: null, revisionId: '1', objectEditTime: null,
+    }]));
+    const args = revisionBuildArgs('guides', ['--snapshot', 'snapshot.json']);
+    const missing = runCli(root, args);
+    expect(missing.status).not.toBe(0);
+    expect(missing.stderr).toMatch(/shared receipt/i);
+    const bytes = '---\ntoken: shared-example\n---\nShared\n';
+    mkdirSync(path.dirname(path.join(root, outputPath)), {recursive: true});
+    writeFileSync(path.join(root, outputPath), bytes);
+    const navigation = {navigationRecords: [{record_id: 'rec', table_id: 'table', slug: 'example', doc_link: shared.doc_link, source_kind: 'shared-page', shared_page: {group: 'guides', page: 'example'}}], tableDigests: {}};
+    const receipt = {schema_version: 1, page: 'example', token: 'shared-example', inputs: {
+      milvus_docs: {repository: 'milvus-io/milvus-docs', current: commit, next: commit, files: []},
+      zdoc: {repository: 'zilliztech/zdoc', commit, files: []}, dev: {commit, files: []},
+      fetch: {navigation, image_base_url: 'https://images.example.com'}, tools: {zdoc: commit, md2md: '1.3.0'}, images: [],
+    }, outputs: [{manual: 'guides', path: outputPath, sha256: createHash('sha256').update(bytes).digest('hex')}], channel: null, notes: []};
+    shared.shared_page.inputs_sha256 = createHash('sha256').update(JSON.stringify({...receipt.inputs, fetch: {...receipt.inputs.fetch, navigation: createHash('sha256').update(JSON.stringify(navigation)).digest('hex')}})).digest('hex');
+    writeJson(root, 'snapshot.json', {records: [shared]});
+    writeJson(root, receiptPath, receipt);
+    const result = runCli(root, args);
+    expect(result.status, result.stderr).toBe(0);
+    const report = JSON.parse(readFileSync(path.join(root, 'tmp/revision-reports/guides.json'), 'utf8'));
+    expect(report.changes).toMatchObject([{type: 'no_longer_feishu_owned', canonicalToken: 'old'}]);
+    expect(report.authoritativeReplacements).toEqual([]);
+    expect(report.sharedSources).toMatchObject([{recordId: 'rec', page: 'example', receiptPath}]);
+    writeJson(root, 'snapshot.json', {records: [{...shared, output_paths: ['content/en/guides/tutorials/wrong.md']}]});
+    expect(runCli(root, args).status).not.toBe(0);
+  } finally { rmSync(root, {recursive: true, force: true}); }
+});
+
 function prepareChineseStage(repositoryRoot: string): void {
   const stage = 'tmp/docs-tooling/zh-CN/python';
   const resolved = resolveManualPublication('python', 'zh-CN');

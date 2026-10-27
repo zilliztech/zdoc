@@ -177,3 +177,16 @@ test('verifies staged paths remain within declared manifest scope', async () => 
     /outside checkpoint manifest scope: content\/en\/guides\/unrelated\.md/i,
   );
 });
+
+test('Guides staging includes shared receipts and active state together with output', async () => {
+  const files = {'content/en/guides/shared.md': '# Shared\n',
+    'generated/en/manifests/shared-pages/guides/active.json': '{}\n',
+    'generated/en/manifests/shared-pages/guides/shared.json': '{}\n'};
+  const fixture = await repoFixture({artifactFiles: files});
+  for (const [relative, bytes] of Object.entries(files)) {
+    await mkdir(path.dirname(path.join(fixture.worktree, relative)), {recursive: true});
+    await writeFile(path.join(fixture.worktree, relative), bytes);
+  }
+  const result = await selectCheckpointStagePaths({artifactDir: fixture.artifact, worktree: fixture.worktree});
+  assert.deepEqual(withoutPreserved(result.stageable), Object.keys(files).sort());
+});

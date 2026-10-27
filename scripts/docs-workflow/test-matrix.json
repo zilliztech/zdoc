@@ -1237,6 +1237,118 @@
       "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
     },
     {
+      "id": "shared-handoff-routing",
+      "paths": [
+        "packages/docs-tooling/src/lark/sharedPageRouting*",
+        "packages/docs-tooling/src/lark/larkSourceIndex*",
+        "packages/docs-tooling/src/lark/sourceCompleteness*",
+        "packages/docs-tooling/src/lark/incrementalReconciliation*",
+        "packages/docs-tooling/src/lark/revisionInventory*"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/lark/sharedPageRouting.test.js packages/docs-tooling/src/lark/larkSourceIndex.test.js packages/docs-tooling/src/lark/sourceCompleteness.test.js packages/docs-tooling/src/lark/incrementalReconciliation.test.js",
+        "pnpm vitest run packages/docs-tooling/src/lark/revisionInventory.test.ts packages/docs-tooling/src/cli-main.integration.test.ts"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Shared source routing keeps canonical Base record identity independent of Feishu tokens, validates pinned Git/active/receipt authority, protects transitions from removal, and keeps revision inventories Feishu-only."
+    },
+    {
+      "id": "shared-fetch-source-generation",
+      "paths": [
+        "packages/docs-tooling/src/lark/sharedPageFetch*",
+        "scripts/docs-workflow/guides-shared-sources*",
+        "packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/guides-shared-sources.test.js",
+        "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:shared-docs",
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Fetch selected shared generation must preserve the legacy no-selected payload, immutable input evidence, paired manual fallback, current Base writer paths, current-run first-activation anchors and scratch-only accepted image bytes."
+    },
+    {
+      "id": "shared-fetch-offline-handoff",
+      "paths": [
+        "packages/docs-tooling/src/lark/sharedImageUploader*",
+        "packages/docs-tooling/src/lark/sharedPageBundle*",
+        "packages/docs-tooling/src/shared-docs/adapters/image-store.ts",
+        "scripts/docs-workflow/guides-shared-images*"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/lark/sharedImageUploader.test.js scripts/docs-workflow/guides-shared-sources.test.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Immutable source-job image uploads must send conditional HTTP creates and read back exact bytes; bounded authenticated bundles preserve both outcomes, complete raw routing evidence and exact baseline fallbacks within existing table ownership before offline artifact creation."
+    },
+    {
+      "id": "shared-fetch-publication",
+      "paths": [
+        "packages/docs-tooling/src/lark/sharedPagePublication*",
+        "scripts/docs-workflow/guides-shared-publication*",
+        "scripts/collect-build-card-notes*"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/guides-shared-sources.test.js scripts/collect-build-card-notes.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch",
+        "pnpm test:replay:shared-pages"
+      ],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Shared publication validates final bytes and permanent navigation, preserves authenticated fallback navigation and append-only activation, and prevents partial runs from becoming successful cache generations."
+    },
+    {
+      "id": "shared-pages-replay",
+      "paths": [
+        "scripts/docs-workflow/replay-shared-pages*",
+        "packages/docs-tooling/src/shared-docs/testing/handoff/replay.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm test:replay:shared-pages"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:shared-docs",
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Shared Fetch source generation, authenticated source and complete-table artifacts, fresh assembly and local bare checkpoint publication are one replay. Separate local acceptance modes compare exact historical or explicit onboarded-baseline bytes and build/browse an ungated pilot in the assembled English/Japanese site; CI needs no historical Git objects or browser."
+    },
+    {
       "id": "cloud-data-components-and-md-route",
       "paths": [
         "packages/docs-ui/src/shared/cloud-data/**",

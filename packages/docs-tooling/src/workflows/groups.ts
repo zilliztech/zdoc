@@ -79,6 +79,7 @@ const MANUALS = Object.freeze({
 const ZH_CN_GUIDES_PUBLICATION_MANIFEST = 'generated/zh-CN/manifests/guides-source-publication.json';
 
 const GUIDES_CHECKPOINT_PATHS = Object.freeze([
+  'generated/en/manifests/shared-pages/guides',
   'packages/docs-tooling/src/lark/meta/assembly/guides.json',
   'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
   'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',

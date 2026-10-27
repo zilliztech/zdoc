@@ -31,13 +31,28 @@ function validateGuidesRenderReadiness(options) {
   if (JSON.stringify(actualIdentity) !== JSON.stringify(expectedIdentity)) {
     throw new Error(`Guides renderer source identity mismatch for ${site}: expected ${JSON.stringify(expectedIdentity)}, received ${JSON.stringify(actualIdentity)}`)
   }
-  const snapshot = options.snapshot || JSON.parse(fs.readFileSync(options.snapshotPath, 'utf8'))
+  let snapshot = options.snapshot || JSON.parse(fs.readFileSync(options.snapshotPath, 'utf8'))
+  const sharedBundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const bundlePath = path.join(workspace, sharedBundle.ROOT)
+  let sharedReceiptsByRecordId
+  if (site === 'en' && fs.existsSync(bundlePath)) {
+    const handoff = sharedBundle.loadBundle(bundlePath)
+    if (handoff.continuation) {
+      // Requested sources retain final receipts, authenticated against the pinned Git baseline.
+      sharedReceiptsByRecordId = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+        .authenticateContinuation(workspace, handoff, snapshot).receipts
+    } else {
+      // Ordinary source jobs have validated drafts, not final publication receipts.
+      snapshot = require('../../packages/docs-tooling/src/lark/sharedPageFetch').pendingSourceSnapshot(snapshot, handoff.routing)
+    }
+  }
   return assertSourceCompleteness({
     manual: 'guides',
     buildEnv: 'uat',
     rootToken: expectedIdentity.root,
     sourceDir: path.join(workspace, expectedIdentity.sourceDir),
     snapshot,
+    sharedReceiptsByRecordId,
   })
 }
 

@@ -8,6 +8,8 @@ const {
 const {createGuidesNavigationState} = require('./sourceSnapshot')
 const {validateGuidesTableNames} = require('./guidesTableSlugs')
 
+const {createRoutingContext} = require('./sharedPageRouting')
+
 const TARGETS = new Set(['zilliz.paas', 'zilliz.saas'])
 
 function plain(value) {
@@ -48,7 +50,8 @@ function normalizeTarget(target) {
   return value
 }
 
-function validateGuidesBasePreflight({site, tables, records}) {
+function validateGuidesBasePreflight({site, tables, records, routingContext = null}) {
+  routingContext ||= createRoutingContext({records})
   const mappedTables = validateGuidesTableNames(site, tables)
   const tableIds = new Set()
   const tableSlugs = new Map()
@@ -81,13 +84,25 @@ function validateGuidesBasePreflight({site, tables, records}) {
     }
   }
 
-  const navigation = createGuidesNavigationState(records).navigationRecords
+  const navigation = createGuidesNavigationState(records, {routingContext}).navigationRecords
   const recordIds = new Set(navigation.map(record => record.record_id))
   const canonicalByToken = new Map()
+  const sharedOwners = new Map()
+  for (const record of navigation.filter(entry => entry.placement_type === 'canonical' && entry.source_kind === 'shared-page')) {
+    const key = `${record.shared_page.group}/${record.shared_page.page}`
+    if (sharedOwners.has(key)) throw new Error(`Guides Base preflight: multiple canonical records own shared page ${key}`)
+    sharedOwners.set(key, record.record_id)
+  }
   for (const record of navigation) {
     if (record.placement_type !== 'canonical' || !record.doc_token) continue
     if (!canonicalByToken.has(record.doc_token)) canonicalByToken.set(record.doc_token, [])
     canonicalByToken.get(record.doc_token).push(record)
+  }
+  for (const [token, recordId] of routingContext.aliasesByToken) {
+    const record = navigation.find(entry => entry.record_id === recordId && entry.placement_type === 'canonical')
+    if (!record) continue
+    if (!canonicalByToken.has(token)) canonicalByToken.set(token, [])
+    canonicalByToken.get(token).push(record)
   }
   for (const [token, owners] of canonicalByToken) {
     if (owners.length <= 1) continue
@@ -144,10 +159,12 @@ function validateGuidesBasePreflight({site, tables, records}) {
     }
     if (!guidesCanonicalIsPublishable(record)) continue
     if (!record.slug) throw new Error(`Publishable Guides record ${record.record_id} is missing Slug`)
-    if (!record.doc_token || !record.doc_link) throw new Error(`Publishable Guides record ${record.record_id} is missing a Feishu document link`)
+    // Invalid ownership is reported per page; structural Base errors still fail preflight.
+    if (record.routing_error) continue
+    if (record.source_kind !== 'shared-page' && (!record.doc_token || !record.doc_link)) throw new Error(`Publishable Guides record ${record.record_id} is missing a Feishu document link`)
   }
 
-  return {tables: mappedTables.length, records: navigation.length}
+  return {tables: mappedTables.length, records: navigation.length, ...(routingContext.errors.length ? {routing_errors: routingContext.errors} : {})}
 }
 
 module.exports = {validateGuidesBasePreflight}

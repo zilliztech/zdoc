@@ -94,6 +94,8 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 | Docusaurus config, build capability plugins, and site profiles (`apps/docs/**`, `packages/site-config/**`) | `pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts` and `pnpm test:profiles`; update both `en` and `zh-CN` plugin registration fixtures | — | — |
 | Broken-link and canonical-link report writers (`packages/docs-tooling/src/links/**`) | `pnpm vitest run packages/docs-tooling/src/links` | — | `pnpm test:workflow-policy` |
 | Product UI doc links watchdog (`packages/docs-tooling/src/links/productDocLinks*`, `packages/docs-tooling/src/links/checkProductDocLinks*`, `scripts/product-doc-links-watchdog-workflow.test.js`, `.github/workflows/product-doc-links-watchdog.yml`) | `pnpm vitest run packages/docs-tooling/src/links/productDocLinks.test.ts packages/docs-tooling/src/links/checkProductDocLinks.test.ts` and `node --test scripts/product-doc-links-watchdog-workflow.test.js`; cover transpile-based Link.ts extraction across deployment shapes, unknown docs-host flagging, manual redirect walking, health classification, report schema validation, and the workflow wiring | — | `pnpm test:workflow-policy` + `git diff --check` |
+| Shared Fetch source generation (`lark/sharedPageFetch*`, `docs-workflow/guides-shared-sources*`, shared-docs Fetch build tests) | `node --test scripts/docs-workflow/guides-shared-sources.test.js` + `pnpm vitest run packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts`; cover selected-only pinned reads, both-manual fallback, current Base writer paths/metadata, new records, retained extensions, current inbound heading checks and no-selected legacy behavior. | `pnpm test:replay:fetch` | `pnpm test:shared-docs` + `pnpm typecheck` + `pnpm test:workflow-policy` + `pnpm test:workflow-matrix` + `git diff --check` |
+| Shared handoff routing and source readers (`lark/sharedPageRouting*`, `lark/larkSourceIndex*`, `lark/sourceCompleteness*`, `lark/incrementalReconciliation*`, `lark/revisionInventory*`) | `node --test packages/docs-tooling/src/lark/sharedPageRouting.test.js packages/docs-tooling/src/lark/larkSourceIndex.test.js packages/docs-tooling/src/lark/sourceCompleteness.test.js packages/docs-tooling/src/lark/incrementalReconciliation.test.js` + `pnpm vitest run packages/docs-tooling/src/lark/revisionInventory.test.ts packages/docs-tooling/src/cli-main.integration.test.ts`; cover exact pinned-master routes, active reversion, stable canonical IDs, tokenless variants, receipt-aware Feishu accounting and transition-safe cleanup. Shared core/adapters also run the shared-docs suite below. | `pnpm test:replay:fetch` | `pnpm typecheck` + `pnpm test:workflow-policy` + `pnpm test:workflow-matrix` + `git diff --check` |
 | Shared docs implementation and root onboarding inputs (`packages/docs-tooling/src/shared-docs/**`, `shared-docs/**`) | `pnpm test:shared-docs`; cover the source/variables/link/product/Tabs configuration and page/lock inputs, including new onboarding files before the root tree exists | — | `pnpm typecheck` + `pnpm test:workflow-matrix` + `git diff --check` |
 | Shared docs PR lock/validation (`shared-docs-lock.yml`, `shared-docs-validate.yml`, shared-docs `testing/workflows.test.ts`, workflow policy/runtime inventory) | `pnpm vitest run packages/docs-tooling/src/shared-docs/testing/workflows.test.ts`; execute actual shell blocks against local Git and stub GitHub: NUL-safe changed/deleted/renamed inputs, merge-base failures, complete single-branch clones, lock-only fast-forward push, SHA drift, fork notice, request-ID-bound dispatch discovery/watch, and failure classification | — | `pnpm test:workflow-policy` + `pnpm test:workflow-matrix` + scoped `actionlint` + `git diff --check` |
 | GitHub Actions workflow YAML | The closest workflow-specific test and deploy contract; add a negative structural assertion | The matching Fetch, recovery, or Translation harness when behavior changes | `pnpm test:workflow-policy` and scoped `actionlint` |
@@ -130,3 +132,33 @@ For a new behavior, put the narrow assertion at level 1, the cross-module scenar
 - **Executable prose is tested.** Package commands, CI routing, required headings, matrix paths, and examples are checked by contract tests. This applies the same principle as Rust documentation tests, where examples compile during normal tests to keep docs and code synchronized; see [Rust documentation testing](https://doc.rust-lang.org/rust-by-example/testing/doc_testing.html).
 - **Keep one stable aggregate PR check.** Fine-grained harnesses may be selected internally, but the required check should remain the stable `Site validation gate`. GitHub documents that a workflow skipped by path filtering can leave an associated required check Pending, so do not make each path-filtered harness an independent required check; see [Triggering a workflow](https://docs.github.com/actions/using-workflows/triggering-a-workflow).
 - **Protect high-risk ownership files explicitly when maintainers are known.** GitHub recommends CODEOWNERS for workflow files and for CODEOWNERS itself. Add this only with verified repository teams; do not invent an owner identity. See GitHub's [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use) and [About code owners](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+
+### Shared Fetch offline handoff
+
+`shared-fetch-offline-handoff` covers `lark/sharedImageUploader*`, `lark/sharedPageBundle*`, `shared-docs/adapters/image-store.ts`, and `scripts/docs-workflow/guides-shared-images*`. Run `node --test packages/docs-tooling/src/lark/sharedImageUploader.test.js scripts/docs-workflow/guides-shared-sources.test.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js`, then `pnpm test:replay:fetch`, typecheck, workflow policy/matrix, and diff checks. Tests exercise conditional HTTP upload headers, readback/deduplication, full source evidence authentication, physical extensions, frozen navigation hashes and exact fallback placement before complete-table artifact creation. Image bodies remain source-job scratch data. Existing table-by-target ownership is unchanged.
+
+### Shared Fetch publication
+
+`shared-fetch-publication` maps `lark/sharedPagePublication*`, `scripts/docs-workflow/guides-shared-publication*`, and `scripts/collect-build-card-notes*` to the shared source and build-card-note focused tests, Fetch and shared-pages replay, typecheck, workflow policy/matrix, and diff checks. The shared-pages replay exercises unrelated requested continuation through the actual CLI, authenticated artifacts and checkpoint publication, and retained fallback channels/order. Final receipts retain navigation content; effective fallback paths and append-only activation publish atomically with Guides output. Partial runs suppress cache generation.
+
+### Shared-page publication replay
+
+`shared-pages-replay` covers `scripts/docs-workflow/replay-shared-pages*` and
+`shared-docs/testing/handoff/replay.test.ts`. Run `pnpm test:replay:shared-pages`,
+`pnpm test:shared-docs`, `pnpm test:replay:all`, typecheck, workflow policy/matrix,
+and diff checks. The fast suite is part of the existing PR `test:replay` gate.
+It uses production source generation, authenticated artifacts, complete-table
+replacement, final receipt promotion and the real checkpoint transaction on a
+local bare remote. Current-code ordinary Feishu output must match with valid
+and malformed inactive configuration, including legacy anchored Base refs.
+
+Before acceptance, run the README's `replay-shared-pages.js --legacy-baseline
+--site` evidence command. The exact historical comparison is intentionally not
+part of shallow-checkout CI; it must fail if the pinned pre-WP9 commit is
+missing. The explicit `--comparison-baseline-sha` mode additionally consumes an onboarded
+configuration tree from the pinned local baseline and records its file hashes.
+The site mode builds English and Japanese with an ungated CURRENT pilot heading
+initially below the viewport and exercises real browser
+interactions. Neither mode replaces retained production artifact replay.
+Fetch coverage and deferred WP14/WP9b requirements are accounted separately in
+README; do not remove a pending marker for a partially covered requirement.

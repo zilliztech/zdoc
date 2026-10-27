@@ -28,6 +28,18 @@ const ALLOWLIST = [
   'packages/docs-tooling/src/lark/index.js',
   'packages/docs-tooling/src/lark/larkDocWriter.js',
   'packages/docs-tooling/src/lark/larkSourceIndex.js',
+  'packages/docs-tooling/src/lark/sharedPagePublication.js',
+  'packages/docs-tooling/src/lark/sharedPageFetch.js',
+  'packages/docs-tooling/src/lark/sharedPageBundle.js',
+  'packages/docs-tooling/src/shared-docs/core/handoff/source-state.ts',
+  'packages/docs-tooling/src/shared-docs/core/site/front-matter.ts',
+  'packages/docs-tooling/src/shared-docs/adapters/build-page.ts',
+  'packages/docs-tooling/src/shared-docs/adapters/mdx.ts',
+  'packages/docs-tooling/src/shared-docs/commands/build.ts',
+  'scripts/docs-workflow/guides-shared-sources.js',
+  'scripts/docs-workflow/guides-shared-publication.js',
+  'scripts/docs-workflow/guides-render-readiness.js',
+  'scripts/docs-workflow/guides-source-cache.js',
   'packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js',
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
@@ -220,6 +232,12 @@ test('generator fingerprint changes with masterSha and approved file bytes', () 
   try {
     const initial = generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_A })
     assert.notEqual(generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_B }), initial)
+    for (const helper of ['scripts/docs-workflow/guides-render-readiness.js', 'scripts/docs-workflow/guides-source-cache.js']) {
+      const file = path.join(f.root, helper), bytes = fs.readFileSync(file)
+      fs.appendFileSync(file, 'changed continuation validation')
+      assert.notEqual(generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_A }), initial)
+      fs.writeFileSync(file, bytes)
+    }
     fs.appendFileSync(path.join(f.root, ALLOWLIST[0]), 'changed')
     assert.notEqual(generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_A }), initial)
     fs.symlinkSync(path.join(f.root, ALLOWLIST[1]), path.join(f.root, 'linked.js'))

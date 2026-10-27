@@ -1,6 +1,6 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
-import { parsePageConfig } from '../core/config'
+import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, headingText, rewriteLinksAndImages } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
 import { adaptPage } from '../core/site'
@@ -31,7 +31,14 @@ export interface SharedDocsInputs {
   tabsRules: TabsRules
   context: PageConfigContext
 }
-export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[] }
+export interface FetchBuildTarget {
+  manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'
+  navigation: { sidebar_label?: string; sidebar_position?: number }
+  channel: 'current' | 'next' | 'retire-in-next'
+}
+export interface FetchBuildContext { page: string; targets: readonly FetchBuildTarget[]; records: Awaited<ReturnType<GuidesBase['getRecords']>> }
+export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[]
+  extension?: '.md' | '.mdx'; imageContents?: { original: string; bytes: Uint8Array; sha256: string }[] }
 export interface BuildFailure { message: string; page: string; manual: string; current: string; next: string }
 export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[]; failures: BuildFailure[] }
 export interface BuildReader extends InspectionReader, LinkInputReader { dispose(): Promise<void> }
@@ -130,17 +137,19 @@ export interface BuildRuntime {
   prepare(content: string, source: string, commit: string, context: DiagnosticContext): Promise<PreparedLinkInputs>
   sharedPages(commit: string): Promise<ReadonlyMap<string, string>>
   manual(manual: string): Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>
+  fetchContext?: FetchBuildContext
   records(): ReturnType<GuidesBase['getRecords']>
 }
 /** A command owns one runtime; every selected page shares these caches. */
 export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader: BuildReader; fetcher: ImageFetcher;
-  zdoc: ReadonlyMap<string, ZdocContentReader>; guides: GuidesBase }): BuildRuntime {
+  zdoc: ReadonlyMap<string, ZdocContentReader>; guides: GuidesBase; fetchContext?: FetchBuildContext }): BuildRuntime {
   const preparations = new Map<string, Promise<PreparedLinkInputs>>()
   const registries = new Map<string, Promise<ReadonlyMap<string, string>>>()
   const manuals = new Map<string, Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>>()
   const replay = createPairedImageFetcher(input.fetcher)
   let records: ReturnType<GuidesBase['getRecords']> | undefined
   return {
+    fetchContext: input.fetchContext,
     async prepare(content, source, commit, context) {
       const key = JSON.stringify([commit, source, content])
       if (!preparations.has(key)) preparations.set(key, prepareLinkInputs(content, source, commit, input.reader, replay()))
@@ -214,8 +223,12 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const failures: BuildFailure[] = []
   if (config.transforms?.length) errors.push({ ...context, code: 'CONFIG_FIELD_UNKNOWN',
     line: yamlLine(page.pageYaml, ['transforms', '$key']), message: 'Nonempty transforms require WP10; WP8a cannot apply them.' })
-  const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[] }>()
+  const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
   const records = await runtime.records()
+  if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || config.publish.length !== 2
+    || new Set(config.publish.map(target => target.manual)).size !== 2)) {
+    return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch requires exactly Guides and BYOC for the selected page' }], failures }
+  }
   for (const [index, target] of config.publish.entries()) {
     if (target.manual !== 'guides' && target.manual !== 'guides-byoc') {
       errors.push({ ...context, code: 'CONFIG_MANUAL_UNKNOWN', line: yamlLine(page.pageYaml, ['publish', index, 'manual']),
@@ -231,6 +244,14 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       continue
     }
     const { reader: dev, pages } = manual
+    if (runtime.fetchContext) {
+      const expected = runtime.fetchContext.targets.find(candidate => candidate.manual === target.manual)
+      if (!expected || expected.path !== target.path) {
+        errors.push({ ...context, code: 'OWNERSHIP_PATH_MISMATCH', line: yamlLine(page.pageYaml, ['publish', index, 'path']),
+          message: `Current Base path does not match ${target.manual}/${target.path}` })
+      } else targets.set(index, { pages, navigation: expected.navigation, fetch: expected })
+      continue
+    }
     const existing = pages.find(candidate => candidate.slug === pageId && candidate.path.replace(/\.mdx?$/, '') === target.path)
     if (!existing || !records.some(record => record.slug === existing.slug)) {
       errors.push({ ...context, code: 'CONFIG_PATH_UNKNOWN', line: yamlLine(page.pageYaml, ['publish', index, 'path']),
@@ -243,6 +264,11 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       ...(typeof front.sidebar_position === 'number' ? { sidebar_position: front.sidebar_position } : {}),
     } })
   }
+  // A paired Fetch decision must reject either invalid target before rendering/downloading.
+  if (runtime.fetchContext && errors.length) return { errors, failures }
+  const sourceConfig = parseSourceConfig(shared.sourceYaml, context)
+  const customEditUrl = runtime.fetchContext && !('errors' in sourceConfig)
+    ? `https://github.com/milvus-io/milvus-docs/edit/${encodeURIComponent(sourceConfig.config.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
   const inspected = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
     variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context } }, reader, input.md2md)
   if ('errors' in inspected) return { errors: [...errors, ...inspected.errors], failures }
@@ -266,13 +292,18 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       if ('errors' in rewritten) { errors.push(...rewritten.errors); continue }
       const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual as 'guides' | 'guides-byoc',
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
-        headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, context: location })
+        headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
       if ('errors' in adapted) { errors.push(...adapted.errors); continue }
-      const mdx = await toMdx(adapted, location)
+      const mdx = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
       if ('errors' in mdx) { errors.push(...mdx.errors); continue }
       const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources, rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
       if (checked.errors.length) { errors.push(...checked.errors); continue }
-      output.set(index, { manual: target.manual, path: target.path, mdx: mdx.mdx, images: rewritten.images, notices: rewritten.notices })
+      output.set(index, { manual: target.manual, path: target.path, mdx: mdx.mdx, images: rewritten.images, notices: rewritten.notices,
+        ...(dev.fetch ? { extension: dev.fetch.extension, imageContents: rewritten.images.map(image => {
+          const content = prepared.images.get(image.original)
+          if (!content || content.sha256 !== image.sha256) throw new Error(`Missing accepted image bytes: ${image.original}`)
+          return { original: image.original, sha256: content.sha256, bytes: Uint8Array.from(content.bytes) }
+        }) } : {}) })
     }
   }
   const pages: BuiltPage[] = []

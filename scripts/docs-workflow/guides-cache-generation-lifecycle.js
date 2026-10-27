@@ -129,6 +129,13 @@ function main(argv = process.argv.slice(2)) {
     }))}\n`)
     return
   }
+  const bundleApi = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  if (fs.existsSync(bundleApi.ROOT) && bundleApi.loadBundle(bundleApi.ROOT).bundle.outcomes.some(row => row.status === 'fallback')) {
+    if (args['save-required'] !== 'false' || args['preparation-outcome'] !== 'skipped' || args['save-outcome'] !== 'skipped') throw new Error('Partial shared run attempted cache persistence')
+    fs.mkdirSync(path.dirname(args.output), {recursive: true})
+    fs.writeFileSync(args.output, JSON.stringify({schemaVersion: 1, generated_at: new Date().toISOString(), sourceCacheVersion: args['cache-version'], saveRequired: false, persistence: 'skipped-shared-failure', saveKey: null}) + '\n')
+    return
+  }
   const report = writeGenerationPersistenceReport(args.output, {
     sourceCacheVersion: args['cache-version'],
     saveRequired: args['save-required'],

@@ -311,6 +311,8 @@ function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootst
       '--sidebarTargets', 'zilliz.saas,zilliz.paas',
       '--mediaManifest', mediaManifest,
     ]
+    const bundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+    if (site === 'en' && fsImpl.existsSync(path.join(workspace, bundle.ROOT))) args.push('--sharedBundle', bundle.ROOT)
     const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
     if (result.error) throw new Error(`Guides sidebar generation could not spawn: ${result.error.message}`)
     if (result.signal) throw new Error(`Guides sidebar generation failed with signal ${result.signal}`)

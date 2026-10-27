@@ -557,6 +557,7 @@ function larkDocsPlugin(context, options) {
                 .option('--buildEnv <env>', 'Build environment for snapshot scoping: uat or production', process.env.DOCS_BUILD_ENV || 'local')
                 .option('--forceFullFetch', 'Ignore incremental planning and force a full source fetch')
                 .option('--offline', 'Render only from local source metadata and prefetched media')
+                .option('--sharedBundle <path>', 'Authenticated English shared source bundle for offline emission')
                 .option('--mediaManifest <path>', 'Prefetched media manifest used by --offline')
                 .action(async (opts) => {
                     validateOfflineOptions(opts)
@@ -610,6 +611,35 @@ function larkDocsPlugin(context, options) {
 
                     // Intialize scraper and writer
                     const scraper = new docScraper(root, base, sourceType, docSourceDir)
+                    let requestedSharedBaseline = null
+                    if (manualName === 'guides' && path.basename(docSourceDir) === 'guides' && opts.requestedBaselineSha) {
+                        const publication = require('./sharedPagePublication')
+                        const baseline = readSnapshot(opts.snapshotPath || require('./sharedPageFetch').snapshotPath)
+                        requestedSharedBaseline = publication.requestedBaseline(process.cwd(), opts.requestedBaselineSha, baseline)
+                        if (requestedSharedBaseline) {
+                            await scraper.__base({progressLabel: '[requested-shared] Base scan'})
+                            scraper.routingContext = publication.continuationRouting(scraper.records, baseline, requestedSharedBaseline.evidence.active)
+                        }
+                    }
+                    let sharedHandoff = null
+                    if (opts.sharedBundle) {
+                        if (!opts.offline || !opts.skipSourceDown || manualName !== 'guides' || path.basename(docSourceDir) !== 'guides') throw new Error('Shared bundle requires English offline Guides')
+                        sharedHandoff = require('./sharedPageBundle').loadBundle(opts.sharedBundle, {masterSha: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devBaselineSha: process.env.DOCS_TOOLING_SHARED_DEV_SHA})
+                        if (sharedHandoff.continuation) require('./sharedPagePublication').authenticateContinuation(process.cwd(), sharedHandoff,
+                            readSnapshot(opts.snapshotCandidatePath || 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))
+                        scraper.routingContext = sharedHandoff.routing
+                        scraper.records = structuredClone(sharedHandoff.bundle.preparation.records)
+                    }
+                    // Source-job ownership is bound before metadata/body fetch or cache planning.
+                    if (manualName === 'guides' && path.basename(docSourceDir) === 'guides'
+                        && process.env.DOCS_TOOLING_SHARED_BASELINE && process.env.DOCS_TOOLING_SHARED_MASTER_SHA) {
+                        await require('./sharedPageFetch').initializeSharedScraper(scraper, {
+                            site: 'en', repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
+                            masterCommit: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devCommit: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
+                            output: process.env.DOCS_TOOLING_SHARED_PREPARATION,
+                        })
+                    }
+
                     
                     if (!fs.existsSync(docSourceDir)) {
                         fs.mkdirSync(docSourceDir, { recursive: true })
@@ -639,6 +669,7 @@ function larkDocsPlugin(context, options) {
                             manualName,
                             docSourceDir,
                             records: auditScraper.records,
+                            routingContext: scraper.routingContext,
                             target: opts.pubTarget || null,
                             outputPrefix: prefix,
                             failOnBroken,
@@ -685,6 +716,7 @@ function larkDocsPlugin(context, options) {
                             manualName,
                             docSourceDir,
                             records: scraper.records,
+                            routingContext: scraper.routingContext,
                             previousSnapshot,
                             buildEnv: snapshotEnv,
                             maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
@@ -702,7 +734,7 @@ function larkDocsPlugin(context, options) {
                     const requestedPlanOutputPrefix = () => opts.requestedPlanPrefix ||
                         path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-requested-fetch-plan`)
 
-                    const planFreshRequestedState = async ({ requestedTokens, fetchedTokens }) => {
+                    const planFreshRequestedState = async ({ requestedTokens, fetchedTokens, baselineCompleteness: validatedBaseline }) => {
                         if (!scraper.records) {
                             await scraper.__base({ progressLabel: '[requested-fetch] Base scan' })
                         }
@@ -714,15 +746,16 @@ function larkDocsPlugin(context, options) {
                         }
                         const previousSnapshot = readSnapshot(opts.snapshotPath ||
                             path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`))
-                        const baselineCompleteness = previousSnapshot
+                        const baselineCompleteness = validatedBaseline || (previousSnapshot
                             ? validateSourceCompleteness({
                                 manual: manualName,
                                 buildEnv: snapshotEnv,
                                 rootToken: root,
                                 sourceDir: docSourceDir,
                                 snapshot: previousSnapshot,
+                                sharedReceiptsByRecordId: requestedSharedBaseline?.evidence.receipts,
                             })
-                            : null
+                            : null)
                         if (!previousSnapshot) {
                             throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'Requested planning requires a trusted baseline snapshot; none was found.')
                         }
@@ -739,13 +772,14 @@ function larkDocsPlugin(context, options) {
                         }
                         assertTrustedRequestedBaseline(previousSnapshot)
                         const sourceByToken = sourceFilesByToken(docSourceDir)
-                        const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true })
+                        const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true, routingContext: scraper.routingContext })
                         const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
                         const { linkedTokens } = expandRequestedClosure({
                             requestedTokens,
                             sourceByToken,
                             previousSnapshot,
                             canonicalTokens,
+                            routingContext: scraper.routingContext,
                             refreshedTokens: new Set(fetchedTokens),
                             maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
                             reasonsByToken: {},
@@ -755,6 +789,7 @@ function larkDocsPlugin(context, options) {
                             buildEnv: snapshotEnv,
                             docSourceDir,
                             records: scraper.records,
+                            routingContext: scraper.routingContext,
                             previousSnapshot,
                             currentNodeMetadataByToken,
                             requestedTokens,
@@ -782,6 +817,9 @@ function larkDocsPlugin(context, options) {
                                 expectedBaselineSha: opts.requestedBaselineSha || null,
                             })
 
+                            const baselineCompleteness = validateSourceCompleteness({manual: manualName, buildEnv: snapshotEnv, rootToken: root,
+                                sourceDir: docSourceDir, snapshot: baselineSnapshot, sharedReceiptsByRecordId: requestedSharedBaseline?.evidence.receipts})
+                            if (!baselineCompleteness.complete) throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'Requested baseline sources failed authentication before refresh.')
                             const fetchedTokens = new Set()
                             await scraper.fetch_source_tokens(consumedPlan.requested_tokens)
                             consumedPlan.requested_tokens.forEach(token => fetchedTokens.add(token))
@@ -789,6 +827,7 @@ function larkDocsPlugin(context, options) {
                             const freshPlan = await planFreshRequestedState({
                                 requestedTokens: consumedPlan.requested_tokens,
                                 fetchedTokens,
+                                baselineCompleteness,
                             })
                             compareRequestedPlans({ consumed: consumedPlan, fresh: freshPlan })
                             fs.writeFileSync(`${prefix}-revalidation.json`, `${JSON.stringify({
@@ -813,11 +852,16 @@ function larkDocsPlugin(context, options) {
                                 rootToken: root,
                                 baseAppToken: scraper.base_app_token,
                                 records: scraper.records,
+                                routingContext: scraper.routingContext,
                                 nodeMetadataByToken: currentNodeMetadataByToken,
                                 previousSnapshot: baselineSnapshot,
                                 plan: consumedPlan,
                                 baselineCommitSha: opts.requestedBaselineSha || null,
+                                sharedReceiptsByRecordId: requestedSharedBaseline?.evidence.receipts,
                             })
+                            if (requestedSharedBaseline) require('./sharedPagePublication').writeContinuation({workspace: process.cwd(),
+                                baseline: requestedSharedBaseline, records: scraper.records, candidate,
+                                masterCommit: require('./sharedPageFetch').git(process.cwd(), ['rev-parse', 'HEAD']).toString().trim()})
                             writeSnapshot(opts.snapshotCandidatePath, candidate)
                             fs.mkdirSync(path.dirname(`${prefix}-state-merge.json`), { recursive: true })
                             fs.writeFileSync(`${prefix}-state-merge.json`, `${JSON.stringify(receipt, null, 2)}\n`)
@@ -863,6 +907,7 @@ function larkDocsPlugin(context, options) {
                                     rootToken: root,
                                     sourceDir: docSourceDir,
                                     snapshot: previousSnapshot,
+                                    sharedReceiptsByRecordId: requestedSharedBaseline?.evidence.receipts,
                                 })
                                 : null
                             if (!previousSnapshot) {
@@ -884,6 +929,7 @@ function larkDocsPlugin(context, options) {
                             const resolution = resolveRequestedSelectors({
                                 selectors: selectionInput.selectors,
                                 records: scraper.records,
+                                routingContext: scraper.routingContext,
                                 previousSnapshot,
                                 site,
                             })
@@ -892,13 +938,14 @@ function larkDocsPlugin(context, options) {
 
                             await scraper.fetch_source_tokens(requestedTokens)
                             let sourceByToken = sourceFilesByToken(docSourceDir)
-                            const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true })
+                            const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true, routingContext: scraper.routingContext })
                             const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
                             const { linkedTokens } = expandRequestedClosure({
                                 requestedTokens,
                                 sourceByToken,
                                 previousSnapshot,
                                 canonicalTokens,
+                                routingContext: scraper.routingContext,
                                 refreshedTokens: new Set(requestedTokens),
                                 maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
                                 reasonsByToken: {},
@@ -914,6 +961,7 @@ function larkDocsPlugin(context, options) {
                                 buildEnv: snapshotEnv,
                                 docSourceDir,
                                 records: scraper.records,
+                                routingContext: scraper.routingContext,
                                 previousSnapshot,
                                 currentNodeMetadataByToken,
                                 requestedTokens,
@@ -1054,7 +1102,10 @@ function larkDocsPlugin(context, options) {
                             linkCheckRemote: 'https://docs.zilliz.com',
                             docSourceDir,
                             baseAppToken: scraper.base_app_token,
-                            records: scraper.records,
+                            records: scraper.routingContext && process.env.DOCS_TOOLING_GUIDES_STAGE === 'source'
+                                ? scraper.records.filter(record => !scraper.routingContext.errors.some(error => error.record_id === record.record_id))
+                                : scraper.records,
+                            routingContext: scraper.routingContext,
                             nodeMetadataByToken: currentNodeMetadataByToken,
                         })
                         validateCandidateSnapshot(candidate, {
@@ -1068,7 +1119,9 @@ function larkDocsPlugin(context, options) {
                             buildEnv: opts.buildEnv || 'local',
                             rootToken: root,
                             sourceDir: docSourceDir,
-                            snapshot: candidate,
+                            snapshot: scraper.routingContext && process.env.DOCS_TOOLING_GUIDES_STAGE === 'source'
+                                ? require('./sharedPageFetch').pendingSourceSnapshot(candidate, scraper.routingContext)
+                                : candidate,
                         })
                         writeSnapshot(opts.snapshotCandidatePath, candidate)
                         console.log(`[snapshot] Candidate written to ${opts.snapshotCandidatePath}`)
@@ -1081,6 +1134,7 @@ function larkDocsPlugin(context, options) {
                             site: path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en',
                             tables: scraper.base_tables,
                             records: scraper.records,
+                            routingContext: scraper.routingContext,
                         })
                         console.log(`[guides-preflight] Validated ${result.tables} table(s) and ${result.records} navigation record(s).`)
                         return
@@ -1155,7 +1209,7 @@ function larkDocsPlugin(context, options) {
                                 incrementalPlanOnly: false,
                                 linkShim: opts.linkShim,
                                 mediaResolver,
-                                writerFactory: (...args) => new docWriter(...args),
+                                writerFactory: (...args) => {const writer = new docWriter(...args); if (sharedHandoff) writer.sharedBundle = sharedHandoff; return writer},
                                 writeSidebarPair: async outputs => {
                                     writeSidebarPairTransactional({ outputs })
                                     for (const output of outputs) console.log(`Sidebar written to ${output.sidebarPath}`)
@@ -1177,6 +1231,7 @@ function larkDocsPlugin(context, options) {
                         const writer = sourceType === 'wiki' || sourceType === 'onePager'
                             ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.linkShim, mediaResolver)
                             : new driveWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.manual)
+                        if (sharedHandoff) { writer.sharedBundle = sharedHandoff; writer.sharedWorkspace = process.cwd() }
                         console.log('Generating sidebar from existing sources...')
                         const sidebarItems = await writer.generate_sidebar(outputDir, contentRoot || outputDir.split('/')[0])
                         const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
@@ -1227,7 +1282,8 @@ function larkDocsPlugin(context, options) {
                                 buildEnv: opts.buildEnv || 'uat',
                                 rootToken: root,
                                 sourceDir: docSourceDir,
-                                snapshot: readSnapshot(candidatePath),
+                                snapshot: sharedHandoff && !sharedHandoff.continuation ? require('./sharedPageFetch').pendingSourceSnapshot(readSnapshot(candidatePath), sharedHandoff.routing) : readSnapshot(candidatePath),
+                                sharedReceiptsByRecordId: sharedHandoff?.receipts,
                             })
                         }
 
@@ -1248,6 +1304,8 @@ function larkDocsPlugin(context, options) {
                         const writer = sourceType === 'wiki' || sourceType === 'onePager' ?
                             new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim, mediaResolver, sourceIndex) :
                             new driveWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.manual)
+
+                        if (sharedHandoff) { writer.sharedBundle = sharedHandoff; writer.sharedWorkspace = process.cwd() }
 
                         // Ensure S3 connections are always closed, even on error or Ctrl+C
                         const writerCleanup = () => { try { writer.destroy() } catch (_) {} }
@@ -1293,6 +1351,7 @@ function larkDocsPlugin(context, options) {
                                 if (sourcePlan?.mode === 'incremental') {
                                     cleanupRemovedIncrementalRecords({
                                         plan: sourcePlan,
+                                        currentRecords: scraper.records,
                                         docSourceDir,
                                         targetOutputDir: outputDir,
                                         preservePlacementAncestry: sourceType === 'drive',

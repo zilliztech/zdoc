@@ -1586,6 +1586,64 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
   }
 }
 
+async function testDriveBaseFolderRoutesReachTheRealWriter() {
+  const Scraper = require('./larkDocScraper');
+  const Writer = require('./larkDriveWriter');
+  const TokenFetcher = require('./larkTokenFetcher');
+  const originalFetchToken = TokenFetcher.prototype.fetchToken;
+  const originalToken = TokenFetcher.prototype.token;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-base-writer-'));
+  TokenFetcher.prototype.fetchToken = async () => {};
+  TokenFetcher.prototype.token = async () => 'fixture-token';
+  try {
+    for (const manual of ['go', 'python', 'java', 'node', 'cli', 'cpp']) {
+      const sourceDir = path.join(tempDir, manual, 'sources');
+      const outputDir = path.join(tempDir, manual, 'output');
+      fs.mkdirSync(sourceDir, { recursive: true });
+      fs.mkdirSync(outputDir, { recursive: true });
+      const records = [
+        { record_id: 'root-record', fields: { Docs: { text: 'Root', link: 'https://zilliverse.feishu.cn/drive/folder/root' }, Slug: 'root', Progress: 'Published', Targets: ['Zilliz'] } },
+        { record_id: 'folder-record', fields: { Docs: { text: 'Collections', link: 'https://zilliverse.feishu.cn/drive/folder/collection-folder' }, Slug: 'collections', Parent: [{ record_ids: ['root-record'] }], Progress: 'Published', Targets: ['Zilliz'] } },
+        { record_id: 'doc-record', fields: { Docs: { text: 'Create', link: 'https://zilliverse.feishu.cn/docx/create-doc' }, Slug: 'create', Parent: [{ record_ids: ['folder-record'] }], Progress: 'Published', Targets: ['Zilliz'] } },
+      ];
+      const scraper = new Scraper('root', 'base:table', 'drive', sourceDir);
+      scraper.__base_tables = async () => [{ table_id: 'table', name: 'Reference' }];
+      scraper.__base_records = async () => structuredClone(records);
+      scraper.docs = { token: 'root', name: 'Root', type: 'folder' };
+      scraper.__fetchFeishuJson = async url => {
+        const folder = new URLSearchParams(url.split('?')[1]).get('folder_token');
+        assert.ok(['root', 'collection-folder'].includes(folder), url);
+        return { code: 0, data: { files: folder === 'root'
+          ? [{ token: 'collection-folder', name: 'Collections', type: 'folder', parent_token: 'root' }]
+          : [{ token: 'create-doc', name: 'Create', type: 'docx', parent_token: 'collection-folder' }] } };
+      };
+      scraper.__fetch_blocks = async node => {
+        node.blocks = { items: [
+          { block_id: 'page', block_type: 1, children: ['text'], page: { elements: [{ text_run: { content: 'Create', text_element_style: {} } }] } },
+          { block_id: 'text', block_type: 2, parent_id: 'page', text: { elements: [{ text_run: { content: 'Reference fixture body.', text_element_style: {} } }] } },
+        ] };
+      };
+      await scraper.__base();
+      await scraper.__fetch_drive_children('root', null, true);
+      const writer = new Writer('root', 'base:table', `${manual}Sidebar`, sourceDir, path.join(tempDir, 'images'), 'zilliz', true, false, manual);
+      writer.records = records;
+      try {
+        // Keep real traversal/path construction: mocked slugs or a mocked writer missed WP9's regression.
+        await writer.write_docs(outputDir, 'root');
+      } finally {
+        writer.destroy();
+      }
+      assert.equal(scraper.slugs['collection-folder'].parent_token, 'root');
+      assert.equal(scraper.slugs['create-doc'].parent_token, 'collection-folder');
+      assert.match(fs.readFileSync(path.join(outputDir, 'collections', 'create.md'), 'utf8'), /Reference fixture body\./);
+    }
+  } finally {
+    TokenFetcher.prototype.fetchToken = originalFetchToken;
+    TokenFetcher.prototype.token = originalToken;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function testGuidesSourceReplacementOutsideWikiFailsClosed() {
   const Scraper = require('./larkDocScraper');
   const TokenFetcher = require('./larkTokenFetcher');
@@ -1754,6 +1812,7 @@ async function run() {
   await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
   await testDriveFallbackIncrementalRebuildsCompleteOutput();
   await testDriveIncrementalEnforcesMaterializedRenderBoundary();
+  await testDriveBaseFolderRoutesReachTheRealWriter();
   await testGuidesSourceReplacementOutsideWikiFailsClosed();
   await testGuidesDirectDocxSourceReplacement();
   await testDirectDocxFallbackDoesNotMaskSourceFailures();

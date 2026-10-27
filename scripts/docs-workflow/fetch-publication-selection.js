@@ -28,8 +28,9 @@ function selectedUnitKeys(selectedGroup) {
   return Object.freeze([...keys].sort((left, right) => FETCH_UNIT_KEYS.indexOf(left) - FETCH_UNIT_KEYS.indexOf(right)))
 }
 
-function validationCommands(site) {
+function validationCommands(site, group) {
   const commands = [`node scripts/validate-generated-sidebars.js --site ${site}`]
+  if (site === 'en' && group === 'guides') commands.push('node scripts/docs-workflow/guides-shared-publication.js --operation validate --snapshot packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json')
   if (site === 'zh-CN') commands.push('pnpm run build:zh-CN:site')
   return Object.freeze(commands)
 }
@@ -53,7 +54,7 @@ function selectionUnit(unitKey, input) {
     targetBranch: input.targetBranch,
     artifacts: {checkpoint: checkpointArtifactName(unitKey, input.runId), baseline: null},
     commitMessage: definition.commitMessage,
-    validationCommands: validationCommands(definition.site),
+    validationCommands: validationCommands(definition.site, definition.group),
     environment: {ZDOC_SITE: definition.site},
   }
 }

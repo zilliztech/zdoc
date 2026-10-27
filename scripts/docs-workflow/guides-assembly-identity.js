@@ -9,6 +9,8 @@ const {
   verifyRequestedStateMergeReceipt,
 } = require('../../packages/docs-tooling/src/lark/requestedGuidesFetchPlanner')
 
+const {sharedSourceProjection} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
+
 const SHA40 = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
 const DESCRIPTOR_KEYS = Object.freeze([
@@ -38,6 +40,18 @@ const FINGERPRINT_FILES = Object.freeze([
   'packages/docs-tooling/src/lark/index.js',
   'packages/docs-tooling/src/lark/larkDocWriter.js',
   'packages/docs-tooling/src/lark/larkSourceIndex.js',
+  'packages/docs-tooling/src/lark/sharedPagePublication.js',
+  'packages/docs-tooling/src/lark/sharedPageFetch.js',
+  'packages/docs-tooling/src/lark/sharedPageBundle.js',
+  'packages/docs-tooling/src/shared-docs/core/handoff/source-state.ts',
+  'packages/docs-tooling/src/shared-docs/core/site/front-matter.ts',
+  'packages/docs-tooling/src/shared-docs/adapters/build-page.ts',
+  'packages/docs-tooling/src/shared-docs/adapters/mdx.ts',
+  'packages/docs-tooling/src/shared-docs/commands/build.ts',
+  'scripts/docs-workflow/guides-shared-sources.js',
+  'scripts/docs-workflow/guides-shared-publication.js',
+  'scripts/docs-workflow/guides-render-readiness.js',
+  'scripts/docs-workflow/guides-source-cache.js',
   'packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js',
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
@@ -137,6 +151,11 @@ function semanticSourceProjection(snapshot) {
     const recordId = nullableString(record.record_id, 'Guides semantic record_id', { required: true })
     if (ids.has(recordId)) throw new Error(`Duplicate Guides semantic record_id: ${recordId}`)
     ids.add(recordId)
+    if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown Guides semantic source kind')
+    if (record.source_kind === 'shared-page') return canonicalize({
+      ...Object.fromEntries(SEMANTIC_FIELDS.map(field => [field, record[field] ?? null])),
+      ...sharedSourceProjection(record), outgoing_tokens: [],
+    })
     const projected = {}
     for (const field of SEMANTIC_FIELDS) projected[field] = ['node_token', 'origin_node_token', 'obj_token', 'obj_type'].includes(field)
       ? explicitNullableString(record, field, 'Guides semantic', { nonempty: true })
@@ -356,15 +375,21 @@ function decideAssembly(options) {
   const sourceDelta = incrementalPlanHasDelta(incrementalPlan)
   if (!candidateSnapshot || typeof candidateSnapshot !== 'object' || Array.isArray(candidateSnapshot)) throw new Error('Guides candidate snapshot must be an object')
   if (candidateSnapshot.manual !== 'guides') throw new Error('Guides candidate snapshot manual must be guides')
-  const unsupportedSnapshotSchema = candidateSnapshot.schema_version === 2
+  let effective = candidateSnapshot
+  const bundlePath = path.join(repositoryRoot, 'tmp/docs-tooling/en/shared-pages/guides')
+  if (fsImpl.existsSync(bundlePath)) {
+    const handoff = require('../../packages/docs-tooling/src/lark/sharedPageBundle').loadBundle(bundlePath, {masterSha, devBaselineSha})
+    effective = require('../../packages/docs-tooling/src/lark/sharedPagePublication').effectiveSnapshot(candidateSnapshot, handoff)
+  }
+  const unsupportedSnapshotSchema = effective.schema_version === 2
   let semanticSourceGraphSha256
   let navigationOwnershipSha256
   if (unsupportedSnapshotSchema) {
     semanticSourceGraphSha256 = unsupportedSemanticMarkerHash()
     navigationOwnershipSha256 = unsupportedNavigationMarkerHash()
   } else {
-    semanticSourceGraphSha256 = hashCanonical(semanticSourceProjection(candidateSnapshot))
-    navigationOwnershipSha256 = hashCanonical(navigationOwnershipProjection(candidateSnapshot))
+    semanticSourceGraphSha256 = hashCanonical(semanticSourceProjection(effective))
+    navigationOwnershipSha256 = hashCanonical(navigationOwnershipProjection(effective))
   }
   const masterRootIdentity = recordDirectoryIdentity(repositoryRoot, fsImpl)
   const generatorFingerprintSha256 = generatorFingerprint({ repositoryRoot, masterSha, fsImpl, rootIdentity: masterRootIdentity })

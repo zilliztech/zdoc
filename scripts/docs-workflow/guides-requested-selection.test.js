@@ -24,6 +24,7 @@ test('larkDocumentTokenFromUrl extracts supported Feishu wiki and docx tokens on
   assert.equal(larkDocumentTokenFromUrl('https://zilliverse.feishu.cn/wiki/ABC123'), 'ABC123')
   assert.equal(larkDocumentTokenFromUrl('https://example.larksuite.com/docx/XYZ456?from=docs'), 'XYZ456')
   assert.equal(larkDocumentTokenFromUrl('https://docs.zilliz.com/guides/a'), null)
+  assert.equal(larkDocumentTokenFromUrl('https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/example'), null)
   assert.equal(larkDocumentTokenFromUrl('https://zilliverse.feishu.cn/sheets/ABC123'), null)
   assert.equal(larkDocumentTokenFromUrl('https://zilliverse.feishu.cn/wiki/a/b'), null)
   assert.equal(larkDocumentTokenFromUrl('not a url'), null)
@@ -48,6 +49,7 @@ test('classifySelector accepts tokens and Lark document URLs', () => {
 
 test('classifySelector rejects unsupported selector forms with explicit codes', () => {
   assertInvalid(() => classifySelector('https://example.com/wiki/ABC123', 'both'), 'INVALID_REQUEST_SELECTOR')
+  assertInvalid(() => classifySelector('https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/example', 'en'), 'INVALID_REQUEST_SELECTOR')
   assertInvalid(() => classifySelector('https://zilliverse.feishu.cn/sheets/ABC123', 'both'), 'INVALID_REQUEST_SELECTOR')
   assertInvalid(() => classifySelector('https://docs.zilliz.com/guides/a', 'both'), 'INVALID_REQUEST_SELECTOR')
   assertInvalid(() => classifySelector('docs/guides/a', 'both'), 'INVALID_REQUEST_SELECTOR')

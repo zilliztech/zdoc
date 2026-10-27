@@ -46,12 +46,16 @@ function verifyRequestedStateMerge({ receiptPath, planPath, candidatePath, basel
   verifyRequestedStateMergeReceipt({ receipt, plan, candidateSnapshot: candidate, baselineSnapshot: baseline })
 
   if (sourceDir && rootToken) {
+    const bundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+    const handoff = candidate.records.some(row => row.source_kind === 'shared-page') ? bundle.loadBundle(path.join(process.cwd(), bundle.ROOT)) : null
+    if (handoff?.continuation) require('../../packages/docs-tooling/src/lark/sharedPagePublication').authenticateContinuation(process.cwd(), handoff, candidate)
     const completeness = validateSourceCompleteness({
       manual: 'guides',
       buildEnv: receipt.build_env,
       rootToken,
       sourceDir: path.resolve(sourceDir),
       snapshot: candidate,
+      sharedReceiptsByRecordId: handoff?.receipts,
     })
     if (!completeness.complete) {
       throw new RequestedFetchError('TABLE_SOURCE_INCOMPLETE', 'Merged candidate source graph failed the completeness re-check.', {

@@ -41,6 +41,9 @@ function renderGuidesTable(options) {
   const { workspace, spawnSync = defaultSpawnSync } = options
   if (!workspace || !options.table_id) throw new Error('workspace and table_id are required')
   const site = resolveBootstrapSite(options.site)
+  const shared = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const bundleRoot = path.join(workspace, shared.ROOT)
+  const handoff = site === 'en' && fs.existsSync(bundleRoot) ? shared.loadBundle(bundleRoot, {masterSha: options.master_sha, devBaselineSha: options.dev_baseline_sha}) : null
   const sourceConfig = resolveGuidesSourceConfig(site)
   const outputPath = tableOutputPath(options)
   const absoluteOutput = path.join(workspace, outputPath)
@@ -51,7 +54,10 @@ function renderGuidesTable(options) {
   } else {
     fs.rmSync(absoluteOutput, { recursive: true, force: true })
   }
-  if (options.cleanup) return { outputPath, cleanup: true }
+  if (options.cleanup) {
+    shared.restoreTableFallbacks(handoff, workspace, outputPath)
+    return { outputPath, cleanup: true }
+  }
 
   const args = [
     path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
@@ -60,9 +66,11 @@ function renderGuidesTable(options) {
     '--snapshotCandidatePath', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     '--offline', '--mediaManifest', sourceConfig.mediaManifestPath,
   ]
+  if (handoff) args.push('--sharedBundle', bundleRoot)
   const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)
   if (result.status !== 0) throw new Error(`Guides table render failed with status ${result.status}`)
+  shared.restoreTableFallbacks(handoff, workspace, outputPath)
   if (site === 'zh-CN') normalizeChineseTableOutput(outputRoot, absoluteOutput, options.table_slug)
   return { outputPath, cleanup: false }
 }

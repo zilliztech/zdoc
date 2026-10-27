@@ -172,6 +172,7 @@ class LarkSourceIndex {
   }
 
   findAnyToken(token) {
+    if (typeof token !== 'string' || !token) return null
     const entries = new Set()
     for (const type of ['node_token', 'origin_node_token', 'obj_token', 'token']) {
       for (const entry of this.#candidatesFor(type, token)) entries.add(entry)

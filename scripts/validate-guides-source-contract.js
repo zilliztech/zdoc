@@ -78,9 +78,12 @@ function collectGeneratedDocsByToken(outputDir, idPrefix) {
   return docsByToken
 }
 
-function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir, idPrefix = 'tutorials', sidebar }) {
+function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir, idPrefix = 'tutorials', sidebar, activeState = null }) {
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides source contract requires a schema v3 snapshot')
-  const records = snapshot.navigation_records
+  const records = snapshot.navigation_records.map(row => {
+    const source = (snapshot.records || []).find(record => record.record_id === row.record_id)
+    return source?.source_kind === 'shared-page' ? {...row, doc_token: `shared-${source.shared_page.page}`} : row
+  })
   const byId = new Map(records.map(record => [record.record_id, record]))
   const children = new Map()
   for (const record of records) {
@@ -102,6 +105,10 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
   const entries = collectSidebarEntries(sidebar)
   const canonicalRecords = records.filter(record => record.placement_type === 'canonical' && record.doc_token)
   const canonicalByToken = new Map(canonicalRecords.map(record => [record.doc_token, record]))
+  for (const entry of activeState?.pages || []) {
+    const canonical = canonicalRecords.find(record => record.record_id === entry.record)
+    if (canonical && entry.feishu_token) canonicalByToken.set(entry.feishu_token, canonical)
+  }
   const generatedDocsByToken = collectGeneratedDocsByToken(outputDir, idPrefix)
   const errors = []
   let checkedRecords = 0
@@ -169,7 +176,10 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
       }
       const routeBase = target === 'zilliz.paas' ? '/docs/byoc' : '/docs'
       const expectedHref = canonical ? `${routeBase}/${String(canonical.slug || '').replace(/^\/+/, '')}` : null
-      const hrefMatches = record.ref_target_anchor
+      const active = activeState?.pages.find(entry => entry.record === canonical.record_id && entry.feishu_token === targetToken)
+      const mappedAnchor = record.ref_target_anchor && active && Object.hasOwn(active.anchors, record.ref_target_anchor)
+        ? active.anchors[record.ref_target_anchor] : null
+      const hrefMatches = active ? item?.href === `${expectedHref}${mappedAnchor ? `#${mappedAnchor}` : ''}` : record.ref_target_anchor
         ? item?.href?.startsWith(`${expectedHref}#`) && item.href.length > expectedHref.length + 1
         : item?.href === expectedHref
       if (!hrefMatches) errors.push(`ref ${record.record_id} target mismatch: ${targetToken || '(missing)'}`)
@@ -198,7 +208,9 @@ function sourceContractConfig(site) {
 
 function validateGuidesSourceSite({ site, config = sourceContractConfig(site), loadJson = file => JSON.parse(fs.readFileSync(file, 'utf8')), loadSidebar = file => require(path.resolve(file)) }) {
   const snapshot = loadJson(config.snapshotPath)
+  const evidence = site === 'en' ? require('../packages/docs-tooling/src/lark/sharedPagePublication').publishedEvidence(process.cwd(), snapshot) : {receipts: new Map(), fallbackIds: new Set()}
   assertSourceCompleteness({
+    sharedReceiptsByRecordId: evidence.receipts, authenticatedFallbackIds: evidence.fallbackIds,
     manual: 'guides', buildEnv: 'uat', rootToken: config.rootToken,
     sourceDir: config.sourceDir, snapshot,
   })
@@ -207,13 +219,14 @@ function validateGuidesSourceSite({ site, config = sourceContractConfig(site), l
   validateEntries(mediaManifest.entries)
   assertMediaCoverage(
     mediaManifest.entries,
-    collectMediaReferences(config.sourceDir, sourceFilesForSnapshot(config.sourceDir, snapshot)),
+    collectMediaReferences(config.sourceDir, sourceFilesForSnapshot(config.sourceDir, {...snapshot, records: snapshot.records.filter(record => !evidence.fallbackIds.has(record.record_id))})),
   )
   return config.targets.map(target => validateGuidesSourceContract({
     snapshot,
     site,
     target: target.target,
     outputDir: target.outputDir,
+    activeState: evidence.active,
     sidebar: loadSidebar(target.sidebarPath),
   }))
 }

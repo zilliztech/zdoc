@@ -14,6 +14,26 @@ import {
   type SourceSnapshotRecord,
 } from './revisionInventory'
 
+it('projects receipt-validated shared records out of the Feishu inventory and reports released ownership separately', () => {
+  const sha = 'a'.repeat(64), commit = 'b'.repeat(40)
+  const record = {record_id: 'rec-shared', source_kind: 'shared-page', placement_type: 'canonical', doc_token: null,
+    doc_link: 'https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/example',
+    shared_page: {group: 'guides', page: 'example', inputs_sha256: sha, record: 'generated/en/manifests/shared-pages/guides/example.json'},
+    source_file: null, source_hash: null, node_metadata: null, outgoing_tokens: [], output_paths: ['content/en/guides/tutorials/example.md']}
+  const receipt = {schema_version: 1, page: 'example', token: 'shared-example', inputs: {
+    milvus_docs: {repository: 'milvus-io/milvus-docs', current: commit, next: commit, files: []},
+    zdoc: {repository: 'zilliztech/zdoc', commit, files: []}, dev: {commit, files: []},
+    fetch: {navigation: sha, image_base_url: 'https://images.example.com'}, tools: {zdoc: commit, md2md: '1.3.0'}, images: [],
+  }, outputs: [{manual: 'guides', path: 'tutorials/example.md', sha256: sha}], channel: null, notes: []}
+  const input = {group: 'guides', complete: true, generatedAt: '2026-10-26T00:00:00Z', sourceRunId: '123', snapshots: [{records: [record]}]}
+  expect(() => buildRevisionInventory(input)).toThrow(/shared receipt/i)
+  const candidate = buildRevisionInventory({...input, sharedReceiptsByRecordId: new Map([['rec-shared', receipt]])})
+  expect(candidate.records).toEqual([])
+  const baseline = buildRevisionInventory({...input, snapshots: [{records: [source('old')]}]})
+  expect(diffRevisionInventories(baseline, candidate, {noLongerFeishuOwnedTokens: ['old']})).toMatchObject([{type: 'no_longer_feishu_owned', canonicalToken: 'old'}])
+  expect(() => buildRevisionInventory({...input, sharedReceiptsByRecordId: new Map([['rec-shared', {...receipt, token: 'fake'}]])})).toThrow()
+})
+
 const source = (
   doc_token: string,
   overrides: Partial<SourceSnapshotRecord> = {},

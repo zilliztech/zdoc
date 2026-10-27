@@ -160,14 +160,42 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
     renderRevisionDiffMarkdown,
     serializeRevisionInventory,
   } = await loadRevisionInventoryModule();
+  const sharedReceiptsByRecordId = new Map<string, import('./shared-docs/core/handoff/source-state.ts').SharedReceipt>();
+  for (const record of snapshots.flatMap(snapshot => snapshot.records)) {
+    if (record.source_kind === undefined) continue;
+    const {validateSharedSnapshotRecord, readSharedReceipt} = requireFromDocsTooling('./lark/sharedPageRouting.js') as
+      typeof import('./shared-docs/core/handoff/source-state.ts') & typeof import('./shared-docs/adapters/handoff/routing.ts');
+    validateSharedSnapshotRecord(record);
+    try {
+      const receipt = readSharedReceipt(repositoryRoot, record.shared_page!);
+      const {validatePublishedReceipt} = requireFromDocsTooling('./lark/sharedPagePublication.js');
+      validatePublishedReceipt(receipt, record, {workspace: repositoryRoot});
+      sharedReceiptsByRecordId.set(record.record_id!, receipt);
+    } catch (error) { throw new Error(`Invalid shared receipt for ${record.record_id}: ${error instanceof Error ? error.message : String(error)}`); }
+  }
   const candidate = buildRevisionInventory({
     group,
     complete,
     generatedAt,
     sourceRunId: requiredOption(options, 'sourceRunId'),
     snapshots,
+    sharedReceiptsByRecordId,
   });
-  const changes = diffRevisionInventories(baseline, candidate);
+  const sharedSources = snapshots.flatMap(snapshot => snapshot.records).filter(record => record.source_kind === 'shared-page').map(record => {
+    const receipt = sharedReceiptsByRecordId.get(record.record_id!)!;
+    const outputPaths = receipt.outputs.map(output => {
+      const publication = manualRegistry.find(manual => manual.id === output.manual && manual.kind === 'guides')?.publications.en;
+      if (!publication) throw new Error(`Unknown shared receipt manual: ${output.manual}`);
+      return output.path.startsWith(`${publication.contentRoot}/`) ? output.path : `${publication.contentRoot}/${output.path}`;
+    }).sort();
+    if ((record.output_paths || []).length && JSON.stringify([...record.output_paths!].sort()) !== JSON.stringify(outputPaths)) {
+      throw new Error(`Shared receipt output paths do not match snapshot record: ${record.record_id}`);
+    }
+    return {recordId: record.record_id!, page: record.shared_page!.page, receiptPath: record.shared_page!.record, outputPaths};
+  });
+  const sharedPaths = new Set(sharedSources.flatMap(source => source.outputPaths));
+  const noLongerFeishuOwnedTokens = (baseline?.records || []).filter(record => record.contentPath && sharedPaths.has(record.contentPath)).map(record => record.canonicalToken);
+  const changes = diffRevisionInventories(baseline, candidate, {noLongerFeishuOwnedTokens});
   const inventoryBytes = serializeRevisionInventory(candidate, baseline && baselineBytes !== undefined
     ? {inventory: baseline, bytes: baselineBytes}
     : undefined);
@@ -179,7 +207,7 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
       authority: `lark-revision:${candidate.sourceRunId}:${change.canonicalToken}`,
     }))
     .sort((left, right) => left.sourcePath.localeCompare(right.sourcePath, 'en'));
-  const report = {group, changes, authoritativeReplacements, editedToday: editedToday(candidate.records, new Date(generatedAt))};
+  const report = {group, changes, authoritativeReplacements, ...(sharedSources.length ? {sharedSources} : {}), editedToday: editedToday(candidate.records, new Date(generatedAt))};
   writeRepositoryFile(repositoryRoot, outputPath, inventoryBytes, 'Revision inventory output path');
   writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.json`, `${JSON.stringify(report, null, 2)}\n`, 'Revision JSON report path');
   writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.md`, renderRevisionDiffMarkdown(group, changes), 'Revision Markdown report path');

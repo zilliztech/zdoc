@@ -56,6 +56,8 @@ jobs:
           ENTRY_JSON: ${{ toJSON(inputs) }}
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           NO_UPDATE_NOTIFIER: '1'
+          DOCS_TOOLING_SHARED_MASTER_SHA: ${{ inputs.master_sha }}
+          DOCS_TOOLING_SHARED_DEV_SHA: ${{ inputs.dev_baseline_sha }}
       - name: Create table artifact
         run: |
           source_sha=$(sha256sum "$RUNNER_TEMP/guides-source/manifest.json" | cut -d' ' -f1)

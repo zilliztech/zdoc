@@ -182,13 +182,21 @@ jobs:
           DOCS_TOOLING_GUIDES_STAGE: assembled
           DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || '' }}
+      - name: Finalize shared Guides publication
+        run: |
+          node scripts/docs-workflow/guides-shared-publication.js --operation finalize --workspace "$GITHUB_WORKSPACE" --candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
       - name: Validate combined guides output
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
-          node scripts/validate-guides-source-contract.js --site "$ZDOC_SITE" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          validation_snapshot=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          if [[ -f packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-effective.json ]]; then validation_snapshot=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-effective.json; fi
+          node scripts/validate-guides-source-contract.js --site "$ZDOC_SITE" --snapshot "$validation_snapshot"
           node scripts/validate-guides-coverage.js --site "$ZDOC_SITE"
           node scripts/validate-generated-sidebars.js --site "$ZDOC_SITE"
           node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting
+      - name: Promote requested shared effective state
+        if: ${{ inputs.requested_mode }}
+        run: node scripts/docs-workflow/guides-shared-publication.js --operation promote --workspace "$GITHUB_WORKSPACE" --output "$snapshot_path" --source-dir "$source_dir" --source-branch "${{ inputs.target_branch }}"
       - name: Validate requested checkpoint scope
         if: ${{ inputs.requested_mode }}
         run: |
@@ -243,6 +251,11 @@ jobs:
         run: |
           candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
           snapshot="$snapshot_path"
+          if [[ -d tmp/docs-tooling/en/shared-pages/guides ]]; then
+            node scripts/docs-workflow/guides-shared-publication.js --operation promote --workspace "$GITHUB_WORKSPACE" --output "$snapshot" --source-dir "$source_dir" --source-branch "${{ inputs.target_branch }}"
+            echo 'selection=effective' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           selection=$(node scripts/docs-workflow/guides-cache-generation-lifecycle.js select \
             --cache-version "${{ inputs.cache_version }}" \
             --save-required "${{ inputs.cache_save_required }}" \
@@ -270,6 +283,7 @@ jobs:
           mkdir -p packages/docs-tooling/src/lark/meta/source-cache
           snapshot="$snapshot_path"
           manifest="$source_manifest_path"
+          if [[ -f generated/en/manifests/shared-pages/guides/_publication.json ]] && [[ $(node -p 'require("./generated/en/manifests/shared-pages/guides/_publication.json").cache_eligible') == false ]]; then exit 0; fi
           node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot "$snapshot" --output "$manifest" --media-manifest "$media_manifest_path" --root-token "$root_token"
       - id: guides_v5_generation
         name: Create Guides v5 generation payload
@@ -310,7 +324,9 @@ jobs:
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
           printf -v build_validation 'node scripts/run-doc-build-stage.js --build "%s" --skipLinkChecks --skipCardReporting' "$ZDOC_BUILD_COMMAND"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
+          shared_validation=()
+          if [[ -d tmp/docs-tooling/en/shared-pages/guides ]]; then shared_validation=(--validation-command "node scripts/docs-workflow/guides-shared-publication.js --operation validate --snapshot $snapshot_path"); fi
+          node scripts/docs-workflow/create-checkpoint-artifact.js "${shared_validation[@]}" --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v6

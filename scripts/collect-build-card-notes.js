@@ -93,7 +93,8 @@ function cacheGenerationNote({ directory } = {}) {
     if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'sourceCacheVersion', 'saveRequired', 'persistence', 'saveKey']) ||
         report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
         !['v5', 'v4', 'v3', 'v2', 'v1', 'none'].includes(report.sourceCacheVersion) || typeof report.saveRequired !== 'boolean' ||
-        !['saved', 'skipped-valid-v5', 'skipped-valid-v4', 'save-failed'].includes(report.persistence)) return null
+        !['saved', 'skipped-valid-v5', 'skipped-valid-v4', 'skipped-shared-failure', 'save-failed'].includes(report.persistence)) return null
+    if (report.persistence === 'skipped-shared-failure') return report.saveRequired === false && report.saveKey === null ? '# Guides cache\n\n- Cache save suppressed after shared page failure; the next Fetch retries failed inputs.' : null
     const saveKeyValid = typeof report.saveKey === 'string' && /^guides-source-(?:(?:en|zh-CN)-)?v(?:4|5)-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/.test(report.saveKey)
     if (report.persistence === 'skipped-valid-v5' || report.persistence === 'skipped-valid-v4') {
       const version = report.persistence === 'skipped-valid-v5' ? 'v5' : 'v4'
@@ -292,7 +293,15 @@ function incrementalPlanNote({ directory, label, site, artifactUrl } = {}) {
   ].filter(Boolean).join('\n')
 }
 
+function sharedPublicationNote({directory} = {}) {
+  const report = freshJsonReport(guidesReportFile(directory, 'guides-shared-publication.json'))
+  if (!report || report.schema_version !== 1 || !Array.isArray(report.failures) || !Array.isArray(report.notices)) return null
+  return ['# Guides shared pages', '', ...report.failures.map(row => `- ${row.code}: ${row.record_id}: ${row.message}`),
+    ...report.notices.map(row => `- SHARED_ANCHOR_UNKNOWN: ${row.source_page || row.source_token}: ${row.url} → ${row.page}`)].join('\n')
+}
+
 const GUIDES_REPORTS = Object.freeze([
+  { key: 'shared-publication', optional: true, title: 'Shared publication report', collect: sharedPublicationNote },
   { key: 'media-prefetch', title: 'Guides media prefetch report', collect: mediaPrefetchNote },
   { key: 'cache-generation', title: 'Guides cache persistence report', collect: cacheGenerationNote },
   { key: 'content-links', title: 'Canonical content links audit', collect: brokenContentLinksNote },
@@ -302,6 +311,7 @@ const GUIDES_REPORTS = Object.freeze([
 ])
 
 const CURRENT_GUIDES_REPORTS = Object.freeze([
+  { key: 'shared-publication', optional: true, title: 'Shared publication report', collect: sharedPublicationNote },
   { key: 'media-prefetch', title: 'media prefetch report', collect: mediaPrefetchNote },
   { key: 'cache-generation', title: 'cache persistence report', collect: cacheGenerationNote },
   { key: 'canonical-links', title: 'canonical link audit', collect: canonicalLinkNote },
@@ -326,7 +336,7 @@ function collectGuidesReportSet({ reports, expected, directory, label, site, art
     if (report.key === 'media-prefetch' || report.key === 'cache-generation') continue
     if (collected.has(report.key)) notes.push(collected.get(report.key))
   }
-  const missing = expected ? reports.filter(report => !found.includes(report.key)) : []
+  const missing = expected ? reports.filter(report => !report.optional && !found.includes(report.key)) : []
   if (missing.length) {
     notes.push([
       guidesHeading(label, 'reports unavailable'),
@@ -433,6 +443,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  sharedPublicationNote,
   assemblyIdentityNote,
   brokenContentLinksNote,
   cacheGenerationNote,
