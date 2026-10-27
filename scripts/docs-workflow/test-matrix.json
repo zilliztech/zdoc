@@ -1111,6 +1111,7 @@
         "deploy/zh-CN/nginx.conf",
         "deploy/contracts/container.test.mjs",
         "deploy/contracts/en-redirect-target-routes.json",
+        "deploy/contracts/zh-CN-redirect-target-routes.json",
         "scripts/chat-agent-nginx.test.js",
         "scripts/architecture/verify-retired-layout.test.mjs",
         "apps/docs/plugins/release-channel-routes*",
@@ -1234,6 +1235,52 @@
         "git diff --check"
       ],
       "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
+    },
+    {
+      "id": "cloud-data-components-and-md-route",
+      "paths": [
+        "packages/docs-ui/src/shared/cloud-data/**",
+        "packages/docs-ui/src/shared/components/CloudRegions/**",
+        "packages/docs-ui/src/shared/components/CloudFeatures/**",
+        "packages/docs-ui/src/shared/components/RegionIps/**",
+        "packages/docs-ui/src/shared/theme/MDXComponents/index.tsx",
+        "packages/site-config/src/schema.ts",
+        "packages/site-config/src/sites/en.ts",
+        "packages/site-config/src/sites/zh-CN.ts",
+        "apps/docs/plugins/embed-markdown/**",
+        "apps/docs/plugins/llms-txt/**",
+        "apps/docs/plugins/cloud-data-model.js",
+        "apps/docs/plugins/cloud-data-md-pipeline.test.js",
+        "apps/docs/plugins/next-channel-view.js",
+        "scripts/docs-workflow/cloud-data-snapshot.mjs",
+        "deploy/runtime/nginx.main.conf",
+        "deploy/njs/**",
+        "deploy/en/nginx.conf",
+        "deploy/zh-CN/nginx.conf",
+        "deploy/en/Dockerfile",
+        "deploy/zh-CN/Dockerfile",
+        "deploy/contracts/cloud-data-nginx.test.mjs",
+        "vitest.config.ts",
+        "tsconfig.json",
+        "src/test/AdmonitionStub.tsx"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/cloud-data",
+        "node --test apps/docs/plugins/cloud-data-md-pipeline.test.js",
+        "pnpm test:containers",
+        "pnpm test:profiles",
+        "node scripts/docs-workflow/cloud-data-snapshot.mjs --site en --from-base https://cms.zilliz.cc --check packages/docs-ui/src/shared/cloud-data/snapshots/en.json",
+        "node scripts/docs-workflow/cloud-data-snapshot.mjs --site zh-CN --from-base https://cms-cn.zilliz.cc --check packages/docs-ui/src/shared/cloud-data/snapshots/zh-CN.json"
+      ],
+      "harnesses": [
+        "pnpm test:cloud-data-nginx"
+      ],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Cloud-data components, snapshots, marker resolution, and the nginx SSI+njs chain share one renderer source; a change to any surface must re-prove fragment parity, the baked stub, and the live nginx fallback behavior."
     }
   ]
 }

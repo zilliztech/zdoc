@@ -3,6 +3,7 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "baseUrl": "."
   },
   "exclude": [".docusaurus", "build", "tmp"]

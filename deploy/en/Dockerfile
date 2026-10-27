@@ -51,7 +51,14 @@ LABEL org.opencontainers.image.source="https://github.com/zilliztech/zdoc" \
 
 COPY --from=build /app/build/en/ /usr/share/nginx/html/
 COPY deploy/en/nginx.conf /etc/nginx/conf.d/default.conf
+COPY deploy/runtime/nginx.main.conf /etc/nginx/nginx.conf
 COPY deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh
+COPY deploy/njs/cloud.js /etc/nginx/njs/cloud.js
+COPY packages/docs-ui/src/shared/cloud-data/adapter.js /etc/nginx/njs/adapter.js
+COPY packages/docs-ui/src/shared/cloud-data/render.js /etc/nginx/njs/render.js
+COPY packages/docs-ui/src/shared/cloud-data/strings.js /etc/nginx/njs/strings.js
+COPY packages/docs-ui/src/shared/cloud-data/vocab.js /etc/nginx/njs/vocab.js
+COPY packages/docs-ui/src/shared/cloud-data/snapshots/en.json /etc/nginx/njs/snapshots/en.json
 RUN chmod 755 /docker-entrypoint.d/40-zdoc-env.sh
 
 EXPOSE 80

@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "generatedAt": "2026-10-27T05:23:41.280Z",
+  "source": "https://cms-cn.zilliz.cc/api/cloud-regions + https://cms-cn.zilliz.cc/api/cloud-features",
+  "model": {
+    "site": "zh-CN",
+    "locale": "zh-CN",
+    "updatedAt": "2026-10-27T03:41:50.162Z",
+    "providers": [
+      {
+        "key": "alibaba",
+        "name": "阿里云",
+        "anchor": "alibaba-cloud",
+        "regions": [
+          {
+            "continent": "中国内地",
+            "id": "cn-hangzhou",
+            "name": "华东1（杭州）",
+            "deployments": [
+              "Free 和 Serverless",
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "中国内地",
+            "id": "cn-shanghai",
+            "name": "华东2（上海）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "中国内地",
+            "id": "cn-beijing",
+            "name": "华北2（北京）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "中国内地",
+            "id": "cn-shenzhen",
+            "name": "华南1（深圳）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "北美",
+            "id": "us-east-1",
+            "name": "美国（弗吉尼亚）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "亚太",
+            "id": "ap-southeast-1",
+            "name": "新加坡",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "中东",
+            "id": "me-central-1",
+            "name": "沙特（利雅得-合作伙伴运营）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "cn-hangzhou",
+            "location": "华东1（杭州）",
+            "cidrs": [
+              "114.55.232.32"
+            ]
+          },
+          {
+            "region": "cn-shanghai",
+            "location": "华东2（上海）",
+            "cidrs": [
+              "47.117.150.202"
+            ]
+          },
+          {
+            "region": "cn-beijing",
+            "location": "华北2（北京）",
+            "cidrs": [
+              "39.105.24.167"
+            ]
+          },
+          {
+            "region": "cn-shenzhen",
+            "location": "华南1（深圳）",
+            "cidrs": [
+              "47.107.39.14"
+            ]
+          },
+          {
+            "region": "us-east-1",
+            "location": "美国（弗吉尼亚）",
+            "cidrs": [
+              "47.253.55.205"
+            ]
+          },
+          {
+            "region": "ap-southeast-1",
+            "location": "新加坡",
+            "cidrs": [
+              "47.237.71.220"
+            ]
+          }
+        ]
+      },
+      {
+        "key": "tencent",
+        "name": "腾讯云",
+        "anchor": "tencent-cloud",
+        "regions": [
+          {
+            "continent": "中国内地",
+            "id": "ap-beijing",
+            "name": "华北地区（北京）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "中国内地",
+            "id": "ap-shanghai",
+            "name": "华东地区（上海）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "北美",
+            "id": "na-ashburn",
+            "name": "美国东部（弗吉尼亚）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "ap-beijing",
+            "location": "华北地区（北京）",
+            "cidrs": [
+              "82.156.105.162"
+            ]
+          },
+          {
+            "region": "ap-shanghai",
+            "location": "华东地区（上海）",
+            "cidrs": [
+              "124.222.234.127"
+            ]
+          },
+          {
+            "region": "na-ashburn",
+            "location": "美国东部（弗吉尼亚）",
+            "cidrs": [
+              "43.130.121.239"
+            ]
+          }
+        ]
+      },
+      {
+        "key": "amazon-cn",
+        "name": "亚马逊云科技",
+        "anchor": "amazon-cn",
+        "regions": [
+          {
+            "continent": "中国内地",
+            "id": "cn-northwest-1",
+            "name": "中国（宁夏）",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving 集群",
+              "按需计算"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "cn-northwest-1",
+            "location": "中国（宁夏）",
+            "cidrs": [
+              "43.192.24.37"
+            ]
+          }
+        ]
+      }
+    ],
+    "serviceIps": [
+      {
+        "region": "cn-hangzhou",
+        "location": "华东1（杭州）",
+        "cidrs": [
+          "114.55.232.32"
+        ]
+      }
+    ],
+    "matrices": {
+      "compute-types": {
+        "key": "compute-types",
+        "rowHeader": "计算类型",
+        "rows": [
+          {
+            "label": "Serving 集群",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "all"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            }
+          },
+          {
+            "label": "按需计算",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "partial",
+                "regions": [
+                  "华北地区（北京）"
+                ]
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            }
+          }
+        ]
+      },
+      "deployment-options": {
+        "key": "deployment-options",
+        "rowHeader": "部署方式",
+        "rows": [
+          {
+            "label": "SaaS（Free 和 Serverless）",
+            "cells": {
+              "alibaba": {
+                "kind": "partial",
+                "regions": [
+                  "华东1（杭州）"
+                ]
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "none"
+              }
+            }
+          },
+          {
+            "label": "SaaS（Dedicated）",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "all"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            }
+          },
+          {
+            "label": "BYOC",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "all"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            }
+          }
+        ]
+      },
+      "features": {
+        "key": "features",
+        "rowHeader": "功能",
+        "rows": [
+          {
+            "label": "Managed Volume",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            },
+            "href": "/docs/managed-volume"
+          },
+          {
+            "label": "External Volume",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            },
+            "href": "/docs/external-volume"
+          },
+          {
+            "label": "External Collection",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "none"
+              }
+            },
+            "href": "/docs/create-external-collection"
+          },
+          {
+            "label": "Global Cluster（全球集群）",
+            "cells": {
+              "alibaba": {
+                "kind": "contact"
+              },
+              "tencent": {
+                "kind": "contact"
+              },
+              "amazon-cn": {
+                "kind": "contact"
+              }
+            },
+            "href": "/docs/global-cluster-explained"
+          },
+          {
+            "label": "Cross-region backup（跨地域备份）",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            },
+            "href": "/docs/backup-to-other-regions"
+          },
+          {
+            "label": "导出备份文件",
+            "cells": {
+              "alibaba": {
+                "kind": "all"
+              },
+              "tencent": {
+                "kind": "none"
+              },
+              "amazon-cn": {
+                "kind": "all"
+              }
+            },
+            "href": "/docs/export-backup-files"
+          },
+          {
+            "label": "Spark 批量任务",
+            "cells": {
+              "alibaba": {
+                "kind": "text",
+                "text": "✅ 全部地域（[联系我们开通](http://support.zilliz.com.cn)）"
+              },
+              "tencent": {
+                "kind": "text",
+                "text": "✅ 全部地域（[联系我们开通](http://support.zilliz.com.cn)）"
+              },
+              "amazon-cn": {
+                "kind": "text",
+                "text": "✅ 全部地域（[联系我们开通](http://support.zilliz.com.cn)）"
+              }
+            },
+            "href": "/docs/spark-batch-jobs"
+          }
+        ]
+      }
+    }
+  }
+}

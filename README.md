@@ -465,7 +465,13 @@ docker build --build-arg ZDOC_SHA="$SOURCE_SHA" --build-arg ZDOC_SITE=zh-CN --bu
 
 The English image includes Japanese content. The two commands are independent; invoke only the selected target or invoke both without treating one target's failure as a repository-level requirement for the other. The Dockerfiles build the static sites internally, so Jenkins does not need to run `pnpm build:*` before these container builds. Image naming and registry tagging remain Jenkins-owned.
 
-The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`.
+The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`. `deploy/runtime/nginx.main.conf` replaces the stock image main config solely to `load_module` the njs module (main-context-only directive; see the cloud-data chain below).
+
+### Cloud-data live tables in `.md` routes (SSI + njs)
+
+The cloud-providers-and-regions and zilliz-cloud-ips pages carry globally registered `<CloudRegions>`/`<CloudFeatures>`/`<RegionIps>` components (HTML pages fetch the CMS JSON after mount) and standalone markers inside the Feishu source. `embed-markdown` bakes every marker into an SSI pair — a `<!--# block -->` stub rendered from the committed snapshot (`packages/docs-ui/src/shared/cloud-data/snapshots/`) plus `<!--# include virtual="/api/cloud-data/fragment.md?…&site=…" stub=… -->`. At request time nginx resolves the include through `/api/cloud-data/` (loopback proxy) → `/_njs/fragment.md` (njs renderer, the same `packages/docs-ui/src/shared/cloud-data` modules as the build) → `/api/cloud-json/*` (per-site CMS proxy: en `cms.zilliz.cc`, zh-CN `cms-cn.zilliz.cc`, 60s `proxy_cache` with stale-on-error). Any upstream failure is intercepted into an empty 200 so SSI serves the snapshot stub — the `.md` route degrades to the last committed snapshot, never to an error page.
+
+Operational prerequisites: the container must reach the site's CMS instance at startup (static `proxy_pass` hostnames resolve at config time), and the JSON responses must stay below the 1m `subrequest_output_buffer_size`. Refresh the committed snapshots with `node scripts/docs-workflow/cloud-data-snapshot.mjs --site <en|zh-CN> --from-base <cms-origin> --out packages/docs-ui/src/shared/cloud-data/snapshots/<site>.json` and gate freshness with `--check` (the wire format for a future scheduled refresher). Verification: `pnpm test:containers` (static contract) and `pnpm test:cloud-data-nginx` (live four-scenario run in `nginx:1.28-alpine`; skipped automatically without Docker).
 
 ### Release Channel gating (CURRENT / NEXT / RETIRE-IN-NEXT)
 

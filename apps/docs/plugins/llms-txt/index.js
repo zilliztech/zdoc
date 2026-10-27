@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 const {resolveNextChannelCurrentView} = require('../next-channel-view');
+const {resolveCloudDataSite, resolveForSite} = require('../cloud-data-model');
 
 function pluginTranslationDirectoryName(id) {
   return id === 'default'
@@ -183,7 +184,9 @@ function extractDescription(strippedBody) {
   const lines = strippedBody.split('\n');
   let paragraph = '';
   for (const line of lines) {
-    if (!line || /^(#|```|>|- |\d+\.)/.test(line.trimStart())) continue;
+    // Headings, fences, lists, and raw HTML/JSX lines (component tags, baked
+    // cloud-data tables) never make a useful description.
+    if (!line || /^(#|```|>|- |\d+\.|<\/?[A-Za-z])/.test(line.trimStart())) continue;
     if (/^\w+:/.test(line)) continue;
     paragraph = line.trim();
     break;
@@ -240,6 +243,12 @@ function stripMdxBody(rawContent) {
 
     // Remove JS/TS import statements (MDX component imports)
     if (/^import\s+.+\s+from\s+['"]/.test(line)) continue;
+
+    // Drop nginx SSI directive lines (cloud-data block/include pairs).
+    // Only reachable when a caller feeds raw artifact bytes instead of the
+    // snapshot-resolved source; kept as a hard guard so directives can never
+    // leak into llms output.
+    if (/^<!--#/.test(line.trim())) continue;
 
     // Remove <Tabs> / </Tabs> wrapper tags
     if (/^<\/?(Tabs)[\s/>]/.test(line) || line.trim() === '</Tabs>') continue;
@@ -351,7 +360,7 @@ function sourceFilesForLocale(source, lifecycle) {
   });
 }
 
-function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl) {
+function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl, site) {
   const files = sourceFilesForLocale(source, lifecycle);
   const parts = [];
 
@@ -366,6 +375,11 @@ function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl) {
     // Summaries feed AI agents from a static file with no runtime channel
     // signal: describe the CURRENT view (matches the prerendered page).
     raw = resolveNextChannelCurrentView(raw);
+
+    // Cloud-data markers resolve to their committed snapshot tables so agents
+    // see the table instead of a bare component tag (the `.md` artifacts get
+    // the live version via nginx SSI; llms.txt is a static summary).
+    raw = resolveForSite(raw, site, 'snapshot').content;
 
     const fm = parseFrontmatterFromContent(raw);
     const title = fm.sidebar_label || fm.title;
@@ -474,6 +488,7 @@ module.exports = function pluginLlmsTxt(context, options) {
 
     async postBuild(lifecycle) {
       const {outDir, siteConfig} = lifecycle;
+      const site = resolveCloudDataSite(lifecycle);
       const siteUrl = siteConfig.url;
       const baseUrl = lifecycle.baseUrl || siteConfig.baseUrl || '/';
       const header = siteConfig.title;
@@ -484,7 +499,7 @@ module.exports = function pluginLlmsTxt(context, options) {
       let totalPages = 0;
       for (const source of sources) {
         const {id, route, outputFile} = source;
-        const {content, count} = buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl);
+        const {content, count} = buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl, site);
         const dest = containedOutputPath(outDir, path.join(safeOutputs.outputDir, `${outputFile}.txt`));
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, content, 'utf-8');

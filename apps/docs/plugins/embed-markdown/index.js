@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {resolveNextChannelCurrentView} = require('../next-channel-view');
+const {resolveCloudDataSite, resolveForSite} = require('../cloud-data-model');
 
 function pluginTranslationDirectoryName(id) {
   return id === 'default'
@@ -189,10 +190,13 @@ module.exports = function (context, options) {
                 const fsPath = pathMap[req.path];
 
                 if (fsPath && fs.existsSync(fsPath)) {
+                  // Dev serves from source with no nginx in front: bake the
+                  // committed snapshot instead of emitting SSI directives.
                   const content = resolveNextChannelCurrentView(fs.readFileSync(fsPath, 'utf-8'));
+                  const site = resolveCloudDataSite(context);
                   res.set('Content-Type', 'text/markdown; charset=utf-8');
                   res.setHeader('Content-Disposition', 'inline');
-                  res.send(content);
+                  res.send(resolveForSite(content, site, 'snapshot').content);
                 } else {
                   next();
                 }
@@ -211,7 +215,9 @@ module.exports = function (context, options) {
     async postBuild(lifecycle) {
       const {outDir, routesPaths, siteConfig} = lifecycle;
       const baseUrl = lifecycle.baseUrl || siteConfig.baseUrl || '/';
+      const site = resolveCloudDataSite(lifecycle);
       let totalCopied = 0;
+      let cloudDataTables = 0;
 
       // Build slug-based lookup: slug -> filesystem path
       const slugToFileMap = {};
@@ -268,13 +274,21 @@ module.exports = function (context, options) {
         // The .md copy is a static artifact with no runtime channel signal:
         // ship the CURRENT view (include blocks dropped, exclude unwrapped)
         // instead of the raw source with staged prose readable on production.
+        // Cloud-data markers become SSI block(stub)+include pairs: nginx
+        // splices the live CMS-rendered fragment at request time and falls
+        // back to the snapshot stub when the CMS is unreachable.
         const content = fs.readFileSync(sourcePath, 'utf-8');
-        const resolved = resolveNextChannelCurrentView(content);
-        fs.writeFileSync(fullDestPath, resolved, 'utf-8');
+        const resolvedCurrentView = resolveNextChannelCurrentView(content);
+        const result = resolveForSite(resolvedCurrentView, site, 'ssi');
+        cloudDataTables += result.resolved.length;
+        fs.writeFileSync(fullDestPath, result.content, 'utf-8');
         totalCopied++;
       }
 
       console.log(`[embed-markdown] Copied ${totalCopied} markdown files to build directory.\n`);
+      if (cloudDataTables > 0) {
+        console.log(`[embed-markdown] Resolved ${cloudDataTables} cloud-data marker(s) into SSI stub+include pairs.\n`);
+      }
     },
   };
 };

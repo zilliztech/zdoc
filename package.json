@@ -23,6 +23,7 @@
     "test:frontend": "vitest run",
     "test:shared-docs": "vitest run packages/docs-tooling/src/shared-docs",
     "test:containers": "node --test deploy/contracts/container.test.mjs",
+    "test:cloud-data-nginx": "node --test deploy/contracts/cloud-data-nginx.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
     "docs-tooling": "node scripts/docs-tooling.js",
     "reconciliation-card-action-consumer": "node scripts/docs-workflow/reconciliation-card-action-consumer.js",

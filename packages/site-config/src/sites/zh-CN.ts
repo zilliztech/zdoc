@@ -52,6 +52,9 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   integrations: {
     searchProvider: 'local',
     chatProvider: 'inkeep',
+    // Chinese serves from its own CMS instance; language comes from the
+    // hostname, not a locale parameter.
+    cloudData: {cmsBaseUrl: 'https://cms-cn.zilliz.cc'},
     // Legacy zdoc_cn container (cn v3.0.0 docusaurus.config.js).
     gtmContainerId: 'GTM-MBBL6Z9Q',
     restApi: {
