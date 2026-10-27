@@ -52,7 +52,7 @@ function FloatingChatInput({
   const {pathname} = useLocation();
   const [query, setQuery] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   // `navigator` is unavailable during server-side render, so the SSR hint must
   // match the first client render exactly: start from the platform-neutral
   // text and swap in the platform hint only after hydration. A server/client

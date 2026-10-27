@@ -1,4 +1,4 @@
-import React, {useRef, type CSSProperties, type ReactNode, type Ref, type RefObject} from 'react';
+import React, {useRef, useLayoutEffect, type CSSProperties, type ReactNode, type Ref, type RefObject} from 'react';
 import {ArrowUp} from 'lucide-react';
 import styles from './styles.module.css';
 
@@ -21,7 +21,7 @@ interface AskAiComposerProps {
       hover/focus rings need. The docked instance is position:fixed and doesn't. */
   inFlow?: boolean;
   formRef?: Ref<HTMLFormElement>;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLTextAreaElement>;
   autoFocus?: boolean;
 }
 
@@ -47,8 +47,21 @@ export default function AskAiComposer({
   inputRef,
   autoFocus = false,
 }: AskAiComposerProps): React.ReactElement {
-  const fallbackInputRef = useRef<HTMLInputElement>(null);
+  const fallbackInputRef = useRef<HTMLTextAreaElement>(null);
   const input = inputRef ?? fallbackInputRef;
+
+  useLayoutEffect(() => {
+    const element = input.current;
+    if (!element) return undefined;
+    const resize = () => {
+      element.style.height = '0px';
+      element.style.height = `${element.scrollHeight}px`;
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    if (element.parentElement) observer.observe(element.parentElement);
+    return () => observer.disconnect();
+  }, [value, input]);
 
   return (
     <form
@@ -66,7 +79,7 @@ export default function AskAiComposer({
         // Whole box is the hot zone — clicking any empty area focuses the input
         // (but let the input and the send button handle their own clicks).
         const target = event.target as HTMLElement;
-        if (target.closest('button') || target.tagName === 'INPUT') return;
+        if (target.closest('button') || target.tagName === 'TEXTAREA') return;
         event.preventDefault();
         input.current?.focus();
       }}
@@ -74,11 +87,17 @@ export default function AskAiComposer({
         event.preventDefault();
         onSubmit();
       }}>
-      <input
+      <textarea
         ref={input}
-        type="text"
+        rows={1}
         value={value}
         onChange={event => onChange(event.target.value)}
+        onKeyDown={event => {
+          if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+            event.preventDefault();
+            if (value.trim() && !disabled) event.currentTarget.form?.requestSubmit();
+          }
+        }}
         placeholder={placeholder}
         aria-label={placeholder}
         disabled={disabled}

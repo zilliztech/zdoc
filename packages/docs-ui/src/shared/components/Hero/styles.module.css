@@ -1,5 +1,6 @@
 /* ── Home content wrapper ── */
 .heroWrapper {
+  container: docs-home-hero / inline-size;
   width: 100%;
   position: relative;
   background: var(--ifm-background-color);
@@ -72,6 +73,7 @@
   font-weight: 500 !important;
   color: var(--zd-linear-signup-ink) !important;
   letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
   margin: 0 0 20px !important;
   display: block !important;
   text-align: left !important;
@@ -702,4 +704,19 @@
 .dataCode.code :global(.token.comment) {
   color: var(--zd-gray-400) !important;
   font-style: normal !important;
+}
+
+/* The chat panel reduces the article width without changing the viewport.
+   Stack the intro based on its available space, including on wide screens. */
+@container docs-home-hero (max-width: 760px) {
+  .textArea {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .introCopy {
+    max-width: none;
+  }
 }

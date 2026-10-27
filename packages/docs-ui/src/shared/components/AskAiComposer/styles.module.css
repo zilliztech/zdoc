@@ -111,7 +111,17 @@
   box-shadow: none;
 }
 
-.composer input {
+.composer textarea {
+  display: block;
+  box-sizing: border-box;
+  min-height: 20px;
+  max-height: min(240px, 30dvh);
+  resize: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
   flex: 0 0 auto;
   width: 100%;
   min-width: 0;
@@ -124,12 +134,12 @@
   line-height: 1.4;
 }
 
-.composer input::placeholder {
+.composer textarea::placeholder {
   font-size: 14px !important;
   color: #a4a4a4;
 }
 
-.composer input:disabled {
+.composer textarea:disabled {
   opacity: 0.5;
 }
 
