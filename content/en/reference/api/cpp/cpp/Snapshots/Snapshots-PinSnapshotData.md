@@ -2,7 +2,7 @@
 title: "PinSnapshotData() | Cloud"
 slug: /cpp/cpp/Snapshots-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

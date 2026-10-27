@@ -2,7 +2,7 @@
 title: "CreateSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-CreateSnapshot
 sidebar_label: "CreateSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

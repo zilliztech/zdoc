@@ -2,7 +2,7 @@
 title: "DropSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-DropSnapshot
 sidebar_label: "DropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
