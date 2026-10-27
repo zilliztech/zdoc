@@ -126,25 +126,20 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+client
+    .create_database(
+        CreateDatabaseRequest::builder()
+            .database_name("my_database_1")
+            .build()?,
     )
     .await?;
-
-    client
-        .create_database(
-            CreateDatabaseRequest::builder()
-                .database_name("my_database_1")
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
 ```
 
 </TabItem>

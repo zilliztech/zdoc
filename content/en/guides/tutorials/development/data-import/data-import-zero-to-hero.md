@@ -182,9 +182,6 @@ In the following demo, we will include the first four fields in the pre-defined 
 
 <TabItem value='python'>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"CSharp","value":"csharp"}]}>
-<TabItem value='python'>
-
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -219,39 +216,6 @@ schema.verify()
 print(schema)
 ```
 
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Types;
-
-// You need to work out a collection schema out of your dataset.
-int DIM = 512;
-
-var schema = new CollectionSchema { EnableDynamicFields = true };
-schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
-schema.Fields.Add(new FieldSchema("bool", DataType.Bool));
-schema.Fields.Add(new FieldSchema("int8", DataType.Int8));
-schema.Fields.Add(new FieldSchema("int16", DataType.Int16));
-schema.Fields.Add(new FieldSchema("int32", DataType.Int32));
-schema.Fields.Add(new FieldSchema("int64", DataType.Int64));
-schema.Fields.Add(new FieldSchema("float", DataType.Float));
-schema.Fields.Add(new FieldSchema("double", DataType.Double));
-schema.Fields.Add(new FieldSchema("varchar", DataType.VarChar) { MaxLength = 512 });
-schema.Fields.Add(new FieldSchema("json", DataType.Json));
-schema.Fields.Add(new FieldSchema("array_str", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.VarChar, MaxLength = 128 });
-schema.Fields.Add(new FieldSchema("array_int", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.Int64 });
-schema.Fields.Add(FieldSchema.CreateFloatVector("float_vector", DIM));
-schema.Fields.Add(new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = DIM });
-schema.Fields.Add(new FieldSchema("float16_vector", DataType.Float16Vector) { Dimension = DIM });
-schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
-```
-
-</TabItem>
-</Tabs>
-
 The parameters in the above code are described as follows: 
 
 - fields:
@@ -278,9 +242,6 @@ The parameters in the above code are described as follows:
 
 </TabItem>
 
-<TabItem value='java'>
-
-<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='java'>
 
 ```java
@@ -396,39 +357,6 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
 }
 ```
 
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Types;
-
-// You need to work out a collection schema out of your dataset.
-int DIM = 512;
-
-var schema = new CollectionSchema { EnableDynamicFields = true };
-schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
-schema.Fields.Add(new FieldSchema("bool", DataType.Bool));
-schema.Fields.Add(new FieldSchema("int8", DataType.Int8));
-schema.Fields.Add(new FieldSchema("int16", DataType.Int16));
-schema.Fields.Add(new FieldSchema("int32", DataType.Int32));
-schema.Fields.Add(new FieldSchema("int64", DataType.Int64));
-schema.Fields.Add(new FieldSchema("float", DataType.Float));
-schema.Fields.Add(new FieldSchema("double", DataType.Double));
-schema.Fields.Add(new FieldSchema("varchar", DataType.VarChar) { MaxLength = 512 });
-schema.Fields.Add(new FieldSchema("json", DataType.Json));
-schema.Fields.Add(new FieldSchema("array_str", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.VarChar, MaxLength = 128 });
-schema.Fields.Add(new FieldSchema("array_int", DataType.Array) { MaxCapacity = 100, ElementDataType = DataType.Int64 });
-schema.Fields.Add(FieldSchema.CreateFloatVector("float_vector", DIM));
-schema.Fields.Add(new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = DIM });
-schema.Fields.Add(new FieldSchema("float16_vector", DataType.Float16Vector) { Dimension = DIM });
-schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
-```
-
-</TabItem>
-</Tabs>
-
 In the above code block, 
 
 - The `id` field is the primary field that has `withAutoID` set to `false`, indicating that you should include the `id` field in the data to import.
@@ -443,7 +371,7 @@ In the above code block,
 
 Once the schema is set, you can create the target collection as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -551,42 +479,6 @@ milvusClient.createCollection(request);
 ```
 
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-// 1. Set up a Milvus client
-var client = new MilvusClientV2(new ConnectConfig
-{
-    Uri = CLUSTER_ENDPOINT,
-    Username = "root",
-    Password = "Milvus"
-});
-
-// 2. Set index parameters
-var indexParams = new[]
-{
-    new IndexParam("float_vector", "float_vector_idx", IndexType.AutoIndex, MetricType.Ip),
-    new IndexParam("binary_vector", "binary_vector_idx", IndexType.AutoIndex, MetricType.Hamming),
-    new IndexParam("float16_vector", "float16_vector_idx", IndexType.AutoIndex, MetricType.Ip),
-    new IndexParam("sparse_vector", "sparse_vector_idx", IndexType.AutoIndex, MetricType.Ip)
-};
-
-// 3. Create collection
-await client.CreateCollectionAsync(new CreateCollectionReq
-{
-    CollectionName = COLLECTION_NAME,
-    Schema = schema,
-    Indexes = indexParams
-});
-```
-
-</TabItem>
 </Tabs>
 
 ## Prepare source data\{#prepare-source-data}
@@ -597,7 +489,7 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 
 Once the schema is ready, you can use the schema to create a **RemoteBulkWriter**. A **RemoteBulkWriter** asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a **ConnectParam** object and reference it in the **RemoteBulkWriter**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
@@ -687,17 +579,6 @@ storageConnectParam = AzureConnectParam.newBuilder()
 </TabItem>
 </Tabs>
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -722,9 +603,6 @@ Then, you can reference the connection parameters in the **RemoteBulkWriter** as
 
 <TabItem value='python'>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"CSharp","value":"csharp"}]}>
-<TabItem value='python'>
-
 ```python
 writer = RemoteBulkWriter(
     schema=schema, # Target collection schema
@@ -739,20 +617,6 @@ writer = RemoteBulkWriter(
 # - BulkFileType.NPY, and 
 # - BulkFileType.PARQUET
 ```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
-```
-
-</TabItem>
-</Tabs>
 
 The above writer generates files in JSON format and uploads them to the root folder of the specified bucket.
 
@@ -780,9 +644,6 @@ The above writer generates files in JSON format and uploads them to the root fol
 
 <TabItem value='java'>
 
-<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
-<TabItem value='java'>
-
 ```java
 import io.milvus.bulkwriter.RemoteBulkWriter;
 import io.milvus.bulkwriter.RemoteBulkWriterParam;
@@ -802,20 +663,6 @@ RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
 // Possible file types:
 // - BulkFileType.PARQUET
 ```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
-```
-
-</TabItem>
-</Tabs>
 
 The above writer generates files in Parquet format and uploads them to the root folder of the specified bucket.
 
@@ -1054,9 +901,6 @@ private static List<List<String>> uploadData() throws Exception {
         throw e;
     }
 }
-public static void main(String[] args) throws Exception {
-    List<List<String>> batchFiles = uploadData();
-}
 ```
 
 </TabItem>
@@ -1079,7 +923,7 @@ A row dictionary should contain all schema-defined fields as keys. If dynamic fi
 
 **BulkWriter** generates files only after you call its **commit()** method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1095,24 +939,13 @@ remoteBulkWriter.commit(false);
 ```
 
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
-```
-
-</TabItem>
 </Tabs>
 
 Till now, **BulkWriter** has prepared the source data for you in the specified remote bucket.
 
 To check the generated files, you can get the actual output path by printing the **data_path** property of the writer.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1135,17 +968,6 @@ System.out.println(batchFiles);
 ```
 
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -1164,7 +986,7 @@ Before this step, ensure that the prepared data has already been uploaded to the
 
 To import the prepared source data, you need to call the **bulk_import()** function as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1225,38 +1047,6 @@ System.out.println(jobId);
 ```
 
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-
-// Publicly accessible URL for the prepared data in the remote bucket
-string objectUrl = $"s3://{BUCKET_NAME}/{dataPath}/";
-// Change `s3` to `gs` for Google Cloud Storage
-
-using var bulkImport = new BulkImport(new BulkImportConfig
-{
-    Url = CLOUD_API_ENDPOINT,
-    ApiKey = API_KEY
-});
-
-var resp = await bulkImport.BulkImportAsync(new BulkImportRequest
-{
-    CollectionName = COLLECTION_NAME,
-    ClusterId = CLUSTER_ID,
-    ObjectUrl = objectUrl,
-    AccessKey = ACCESS_KEY,
-    SecretKey = SECRET_KEY
-});
-
-string jobId = resp.JobId ?? "";
-Console.WriteLine(jobId);
-// job-0103f039ccdq9aip1xd4rf
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -1271,7 +1061,7 @@ If the data and target collection are hosted by AWS, the object URL should be si
 
 The following code checks the bulk-import progress every 5 seconds and outputs the progress in percentage. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1349,47 +1139,6 @@ while (true) {
 ```
 
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-
-using var bulkImport = new BulkImport(new BulkImportConfig
-{
-    Url = CLOUD_API_ENDPOINT,
-    ApiKey = API_KEY
-});
-
-while (true)
-{
-    Console.WriteLine("Wait 5 seconds to check the import job state...");
-    await Task.Delay(5000);
-    var progress = await bulkImport.GetImportProgressAsync(new GetImportProgressRequest
-    {
-        JobId = jobId,
-        ClusterId = CLUSTER_ID
-    });
-    string state = progress.State ?? "";
-    if (state == "Completed")
-    {
-        Console.WriteLine($"The job {jobId} completed");
-        break;
-    }
-    if (state == "Failed")
-    {
-        Console.WriteLine($"The job {jobId} failed, reason: {progress.Reason}");
-        break;
-    }
-    Console.WriteLine($"The job {jobId} is running, state: {state}, progress: {progress.Progress}");
-}
-// The job job-01f36d8fd67u94avjfnxi0 is running, state: Importing progress: 0
-// The job job-01f36d8fd67u94avjfnxi0 is running, state: Importing progress: 49
-// The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -1400,7 +1149,7 @@ Replace **url** in the **get_import_progress()** with the one corresponding to t
 
 You can list all bulk-import jobs as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1450,29 +1199,6 @@ CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.bu
         .build();
 String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
 System.out.println(listImportJobsResult);
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-
-using var bulkImport = new BulkImport(new BulkImportConfig
-{
-    Url = CLOUD_API_ENDPOINT,
-    ApiKey = API_KEY
-});
-
-var resp = await bulkImport.ListImportJobsAsync(new ListImportJobsRequest
-{
-    CollectionName = COLLECTION_NAME,
-    ClusterId = CLUSTER_ID
-});
-
-Console.WriteLine(resp.Data);
 ```
 
 </TabItem>

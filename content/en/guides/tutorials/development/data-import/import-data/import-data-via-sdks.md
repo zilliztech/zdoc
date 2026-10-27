@@ -179,29 +179,24 @@ To import data from a volume, first create a [managed or external volume](./mana
 ```python
 from pymilvus.bulk_writer import bulk_import
 
-def cloud_bulkinsert():
-    # The value of the URL is fixed.
-    url = "https://api.cloud.zilliz.com"
-    api_key = ""
-    cluster_id = "inxx-xxxxxxxxxxxxxxx"
-    volume_name = "my-first-volume"
-    data_path = "dataPath"
+# The value of the URL is fixed.
+url = "https://api.cloud.zilliz.com"
+api_key = ""
+cluster_id = "inxx-xxxxxxxxxxxxxxx"
+volume_name = "my-first-volume"
+data_path = "dataPath"
 
-    print(f"\n===================== import files to cloud vectordb ====================")
+print(f"\n===================== import files to cloud vectordb ====================")
 
-    resp = bulk_import(
-        url=url,
-        api_key=api_key,
-        cluster_id=cluster_id,
-        collection_name='medium_articles',
-        volume_name=volume_name,
-        data_paths=[[data_path]]
-    )
-    print(resp.json())
-
-if __name__ == '__main__':
-    # # to call cloud bulkinsert api, you need to apply a cloud service from Zilliz Cloud(https://zilliz.com/cloud)
-    cloud_bulkinsert()
+resp = bulk_import(
+    url=url,
+    api_key=api_key,
+    cluster_id=cluster_id,
+    collection_name='medium_articles',
+    volume_name=volume_name,
+    data_paths=[[data_path]]
+)
+print(resp.json())
 ```
 
 </TabItem>
@@ -209,32 +204,25 @@ if __name__ == '__main__':
 <TabItem value='java'>
 
 ```java
-private static String bulkImport() throws InterruptedException {
-    /**
-     * The value of the URL is fixed.
-     */
-    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
-    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
-    String API_KEY = "";
-    String VOLUME_NAME = "my-first-volume";
-    List<String> DATA_PATH = Lists.newArrayList("dataPath");
-    VolumeImportRequest volumeImportRequest = VolumeImportRequest.builder()
-            .apiKey(API_KEY)
-            .clusterId(CLUSTER_ID).collectionName("medium_articles")
-            .volumeName(VOLUME_NAME)
-            .dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
-            .build();
-    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, volumeImportRequest);
-    System.out.println(bulkImportResult);
-    JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
-    String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
-    System.out.println("Create a bulkImport task, job id: " + jobId);
-    return jobId;
-}
-
-public static void main(String[] args) throws Exception {
-    String jobId = bulkImport();
-}
+/**
+ * The value of the URL is fixed.
+ */
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+String API_KEY = "";
+String VOLUME_NAME = "my-first-volume";
+List<String> DATA_PATH = Lists.newArrayList("dataPath");
+VolumeImportRequest volumeImportRequest = VolumeImportRequest.builder()
+        .apiKey(API_KEY)
+        .clusterId(CLUSTER_ID).collectionName("medium_articles")
+        .volumeName(VOLUME_NAME)
+        .dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+        .build();
+String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, volumeImportRequest);
+System.out.println(bulkImportResult);
+JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
+String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
+System.out.println("Create a bulkImport task, job id: " + jobId);
 
 // 0f7fe853-d93e-4681-99f2-4719c63585cc
 ```
@@ -254,25 +242,21 @@ public static void main(String[] args) throws Exception {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // The value of the URL is fixed.
-    let config = BulkImportConfig::new()
-        .url("https://api.cloud.zilliz.com")
-        .api_key("YOUR_API_KEY");
-    let bulk_import = BulkImport::new(&config)?;
+// The value of the URL is fixed.
+let config = BulkImportConfig::new()
+    .url("https://api.cloud.zilliz.com")
+    .api_key("YOUR_API_KEY");
+let bulk_import = BulkImport::new(&config)?;
 
-    let request = BulkImportRequest::builder()
-        .collection_name("medium_articles")
-        .cluster_id("inxx-xxxxxxxxxxxxxxx")
-        .volume_name("my-first-volume")
-        .data_paths([["dataPath"]])
-        .build()?;
+let request = BulkImportRequest::builder()
+    .collection_name("medium_articles")
+    .cluster_id("inxx-xxxxxxxxxxxxxxx")
+    .volume_name("my-first-volume")
+    .data_paths([["dataPath"]])
+    .build()?;
 
-    let resp = bulk_import.bulk_import(request).await?;
-    println!("{:?}", resp.job_id());
-    Ok(())
-}
+let resp = bulk_import.bulk_import(request).await?;
+println!("{:?}", resp.job_id());
 ```
 
 </TabItem>
@@ -401,35 +385,28 @@ print(res.json())
 <TabItem value='java'>
 
 ```java
-private static String bulkImport() throws InterruptedException {
-    /**
-     * The value of the URL is fixed.
-     */
-    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
-    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
-    String API_KEY = "";
-    String STORAGE_URL = "";
-    String ACCESS_KEY = "";
-    String SECRET_KEY = "";
-    CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
-            .apiKey(API_KEY)
-            .clusterId(CLUSTER_ID)
-            .collectionName("medium_articles")
-            .objectUrl(STORAGE_URL)
-            .accessKey(ACCESS_KEY)
-            .secretKey(SECRET_KEY)
-            .build();
-    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
-    System.out.println(bulkImportResult);
-    JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
-    String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
-    System.out.println("Create a bulkImport task, job id: " + jobId);
-    return jobId;
-}
-
-public static void main(String[] args) throws Exception {
-    String jobId = bulkImport();
-}
+/**
+ * The value of the URL is fixed.
+ */
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+String API_KEY = "";
+String STORAGE_URL = "";
+String ACCESS_KEY = "";
+String SECRET_KEY = "";
+CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
+        .apiKey(API_KEY)
+        .clusterId(CLUSTER_ID)
+        .collectionName("medium_articles")
+        .objectUrl(STORAGE_URL)
+        .accessKey(ACCESS_KEY)
+        .secretKey(SECRET_KEY)
+        .build();
+String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
+System.out.println(bulkImportResult);
+JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
+String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
+System.out.println("Create a bulkImport task, job id: " + jobId);
 
 // 0f7fe853-d93e-4681-99f2-4719c63585cc
 ```
@@ -449,24 +426,22 @@ import (
     "github.com/milvus-io/milvus/client/v3/bulkwriter"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    opt := bulkwriter.NewCloudBulkImportOption(
-        "https://api.cloud.zilliz.com",
-        "medium_articles",
-        "YOUR_API_KEY",
-        "YOUR_OBJECT_URL",
-        "inxx-xxxxxxxxxxxxxxx",
-        "YOUR_ACCESS_KEY",
-        "YOUR_SECRET_KEY",
-    )
-    resp, err := bulkwriter.BulkImport(ctx, opt)
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println(resp.Data.JobID)
+opt := bulkwriter.NewCloudBulkImportOption(
+    "https://api.cloud.zilliz.com",
+    "medium_articles",
+    "YOUR_API_KEY",
+    "YOUR_OBJECT_URL",
+    "inxx-xxxxxxxxxxxxxxx",
+    "YOUR_ACCESS_KEY",
+    "YOUR_SECRET_KEY",
+)
+resp, err := bulkwriter.BulkImport(ctx, opt)
+if err != nil {
+    log.Fatal(err)
 }
+fmt.Println(resp.Data.JobID)
 ```
 
 </TabItem>
@@ -476,26 +451,22 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // The value of the URL is fixed.
-    let config = BulkImportConfig::new()
-        .url("https://api.cloud.zilliz.com")
-        .api_key("YOUR_API_KEY");
-    let bulk_import = BulkImport::new(&config)?;
+// The value of the URL is fixed.
+let config = BulkImportConfig::new()
+    .url("https://api.cloud.zilliz.com")
+    .api_key("YOUR_API_KEY");
+let bulk_import = BulkImport::new(&config)?;
 
-    let request = BulkImportRequest::builder()
-        .collection_name("medium_articles")
-        .cluster_id("inxx-xxxxxxxxxxxxxxx")
-        .object_url("YOUR_OBJECT_URL")
-        .access_key("YOUR_ACCESS_KEY")
-        .secret_key("YOUR_SECRET_KEY")
-        .build()?;
+let request = BulkImportRequest::builder()
+    .collection_name("medium_articles")
+    .cluster_id("inxx-xxxxxxxxxxxxxxx")
+    .object_url("YOUR_OBJECT_URL")
+    .access_key("YOUR_ACCESS_KEY")
+    .secret_key("YOUR_SECRET_KEY")
+    .build()?;
 
-    let resp = bulk_import.bulk_import(request).await?;
-    println!("{:?}", resp.job_id());
-    Ok(())
-}
+let resp = bulk_import.bulk_import(request).await?;
+println!("{:?}", resp.job_id());
 ```
 
 </TabItem>
@@ -617,25 +588,20 @@ print(json.dumps(resp.json(), indent=4))
 <TabItem value='java'>
 
 ```java
-private static void getImportProgress(String jobId) {
-    /**
-     * The value of the URL is fixed.
-     */
-    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
-    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
-    String API_KEY = "";
-    CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
-        .apiKey(API_KEY)
-        .clusterId(CLUSTER_ID)
-        .jobId(jobId)
-        .build();
-    String getImportProgressResult = BulkImportUtils.getImportProgress(CLOUD_API_ENDPOINT, request);
-    System.out.println("Get import progress, result: " + getImportProgressResult);
-}
-
-public static void main(String[] args) throws Exception {
-    getImportProgress("job-xxxx");
-}
+/**
+ * The value of the URL is fixed.
+ */
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+String API_KEY = "";
+String jobId = "job-xxxx";
+CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
+    .apiKey(API_KEY)
+    .clusterId(CLUSTER_ID)
+    .jobId(jobId)
+    .build();
+String getImportProgressResult = BulkImportUtils.getImportProgress(CLOUD_API_ENDPOINT, request);
+System.out.println("Get import progress, result: " + getImportProgressResult);
 ```
 
 </TabItem>
@@ -653,21 +619,19 @@ import (
     "github.com/milvus-io/milvus/client/v3/bulkwriter"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    opt := bulkwriter.NewCloudGetImportProgressOption(
-        "https://api.cloud.zilliz.com",
-        "job-01fa0e5d42cjxudhpuehyp",
-        "YOUR_API_KEY",
-        "inxx-xxxxxxxxxxxxxxx",
-    )
-    resp, err := bulkwriter.GetImportProgress(ctx, opt)
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Printf("%+v\n", resp.Data)
+opt := bulkwriter.NewCloudGetImportProgressOption(
+    "https://api.cloud.zilliz.com",
+    "job-01fa0e5d42cjxudhpuehyp",
+    "YOUR_API_KEY",
+    "inxx-xxxxxxxxxxxxxxx",
+)
+resp, err := bulkwriter.GetImportProgress(ctx, opt)
+if err != nil {
+    log.Fatal(err)
 }
+fmt.Printf("%+v\n", resp.Data)
 ```
 
 </TabItem>
@@ -677,23 +641,19 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // The value of the URL is fixed.
-    let config = BulkImportConfig::new()
-        .url("https://api.cloud.zilliz.com")
-        .api_key("YOUR_API_KEY");
-    let bulk_import = BulkImport::new(&config)?;
+// The value of the URL is fixed.
+let config = BulkImportConfig::new()
+    .url("https://api.cloud.zilliz.com")
+    .api_key("YOUR_API_KEY");
+let bulk_import = BulkImport::new(&config)?;
 
-    let request = GetImportProgressRequest::builder()
-        .job_id("job-01fa0e5d42cjxudhpuehyp")
-        .cluster_id("inxx-xxxxxxxxxxxxxxx")
-        .build()?;
+let request = GetImportProgressRequest::builder()
+    .job_id("job-01fa0e5d42cjxudhpuehyp")
+    .cluster_id("inxx-xxxxxxxxxxxxxxx")
+    .build()?;
 
-    let resp = bulk_import.get_import_progress(request).await?;
-    println!("{:?}", resp);
-    Ok(())
-}
+let resp = bulk_import.get_import_progress(request).await?;
+println!("{:?}", resp);
 ```
 
 </TabItem>
@@ -798,23 +758,17 @@ print(json.dumps(resp.json(), indent=4))
 <TabItem value='java'>
 
 ```java
-private static void listImportJobs() {
-    /**
-     * The value of the URL is fixed.
-     */
-    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
-    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
-    String API_KEY = "";
-    CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
-            .apiKey(API_KEY)
-            .clusterId(CLUSTER_ID).build();
-    String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
-    System.out.println(listImportJobsResult);
-}
-
-public static void main(String[] args) throws Exception {
-    listImportJobs();
-}
+/**
+ * The value of the URL is fixed.
+ */
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+String API_KEY = "";
+CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
+        .apiKey(API_KEY)
+        .clusterId(CLUSTER_ID).build();
+String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
+System.out.println(listImportJobsResult);
 ```
 
 </TabItem>
@@ -832,19 +786,17 @@ import (
     "github.com/milvus-io/milvus/client/v3/bulkwriter"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    opt := bulkwriter.NewListImportJobsOption("https://api.cloud.zilliz.com", "")
-    opt.APIKey = "YOUR_API_KEY"
-    opt.ClusterID = "inxx-xxxxxxxxxxxxxxx"
+opt := bulkwriter.NewListImportJobsOption("https://api.cloud.zilliz.com", "")
+opt.APIKey = "YOUR_API_KEY"
+opt.ClusterID = "inxx-xxxxxxxxxxxxxxx"
 
-    resp, err := bulkwriter.ListImportJobs(ctx, opt)
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println(resp.Data.Records)
+resp, err := bulkwriter.ListImportJobs(ctx, opt)
+if err != nil {
+    log.Fatal(err)
 }
+fmt.Println(resp.Data.Records)
 ```
 
 </TabItem>
@@ -854,22 +806,18 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // The value of the URL is fixed.
-    let config = BulkImportConfig::new()
-        .url("https://api.cloud.zilliz.com")
-        .api_key("YOUR_API_KEY");
-    let bulk_import = BulkImport::new(&config)?;
+// The value of the URL is fixed.
+let config = BulkImportConfig::new()
+    .url("https://api.cloud.zilliz.com")
+    .api_key("YOUR_API_KEY");
+let bulk_import = BulkImport::new(&config)?;
 
-    let request = ListImportJobsRequest::builder()
-        .cluster_id("inxx-xxxxxxxxxxxxxxx")
-        .build()?;
+let request = ListImportJobsRequest::builder()
+    .cluster_id("inxx-xxxxxxxxxxxxxxx")
+    .build()?;
 
-    let resp = bulk_import.list_import_jobs(request).await?;
-    println!("{:?}", resp);
-    Ok(())
-}
+let resp = bulk_import.list_import_jobs(request).await?;
+println!("{:?}", resp);
 ```
 
 </TabItem>

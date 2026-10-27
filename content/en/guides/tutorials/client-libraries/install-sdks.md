@@ -174,11 +174,7 @@ milvus-sdk-rust = "3.0.2"
 use milvus::v2::prelude::*;
 
 // Connect to Milvus
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
-    Ok(())
-}
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
 ```
 
 </TabItem>

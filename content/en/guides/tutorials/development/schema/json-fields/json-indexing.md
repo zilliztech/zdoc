@@ -328,34 +328,102 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+
+// Define a schema with a JSON field
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+    WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+
+// Minimal vector index so the collection can be loaded
+vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
+    WithIndexOptions(vecIndex))
+if err != nil {
+    log.Fatal(err)
+}
+
+// Insert one row that matches the sample JSON structure above
+metadata := []byte(`{
+    "category": "electronics",
+    "brand": "BrandA",
+    "in_stock": true,
+    "price": 99.99,
+    "string_price": "99.99",
+    "tags": ["clearance", "summer_sale"],
+    "supplier": {
+        "name": "SupplierX",
+        "country": "USA",
+        "contact": {
+            "email": "support@supplierx.com",
+            "phone": "+1-800-555-0199"
+        }
     }
-    defer cli.Close(ctx)
+}`)
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
+    WithInt64Column("pk", []int64{1}).
+    WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
+    WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
+if err != nil {
+    log.Fatal(err)
+}
+log.Printf("inserted %d rows", result.InsertCount)
+```
 
-    // Define a schema with a JSON field
-    schema := entity.NewSchema().WithDynamicFieldEnabled(false).
-        WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
-        WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
-        WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+</TabItem>
 
-    // Minimal vector index so the collection can be loaded
-    vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+<TabItem value='rust'>
 
-    err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
-        WithIndexOptions(vecIndex))
-    if err != nil {
-        log.Fatal(err)
-    }
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
 
-    // Insert one row that matches the sample JSON structure above
-    metadata := []byte(`{
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+// Define a schema with a JSON field
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
+    .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("your_collection_name")
+        .schema(schema)
+        .build()?,
+)
+.await?;
+
+// Minimal vector index so the collection can be loaded
+let vec_index = IndexParam::new()
+    .field_name("vec")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::L2);
+
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("your_collection_name")
+        .index_params(vec![vec_index])
+        .build()?,
+)
+.await?;
+
+// Insert one row that matches the sample JSON structure above
+let row = json!({
+    "pk": 1,
+    "vec": [0.1f32, 0.2, 0.3, 0.4],
+    "metadata": {
         "category": "electronics",
         "brand": "BrandA",
         "in_stock": true,
@@ -370,90 +438,15 @@ func main() {
                 "phone": "+1-800-555-0199"
             }
         }
-    }`)
-    result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
-        WithInt64Column("pk", []int64{1}).
-        WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
-        WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
-    if err != nil {
-        log.Fatal(err)
     }
-    log.Printf("inserted %d rows", result.InsertCount)
-}
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-    let client = ClientV2::new(&config).await?;
-
-    // Define a schema with a JSON field
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
-        .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
-        .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
-
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name("your_collection_name")
-            .schema(schema)
-            .build()?,
-    )
-    .await?;
-
-    // Minimal vector index so the collection can be loaded
-    let vec_index = IndexParam::new()
-        .field_name("vec")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::L2);
-
-    client.create_index(
-        CreateIndexRequest::builder()
-            .collection_name("your_collection_name")
-            .index_params(vec![vec_index])
-            .build()?,
-    )
-    .await?;
-
-    // Insert one row that matches the sample JSON structure above
-    let row = json!({
-        "pk": 1,
-        "vec": [0.1f32, 0.2, 0.3, 0.4],
-        "metadata": {
-            "category": "electronics",
-            "brand": "BrandA",
-            "in_stock": true,
-            "price": 99.99,
-            "string_price": "99.99",
-            "tags": ["clearance", "summer_sale"],
-            "supplier": {
-                "name": "SupplierX",
-                "country": "USA",
-                "contact": {
-                    "email": "support@supplierx.com",
-                    "phone": "+1-800-555-0199"
-                }
-            }
-        }
-    });
-    client.insert(
-        InsertRequest::builder()
-            .collection_name("your_collection_name")
-            .rows(vec![row])
-            .build()?,
-    )
-    .await?;
-
-    Ok(())
-}
+});
+client.insert(
+    InsertRequest::builder()
+        .collection_name("your_collection_name")
+        .rows(vec![row])
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>

@@ -177,13 +177,9 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Use the global endpoint for automatic routing
-    let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Use the global endpoint for automatic routing
+let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>
@@ -315,13 +311,9 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Connect directly to a specific cluster
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Connect directly to a specific cluster
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>

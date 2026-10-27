@@ -59,7 +59,7 @@ The primary keys are not used for filtering; they are used only for vector retri
 
 To conduct a basic primary-key search, simply replace the query vectors with primary keys.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -156,6 +156,34 @@ if err != nil {
 for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("vector")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43])) // a list of primary keys
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -289,7 +317,7 @@ zilliz vector search \
 
 The following example assumes that `color` and `likes` are two schema-defined fields in the target collection. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -350,6 +378,32 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("color: ", resultSet.GetColumn("color"))
     fmt.Println("likes: ", resultSet.GetColumn("likes"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        .filter(r#"color like "red%" and likes > 50"#)
+        .output_fields(["color", "likes"])
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -473,7 +527,7 @@ zilliz vector search \
 
 ### Example 3: Range search using primary keys\{#example-3-range-search-using-primary-keys}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -547,6 +601,34 @@ if err != nil {
 for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        // highlight-end
+        // highlight-start
+        .radius(0.4)
+        .range_filter(0.6)
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -680,7 +762,7 @@ zilliz vector search \
 
 The following example assumes `docId` is a schema-defined fields in the target collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -740,6 +822,32 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        // highlight-end
+        .group_by_field("docId")
+        .output_fields(["docId"])
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 

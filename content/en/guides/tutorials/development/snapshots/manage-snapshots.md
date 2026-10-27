@@ -2,7 +2,7 @@
 title: "Manage Snapshots | Cloud"
 slug: /manage-snapshots
 sidebar_label: "Manage Snapshots"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -38,6 +38,12 @@ In this guide, you will learn how to create and manage snapshots, including
 - [List restoration jobs](./manage-snapshots#list-restoration-jobs), and
 
 - [Get restoration state](./manage-snapshots#get-restoration-state).
+
+<Admonition type="info" title="Note">
+
+This feature is available only for Dedicated clusters.
+
+</Admonition>
 
 ## Create snapshot\{#create-snapshot}
 
@@ -146,28 +152,24 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Recommended: Flush data before creating snapshot to ensure all data is included
-    client.flush(
-        FlushRequest::builder()
-            .collection_names(["my_collection"])
-            .build()?,
-    ).await?;
+// Recommended: Flush data before creating snapshot to ensure all data is included
+client.flush(
+    FlushRequest::builder()
+        .collection_names(["my_collection"])
+        .build()?,
+).await?;
 
-    // Create snapshot for entire collection
-    client.create_snapshot(
-        CreateSnapshotRequest::builder()
-            .collection_name("my_collection")
-            .snapshot_name("backup_20240101")
-            .description("Daily backup for January 1st, 2024")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+// Create snapshot for entire collection
+client.create_snapshot(
+    CreateSnapshotRequest::builder()
+        .collection_name("my_collection")
+        .snapshot_name("backup_20240101")
+        .description("Daily backup for January 1st, 2024")
+        .build()?,
+).await?;
 ```
 
 </TabItem>

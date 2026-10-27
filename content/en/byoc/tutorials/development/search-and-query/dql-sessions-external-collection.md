@@ -76,20 +76,16 @@ client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
-            .token("YOUR_API_KEY"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
+        .token("YOUR_API_KEY"),
+)
+.await?;
 
-    let has = client
-        .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
-        .await?;
-    Ok(())
-}
+let has = client
+    .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
+    .await?;
 ```
 
 </TabItem>

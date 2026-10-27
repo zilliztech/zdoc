@@ -114,23 +114,19 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.create_user(
-        sdk::request::rbac::CreateUserRequest::builder()
-            .username("user_1")
-            .password("P@ssw0rd")
-            .description("a new user in the developers team")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_user(
+    sdk::request::rbac::CreateUserRequest::builder()
+        .username("user_1")
+        .password("P@ssw0rd")
+        .description("a new user in the developers team")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -420,22 +416,18 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.grant_role(
-        sdk::request::rbac::GrantRoleRequest::builder()
-            .username("user_1")
-            .role_name("role_a")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.grant_role(
+    sdk::request::rbac::GrantRoleRequest::builder()
+        .username("user_1")
+        .role_name("role_a")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -864,21 +856,17 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.drop_user(
-        sdk::request::rbac::DropUserRequest::builder()
-            .username("user_1")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.drop_user(
+    sdk::request::rbac::DropUserRequest::builder()
+        .username("user_1")
+        .build()?,
+).await?;
 ```
 
 </TabItem>

@@ -110,24 +110,22 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-    const TOKEN = "YOUR_CLUSTER_TOKEN"
+const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+const TOKEN = "YOUR_CLUSTER_TOKEN"
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: CLUSTER_ENDPOINT,
-        APIKey:  TOKEN,
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: CLUSTER_ENDPOINT,
+    APIKey:  TOKEN,
+})
+if err != nil {
+    log.Fatal(err)
+}
 
-    err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("quick_setup", 5))
-    if err != nil {
-        log.Fatal(err)
-    }
+err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("quick_setup", 5))
+if err != nil {
+    log.Fatal(err)
 }
 ```
 
@@ -138,22 +136,17 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    client
-        .create_collection(
-            CreateSimpleCollectionRequest::builder()
-                .collection_name("quick_setup")
-                .dimension(5)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
+client
+    .create_collection(
+        CreateSimpleCollectionRequest::builder()
+            .collection_name("quick_setup")
+            .dimension(5)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -164,23 +157,19 @@ async fn main() -> Result<()> {
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-int main() {
-    auto client = milvus::MilvusClientV2::Create();
-    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
+}
 
-    status = client->CreateCollection(milvus::CreateSimpleCollectionRequest()
-        .WithCollectionName("quick_setup")
-        .WithDimension(5));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
-
-    return 0;
+status = client->CreateCollection(milvus::CreateSimpleCollectionRequest()
+    .WithCollectionName("quick_setup")
+    .WithDimension(5));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -371,41 +360,39 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-    const TOKEN = "YOUR_CLUSTER_TOKEN"
-    const COLLECTION_NAME = "quick_setup"
+const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+const TOKEN = "YOUR_CLUSTER_TOKEN"
+const COLLECTION_NAME = "quick_setup"
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: CLUSTER_ENDPOINT,
-        APIKey:  TOKEN,
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    colors := []string{"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"}
-    rows := make([]any, 0, 10000)
-    for i := 0; i < 10000; i++ {
-        currentColor := colors[rand.Intn(len(colors))]
-        currentTag := rand.Intn(9000) + 1000
-        rows = append(rows, map[string]any{
-            "id":        int64(i),
-            "vector":    []float32{rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1},
-            "color":     currentColor,
-            "tag":       currentTag,
-            "color_tag": fmt.Sprintf("%s_%d", currentColor, currentTag),
-        })
-    }
-
-    result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption(COLLECTION_NAME, rows...))
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println(result.InsertCount)
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: CLUSTER_ENDPOINT,
+    APIKey:  TOKEN,
+})
+if err != nil {
+    log.Fatal(err)
 }
+
+colors := []string{"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"}
+rows := make([]any, 0, 10000)
+for i := 0; i < 10000; i++ {
+    currentColor := colors[rand.Intn(len(colors))]
+    currentTag := rand.Intn(9000) + 1000
+    rows = append(rows, map[string]any{
+        "id":        int64(i),
+        "vector":    []float32{rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1, rand.Float32()*2 - 1},
+        "color":     currentColor,
+        "tag":       currentTag,
+        "color_tag": fmt.Sprintf("%s_%d", currentColor, currentTag),
+    })
+}
+
+result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption(COLLECTION_NAME, rows...))
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result.InsertCount)
 ```
 
 </TabItem>
@@ -416,36 +403,32 @@ func main() {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"];
-    let mut rows = Vec::new();
-    for i in 0..10000 {
-        let current_color = colors[i % colors.len()];
-        let current_tag = 1000 + (i % 9000);
-        rows.push(json!({
-            "id": i as i64,
-            "vector": vec![0.1f32, 0.2, 0.3, 0.4, 0.5],
-            "color": current_color,
-            "tag": current_tag,
-            "color_tag": format!("{}_{}", current_color, current_tag),
-        }));
-    }
-
-    let resp = client
-        .insert(
-            InsertRequest::builder()
-                .collection_name("quick_setup")
-                .rows(rows)
-                .build()?,
-        )
-        .await?;
-    println!("insert count: {}", resp.insert_count());
-    Ok(())
+let colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"];
+let mut rows = Vec::new();
+for i in 0..10000 {
+    let current_color = colors[i % colors.len()];
+    let current_tag = 1000 + (i % 9000);
+    rows.push(json!({
+        "id": i as i64,
+        "vector": vec![0.1f32, 0.2, 0.3, 0.4, 0.5],
+        "color": current_color,
+        "tag": current_tag,
+        "color_tag": format!("{}_{}", current_color, current_tag),
+    }));
 }
+
+let resp = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("quick_setup")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+println!("insert count: {}", resp.insert_count());
 ```
 
 </TabItem>
@@ -459,42 +442,39 @@ async fn main() -> Result<()> {
 #include <vector>
 #include "milvus/MilvusClientV2.h"
 
-int main() {
-    auto client = milvus::MilvusClientV2::Create();
-    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
-
-    std::vector<std::string> colors = {"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"};
-    std::mt19937 rng(42);
-    std::uniform_int_distribution<int> color_dist(0, (int)colors.size() - 1);
-    std::uniform_int_distribution<int> tag_dist(1000, 9999);
-    std::uniform_real_distribution<float> vec_dist(-1.0f, 1.0f);
-
-    milvus::EntityRows rows;
-    for (int i = 0; i < 10000; i++) {
-        std::string current_color = colors[color_dist(rng)];
-        int current_tag = tag_dist(rng);
-        rows.push_back({
-            {"id", i},
-            {"vector", std::vector<float>{vec_dist(rng), vec_dist(rng), vec_dist(rng), vec_dist(rng), vec_dist(rng)}},
-            {"color", current_color},
-            {"tag", current_tag},
-            {"color_tag", current_color + "_" + std::to_string(current_tag)}
-        });
-    }
-
-    milvus::InsertResponse response;
-    status = client->Insert(milvus::InsertRequest().WithCollectionName("quick_setup").WithRowsData(std::move(rows)), response);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
-    std::cout << "insert count: " << response.Results().InsertCount() << std::endl;
-    return 0;
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
 }
+
+std::vector<std::string> colors = {"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"};
+std::mt19937 rng(42);
+std::uniform_int_distribution<int> color_dist(0, (int)colors.size() - 1);
+std::uniform_int_distribution<int> tag_dist(1000, 9999);
+std::uniform_real_distribution<float> vec_dist(-1.0f, 1.0f);
+
+milvus::EntityRows rows;
+for (int i = 0; i < 10000; i++) {
+    std::string current_color = colors[color_dist(rng)];
+    int current_tag = tag_dist(rng);
+    rows.push_back({
+        {"id", i},
+        {"vector", std::vector<float>{vec_dist(rng), vec_dist(rng), vec_dist(rng), vec_dist(rng), vec_dist(rng)}},
+        {"color", current_color},
+        {"tag", current_tag},
+        {"color_tag", current_color + "_" + std::to_string(current_tag)}
+    });
+}
+
+milvus::InsertResponse response;
+status = client->Insert(milvus::InsertRequest().WithCollectionName("quick_setup").WithRowsData(std::move(rows)), response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
+}
+std::cout << "insert count: " << response.Results().InsertCount() << std::endl;
 ```
 
 </TabItem>
@@ -716,53 +696,51 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-    const TOKEN = "YOUR_CLUSTER_TOKEN"
-    const COLLECTION_NAME = "quick_setup"
+const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+const TOKEN = "YOUR_CLUSTER_TOKEN"
+const COLLECTION_NAME = "quick_setup"
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: CLUSTER_ENDPOINT,
-        APIKey:  TOKEN,
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    it, err := cli.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(COLLECTION_NAME).
-        WithBatchSize(50).
-        WithFilter("color_tag like \"brown_8%\"").
-        WithOutputFields("color_tag", "vector"))
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    var results []map[string]any
-    for {
-        rs, err := it.Next(ctx)
-        if errors.Is(err, io.EOF) {
-            break
-        }
-        if err != nil {
-            log.Fatal(err)
-        }
-        idCol := rs.GetColumn("id")
-        colorTagCol := rs.GetColumn("color_tag")
-        for i := 0; i < rs.Len(); i++ {
-            id, _ := idCol.Get(i)
-            colorTag, _ := colorTagCol.Get(i)
-            results = append(results, map[string]any{
-                "id":        id,
-                "color_tag": colorTag,
-            })
-        }
-    }
-
-    data, _ := json.Marshal(results)
-    os.WriteFile("results.json", data, 0644)
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: CLUSTER_ENDPOINT,
+    APIKey:  TOKEN,
+})
+if err != nil {
+    log.Fatal(err)
 }
+
+it, err := cli.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(COLLECTION_NAME).
+    WithBatchSize(50).
+    WithFilter("color_tag like \"brown_8%\"").
+    WithOutputFields("color_tag", "vector"))
+if err != nil {
+    log.Fatal(err)
+}
+
+var results []map[string]any
+for {
+    rs, err := it.Next(ctx)
+    if errors.Is(err, io.EOF) {
+        break
+    }
+    if err != nil {
+        log.Fatal(err)
+    }
+    idCol := rs.GetColumn("id")
+    colorTagCol := rs.GetColumn("color_tag")
+    for i := 0; i < rs.Len(); i++ {
+        id, _ := idCol.Get(i)
+        colorTag, _ := colorTagCol.Get(i)
+        results = append(results, map[string]any{
+            "id":        id,
+            "color_tag": colorTag,
+        })
+    }
+}
+
+data, _ := json.Marshal(results)
+os.WriteFile("results.json", data, 0644)
 ```
 
 </TabItem>
@@ -772,35 +750,31 @@ func main() {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let mut iterator = client
-        .query_iterator(
-            QueryIteratorRequest::builder()
-                .query(
-                    QueryRequest::builder()
-                        .collection_name("quick_setup")
-                        .filter("color_tag like \"brown_8%\"")
-                        .output_fields(["color_tag", "vector"])
-                        .build()?,
-                )
-                .batch_size(50)
-                .build()?,
-        )
-        .await?;
+let mut iterator = client
+    .query_iterator(
+        QueryIteratorRequest::builder()
+            .query(
+                QueryRequest::builder()
+                    .collection_name("quick_setup")
+                    .filter("color_tag like \"brown_8%\"")
+                    .output_fields(["color_tag", "vector"])
+                    .build()?,
+            )
+            .batch_size(50)
+            .build()?,
+    )
+    .await?;
 
-    let mut count = 0usize;
-    while let Some(batch) = iterator.next().await? {
-        for _row in batch.results().rows()? {
-            count += 1;
-        }
+let mut count = 0usize;
+while let Some(batch) = iterator.next().await? {
+    for _row in batch.results().rows()? {
+        count += 1;
     }
-    println!("exported {} rows", count);
-    Ok(())
 }
+println!("exported {} rows", count);
 ```
 
 </TabItem>
@@ -811,42 +785,39 @@ async fn main() -> Result<()> {
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-int main() {
-    auto client = milvus::MilvusClientV2::Create();
-    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
-
-    milvus::QueryIteratorRequest request;
-    request.WithCollectionName("quick_setup")
-           .WithFilter("color_tag like \"brown_8%\"")
-           .WithOutputFields({"color_tag", "vector"});
-    request.SetBatchSize(50);
-
-    milvus::QueryIteratorPtr iterator;
-    status = client->QueryIterator(request, iterator);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        return 1;
-    }
-
-    int count = 0;
-    milvus::EntityRows rows;
-    while (true) {
-        milvus::QueryResults results;
-        status = iterator->Next(results);
-        if (!status.IsOk() || results.GetRowCount() == 0) {
-            break;
-        }
-        rows.clear();
-        results.OutputRows(rows);
-        count += (int)rows.size();
-    }
-    std::cout << "exported " << count << " rows" << std::endl;
-    return 0;
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
 }
+
+milvus::QueryIteratorRequest request;
+request.WithCollectionName("quick_setup")
+       .WithFilter("color_tag like \"brown_8%\"")
+       .WithOutputFields({"color_tag", "vector"});
+request.SetBatchSize(50);
+
+milvus::QueryIteratorPtr iterator;
+status = client->QueryIterator(request, iterator);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+    return 1;
+}
+
+int count = 0;
+milvus::EntityRows rows;
+while (true) {
+    milvus::QueryResults results;
+    status = iterator->Next(results);
+    if (!status.IsOk() || results.GetRowCount() == 0) {
+        break;
+    }
+    rows.clear();
+    results.OutputRows(rows);
+    count += (int)rows.size();
+}
+std::cout << "exported " << count << " rows" << std::endl;
 ```
 
 </TabItem>

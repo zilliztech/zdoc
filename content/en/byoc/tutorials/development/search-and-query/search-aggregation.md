@@ -376,41 +376,37 @@ queryVector := []float32{0.11, 0.40, 0.19, 0.64, 0.30}
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let collection_name = "product_search_aggregation";
-    client.drop_collection(
-        DropCollectionRequest::builder().collection_name(collection_name).build()?,
-    ).await.ok();
+let collection_name = "product_search_aggregation";
+client.drop_collection(
+    DropCollectionRequest::builder().collection_name(collection_name).build()?,
+).await.ok();
 
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
-        .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
-        .add_field(FieldSchema::new().name("name").data_type(DataType::VarChar).max_length(200))
-        .add_field(FieldSchema::new().name("brand").data_type(DataType::VarChar).max_length(100))
-        .add_field(FieldSchema::new().name("category").data_type(DataType::VarChar).max_length(100))
-        .add_field(FieldSchema::new().name("color").data_type(DataType::VarChar).max_length(50))
-        .add_field(FieldSchema::new().name("price").data_type(DataType::Double))
-        .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
-        .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
+    .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
+    .add_field(FieldSchema::new().name("name").data_type(DataType::VarChar).max_length(200))
+    .add_field(FieldSchema::new().name("brand").data_type(DataType::VarChar).max_length(100))
+    .add_field(FieldSchema::new().name("category").data_type(DataType::VarChar).max_length(100))
+    .add_field(FieldSchema::new().name("color").data_type(DataType::VarChar).max_length(50))
+    .add_field(FieldSchema::new().name("price").data_type(DataType::Double))
+    .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
+    .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
 
-    let index_param = IndexParam::new()
-        .field_name("embedding")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::Cosine);
+let index_param = IndexParam::new()
+    .field_name("embedding")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Cosine);
 
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name(collection_name)
-            .schema(schema)
-            .index_param(index_param)
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name(collection_name)
+        .schema(schema)
+        .index_param(index_param)
+        .build()?,
+).await?;
 ```
 
 </TabItem>

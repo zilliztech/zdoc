@@ -70,7 +70,7 @@ This section provides example code to demonstrate the use of Grouping Search. Th
 
 In the search request, set both `group_by_field` and `output_fields` to `docId`. Zilliz Cloud will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -183,6 +183,40 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(3)
+    .group_by_field("docId")
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
 }
 ```
 
@@ -350,7 +384,7 @@ In the request above, `limit=3` indicates that the system will return search res
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -449,6 +483,42 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors)) // Query vector
+    .limit(5) // Number of groups to return
+    .group_by_field("docId") // Grouping field
+    .group_size(2) // Up to 2 entities to return from each group
+    .strict_group_size(true) // Return exactly 2 entities from each group
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
 }
 ```
 
@@ -622,7 +692,7 @@ You can combine Grouping Search with `order_by_fields` to order groups by a scal
 
 The following example groups search results by `category`, returns up to three entities per group, and orders the returned groups by `price` from low to high.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -705,6 +775,47 @@ if err != nil {
 for _, result := range results {
     fmt.Println(result.IDs, result.Scores)
     fmt.Println(result.GetColumn("category"), result.GetColumn("price"), result.GetColumn("rating"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+// Prerequisite: client is connected to the project endpoint;
+// cluster_id identifies the on-demand cluster containing product_catalog.
+let cluster_id = "YOUR_CLUSTER_ID";
+let session = client.session(cluster_id)?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+let res = session.search(SearchRequest::builder()
+    .collection_name("product_catalog")
+    .vector_field("embedding")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(20)
+    .group_by_field("category")
+    .group_size(3)
+    .strict_group_size(true)
+    .output_fields(["category", "price", "rating"])
+    .order_by_fields([OrderByField::new()
+        .field_name("price")
+        .direction(AggDirection::Asc)])
+    .build()?)
+    .await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 

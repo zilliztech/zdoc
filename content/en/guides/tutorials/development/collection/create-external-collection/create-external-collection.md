@@ -472,28 +472,23 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
-            .token("YOUR_API_KEY"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
+        .token("YOUR_API_KEY"),
+)
+.await?;
+
+client.use_database("my_database").await?;
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("test_collection")
+            .schema(schema)
+            .build()?,
     )
     .await?;
-
-    client.use_database("my_database").await?;
-
-    client
-        .create_collection(
-            CreateCollectionRequest::builder()
-                .collection_name("test_collection")
-                .schema(schema)
-                .build()?,
-        )
-        .await?;
-
-    Ok(())
-}
 ```
 
 </TabItem>
@@ -650,6 +645,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -843,6 +839,7 @@ for {
 
 ```rust
 use milvus::v2::prelude::*;
+
 let refresh = client
     .refresh_external_collection(
         RefreshExternalCollectionRequest::builder()

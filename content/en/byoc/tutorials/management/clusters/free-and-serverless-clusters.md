@@ -88,8 +88,6 @@ Free and Serverless clusters use the following serving endpoint pattern:
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
-Copy the cluster public endpoint from the **Connect** card on the cluster details page. Use either an API key with access to the cluster or a cluster credential in `username:password` format as the token.
-
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
