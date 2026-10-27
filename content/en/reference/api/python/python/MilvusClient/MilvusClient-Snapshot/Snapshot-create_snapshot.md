@@ -2,7 +2,7 @@
 title: "create_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-create_snapshot
 sidebar_label: "create_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

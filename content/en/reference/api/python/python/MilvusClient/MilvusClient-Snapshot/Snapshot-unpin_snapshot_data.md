@@ -2,7 +2,7 @@
 title: "unpin_snapshot_data() | Python | MilvusClient"
 slug: /python/python/Snapshot-unpin_snapshot_data
 sidebar_label: "unpin_snapshot_data()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

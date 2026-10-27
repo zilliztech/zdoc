@@ -2,7 +2,7 @@
 title: "drop_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

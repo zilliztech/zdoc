@@ -2,7 +2,7 @@
 title: "list_snapshots() | Python | MilvusClient"
 slug: /python/python/Snapshot-list_snapshots
 sidebar_label: "list_snapshots()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

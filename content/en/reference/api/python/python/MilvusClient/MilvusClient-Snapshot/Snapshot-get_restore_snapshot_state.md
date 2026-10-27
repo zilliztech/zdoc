@@ -2,7 +2,7 @@
 title: "get_restore_snapshot_state() | Python | MilvusClient"
 slug: /python/python/Snapshot-get_restore_snapshot_state
 sidebar_label: "get_restore_snapshot_state()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
