@@ -27,16 +27,47 @@ function osTemp() {
   return require('node:os').tmpdir()
 }
 
+const BOUNDED_HEAD = 1000
+const BOUNDED_TAIL = 4000
 function bounded(value) {
-  return String(value?.stderr || value?.message || value || 'Unknown checkpoint publication failure')
+  const text = String(value?.stderr || value?.message || value || 'Unknown checkpoint publication failure')
     .replace(/[\u0000-\u001f\u007f]+/gu, ' ')
     .replace(/\s+/gu, ' ')
     .trim()
-    .slice(0, 1000)
+  if (text.length <= BOUNDED_HEAD + BOUNDED_TAIL) return text
+  // Build failures bury their root cause at the end of the output, so a
+  // head-only slice loses it; keep both ends with the omitted size explicit.
+  const omitted = text.length - BOUNDED_HEAD - BOUNDED_TAIL
+  return `${text.slice(0, BOUNDED_HEAD)} …[truncated ${omitted} chars]… ${text.slice(-BOUNDED_TAIL)}`
 }
 
 function failure(code, phase, error, retryable = false) {
   return Object.freeze({code, phase, message: bounded(error), retryable})
+}
+
+// The single-line failure message cannot carry a full build log, so the raw
+// stdout/stderr of a failed validation command is preserved next to the
+// worktrees for the coordinator to upload as a run artifact.
+function writeValidationFailureLog(runnerTemp, unit, error) {
+  try {
+    const token = String(unit.unitKey).replaceAll('/', '-')
+    const file = path.join(runnerTemp, `docs-validation-failure-${token}.log`)
+    const body = [
+      `unitKey: ${unit.unitKey}`,
+      `group: ${unit.group}`,
+      `toolingSha: ${unit.toolingSha}`,
+      `command: ${error?.validationCommand || '(validation phase setup)'}`,
+      `exitStatus: ${error?.status ?? 'unknown'}`,
+      '',
+      '--- stdout ---',
+      String(error?.stdout ?? ''),
+      '',
+      '--- stderr ---',
+      String(error?.stderr ?? error?.message ?? ''),
+    ].join('\n')
+    fs.writeFileSync(file, body)
+    if (error && typeof error === 'object') error.validationLog = file
+  } catch { /* Diagnostics must never mask the original failure. */ }
 }
 
 function transactionResult(values, now) {
@@ -260,9 +291,14 @@ async function publishGeneralCheckpointTransaction(options = {}) {
       command(validationWorktree, 'bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', baseSha], {environment})
       await deps.applyCheckpointArtifact({artifactDir, targetDir: validationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
       for (const validationCommand of unit.validationCommands) {
-        command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand], {
-          environment: {...environment, ...unit.environment},
-        })
+        try {
+          command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand], {
+            environment: {...environment, ...unit.environment},
+          })
+        } catch (error) {
+          if (error && typeof error === 'object') error.validationCommand = validationCommand
+          throw error
+        }
       }
 
       phase = 'composition'
@@ -318,6 +354,7 @@ async function publishGeneralCheckpointTransaction(options = {}) {
         }, now)
       }
     } catch (error) {
+      if (phase === 'validation') writeValidationFailureLog(runnerTemp, unit, error)
       return transactionResult({
         status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
         failure: failure(phase === 'validation' ? 'VALIDATION_FAILED' : 'CHECKPOINT_COMPOSITION_FAILED', phase, error),

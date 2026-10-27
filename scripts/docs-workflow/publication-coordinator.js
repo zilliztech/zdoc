@@ -576,6 +576,7 @@ async function runPublicationCoordinator(options = {}) {
   const uploadedRevisions = new Set()
   const startedAt = now().toISOString()
   let progressUploadFailures = 0
+  let validationUploadCount = 0
   // A cancellation request (SIGINT on GitHub cancel, SIGTERM on timeout, or an
   // injected `cancelWhen` in tests) is only recorded here. The loop below
   // observes it at a safe point — between units, never while a publish is in
@@ -689,6 +690,18 @@ async function runPublicationCoordinator(options = {}) {
         candidates.delete(unit.unitKey)
       }
       scheduler.finishPublication(unit.unitKey, transaction)
+      // Preserve the failed unit's raw validation output; the single-line
+      // failure message cannot carry a full build log. Upload errors are
+      // counted, never fatal, and clients without the method opt out.
+      if (transaction?.failure?.phase === 'validation' && typeof client.uploadValidationLog === 'function') {
+        const logToken = unit.unitKey.replaceAll('/', '-')
+        const logFile = path.join(runnerTemp, `docs-validation-failure-${logToken}.log`)
+        if (fs.existsSync(logFile)) {
+          validationUploadCount += 1
+          const uploaded = await client.uploadValidationLog({selection, unitKey: unit.unitKey, file: logFile, index: validationUploadCount})
+          if (!uploaded?.ok) progressUploadFailures += 1
+        }
+      }
       await uploadSnapshot()
       continue
     }

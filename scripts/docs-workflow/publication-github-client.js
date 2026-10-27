@@ -16,6 +16,7 @@ const {
 const {
   artifactNames,
   readPublicationDocument,
+  unitToken,
   validatePublicationProgress,
   validatePublicationResults,
   validatePublicationSelection,
@@ -315,6 +316,22 @@ function createPublicationGitHubClient(options) {
     return upload(file, name)
   }
 
+  // Diagnostics companion to the publication documents: the raw validation
+  // command output of a failed unit. Not a contract document, so it carries
+  // its own name (index keeps multiple failing units unique within a run) and
+  // never fails the publication on upload errors.
+  async function uploadValidationLog({selection: selectionInput, unitKey, file, index = 1}) {
+    const selection = validatePublicationSelection(selectionInput)
+    const token = unitToken(unitKey)
+    positiveInteger(index, 'validation log index')
+    const name = `publication-validation-${selection.workflow}-${token}-${runId}-${runAttempt}-${index}`
+    try {
+      return Object.freeze({ok: true, ...(await upload(file, name))})
+    } catch (error) {
+      return Object.freeze({ok: false, artifactName: name, error: boundedError(error)})
+    }
+  }
+
   return Object.freeze({
     downloadArtifactArchive,
     downloadArtifactFiles,
@@ -324,6 +341,7 @@ function createPublicationGitHubClient(options) {
     listJobs,
     uploadProgress,
     uploadResults,
+    uploadValidationLog,
     waitForArtifact,
   })
 }
