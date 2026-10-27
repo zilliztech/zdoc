@@ -1381,6 +1381,37 @@ module.exports = [
                 "key": "doc:api/restful/restful/v2/data-plane/privilege-group-operations-v2/remove-privileges-from-group-v2"
               }
             ]
+          },
+          {
+            "type": "category",
+            "label": "Snapshot Operations (V2)",
+            "key": "category:v2/data-plane-v2/snapshot-operations-v2",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/snapshot-operations-v2/get-restore-snapshot-job-state-v2",
+                "label": "Get Restore Snapshot Job State (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/snapshot-operations-v2/get-restore-snapshot-job-state-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/snapshot-operations-v2/export-snapshot-v2",
+                "label": "Export Snapshot (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/snapshot-operations-v2/export-snapshot-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/snapshot-operations-v2/list-restore-snapshot-jobs-v2",
+                "label": "List Restore Snapshot Jobs (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/snapshot-operations-v2/list-restore-snapshot-jobs-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/snapshot-operations-v2/restore-external-snapshot-v2",
+                "label": "Restore External Snapshot (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/snapshot-operations-v2/restore-external-snapshot-v2"
+              }
+            ]
           }
         ]
       }

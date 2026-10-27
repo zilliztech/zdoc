@@ -169,6 +169,7 @@
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
+        "packages/docs-tooling/src/reference/rest/meta/lifecycle-evidence/**",
         "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json",
         "packages/docs-tooling/src/reference/rest/refGen.js",
         "packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
