@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements. | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
-sidebar_position: 4
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

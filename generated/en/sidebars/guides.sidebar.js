@@ -7,14 +7,8 @@ module.exports = [
       {
         "type": "doc",
         "id": "tutorials/get-started/register-with-zilliz-cloud",
-        "label": "Register with Zilliz Cloud",
+        "label": "Create Your Account",
         "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/get-started/free-trials",
-        "label": "Try Zilliz Cloud For Free",
-        "key": "doc:tutorials/get-started/free-trials"
       },
       {
         "type": "category",

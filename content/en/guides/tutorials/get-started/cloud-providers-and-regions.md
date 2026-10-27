@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud is available on AWS, Google Cloud, and Microsoft Azure. Use this page to find a region and check whether it supports your deployment option and required features. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 6
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

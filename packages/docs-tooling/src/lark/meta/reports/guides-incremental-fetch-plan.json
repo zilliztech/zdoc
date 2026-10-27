@@ -1,17 +1,105 @@
 {
-  "generated_at": "2026-10-26T18:39:29.647Z",
+  "generated_at": "2026-10-27T02:37:42.194Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
-  "removed_records": [],
-  "removed_tokens": [],
-  "reasons_by_token": {},
-  "warnings": [],
-  "affected_tables": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPmobt0mM2",
+      "table_id": "tbl9BeCMjBmalJVb",
+      "table_name": "Get Started",
+      "title": "Create Your Account",
+      "labels": "",
+      "slug": "register-with-zilliz-cloud",
+      "release_channel": "current",
+      "doc_token": "B3JxwyvmHiI8CZkUFp4cvRp9nrh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/B3JxwyvmHiI8CZkUFp4cvRp9nrh?from=from_copylink",
+      "reasons": [
+        "doc token changed",
+        "title changed",
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "B3JxwyvmHiI8CZkUFp4cvRp9nrh"
+  ],
+  "expanded_tokens": [
+    "B3JxwyvmHiI8CZkUFp4cvRp9nrh"
+  ],
+  "removed_records": [
+    {
+      "record_id": "recvlPmrfIyzsa",
+      "table_id": "tbl9BeCMjBmalJVb",
+      "table_name": "Get Started",
+      "placement_type": "canonical",
+      "title": "Try Zilliz Cloud For Free",
+      "slug": "free-trials",
+      "doc_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/LMfdwRwKIiJtywkwbHVcGnOFnRf",
+      "source_file": "LMfdwRwKIiJtywkwbHVcGnOFnRf.json",
+      "source_hash": "d297b05d5d4b5ca0372fa6f5699d8eb42e391fe6d6ab51868ac2878a77319628",
+      "node_metadata": {
+        "requested_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+        "requested_node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+        "node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+        "origin_node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+        "obj_token": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Try Zilliz Cloud For Free",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
+        "node_create_time": "1689045935",
+        "obj_create_time": "1689045935",
+        "obj_edit_time": "1783592532",
+        "revision_id": "2616"
+      },
+      "node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+      "origin_node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+      "obj_token": "NCntd2lfuogqfNxeEmMcKPSunNf",
+      "obj_type": "docx",
+      "obj_edit_time": "1783592532",
+      "revision_id": "2616",
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [
+        "A33MwQX84iXyQNkzopece3oenye",
+        "HriHwEU3qiQrgskz3a0cdkcpnyf",
+        "JQvjwCDxhiMcj0kpaWicqXsTn1e",
+        "JaLdw76LPiX003kLpKHcA0n8n2d",
+        "KrbjwFhy3iojF3k97XmcvvXMnW7",
+        "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+        "OFjswbvuoit64pk5eGqc9Yx3nGg",
+        "TVnkwXupUiX3zDkzYPWcxKP3nvg"
+      ],
+      "output_paths": []
+    }
+  ],
+  "removed_tokens": [
+    "LMfdwRwKIiJtywkwbHVcGnOFnRf"
+  ],
+  "reasons_by_token": {
+    "B3JxwyvmHiI8CZkUFp4cvRp9nrh": [
+      "doc token changed",
+      "title changed",
+      "wiki node revision changed"
+    ],
+    "LMfdwRwKIiJtywkwbHVcGnOFnRf": [
+      "record removed"
+    ]
+  },
+  "warnings": [
+    "Record removed since last snapshot: Try Zilliz Cloud For Free"
+  ],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

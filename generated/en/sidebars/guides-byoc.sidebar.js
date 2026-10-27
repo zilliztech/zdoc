@@ -161,7 +161,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "tutorials/get-started/register-with-zilliz-cloud",
-        "label": "Register with Zilliz Cloud",
+        "label": "Create Your Account",
         "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
       },
       {
@@ -1723,12 +1723,6 @@ module.exports = [
                 "id": "tutorials/management/migrations/migrate-between-clusters/offline-migration",
                 "label": "Offline Migration",
                 "key": "doc:tutorials/management/migrations/migrate-between-clusters/offline-migration"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration",
-                "label": "Zero Downtime Migration",
-                "key": "doc:tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration"
               }
             ]
           },

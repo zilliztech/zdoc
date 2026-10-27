@@ -1,15 +1,15 @@
 ---
-title: "Register with Zilliz Cloud | Cloud"
+title: "Create Your Account | Cloud"
 slug: /register-with-zilliz-cloud
-sidebar_label: "Register with Zilliz Cloud"
+sidebar_label: "Create Your Account"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services. | Cloud"
+description: "Create a Zilliz Cloud account to start building with managed vector search. You can sign up with a work email, Google account, or GitHub account. | Cloud"
 type: origin
-token: HriHwEU3qiQrgskz3a0cdkcpnyf
+token: B3JxwyvmHiI8CZkUFp4cvRp9nrh
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,127 +18,97 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Procedures from '@site/src/components/Procedures';
+# Create Your Account
 
-# Register with Zilliz Cloud
+Create a Zilliz Cloud account to start building with managed vector search. You can sign up with a work email, Google account, or GitHub account.
 
-This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services.
+No payment information is required to create an account. After sign-up, you can use free resources to explore Zilliz Cloud before adding a payment method.
 
 ## Before you start\{#before-you-start}
 
-You are welcome to visit Zilliz Cloud to [sign up](https://cloud.zilliz.com/signup).
+Go to [Zilliz Cloud](https://cloud.zilliz.com/signup) and click **Sign up**.
 
-![sign_up](https://zdoc-images.s3.us-west-2.amazonaws.com/signup.png "sign_up")
+When you sign up for the first time, Zilliz Cloud may ask for additional information to help tailor the onboarding experience.
 
-## Registration options\{#registration-options}
+## Choose a sign-up method\{#choose-a-sign-up-method}
 
-You can use one and only one of the following options to register with and log in to Zilliz Cloud.
+You can register and log in with one of the following methods:
 
-- [Your email address and password](./register-with-zilliz-cloud#with-work-email-and-password)
+- Work email and password
 
-- [Your Google account](./register-with-zilliz-cloud#linking-to-google-account)
+- Google account
 
-- [Your GitHub account](./register-with-zilliz-cloud#linking-to-github-account)
+- GitHub account
 
-Maintain consistency with your chosen registration method for login purposes. If necessary, you can alter your login method at a later stage. For further details, refer to [Manage Your Account](./email-accounts#switch-login-method).
+Use the same method when you log in later. You can update your login method after registration. For details, see [Manage Your Account](/docs/email-accounts#switch-login-method).
 
-### With work email and password\{#with-work-email-and-password}
-
-Follow the steps below to create a Zilliz Cloud account using your work email and password:
-
-<Procedures>
+### Sign up with a work email and password\{#sign-up-with-a-work-email-and-password}
 
 1. Enter your work email address in the **Work Email** field.
 
-1. Enter a password in the **Password** field.
+1. Enter a password.
 
-    Your password must be at least 8 characters long and include at least 3 of the following character types:
+1. Select **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 
-    - Lowercase letters (a–z)
+1. Click **Continue**. Zilliz Cloud sends a confirmation code to your email address.
 
-    - Uppercase letters (A–Z)
+1. Enter the confirmation code and click **Verify**.
 
-    - Numbers (0–9)
+If you do not receive the confirmation code, click **Resend Code**.
 
-    - Special characters (e.g., !@#&#36;%^&&ast;)
+<Admonition type="info" title="Note">
 
-1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
-
-1. Click **Continue**. A confirmation code will be sent to the provided email address.
-
-1. Input the received confirmation code in the dialog box, then click **Verify**.
-
-    If the confirmation code is not received, click **Resend Code** to attempt again.
-
-</Procedures>
-
-<Admonition type="info" title="Notes">
-
-On your first login, we will ask for more information to better tailor our services to your needs.
+Your password must be at least 8 characters long and include at least 3 character types: lowercase letters, uppercase letters, numbers, or special characters.
 
 </Admonition>
 
-### Linking to Google account\{#linking-to-google-account}
-
-To link your Google account with Zilliz Cloud, follow the steps below.
-
-<Procedures>
+### Sign up with Google\{#sign-up-with-google}
 
 1. Click the Google logo button.
 
-1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** and click **Submit**.
+1. Select **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**, then click **Submit**.
 
-1. You will be redirected to [Google Account login page](https://accounts.google.com/). Enter the email address or phone number and the corresponding password associated with your Google account,
+1. Sign in with your [Google account](https://accounts.google.com/).
 
-1. Upon successful authentication, you will be redirected back to Zilliz Cloud, and a success notification will appear.
+1. After authentication succeeds, you are redirected back to Zilliz Cloud.
 
-</Procedures>
+<Admonition type="info" title="Note">
 
-<Admonition type="info" title="Notes">
-
-[Disable your Google-managed MFA](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) before linking to ensure a smooth registration.
+If sign-up fails because of Google-managed MFA, [disable Google-managed MFA](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) temporarily and try again.
 
 </Admonition>
 
-### Linking to GitHub account\{#linking-to-github-account}
+### Sign up with GitHub\{#sign-up-with-github}
 
-#### Prerequisites\{#prerequisites}
+Before you sign up with GitHub, make sure your GitHub account has a public email address.
 
-If you try to register with Github, you must have a public email address associated with your GitHub account. Follow the steps below to set your email address public on GitHub:
+To set a public email address in GitHub:
 
-<Procedures>
+1. In GitHub, open your profile menu and click **Settings**.
 
-1. Log into GitHub, click **Settings** on your profile menu.
+1. Click **Emails** in the left navigation.
 
-1. Click **Emails** from the left side navigation.
+1. Clear **Keep my email addresses private**.
 
-1. Untick the **Keep my email addresses private** box.
+1. Click **Public Profile** in the left navigation.
 
-1. Click **Public Profile** on the left side navigation and select the email address you just set public from the **Public email** dropdown.
+1. Select your public email address from the **Public email** dropdown.
 
-1. Click **Update profile** to save the changes.
+1. Click **Update profile**.
 
-</Procedures>
-
-#### Procedures\{#procedures}
-
-To link your GitHub account with us, follow the steps below.
-
-<Procedures>
+Then sign up with GitHub:
 
 1. Click the GitHub logo button.
 
-1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** and click **Submit**.
+1. Select **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**, then click **Submit**.
 
-1. You will be redirected to [GitHub sign in page](https://github.com/login). Enter your username or email address and the corresponding password associated with your GitHub account.
+1. Sign in with your [GitHub account](https://github.com/login).
 
-1. Upon successful authentication, you will be redirected back to Zilliz Cloud, and a success notification will appear.
+1. After authentication succeeds, you are redirected back to Zilliz Cloud.
 
-</Procedures>
+<Admonition type="info" title="Note">
 
-<Admonition type="info" title="Notes">
-
-[Disable your GitHub-managed MFA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account) before linking to ensure a smooth registration.
+If sign-up fails because of GitHub-managed MFA, [disable GitHub-managed MFA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account) temporarily and try again.
 
 </Admonition>
 
@@ -154,7 +124,37 @@ For details, refer to [Console sessions](./email-accounts#console-session).
 
 </Admonition>
 
+## Start with free resources\{#start-with-free-resources}
+
+After you create an account, you can use free resources to try Zilliz Cloud. Keep this section as a short orientation; for billing details, link to the billing or trial documentation.
+
+| Resource | What you get |
+| --- | --- |
+| Free cluster | 5 GB storage, 2.5 million vCUs per month, and up to 5 collections for basic vector database use cases. |
+| Free trial credits | When you sign up with a work email, your organization receives &#36;100 in free credits. Credits expire after 30 days and can be used to evaluate Serverless and Dedicated clusters. For details, see [Free trial](/docs/free-trials). |
+| Additional credits | You can earn an additional &#36;100 in credits by adding a payment method, such as a [credit card](/docs/subscribe-by-adding-credit-card) or [marketplace subscription](/docs/marketplace-subscription). Adding a payment method also extends the credit expiration period to 1 year. |
+
+<Admonition type="info" title="Note">
+
+If your free trial ends without a valid payment method, your organization is frozen and Serverless or Dedicated clusters are moved to the [recycle bin](/docs/use-recycle-bin). If you do not add a payment method within 30 days after freezing, those clusters are permanently deleted. Your organization is preserved. If you need additional credits, [contact sales](https://zilliz.com/contact-sales).
+
+</Admonition>
+
 ## FAQ\{#faq}
 
-**Why did my registration fail?**
-You may have already registered an account with this email address. Please try logging in directly. If the issue persists, please [create a support ticket](http://support.zilliz.com).
+### Why did my registration fail?\{#why-did-my-registration-fail}
+
+You may have already registered an account with the same email address. Try logging in directly.
+
+If the issue persists, [create a support ticket](http://support.zilliz.com).
+
+## Next steps\{#next-steps}
+
+- Run your first vector search: [5-minute Quickstart](/docs/quick-start)
+
+- Create a cluster: [Create Cluster](/docs/create-cluster)
+
+- Compare deployment options: [Plan Comparison](/docs/select-zilliz-cloud-service-plans)
+
+- Manage billing: [Payment and Billing](/docs/faq-payment-and-billing)
+
