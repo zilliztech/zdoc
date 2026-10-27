@@ -64,6 +64,12 @@ function fakeClient(jobs, options = {}) {
       results.push(document)
       return {artifactName: 'publication-results-fetch-123-1', artifactId: 99}
     },
+    validationLogs: [],
+    async uploadValidationLog({unitKey, file, index}) {
+      if (options.failValidationLog) return {ok: false, error: 'validation log upload failed'}
+      this.validationLogs.push({unitKey, file, index, contents: fs.readFileSync(file, 'utf8')})
+      return {ok: true, artifactName: `publication-validation-${unitKey.replaceAll('/', '-')}-123-1-${index}`}
+    },
   }
 }
 
@@ -590,6 +596,86 @@ test('ordinary publish failure continues but unknown remote state stops later ha
   assert.equal(outcome.results.overallStatus, 'orchestrator_failed')
   assert.equal(outcome.results.orchestratorFailure.code, 'REMOTE_STATE_UNKNOWN')
   assert.equal(client.results.length, 1)
+})
+
+test('a validation-phase failure uploads the preserved validation log artifact', async t => {
+  const document = selection(true)
+  const jobs = jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 10).padStart(2, '0')}.000Z`,
+  }])))
+  const client = fakeClient(jobs)
+  const runnerTemp = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-validation-'))
+  t.after(() => fs.rmSync(runnerTemp, {recursive: true, force: true}))
+  const firstUnit = document.units[0]
+  const token = firstUnit.unitKey.replaceAll('/', '-')
+  put(runnerTemp, `docs-validation-failure-${token}.log`, 'unitKey: ' + firstUnit.unitKey + '\n--- stderr ---\nboom\n')
+
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    outputDirectory: outputRoot(t),
+    runnerTemp,
+    pollMilliseconds: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async ({unit}) => {
+      if (unit.unitKey === firstUnit.unitKey) return {
+        status: 'publish_failed', baseSha: SHA('2'), resultSha: null, commitShas: [], attempts: 1,
+        failure: {code: 'VALIDATION_FAILED', phase: 'validation', message: 'failed', retryable: false},
+        remoteState: 'known', completedAt: '2026-08-04T00:01:09.000Z',
+      }
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:08.000Z',
+      }
+    },
+  })
+
+  assert.equal(outcome.results.overallStatus, 'failure')
+  assert.equal(client.validationLogs.length, 1)
+  assert.equal(client.validationLogs[0].unitKey, firstUnit.unitKey)
+  assert.equal(client.validationLogs[0].index, 1)
+  assert.match(client.validationLogs[0].contents, /--- stderr ---\nboom/)
+  assert.equal(outcome.progressUploadFailures, 0)
+})
+
+test('a validation log upload failure is counted, not fatal', async t => {
+  const document = selection(true)
+  const jobs = jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 10).padStart(2, '0')}.000Z`,
+  }])))
+  const client = fakeClient(jobs, {failValidationLog: true})
+  const runnerTemp = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-validation-'))
+  t.after(() => fs.rmSync(runnerTemp, {recursive: true, force: true}))
+  const firstUnit = document.units[0]
+  const token = firstUnit.unitKey.replaceAll('/', '-')
+  put(runnerTemp, `docs-validation-failure-${token}.log`, 'boom\n')
+
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    outputDirectory: outputRoot(t),
+    runnerTemp,
+    pollMilliseconds: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async ({unit}) => {
+      if (unit.unitKey !== firstUnit.unitKey) return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:01.000Z',
+      }
+      return {
+        status: 'publish_failed', baseSha: SHA('2'), resultSha: null, commitShas: [], attempts: 1,
+        failure: {code: 'VALIDATION_FAILED', phase: 'validation', message: 'failed', retryable: false},
+        remoteState: 'known', completedAt: '2026-08-04T00:01:02.000Z',
+      }
+    },
+  })
+
+  assert.equal(outcome.results.overallStatus, 'failure')
+  assert.equal(outcome.progressUploadFailures, 1)
 })
 
 test('artifact-only mode resolves all descriptors without invoking a handler', async t => {

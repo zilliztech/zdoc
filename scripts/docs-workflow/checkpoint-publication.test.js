@@ -278,7 +278,38 @@ test('a validation failure is a known publish_failed result and does not push', 
   assert.equal(result.remoteState, 'known')
   assert.equal(result.failure.phase, 'validation')
   assert.equal(git(fixture.remote, 'rev-parse', 'refs/heads/dev'), before)
-  assert.deepEqual(fs.readdirSync(fixture.runnerTemp), [])
+  const logFile = path.join(fixture.runnerTemp, 'docs-validation-failure-source-guides-en.log')
+  assert.ok(fs.existsSync(logFile), 'validation failure log is preserved in runnerTemp')
+  const log = fs.readFileSync(logFile, 'utf8')
+  assert.match(log, /command: exit 7/)
+  assert.match(log, /exitStatus: 7/)
+  assert.match(log, /--- stdout ---/)
+  assert.match(log, /--- stderr ---/)
+  assert.deepEqual(fs.readdirSync(fixture.runnerTemp), [path.basename(logFile)])
+})
+
+test('a long validation failure keeps the output tail and the full log file', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = checkpoint(fixture, workspace => put(workspace, 'content/en/guides/tutorials/a.md', 'new\n'))
+
+  const result = await publish(fixture, facts, {
+    unit: unit(facts, {validationCommands: [
+      `node -e "process.stderr.write('a'.repeat(20000) + ' ROOT_CAUSE_MARKER_ZQX'); process.exit(9)"`,
+    ]}),
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.ok(result.failure.message.length < 6000, 'message stays bounded')
+  assert.match(result.failure.message, /truncated \d+ chars/)
+  assert.match(result.failure.message, /ROOT_CAUSE_MARKER_ZQX/, 'root cause lives at the tail')
+  assert.ok(!/[\r\n]/.test(result.failure.message), 'failure message stays single-line')
+  const log = fs.readFileSync(path.join(fixture.runnerTemp, 'docs-validation-failure-source-guides-en.log'), 'utf8')
+  assert.match(log, /command: node -e /)
+  assert.match(log, /exitStatus: 9/)
+  assert.ok(log.includes('a'.repeat(20000)), 'full output is preserved in the log file')
+  assert.match(log, /ROOT_CAUSE_MARKER_ZQX/)
 })
 
 test('a push error after the remote reaches the exact candidate reports published', async t => {
