@@ -64,11 +64,11 @@ client.alter_collection_function(
 
     The name of the function to modify.
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The new function schema to replace the existing one.
+    The new function schema to replace the existing one.
 
 - **timeout** (*float | None*) -
 

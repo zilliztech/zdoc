@@ -63,11 +63,11 @@ client.add_collection_function(
 
     The name of the collection.
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The function schema to add. This is a Function object that defines the function name, type, input fields, output fields, and parameters.
+    The function schema to add. This is a Function object that defines the function name, type, input fields, output fields, and parameters.
 
 - **timeout** (*float | None*) -
 

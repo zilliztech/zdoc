@@ -48,9 +48,13 @@ class pymilvus.EmbeddingList
 
     The dimensionality of the vector embeddings that are specified in the embedding parameter, for validation purposes. If provided, all specified vector embeddings must adhere to the dimensionality restriction.
 
-- **dtype** (*np.dtype, str, [DataType](../../Collections/DataType.md*) -
+- **dtype** (*np.dtype, str, [DataType](./Collections-DataType)*) -
 
-    An option that *) - np.dtype, such as `np.float32`, `np.float16`, or `np.unit8`:. string, such as `'float32'`, `'float16'`, or `'uint8'`:. DataType*&ast;, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`:.
+    - *np.dtype*, such as `np.float32`, `np.float16`, or `np.unit8`.
+
+    - *string*, such as `'float32'`, `'float16'`, or `'uint8'`.
+
+    - *DataType*, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`.
 
 **RETURN TYPE:**
 

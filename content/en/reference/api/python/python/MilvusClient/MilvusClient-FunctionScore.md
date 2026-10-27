@@ -40,9 +40,9 @@ class pymilvus.FunctionScore
 
 **PARAMETERS:**
 
-- **functions** (*[Function](../Collections/Function/Function.md*) -
+- **functions** (*[Function](./MilvusClient-Function), List[Function]*) -
 
-    An option that <em>,</em> List[Function]&ast;) - A Function instance or a list of Function instances that are to be combined in the current FunctionScore instance.
+    A Function instance or a list of Function instances that are to be combined in the current FunctionScore instance.
 
 - **params** (*Dict*) -
 

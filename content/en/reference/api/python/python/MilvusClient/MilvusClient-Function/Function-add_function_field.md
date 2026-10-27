@@ -58,23 +58,23 @@ client.add_function_field(
 
     The name of the collection to modify.
 
-- **field_schema** (*[FieldSchema](FieldSchema/FieldSchema.md*) -
+- **field_schema** (*[FieldSchema](./MilvusClient-FieldSchema)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The schema of the new output field produced by the function. For example, a SPARSE_FLOAT_VECTOR field for BM25 or a BINARY_VECTOR field for MinHash.
+    The schema of the new output field produced by the function. For example, a SPARSE_FLOAT_VECTOR field for BM25 or a BINARY_VECTOR field for MinHash.
 
-- **func** (*[Function](Function/Function.md*) -
-
-    **[REQUIRED]**
-
-    An option that &ast;) - The function definition that generates the output field. For example, a FunctionType.BM25 or FunctionType.MINHASH function. The supported combinations are FunctionType.BM25 with DataType.SPARSE_FLOAT_VECTOR and FunctionType.MINHASH with DataType.BINARY_VECTOR.
-
-- **index_params** (*[IndexParams](../Management/prepare_index_params.md*) -
+- **func** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The index definition bound to the new output field. It must contain exactly one entry with an explicit index_type (for example, SPARSE_INVERTED_INDEX/BM25 or MINHASH_LSH/MHJACCARD).
+    The function definition that generates the output field. For example, a FunctionType.BM25 or FunctionType.MINHASH function. The supported combinations are FunctionType.BM25 with DataType.SPARSE_FLOAT_VECTOR and FunctionType.MINHASH with DataType.BINARY_VECTOR.
+
+- **index_params** (*[IndexParams](./Management-prepare_index_params)*) -
+
+    **[REQUIRED]**
+
+    The index definition bound to the new output field. It must contain exactly one entry with an explicit index_type (for example, SPARSE_INVERTED_INDEX/BM25 or MINHASH_LSH/MHJACCARD).
 
 - **timeout** (*float | None*) -
 

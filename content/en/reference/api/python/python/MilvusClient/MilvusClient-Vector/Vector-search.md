@@ -122,9 +122,9 @@ search(
 
     A list of partition names. The value defaults to None. If specified, only the specified partitions are involved in queries. This parameter is not applicable to Milvus Lite. For more information on Milvus Lite limits, refer to Run Milvus Lite.
 
-- **ranker** (*[Function](../Collections/Function/Function.md*) -
+- **ranker** (*[Function](./MilvusClient-Function) | FunctionScore*) -
 
-    An option that  *|* FunctionScore&ast;) - The ranker to use for the search. For details, refer to Decay Ranker Overview and Model Ranker Overview.
+    The ranker to use for the search. For details, refer to Decay Ranker Overview and Model Ranker Overview.
 
 - **function_chains** (*FunctionChain | list[FunctionChain]*) -
 

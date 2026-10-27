@@ -46,11 +46,11 @@ FieldSchema(
 
     The name of the field.
 
-- **dtype** (*[DataType](../DataType.md*) -
+- **dtype** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
-    An option that ) - Data type of the field.
+    Data type of the field.
 
 - **description** (*str*) -
 

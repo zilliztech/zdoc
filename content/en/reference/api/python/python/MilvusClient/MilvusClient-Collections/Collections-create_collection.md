@@ -86,9 +86,9 @@ create_collection(
 
     The name of the primary field in this collection. The value defaults to id. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema. This parameter is designed for the quick setup of a collection and will ignored if the schema is not None and a field in the schema has its is_primary set to True.
 
-- **id_type** (*[DataType](DataType.md*) -
+- **id_type** (*[DataType](./Collections-DataType)*) -
 
-    An option that &ast;) - The data type of the primary field in this collection. The value defaults to DataType.INT64. Possible values are DataType.INT64 and DataType.VARCHAR. This parameter is designed for the quick setup of a collection and will be ignored if schema is not None.
+    The data type of the primary field in this collection. The value defaults to DataType.INT64. Possible values are DataType.INT64 and DataType.VARCHAR. This parameter is designed for the quick setup of a collection and will be ignored if schema is not None.
 
 - **vector_field_name** (*str*) -
 
@@ -106,9 +106,9 @@ create_collection(
 
     The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response returns or error occurs.
 
-- **schema** (*[CollectionSchema](CollectionSchema/CollectionSchema.md*) -
+- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema) | None*) -
 
-    An option that  *|* None&ast;) The schema of this collection. Setting this to None indicates this collection will be created in a quick setup manner. To set up a collection with a customized schema, you need to create a CollectionSchema object and reference it here. In this case, Milvus ignores all other schema-related settings carried in the request.
+    The schema of this collection. Setting this to None indicates this collection will be created in a quick setup manner. To set up a collection with a customized schema, you need to create a CollectionSchema object and reference it here. In this case, Milvus ignores all other schema-related settings carried in the request.
 
 - **index_params** (*IndexParams | None*) -
 

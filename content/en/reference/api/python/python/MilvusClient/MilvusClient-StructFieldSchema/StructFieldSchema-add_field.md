@@ -46,11 +46,11 @@ add_field(
 
     The name of the field.
 
-- **datatype** (*[DataType](../DataType.md*) -
+- **datatype** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The data type of the field. You can choose from the following options when selecting a data type for different fields. For details, refer to Array of Structs.
+    The data type of the field. You can choose from the following options when selecting a data type for different fields. For details, refer to Array of Structs.
 
 - **max_length** (*int*) -
 

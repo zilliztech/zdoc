@@ -38,36 +38,6 @@ Adding a struct field to an existing collection requires nullable to be set to T
 
 </Admonition>
 
-<Admonition type="info" title="Note">
-
-Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-Adding a struct field to an existing collection requires nullable to be set to True, because existing entities do not have values for the new field.
-
-</Admonition>
-
 ## Request Syntax\{#request-syntax}
 
 ```python
@@ -95,11 +65,11 @@ client.add_collection_struct_field(
 
     The name of the new struct field.
 
-- **struct_schema** (*[StructFieldSchema](StructFieldSchema/StructFieldSchema.md*) -
+- **struct_schema** (*[StructFieldSchema](./MilvusClient-StructFieldSchema)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - The schema of the struct field to add. Its name is overridden by field_name.
+    The schema of the struct field to add. Its name is overridden by field_name.
 
 - **max_capacity** (*int*) -
 
