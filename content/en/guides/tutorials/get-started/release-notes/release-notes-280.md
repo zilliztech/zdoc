@@ -32,7 +32,7 @@ The Serverless plan is tailored for applications with variable or sporadic query
 
 Serverless is now provided in **BETA** and available on **GCP us-west1 (Oregon)**. A free trial allows you to create up to one Serverless cluster without needing to add a payment method.
 
-Refer to [Severless Plan](./free-trials) to get more details.
+Refer to [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans) to get more details.
 
 ## More Available regions\{#more-available-regions}
 

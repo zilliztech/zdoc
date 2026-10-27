@@ -77,6 +77,9 @@ Before changing the collection schema, prepare your application to read from and
 
 For example, suppose you plan to add a `category` field. You can prepare the writer to include the field when the new schema is enabled:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
+<TabItem value='python'>
+
 ```python
 # Pseudocode
 def build_entity(document, use_new_schema=False):
@@ -92,7 +95,135 @@ def build_entity(document, use_new_schema=False):
     return entity
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.JsonObject;
+
+private static JsonObject buildEntity(JsonObject document, boolean useNewSchema) {
+    JsonObject entity = new JsonObject();
+    entity.add("id", document.get("id"));
+    entity.add("text", document.get("text"));
+    entity.add("embedding", document.get("embedding"));
+
+    if (useNewSchema) {
+        entity.add("category", document.get("category"));
+    }
+
+    return entity;
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+func buildEntity(document map[string]any, useNewSchema bool) map[string]any {
+    entity := map[string]any{
+        "id":        document["id"],
+        "text":      document["text"],
+        "embedding": document["embedding"],
+    }
+
+    if useNewSchema {
+        entity["category"] = document["category"]
+    }
+
+    return entity
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+fn build_entity(document: serde_json::Value, use_new_schema: bool) -> serde_json::Value {
+    let mut entity = serde_json::Map::new();
+    entity.insert("id".into(), document["id"].clone());
+    entity.insert("text".into(), document["text"].clone());
+    entity.insert("embedding".into(), document["embedding"].clone());
+
+    if use_new_schema {
+        entity.insert("category".into(), document["category"].clone());
+    }
+
+    serde_json::Value::Object(entity)
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRow buildEntity(const milvus::EntityRow& document, bool useNewSchema) {
+    milvus::EntityRow entity;
+    entity["id"] = document.at("id");
+    entity["text"] = document.at("text");
+    entity["embedding"] = document.at("embedding");
+
+    if (useNewSchema) {
+        entity["category"] = document.at("category");
+    }
+
+    return entity;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+function buildEntity(document, useNewSchema) {
+    const entity = {
+        id: document.id,
+        text: document.text,
+        embedding: document.embedding,
+    };
+
+    if (useNewSchema) {
+        entity.category = document.category;
+    }
+
+    return entity;
+}
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object?> buildEntity(Dictionary<string, object?> document, bool useNewSchema)
+{
+    var entity = new Dictionary<string, object?>
+    {
+        ["id"] = document["id"],
+        ["text"] = document["text"],
+        ["embedding"] = document["embedding"],
+    };
+
+    if (useNewSchema)
+    {
+        entity["category"] = document["category"];
+    }
+
+    return entity;
+}
+```
+
+</TabItem>
+</Tabs>
+
 Prepare readers in the same way so that they can consume the new field after the migration is validated:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
+<TabItem value='python'>
 
 ```python
 # Pseudocode
@@ -104,6 +235,111 @@ def get_output_fields(use_new_schema=False):
 
     return fields
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+private static List<String> getOutputFields(boolean useNewSchema) {
+    List<String> fields = new ArrayList<>(Arrays.asList("id", "text"));
+
+    if (useNewSchema) {
+        fields.add("category");
+    }
+
+    return fields;
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+func getOutputFields(useNewSchema bool) []string {
+    fields := []string{"id", "text"}
+
+    if useNewSchema {
+        fields = append(fields, "category")
+    }
+
+    return fields
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+fn get_output_fields(use_new_schema: bool) -> Vec<&'static str> {
+    let mut fields = vec!["id", "text"];
+
+    if use_new_schema {
+        fields.push("category");
+    }
+
+    fields
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<std::string> getOutputFields(bool useNewSchema) {
+    std::vector<std::string> fields = {"id", "text"};
+
+    if (useNewSchema) {
+        fields.push_back("category");
+    }
+
+    return fields;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+function getOutputFields(useNewSchema) {
+    const fields = ["id", "text"];
+
+    if (useNewSchema) {
+        fields.push("category");
+    }
+
+    return fields;
+}
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+List<string> getOutputFields(bool useNewSchema)
+{
+    var fields = new List<string> { "id", "text" };
+
+    if (useNewSchema)
+    {
+        fields.Add("category");
+    }
+
+    return fields;
+}
+```
+
+</TabItem>
+</Tabs>
 
 At this stage, keep both switches disabled. Production reads and writes should continue to use the existing schema until the new fields are added.
 
@@ -323,6 +559,9 @@ After the new fields are available in the collection schema, enable the updated 
 
 For example, enable the writer path prepared earlier:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 USE_NEW_SCHEMA = True
 
@@ -333,6 +572,128 @@ client.insert(
     data=[entity],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Collections;
+
+boolean USE_NEW_SCHEMA = true;
+JsonObject entity = buildEntity(document, USE_NEW_SCHEMA);
+
+client.insert(InsertReq.builder()
+        .collectionName("documents")
+        .data(Collections.singletonList(entity))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+useNewSchema := true
+entity := buildEntity(document, useNewSchema)
+
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("documents", entity))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let use_new_schema = true;
+let entity = build_entity(document, use_new_schema);
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("documents")
+            .rows(vec![entity])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+bool USE_NEW_SCHEMA = true;
+milvus::EntityRow entity = buildEntity(document, USE_NEW_SCHEMA);
+
+milvus::InsertResponse insert_response;
+milvus::InsertRequest insert_request;
+insert_request.WithCollectionName("documents");
+insert_request.WithRowsData({entity});
+auto status = client->Insert(insert_request, insert_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const USE_NEW_SCHEMA = true;
+const entity = buildEntity(document, USE_NEW_SCHEMA);
+
+await client.insert({
+    collection_name: "documents",
+    data: [entity],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+bool USE_NEW_SCHEMA = true;
+var entity = buildEntity(document, USE_NEW_SCHEMA);
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "documents",
+    RowsData = new[] { entity }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "documents",
+    "data": [
+        {"id": 1001, "text": "sample text", "embedding": [0.1, 0.2, 0.3, 0.4], "category": "tutorial"}
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 For a full-row upsert, include the new field in the payload as well:
 
@@ -790,6 +1151,9 @@ After the migration has been validated, update your application readers to use t
 
 For example, enable the reader path prepared earlier:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 USE_NEW_SCHEMA = True
 
@@ -799,6 +1163,146 @@ results = client.query(
     output_fields=get_output_fields(use_new_schema=USE_NEW_SCHEMA),
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+
+boolean USE_NEW_SCHEMA = true;
+
+QueryResp queryResp = client.query(QueryReq.builder()
+        .collectionName("documents")
+        .filter("id in [1001, 1002, 1003]")
+        .outputFields(getOutputFields(USE_NEW_SCHEMA))
+        .build());
+
+for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+useNewSchema := true
+
+results, err := client.Query(ctx, milvusclient.NewQueryOption("documents").
+    WithFilter("id in [1001, 1002, 1003]").
+    WithOutputFields(getOutputFields(useNewSchema)...))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let use_new_schema = true;
+
+let results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("documents")
+            .filter("id in [1001, 1002, 1003]")
+            .output_fields(get_output_fields(use_new_schema))
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+bool USE_NEW_SCHEMA = true;
+
+milvus::QueryResponse queryResponse;
+auto status = client->Query(milvus::QueryRequest()
+    .WithCollectionName("documents")
+    .WithFilter("id in [1001, 1002, 1003]")
+    .WithOutputFields(getOutputFields(USE_NEW_SCHEMA)), queryResponse);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const USE_NEW_SCHEMA = true;
+
+const results = await client.query({
+    collection_name: "documents",
+    filter: "id in [1001, 1002, 1003]",
+    output_fields: getOutputFields(USE_NEW_SCHEMA),
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+bool USE_NEW_SCHEMA = true;
+QueryParameters parameters = new QueryParameters();
+foreach (var field in getOutputFields(USE_NEW_SCHEMA))
+{
+    parameters.OutputFields.Add(field);
+}
+
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "documents",
+    Expression = "id in [1001, 1002, 1003]",
+    Parameters = parameters
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "documents",
+    "filter": "id in [1001, 1002, 1003]",
+    "outputFields": ["id", "text", "category"]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 If the new field changes search behavior, such as when a new vector field is used with a different embedding model, switch the entire read path together, including the query model, target field, and related search configuration.
 

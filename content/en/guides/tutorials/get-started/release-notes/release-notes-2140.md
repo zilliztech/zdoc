@@ -58,5 +58,5 @@ Zilliz Cloud now supports logging over 70 types of actions and events related to
 
 ## Other Enhancements\{#other-enhancements}
 
-Since this release, Zilliz Cloud has adjusted its credit strategies. For details on the new credit strategies, refer to [Try Zilliz Cloud For Free](./free-trials).
+Since this release, Zilliz Cloud has adjusted its credit strategies. For details on the new credit strategies, refer to [Credits](./credits).
 

@@ -529,50 +529,465 @@ Supported query types:
 
 - **Prefix match**
 
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
+
     ```python
     # Match any string that starts with the substring "database" 
     filter = 'text LIKE "database%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that starts with the substring "database"
+    String filter = "text LIKE \"database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that starts with the substring "database"
+    filter := "text LIKE \"database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that starts with the substring "database"
+    let filter = "text LIKE \"database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that starts with the substring "database"
+    const auto filter = R"(text LIKE "database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that starts with the substring "database"
+    const filter = 'text LIKE "database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that starts with the substring "database"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **Suffix match**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string that ends with the substring "database" 
     filter = 'text LIKE "%database"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that ends with the substring "database"
+    String filter = "text LIKE \"%database\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that ends with the substring "database"
+    filter := "text LIKE \"%database\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that ends with the substring "database"
+    let filter = "text LIKE \"%database\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that ends with the substring "database"
+    const auto filter = R"(text LIKE "%database")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that ends with the substring "database"
+    const filter = 'text LIKE "%database"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that ends with the substring "database"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%database\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **Infix match**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string that contains the substring "database" anywhere 
     filter = 'text LIKE "%database%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that contains the substring "database" anywhere
+    String filter = "text LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that contains the substring "database" anywhere
+    filter := "text LIKE \"%database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that contains the substring "database" anywhere
+    let filter = "text LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that contains the substring "database" anywhere
+    const auto filter = R"(text LIKE "%database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that contains the substring "database" anywhere
+    const filter = 'text LIKE "%database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that contains the substring "database" anywhere
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **Wildcard match**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string where "st" appears first, and "um" appears later in the text 
     filter = 'text LIKE "%st%um%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string where "st" appears first, and "um" appears later in the text
+    String filter = "text LIKE \"%st%um%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string where "st" appears first, and "um" appears later in the text
+    filter := "text LIKE \"%st%um%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string where "st" appears first, and "um" appears later in the text
+    let filter = "text LIKE \"%st%um%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string where "st" appears first, and "um" appears later in the text
+    const auto filter = R"(text LIKE "%st%um%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string where "st" appears first, and "um" appears later in the text
+    const filter = 'text LIKE "%st%um%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string where "st" appears first, and "um" appears later in the text
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%st%um%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **JSON path queries**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     filter = 'json_field["body"] LIKE "%database%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    String filter = "json_field[\"body\"] LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "json_field[\"body\"] LIKE \"%database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "json_field[\"body\"] LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(json_field["body"] LIKE "%database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const filter = 'json_field["body"] LIKE "%database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "json_field[\"body\"] LIKE \"%database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **Regex filter**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match log messages that contain "error" followed later by "timeout" 
     filter = 'text =~ "error.*timeout"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match log messages that contain "error" followed later by "timeout"
+    String filter = "text =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match log messages that contain "error" followed later by "timeout"
+    filter := "text =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match log messages that contain "error" followed later by "timeout"
+    let filter = "text =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match log messages that contain "error" followed later by "timeout"
+    const auto filter = R"(text =~ "error.*timeout")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match log messages that contain "error" followed later by "timeout"
+    const filter = 'text =~ "error.*timeout"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match log messages that contain "error" followed later by "timeout"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **Regex filter on a JSON path**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     filter = 'json_field["body"] =~ "error.*timeout"'
     ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    String filter = "json_field[\"body\"] =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "json_field[\"body\"] =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "json_field[\"body\"] =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(json_field["body"] =~ "error.*timeout")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const filter = 'json_field["body"] =~ "error.*timeout"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "json_field[\"body\"] =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+    </Tabs>
 
 For more information on filter expression syntax, refer to [Pattern Matching](./pattern-match).
 

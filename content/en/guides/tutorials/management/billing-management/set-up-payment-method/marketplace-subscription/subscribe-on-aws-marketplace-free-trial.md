@@ -88,7 +88,7 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
 ## Upgrade to paid subscription\{#upgrade-to-paid-subscription}
 
-When you start a free trial of Zilliz Cloud on AWS Marketplace, you get the same features as the regular Zilliz Cloud free trial. For details, see [Try Zilliz Cloud For Free](./free-trials#free-trial). 
+When you start a free trial of Zilliz Cloud on AWS Marketplace, you get the same features as the regular Zilliz Cloud free trial. For details, see [Credits](./credits).
 
 During the free trial, a `Free Trial` tag will appear next to AWS Marketplace Subscription on the **Billing Overview** page.
 

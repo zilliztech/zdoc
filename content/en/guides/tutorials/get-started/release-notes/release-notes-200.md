@@ -30,7 +30,7 @@ This release is compatible with **Milvus 2.1.x**.
 
 We are excited to announce the launch of Zilliz Cloud's Serverless Vector Database Service. This new offering provides an even more effortless vector data search experience compared to our dedicated cluster solutions.
 
-To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. [Free Trials](./free-trials).
+To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. For details, see [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans).
 
 ## Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted\{#zilliz-clouds-plan-tiers-starter-standard-enterprise-and-self-hosted}
 

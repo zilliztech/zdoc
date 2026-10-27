@@ -1,7 +1,6 @@
 ---
 title: "Delete Entities | Cloud"
 slug: /delete-entities
-sidebar_label: "Delete"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | Cloud"
 type: origin
-token: RhKcwNACpi3WihkTzo8cr4BCnee
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-delete-entities
+sidebar_label: "Delete"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/delete-entities.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -185,8 +185,7 @@ using Milvus.Client.V2.Responses.Dml;
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -219,6 +218,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Delete Entities by Primary Keys\{#delete-entities-by-primary-keys}
@@ -321,9 +321,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -363,11 +363,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Delete Entities from Partitions\{#delete-entities-from-partitions}
 
-You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **partitionA** in your collection. 
+You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **partitionA** in your collection.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -470,9 +471,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -519,4 +520,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

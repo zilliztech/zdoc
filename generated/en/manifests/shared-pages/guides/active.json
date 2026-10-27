@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "pages": [
+    {
+      "page": "delete-entities",
+      "record": "recvlPtUuUu4el",
+      "feishu_token": "RhKcwNACpi3WihkTzo8cr4BCnee",
+      "anchors": {
+        "MQo9dmwhvoFNvNxdItWcWyGdnv4": "delete-entities-from-partitions"
+      },
+      "activated_in": "40517911974"
+    }
+  ]
+}
