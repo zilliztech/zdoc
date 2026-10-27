@@ -4,7 +4,7 @@
     "02-collection-operations.json": "b1322559a1df84e676b58a8357be533381545772d80080c7fde15ee978953a3c",
     "03-vector-operations.json": "a3103bf1afdc730a0fc8edf0bed2bd1b0ec3d7f645e5c4747235772f6a7c6d60",
     "04-vector-operations-v2.json": "17b9aac046547eaec4496a8542c9df74407527a9e88c3040d9d7110e6d04d828",
-    "05-collection-operations-v2.json": "b48ec87ddfae20670b4142d6c76c5aed3b2fd18c2dc066898304b8010ec8c377",
+    "05-collection-operations-v2.json": "d2ac529dd74d3561005f236ce706735021f487d6642f3e7aa3160041f8c5a46e",
     "06-database-operations-v2.json": "ea6f9ecacd7ce8629fa3d1bea6515b33e81dbef9c0bad1c99f4664164ba04c91",
     "07-index-operations-v2.json": "2ea2cbb9a3fde4f6bc44559aaf8621578f1f9edded038b486235821396767cb8",
     "08-partition-operations-v2.json": "dde93cd733ece56d76dade6b61425f889a4750b15bc4ea112c88a8b2b0e268e2",
@@ -37,10 +37,10 @@
     "35-cloud-api-key-operations-v2.json": "f900ad3aa066c341734186b60280a96f5eef8c44390388fa6480049a80ab3cf8",
     "36-private-endpoint-operations-v2.json": "142740e95ce9ee40712741f696baee42e59d436a7fca9f44c8640189dde2b614",
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
-    "38-snapshot-operations-v2.json": "dd6bb190299dffe91f7ccd922e7c0cc5e8d7f9b2da7bd1ed43757f4dd3990921"
+    "38-snapshot-operations-v2.json": "5b2da4866372d10f55f97811420b191d10f96b3a24ebb7bf8b68bfd81e2b6db5"
   },
-  "generatedAt": "2026-10-27T08:35:08.628Z",
+  "generatedAt": "2026-10-27T08:41:18.953Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "ea7bece0d8726f59e7a9a5ae6d886886a699954f"
+  "toolingSha": "da010c6f24a8ba45727dea65186a10d0fc2bb32b"
 }

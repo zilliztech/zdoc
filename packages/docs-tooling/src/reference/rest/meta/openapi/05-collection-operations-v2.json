@@ -2701,6 +2701,7 @@
             "description": "この操作は、既存のコレクションのスキーマに function を追加します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
@@ -3034,6 +3035,7 @@
             "description": "この操作は、コレクションのスキーマから関数を削除します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
@@ -4522,6 +4524,7 @@
             "description": "この操作は、1 回のスキーマ変更で、関数、その出力フィールド、およびフィールドインデックスを既存のコレクションに追加します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
@@ -4724,6 +4727,7 @@
             "description": "この操作は、既存のコレクションから関数フィールドを削除します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
@@ -4873,6 +4877,7 @@
             "description": "この操作は、フィールド名またはフィールド ID を使用して、既存のコレクションからフィールドを削除します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
@@ -5052,6 +5057,7 @@
             "description": "この操作は、既存のコレクションに StructArray フィールドを追加します。"
           }
         },
+        "x-beta": "PUBLIC",
         "tags": [
           "Collection Operations (V2)"
         ],
