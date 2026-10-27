@@ -2,7 +2,7 @@
 title: "listRestoreSnapshotJobs() | Java | v2"
 slug: /java/java/v2-Snapshots-listRestoreSnapshotJobs
 sidebar_label: "listRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
