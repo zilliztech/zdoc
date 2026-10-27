@@ -140,7 +140,10 @@ function writerAdapter(sourceDir, rootToken, manual) {
 }
 function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation, previousSnapshot}) {
   const index = SourceIndex.load(sourceDir)
-  const source = index.find('base_record_id', record.record_id)
+  // During first activation the record's legacy docx source stays cached beside
+  // the new shared source while the old Feishu document must remain readable;
+  // the record-id lookup resolves to the shared projection of the record.
+  const source = index.find('base_record_id', record.record_id, {where: source => source.source_kind === 'shared-page'})
   if (!source || source.slug !== page) throw new Error(`CONFIG_PATH_UNKNOWN: Base slug does not match ${page}`)
   const parent = index.find('node_token', source.parent_node_token)
   const position = (parent.children || []).filter(child => child && child.obj_type !== 'bitable').findIndex(child => child.node_token === source.node_token) + 1
@@ -210,5 +213,5 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
     throw Object.assign(new Error(`ACTIVATE_CHECK_FAILED: ${error.message}`), {code: 'ACTIVATE_CHECK_FAILED', detail: {old_token: token, links: references, reason: error.message}})
   }
 }
-module.exports = {digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper,
+module.exports = {digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
   planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, git, pendingSourceSnapshot}

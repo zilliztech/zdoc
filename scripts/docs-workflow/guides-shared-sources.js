@@ -6,6 +6,7 @@ const path = require('node:path')
 const {execFileSync} = require('node:child_process')
 const {loadTypeScript} = require('../lib/load-typescript')
 const fetch = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
+const SourceIndex = require('../../packages/docs-tooling/src/lark/larkSourceIndex')
 const {validateSharedReceipt, safeHandoffPath} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
 const {runBuild, readSharedDocs} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
 const {parseLock} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/lock.ts'))
@@ -72,12 +73,35 @@ function lockedInventory(repo, commit) {
 function readCurrentSources(sourceDir, candidate) {
   return [...new Set(candidate.records.map(record => record.source_file).filter(Boolean))].sort().map(file => JSON.parse(fetch.regularBytes(sourceDir, file)))
 }
-function baselineFallback(data, recordId, baselineRoot, out) {
+/** Production snapshots never populate record output_paths, so retained
+ * baseline outputs are located through the legacy source's tree position —
+ * exactly where the page was published from before the Docs flip. */
+function baselinePublicationPaths({recordId, sourceDir, rootToken, baselineRoot}) {
+  if (!sourceDir || !rootToken) return []
+  const index = SourceIndex.load(sourceDir)
+  const legacy = index.find('base_record_id', recordId, {where: source => source.source_kind !== 'shared-page' && !source.shared_page})
+  if (!legacy || !legacy.node_token) return []
+  const paths = []
+  for (const manual of ['guides', 'guides-byoc']) {
+    const publication = resolveManualPublication(manual, 'en').publication
+    const writer = fetch.writerAdapter(sourceDir, rootToken, manual)
+    const relative = writer.__doc_id_for_token(legacy.node_token, publication.contentRoot)
+    if (!safeHandoffPath(relative)) continue
+    for (const extension of ['.mdx', '.md']) {
+      const file = `${publication.contentRoot}/${relative}${extension}`
+      if (fs.existsSync(path.join(baselineRoot, file))) { paths.push(file); break }
+    }
+  }
+  return paths
+}
+function baselineFallback(data, recordId, baselineRoot, out, source = {}) {
   const previous = data.previous_snapshot?.records?.find(record => record.record_id === recordId)
   const active = data.active.pages.find(entry => entry.record === recordId) || null
   const outputs = []
-  for (const file of previous?.output_paths || []) {
-    if (!/^content\/en\/(guides|byoc)\/.+\.mdx?$/.test(file) || !safeHandoffPath(file)) throw new Error('Unsafe baseline fallback path')
+  const declared = (previous?.output_paths || []).filter(file => typeof file === 'string' && /^content\/en\/(guides|byoc)\/.+\.mdx?$/.test(file))
+  const derived = baselinePublicationPaths({recordId, baselineRoot, sourceDir: source.sourceDir, rootToken: source.rootToken})
+  for (const file of [...new Set([...declared, ...derived])].sort()) {
+    if (!safeHandoffPath(file)) throw new Error('Unsafe baseline fallback path')
     const bytes = fetch.regularBytes(baselineRoot, file)
     const destination = `fallback/${recordId}/${file}`
     write(out, destination, bytes)
@@ -213,11 +237,11 @@ async function generateSharedSources(options, dependencies = {}) {
     } catch (error) {
       if (error.hardStop) throw error
       outcomes.push({record_id: record.record_id, page, status: 'fallback', code: error.code || 'SHARED_BUILD_FAILED', message: error.message,
-        detail: error.detail || null, baseline: baselineFallback(data, record.record_id, baselineRoot, out)})
+        detail: error.detail || null, baseline: baselineFallback(data, record.record_id, baselineRoot, out, {sourceDir, rootToken})})
     } finally { fs.rmSync(buildOut, {recursive: true, force: true}) }
   }
   for (const error of data.errors) if (!selected.some(record => record.record_id === error.record_id)) {
-    outcomes.push({...error, status: 'fallback', baseline: baselineFallback(data, error.record_id, baselineRoot, out)})
+    outcomes.push({...error, status: 'fallback', baseline: baselineFallback(data, error.record_id, baselineRoot, out, {sourceDir, rootToken})})
   }
   let baselineActiveFile = null
   if (data.active.pages.length) {
@@ -291,4 +315,4 @@ async function main(argv) {
   }
 }
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error.stack); process.exitCode = 1 })
-module.exports = {prepareUpstream, lockedInventory, generateSharedSources, readCurrentSources, receiptDraft, baselineFallback, main}
+module.exports = {prepareUpstream, lockedInventory, generateSharedSources, readCurrentSources, receiptDraft, baselineFallback, baselinePublicationPaths, main}

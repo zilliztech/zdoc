@@ -116,6 +116,44 @@ test('brand-new records emit .mdx in both manuals without old-document fetches',
   assert.ok(bundle.outcomes[0].outputs.every(output => output.path.endsWith('.mdx')))
   assert.equal(bundle.effective_active.pages[0].feishu_token, null)
 })
+/** Reproduces the first-activation production layout: the record's pre-flip
+ * docx source stays cached beside the new shared source while the old Feishu
+ * document must remain readable. */
+async function injectLegacySource(options) {
+  const shared = JSON.parse(fs.readFileSync(path.join(options.sourceDir, 'base_table_rec0.json'), 'utf8'))
+  const legacy = {...shared, node_token: 'old', obj_token: 'old', origin_node_token: 'old'}
+  delete legacy.source_kind
+  delete legacy.shared_page
+  await write(options.sourceDir, 'old.json', JSON.stringify(legacy))
+  return legacy
+}
+
+test('generation resolves the record-id ambiguity while the legacy docx source stays cached', {timeout: 120000}, async t => {
+  const options = await fixture(t)
+  await injectLegacySource(options)
+  const targets = adapter.planFetchTargets({record: options.records[0], sourceDir: options.sourceDir, baselineRoot: options.baselineRoot,
+    rootToken, page: 'sample', navigation: options.preparation.navigation, previousSnapshot: options.preparation.previous_snapshot})
+  assert.deepEqual(targets.map(target => target.path), ['tutorials/manage-data/sample', 'tutorials/manage-data/sample'])
+  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: [heading]}})})
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+})
+
+test('fallback derives retained baselines from the legacy source when snapshot output_paths are absent', {timeout: 120000}, async t => {
+  const options = await fixture(t)
+  await injectLegacySource(options)
+  // Production snapshots never populate record output_paths.
+  options.preparation.previous_snapshot.records[0].output_paths = []
+  const bundle = await generateSharedSources(options, {fetchOld: async () => {throw new Error('old doc unavailable')}})
+  const outcome = bundle.outcomes[0]
+  assert.equal(outcome.status, 'fallback')
+  assert.equal(outcome.code, 'ACTIVATE_CHECK_FAILED')
+  assert.deepEqual(outcome.baseline.outputs.map(output => output.path).sort(),
+    ['content/en/byoc/tutorials/manage-data/sample.mdx', 'content/en/guides/tutorials/manage-data/sample.md'])
+  for (const output of outcome.baseline.outputs) {
+    assert.deepEqual(fs.readFileSync(path.join(options.out, output.file)), fs.readFileSync(path.join(options.baselineRoot, output.path)))
+  }
+})
+
 test('cold cache old-document failure preserves both manual baselines while a sibling succeeds', {timeout: 120000}, async t => {
   const options = await fixture(t, {pages: ['sample', 'sibling']})
   const seen = []
