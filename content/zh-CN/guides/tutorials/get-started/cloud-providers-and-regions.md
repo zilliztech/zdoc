@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服务商和区域。 | Cloud"
 type: origin
 token: BErdww1kOirndzkHrKoc2ibynlb
-sidebar_position: 8
+sidebar_position: 7
 displayed_sidebar: default
 
 ---
@@ -50,221 +50,17 @@ Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服�
 
 ### 阿里云\{#alibaba-cloud}
 
-Zilliz Cloud 支持在阿里云以下地域部署集群。
-
-<table>
-   <tr>
-     <th rowspan="3"><p>大洲</p></th>
-     <th rowspan="3"><p>地域 ID</p></th>
-     <th rowspan="3"><p>地域名称</p></th>
-     <th colspan="3"><p>Zilliz 托管云（SaaS）</p></th>
-     <th rowspan="3"><p>BYOC</p></th>
-   </tr>
-   <tr>
-     <td colspan="2"><p>Serving 集群</p></td>
-     <td rowspan="2"><p>按需计算</p></td>
-   </tr>
-   <tr>
-     <td><p>Free 和 Serverless</p></td>
-     <td><p>Dedicated</p></td>
-   </tr>
-   <tr>
-     <td rowspan="4"><p>中国内地</p></td>
-     <td><p>cn-hangzhou</p></td>
-     <td><p>华东1（杭州）</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>cn-shanghai</p></td>
-     <td><p>华东2（上海）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>cn-beijing</p></td>
-     <td><p>华北2（北京）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>cn-shenzhen</p></td>
-     <td><p>华南1（深圳）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>北美</p></td>
-     <td><p>us-east-1</p></td>
-     <td><p>美国（弗吉尼亚）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>亚太</p></td>
-     <td><p>ap-southeast-1</p></td>
-     <td><p>新加坡</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>中东</p></td>
-     <td><p>me-central-1</p></td>
-     <td><p>沙特（利雅得-合作伙伴运营）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+<CloudRegions provider="alibaba" />
 
 ### 腾讯云\{#tencent-cloud}
 
-Zilliz Cloud 支持在腾讯云以下地域部署集群。
-
-<table>
-   <tr>
-     <th rowspan="3"><p>大洲</p></th>
-     <th rowspan="3"><p>地域 ID</p></th>
-     <th rowspan="3"><p>地域名称</p></th>
-     <th colspan="3"><p>Zilliz 托管云（SaaS）</p></th>
-     <th rowspan="3"><p>BYOC</p></th>
-   </tr>
-   <tr>
-     <td colspan="2"><p>Serving 集群</p></td>
-     <td rowspan="2"><p>按需计算</p></td>
-   </tr>
-   <tr>
-     <td><p>Free 和 Serverless</p></td>
-     <td><p>Dedicated</p></td>
-   </tr>
-   <tr>
-     <td rowspan="2"><p>中国内地</p></td>
-     <td><p>ap-beijing</p></td>
-     <td><p>华北地区（北京）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>ap-shanghai</p></td>
-     <td><p>华东地区（上海）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>北美</p></td>
-     <td><p>na-ashburn</p></td>
-     <td><p>美国东部（弗吉尼亚）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+<CloudRegions provider="tencent" />
 
 ### 亚马逊云科技\{#amazon-cn}
 
-Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
-
-<table>
-   <tr>
-     <th rowspan="3"><p>大洲</p></th>
-     <th rowspan="3"><p>地域 ID</p></th>
-     <th rowspan="3"><p>地域名称</p></th>
-     <th colspan="3"><p>Zilliz 托管云（SaaS）</p></th>
-     <th rowspan="3"><p>BYOC</p></th>
-   </tr>
-   <tr>
-     <td colspan="2"><p>Serving 集群</p></td>
-     <td rowspan="2"><p>按需计算</p></td>
-   </tr>
-   <tr>
-     <td><p>Free 和 Serverless</p></td>
-     <td><p>Dedicated</p></td>
-   </tr>
-   <tr>
-     <td><p>中国内地</p></td>
-     <td><p>cn-northwest-1</p></td>
-     <td><p>中国（宁夏）</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+<CloudRegions provider="amazon-cn" />
 
 ## 云地域的功能支持情况\{#feature-support-by-cloud-region}
 
-<table>
-   <tr>
-     <th><p>功能</p></th>
-     <th><p>阿里云</p></th>
-     <th><p>腾讯云</p></th>
-     <th><p>亚马逊云科技</p></th>
-   </tr>
-   <tr>
-     <td><p>Managed Volume</p></td>
-     <td><p>✅ 全部地域</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅ 全部地域</p></td>
-   </tr>
-   <tr>
-     <td><p>External Volume</p></td>
-     <td><p>✅ 全部地域</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅ 全部地域</p></td>
-   </tr>
-   <tr>
-     <td><p>External Collection</p></td>
-     <td><p>✅ 全部地域</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>暂不支持</p></td>
-   </tr>
-   <tr>
-     <td><p>Global Cluster（全球集群）</p></td>
-     <td><p>ℹ️ 请联系我们</p></td>
-     <td><p>ℹ️ 请联系我们</p></td>
-     <td><p>ℹ️ 请联系我们</p></td>
-   </tr>
-   <tr>
-     <td><p>Cross-region backup（跨地域备份）</p></td>
-     <td><p>✅ 全部地域</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅ 全部地域</p></td>
-   </tr>
-   <tr>
-     <td><p>托管模型</p></td>
-     <td><p>ℹ️ 部分地域：</p><ul><li>华北2（北京）</li></ul></td>
-     <td><p>暂不支持</p></td>
-     <td><p>暂不支持</p></td>
-   </tr>
-   <tr>
-     <td><p>导出备份文件</p></td>
-     <td><p>✅ 全部地域</p></td>
-     <td><p>暂不支持</p></td>
-     <td><p>✅ 全部地域</p></td>
-   </tr>
-   <tr>
-     <td><p>Spark 批量任务</p></td>
-     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
-     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
-     <td><p>✅ 全部地域（<a href="http://support.zilliz.com.cn">联系我们开通</a>）</p></td>
-   </tr>
-</table>
+<CloudFeatures matrix="features" />
 

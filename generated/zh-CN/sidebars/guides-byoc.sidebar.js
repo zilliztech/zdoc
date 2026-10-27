@@ -13,7 +13,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "tutorials/get-started/register-with-zilliz-cloud",
-        "label": "注册账号",
+        "label": "创建账号",
         "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
       },
       {
@@ -1427,14 +1427,7 @@ module.exports = [
             "type": "category",
             "label": "从外部数据源迁移",
             "key": "category:tutorials/management/migrations/migrate-from-external-sources",
-            "items": [
-              {
-                "type": "doc",
-                "id": "tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips",
-                "label": "Zilliz Cloud IP",
-                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips"
-              }
-            ]
+            "items": []
           },
           {
             "type": "category",

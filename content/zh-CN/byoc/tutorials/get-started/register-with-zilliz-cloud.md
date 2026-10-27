@@ -1,15 +1,15 @@
 ---
-title: "注册账号 | BYOC"
+title: "创建账号 | BYOC"
 slug: /register-with-zilliz-cloud
-sidebar_label: "注册账号"
+sidebar_label: "创建账号"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "本教程将介绍如何创建 Zilliz Cloud 账号以便使用 Zilliz Cloud 云服务。 | BYOC"
+description: "创建 Zilliz Cloud 账号，即可开始使用托管的向量检索服务。您可以使用企业邮箱和密码注册账号。 | BYOC"
 type: origin
-token: CCVpw6BVti8P8LkfcdJcdRH1nHg
+token: VLvsdfwWZo2tf5xqwGdcYBE7nyh
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,9 +20,11 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# 注册账号
+# 创建账号
 
-本教程将介绍如何创建 Zilliz Cloud 账号以便使用 Zilliz Cloud 云服务。
+创建 Zilliz Cloud 账号，即可开始使用托管的向量检索服务。您可以使用企业邮箱和密码注册账号。
+
+创建账号无需绑定支付方式。注册后，您可以使用免费资源，体验向量数据库功能并评估使用成本。
 
 ## 前提条件\{#before-you-start}
 
@@ -30,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ![register_account](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/registeraccount.png "register_account")
 
-## 注册账号\{#registration-options}
+## 注册账号\{#sig-up-with-a-work-email-and-password}
 
 <Procedures>
 
@@ -74,8 +76,9 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 常见问题\{#faq}
+## 常见问题\{#}
 
-**为什么提示账号注册失败？**
+### 为什么提示账号注册失败？\{#}
 
 账号注册失败的理由可能是您已使用该邮箱地址或手机号注册过 Zilliz Cloud 账号。这种情况下，您可以使用该邮箱或手机号直接登录 Zilliz Cloud。如果仍然无法解决问题，您可以[提交工单](http://support.zilliz.com.cn)。
+

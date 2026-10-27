@@ -7,14 +7,8 @@ module.exports = [
       {
         "type": "doc",
         "id": "tutorials/get-started/register-with-zilliz-cloud",
-        "label": "注册账号",
+        "label": "创建账号",
         "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/get-started/free-trials",
-        "label": "免费试用 Zilliz Cloud",
-        "key": "doc:tutorials/get-started/free-trials"
       },
       {
         "type": "category",

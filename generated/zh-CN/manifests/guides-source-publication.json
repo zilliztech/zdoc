@@ -219,7 +219,6 @@
     "content/zh-CN/byoc/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
     "content/zh-CN/byoc/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
     "content/zh-CN/byoc/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-    "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
     "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
     "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
     "content/zh-CN/byoc/tutorials/management/organizations/organization-settings.md",
@@ -431,7 +430,6 @@
     "content/zh-CN/guides/tutorials/get-started/faqs/faq-security.md",
     "content/zh-CN/guides/tutorials/get-started/faqs/faq-users-and-roles.md",
     "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-    "content/zh-CN/guides/tutorials/get-started/free-trials.md",
     "content/zh-CN/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
     "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
     "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
@@ -1467,7 +1465,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/cu-types-explained.md",
-      "sha256": "e78b5ac7310652db326d6cb0b1df8b93a5cbfa326ef704e345940686e64c743a",
+      "sha256": "682dd58833a02fe55c81b9f9cf7b850cc95cf8f3651758f4cb2f952eb14ae6ae",
       "docToken": "DP6Fw8vkzi7pD7kAMB3cjunYn6g",
       "revisionId": "735"
     },
@@ -1557,19 +1555,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "68d5da09939d28707de18404f2898e7213af486afeba468f1b3272ebc14dc583",
-      "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
-      "revisionId": "418"
+      "sha256": "018cbc7e5cd3aa4aaae2f8657446a6c4663f57c024585b2341e585a556d5199d",
+      "docToken": "VLvsdfwWZo2tf5xqwGdcYBE7nyh",
+      "revisionId": "61"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "e87f56c8a26a863f85e2074c44c607fd13fa20ea1f3e3d53b86f9026c01d09c0",
+      "sha256": "175c208627eff87bae30655fad586719aeca3fe4465ecca1ef92a2399a6b41ad",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1482"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/shared-responsibilities.md",
-      "sha256": "bd3342a3e81fe1d7b6487bb33ae453dd523c94c6f24e025b225a530d028e3a7e",
+      "sha256": "7f2fc7b5d19a38baf829642596547e7005701c551a532feb1c14a742a7008a7c",
       "docToken": "Im9Twy8oRiXmfMkbXbYccZVSn5b",
       "revisionId": "6"
     },
@@ -1902,12 +1900,6 @@
       "sha256": "edcb31c4a29f5227b29f5c2db1907212a3304beaf6b40be55cbd7ccac2f6e454",
       "docToken": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
       "revisionId": "1450"
-    },
-    {
-      "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "sha256": "87b49c85a1e606bf9bba0a996241e7947b7885f05d0741a4aabf4e2f21d7af7a",
-      "docToken": "J86AwNi3midzR9kqgbHcnX14ntc",
-      "revisionId": "225"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
@@ -2979,15 +2971,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/snapshots/manage-snapshots.md",
-      "sha256": "0adc50a846475bf8249780b4852382fc2c525fb35549bc9348942710d611293d",
+      "sha256": "f8592e6f1a4e06532181246cc20a7e34ce4a5592abfd4e1512019b61cbb628b6",
       "docToken": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
-      "revisionId": "24"
+      "revisionId": "46"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/snapshots/snapshots.md",
-      "sha256": "904af0dadf6d9af19d50063e057ce2d94da31bcb1b3011ddda5ca4eda708961d",
+      "sha256": "db92659e86a5a2394e59dbc41a46d5dacae97e29b0de92a11898556fdd16e016",
       "docToken": "Km9nwfLWti2GZNkLtbnc8fcVnId",
-      "revisionId": "16"
+      "revisionId": "27"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
@@ -3075,13 +3067,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "fe2ae7ab6efaab37b5ff36d38f9648d19d3db93afb0deffc3ba2caae497fb479",
+      "sha256": "6201a515c84c9c7625e85e5655420c6d873c2c1927945a516d2da581b27fecea",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
-      "revisionId": "511"
+      "revisionId": "519"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cu-types-explained.md",
-      "sha256": "668cffeba06fc1d88e4ad17d5e2b0d7923139dae241b06c73358c1a6481f7138",
+      "sha256": "d6a84b279133414363cf8d41d252e29041d9f030b9dd579b7a9add79556f6d6f",
       "docToken": "DP6Fw8vkzi7pD7kAMB3cjunYn6g",
       "revisionId": "735"
     },
@@ -3171,15 +3163,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "cb0f2d15ea903a865e922c0880acfe3e44579215ddfb6a293f7d7ecc4d254265",
+      "sha256": "a6d28cc556f119df9d1f7415e08f30c5fb486eb5321aaf33a8a18bb9cd9865c7",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
       "revisionId": "407"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/get-started/free-trials.md",
-      "sha256": "72d5e39e731d4867fd2b254a3fc3f563925d5b3d3ccba605086080d997b7b2ea",
-      "docToken": "WWlIwejMNiAEmmkce5fcZu4UnMd",
-      "revisionId": "1161"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
@@ -3207,9 +3193,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "b5d8fb2062ea368713c7804347286c52d799ca686a514a938faf11c741980126",
-      "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
-      "revisionId": "418"
+      "sha256": "8df7a4b483c907420423be0dbc2e148b40cb28feb01e73d2b5b72b65fae93eae",
+      "docToken": "VLvsdfwWZo2tf5xqwGdcYBE7nyh",
+      "revisionId": "61"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/changelogs.md",
@@ -3405,7 +3391,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "82fbf003069c3e182378b5c21d8ea63a864c9888a6ebfc3c4a48ac30799553be",
+      "sha256": "ff7b936c65bdf2591100b69df661f58fb051e67fe9846c1d9f6e9843b1656cee",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1482"
     },
@@ -3939,9 +3925,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "sha256": "f2118a4169471726518a05100decede37be229173cf9c682773354aa85f765d8",
+      "sha256": "f54d31ab109052ef0be6526dc510e43819435cffe91af3340537ea25c7e4c9c4",
       "docToken": "J86AwNi3midzR9kqgbHcnX14ntc",
-      "revisionId": "225"
+      "revisionId": "233"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
@@ -4203,13 +4189,13 @@
     },
     {
       "path": "generated/zh-CN/sidebars/guides-byoc.sidebar.js",
-      "sha256": "4582b4f96cbedbbb4d5b87aa1d1f6db19f61bbcfcc3dbe135942321ba85274b8",
+      "sha256": "8cdcb5ccd84e6e84cf8b6aa053fd446838f244cf03d9bfc37abebfdc3cf95165",
       "docToken": null,
       "revisionId": null
     },
     {
       "path": "generated/zh-CN/sidebars/guides.sidebar.js",
-      "sha256": "b85bb5aa3f6a975074cff1d04be491d8ae26b206c7a0c3e2be5aa0342bafef63",
+      "sha256": "6385ab721e360e8c52cab0a3c2151b2b47753fcf8dc1cb910fc5e08854068648",
       "docToken": null,
       "revisionId": null
     },

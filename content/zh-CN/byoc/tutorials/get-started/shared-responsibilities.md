@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本页面概述了Zilliz Cloud和BYOC用户的职责，以明确与云管理、升级、安全、访问控制、服务可用性和技术支持相关的任务分工，确保在保持安全高效的运营环境的同时实现顺畅协作。 | BYOC"
 type: origin
 token: Im9Twy8oRiXmfMkbXbYccZVSn5b
-sidebar_position: 5
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

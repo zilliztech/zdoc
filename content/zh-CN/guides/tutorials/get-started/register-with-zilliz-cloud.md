@@ -1,15 +1,15 @@
 ---
-title: "注册账号 | Cloud"
+title: "创建账号 | Cloud"
 slug: /register-with-zilliz-cloud
-sidebar_label: "注册账号"
+sidebar_label: "创建账号"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "本教程将介绍如何创建 Zilliz Cloud 账号以便使用 Zilliz Cloud 云服务。 | Cloud"
+description: "创建 Zilliz Cloud 账号，即可开始使用托管的向量检索服务。您可以使用企业邮箱和密码注册账号。 | Cloud"
 type: origin
-token: CCVpw6BVti8P8LkfcdJcdRH1nHg
+token: VLvsdfwWZo2tf5xqwGdcYBE7nyh
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,9 +20,11 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# 注册账号
+# 创建账号
 
-本教程将介绍如何创建 Zilliz Cloud 账号以便使用 Zilliz Cloud 云服务。
+创建 Zilliz Cloud 账号，即可开始使用托管的向量检索服务。您可以使用企业邮箱和密码注册账号。
+
+创建账号无需绑定支付方式。注册后，您可以使用免费资源，体验向量数据库功能并评估使用成本。
 
 ## 前提条件\{#before-you-start}
 
@@ -30,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ![register_account](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/registeraccount.png "register_account")
 
-## 注册账号\{#registration-options}
+## 注册账号\{#sig-up-with-a-work-email-and-password}
 
 <Procedures>
 
@@ -74,8 +76,35 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 常见问题\{#faq}
+## 开始使用免费资源\{#start-with-free-resources}
 
-**为什么提示账号注册失败？**
+注册账号后，您即可使用 Free 集群和免费试用资源，测试 Zilliz Cloud 向量数据库特性并评估使用成本，无需绑定支付方式。
+
+| 资源 | 说明 |
+| --- | --- |
+| Free 集群 | 免费使用基础的向量数据库功能，提供 5 GB 存储（可容纳 100 万个 768 维向量）、每月 250 万免费 vCU 额度和 5 个 Collection。如需更多资源或使用高级功能，请免费试用 Serverless 或 Dedicated 版本。 |
+| 免费试用优惠券 | 首次使用企业邮箱注册 Zilliz Cloud 账号时，您的组织将获赠 **¥300** 优惠券，有效期为 **30 天**，可用于试用 Serverless 和按量计费的 Dedicated 集群。优惠券使用完毕或过期时即视为免费试用结束。 |
+| 延长优惠券有效期 | 如果您绑定了云市场支付方式，注册时获得的 ¥300 优惠券有效期可延长至 **1 年**。如需更多优惠券或延长试用期，请[联系销售](https://zilliz.com.cn/contact-sales)。 |
+
+<Admonition type="info" title="说明">
+
+免费试用结束后，您的组织将被冻结。在此期间，组织中的 Serverless 和 Dedicated 集群将被移至[回收站](./use-recycle-bin)，您将无法使用 Dedicated 和 Serverless 集群特有的高级功能（如备份恢复、告警等）。
+
+如需解冻组织，请[添加支付方式](./payment-billing)。在此之后，您可以从回收站中恢复数据。如果在组织冻结 30 天后仍未添加支付方式，您的 Serverless 和 Dedicated 集群将被永久删除，但您的组织仍被保留。
+
+</Admonition>
+
+## 常见问题\{#}
+
+### 为什么提示账号注册失败？\{#}
 
 账号注册失败的理由可能是您已使用该邮箱地址或手机号注册过 Zilliz Cloud 账号。这种情况下，您可以使用该邮箱或手机号直接登录 Zilliz Cloud。如果仍然无法解决问题，您可以[提交工单](http://support.zilliz.com.cn)。
+
+## 后续操作\{#}
+
+- 继续使用 Serverless 和 Dedicated 集群：[添加支付方式](./payment-billing)
+
+- 恢复免费试用结束后移入回收站的数据：[回收站](./use-recycle-bin)
+
+- 获取更多优惠券或延长试用期：[联系销售](https://zilliz.com.cn/contact-sales)
+

@@ -2,12 +2,12 @@
 title: "Snapshot | Cloud"
 slug: /snapshots
 sidebar_label: "Snapshot"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Snapshot 是 Milvus Collection 在某一时间点的镜像，适用于快速回滚、版本管理和测试。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。 | Cloud"
+description: "Snapshot 是 Zilliz Cloud Collection 在某一时间点的镜像。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。 | Cloud"
 type: origin
 token: Km9nwfLWti2GZNkLtbnc8fcVnId
 sidebar_position: 16
@@ -20,19 +20,23 @@ import Admonition from '@theme/Admonition';
 
 # Snapshot
 
-Snapshot 是 Milvus Collection 在某一时间点的镜像，适用于快速回滚、版本管理和测试。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。
+Snapshot 是 Zilliz Cloud Collection 在某一时间点的镜像。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。
+
+Snapshot 不能替代 Backup。Snapshot 的创建与恢复速度快，适用于快速回滚、版本管理和测试（数天到数周）等短期场景；而 Backup 是独立、完整、单独存储的数据副本，适用于长期灾难恢复（数周到数年），并能更好地防范对象存储整体故障。
+
+如需创建备份，请参见 [创建备份](./create-backup)。
 
 <Admonition type="info" title="说明">
 
-Snapshots 是快速生成的数据时间点镜像，适用于快速回滚或测试（**数天到数周**）。相比之下，Backup 是独立、完整、单独存储的数据副本，适用于长期灾难恢复（**数周到数年**），也能更好地防范对象存储整体故障。
+此功能仅限 Dedicated 集群使用。
 
 </Admonition>
 
 ## Snapshot 结构 \{#snapshot-anatomy}
 
-Milvus 使用基于 manifest 的 Snapshot 架构，在不复制实际向量数据的情况下，高效完成数据的时间点捕获、存储和恢复。该架构将 metadata 管理与物理数据存储解耦，使轻量级 Snapshot 可以引用对象存储中已有的 Segment 文件。
+Zilliz Cloud 使用基于 manifest 的 Snapshot 架构，在不复制实际向量数据的情况下，高效完成数据的时间点捕获、存储和恢复。该架构将 metadata 管理与物理数据存储解耦，使轻量级 Snapshot 可以引用对象存储中已有的 Segment 文件。
 
-为 Collection 创建 Snapshot 时，Milvus 会收集以下信息：
+为 Collection 创建 Snapshot 时，Zilliz Cloud 会收集以下信息：
 
 - **Snapshot metadata**：提供创建 Snapshot 所需的基础信息，包括 Snapshot 名称和描述、目标 Collection ID，以及创建 Snapshot 的时间点。
 
@@ -42,7 +46,7 @@ Milvus 使用基于 manifest 的 Snapshot 架构，在不复制实际向量数�
 
 - **Segment data**：捕获向量数据文件（binlogs）、删除日志（deltalogs）和 Index 文件。
 
-在上述信息中，Milvus 会为每个 Segment 生成一个 Apache Avro manifest 文件，并将 Snapshot metadata、Collection description、Index information 以及 manifest 文件路径存储在 JSON 文件中。下面展示了 Snapshot 文件夹结构。
+在上述信息中，Zilliz Cloud 会为每个 Segment 生成一个 Apache Avro manifest 文件，并将 Snapshot metadata、Collection description、Index information 以及 manifest 文件路径存储在 JSON 文件中。下面展示了 Snapshot 文件夹结构。
 
 ```python
 snapshots/{collection_id}/
@@ -60,7 +64,7 @@ snapshots/{collection_id}/
 
 ## 存储影响与注意事项 \{#storage-impacts-and-considerations}
 
-一旦 Milvus 在 Snapshot 中引用某个 Segment 或 Index 文件，除非你删除该 Snapshot，否则 Milvus 不会对这些文件执行垃圾回收。Snapshots 消耗的存储空间与目标 Collection 的规模相关，保留 Snapshot 也会产生对象存储费用。在极端情况下，单个 Snapshot 甚至可能使对象存储成本翻倍。建议你：
+一旦 Zilliz Cloud 在 Snapshot 中引用某个 Segment 或 Index 文件，除非你删除该 Snapshot，否则 Zilliz Cloud 不会对这些文件执行垃圾回收。Snapshots 消耗的存储空间与目标 Collection 的规模相关，保留 Snapshot 也会产生对象存储费用。在极端情况下，单个 Snapshot 甚至可能使对象存储成本翻倍。建议你：
 
 - 定期删除旧 Snapshot，以节省存储空间。
 
