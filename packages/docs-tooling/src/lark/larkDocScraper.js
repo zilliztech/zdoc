@@ -65,6 +65,17 @@ class larkDocScraper {
         const jres = await this.wikiNodeLimiter.schedule(() =>
             this.__fetchFeishuJson(url, { method: 'get' }, `get wiki node ${token}`)
         )
+        // Direct /docx/ links can name documents outside any wiki. Resolve only
+        // that explicit input after the wiki API's not-found response; the docx
+        // endpoint must still authenticate the exact document and its revision.
+        if (objType === 'docx' && jres.code === 131005) {
+            const document = await this.fetch_docx_metadata(token)
+            return {
+                node_token: token, origin_node_token: token, node_type: 'origin',
+                obj_token: token, obj_type: 'docx', title: document.title,
+                has_child: false,
+            }
+        }
         if (jres.code !== 0) {
             throw new Error(`[wiki-node] Failed to resolve ${token}: ${JSON.stringify(jres)}`)
         }
@@ -176,12 +187,18 @@ class larkDocScraper {
         this.token = await fetcher.token()
 
         if (this.target_type == "wiki") {
-            let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${page_token}`
-            let jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get wiki root ${page_token}`)
-
-            if (jres.code == 0) {
-                this.docs = jres.data.node
+            const record = (this.records || []).find(record => this.__doc_token(this.__doc_field(record.fields)) === page_token)
+            const objType = this.__wiki_obj_type_from_link(this.__doc_link(this.__doc_field(record?.fields || {})))
+            if (objType === 'docx') {
+                this.docs = await this.fetch_wiki_node(page_token, objType)
                 await this.__fetch_wiki_children(this.docs, recursive)
+            } else {
+                let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${page_token}`
+                let jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get wiki root ${page_token}`)
+                if (jres.code == 0) {
+                    this.docs = jres.data.node
+                    await this.__fetch_wiki_children(this.docs, recursive)
+                }
             }
         }
 
@@ -835,15 +852,19 @@ class larkDocScraper {
             const docToken = this.__doc_token(docField)
             if (!docToken || isRenderableCanonicalSource(sources.get(docToken))) continue
 
-            const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${docToken}`
-            const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get linked Base wiki node ${docToken}`)
-
-            if (jres.code !== 0) {
-                console.warn(`[base-nav] Failed to resolve linked wiki node ${docToken}: ${JSON.stringify(jres)}`)
-                continue
+            let node
+            const objType = this.__wiki_obj_type_from_link(this.__doc_link(docField))
+            if (objType === 'docx') {
+                node = await this.fetch_wiki_node(docToken, objType)
+            } else {
+                const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${docToken}`
+                const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get linked Base wiki node ${docToken}`)
+                if (jres.code !== 0) {
+                    console.warn(`[base-nav] Failed to resolve linked wiki node ${docToken}: ${JSON.stringify(jres)}`)
+                    continue
+                }
+                node = jres.data.node
             }
-
-            let node = jres.data.node
             if (node.node_type === 'shortcut') {
                 const shortcutUrl = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${node.origin_node_token}`
                 const shortcutJres = await this.__fetchFeishuJson(shortcutUrl, { method: 'get' }, `get linked Base shortcut ${node.origin_node_token}`)
