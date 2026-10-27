@@ -147,7 +147,7 @@ jobs:
           printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\nforce_full_fetch=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" "$FORCE_FULL_FETCH" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: sdk_groups
         name: Compute selected SDK reference producer matrix
@@ -467,7 +467,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -573,7 +573,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -623,7 +623,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -659,7 +659,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -701,7 +701,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -732,7 +732,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -863,7 +863,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Fetch publication selection
         uses: actions/download-artifact@v7
@@ -973,7 +973,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v7
         continue-on-error: true
