@@ -1309,6 +1309,26 @@ function testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics() {
   }
 }
 
+function testFallbackWithoutPreviousNavigationRecordNamesBaseRecord() {
+  const writer = new LarkDocWriter('root', 'base:*', 'default');
+  writer.sharedBundle = {bundle: {
+    outcomes: [{record_id: 'rec-missing-nav', status: 'fallback', baseline: {active: {feishu_token: 'old-token'}}}],
+    preparation: {previous_snapshot: {navigation_records: [], records: []}},
+  }};
+  try {
+    assert.throws(
+      () => writer.__fetch_doc_source_by_any_token('old-token'),
+      error => {
+        assert.match(error.message, /rec-missing-nav/);
+        assert.doesNotMatch(error.message, /Cannot read properties of undefined/);
+        return true;
+      }
+    );
+  } finally {
+    writer.destroy();
+  }
+}
+
 async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
@@ -1356,6 +1376,7 @@ async function run() {
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
   testSourceIndexSourcesAreClonedBeforeWriterMutation();
   testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
+  testFallbackWithoutPreviousNavigationRecordNamesBaseRecord();
   await testBaseTablesRetriesPrematureClose();
   await testBaseRecordsRetriesDataNotReadyResponse();
   console.log('larkDocWriter tests passed');

@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { guidesCanonicalIsPublishable, guidesRecordChannel } = require('./guidesBaseRecordSemantics')
 const slugify = require('slugify')
+const {routeForRecord, sourceFieldsForRecord} = require('./sharedPageRouting')
 const { parseFeishuDocumentLink, safeDecodeUrl } = require('./feishuDocumentLink')
 
 function plainValue(value) {
@@ -222,15 +223,9 @@ function scoreCandidates({ occurrence, canonicalRecords }) {
     .slice(0, 8)
 }
 
-function recordToken(record) {
-  const link = docLink(docField(record.fields || {}))
-  if (!link) return null
-  if (link.includes('#')) return link.split('#').pop()
-  try {
-    return new URL(link).pathname.split('/').filter(Boolean).pop()
-  } catch (_) {
-    return link.startsWith('http://') || link.startsWith('https://') ? null : link
-  }
+function recordToken(record, routingContext = null) {
+  const route = routeForRecord(record, routingContext)
+  return route.kind === 'feishu' ? route.token : null
 }
 
 function placementType(record) {
@@ -240,13 +235,13 @@ function placementType(record) {
   return contentLinkTarget(docLink(docField(record.fields || {}))) ? 'canonical' : 'section'
 }
 
-function canonicalRecordsFrom(records, { guidesPublishableOnly = false } = {}) {
+function canonicalRecordsFrom(records, { guidesPublishableOnly = false, routingContext = null } = {}) {
   return (records || [])
     .filter(record => placementType(record) === 'canonical')
     .filter(record => !guidesPublishableOnly || guidesCanonicalIsPublishable(record))
     .map(record => {
       const doc = docField(record.fields || {})
-      const doc_token = recordToken(record)
+      const doc_token = recordToken(record, routingContext)
       return {
         record_id: record.record_id,
         table_id: record.base_table_id,
@@ -257,12 +252,12 @@ function canonicalRecordsFrom(records, { guidesPublishableOnly = false } = {}) {
         release_channel: guidesRecordChannel(record),
         doc_token,
         doc_link: docLink(doc) || '',
+        ...sourceFieldsForRecord(record, routingContext),
       }
     })
-    .filter(record => record.doc_token)
 }
 
-function sourceOwnedRecordsFrom(records, {guidesPublishableOnly = false} = {}) {
+function sourceOwnedRecordsFrom(records, {guidesPublishableOnly = false, routingContext = null} = {}) {
   return (records || [])
     .filter(record => {
       const placement = placementType(record)
@@ -279,11 +274,11 @@ function sourceOwnedRecordsFrom(records, {guidesPublishableOnly = false} = {}) {
         title: docTitle(doc),
         labels: plainValue(record.fields?.Labels) || '',
         slug: plainValue(record.fields?.Slug) || '',
-        doc_token: recordToken(record),
+        doc_token: recordToken(record, routingContext),
         doc_link: docLink(doc) || '',
+        ...sourceFieldsForRecord(record, routingContext),
       }
     })
-    .filter(record => record.doc_token)
 }
 
 function loadSources(docSourceDir) {
@@ -299,12 +294,12 @@ function loadSources(docSourceDir) {
   return sources
 }
 
-function buildCanonicalMap(records, sources) {
+function buildCanonicalMap(records, sources, {routingContext = null} = {}) {
   const canonicalByToken = new Map()
-  const canonicalRecords = canonicalRecordsFrom(records)
+  const canonicalRecords = canonicalRecordsFrom(records, {routingContext})
   const canonicalByRecordId = new Map(canonicalRecords.map(record => [record.record_id, record]))
   for (const record of canonicalRecords) {
-    canonicalByToken.set(record.doc_token, record)
+    if (record.doc_token) canonicalByToken.set(record.doc_token, record)
     const source = sources.get(record.doc_token)
     if (source) {
       for (const alias of sourceTokenAliases(source)) {
@@ -320,7 +315,14 @@ function buildCanonicalMap(records, sources) {
       canonicalByToken.set(alias, record)
     }
   }
-  return { canonicalByToken, canonicalRecords }
+  for (const [alias, recordId] of routingContext?.aliasesByToken || []) {
+    const record = canonicalByRecordId.get(recordId)
+    if (!record) throw new Error(`Shared alias has no canonical owner: ${recordId}`)
+    const existing = canonicalByToken.get(alias)
+    if (existing && existing.record_id !== recordId) throw new Error(`Conflicting canonical alias: ${alias}`)
+    canonicalByToken.set(alias, record)
+  }
+  return { canonicalByToken, canonicalByRecordId, canonicalRecords }
 }
 
 function recommendedAction(reference, candidate) {
@@ -341,9 +343,9 @@ function sourceUrlFor(source) {
   return ''
 }
 
-function auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens = null }) {
+function auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens = null, routingContext = null }) {
   const sources = loadSources(docSourceDir)
-  const { canonicalByToken, canonicalRecords } = buildCanonicalMap(records, sources)
+  const { canonicalByToken, canonicalRecords } = buildCanonicalMap(records, sources, {routingContext})
   const canonicalRecordIds = new Set(canonicalRecords.map(record => record.record_id))
   const sourceTokenSet = sourceTokens ? new Set(sourceTokens.filter(Boolean)) : null
   const hasCanonicalSourceMetadata = Array.from(new Set(sources.values()))
@@ -583,8 +585,8 @@ function removeLegacyCandidateReports(report, outputPrefix) {
   }
 }
 
-function runCanonicalLinkAudit({ manualName, docSourceDir, records, target, outputPrefix, failOnBroken = false, sourceTokens = null }) {
-  const report = auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens })
+function runCanonicalLinkAudit({ manualName, docSourceDir, records, target, outputPrefix, failOnBroken = false, sourceTokens = null, routingContext = null }) {
+  const report = auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens, routingContext })
   const paths = writeCanonicalLinkReports(report, outputPrefix)
   if (failOnBroken && report.summary.broken_references > 0) {
     throw new Error(`[canonical-links] Broken canonical links found: ${report.summary.broken_references}. See ${paths.markdownPath}`)
@@ -608,5 +610,6 @@ module.exports = {
   contentLinkTarget,
   sourceTokenAliases,
   canonicalRecordsFrom,
+  buildCanonicalMap,
   sourceOwnedRecordsFrom,
 }

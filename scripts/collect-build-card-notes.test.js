@@ -784,3 +784,15 @@ test('CLI writes bounded notes to a JSON file and exposes its absolute path', ()
     assert.match(output, /^guides_reports_missing=$/m)
   })
 })
+
+test('shared publication summary includes page-local failure and unknown-anchor source URL', () => {
+  withTempCwd(() => {
+    const directory = 'tmp/shared-report'; fs.mkdirSync(directory, {recursive: true});
+    fs.writeFileSync(path.join(directory, 'guides-shared-publication.json'), JSON.stringify({schema_version: 1,
+      generated_at: new Date().toISOString(), failures: [{record_id: 'rec', code: 'ACTIVATE_CHECK_FAILED', message: 'Old heading missing'}],
+      notices: [{source_page: 'reader', url: 'https://example.feishu.cn/wiki/old#unknown', page: 'sample'}]}));
+    const note = require('./collect-build-card-notes').sharedPublicationNote({directory});
+    assert.match(note, /ACTIVATE_CHECK_FAILED: rec/);
+    assert.match(note, /reader: https:\/\/example.feishu.cn\/wiki\/old#unknown/);
+  });
+});

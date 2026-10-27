@@ -18,3 +18,16 @@ it('normalizes real snapshot product targets, empty output arrays and case-insen
   expect(records.every(record => record.publish_targets[0] === 'Zilliz.SaaS')).toBe(true)
   expect(records.map(record => record.output_paths)).toEqual([{}, {}, {}])
 })
+
+it('normalizes retained publication arrays through the manual registry and rejects ambiguous paths', () => {
+  const record = {record_id: 'rec', slug: 'example', placement_type: 'canonical', publish_targets: [], output_paths: [
+    'content/en/guides/tutorials/development/example.md', 'content/en/byoc/tutorials/development/example.mdx',
+  ]}
+  expect(normalizeGuidesSnapshot(JSON.stringify({records: [record]}))[0].output_paths).toEqual({
+    guides: 'tutorials/development/example.md', 'guides-byoc': 'tutorials/development/example.mdx',
+  })
+  for (const paths of [['content/en/guides/../escape.md'], ['content/zh-CN/guides/tutorials/example.md'],
+    [...record.output_paths, 'content/en/guides/tutorials/duplicate.md'], {unknown: 'tutorials/example.md'}, {guides: '../escape.md'}]) {
+    expect(() => normalizeGuidesSnapshot(JSON.stringify({records: [{...record, output_paths: paths}]}))).toThrow()
+  }
+})

@@ -4,7 +4,7 @@ import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
 import { groupContext } from '../adapters/group-context'
 import { buildPage, createBuildReader, createBuildRuntime } from '../adapters/build-page'
-import type { BuiltPage, SharedDocsInputs } from '../adapters/build-page'
+import type { BuiltPage, SharedDocsInputs, FetchBuildContext } from '../adapters/build-page'
 import { createGuidesSnapshot } from '../adapters/guides-snapshot'
 import { HttpImageFetcher } from '../adapters/images'
 import type { ImageFetcher } from '../adapters/images'
@@ -47,7 +47,7 @@ async function outputState(path: string): Promise<'absent' | 'empty'> {
   return 'empty'
 }
 
-export async function readSharedDocs(directory: string, repositoryRoot = process.cwd()): Promise<SharedDocsInputs | { errors: SharedDocsError[] }> {
+export async function readSharedDocs(directory: string, repositoryRoot = process.cwd(), selectedPages?: readonly string[]): Promise<SharedDocsInputs | { errors: SharedDocsError[] }> {
   const group = groupContext(directory, repositoryRoot)
   if ('errors' in group) return group
   const { root, file } = group
@@ -69,7 +69,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
   const tabsYaml = await read('presentation/cloud-sdk-tabs.yaml')
   const pages = new Map<string, SharedDocsInputs['pages'] extends ReadonlyMap<string, infer P> ? P : never>()
   let entries: string[] = []
-  try { entries = await readdir(join(root, 'pages')) }
+  try { entries = selectedPages ? [...selectedPages] : await readdir(join(root, 'pages')) }
   catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
     errors.push({ code: 'CONFIG_FIELD_MISSING', message: 'Required pages directory not found', file: group.file('pages'), line: 1, channel: 'both' })
@@ -115,7 +115,7 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
   const stage = await mkdtemp(join(dirname(out), '.shared-docs-build-'))
   try {
     for (const page of pages) {
-      const file = join(stage, page.manual, `${page.path}.mdx`)
+      const file = join(stage, page.manual, `${page.path}${page.extension ?? '.mdx'}`)
       if (!within(stage, file)) throw new Error(`Output escapes staging directory: ${file}`)
       await mkdir(dirname(file), { recursive: true })
       await writeFile(file, page.mdx, { flag: 'wx' })
@@ -127,8 +127,9 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
 }
 
 export async function runBuild(options: BuildOptions, write: (text: string) => void = text => process.stdout.write(text),
-  dependencies: { fetcher?: ImageFetcher; repositoryRoot?: string } = {}): Promise<number> {
+  dependencies: { fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void> } = {}): Promise<number> {
   const print = (errors: readonly SharedDocsError[]) => {
+    dependencies.onErrors?.(errors)
     for (const error of errors) {
       const detail = error.detail
       const reason = detail && typeof detail === 'object' && 'reason' in detail && typeof detail.reason === 'string' && detail.reason
@@ -149,7 +150,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
     const out = resolve(options.out)
     await outputState(out)
     for (const input of [sharedRoot, repo, dev]) if (overlap(out, input)) throw new Error(`Output overlaps an input directory: ${input}`)
-    const sharedDocs = await readSharedDocs(group.root, dependencies.repositoryRoot)
+    const sharedDocs = await readSharedDocs(group.root, dependencies.repositoryRoot, dependencies.fetchContext ? [dependencies.fetchContext.page] : undefined)
     if ('errors' in sharedDocs) { print(sharedDocs.errors); return 1 }
     const selected = [...sharedDocs.pages].filter(([page]) => options.page === undefined || page === options.page)
     if (!selected.length) throw new Error(options.page ? `Unknown shared page: ${options.page}` : 'No shared pages configured')
@@ -167,7 +168,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       if (publication && !zdoc.has(manual)) zdoc.set(manual, createZdocContentReader({ checkout: dev, manualDirectory: publication.contentRoot }))
     }
     const reader = createBuildReader(repo)
-    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: createGuidesSnapshot(dev) })
+    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: dependencies.fetchContext ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } } : createGuidesSnapshot(dev), fetchContext: dependencies.fetchContext })
     const pages: BuiltPage[] = [], plannedLocks: string[] = []
     let failed = false
     try {
@@ -182,8 +183,9 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
     if (failed) return 1
     const images = buildImageManifest(pages)
     await writeBuild(out, pages, images)
+    await dependencies.onBuilt?.(pages)
     for (const page of pages) print(page.notices)
-    write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}.mdx` })), images: images.length, plannedLocks }, null, 2) + '\n')
+    write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}` })), images: images.length, plannedLocks }, null, 2) + '\n')
     return 0
   } catch (error) { write(`Build failed: ${error instanceof Error ? error.message : String(error)}\n`); return 1 }
 }

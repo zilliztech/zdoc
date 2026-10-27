@@ -7,6 +7,8 @@ export interface AdaptPageInput {
   markdown: string
   pageId: string
   manual: 'guides' | 'guides-byoc'
+  customEditUrl?: string
+  releaseChannel?: 'current' | 'next' | 'retire-in-next'
   metadata?: PageConfig['metadata']
   tabsRules: TabsRules
   betaValues: readonly string[]

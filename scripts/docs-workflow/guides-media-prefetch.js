@@ -4,6 +4,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const slugify = require('slugify')
+const {validateSharedSnapshotRecord} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
 
 function figmaIdentity(rawUrl) {
   const url = new URL(decodeURIComponent(rawUrl))
@@ -23,6 +24,10 @@ function allSourceFiles(sourceDir) {
 }
 
 function sourceFilesForSnapshot(sourceDir, snapshot) {
+  for (const record of snapshot.records || []) {
+    if (record.source_kind === 'shared-page') validateSharedSnapshotRecord(record)
+    else if (record.source_kind !== undefined) throw new Error(`Unknown media source kind: ${record.source_kind}`)
+  }
   const available = new Set(allSourceFiles(sourceDir))
   const files = [...new Set((snapshot.records || []).map(record => record.source_file).filter(Boolean))].sort()
   for (const file of files) {
@@ -51,6 +56,8 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
   const snapshot = readJson(snapshotPath)
   const sourceByToken = new Map()
   for (const record of snapshot.records || []) {
+    if (record.source_kind === 'shared-page') { validateSharedSnapshotRecord(record); continue }
+    if (record.source_kind !== undefined) throw new Error(`Unknown media source kind: ${record.source_kind}`)
     for (const token of [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].filter(Boolean)) {
       sourceByToken.set(token, record.source_file)
     }
@@ -77,7 +84,7 @@ function selectRequiredSourceFiles({ sourceDir, planPath = null, snapshotPath = 
   const requiredTokens = [...new Set([
     ...(plan.expanded_tokens || []),
     ...(snapshot.records || []).filter(record => affectedTables.has(record.table_id)).map(record => record.doc_token),
-  ])]
+  ].filter(Boolean))]
   return selectSourceFiles({ sourceDir, snapshotPath, docTokens: requiredTokens })
 }
 

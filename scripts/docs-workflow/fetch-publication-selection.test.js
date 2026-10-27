@@ -101,6 +101,7 @@ test('selection binds run-scoped artifacts, commit messages, and existing publis
   for (const english of selection.units.filter(unit => unit.site === 'en')) {
     assert.deepEqual(english.validationCommands, [
       'node scripts/validate-generated-sidebars.js --site en',
+      ...(english.group === 'guides' ? ['node scripts/docs-workflow/guides-shared-publication.js --operation validate --snapshot packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'] : []),
     ], `${english.unitKey} must preserve the legacy publisher validation strength`)
   }
   const english = selection.units.find(unit => unit.unitKey === 'source/guides-en')

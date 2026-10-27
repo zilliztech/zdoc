@@ -1,5 +1,6 @@
 'use strict'
 
+const {validateSharedSnapshotRecord, validateSharedReceipt} = require('./sharedPageRouting')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -31,7 +32,7 @@ function isRenderableCanonicalSource(source) {
   return blocks.some(block => block.block_type !== 1)
 }
 
-function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, snapshot }) {
+function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, snapshot, sharedReceiptsByRecordId = new Map(), authenticatedFallbackIds = new Set() }) {
   const result = {
     complete: false,
     snapshotHash: hashSnapshot(snapshot || {}),
@@ -60,9 +61,20 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
     result.rootError = fs.existsSync(rootFile) ? error.message : 'missing root source'
   }
 
-  const records = (snapshot?.records || []).filter(record => ['canonical', 'section'].includes(record.placement_type) && record.source_file)
+  const records = (snapshot?.records || []).filter(record => ['canonical', 'section'].includes(record.placement_type) && (record.source_file || record.source_kind !== undefined))
   result.expectedCanonicalSources = records.length
   for (const record of records) {
+    if (authenticatedFallbackIds.has(record.record_id)) { result.validCanonicalSources++; continue }
+    if (record.source_kind !== undefined) {
+      try {
+        validateSharedSnapshotRecord(record)
+        const receipt = sharedReceiptsByRecordId.get(record.record_id)
+        if (!receipt) throw new Error('missing shared receipt')
+        require('./sharedPagePublication').validatePublishedReceipt(receipt, record, {snapshot})
+        result.validCanonicalSources++
+      } catch (error) { result.identityErrors.push(`shared receipt ${record.record_id}: ${error.message}`) }
+      continue
+    }
     const relative = record.source_file
     const file = path.resolve(sourceRoot, relative)
     if (!inside(sourceRoot, file)) { result.unsafeFiles.push(relative); continue }

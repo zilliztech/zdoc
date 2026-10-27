@@ -167,7 +167,8 @@ class larkDocWriter {
     async generate_sidebar(outputDir, contentRoot) {
         this.sidebarOutputDir = outputDir
         this.sidebarContentRoot = contentRoot
-        return this.__sidebar_items(outputDir, contentRoot, this.root_token)
+        const items = await this.__sidebar_items(outputDir, contentRoot, this.root_token)
+        return require('./sharedPagePublication').projectFallbackSidebar(items, this.sharedBundle, String(this.targets).includes('zilliz.paas') ? 'guides-byoc' : 'guides', this.sharedWorkspace || null)
     }
 
     __sidebar_key(type, currentPath, contentRoot, slug, fallback='') {
@@ -181,6 +182,8 @@ class larkDocWriter {
     }
 
     __has_renderable_page(source) {
+        const shared = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.record_id === source?.base_record_id)
+        if (shared) return ['success', 'inherited'].includes(shared.status)
         const page = source?.blocks?.items?.find(block => block.block_type === 1)
         return !!(page?.children && page.children.length > 0)
     }
@@ -278,13 +281,16 @@ class larkDocWriter {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
                     continue
                 }
-                const targetMeta = await this.__is_to_publish(
+                const fallback = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.status === 'fallback' && outcome.record_id === targetSource.base_record_id)
+                const targetMeta = fallback ? {publish: fallback.baseline.outputs.some(output => output.path.startsWith(`content/en/${this.targets.toLowerCase() === 'zilliz.paas' ? 'byoc' : 'guides'}/`)), channel: require('./sharedPagePublication').fallbackChannel(this.sharedBundle, targetSource.base_record_id)} : await this.__is_to_publish(
                     targetSource.title || targetSource.name,
                     targetSource.slug,
                     targetSource.node_token || targetSource.origin_node_token || targetSource.token,
                 )
                 if (!targetMeta.publish) continue
-                const href = await this.__ref_target_href(targetSource, childSource.base_nav_ref_target_anchor)
+                const baselineHref = fallback && childSource.base_nav_ref_target_anchor
+                    ? require('./sharedPagePublication').baselineRefHref(this.sharedBundle, childSource, targetSource.slug, this.targets.toLowerCase() === 'zilliz.paas' ? 'guides-byoc' : 'guides', this.sharedWorkspace || process.cwd()) : null
+                const href = baselineHref || await this.__ref_target_href(targetSource, childSource.base_nav_ref_target_anchor, childSource)
                 if (!href) {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
                     continue
@@ -417,6 +423,17 @@ class larkDocWriter {
     }
 
     __fetch_doc_source_by_any_token(token) {
+        const fallback = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.status === 'fallback' && (outcome.baseline.active?.feishu_token === token ||
+            this.sharedBundle.bundle.preparation.previous_snapshot?.records?.some(record => record.record_id === outcome.record_id && [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].includes(token))))
+        if (fallback) {
+            const previous = this.sharedBundle.bundle.preparation.previous_snapshot
+            const nav = previous.navigation_records.find(row => row.record_id === fallback.record_id)
+            if (!nav) throw new Error(`Missing previous navigation record for Base record ${fallback.record_id}`)
+            return {title: nav.title, slug: nav.slug, node_token: token, base_record_id: nav.record_id, shared_baseline_fallback: true,
+                base_placement_type: 'canonical', base_targets: nav.targets, base_status: nav.progress, base_labels: nav.labels}
+        }
+        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.feishu_token === token)
+        if (active && this.sourceIndex) return this.__clone_indexed_source(this.sourceIndex.find('base_record_id', active.record))
         if (this.sourceIndex) return this.__clone_indexed_source(this.sourceIndex.findAnyToken(token))
         const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
@@ -471,12 +488,23 @@ class larkDocWriter {
             .replace(new RegExp(`^${contentRoot}/`), '')
     }
 
-    async __ref_target_href(source, anchor=null) {
+    async __ref_target_href(source, anchor=null, reference=null) {
         if (!source?.slug) return null
         const routeBase = this.targets.toLowerCase() === 'zilliz.paas' ? '/docs/byoc' : '/docs'
         const routeSlug = String(source.slug).replace(/^\/+/, '')
         const href = `${routeBase}/${routeSlug}`
         if (!anchor) return href
+        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.record === source.base_record_id)
+        if (active) {
+            if (Object.hasOwn(active.anchors, anchor)) return `${href}#${active.anchors[anchor]}`
+            const navigation = this.sharedBundle.bundle.navigation.navigationRecords.find(row => row.record_id === reference?.base_record_id)
+            const notice = {code: 'SHARED_ANCHOR_UNKNOWN', page: reference?.slug || source.slug,
+                url: navigation?.ref_target || `${active.feishu_token || source.node_token}#${anchor}`, target: href}
+            this.sharedLinkNotices ||= []
+            this.sharedLinkNotices.push(notice)
+            console.warn(`[shared-link] ${JSON.stringify(notice)}`)
+            return href
+        }
         const headerBlock = source.blocks?.items?.find(block => block.block_id === anchor)
         const identity = source.node_token || source.origin_node_token || source.token
         if (!headerBlock) throw new Error(`[sidebar] Ref anchor ${anchor} does not exist in canonical target ${identity}`)
@@ -576,6 +604,8 @@ class larkDocWriter {
             const replacementUrl = this.__normalize_link_replacement_url(replacement)
             if (!replacementUrl) continue
 
+            if (replacement.anchor_map !== undefined && (!replacement.anchor_map || typeof replacement.anchor_map !== 'object' || Array.isArray(replacement.anchor_map)
+                || Object.entries(replacement.anchor_map).some(([block, anchor]) => !/^[A-Za-z0-9_-]+$/.test(block) || typeof anchor !== 'string' || !anchor || /[\s/#?\\]/.test(anchor)))) throw new Error('Invalid typed link-shim anchor map')
             const normalized = {
                 ...replacement,
                 replacement_url: replacementUrl,
@@ -598,13 +628,24 @@ class larkDocWriter {
     }
 
     __apply_link_replacement_shim(rawUrl) {
-        if (!this.linkReplacementShim || !rawUrl) return rawUrl
+        if ((!this.linkReplacementShim && !this.sharedBundle) || !rawUrl) return rawUrl
         const original = this.__safe_url(rawUrl)
         if (!original) return rawUrl
 
-        const replacement = this.linkReplacementShim.byToken.get(this.__link_token(rawUrl)) ||
-            this.linkReplacementShim.byUrl.get(`${original.origin}${original.pathname}`)
+        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.feishu_token === this.__link_token(rawUrl))
+        const replacement = active ? {replacement_url: `./${active.page}`, anchor_map: active.anchors} :
+            this.linkReplacementShim?.byToken.get(this.__link_token(rawUrl)) || this.linkReplacementShim?.byUrl.get(`${original.origin}${original.pathname}`)
         if (!replacement) return rawUrl
+        if (replacement.anchor_map) {
+            const block = original.hash.slice(1), anchor = Object.hasOwn(replacement.anchor_map, block) ? replacement.anchor_map[block] : null
+            if (block && !anchor) {
+                const notice = {code: 'SHARED_ANCHOR_UNKNOWN', page: this.currentPageSlug || this.currentPageToken || null, url: rawUrl, target: replacement.replacement_url}
+                this.sharedLinkNotices ||= []
+                this.sharedLinkNotices.push(notice)
+                console.warn(`[shared-link] ${JSON.stringify(notice)}`)
+            }
+            return `${replacement.replacement_url}${anchor ? `#${anchor}` : ''}`
+        }
 
         const replacementUrl = this.__safe_url(replacement.replacement_url)
         if (!replacementUrl) return replacement.replacement_url
@@ -849,6 +890,9 @@ class larkDocWriter {
         keywords,
         doc_card_list
     }) {
+        this.currentPageSlug = page_slug
+        this.currentPageToken = page_token
+        if (this.sharedBundle && require('./sharedPageBundle').emitPrebuilt(this, {path, page_title, page_slug, page_token, sidebar_position, sidebar_label, page_channel})) return
         let obj;
         let blocks;
         if (page_token) {
@@ -1162,6 +1206,12 @@ class larkDocWriter {
                         channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
+                }
+                const shared = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.record_id === baseSource.base_record_id)
+                if (shared) {
+                    return {publish: ['success', 'inherited'].includes(shared.status) && this.__base_source_is_publishable(baseSource),
+                        title: baseSource.title || title, slug, beta: null, channel: guidesRecordChannel(baseSource),
+                        labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title}
                 }
                 if (baseSource.base_nav_virtual) {
                     return {
@@ -3115,7 +3165,9 @@ class larkDocWriter {
 
                 url = newUrl.replace(/\/\//g, "/");
             } else {
-                url = null;
+                const prior = this.sharedBundle?.bundle.preparation.previous_snapshot?.records?.find(record => [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].includes(token))
+                const fallback = prior && this.sharedBundle.bundle.outcomes.find(row => row.record_id === prior.record_id && row.status === 'fallback')
+                url = fallback ? (header ? url.toString() : `./${prior.slug}`) : null;
             }
         }
 

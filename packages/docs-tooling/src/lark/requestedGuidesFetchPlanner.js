@@ -3,6 +3,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
+const {createRoutingContext, validateSharedSnapshotRecord, sharedSourceProjection} = require('./sharedPageRouting')
 
 const {
   canonicalRecordsFrom,
@@ -94,10 +95,23 @@ function assertTrustedRequestedBaseline(previousSnapshot) {
   }
 }
 
-function resolveRequestedSelectors({ selectors, records, previousSnapshot, site }) {
-  const publishableByToken = new Map(canonicalRecordsFrom(records, { guidesPublishableOnly: true }).map(record => [record.doc_token, record]))
-  const canonicalByToken = new Map(canonicalRecordsFrom(records, { guidesPublishableOnly: false }).map(record => [record.doc_token, record]))
-  const baselineByToken = new Map((previousSnapshot?.records || []).map(record => [record.doc_token, record]))
+// Unrelated requested runs inherit authenticated shared rows without loading page configs.
+// They may not build or change shared pages; an affected shared table still refuses closure.
+function requestedRoutingContext(records, previousSnapshot, routingContext) {
+  if (routingContext) return routingContext
+  const shared = (previousSnapshot?.records || []).filter(record => record.source_kind === 'shared-page')
+  if (!shared.length) return null
+  shared.forEach(validateSharedSnapshotRecord)
+  return createRoutingContext({records, previousSnapshot,
+    availablePages: shared.map(record => `${record.shared_page.group}/${record.shared_page.page}`),
+    sharedInputsByRecordId: new Map(shared.map(record => [record.record_id, record.shared_page])),
+  })
+}
+
+function resolveRequestedSelectors({ selectors, records, previousSnapshot, site, routingContext = null }) {
+  const publishableByToken = new Map(canonicalRecordsFrom(records, { guidesPublishableOnly: true, routingContext }).filter(record => record.doc_token).map(record => [record.doc_token, record]))
+  const canonicalByToken = new Map(canonicalRecordsFrom(records, { guidesPublishableOnly: false, routingContext }).filter(record => record.doc_token).map(record => [record.doc_token, record]))
+  const baselineByToken = new Map((previousSnapshot?.records || []).filter(record => record.doc_token).map(record => [record.doc_token, record]))
   const baselineAliasByToken = new Map()
   for (const record of previousSnapshot?.records || []) {
     for (const alias of [record.node_token, record.origin_node_token, record.obj_token].filter(Boolean)) {
@@ -177,9 +191,12 @@ function buildRequestedReferenceGraphs({ sourceByToken, previousSnapshot, canoni
   return { outgoing, incoming }
 }
 
-function expandRequestedClosure({ requestedTokens, sourceByToken, previousSnapshot, canonicalTokens, refreshedTokens, maxReferenceDepth = 1, reasonsByToken = {} }) {
+function expandRequestedClosure({ requestedTokens, sourceByToken, previousSnapshot, canonicalTokens, refreshedTokens, maxReferenceDepth = 1, reasonsByToken = {}, routingContext = null }) {
   const requestedSet = new Set(requestedTokens)
-  const { outgoing, incoming } = buildRequestedReferenceGraphs({ sourceByToken, previousSnapshot, canonicalTokens, refreshedTokens })
+  // Alias traversal is for ownership discovery only; shared aliases must never become fetch tokens.
+  const graphTokens = new Set(canonicalTokens)
+  for (const [alias] of routingContext?.aliasesByToken || []) graphTokens.add(alias)
+  const { outgoing, incoming } = buildRequestedReferenceGraphs({ sourceByToken, previousSnapshot, canonicalTokens: graphTokens, refreshedTokens })
   const closure = expandReferences({
     changedTokens: requestedTokens,
     outgoing,
@@ -187,6 +204,12 @@ function expandRequestedClosure({ requestedTokens, sourceByToken, previousSnapsh
     maxReferenceDepth: Number(maxReferenceDepth || 1),
     reasonsByToken,
   })
+  const sharedAliases = closure.filter(token => routingContext?.aliasesByToken.has(token))
+  if (sharedAliases.length) throw new RequestedFetchError('REQUESTED_SCOPE_CONFLICT',
+    'Requested closure touches a shared-source owner; run ordinary Guides Fetch.', {
+      shared_records: [...new Set(sharedAliases.map(token => routingContext.aliasesByToken.get(token)))].sort(),
+      aliases: sharedAliases.map(token => ({token, record_id: routingContext.aliasesByToken.get(token)})),
+    })
   const linkedTokens = closure.filter(token => !requestedSet.has(token))
   return { linkedTokens, outgoing, incoming }
 }
@@ -217,8 +240,10 @@ function deriveRequestedTableScope({
     if (!previousMembersByTable.has(record.table_id)) previousMembersByTable.set(record.table_id, [])
     previousMembersByTable.get(record.table_id).push(record)
   }
-  const currentTableByToken = new Map(canonicalRecords.map(record => [record.doc_token, record.table_id]))
-  const previousTableByToken = new Map((previousSnapshot?.records || []).map(record => [record.doc_token, record.table_id]))
+  const currentTableByToken = new Map(canonicalRecords.filter(record => record.doc_token).map(record => [record.doc_token, record.table_id]))
+  const currentTableById = new Map(canonicalRecords.map(record => [record.record_id, record.table_id]))
+  const previousTableById = new Map((previousSnapshot?.records || []).map(record => [record.record_id, record.table_id]))
+  const previousTableByToken = new Map((previousSnapshot?.records || []).filter(record => record.doc_token).map(record => [record.doc_token, record.table_id]))
   const currentTableDigests = guidesNavigation?.tableDigests || {}
   const previousTableDigests = previousSnapshot?.table_digests || {}
   const requestedSet = new Set(requestedTokens)
@@ -249,8 +274,8 @@ function deriveRequestedTableScope({
     for (const tableId of [...affectedTables].sort()) {
       const currentMembers = currentMembersByTable.get(tableId) || []
       const previousMembers = previousMembersByTable.get(tableId) || []
-      const currentMemberTokens = new Set(currentMembers.map(record => record.doc_token))
-      const previousMemberTokens = new Set(previousMembers.map(record => record.doc_token))
+      const currentMemberIds = new Set(currentMembers.map(record => record.record_id))
+      const previousMemberIds = new Set(previousMembers.map(record => record.record_id))
       const currentTargets = (currentOwnership.targets[tableId] || []).slice().sort()
       const previousTargets = (previousOwnership.targets[tableId] || []).slice().sort()
       const currentDigest = currentTableDigests[tableId] || null
@@ -266,8 +291,8 @@ function deriveRequestedTableScope({
           previous_targets: previousTargets,
           cleanup: true,
         })
-        for (const token of sortedSetDifference(previousMemberTokens, currentMemberTokens)) {
-          const movedTo = currentTableByToken.get(token)
+        for (const token of sortedSetDifference(previousMemberIds, currentMemberIds)) {
+          const movedTo = currentTableById.get(token)
           if (movedTo && !affectedTables.has(movedTo)) {
             affectedTables.add(movedTo)
             grew = true
@@ -278,12 +303,12 @@ function deriveRequestedTableScope({
 
       const reasons = []
       if (currentDigest !== previousDigest) reasons.push('outline changed')
-      if (currentMemberTokens.size !== previousMemberTokens.size ||
-        [...currentMemberTokens].some(token => !previousMemberTokens.has(token))) reasons.push('table membership changed')
+      if (currentMemberIds.size !== previousMemberIds.size ||
+        [...currentMemberIds].some(token => !previousMemberIds.has(token))) reasons.push('table membership changed')
       if (!sameTargets(currentTargets, previousTargets)) reasons.push('publish targets changed')
 
       if (reasons.length > 0) {
-        for (const member of currentMembers) tableRefreshTokens.add(member.doc_token)
+        for (const member of currentMembers) member.doc_token && tableRefreshTokens.add(member.doc_token)
         rebuildsByTable.set(tableId, {
           table_id: tableId,
           scope: 'full-table',
@@ -292,15 +317,15 @@ function deriveRequestedTableScope({
           previous_targets: previousTargets,
           cleanup: false,
         })
-        for (const token of sortedSetDifference(previousMemberTokens, currentMemberTokens)) {
-          const movedTo = currentTableByToken.get(token)
+        for (const token of sortedSetDifference(previousMemberIds, currentMemberIds)) {
+          const movedTo = currentTableById.get(token)
           if (movedTo && !affectedTables.has(movedTo)) {
             affectedTables.add(movedTo)
             grew = true
           }
         }
-        for (const token of sortedSetDifference(currentMemberTokens, previousMemberTokens)) {
-          const movedFrom = previousTableByToken.get(token)
+        for (const token of sortedSetDifference(currentMemberIds, previousMemberIds)) {
+          const movedFrom = previousTableById.get(token)
           if (movedFrom && !affectedTables.has(movedFrom)) {
             affectedTables.add(movedFrom)
             grew = true
@@ -323,6 +348,9 @@ function deriveRequestedTableScope({
     }
   }
 
+  const sharedTables = [...affectedTables].filter(tableId => [...(currentMembersByTable.get(tableId) || []), ...(previousMembersByTable.get(tableId) || [])]
+    .some(record => record.source_kind === 'shared-page' || !record.doc_token))
+  if (sharedTables.length) throw new RequestedFetchError('REQUESTED_SCOPE_CONFLICT', 'Requested closure touches a shared-source table; run ordinary Guides Fetch.', {affected_tables: sharedTables.sort()})
   if (affectedTables.size > Number(limits.maxAffectedTables)) {
     throw new RequestedFetchError(
       'REQUESTED_SCOPE_TOO_LARGE',
@@ -571,6 +599,7 @@ function requestedRecordProjection(record) {
     title: record.title || null,
     slug: record.slug || null,
     doc_token: record.doc_token || null,
+    ...(record.source_kind === 'shared-page' ? sharedSourceProjection(record) : {}),
     source_file: record.source_file || null,
     source_hash: record.source_hash || null,
     publish_targets: [...(record.publish_targets || [])].sort(),
@@ -603,12 +632,17 @@ function mergeRequestedSnapshot({
   plan,
   baselineCommitSha = null,
   generatedAt = new Date().toISOString(),
+  routingContext = null,
+  sharedReceiptsByRecordId = new Map(),
 }) {
+  routingContext = requestedRoutingContext(records, previousSnapshot, routingContext)
   const allowedTokens = new Set(plan.expanded_tokens || [])
-  for (const record of canonicalRecordsFrom(records, { guidesPublishableOnly: true })) {
+  for (const record of canonicalRecordsFrom(records, { guidesPublishableOnly: true, routingContext })) {
     if ((plan.affected_tables || []).includes(record.table_id)) allowedTokens.add(record.doc_token)
   }
 
+  const currentIds = new Set(records.map(record => record.record_id))
+  const mergedRecords = records.filter(record => !previousSnapshot.records.some(previous => previous.record_id === record.record_id && previous.source_kind === 'shared-page'))
   const candidate = createSourceSnapshot({
     manualName: 'guides',
     targetsBuilt: [],
@@ -618,9 +652,14 @@ function mergeRequestedSnapshot({
     linkCheckRemote: 'https://docs.zilliz.com',
     docSourceDir,
     baseAppToken,
-    records,
+    records: mergedRecords,
+    routingContext,
     nodeMetadataByToken,
   })
+  candidate.records.push(...previousSnapshot.records.filter(record => record.source_kind === 'shared-page' && currentIds.has(record.record_id)).map(record => structuredClone(record)))
+  const navigation = createGuidesNavigationState(records, {routingContext})
+  candidate.navigation_records = navigation.navigationRecords
+  candidate.table_digests = navigation.tableDigests
   validateCandidateSnapshot(candidate, { manual: 'guides', buildEnv, sourceDir: docSourceDir, baseAppToken })
 
   const baselineById = new Map((previousSnapshot.records || []).map(record => [record.record_id, record]))
@@ -668,6 +707,7 @@ function mergeRequestedSnapshot({
     rootToken,
     sourceDir: docSourceDir,
     snapshot: candidate,
+    sharedReceiptsByRecordId,
   })
   if (!completeness.complete) {
     throw new RequestedFetchError('TABLE_SOURCE_INCOMPLETE', 'The merged table source graph is incomplete; refusing to assemble a partial table.', {
@@ -755,8 +795,10 @@ function planRequestedGuidesFetch({
   sourceCacheIdentity = null,
   observation = null,
   generatedAt = new Date().toISOString(),
+  routingContext = null,
 }) {
   assertTrustedRequestedBaseline(previousSnapshot)
+  routingContext = requestedRoutingContext(records, previousSnapshot, routingContext)
   if (!Array.isArray(requestedTokens) || requestedTokens.length === 0) {
     throw new RequestedFetchError('INVALID_REQUEST_SELECTOR', 'Requested planning requires at least one resolved selector token.')
   }
@@ -768,8 +810,8 @@ function planRequestedGuidesFetch({
     )
   }
 
-  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: true })
-  const guidesNavigation = createGuidesNavigationState(records)
+  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: true, routingContext })
+  const guidesNavigation = createGuidesNavigationState(records, {routingContext})
   const currentOwnership = guidesTableOwnership(guidesNavigation?.navigationRecords)
   const previousOwnership = guidesTableOwnership(previousSnapshot.navigation_records)
   if (guidesNavigation.tableDigests && Object.keys(guidesNavigation.tableDigests).length === 0) {
@@ -803,6 +845,7 @@ function planRequestedGuidesFetch({
     previousSnapshot,
     canonicalTokens,
     refreshedTokens: refreshedTokenSet,
+    routingContext,
     maxReferenceDepth,
     reasonsByToken,
   })
@@ -862,7 +905,7 @@ function planRequestedGuidesFetch({
     },
     requested_tokens: [...new Set(requestedTokens)].sort(),
     linked_tokens: [...new Set(linkedTokens)].sort(),
-    automatic_changed_tokens: changedRecords.map(record => record.doc_token).sort(),
+    automatic_changed_tokens: changedRecords.map(record => record.doc_token).filter(Boolean).sort(),
     table_refresh_tokens: [...scope.tableRefreshTokens].sort(),
     expanded_tokens: [...expandedTokenSet].sort(),
     affected_tables: scope.affectedTables,

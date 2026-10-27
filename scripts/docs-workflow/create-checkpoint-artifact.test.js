@@ -596,8 +596,10 @@ test('creation CLI accepts a complete numbered Guides batch input', async () => 
 
 test('translation workflow creates plan-bound Guides inputs and schema 3 checkpoints without becoming a Git writer', async () => {
   const workflow = await readFile(path.join(__dirname, '../../.github/workflows/_translate-content-group.yml'), 'utf8');
-  assert.match(workflow, /inputs\.batch_number[\s\S]*GROUP[\s\S]*translation-batch-input\.js create[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--output tmp\/translation-batch-input\.json/);
-  assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
+  assert.match(workflow, /inputs\.batch_number[\s\S]*GROUP[\s\S]*translation-batch-input\.js create[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--output "\$RUNNER_TEMP\/translation-batch-input\.json"/);
+  assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input "\$RUNNER_TEMP\/translation-batch-input\.json"\)/);
+  assert.match(workflow, /translation-batch-input\.js validate --input "\$RUNNER_TEMP\/translation-batch-input\.json"/);
+  assert.match(workflow, /validate-translation-batch-outputs\.js[\s\S]*--batch-input "\$RUNNER_TEMP\/translation-batch-input\.json"/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args/);
   assert.match(workflow, /prepare-reconciliation-plan\.js[\s\S]*apply-reconciliation-plan\.js[\s\S]*Build group translation manifest/);
@@ -606,5 +608,23 @@ test('translation workflow creates plan-bound Guides inputs and schema 3 checkpo
   assert.match(workflow, /reconciliation_plan_sha256/);
   assert.match(workflow, /reconciliation_result_sha256/);
   assert.doesNotMatch(workflow, /git (?:commit|push)/);
-  assert.doesNotMatch(workflow, /validation_args|--validation-command|pnpm run build:(?:en|zh-CN)/);
+  assert.doesNotMatch(workflow, /\bvalidation_args\b|--validation-command|pnpm run build:(?:en|zh-CN)/);
+});
+
+test('Guides checkpoint creates and applies shared authority in the same transaction as MDX', async () => {
+  const f = await fixture();
+  const files = {'content/en/guides/tutorials/home.md': '# Home\n',
+    'content/en/guides/tutorials/shared.md': '# Shared\n',
+    'generated/en/manifests/shared-pages/guides/active.json': '{"schema_version":1,"pages":[]}\n',
+    'generated/en/manifests/shared-pages/guides/shared.json': '{"receipt":"exact bytes"}\n',
+    'generated/en/manifests/shared-pages/guides/_publication.json': '{"fallbacks":[]}\n'};
+  for (const [relative, bytes] of Object.entries(files)) {
+    await mkdir(path.dirname(path.join(f.workspace, relative)), {recursive: true});
+    await writeFile(path.join(f.workspace, relative), bytes);
+  }
+  const manifest = await createCheckpointArtifact({group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f});
+  for (const relative of Object.keys(files)) assert.ok(manifest.files.some(file => file.path === relative));
+  const target = path.join(path.dirname(f.workspace), 'target'); await mkdir(target);
+  await applyCheckpointArtifact({artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir});
+  for (const [relative, bytes] of Object.entries(files)) assert.equal(await readFile(path.join(target, relative), 'utf8'), bytes);
 });

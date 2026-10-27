@@ -45,12 +45,13 @@ function snapshotRecordsById(snapshot) {
 }
 
 function snapshotRecordsByToken(snapshot) {
-  return new Map((snapshot?.records || []).map(record => [record.doc_token, record]))
+  return new Map((snapshot?.records || []).filter(record => record.doc_token).map(record => [record.doc_token, record]))
 }
 
 function canonicalTokenSet(records, sourceByToken) {
   const tokens = new Set()
   for (const record of records) {
+    if (!record.doc_token) continue
     tokens.add(record.doc_token)
     const source = sourceByToken.get(record.doc_token)
     if (source) {
@@ -126,10 +127,15 @@ function compareRecord(record, previous, sourceByToken, currentNodeMetadataByTok
     reasons.push('new canonical record')
     return reasons
   }
-  const source = sourceByToken.get(record.doc_token)
+  const previousKind = previous.source_kind || 'feishu'
+  const currentKind = record.source_kind || (record.routing_error ? 'invalid' : 'feishu')
+  if (currentKind !== previousKind) reasons.push('source ownership changed')
+  if (record.source_kind === 'shared-page' && record.shared_page?.inputs_sha256 !== previous.shared_page?.inputs_sha256) reasons.push('shared inputs changed')
+  if (record.routing_error) reasons.push(record.routing_error.code)
+  const source = record.doc_token ? sourceByToken.get(record.doc_token) : null
   const currentNode = currentNodeMetadataByToken.get(record.doc_token)
   const previousNode = previousNodeMetadata(previous)
-  if (record.doc_token !== previous.doc_token) reasons.push('doc token changed')
+  if (record.doc_token && previous.doc_token && record.doc_token !== previous.doc_token) reasons.push('doc token changed')
   if (record.title !== previous.title) reasons.push('title changed')
   if (record.slug !== previous.slug) reasons.push('slug changed')
   // A Release Channel flip does not change the Feishu document revision, so it
@@ -191,7 +197,7 @@ function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnin
     source_dir: docSourceDir,
     changed_records: [],
     changed_tokens: [],
-    expanded_tokens: canonicalRecords.map(record => record.doc_token).sort(),
+    expanded_tokens: canonicalRecords.map(record => record.doc_token).filter(Boolean).sort(),
     removed_records: [],
     removed_tokens: [],
     reasons_by_token: reasonsByToken,
@@ -216,9 +222,10 @@ function planIncrementalFetch({
   fullFetchThreshold = 0.25,
   currentNodeMetadataByToken = new Map(),
   sourceCompleteness = null,
+  routingContext = null,
 }) {
-  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: manualName === 'guides' })
-  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
+  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: manualName === 'guides', routingContext })
+  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records, {routingContext}) : null
   const currentOwnership = guidesTableOwnership(guidesNavigation?.navigationRecords)
   const previousOwnership = guidesTableOwnership(previousSnapshot?.navigation_records)
   const currentNavigationTables = guidesNavigation ? Object.keys(guidesNavigation.tableDigests) : []
@@ -322,21 +329,33 @@ function planIncrementalFetch({
     })
   }
 
-  const changedTokens = changedRecords.map(record => record.doc_token).sort()
+  const changedTokens = changedRecords.map(record => record.doc_token).filter(Boolean).sort()
   const removedTokens = removedRecords.map(record => record.doc_token).filter(Boolean).sort()
   const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
+  const sharedAliases = new Set()
+  for (const record of canonicalRecords.filter(record => !record.doc_token)) {
+    const previous = previousById.get(record.record_id)
+    for (const token of [previous?.doc_token, previous?.node_token, previous?.origin_node_token, previous?.obj_token].filter(Boolean)) sharedAliases.add(token)
+    for (const [token, owner] of routingContext?.aliasesByToken || []) if (owner === record.record_id) sharedAliases.add(token)
+  }
+  sharedAliases.forEach(token => canonicalTokens.add(token))
+  const sharedSeeds = changedRecords.filter(record => !record.doc_token).flatMap(record => {
+    const previous = previousById.get(record.record_id)
+    return [...sharedAliases].filter(token => [previous?.doc_token, previous?.node_token, previous?.origin_node_token, previous?.obj_token].includes(token)
+      || routingContext?.aliasesByToken?.get(token) === record.record_id)
+  })
   const { outgoing, incoming } = mergeSnapshotReferenceGraphs({
     ...buildReferenceGraphs({ sourceByToken, canonicalTokens }),
     previousSnapshot,
     canonicalTokens,
   })
   const expandedTokens = expandReferences({
-    changedTokens,
+    changedTokens: [...changedTokens, ...sharedSeeds],
     outgoing,
     incoming,
     maxReferenceDepth: Number(maxReferenceDepth || 1),
     reasonsByToken,
-  })
+  }).filter(token => !sharedAliases.has(token))
   const affectedTables = new Set()
   if (guidesNavigation) {
     const previousTableDigests = previousSnapshot.table_digests || {}
@@ -373,7 +392,7 @@ function planIncrementalFetch({
     previous_table_names: previousOwnership.names,
     snapshot_basis: {
       generated_at: previousSnapshot.generated_at || null,
-      records: previousByToken.size,
+      records: previousById.size,
     },
   }
 }

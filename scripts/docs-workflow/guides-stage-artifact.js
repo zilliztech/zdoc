@@ -9,6 +9,8 @@ const { assertSourceCompleteness } = require('../../packages/docs-tooling/src/la
 const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
 const { validateAssemblyDecision } = require('./guides-assembly-identity')
 
+const sharedBundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+
 const SHA = /^[0-9a-f]{40}$/
 const MEDIA_PREFETCH_REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
 const ASSEMBLY_DECISION = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
@@ -25,6 +27,7 @@ function stagePaths(site = 'en') {
   const identity = siteIdentity(site)
   return {
   source: [
+    ...(site === 'en' ? [sharedBundle.ROOT] : []),
     identity.sourceDir,
     identity.mediaManifest,
     'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json',
@@ -142,6 +145,7 @@ function parseAssemblyDecision(bytes, { masterSha, devBaselineSha }) {
 
 async function collect(root, prefixes) {
   const result = new Map()
+  let sharedBytes = 0, sharedFiles = 0
   async function visit(relative) {
     const full = path.join(root, relative)
     let stat
@@ -152,6 +156,7 @@ async function collect(root, prefixes) {
       return
     }
     if (!stat.isFile()) throw new Error(`Unsupported file type: ${relative}`)
+    if (relative.startsWith(`${sharedBundle.ROOT}/`) && (stat.size > sharedBundle.FILE_LIMIT || (sharedBytes += stat.size) > sharedBundle.LIMIT || ++sharedFiles > 8192)) throw new Error('Shared bundle file exceeds size limit')
     result.set(relative, await fs.readFile(full))
   }
   for (const prefix of prefixes) await visit(prefix)
@@ -284,7 +289,7 @@ function sameFileIdentity(left, right) {
   return left.dev === right.dev && left.ino === right.ino && left.size === right.size
 }
 
-async function readExistingFileUnderRoot(root, relative, label) {
+async function readExistingFileUnderRoot(root, relative, label, maxSize = Infinity) {
   const pinned = await pinParentChain(root, relative, label, false)
   await verifyDirectoryChain(pinned.ancestors, label)
   let handle
@@ -292,6 +297,7 @@ async function readExistingFileUnderRoot(root, relative, label) {
     handle = await fs.open(pinned.target, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK)
     const before = await handle.stat()
     if (!before.isFile()) throw new Error(`${label} must be a regular non-symlink file: ${relative}`)
+    if (before.size > maxSize) throw new Error(`Payload size mismatch or limit exceeded: ${relative}`)
     await verifyDirectoryChain(pinned.ancestors, label)
     const bytes = await handle.readFile()
     const after = await handle.stat()
@@ -382,12 +388,15 @@ async function assertSourceStageCompleteness({ site = 'en', workspace, snapshotC
     if (error.code === 'ENOENT') throw new Error(`Guides source artifact is missing required snapshot candidate: ${relativeSnapshot}`)
     throw error
   }
+  const bundlePath = path.join(workspace, sharedBundle.ROOT)
+  const handoff = site === 'en' && require('node:fs').existsSync(bundlePath) ? sharedBundle.loadBundle(bundlePath) : null
   assertSourceCompleteness({
     manual: 'guides',
     buildEnv: 'uat',
     rootToken,
     sourceDir: path.join(workspace, siteIdentity(site).sourceDir),
-    snapshot,
+    snapshot: handoff && !handoff.continuation ? require('../../packages/docs-tooling/src/lark/sharedPageFetch').pendingSourceSnapshot(snapshot, handoff.routing) : snapshot,
+    sharedReceiptsByRecordId: handoff?.receipts,
   })
 }
 
@@ -418,6 +427,10 @@ async function createGuidesStageArtifact({ site = 'en', stage, workspace, baseli
     const mediaReport = parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
     const mediaManifest = parseMediaManifest(current.get(siteIdentity(site).mediaManifest))
     validatePackagedMediaInventory(mediaManifest, mediaReport)
+    if (site === 'en') {
+      const handoff = sharedBundle.fromPayload(current, {masterSha, devBaselineSha})
+      if (handoff?.continuation) require('../../packages/docs-tooling/src/lark/sharedPagePublication').authenticateContinuation(workspace, handoff, JSON.parse(current.get('packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')))
+    }
   }
   await fs.rm(output, { recursive: true, force: true })
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
@@ -460,9 +473,12 @@ async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
     requireManifestPath(relative, 'manifest deletion')
     if (!allowed(manifest.stage, relative, manifest.site) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   }
+  const sharedFiles = manifest.files.filter(file => file.path.startsWith(`${sharedBundle.ROOT}/`))
+  if (sharedFiles.length > 8192 || sharedFiles.some(file => !Number.isSafeInteger(file.size) || file.size < 0 || file.size > sharedBundle.FILE_LIMIT)
+    || sharedFiles.reduce((sum, file) => sum + file.size, 0) > sharedBundle.LIMIT) throw new Error('Shared bundle payload limit exceeded')
   const payloadRoot = await pinChildRoot(artifactRoot, 'payload', 'Guides artifact payload')
   for (const file of manifest.files) {
-    const bytes = await readExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
+    const bytes = await readExistingFileUnderRoot(payloadRoot, file.path, 'payload file', file.path.startsWith(`${sharedBundle.ROOT}/`) ? Math.min(file.size, sharedBundle.FILE_LIMIT) : Infinity)
     payloadBytes.set(file.path, bytes)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
@@ -480,6 +496,7 @@ async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
   if (manifest.stage === 'source') {
     if (!assemblyDecision) throw new Error('Guides source artifact is missing required assembly decision')
     validatePackagedMediaInventory(mediaManifest, mediaReport)
+    if (manifest.site === 'en') sharedBundle.fromPayload(payloadBytes, {masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha})
   }
   return { manifest, payloadBytes }
 }
@@ -490,6 +507,8 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
 
 async function restoreGuidesStageArtifact({ artifact, target, expected = {} }) {
   const { manifest, payloadBytes } = await loadValidatedGuidesStageArtifact(artifact, expected)
+  const handoff = manifest.stage === 'source' && manifest.site === 'en' ? sharedBundle.fromPayload(payloadBytes, {masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha}) : null
+  if (handoff?.continuation) require('../../packages/docs-tooling/src/lark/sharedPagePublication').authenticateContinuation(target, handoff, JSON.parse(payloadBytes.get('packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')))
   const targetPath = await ensureTargetRoot(target)
   const targetRoot = { path: targetPath, ancestors: [await pinDirectory(targetPath, 'Guides restore target')] }
   for (const relative of manifest.deletions) {

@@ -38,6 +38,7 @@ describe('site-owned publication groups', () => {
     const english = resolvePublicationGroupWorkflow('en', 'guides').checkpointPaths;
     const chinese = resolvePublicationGroupWorkflow('zh-CN', 'guides').checkpointPaths;
     const sharedPaths = [
+      'generated/en/manifests/shared-pages/guides',
       'packages/docs-tooling/src/lark/meta/assembly/guides.json',
       'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
     ];

@@ -175,3 +175,10 @@ it('uses existing MDX patches outside fences while preserving example bytes', as
     expect(result.mdx).toContain(code)
   }
 })
+
+it('maps body-only Fetch compiler errors through preserved front matter', async () => {
+  const source = page(group('java', 'python') + '\n\nexport const broken = ;')
+  const result = await toMdx(adapted(source), context, {preserveFrontMatter: true})
+  expect(result).toMatchObject({errors: [expect.objectContaining({code: 'ADAPT_MDX_INVALID',
+    line: source.split('\n').indexOf('export const broken = ;') + 1, detail: {text: 'export const broken = ;'}})]})
+})

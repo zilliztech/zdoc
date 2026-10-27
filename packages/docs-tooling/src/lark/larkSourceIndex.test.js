@@ -16,6 +16,16 @@ function writeJson(dir, filename, source) {
   fs.writeFileSync(path.join(dir, filename), JSON.stringify(source))
 }
 
+test('tokenless shared records remain individually addressable by stable Base record identity', t => {
+  const dir = makeSourceDir(t)
+  writeJson(dir, 'shared-a.json', {base_record_id: 'a', doc_token: null, token: null, source_kind: 'shared-page'})
+  writeJson(dir, 'shared-b.json', {base_record_id: 'b', doc_token: null, token: null, source_kind: 'shared-page'})
+  const index = LarkSourceIndex.load(dir)
+  assert.equal(index.findAnyToken(null), null)
+  assert.equal(index.find('base_record_id', 'a').base_record_id, 'a')
+  assert.equal(index.find('base_record_id', 'b').base_record_id, 'b')
+})
+
 function writeLookupFixtures(dir) {
   writeJson(dir, '01-node.json', {
     title: 'A',

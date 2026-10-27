@@ -1,4 +1,5 @@
 const crypto = require('node:crypto')
+const {routeForRecord, validateSharedSnapshotRecord, sourceFieldsForRecord} = require('./sharedPageRouting')
 const fs = require('node:fs')
 const path = require('node:path')
 const {
@@ -57,15 +58,21 @@ function validateCandidateSnapshot(candidate, expected = {}) {
   if (typeof candidate.base_app_token !== 'string' || !candidate.base_app_token) throw new Error('Candidate snapshot Base application token is required')
   if (expected.baseAppToken && candidate.base_app_token !== expected.baseAppToken) throw new Error('Candidate snapshot Base application token mismatch')
   if (!Number.isFinite(Date.parse(candidate.generated_at))) throw new Error('Candidate snapshot generated timestamp is invalid')
-  if (!Array.isArray(candidate.records) || candidate.records.length === 0) throw new Error('Candidate snapshot records must be a non-empty array')
+  if (!Array.isArray(candidate.records) || (candidate.records.length === 0 && !expected.allowEmptySharedEffective)) throw new Error('Candidate snapshot records must be a non-empty array')
   const recordIds = new Set(), docTokens = new Set()
   for (const record of candidate.records) {
     if (!record || typeof record !== 'object' || typeof record.record_id !== 'string' || !record.record_id) throw new Error('Candidate snapshot record ID is required')
-    if (typeof record.doc_token !== 'string' || !record.doc_token) throw new Error('Candidate snapshot document token is required')
-    if (recordIds.has(record.record_id) || docTokens.has(record.doc_token)) throw new Error('Candidate snapshot contains duplicate records')
-    recordIds.add(record.record_id); docTokens.add(record.doc_token)
-    if (typeof record.source_file !== 'string' || !record.source_file) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
-    if (!/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
+    if (record.source_kind === undefined && record.shared_page !== undefined) throw new Error('Shared identity requires its snapshot discriminant')
+    if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown snapshot source kind')
+    if (record.source_kind === 'shared-page') {
+      if (candidate.manual !== 'guides' || candidate.schema_version !== 3) throw new Error('Shared records require the Guides schema-3 snapshot')
+      validateSharedSnapshotRecord(record)
+    }
+    if (record.source_kind !== 'shared-page' && (typeof record.doc_token !== 'string' || !record.doc_token)) throw new Error('Candidate snapshot document token is required')
+    if (recordIds.has(record.record_id) || (record.doc_token && docTokens.has(record.doc_token))) throw new Error('Candidate snapshot contains duplicate records')
+    recordIds.add(record.record_id); if (record.doc_token) docTokens.add(record.doc_token)
+    if (record.source_kind !== 'shared-page' && (typeof record.source_file !== 'string' || !record.source_file)) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
+    if (record.source_kind !== 'shared-page' && !/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
     if (!Array.isArray(record.outgoing_tokens)) throw new Error(`Candidate snapshot outgoing tokens are invalid for ${record.doc_token}`)
     if (record.output_paths !== undefined && !Array.isArray(record.output_paths)) throw new Error(`Candidate snapshot output paths are invalid for ${record.doc_token}`)
     for (const outputPath of record.output_paths || []) {
@@ -78,7 +85,7 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     if (record.publish_status !== undefined && record.publish_status !== null && typeof record.publish_status !== 'string') {
       throw new Error(`Candidate snapshot publish status is invalid for ${record.doc_token}`)
     }
-    if (record.release_channel !== undefined && !['current', 'next'].includes(record.release_channel)) {
+    if (record.release_channel !== undefined && !['current', 'next', 'retire-in-next'].includes(record.release_channel)) {
       throw new Error(`Candidate snapshot release channel is invalid for ${record.doc_token}: ${record.release_channel}`)
     }
   }
@@ -162,16 +169,9 @@ function outputPathsByTokenFromDirs({ outputDirs, cwd = process.cwd() }) {
   return byToken
 }
 
-function recordToken(record) {
-  const link = docLink(docField(record.fields || {}))
-  if (!link) return null
-  const target = contentLinkTarget(link)
-  if (target?.token) return target.token
-  try {
-    return new URL(link).pathname.split('/').filter(Boolean).pop() || null
-  } catch (_) {
-    return null
-  }
+function recordToken(record, routingContext = null) {
+  const route = routeForRecord(record, routingContext)
+  return route.kind === 'feishu' ? route.token : null
 }
 
 function parentRecordIds(record) {
@@ -212,7 +212,7 @@ function refTargetAnchor(value) {
   }
 }
 
-function createGuidesNavigationState(records) {
+function createGuidesNavigationState(records, {routingContext = null} = {}) {
   const navigationRecords = (records || []).map(record => {
     const fields = record.fields || {}
     const placementType = guidesPlacementType(record, { guidesMode: true })
@@ -233,11 +233,12 @@ function createGuidesNavigationState(records) {
       slug: plainValue(fields.Slug) || '',
       targets: guidesRecordPublishTargets(record).sort(),
       progress: plainValue(fields.Progress ?? fields.Status) || '',
-      doc_token: sectionOwnsDocs ? recordToken(record) : null,
+      doc_token: sectionOwnsDocs ? recordToken(record, routingContext) : null,
       doc_link: sectionOwnsDocs ? (link || '') : '',
       ref_target: refTarget || null,
       ref_target_token: refTargetToken(refLink),
       ref_target_anchor: refTargetAnchor(refLink),
+      ...(placementType === 'canonical' ? sourceFieldsForRecord(record, routingContext) : {}),
     }
   }).filter(record => record.record_id && record.table_id && record.placement_type)
     .sort((a, b) => a.table_id.localeCompare(b.table_id) || a.order - b.order || a.record_id.localeCompare(b.record_id))
@@ -265,13 +266,15 @@ function createSourceSnapshot({
   records,
   nodeMetadataByToken = new Map(),
   outputPathsByToken = new Map(),
+  outputPathsByRecordId = new Map(),
+  routingContext = null,
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
   const baseRecordById = new Map((records || []).map(record => [record.record_id, record]))
   const canonicalRecords = manualName === 'guides'
-    ? sourceOwnedRecordsFrom(records, {guidesPublishableOnly: true})
+    ? sourceOwnedRecordsFrom(records, {guidesPublishableOnly: true, routingContext})
     : canonicalRecordsFrom(records)
-  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
+  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records, {routingContext}) : null
   const snapshot = {
     schema_version: manualName === 'guides' ? 3 : 2,
     manual: manualName,
@@ -284,7 +287,8 @@ function createSourceSnapshot({
     source_dir: docSourceDir,
     base_app_token: baseAppToken,
     records: canonicalRecords.map(record => {
-      const source = sourceByToken.get(record.doc_token)
+      const shared = record.source_kind === 'shared-page'
+      const source = record.doc_token ? sourceByToken.get(record.doc_token) : null
       const baseRecord = baseRecordById.get(record.record_id)
       const targetField = baseRecord?.fields?.Targets ?? baseRecord?.fields?.['Publish Targets'] ?? []
       const publishTargets = (Array.isArray(targetField) ? targetField : [targetField])
@@ -292,6 +296,20 @@ function createSourceSnapshot({
         .filter(Boolean)
       const outgoingTokens = source ? extractContentLinks(source).map(link => link.token) : []
       const nodeMetadata = nodeMetadataByToken.get(record.doc_token) || null
+      if (record.routing_error) throw Object.assign(new Error(`${record.routing_error.code}: ${record.record_id}`), record.routing_error)
+      if (shared) {
+        const navigation = guidesNavigation.navigationRecords.find(entry => entry.record_id === record.record_id)
+        const result = {
+          ...record, source_file: null, source_hash: null, node_metadata: null,
+          labels: navigation.labels, parent_record_ids: navigation.parent_record_ids, order: navigation.order,
+          publish_targets: [...new Set(publishTargets)].sort(),
+          publish_status: plainValue(baseRecord?.fields?.Status ?? baseRecord?.fields?.Progress) || null,
+          release_channel: guidesRecordChannel(baseRecord), outgoing_tokens: [],
+          output_paths: [...new Set(outputPathsByRecordId.get(record.record_id) || [])].sort(),
+        }
+        validateSharedSnapshotRecord(result)
+        return result
+      }
       return {
         record_id: record.record_id,
         table_id: record.table_id,

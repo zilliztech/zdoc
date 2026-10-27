@@ -18,10 +18,11 @@ test('package scripts expose stable focused and aggregate replay harness entrypo
     'test:replay:fetch': 'node --test scripts/docs-workflow/replay-fetch-publication-fifo.test.js',
     'test:replay:recovery': 'node --test scripts/docs-workflow/replay-recovery-plan.test.js',
     'test:replay:translation': 'node --test scripts/docs-workflow/replay-translation-publication-fifo.test.js scripts/docs-workflow/replay-translation-monitor-artifacts.test.js',
+    'test:replay:shared-pages': 'node --test scripts/docs-workflow/replay-shared-pages.test.js',
     'test:replay:requested': 'node --test scripts/docs-workflow/replay-requested-guides.test.js',
     'test:workflow-matrix': 'node --test scripts/docs-workflow/select-tests-for-changes.test.js',
     'test:for-change': 'node scripts/docs-workflow/select-tests-for-changes.js',
-    'test:replay': 'pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery && pnpm run test:replay:requested',
+    'test:replay': 'pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery && pnpm run test:replay:requested && pnpm run test:replay:shared-pages',
     'test:replay:all': 'pnpm run test:replay && pnpm run test:replay:translation',
   }
   for (const [name, command] of Object.entries(expected)) assert.equal(scripts[name], command, name)
@@ -46,6 +47,10 @@ test('operator and agent prose name the replay harness selection contract', () =
   assert.match(readme, /pnpm test:replay:recovery/u)
   assert.match(readme, /replay-recovery-plan\.js/u)
   assert.match(readme, /pnpm test:for-change/u)
+  assert.match(readme, /pnpm test:replay:shared-pages/u)
+  assert.match(readme, /--legacy-baseline/u)
+  assert.match(readme, /--comparison-baseline-sha/u)
+  assert.match(readme, /--site/u)
   assert.match(readme, /^### Branch ownership$/mu)
   assert.match(readme, /master-tooling-sync\.json/u)
   assert.match(agents, /^### Replay harness selection$/mu)

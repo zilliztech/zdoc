@@ -228,10 +228,58 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay:recovery` covers retained Translation selection/results/progress authentication, legacy REST exclusion, recovery-map construction, and non-mutating fault overlays.
 - `pnpm test:replay:translation` covers Translation FIFO publication and monitor artifact authentication; it is slower and runs on the scheduled replay workflow.
 - `pnpm test:replay:requested` covers the requested Guides fetch surfaces (planner closure, state-merge receipts, checkpoint scope) against a committed real-data slice extracted from retained production artifacts.
-- `pnpm test:replay` is the PR-level contract + Fetch + recovery gate.
+- `pnpm test:replay:shared-pages` exercises selected shared Guides generation, authenticated source artifacts, offline tables, fresh assembly, immutable image uploads and a real checkpoint transaction against a local bare remote. It also compares ordinary Feishu output with valid and malformed inactive configuration.
+- `pnpm test:replay` is the PR-level contract + Fetch + recovery + requested Guides + shared-pages gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
 The replay harnesses use the platform system temporary directory for their isolated lanes, replicas, and evidence roots. The translation replay harness accepts an explicit override via `ZDOC_REPLAY_SAFE_ROOT` when the default is not appropriate.
+
+Before accepting shared Fetch publication changes, additionally run the full local evidence mode:
+
+```bash
+node scripts/docs-workflow/replay-shared-pages.js \
+  --evidence-root /absolute/path/to/shared-pages-evidence \
+  --legacy-baseline --site \
+  --site-baseline-repository /absolute/path/to/local-retained-replay-repository \
+  --site-baseline-sha <exact-successful-local-replay-commit>
+```
+
+`--legacy-baseline` executes the exact pre-WP9 implementation at
+`5cbe28d2ade931d242b4443547002c6670cf0c92` against the same fixed-time ordinary
+Feishu inputs, including an anchored Base ref. It compares every emitted
+content/sidebar/snapshot blob and source file, and fails if that commit is
+unavailable locally. The PR suite uses only current code and does not claim
+this historical comparison. To compare a newer locally available upstream commit,
+use `--comparison-baseline-sha <exact-40-character-commit>`; this also enables
+exact comparison. If that commit contains `shared-docs/guides`, both lanes copy
+its actual inactive configuration tree unchanged (and separately corrupt one
+inactive page for the malformed case). The evidence records the consumed tree
+and every configuration file's SHA256. For the onboarded Delete Entities case,
+the reviewed baseline is `ecad317f6ce55270bdcc5be49f5f7d6becbf7d8a` (#861).
+This never fetches history or generates from that real upstream content.
+`--site` requires an installed Google Chrome and
+linked workspace dependencies. Supply a local repository and exact successful
+retained replay commit; the mode restores its complete generated state with
+the supported exact restore command, then overlays synthetic shared outputs
+and regenerates/tracks the localization inventory. It builds this isolated site with
+`pnpm build:en` (including Japanese), then uses an isolated browser profile to
+serve the assembled site, switch Python/Java Tabs, follow a body link and Base ref,
+and check headings, edit URLs and decoded images served from the fixture store. It contacts no
+Feishu or image-store service. Coordinate this memory-intensive mode with
+other site builds. The site fixture uses CURRENT pages with identical current/next
+locks and an ungated heading initially below the viewport, matching the pilot's
+shape. Acceptance requires actual ref navigation to bring that heading into view;
+it does not manually scroll or require an arbitrary pixel alignment. NEXT channel
+preservation remains covered by the focused replay. The separately preserved
+NEXT-heading timing probe is an existing deferred site-UI issue, not this gate.
+
+The command preserves `shared-pages-report.json`, `shared-site-build.log`,
+`shared-site-browser.json`, screenshots, the synthetic source/assembly roots,
+and its local bare remote. Temporary historical source and site checkouts
+are restricted to `.claude/worktrees/`. The report explicitly labels these
+fixtures as synthetic regression evidence. Keep the site checkout until the
+browser evidence has been reviewed; remove only that clean task-owned copy.
+The separate retained-artifact replay below is still required.
 
 These hermetic suites are regression harnesses; they do not replace a real retained-artifact replay. For a recovery change, prepare an isolated snapshot root containing `run.json`, `attempt.json`, `jobs.json`, `artifacts-unique.json`, `artifact-directories.json`, and the mapped artifact directories, then run:
 
@@ -473,6 +521,67 @@ The cloud-providers-and-regions and zilliz-cloud-ips pages carry globally regist
 
 Operational prerequisites: the container must reach the site's CMS instance at startup (static `proxy_pass` hostnames resolve at config time), and the JSON responses must stay below the 1m `subrequest_output_buffer_size`. Refresh the committed snapshots with `node scripts/docs-workflow/cloud-data-snapshot.mjs --site <en|zh-CN> --from-base <cms-origin> --out packages/docs-ui/src/shared/cloud-data/snapshots/<site>.json` and gate freshness with `--check` (the wire format for a future scheduled refresher). Verification: `pnpm test:containers` (static contract) and `pnpm test:cloud-data-nginx` (live four-scenario run in `nginx:1.28-alpine`; skipped automatically without Docker).
 
+### Selected shared Guides source generation
+
+English Fetch prepares shared-page routing against its pinned master configuration
+and exact dev baseline before ordinary Feishu body reads. After source fetching,
+`Generate selected shared Guides sources` builds each selected record's Guides and
+BYOC outputs together. Current Base navigation, publish targets and release channel
+are checked before rendering; an existing `.md` or `.mdx` extension is retained,
+and a new page uses `.mdx`. Unselected page configurations are not loaded by Fetch;
+the default `shared-docs build` command still validates the whole group.
+
+The source job writes its draft bundle to
+`tmp/docs-tooling/en/shared-pages/guides/bundle.json`. It records actual pinned input
+digests, output/receipt drafts and one success or baseline-fallback outcome per
+page. Accepted image bytes remain in the source job's scratch directory for the
+upload step beside media prefetch. That step validates and deduplicates accepted bytes,
+reads existing objects, conditionally creates absent objects with `If-None-Match: *`,
+and reads them back to verify SHA-256. It never overwrites, resets ACLs or deletes
+shared objects. `media_upload_mode=skip` performs no storage calls and retains full
+image-bed URLs. `PUBLISH_IMAGE_UPLOAD_FAILED` fails the source job through its
+existing artifact gate, preventing new English Guides/BYOC publication from that
+job. The existing translation-enabled reconciliation producer gate remains unchanged.
+
+The source artifact binds the bounded bundle to master/dev SHAs, sizes and hashes,
+including raw Base routing evidence, both successful outputs and exact historical
+fallback bytes. Offline table jobs place prebuilt bytes and repeat writer path and
+front-matter checks; they do not generate shared pages or upload images. Fallbacks
+are restored within their existing table owner even when current traversal omits
+the old record or path. Image bodies are excluded from source and table artifacts.
+Final receipt/activation publication and successful cache promotion remain separate
+publication gates; the draft bundle alone does not authorize them. Before a pilot,
+the owner must verify real-bucket conditional-create support and retain lifecycle
+evidence that `shared/` objects referenced by published or recoverable receipts
+cannot expire or be deleted, including bucket-wide/noncurrent rules and external
+cleanup jobs. The owner must also make an unauthenticated GET of
+`IMAGE_BED_URL/shared/<key>` and verify that the downloaded body's SHA256 equals
+the accepted object's digest. Use no credentials or signed URL for this check;
+authenticated SDK readback verifies stored bytes but does not prove public read
+access. Record the HTTP result and digest with the pilot evidence. These checks
+gate the first image-bearing activation; a page without images can be activated
+before them.
+
+On first activation, the job reads the old document once at its current
+revision and checks current inbound heading references against both generated
+manuals; `ACTIVATE_CHECK_FAILED` retains both baseline outputs. Existing active
+pages reuse their retained anchor map. A run with no shared records and no active
+shared state creates no shared bundle and keeps the legacy source payload unchanged.
+
+To activate a page, switch its record's `Docs` to the page directory URL, wait
+for a successful Fetch and confirm its entry in dev's
+`generated/en/manifests/shared-pages/guides/active.json`, then retire the old
+Feishu document. The old document must exist until that activation Fetch
+succeeds; afterwards links are resolved from `active.json` alone, and a retired
+document stops new block-ID links that the frozen anchor map cannot resolve.
+
+Once a page is active, its Base record must stay a publishable canonical row
+whose `Docs` points to the page directory. Switching `Docs` back to Feishu,
+deleting the record, changing its placement type or moving its Progress outside
+the publishable set fails Fetch with `OWNERSHIP_REVERTED` and leaves the Git
+version in place. Restore the record; retirement of shared pages is not supported
+yet.
+
 ### Release Channel gating (CURRENT / NEXT / RETIRE-IN-NEXT)
 
 Guides records carry a `Release Channel` field in the Feishu Base. `CURRENT` is the default and the fallback for records without the field; `NEXT` marks documentation for a feature that has not shipped yet; `RETIRE-IN-NEXT` is the mirror — a live page that the upcoming release removes, used to stage a split or restructure without touching production.
@@ -527,3 +636,58 @@ pnpm test:containers
 pnpm build:en
 pnpm build:zh-CN
 ```
+
+#### Shared Guides final publication evidence
+
+English Guides source artifacts retain the observed candidate and authenticated
+paired outcomes. Assembly derives a separate effective snapshot: successful
+shared records use the emitted output paths; failed transitions retain their exact
+pinned dev record and historical outputs; failed new records remain absent.
+Combined sidebars include those authenticated old paths even when a stable table
+ID has been renamed. Coverage and source-contract validation remain required.
+
+After complete table restore and canonical publication, assembly verifies the
+actual output hashes and tokens, writes final page receipts with the full immutable
+Base navigation projection, and appends only successful first activations to
+`generated/en/manifests/shared-pages/guides/active.json`. Existing activation
+entries and anchors remain unchanged. The same checkpoint owns MDX, receipts,
+active state, and `_publication.json`; its underscore prefix cannot collide with
+a valid page slug. This last file binds the observed/effective snapshot hashes,
+active state, and exact prior snapshot bytes and output digests for fallback.
+Checkpoint validation reads the original local dev Git commit to authenticate that
+fallback evidence, so source-job scratch is not required. Missing pinned objects
+or mismatched bytes fail validation. Legacy checkpoints without shared state
+remain accepted without creating empty shared manifests.
+
+An unrelated requested Guides Fetch carries existing shared receipts, activation
+and output bytes from its pinned dev tree in a bounded `continuation.json` source
+handoff. The requested CLI authenticates those bytes before merging sources;
+fresh workers recheck them against pinned Git before restore, and assembly binds
+publication authority to the new effective snapshot. It does not regenerate shared
+pages or call the image store. A requested closure touching a shared owner, its
+alias or its table still requires ordinary Guides Fetch. The page name `active`
+is reserved for activation metadata and produces a page-local
+`OWNERSHIP_PATH_MISMATCH` before generation; valid siblings continue.
+
+
+A source-stage receipt draft cannot authorize a saved source cache. Final cache
+manifests carry validated final receipts, and any shared page failure suppresses
+cache generation so the next Fetch retries it. Build notes report page failures
+and unknown post-activation anchors with the referring page and source URL. Old
+Feishu token links resolve to the shared page; known heading blocks use the
+activation anchor map, while unknown blocks resolve to the page top. WP9 does not
+change Translation/recovery cache identities or adopt recorded images.
+
+
+#### Shared Fetch requirement accounting
+
+The shared-pages replay covers the Fetch portions of `3-6`, `5-3`, `9-1`,
+`9-2`, `9-3`, `9-6`, `9-9`, `ACTIVATE_CHECK_FAILED`,
+`PUBLISH_IMAGE_UPLOAD_FAILED`, `OWNERSHIP_PATH_MISMATCH`,
+`OWNERSHIP_CONFIG_MISSING` and `OWNERSHIP_REVERTED`. The requirement tests close
+only `3-6`, `5-3` and `9-9`; the other entries retain their WP14 pending marker
+for the dev-PR, old-writer and recovery ownership checks. `T06` retains its
+pending marker: the optional real site/browser mode supplies Tabs, languages,
+links, anchors, image and edit-entry evidence, while recorded-image change
+semantics remain deferred. `PUBLISH_REGEN_MISMATCH` and `IMAGE_SOURCE_CHANGED`
+remain WP9b work; receipt/output tamper rejection is not clean regeneration.

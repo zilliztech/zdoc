@@ -1,3 +1,4 @@
+import {validateSharedSnapshotRecord, validateSharedReceipt} from '../shared-docs/core/handoff/source-state.ts'
 import {listPublicationGroups} from '../workflows/groups.ts'
 
 export const REVISION_GROUPS = listPublicationGroups('en')
@@ -13,6 +14,12 @@ export interface SourceNodeMetadata {
 }
 
 export interface SourceSnapshotRecord {
+  record_id?: string
+  placement_type?: string
+  source_kind?: string
+  doc_link?: string
+  shared_page?: {group: string; page: string; inputs_sha256: string; record: string}
+  outgoing_tokens?: string[]
   doc_token?: string | null
   title?: string | null
   source_file?: string | null
@@ -51,6 +58,7 @@ export interface BuildRevisionInventoryInput {
   generatedAt: string
   sourceRunId: string
   snapshots: SourceSnapshot[]
+  sharedReceiptsByRecordId?: ReadonlyMap<string, unknown>
 }
 
 export type RevisionDiffClassification =
@@ -60,6 +68,7 @@ export type RevisionDiffClassification =
   | 'renamed'
   | 'deleted'
   | 'fetch_failed'
+  | 'no_longer_feishu_owned'
 
 export interface RevisionChange {
   type: RevisionDiffClassification
@@ -78,7 +87,15 @@ const optionalString = (value: unknown): string | undefined =>
 const compareTokens = (left: string, right: string): number => left < right ? -1 : left > right ? 1 : 0
 
 export function buildRevisionInventory(input: BuildRevisionInventoryInput): RevisionInventory {
-  const projected = input.snapshots.flatMap(snapshot => snapshot.records).map(record => {
+  const allRecords = input.snapshots.flatMap(snapshot => snapshot.records)
+  for (const record of allRecords) {
+    if (record.source_kind === undefined) continue
+    validateSharedSnapshotRecord(record)
+    const receipt = input.sharedReceiptsByRecordId?.get(record.record_id || '')
+    if (!receipt) throw new Error(`Missing shared receipt for revision accounting: ${record.record_id}`)
+    validateSharedReceipt(receipt, record.shared_page!)
+  }
+  const projected = allRecords.filter(record => record.source_kind !== 'shared-page').map(record => {
     const canonicalToken = optionalString(record.doc_token)
     if (!canonicalToken) throw new Error('Source snapshot record is missing doc_token')
     const metadata = record.node_metadata
@@ -197,6 +214,7 @@ export function serializeRevisionInventory(
 export function diffRevisionInventories(
   baseline: RevisionInventory | null,
   candidate: RevisionInventory,
+  options: {noLongerFeishuOwnedTokens?: readonly string[]} = {},
 ): RevisionChange[] {
   if (baseline) validateRevisionInventory(baseline)
   validateRevisionInventory(candidate)
@@ -225,7 +243,7 @@ export function diffRevisionInventories(
     }
   }
   if (candidate.complete) {
-    for (const record of missing) changes.push(change('deleted', record, record, true))
+    for (const record of missing) changes.push(change(options.noLongerFeishuOwnedTokens?.includes(record.canonicalToken) ? 'no_longer_feishu_owned' : 'deleted', record, record, true))
   }
   return changes.sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
 }
@@ -271,7 +289,7 @@ function dateKey(date: Date, timeZone: string): string {
 }
 
 const MARKDOWN_ORDER: RevisionDiffClassification[] = [
-  'created', 'updated', 'moved', 'renamed', 'deleted', 'fetch_failed',
+  'created', 'updated', 'moved', 'renamed', 'no_longer_feishu_owned', 'deleted', 'fetch_failed',
 ]
 
 export function renderRevisionDiffMarkdown(group: RevisionGroup, changes: RevisionChange[]): string {
