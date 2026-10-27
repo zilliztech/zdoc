@@ -190,9 +190,17 @@ for (const site of ['en', 'zh-CN']) {
     assert.equal(runtime.filter(instruction => instruction.startsWith('COPY --from=build ')).length, 1);
     assert.ok(runtime.includes(`COPY --from=build /app/build/${site}/ /usr/share/nginx/html/`));
     assert.ok(runtime.includes(`COPY deploy/${site}/nginx.conf /etc/nginx/conf.d/default.conf`));
+    assert.ok(runtime.includes('COPY deploy/runtime/nginx.main.conf /etc/nginx/nginx.conf'));
     assert.ok(runtime.includes('COPY deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh'));
+    assert.ok(runtime.includes('COPY deploy/njs/cloud.js /etc/nginx/njs/cloud.js'));
+    for (const module of ['adapter.js', 'render.js', 'strings.js', 'vocab.js']) {
+      assert.ok(runtime.includes(`COPY packages/docs-ui/src/shared/cloud-data/${module} /etc/nginx/njs/${module}`),
+        `runtime image must ship the njs cloud-data module: ${module}`);
+    }
+    assert.ok(runtime.includes(`COPY packages/docs-ui/src/shared/cloud-data/snapshots/${site}.json /etc/nginx/njs/snapshots/${site}.json`),
+      'runtime image must ship the site snapshot for the njs degradation tier');
     assert.ok(runtime.includes('RUN chmod 755 /docker-entrypoint.d/40-zdoc-env.sh'));
-    assert.equal(runtime.filter(instruction => instruction.startsWith('COPY ')).length, 3);
+    assert.equal(runtime.filter(instruction => instruction.startsWith('COPY ')).length, 10);
     assert.doesNotMatch(runtime.join('\n'), /(?:node|pnpm|npm|yarn|node_modules|package\.json|pnpm-lock|COPY \.)/i);
     assert.doesNotMatch(runtime.join('\n'), /localization-inputs\.inventory\.json/);
   });
@@ -363,8 +371,131 @@ test('English nginx redirect targets resolve to published routes, redirect chain
   ].join('\n'));
 });
 
-test('both site-owned images route chat directly to the private agent runtime', () => {
-  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
+test('Chinese nginx redirect targets resolve to published routes, redirect chains, or the reviewed allowlist', () => {
+  // Same contract as the English lint, against the Chinese production
+  // sitemap. The Chinese configuration carries legacy targets that predate
+  // this lint; they are allowlisted in the snapshot with their reason and
+  // must be removed from the allowlist as soon as the page reappears on
+  // production. Targets are percent-decoded before comparison because the
+  // sitemap percent-encodes characters such as parentheses.
+  const snapshot = JSON.parse(read('deploy/contracts/zh-CN-redirect-target-routes.json'));
+  assert.equal(snapshot.schemaVersion, 1);
+  assert.match(snapshot.source, /^https:\/\/docs\.zilliz\.com\.cn\/sitemap\.xml$/u);
+  assert.match(snapshot.capturedAt, /^\d{4}-\d{2}-\d{2}$/u);
+  assert.ok(snapshot.refresh.includes('docs.zilliz.com.cn/sitemap.xml'), 'snapshot must document its refresh command');
+  const routes = new Set(snapshot.routes);
+  assert.ok(snapshot.routes.length > 1000, 'route snapshot looks truncated');
+  for (const route of snapshot.routes) assert.match(route, /^\//u, `route snapshot entry is not an absolute path: ${route}`);
+  const allowlist = new Map(Object.entries(snapshot.allowlist ?? {}));
+  for (const [allowed, reason] of allowlist) {
+    assert.match(allowed, /^\//u, `allowlist entry is not an absolute path: ${allowed}`);
+    assert.ok(reason.length > 0, `allowlist entry ${allowed} must document why it cannot appear in the sitemap`);
+    assert.ok(!routes.has(allowed), `allowlist entry ${allowed} already exists in the route snapshot; remove the allowlist entry`);
+  }
+
+  const decode = (value) => {
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return value;
+    }
+  };
+  const nginx = read('deploy/zh-CN/nginx.conf');
+  const exactSources = new Set([...nginx.matchAll(/location = ([^ {]+) \{/gu)].map(match => decode(match[1])));
+  const unresolved = [];
+  let checked = 0;
+  for (const match of nginx.matchAll(/return 301\s+([^;\s]+);/gu)) {
+    let target = match[1].split('#', 1)[0];
+    if (/^https?:\/\//u.test(target) || target.includes('$')) continue;
+    target = decode(target);
+    checked += 1;
+    if (routes.has(target) || exactSources.has(target) || allowlist.has(target)) continue;
+    unresolved.push(target);
+  }
+  assert.ok(checked > 700, `only ${checked} redirect targets were parsed; the location/return extraction is broken`);
+  assert.deepEqual(unresolved, [], [
+    'dead nginx redirect targets (fix the redirect, refresh the snapshot after a release,',
+    `or verify the path returns 200 on production before allowlisting): ${[...new Set(unresolved)].sort().join(', ')}`,
+    `snapshot refresh: ${snapshot.refresh}`,
+  ].join('\n'));
+});
+
+const CLOUD_DATA_CMS_HOSTS = {en: 'cms.zilliz.cc', 'zh-CN': 'cms-cn.zilliz.cc'};
+
+for (const site of ['en', 'zh-CN']) {
+  test(`${site} nginx wires the cloud-data SSI chain with the correct CMS instance`, () => {
+    const nginx = read(`deploy/${site}/nginx.conf`);
+    const cmsHost = CLOUD_DATA_CMS_HOSTS[site];
+    const otherHost = CLOUD_DATA_CMS_HOSTS[site === 'en' ? 'zh-CN' : 'en'];
+
+    // Main context: the njs module is loaded by the shipped main config (the
+    // stock image has no /etc/nginx/modules include and load_module is
+    // main-context only).
+    const mainConf = read('deploy/runtime/nginx.main.conf');
+    assert.match(mainConf, /^load_module \/etc\/nginx\/modules\/ngx_http_js_module\.so;$/m);
+    assert.match(mainConf, /include \/etc\/nginx\/conf\.d\/\*\.conf;/);
+
+    // http context: renderer import, subrequest buffer, cache zone.
+    assert.match(nginx, /^js_path \/etc\/nginx\/njs;$/m);
+    assert.match(nginx, /^js_import cloudData from \/etc\/nginx\/njs\/cloud\.js;$/m);
+    assert.match(nginx, /^subrequest_output_buffer_size 1m;$/m);
+    assert.match(nginx, /proxy_cache_path \/var\/cache\/nginx\/cloud_data [^;]*keys_zone=cloud_data:/);
+
+    // Server context: SSI for markdown responses only.
+    assert.match(nginx, /    ssi on;\n    ssi_types text\/markdown;/);
+    assert.match(nginx, /types \{\n        text\/markdown md mdx mdwn;\n    \}/);
+
+    // JSON layer: per-instance CMS proxy with 60s cache, stale-on-error, and
+    // intercepted upstream errors (a Strapi 5xx JSON body must never reach njs).
+    for (const endpoint of ['regions', 'features']) {
+      const location = nginx.match(new RegExp(`location = /api/cloud-json/${endpoint} \\{[\\s\\S]*?\\n    \\}`));
+      assert.ok(location, `missing /api/cloud-json/${endpoint} location`);
+      assert.match(location[0], new RegExp(`proxy_pass https://${cmsHost.replaceAll('.', '\\.')}/api/cloud-${endpoint};`));
+      assert.doesNotMatch(location[0], new RegExp(otherHost.replaceAll('.', '\\.')));
+      assert.match(location[0], /proxy_ssl_server_name on;/);
+      assert.match(location[0], /proxy_cache cloud_data;/);
+      assert.match(location[0], /proxy_cache_valid 200 60s;/);
+      assert.match(location[0], /proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;/);
+      assert.match(location[0], /proxy_intercept_errors on;/);
+      assert.match(location[0], /error_page 400 401 403 404 429 500 502 503 504 = @cloud_json_failed;/);
+    }
+    assert.match(nginx, /location @cloud_json_failed \{\s*\n\s*return 503 "";\s*\n\s*\}/);
+
+    // Fragment layer: loopback proxy hop (an njs location cannot be an SSI
+    // include target directly) whose failure mode is an empty 200 so SSI uses
+    // the baked stub block.
+    assert.match(nginx, /location \/api\/cloud-data\/ \{[\s\S]*?proxy_pass http:\/\/127\.0\.0\.1:80\/_njs\/;[\s\S]*?error_page 400 401 403 404 429 500 502 503 504 = @cloud_fragment_failed;/);
+    assert.match(nginx, /location @cloud_fragment_failed \{\s*\n\s*return 200 "";\s*\n\s*\}/);
+    assert.match(nginx, /location = \/_njs\/fragment\.md \{\s*\n\s*js_content cloudData\.fragment;\s*\n\s*\}/);
+
+    // The renderer degrades in two tiers: first to the committed snapshot
+    // shipped in the image (keeping the include non-empty, because nginx's SSI
+    // stub path has a rare double-emission race on empty include responses),
+    // then to the empty 200 that lets SSI use the baked stub block.
+    const cloudJs = read('deploy/njs/cloud.js');
+    assert.match(cloudJs, /import fs from 'fs';/);
+    assert.match(cloudJs, /renderFromSnapshot\(site, section, provider\)/);
+    assert.match(cloudJs, /SNAPSHOT_DIR \+ site \+ '\.json'/);
+    assert.match(cloudJs, /r\.return\(200, ''\)/);
+    assert.match(cloudJs, /export default \{ ?fragment ?\};/);
+    const dockerfile = read(`deploy/${site}/Dockerfile`);
+    assert.match(
+      dockerfile,
+      new RegExp(`COPY packages/docs-ui/src/shared/cloud-data/snapshots/${site}\\.json /etc/nginx/njs/snapshots/${site}\\.json`),
+      'the image must ship the site snapshot for the njs degradation tier',
+    );
+  });
+}
+
+test('the retired /docs/free-trials page redirects to the registration guide on both sites and ja', () => {
+  const en = read('deploy/en/nginx.conf');
+  assert.match(en, /location = \/docs\/free-trials \{ return 301 \/docs\/register-with-zilliz-cloud; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/free-trials \{ return 301 \/ja-JP\/docs\/register-with-zilliz-cloud; \}/);
+  const zh = read('deploy/zh-CN/nginx.conf');
+  assert.match(zh, /location = \/docs\/free-trials \{ return 301 \/docs\/register-with-zilliz-cloud; \}/);
+});
+
+test('both site-owned images route chat directly to the private agent runtime', () => {  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /upstream docs_agent\s*\{/);
   assert.ok(entrypoint.includes('hash \\$http_x_conversation_id consistent;'));
   assert.match(entrypoint, /zone docs_agent 64k;/);

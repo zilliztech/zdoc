@@ -1,0 +1,855 @@
+{
+  "schemaVersion": 1,
+  "site": "en",
+  "generatedAt": "2026-10-27T03:31:50.096Z",
+  "source": "https://cms.zilliz.cc/api/cloud-regions + https://cms.zilliz.cc/api/cloud-features",
+  "model": {
+    "site": "en",
+    "locale": "en",
+    "updatedAt": "2026-10-27T03:26:42.275Z",
+    "providers": [
+      {
+        "key": "aws",
+        "name": "AWS",
+        "anchor": "aws",
+        "regions": [
+          {
+            "continent": "North America",
+            "id": "us-west-2",
+            "name": "Oregon, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "us-east-1",
+            "name": "N. Virginia, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "us-east-2",
+            "name": "Ohio, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "ca-central-1",
+            "name": "Canada (Central)",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "eu-central-1",
+            "name": "Frankfurt, Germany",
+            "deployments": [
+              "Free & Serverless",
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "eu-west-1",
+            "name": "Ireland",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "eu-west-2",
+            "name": "London, United Kingdom",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "ap-northeast-1",
+            "name": "Tokyo, Japan",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "ap-southeast-1",
+            "name": "Singapore",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "ap-northeast-2",
+            "name": "Seoul, South Korea",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "ap-east-1",
+            "name": "Hong Kong SAR",
+            "deployments": [
+              "BYOC"
+            ],
+            "computeTypes": [],
+            "byocOnly": true
+          },
+          {
+            "continent": "Asia",
+            "id": "ap-southeast-7",
+            "name": "Thailand",
+            "deployments": [
+              "BYOC"
+            ],
+            "computeTypes": [],
+            "byocOnly": true
+          },
+          {
+            "continent": "Oceania",
+            "id": "ap-southeast-2",
+            "name": "Sydney, Australia",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "us-west-2",
+            "location": "Oregon, USA",
+            "cidrs": [
+              "54.200.111.111",
+              "34.218.171.123"
+            ]
+          },
+          {
+            "region": "us-east-1",
+            "location": "N. Virginia, USA",
+            "cidrs": [
+              "44.208.236.92"
+            ]
+          },
+          {
+            "region": "us-east-2",
+            "location": "Ohio, USA",
+            "cidrs": [
+              "18.190.127.133"
+            ]
+          },
+          {
+            "region": "ca-central-1",
+            "location": "Canada (Central)",
+            "cidrs": [
+              "15.157.245.36",
+              "52.60.120.239",
+              "15.157.14.152"
+            ]
+          },
+          {
+            "region": "eu-central-1",
+            "location": "Frankfurt, Germany",
+            "cidrs": [
+              "18.158.52.65",
+              "3.121.11.160"
+            ]
+          },
+          {
+            "region": "eu-west-1",
+            "location": "Ireland",
+            "cidrs": [
+              "54.76.194.38",
+              "99.81.179.135",
+              "3.248.62.149",
+              "52.16.225.156"
+            ]
+          },
+          {
+            "region": "eu-west-2",
+            "location": "London, United Kingdom",
+            "cidrs": [
+              "35.179.44.17",
+              "3.134.92.161",
+              "16.61.161.137",
+              "13.135.182.79"
+            ]
+          },
+          {
+            "region": "ap-northeast-1",
+            "location": "Tokyo, Japan",
+            "cidrs": [
+              "35.72.252.126"
+            ]
+          },
+          {
+            "region": "ap-southeast-1",
+            "location": "Singapore",
+            "cidrs": [
+              "13.251.167.154",
+              "3.0.159.148"
+            ]
+          },
+          {
+            "region": "ap-northeast-2",
+            "location": "Seoul, South Korea",
+            "cidrs": [
+              "43.200.197.223",
+              "54.116.65.71",
+              "43.200.30.237",
+              "13.125.81.204"
+            ]
+          },
+          {
+            "region": "ap-southeast-2",
+            "location": "Sydney, Australia",
+            "cidrs": [
+              "13.210.191.123",
+              "52.62.215.167"
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gcp",
+        "name": "Google Cloud",
+        "anchor": "google-cloud",
+        "regions": [
+          {
+            "continent": "North America",
+            "id": "us-west1",
+            "name": "Oregon, USA",
+            "deployments": [
+              "Free & Serverless",
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "us-east4",
+            "name": "Virginia, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "us-central1",
+            "name": "Iowa, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "europe-west3",
+            "name": "Frankfurt, Germany",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "europe-west4",
+            "name": "Eemshaven, Netherlands",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "europe-west9",
+            "name": "Paris, France",
+            "deployments": [
+              "BYOC"
+            ],
+            "computeTypes": [],
+            "byocOnly": true
+          },
+          {
+            "continent": "Asia",
+            "id": "asia-southeast1",
+            "name": "Singapore",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "asia-northeast1",
+            "name": "Tokyo, Japan",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "us-west1",
+            "location": "Oregon, USA",
+            "cidrs": [
+              "34.168.252.102",
+              "34.83.176.23",
+              "35.247.80.67",
+              "35.227.139.83",
+              "34.168.123.225",
+              "35.247.17.192",
+              "34.105.17.34"
+            ]
+          },
+          {
+            "region": "us-east4",
+            "location": "Virginia, USA",
+            "cidrs": [
+              "35.245.190.186",
+              "35.245.51.241"
+            ]
+          },
+          {
+            "region": "us-central1",
+            "location": "Iowa, USA",
+            "cidrs": [
+              "34.49.219.2",
+              "34.98.66.206",
+              "35.190.6.159",
+              "34.149.186.202"
+            ]
+          },
+          {
+            "region": "europe-west3",
+            "location": "Frankfurt, Germany",
+            "cidrs": [
+              "34.107.41.158",
+              "34.141.61.171"
+            ]
+          },
+          {
+            "region": "europe-west4",
+            "location": "Eemshaven, Netherlands",
+            "cidrs": [
+              "34.6.106.150",
+              "34.12.143.151"
+            ]
+          },
+          {
+            "region": "asia-southeast1",
+            "location": "Singapore",
+            "cidrs": [
+              "34.87.102.210",
+              "35.197.139.186"
+            ]
+          },
+          {
+            "region": "asia-northeast1",
+            "location": "Tokyo, Japan",
+            "cidrs": [
+              "34.146.53.58",
+              "34.104.208.246"
+            ]
+          }
+        ]
+      },
+      {
+        "key": "azure",
+        "name": "Microsoft Azure",
+        "anchor": "azure",
+        "regions": [
+          {
+            "continent": "North America",
+            "id": "East US",
+            "name": "Virginia, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "East US 2",
+            "name": "Virginia, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "North America",
+            "id": "Central US",
+            "name": "Iowa, USA",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "Germany West Central",
+            "name": "Frankfurt, Germany",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Europe",
+            "id": "North Europe",
+            "name": "Ireland",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "Central India",
+            "name": "Pune, India",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster",
+              "On-demand compute"
+            ],
+            "byocOnly": false
+          },
+          {
+            "continent": "Asia",
+            "id": "Japan East",
+            "name": "Tokyo and Saitama, Japan",
+            "deployments": [
+              "Dedicated",
+              "BYOC"
+            ],
+            "computeTypes": [
+              "Serving cluster"
+            ],
+            "byocOnly": false
+          }
+        ],
+        "ipRows": [
+          {
+            "region": "East US",
+            "location": "Virginia, USA",
+            "cidrs": [
+              "52.152.137.114"
+            ]
+          },
+          {
+            "region": "East US 2",
+            "location": "Virginia, USA",
+            "cidrs": [
+              "135.18.170.251"
+            ]
+          },
+          {
+            "region": "Central US",
+            "location": "Iowa, USA",
+            "cidrs": [
+              "52.173.197.113"
+            ]
+          },
+          {
+            "region": "Germany West Central",
+            "location": "Frankfurt, Germany",
+            "cidrs": [
+              "4.184.247.193"
+            ]
+          },
+          {
+            "region": "North Europe",
+            "location": "Ireland",
+            "cidrs": [
+              "4.207.64.80",
+              "13.79.36.108"
+            ]
+          },
+          {
+            "region": "Central India",
+            "location": "Pune, India",
+            "cidrs": [
+              "98.70.222.135"
+            ]
+          },
+          {
+            "region": "Japan East",
+            "location": "Tokyo and Saitama, Japan",
+            "cidrs": [
+              "20.18.85.21"
+            ]
+          }
+        ]
+      }
+    ],
+    "serviceIps": [
+      {
+        "region": "us-west-2",
+        "location": "Oregon, USA",
+        "cidrs": [
+          "54.200.111.111",
+          "34.218.171.123"
+        ]
+      }
+    ],
+    "matrices": {
+      "compute-types": {
+        "key": "compute-types",
+        "rowHeader": "Compute type",
+        "rows": [
+          {
+            "label": "Always-on compute (Serving cluster)",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "all"
+              }
+            },
+            "labelHtml": "Always-on compute (<a href=\"./manage-cluster\">Serving cluster</a>)"
+          },
+          {
+            "label": "On-demand compute",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "none"
+              },
+              "azure": {
+                "kind": "partial",
+                "regions": [
+                  "Virginia, USA",
+                  "Virginia, USA",
+                  "Iowa, USA",
+                  "Frankfurt, Germany",
+                  "Ireland",
+                  "Pune, India"
+                ]
+              }
+            },
+            "href": "./on-demand-cluster"
+          }
+        ]
+      },
+      "deployment-options": {
+        "key": "deployment-options",
+        "rowHeader": "Deployment option",
+        "rows": [
+          {
+            "label": "SaaS (Free & Serverless)",
+            "cells": {
+              "aws": {
+                "kind": "partial",
+                "regions": [
+                  "Frankfurt, Germany"
+                ]
+              },
+              "gcp": {
+                "kind": "partial",
+                "regions": [
+                  "Oregon, USA"
+                ]
+              },
+              "azure": {
+                "kind": "none"
+              }
+            }
+          },
+          {
+            "label": "SaaS (Dedicated)",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "all"
+              }
+            }
+          },
+          {
+            "label": "BYOC",
+            "cells": {
+              "aws": {
+                "kind": "all",
+                "extra": "ap-east-1 (Hong Kong SAR), ap-southeast-7 (Thailand)"
+              },
+              "gcp": {
+                "kind": "all",
+                "extra": "europe-west9 (Paris, France)"
+              },
+              "azure": {
+                "kind": "all"
+              }
+            }
+          }
+        ]
+      },
+      "features": {
+        "key": "features",
+        "rowHeader": "Feature",
+        "rows": [
+          {
+            "label": "Managed Volume",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "none"
+              }
+            }
+          },
+          {
+            "label": "External Volume",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "all"
+              }
+            }
+          },
+          {
+            "label": "External collection",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "text",
+                "text": "✅ Available on [request](https://support.zilliz.com/) in all listed regions."
+              }
+            }
+          },
+          {
+            "label": "Global cluster",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "text",
+                "text": "Available on [request](https://support.zilliz.com/) in:\n\n- `us-central1`\n- `us-east4`"
+              },
+              "azure": {
+                "kind": "none"
+              }
+            }
+          },
+          {
+            "label": "Cross-region backup",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "none"
+              }
+            }
+          },
+          {
+            "label": "CMEK",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "none"
+              }
+            },
+            "href": "/docs/cmek"
+          },
+          {
+            "label": "Spark Batch Jobs",
+            "cells": {
+              "aws": {
+                "kind": "text",
+                "text": "✅ Available on [request](https://support.zilliz.com/) in all listed regions."
+              },
+              "gcp": {
+                "kind": "none"
+              },
+              "azure": {
+                "kind": "none"
+              }
+            },
+            "href": "/docs/spark-batch-jobs"
+          },
+          {
+            "label": "Zero downtime migration",
+            "cells": {
+              "aws": {
+                "kind": "all"
+              },
+              "gcp": {
+                "kind": "all"
+              },
+              "azure": {
+                "kind": "all"
+              }
+            },
+            "href": "/docs/zero-downtime-migration"
+          }
+        ]
+      }
+    }
+  }
+}

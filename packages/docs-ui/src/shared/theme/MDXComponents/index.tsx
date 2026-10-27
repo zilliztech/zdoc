@@ -14,6 +14,9 @@ import Mermaid from '@theme/Mermaid';
 import FeatureCardGrid, {FeatureCard} from '../../components/FeatureCardGrid';
 import FeatureNote from '../../components/FeatureNote';
 import NextChannel from '../../components/NextChannel';
+import CloudRegions from '../../components/CloudRegions';
+import CloudFeatures from '../../components/CloudFeatures';
+import RegionIps from '../../components/RegionIps';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
@@ -75,6 +78,10 @@ const MDXComponents = {
   FeatureCardGrid,
   FeatureCard,
   FeatureNote,
+  // Live Zilliz Cloud region/feature/IP tables backed by the cloud-data CMS.
+  CloudRegions,
+  CloudFeatures,
+  RegionIps,
   // Release Channel block gate used by generated guides markdown
   NextChannel,
   // Custom icons used in docs

@@ -1,5 +1,10 @@
 import {createHash, randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+
+// `git ls-files -z` on a dev-sized checkout exceeds Node's 1 MiB spawn default
+// (measured 1.6 MiB on origin/dev); a plain 64 MiB ceiling keeps every git
+// inventory call away from ENOBUFS regardless of branch size.
+const GIT_MAX_BUFFER = 64 * 1024 * 1024;
 import {createRequire} from 'node:module';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -186,6 +191,7 @@ function secureReadRegularFile(repositoryRoot, relativePath, label) {
 
 function trackedFiles(repositoryRoot) {
   return execFileSync('git', ['ls-files', '-z'], {
+    maxBuffer: GIT_MAX_BUFFER,
     cwd: repositoryRoot,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -195,6 +201,7 @@ function trackedFiles(repositoryRoot) {
 
 function headTrackedFiles(repositoryRoot) {
   return execFileSync('git', ['ls-tree', '-rz', '--name-only', 'HEAD'], {
+    maxBuffer: GIT_MAX_BUFFER,
     cwd: repositoryRoot,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -203,6 +210,7 @@ function headTrackedFiles(repositoryRoot) {
 
 function gitPathList(repositoryRoot, args) {
   return execFileSync('git', args, {
+    maxBuffer: GIT_MAX_BUFFER,
     cwd: repositoryRoot,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -677,6 +685,7 @@ function secureWriteProvenance(repositoryRoot, buildRoot, bytes) {
 
 function git(repositoryRoot, args) {
   return execFileSync('git', args, {
+    maxBuffer: GIT_MAX_BUFFER,
     cwd: repositoryRoot,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],

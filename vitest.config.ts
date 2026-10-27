@@ -16,6 +16,7 @@ export default defineConfig({
     alias: {
       '@docusaurus/useDocusaurusContext': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/useDocusaurusContext.js'),
       '@docusaurus/router': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/router.js'),
+      '@theme/Admonition': path.resolve(__dirname, 'src/test/AdmonitionStub.tsx'),
       '@site/src/components': path.resolve(__dirname, 'packages/docs-ui/src/shared/components'),
       '@site/src/theme': path.resolve(__dirname, 'packages/docs-ui/src/shared/theme'),
       '@site/src/utils': path.resolve(__dirname, 'packages/docs-ui/src/shared/utils'),

@@ -248,6 +248,15 @@ export const RestApiIntegrationSchema = z.object({
   planeConfig: PlaneConfigSchema,
 }).strict();
 
+// Zilliz Cloud CMS (Strapi) instance serving the live cloud-data tables. One
+// instance per site — the language is decided by the instance hostname, not a
+// locale parameter (en: cms.zilliz.cc, zh-CN: cms-cn.zilliz.cc).
+export const CloudDataIntegrationSchema = z.object({
+  cmsBaseUrl: z.string().url().refine(value => value === new URL(value).origin, {
+    message: 'cmsBaseUrl must be a bare origin without path, query, or fragment',
+  }),
+}).strict();
+
 export const IntegrationProfileSchema = z.object({
   searchProvider: z.string().min(1).optional(),
   chatProvider: z.string().min(1).optional(),
@@ -255,6 +264,7 @@ export const IntegrationProfileSchema = z.object({
   feedbackProvider: z.string().min(1).optional(),
   storageAdapter: z.string().min(1).optional(),
   restApi: RestApiIntegrationSchema.optional(),
+  cloudData: CloudDataIntegrationSchema.optional(),
   gtmContainerId: z.string().regex(/^GTM-[A-Z0-9]+$/, 'GTM container id must look like GTM-XXXXXXX').optional(),
 }).strict();
 
