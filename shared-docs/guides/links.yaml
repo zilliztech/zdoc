@@ -1,3 +1,18 @@
 # Milvus page file name -> Cloud page ID, or a full milvus.io URL.
 # Seeded from the WP7 candidates; only entries reviewed for onboarded pages are listed.
+basic-vector-search-with-structarray.md: search-with-struct-array
 boolean.md: filtering-overview
+create-structarray-field.md: create-struct-array
+filtered-search-with-structarray.md: filtered-search-with-struct-arrays
+grouping-search-with-structarray.md: grouping-search-with-struct-array
+hybrid-search-with-structarray.md: hybrid-search-with-struct-array
+index-explained.md: indexes
+index-structarray-fields.md: index-struct-array
+insert-data-into-structarray-fields.md: insert-struct-array
+ngram.md: ngram-index-type
+nullable-and-default.md: nullable-fields
+range-search-with-structarray.md: range-search-with-struct-arrays
+search-with-embedding-lists.md: tutorial-colbert-colpali
+struct-array-operators.md: struct-array-filtering
+structarray-limits.md: struct-array-limits
+text.md: use-text-field

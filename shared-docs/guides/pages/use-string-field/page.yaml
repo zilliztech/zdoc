@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/string.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/use-string-field
+  - manual: guides-byoc
+    path: tutorials/development/schema/use-string-field
