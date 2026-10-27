@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

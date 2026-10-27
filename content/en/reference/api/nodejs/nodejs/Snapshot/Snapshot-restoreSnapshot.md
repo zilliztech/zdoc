@@ -2,7 +2,7 @@
 title: "restoreSnapshot() | Node.js"
 slug: /node/node/Snapshot-restoreSnapshot
 sidebar_label: "restoreSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

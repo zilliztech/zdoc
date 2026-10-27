@@ -2,7 +2,7 @@
 title: "describeSnapshot() | Node.js"
 slug: /node/node/Snapshot-describeSnapshot
 sidebar_label: "describeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

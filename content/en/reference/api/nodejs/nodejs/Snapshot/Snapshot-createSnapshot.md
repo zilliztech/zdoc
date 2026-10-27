@@ -2,7 +2,7 @@
 title: "createSnapshot() | Node.js"
 slug: /node/node/Snapshot-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

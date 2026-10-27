@@ -2,7 +2,7 @@
 title: "pinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-pinSnapshotData
 sidebar_label: "pinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

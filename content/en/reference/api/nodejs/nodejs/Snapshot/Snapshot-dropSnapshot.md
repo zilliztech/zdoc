@@ -2,7 +2,7 @@
 title: "dropSnapshot() | Node.js"
 slug: /node/node/Snapshot-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
