@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud でクラスターを作成する際、適切な Compute Unit (CU) を選択することは重要なステップです。CU はデータの並列処理に使用されるコンピュートリソースの基本単位であり、クラスタータイプごとに CPU、メモリ、ストレージの組み合わせが異なります。 | Cloud"
 type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
-sidebar_position: 5
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -30,27 +30,27 @@ Zilliz Cloud では、**Performance-optimized、Capacity-optimized、Tiered-stor
 
 | クラスタータイプ | 検索 QPS | 検索レイテンシー | クエリ CU あたりの容量 | 100 万ベクトルあたりのコスト |
 | --- | --- | --- | --- | --- |
-| **Performance-optimized** | 500-1500 | 10 ms | 768 次元ベクトル 200 万件 | 月額 &#36;63〜 |
-| **Capacity-optimized** | 100-300 | 50-100 ms | 768 次元ベクトル 800 万件 | 月額 &#36;16〜 |
-| **Tiered-storage** | 10-50 | 100-1000 ms | 768 次元ベクトル 4,000 万件 | 月額 &#36;5〜 |
+| **Performance-optimized** | 500-1500 | 10 ms | 768 次元ベクトル 200 万件 | from &#36;63/mo. |
+| **Capacity-optimized** | 100-300 | 50-100 ms | 768 次元ベクトル 800 万件 | from &#36;16/mo. |
+| **Tiered-storage** | 10-50 | 100-1000 ms | 768 次元ベクトル 4,000 万件 | from &#36;5/mo. |
 
-### Performance-optimized cluster\{#performance-optimized-cluster}
+### Performance-optimized クラスター\{#performance-optimized-cluster}
 
 - 低レイテンシーと高スループットを重視するシナリオ向けに設計されています。
 
 - 生成 AI、レコメンデーションシステム、チャットボットなどのリアルタイムアプリケーションに最適です。
 
-### Capacity-optimized cluster\{#capacity-optimized-cluster}
+### Capacity-optimized クラスター\{#capacity-optimized-cluster}
 
 - 大規模データセットの処理向けに設計されており、検索性能は控えめである一方、Performance-optimized に比べて 5 倍のデータ容量を備えています。
 
 - 大規模な非構造化データ検索、著作権検出、本人確認に最適です。
 
-### Tiered-storage cluster\{#tiered-storage-cluster}
+### Tiered-storage クラスター\{#tiered-storage-cluster}
 
 - 超大規模でコスト重視のワークロードに最適です。
 
-- 大量のデータを低コストで保存する必要があるアプリケーションに最適です。Tiered-storage cluster の容量は Capacity-optimized cluster の 4 倍です。
+- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of a Tiered-storage クラスター is 4 times that of a Capacity-optimized クラスター.
 
 ## 最適なクラスタータイプを選択する\{#select-an-optimal-cluster-type}
 
@@ -66,11 +66,11 @@ Zilliz Cloud では、**Performance-optimized、Capacity-optimized、Tiered-stor
 
 パフォーマンス指標、特にレイテンシーと 1 秒あたりのクエリ数 (QPS) は重要です。 
 
-Performance-optimized cluster は、特に標準的な `top-k` 値が 10 から 250 の範囲において、レイテンシーとスループットの両面で Capacity-optimized cluster を明確に上回ります。
+The Performance-optimized クラスター distinctly outperforms Capacity-optimized クラスター in latency and throughput, particularly for standard `top-k` values ranging from 10 to 250.
 
-次の表は、Performance-optimized cluster と Capacity-optimized cluster の QPS に関するテスト結果を示しています。
+The following table shows the test result of how performance-optimized クラスター and capacity-optimized クラスター perform in terms of QPS.
 
-| top_k | Performance-optimized cluster の QPS (768 次元、100 万ベクトル) | Capacity-optimized cluster の QPS (768 次元、500 万ベクトル) |
+| top_k | QPS for Performance-optimized クラスター (768-dim 1M ベクトル) | QPS for Capacity-optimized クラスター (768-dim 5M ベクトル) |
 | --- | --- | --- |
 | 10 | 520 | 100 |
 | 100 | 440 | 80 |
@@ -79,7 +79,7 @@ Performance-optimized cluster は、特に標準的な `top-k` 値が 10 から 
 
 次の表は、各クラスタータイプのレイテンシーに関するテスト結果を示しています。
 
-| top_k | Performance-optimized cluster のレイテンシー (768 次元、100 万ベクトル) | Capacity-optimized cluster のレイテンシー (768 次元、500 万ベクトル) |
+| top_k | Latency of Performance-optimized クラスター (768-dim 1M ベクトル) | Latency of Capacity-optimized クラスター (768-dim 5M ベクトル) |
 | --- | --- | --- |
 | 10 | < 10 ms | < 50 ms |
 | 100 | < 10 ms | < 50 ms |
@@ -92,11 +92,11 @@ Performance-optimized cluster は、特に標準的な `top-k` 値が 10 から 
 
 この要件に適したクラスタータイプとクエリ CU を選択するには、次の手順に従ってください。
 
-1. **レイテンシーを評価する**: 30 ミリ秒のレイテンシー要件を満たすのは Performance-optimized cluster のみです。
+1. **Evaluate Latency**: The Performance-optimized クラスター is the only type that meets the 30-millisecond latency requirement.
 
-1. **容量を評価する**: クエリ CU が 1 の Performance-optimized cluster 1 つで、768 次元ベクトルを 200 万件収容できます。800 万件すべてのベクトルを保存するには、少なくとも 4 クエリ CU が必要です。
+1. **Assess Capacity**: A single Performance-optimized クラスター with 1 query CU accommodates 2 million 768-dimensional ベクトル. To store all 8 million ベクトル, you would need at least 4 query CUs.
 
-1. **スループットを確認する**: `top-k` を 100 に設定した場合、Performance-optimized cluster は 440 QPS を実現できます。1,000 QPS を安定して維持するには、レプリカ数を 3 倍にする必要があります。
+1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized クラスター can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
-結論として、このシナリオでは Performance-optimized cluster が最適です。各レプリカが 4 クエリ CU で構成される 3 レプリカの構成で、要件を十分に満たせます。
+In conclusion, for this scenario, the Performance-optimized クラスター is your best bet. A configuration of 3 replicas, with each replica consisting of 4 query CUs, should serve you perfectly.
 

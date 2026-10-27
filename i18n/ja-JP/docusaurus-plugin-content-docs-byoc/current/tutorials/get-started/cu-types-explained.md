@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud でクラスターを作成する際には、適切な Compute Unit (CU) を選択することが重要です。CU はデータの並列処理に使用される計算リソースの基本単位であり、クラスタータイプごとに CPU、メモリ、ストレージの組み合わせが異なります。 | BYOC"
 type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
-sidebar_position: 5
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

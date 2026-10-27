@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は AWS、Google Cloud、Microsoft Azure で利用できます。このページを使用してリージョンを見つけ、ご利用のデプロイオプションと必要な機能をそのリージョンがサポートしているかどうかを確認してください。 | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 6
+sidebar_position: 5
 displayed_sidebar: default
 
 ---
@@ -406,3 +406,4 @@ Zilliz Cloud は AWS、Google Cloud、Microsoft Azure で利用できます。�
 リージョンでの可用性は、すべてのデプロイオプションまたはプロジェクトプランで利用できることを保証するものではありません。構成とバージョンの要件については各機能のドキュメントを、プランの可用性については[デプロイとプランの比較](./select-zilliz-cloud-service-plans)を参照してください。
 
 </Admonition>
+

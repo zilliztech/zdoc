@@ -10,7 +10,7 @@ notebook: FALSE
 description: "最終更新日 2025年10月13日 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 7
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
@@ -101,3 +101,4 @@ import Admonition from '@theme/Admonition';
 ### Deprecated\{#deprecated}
 
 - Pipelines
+

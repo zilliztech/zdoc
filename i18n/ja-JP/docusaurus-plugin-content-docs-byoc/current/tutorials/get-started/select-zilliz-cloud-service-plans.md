@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は、さまざまなワークロード、信頼性、コンプライアンス、データ主権、インフラストラクチャの要件に合わせて、複数のデプロイおよびプロジェクトプランのオプションを提供しています。 | BYOC"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
-sidebar_position: 4
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -195,3 +195,4 @@ BYOC を選択した場合、プランをさらに選択する必要はありま
      <td><p>✅</p></td>
    </tr>
 </table>
+

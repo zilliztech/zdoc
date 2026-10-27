@@ -885,6 +885,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-gcp.md",
       "translatedAt": "2026-09-19T13:55:44.409Z"
     },
+    "content/en/byoc/tutorials/get-started/cu-types-explained.md": {
+      "sourceHash": "8d34bb0c4235931dcbf395131fc12a2194e466b3cb3182c1eeb68dbd771d34b4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/cu-types-explained.md",
+      "translatedAt": "2026-10-27T03:55:25.719Z"
+    },
     "content/en/byoc/tutorials/get-started/faqs/faq-authentication.md": {
       "sourceHash": "b619cce3579dfe3a3694d199e71a100a06021c6235b4184f65614520c114f180",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-authentication.md",
@@ -936,14 +941,14 @@
       "translatedAt": "2026-10-25T10:05:00.371Z"
     },
     "content/en/byoc/tutorials/get-started/register-with-zilliz-cloud.md": {
-      "sourceHash": "b2d03e29de725b8bfb40ed7b8b389bbe37014dbf1c7b39faf649d3592f790bc1",
+      "sourceHash": "95de40a6343c60c416c74561bb425ff71356395697867551285c4ea58627ac8c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/register-with-zilliz-cloud.md",
-      "translatedAt": "2026-09-19T13:55:44.409Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
-      "sourceHash": "e0624a1662509e15039c1c3976da94473e8f512368552f88a225d56785a85f7d",
+      "sourceHash": "189c5c4cd694939d8e2bfa712a84ddbfe109a255269b2fe6df5dea5b7a4991a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "translatedAt": "2026-10-10T05:47:46.206Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/byoc/tutorials/management/access-control/access-control-overview.md": {
       "sourceHash": "3214ebc1438a032cc13a6085f4ec17316a746ec29fcf392e59cb6430408566cd",
@@ -1349,11 +1354,6 @@
       "sourceHash": "1005ee56c3be8540a89bd16305c7c682a69850e7a2665d1a26d1f172b85bbe8b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
       "translatedAt": "2026-09-19T14:01:58.853Z"
-    },
-    "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration.md": {
-      "sourceHash": "b592f55ddcfe80a6598c99ecd90fd87ff10feda6617610bc9d1d1377278fcdd9",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration.md",
-      "translatedAt": "2026-10-19T14:46:47.999Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "88bbab800303c14d63de7afe4e9f5ed24feb4d2ff4c2dec229fbac987ba0ac7c",
@@ -2291,9 +2291,14 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
-      "sourceHash": "077089b92a6d6dc651ca14d5ade03ad8a2c1b7234870873c65020f93029c4a76",
+      "sourceHash": "e8e2b1433fb67772ac77d3079c83dd0f80960afdf43e34a2d0e50a6f01335abb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
+    },
+    "content/en/guides/tutorials/get-started/cu-types-explained.md": {
+      "sourceHash": "9ddcb032abdda161b207cd576c5327e72920adeb74d7d1e85bd6dabc80a74d68",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cu-types-explained.md",
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-authentication.md": {
       "sourceHash": "3ae91e19944e6c14e61fd0b3ad71e99c1e34afdbdc517cf9b6ecccf352b2a0f7",
@@ -2331,14 +2336,9 @@
       "translatedAt": "2026-08-25T17:44:56.620Z"
     },
     "content/en/guides/tutorials/get-started/feature-availability.md": {
-      "sourceHash": "13cddde614c3f3c8847f87d96be3d92c36b1eb66e6fcaea4f68cd6a086209ae3",
+      "sourceHash": "ca84013789d06cd86d93c7aaa36d76352e9ffbf1d04b8411b7db42e49f73526e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/get-started/free-trials.md": {
-      "sourceHash": "c2d0c72b75f885bd0affe63ac2b66d52063e837f18e086c46a870c0ee39209a8",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/free-trials.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
       "sourceHash": "446dd585974adb7d0f309ad42d986213b3ccb832ae64eb65eb111f9c094e6d8c",
@@ -2361,9 +2361,9 @@
       "translatedAt": "2026-10-25T10:12:57.207Z"
     },
     "content/en/guides/tutorials/get-started/register-with-zilliz-cloud.md": {
-      "sourceHash": "f363b22ccd7ee4e4cbbd7f0c2a06af1b592fea9b97d9c59c67ef29ed995ef89c",
+      "sourceHash": "2a9dab1f2a724853654cadaf08c08783a4b76eba61c37bc117c7669c6eee5110",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/register-with-zilliz-cloud.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
       "sourceHash": "b878dfef6082215afa0dedaf9b464a610ec61d68d64ff1ebf32acd0127b730ae",
@@ -2566,9 +2566,9 @@
       "translatedAt": "2026-10-19T23:25:07.913Z"
     },
     "content/en/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
-      "sourceHash": "0ec8657ccea3c1582d54336968c853ac28a3042dddc5c0c00ccd7a677517b30b",
+      "sourceHash": "6151f57b9beb42af2b512bf93caef53aa2d9ea514ab66d1e7570f8abf74afb70",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-10-27T03:55:25.719Z"
     },
     "content/en/guides/tutorials/home.md": {
       "sourceHash": "07f4aaec526bfd71e60e70f945f014396c491aa00c9a06a973a03058ba1f1744",
@@ -12069,11 +12069,6 @@
       "sourceHash": "932fa9b0e722c4c5338a1afe1a0a8171fba5e47b02259ea0b28391c9269c5d8d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
       "translatedAt": "2026-07-13T17:39:47.511Z"
-    },
-    "docs/tutorials/get-started/free-trials.md": {
-      "sourceHash": "f2dfdcd24fecfe6dd4e738724c89909f11c64fb50c4cc524dfcceb302171a372",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/free-trials.md",
-      "translatedAt": "2026-07-13T17:40:08.238Z"
     },
     "docs/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
       "sourceHash": "58fb4306c9137d5c8f2debabb38cfc6784cf441a2f389cf2b7e4c4ea5b2fe827",

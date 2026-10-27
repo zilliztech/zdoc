@@ -1,15 +1,15 @@
 ---
-title: "Zilliz Cloud への登録 | Cloud"
+title: "アカウントを作成する | Cloud"
 slug: /register-with-zilliz-cloud
-sidebar_label: "Zilliz Cloud への登録"
+sidebar_label: "アカウントを作成する"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud サービスにアクセスするためのアカウントを作成する方法を詳しく説明します。 | Cloud"
+description: "Zilliz Cloud アカウントを作成し、マネージドベクトル検索の構築を始めましょう。業務用メールアドレス、Google アカウント、または GitHub アカウントでサインアップできます。 | Cloud"
 type: origin
-token: HriHwEU3qiQrgskz3a0cdkcpnyf
+token: B3JxwyvmHiI8CZkUFp4cvRp9nrh
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,127 +18,97 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Procedures from '@site/src/components/Procedures';
+# アカウントを作成する
 
-# Zilliz Cloud への登録
+Zilliz Cloud アカウントを作成し、マネージドベクトル検索の構築を始めましょう。業務用メールアドレス、Google アカウント、または GitHub アカウントでサインアップできます。
 
-このガイドでは、Zilliz Cloud サービスにアクセスするためのアカウントを作成する方法を詳しく説明します。
+アカウントの作成に支払い情報は必要ありません。サインアップ後は、支払い方法を追加する前に、無料リソースを使用して Zilliz Cloud を試すことができます。
 
 ## 事前準備\{#before-you-start}
 
-Zilliz Cloud にアクセスして[サインアップ](https://cloud.zilliz.com/signup)してください。
+[Zilliz Cloud](https://cloud.zilliz.com/signup) にアクセスし、**Sign up** をクリックします。
 
-![sign_up](https://zdoc-images.s3.us-west-2.amazonaws.com/signup.png "sign_up")
+初めてサインアップする際、Zilliz Cloud から、オンボーディング体験をカスタマイズするための追加情報を求められる場合があります。
 
-## 登録オプション\{#registration-options}
+## サインアップ方法を選択する\{#choose-a-sign-up-method}
 
-Zilliz Cloud への登録およびログインには、以下のオプションのうちいずれか1つだけを使用できます。
+次のいずれかの方法で登録およびログインできます。
 
-- [メールアドレスとパスワード](./register-with-zilliz-cloud#with-work-email-and-password)
+- 業務用メールアドレスとパスワード
 
-- [Google アカウント](./register-with-zilliz-cloud#linking-to-google-account)
+- Google アカウント
 
-- [GitHub アカウント](./register-with-zilliz-cloud#linking-to-github-account)
+- GitHub アカウント
 
-ログイン時は、登録時に選択した方法と一致する方法を使用してください。必要に応じて、後からログイン方法を変更できます。詳細については、[アカウントの管理](./email-accounts#switch-login-method) を参照してください。
+後でログインする際は、同じ方法を使用してください。登録後にログイン方法を更新できます。詳細については、[アカウントの管理](/docs/email-accounts#switch-login-method) を参照してください。
 
-### 業務用メールアドレスとパスワードで登録する\{#with-work-email-and-password}
-
-業務用メールアドレスとパスワードを使用して Zilliz Cloud アカウントを作成するには、以下の手順に従います。
-
-<Procedures>
+### 業務用メールアドレスとパスワードでサインアップする\{#sign-up-with-a-work-email-and-password}
 
 1. **Work Email** フィールドに業務用メールアドレスを入力します。
 
-1. **Password** フィールドにパスワードを入力します。
+1. パスワードを入力します。
 
-    パスワードは 8 文字以上で、以下の文字種のうち少なくとも 3 種類を含む必要があります。
+1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** を選択します。
 
-    - 小文字（a–z）
+1. **Continue** をクリックします。Zilliz Cloud から確認コードがメールアドレスに送信されます。
 
-    - 大文字（A–Z）
+1. 確認コードを入力し、**Verify** をクリックします。
 
-    - 数字（0–9）
+確認コードが届かない場合は、**Resend Code** をクリックします。
 
-    - 特殊文字（例：!@#&#36;%^&&ast;）
+<Admonition type="info" title="Note">
 
-1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** のチェックボックスをオンにします。
-
-1. **Continue** をクリックします。入力したメールアドレスに確認コードが送信されます。
-
-1. ダイアログボックスに受信した確認コードを入力し、**Verify** をクリックします。
-
-    確認コードが届かない場合は、**Resend Code** をクリックして再送信してください。
-
-</Procedures>
-
-<Admonition type="info" title="Notes">
-
-初回ログイン時には、サービスをより適切に提供するため、追加情報の入力が求められます。
+パスワードは 8 文字以上で、小文字、大文字、数字、特殊文字のうち 3 種類以上の文字を含める必要があります。
 
 </Admonition>
 
-### Google アカウントとの連携\{#linking-to-google-account}
-
-Google アカウントを Zilliz Cloud と連携するには、以下の手順に従います。
-
-<Procedures>
+### Google でサインアップする\{#sign-up-with-google}
 
 1. Google ロゴのボタンをクリックします。
 
-1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** のチェックボックスをオンにし、**Submit** をクリックします。
+1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** を選択し、**Submit** をクリックします。
 
-1. [Google アカウントのログインページ](https://accounts.google.com/)にリダイレクトされます。Google アカウントに関連付けられたメールアドレスまたは電話番号と、対応するパスワードを入力してください。
+1. [Google アカウント](https://accounts.google.com/) でサインインします。
 
-1. 認証に成功すると、Zilliz Cloud にリダイレクトされ、成功通知が表示されます。
+1. 認証が成功すると、Zilliz Cloud にリダイレクトされます。
 
-</Procedures>
+<Admonition type="info" title="Note">
 
-<Admonition type="info" title="Notes">
-
-登録をスムーズに行うため、連携前に [Google が管理する MFA を無効化](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP)してください。
+Google 管理の MFA が原因でサインアップに失敗した場合は、[Google 管理の MFA を無効化](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP)してから、再度お試しください。
 
 </Admonition>
 
-### GitHub アカウントとの連携\{#linking-to-github-account}
+### GitHub でサインアップする\{#sign-up-with-github}
 
-#### 事前準備\{#prerequisites}
+GitHub でサインアップする前に、GitHub アカウントに公開メールアドレスが設定されていることを確認してください。
 
-GitHub で登録する場合、GitHub アカウントに公開メールアドレスが関連付けられている必要があります。GitHub でメールアドレスを公開するには、以下の手順に従います。
+GitHub で公開メールアドレスを設定するには、次の手順を実行します。
 
-<Procedures>
+1. GitHub でプロフィールメニューを開き、**Settings** をクリックします。
 
-1. GitHub にログインし、プロフィールメニューから **Settings** をクリックします。
+1. 左側のナビゲーションで **Emails** をクリックします。
 
-1. 左側のナビゲーションから **Emails** をクリックします。
+1. **Keep my email addresses private** をオフにします。
 
-1. **Keep my email addresses private** チェックボックスのチェックを外します。
+1. 左側のナビゲーションで **Public Profile** をクリックします。
 
-1. 左側のナビゲーションから **Public Profile** をクリックし、**Public email** ドロップダウンから先ほど公開設定にしたメールアドレスを選択します。
+1. **Public email** ドロップダウンから公開メールアドレスを選択します。
 
-1. **Update profile** をクリックして変更を保存します。
+1. **Update profile** をクリックします。
 
-</Procedures>
-
-#### 手順\{#procedures}
-
-GitHub アカウントを連携するには、以下の手順に従います。
-
-<Procedures>
+次に、GitHub でサインアップします。
 
 1. GitHub ロゴのボタンをクリックします。
 
-1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** のチェックボックスをオンにし、**Submit** をクリックします。
+1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** を選択し、**Submit** をクリックします。
 
-1. [GitHub のサインインページ](https://github.com/login)にリダイレクトされます。GitHub アカウントに関連付けられたユーザー名またはメールアドレスと、対応するパスワードを入力してください。
+1. [GitHub アカウント](https://github.com/login) でサインインします。
 
-1. 認証に成功すると、Zilliz Cloud にリダイレクトされ、成功通知が表示されます。
+1. 認証が成功すると、Zilliz Cloud にリダイレクトされます。
 
-</Procedures>
+<Admonition type="info" title="Note">
 
-<Admonition type="info" title="Notes">
-
-登録をスムーズに行うため、連携前に [GitHub が管理する MFA を無効化](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account)してください。
+GitHub 管理の MFA が原因でサインアップに失敗した場合は、[GitHub 管理の MFA を無効化](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account)してから、再度お試しください。
 
 </Admonition>
 
@@ -154,7 +124,36 @@ Zilliz Cloud アカウントへログインする際は、必ず登録時に選�
 
 </Admonition>
 
+## 無料リソースを利用して始める\{#start-with-free-resources}
+
+アカウントを作成したら、無料リソースを使用して Zilliz Cloud を試すことができます。このセクションは短い概要として維持し、請求の詳細については、請求またはトライアルに関するドキュメントにリンクしてください。
+
+| リソース | 利用できるもの |
+| --- | --- |
+| 無料クラスター | 基本的なベクトルデータベースのユースケース向けに、5 GB のストレージ、月あたり 250 万 vCU、最大 5 個のコレクションを利用できます。 |
+| 無料トライアルクレジット | 業務用メールアドレスでサインアップすると、組織に &#36;100 の無料クレジットが付与されます。クレジットは 30 日後に失効し、Serverless および Dedicated クラスターの評価に使用できます。詳細については、[無料トライアル](/docs/free-trials) を参照してください。 |
+| 追加クレジット | [クレジットカード](/docs/subscribe-by-adding-credit-card)や[マーケットプレイスサブスクリプション](/docs/marketplace-subscription)などの支払い方法を追加すると、さらに &#36;100 のクレジットを獲得できます。支払い方法を追加すると、クレジットの有効期限も 1 年に延長されます。 |
+
+<Admonition type="info" title="Note">
+
+有効な支払い方法がない状態で無料トライアルが終了すると、組織が凍結され、Serverless または Dedicated クラスターは[リサイクルビン](/docs/use-recycle-bin)に移動されます。凍結後 30 日以内に支払い方法を追加しない場合、これらのクラスターは完全に削除されます。組織は保持されます。追加のクレジットが必要な場合は、[営業担当者に問い合わせてください](https://zilliz.com/contact-sales)。
+
+</Admonition>
+
 ## FAQ\{#faq}
 
-**登録に失敗するのはなぜですか？**
-このメールアドレスで既にアカウントが登録されている可能性があります。まずは直接ログインをお試しください。問題が解決しない場合は、[サポートチケットを作成](http://support.zilliz.com)してください。
+### 登録に失敗したのはなぜですか？\{#why-did-my-registration-fail}
+
+同じメールアドレスですでにアカウントを登録している可能性があります。直接ログインを試してください。
+
+問題が解決しない場合は、[サポートチケットを作成](http://support.zilliz.com) してください。
+
+## 次のステップ\{#next-steps}
+
+- 最初のベクトル検索を実行する：[5 分間のクイックスタート](/docs/quick-start)
+
+- クラスターを作成する：[クラスターを作成する](/docs/create-cluster)
+
+- デプロイオプションを比較する：[デプロイとプランの比較](/docs/select-zilliz-cloud-service-plans)
+
+- 請求を管理する：[支払いと請求](/docs/faq-payment-and-billing)
