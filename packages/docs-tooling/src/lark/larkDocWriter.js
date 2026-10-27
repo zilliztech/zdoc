@@ -433,7 +433,12 @@ class larkDocWriter {
                 base_placement_type: 'canonical', base_targets: nav.targets, base_status: nav.progress, base_labels: nav.labels}
         }
         const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.feishu_token === token)
-        if (active && this.sourceIndex) return this.__clone_indexed_source(this.sourceIndex.find('base_record_id', active.record))
+        if (active && this.sourceIndex) {
+            // The legacy docx source of an activated record stays cached beside
+            // its shared source; resolve the record to its shared projection.
+            const shared = this.sourceIndex.find('base_record_id', active.record, {where: source => source.source_kind === 'shared-page'})
+            return this.__clone_indexed_source(shared || this.sourceIndex.find('base_record_id', active.record))
+        }
         if (this.sourceIndex) return this.__clone_indexed_source(this.sourceIndex.findAnyToken(token))
         const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))

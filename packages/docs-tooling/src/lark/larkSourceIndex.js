@@ -162,13 +162,17 @@ class LarkSourceIndex {
     if (candidates.length === 0) {
       throw new Error(`Cannot find ${value} in ${this.#sourceDir}`)
     }
-
+    // A record-id lookup can meet both the legacy docx source and the shared
+    // projection of a just-flipped record while the old Feishu document must
+    // remain cached; `where` routes the lookup to one side of that pair.
+    const filtered = options.where ? candidates.filter(entry => options.where(entry.source)) : candidates
+    if (filtered.length === 0) return undefined
     if (options.slug) {
-      const slugMatches = candidates.filter(entry => entry.source.slug === options.slug)
+      const slugMatches = filtered.filter(entry => entry.source.slug === options.slug)
       if (slugMatches.length === 0) return undefined
       return this.#selectUnique(value, slugMatches)
     }
-    return this.#selectUnique(value, candidates)
+    return this.#selectUnique(value, filtered)
   }
 
   findAnyToken(token) {

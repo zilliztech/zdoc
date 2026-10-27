@@ -16,6 +16,18 @@ function writeJson(dir, filename, source) {
   fs.writeFileSync(path.join(dir, filename), JSON.stringify(source))
 }
 
+test('a where filter routes record-id lookups past a cached legacy duplicate', t => {
+  const dir = makeSourceDir(t)
+  writeJson(dir, 'legacy.json', {base_record_id: 'rec1', node_token: 'legacy-doc', slug: 'page'})
+  writeJson(dir, 'shared.json', {base_record_id: 'rec1', node_token: 'base:tbl:rec1', slug: 'page', source_kind: 'shared-page'})
+  const index = LarkSourceIndex.load(dir)
+  assert.throws(() => index.find('base_record_id', 'rec1'), /Ambiguous Lark source lookup/)
+  assert.equal(index.find('base_record_id', 'rec1', {where: source => source.source_kind === 'shared-page'}).node_token, 'base:tbl:rec1')
+  assert.equal(index.find('base_record_id', 'rec1', {where: source => source.source_kind !== 'shared-page'}).node_token, 'legacy-doc')
+  assert.equal(index.find('base_record_id', 'rec1', {where: source => false}), undefined)
+  assert.equal(index.find('base_record_id', 'rec1', {where: source => source.source_kind === 'shared-page', slug: 'page'}).node_token, 'base:tbl:rec1')
+})
+
 test('tokenless shared records remain individually addressable by stable Base record identity', t => {
   const dir = makeSourceDir(t)
   writeJson(dir, 'shared-a.json', {base_record_id: 'a', doc_token: null, token: null, source_kind: 'shared-page'})
