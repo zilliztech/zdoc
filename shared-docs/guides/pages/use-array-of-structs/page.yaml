@@ -1,0 +1,13 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/array-of-structs.md
+
+metadata:
+  beta: PUBLIC
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/struct-array/use-array-of-structs
+  - manual: guides-byoc
+    path: tutorials/development/schema/struct-array/use-array-of-structs

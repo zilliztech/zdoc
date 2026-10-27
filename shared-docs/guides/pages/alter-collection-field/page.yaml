@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/alter-collection-field.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/alter-collection-field
+  - manual: guides-byoc
+    path: tutorials/development/schema/alter-collection-field

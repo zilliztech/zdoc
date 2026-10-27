@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/view-collections.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/view-collections
+  - manual: guides-byoc
+    path: tutorials/development/collection/view-collections
