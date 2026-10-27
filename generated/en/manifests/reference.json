@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "68b07f4629160e820a9354ce263a92f071106e7d",
+  "sourceCommit": "1ca4a10ae08ea008ecdc5235235124cc1f674b3c",
   "records": [
     {
       "manual": "cli",
@@ -4630,12 +4630,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_function.md",
-      "sourceHash": "0b3efad3834d8165e33a78bb9e0a625368c6878530d7a8ca77355b5be9c8b840"
+      "sourceHash": "422027baedb12fd3f3e1a4cb1a0c75868c0440548392fcbe5fba7c228a36cdfa"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "sourceHash": "750700769959677d1ed0c9b0d5c948fce8ead7898c5426848575a310ad0f784c"
+      "sourceHash": "2602194012de78a76f596a42988c3b02f4f501b49acfb994dd6f42c884193875"
     },
     {
       "manual": "python",
@@ -4650,7 +4650,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_function.md",
-      "sourceHash": "05d7a29c47db1ca6c798dfa8ed944d446f9de1fd16421e6001b4412ecf1f0115"
+      "sourceHash": "0dcd2ae9a2a2e9ccac83f7fb16f1b4e46763424890b3e04c1c9b68b9a61103b8"
     },
     {
       "manual": "python",
@@ -4665,7 +4665,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection.md",
-      "sourceHash": "16513f3229a9af38616dff4cea001902d6c69206658a0dbe27793fff16e81fb5"
+      "sourceHash": "ca1708bc09908a9eebc45942c273d7a68ab13bc6ca86ff431a7769b0c9ff54a7"
     },
     {
       "manual": "python",
@@ -4805,7 +4805,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md",
-      "sourceHash": "00e1e55fa6275536a9c2a78aae683d94379476140a54ac37de87f434c5db1632"
+      "sourceHash": "7aecb768d1abb9cecc22ee53a0a1c92e7352e1fd851fbed168615fa23c173bf1"
     },
     {
       "manual": "python",
@@ -4815,7 +4815,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
-      "sourceHash": "787db875efd253902ece26aebe99eb393107f94e2f877615d8fbc260179a323e"
+      "sourceHash": "ebefaad7a5971a8a09f3411668f1ca9ed8fccaf9726d15904b1939bbbf5675f9"
     },
     {
       "manual": "python",
@@ -4870,7 +4870,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionScore.md",
-      "sourceHash": "a13df3e535c3d200ed0c8e744e9cd217eddd642eec2852a9506e96b6a1972660"
+      "sourceHash": "c90886142db2e7abf6976ef74b03ca980698506855a091cc27cecae4f376aee9"
     },
     {
       "manual": "python",
@@ -5090,7 +5090,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field.md",
-      "sourceHash": "dc33509c6d0d35d3deac76ce056b52f32a6e71192dc0d8dd07464ed944974287"
+      "sourceHash": "1e9d58e3fdcecad9363b93e010372914a92dd606ee6550ca8ce07a08e92d4b2f"
     },
     {
       "manual": "python",
@@ -5130,7 +5130,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-EmbeddingList/MilvusClient-EmbeddingList.md",
-      "sourceHash": "990c10a2c5f004755be8c7290c7e06785f1b3f7e76534a516c043744efb771d9"
+      "sourceHash": "f75ced29a554473439f3d17ec559152bfb7845522cd57a95cde0d580f2ff8647"
     },
     {
       "manual": "python",
@@ -5220,7 +5220,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
-      "sourceHash": "915dc57108c9dada1e2d02edba18f420821ec73451630a58a104dfd7f01bb9a1"
+      "sourceHash": "3b92de4b2c61d65ac5b01d4bc72fab6acbc34cce9400d63aed06dfd24ff4b657"
     },
     {
       "manual": "python",
