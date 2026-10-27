@@ -52,6 +52,19 @@
       "reason": "Sidebar category landing links must preserve navigation while keeping category expansion controls separate."
     },
     {
+      "id": "docs-ui-home-hero",
+      "paths": [
+        "packages/docs-ui/src/shared/components/Hero/**"
+      ],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The home hero must reflow based on article container width when the chat panel opens, keeping title and install commands from overlapping. Verify wide and narrow article widths in a browser."
+    },
+    {
       "id": "docs-ui-grid",
       "paths": [
         "packages/docs-ui/src/shared/components/Grid/**"
@@ -102,6 +115,7 @@
         "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
         "packages/docs-ui/src/shared/components/Supademo/**",
         "packages/docs-ui/src/shared/components/MachineTranslationToast/**",
+        "packages/docs-ui/src/shared/components/AskAiComposer/**",
         "packages/docs-ui/src/shared/navigation/**",
         "packages/docs-ui/src/shared/theme/DocRoot/Layout/**",
         "packages/docs-ui/src/shared/theme/DocItem/Layout/**",

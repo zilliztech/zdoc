@@ -381,6 +381,16 @@
 }
 
 .input {
+  display: block;
+  box-sizing: border-box;
+  min-height: 22px;
+  max-height: min(240px, 30dvh);
+  resize: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
   flex: 0 0 auto;
   width: 100%;
   font-size: 14px !important;
@@ -535,6 +545,7 @@
 
 /* Message bubble — shared base (user keeps a bubble; assistant has none) */
 .messageBubble {
+  flex-shrink: 0;
   min-width: 0;
   max-width: 88%;
   display: flex;

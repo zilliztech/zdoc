@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useLayoutEffect, useState} from 'react';
 import {useLocation, useHistory} from '@docusaurus/router';
 import {
   Maximize2,
@@ -241,8 +241,11 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   const history = useHistory();
   const suggestions = getSuggestions(location.pathname, text);
   const conversationRef = useRef<HTMLDivElement>(null);
-  const emptyInputRef = useRef<HTMLInputElement>(null);
-  const conversationInputRef = useRef<HTMLInputElement>(null);
+  const emptyInputRef = useRef<HTMLTextAreaElement>(null);
+  const conversationInputRef = useRef<HTMLTextAreaElement>(null);
+  const latestQuestionRef = useRef<HTMLDivElement>(null);
+  const latestQuestionIndex = messages.reduce((last, message, index) => message.role === 'user' ? index : last, -1);
+  const latestQuestion = messages[latestQuestionIndex];
   const streamPauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
   const [showStreamPauseIndicator, setShowStreamPauseIndicator] = useState(false);
@@ -281,28 +284,51 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
     </div>
   ) : null;
 
-  useEffect(() => {
-    const el = conversationRef.current;
-    if (el) {
-      requestAnimationFrame(() => {
-        el.scrollTop = el.scrollHeight;
-        setShowJumpToLatest(false);
-      });
-    }
-  }, [messages, isStreaming, showStreamPauseIndicator]);
+  // Grow with wrapping/newlines, including after the panel changes width.
+  useLayoutEffect(() => {
+    const inputElement = emptyInputRef.current || conversationInputRef.current;
+    if (!inputElement) return undefined;
+    const resize = () => {
+      inputElement.style.height = '0px';
+      inputElement.style.height = `${inputElement.scrollHeight}px`;
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    if (inputElement.parentElement) observer.observe(inputElement.parentElement);
+    return () => observer.disconnect();
+  }, [input, messages.length > 0, isExpanded]);
 
-  // Show a "Jump to latest" button once the user scrolls away from the bottom.
+  // Reserve a viewport for the latest turn, then position its question once.
+  // Token updates must never move the reader's scroll position.
+  useLayoutEffect(() => {
+    const el = conversationRef.current;
+    const question = latestQuestionRef.current;
+    if (!el || !question) return undefined;
+    const reserveAnswerSpace = () => {
+      const padding = getComputedStyle(el);
+      const available = el.clientHeight - question.offsetHeight
+        - parseFloat(padding.paddingTop || '0') - parseFloat(padding.paddingBottom || '0')
+        - (parseFloat(padding.rowGap) || 0);
+      el.style.setProperty('--chat-answer-min-height', `${Math.max(0, available)}px`);
+    };
+    reserveAnswerSpace();
+    el.scrollTop += question.getBoundingClientRect().top - el.getBoundingClientRect().top
+      - parseFloat(getComputedStyle(el).paddingTop || '0');
+    const observer = new ResizeObserver(reserveAnswerSpace);
+    observer.observe(el);
+    observer.observe(question);
+    return () => observer.disconnect();
+  }, [latestQuestion, isExpanded]);
+
+  // Keep the manual jump control accurate as the answer grows, without scrolling.
   useEffect(() => {
     const el = conversationRef.current;
     if (!el) return undefined;
-    const onScroll = () => {
-      const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-      setShowJumpToLatest(distanceFromBottom > 140);
-    };
-    el.addEventListener('scroll', onScroll, {passive: true});
-    onScroll();
-    return () => el.removeEventListener('scroll', onScroll);
-  }, [messages.length]);
+    const update = () => setShowJumpToLatest(el.scrollHeight - el.scrollTop - el.clientHeight > 140);
+    el.addEventListener('scroll', update, {passive: true});
+    update();
+    return () => el.removeEventListener('scroll', update);
+  }, [messages, isStreaming, showStreamPauseIndicator, isExpanded]);
 
   const hasMessages = messages.length > 0;
   const lastMessage = messages[messages.length - 1];
@@ -332,11 +358,18 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
     };
   }, [isStreaming, lastMessage?.role, lastAssistantText]);
 
-  const focusInputFromBox = (event: React.MouseEvent<HTMLDivElement>, inputRef: React.RefObject<HTMLInputElement>) => {
+  const focusInputFromBox = (event: React.MouseEvent<HTMLDivElement>, inputRef: React.RefObject<HTMLTextAreaElement>) => {
     const target = event.target as HTMLElement;
-    if (target.closest('button') || target.tagName === 'INPUT') return;
+    if (target.closest('button') || target.tagName === 'TEXTAREA') return;
     event.preventDefault();
     inputRef.current?.focus();
+  };
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+      event.preventDefault();
+      if (!isStreaming) send(input);
+    }
   };
 
   // Handle source link click — client-side navigation
@@ -369,12 +402,12 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
           <div className={styles.bottomInput}>
             <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, emptyInputRef)}>
               {chipRow}
-              <input
+              <textarea
                 ref={emptyInputRef}
-                type="text"
+                rows={1}
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && send(input)}
+                onKeyDown={handleInputKeyDown}
                 placeholder={text.chat.placeholder}
                 className={styles.input}
                 aria-label={text.chat.messageLabel}
@@ -397,7 +430,10 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
         <div className={styles.conversation}>
           <div ref={conversationRef} className={`${styles.messages} ${isStreaming ? styles.messagesStreaming : ''}`}>
             {messages.map((msg, i) => (
-              <div key={i} className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
+              <div key={i}
+                ref={i === latestQuestionIndex ? latestQuestionRef : undefined}
+                style={msg.role === 'assistant' && i === latestQuestionIndex + 1 ? {minHeight: 'var(--chat-answer-min-height, 0px)'} : undefined}
+                className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
                 <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
                   {/* Agent label */}
                   {msg.role === 'assistant' && msg.agent && (
@@ -505,12 +541,12 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
             )}
             <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, conversationInputRef)}>
               {chipRow}
-              <input
+              <textarea
                 ref={conversationInputRef}
-                type="text"
+                rows={1}
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && !isStreaming && send(input)}
+                onKeyDown={handleInputKeyDown}
                 placeholder={text.chat.placeholder}
                 className={styles.input}
                 aria-label={text.chat.messageLabel}
