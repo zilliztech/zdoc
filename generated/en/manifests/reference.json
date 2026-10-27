@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "46fdb9c423bda3634962b89392af8a4be068638c",
+  "sourceCommit": "c326a48362ad0867eebe945eac9aaa1d9cfa936e",
   "records": [
     {
       "manual": "cli",
@@ -6860,17 +6860,17 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-struct-field-v2.mdx",
-      "sourceHash": "e7351573fb2ee064321ddf2ec68c6e5aae1c0997e805504fb36b317160d10366"
+      "sourceHash": "a9e7e78211a7cb931d3277a9434eb225e24f4f449ab9bc69e4426cfeff969629"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2.mdx",
-      "sourceHash": "eaf69096f94e340e582dbbf94d45d83edf126134fc2a853eee3c5fe2947a576d"
+      "sourceHash": "c27fe039c69305664263cf49be82dce610fa7c88f95db47eed74e71fb585882b"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2.mdx",
-      "sourceHash": "34dade4a8df62601b4a82dcce935cb586a147fb6a7873367c473891e1e81c542"
+      "sourceHash": "282425fbf68ef90cdcc1691778837be56135d0e8923838eceee93efbda534bef"
     },
     {
       "manual": "rest",
@@ -6915,7 +6915,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-field-v2.mdx",
-      "sourceHash": "b544fb023ca0fe54ac3adfc97b4c2ffff222323463b2b2cf6c8b196eba33f0c1"
+      "sourceHash": "b27a87f483f3e6e0fdc501a754f3d81e1d04223e3c69174613cc00ae5249615c"
     },
     {
       "manual": "rest",
@@ -6930,12 +6930,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-field-from-collection-v2.mdx",
-      "sourceHash": "f1fac9601628d62ff6d45253c1856195b52b735a2f9387d39f4ebed77469d4f3"
+      "sourceHash": "20cf999f67d3e19b135f25624175df2d9637ce931e1a7dae3527489f334b22c5"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-from-collection-v2.mdx",
-      "sourceHash": "e3660cb1123c615c5f786045427e813dcbd240fe718097c52772f1a39391df2a"
+      "sourceHash": "bcc7a541e4fd68da299ac701153b44a06c62ba33d7739cb282c98d5744b22889"
     },
     {
       "manual": "rest",
@@ -7156,6 +7156,31 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/remove-privileges-from-group-v2.mdx",
       "sourceHash": "2fb27014ce99d3bb08ae4b9c4f1fe232cb628b3425a5d6c0a22af784a6134522"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/snapshot-operations-v2/export-snapshot-v2.mdx",
+      "sourceHash": "dad5fa8e8b107313feceaade2a276088328237f2e8d62e5996fa8f225a147920"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/snapshot-operations-v2/get-restore-snapshot-job-state-v2.mdx",
+      "sourceHash": "b45bd6b81e0e938679fa075c4e9ea228f6b249ed74b89c941aa358b26899c3cc"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/snapshot-operations-v2/list-restore-snapshot-jobs-v2.mdx",
+      "sourceHash": "4791bf489afd009058ff6255196bff3a1448e6092b6244fd9e46d868728cf2dc"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/snapshot-operations-v2/restore-external-snapshot-v2.mdx",
+      "sourceHash": "6424ef4c0e59eb513eb84898e88b56e4fe3a686503ad341a85bf4af9773bdfe9"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/snapshot-operations-v2/snapshot-operations-v2.mdx",
+      "sourceHash": "137e2d649ca4e03e8172273cf1d38fc09ad18f56af106c15f2c8d468254b149f"
     },
     {
       "manual": "rest",
