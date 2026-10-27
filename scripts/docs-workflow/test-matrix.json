@@ -109,14 +109,15 @@
       ],
       "focusedTests": [
         "pnpm vitest run packages/docs-ui/src/shared/components/MachineTranslationToast/index.test.tsx",
-        "pnpm vitest run packages/docs-ui/src/shared/navigation/docsRoute.test.ts packages/docs-ui/src/shared/navigation/manualReferenceNavigation.test.ts"
+        "pnpm vitest run packages/docs-ui/src/shared/navigation/docsRoute.test.ts packages/docs-ui/src/shared/navigation/manualReferenceNavigation.test.ts",
+        "pnpm vitest run packages/docs-ui/src/shared/theme/DocRoot/Layout/Main/index.test.tsx"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs navigation, mobile drawer, embedded demos, document shell, the floating-notice slot that stacks NextChannelToast and MachineTranslationToast without overlap, and the locale/route helpers behind the language switcher must preserve responsive controls, valid iframe markup, a bounded content scroller, and locale-scoped gating."
+      "reason": "Shared docs navigation, mobile drawer, embedded demos, document shell, the floating-notice slot that stacks NextChannelToast and MachineTranslationToast without overlap, the locale/route helpers behind the language switcher, and hash scrolling into content that mounts late behind the release-channel gate must preserve responsive controls, valid iframe markup, a bounded content scroller, and locale-scoped gating."
     },
     {
       "id": "docs-ui-heading-tags",
