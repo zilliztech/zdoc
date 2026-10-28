@@ -16,6 +16,7 @@ function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
     sources: {
       canonical: {
         sourceType: 'drive',
+        lifecycle: 'active',
         root: 'root-token',
         base: 'base-token',
         version: 'v1',
@@ -276,6 +277,7 @@ describe('manual registry contract', () => {
       sources: {
         canonical: {
           sourceType: 'drive',
+          lifecycle: 'active',
           root: 'root-token',
           base: 'base-token',
           generatorManual: 'fixture',
@@ -285,6 +287,7 @@ describe('manual registry contract', () => {
         },
         older: {
           sourceType: 'drive',
+          lifecycle: 'active',
           root: 'older-root',
           base: 'older-base',
           generatorManual: 'fixture-old',

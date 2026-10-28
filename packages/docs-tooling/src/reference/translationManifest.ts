@@ -2,7 +2,7 @@ import {createHash} from 'node:crypto';
 import {closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readdirSync, readFileSync, realpathSync} from 'node:fs';
 import path from 'node:path';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {manualRegistry, publicationEntries, publicationPreservedPaths} from '../manuals/registry.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';

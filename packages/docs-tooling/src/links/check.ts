@@ -4,7 +4,7 @@ import path from 'node:path';
 import {load} from 'cheerio';
 import {XMLParser} from 'fast-xml-parser';
 import {resolveSiteProfile} from '@zilliz/site-config';
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';

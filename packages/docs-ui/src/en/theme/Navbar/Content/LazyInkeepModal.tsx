@@ -2,7 +2,7 @@ import React, {lazy, Suspense, useEffect, useMemo, useRef, useState} from 'react
 import {inkeepSettings} from '../../../inkeep.config';
 
 // Load the Inkeep search modal (and its heavy dependency chain: @inkeep/cxkit-react,
-// zod, zod-to-json-schema) on demand instead of bundling it into main.js.
+// zod) on demand instead of bundling it into main.js.
 // The modal is only mounted when Inkeep credentials are present, and the UI is
 // triggered by user interaction (search button / Cmd+K), so deferring keeps the
 // initial page payload small.

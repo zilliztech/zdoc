@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {resolveSiteProfile} from '@zilliz/site-config';
 import type {SourceEntry} from '../manuals/registry.ts';

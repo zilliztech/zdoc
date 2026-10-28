@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import * as z from 'zod';
 
 const RepositoryPathSchema = z.string().min(1).superRefine((value, context) => {
   const segments = value.split('/');

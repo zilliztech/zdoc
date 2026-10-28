@@ -1,6 +1,6 @@
 import {readFileSync} from 'node:fs';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';

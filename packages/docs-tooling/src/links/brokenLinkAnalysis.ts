@@ -1,7 +1,7 @@
 import {createRequire} from 'node:module';
 import {readFileSync, writeFileSync} from 'node:fs';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import type {BrokenLinksReport} from './brokenLinks.ts';
 import {parseBrokenLinksReport} from './brokenLinks.ts';

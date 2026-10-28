@@ -111,6 +111,7 @@
       "id": "docs-ui-layout",
       "paths": [
         "packages/docs-ui/src/en/theme/Navbar/Content/**",
+        "packages/docs-ui/src/en/Inkeep.ts",
         "packages/docs-ui/src/en/inkeep.config.ts",
         "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
         "packages/docs-ui/src/shared/components/Supademo/**",
@@ -164,6 +165,7 @@
         "packages/docs-ui/src/shared/theme/DocFeedback/**",
         ".claude/specs/2026-10-14-docs-behavior-analytics-phase2.md",
         "packages/docs-ui/src/en/inkeepEventBridge*",
+        "packages/docs-ui/src/en/Inkeep.ts",
         "packages/docs-ui/src/en/inkeep.config.ts",
         "packages/chat-ui/src/components/GroundedMarkdown*",
         "packages/chat-ui/dist/**",
@@ -419,6 +421,7 @@
       "id": "reference-translation-manifest",
       "paths": [
         "packages/docs-tooling/src/reference/translationManifest*",
+        "packages/docs-tooling/src/reference/reconciliationLedger*",
         "packages/docs-tooling/src/translation/candidates*",
         "packages/docs-tooling/src/translation/schema.ts",
         "packages/docs-tooling/src/translation/targets*",
@@ -430,7 +433,7 @@
         ".claude/specs/2026-09-04-publication-evidence-chains-unification-design.md"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
+        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/reconciliationLedger.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
       ],
       "harnesses": [],
       "gates": [

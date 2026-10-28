@@ -61,6 +61,7 @@ function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
       remarkPlugins: ['math', 'math-brace-fix'],
       rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks'],
     },
+    publicationAdapters: [],
     integrations: {searchProvider: 'search-one', analyticsProvider: 'analytics-one'},
     staticRoots: ['apps/docs/static/shared', 'apps/docs/static/en'],
     redirects: {rules: [{from: '/old', to: '/docs', permanent: true}]},
