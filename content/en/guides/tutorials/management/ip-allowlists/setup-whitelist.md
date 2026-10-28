@@ -28,7 +28,7 @@ Cluster IP allowlist on Zilliz Cloud serves as a robust security layer at the pr
 
 Ensure the following prerequisites are met before proceeding:
 
-- You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- You have signed up for Zilliz Cloud. For information on how to register an account, see Register with Zilliz Cloud.
 
 - You are the owner of the organization or project in which you want to set up a cluster IP allowlist. For information on roles and permissions, see[Manage Platform Users](./manage-platform-users).
 

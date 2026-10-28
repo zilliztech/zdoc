@@ -40,7 +40,7 @@ Zilliz Cloud has upgraded MFA for enhanced account security. Starting **November
 
 - **SSO compatibility**: If your organization has enabled [SSO](./single-sign-on), MFA is managed by your identity provider (IdP). In this case, configure MFA in your IdP account or contact your Organization Owner for assistance.
 
-- **Login method compatibility**: The built-in Zilliz Cloud MFA feature is only available to users who [register](./register-with-zilliz-cloud#registration-options) with an email address and a password.
+- **Login method compatibility**: The built-in Zilliz Cloud MFA feature is only available to users who register with an email address and a password.
 
     - If your account is linked to Google, MFA is controlled by Google. For more information, see [Turn on 2-Step Verification](https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP).
 

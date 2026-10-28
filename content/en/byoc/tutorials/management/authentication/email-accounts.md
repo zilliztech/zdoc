@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Email Accounts
 
-Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
+Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
 
 ## Console session\{#console-session}
 
@@ -88,7 +88,7 @@ For organization users, you can set up Single Sign-on (SSO) with the identity pr
 
 ### Switch from password login to third-party login\{#switch-from-password-login-to-third-party-login}
 
-To switch from password to third-party (Google or GitHub) login, follow the same steps for [linking your Zilliz Cloud account to a third-party service](./register-with-zilliz-cloud#linking-to-google-account), ensuring that [MFA is disabled](./multi-factor-auth#disable-mfa) beforehand.
+To switch from password to third-party (Google or GitHub) login, follow the same steps for linking your Zilliz Cloud account to a third-party service, ensuring that [MFA is disabled](./multi-factor-auth#disable-mfa) beforehand.
 
 ### Switch from third-party login to password login\{#switch-from-third-party-login-to-password-login}
 
@@ -102,7 +102,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 1. [Unlink from the current third-party account](./email-accounts#unlink-from-third-party-authentication).
 
-1. [Link your Zilliz Cloud account to the new desired third-party account](./register-with-zilliz-cloud).
+1. Link your Zilliz Cloud account to the new desired third-party account.
 
 </Procedures>
 

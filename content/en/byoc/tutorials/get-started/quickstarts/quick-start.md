@@ -35,7 +35,7 @@ Before going through this quick start, ensure that:
 
 - You have registered an account with Zilliz Cloud. 
 
-    For instructions, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+    For instructions, refer to Register with Zilliz Cloud.
 
 - You have contacted Zilliz Cloud sales and provided your account to us.
 

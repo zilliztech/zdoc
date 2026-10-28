@@ -260,7 +260,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. In the new tab, follow the steps below to complete subscription.
 
-    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process.
+    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a sign-up option and follow the process.
 
     1. Link your subscription to an existing Zilliz Cloud organization.
 

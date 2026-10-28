@@ -66,7 +66,7 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
 1.  In the new tab, follow the steps below to complete subscription.
 
-    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
+    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a sign-up option and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
 
         <Admonition type="info" title="Notes">
 

@@ -37,7 +37,7 @@ This topic describes how to create a Dedicated cluster. To create a Free or Serv
 
 Ensure:
 
-- Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- Registration with Zilliz Cloud. Refer to Register with Zilliz Cloud.
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see Access Control Explained.
 

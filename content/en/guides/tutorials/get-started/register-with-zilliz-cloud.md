@@ -131,7 +131,7 @@ After you create an account, you can use free resources to try Zilliz Cloud. Kee
 | Resource | What you get |
 | --- | --- |
 | Free cluster | 5 GB storage, 2.5 million vCUs per month, and up to 5 collections for basic vector database use cases. |
-| Free trial credits | When you sign up with a work email, your organization receives &#36;100 in free credits. Credits expire after 30 days and can be used to evaluate Serverless and Dedicated clusters. For details, see [Free trial](/docs/free-trials). |
+| Free trial credits | When you sign up with a work email, your organization receives &#36;100 in free credits. Credits expire after 30 days and can be used to evaluate Serverless and Dedicated clusters. |
 | Additional credits | You can earn an additional &#36;100 in credits by adding a payment method, such as a [credit card](/docs/subscribe-by-adding-credit-card) or [marketplace subscription](/docs/marketplace-subscription). Adding a payment method also extends the credit expiration period to 1 year. |
 
 <Admonition type="info" title="Note">

@@ -2632,7 +2632,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "0f91d05b9b41676366d2e5034669b0568d62b41d",
+      "commit": "c3260d68715b151102dfc64a88cbe1c60e137864",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2697,7 +2697,7 @@
       ]
     },
     "dev": {
-      "commit": "eba3dac5b539038646d3fbd259689471ce2b60c5",
+      "commit": "87a624641e63c2d11782e26b04defbc632a993f6",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -3113,7 +3113,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/insert-and-delete/delete-entities.md",
-          "sha256": "b2bddc210aca164e7c3a26857964d573193975fb4d7cf64d58eaf14103a63898"
+          "sha256": "b33a00bf14a3f79fc2e8b325835a851c100753bbdfb78ba99a334c0732729023"
         },
         {
           "path": "content/en/byoc/tutorials/development/insert-and-delete/insert-entities.md",
@@ -3133,7 +3133,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/scalar-index/ngram-index-type.md",
-          "sha256": "a329a2ccc54931e2b573c29568b2c65c29cec45003624d329d8cbe794cad02e3"
+          "sha256": "900d2841d163ebbd9bb40c8cd3f4d5f73b48f117f01e4362fa2e1efbfc4c95d0"
         },
         {
           "path": "content/en/byoc/tutorials/development/scalar-index/rtree-index-type.md",
@@ -3973,7 +3973,7 @@
         },
         {
           "path": "content/en/guides/tutorials/architecture/best-practices/perf-benchmark-vectordb.md",
-          "sha256": "a0aa09f1c7e353f100570225b5a1eadf49d1ccf837cfc8581dc62fe939ae2bb9"
+          "sha256": "354e76d8b80811ef54c94dbccab5485f3b1df59fa194b32a03a39e7a87e7fecc"
         },
         {
           "path": "content/en/guides/tutorials/architecture/data-resilience.md",
@@ -4313,7 +4313,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md",
-          "sha256": "cfb87ccb37b6cb66f942f7151e1db6d0f83f3538e3e56f1fa39d564d9dbfb905"
+          "sha256": "b541378da2c95f61017d8b8e0439487a5220ea8b1ac95a47a1d26291e8bc0e50"
         },
         {
           "path": "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md",
@@ -4333,7 +4333,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/scalar-index/ngram-index-type.md",
-          "sha256": "e1c23b2bb25d5977d58ceaf225fb7de4e020e4ddbf105741ee476c03946b45d8"
+          "sha256": "f90a6014314080d7d604b92519c7d8818477868f4caf7a4d36b54449c25be277"
         },
         {
           "path": "content/en/guides/tutorials/development/scalar-index/rtree-index-type.md",
@@ -4701,7 +4701,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/faqs/faq-get-started.md",
-          "sha256": "c471a81ce9f546e32596900882233bddfb5b26288b4291854245930b20a8ba4b"
+          "sha256": "8d41290b14f678f9c632230102326678cdb4ffdd2fc80d28dd0ee361e703ca89"
         },
         {
           "path": "content/en/guides/tutorials/get-started/faqs/faq-integrations.md",
@@ -4785,7 +4785,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-200.md",
-          "sha256": "869ac907b8e11acd5b460b8f5e55eab879cf49fbb69bb53e2f56d8cd32f03a31"
+          "sha256": "226935337b253e7601ade2537753d89217b27e6abb8b544b1f5e452a029d9d57"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-210.md",
@@ -4813,7 +4813,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-2140.md",
-          "sha256": "9252c919e6bec94951bd09ca4ae4f18875e497a86cf7eb786b45e1ab711d6da6"
+          "sha256": "6b2518fea60fbeb5b2cd392d66874bf9eb71910f27ed566eb86ddb1229ccb278"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-2150.md",
@@ -4905,7 +4905,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-280.md",
-          "sha256": "5a4d156be5317b80ce201d8ebbdf21b88901848c2d89ca4010e29ae3ec8d65a5"
+          "sha256": "5a011deee57f06a225409ef286e53e386f36741adde4f2fa144ebc5ab0654ae8"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-290.md",
@@ -5049,7 +5049,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
-          "sha256": "c6363a4e1c23b8de95c176c07dd0fa9915e160e421f501c3fe2b388399fb9279"
+          "sha256": "936236346f36a99681292a9525e077ec421e0e5542e7375abe1ca441f6a47d64"
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
@@ -5421,7 +5421,7 @@
         },
         {
           "path": "content/en/guides/tutorials/solution/schema-evolution/schema-evolution.md",
-          "sha256": "bdabfbae778a0e5c41279ed75431900010662b8946a7a628817477c6faae01ab"
+          "sha256": "17586d8b8b8f46bfdffee37e6050710bf3ae20abe1c14f6ad2bace5fec743173"
         },
         {
           "path": "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md",
@@ -5520,8 +5520,20 @@
           "sha256": "f5bb3af136217676e93922af74cc573d7a1c7a0873d47e8d138b198f82ea6b58"
         },
         {
+          "path": "generated/en/manifests/shared-pages/guides/_publication.json",
+          "sha256": "9a1fc37d62e28401412648f94f133c7d1013c87424cb3d2904485e4b80559f8c"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/active.json",
+          "sha256": "45ff060911637cc66e125c02b1f7d117163160248111cd50f8acbd2a8a8bbb80"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
+          "sha256": "f5166a0f660e6e2583032349b7323406093da29d0de078ca4b1fecda923daa8e"
+        },
+        {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "c5e9c53aeaf158ba5c03fad0b101010cc613b92a2206533222d9a09f61d06748"
+          "sha256": "f0b0f10131fcb8c898cce502b1f80f1af3b79a1df6c29c87b7761b6572747c0d"
         }
       ]
     },
@@ -16411,7 +16423,7 @@
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
     },
     "tools": {
-      "zdoc": "0f91d05b9b41676366d2e5034669b0568d62b41d",
+      "zdoc": "c3260d68715b151102dfc64a88cbe1c60e137864",
       "md2md": "1.3.0"
     },
     "images": []

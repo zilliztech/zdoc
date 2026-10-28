@@ -39,7 +39,7 @@ This page demonstrates how to connect to a Dedicated serving cluster. To connect
 
 Before connecting to a Dedicated cluster, ensure that:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- You have registered an account with Zilliz Cloud. For details, see Register with Zilliz Cloud.
 
 - You have created a Dedicated cluster.
 
