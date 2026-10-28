@@ -2,7 +2,7 @@
 title: "スナップショットの管理 | Cloud"
 slug: /manage-snapshots
 sidebar_label: "スナップショットの管理"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -38,6 +38,12 @@ import TabItem from '@theme/TabItem';
 - [復元ジョブを一覧表示する](./manage-snapshots#list-restoration-jobs)、および
 
 - [復元状態を取得する](./manage-snapshots#get-restoration-state)。
+
+<Admonition type="info" title="Note">
+
+この機能は Dedicated クラスターでのみ使用できます。
+
+</Admonition>
 
 ## スナップショットを作成する\{#create-snapshot}
 
@@ -146,28 +152,24 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Recommended: Flush data before creating snapshot to ensure all data is included
-    client.flush(
-        FlushRequest::builder()
-            .collection_names(["my_collection"])
-            .build()?,
-    ).await?;
+// Recommended: Flush data before creating snapshot to ensure all data is included
+client.flush(
+    FlushRequest::builder()
+        .collection_names(["my_collection"])
+        .build()?,
+).await?;
 
-    // Create snapshot for entire collection
-    client.create_snapshot(
-        CreateSnapshotRequest::builder()
-            .collection_name("my_collection")
-            .snapshot_name("backup_20240101")
-            .description("Daily backup for January 1st, 2024")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+// Create snapshot for entire collection
+client.create_snapshot(
+    CreateSnapshotRequest::builder()
+        .collection_name("my_collection")
+        .snapshot_name("backup_20240101")
+        .description("Daily backup for January 1st, 2024")
+        .build()?,
+).await?;
 ```
 
 </TabItem>

@@ -39,7 +39,7 @@ Zilliz Cloud は [Tantivy](https://github.com/quickwit-oss/tantivy) を統合し
 
 1. [インデックス作成](./indexes): テキスト分析後、Zilliz Cloud は各一意のトークンを、そのトークンを含むドキュメントにマッピングする転置インデックスを作成します。
 
-ユーザーがテキストマッチを実行すると、転置インデックスを使用して、用語を含むすべてのドキュメントが迅速に取得されます。これは、各ドキュメントを個別にスキャンするよりもはるかに高速です。
+テキストマッチを実行すると、転置インデックスを使用して、用語を含むすべてのドキュメントが迅速に取得されます。これは、各ドキュメントを個別にスキャンするよりもはるかに高速です。
 
 ![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
@@ -51,7 +51,7 @@ Zilliz Cloud は [Tantivy](https://github.com/quickwit-oss/tantivy) を統合し
 
 特定の `VARCHAR` フィールドに対してテキストマッチを有効にするには、フィールドスキーマを定義するときに `enable_analyzer` パラメーターと `enable_match` パラメーターの両方を `True` に設定します。これにより、Zilliz Cloud はテキストをトークン化し、指定されたフィールドの転置インデックスを作成するため、高速で効率的なテキストマッチが可能になります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,9 +138,44 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("text")
+            .data_type(DataType::VarChar)
+            .max_length(1000)
+            .enable_analyzer(true) // Whether to enable text analysis for this field
+            .enable_match(true), // Whether to enable text match
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embeddings")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <memory>
+
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
@@ -256,7 +291,7 @@ zilliz collection create --collection-name my_collection --schema '{
 
 別のアナライザーが必要な場合は、`analyzer_params` パラメーターを使用して構成できます。たとえば、英語のテキストを処理するために `english` アナライザーを適用するには、次のとおりです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -278,6 +313,10 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 schema.addField(AddFieldReq.builder()
@@ -308,9 +347,47 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let analyzer_params = serde_json::json!({"type": "english"});
+
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("text")
+            .data_type(DataType::VarChar)
+            .max_length(200)
+            .enable_analyzer(true)
+            .analyzer_params(analyzer_params)
+            .enable_match(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embeddings")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <memory>
+
 nlohmann::json analyzer_params = {{"type", "english"}};
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
@@ -446,7 +523,7 @@ TEXT_MATCH(field_name, text)
 
 デフォルトでは、`TEXT_MATCH` は **OR** マッチングロジックを使用します。つまり、指定された用語のいずれかを含むドキュメントを返します。たとえば、`text` フィールドに `machine` または `deep` という用語を含むドキュメントを検索するには、次の式を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -467,6 +544,14 @@ String filter = "TEXT_MATCH(text, 'machine deep')";
 
 ```go
 filter := "TEXT_MATCH(text, 'machine deep')"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "TEXT_MATCH(text, 'machine deep')";
 ```
 
 </TabItem>
@@ -508,11 +593,11 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 </TabItem>
 </Tabs>
 
-論理演算子を使用して複数の `TEXT_MATCH` 式を組み合わせ、**AND** マッチングを実行することもできます。 
+論理演算子を使用して複数の `TEXT_MATCH` 式を組み合わせ、**AND** マッチングを実行することもできます。
 
 - `text` フィールドに `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -533,6 +618,14 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     ```go
     filter := "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
     ```
 
     </TabItem>
@@ -576,7 +669,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
 - `text` フィールドに `machine` と `learning` の両方を含み、`deep` を含まないドキュメントを検索するには、次の式を使用します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -597,6 +690,14 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(tex
 
     ```go
     filter := "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
     ```
 
     </TabItem>
@@ -656,7 +757,7 @@ TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
 
 たとえば、次の式は `machne` の編集距離 1 以内のトークン（`machine` を含む）に一致します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -681,9 +782,19 @@ filter := "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include <string>
+
 std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 ```
 
@@ -720,7 +831,7 @@ export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
 
 この例では、`filter` 式が検索結果を絞り込み、指定された用語 `keyword1` または `keyword2` に一致するドキュメントのみを含めます。その後、ベクトル類似検索がこのフィルタリングされたドキュメントのサブセットに対して実行されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -745,12 +856,17 @@ result = client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 String filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .annsField("embeddings")
-        .data(Collections.singletonList(queryVector)))
+        .data(Collections.singletonList(queryVector))
         // highlight-next-line
         .filter(filter)
         .topK(10)
@@ -780,9 +896,48 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Match entities with `keyword1` or `keyword2`
+let filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
+
+// Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
+let query_vector = vec![0.19886812562848388f32, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104];
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection") // Your collection name
+            .vector_field("embeddings") // Vector field name
+            .vectors(SearchVectors::Float(vec![query_vector])) // Query vector
+            .filter(filter)
+            .output_fields(["id", "text"]) // Fields to return
+            .limit(10) // Max. number of results to return
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
 std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
 auto request = milvus::SearchRequest()
@@ -873,7 +1028,7 @@ zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZ
 
 次の例では、`text` フィールドに `keyword1` と `keyword2` の両方の用語を含むドキュメントを取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -893,6 +1048,10 @@ result = client.query(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -921,9 +1080,41 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Match entities with both `keyword1` and `keyword2`
+let filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
+
+let result = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
 
 auto request = milvus::QueryRequest()
@@ -1007,3 +1198,4 @@ zilliz collection search --collection-name my_collection --vector-field embeddin
     - 文字列定数が単一引用符で囲まれている場合、定数内の単一引用符は `\\'` で表す必要がありますが、二重引用符は `"` または `\\"` のいずれかで表すことができます。例: `'It\\'s milvus'`。
 
     - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` で表す必要がありますが、単一引用符は `'` または `\\'` のいずれかで表すことができます。例: `"He said \\"Hi\\""`。
+

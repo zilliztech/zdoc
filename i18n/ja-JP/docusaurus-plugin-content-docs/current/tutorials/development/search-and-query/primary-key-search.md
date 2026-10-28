@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-e コマースプラットフォームでは、ユーザーがキーワードを入力すると、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、プラットフォームは、比較したいユーザー向けに、ページ下部に類似商品の一覧も表示します。
+E コマースプラットフォームでは、ユーザーがキーワードを入力すると、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、プラットフォームは、比較したいユーザー向けに、ページ下部に類似商品の一覧も表示します。
 
 レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォームの開発者が、実際の類似検索の前に、キーワードまたは現在の商品のベクトル表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus の間の往復回数が増え、その結果、多数の高次元 float 値がネットワーク越しに送信されることになります。
 
@@ -59,7 +59,7 @@ e コマースプラットフォームでは、ユーザーがキーワードを
 
 基本的な主キー検索を実行するには、クエリベクトルを主キーに置き換えるだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -156,6 +156,34 @@ if err != nil {
 for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("vector")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43])) // a list of primary keys
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -287,9 +315,9 @@ zilliz vector search \
 
 ### 例 2: 主キーを使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
 
-以下の例では、`color` と `likes` が対象のコレクションでスキーマ定義された2つのフィールドであることを前提としています。
+以下の例では、`color` と `likes` が対象のコレクションでスキーマ定義された 2 つのフィールドであることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -350,6 +378,32 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("color: ", resultSet.GetColumn("color"))
     fmt.Println("likes: ", resultSet.GetColumn("likes"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        .filter(r#"color like "red%" and likes > 50"#)
+        .output_fields(["color", "likes"])
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -473,7 +527,7 @@ zilliz vector search \
 
 ### 例 3: 主キーを使用した範囲検索\{#example-3-range-search-using-primary-keys}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -547,6 +601,34 @@ if err != nil {
 for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        // highlight-end
+        // highlight-start
+        .radius(0.4)
+        .range_filter(0.6)
+        // highlight-end
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -680,7 +762,7 @@ zilliz vector search \
 
 以下の例では、`docId` が対象のコレクションでスキーマ定義されたフィールドであることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -740,6 +822,32 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs)
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let res = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        // highlight-start
+        .ids(Ids::Int64(vec![551, 296, 43]))
+        // highlight-end
+        .group_by_field("docId")
+        .output_fields(["docId"])
+        .limit(3)
+        .build()?,
+).await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -859,4 +967,3 @@ zilliz vector search \
 
 </TabItem>
 </Tabs>
-

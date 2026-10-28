@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "検索、クエリ、取得、ハイブリッド検索など、オンデマンドコンピューティング用のコレクションでの DQL 操作には、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティング需要を満たすセッションを作成できます。 | Cloud"
+description: "オンデマンドコンピューティングのためのコレクション内の DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | Cloud"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
 sidebar_position: 2
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド DQL 操作
 
-検索、クエリ、取得、ハイブリッド検索など、オンデマンドコンピューティング用のコレクションでの DQL 操作には、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティング需要を満たすセッションを作成できます。
+オンデマンドコンピューティングのためのコレクション内の DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
 
-この記事では、プロジェクトエンドポイントを使用してデータベースにコレクションを作成済みであることを前提としています。詳細は、[外部コレクションの作成](./create-external-collection) を参照してください。
+この記事は、プロジェクトエンドポイントを使用してデータベースにコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
 
 ## プロジェクトエンドポイントに接続する\{#connect-to-a-project-endpoint}
 
-プロジェクトエンドポイントは、オンデマンドコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理したり、コレクションに保存されているデータを操作したりできます。
+プロジェクトエンドポイントは、オンデマンドのコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理し、コレクションに保存されたデータを操作できます。
 
-次のコード例では、デフォルトデータベースに `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定するときは、十分な権限を持つ有効な API キーを常に使用してください。
+以下のコード例は、デフォルトデータベース内に `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際は、十分な権限を持つ有効な API キーを常に使用してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -76,20 +76,16 @@ client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
-            .token("YOUR_API_KEY"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
+        .token("YOUR_API_KEY"),
+)
+.await?;
 
-    let has = client
-        .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
-        .await?;
-    Ok(())
-}
+let has = client
+    .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
+    .await?;
 ```
 
 </TabItem>
@@ -164,7 +160,7 @@ curl --request POST \
 
 プロジェクトエンドポイントへの接続を設定したら、指定したオンデマンドクラスターのコンピューティングリソースをアタッチするセッションを作成します。
 
-次の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成していることを前提としています。
+次の例は、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成済みであることを前提としています。
 
 <Admonition type="info" title="Notes">
 
@@ -245,7 +241,7 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 
 ## DQL 操作を実行する\{#conduct-dql-operations}
 
-セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは、クエリ、取得、ハイブリッド検索にも適用されます。
+セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例に示します。これは、クエリ、取得、ハイブリッド検索にも適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -402,11 +398,11 @@ curl --request POST \
 
 ## セッションを閉じる\{#close-a-session}
 
-オンデマンドコンピューティングタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作に使用できません。
+オンデマンドのコンピューティングタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
 
 <Admonition type="info" title="Notes">
 
-RESTful 呼び出しでは、これは必要ありません。
+RESTful 呼び出しでは、この操作は不要です。
 
 </Admonition>
 
@@ -475,3 +471,4 @@ session.close();
 
 </TabItem>
 </Tabs>
+
