@@ -2,23 +2,23 @@
 title: "CreateSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-CreateSnapshot
 sidebar_label: "CreateSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为 Collection 创建快照。建议在执行破坏性维护或恢复测试前调用。 | Cloud"
+description: "此操作为 Collection 创建快照。请在执行破坏性维护或恢复测试之前使用此操作。 | Cloud"
 type: docx
 token: S39Pd8SZ6oQ5dbxXS40cptWRnSf
 sidebar_position: 1
 keywords: 
-  - Anomaly Detection
+  - 异常检测
   - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateSnapshot()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # CreateSnapshot()
 
-此操作为 Collection 创建快照。建议在执行破坏性维护或恢复测试前调用。
+此操作为 Collection 创建快照。请在执行破坏性维护或进行恢复测试之前使用此操作。
 
 ```c++
 Status CreateSnapshot(const CreateSnapshotRequest& request)
@@ -50,21 +50,21 @@ auto request = milvus::CreateSnapshotRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    设置包含目标 Collection 的 Database。
+    设置包含该 Collection 的 Database。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    设置需要创建快照的 Collection。
+    设置要创建快照的 Collection。
 
 - `WithDescription(const std::string& description)`
 
-    设置可选的快照描述信息。
+    设置可选的快照描述。
 
 - `WithCompactionProtectionSeconds(int64_t seconds)`
 
     设置 Compaction 保留快照所需数据的时长。
 
-**返回值：**
+**返回：**
 
 *Status*
 
@@ -72,7 +72,7 @@ auto request = milvus::CreateSnapshotRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能抛出此异常。
+    如果请求无法发送或响应无法解析，则可能引发此异常。
 
 ## 示例\{#example}
 

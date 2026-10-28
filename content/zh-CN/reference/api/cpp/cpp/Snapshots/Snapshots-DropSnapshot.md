@@ -2,23 +2,23 @@
 title: "DropSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-DropSnapshot
 sidebar_label: "DropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除快照，适用于移除不再需要的快照。 | Cloud"
+description: "此操作删除快照。可使用此操作移除不再需要的快照。 | Cloud"
 type: docx
 token: M582dy1WyoYIbuxtun0cEc8ln3d
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DropSnapshot()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # DropSnapshot()
 
-此操作用于删除快照，适用于移除不再需要的快照。
+此操作删除快照。可使用此操作移除不再需要的快照。
 
 ```c++
 Status DropSnapshot(const DropSnapshotRequest& request)
@@ -67,7 +67,7 @@ auto request = milvus::DropSnapshotRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，可能会抛出此异常。
 
 ## 示例\{#example}
 

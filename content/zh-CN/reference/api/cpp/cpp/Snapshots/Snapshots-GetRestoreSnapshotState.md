@@ -2,19 +2,19 @@
 title: "GetRestoreSnapshotState() | Cloud"
 slug: /cpp/cpp/Snapshots-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作获取恢复快照任务状态。可使用该操作轮询恢复进度和失败原因。 | Cloud"
+description: "此操作会获取恢复快照作业的状态。可使用该操作轮询恢复进度和失败原因。 | Cloud"
 type: docx
 token: Utu5dQE8Eo1zD0xdoJccCAx0nnf
 sidebar_position: 4
 keywords: 
   - 视频搜索
   - AI 幻觉
-  - AI 智能体
+  - AI Agent
   - 语义搜索
   - Zilliz
   - Zilliz Cloud
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRestoreSnapshotState()
 
-此操作获取恢复快照任务状态。可使用该操作轮询恢复进度和失败原因。
+此操作会获取恢复快照作业的状态。可使用该操作轮询恢复进度和失败原因。
 
 ```c++
 Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, GetRestoreSnapshotStateResponse& response)
@@ -62,7 +62,7 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
 - `WithJobID(int64_t job_id)`
 
-    设置要轮询的恢复快照任务 ID。
+    设置要轮询的恢复快照作业的 ID。
 
 **返回：**
 
@@ -72,7 +72,7 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 
 - **std::exception**
 
-    如果请求无法发送或响应无法解析，则可能引发此异常。
+    如果无法发送请求或无法解析响应，则会抛出此异常。
 
 ## 示例\{#example}
 

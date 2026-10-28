@@ -2,23 +2,23 @@
 title: "PinSnapshotData() | Cloud"
 slug: /cpp/cpp/Snapshots-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在指定的存活时间窗口内固定快照数据。在恢复或外部复制工作流期间，您可以使用该操作确保快照数据持续可用。 | Cloud"
+description: "此操作会在存活时间（TTL）窗口内固定快照数据。在恢复或外部复制工作流期间，您可以使用该操作确保快照数据持续可用。 | Cloud"
 type: docx
 token: Yblkdh1ynoi4Igxu4wac3Jdvn1g
 sidebar_position: 7
 keywords: 
-  - Anomaly Detection
+  - 异常检测
   - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - PinSnapshotData()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # PinSnapshotData()
 
-此操作会在指定的存活时间窗口内固定快照数据。在恢复或外部复制工作流期间，您可以使用该操作确保快照数据持续可用。
+此操作会在存活时间（TTL）窗口内固定快照数据。在恢复或外部复制工作流期间，您可以使用该操作确保快照数据持续可用。
 
 ```c++
 Status PinSnapshotData(const PinSnapshotDataRequest& request, PinSnapshotDataResponse& response)
@@ -62,9 +62,9 @@ auto request = milvus::PinSnapshotDataRequest()
 
 - `WithTtlSeconds(int64_t ttl_seconds)`
 
-    设置快照数据的固定保留时长。
+    设置快照数据应保持固定状态的时长。
 
-**返回值：**
+**返回：**
 
 *Status*
 

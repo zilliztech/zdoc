@@ -2,7 +2,7 @@
 title: "ListRestoreSnapshotJobs() | Cloud"
 slug: /cpp/cpp/Snapshots-ListRestoreSnapshotJobs
 sidebar_label: "ListRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

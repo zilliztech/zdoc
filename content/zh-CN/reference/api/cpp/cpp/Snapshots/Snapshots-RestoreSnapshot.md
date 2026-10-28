@@ -2,7 +2,7 @@
 title: "RestoreSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-RestoreSnapshot
 sidebar_label: "RestoreSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false

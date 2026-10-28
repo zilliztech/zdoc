@@ -2,7 +2,7 @@
 title: "UnpinSnapshotData() | Cloud"
 slug: /cpp/cpp/Snapshots-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -64,7 +64,7 @@ auto request = milvus::UnpinSnapshotDataRequest()
 
     设置要取消固定其数据的 pin 的 ID。
 
-**返回值：**
+**返回：**
 
 *Status*
 

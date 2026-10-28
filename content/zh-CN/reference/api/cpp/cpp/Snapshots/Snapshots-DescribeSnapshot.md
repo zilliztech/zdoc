@@ -2,12 +2,12 @@
 title: "DescribeSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于描述快照。您可以在恢复或清理前使用它来查看快照元数据。 | Cloud"
+description: "此操作描述快照。在恢复或清理前，请使用它查看快照元数据。 | Cloud"
 type: docx
 token: MjnKdyOXkoKD3exC7rUcXSCMnxe
 sidebar_position: 2
@@ -18,7 +18,7 @@ keywords:
   - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeSnapshot()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeSnapshot()
 
-此操作用于描述快照。您可以在恢复或清理前使用它来查看快照元数据。
+此操作描述快照。在恢复或清理前，请使用它查看快照元数据。
 
 ```c++
 Status DescribeSnapshot(const DescribeSnapshotRequest& request, DescribeSnapshotResponse& response)
@@ -59,7 +59,7 @@ auto request = milvus::DescribeSnapshotRequest()
 
     设置快照名称。
 
-**返回值：**
+**返回：**
 
 *Status*
 
@@ -67,7 +67,7 @@ auto request = milvus::DescribeSnapshotRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能会抛出此异常。
+    如果请求无法发送或响应无法解析，则可能抛出此异常。
 
 ## 示例\{#example}
 

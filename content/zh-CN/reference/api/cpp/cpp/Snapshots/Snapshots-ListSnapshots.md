@@ -2,23 +2,23 @@
 title: "ListSnapshots() | Cloud"
 slug: /cpp/cpp/Snapshots-ListSnapshots
 sidebar_label: "ListSnapshots()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出指定 Collection 的快照，用于查看可用的恢复点。 | Cloud"
+description: "此操作会列出 Collection 的快照。您可以使用它发现可用的恢复点。 | Cloud"
 type: docx
 token: GJDKdgCbpoAxYkxpXygcdfFQnFe
 sidebar_position: 6
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - KNN
+  - 图像搜索
+  - 大语言模型
+  - 机器学习
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListSnapshots()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListSnapshots()
 
-此操作列出指定 Collection 的快照，用于查看可用的恢复点。
+此操作会列出 Collection 的快照。您可以使用它发现可用的恢复点。
 
 ```c++
 Status ListSnapshots(const ListSnapshotsRequest& request, ListSnapshotsResponse& response)
@@ -54,7 +54,7 @@ auto request = milvus::ListSnapshotsRequest()
 
     设置 Collection 名称。
 
-**返回值：**
+**返回：**
 
 *Status*
 
@@ -62,7 +62,7 @@ auto request = milvus::ListSnapshotsRequest()
 
 - **std::exception**
 
-    当请求无法发送或响应无法解析时，可能抛出此异常。
+    如果请求无法发送或响应无法解析，可能会引发此异常。
 
 ## 示例\{#example}
 
