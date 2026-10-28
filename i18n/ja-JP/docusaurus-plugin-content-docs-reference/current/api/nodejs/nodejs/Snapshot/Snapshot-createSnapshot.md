@@ -2,12 +2,12 @@
 title: "createSnapshot() | Node.js"
 slug: /node/node/Snapshot-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation creates a snapshot for a コレクション. A snapshot captures the current state of a コレクション and its data. | Node.js"
+description: "この操作は、コレクションのスナップショットを作成します。スナップショットは、コレクションとそのデータの現在の状態をキャプチャします。 | Node.js"
 type: docx
 token: NeUFdr0OXo90RExodnccqc3OnYU
 sidebar_position: 1
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-This operation creates a snapshot for a コレクション. A snapshot captures the current state of a コレクション and its data.
+この操作は、コレクションのスナップショットを作成します。スナップショットは、コレクションとそのデータの現在の状態をキャプチャします。
 
 ```typescript
 await milvusClient.createSnapshot(data: CreateSnapshotReq)
@@ -53,27 +53,27 @@ await milvusClient.createSnapshot({
 **パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the コレクション to snapshot.
+  **[必須]**<br/>
+  スナップショットを作成するコレクションの名前です。
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
-  スナップショットの名前。
+  スナップショットの名前です。
 
 - **description** (*string*) -<br/>
-  任意のスナップショット説明。
+  スナップショットの説明です。任意です。
 
 - **compaction_protection_seconds** (*number | string*) -<br/>
-  Duration to protect referenced segments from Compaction. Optional.
+  参照されるセグメントを Compaction から保護する期間です。任意です。
 
 - **db_name** (*string*) -<br/>
-  データベースの名前。任意。
+  データベースの名前です。任意です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許容する時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。任意。
+  リクエストを追跡するためのトレース ID です。任意です。
 
 **戻り値:**
 
@@ -83,7 +83,7 @@ await milvusClient.createSnapshot({
 
 - **MilvusError**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

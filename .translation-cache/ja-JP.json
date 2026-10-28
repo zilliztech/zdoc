@@ -6606,49 +6606,49 @@
       "translatedAt": "2026-10-25T14:54:18.520Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md": {
-      "sourceHash": "1176a25612e440c48b7b17cad38b6fafbcd3c4b12f7a8fcd08750bf164e88ef0",
+      "sourceHash": "c6569c472a34ed9a0370183e791a399001fc5e3d90a8e4ca966ddda3c1058107",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md": {
-      "sourceHash": "885e2b4790fa919a2274b5a8378b9e0dd22fb5a83861f312839e8d2c8f4bca93",
+      "sourceHash": "818da1ac29bc7e137bf3fd8976f2ce9bdf443fdd3decbb8095285ab9a6a5442b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md": {
-      "sourceHash": "a40a6a89b39551bfb2694aea4cacdf5d5a2d3e7f50624b5fce9060fe688c0e2b",
+      "sourceHash": "3da991a427652e92bc9872133ab8d6c88d51aa57fd4c747d46a9fd6251d65c6b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md": {
-      "sourceHash": "1cda307162136bcb69bd6b35a9b51850598a66f1b2cb1ad6f0749f3246f449e0",
+      "sourceHash": "1a004a5baf7d5b757e9136860a5e9ebc0f20d10383bf987aa6e6597e2ffde250",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md": {
-      "sourceHash": "8ac67830aeeb45d2729e59399af9c1ebc30d1bdda765319602e8e587a284d402",
+      "sourceHash": "6ee3f87daff7b32cc21f2918843e1db7e339aff57b02fe46687c112355cdf4ec",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md": {
-      "sourceHash": "ebb969bef346ee6b34ecfd6f031263563b778a25917226830b8d6f124b414acb",
+      "sourceHash": "42df36917ac709904f1a39f9c15aed5babf453b270c849a58adcf419bb929804",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md": {
-      "sourceHash": "6946c8278474c4d40c2a0dd2c06412831f283006a9fd1b475c3c2c3ad6faeb8c",
+      "sourceHash": "5dca7c8ba4cdfc3b9207a9aafd5c3fb95ca7e8eacde083d02267de4d8446b519",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md": {
-      "sourceHash": "4cc23eea706a1b85046380fdd6d94fa35ac15c88a023cd04a7bbca477c3d6f03",
+      "sourceHash": "56266fb262aedfd4e836762cceaf525c8a5df48104023ba7005fb82c75f85c41",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md": {
-      "sourceHash": "27e46bc51eb7ea133de4fe4824608f74e850ef67bd10bd180a717de9c89cbf4e",
+      "sourceHash": "d8036bf2d773fd2ac60ab5404152ee797c744684e22128cd74b2f2822c106d3c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-10-28T01:09:12.571Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-count.md": {
       "sourceHash": "6dfab8dbb3a3b0e1fd2155af38965e956ee3af75b06520317763f73e12107144",

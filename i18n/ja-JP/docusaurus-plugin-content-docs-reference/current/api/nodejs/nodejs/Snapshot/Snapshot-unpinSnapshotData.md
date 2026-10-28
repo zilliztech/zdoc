@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -13,12 +13,12 @@ token: IjXedJe6poxhmAx6hFpcpNyJnsb
 sidebar_position: 9
 keywords: 
   - vectordb
-  - multimodal ベクトル データベース retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - マルチモーダル ベクトル データベース検索
+  - 検索拡張生成
+  - 大規模言語モデル
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - unpinSnapshotData()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -46,17 +46,17 @@ await milvusClient.unpinSnapshotData({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **pin_id** (*number | string*) -<br/>
   **[必須]**<br/>
-  pinSnapshotData() によって返される pin ID。
+  pinSnapshotData() によって返されるピン ID です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡のためのトレース ID。オプションです。
+  リクエスト追跡用のトレース ID です。省略可能です。
 
 **戻り値:**
 

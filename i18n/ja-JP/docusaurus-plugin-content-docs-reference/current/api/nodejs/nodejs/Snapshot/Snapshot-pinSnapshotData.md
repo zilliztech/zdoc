@@ -2,12 +2,12 @@
 title: "pinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-pinSnapshotData
 sidebar_label: "pinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットデータがガベージコレクションされないように固定します。これを使用して、スナップショットが復元可能な状態を維持できるようにします。 | Node.js"
+description: "この操作は、スナップショットデータがガベージコレクションされないように固定します。これを使用して、スナップショットを復元できる状態に維持します。 | Node.js"
 type: docx
 token: Bx6FdwVlUoqZjVxZwSFcnUr2nDe
 sidebar_position: 7
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # pinSnapshotData()
 
-この操作は、スナップショットデータがガベージコレクションされないように固定します。これを使用して、スナップショットが復元可能な状態を維持できるようにします。
+この操作は、スナップショットデータを固定してガベージコレクションの対象にならないようにします。スナップショットを復元可能な状態に維持するために使用します。
 
 ```typescript
 await milvusClient.pinSnapshotData(data: PinSnapshotDataReq)
@@ -52,21 +52,21 @@ await milvusClient.pinSnapshotData({
 **パラメータ:**
 
 - **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the collection the snapshot belongs to.
+  **[必須]**<br/>
+  スナップショットが属するコレクションの名前です。
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
   固定するスナップショットの名前です。
 
 - **ttl_seconds** (*number | string*) -<br/>
-  オプションの固定 TTL（秒）です。指定しない場合、スナップショットは無期限に固定されます。
+  固定 TTL を秒単位で指定します。省略可能です。指定しない場合、スナップショットは無期限に固定されます。
 
 - **db_name** (*string*) -<br/>
-  データベース名です。省略可能です。
+  データベースの名前です。省略可能です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID です。省略可能です。
@@ -85,7 +85,7 @@ await milvusClient.pinSnapshotData({
 **パラメータ:**
 
 - **pin_id** (*string*) -<br/>
-  固定リースの識別子です。TTL が期限切れになる前に固定を解除するには、この値を `unpinSnapshotData()` に渡します。
+  ピンリースの識別子です。TTL が期限切れになる前にピンを解除するには、この値を `unpinSnapshotData()` に渡します。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。

@@ -2,12 +2,12 @@
 title: "getRestoreSnapshotState() | Node.js"
 slug: /node/node/Snapshot-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される jobid を使用します。 | Node.js"
+description: "この操作は、スナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される jobid を使用します。 | Node.js"
 type: docx
 token: IHY0di5uzooBe8xOCJqci9vinNh
 sidebar_position: 4
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # getRestoreSnapshotState()
 
-この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される job_id を使用します。
+この操作は、スナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される job_id を使用します。
 
 ```typescript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
@@ -46,17 +46,17 @@ await milvusClient.getRestoreSnapshotState({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **job_id** (*number | string*) -<br/>
   **[必須]**<br/>
-  restoreSnapshot() によって返される復元ジョブ ID。
+  restoreSnapshot() によって返される復元ジョブ ID です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡のためのトレース ID。オプションです。
+  リクエスト追跡用のトレース ID です。オプションです。
 
 **戻り値** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
@@ -69,61 +69,61 @@ await milvusClient.getRestoreSnapshotState({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **info** (*RestoreSnapshotJobInfo*) -<br/>
-  復元ジョブの現在の状態。
+  復元ジョブの現在の状態です。
 
     - **job_id** (*string*) -
 
-        ジョブ識別子。
+        ジョブの識別子です。
 
     - **snapshot_name** (*string*) -
 
-        復元対象のスナップショット。
+        復元対象のスナップショットです。
 
     - **db_name** (*string*) -
 
-        The target データベース.
+        対象のデータベースです。
 
     - **collection_name** (*string*) -
 
-        The target コレクション name.
+        対象のコレクション名です。
 
     - **state** (*RestoreSnapshotState*) -
 
-        現在のジョブ状態。取り得る値は **RestoreSnapshotNone**、**RestoreSnapshotPending**、**RestoreSnapshotExecuting**、**RestoreSnapshotCompleted**、**RestoreSnapshotFailed** です。
+        現在のジョブ状態です。取り得る値は **RestoreSnapshotNone**、**RestoreSnapshotPending**、**RestoreSnapshotExecuting**、**RestoreSnapshotCompleted**、**RestoreSnapshotFailed** です。
 
     - **progress** (*number*) -
 
-        **0** から **100** までの整数で表される完了率。
+        **0** から **100** までの整数で表される完了率です。
 
     - **reason** (*string*) -
 
-        **state** が **RestoreSnapshotFailed** の場合の失敗理由。それ以外の場合は空文字列です。
+        **state** が **RestoreSnapshotFailed** の場合の失敗理由です。それ以外の場合は空文字列です。
 
     - **start_time** (*string*) -
 
-        ジョブが開始された時刻。
+        ジョブが開始された時刻です。
 
     - **time_cost** (*string*) -
 
-        ジョブ開始からの総経過時間。
+        ジョブ開始からの総経過時間です。
 
 - **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

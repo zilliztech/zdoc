@@ -2,7 +2,7 @@
 title: "listSnapshots() | Node.js"
 slug: /node/node/Snapshot-listSnapshots
 sidebar_label: "listSnapshots()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -57,7 +57,7 @@ await milvusClient.listSnapshots({
   データベースの名前。任意です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。任意です。
@@ -76,22 +76,22 @@ await milvusClient.listSnapshots({
 **パラメーター:**
 
 - **snapshots** (*string[]*) -<br/>
-  要求されたコレクションに現在存在するスナップショット名の一覧。
+  要求されたコレクションに現在存在するスナップショット名の一覧です。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

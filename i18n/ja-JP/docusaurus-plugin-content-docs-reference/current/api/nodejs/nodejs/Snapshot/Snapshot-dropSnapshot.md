@@ -2,12 +2,12 @@
 title: "dropSnapshot() | Node.js"
 slug: /node/node/Snapshot-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation deletes a snapshot for a コレクション. | Node.js"
+description: "この操作は、コレクションのスナップショットを削除します。 | Node.js"
 type: docx
 token: DgiOdVOuLoKWFPxzKyucGV8Tnfb
 sidebar_position: 3
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # dropSnapshot()
 
-This operation deletes a snapshot for a コレクション.
+この操作は、コレクションのスナップショットを削除します。
 
 ```typescript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
@@ -51,8 +51,8 @@ await milvusClient.dropSnapshot({
 **パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the コレクション the snapshot belongs to.
+  **[必須]**<br/>
+  スナップショットが属するコレクションの名前。
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
@@ -62,7 +62,7 @@ await milvusClient.dropSnapshot({
   データベースの名前。任意です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に割り当てる時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
   リクエスト追跡用のトレース ID。任意です。

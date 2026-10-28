@@ -2,18 +2,18 @@
 title: "restoreSnapshot() | Node.js"
 slug: /node/node/Snapshot-restoreSnapshot
 sidebar_label: "restoreSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation restores a コレクション from a snapshot to a new or existing コレクション. | Node.js"
+description: "この操作は、スナップショットからコレクションを新しいコレクションまたは既存のコレクションに復元します。 | Node.js"
 type: docx
 token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
 sidebar_position: 8
 keywords: 
   - 自然言語処理
-  - AIチャットボット
+  - AI チャットボット
   - コサイン距離
   - ベクトルデータベースとは
   - zilliz
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-This operation restores a コレクション from a snapshot to a new or existing コレクション.
+この操作は、スナップショットからコレクションを新しいコレクションまたは既存のコレクションに復元します。
 
 ```typescript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
@@ -50,31 +50,31 @@ await milvusClient.restoreSnapshot({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **snapshot_name** (*string*) -<br/>
   **[必須]**<br/>
-  復元元の snapshot の名前。
+  復元元のスナップショットの名前です。
 
 - **source_collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the source コレクション.
+  **[必須]**<br/>
+  ソースコレクションの名前です。
 
 - **target_collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the target コレクション to restore to.
+  **[必須]**<br/>
+  復元先のターゲットコレクションの名前です。
 
 - **source_db_name** (*string*) -<br/>
-  The source データベース name. Optional.
+  ソースデータベースの名前です。オプションです。
 
 - **target_db_name** (*string*) -<br/>
-  The target データベース name. Optional.
+  ターゲットデータベースの名前です。オプションです。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許容される時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。任意です。
+  リクエスト追跡用のトレース ID です。オプションです。
 
 **戻り値** *Promise&lt;RestoreSnapshotResponse&gt;*
 
@@ -87,7 +87,7 @@ await milvusClient.restoreSnapshot({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **job_id** (*string*) -<br/>
   非同期復元ジョブの識別子です。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
@@ -97,15 +97,15 @@ await milvusClient.restoreSnapshot({
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合、空の文字列のままです。
 
 ## 例\{#example}
 

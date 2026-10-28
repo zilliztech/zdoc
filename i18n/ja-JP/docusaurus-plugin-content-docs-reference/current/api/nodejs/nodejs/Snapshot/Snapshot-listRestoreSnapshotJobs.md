@@ -2,12 +2,12 @@
 title: "listRestoreSnapshotJobs() | Node.js"
 slug: /node/node/Snapshot-listRestoreSnapshotJobs
 sidebar_label: "listRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation lists all snapshot restore jobs. You can filter by target コレクション name and データベース name. | Node.js"
+description: "この操作は、すべてのスナップショットリストアジョブを一覧表示します。対象のコレクション名とデータベース名でフィルターできます。 | Node.js"
 type: docx
 token: TIXDdW1BmoPA3FxX0ONczHFqnKf
 sidebar_position: 5
@@ -30,13 +30,13 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-This operation lists all snapshot restore jobs. You can filter by target コレクション name and データベース name.
+この操作は、すべてのスナップショットリストアジョブを一覧表示します。対象のコレクション名とデータベース名でフィルターできます。
 
 ```typescript
 await milvusClient.listRestoreSnapshotJobs(data?: ListRestoreSnapshotJobsReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.listRestoreSnapshotJobs({
@@ -47,21 +47,21 @@ await milvusClient.listRestoreSnapshotJobs({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  Optional filter by target コレクション name.
+  対象のコレクション名によるオプションのフィルターです。
 
 - **db_name** (*string*) -<br/>
-  データベース名でのオプションのフィルタです。
+  データベース名によるオプションのフィルターです。
 
 - **timeout** (*number*) -<br/>
-  RPC に許可するオプションの時間長（ミリ秒）です。undefined に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
+  RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡のためのトレース ID です。オプションです。
+  リクエスト追跡用のトレース ID です。オプションです。
 
-**RETURNS** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
+**戻り値** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
 
 このメソッドは、**ListRestoreSnapshotJobsResponse** オブジェクトに解決される promise を返します。
 
@@ -72,10 +72,10 @@ await milvusClient.listRestoreSnapshotJobs({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
-  A list of restore jobs that match the requested データベース and コレクション filters. For the full **RestoreSnapshotJobInfo** field reference, refer to the `getRestoreSnapshotState()` doc.
+  要求されたデータベースとコレクションのフィルターに一致するリストアジョブのリストです。**RestoreSnapshotJobInfo** のフィールドの完全なリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。
@@ -90,9 +90,9 @@ await milvusClient.listRestoreSnapshotJobs({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空の文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

@@ -2,20 +2,20 @@
 title: "describeSnapshot() | Node.js"
 slug: /node/node/Snapshot-describeSnapshot
 sidebar_label: "describeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の snapshot に関する詳細情報を取得します。 | Node.js"
+description: "この操作は、特定のスナップショットに関する詳細情報を取得します。 | Node.js"
 type: docx
 token: KNOwdbcYXoVwGEx8ysScLO1CnUd
 sidebar_position: 2
 keywords: 
-  - ベクトル search algorithms
-  - Question answering system
+  - ベクトル検索アルゴリズム
+  - 質問応答システム
   - llm-as-a-judge
-  - hybrid ベクトル search
+  - ハイブリッドベクトル検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -30,13 +30,13 @@ import Admonition from '@theme/Admonition';
 
 # describeSnapshot()
 
-この操作は、特定の snapshot に関する詳細情報を取得します。
+この操作は、特定のスナップショットに関する詳細情報を取得します。
 
 ```typescript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.describeSnapshot({
@@ -48,26 +48,26 @@ await milvusClient.describeSnapshot({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the コレクション the snapshot belongs to.
+  **[必須]**<br/>
+  スナップショットが属するコレクションの名前。
 
 - **snapshot_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  説明対象の snapshot の名前。
+  **[必須]**<br/>
+  詳細を取得するスナップショットの名前。
 
 - **db_name** (*string*) -<br/>
-  データベースの名前。省略可能です。
+  データベースの名前。任意です。
 
 - **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+  RPC に許可する時間をミリ秒単位で指定する任意の値です。undefined に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
 - **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。省略可能です。
+  リクエスト追跡用のトレース ID です。任意です。
 
-**RETURNS** *Promise&lt;DescribeSnapshotResponse&gt;*
+**戻り値** *Promise&lt;DescribeSnapshotResponse&gt;*
 
 このメソッドは、**DescribeSnapshotResponse** オブジェクトに解決される promise を返します。
 
@@ -83,25 +83,25 @@ await milvusClient.describeSnapshot({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **name** (*string*) -<br/>
-  snapshot の名前。
+  スナップショットの名前。
 
 - **description** (*string*) -<br/>
-  snapshot 作成時に指定された説明、指定されなかった場合は空文字列です。
+  スナップショット作成時に指定された説明。指定されていない場合は空文字列です。
 
 - **collection_name** (*string*) -<br/>
-  The コレクション that owns the snapshot.
+  スナップショットを所有するコレクション。
 
 - **partition_names** (*string[]*) -<br/>
-  snapshot によって取得された partition 名。
+  スナップショットによって取得されたパーティション名。
 
 - **create_ts** (*string*) -<br/>
-  snapshot が作成された時点のハイブリッドタイムスタンプ。
+  スナップショットが作成された時点のハイブリッドタイムスタンプ。
 
 - **s3_location** (*string*) -<br/>
-  snapshot データが永続化されるオブジェクトストア URI。
+  スナップショットデータが永続化されるオブジェクトストア URI。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。
@@ -116,9 +116,9 @@ await milvusClient.describeSnapshot({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
