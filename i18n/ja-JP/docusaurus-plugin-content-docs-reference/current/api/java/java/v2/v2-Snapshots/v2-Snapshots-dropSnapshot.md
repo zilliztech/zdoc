@@ -2,7 +2,7 @@
 title: "dropSnapshot() | Java | v2"
 slug: /java/java/v2-Snapshots-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -14,7 +14,7 @@ sidebar_position: 3
 keywords: 
   - ベクトル検索
   - 音声類似検索
-  - Elastic ベクトルデータベース
+  - 伸縮性のあるベクトルデータベース
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -47,7 +47,7 @@ dropSnapshot(DropSnapshotReq.builder()
 )
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
@@ -55,17 +55,17 @@ dropSnapshot(DropSnapshotReq.builder()
 
 - `collectionName(String collectionName)`
 
-    スナップショット操作に関連付けられたコレクションの名前です。
+    スナップショット操作に関連するコレクションの名前です。
 
 - `snapshotName(String snapshotName)`
 
     スナップショットの名前です。
 
-**例外:**
+**例外：**
 
 - **MilvusClientException**
 
-    必須パラメーターが欠けている場合、数値パラメーターが範囲外の場合、またはサーバーがこの操作に対してエラーを返した場合に、この例外が発生します。
+    この例外は、必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはサーバーがこの操作に対してエラーを返した場合にスローされます。
 
 ## 例\{#example}
 

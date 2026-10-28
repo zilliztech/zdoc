@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Java | v2"
 slug: /java/java/v2-Snapshots-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -45,21 +45,21 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 )
 ```
 
-**BUILDER メソッド:**
+**ビルダーメソッド：**
 
 - `jobId(Long jobId)`
 
     `restoreSnapshot()` によって返されるスナップショット復元ジョブ ID です。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *GetRestoreSnapshotStateResp*
 
-**戻り値:**
+**戻り値：**
 
 復元ジョブの状態、進捗、理由、タイミング、およびコレクションメタデータを含むレスポンスです。
 
-**パラメーター:**
+**パラメーター：**
 
 - **jobInfo** (*RestoreSnapshotJobInfo*) -
 
@@ -101,7 +101,7 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 
         復元ジョブの所要時間です。
 
-**例外:**
+**例外：**
 
 - **MilvusClientException**
 

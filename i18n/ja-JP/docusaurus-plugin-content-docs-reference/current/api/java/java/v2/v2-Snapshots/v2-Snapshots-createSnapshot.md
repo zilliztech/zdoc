@@ -2,17 +2,17 @@
 title: "createSnapshot() | Java | v2"
 slug: /java/java/v2-Snapshots-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクションのスナップショットを作成します。 | Java | v2"
+description: "コレクションのスナップショットを作成します。 | Java | v2"
 type: docx
 token: JhCEdppKrowJIqxFusBc2TXsnSg
 sidebar_position: 1
 keywords: 
-  - hnsw algorithm
+  - hnsw アルゴリズム
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-この操作は、コレクションのスナップショットを作成します。
+この操作では、コレクションのスナップショットを作成します。
 
 ```java
 public void createSnapshot(CreateSnapshotReq request)
@@ -49,11 +49,11 @@ createSnapshot(CreateSnapshotReq.builder()
 )
 ```
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `databaseName(String databaseName)`
 
-    コレクションを含むデータベースの名前です。省略した場合、現在のデータベースが使用されます。
+    コレクションを含むデータベースの名前です。省略した場合は、現在のデータベースが使用されます。
 
 - `collectionName(String collectionName)`
 
@@ -65,17 +65,17 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - `description(String description)`
 
-    スナップショットを人間が読める形式で説明したものです。
+    人が読める形式によるスナップショットの説明です。
 
 - `compactionProtectionSeconds(Long compactionProtectionSeconds)`
 
-    Compaction からスナップショットを保護する秒数です。保護期間が不要な場合は `0L` を使用します。
+    スナップショットを Compaction から保護する秒数です。保護期間が不要な場合は、`0L` を使用します。
 
-**例外:**
+**例外：**
 
 - **MilvusClientException**
 
-    必須パラメーターが不足している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    必須パラメーターが欠落している場合、数値パラメーターが範囲外である場合、またはこの操作に対してサーバーからエラーが返された場合に、この例外がスローされます。
 
 ## 例\{#example}
 
