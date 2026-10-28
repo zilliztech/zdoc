@@ -42,4 +42,4 @@ import Admonition from '@theme/Admonition';
 
 ## 其它增强\{#other-enhancements}
 
-从本次发布开始，Zilliz Cloud 调整了其优惠券策略。关于本次发布后将执行的优惠券策略，可以参考[免费试用 Zilliz Cloud](./free-trials)。
+从本次发布开始，Zilliz Cloud 调整了其优惠券策略。关于本次发布后将执行的优惠券策略，可以参考[免费试用 Zilliz Cloud](./register-with-zilliz-cloud)。

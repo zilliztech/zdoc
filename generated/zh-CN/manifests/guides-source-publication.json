@@ -822,7 +822,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/modify-collections.md",
-      "sha256": "107ee90538580eb1b003199c756b4a282009efa87169d1570f23e69fbce9195c",
+      "sha256": "13840f3b4544744c2c334d45e0ae6fd05ef283c938e5ab349aa3f8bf1d2ef7e0",
       "docToken": "QB61wPMzoik03uk2r3ScJdaEnNf",
       "revisionId": "1552"
     },
@@ -1416,7 +1416,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "39172ec40bdab22d2671bb553ebefdbf5256ed8b9825488cacdb2d1a3c9cd08f",
+      "sha256": "215b5665199595be95e8616509da27909a1414648eb5ab115393e7fc757fe161",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -1472,73 +1472,73 @@
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-authentication.md",
       "sha256": "e08e6fb6fcb4963c69ccaadd4ebb07b281a0b28dafef22f7120a0ea1baa1605a",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-backup-and-restore.md",
       "sha256": "d816f46a4ee6d5a4ee77b3a480403d9b8aee19ef330ced6483fd3a51b599392d",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-cluster.md",
       "sha256": "517e9248abaeed8fdad791694b4012a39e2515c7f121bd52409cf5af1e5cb56b",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-collection.md",
       "sha256": "6b9d605f225177bcc33313008e37b4d218e625ec6b2dfe6838f5f1e5f814a909",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-data-import.md",
       "sha256": "bcde22be77398c1dafa0e1147fa09f1e89b18104109f4171c3707e8d93cfd8d7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-get-started.md",
       "sha256": "69c6b717f8c550088cb33b00009fcfd33789e934778911f6a3334cdb597efe15",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-integrations.md",
       "sha256": "b2f89ba0abd2e2ec7dd7fe11dbd46e2a052bd2d412d743686930cb8808a07842",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-migration.md",
       "sha256": "4f96b17efd421b821166715f193af42718ce2d5f97a6827f17c4f3f916a3231e",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-monitors-and-metrics.md",
       "sha256": "3e44cfcb5f6d7e0675643fa810ab524162d60c5f58f7945400724145e2a2143a",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-resource-planning.md",
       "sha256": "3d3ebf5195a6d56d181c62ee72d3d6ab095b5e19a6a1c298453ca994c37f7ec6",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-security.md",
       "sha256": "903023d43ea601ca1aeb668c20cf20dda0e40a3b31b9c62564f10a5e59fa982d",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-users-and-roles.md",
       "sha256": "04482e3675ab4f3cb56392aebfe8c55076db8881e7a7df86c352d99086964461",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
@@ -1566,9 +1566,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/shared-responsibilities.md",
-      "sha256": "7f2fc7b5d19a38baf829642596547e7005701c551a532feb1c14a742a7008a7c",
+      "sha256": "627776a1723b59ba8c97bcd106cbbd9319ca55570d941da671285cc4e8605684",
       "docToken": "Im9Twy8oRiXmfMkbXbYccZVSn5b",
-      "revisionId": "6"
+      "revisionId": "19"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-control/access-control-overview.md",
@@ -2328,7 +2328,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/modify-collections.md",
-      "sha256": "7fa7561aec5c2781ef673b7a5645fd1064b1005a23cb86c53d449757cd906bf7",
+      "sha256": "b83b93a1a03a0568c7d722980b69cdecd455c5606806ed41b499091e7ccc4236",
       "docToken": "QB61wPMzoik03uk2r3ScJdaEnNf",
       "revisionId": "1552"
     },
@@ -2958,7 +2958,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "a61c715d94f4fdec9eac22143eb4a3ccc8d858b8fb45df9f7d36b116d9bbc6dc",
+      "sha256": "6dd4d2d098402a699c116830bc9eaf84902782c30306075af794fabbc702dffe",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -3080,85 +3080,85 @@
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-account.md",
       "sha256": "bbedd38ddef39d579c27eb5cddb5d9bb4d4ce12b20528a04e0cf1a06dcaa6ab7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-authentication.md",
       "sha256": "ade9f7ac6d22743a49be934ab98a61cb644e2322d7abb8e162e289ad05511db1",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-backup-and-restore.md",
       "sha256": "9dd70ba3f841b443671d83aeb1598cd27d3ea8cba575a46f6632249d515f17db",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-cluster.md",
       "sha256": "6d506e1096a46280bff4ba8fa8f839f9ae7f7d9d7b9514eac82b3d2a74677a18",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-collection.md",
       "sha256": "5f12d303c44cdb1049725860b9a26db7df573ed7b5732b204dddab10cd183c86",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-data-import.md",
       "sha256": "e4d23993f4e5547b7f708ad784c3647cb8852baa72d723454799796a97fa7ad9",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-get-started.md",
-      "sha256": "264221cdfefd9bf74c7ec1372d924590f54e1c4d372fd8ee8df86f251759439a",
+      "sha256": "4002e43d6fc70326936a6d3c31f3a95c2e5d78a2cf752625208ee9f96d812051",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-integrations.md",
       "sha256": "d94a63c39d60fdee60593461c8a87e94a73501ac403e27f5ebcbff39b23a2051",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-migration.md",
       "sha256": "f3f6f7991aef99273dadeb0b26b7ba4240cba35622cdf3789a9d995b9273f16c",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-monitors-and-metrics.md",
       "sha256": "3b1990d608c63f6aab4400adac3a1ec2708346ec8853cb7fbbdcc17fa6758b7b",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-payment-and-billing.md",
       "sha256": "8e9e9d2682d7f8cfd74fe29b82f3af9d9cfa183e42c6ec00cf9f9b715f7e4b6e",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-resource-planning.md",
       "sha256": "657b4efa3941176e7b8f4046a3c5aa94e2ace9964db474269e0d8f266f7a3172",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-security.md",
       "sha256": "f8b8c071bd8ebd299f1e86d8699747cefea85d244ebc7408be547f9be28ff1ce",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-users-and-roles.md",
       "sha256": "8319a4e1f4a6df79c93fb86b3aa9874d793d306f7349eb9956d7143f11381ef7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4852"
+      "revisionId": "4853"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
@@ -3240,9 +3240,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2140.md",
-      "sha256": "6d7263772e56f3760dd0b5643020475561c6482efe790e1a5d49b2bd97355f2c",
+      "sha256": "72de1be13298e0e80a80dbfcda6bd6f61c7e4d6eedf2eb9495835453c282e7a9",
       "docToken": "NYaTwrUG1iT6CCkUSnJcCQPqnsb",
-      "revisionId": "532"
+      "revisionId": "533"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2150.md",
@@ -3372,9 +3372,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-280.md",
-      "sha256": "195c3842932180f49838db2e9f5f2351d9e74f06c747d1b4c510d10be3c4eba1",
+      "sha256": "06852d8129394d70a0d4f0ea7f1554570096b54ea01aebc4a3828f27f7c5543b",
       "docToken": "Nj7Hw23HBiVgc6kpfehc6r6bnIg",
-      "revisionId": "875"
+      "revisionId": "876"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-290.md",

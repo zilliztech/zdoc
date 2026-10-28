@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Serverless 集群当前处于 Beta 阶段，您可以在 <strong>阿里云华东1（杭州）</strong> 区域创建一个限时免费的 Serverless 集群，无须添加任何支付方式。
 
-关于更多详情，可参考 [Serverless 版本](./free-trials)的详细介绍。
+关于更多详情，可参考 [Serverless 版本](./select-zilliz-cloud-service-plans)的详细介绍。
 
 ## Pipelines\{#pipelines}
 

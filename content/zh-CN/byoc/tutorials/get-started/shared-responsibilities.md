@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 本页面概述了Zilliz Cloud和BYOC用户的职责，以明确与云管理、升级、安全、访问控制、服务可用性和技术支持相关的任务分工，确保在保持安全高效的运营环境的同时实现顺畅协作。
 
-## 云管理\{#}
+## 云管理\{#cloud-management}
 
 | 任务 | Zilliz BYOC | 客户 |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 | 管理S3存储桶 |  | ✔ |
 | 配置Milvus实例 | ✔ |  |
 
-## 升级与安全\{#}
+## 升级与安全\{#upgrade-and-security}
 
 | 任务 | Zilliz BYOC | 客户 |
 | --- | --- | --- |
@@ -41,21 +41,21 @@ import Admonition from '@theme/Admonition';
 | 修补基础设施漏洞 | ✔ | ✔ |
 | 扩展资源 | ✔ | ✔ |
 
-## 访问控制\{#}
+## 访问控制\{#access-control}
 
 | 任务 | Zilliz BYOC | 客户 |
 | --- | --- | --- |
 | 管理IAM角色和服务账户 | ✔ | ✔ |
 | 实施访问控制和审计 | ✔ | ✔ |
 
-## 服务可用性\{#}
+## 服务可用性\{#service-availability}
 
 | 任务 | Zilliz BYOC | 客户 |
 | --- | --- | --- |
 | 灾难恢复 (DR) | ✔ | ✔ |
 | 服务级别协议 (SLA) | ✔ | ✔ |
 
-## 技术支持\{#}
+## 技术支持\{#technical-support}
 
 | 任务 | Zilliz BYOC | 客户 |
 | --- | --- | --- |

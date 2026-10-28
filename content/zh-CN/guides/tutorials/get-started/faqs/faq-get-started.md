@@ -37,7 +37,7 @@ displayed_sidebar: default
 
 免费试用结束后，Zilliz Cloud 将自动备份您的数据并移至回收站，集群将被删除。回收站中的数据可免费保留30天。您可以[添加支付方式](./payment-billing)或[联系我们](https://support.zilliz.com.cn/)以继续使用 Zilliz Cloud。
 
-详情请参考[免费试用 Zilliz Cloud](./free-trials)。
+详情请参考[免费试用 Zilliz Cloud](./register-with-zilliz-cloud)。
 
 ### 如何获取技术支持？\{#how-can-i-get-further-technical-support}
 
