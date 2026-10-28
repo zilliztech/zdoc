@@ -51,6 +51,14 @@ function sourceToken(value) {
   try { return new URL(value).pathname.split('/').filter(Boolean).pop() || null } catch (_) { return String(value) }
 }
 
+// A Base Docs cell may hold the docx URL of a wiki-hosted document. The scraper
+// resolves that to the wiki node and the writer stamps the node token into the
+// frontmatter, so a record is identified by any of its token aliases.
+function recordTokenAliases(...entries) {
+  const aliases = entries.flatMap(entry => [entry?.doc_token, entry?.node_token, entry?.origin_node_token, entry?.obj_token])
+  return [...new Set(aliases.filter(Boolean))]
+}
+
 function collectGeneratedDocsByToken(outputDir, idPrefix) {
   const docsByToken = new Map()
   function visit(relative = '') {
@@ -80,8 +88,9 @@ function collectGeneratedDocsByToken(outputDir, idPrefix) {
 
 function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir, idPrefix = 'tutorials', sidebar, activeState = null }) {
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides source contract requires a schema v3 snapshot')
+  const sourceByRecordId = new Map((snapshot.records || []).map(record => [record.record_id, record]))
   const records = snapshot.navigation_records.map(row => {
-    const source = (snapshot.records || []).find(record => record.record_id === row.record_id)
+    const source = sourceByRecordId.get(row.record_id)
     return source?.source_kind === 'shared-page' ? {...row, doc_token: `shared-${source.shared_page.page}`} : row
   })
   const byId = new Map(records.map(record => [record.record_id, record]))
@@ -104,12 +113,21 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
   }
   const entries = collectSidebarEntries(sidebar)
   const canonicalRecords = records.filter(record => record.placement_type === 'canonical' && record.doc_token)
-  const canonicalByToken = new Map(canonicalRecords.map(record => [record.doc_token, record]))
+  const tokenAliases = record => {
+    const source = sourceByRecordId.get(record.record_id)
+    return source?.source_kind === 'shared-page' ? [record.doc_token] : recordTokenAliases(record, source)
+  }
+  const canonicalByToken = new Map()
+  for (const record of canonicalRecords) {
+    canonicalByToken.set(record.doc_token, record)
+    for (const alias of tokenAliases(record)) if (!canonicalByToken.has(alias)) canonicalByToken.set(alias, record)
+  }
   for (const entry of activeState?.pages || []) {
     const canonical = canonicalRecords.find(record => record.record_id === entry.record)
     if (canonical && entry.feishu_token) canonicalByToken.set(entry.feishu_token, canonical)
   }
   const generatedDocsByToken = collectGeneratedDocsByToken(outputDir, idPrefix)
+  const generatedIdsForRecord = record => [...new Set(tokenAliases(record).flatMap(alias => generatedDocsByToken.get(alias) || []))]
   const errors = []
   let checkedRecords = 0
 
@@ -120,7 +138,7 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
     const segment = recordSegment(record)
     const navPath = path.posix.join(idPrefix, relativeDir(record), segment)
     if (record.placement_type === 'canonical') {
-      const ids = generatedDocsByToken.get(record.doc_token) || []
+      const ids = generatedIdsForRecord(record)
       if (record.slug === 'faqs') {
         const categoryKey = `category:${navPath}`
         const category = entries.find(item => item.type === 'category' && item.key === categoryKey)
@@ -150,7 +168,7 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
     if (record.placement_type === 'section') {
       const item = entries.find(entry => entry.type === 'category' && entry.key === key)
       if (!item) errors.push(`section ${record.record_id} missing category: ${key}`)
-      const ids = record.doc_token ? (generatedDocsByToken.get(record.doc_token) || []) : []
+      const ids = record.doc_token ? generatedIdsForRecord(record) : []
       if (record.doc_token) {
         if (ids.length !== 1) errors.push(`section ${record.record_id} must generate exactly one index file for token: ${record.doc_token}`)
         else if (!item?.link || item.link.type !== 'doc' || item.link.id !== ids[0]) errors.push(`section ${record.record_id} landing page target mismatch: ${ids[0]}`)

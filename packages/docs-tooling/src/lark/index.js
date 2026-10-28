@@ -19,6 +19,7 @@ const {
 } = require('./requestedGuidesFetchPlanner')
 const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot, sourceFilesByToken } = require('./sourceSnapshot')
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
+const { sharedReceiptsForPlanning } = require('./incrementalSharedReceipts')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const { createOfflineMediaResolver } = require('./offlineMediaResolver')
 const { validateGuidesBasePreflight } = require('./guidesBasePreflight')
@@ -702,12 +703,18 @@ function larkDocsPlugin(context, options) {
                             })
                             : new Map()
                         const previousSnapshot = readSnapshot(snapshotPath)
+                        const receiptDiagnostics = []
+                        const sharedReceiptsByRecordId = sharedReceiptsForPlanning({ sourceDirName: path.basename(docSourceDir), snapshot: previousSnapshot, diagnostics: receiptDiagnostics })
+                        if (sharedReceiptsByRecordId.size === 0 && (previousSnapshot?.records || []).some(record => record.source_kind === 'shared-page')) {
+                            console.warn(`[incremental-fetch] Shared publication receipts are unavailable in this workspace; shared records will count as missing sources (${receiptDiagnostics.join('; ')}).`)
+                        }
                         const sourceCompleteness = previousSnapshot && !sourceCacheIsFresh ? validateSourceCompleteness({
                             manual: manualName,
                             buildEnv: snapshotEnv,
                             rootToken: root,
                             sourceDir: docSourceDir,
                             snapshot: previousSnapshot,
+                            sharedReceiptsByRecordId,
                         }) : null
                         if (sourceCompleteness && !sourceCompleteness.complete) {
                             console.warn(`[incremental-fetch] Source cache incomplete (${sourceCompleteness.validCanonicalSources}/${sourceCompleteness.expectedCanonicalSources}); selecting full fetch.`)

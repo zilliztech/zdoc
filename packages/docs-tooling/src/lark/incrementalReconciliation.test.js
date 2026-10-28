@@ -58,6 +58,33 @@ test('cleanupRemovedIncrementalRecords falls back to token lookup for old snapsh
   assert.equal(fs.existsSync(path.join(outputDir, 'old.md')), false);
 });
 
+test('cleanupRemovedIncrementalRecords token fallback tries every alias of a docx-linked record', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'incremental-reconcile-'));
+  const sourceDir = path.join(root, 'sources');
+  const outputDir = path.join(root, 'content/en/guides/tutorials');
+  write(path.join(outputDir, 'old.md'), '---\ntoken: node-token\n---\n');
+  const lookups = [];
+  const determineFilePath = (token, searchRoot) => {
+    lookups.push(token);
+    for (const name of fs.readdirSync(searchRoot)) {
+      if (fs.readFileSync(path.join(searchRoot, name), 'utf8').includes(`token: ${token}\n`)) return name;
+    }
+    throw new Error(`Cannot find file for token: ${token}`);
+  };
+
+  const result = cleanupRemovedIncrementalRecords({
+    cwd: root,
+    docSourceDir: sourceDir,
+    targetOutputDir: outputDir,
+    plan: { removed_records: [{ doc_token: 'docx-token', node_token: 'node-token', origin_node_token: 'node-token', obj_token: 'docx-token', output_paths: [] }] },
+    determineFilePath,
+  });
+
+  assert.deepEqual(lookups, ['docx-token', 'node-token']);
+  assert.equal(fs.existsSync(path.join(outputDir, 'old.md')), false);
+  assert.deepEqual(result.removedOutputs, ['content/en/guides/tutorials/old.md']);
+});
+
 test('cleanupRemovedIncrementalRecords preserves a removed source still needed as placement ancestry', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'incremental-reconcile-'));
   const sourceDir = path.join(root, 'sources');

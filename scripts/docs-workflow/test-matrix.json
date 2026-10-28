@@ -470,6 +470,7 @@
         "packages/docs-tooling/src/lark/guidesBaseRecordSemantics*",
         "packages/docs-tooling/src/lark/index.js",
         "packages/docs-tooling/src/lark/incrementalFetchPlanner*",
+        "packages/docs-tooling/src/lark/incrementalSharedReceipts*",
         "packages/docs-tooling/src/lark/requestedGuidesFetchPlanner*",
         "packages/docs-tooling/src/lark/larkDocScraper.js",
         "packages/docs-tooling/src/lark/larkDocScraper.test.js",
@@ -497,7 +498,7 @@
         "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "node --test packages/docs-tooling/src/lark/requestedGuidesFetchPlanner.test.js",
         "pnpm test:guides-workflow",
-        "node --test packages/docs-tooling/src/lark/guidesBaseRecordSemantics.test.js packages/docs-tooling/src/lark/guidesBasePreflight.test.js packages/docs-tooling/src/lark/sourceSnapshot.test.js packages/docs-tooling/src/lark/incrementalFetchPlanner.test.js packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js",
+        "node --test packages/docs-tooling/src/lark/guidesBaseRecordSemantics.test.js packages/docs-tooling/src/lark/guidesBasePreflight.test.js packages/docs-tooling/src/lark/sourceSnapshot.test.js packages/docs-tooling/src/lark/incrementalFetchPlanner.test.js packages/docs-tooling/src/lark/incrementalSharedReceipts.test.js packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js",
         "node packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
         "node packages/docs-tooling/src/lark/regression.test.js"
       ],
@@ -1293,11 +1294,12 @@
         "packages/docs-tooling/src/lark/sharedPageRouting*",
         "packages/docs-tooling/src/lark/larkSourceIndex*",
         "packages/docs-tooling/src/lark/sourceCompleteness*",
+        "packages/docs-tooling/src/lark/incrementalSharedReceipts*",
         "packages/docs-tooling/src/lark/incrementalReconciliation*",
         "packages/docs-tooling/src/lark/revisionInventory*"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/lark/sharedPageRouting.test.js packages/docs-tooling/src/lark/larkSourceIndex.test.js packages/docs-tooling/src/lark/sourceCompleteness.test.js packages/docs-tooling/src/lark/incrementalReconciliation.test.js",
+        "node --test packages/docs-tooling/src/lark/sharedPageRouting.test.js packages/docs-tooling/src/lark/larkSourceIndex.test.js packages/docs-tooling/src/lark/sourceCompleteness.test.js packages/docs-tooling/src/lark/incrementalSharedReceipts.test.js packages/docs-tooling/src/lark/incrementalReconciliation.test.js",
         "pnpm vitest run packages/docs-tooling/src/lark/revisionInventory.test.ts packages/docs-tooling/src/cli-main.integration.test.ts"
       ],
       "harnesses": [
