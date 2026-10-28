@@ -1933,9 +1933,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/projects/manage-projects.md",
-      "sha256": "ea89de391d88240a5b7a2c3332470fe87690ae6029f1c875e2f082b88dc16ead",
+      "sha256": "40639e79dcb403ebbddb69e98ccbddc8196b581e6760c2a094d4c29bf9df1cbb",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
-      "revisionId": "1057"
+      "revisionId": "1059"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/slow-logs/configure-slow-logs.md",
@@ -3493,9 +3493,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "sha256": "94069ca1f1726b73a0aacd2463b0c6b7b8ab585c22219620808f26d665de8611",
+      "sha256": "6b3012327e1cc5fc50d0ae53602d4936155254cd3a40d86b4310625024eba934",
       "docToken": "DwklwhvhBi1xiQkdaxVcbIK0ned",
-      "revisionId": "503"
+      "revisionId": "519"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/create-backup.md",
@@ -3991,9 +3991,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "07c3cf5bb74859b307f1ec852ece92694c6dbcdf0eff50940377b97c321f504c",
+      "sha256": "ecbbe556b00a1460333a7241be262280384294d2dbc8da9007d320329bfb1f15",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
-      "revisionId": "1057"
+      "revisionId": "1059"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/slow-logs/configure-slow-logs.md",

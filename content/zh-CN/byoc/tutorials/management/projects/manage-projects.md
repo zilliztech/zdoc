@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 添加项目地域\{#add-project-regions}
 
-您可以[联系我们](http://support.zilliz.com.cn)开通多地域项目的功能。
+如果您的应用面向不同地理位置的用户，您可以为项目添加地域，将集群部署在更靠近用户的位置，以降低访问延迟。
 
 - **通过 RESTful API**
 
