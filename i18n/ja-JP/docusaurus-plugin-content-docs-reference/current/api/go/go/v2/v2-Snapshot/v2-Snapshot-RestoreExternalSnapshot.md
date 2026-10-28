@@ -2,7 +2,7 @@
 title: "RestoreExternalSnapshot | Go | v2"
 slug: /go/go/v2-Snapshot-RestoreExternalSnapshot
 sidebar_label: "RestoreExternalSnapshot"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false

@@ -2,12 +2,12 @@
 title: "ListRestoreSnapshotJobs() | Go | v2"
 slug: /go/go/v2-Snapshot-ListRestoreSnapshotJobs
 sidebar_label: "ListRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じて、コレクション名またはデータベース名でフィルタリングできます。 | Go | v2"
+description: "この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じて、コレクション名またはデータベース名でフィルターできます。 | Go | v2"
 type: docx
 token: QrOmdt65AooKEkxVmNuc7qunnmf
 sidebar_position: 6
@@ -15,9 +15,9 @@ keywords:
   - Zilliz
   - Milvus ベクトルデータベース
   - Milvus データベース
-  - Milvus ベクトルデータベース
-  - Zilliz
-  - Zilliz Cloud
+  - Milvus ベクトル DB
+  - zilliz
+  - zilliz cloud
   - クラウド
   - ListRestoreSnapshotJobs()
   - gov230
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRestoreSnapshotJobs()
 
-この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じて、コレクション名またはデータベース名でフィルタリングできます。
+この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じて、コレクション名またはデータベース名でフィルターできます。
 
 ```go
 func (c *Client) ListRestoreSnapshotJobs(ctx context.Context, opt ListRestoreSnapshotJobsOption, callOptions ...grpc.CallOption) ([]*milvuspb.RestoreSnapshotInfo, error)
@@ -48,7 +48,7 @@ option := client.NewListRestoreSnapshotJobsOption().
 result, err := client.ListRestoreSnapshotJobs(option)
 ```
 
-**パラメーター：**
+**パラメーター:**
 
 - **JobId** (*int64*) -
 
@@ -60,19 +60,19 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 - **DbName** (*string*) -
 
-    対象のデータベース名です。
+    対象データベース名です。
 
 - **CollectionName** (*string*) -
 
-    対象のコレクション名です。
+    対象コレクション名です。
 
 - **State** (*RestoreSnapshotState*) -
 
-    現在の状態です。指定可能な値は *RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed* です。
+    現在の状態です。指定できる値は、*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed* です。
 
 - **Progress** (*int64*) -
 
-    進捗率（0～100）です。
+    進行状況の割合（0～100）です。
 
 - **Reason** (*string*) -
 
@@ -80,29 +80,29 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 - **StartTime** (*int64*) -
 
-    開始タイムスタンプ（ミリ秒）です。
+    開始タイムスタンプをミリ秒で示します。
 
 - **TimeCost** (*int64*) -
 
-    所要時間（ミリ秒）です。
+    所要時間をミリ秒で示します。
 
-**ビルダーメソッド：**
+**BUILDER メソッド:**
 
 - `WithCollectionName(collectionName string)`
 
-    対象のコレクション名で復元ジョブをフィルタリングします。設定しない場合は、すべての復元ジョブが一覧表示されます。
+    復元ジョブを対象コレクション名でフィルターします。設定しない場合は、すべての復元ジョブが一覧表示されます。
 
 - `WithDbName(dbName string)`
 
     データベース名を指定します。設定しない場合は、デフォルトのデータベースが使用されます。
 
-**戻り値の型：**
+**戻り値の型:**
 
 <em>[]</em>milvuspb.RestoreSnapshotInfo, error&ast;
 
-**戻り値：**
+**戻り値:**
 
-RestoreSnapshotInfo オブジェクトのリストです。各オブジェクトには、復元スナップショットジョブの詳細が記録されます。
+復元スナップショットジョブの詳細をそれぞれ記録した RestoreSnapshotInfo オブジェクトのリストです。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -118,13 +118,13 @@ type RestoreSnapshotInfo struct {
 }
 ```
 
-**パラメーター：**
+**パラメーター:**
 
 - **result** (<em>[]</em>milvuspb.RestoreSnapshotInfo&ast;) -
 
-    復元スナップショットジョブの詳細をそれぞれ記録する RestoreSnapshotInfo オブジェクトです。
+    復元スナップショットジョブの詳細をそれぞれ記録した RestoreSnapshotInfo オブジェクトです。
 
-**エラー処理：**
+**エラー処理:**
 
 - **error**
 

@@ -2,12 +2,12 @@
 title: "UnpinSnapshotData() | Go | v2"
 slug: /go/go/v2-Snapshot-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、以前にピン留めされたスナップショットデータのピンを解除し、ガベージコレクションがファイルを再利用できるようにします。 | Go | v2"
+description: "この操作は、以前にピン留めされたスナップショットデータのピンを解除し、ガベージコレクションがファイルを回収できるようにします。 | Go | v2"
 type: docx
 token: NgKmd79aSob0ruxRuUEcZba7nge
 sidebar_position: 11
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # UnpinSnapshotData()
 
-この操作は、以前にピン留めされたスナップショットデータのピンを解除し、ガベージコレクションがファイルを再利用できるようにします。
+この操作は、以前にピン留めされたスナップショットデータのピンを解除し、ガベージコレクションがファイルを回収できるようにします。
 
 ```go
 func (c *Client) UnpinSnapshotData(ctx context.Context, opt UnpinSnapshotDataOption, callOptions ...grpc.CallOption) error
@@ -58,7 +58,7 @@ err := cli.UnpinSnapshotData(ctx, option)
 
 - `NewUnpinSnapshotDataOption(pinID int64)`
 
-    解放するピン用の新しいオプションを作成します。
+    解放するピンの新しいオプションを作成します。
 
 **戻り値の型:**
 

@@ -2,7 +2,7 @@
 title: "DropSnapshot() | Go | v2"
 slug: /go/go/v2-Snapshot-DropSnapshot
 sidebar_label: "DropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -59,7 +59,7 @@ err := client.DropSnapshot(option)
 
     **[必須]**
 
-    スナップショットの属するコレクションの名前です。
+    スナップショットが属するコレクションの名前です。
 
 **ビルダーメソッド:**
 
@@ -79,7 +79,7 @@ err := client.DropSnapshot(option)
 
 - **error**
 
-    操作に失敗しました。失敗の詳細については、err != nil を確認してください。
+    操作が失敗します。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 

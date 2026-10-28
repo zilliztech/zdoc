@@ -2,22 +2,22 @@
 title: "GetExportSnapshotState | Go | v2"
 slug: /go/go/v2-Snapshot-GetExportSnapshotState
 sidebar_label: "GetExportSnapshotState"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、非同期のスナップショットエクスポートジョブのステータスと進行状況を照会します。 | Go | v2"
+description: "この操作は、非同期スナップショットエクスポートジョブのステータスと進行状況を照会します。 | Go | v2"
 type: docx
 token: Coq7d7x5qoOApzxWQAZcQ2wSnee
 sidebar_position: 4
 keywords: 
-  - milvus オープンソース
-  - milvus の仕組み
+  - Milvus オープンソース
+  - Milvus の仕組み
   - Zilliz ベクトルデータベース
   - Zilliz データベース
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - クラウド
   - GetExportSnapshotState
   - gov230
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # GetExportSnapshotState
 
-この操作は、非同期のスナップショットエクスポートジョブのステータスと進行状況を照会します。
+この操作は、非同期スナップショットエクスポートジョブのステータスと進行状況を照会します。
 
 ```go
 func (c *Client) GetExportSnapshotState(ctx context.Context, opt GetExportSnapshotStateOption, callOptions ...grpc.CallOption) (*milvuspb.ExportSnapshotInfo, error)
@@ -46,35 +46,35 @@ option := milvusclient.NewGetExportSnapshotStateOption(jobID)
 info, err := cli.GetExportSnapshotState(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター：**
 
 - **jobID** (*int64*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    `ExportSnapshot()` によって返されるジョブ ID。
+    `ExportSnapshot()` によって返されるジョブ ID です。
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `NewGetExportSnapshotStateOption(jobID int64)`
 
-    照会対象のエクスポートジョブの新しいオプションを作成します。
+    照会するエクスポートジョブの新しいオプションを作成します。
 
-**戻り値の型:**
+**戻り値の型：**
 
 *milvuspb.ExportSnapshotInfo, error*
 
-**戻り値:**
+**戻り値：**
 
-指定されたエクスポートスナップショットジョブの永続的な状態です。操作が失敗した場合はエラーを返します。
+指定されたエクスポートスナップショットジョブの永続状態です。操作が失敗した場合はエラーを返します。
 
-**パラメータ:**
+**パラメーター：**
 
 - **result** (*milvuspb.ExportSnapshotInfo*) -
 
-    指定されたエクスポートスナップショットジョブの永続的な状態です。
+    指定されたエクスポートスナップショットジョブの永続状態です。
 
-**エラー処理:**
+**エラー処理：**
 
 - **error**
 

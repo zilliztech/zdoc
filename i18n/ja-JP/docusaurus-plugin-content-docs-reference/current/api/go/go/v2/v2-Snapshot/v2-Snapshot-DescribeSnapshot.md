@@ -2,12 +2,12 @@
 title: "DescribeSnapshot() | Go | v2"
 slug: /go/go/v2-Snapshot-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む、特定のスナップショットに関する詳細なメタデータを取得します。 | Go | v2"
+description: "この操作では、特定のスナップショットの詳細なメタデータ（ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む）を取得します。 | Go | v2"
 type: docx
 token: NM44dNuQtoKR9UxlEbqcZrVUnpb
 sidebar_position: 2
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeSnapshot()
 
-この操作は、ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む、特定のスナップショットに関する詳細なメタデータを取得します。
+この操作では、特定のスナップショットの詳細なメタデータ（ソースコレクション、パーティション名、作成タイムスタンプ、保存場所を含む）を取得します。
 
 ```go
 func (c *Client) DescribeSnapshot(ctx context.Context, opt DescribeSnapshotOption, callOptions ...grpc.CallOption) (*milvuspb.DescribeSnapshotResponse, error)
@@ -47,13 +47,13 @@ option := client.NewDescribeSnapshotOption(snapshotName, collectionName).
 result, err := client.DescribeSnapshot(option)
 ```
 
-**パラメーター:**
+**パラメーター：**
 
 - **name** (*string*) -
 
     **[必須]**
 
-    説明対象のスナップショットの名前です。
+    詳細を取得するスナップショットの名前です。
 
 - **collectionName** (*string*) -
 
@@ -61,15 +61,15 @@ result, err := client.DescribeSnapshot(option)
 
     スナップショットが属するコレクションの名前です。
 
-**ビルダーメソッド:**
+**ビルダーメソッド：**
 
 - `WithDbName(dbName string)`
 
-**戻り値の型:**
+**戻り値の型：**
 
 *milvuspb.DescribeSnapshotResponse, error*
 
-**戻り値:**
+**戻り値：**
 
 詳細なスナップショットメタデータを含む DescribeSnapshotResponse オブジェクトです。
 
@@ -84,17 +84,17 @@ type DescribeSnapshotResponse struct {
 }
 ```
 
-**パラメーター:**
+**パラメーター：**
 
 - **result** (*milvuspb.DescribeSnapshotResponse*) -
 
     詳細なスナップショットメタデータを含む DescribeSnapshotResponse オブジェクトです。
 
-**エラー処理:**
+**エラーハンドリング：**
 
 - **error**
 
-    操作が失敗します。失敗の詳細については、err != nil を確認してください。
+    操作が失敗した場合に返されます。失敗の詳細については、err != nil を確認してください。
 
 ## 例\{#example}
 

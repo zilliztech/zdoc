@@ -2,7 +2,7 @@
 title: "PinSnapshotData() | Go | v2"
 slug: /go/go/v2-Snapshot-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
@@ -54,13 +54,13 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
     **[必須]**
 
-    作成するコレクションの名前。
+    作成するコレクションの名前です。
 
 - **collectionName**（*string*） -
 
     **[必須]**
 
-    対象コレクションの名前。
+    対象コレクションの名前です。
 
 **ビルダーメソッド:**
 
@@ -74,7 +74,7 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 - `WithTTL(ttlSeconds int64)`
 
-    ピンの Time-to-Live（TTL）を秒単位で設定します。
+    ピンの Time-to-Live を秒単位で設定します。
 
 **戻り値の型:**
 
