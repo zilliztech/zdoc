@@ -2,7 +2,7 @@
 title: "DropSnapshot() | Go | v2"
 slug: /go/go/v2-Snapshot-DropSnapshot
 sidebar_label: "DropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -49,13 +49,13 @@ err := client.DropSnapshot(option)
 
 **参数：**
 
-- **name** （*string*） -
+- **name** (*string*) -
 
     **[必需]**
 
     要删除的快照的名称。
 
-- **collectionName** （*string*） -
+- **collectionName** (*string*) -
 
     **[必需]**
 

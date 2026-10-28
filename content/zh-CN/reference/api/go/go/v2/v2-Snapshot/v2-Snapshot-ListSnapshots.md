@@ -2,7 +2,7 @@
 title: "ListSnapshots() | Go | v2"
 slug: /go/go/v2-Snapshot-ListSnapshots
 sidebar_label: "ListSnapshots()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -51,7 +51,7 @@ result, err := client.ListSnapshots(option)
 
 - **collectionName**（*string*）-
 
-    **必需**
+    **[必需]**
 
     目标 Collection 的名称。
 
@@ -65,7 +65,7 @@ result, err := client.ListSnapshots(option)
 
 *[]string, error*
 
-**返回值：**
+**返回：**
 
 快照名称列表。如果操作失败，则返回错误。
 
@@ -75,7 +75,7 @@ result, err := client.ListSnapshots(option)
 
     由 ListSnapshots() 返回的 []string 值。
 
-**错误处理：**
+**异常：**
 
 - **error**
 

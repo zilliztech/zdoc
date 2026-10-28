@@ -2,7 +2,7 @@
 title: "GetRestoreSnapshotState() | Go | v2"
 slug: /go/go/v2-Snapshot-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -12,9 +12,9 @@ type: docx
 token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
 sidebar_position: 5
 keywords: 
-  - 什么是向量数据库
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量 Database
+  - 有哪些向量 Database
+  - 向量 Database 比较
   - Faiss
   - Zilliz
   - Zilliz Cloud
@@ -50,9 +50,9 @@ result, err := client.GetRestoreSnapshotState(option)
 
 - **jobID** (*int64*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    恢复任务的 ID。
+    恢复任务 ID。
 
 **返回类型：**
 
@@ -60,7 +60,7 @@ result, err := client.GetRestoreSnapshotState(option)
 
 **返回：**
 
-一个记录指定恢复快照任务详情的 RestoreSnapshotInfo 对象。
+一个 RestoreSnapshotInfo 对象，记录指定恢复快照任务的详细信息。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -80,7 +80,7 @@ type RestoreSnapshotInfo struct {
 
 - **result** (*milvuspb.RestoreSnapshotInfo*) -
 
-    记录指定恢复快照任务详情的 RestoreSnapshotInfo 对象。
+    该 RestoreSnapshotInfo 对象记录指定恢复快照任务的详细信息。
 
 **错误处理：**
 

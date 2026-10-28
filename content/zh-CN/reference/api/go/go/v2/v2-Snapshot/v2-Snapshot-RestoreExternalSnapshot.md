@@ -2,18 +2,18 @@
 title: "RestoreExternalSnapshot | Go | v2"
 slug: /go/go/v2-Snapshot-RestoreExternalSnapshot
 sidebar_label: "RestoreExternalSnapshot"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将外部快照恢复到目标 Collection。恢复将异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
+description: "此操作将外部快照恢复到目标 Collection。恢复过程异步运行，请使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
 type: docx
 token: HSYWdB6MaoyG2vxEpMSca16fnsb
 sidebar_position: 9
 keywords: 
   - 私有 LLM
-  - 最近邻搜索
+  - 近邻搜索
   - LLM 评估
   - 稀疏与稠密
   - Zilliz
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RestoreExternalSnapshot
 
-此操作会将外部快照恢复到目标 Collection。恢复将异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。
+此操作将外部快照恢复到目标 Collection。恢复过程异步运行，请使用 `GetRestoreSnapshotState()` 监控进度。
 
 ```go
 func (c *Client) RestoreExternalSnapshot(ctx context.Context, opt RestoreExternalSnapshotOption, callOptions ...grpc.CallOption) (int64, error)
@@ -51,13 +51,13 @@ jobID, err := cli.RestoreExternalSnapshot(ctx, option)
 
 **参数：**
 
-- **targetCollectionName** (*string*) -
+- **targetCollectionName** （*string*） -
 
     **[必需]**
 
     要恢复到的目标 Collection 的名称。
 
-- **snapshotMetadataURI** (*string*) -
+- **snapshotMetadataURI** （*string*） -
 
     **[必需]**
 
@@ -75,11 +75,11 @@ jobID, err := cli.RestoreExternalSnapshot(ctx, option)
 
 - `WithExternalSpec(externalSpec string)`
 
-    设置用于恢复的外部存储规范（例如自定义 Endpoint 凭据）。
+    设置用于恢复的外部存储规格（例如自定义 Endpoint 凭据）。
 
 - `WithRequestTimeout(timeout time.Duration)`
 
-    设置恢复请求的超时时间。默认值：`120 * time.Second`。
+    设置恢复请求的超时时间。该值默认为 `120 * time.Second`。
 
 **返回类型：**
 
@@ -87,19 +87,19 @@ jobID, err := cli.RestoreExternalSnapshot(ctx, option)
 
 **返回：**
 
-成功时返回恢复作业 ID。将此 ID 与 `GetRestoreSnapshotState()` 配合使用，以跟踪恢复进度。如果操作失败，则返回错误。
+成功时返回恢复任务 ID。请将此 ID 与 `GetRestoreSnapshotState()` 一起使用，以跟踪恢复进度。如果操作失败，则返回错误。
 
 **参数：**
 
-- **result** (*int64*) -
+- **result** （*int64*） -
 
-    RestoreExternalSnapshot() 返回的 int64 值。
+    由 RestoreExternalSnapshot() 返回的 int64 值。
 
-**异常：**
+**错误处理：**
 
 - **error**
 
-    操作失败。检查 `err != nil` 以获取失败详情。
+    操作失败。请检查 `err != nil` 以获取失败详情。
 
 ## 示例\{#example}
 

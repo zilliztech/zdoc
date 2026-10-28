@@ -2,7 +2,7 @@
 title: "PinSnapshotData() | Go | v2"
 slug: /go/go/v2-Snapshot-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
@@ -50,13 +50,13 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 **参数：**
 
-- **name** (*string*) -
+- **name** （*string*） -
 
     **[必需]**
 
     要创建的 Collection 的名称。
 
-- **collectionName** (*string*) -
+- **collectionName** （*string*） -
 
     **[必需]**
 
@@ -86,11 +86,11 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 **参数：**
 
-- **result** (*int64*) -
+- **result** （*int64*） -
 
     PinSnapshotData() 返回的 int64 值。
 
-**异常：**
+**错误处理：**
 
 - **error**
 

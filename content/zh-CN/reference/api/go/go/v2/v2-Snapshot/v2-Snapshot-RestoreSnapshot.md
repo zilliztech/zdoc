@@ -2,12 +2,12 @@
 title: "RestoreSnapshot() | Go | v2"
 slug: /go/go/v2-Snapshot-RestoreSnapshot
 sidebar_label: "RestoreSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将快照恢复到目标 Collection。恢复会异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
+description: "此操作会将快照恢复到目标 Collection。恢复过程以异步方式运行——使用 `GetRestoreSnapshotState()` 监控进度。 | Go | v2"
 type: docx
 token: DrQidTj6koNKBkxHi4NcAxBfnDd
 sidebar_position: 10
@@ -16,8 +16,8 @@ keywords:
   - 语义搜索
   - 异常检测
   - sentence transformers
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - RestoreSnapshot()
   - gov230
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RestoreSnapshot()
 
-此操作会将快照恢复到目标 Collection。恢复会异步运行——请使用 `GetRestoreSnapshotState()` 监控进度。
+此操作会将快照恢复到目标 Collection。恢复过程以异步方式运行——使用 `GetRestoreSnapshotState()` 监控进度。
 
 ```go
 func (c *Client) RestoreSnapshot(ctx context.Context, opt RestoreSnapshotOption, callOptions ...grpc.CallOption) (int64, error)
@@ -38,7 +38,7 @@ func (c *Client) RestoreSnapshot(ctx context.Context, opt RestoreSnapshotOption,
 
 ## 请求语法\{#request-syntax}
 
-为 RestoreSnapshot() 创建请求。
+创建 RestoreSnapshot() 的请求。
 
 ```go
 option := client.NewRestoreSnapshotOption(snapshotName, collectionName, targetCollectionName).
@@ -54,29 +54,29 @@ jobID, err := client.RestoreSnapshot(option)
 
     **[必需]**
 
-    要恢复的快照名称。
+    要恢复的快照的名称。
 
 - **collectionName** （*string*） -
 
     **[必需]**
 
-    创建该快照时的源 Collection 名称。
+    用于生成该快照的源 Collection 的名称。
 
 - **targetCollectionName** （*string*） -
 
     **[必需]**
 
-    恢复后 Collection 的名称。该名称必须不同于源 Collection 名称。
+    恢复后的 Collection 的名称。此名称必须与源 Collection 的名称不同。
 
 **构建器方法：**
 
 - `WithDbName(dbName string)`
 
-    此方法设置源 Database 名称。如果未设置，则使用默认 Database。
+    设置源 Database 的名称。如果未设置，则使用默认 Database。
 
 - `WithTargetDbName(targetDbName string)`
 
-    此方法设置恢复后 Collection 的目标 Database 名称。如果未设置，则使用源 Database。
+    设置恢复后的 Collection 的目标 Database 名称。如果未设置，则使用源 Database。
 
 **返回类型：**
 
@@ -84,7 +84,7 @@ jobID, err := client.RestoreSnapshot(option)
 
 **返回：**
 
-恢复作业 ID。请使用此 ID 配合 `GetRestoreSnapshotState()` 跟踪恢复进度。如果快照不存在或操作失败，则返回错误。
+恢复任务 ID。将此 ID 与 `GetRestoreSnapshotState()` 搭配使用，以跟踪恢复进度。如果快照不存在或操作失败，则返回错误。
 
 **参数：**
 
@@ -92,7 +92,7 @@ jobID, err := client.RestoreSnapshot(option)
 
     RestoreSnapshot() 返回的 int64 值。
 
-**错误处理：**
+**异常处理：**
 
 - **error**
 

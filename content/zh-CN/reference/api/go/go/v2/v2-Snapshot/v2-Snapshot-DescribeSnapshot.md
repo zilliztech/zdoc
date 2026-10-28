@@ -2,7 +2,7 @@
 title: "DescribeSnapshot() | Go | v2"
 slug: /go/go/v2-Snapshot-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -49,13 +49,13 @@ result, err := client.DescribeSnapshot(option)
 
 **参数：**
 
-- **name** (*string*) -
+- **name** （*string*） -
 
     **[必需]**
 
     要描述的快照名称。
 
-- **collectionName** (*string*) -
+- **collectionName** （*string*） -
 
     **[必需]**
 
@@ -86,11 +86,11 @@ type DescribeSnapshotResponse struct {
 
 **参数：**
 
-- **result** (*milvuspb.DescribeSnapshotResponse*) -
+- **result** （*milvuspb.DescribeSnapshotResponse*） -
 
     包含详细快照元数据的 DescribeSnapshotResponse 对象。
 
-**异常处理：**
+**错误处理：**
 
 - **error**
 

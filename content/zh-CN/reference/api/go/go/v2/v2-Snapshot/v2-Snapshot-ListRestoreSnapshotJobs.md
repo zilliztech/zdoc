@@ -2,12 +2,12 @@
 title: "ListRestoreSnapshotJobs() | Go | v2"
 slug: /go/go/v2-Snapshot-ListRestoreSnapshotJobs
 sidebar_label: "ListRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有快照恢复任务。可选择按 Collection 名称或 Database 名称进行筛选。 | Go | v2"
+description: "列出所有恢复快照作业。可选按 Collection 名称或 Database 名称筛选。 | Go | v2"
 type: docx
 token: QrOmdt65AooKEkxVmNuc7qunnmf
 sidebar_position: 6
@@ -15,7 +15,7 @@ keywords:
   - Zilliz
   - Milvus 向量 Database
   - Milvus Database
-  - Milvus 向量数据库
+  - Milvus 向量 Database
   - Zilliz
   - Zilliz Cloud
   - 云
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRestoreSnapshotJobs()
 
-此操作会列出所有快照恢复任务。可选择按 Collection 名称或 Database 名称进行筛选。
+此操作会列出所有恢复快照作业。您可以选择按 Collection 名称或 Database 名称筛选。
 
 ```go
 func (c *Client) ListRestoreSnapshotJobs(ctx context.Context, opt ListRestoreSnapshotJobsOption, callOptions ...grpc.CallOption) ([]*milvuspb.RestoreSnapshotInfo, error)
@@ -50,39 +50,39 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 **参数：**
 
-- **JobId** （*int64*） -
+- **JobId**（*int64*）-
 
-    恢复任务 ID。
+    恢复作业的 ID。
 
-- **SnapshotName** （*string*） -
+- **SnapshotName**（*string*）-
 
     正在恢复的快照名称。
 
-- **DbName** （*string*） -
+- **DbName**（*string*）-
 
     目标 Database 名称。
 
-- **CollectionName** （*string*） -
+- **CollectionName**（*string*）-
 
     目标 Collection 名称。
 
-- **State** （*RestoreSnapshotState*） -
+- **State**（*RestoreSnapshotState*）-
 
-    当前状态。可选值为 *RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted* 和 *RestoreSnapshotFailed*。
+    当前状态。可能的值：*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted* 和 *RestoreSnapshotFailed*。
 
-- **Progress** （*int64*） -
+- **Progress**（*int64*）-
 
     进度百分比（0 到 100）。
 
-- **Reason** （*string*） -
+- **Reason**（*string*）-
 
-    任务失败时的错误原因。
+    作业失败时的错误原因。
 
-- **StartTime** （*int64*） -
+- **StartTime**（*int64*）-
 
     开始时间戳，单位为毫秒。
 
-- **TimeCost** （*int64*） -
+- **TimeCost**（*int64*）-
 
     耗时，单位为毫秒。
 
@@ -90,11 +90,11 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 - `WithCollectionName(collectionName string)`
 
-    按目标 Collection 名称筛选恢复任务。如果未设置，则会列出所有恢复任务。
+    此方法按目标 Collection 名称筛选恢复作业。如果未设置，则会列出所有恢复作业。
 
 - `WithDbName(dbName string)`
 
-    指定 Database 名称。如果未设置，则使用默认 Database。
+    此方法指定 Database 名称。如果未设置，则使用默认 Database。
 
 **返回类型：**
 
@@ -102,7 +102,7 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 **返回：**
 
-RestoreSnapshotInfo 对象列表，每个对象记录一个快照恢复任务的详细信息。
+RestoreSnapshotInfo 对象的列表，每个对象记录一个恢复快照作业的详细信息。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -120,9 +120,9 @@ type RestoreSnapshotInfo struct {
 
 **参数：**
 
-- **result** （<em>[]</em>milvuspb.RestoreSnapshotInfo&ast;） -
+- **result**（<em>[]</em>milvuspb.RestoreSnapshotInfo&ast;）-
 
-    RestoreSnapshotInfo 对象，每个对象记录一个快照恢复任务的详细信息。
+    RestoreSnapshotInfo 对象，每个对象记录一个恢复快照作业的详细信息。
 
 **错误处理：**
 

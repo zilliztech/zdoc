@@ -2,12 +2,12 @@
 title: "UnpinSnapshotData() | Go | v2"
 slug: /go/go/v2-Snapshot-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会取消固定先前已固定的 Collection 快照数据，使垃圾回收能够回收这些文件。 | Go | v2"
+description: "此操作会取消固定先前已固定的快照数据，使垃圾回收（Garbage Collection）能够回收这些文件。 | Go | v2"
 type: docx
 token: NgKmd79aSob0ruxRuUEcZba7nge
 sidebar_position: 11
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # UnpinSnapshotData()
 
-此操作会取消固定先前已固定的 Collection 快照数据，使垃圾回收能够回收这些文件。
+此操作会取消固定先前已固定的快照数据，使垃圾回收（Garbage Collection）能够回收这些文件。
 
 ```go
 func (c *Client) UnpinSnapshotData(ctx context.Context, opt UnpinSnapshotDataOption, callOptions ...grpc.CallOption) error
