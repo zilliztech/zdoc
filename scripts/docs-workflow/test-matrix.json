@@ -655,6 +655,21 @@
       "reason": "The GA4 report script, its JWT exchange, and the workflow contract test must stay compatible with the ga4-search-404-report.yml credential gate and report-card steps."
     },
     {
+      "id": "ga4-engagement-report-tooling",
+      "paths": [
+        "scripts/ga4-engagement-report*",
+        ".github/workflows/ga4-engagement-report.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/ga4-engagement-report.test.js scripts/ga4-engagement-report-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The GA4 engagement funnel script and its workflow contract test must stay compatible with the ga4-engagement-report.yml credential gate and report-card steps, and the tracked-event list must keep matching the dataLayer events documented in the analytics design spec."
+    },
+    {
       "id": "docs-tooling-cli-dispatch",
       "paths": [
         "packages/docs-tooling/src/cli-main*",

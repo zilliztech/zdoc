@@ -501,6 +501,10 @@ Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, 
 
 Without the secret and property variables the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks.
 
+### Engagement funnel report
+
+`ga4 engagement report` (`.github/workflows/ga4-engagement-report.yml`) collects the tracked dataLayer events the 404 report does not cover — the search funnel (`search_open`, `search_performed`, `search_result_clicked`), the Ask-AI funnel (`ask_ai_open`, `ask_ai_query`, `ask_ai_completed`, `ask_ai_feedback`, `ai_source_click`, `chat_message_copy`), page engagement (`code_copy`, `doc_feedback`, `toc_click`), and navigation/conversion (`lang_switch`, `cta_click`) — as per-event totals plus GA4 key-event counts for each site. It is scheduled weekly Monday 04:17 UTC and can also be dispatched manually. It reuses the same `GA4_SERVICE_ACCOUNT_JSON` plus property-variable setup as the 404 report, so no extra operator configuration is needed. Like the 404 report it is informational only; the signal to watch is an event whose count stays 0 across runs, which means the instrumentation or its GTM trigger went quiet.
+
 ## Containers
 
 The runtime images contain only Nginx plus the selected static build output. Build from the repository root:
