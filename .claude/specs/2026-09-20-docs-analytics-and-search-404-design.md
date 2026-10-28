@@ -2,7 +2,7 @@
 
 Date: 2026-09-20
 Status: implemented (GA4/GTM container configuration is an operator follow-up)
-Scope: `packages/docs-ui`, `scripts/ga4-search-404-report*`, `.github/workflows/ga4-search-404-report.yml`, README "Analytics"
+Scope: `packages/docs-ui`, `scripts/ga4-search-404-report*`, `.github/workflows/ga4-search-404-report.yml`, `scripts/ga4-engagement-report*`, `.github/workflows/ga4-engagement-report.yml`, README "Analytics"
 
 ## Goals
 
@@ -149,11 +149,32 @@ Operator setup:
 A host-side nginx access-log 404 analysis (crawler coverage, non-GA traffic) needs host log access
 and is intentionally out of scope; the GA4 report covers real search-origin user 404s.
 
+## Engagement funnel reporting
+
+`scripts/ga4-engagement-report.js` (same zero-dependency RS256 JWT scheme) collects every tracked
+dataLayer event the 404 report does not own, as per-event `eventCount` plus the `keyEvents` metric
+per property: the search funnel (`search_open`, `search_performed`, `search_result_clicked`), the
+Ask-AI funnel (`ask_ai_open`, `ask_ai_query`, `ask_ai_completed`, `ask_ai_feedback`,
+`ai_source_click`, `chat_message_copy`), page engagement (`code_copy`, `doc_feedback`,
+`toc_click`), and navigation/conversion (`lang_switch`, `cta_click`). Rows are zero-filled in
+funnel order so a silent event — lost GTM trigger, renamed instrumentation — is visible in the
+report instead of disappearing between runs. The tracked-event list in the script must keep
+matching this spec's event inventory.
+
+`.github/workflows/ga4-engagement-report.yml`: weekly Monday 04:17 UTC plus manual dispatch,
+same credential gate (`GA4_SERVICE_ACCOUNT_JSON` + at least one property variable), Feishu card +
+artifact (14 days) with the `FEISHU_NOTIFICATIONS_DISABLED` kill switch — the 404-report pattern
+unchanged. Informational only; the action item is a persistently zero count, not a failing run.
+
+Operator setup is shared with the 404 report: no extra GA4/GTM configuration beyond the custom
+definitions and key-event markings already listed above.
+
 ## Verification
 
 - `pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/theme/Search/index.test.tsx`
 - `node --test scripts/ga4-search-404-report.test.js scripts/ga4-search-404-report-workflow.test.js`
-- `pnpm test:for-change` over the full diff (matrix entries `docs-ui-analytics`, `ga4-search-404-report-tooling`, `workflow-yaml`), `pnpm test:workflow-policy`, `pnpm typecheck`, `git diff --check`
+- `node --test scripts/ga4-engagement-report.test.js scripts/ga4-engagement-report-workflow.test.js`
+- `pnpm test:for-change` over the full diff (matrix entries `docs-ui-analytics`, `ga4-search-404-report-tooling`, `ga4-engagement-report-tooling`, `workflow-yaml`), `pnpm test:workflow-policy`, `pnpm typecheck`, `git diff --check`
 - Post-deploy: GTM Preview + DebugView per event; then GA4 realtime during rollout.
 
 ## Out of scope
