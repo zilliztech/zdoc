@@ -86,9 +86,9 @@ create_collection(
 
     このコレクションのプライマリフィールドの名前です。デフォルト値は id です。適切と思われる別の名前を使用できます。カスタマイズしたスキーマでコレクションをセットアップする必要がある場合は、このパラメーターを省略してください。このパラメーターはコレクションのクイックセットアップ用に設計されており、スキーマが None ではなく、スキーマ内のフィールドの is_primary が True に設定されている場合は無視されます。
 
-- **id_type** (*[DataType](DataType.md*) -
+- **id_type** (*[DataType](./Collections-DataType)*) -
 
-    このコレクションのプライマリフィールドのデータ型です。デフォルト値は DataType.INT64 です。指定可能な値は DataType.INT64 と DataType.VARCHAR です。このパラメーターはコレクションのクイックセットアップ用に設計されており、スキーマが None ではない場合は無視されます。
+    このコレクションのプライマリフィールドのデータ型です。デフォルト値は DataType.INT64 です。指定可能な値は DataType.INT64 および DataType.VARCHAR です。このパラメーターはコレクションのクイックセットアップ用に設計されており、スキーマが None ではない場合は無視されます。
 
 - **vector_field_name** (*str*) -
 
@@ -106,7 +106,7 @@ create_collection(
 
     この操作のタイムアウト時間です。これを None に設定すると、いずれかの応答が返るかエラーが発生した時点で、この操作はタイムアウトします。
 
-- **スキーマ** (*[CollectionSchema](CollectionSchema/CollectionSchema.md*) -
+- **スキーマ** (*[CollectionSchema](./MilvusClient-CollectionSchema) | None*) -
 
     このコレクションのスキーマです。これを None に設定すると、このコレクションはクイックセットアップ方式で作成されます。カスタマイズしたスキーマでコレクションをセットアップするには、CollectionSchema オブジェクトを作成し、ここで参照する必要があります。この場合、Milvus はリクエストに含まれる他のすべてのスキーマ関連設定を無視します。
 

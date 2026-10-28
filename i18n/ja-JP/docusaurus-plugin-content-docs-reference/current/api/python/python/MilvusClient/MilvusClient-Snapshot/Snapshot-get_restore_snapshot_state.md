@@ -2,18 +2,18 @@
 title: "get_restore_snapshot_state() | Python | MilvusClient"
 slug: /python/python/Snapshot-get_restore_snapshot_state
 sidebar_label: "get_restore_snapshot_state()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、非同期の restore snapshot ジョブのステータスと進行状況を照会します。 | Python | MilvusClient"
+description: "この操作は、非同期のスナップショット復元ジョブのステータスと進行状況を照会します。 | Python | MilvusClient"
 type: docx
 token: Ky0pdpA6WorUvbxwN3ucwUjgnec
 sidebar_position: 4
 keywords: 
   - managed milvus
-  - Serverless ベクトル データベース
+  - Serverless ベクトルデータベース
   - milvus open source
   - how does milvus work
   - zilliz
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get_restore_snapshot_state()
 
-この操作は、非同期の restore snapshot ジョブのステータスと進行状況を照会します。
+この操作は、非同期のスナップショット復元ジョブのステータスと進行状況を照会します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -46,10 +46,10 @@ get_restore_snapshot_state(
 
 - **job_id** (*int*) -<br/>
   **[REQUIRED]**<br/>
-  `restore_snapshot()` によって返される restore ジョブ ID。
+  `restore_snapshot()` によって返される復元ジョブ ID。
 
 - **timeout** (*Optional[float]*) -<br/>
-  RPC に許可するオプションの時間（秒単位）。
+  RPC に許可する時間（秒単位）を指定するオプションです。
 
 **RETURN TYPE:**
 
@@ -57,7 +57,7 @@ get_restore_snapshot_state(
 
 **RETURNS:**
 
-以下のフィールドを含む、restore ジョブ情報を格納した dataclass:
+以下のフィールドを含む、復元ジョブ情報を格納したデータクラスです。
 
 ```python
 {
@@ -77,27 +77,27 @@ get_restore_snapshot_state(
 
 - **job_id** (*int*) -
 
-    restore ジョブ ID。
+    復元ジョブ ID。
 
 - **snapshot_name** (*str*) -
 
-    復元中の snapshot 名。
+    復元するスナップショットの名前。
 
 - **db_name** (*str*) -
 
-    The target データベース name.
+    ターゲットデータベースの名前。
 
 - **collection_name** (*str*) -
 
-    The target コレクション name.
+    ターゲットコレクションの名前。
 
 - **state** (*str*) -
 
-    現在の状態。指定可能な値: *RestoreSnapshotNone*, *RestoreSnapshotPending*, *RestoreSnapshotExecuting*, *RestoreSnapshotCompleted*, *RestoreSnapshotFailed*。
+    現在の状態。指定可能な値は *RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed* です。
 
 - **progress** (*int*) -
 
-    進行率（0～100）。
+    進行状況の割合（0〜100）。
 
 - **reason** (*str*) -
 

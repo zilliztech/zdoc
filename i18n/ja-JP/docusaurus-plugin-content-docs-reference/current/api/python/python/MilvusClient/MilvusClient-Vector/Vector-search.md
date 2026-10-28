@@ -122,9 +122,9 @@ search(
 
     パーティション名のリストです。値のデフォルトは None です。指定した場合、指定されたパーティションのみがクエリの対象になります。このパラメーターは Milvus Lite には適用されません。Milvus Lite の制限の詳細については、Run Milvus Lite を参照してください。
 
-- **ranker** (*[Function](../Collections/Function/Function.md*) -
+- **ranker** (*[Function](./MilvusClient-Function) | FunctionScore*) -
 
-    検索に使用するランカーを指定するオプションです（*|* FunctionScore&ast;）。詳細については、Decay Ranker Overview および Model Ranker Overview を参照してください。
+    検索に使用するランカーです。詳細については、Decay Ranker の概要および Model Ranker の概要を参照してください。
 
 - **function_chains** (*FunctionChain | list[FunctionChain]*) -
 
@@ -323,4 +323,3 @@ res = client.search(
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
-

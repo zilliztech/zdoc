@@ -2,12 +2,12 @@
 title: "pin_snapshot_data() | Python | MilvusClient"
 slug: /python/python/Snapshot-pin_snapshot_data
 sidebar_label: "pin_snapshot_data()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ファイルをエクスポートまたはバックアップしている間にガベージコレクションによって削除されないよう、一定期間 snapshot データを固定します。 | Python | MilvusClient"
+description: "この操作は、ファイルのエクスポートまたはバックアップ中にガベージコレクションによって削除されないよう、スナップショットデータを一定期間ピン留めします。 | Python | MilvusClient"
 type: docx
 token: NqWDdRxKYoi6uTxHaYEcafx9nGc
 sidebar_position: 7
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # pin_snapshot_data()
 
-この操作は、ファイルをエクスポートまたはバックアップしている間にガベージコレクションによって削除されないよう、一定期間 snapshot データを固定します。
+この操作は、ファイルのエクスポートまたはバックアップ中にガベージコレクションによって削除されないよう、スナップショットデータを一定期間ピン留めします。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -42,11 +42,11 @@ pin_snapshot_data(
 
 - **snapshot_name** (*str*) -
 
-    固定する snapshot 名。
+    ピン留めするスナップショットの名前。
 
 - **collection_name** (*str*) -
 
-    snapshot を所有するコレクション。
+    スナップショットを所有するコレクション。
 
 - **db_name** (*str*) -
 
@@ -54,11 +54,11 @@ pin_snapshot_data(
 
 - **ttl_seconds** (*int*) -
 
-    固定の有効期間を秒単位で指定するオプションです。0 を指定すると、サーバーのデフォルト TTL が使用されます。
+    ピンの有効期間を秒単位で指定するオプションです。0 を指定すると、サーバーのデフォルト TTL が使用されます。
 
 - **timeout** (*Optional[float]*) -
 
-    この操作のタイムアウト時間（秒）。
+    この操作のタイムアウト（秒単位）。
 
 - **kwargs** (*dict*) -
 
@@ -70,13 +70,13 @@ pin_snapshot_data(
 
 **戻り値:**
 
-この固定を unpin_snapshot_data() で解放するために使用する pin_id です。
+unpin_snapshot_data() でこのピンを解放するために使用する pin_id です。
 
 **例外:**
 
 - **MilvusException**
 
-    snapshot を固定できない場合、またはリクエストが失敗した場合にスローされます。snapshot を固定できない場合、またはリクエストが失敗した場合にスローされます。
+    スナップショットをピン留めできない場合、またはリクエストが失敗した場合にスローされます。スナップショットをピン留めできない場合、またはリクエストが失敗した場合にスローされます。
 
 ## 例\{#examples}
 

@@ -46,11 +46,11 @@ FieldSchema(
 
     フィールドの名前。
 
-- **dtype** (*[DataType](../DataType.md*) -
+- **dtype** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
-    フィールドのデータ型を指定するオプションです。
+    フィールドのデータ型。
 
 - **description** (*str*) -
 

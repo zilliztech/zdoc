@@ -48,9 +48,13 @@ class pymilvus.EmbeddingList
 
     embedding パラメーターで指定するベクトル埋め込みの次元数です。検証目的で使用されます。指定する場合、すべてのベクトル埋め込みが次元の制約に従っている必要があります。
 
-- **dtype** (*np.dtype, str, [DataType](../../Collections/DataType.md*) -
+- **dtype** (*np.dtype, str, [DataType](./Collections-DataType)*) -
 
-    *) - np.dtype（`np.float32`、`np.float16`、`np.unit8` など）、文字列（`'float32'`、`'float16'`、`'uint8'` など）、または DataType*&ast;（`DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR`、`DataType.BINARY_VECTOR` など）を指定するオプションです。
+    - *np.dtype*（`np.float32`、`np.float16`、`np.unit8` など）
+
+    - *文字列*（`'float32'`、`'float16'`、`'uint8'` など）
+
+    - *DataType*（`DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR`、`DataType.BINARY_VECTOR` など）
 
 **戻り値の型:**
 

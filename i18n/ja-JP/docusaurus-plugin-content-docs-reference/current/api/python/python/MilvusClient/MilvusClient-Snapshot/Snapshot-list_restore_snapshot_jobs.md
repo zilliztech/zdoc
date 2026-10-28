@@ -2,23 +2,23 @@
 title: "list_restore_snapshot_jobs() | Python | MilvusClient"
 slug: /python/python/Snapshot-list_restore_snapshot_jobs
 sidebar_label: "list_restore_snapshot_jobs()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じてコレクション名でフィルタリングし、特定のコレクションを対象とする復元ジョブを確認できます。 | Python | MilvusClient"
+description: "この操作では、すべてのスナップショットのリストアジョブを一覧表示します。必要に応じてコレクション名で絞り込み、特定のコレクションを対象とするリストアジョブを表示できます。 | Python | MilvusClient"
 type: docx
 token: PtHQdGNfaoI4Mux05rbcRWTVnMp
 sidebar_position: 5
 keywords: 
-  - knn algorithm
+  - kNN アルゴリズム
   - HNSW
-  - What is unstructured data
+  - 非構造化データとは
   - ベクトル埋め込み
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - list_restore_snapshot_jobs()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -30,43 +30,43 @@ import Admonition from '@theme/Admonition';
 
 # list_restore_snapshot_jobs()
 
-この操作は、すべての復元スナップショットジョブを一覧表示します。必要に応じてコレクション名でフィルタリングし、特定のコレクションを対象とする復元ジョブを確認できます。
+この操作では、すべてのスナップショットのリストアジョブを一覧表示します。必要に応じてコレクション名で絞り込み、特定のコレクションを対象とするリストアジョブを表示できます。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 list_restore_snapshot_jobs(
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    復元ジョブをフィルタリングするためのオプションのコレクション名です。空の場合、すべての復元ジョブが一覧表示されます。
+    リストアジョブを絞り込むためのコレクション名（省略可能）です。空の場合は、すべてのリストアジョブが一覧表示されます。
 
 - **db_name** (*str*) -
 
-    復元ジョブをフィルタリングするためのオプションのデータベース名です。空の場合、デフォルトのデータベースが使用されます。
+    リストアジョブを絞り込むためのデータベース名（省略可能）です。空の場合は、デフォルトのデータベースが使用されます。
 
 - **timeout** (*Optional[float]*) -
 
-    RPC に許容される時間を秒単位で指定するオプションです。
+    RPC に許可する時間（秒）を指定します（省略可能）。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *List[RestoreSnapshotJobInfo]*
 
-**RETURNS:**
+**戻り値:**
 
-RestoreSnapshotJobInfo オブジェクトのリストです。各オブジェクトには、以下のフィールドを含む復元ジョブ情報が格納されます。
+RestoreSnapshotJobInfo オブジェクトのリストを返します。各オブジェクトには、次のフィールドを含むリストアジョブ情報が格納されます。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    操作が失敗した場合。操作が失敗した場合。
+    操作が失敗した場合に発生します。操作が失敗した場合に発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

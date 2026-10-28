@@ -2,7 +2,7 @@
 title: "restore_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-restore_snapshot
 sidebar_label: "restore_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Note">
 
-ターゲットコレクションはまだ存在しない状態である必要があります。既存のコレクションが存在する場合、復元ジョブは失敗します。スナップショット名はコレクション内でのみ一意であるため、スナップショットを一意に識別するには source_collection_name が必要です。
+ターゲットコレクションはまだ存在しない状態である必要があります。コレクションがすでに存在する場合、復元ジョブは失敗します。スナップショット名はコレクション内でのみ一意であるため、スナップショットを一意に識別するには source_collection_name が必要です。
 
 </Admonition>
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 client.restore_snapshot(
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **snapshot_name** (*str*) -
 
@@ -74,7 +74,7 @@ client.restore_snapshot(
 
 - **timeout** (*Optional[float]*) -
 
-    RPC に許可する秒単位の任意の時間です。
+    RPC に許可する時間を秒単位で指定するオプションです。
 
 **戻り値の型:**
 

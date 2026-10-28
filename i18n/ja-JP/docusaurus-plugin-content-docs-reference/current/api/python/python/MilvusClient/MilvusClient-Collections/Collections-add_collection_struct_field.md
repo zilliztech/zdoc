@@ -38,36 +38,6 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-<Admonition type="info" title="Note">
-
-既存のコレクションに struct フィールドを追加するには、既存のエンティティに新しいフィールドの値が存在しないため、nullable を True に設定する必要があります。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-既存のコレクションに struct フィールドを追加するには、既存のエンティティに新しいフィールドの値が存在しないため、nullable を True に設定する必要があります。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-既存のコレクションに struct フィールドを追加するには、既存のエンティティに新しいフィールドの値が存在しないため、nullable を True に設定する必要があります。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-既存のコレクションに struct フィールドを追加するには、既存のエンティティに新しいフィールドの値が存在しないため、nullable を True に設定する必要があります。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-既存のコレクションに struct フィールドを追加するには、既存のエンティティに新しいフィールドの値が存在しないため、nullable を True に設定する必要があります。
-
-</Admonition>
-
 ## リクエスト構文\{#request-syntax}
 
 ```python
@@ -95,11 +65,11 @@ client.add_collection_struct_field(
 
     新しい struct フィールドの名前。
 
-- **struct_schema** (*[StructFieldSchema](StructFieldSchema/StructFieldSchema.md*) -
+- **struct_schema** (*[StructFieldSchema](./MilvusClient-StructFieldSchema)*) -
 
     **[REQUIRED]**
 
-    An option that &ast;) - 追加する struct フィールドのスキーマ。その名前は field_name によって上書きされます。
+    追加する struct フィールドのスキーマ。その名前は field_name によって上書きされます。
 
 - **max_capacity** (*int*) -
 

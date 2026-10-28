@@ -63,11 +63,11 @@ client.add_collection_function(
 
     コレクションの名前です。
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    追加する関数スキーマです。これは、関数名、タイプ、入力フィールド、出力フィールド、およびパラメーターを定義する Function オブジェクトです。
+    追加する関数のスキーマです。これは、関数名、型、入力フィールド、出力フィールド、およびパラメーターを定義する Function オブジェクトです。
 
 - **timeout** (*float | None*) -
 

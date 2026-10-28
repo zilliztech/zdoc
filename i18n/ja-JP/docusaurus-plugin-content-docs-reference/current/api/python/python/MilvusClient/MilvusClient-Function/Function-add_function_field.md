@@ -58,23 +58,23 @@ client.add_function_field(
 
     変更するコレクションの名前です。
 
-- **field_schema** (*[FieldSchema](FieldSchema/FieldSchema.md*) -
+- **field_schema** (*[FieldSchema](./MilvusClient-FieldSchema)*) -
 
     **[必須]**
 
-    オプション（&ast;） - 関数によって生成される新しい出力フィールドのスキーマです。たとえば、BM25 用の SPARSE_FLOAT_VECTOR フィールドや MinHash 用の BINARY_VECTOR フィールドです。
+    関数によって生成される新しい出力フィールドのスキーマです。たとえば、BM25 用の SPARSE_FLOAT_VECTOR フィールドや MinHash 用の BINARY_VECTOR フィールドです。
 
-- **func** (*[Function](Function/Function.md*) -
-
-    **[必須]**
-
-    オプション（&ast;） - 出力フィールドを生成する関数定義です。たとえば、FunctionType.BM25 または FunctionType.MINHASH 関数です。サポートされている組み合わせは、FunctionType.BM25 と DataType.SPARSE_FLOAT_VECTOR、および FunctionType.MINHASH と DataType.BINARY_VECTOR です。
-
-- **index_params** (*[IndexParams](../Management/prepare_index_params.md*) -
+- **func** (*[Function](./MilvusClient-Function)*) -
 
     **[必須]**
 
-    オプション（&ast;） - 新しい出力フィールドにバインドされたインデックス定義です。明示的な index_type を含むエントリを 1 つだけ指定する必要があります。たとえば、SPARSE_INVERTED_INDEX/BM25 または MINHASH_LSH/MHJACCARD). という形式です。
+    出力フィールドを生成する関数定義です。たとえば、FunctionType.BM25 または FunctionType.MINHASH 関数です。サポートされる組み合わせは、FunctionType.BM25 と DataType.SPARSE_FLOAT_VECTOR、および FunctionType.MINHASH と DataType.BINARY_VECTOR です。
+
+- **index_params** (*[IndexParams](./Management-prepare_index_params)*) -
+
+    **[必須]**
+
+    新しい出力フィールドにバインドされるインデックス定義です。明示的な index_type を含むエントリを 1 つだけ含める必要があります (たとえば、SPARSE_INVERTED_INDEX/BM25 または MINHASH_LSH/MHJACCARD).
 
 - **timeout** (*float | None*) -
 

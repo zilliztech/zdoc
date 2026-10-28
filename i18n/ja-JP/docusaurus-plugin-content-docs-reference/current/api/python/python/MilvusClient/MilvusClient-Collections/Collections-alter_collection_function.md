@@ -64,11 +64,11 @@ client.alter_collection_function(
 
     変更する関数の名前です。
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    既存の関数スキーマを置き換える新しい関数スキーマです。
+    既存の関数を置き換える新しい関数スキーマです。
 
 - **timeout** (*float | None*) -
 

@@ -2,7 +2,7 @@
 title: "drop_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -32,13 +32,13 @@ import Admonition from '@theme/Admonition';
 
 この操作はスナップショットを完全に削除します。削除されると、スナップショットデータは復元できません。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 drop_snapshot(
 ```
 
-**PARAMETERS:**
+**パラメーター：**
 
 - **snapshot_name** (*str*) -
 
@@ -58,23 +58,23 @@ drop_snapshot(
 
 - **timeout** (*Optional[float]*) -
 
-    RPC に許可する秒単位の任意の時間です。
+    RPC に許容する時間を秒単位で指定するオプションです。
 
-**RETURN TYPE:**
+**戻り値の型：**
 
 *None*
 
-**戻り値:**
+**戻り値：**
 
 なし。
 
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusException**
 
-    スナップショットが存在しない場合、または操作が失敗した場合。スナップショットが存在しない場合、または操作が失敗した場合。
+    スナップショットが存在しない場合、または操作に失敗した場合に発生します。スナップショットが存在しない場合、または操作に失敗した場合に発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

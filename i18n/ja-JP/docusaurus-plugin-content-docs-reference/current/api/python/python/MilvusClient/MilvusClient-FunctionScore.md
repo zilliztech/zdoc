@@ -40,9 +40,9 @@ class pymilvus.FunctionScore
 
 **PARAMETERS:**
 
-- **functions** (*[Function](../Collections/Function/Function.md*) -
+- **functions** (*[Function](./MilvusClient-Function), List[Function]*) -
 
-    次のオプションです。<em>,</em> List[Function]&ast;） - 現在の FunctionScore インスタンスで組み合わせる Function インスタンス、または Function インスタンスのリストです。
+    現在の FunctionScore インスタンスで組み合わせる Function インスタンス、または Function インスタンスのリストです。
 
 - **params** (*Dict*) -
 

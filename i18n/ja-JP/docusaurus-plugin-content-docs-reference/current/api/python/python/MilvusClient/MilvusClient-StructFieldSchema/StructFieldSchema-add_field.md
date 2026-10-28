@@ -46,11 +46,11 @@ add_field(
 
     フィールド名。
 
-- **datatype** (*[DataType](../DataType.md*) -
+- **datatype** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
-    オプション（&ast;） - フィールドのデータ型です。異なるフィールドのデータ型を選択する場合は、次のオプションから選択できます。詳細は、Array of Structs を参照してください。
+    フィールドのデータ型です。異なるフィールドのデータ型を選択する際には、次のオプションから選択できます。詳細については、Array of Structs を参照してください。
 
 - **max_length** (*int*) -
 
