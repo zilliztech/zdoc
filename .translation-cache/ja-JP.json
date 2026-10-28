@@ -756,19 +756,19 @@
       "translatedAt": "2026-10-28T03:00:26.017Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "c9bcca33f8377a2b9c3f735a22357ca95e5ebc8f0183c2dfcade14d35ae03997",
+      "sourceHash": "e687f71ca6a4475f6e1d6c0e5035713d6b712d78095e9b1026f852b47fecdd72",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "970bd59b18593720fa2879c8769171a24dfc826021fc5b814e40c7bc34aa066c",
+      "sourceHash": "5b5c1e08e433042a00216896ac7d742ee93f1198cc8e3df06cdcbd09ede488b7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-10-25T05:05:32.096Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
-      "sourceHash": "68d5217d0aea7a5aa09dd4553a0c2aef1811b601796a17d20b77819d83e77bdb",
+      "sourceHash": "5eef3f9b8d04ccf3ae48e3baef53f8e7f09bc0f482e82da6e783207c3ab3acc1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/primary-key-search.md",
-      "translatedAt": "2026-10-25T05:05:32.096Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/range-search.md": {
       "sourceHash": "c3281424f623755e72efcf33d38a9105ff8834bc5a6e03452c622488935066fb",
@@ -776,9 +776,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md": {
-      "sourceHash": "fac5fec4e2a7834162062c1f153fa987109a4a6aacb74b909430842504eb3319",
+      "sourceHash": "4ac661e98f21785a149806aeee24cec495973d1d7ba38beedd55247d0c1a6c06",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-aggregation.md",
-      "translatedAt": "2026-10-25T06:05:30.641Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-metrics-explained.md": {
       "sourceHash": "8437024f48bccf38b02ec72517d2bf340e6451b3bcf67d8bca767e308ebf779d",
@@ -826,9 +826,9 @@
       "translatedAt": "2026-10-25T06:05:30.641Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-match.md": {
-      "sourceHash": "bd28b67899846c0fc9c6918fba26ef5c7821a912219dd4a12bd52685b0cc4d97",
+      "sourceHash": "426805704f822d1634ca975b81fb8579d3077c7ea3a08b4378e285d6c8ecfb69",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-match.md",
-      "translatedAt": "2026-10-23T20:58:56.810Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/tune-recall-rate.md": {
       "sourceHash": "7672e20d4e587361c761305bfdb258773b27b6cbce8a9a55f6b2373aa93b1b65",
@@ -1111,9 +1111,9 @@
       "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "19cc5fcbe3ab05c8475675e7e7a5bad11026590d9cf81f6bfee46464ccfc49ba",
+      "sourceHash": "544aa672b89e7d63c261875b028dde50c80ac981bc203ebdcbfdeaa90ed3c6b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
       "sourceHash": "51feabbeff85f676db17bd9a1fa4963f0059c967a5a54e248f0f5d0e0a781425",
@@ -1156,14 +1156,14 @@
       "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "22c73c56c3cae2cea4a71067175658d8f65a2e4a17806f3191f870a7157d7c93",
+      "sourceHash": "9df37d5f779a35fe40d1269ffcf067acba420d4686c211c90e41008db3ab6912",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "834835cd5e30f120f17a3b0c3d61b0d0f5691f4b86ddaeeb094845ba15f477a0",
+      "sourceHash": "aba7cc7461ecbb8f4604d883ee2dd74975a44ddd0bf69512b5e535118e96e801",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "1983d8f221e9bb47e1dde1380450b282867726005cce537296cff00a98852c3a",
@@ -1231,9 +1231,9 @@
       "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "2495f22a22f3942e397bc004b5283ab3b8e6141c41caa885a0e852fc141aaf1d",
+      "sourceHash": "2e1da870aaef118d3600527eaf873520cb0687acd9b8f88029453bdfa5afd986",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "a5b51f58e760b4468417f9dad30a2720f88675e176a3e3bf6800af6cf0680331",
@@ -1426,9 +1426,9 @@
       "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/architecture/best-practices/perf-benchmark-vectordb.md": {
-      "sourceHash": "a0aa09f1c7e353f100570225b5a1eadf49d1ccf837cfc8581dc62fe939ae2bb9",
+      "sourceHash": "354e76d8b80811ef54c94dbccab5485f3b1df59fa194b32a03a39e7a87e7fecc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/best-practices/perf-benchmark-vectordb.md",
-      "translatedAt": "2026-09-19T14:03:19.679Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/architecture/data-resilience.md": {
       "sourceHash": "198cea322e373c044b36689e50951afff37874dba79d2e584532e89621d4f946",
@@ -1441,9 +1441,9 @@
       "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/guides/tutorials/client-libraries/install-sdks.md": {
-      "sourceHash": "e9d1614108836381ab3c4c34c81b669ba9f63f1546c03e7247b032f9c18f6d34",
+      "sourceHash": "762b289f871626c48013a56b3cf4979df5a97e06ca9cdd884bdc95ef44b62642",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/client-libraries/install-sdks.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
       "sourceHash": "e77eda8e5eb977b7cfcfcd66b16dfc042a16946fdf8b3445cf9cb0d9ac2238d3",
@@ -1596,9 +1596,9 @@
       "translatedAt": "2026-09-19T14:04:43.571Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "0cd454370b190832a241d5af5b982c914a0ddc68ab6d6455f0b03a31784764ba",
+      "sourceHash": "9b003aa16429207082458589b10b54b8c5d4ca32e52516732c97e5d5c53fc140",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-10-19T16:54:02.117Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
       "sourceHash": "ace99ef5913016b017095c54d742479c15de23ba5b72eaceb0fc99c5bce8b503",
@@ -1646,9 +1646,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/collection/truncate-collection.md": {
-      "sourceHash": "4e2f1747ff3cb99982eff42613a79f63d03d40d962c98f0275bae86e5d8a3269",
+      "sourceHash": "31da2132e6192bd8a6a060d29ff7140c4ebcf2da02ff9f5d493675462d216b8b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/truncate-collection.md",
-      "translatedAt": "2026-10-19T14:57:52.764Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/development/collection/use-large-topk.md": {
       "sourceHash": "ab36a40de49b812fec0d92ebcd13967453455847ff3c1c4205c97a819d16a016",
@@ -1666,14 +1666,14 @@
       "translatedAt": "2026-10-25T10:09:11.241Z"
     },
     "content/en/guides/tutorials/development/connect-to-serving-cluster.md": {
-      "sourceHash": "422fc94b5277565c32067d3da9e7392da6c45f60ad9e6a4c81d28d06e31e9e29",
+      "sourceHash": "0586513c160dedd217a70fb64412b009209119c74d82c8f84f129bf139d591d3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/connect-to-serving-cluster.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/development/data-export/export-data-iterators.md": {
-      "sourceHash": "159512aa6e70bee82d015ad0c6eceaa315e21b69115b303882ffca10ddeb8c56",
+      "sourceHash": "cdc2b92ea1193357ccbd6d9fa89cfb04d3c0fb2e80abd9433b79705f8eb370b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-export/export-data-iterators.md",
-      "translatedAt": "2026-10-25T10:09:11.241Z"
+      "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
       "sourceHash": "9e5a9387a82e8c299a975b8237865a3a59230f91aa006d348005f30fd4767d3b",

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "フレーズマッチでは、クエリの用語を正確なフレーズとして含むドキュメントを検索できます。既定では、単語は同じ順序で直接隣接して出現する必要があります。たとえば、「robotics machine learning」というクエリは、「…typical robotics machine learning models…」のようなテキストに一致します。この場合、「robotics」「machine」「learning」という単語が、間に他の単語を挟まずに順番に出現しています。 | BYOC"
+description: "フレーズマッチを使用すると、クエリの用語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で直接隣り合って出現している必要があります。たとえば、\"robotics machine learning\" に対するクエリは、\"…typical robotics machine learning models…\" のようなテキストに一致し、\"robotics\"、\"machine\"、\"learning\" という単語が間に他の単語を挟まずに連続して出現します。 | BYOC"
 type: origin
 token: O2YiwLai5iSjT1k1WEsc06E8nEe
 sidebar_position: 15
@@ -21,43 +21,43 @@ import TabItem from '@theme/TabItem';
 
 # フレーズマッチ
 
-フレーズマッチでは、クエリの用語を正確なフレーズとして含むドキュメントを検索できます。既定では、単語は同じ順序で直接隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical **robotics** **machine** **learning** models…"* のようなテキストに一致します。この場合、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに順番に出現しています。
+フレーズマッチを使用すると、クエリの用語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で直接隣り合って出現している必要があります。たとえば、**「robotics machine learning」** に対するクエリは、*「…typical **robotics** **machine** **learning** models…」* のようなテキストに一致します。この場合、**「robotics」**、**「machine」**、**「learning」** という単語が間に他の単語を挟まずに連続して出現しています。
 
-ただし、実際のシナリオでは、厳密なフレーズマッチが柔軟性に欠ける場合があります。*"…**machine learning** models widely adopted in **robotics**…"* のようなテキストに一致させたいこともあります。ここでは、同じキーワードが含まれていますが、隣接しておらず、元の順序でもありません。これに対処するため、フレーズマッチは柔軟性を追加する `slop` パラメーターをサポートしています。`slop` の値は、フレーズ内の用語間に許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...**machine** deep **learning**..."* のようなテキストに一致します。ここでは、1 つの単語（**"deep"**）が元の用語を区切っています。
+ただし、実際のシナリオでは、厳密なフレーズマッチングは柔軟性に欠けることがあります。*「…**machine learning** models widely adopted in **robotics**…」* のようなテキストに一致させたい場合があります。ここでは同じキーワードが含まれていますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズマッチでは柔軟性を導入する `slop` パラメーターをサポートしています。`slop` の値は、フレーズ内の用語間に許容される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**「machine learning」** に対するクエリは *「...**machine** deep **learning**...」* のようなテキストに一致します。ここでは 1 つの単語（**「deep」**）が元の用語を分けています。
 
 ## 概要\{#overview}
 
-[Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを基盤として、フレーズマッチはドキュメント内の単語の位置情報を分析することで機能します。以下の図はそのプロセスを示しています。
+フレーズマッチは、[Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを基盤としており、ドキュメント内の単語の位置情報を分析することで機能します。以下の図はそのプロセスを示しています。
 
 ![AFrdwVT8ChT11ibs9lpcuN7onZc](https://zdoc-images.s3.us-west-2.amazonaws.com/AFrdwVT8ChT11ibs9lpcuN7onZc.png)
 
 1. **ドキュメントのトークン化**: Zilliz Cloud にドキュメントを挿入すると、アナライザーを使用してテキストがトークン（個々の単語または用語）に分割され、各トークンの位置情報が記録されます。たとえば、**doc_1** は **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]** にトークン化されます。アナライザーの詳細については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
-1. **転置インデックスの作成**: Zilliz Cloud は転置インデックスを構築し、各トークンを、それが出現するドキュメントと、それらのドキュメント内でのトークンの位置にマッピングします。
+1. **転置インデックスの作成**: Zilliz Cloud は転置インデックスを構築し、各トークンを、そのトークンが出現するドキュメントと、それらのドキュメント内でのトークンの位置にマッピングします。
 
-1. **フレーズのマッチング**: フレーズクエリが実行されると、Zilliz Cloud は転置インデックスで各トークンを検索し、その位置を確認して、正しい順序と近接性で出現するかどうかを判断します。`slop` パラメーターは、一致するトークン間に許可される位置の最大数を制御します：
+1. **フレーズマッチング**: フレーズクエリが実行されると、Zilliz Cloud は転置インデックス内で各トークンを検索し、その位置を確認して、正しい順序と近接性で出現するかどうかを判定します。`slop` パラメーターは、一致するトークン間に許容される最大位置数を制御します。
 
-    - **slop = 0** は、トークンが**正確な順序で直ちに隣接**して出現する必要があることを意味します（つまり、間に余分な単語はありません）。
+    - **slop = 0** は、トークンが**正確な順序で直接隣り合って**出現する必要があることを意味します（つまり、間に余分な単語はありません）。
 
-        - この例では、**doc_1**（**"machine"** は **pos=0**、**"learning"** は **pos=1**）のみが完全に一致します。
+        - この例では、**doc_1**（**pos=0** の **「machine」**、**pos=1** の **「learning」**）のみが完全に一致します。
 
-    - **slop = 2** は、一致するトークン間の最大 2 位置の柔軟性または並べ替えを許可します。
+    - **slop = 2** は、一致するトークン間に最大 2 つの位置の柔軟性または並べ替えを許容します。
 
-        - これにより、逆順（**"learning machine"**）や、トークン間の小さな間隔が許可されます。
+        - これにより、逆順（**「learning machine」**）やトークン間の小さなギャップが許容されます。
 
-        - その結果、**doc_1**、**doc_2**（**"learning"** は **pos=0**、**"machine"** は **pos=1**）、および **doc_3**（**"learning"** は **pos=1**、**"machine"** は **pos=2**）がすべて一致します。
+        - その結果、**doc_1**、**doc_2**（**pos=0** の **「learning」**、**pos=1** の **「machine」**）、および **doc_3**（**pos=1** の **「learning」**、**pos=2** の **「machine」**）がすべて一致します。
 
 ## フレーズマッチを有効にする\{#enable-phrase-match}
 
-フレーズマッチは、Zilliz Cloud の文字列データ型である `VARCHAR` フィールド型で動作します。
+フレーズマッチは、Zilliz Cloud の文字列データ型である `VARCHAR` フィールド型で使用できます。
 
-フレーズマッチを有効にするには、`enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定して、コレクションスキーマを構成します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築され、効率的なフレーズ検索が可能になります。
+フレーズマッチングを有効にするには、`enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定して、コレクションスキーマを構成します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築され、効率的なフレーズ検索が可能になります。
 
 ### スキーマフィールドを定義する\{#define-schema-fields}
 
 特定の `VARCHAR` フィールドでフレーズマッチを有効にするには、フィールドスキーマを定義するときに `enable_analyzer` と `enable_match` の両方を `True` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,6 +110,8 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
@@ -149,7 +151,8 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
-     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
@@ -157,7 +160,7 @@ APIKey := "YOUR_API_KEY"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: APIKey
+    APIKey:  APIKey,
 })
 
 schema := entity.NewSchema().WithName(collectionName).
@@ -168,10 +171,60 @@ schema := entity.NewSchema().WithName(collectionName).
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Set up a MilvusClient
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Create a schema for a new collection
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    // Add a primary key field
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(true),
+    )
+    // Add a VARCHAR field configured for phrase matching
+    .add_field(
+        FieldSchema::new()
+            .name("text")
+            .data_type(DataType::VarChar)
+            .max_length(1000)
+            .enable_analyzer(true)
+            .enable_match(true),
+        // Optional: Use a custom analyzer for better phrase matching in specific languages.
+        // .analyzer_params(serde_json::json!({"type": "english"}))  // Example: English analyzer; uncomment to apply custom analyzer
+    )
+    // Add a vector field for embeddings
+    .add_field(
+        FieldSchema::new()
+            .name("embeddings")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <memory>
+#include <string>
 
 const std::string address = "YOUR_CLUSTER_ENDPOINT";
 const std::string token = "YOUR_CLUSTER_TOKEN";
@@ -342,17 +395,17 @@ zilliz collection create --collection-name tech_articles --schema '{
 </TabItem>
 </Tabs>
 
-既定では、Zilliz Cloud は [standard](./standard-analyzer) [アナライザー](./standard-analyzer) を使用します。このアナライザーは、空白と句読点でテキストをトークン化し、テキストを小文字に変換します。
+デフォルトでは、Zilliz Cloud は[標準](./standard-analyzer) [アナライザー](./standard-analyzer)を使用します。これは、空白と句読点でテキストをトークン化し、テキストを小文字に変換します。
 
-テキストデータが特定の言語または形式の場合は、`analyzer_params` パラメーターを使用してカスタムアナライザーを構成できます（例：`{ "type": "english" }` または `{ "type": "jieba" }`）。
+テキストデータが特定の言語または形式の場合は、`analyzer_params` パラメーターを使用してカスタムアナライザーを構成できます（たとえば、`{ "type": "english" }` または `{ "type": "jieba" }`）。
 
 詳細については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
 ### コレクションを作成する\{#create-the-collection}
 
-必要なフィールドを定義したら、次のコードを使用してコレクションを作成します：
+必要なフィールドを定義したら、以下のコードを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -373,6 +426,10 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+
 String COLLECTION_NAME = "tech_articles"; // Name your collection
 
 if (client.hasCollection(
@@ -424,9 +481,58 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Create the collection
+let collection_name = "tech_articles"; // Name your collection
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(collection_name)
+                .build()?,
+        )
+        .await?;
+}
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(collection_name)
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 const auto collection_name = "tech_articles";
 
 milvus::HasCollectionResponse response;
@@ -561,19 +667,19 @@ zilliz collection create --collection-name tech_articles --schema '{
 </TabItem>
 </Tabs>
 
-コレクションを作成したら、[フレーズマッチを使用する](./phrase-match#use-phrase-match) 前に、次の必要な手順が実行されていることを確認してください：
+コレクションを作成した後、[フレーズマッチを使用する](./phrase-match#use-phrase-match)前に、次の必要な手順を実行してください。
 
 - エンティティがコレクションに挿入されていること。
 
-- 各ベクトルフィールドにインデックスを作成済みであること。
+- 各ベクトルフィールドにインデックスを作成していること。
 
-- コレクションがメモリに読み込まれていること。
+- コレクションがメモリにロードされていること。
 
 <details>
 
 <summary>サンプルコードを表示</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -626,13 +732,34 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 // Insert sample data with text containing "machine learning" phrases
 String COLLECTION_NAME = "tech_articles";
 
-List<JSONObject> data = new ArrayList<>();
-data.add(new JSONObject().fluentPut("text", "machine learning boosts efficiency").fluentPut("embeddings", Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
-data.add(new JSONObject().fluentPut("text", "learning machine is fun").fluentPut("embeddings", Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
-data.add(new JSONObject().fluentPut("text", "machine quickly boosts learning").fluentPut("embeddings", Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
+Gson gson = new Gson();
+List<JsonObject> data = new ArrayList<>();
+
+JsonObject row1 = new JsonObject();
+row1.addProperty("text", "machine learning boosts efficiency");
+row1.add("embeddings", gson.toJsonTree(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
+data.add(row1);
+
+JsonObject row2 = new JsonObject();
+row2.addProperty("text", "learning machine is fun");
+row2.add("embeddings", gson.toJsonTree(Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
+data.add(row2);
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("text", "machine quickly boosts learning");
+row3.add("embeddings", gson.toJsonTree(Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
+data.add(row3);
+
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
 ```
 
@@ -657,9 +784,76 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+let collection_name = "tech_articles";
+
+// Insert sample data with text containing "machine learning" phrases
+let data = vec![
+    json!({"text": "Machine learning is a subset of artificial intelligence that focuses on algorithms.", "embeddings": [0.1, 0.2, 0.3, 0.4, 0.5]}),
+    json!({"text": "Deep learning machine algorithms require large datasets for training.", "embeddings": [0.2, 0.3, 0.4, 0.5, 0.6]}),
+    json!({"text": "The machine learning model showed excellent performance on the test set.", "embeddings": [0.3, 0.4, 0.5, 0.6, 0.7]}),
+    json!({"text": "Natural language processing and machine learning go hand in hand.", "embeddings": [0.4, 0.5, 0.6, 0.7, 0.8]}),
+    json!({"text": "This article discusses various learning machine techniques and applications.", "embeddings": [0.5, 0.6, 0.7, 0.8, 0.9]}),
+];
+
+// Insert the data
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(collection_name)
+            .rows(data)
+            .build()?,
+    )
+    .await?;
+
+// Index the vector field and load the collection
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(collection_name)
+            .index_param(
+                IndexParam::new()
+                    .field_name("embeddings")
+                    .index_name("embeddings_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            )
+            .build()?,
+    )
+    .await?;
+
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <utility>
+#include <vector>
+
 milvus::EntityRows data = {
     {{"text", "Machine learning is a subset of artificial intelligence that focuses on algorithms."}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}}},
     {{"text", "Deep learning machine algorithms require large datasets for training."}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6}}},
@@ -845,7 +1039,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 ## フレーズマッチを使用する\{#use-phrase-match}
 
-コレクションスキーマで `VARCHAR` フィールドのマッチを有効にすると、`PHRASE_MATCH` 式を使用してフレーズマッチを実行できます。
+コレクションスキーマ内の `VARCHAR` フィールドでマッチを有効にすると、`PHRASE_MATCH` 式を使用してフレーズマッチを実行できます。
 
 <Admonition type="info" title="Notes">
 
@@ -855,9 +1049,9 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 ### PHRASE_MATCH 式の構文\{#phrasematch-expression-syntax}
 
-検索時に、`PHRASE_MATCH` 式を使用して、フィールド、フレーズ、およびオプションの柔軟性（`slop`）を指定します。構文は次の通りです：
+検索時に `PHRASE_MATCH` 式を使用して、フィールド、フレーズ、およびオプションの柔軟性（`slop`）を指定します。構文は次のとおりです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -878,6 +1072,14 @@ String filter = "PHRASE_MATCH(text, 'machine learning')";
 
 ```go
 PHRASE_MATCH(field_name, phrase, slop)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "PHRASE_MATCH(text, 'machine learning')";
 ```
 
 </TabItem>
@@ -928,27 +1130,27 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 </TabItem>
 </Tabs>
 
-- `field_name`**:** フレーズマッチを実行する `VARCHAR` フィールドの名前です。
+- `field_name`**:** フレーズマッチを実行する `VARCHAR` フィールドの名前。
 
-- `phrase`**:** 検索する正確なフレーズです。
+- `phrase`**:** 検索する正確なフレーズ。
 
-- `slop`（オプション）**:** 一致するトークン間に許可される位置の最大数を指定する整数です。
+- `slop`（オプション）**:** 一致するトークンに許容される最大位置数を指定する整数。
 
-    - `0`（既定値）：完全なフレーズのみに一致します。例：**"machine learning"** のフィルターは **"machine learning"** に完全に一致しますが、**"machine boosts learning"** や **"learning machine"** には一致しません。
+    - `0`（デフォルト）: 完全なフレーズのみに一致します。例: **「machine learning」** のフィルターは **「machine learning」** に完全に一致しますが、**「machine boosts learning」** や **「learning machine」** には一致しません。
 
-    - `1`：軽微な変動を許可します。たとえば、余分な用語が 1 つ含まれる場合や、位置がわずかにずれる場合です。例：**"machine learning"** のフィルターは **"machine boosts learning"**（**"machine"** と **"learning"** の間に 1 つのトークン）に一致しますが、**"learning machine"**（用語が逆順）には一致しません。
+    - `1`: 1 つの余分な用語や位置のわずかなずれなど、軽微な変動を許容します。例: **「machine learning」** のフィルターは **「machine boosts learning」**（**「machine」** と **「learning」** の間に 1 トークン）には一致しますが、**「learning machine」**（用語が逆順）には一致しません。
 
-    - `2`：用語の逆順や、間に最大 2 つのトークンを含む場合など、さらに柔軟性を許可します。例：**"machine learning"** のフィルターは **"learning machine"**（用語が逆順）または **"machine quickly boosts learning"**（**"machine"** と **"learning"** の間に 2 つのトークン）に一致します。
+    - `2`: 用語の逆順や間に最大 2 つのトークンを許容するなど、より大きな柔軟性を提供します。例: **「machine learning」** のフィルターは **「learning machine」**（用語が逆順）または **「machine quickly boosts learning」**（**「machine」** と **「learning」** の間に 2 トークン）に一致します。
 
 ### フレーズマッチを使用したクエリ\{#query-with-phrase-match}
 
-`query()` メソッドを使用する場合、**PHRASE_MATCH** はスカラーフィルターとして機能します。指定されたフレーズ（許可された slop の範囲内）を含むドキュメントのみが返されます。
+`query()` メソッドを使用する場合、**PHRASE_MATCH** はスカラーフィルターとして機能します。指定したフレーズを含むドキュメント（許容される slop の範囲内）のみが返されます。
 
 #### 例: slop = 0（完全一致）\{#example-slop-0-exact-match}
 
-この例では、間に余分なトークンを挟まずに正確なフレーズ **"machine learning"** を含むドキュメントを返します。
+この例では、間に余分なトークンを含まずに、完全なフレーズ **「machine learning」** を含むドキュメントを返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -975,6 +1177,7 @@ print("Query result: ", result)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
 
 String COLLECTION_NAME = "tech_articles";
 String filter = "PHRASE_MATCH(text, 'machine learning')";
@@ -1004,9 +1207,41 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Match documents containing exactly "machine learning"
+let filter = "PHRASE_MATCH(text, 'machine learning')";
+
+let result = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("tech_articles")
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 auto request = milvus::QueryRequest()
@@ -1093,13 +1328,13 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 ### フレーズマッチを使用した検索\{#search-with-phrase-match}
 
-検索操作では、**PHRASE_MATCH** を使用して、ベクトル類似度ランキングを適用する前にドキュメントを事前フィルターします。この 2 段階のアプローチでは、まずテキストマッチングによって候補セットを絞り込み、次にベクトル埋め込みに基づいてそれらの候補を再ランク付けします。
+検索操作では、**PHRASE_MATCH** を使用して、ベクトル類似度ランキングを適用する前にドキュメントを事前フィルタリングします。この 2 段階のアプローチでは、まずテキストマッチングによって候補セットを絞り込み、次にベクトル埋め込みに基づいてそれらの候補を再ランキングします。
 
 #### 例: slop = 1\{#example-slop-1}
 
-ここでは、slop を 1 に設定します。フィルターは、わずかな柔軟性を許容してフレーズ **"learning machine"** を含むドキュメントに適用されます。
+ここでは slop を 1 に設定します。フィルターは、**「learning machine」** というフレーズをわずかな柔軟性をもって含むドキュメントに適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1130,6 +1365,9 @@ print("Slop 1 result: ", result_slop1)
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 String COLLECTION_NAME = "tech_articles";
 String filterSlop1 = "PHRASE_MATCH(text, 'learning machine', 1)";
@@ -1171,9 +1409,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "learning machine" with slop=1
+let filter = "PHRASE_MATCH(text, 'learning machine', 1)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'learning machine', 1))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1281,9 +1555,9 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 #### 例: slop = 2\{#example-slop-2}
 
-この例では、slop を 2 に設定します。これは、**"machine"** と **"learning"** の間に最大 2 つの余分なトークン（または逆順の用語）を許可することを意味します。
+この例では slop を 2 に設定します。これは、**「machine」** と **「learning」** の間に最大 2 つの余分なトークン（または逆順の用語）を許容することを意味します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1312,6 +1586,12 @@ print("Slop 2 result: ", result_slop2)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 // Example: Filter documents containing "machine learning" with slop=2
 String filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1349,9 +1629,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "machine learning" with slop=2
+let filter = "PHRASE_MATCH(text, 'machine learning', 2)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 2))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1453,9 +1769,9 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 #### 例: slop = 3\{#example-slop-3}
 
-この例では、slop を 3 に設定することで、さらに柔軟性が高まります。フィルターは、単語間に最大 3 つのトークン位置を許可して **"machine learning"** を検索します。
+この例では、slop を 3 にするとさらに柔軟性が高まります。フィルターは、単語間に最大 3 つのトークン位置を許容して **「machine learning」** を検索します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1484,6 +1800,12 @@ print("Slop 3 result: ", result_slop3)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 // Example: Filter documents containing "machine learning" with slop=3
 String filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1521,9 +1843,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "machine learning" with slop=3
+let filter = "PHRASE_MATCH(text, 'machine learning', 3)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 3))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1625,17 +1983,16 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 ## 考慮事項\{#considerations}
 
-- フィールドでフレーズマッチを有効にすると、転置インデックスの作成がトリガーされ、ストレージリソースが消費されます。この機能を有効にするかどうかを判断する際は、テキストのサイズ、一意のトークン、使用するアナライザーによってストレージへの影響が異なるため、その影響を考慮してください。
+- フィールドでフレーズマッチングを有効にすると、転置インデックスが作成され、ストレージリソースが消費されます。この機能を有効にするか決定する際は、テキストサイズ、一意のトークン、使用するアナライザーによってストレージへの影響が異なるため、考慮してください。
 
-- スキーマでアナライザーを定義すると、その設定はそのコレクションに対して永続的になります。別のアナライザーの方がニーズに適していると判断した場合は、既存のコレクションを削除し、目的のアナライザー構成で新しいコレクションを作成することを検討してください。
+- スキーマでアナライザーを定義すると、その設定はそのコレクションで永続的になります。別のアナライザーの方がニーズに適していると判断した場合は、既存のコレクションを削除し、目的のアナライザー構成で新しいコレクションを作成することを検討してください。
 
-- フレーズマッチのパフォーマンスは、テキストがどのようにトークン化されるかに依存します。アナライザーをコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[アナライザーの概要](./analyzer-overview) を参照してください。
+- フレーズマッチのパフォーマンスは、テキストがどのようにトークン化されるかによって異なります。アナライザーをコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
-- `filter` 式のエスケープルール：
+- `filter` 式のエスケープルール:
 
-    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表す必要があります。たとえば、`\\` を使用して `\` を表し、`\\t` を使用してタブ `\t` を表し、`\\n` を使用して改行を表します。
+    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
 
-    - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` と表し、二重引用符は `"` または `\\"` のいずれかで表すことができます。例：`'It\\'s milvus'`。
+    - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` と表し、二重引用符は `"` または `\\"` のいずれかで表すことができます。例: `'It\\'s milvus'`。
 
-    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` と表し、一重引用符は `'` または `\\'` のいずれかで表すことができます。例：`"He said \\"Hi\\""`。
-
+    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` と表し、一重引用符は `'` または `\\'` のいずれかで表すことができます。例: `"He said \\"Hi\\""`。

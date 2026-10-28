@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Free クラスターと Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。 | BYOC"
+description: "Free および Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。 | BYOC"
 type: origin
 token: EO58wVRLpiTBXQkceRjccN28nrh
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Free & Serverless クラスター
 
-Free クラスターと Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。
+Free および Serverless クラスターはサービングクラスターです。このページでは、作成、接続、管理という基本的なライフサイクルについて説明します。
 
 <Admonition type="info" title="Note">
 
@@ -31,7 +31,7 @@ Dedicated クラスターについては、[Dedicated クラスター](./manage-
 
 ## 作成\{#create}
 
-Free クラスターまたは Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
+Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
 
 <Admonition type="info" title="Note">
 
@@ -39,7 +39,7 @@ Free クラスターまたは Serverless クラスターを作成する前に、
 
 </Admonition>
 
-Free クラスターまたは Serverless クラスターは、Zilliz Cloud コンソールから作成できます。クラスターのステータスが **Running** に変わると、クラスターを使用できる状態になります。パスワードは 1 回しか表示されないため、作成時に表示されるクラスターの認証情報を保存してください。
+Free または Serverless クラスターは、Zilliz Cloud コンソールから作成できます。クラスターのステータスが **Running** に変わると、クラスターを使用できる状態になります。パスワードは一度しか表示されないため、作成時に表示されるクラスターの認証情報を保存してください。
 
 RESTful API を使用してクラスターを作成することもできます。
 
@@ -82,13 +82,11 @@ curl --request POST \
 
 ## 接続\{#connect}
 
-Free クラスターと Serverless クラスターでは、次のサービングエンドポイントパターンを使用します。
+Free および Serverless クラスターでは、以下のサービングエンドポイントパターンを使用します。
 
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
-
-クラスターの詳細ページにある **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -221,7 +219,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、コレクションの一覧表示など、軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -230,16 +228,16 @@ print(collections)
 
 ## 管理\{#manage}
 
-Free クラスターと Serverless クラスターは、クラスターの詳細ページから管理できます。
+Free および Serverless クラスターは、クラスターの詳細ページから管理できます。
 
 | 操作 | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | 名前の変更 | サポートされています。 | サポートされています。 |
 | 再開 | Free クラスターは、7 日間連続でアクティビティがないと自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは、一時停止および再開操作をサポートしていません。 |
-| デプロイメントオプションのアップグレード | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Free クラスターからデータを移行します。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターを作成し、Serverless クラスターからデータを移行します。 |
+| デプロイメントオプションのアップグレード | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Free クラスターからデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Serverless クラスターからデータが移行されます。 |
 | 削除 | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
-アップグレードで新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを必ず更新してください。
+アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
 
 ## 削除\{#drop}
 

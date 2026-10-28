@@ -39,7 +39,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## エンドポイントの種類を選択する\{#choose-an-endpoint-type}
 
-グローバルクラスターには、2 つの接続方法があります:
+グローバルクラスターには、2 つの接続方法があります。
 
 - **グローバルエンドポイント**経由
 
@@ -57,7 +57,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Admonition type="info" title="Notes">
 
-実稼働ワークロードでは、グローバルエンドポイントの使用を推奨します。スイッチオーバーまたはフェイルオーバー時に、アプリケーションコードでエンドポイントの変更を処理する必要がなくなります。
+本番ワークロードには、グローバルエンドポイントの使用を推奨します。これにより、スイッチオーバーまたはフェイルオーバー時に、アプリケーションコードでエンドポイントの変更を処理する必要がなくなります。
 
 </Admonition>
 
@@ -101,7 +101,7 @@ SDK クライアントは、エンドポイントの一覧、プライマリと�
 | --- | --- | --- |
 | 最適な用途 | 役割の変更時における迅速な復旧と、将来の read/write splitting を必要とする本番アプリケーション。 | 軽量なスクリプト、シンプルな REST 統合、および 1 回限りの管理操作。 |
 | トポロジー認識 | エンドポイントの一覧、プライマリとセカンダリの役割、クラスターのヘルスを含むグローバルクラスターのトポロジーを取得します。 | グローバルクラスターのトポロジー情報を保持しません。 |
-| プライマリ変更時の処理 | スイッチオーバーまたはフェイルオーバー後にプライマリクラスターが変更されると、通常は数秒以内に迅速に対応できます。 | クライアントがトポロジー情報を保持しないため、新しいプライマリへの切り替えに通常は数分かかる場合があります。 |
+| プライマリ変更時の処理 | スイッチオーバーまたはフェイルオーバー後にプライマリクラスターが変更されると、通常は数秒以内に、より迅速に対応できます。 | クライアントがトポロジー情報を保持しないため、新しいプライマリへの切り替えに通常は数分かかる場合があります。 |
 | Read/write splitting | ✅ 近日中にサポートされる予定です。 | ❌ サポートされていません。 |
 
 </details>
@@ -177,13 +177,9 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Use the global endpoint for automatic routing
-    let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Use the global endpoint for automatic routing
+let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>
@@ -315,13 +311,9 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Connect directly to a specific cluster
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Connect directly to a specific cluster
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>

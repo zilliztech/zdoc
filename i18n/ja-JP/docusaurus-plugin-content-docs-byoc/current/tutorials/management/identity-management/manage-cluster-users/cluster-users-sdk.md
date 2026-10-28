@@ -1,5 +1,5 @@
 ---
-title: "クラスターユーザーの管理（SDK） | BYOC"
+title: "クラスターユーザーの管理（SDK）| BYOC"
 slug: /cluster-users-sdk
 sidebar_label: "クラスターユーザーの管理（SDK）"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データセキュリティを実現できます。 | BYOC"
+description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データセキュリティを実現できます。| BYOC"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 2
@@ -23,17 +23,17 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除という一連の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除の方法を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
 
 ## ユーザーを作成する\{#create-a-user}
 
 次の例では、ユーザー名 `user_1`、パスワード `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります。
 
-- ユーザー名：英字で始まる必要があり、大文字または小文字の英字、数字、アンダースコアのみを含めることができます。
+- ユーザー名: 文字で始まる必要があり、大文字または小文字の英字、数字、アンダースコアのみを含めることができます。
 
-- パスワード：8-64 文字の長さで、大文字の英字、小文字の英字、数字、特殊文字のうち 3 種類を含める必要があります。
+- パスワード: 8-64 文字である必要があり、大文字、小文字、数字、特殊文字のうち3つを含める必要があります。
 
-- （任意）説明：最大 1024（UTF-8 バイト単位）。
+- （任意）説明: 最大 1024（UTF-8 バイト）。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -114,23 +114,19 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.create_user(
-        sdk::request::rbac::CreateUserRequest::builder()
-            .username("user_1")
-            .password("P@ssw0rd")
-            .description("a new user in the developers team")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_user(
+    sdk::request::rbac::CreateUserRequest::builder()
+        .username("user_1")
+        .password("P@ssw0rd")
+        .description("a new user in the developers team")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -227,7 +223,7 @@ curl --request POST \
 
 ## ユーザーを一覧表示する\{#list-users}
 
-複数のユーザーを作成した後、既存のすべてのユーザーを一覧表示して確認できます。
+複数のユーザーを作成したあと、既存のすべてのユーザーを一覧表示して確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -420,22 +416,18 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.grant_role(
-        sdk::request::rbac::GrantRoleRequest::builder()
-            .username("user_1")
-            .role_name("role_a")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.grant_role(
+    sdk::request::rbac::GrantRoleRequest::builder()
+        .username("user_1")
+        .role_name("role_a")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -528,7 +520,7 @@ curl --request POST \
 
 ## ユーザーの詳細を表示する\{#describe-user}
 
-ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
+ユーザーにロールを付与したあと、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
 次の例では、ユーザー `user_1` のロールを確認する方法を示します。
 
@@ -864,21 +856,17 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.drop_user(
-        sdk::request::rbac::DropUserRequest::builder()
-            .username("user_1")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.drop_user(
+    sdk::request::rbac::DropUserRequest::builder()
+        .username("user_1")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -962,7 +950,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ユーザーを削除した後、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
+ユーザーを削除したあと、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1066,9 +1054,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。一覧に `user_1` がありません。削除操作は成功しています。
+以下は出力例です。リストに `user_1` はありません。削除操作は成功しています。
 
 ```bash
 ['root']
 ```
-

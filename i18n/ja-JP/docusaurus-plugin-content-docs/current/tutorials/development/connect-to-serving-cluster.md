@@ -1,13 +1,13 @@
 ---
-title: "Serving クラスターへの接続 | Cloud"
+title: "サービングクラスターに接続する | Cloud"
 slug: /connect-to-serving-cluster
-sidebar_label: "Serving クラスターへの接続"
+sidebar_label: "サービングクラスターに接続する"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様な Serving クラスターのデプロイオプションを提供します。 | Cloud"
+description: "Zilliz Cloud は、多様なビジネスニーズに対応するさまざまなサービングクラスターのデプロイオプションを提供します。 | Cloud"
 type: origin
 token: SFPlwOh8cigh8wkm9xLcXHlfnVh
 sidebar_position: 1
@@ -19,28 +19,28 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving クラスターへの接続
+# サービングクラスターに接続する
 
-Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様な Serving クラスターのデプロイオプションを提供します。 
+Zilliz Cloud は、多様なビジネスニーズに対応するさまざまなサービングクラスターのデプロイオプションを提供します。
 
-- **Free**: ストレージ、vCU 消費量、コレクション数に制限はありますが、学習や個人プロジェクトの出発点を提供します。
+- **Free**: 学習や個人プロジェクトの出発点となるオプションで、ストレージ、vCU 消費量、コレクション数に制限があります。
 
-- **Serverless**: ワークロードに合わせて自動的にスケールする共有環境を提供します。リソースをプロビジョニングする必要はありません。このオプションは、予測できないトラフィックや急増するトラフィックに対して、優れたコスト効率と伸縮性を実現します。
+- **Serverless**: ワークロードに合わせて自動的にスケールする共有環境を提供し、リソースをプロビジョニングする必要はありません。予測不能なトラフィックや急増するトラフィックに対して、優れたコスト効率と伸縮性を実現します。
 
-- **Dedicated**: 一貫した予測可能なパフォーマンスを必要とする本番ワークロード向けに、分離された予約済み環境を提供します。このオプションは、継続的な高スループットやレイテンシに敏感なアプリケーションに最適です。
+- **Dedicated**: 一貫した予測可能なパフォーマンスが求められる本番ワークロード向けに、分離された予約済み環境を提供します。このオプションは、持続的な高スループットと低レイテンシが重要なアプリケーションに最適です。
 
 ## エンドポイント形式\{#endpoint-formats}
 
-| クラスタータイプ | エンドポイントのパターン | 備考 |
+| クラスタータイプ | エンドポイントパターン | 備考 |
 | --- | --- | --- |
-| Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless クラスターは、専用ポートを使用せずにリアルタイムの Serving エンドポイントを使用します。 |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムの Serving エンドポイントを使用します。 |
+| Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless クラスターは、専用ポートなしでリアルタイムサービングエンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムサービングエンドポイントを使用します。 |
 
-## Free/Serverless クラスターへの接続\{#connect-to-freeserverless-clusters}
+## Free/Serverless クラスターに接続する\{#connect-to-freeserverless-clusters}
 
-クラスター詳細ページの **Connect** カードからクラスターのパブリックエンドポイントをコピーします。クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかをトークンとして使用します。
+クラスターの詳細ページにある **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -139,6 +139,25 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -152,18 +171,18 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、コレクションの一覧表示などの軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示など、軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
 print(collections)
 ```
 
-## Dedicated クラスターへの接続\{#connect-to-dedicated-clusters}
+## Dedicated クラスターに接続する\{#connect-to-dedicated-clusters}
 
-すべての SDK でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントで、`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
+SDK 間でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` には、ターゲットクラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -262,6 +281,24 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -275,7 +312,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、コレクションの一覧表示などの軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示など、軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()

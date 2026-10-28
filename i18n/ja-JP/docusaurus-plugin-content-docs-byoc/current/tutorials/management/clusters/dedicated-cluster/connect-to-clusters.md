@@ -79,8 +79,6 @@ Java、Node.js、Go プロジェクトでは、以下の例を使用する前に
 
 ## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-クラスターのエンドポイントとトークンは、すべての SDK で一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
-
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
