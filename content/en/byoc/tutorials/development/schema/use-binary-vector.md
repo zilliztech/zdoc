@@ -474,6 +474,16 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err = loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>

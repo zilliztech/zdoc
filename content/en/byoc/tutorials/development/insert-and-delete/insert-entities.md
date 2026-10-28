@@ -1,7 +1,6 @@
 ---
 title: "Insert Entities | BYOC"
 slug: /insert-entities
-sidebar_label: "Insert"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection. | BYOC"
 type: origin
-token: L5jawEj7FiBXWZkGhLgcQCWQnDd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-insert-entities
+sidebar_label: "Insert"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/insert-update-delete.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-- **Fields added after collection creation**: If you add new fields to a collection after creation and do not specify values during insertion, MilvusZilliz Cloud automatically populates them with defined default values or `NULL` if no defaults are set. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
+- **Fields added after collection creation**: If you add new fields to a collection after creation and do not specify values during insertion, Zilliz Cloud automatically populates them with defined default values or `NULL` if no defaults are set. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
 - **Duplicate handling**: The standard `insert` operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the **`upsert`** operation instead. For more information, refer to [Upsert Entities](./upsert-entities).
 
@@ -33,15 +34,15 @@ Entities in a collection are data records that share the same set of fields. Fie
 
 ## Overview\{#overview}
 
-In Zilliz Cloud clusters, an **Entity** refers to data records in a **Collection** that share the same **Schema**, with the data in each field of a row constituting an Entity. Therefore, the Entities within the same Collection have the same attributes (such as field names, data types, and other constraints).
+In Zilliz Cloud, an **Entity** refers to data records in a **Collection** that share the same **Schema**, with the data in each field of a row constituting an Entity. Therefore, the Entities within the same Collection have the same attributes (such as field names, data types, and other constraints).
 
 When inserting an Entity into a Collection, the Entity to be inserted can only be successfully added if it contains all the fields defined in the Schema. The inserted Entity will enter a Partition named **_default** in the order of insertion. Provided that a certain Partition exists, you can also insert Entities into that Partition by specifying the Partition name in the insertion request.
 
-Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **&#36;meta**. For more information about dynamic fields, please refer to Dynamic Field.
+Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **\$meta**. For more information about dynamic fields, please refer to Dynamic Field.
 
 ## Insert Entities into a Collection\{#insert-entities-into-a-collection}
 
-Before inserting data, you need to organize your data into a list of dictionaries according to the Schema, with each dictionary representing an Entity and containing all the fields defined in the Schema. If the Collection has the dynamic field enabled, each dictionary can also include fields that are not defined in the Schema.
+Before inserting data, organize each entity’s field names and values according to the schema. If the collection has the dynamic field enabled, entities can also include fields that are not defined in the schema.
 
 In this section, you will insert entities into a Collection created in the quick-setup manner. A Collection created in this manner has only two fields, named **id** and **vector**. Additionally, this Collection has the dynamic field enabled, so the Entities in the example code include a field called **color** that is not defined in the Schema.
 
@@ -283,9 +284,9 @@ var res = await client.insert({
 console.log(res.insert_cnt)
 
 // Output
-// 
+//
 // 10
-// 
+//
 ```
 
 </TabItem>
@@ -295,13 +296,13 @@ console.log(res.insert_cnt)
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
 using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -375,7 +376,7 @@ curl --request POST \
         {"id": 6, "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], "color": "red_9392"},
         {"id": 7, "vector": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], "color": "grey_8510"},
         {"id": 8, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "color": "white_9381"},
-        {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}        
+        {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}
     ],
     "collectionName": "quick_setup"
 }'
@@ -401,11 +402,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert Entities into a Partition\{#insert-entities-into-a-partition}
 
-You can also insert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
+You can also insert entities into a specified partition. The following code snippets assume that you have a partition named **partitionA** in your collection.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -609,9 +611,9 @@ var res = await client.insert({
 console.log(res.insert_cnt)
 
 // Output
-// 
+//
 // 10
-// 
+//
 ```
 
 </TabItem>
@@ -620,6 +622,7 @@ console.log(res.insert_cnt)
 
 ```csharp
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
 using Milvus.Client.V2.Types;
 
 var vectors = new[]
@@ -692,7 +695,7 @@ curl --request POST \
         {"id": 16, "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], "color": "red_9392"},
         {"id": 17, "vector": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], "color": "grey_8510"},
         {"id": 18, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "color": "white_9381"},
-        {"id": 19, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}        
+        {"id": 19, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}
     ],
     "collectionName": "quick_setup",
     "partitionName": "partitionA"
@@ -719,4 +722,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

@@ -315,6 +315,7 @@ await client.createCollection({
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
 // Set up a Milvus client
@@ -336,6 +337,12 @@ CollectionSchema schema = new()
         new FieldSchema("metadata", DataType.Json) { Nullable = true }
     }
 };
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "product_catalog",
+    Schema = schema
+});
 ```
 
 </TabItem>

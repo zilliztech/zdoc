@@ -239,12 +239,13 @@ res = client.search(
 ```java
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
-        .data(Collections.singletonList(queryVector))
+        .data(Collections.singletonList(new FloatVec(queryVector)))
         .topK(3)
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();

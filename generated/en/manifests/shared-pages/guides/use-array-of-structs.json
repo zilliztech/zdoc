@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "c3260d68715b151102dfc64a88cbe1c60e137864",
+      "commit": "c5ba84b20c5f8569c82530d1de42ef22397031a2",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2645,7 +2645,7 @@
         },
         {
           "path": "shared-docs/guides/links.yaml",
-          "sha256": "c0a8ed59b6ea41719a402b8a7752e4aa9319e6dbbe66bf3a66d727a9dc3fc320"
+          "sha256": "9b242cdac28d52fd179af7c4997de22b45e4d926f6d741296cfaee13fd3edcf9"
         },
         {
           "path": "shared-docs/guides/pages/alter-collection-field/lock.yaml",
@@ -2656,12 +2656,68 @@
           "sha256": "4cea31c415a2a021e7572a8ceddadc0b9af02e2524cb61cdaa2f4e1d7b300130"
         },
         {
+          "path": "shared-docs/guides/pages/decay-ranker-oveview/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/decay-ranker-oveview/page.yaml",
+          "sha256": "e23883ca583433e2568747d47c8558fe9bdc0c9ebc6068bb3cebd8be22179bb1"
+        },
+        {
           "path": "shared-docs/guides/pages/delete-entities/lock.yaml",
           "sha256": "599f5b6167cc155d7032bb2b66729d120c82bd1adcfc5c9f3dbc5d859d0869b2"
         },
         {
           "path": "shared-docs/guides/pages/delete-entities/page.yaml",
           "sha256": "1ab24b51299a1be72e1b4fe83aaa02ab6c4a331df3641caac8ce2ce996d5cb0c"
+        },
+        {
+          "path": "shared-docs/guides/pages/drop-collection/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/drop-collection/page.yaml",
+          "sha256": "98fc7a5eabb1edb8ebe14f41499df122449e36facdd1f6d33ec4950e419aaf90"
+        },
+        {
+          "path": "shared-docs/guides/pages/icu-tokenizer/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/icu-tokenizer/page.yaml",
+          "sha256": "6209aada37ff346bb9d98e4faeb8206b24efc9671ce82cf71142d4eb193779b4"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-entities/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-entities/page.yaml",
+          "sha256": "7a9711e9928e6f197a73f7840f750b9c6d1ea71d6251133df31eea8e7ef39b9a"
+        },
+        {
+          "path": "shared-docs/guides/pages/regex-filter/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/regex-filter/page.yaml",
+          "sha256": "2f388e51ebc0c4f63fefe9b29d37251b125be4c6aa4591ba2165867a12418da3"
+        },
+        {
+          "path": "shared-docs/guides/pages/remove-punct-filter/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/remove-punct-filter/page.yaml",
+          "sha256": "852b85a404a855317ef824eac1664913ec37bacc4e553cab30248ec0d6a7e42d"
+        },
+        {
+          "path": "shared-docs/guides/pages/standard-tokenizer/lock.yaml",
+          "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
+        },
+        {
+          "path": "shared-docs/guides/pages/standard-tokenizer/page.yaml",
+          "sha256": "dc4f7250a214776e9e526a19ae2a40d250f42d0f90d2fb896bb4a401b82c0eee"
         },
         {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
@@ -2693,7 +2749,7 @@
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "3919f038c4e01ed404b5832ae2a47333499035db40c915aa52162697d27585b7"
+          "sha256": "61b2e5d1aca87ab30bcbe2d50f803768c120e07d3c5e55323a6b4665342bf8f8"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -2702,7 +2758,7 @@
       ]
     },
     "dev": {
-      "commit": "ca9e9c236c809d8d7ed1a46738229fa73a365c2f",
+      "commit": "0ec75b2596d84939c41ae8d018d1c5e5268165cb",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -2994,7 +3050,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/view-collections.md",
-          "sha256": "7a5b302ba297d6e833d4f67be37a367900668d56b532b7d1699287e8d5e48e8a"
+          "sha256": "940996db464bc012830a431c8c87b44c314268b4bba682c586d4eb7cf8b29300"
         },
         {
           "path": "content/en/byoc/tutorials/development/connect-for-on-demand-search.md",
@@ -3154,7 +3210,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/alter-collection-field.md",
-          "sha256": "4bb3449ed8f426f9bd49e29050740a18c65bed320ce1ac0689d1301c06ab06eb"
+          "sha256": "2fdeade824a43c7afbba8b70fd8926219b0b8af67addfd1e661c0ad22a2e9967"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/alter-external-collection-schema.md",
@@ -3222,7 +3278,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
-          "sha256": "3f891a124ff354d5e0e2e1149c4d1897bc1cf04bd079c0805c3556d1a4799bc6"
+          "sha256": "abae8dcfb0a1d69cffeba8edd87e9b2329445eed9f9723a6a1befdfac2e615c4"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-array-fields.md",
@@ -3250,7 +3306,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-string-field.md",
-          "sha256": "2450bddaf886b6c531fd5ff885880436ff87b4c784390273077a1661e8451c7d"
+          "sha256": "31f27aa8832e4b379b9cb535eacca3e800806a5fa2a21160ed68a02502214d27"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-text-field.md",
@@ -4166,7 +4222,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/view-collections.md",
-          "sha256": "75ae3c80b8e197ba4252057b539123883453bddcab2f1adb0e6e4f6086fbc77b"
+          "sha256": "b53e818c3ff299f868549720967284f56743e2393220e1842b8d3c8b25e58434"
         },
         {
           "path": "content/en/guides/tutorials/development/connect-for-on-demand-search.md",
@@ -4354,7 +4410,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/alter-collection-field.md",
-          "sha256": "5b217e401d079b5df3fce8306bafdabe99eec5d5a964f1b54ce1dc6b07c6a561"
+          "sha256": "a0ade1ddb464cf08c006e56b7a713d96473477ad2b200554296f6bb64e4f6e38"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/alter-external-collection-schema.md",
@@ -4422,7 +4478,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
-          "sha256": "27014c132efae6ac4740de7f048e50818b76913a4cd853ce3a3148db57b3e501"
+          "sha256": "42f68289b7c347b39076d94b8107a895aadc455962e326fc1b5ec535a5de9a61"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-array-fields.md",
@@ -4450,7 +4506,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-string-field.md",
-          "sha256": "091a77f7bfa6489b10beeb403381ea91a6fc1aca52e17c95d82d5cb553116ef4"
+          "sha256": "215e627b87d59cc7441251962c04bb623156f28d48bbd815a9bd4400967e9ffd"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-text-field.md",
@@ -4994,7 +5050,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-          "sha256": "cf5f2e50f331b6a5e2d1e9d8d8e3a5d42f5e73c0e419203fb73a08eb4588e1ab"
+          "sha256": "c88b4d263eab8c003650d3c476ad245168cb5a695c1cc058648cc4bf492ad3aa"
         },
         {
           "path": "content/en/guides/tutorials/management/backup-and-restore/create-backup.md",
@@ -5410,7 +5466,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/projects/manage-projects.md",
-          "sha256": "cc69e319e333d6ce9656c845584e58eb89df7baf016141e0713a9ede45a4c355"
+          "sha256": "2a41774a98f5e46b0a26baf20e47c430824fc5028d8c0003cbd8e5f98f64b3df"
         },
         {
           "path": "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md",
@@ -5526,19 +5582,35 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "f081ac91086d2171821705290c73d83f6b0e14b3e4e1c71800ab88e0b2b255a7"
+          "sha256": "b039d0ebaf0cf928733836d99e2ad6843cfeb5eae7c40ae96c7ba9491f57603d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
-          "sha256": "45ff060911637cc66e125c02b1f7d117163160248111cd50f8acbd2a8a8bbb80"
+          "sha256": "e326e263e97296913f6274d8ff41974a85a88b8401efd382cd76a210b963bb2c"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
+          "sha256": "f416532078c9de44570b1b7a45ad36c4e367d5ba8b6f0df4ed19c635868ee06d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "03460667ba6457c5ce0b872f75dc44383a169acce31b781bb39c7ecdb585c160"
+          "sha256": "aa0f3dc9019a41ca5dba6f76150e6da40869d1341ff88596da9cfabecb194236"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
+          "sha256": "5e9dbe0ffa7bfe4a59077877e4a92dd3587acf90b87412a4c900d033fe396c0d"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
+          "sha256": "f3d3f5e7c8fae3161f4145963c269a56379f920128542a139428049ade37fa9c"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
+          "sha256": "79939518a505960b4e6aff2ebc5a591f9676f61138dfdc205b7d1edc638ec2e2"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "df73ffad4cf0c6560f16ce4526d6ef379787962127cf4efebcf8f39e7dab6a2e"
+          "sha256": "9908be4710ec26182c67c401b57bf26c3610141b6776cc7cc995b9ff3c03eb4d"
         }
       ]
     },
@@ -9550,11 +9622,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "DEUuwEwM4iMLOikU7XpcpNnKnGd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/DEUuwEwM4iMLOikU7XpcpNnKnGd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/drop-collection",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "drop-collection"
+            }
           },
           {
             "record_id": "recvlPsu74mphG",
@@ -10832,11 +10909,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "L5jawEj7FiBXWZkGhLgcQCWQnDd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/L5jawEj7FiBXWZkGhLgcQCWQnDd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-entities",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "insert-entities"
+            }
           },
           {
             "record_id": "recvlPtRh7nvjU",
@@ -11804,11 +11886,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "QZYhwcQhWigYTVkLnHeczkwYnZb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/QZYhwcQhWigYTVkLnHeczkwYnZb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/decay-ranker-oveview",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "decay-ranker-oveview"
+            }
           },
           {
             "record_id": "recvlUWQKXwuqf",
@@ -12201,11 +12288,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "GAX8wkC1QiTZhXkLBocc1GoTnke",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/GAX8wkC1QiTZhXkLBocc1GoTnke",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/standard-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "standard-tokenizer"
+            }
           },
           {
             "record_id": "recvlPvjOudf2Z",
@@ -12293,11 +12385,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Q3gKwc5lkilAbKkalCWcW2AbnLe",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Q3gKwc5lkilAbKkalCWcW2AbnLe",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/icu-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "icu-tokenizer"
+            }
           },
           {
             "record_id": "recvlPvrt6KTif",
@@ -12612,11 +12709,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "TVfnwtCEQico7Bk9bngcnV1cnGb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/TVfnwtCEQico7Bk9bngcnV1cnGb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/remove-punct-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "remove-punct-filter"
+            }
           },
           {
             "record_id": "recvlPvLU6eZIJ",
@@ -12635,11 +12737,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "AwmtwHGQii1j9Wk1W04cNxvBnth",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/AwmtwHGQii1j9Wk1W04cNxvBnth",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/regex-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "regex-filter"
+            }
           },
           {
             "record_id": "recvlPvNTaMz26",
@@ -14236,7 +14343,7 @@
             "ref_target_anchor": null
           },
           {
-            "record_id": "recvlVXBVpkIcX",
+            "record_id": "reczz28SlxSSioWU",
             "table_id": "tblZMzoITXNsyKmQ",
             "table_name": "Management",
             "placement_type": "canonical",
@@ -14244,6 +14351,28 @@
               "recvm10zL1iEs7"
             ],
             "order": 66,
+            "title": "Migrate from Chroma to Zilliz Cloud",
+            "labels": "Chroma",
+            "slug": "migrate-from-chroma",
+            "targets": [
+              "zilliz.saas"
+            ],
+            "progress": "Draft",
+            "doc_token": "JaTxw9EtHivMv9kMSAnckG0vn1b",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/JaTxw9EtHivMv9kMSAnckG0vn1b",
+            "ref_target": null,
+            "ref_target_token": null,
+            "ref_target_anchor": null
+          },
+          {
+            "record_id": "recvlVXBVpkIcX",
+            "table_id": "tblZMzoITXNsyKmQ",
+            "table_name": "Management",
+            "placement_type": "canonical",
+            "parent_record_ids": [
+              "recvm10zL1iEs7"
+            ],
+            "order": 67,
             "title": "Zilliz Cloud IPs",
             "labels": "Zilliz Cloud IP Addresses",
             "slug": "zilliz-cloud-ips",
@@ -14263,7 +14392,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 67,
+            "order": 68,
             "title": "Metrics & Alerts",
             "labels": "",
             "slug": "metrics-alerts",
@@ -14283,7 +14412,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 68,
+            "order": 69,
             "title": "Metrics Reference",
             "labels": "Metrics Reference",
             "slug": "metrics-alerts-reference",
@@ -14306,7 +14435,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 69,
+            "order": 70,
             "title": "View Metric Charts",
             "labels": "View Metric Charts",
             "slug": "view-cluster-metric-charts",
@@ -14329,7 +14458,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 70,
+            "order": 71,
             "title": "Manage Organization Alerts",
             "labels": "Manage Organization Alerts",
             "slug": "manage-organization-alerts",
@@ -14352,7 +14481,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 71,
+            "order": 72,
             "title": "Manage Project Alerts",
             "labels": "Manage Project Alerts",
             "slug": "manage-project-alerts",
@@ -14375,7 +14504,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 72,
+            "order": 73,
             "title": "Manage Notification Channels",
             "labels": "Manage Notification Channels",
             "slug": "manage-notification-channels",
@@ -14398,7 +14527,7 @@
             "parent_record_ids": [
               "recvlVQO1dU5Ks"
             ],
-            "order": 73,
+            "order": 74,
             "title": "Monitor Integrations",
             "labels": "Observability Integrations",
             "slug": "observability-integrations",
@@ -14418,7 +14547,7 @@
             "parent_record_ids": [
               "recvlVXRRX6rrb"
             ],
-            "order": 74,
+            "order": 75,
             "title": "Integrate with Prometheus",
             "labels": "Prometheus",
             "slug": "prometheus-monitoring",
@@ -14441,7 +14570,7 @@
             "parent_record_ids": [
               "recvlVXRRX6rrb"
             ],
-            "order": 75,
+            "order": 76,
             "title": "Integrate with Datadog",
             "labels": "Datadog",
             "slug": "integrate-with-datadog",
@@ -14461,7 +14590,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 76,
+            "order": 77,
             "title": "Identity Management",
             "labels": "",
             "slug": "identity-management",
@@ -14481,7 +14610,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 77,
+            "order": 78,
             "title": "Identity Management Overview",
             "labels": "",
             "slug": "identity-management-overview",
@@ -14504,7 +14633,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 78,
+            "order": 79,
             "title": "Manage Platform Users",
             "labels": "",
             "slug": "manage-platform-users",
@@ -14527,7 +14656,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 79,
+            "order": 80,
             "title": "Manage Cluster Users",
             "labels": "",
             "slug": "manage-cluster-users",
@@ -14547,7 +14676,7 @@
             "parent_record_ids": [
               "recvsCX5x9Vaiw"
             ],
-            "order": 80,
+            "order": 81,
             "title": "Manage Cluster Users (Console)",
             "labels": "Manage Cluster Users (Console)",
             "slug": "cluster-users",
@@ -14570,7 +14699,7 @@
             "parent_record_ids": [
               "recvsCX5x9Vaiw"
             ],
-            "order": 81,
+            "order": 82,
             "title": "Manage Cluster User (SDK)",
             "labels": "Manage Cluster User (SDK)",
             "slug": "cluster-users-sdk",
@@ -14593,7 +14722,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 82,
+            "order": 83,
             "title": "Single Sign-on (SSO)",
             "labels": "Single Sign-on (SSO)",
             "slug": "single-sign-on",
@@ -14616,7 +14745,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 83,
+            "order": 84,
             "title": "Okta (OIDC)",
             "labels": "Okta (OIDC)",
             "slug": "openid-connect",
@@ -14639,7 +14768,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 84,
+            "order": 85,
             "title": "Okta (SAML 2.0)",
             "labels": "Okta (SAML 2.0)",
             "slug": "single-sign-on-with-okta",
@@ -14662,7 +14791,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 85,
+            "order": 86,
             "title": "Google Workspace (SAML 2.0)",
             "labels": "Google Workspace (SAML 2.0)",
             "slug": "single-sign-on-with-google-workspace",
@@ -14685,7 +14814,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 86,
+            "order": 87,
             "title": "Microsoft Entra (SAML 2.0)",
             "labels": "Microsoft Entra (SAML 2.0)",
             "slug": "single-sign-on-with-microsoft-entra",
@@ -14708,7 +14837,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 87,
+            "order": 88,
             "title": "PingOne (SAML 2.0)",
             "labels": "PingOne (SAML 2.0)",
             "slug": "single-sign-on-with-ping-one",
@@ -14731,7 +14860,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 88,
+            "order": 89,
             "title": "Other IdP (SAML 2.0)",
             "labels": "Other IdP (SAML 2.0)",
             "slug": "single-sign-on-with-other-idp",
@@ -14754,7 +14883,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 89,
+            "order": 90,
             "title": "Enforce SSO in Your Organization",
             "labels": "Enforce SSO in Your Organization",
             "slug": "enforce-sso-in-your-organization",
@@ -14777,7 +14906,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 90,
+            "order": 91,
             "title": "SCIM Provisioning",
             "labels": "SCIM Provisioning",
             "slug": "scim-provisioning",
@@ -14797,7 +14926,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 91,
+            "order": 92,
             "title": "SCIM Provisioning Overview",
             "labels": "SCIM Provisioning Overview",
             "slug": "scim-provisioning-overview",
@@ -14820,7 +14949,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 92,
+            "order": 93,
             "title": "Configure SCIM Provisioning with Okta",
             "labels": "Configure SCIM Provisioning with Okta",
             "slug": "configure-scim-provisioning-with-okta",
@@ -14843,7 +14972,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 93,
+            "order": 94,
             "title": "Configure SCIM Provisioning with Microsoft Entra",
             "labels": "Configure SCIM Provisioning with Microsoft Entra",
             "slug": "configure-scim-provisioning-with-microsoft-entra",
@@ -14866,7 +14995,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 94,
+            "order": 95,
             "title": "View SCIM-Synced Groups",
             "labels": "View SCIM-Synced Groups",
             "slug": "view-scim-synced-groups",
@@ -14887,7 +15016,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 95,
+            "order": 96,
             "title": "Access Control",
             "labels": "Access Control",
             "slug": "access-control",
@@ -14907,7 +15036,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 96,
+            "order": 97,
             "title": "Access Control Explained",
             "labels": "Access Control Explained",
             "slug": "access-control-overview",
@@ -14930,7 +15059,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 97,
+            "order": 98,
             "title": "Manage Platform Roles",
             "labels": "",
             "slug": "manage-platform-roles",
@@ -14953,7 +15082,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 98,
+            "order": 99,
             "title": "Manage Cluster Roles",
             "labels": "",
             "slug": "manage-cluster-roles",
@@ -14973,7 +15102,7 @@
             "parent_record_ids": [
               "recvsCXosh00gJ"
             ],
-            "order": 99,
+            "order": 100,
             "title": "Manage Cluster Roles (Console)",
             "labels": "Manage Cluster Roles (Console)",
             "slug": "cluster-roles",
@@ -14996,7 +15125,7 @@
             "parent_record_ids": [
               "recvsCXosh00gJ"
             ],
-            "order": 100,
+            "order": 101,
             "title": "Manage Cluster Roles (SDK)",
             "labels": "Manage Cluster Roles (SDK)",
             "slug": "cluster-roles-sdk",
@@ -15019,7 +15148,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 101,
+            "order": 102,
             "title": "Privilege Reference",
             "labels": "",
             "slug": "privilege-reference",
@@ -15039,7 +15168,7 @@
             "parent_record_ids": [
               "recvsCY8Lgrtef"
             ],
-            "order": 102,
+            "order": 103,
             "title": "Platform Resource Privilege ",
             "labels": "Platform Privileges",
             "slug": "platform-privileges",
@@ -15062,7 +15191,7 @@
             "parent_record_ids": [
               "recvsCY8Lgrtef"
             ],
-            "order": 103,
+            "order": 104,
             "title": "Cluster Resource Privileges & Privilege Groups",
             "labels": "Cluster Privileges & Privilege Groups",
             "slug": "cluster-privileges",
@@ -15083,7 +15212,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 104,
+            "order": 105,
             "title": "Authentication",
             "labels": "Authentication",
             "slug": "authentication",
@@ -15103,7 +15232,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 105,
+            "order": 106,
             "title": "Email Accounts",
             "labels": "Email Accounts",
             "slug": "email-accounts",
@@ -15126,7 +15255,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 106,
+            "order": 107,
             "title": "API Keys",
             "labels": "API Keys",
             "slug": "manage-api-keys",
@@ -15149,7 +15278,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 107,
+            "order": 108,
             "title": "Cluster Credentials",
             "labels": "Cluster Credentials",
             "slug": "cluster-credentials",
@@ -15172,7 +15301,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 108,
+            "order": 109,
             "title": "MFA",
             "labels": "MFA",
             "slug": "multi-factor-auth",
@@ -15193,7 +15322,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 109,
+            "order": 110,
             "title": "IP Allowlists",
             "labels": "IP Allowlists",
             "slug": "ip-allowlists",
@@ -15213,7 +15342,7 @@
             "parent_record_ids": [
               "recvlVRabLZ7zu"
             ],
-            "order": 110,
+            "order": 111,
             "title": "Set Up Console IP Allowlist",
             "labels": "Set Up Console IP Allowlist",
             "slug": "setup-console-ip-allowlist",
@@ -15236,7 +15365,7 @@
             "parent_record_ids": [
               "recvlVRabLZ7zu"
             ],
-            "order": 111,
+            "order": 112,
             "title": "Set up Cluster IP Allowlist",
             "labels": "Set up Cluster IP Allowlist",
             "slug": "setup-whitelist",
@@ -15256,7 +15385,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 112,
+            "order": 113,
             "title": "Private Endpoint",
             "labels": "Private Endpoint",
             "slug": "private-endpoint",
@@ -15276,7 +15405,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 113,
+            "order": 114,
             "title": "Set up a PrivateLink (AWS)",
             "labels": "Set up a PrivateLink (AWS)",
             "slug": "setup-a-private-link-aws",
@@ -15298,7 +15427,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 114,
+            "order": 115,
             "title": "Set up a Private Service Connect (GCP)",
             "labels": "Set up a Private Service Connect (GCP)",
             "slug": "setup-a-private-link-gcp",
@@ -15320,7 +15449,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 115,
+            "order": 116,
             "title": "Set up a Private Link (Azure)",
             "labels": "Set up a Private Link (Azure)",
             "slug": "setup-a-private-link-azure",
@@ -15340,7 +15469,7 @@
             "table_name": "Management",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 116,
+            "order": 117,
             "title": "Customer-Managed Encryption Keys",
             "labels": "CMEK",
             "slug": "cmek",
@@ -15363,7 +15492,7 @@
             "parent_record_ids": [
               "recvlVRhA4KOpE"
             ],
-            "order": 117,
+            "order": 118,
             "title": "AWS KMS",
             "labels": "AWS KMS",
             "slug": "aws-kms",
@@ -15386,7 +15515,7 @@
             "parent_record_ids": [
               "recvlVRhA4KOpE"
             ],
-            "order": 118,
+            "order": 119,
             "title": "Google Cloud KMS",
             "labels": "",
             "slug": "gcp-kms",
@@ -15407,7 +15536,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 119,
+            "order": 120,
             "title": "Audit Logs",
             "labels": "Audit Logs",
             "slug": "auditing",
@@ -15427,7 +15556,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 120,
+            "order": 121,
             "title": "VectorDB Audit Logs",
             "labels": "VectorDB Audit Logs",
             "slug": "audit-logs",
@@ -15450,7 +15579,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 121,
+            "order": 122,
             "title": "VectorDB Audit Logs Reference",
             "labels": "VectorDB Audit Logs Reference",
             "slug": "audit-logs-ref",
@@ -15473,7 +15602,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 122,
+            "order": 123,
             "title": "View Platform Audit Logs",
             "labels": "View Platform Audit Logs",
             "slug": "view-activities",
@@ -15494,7 +15623,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 123,
+            "order": 124,
             "title": "Access Logs",
             "labels": "Access Logs",
             "slug": "access-logs",
@@ -15514,7 +15643,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 124,
+            "order": 125,
             "title": "Access Logs Overview",
             "labels": "Access Logs Overview",
             "slug": "access-log-overview",
@@ -15537,7 +15666,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 125,
+            "order": 126,
             "title": "Configure Access Logs",
             "labels": "Configure Access Logs",
             "slug": "configure-access-logs",
@@ -15560,7 +15689,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 126,
+            "order": 127,
             "title": "Access Log Reference",
             "labels": "Access Log Reference",
             "slug": "access-log-reference",
@@ -15581,7 +15710,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 127,
+            "order": 128,
             "title": "Slow Logs",
             "labels": "",
             "slug": "slow-logs",
@@ -15601,7 +15730,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 128,
+            "order": 129,
             "title": "Configure Slow Logs",
             "labels": "",
             "slug": "configure-slow-logs",
@@ -15624,7 +15753,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 129,
+            "order": 130,
             "title": "Slow Logs Reference",
             "labels": "",
             "slug": "slow-log-reference",
@@ -15645,7 +15774,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 130,
+            "order": 131,
             "title": "Billing Management",
             "labels": "Billing Management",
             "slug": "billing-management",
@@ -15665,7 +15794,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 131,
+            "order": 132,
             "title": "Understand BYOC Billing",
             "labels": "",
             "slug": "understand-byoc-billing",
@@ -15687,7 +15816,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 132,
+            "order": 133,
             "title": "Payment and Billing Overview",
             "labels": "Payment and Billing Overview",
             "slug": "payment-billing",
@@ -15710,7 +15839,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 133,
+            "order": 134,
             "title": "Set up Payment Method",
             "labels": "Set Up Payment Method",
             "slug": "set-up-payment-method",
@@ -15733,7 +15862,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 134,
+            "order": 135,
             "title": "Credits",
             "labels": "Credits",
             "slug": "credits",
@@ -15756,7 +15885,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 135,
+            "order": 136,
             "title": "Credit Card",
             "labels": "Credit Card",
             "slug": "subscribe-by-adding-credit-card",
@@ -15779,7 +15908,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 136,
+            "order": 137,
             "title": "Advance Pay",
             "labels": "Advance Pay",
             "slug": "advance-pay",
@@ -15802,7 +15931,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 137,
+            "order": 138,
             "title": "Marketplace Subscription",
             "labels": "",
             "slug": "marketplace-subscription",
@@ -15822,7 +15951,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 138,
+            "order": 139,
             "title": "Subscribe to a Free Trial on AWS Marketplace",
             "labels": "AWS Marketplace (Free Trial)",
             "slug": "subscribe-on-aws-marketplace-free-trial",
@@ -15844,7 +15973,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 139,
+            "order": 140,
             "title": "Subscribe to a Public Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Public Offer)",
             "slug": "subscribe-on-aws-marketplace",
@@ -15867,7 +15996,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 140,
+            "order": 141,
             "title": "Subscribe to a Private Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Private Offer)",
             "slug": "subscribe-on-aws-marketplace-private-offer",
@@ -15890,7 +16019,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 141,
+            "order": 142,
             "title": "Subscribe to a Public Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Public Offer)",
             "slug": "subscribe-on-gcp-marketplace",
@@ -15913,7 +16042,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 142,
+            "order": 143,
             "title": "Subscribe to a Private Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Private Offer)",
             "slug": "subscribe-on-gcp-marketplace-private-offer",
@@ -15936,7 +16065,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 143,
+            "order": 144,
             "title": "Subscribe to a Public Offer on Microsoft Marketplace",
             "labels": "Microsoft Marketplace (Public Offer)",
             "slug": "subscribe-on-azure-marketplace",
@@ -15959,7 +16088,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 144,
+            "order": 145,
             "title": "Update Payment Method",
             "labels": "Update Payment Method",
             "slug": "update-payment-method",
@@ -15982,7 +16111,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 145,
+            "order": 146,
             "title": "Update Billing Profile",
             "labels": "Update Billing Profile",
             "slug": "update-billing-profile",
@@ -16005,7 +16134,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 146,
+            "order": 147,
             "title": "Understand Invoices",
             "labels": "Understand Invoices",
             "slug": "view-invoice",
@@ -16028,7 +16157,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 147,
+            "order": 148,
             "title": "Manage Invoices",
             "labels": "Manage Invoices",
             "slug": "manage-invoice",
@@ -16051,7 +16180,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 148,
+            "order": 149,
             "title": "Failed Payments and Organization Recovery",
             "labels": "Failed Payments and Organization Recovery",
             "slug": "failed-payments-organization-recovery",
@@ -16073,7 +16202,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 149,
+            "order": 150,
             "title": "Separate Billing by Marketplace Account",
             "labels": "",
             "slug": "separate-billing",
@@ -16093,7 +16222,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 150,
+            "order": 151,
             "title": "Separate Zilliz Cloud Billing on AWS Marketplace",
             "labels": "AWS Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-aws-marketplace",
@@ -16115,7 +16244,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 151,
+            "order": 152,
             "title": "Separate Zilliz Cloud Billing on Microsoft Marketplace",
             "labels": "Microsoft Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-azure-marketplace",
@@ -16137,7 +16266,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 152,
+            "order": 153,
             "title": "Monitor Billing Alerts",
             "labels": "Monitor Billing Alerts",
             "slug": "monitor-billing-alerts",
@@ -16157,7 +16286,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 153,
+            "order": 154,
             "title": "Cost Management",
             "labels": "Cost Management",
             "slug": "cost-management",
@@ -16177,7 +16306,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 154,
+            "order": 155,
             "title": "Understand Cost",
             "labels": "Understand Cost",
             "slug": "understand-cost",
@@ -16197,7 +16326,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 155,
+            "order": 156,
             "title": "On-Demand Compute Cost",
             "labels": "On-Demand Compute",
             "slug": "on-demand-compute-cost",
@@ -16219,7 +16348,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 156,
+            "order": 157,
             "title": "Dedicated Cluster Cost",
             "labels": "Dedicated Cluster",
             "slug": "dedicated-cluster-cost",
@@ -16241,7 +16370,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 157,
+            "order": 158,
             "title": "Serverless Cluster Cost",
             "labels": "Serverless Cluster",
             "slug": "serverless-cluster-cost",
@@ -16263,7 +16392,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 158,
+            "order": 159,
             "title": "Storage Cost",
             "labels": "Storage",
             "slug": "storage-cost",
@@ -16285,7 +16414,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 159,
+            "order": 160,
             "title": "Storage Request Cost",
             "labels": "Storage Request",
             "slug": "storage-request-cost",
@@ -16307,7 +16436,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 160,
+            "order": 161,
             "title": "Data Transfer Cost",
             "labels": "Data Transfer",
             "slug": "data-transfer-cost",
@@ -16329,7 +16458,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 161,
+            "order": 162,
             "title": "Audit Logs Cost",
             "labels": "Audit Logs",
             "slug": "audit-log-cost",
@@ -16351,7 +16480,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 162,
+            "order": 163,
             "title": "Analyze Cost",
             "labels": "Analyze Cost",
             "slug": "analyze-cost",
@@ -16374,7 +16503,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 163,
+            "order": 164,
             "title": "Cost Optimization",
             "labels": "Cost Optimization",
             "slug": "cost-optimization",
@@ -16394,7 +16523,7 @@
             "table_name": "Management",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 164,
+            "order": 165,
             "title": "Zilliz Cloud Limits",
             "labels": "Zilliz Cloud Limits",
             "slug": "limits",
@@ -16417,7 +16546,7 @@
             "parent_record_ids": [
               "recvlW2LRPor2A"
             ],
-            "order": 165,
+            "order": 166,
             "title": "API Availability",
             "labels": "API Availability",
             "slug": "api-comparison",
@@ -16441,14 +16570,14 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "e5ad9e1f453069f592282c5cfd2ede82ef5dfd6f6f2cb74fed3370c17d597d81",
-          "tblZMzoITXNsyKmQ": "5084681e46f8032edc4905e7fbb80c275a152668d3bea077a954da2262e29806"
+          "tblWv7PjNDsexddH": "b680cf2ea9dc9b0b61ace175af24fb0e69a973f93dc121fe1d38f454a6666272",
+          "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
     },
     "tools": {
-      "zdoc": "c3260d68715b151102dfc64a88cbe1c60e137864",
+      "zdoc": "c5ba84b20c5f8569c82530d1de42ef22397031a2",
       "md2md": "1.3.0"
     },
     "images": []

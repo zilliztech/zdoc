@@ -38,6 +38,7 @@ Zilliz Cloud supports migration from leading vector databases and search platfor
 | [PostgreSQL](./migrate-from-pgvector) | Relational database | Vector extension (pgvector) support |
 | [Tencent Cloud VectorDB](./migrate-from-tencent-cloud) | Managed service | Managed vector database service |
 | [OpenSearch](./migrate-from-opensearch) | Search platform | KNN plugin with vector capabilities |
+| [Chroma](./migrate-from-chroma) | Vector database | Chroma Cloud and self-hosted deployments |
 
 ## Core capabilities\{#core-capabilities}
 
@@ -202,7 +203,7 @@ Ready to migrate your data to Zilliz Cloud?
 
 </Procedures>
 
-<Supademo id="cmb7mg34n4sqrppkp8pnm8dub" title="Zilliz Cloud - Access Migration Portal Demo" />
+<Supademo id="cmvrvm4tz0qmaqmpsb3co5opk" title=""  />
 
 ### Configure Full Text Search for text data\{#configure-full-text-search-for-text-data}
 
@@ -212,7 +213,7 @@ If your source contains text, you can configure Full Text Search during migratio
 
 ## Platform-specific migration guides\{#platform-specific-migration-guides}
 
-For detailed instructions, prerequisites, and data mapping information specific to your platform:
+For source-specific prerequisites, data type mappings, and handling rules, see the following guides:
 
 - [Migrate from Pinecone to Zilliz Cloud](./migrate-from-pinecone)
 
@@ -225,4 +226,6 @@ For detailed instructions, prerequisites, and data mapping information specific 
 - [Migrate from Tencent Cloud to Zilliz Cloud](./migrate-from-tencent-cloud)
 
 - [Migrate from OpenSearch to Zilliz Cloud](./migrate-from-opensearch)
+
+- [Migrate from Chroma to Zilliz Cloud](./migrate-from-chroma)
 

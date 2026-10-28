@@ -84,17 +84,17 @@ import Grid from '@site/src/components/Grid';
 
         - [Search aggregation](/docs/search-aggregation)
 
-        - Order by for [searches](/docs/single-vector-search#sort-search-results-by-scalar-fields) and [queries](/docs/get-and-scalar-query#sort-query-results)
+        - Order by for [searches](/docs/single-vector-search#sort-search-results-by-scalar-fields-or-public) and [queries](/docs/get-and-scalar-query#sort-query-results-or-public)
 
-        - [Query aggregation](/docs/get-and-scalar-query#aggregate-query-results)
+        - [Query aggregation](/docs/get-and-scalar-query#aggregate-query-results-or-public)
 
-        - [Regular expression filtering](/docs/pattern-match#use-regex)
+        - [Regular expression filtering](/docs/pattern-match#use-regex-or-public)
 
         - [Element-level search](/docs/search-with-struct-array#run-element-level-search) and [match operators](/docs/struct-array-filtering) for StructArray fields
 
         - [MinHash function](/docs/minhash-function)
 
-        - [Entity-level TTL](/docs/set-collection-ttl#set-entity-level-ttl)
+        - [Entity-level TTL](/docs/set-collection-ttl#set-entity-level-ttl-or-public)
 
         - [Dropping fields and functions](/docs/add-fields-to-an-existing-collection#drop-fields-and-functions-from-an-existing-collection) from existing collections
 

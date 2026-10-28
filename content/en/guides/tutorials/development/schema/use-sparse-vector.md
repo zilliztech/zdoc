@@ -370,11 +370,13 @@ The process of creating an index for sparse vectors is similar to that for [dens
 
 ```python
 index_params = client.prepare_index_params()
+
 index_params.add_index(
     field_name="sparse_vector",
-    index_name="sparse_auto_index",
-    index_type="AUTOINDEX",
-    metric_type="IP"
+    index_name="sparse_inverted_index",
+    index_type="SPARSE_INVERTED_INDEX",
+    metric_type="IP",
+    params={"inverted_index_algo": "DAAT_MAXSCORE"}, # or "DAAT_WAND" or "TAAT_NAIVE"
 )
 ```
 
@@ -387,11 +389,16 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
+
+Map<String,Object> extraParams = new HashMap<>();
+extraParams.put("inverted_index_algo", "DAAT_MAXSCORE"); // Algorithm used for building and querying the index
+
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
-        .indexName("sparse_auto_index")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .indexName("sparse_inverted_index")
+        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.IP)
+        .extraParams(extraParams)
         .build());
 ```
 
@@ -436,7 +443,8 @@ let index_param = IndexParam::new()
 <TabItem value='c++'>
 
 ```c++
-milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
+milvus::IndexDesc sparse_index("sparse_vector", "sparse_inverted_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::IP);
+sparse_index.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 ```
 
 </TabItem>
@@ -449,8 +457,11 @@ import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 const indexParams = {
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
-    index_name: 'sparse_auto_index',
-    index_type: IndexType.AUTOINDEX,
+    index_name: 'sparse_inverted_index',
+    index_type: IndexType.SPARSE_INVERTED_INDEX,
+    params: {
+      inverted_index_algo: 'DAAT_MAXSCORE',
+    },
 };
 ```
 
@@ -459,20 +470,17 @@ const indexParams = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
 
-await client.CreateIndexAsync(new CreateIndexReq
+var indexes = new[]
 {
-    CollectionName = "my_collection",
-    Indexes = new[]
+    new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
     {
-        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
-        {
-            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
-        }
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
     }
-});
+};
 ```
 
 </TabItem>
@@ -484,8 +492,9 @@ export indexParams='[
         {
             "fieldName": "sparse_vector",
             "metricType": "IP",
-            "indexName": "sparse_auto_index",
-            "indexType": "AUTOINDEX"
+            "indexName": "sparse_inverted_index",
+            "indexType": "SPARSE_INVERTED_INDEX",
+            "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
         }
     ]'
 ```

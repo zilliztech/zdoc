@@ -2059,6 +2059,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma",
+                "label": "Chroma",
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips",
                 "label": "Zilliz Cloud IP Addresses",
                 "key": "doc:tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips"

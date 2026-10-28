@@ -37,6 +37,57 @@
       "feishu_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
       "anchors": {},
       "activated_in": "40620199474"
+    },
+    {
+      "page": "drop-collection",
+      "record": "recvlPso50Hw2Q",
+      "feishu_token": "DEUuwEwM4iMLOikU7XpcpNnKnGd",
+      "anchors": {},
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "insert-entities",
+      "record": "recvlPtOn6UqbP",
+      "feishu_token": "L5jawEj7FiBXWZkGhLgcQCWQnDd",
+      "anchors": {
+        "Cj7Ad8PtZo7RuUxui4DcjLOSnWb": "insert-entities-into-a-partition"
+      },
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "decay-ranker-oveview",
+      "record": "recvlUWMyUPaS4",
+      "feishu_token": "QZYhwcQhWigYTVkLnHeczkwYnZb",
+      "anchors": {},
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "standard-tokenizer",
+      "record": "recvlPvhgnFFDA",
+      "feishu_token": "GAX8wkC1QiTZhXkLBocc1GoTnke",
+      "anchors": {},
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "icu-tokenizer",
+      "record": "recvlPvps6Vpde",
+      "feishu_token": "Q3gKwc5lkilAbKkalCWcW2AbnLe",
+      "anchors": {},
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "remove-punct-filter",
+      "record": "recvlPvJP0pbh9",
+      "feishu_token": "TVfnwtCEQico7Bk9bngcnV1cnGb",
+      "anchors": {},
+      "activated_in": "40699375138"
+    },
+    {
+      "page": "regex-filter",
+      "record": "recvlPvLU6eZIJ",
+      "feishu_token": "AwmtwHGQii1j9Wk1W04cNxvBnth",
+      "anchors": {},
+      "activated_in": "40699375138"
     }
   ]
 }

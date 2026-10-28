@@ -1,7 +1,6 @@
 ---
 title: "Decay Ranker Overview | Cloud"
 slug: /decay-ranker-oveview
-sidebar_label: "Decay Ranker Overview"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "In traditional vector search, results are ranked purely by vector similarity—how closely vectors match in mathematical space. But in real-world applications, what makes content truly relevant often depends on more than just semantic similarity. | Cloud"
 type: origin
-token: QZYhwcQhWigYTVkLnHeczkwYnZb
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-decay-ranker-oveview
+sidebar_label: "Decay Ranker Overview"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/decay-ranker-overview.md"
 
 ---
 
@@ -99,26 +100,67 @@ For example, if a research paper scores 0.82 from vector similarity and 0.91 fro
 
 Let's see decay ranking in a practical scenario—searching for **"AI research papers"** with time-based decay:
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In this example, decay scores reflect how relevance diminishes with time—newer papers receive scores closer to 1.0, older papers receive lower scores. These values are calculated using a specific decay ranker. For details, refer to [Choose the right decay ranker](./decay-ranker-oveview#choose-the-right-decay-ranker).
 
 </Admonition>
 
-| Paper | Vector Similarity | Normalized Similarity Score | Publication Date | Decay Score | Final Score | Final Rank |
-| --- | --- | --- | --- | --- | --- | --- |
-| Paper A | High | 0.85 (`COSINE`) | 2 weeks ago | 0.80 | 0.68 | #2 |
-| Paper B | Very High | 0.92 (`COSINE`) | 6 months ago | 0.45 | 0.41 | #3 |
-| Paper C | Medium | 0.75 (`COSINE`) | 1 day ago | 0.98 | 0.74 | #1 |
-| Paper D | Medium-High | 0.76 (`COSINE`) | 3 weeks ago | 0.70 | 0.53 | #4 |
+<table>
+   <tr>
+     <th><p>Paper</p></th>
+     <th><p>Vector Similarity</p></th>
+     <th><p>Normalized Similarity Score</p></th>
+     <th><p>Publication Date</p></th>
+     <th><p>Decay Score</p></th>
+     <th><p>Final Score</p></th>
+     <th><p>Final Rank</p></th>
+   </tr>
+   <tr>
+     <td><p>Paper A</p></td>
+     <td><p>High</p></td>
+     <td><p>0.85 (<code>COSINE</code>)</p></td>
+     <td><p>2 weeks ago</p></td>
+     <td><p>0.80</p></td>
+     <td><p>0.68</p></td>
+     <td>2</td>
+   </tr>
+   <tr>
+     <td><p>Paper B</p></td>
+     <td><p>Very High</p></td>
+     <td><p>0.92 (<code>COSINE</code>)</p></td>
+     <td><p>6 months ago</p></td>
+     <td><p>0.45</p></td>
+     <td><p>0.41</p></td>
+     <td>4</td>
+   </tr>
+   <tr>
+     <td><p>Paper C</p></td>
+     <td><p>Medium</p></td>
+     <td><p>0.75 (<code>COSINE</code>)</p></td>
+     <td><p>1 day ago</p></td>
+     <td><p>0.98</p></td>
+     <td><p>0.74</p></td>
+     <td>1</td>
+   </tr>
+   <tr>
+     <td><p>Paper D</p></td>
+     <td><p>Medium-High</p></td>
+     <td><p>0.76 (<code>COSINE</code>)</p></td>
+     <td><p>3 weeks ago</p></td>
+     <td><p>0.70</p></td>
+     <td><p>0.53</p></td>
+     <td>3</td>
+   </tr>
+</table>
 
 Without decay reranking, Paper B would rank highest based on pure vector similarity (0.92). However, with decay reranking applied:
 
 - Paper C jumps to position #1 despite medium similarity because it's very recent (published yesterday)
 
-- Paper B drops to position #3 despite excellent similarity because it's relatively old
+- Paper B drops to position #4 despite excellent similarity because it's relatively old
 
-- Paper D uses L2 distance (where lower is better), so its score is normalized from 1.2 to 0.76 before applying decay
+- Paper D uses COSINE similarity, so its score of 0.76 is used directly before applying decay
 
 ## Choose the right decay ranker\{#choose-the-right-decay-ranker}
 
@@ -163,9 +205,9 @@ For detailed information about how each decay ranker calculates scores and speci
 
 Decay rankers can be applied to both standard vector search and hybrid search operations in Zilliz Cloud. Below are the key code snippets for implementing this feature.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking).
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Zilliz Cloud](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -213,7 +255,7 @@ DecayRanker rerank = DecayRanker.builder()
         .name("time_decay")
         .inputFieldNames(Collections.singletonList("timestamp"))
         .function("gauss")
-        .origin(zdt.toInstant().toEpochMilli())
+        .origin(zdt.toInstant().getEpochSecond())
         .scale(7 * 24 * 60 * 60)
         .offset(24 * 60 * 60)
         .decay(0.5)
@@ -290,7 +332,7 @@ const rerank = {
   params: {
     reranker: "decay",
     function: "gauss",
-    origin: new Date(2025, 1, 15).getTime(),
+    origin: Math.floor(Date.UTC(2025, 0, 15) / 1000),
     scale: 7 * 24 * 60 * 60,
     offset: 24 * 60 * 60,
     decay: 0.5,
@@ -321,10 +363,11 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
 <TabItem value='bash'>
 
 ```bash
-# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
+# restful
 ```
 
 </TabItem>
+
 </Tabs>
 
 <table>
@@ -338,13 +381,13 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
      <td><p><code>name</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Identifier for your function used when executing searches. Choose a descriptive name relevant to your use case.</p></td>
-     <td><p><code>&quot;time_decay&quot;</code></p></td>
+     <td><p><code>"time_decay"</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Numeric field for decay score calculation. Determines which data attribute will be used for calculating decay (e.g., timestamps for time-based decay, coordinates for location-based decay).</p><p>Must be a field in your collection that contains relevant numeric values. Supports INT8/16/32/64, FLOAT, DOUBLE.</p></td>
-     <td><p><code>[&quot;timestamp&quot;]</code></p></td>
+     <td><p>Numeric field for decay score calculation. Determines which data attribute will be used for calculating decay (e.g., timestamps for time-based decay, coordinates for location-based decay). </p><p>Must be a field in your collection that contains relevant numeric values. Supports INT8/16/32/64, FLOAT, DOUBLE.</p></td>
+     <td><p><code>["timestamp"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>function_type</code></p></td>
@@ -355,14 +398,14 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
    <tr>
      <td><p><code>params.reranker</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>&quot;decay&quot;</code> to enable decay ranking functionality.</p></td>
-     <td><p><code>&quot;decay&quot;</code></p></td>
+     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>"decay"</code> to enable decay ranking functionality.</p></td>
+     <td><p><code>"decay"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies which mathematical decay ranker to apply. Determines the curve shape of relevance decline.</p><p>See <a href="./decay-ranker-oveview#choose-the-right-decay-ranker">Choose the right decay ranker</a> section for guidance on selecting the appropriate function.</p></td>
-     <td><p><code>&quot;gauss&quot;</code>, <code>&quot;exp&quot;</code>, or <code>&quot;linear&quot;</code></p></td>
+     <td><p><code>"gauss"</code>, <code>"exp"</code>, or <code>"linear"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.origin</code></p></td>
@@ -374,13 +417,13 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
      <td><p><code>params.scale</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Distance or time at which relevance drops to the <code>decay</code> value. Controls how quickly relevance declines.</p><p>For time-based decay, the time unit must match your collection data.</p><p>Larger values create a more gradual decline in relevance; smaller values create a steeper decline.</p></td>
-     <td><ul><li><p>For time: period in seconds (e.g., <code>7 &ast; 24 &ast; 60 &ast; 60</code> for 7 days)</p></li><li><p>For distance: meters (e.g., <code>5000</code> for 5km)</p></li></ul></td>
+     <td><ul><li><p>For time: period in seconds (e.g., <code>7 * 24 * 60 * 60</code> for 7 days)</p></li><li><p>For distance: meters (e.g., <code>5000</code> for 5km)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.offset</code></p></td>
      <td><p>No</p></td>
-     <td><p>Creates a &quot;no-decay zone&quot; around the <code>origin</code> where items maintain full scores (decay score = 1.0).</p><p>For time-based decay, the time unit must match your collection data.</p><p>Items within this range of the <code>origin</code> maintain maximum relevance.</p></td>
-     <td><ul><li><p>For time: period in seconds (e.g., <code>24 &ast; 60 &ast; 60</code> for 1 day)</p></li><li><p>For distance: meters (e.g., <code>500</code> for 500m)</p></li></ul></td>
+     <td><p>Creates a "no-decay zone" around the <code>origin</code> where items maintain full scores (decay score = 1.0).</p><p>For time-based decay, the time unit must match your collection data.</p><p>Items within this range of the <code>origin</code> maintain maximum relevance.</p></td>
+     <td><ul><li><p>For time: period in seconds (e.g., <code>24 * 60 * 60</code> for 1 day)</p></li><li><p>For distance: meters (e.g., <code>500</code> for 500m)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.decay</code></p></td>
@@ -492,7 +535,8 @@ function_score->AddFunction(rerank);
 
 auto request = milvus::SearchRequest()
                    .WithCollectionName(collection_name)
-                   .WithAnnsField("dense")
+                   .WithAnnsField("vector_field")
+                   .WithLimit(10)
                    .WithRerank(function_score)
                    .AddOutputField("document")
                    .AddOutputField("timestamp")
@@ -513,7 +557,7 @@ if (!status.IsOk()) {
 const result = await milvusClient.search({
   collection_name: collection_name,
   data: [your_query_vector], // Replace with your query vector
-  anns_field: "dense",
+  anns_field: "vector_field",
   limit: 10,
   output_fields: ["document", "timestamp"],
   rerank: rerank,
@@ -533,7 +577,8 @@ using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -559,8 +604,9 @@ SearchResp results = await client.SearchAsync(new SearchReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
+# restful
 ```
 
 </TabItem>
+
 </Tabs>

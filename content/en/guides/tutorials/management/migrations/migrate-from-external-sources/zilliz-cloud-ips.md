@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud pulls data from your data sources and sends it to target clusters using a set of fixed IP addresses. To ensure that Zilliz Cloud can do this, you must safelist these IP addresses in your firewall | Cloud"
 type: origin
 token: KfgvwJKPDi8uDekl2aHcPOvgnSb
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
