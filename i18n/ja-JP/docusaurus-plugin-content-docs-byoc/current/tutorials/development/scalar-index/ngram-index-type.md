@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまたは `JSON` フィールド内の特定の JSON パスに対する `LIKE` クエリおよび対象となる正規表現フィルターを高速化します。インデックスを構築する前に、Zilliz Cloud はテキストを固定長 n の短い重複サブストリング（n-gram）に分割します。たとえば、n = 3 の場合、「Milvus」は 3-gram の「Mil」、「ilv」、「lvu」、「vus」に分割されます。これらの n-gram は、各グラムをその出現先のドキュメント ID にマッピングする転置インデックスに保存されます。クエリ時に、このインデックスにより、Zilliz Cloud は元のフィルター条件を検証する前に検索対象を少数の候補にすばやく絞り込むことができます。 | BYOC"
+description: "Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまたは `JSON` フィールド内の特定の JSON パスに対する `LIKE` クエリと対象となる正規表現フィルターを高速化します。インデックスを構築する前に、Zilliz Cloud はテキストを固定長 n の短く重複する部分文字列（n-gram）に分割します。たとえば、n = 3 の場合、単語 \"Milvus\" は 3-gram の \"Mil\"、\"ilv\"、\"lvu\"、\"vus\" に分割されます。これらの n-gram は、各グラムをそれが出現するドキュメント ID にマッピングする転置インデックスに格納されます。クエリ時には、このインデックスにより、Zilliz Cloud は元のフィルター条件を検証する前に検索対象を少数の候補にすばやく絞り込むことができます。 | BYOC"
 type: origin
 token: Q0wpw4xZiimaUsk4GvScAg2un1d
 sidebar_position: 3
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # NGRAM
 
-Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまたは `JSON` フィールド内の特定の JSON パスに対する `LIKE` クエリおよび対象となる正規表現フィルターを高速化します。インデックスを構築する前に、Zilliz Cloud はテキストを固定長 *n* の短い重複サブストリング（*n-gram*）に分割します。たとえば、*n = 3* の場合、*"Milvus"* という単語は *"Mil"*、*"ilv"*、*"lvu"*、*"vus"* という 3-gram に分割されます。これらの n-gram は、各グラムをその出現先のドキュメント ID にマッピングする転置インデックスに保存されます。クエリ時に、このインデックスにより、Zilliz Cloud は元のフィルター条件を検証する前に検索対象を少数の候補にすばやく絞り込むことができます。
+Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまたは `JSON` フィールド内の特定の JSON パスに対する `LIKE` クエリと対象となる正規表現フィルターを高速化します。インデックスを構築する前に、Zilliz Cloud はテキストを固定長 *n* の短く重複する部分文字列（*n-gram*）に分割します。たとえば、*n = 3* の場合、単語 *"Milvus"* は 3-gram の *"Mil"*、*"ilv"*、*"lvu"*、*"vus"* に分割されます。これらの n-gram は、各グラムをそれが出現するドキュメント ID にマッピングする転置インデックスに格納されます。クエリ時には、このインデックスにより、Zilliz Cloud は元のフィルター条件を検証する前に検索対象を少数の候補にすばやく絞り込むことができます。
 
-高速なプレフィックス検索、サフィックス検索、インフィックス検索、ワイルドカード検索、または対象となる正規表現フィルタリングが必要な場合は、次のように使用します。
+高速な前方一致、後方一致、中間一致、ワイルドカード、または対象となる正規表現フィルタリングが必要な場合に使用します。たとえば、次のとおりです。
 
 - `name LIKE "data%"`
 
@@ -37,7 +37,7 @@ Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまた
 
 <Admonition type="info" title="Notes">
 
-`LIKE` および正規表現フィルター式の構文の詳細については、[パターンマッチング](./pattern-match) を参照してください。
+`LIKE` および正規表現フィルター式の構文の詳細については、[Pattern Matching](./pattern-match) を参照してください。
 
 </Admonition>
 
@@ -47,23 +47,23 @@ Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまた
 
 <summary>NGRAM の仕組みを表示するには展開してください</summary>
 
-Zilliz Cloud は、2 つのフェーズで `NGRAM` インデックスを実装しています。
+Zilliz Cloud は `NGRAM` インデックスを 2 段階のプロセスで実装します:
 
-1. **インデックスの構築**: 取り込み中に各ドキュメントの n-gram を生成し、転置インデックスを構築します。
+1. **インデックスを構築する**: 取り込み中に各ドキュメントの n-gram を生成し、転置インデックスを構築します。
 
-1. **クエリの高速化**: インデックスを使用して候補を少数に絞り込み、その後で完全一致を検証します。
+1. **クエリを高速化する**: インデックスを使用して少数の候補セットに絞り込み、完全一致を検証します。
 
 ### フェーズ 1: インデックスを構築する\{#phase-1-build-the-index}
 
-データ取り込み中、Zilliz Cloud は次の 2 つの主要なステップを実行して NGRAM インデックスを構築します。
+データの取り込み中、Zilliz Cloud は次の 2 つの主要なステップを実行して NGRAM インデックスを構築します:
 
-1. **テキストを n-gram に分解する**: Zilliz Cloud は対象フィールド内の各文字列にわたって幅 *n* のウィンドウをスライドさせ、重複するサブストリング（*n-gram*）を抽出します。これらのサブストリングの長さは、設定可能な範囲 `[min_gram, max_gram]` 内に収まります。
+1. **テキストを n-gram に分解する**: Zilliz Cloud は、対象フィールドの各文字列にわたって幅 *n* のウィンドウをスライドさせ、重複する部分文字列（*n-gram*）を抽出します。これらの部分文字列の長さは、設定可能な範囲 `[min_gram, max_gram]` 内に収まります。
 
-    - `min_gram`: 生成する最短の n-gram です。これは、インデックスの恩恵を受けられるクエリサブストリングの最小長も定義します。
+    - `min_gram`: 生成する最短の n-gram です。これは、インデックスを活用できるクエリ部分文字列の最小長も定義します。
 
     - `max_gram`: 生成する最長の n-gram です。クエリ時には、長いクエリ文字列を分割する際の最大ウィンドウサイズとしても使用されます。
 
-        たとえば、`min_gram=2` および `max_gram=3` の場合、文字列 `"AI database"` は次のように分解されます。
+        たとえば、`min_gram=2` および `max_gram=3` の場合、文字列 `"AI database"` は次のように分割されます:
 
         ![W35aw6aMph7nSobJeFlcXVH8neb](https://zdoc-images.s3.us-west-2.amazonaws.com/W35aw6aMph7nSobJeFlcXVH8neb.png)
 
@@ -73,7 +73,7 @@ Zilliz Cloud は、2 つのフェーズで `NGRAM` インデックスを実装�
 
         <Admonition type="info" title="Notes">
 
-        - 範囲 `[min_gram, max_gram]` の場合、Zilliz Cloud は 2 つの値の間（両端を含む）のすべての長さについて n-gram を生成します。たとえば、`[2,4]` と単語 `"text"` の場合、Zilliz Cloud は次のように生成します。
+        - 範囲 `[min_gram, max_gram]` に対して、Zilliz Cloud は 2 つの値の間（両端を含む）のすべての長さの n-gram を生成します。たとえば、`[2,4]` と単語 `"text"` の場合、Zilliz Cloud は次を生成します:
         
         - **2-gram:** `te`, `ex`, `xt`
         
@@ -81,41 +81,41 @@ Zilliz Cloud は、2 つのフェーズで `NGRAM` インデックスを実装�
         
         - **4-gram:** `text`
         
-        - N-gram の分解は文字ベースで言語に依存しません。たとえば、中国語では、`min_gram = 2` を指定した `"向量数据库"` は、`"向量"`、`"量数"`、`"数据"`、`"据库"` に分解されます。
+        - N-gram の分解は文字ベースで言語に依存しません。たとえば、中国語では、`min_gram = 2` を指定した `"向量数据库"` は `"向量"`、`"量数"`、`"数据"`、`"据库"` に分解されます。
         
         - 分解時、スペースと句読点は文字として扱われます。
         
-        - 分解では元の大文字と小文字が保持され、マッチングでは大文字と小文字が区別されます。たとえば、`"Database"` と `"database"` は異なる n-gram を生成し、クエリ時には大文字と小文字の完全一致が必要です。
+        - 分解では元の大文字と小文字が保持され、マッチングは大文字と小文字を区別します。たとえば、`"Database"` と `"database"` は異なる n-gram を生成し、クエリ時には大文字と小文字の完全一致が必要です。
 
         </Admonition>
 
-1. **転置インデックスの構築**: 生成された各 n-gram を、それを含むドキュメント ID のリストにマッピングする**転置インデックス**が作成されます。
+1. **転置インデックスを構築する**: 生成された各 n-gram を、それを含むドキュメント ID のリストにマッピングする**転置インデックス**が作成されます。
 
-    たとえば、2-gram `"AI"` が ID 1、5、6、8、9 のドキュメントに出現する場合、インデックスには `{"AI": [1, 5, 6, 8, 9]}` が記録されます。このインデックスは、クエリ時に検索範囲をすばやく絞り込むために使用されます。
+    たとえば、2-gram の `"AI"` が ID 1、5、6、8、9 のドキュメントに出現する場合、インデックスには `{"AI": [1, 5, 6, 8, 9]}` が記録されます。このインデックスはクエリ時に検索範囲をすばやく絞り込むために使用されます。
 
     ![MJ1OwnzmthWaPYbt7YncrlUznPo](https://zdoc-images.s3.us-west-2.amazonaws.com/MJ1OwnzmthWaPYbt7YncrlUznPo.png)
 
 ### フェーズ 2: クエリを高速化する\{#phase-2-accelerate-queries}
 
-`LIKE` フィルターまたは対象となる正規表現フィルターが実行されると、Zilliz Cloud は次のステップで NGRAM インデックスを使用してクエリを高速化します。
+`LIKE` フィルターまたは対象となる正規表現フィルターが実行されると、Zilliz Cloud は次の手順で NGRAM インデックスを使用してクエリを高速化します:
 
 ![C7Iawzee9hrag7b0LCecWHSunsc](https://zdoc-images.s3.us-west-2.amazonaws.com/C7Iawzee9hrag7b0LCecWHSunsc.png)
 
-1. **クエリ用語の抽出:** `LIKE` 式からワイルドカードを含まない連続したサブストリングが抽出されます（例: `"%database%"` は `"database"` になります）。正規表現フィルターの場合、Zilliz Cloud は可能なときに正規表現パターンから固定のリテラルサブストリングを抽出します。たとえば、`message =~ "error.*timeout"` にはリテラル `error` と `timeout` が含まれます。
+1. **クエリ語を抽出する:** `LIKE` 式からワイルドカードを含まない連続した部分文字列が抽出されます（たとえば、`"%database%"` は `"database"` になります）。正規表現フィルターの場合、Zilliz Cloud は可能なときに正規表現パターンから固定のリテラル部分文字列を抽出します。たとえば、`message =~ "error.*timeout"` にはリテラル `error` と `timeout` が含まれています。
 
-1. **クエリ用語の分解:** クエリ用語は、その長さ（`L`）ならびに `min_gram` および `max_gram` の設定に基づいて *n-gram* に分解されます。
+1. **クエリ語を分解する:** クエリ語は、その長さ（`L`）と `min_gram` および `max_gram` の設定に基づいて *n-gram* に分解されます。
 
     - `L < min_gram` の場合、インデックスは使用できず、クエリはフルスキャンにフォールバックします。
 
-    - `min_gram ≤ L ≤ max_gram` の場合、クエリ用語全体が単一の n-gram として扱われ、それ以上の分解は不要です。
+    - `min_gram ≤ L ≤ max_gram` の場合、クエリ語全体が単一の n-gram として扱われ、それ以上の分解は不要です。
 
-    - `L > max_gram` の場合、クエリ用語は `max_gram` に等しいウィンドウサイズを使用して、重複するグラムに分解されます。
+    - `L > max_gram` の場合、クエリ語は、`max_gram` に等しいウィンドウサイズを使用して、重複するグラムに分割されます。
 
-    たとえば、`max_gram` が `3` に設定され、長さが **8** のクエリ用語 `"database"` は、`"dat"`、`"ata"`、`"tab"` などの 3-gram サブストリングに分解されます。
+    たとえば、`max_gram` が `3` に設定され、クエリ語が長さ **8** の `"database"` である場合、それは `"dat"`、`"ata"`、`"tab"` などの 3-gram 部分文字列に分解されます。
 
-1. **各グラムの検索と交差**: Zilliz Cloud はクエリの各グラムを転置インデックスで検索し、得られたドキュメント ID リストを交差させて、少数の候補ドキュメントを特定します。これらの候補には、クエリのすべてのグラムが含まれています。
+1. **各グラムを検索して交差させる**: Zilliz Cloud は、クエリの各グラムを転置インデックスで検索し、得られたドキュメント ID リストを交差させて、少数の候補ドキュメントを見つけます。これらの候補には、クエリのすべてのグラムが含まれています。
 
-1. **検証と結果の返却:** 最後に、元の `LIKE` または正規表現フィルターが、少数の候補セットのみに対して最終チェックとして適用され、完全一致が見つけられます。
+1. **結果を検証して返す:** 最後に、元の `LIKE` または正規表現フィルターが、完全一致を見つけるための最終チェックとして、少数の候補セットにのみ適用されます。
 
 </details>
 
@@ -323,15 +323,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この設定では、`text` 内の各文字列に対して 2-gram と 3-gram を生成し、転置インデックスに保存します。
+この設定では、`text` 内の各文字列に対して 2-gram と 3-gram が生成され、転置インデックスに格納されます。
 
 ### 例 2: JSON パスに作成する\{#example-2-create-on-a-json-path}
 
-`JSON` フィールドの場合は、グラムの設定に加えて、次の項目も指定する必要があります。
+`JSON` フィールドの場合は、グラム設定に加えて、次も指定する必要があります:
 
-- `params.json_path` – インデックスを作成する値への JSON パスです。
+- `params.json_path`：インデックスを作成する値への JSON パスです。
 
-- `params.json_cast_type` – NGRAM インデックスは文字列に対して動作するため、`"varchar"`（大文字と小文字を区別しない）である必要があります。
+- `params.json_cast_type`：`"varchar"`（大文字と小文字を区別しない）である必要があります。NGRAM インデックスは文字列に対して動作するためです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -505,76 +505,491 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、次のようになります。
+この例では:
 
-- `json_field["body"]` の値のみがインデックスされます。
+- `json_field["body"]` の値のみがインデックス化されます。
 
 - 値は n-gram トークン化の前に `VARCHAR` にキャストされます。
 
-- Zilliz Cloud は長さ 2 から 4 のサブストリングを生成し、それらを転置インデックスに保存します。
+- Zilliz Cloud は長さ 2 から 4 の部分文字列を生成し、それらを転置インデックスに格納します。
 
-JSON フィールドにインデックスを作成する方法の詳細については、[JSON インデックス](./json-indexing) を参照してください。
+JSON フィールドのインデックス作成方法の詳細については、[JSON Indexing](./json-indexing) を参照してください。
 
-## NGRAM によって高速化されるクエリ\{#queries-accelerated-by-ngram}
+## NGRAM で高速化されるクエリ\{#queries-accelerated-by-ngram}
 
-NGRAM インデックスを適用するには、次の条件を満たす必要があります。
+NGRAM インデックスが適用されるには、次の条件を満たす必要があります:
 
-- クエリの対象が、`NGRAM` インデックスを持つ `VARCHAR` フィールド（または JSON パス）であること。
+- クエリは、`NGRAM` インデックスを持つ `VARCHAR` フィールド（または JSON パス）を対象とする必要があります。
 
-- `LIKE` パターンのリテラル部分が少なくとも `min_gram` 文字の長さであること。
+- `LIKE` パターンのリテラル部分は、少なくとも `min_gram` 文字の長さである必要があります。
 
-    *（たとえば、想定される最短のクエリ用語が 2 文字の場合は、インデックス作成時に min_gram=2 を設定します。）*
+    *（たとえば、想定される最も短いクエリ語が 2 文字の場合は、インデックス作成時に min_gram=2 を設定します。）*
 
-サポートされるクエリタイプは次のとおりです。
+サポートされるクエリタイプ:
 
-- **プレフィックス一致**
+- **前方一致**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string that starts with the substring "database" 
     filter = 'text LIKE "database%"'
     ```
 
-- **サフィックス一致**
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that starts with the substring "database"
+    String filter = "text LIKE \"database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that starts with the substring "database"
+    filter := "text LIKE \"database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that starts with the substring "database"
+    let filter = "text LIKE \"database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that starts with the substring "database"
+    const auto filter = R"(text LIKE "database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that starts with the substring "database"
+    const filter = 'text LIKE "database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that starts with the substring "database"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
+- **後方一致**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string that ends with the substring "database" 
     filter = 'text LIKE "%database"'
     ```
 
-- **インフィックス一致**
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that ends with the substring "database"
+    String filter = "text LIKE \"%database\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that ends with the substring "database"
+    filter := "text LIKE \"%database\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that ends with the substring "database"
+    let filter = "text LIKE \"%database\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that ends with the substring "database"
+    const auto filter = R"(text LIKE "%database")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that ends with the substring "database"
+    const filter = 'text LIKE "%database"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that ends with the substring "database"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%database\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
+- **中間一致**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string that contains the substring "database" anywhere 
     filter = 'text LIKE "%database%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string that contains the substring "database" anywhere
+    String filter = "text LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string that contains the substring "database" anywhere
+    filter := "text LIKE \"%database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string that contains the substring "database" anywhere
+    let filter = "text LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string that contains the substring "database" anywhere
+    const auto filter = R"(text LIKE "%database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string that contains the substring "database" anywhere
+    const filter = 'text LIKE "%database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string that contains the substring "database" anywhere
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **ワイルドカード一致**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match any string where "st" appears first, and "um" appears later in the text 
     filter = 'text LIKE "%st%um%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match any string where "st" appears first, and "um" appears later in the text
+    String filter = "text LIKE \"%st%um%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match any string where "st" appears first, and "um" appears later in the text
+    filter := "text LIKE \"%st%um%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match any string where "st" appears first, and "um" appears later in the text
+    let filter = "text LIKE \"%st%um%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match any string where "st" appears first, and "um" appears later in the text
+    const auto filter = R"(text LIKE "%st%um%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match any string where "st" appears first, and "um" appears later in the text
+    const filter = 'text LIKE "%st%um%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match any string where "st" appears first, and "um" appears later in the text
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text LIKE \"%st%um%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **JSON パスクエリ**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     filter = 'json_field["body"] LIKE "%database%"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    String filter = "json_field[\"body\"] LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "json_field[\"body\"] LIKE \"%database%\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "json_field[\"body\"] LIKE \"%database%\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(json_field["body"] LIKE "%database%")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const filter = 'json_field["body"] LIKE "%database%"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "json_field[\"body\"] LIKE \"%database%\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **正規表現フィルター**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     # Match log messages that contain "error" followed later by "timeout" 
     filter = 'text =~ "error.*timeout"'
     ```
 
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Match log messages that contain "error" followed later by "timeout"
+    String filter = "text =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Match log messages that contain "error" followed later by "timeout"
+    filter := "text =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Match log messages that contain "error" followed later by "timeout"
+    let filter = "text =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Match log messages that contain "error" followed later by "timeout"
+    const auto filter = R"(text =~ "error.*timeout")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Match log messages that contain "error" followed later by "timeout"
+    const filter = 'text =~ "error.*timeout"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Match log messages that contain "error" followed later by "timeout"
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "text =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
 - **JSON パスに対する正規表現フィルター**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
 
     ```python
     filter = 'json_field["body"] =~ "error.*timeout"'
     ```
 
-フィルター式の構文の詳細については、[パターンマッチング](./pattern-match) を参照してください。
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    String filter = "json_field[\"body\"] =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "json_field[\"body\"] =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let filter = "json_field[\"body\"] =~ \"error.*timeout\"";
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    const auto filter = R"(json_field["body"] =~ "error.*timeout")";
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const filter = 'json_field["body"] =~ "error.*timeout"';
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Use this filter expression in the "filter" field of the query/search request:
+    # "filter": "json_field[\"body\"] =~ \"error.*timeout\""
+    ```
+
+    </TabItem>
+    </Tabs>
+
+フィルター式の構文の詳細については、[Pattern Matching](./pattern-match) を参照してください。
 
 ## インデックスを削除する\{#drop-an-index}
 
@@ -582,7 +997,7 @@ NGRAM インデックスを適用するには、次の条件を満たす必要�
 
 <Admonition type="info" title="Notes">
 
-**Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。そのために先にコレクションを解放する必要はありません。
+**Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。そのために最初にコレクションを解放する必要はありません。
 
 </Admonition>
 
@@ -681,17 +1096,17 @@ curl --request POST \
 
 ## 使用上の注意\{#usage-notes}
 
-- **フィールドタイプ**: `VARCHAR` および `JSON` フィールドでサポートされます。JSON の場合は、`params.json_path` と `params.json_cast_type="varchar"` の両方を指定します。
+- **フィールドタイプ**: `VARCHAR` フィールドと `JSON` フィールドでサポートされます。JSON の場合は、`params.json_path` と `params.json_cast_type="varchar"` の両方を指定します。
 
-- **正規表現の高速化**: `NGRAM` が正規表現フィルターを高速化するのは、Zilliz Cloud が正規表現パターンから固定のリテラルサブストリングを抽出できる場合のみです。`[a-z]+` のようなパターンは固定のリテラルを含まないため、スキャンにフォールバックする場合があります。
+- **正規表現の高速化**: `NGRAM` は、Zilliz Cloud が正規表現パターンから固定のリテラル部分文字列を抽出できる場合にのみ、正規表現フィルターを高速化します。`[a-z]+` などのパターンには固定リテラルが含まれないため、スキャンにフォールバックする可能性があります。
 
-- **大文字と小文字を区別しない正規表現**: `(?i)` を含む正規表現パターンはサポートされていますが、インデックスは元の大文字と小文字を保持するため、`NGRAM` の最適化がスキップされる場合があります。
+- **大文字と小文字を区別しない正規表現**: `(?i)` を含む正規表現パターンはサポートされていますが、インデックスは元の大文字と小文字を保持するため、`NGRAM` 最適化がスキップされる場合があります。
 
-- **検証ステップ**: 正規表現フィルターの場合、`NGRAM` は候補を生成し、Zilliz Cloud は完全な RE2 正規表現パターンでそれらを検証するため、インデックスによる高速化で一致結果が変わることはありません。
+- **検証ステップ**: 正規表現フィルターの場合、`NGRAM` は候補を生成し、Zilliz Cloud が完全な RE2 正規表現パターンでそれらを検証するため、インデックスの高速化によって一致結果が変わることはありません。
 
 - **Unicode**: NGRAM の分解は文字ベースで言語に依存せず、空白と句読点も含みます。
 
-- **空間と時間のトレードオフ**: より広いグラム範囲 `[min_gram, max_gram]` は、より多くのグラムとより大きなインデックスを生成します。メモリが厳しい場合は、大きなポスティングリストに `mmap` モードの使用を検討してください。詳細は、[mmap の使用](./use-mmap) を参照してください。
+- **空間と時間のトレードオフ**: グラム範囲 `[min_gram, max_gram]` を広げると、生成されるグラムが増え、インデックスが大きくなります。メモリが厳しい場合は、大きなポスティングリストに `mmap` モードの使用を検討してください。詳細については、[Use mmap](./use-mmap) を参照してください。
 
 - **不変性**: `min_gram` と `max_gram` はその場で変更できません。調整するにはインデックスを再構築してください。
 
@@ -701,14 +1116,14 @@ curl --request POST \
 
     - `min_gram=2`、`max_gram=3` から始めます。
 
-    - `min_gram` には、ユーザーが入力すると想定される最短のリテラルを設定します。
+    - `min_gram` は、ユーザーが入力すると想定される最短のリテラルに設定します。
 
-    - `max_gram` には、意味のあるサブストリングの一般的な長さに近い値を設定します。`max_gram` を大きくするとフィルタリングは改善しますが、容量が増加します。
+    - `max_gram` は、意味のある部分文字列の一般的な長さに近い値に設定します。`max_gram` を大きくするとフィルタリングは改善しますが、使用する容量が増えます。
 
 - **選択性の低いグラムを避ける**
 
-    繰り返しの多いパターン（例: `"aaaaaa"`）はフィルタリング効果が弱く、得られる効果は限定的な場合があります。
+    非常に反復性の高いパターン（例：`"aaaaaa"`）はフィルタリング効果が弱く、得られる改善は限定的な場合があります。
 
 - **一貫して正規化する**
 
-    ユースケースで必要な場合は、取り込むテキストとクエリのリテラルに同じ正規化（例: 小文字化、トリミング）を適用します。
+    ユースケースで必要な場合は、取り込むテキストとクエリのリテラルに同じ正規化（例：小文字化、トリミング）を適用します。

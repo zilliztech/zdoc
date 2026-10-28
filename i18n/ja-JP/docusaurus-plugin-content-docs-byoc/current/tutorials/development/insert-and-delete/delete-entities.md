@@ -1,31 +1,31 @@
 ---
 title: "エンティティの削除 | BYOC"
 slug: /delete-entities
-sidebar_label: "削除"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "不要になったエンティティは、フィルター条件またはプライマリキーを使用して削除できます。 | BYOC"
+description: "不要になったエンティティは、フィルター条件または主キーで削除できます。 | BYOC"
 type: origin
-token: RhKcwNACpi3WihkTzo8cr4BCnee
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-delete-entities
+sidebar_label: "削除"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/delete-entities.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # エンティティの削除
 
-不要になったエンティティは、フィルター条件またはプライマリキーを使用して削除できます。
+不要になったエンティティは、フィルター条件または主キーで削除できます。
 
 ## フィルター条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
 
-複数のエンティティがいくつかの属性を共有しており、それらを一括で削除する場合は、フィルター式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red_7025** と **purple_4976** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルター式を構築するために、他の演算子を使用することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+共通の属性を持つ複数のエンティティをバッチで削除する場合は、フィルター式を使用できます。以下のサンプルコードでは、**in** 演算子を使用して、**color** フィールドが **red_7025** と **purple_4976** の値に設定されているすべてのエンティティを一括削除します。要件に合わせて他の演算子を使用し、フィルター式を構築することもできます。フィルター式の詳細については、[フィルターの概要](./filtering-overview) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -185,8 +185,7 @@ using Milvus.Client.V2.Responses.Dml;
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -219,11 +218,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-## プライマリキーによるエンティティの削除\{#delete-entities-by-primary-keys}
+## 主キーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
-ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定することで、エンティティを削除できます。以下のコード例は、プライマリキー **18** と **19** を持つ 2 つのエンティティを削除する方法を示しています。
+多くの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを設定すると、エンティティを削除できます。以下のサンプルコードは、主キーが **18** と **19** である 2 つのエンティティを削除する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -321,9 +321,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -363,11 +363,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## パーティションからのエンティティの削除\{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクション内に **partitionA** という名前のパーティションがあることを前提としています。 
+特定のパーティションに格納されているエンティティを削除することもできます。以下のコードスニペットは、コレクションに **partitionA** という名前のパーティションがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -470,9 +471,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -519,4 +520,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

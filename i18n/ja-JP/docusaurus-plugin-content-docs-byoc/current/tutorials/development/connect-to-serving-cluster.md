@@ -40,7 +40,7 @@ Zilliz Cloud は、さまざまなビジネスニーズに対応するために�
 
 クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -139,6 +139,25 @@ const client = new MilvusClient({ address, token });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+await client.ConnectAsync();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -163,7 +182,7 @@ print(collections)
 
 SDK 間でクラスターのエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -258,6 +277,24 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 
 const client = new MilvusClient({ address, token });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
 ```
 
 </TabItem>

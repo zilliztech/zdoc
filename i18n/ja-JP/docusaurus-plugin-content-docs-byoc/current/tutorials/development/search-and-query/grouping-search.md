@@ -70,7 +70,7 @@ import TabItem from '@theme/TabItem';
 
 検索リクエストで、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は、指定したフィールドで結果をグループ化し、各グループから最も類似するエンティティを返します。返される各エンティティには `docId` の値が含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -183,6 +183,40 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(3)
+    .group_by_field("docId")
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
 }
 ```
 
@@ -346,11 +380,11 @@ zilliz vector search \
 
 上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似する単一のエンティティが含まれることを示します。
 
-## グループサイズを構成する\{#configure-group-size}
+## グループサイズを設定する\{#configure-group-size}
 
 デフォルトでは、グループ検索はグループごとに 1 つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -449,6 +483,42 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors)) // Query vector
+    .limit(5) // Number of groups to return
+    .group_by_field("docId") // Grouping field
+    .group_size(2) // Up to 2 entities to return from each group
+    .strict_group_size(true) // Return exactly 2 entities from each group
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
 }
 ```
 
@@ -622,7 +692,7 @@ zilliz vector search \
 
 次の例では、検索結果を `category` でグループ化し、グループごとに最大 3 つのエンティティを返し、返されたグループを `price` の低い順から高い順に並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -705,6 +775,47 @@ if err != nil {
 for _, result := range results {
     fmt.Println(result.IDs, result.Scores)
     fmt.Println(result.GetColumn("category"), result.GetColumn("price"), result.GetColumn("rating"))
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+// Prerequisite: client is connected to the project endpoint;
+// cluster_id identifies the on-demand cluster containing product_catalog.
+let cluster_id = "YOUR_CLUSTER_ID";
+let session = client.session(cluster_id)?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+let res = session.search(SearchRequest::builder()
+    .collection_name("product_catalog")
+    .vector_field("embedding")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(20)
+    .group_by_field("category")
+    .group_size(3)
+    .strict_group_size(true)
+    .output_fields(["category", "price", "rating"])
+    .order_by_fields([OrderByField::new()
+        .field_name("price")
+        .direction(AggDirection::Asc)])
+    .build()?)
+    .await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
 }
 ```
 
@@ -856,3 +967,4 @@ zilliz vector search \
 - **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保てますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が不要な場合は、`strict_group_size=False` に設定するとクエリ速度を向上させられます。
 
 - クエリベクトルが対象のコレクションにすでに存在する場合は、検索前に取得するのではなく、`ids` を使用することを検討してください。詳細は、[Primary-Key Search](./primary-key-search) を参照してください。
+

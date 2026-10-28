@@ -69,24 +69,20 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.TruncateCollectionReq;
 
-public class TruncateExample {
-  public static void main(String[] args) {
-      ConnectConfig connectConfig = ConnectConfig.builder()
-              .uri("YOUR_CLUSTER_ENDPOINT")
-              .token("YOUR_CLUSTER_TOKEN")
-              .build();
-      MilvusClientV2 client = new MilvusClientV2(connectConfig);
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-      // Truncate collection
-      TruncateCollectionReq req = TruncateCollectionReq.builder()
-              .collectionName("my_collection")
-              .build();
-      client.truncateCollection(req);
+// Truncate collection
+TruncateCollectionReq req = TruncateCollectionReq.builder()
+        .collectionName("my_collection")
+        .build();
+client.truncateCollection(req);
 
-      System.out.println("collection truncated successfully");
-      client.close();
-  }
-}
+System.out.println("collection truncated successfully");
+client.close();
 ```
 
 </TabItem>
@@ -105,25 +101,23 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-        APIKey:  "YOUR_CLUSTER_TOKEN",
-    })
-    if err != nil {
-        log.Fatal("failed to connect:", err)
-    }
-    defer client.Close(ctx)
-
-    err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
-    if err != nil {
-        log.Fatal("failed to truncate:", err)
-    }
-
-    fmt.Println("collection truncated successfully")
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal("failed to connect:", err)
 }
+defer client.Close(ctx)
+
+err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
+if err != nil {
+    log.Fatal("failed to truncate:", err)
+}
+
+fmt.Println("collection truncated successfully")
 ```
 
 </TabItem>
@@ -160,21 +154,18 @@ println!("collection truncated successfully");
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-int main() {
-    auto client = milvus::MilvusClientV2::Create();
-    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-
-    status = client->TruncateCollection(milvus::TruncateCollectionRequest().WithCollectionName("my_collection"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-
-    std::cout << "collection truncated successfully" << std::endl;
-    return 0;
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
+
+status = client->TruncateCollection(milvus::TruncateCollectionRequest().WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << "collection truncated successfully" << std::endl;
 ```
 
 </TabItem>

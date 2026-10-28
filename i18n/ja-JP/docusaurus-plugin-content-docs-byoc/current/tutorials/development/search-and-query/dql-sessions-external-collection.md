@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "オンデマンドコンピューティング向けのコレクションでの DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | BYOC"
+description: "オンデマンドコンピューティング向けのコレクションにおける DQL 操作（search、query、get、hybrid search など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | BYOC"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド DQL 操作
 
-オンデマンドコンピューティング向けにコレクション内で実行する DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
+オンデマンドコンピューティング向けのコレクションにおける DQL 操作（search、query、get、hybrid search など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
 
 この記事では、プロジェクトエンドポイントを使用してデータベース内にコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
 
 ## プロジェクトエンドポイントに接続する\{#connect-to-a-project-endpoint}
 
-プロジェクトエンドポイントは、オンデマンドコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースの管理、およびコレクションに格納されたデータの操作を行えます。
+プロジェクトエンドポイントは、オンデマンドコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理し、コレクションに格納されたデータを操作できます。
 
 次のコード例では、デフォルトデータベースに `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際は、十分な権限を持つ有効な API キーを常に使用してください。
 
@@ -76,20 +76,16 @@ client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
-            .token("YOUR_API_KEY"),
-    )
-    .await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
+        .token("YOUR_API_KEY"),
+)
+.await?;
 
-    let has = client
-        .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
-        .await?;
-    Ok(())
-}
+let has = client
+    .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
+    .await?;
 ```
 
 </TabItem>
@@ -162,9 +158,9 @@ curl --request POST \
 
 ## セッションを作成する\{#create-a-session}
 
-プロジェクトエンドポイントへの接続を設定したら、セッションを作成して、指定したオンデマンドクラスターのコンピューティングリソースをアタッチします。
+プロジェクトエンドポイントへの接続を設定したら、セッションを作成して、指定したオンデマンドクラスターからコンピューティングリソースをアタッチします。
 
-次の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成済みであることを前提としています。
+次の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成していることを前提としています。
 
 <Admonition type="info" title="Notes">
 
@@ -245,7 +241,7 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 
 ## DQL 操作を実行する\{#conduct-dql-operations}
 
-セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは query、get、ハイブリッド検索にも当てはまります。
+セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは、query、get、hybrid search にも適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -402,11 +398,11 @@ curl --request POST \
 
 ## セッションを閉じる\{#close-a-session}
 
-オンデマンドコンピューティングのタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
+オンデマンドコンピューティングタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
 
 <Admonition type="info" title="Notes">
 
-RESTful 呼び出しでは、この操作は不要です。
+RESTful 呼び出しには必要ありません。
 
 </Admonition>
 
@@ -475,3 +471,4 @@ session.close();
 
 </TabItem>
 </Tabs>
+

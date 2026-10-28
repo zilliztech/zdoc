@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "JSON フィールドでは、Zilliz Cloud に構造化メタデータを柔軟に保存できます。インデックスを作成しない場合、JSON フィールドに対するクエリはコレクション全体のスキャンが必要になり、データセットの増加に伴って遅くなります。JSON インデックスでは、JSON データ内の特定のパスにインデックスを作成するため、そのパスに対する等価、範囲、その他のフィルタークエリを高速に実行できます。 | BYOC"
+description: "JSON フィールドは、Zilliz Cloud で構造化メタデータを柔軟に保存する方法を提供します。インデックスがない場合、JSON フィールドに対するクエリはコレクション全体のスキャンを必要とし、データセットの増加に伴って遅くなります。JSON インデックスは、JSON データ内の特定のパスにインデックスを作成するため、そのパスに対する等価、範囲、その他のフィルタークエリを高速に実行できます。 | BYOC"
 type: origin
 token: MBVVww2Zii8k6Bk77GJcXbZJnpf
 sidebar_position: 2
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # JSON インデックス
 
-JSON フィールドでは、Zilliz Cloud に構造化メタデータを柔軟に保存できます。インデックスを作成しない場合、JSON フィールドに対するクエリはコレクション全体のスキャンが必要になり、データセットの増加に伴って遅くなります。JSON インデックスでは、JSON データ内の特定のパスにインデックスを作成するため、そのパスに対する等価、範囲、その他のフィルタークエリを高速に実行できます。
+JSON フィールドは、Zilliz Cloud で構造化メタデータを柔軟に保存する方法を提供します。インデックスがない場合、JSON フィールドに対するクエリはコレクション全体のスキャンを必要とし、データセットの増加に伴って遅くなります。JSON インデックスは、JSON データ内の特定のパスにインデックスを作成するため、そのパスに対する等価、範囲、その他のフィルタークエリを高速に実行できます。
 
-JSON インデックスは、次のような場合に適しています。
+JSON インデックスは次のような場合に最適です。
 
 - 一貫した既知のキーを持つ構造化スキーマ
 
@@ -31,135 +31,135 @@ JSON インデックスは、次のような場合に適しています。
 
 - インデックスを作成するキーを正確に制御する必要があるシナリオ
 
-多様なクエリパターンを持つ複雑な JSON ドキュメントの場合は、代替手段として [JSON Shredding](./json-shredding) を検討してください。
+多様なクエリパターンを持つ複雑な JSON ドキュメントでは、代替手段として [JSON Shredding](./json-shredding) を検討してください。
 
 ## インデックスタイプの概要\{#index-type-overview}
 
-Zilliz Cloud は JSON パス向けに 4 つのインデックスタイプを提供しています。それぞれ異なるクエリパターンに適しています。
+Zilliz Cloud は JSON パス向けに 4 つのインデックスタイプを提供します。それぞれ異なるクエリパターンに適しています。
 
-インデックスタイプを選択する前に、JSON パスの **キャスト型** を特定してください。キャスト型は、Zilliz Cloud がそのパスにある値をどのように解釈するか、またどのインデックスタイプを使用できるかを決定します。
+インデックスタイプを選択する前に、JSON パスの **キャストタイプ** を特定してください。キャストタイプは、Zilliz Cloud がそのパスの値をどのように解釈するか、およびどのインデックスタイプを使用できるかを決定します。
 
-### キャスト型を理解する\{#understand-cast-types}
+### キャストタイプを理解する\{#understand-cast-types}
 
-`json_cast_type` は、`json_path` にある値を解釈してインデックスを作成するために使用するデータ型です。フィールドのスキーマ型とは異なります。フィールドは引き続き `JSON` フィールドですが、インデックス対象の各パスは、特定のスカラー、配列、または JSON オブジェクトの型として扱われます。
+`json_cast_type` は、`json_path` の値を解釈してインデックスを作成するために使用するデータ型です。フィールドスキーマの型とは異なります。フィールドは引き続き `JSON` フィールドですが、インデックスを作成する各パスは、特定のスカラー、配列、または JSON オブジェクト型として扱われます。
 
-パスに保存されている値に一致するキャスト型を選択してください。キャスト型が特定のインデックスタイプで動作するかどうかを確認するには、[互換性リファレンス](./json-indexing#compatibility-reference) を参照してください。
+パスに保存されている値に一致するキャストタイプを選択してください。キャストタイプが特定のインデックスタイプと連携するかどうかを確認するには、[互換性リファレンス](./json-indexing#compatibility-reference) を参照してください。
 
-| キャスト型 | パスの値が次の場合に使用 | 値の例 |
+| キャストタイプ | パスの値が次の場合に使用 | 値の例 |
 | --- | --- | --- |
-| `BOOL` | ブール値です。 | `true` |
-| `DOUBLE` | 数値です。 | `99.99` |
-| `VARCHAR` | 文字列値です。 | `"electronics"` |
-| `ARRAY_BOOL` | ブール値の配列です。 | `[true, false]` |
-| `ARRAY_DOUBLE` | 数値の配列です。 | `[1.2, 3.14]` |
-| `ARRAY_VARCHAR` | 文字列値の配列です。 | `["tag1", "tag2"]` |
-| `JSON` | JSON オブジェクト全体またはサブオブジェクトです。JSON オブジェクト全体のインデックス作成は Milvus 3.0.0 以降では非推奨です。 | `{"supplier": {"country": "USA"}}` |
+| `BOOL` | ブール値 | `true` |
+| `DOUBLE` | 数値 | `99.99` |
+| `VARCHAR` | 文字列値 | `"electronics"` |
+| `ARRAY_BOOL` | ブール値の配列 | `[true, false]` |
+| `ARRAY_DOUBLE` | 数値の配列 | `[1.2, 3.14]` |
+| `ARRAY_VARCHAR` | 文字列値の配列 | `["tag1", "tag2"]` |
+| `JSON` | JSON オブジェクトまたはサブオブジェクト全体。オブジェクト全体の JSON インデックスは Milvus 3.0.0 以降で非推奨です。 | `{"supplier": {"country": "USA"}}` |
 
-同じパスにある値の型が一致しない場合、キャスト型に一致する値だけがインデックスされます。たとえば、`metadata["price"]` に `99.99` と `"99.99"` の両方が含まれている場合、`DOUBLE` キャスト型のインデックスには数値が含まれ、文字列値はスキップされます。インデックス作成中に文字列値を変換するには、`json_cast_function` を使用します。詳細は、[例 5: インデックス作成時にデータ型を変換する](./json-indexing#example-5-convert-data-type-at-index-time) を参照してください。
+同じパスにある値の型が一致しない場合、キャストタイプに一致する値だけがインデックス化されます。たとえば、`metadata["price"]` に `99.99` と `"99.99"` の両方が含まれている場合、`DOUBLE` キャストタイプのインデックスには数値が含まれ、文字列値はスキップされます。インデックス作成時に文字列値を変換するには、`json_cast_function` を使用します。詳細は [例 5: インデックス作成時にデータ型を変換する](./json-indexing#example-5-convert-data-type-at-index-time) を参照してください。
 
 ### インデックスタイプを選択する\{#choose-an-index-type}
 
-キャスト型を選択したら、クエリパターンに応じてインデックスタイプを選択します。
+キャストタイプを選択したら、クエリパターンに応じてインデックスタイプを選択します。
 
-| クエリパターン | 推奨インデックスタイプ | キャスト型の要件 | 備考 |
+| クエリパターン | 推奨インデックスタイプ | キャストタイプの要件 | 注記 |
 | --- | --- | --- | --- |
-| スカラー値に対する等価フィルターと範囲フィルターの混在 | `AUTOINDEX` | `BOOL`、`DOUBLE`、または `VARCHAR` を使用します。 | 値のカーディナリティに基づいて、Zilliz Cloud が内部インデックスレイアウトを選択できます。 |
-| JSON 配列内の値に対するフィルター | `INVERTED` | `ARRAY_BOOL`、`ARRAY_DOUBLE`、または `ARRAY_VARCHAR` を使用します。 | すべての配列キャスト型で必須です。 |
-| JSON オブジェクト全体またはサブオブジェクトのインデックス作成（非推奨） | `INVERTED` または `AUTOINDEX`（互換性のみ） | `JSON` を使用します。 | 互換性のためにサポートされています。新しいワークロードでは、パス固有のインデックスを作成するか、[JSON Shredding](./json-shredding) を検討してください。 |
-| 数値または並べ替え可能な文字列に対する範囲フィルター | `STL_SORT` または `AUTOINDEX` | `DOUBLE` または `VARCHAR` を使用します。 | 並べ替えられたレイアウトを強制するには `STL_SORT` を使用し、自動選択が必要な場合は `AUTOINDEX` を使用します。 |
-| カーディナリティの低い値に対する等価または `IN` フィルター | `BITMAP` または `AUTOINDEX` | `BOOL` または `VARCHAR` を使用します。 | ビットマップレイアウトを強制するには `BITMAP` を使用します。数値の場合は、`AUTOINDEX` または `STL_SORT` を使用します。 |
+| スカラー値に対する等価フィルターと範囲フィルターの混在 | `AUTOINDEX` | `BOOL`、`DOUBLE`、または `VARCHAR` を使用します。 | 値のカーディナリティに基づいて、Zilliz Cloud が内部インデックスレイアウトを選択できるようにします。 |
+| JSON 配列内の値に対するフィルター | `INVERTED` | `ARRAY_BOOL`、`ARRAY_DOUBLE`、または `ARRAY_VARCHAR` を使用します。 | すべての配列キャストタイプで必要です。 |
+| オブジェクト全体またはサブオブジェクトのインデックス（非推奨） | `INVERTED` または `AUTOINDEX`（互換性のみ） | `JSON` を使用します。 | 互換性のためにサポートされています。新しいワークロードでは、パス固有のインデックスを作成するか、[JSON Shredding](./json-shredding) を検討してください。 |
+| 数値またはソート可能な文字列に対する範囲フィルター | `STL_SORT` または `AUTOINDEX` | `DOUBLE` または `VARCHAR` を使用します。 | ソートされたレイアウトを強制するには `STL_SORT` を使用し、自動選択を希望する場合は `AUTOINDEX` を使用します。 |
+| 低カーディナリティの値に対する等価フィルターまたは `IN` フィルター | `BITMAP` または `AUTOINDEX` | `BOOL` または `VARCHAR` を使用します。 | ビットマップレイアウトを強制するには `BITMAP` を使用します。数値の場合は、`AUTOINDEX` または `STL_SORT` を使用します。 |
 
-判断に迷う場合は、スカラーパスの `AUTOINDEX` から始めてください。配列キャスト型とテキスト一致クエリには `INVERTED` を明示的に使用します。`INVERTED` または `AUTOINDEX` を使用した JSON オブジェクト全体のインデックス作成は引き続きサポートされていますが、Milvus 3.0.0 以降では非推奨です。
+迷った場合は、スカラーパスの `AUTOINDEX` から始めてください。配列キャストタイプとテキスト一致クエリには、`INVERTED` を明示的に使用します。`INVERTED` または `AUTOINDEX` を使用したオブジェクト全体の JSON インデックスは引き続きサポートされていますが、Milvus 3.0.0 以降は非推奨です。
 
 ### AUTOINDEX\{#autoindex}
 
-`AUTOINDEX` の動作は、指定する `json_cast_type` によって異なります。
+`AUTOINDEX` の動作は、指定した `json_cast_type` によって異なります。
 
-| キャスト型 | `AUTOINDEX` の動作 |
+| キャストタイプ | `AUTOINDEX` の動作 |
 | --- | --- |
-| `BOOL`, `DOUBLE`, `VARCHAR` | 値のカーディナリティに基づいて `BITMAP` と `STL_SORT` のどちらかを選択します。 |
-| `ARRAY_BOOL`, `ARRAY_DOUBLE`, `ARRAY_VARCHAR` | サポートされていません。インデックスタイプとして `INVERTED` を明示的に使用してください。 |
-| `JSON` | オブジェクト全体またはサブオブジェクトのインデックス作成に `INVERTED` を使用します。このモードは Milvus 3.0.0 以降では非推奨です。 |
+| `BOOL`、`DOUBLE`、`VARCHAR` | 値のカーディナリティに基づいて `BITMAP` と `STL_SORT` のどちらかを選択します。 |
+| `ARRAY_BOOL`、`ARRAY_DOUBLE`、`ARRAY_VARCHAR` | サポートされていません。インデックスタイプとして `INVERTED` を明示的に使用してください。 |
+| `JSON` | オブジェクト全体またはサブオブジェクトのインデックスには `INVERTED` を使用します。このモードは Milvus 3.0.0 以降で非推奨です。 |
 
-スカラーキャスト型（`BOOL`、`DOUBLE`、`VARCHAR`）の場合、Zilliz Cloud に内部インデックスレイアウトを選択させる際は、`AUTOINDEX` を開始点とすることをお勧めします。インデックス構築中、Zilliz Cloud は JSON パスにある値の **カーディナリティ** を測定します。カーディナリティとは、そのパスにある個別の値の数です。
+スカラーキャストタイプ（`BOOL`、`DOUBLE`、`VARCHAR`）では、Zilliz Cloud に内部インデックスレイアウトを選択させたい場合、`AUTOINDEX` が推奨される開始点です。インデックスの構築中に、Zilliz Cloud は JSON パスにある値の **カーディナリティ** を測定します。カーディナリティとは、そのパスにある異なる値の数です。
 
-カーディナリティに基づき、Zilliz Cloud は次の 2 つの内部レイアウトのいずれかを選択します。
+カーディナリティに基づいて、Zilliz Cloud は 2 つの内部レイアウトのいずれかを選択します。
 
-- **低カーディナリティ**: 値が頻繁に繰り返される場合です。たとえば、`true` と `false` を持つ `metadata["in_stock"]` や、少数のステータス文字列を持つ `metadata["status"]` があります。Zilliz Cloud は、高速な等価フィルターと `IN` フィルターのために `BITMAP` インデックスを内部的に構築します。
+- **低カーディナリティ**: `metadata["in_stock"]` の `true` と `false`、または少数のステータス文字列を持つ `metadata["status"]` のように、値が頻繁に繰り返される場合です。Zilliz Cloud は等価フィルターと `IN` フィルターを高速化するために、内部的に `BITMAP` インデックスを構築します。
 
-- **高カーディナリティ**: ほとんどの値が個別である場合です。たとえば、`metadata["price"]`、`metadata["created_at"]`、`metadata["product_id"]` などがあります。Zilliz Cloud は、`>`、`<`、`>=`、`<=` などの高速な範囲フィルターのために `STL_SORT` インデックスを内部的に構築します。
+- **高カーディナリティ**: `metadata["price"]`、`metadata["created_at"]`、`metadata["product_id"]` のように、ほとんどの値が異なる場合です。Zilliz Cloud は `>`、`<`、`>=`、`<=` などの範囲フィルターを高速化するために、内部的に `STL_SORT` インデックスを構築します。
 
-デフォルトの `BITMAP` と `STL_SORT` のしきい値は **100 個の個別値** です。このしきい値は `bitmap_cardinality_limit` で調整できます。詳細は、[AUTOINDEX の BITMAP と STL_SORT のしきい値を調整する方法](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold)[?](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold) を参照してください。
+デフォルトの `BITMAP` と `STL_SORT` のしきい値は **異なる値 100 個** です。このしきい値は `bitmap_cardinality_limit` で調整できます。詳細は [AUTOINDEX の BITMAP と STL_SORT のしきい値を調整するにはどうすればよいですか](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold)[?](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold) を参照してください。
 
 ### INVERTED\{#inverted}
 
-`INVERTED` は、テキスト一致クエリや配列のインデックス作成が必要な場合に最適です。非推奨となった JSON オブジェクト全体のインデックス作成にも引き続き使用できます。
+`INVERTED` は、テキスト一致クエリまたは配列インデックスが必要な場合に最適です。非推奨のオブジェクト全体 JSON インデックスにも引き続き使用できます。
 
-次の場合は、`INVERTED` を明示的に指定します。
+`INVERTED` を明示的に指定するのは次の場合です。
 
 - JSON 配列内の値にインデックスを作成する必要がある場合。
 
-- JSON オブジェクト全体またはサブオブジェクトに対する既存のインデックスを維持し、`INVERTED` の動作を明示的にしたい場合。
+- JSON オブジェクトまたはサブオブジェクト全体に対する既存のインデックスを維持し、`INVERTED` の動作を明示したい場合。
 
 - 等価、`IN`、範囲、テキスト一致、配列の各クエリを 1 つのインデックスタイプで処理したい場合。オブジェクト全体のサポートは互換性のために引き続き利用できますが、インデックスサイズが大きくなります。
 
-JSON オブジェクト全体に対する既存のインデックス（`json_cast_type="JSON"`）では、引き続き `INVERTED` または `AUTOINDEX` のいずれかを使用できます。このキャスト型では、`AUTOINDEX` は `INVERTED` を使用します。新しいワークロードでは、JSON オブジェクト全体のインデックス作成は推奨されなくなりました。
+JSON オブジェクト全体に対する既存のインデックス（`json_cast_type="JSON"`）では、`INVERTED` または `AUTOINDEX` のいずれかを引き続き使用できます。`AUTOINDEX` はこのキャストタイプに `INVERTED` を使用します。オブジェクト全体の JSON インデックスは、新しいワークロードには推奨されなくなりました。
 
-詳細は、[INVERTED](./inverted-index-type) を参照してください。
+詳細は [INVERTED](./inverted-index-type) を参照してください。
 
 ### STL_SORT\{#stlsort}
 
-`STL_SORT` は、JSON パスから取得した値を並べ替えた順序で格納します。数値または並べ替え可能な文字列値に対する範囲フィルターに最適化されています。
+`STL_SORT` は JSON パスの値をソート順に保存します。数値またはソート可能な文字列値に対する範囲フィルターに最適化されています。
 
-`STL_SORT` は `DOUBLE` および `VARCHAR` キャスト型のみをサポートしています。次の場合に使用します。
+`STL_SORT` は `DOUBLE` と `VARCHAR` のキャストタイプのみをサポートします。次の場合に使用します。
 
 - フィルターで `>`、`<`、`>=`、`<=` を使用して値を比較する場合。
 
-- インデックス対象の値が、価格、タイムスタンプ、ID、並べ替え可能なコードなど、カーディナリティの高い値である場合。
+- インデックスを作成する値のカーディナリティが高い場合（価格、タイムスタンプ、ID、ソート可能なコードなど）。
 
-- `AUTOINDEX` に選択させるのではなく、並べ替えられたレイアウトを強制する場合。
+- `AUTOINDEX` に選択させるのではなく、ソートされたレイアウトを強制したい場合。
 
-`STL_SORT` は `BOOL`、`ARRAY_*`、`JSON` キャスト型をサポートしていません。配列には `INVERTED` を使用してください。既存のオブジェクト全体のインデックスは引き続き `INVERTED` または `AUTOINDEX` を使用できますが、JSON オブジェクト全体のインデックス作成は非推奨です。
+`STL_SORT` は `BOOL`、`ARRAY_*`、`JSON` のキャストタイプをサポートしていません。配列には `INVERTED` を使用してください。既存のオブジェクト全体インデックスは引き続き `INVERTED` または `AUTOINDEX` を使用できますが、オブジェクト全体の JSON インデックスは非推奨です。
 
-詳細は、[STL_SORT](./slt-sort-index-type) を参照してください。
+詳細は [STL_SORT](./slt-sort-index-type) を参照してください。
 
 ### BITMAP\{#bitmap}
 
-`BITMAP` は、JSON パスにある個別の値ごとにコンパクトなビットマップを作成します。頻繁に繰り返される値に対する等価フィルターと `IN` フィルターに最適化されています。
+`BITMAP` は JSON パスの異なる値ごとにコンパクトなビットマップを作成します。頻繁に繰り返される値に対する等価フィルターと `IN` フィルターに最適化されています。
 
-`BITMAP` は `BOOL` および `VARCHAR` キャスト型のみをサポートしています。次の場合に使用します。
+`BITMAP` は `BOOL` と `VARCHAR` のキャストタイプのみをサポートします。次の場合に使用します。
 
 - フィルターで `==` または `IN` を使用する場合。
 
-- インデックス対象の値が、ブール値、ステータス値、少数のカテゴリなど、カーディナリティの低い値である場合。
+- インデックスを作成する値のカーディナリティが低い場合（ブール値、ステータス値、少数のカテゴリなど）。
 
-- `AUTOINDEX` に選択させるのではなく、ビットマップレイアウトを強制する場合。
+- `AUTOINDEX` に選択させるのではなく、ビットマップレイアウトを強制したい場合。
 
-`BITMAP` は `DOUBLE`、`ARRAY_*`、`JSON` キャスト型をサポートしていません。数値の場合は、代わりに `AUTOINDEX`、`STL_SORT`、または `INVERTED` を使用してください。
+`BITMAP` は `DOUBLE`、`ARRAY_*`、`JSON` のキャストタイプをサポートしていません。数値の場合は、代わりに `AUTOINDEX`、`STL_SORT`、または `INVERTED` を使用してください。
 
-詳細は、[BITMAP](./bitmap-index-type) を参照してください。
+詳細は [BITMAP](./bitmap-index-type) を参照してください。
 
 ### 互換性リファレンス\{#compatibility-reference}
 
-サポートされている `(cast type, index type)` の組み合わせをすばやく確認するには、次のマトリックスを参照してください。
+サポートされている `(cast type, index type)` の組み合わせをすばやく確認するためのマトリックスとして使用してください。
 
-| キャスト型 | 説明 | 値の例 | AUTOINDEX | INVERTED | STL_SORT | BITMAP |
+| キャストタイプ | 説明 | 値の例 | AUTOINDEX | INVERTED | STL_SORT | BITMAP |
 | --- | --- | --- | --- | --- | --- | --- |
-| `BOOL` | ブール値（`true`/`false`）です。 | `true` | ✓ | ✓ | — | ✓ |
-| `DOUBLE` | 数値（整数または浮動小数点数）です。 | `99.99` | ✓ | ✓ | ✓ | — |
-| `VARCHAR` | 文字列値です。 | `"electronics"` | ✓ | ✓ | ✓ | ✓ |
-| `ARRAY_BOOL` | ブール値の配列です。 | `[true, false]` | — | ✓ | — | — |
-| `ARRAY_DOUBLE` | 数値の配列です。 | `[1.2, 3.14]` | — | ✓ | — | — |
-| `ARRAY_VARCHAR` | 文字列値の配列です。 | `["tag1", "tag2"]` | — | ✓ | — | — |
-| `JSON` | 自動型推論とフラット化を伴う JSON オブジェクト全体またはサブオブジェクトです。Milvus 3.0.0 以降では非推奨です。 | 任意のネストされたオブジェクト | はい（非推奨） | はい（非推奨） | — | — |
+| `BOOL` | ブール値（`true`/`false`）。 | `true` | ✓ | ✓ | — | ✓ |
+| `DOUBLE` | 数値（整数または浮動小数点数）。 | `99.99` | ✓ | ✓ | ✓ | — |
+| `VARCHAR` | 文字列値。 | `"electronics"` | ✓ | ✓ | ✓ | ✓ |
+| `ARRAY_BOOL` | ブール値の配列。 | `[true, false]` | — | ✓ | — | — |
+| `ARRAY_DOUBLE` | 数値の配列。 | `[1.2, 3.14]` | — | ✓ | — | — |
+| `ARRAY_VARCHAR` | 文字列の配列。 | `["tag1", "tag2"]` | — | ✓ | — | — |
+| `JSON` | 型の自動推論とフラット化を伴う JSON オブジェクトまたはサブオブジェクト全体。Milvus 3.0.0 以降で非推奨です。 | 任意のネストされたオブジェクト | はい（非推奨） | はい（非推奨） | — | — |
 
-`—` が付いているセルでは、Zilliz Cloud はインデックス作成時にリクエストを拒否します。配列キャスト型では、`INVERTED` を明示的に使用してください（`AUTOINDEX` は配列を対象としません）。
+`—` とマークされたセルでは、Zilliz Cloud はインデックス作成時にリクエストを拒否します。配列キャストタイプには `INVERTED` を明示的に使用してください（`AUTOINDEX` は配列を対象としません）。
 
 ## JSON インデックスを作成する\{#create-a-json-index}
 
-このセクションでは、さまざまな形状の JSON データにインデックスを作成する方法を説明します。すべての例では、以下のサンプル構造を使用し、`metadata` という名前の `JSON` フィールドを含むコレクションがすでにあることを前提としています。
+このセクションでは、さまざまな形状の JSON データにインデックスを作成する方法を説明します。次の例はすべて以下のサンプル構造を使用し、`metadata` という名前の `JSON` フィールドを含むコレクションがすでにあることを前提としています。
 
-### JSON 構造のサンプル\{#sample-json-structure}
+### サンプルの JSON 構造\{#sample-json-structure}
 
 ```json
 {
@@ -182,9 +182,9 @@ JSON オブジェクト全体に対する既存のインデックス（`json_cas
 }
 ```
 
-### 基本セットアップ\{#basic-setup}
+### 基本的なセットアップ\{#basic-setup}
 
-以下の例では、Zilliz Cloud のデプロイメントに接続された `client` という名前の `MilvusClient` があり、`metadata` という名前の `JSON` フィールドを含むコレクションがすでに存在することを前提としています。これらをゼロからセットアップする必要がある場合は、以下のブロックを展開してください。
+以下の例では、Zilliz Cloud デプロイに接続された `client` という名前の `MilvusClient` と、`metadata` という名前の `JSON` フィールドをすでに含むコレクションがあることを前提としています。これらをゼロから設定する必要がある場合は、以下のブロックを展開してください。
 
 <details>
 
@@ -328,34 +328,102 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+
+// Define a schema with a JSON field
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+    WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+
+// Minimal vector index so the collection can be loaded
+vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
+    WithIndexOptions(vecIndex))
+if err != nil {
+    log.Fatal(err)
+}
+
+// Insert one row that matches the sample JSON structure above
+metadata := []byte(`{
+    "category": "electronics",
+    "brand": "BrandA",
+    "in_stock": true,
+    "price": 99.99,
+    "string_price": "99.99",
+    "tags": ["clearance", "summer_sale"],
+    "supplier": {
+        "name": "SupplierX",
+        "country": "USA",
+        "contact": {
+            "email": "support@supplierx.com",
+            "phone": "+1-800-555-0199"
+        }
     }
-    defer cli.Close(ctx)
+}`)
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
+    WithInt64Column("pk", []int64{1}).
+    WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
+    WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
+if err != nil {
+    log.Fatal(err)
+}
+log.Printf("inserted %d rows", result.InsertCount)
+```
 
-    // Define a schema with a JSON field
-    schema := entity.NewSchema().WithDynamicFieldEnabled(false).
-        WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
-        WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
-        WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+</TabItem>
 
-    // Minimal vector index so the collection can be loaded
-    vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+<TabItem value='rust'>
 
-    err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
-        WithIndexOptions(vecIndex))
-    if err != nil {
-        log.Fatal(err)
-    }
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
 
-    // Insert one row that matches the sample JSON structure above
-    metadata := []byte(`{
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+// Define a schema with a JSON field
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
+    .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("your_collection_name")
+        .schema(schema)
+        .build()?,
+)
+.await?;
+
+// Minimal vector index so the collection can be loaded
+let vec_index = IndexParam::new()
+    .field_name("vec")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::L2);
+
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("your_collection_name")
+        .index_params(vec![vec_index])
+        .build()?,
+)
+.await?;
+
+// Insert one row that matches the sample JSON structure above
+let row = json!({
+    "pk": 1,
+    "vec": [0.1f32, 0.2, 0.3, 0.4],
+    "metadata": {
         "category": "electronics",
         "brand": "BrandA",
         "in_stock": true,
@@ -370,90 +438,15 @@ func main() {
                 "phone": "+1-800-555-0199"
             }
         }
-    }`)
-    result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
-        WithInt64Column("pk", []int64{1}).
-        WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
-        WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
-    if err != nil {
-        log.Fatal(err)
     }
-    log.Printf("inserted %d rows", result.InsertCount)
-}
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-    let client = ClientV2::new(&config).await?;
-
-    // Define a schema with a JSON field
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
-        .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
-        .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
-
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name("your_collection_name")
-            .schema(schema)
-            .build()?,
-    )
-    .await?;
-
-    // Minimal vector index so the collection can be loaded
-    let vec_index = IndexParam::new()
-        .field_name("vec")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::L2);
-
-    client.create_index(
-        CreateIndexRequest::builder()
-            .collection_name("your_collection_name")
-            .index_params(vec![vec_index])
-            .build()?,
-    )
-    .await?;
-
-    // Insert one row that matches the sample JSON structure above
-    let row = json!({
-        "pk": 1,
-        "vec": [0.1f32, 0.2, 0.3, 0.4],
-        "metadata": {
-            "category": "electronics",
-            "brand": "BrandA",
-            "in_stock": true,
-            "price": 99.99,
-            "string_price": "99.99",
-            "tags": ["clearance", "summer_sale"],
-            "supplier": {
-                "name": "SupplierX",
-                "country": "USA",
-                "contact": {
-                    "email": "support@supplierx.com",
-                    "phone": "+1-800-555-0199"
-                }
-            }
-        }
-    });
-    client.insert(
-        InsertRequest::builder()
-            .collection_name("your_collection_name")
-            .rows(vec![row])
-            .build()?,
-    )
-    .await?;
-
-    Ok(())
-}
+});
+client.insert(
+    InsertRequest::builder()
+        .collection_name("your_collection_name")
+        .rows(vec![row])
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -677,7 +670,7 @@ curl --request POST \
 
 </details>
 
-Prepare an index-params object to collect the index definitions added in the examples below:
+以下の例で追加するインデックス定義を収集するためのインデックスパラメーターオブジェクトを準備します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -748,11 +741,11 @@ export indexParams="[]"
 </TabItem>
 </Tabs>
 
-後続の各例では、1 つの `index_params.add_index(...)` 呼び出しを示します。データに適合するものを選択し、同じ `index_params` オブジェクトに対して呼び出してください。最後に、すべてを 1 回の `client.create_index(...)` 呼び出しで適用します（「インデックスを適用する」を参照）。
+後続の各例では、1 つの `index_params.add_index(...)` 呼び出しを示します。データに一致するものを選択し、同じ `index_params` オブジェクトに対して呼び出します。最後に、すべてを 1 回の `client.create_index(...)` 呼び出しで適用します（「インデックスを適用する」を参照してください）。
 
-### 例 1: AUTOINDEX でトップレベルのキーにインデックスを作成する\{#example-1-index-a-top-level-key-with-autoindex}
+### 例 1: AUTOINDEX を使用してトップレベルのキーにインデックスを作成する\{#example-1-index-a-top-level-key-with-autoindex}
 
-商品カテゴリによるフィルターを高速化するために、`category` フィールドにインデックスを作成します。`AUTOINDEX` を使用すると、Zilliz Cloud はデータ内に存在する個別カテゴリの数に基づいて `BITMAP` または `STL_SORT` を選択します。
+商品カテゴリで高速にフィルタリングできるように、`category` フィールドにインデックスを作成します。`AUTOINDEX` では、データ内に存在する異なるカテゴリの数に基づいて、Zilliz Cloud が `BITMAP` または `STL_SORT` を選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -896,7 +889,7 @@ export categoryIndex='{
 
 ### 例 2: ネストされたキーにインデックスを作成する\{#example-2-index-a-nested-key}
 
-サプライヤーの連絡先を検索するために、深くネストされた `email` フィールドにインデックスを作成します。`json_path` パラメーターは、任意の深さのブラケット表記を受け付けます。
+サプライヤーの連絡先を検索できるように、深くネストされた `email` フィールドにインデックスを作成します。`json_path` パラメーターは、任意の深さのブラケット表記を受け入れます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1040,7 +1033,7 @@ export emailIndex='{
 
 ### 例 3: STL_SORT を使用した範囲クエリ\{#example-3-range-queries-with-stlsort}
 
-パスに対するクエリの大半が範囲比較（`>`、`<`、`>=`、`<=`）になるとわかっている場合は、`STL_SORT` を直接選択します。これにより、カーディナリティの測定を省略し、並べ替えられたレイアウトを直ちに構築します。
+パスに対するクエリが範囲比較（`>`、`<`、`>=`、`<=`）によって大部分を占めるとわかっている場合は、`STL_SORT` を直接選択します。これによりカーディナリティの測定を省略し、ソートされたレイアウトをすぐに構築します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1182,11 +1175,11 @@ export priceIndex='{
 </TabItem>
 </Tabs>
 
-インデックス作成後、`metadata["price"] > 50 AND metadata["price"] < 100` のような範囲クエリは、全体スキャンの代わりに二分探索を使用します。
+インデックス作成後、`metadata["price"] > 50 AND metadata["price"] < 100` のような範囲クエリは、フルスキャンの代わりに二分探索を使用します。
 
 ### 例 4: BITMAP を使用した等価クエリ\{#example-4-equality-queries-with-bitmap}
 
-カーディナリティの低いキー（ステータスコード、ブール値、列挙型のような文字列など）には、`BITMAP` を直接選択します。等価クエリと `IN` クエリはビットマップ操作になります。
+低カーディナリティのキー（ステータスコード、ブール値、列挙型のような文字列）には、`BITMAP` を直接選択します。等価クエリと `IN` クエリはビットマップ操作になります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1328,7 +1321,7 @@ export inStockIndex='{
 </TabItem>
 </Tabs>
 
-`BITMAP` は、少数の個別文字列値を持つ `status` 列のようなフィールドにも適しています。
+`BITMAP` は、少数の異なる文字列値を持つ `status` 列のようなフィールドにも適しています。
 
 ### 例 5: インデックス作成時にデータ型を変換する\{#example-5-convert-data-type-at-index-time}
 
@@ -1484,19 +1477,19 @@ export stringToDoubleIndex='{
 </TabItem>
 </Tabs>
 
-行の変換に失敗した場合（`"invalid"` のような数値以外の文字列など）、その行はインデックス作成中にスキップされます。
+行の変換に失敗した場合（`"invalid"` のような数値でない文字列など）、その行はインデックス作成時にスキップされます。
 
 ### 例 6: JSON オブジェクト全体にインデックスを作成する\{#example-6-index-entire-json-objects}
 
 <Admonition type="warning" title="Warning">
 
-Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれる JSON オブジェクト全体のインデックス作成（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新規のインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードでは推奨されなくなりました。既知のクエリパスには JSON パスインデックスを作成してください。広範なクエリパターンを持つ複雑または進化する JSON ドキュメントの場合は、[JSON Shredding](./json-shredding) を検討してください。JSON Shredding は配列内の値を高速化しません。そのようなクエリには、配列キャスト型を指定した JSON パスインデックスを使用してください。
+Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオブジェクト全体の JSON インデックス（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされていますが、このモードは新しいワークロードには推奨されなくなりました。既知のクエリパスには JSON パスインデックスを作成してください。広範なクエリパターンを持つ複雑または進化する JSON ドキュメントでは、[JSON Shredding](./json-shredding) を検討してください。JSON Shredding は配列内の値を高速化しません。これらのクエリには、配列キャストタイプを指定した JSON パスインデックスを使用してください。
 
 </Admonition>
 
-互換性のある既存のワークロードでは、`json_cast_type="JSON"` を設定すると、指定したパスにある構造全体にインデックスが作成されます。Zilliz Cloud はネストされたオブジェクトをパスにフラット化し、各値の型を自動的に推論します。パス以下のすべてのキーが検索可能になります。
+互換性のある既存のワークロードでは、`json_cast_type="JSON"` を設定すると、指定したパスの構造全体にインデックスが作成されます。Zilliz Cloud はネストされたオブジェクトをパスにフラット化し、各値の型を自動的に推論します。パス以下のすべてのキーが検索可能になります。
 
-フラット化と型推論は転置インデックスの機能であるため、`AUTOINDEX` は `JSON` キャスト型に対して透過的に `INVERTED` を使用します。
+`AUTOINDEX` は `JSON` キャストタイプに対して透過的に `INVERTED` を使用します。これは、フラット化と型推論が転置インデックスの機能であるためです。
 
 `metadata` オブジェクト全体にインデックスを作成します。
 
@@ -1640,7 +1633,7 @@ export metadataFullIndex='{
 </TabItem>
 </Tabs>
 
-または、サブオブジェクト（たとえば、すべての `supplier` 情報）にインデックスを作成します。
+またはサブオブジェクト（たとえば、すべての `supplier` 情報）にインデックスを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1782,11 +1775,11 @@ export supplierIndex='{
 </TabItem>
 </Tabs>
 
-オブジェクト全体にインデックスを作成すると、インデックスサイズが増加します。深くネストされたドキュメントと多様なクエリパターンを持つ新しいワークロードでは、パス固有のインデックスを使用するか、[JSON Shredding](./json-shredding) を検討してください。
+オブジェクト全体にインデックスを作成すると、インデックスサイズが大きくなります。深くネストされたドキュメントと多様なクエリパターンを持つ新しいワークロードでは、パス固有のインデックスを使用するか、[JSON Shredding](./json-shredding) を検討してください。
 
 ### インデックスを適用する\{#apply-the-index}
 
-すべてのインデックスパラメーターを追加したら、コレクションに適用します。
+すべてのインデックスパラメーターを追加したら、それらをコレクションに適用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1910,7 +1903,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-インデックスの構築は非同期で実行されます。特定のインデックスの構築状態を確認するには、`client.describe_index(...)` を使用します。構築が完了すると `state` フィールドに `Finished` が表示され、`total_rows` / `indexed_rows` / `pending_index_rows` によって進行状況を確認できます。
+インデックスの構築は非同期で実行されます。`client.describe_index(...)` を使用して特定のインデックスの構築状態を確認します。構築が完了すると `state` フィールドに `Finished` と表示され、`total_rows` / `indexed_rows` / `pending_index_rows` に途中の進行状況が表示されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2049,37 +2042,37 @@ curl --request POST \
 
 `state` が `Finished` を報告すると、インデックスが作成されたパスに対するクエリは新しいインデックスを自動的に使用します。
 
-`AUTOINDEX` のエントリでは、この応答の `index_type` フィールドは `AUTOINDEX` として報告されます。Zilliz Cloud は現在、構築時に選択された基盤レイアウト（`BITMAP` または `STL_SORT`）を公開していません。この選択は内部最適化として扱ってください。選択されたレイアウトに関係なく、パスに対する等価、`IN`、範囲クエリは機能します。
+`AUTOINDEX` エントリでは、この応答の `index_type` フィールドは `AUTOINDEX` として報告されます。Zilliz Cloud は現在、構築時に選択された基になるレイアウト（`BITMAP` または `STL_SORT`）を公開していません。この選択は内部最適化として扱ってください。選択されたレイアウトに関係なく、パスに対する等価、`IN`、範囲クエリは機能します。
 
 ## FAQ\{#faq}
 
-### AUTOINDEX と明示的なインデックスタイプはどのように選択すればよいですか？\{#how-do-i-choose-between-autoindex-and-an-explicit-index-type}
+### AUTOINDEX と明示的なインデックスタイプのどちらを選択すればよいですか？\{#how-do-i-choose-between-autoindex-and-an-explicit-index-type}
 
-`AUTOINDEX` から始めてください。データのカーディナリティに基づいて適切なレイアウトを選択し、JSON パスに対するほとんどの等価、`IN`、範囲クエリをカバーします。次の場合は明示的なタイプを選択してください。
+`AUTOINDEX` から始めてください。データのカーディナリティから適切なレイアウトを選択し、JSON パスに対するほとんどの等価、`IN`、範囲クエリをカバーします。次の場合は明示的なタイプを選択してください。
 
-- クエリパターン（たとえば、常に範囲 → `STL_SORT`、常にカーディナリティの低い値に対する等価 → `BITMAP`）がわかっており、カーディナリティの測定を省略したい場合。
+- クエリパターンがわかっており（例: 常に範囲 → `STL_SORT`、低カーディナリティで常に等価 → `BITMAP`）、カーディナリティの測定を省略したい場合。
 
 - テキスト一致または部分文字列クエリが必要な場合 → `INVERTED`。
 
-- 配列キャスト型にインデックスを作成する場合。`INVERTED` を明示的に使用してください。
+- 配列キャストタイプにインデックスを作成する場合。`INVERTED` を明示的に使用してください。
 
-- 既存の JSON オブジェクト全体のインデックスを維持する場合。`INVERTED` と `AUTOINDEX` はどちらも互換性のために引き続きサポートされていますが、JSON オブジェクト全体のインデックス作成は Milvus 3.0.0 以降では非推奨です。
+- 既存のオブジェクト全体 JSON インデックスを維持している場合。`INVERTED` と `AUTOINDEX` はどちらも互換性のために引き続きサポートされていますが、オブジェクト全体の JSON インデックスは Milvus 3.0.0 以降で非推奨です。
 
-### クエリのフィルター式が、インデックス対象のキャスト型と異なる型を使用した場合はどうなりますか？\{#what-happens-if-a-querys-filter-expression-uses-a-different-type-than-the-indexed-cast-type}
+### クエリのフィルター式がインデックス作成時のキャストタイプと異なる型を使用した場合はどうなりますか？\{#what-happens-if-a-querys-filter-expression-uses-a-different-type-than-the-indexed-cast-type}
 
-フィルター式がインデックスの `json_cast_type` と異なる型を使用している場合、Zilliz Cloud はそのインデックスを使用せず、データが許せば低速なブルートフォーススキャンにフォールバックすることがあります。最高のパフォーマンスを得るには、フィルター式を常にインデックスのキャスト型に合わせてください。たとえば、`json_cast_type="DOUBLE"` で数値インデックスを作成した場合、数値のフィルター条件だけがインデックスを利用します。
+フィルター式がインデックスの `json_cast_type` と異なる型を使用する場合、Zilliz Cloud はインデックスを使用せず、データが許す場合はより低速なブルートフォーススキャンにフォールバックすることがあります。最高のパフォーマンスを得るには、常にフィルター式をインデックスのキャストタイプに合わせてください。たとえば、数値インデックスを `json_cast_type="DOUBLE"` で作成した場合、数値のフィルター条件のみがインデックスを利用します。
 
-### 異なるエンティティ間で JSON キーのデータ型が一致しない場合はどうなりますか？\{#what-if-a-json-key-has-inconsistent-data-types-across-different-entities}
+### JSON キーのデータ型がエンティティ間で一致しない場合はどうなりますか？\{#what-if-a-json-key-has-inconsistent-data-types-across-different-entities}
 
-型が一致しない場合、**部分インデックス** が発生することがあります。たとえば、`metadata["price"]` が数値（`99.99`）と文字列（`"99.99"`）の両方として保存されており、`json_cast_type="DOUBLE"` でインデックスを作成すると、数値だけがインデックスされます。文字列形式のエントリはスキップされ、フィルター結果に表示されません。インデックス作成時に文字列を数値へ強制変換するには `json_cast_function="STRING_TO_DOUBLE"` を使用するか、すべてのエントリが同じ型になるようにソースデータを修正してください。
+型が一致しない場合、**部分的なインデックス作成** になる可能性があります。たとえば、`metadata["price"]` が数値（`99.99`）と文字列（`"99.99"`）の両方として保存されており、`json_cast_type="DOUBLE"` でインデックスを作成すると、数値のみがインデックス化されます。文字列形式のエントリはスキップされ、フィルター結果に表示されません。インデックス作成時に文字列を数値へ強制変換するには `json_cast_function="STRING_TO_DOUBLE"` を使用するか、すべてのエントリが同じ型を共有するようにソースデータを修正してください。
 
 ### 同じ JSON キーに複数のインデックスを作成できますか？\{#can-i-create-multiple-indexes-on-the-same-json-key}
 
-いいえ。Zilliz Cloud では、キャスト型やインデックスタイプに関係なく、`(field, json_path)` のペアごとに最大 1 つのインデックスが許可されます。同じパスに `INVERTED` と `BITMAP` の両方のインデックスを作成したり、同じパスに異なるキャスト型で 2 つのインデックスを作成したりすることはできません。ただし、JSON オブジェクト全体のインデックスと、そのオブジェクト内のネストされたキーに対する別のインデックスは作成できます。これらは異なるパスです。
+いいえ。Zilliz Cloud では、キャストタイプやインデックスタイプに関係なく、`(field, json_path)` の組ごとに最大 1 つのインデックスが許可されます。同じパスに `INVERTED` インデックスと `BITMAP` インデックスの両方を作成したり、同じパスに異なるキャストタイプで 2 つのインデックスを作成したりすることはできません。ただし、JSON オブジェクト全体に 1 つのインデックスを作成し、そのオブジェクト内のネストされたキーに別のインデックスを作成することはできます。これらは異なるパスです。
 
-### AUTOINDEX の BITMAP と STL_SORT のしきい値を調整する方法を教えてください\{#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold}
+### AUTOINDEX の BITMAP と STL_SORT のしきい値を調整するにはどうすればよいですか？\{#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold}
 
-デフォルトでは、`AUTOINDEX` はインデックス対象の値の個別値が **100 個以下** の場合は `BITMAP` を選択し、それ以外の場合は `STL_SORT` を選択します。インデックスパラメーターに `"bitmap_cardinality_limit"` を追加することで、このしきい値を上書きできます（範囲: 1–1000）。
+デフォルトでは、`AUTOINDEX` はインデックス化される値に **100 個以下の異なる値** がある場合は `BITMAP` を選択し、それ以外の場合は `STL_SORT` を選択します。インデックスパラメーターに `"bitmap_cardinality_limit"` を追加することで、このしきい値を上書きできます（範囲: 1～1000）。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2230,4 +2223,4 @@ export categoryLimitIndex='{
 </TabItem>
 </Tabs>
 
-ほとんどのユーザーはこの調整を行う必要はありません。中程度のカーディナリティを持つフィールドをビットマップ化したい場合は値を大きくしてください。`AUTOINDEX` をより早く `STL_SORT` に寄せたい場合は値を小さくします。`INVERTED`、`STL_SORT`、または `BITMAP` を明示的に指定した場合、この設定は無視されます。
+ほとんどのユーザーはこれを調整する必要はありません。中程度のカーディナリティを持つフィールドをビットマップ化したい場合は値を上げ、`AUTOINDEX` をより早く `STL_SORT` に寄せたい場合は値を下げてください。`INVERTED`、`STL_SORT`、または `BITMAP` を明示的に指定した場合、この設定は無視されます。
