@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/drop-collection.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/drop-collection
+  - manual: guides-byoc
+    path: tutorials/development/collection/drop-collection

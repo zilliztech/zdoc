@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/analyzer/tokenizer/standard-tokenizer.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer
