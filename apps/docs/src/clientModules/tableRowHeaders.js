@@ -56,10 +56,19 @@ function buildFaqAccordions() {
     // Accept the headings authors actually write, not just the two canonical
     // ones: "FAQ", "FAQs", "Frequently Asked Questions (FAQ)", "Troubleshooting /
     // FAQ". Matching on the WORD (not a substring) keeps unrelated sections out.
+    // zh/ja translate the heading itself (常见问题/常见问题解答, よくある質問) and the
+    // Latin label above erases every CJK char, so match those forms on the cleaned
+    // text. Anchored: 排查-flavored headings (问题排查 etc.) are troubleshooting,
+    // not FAQ. "常见问题（FAQ）" needs no entry — its Latin part already labels as FAQ.
+    // strip zero-width chars (heading anchor links add a trailing U+200B) before
+    // testing/labelling.
+    const clean = (s) => s.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, '').trim();
+    const cjkLabel = clean(h2.textContent).replace(/\s+/g, '');
     const label = h2.textContent.replace(/[^A-Za-z]+/g, ' ').trim().toUpperCase();
     const isFaq =
       /(^| )FAQS?( |$)/.test(label) ||
-      label.includes('FREQUENTLY ASKED QUESTIONS');
+      label.includes('FREQUENTLY ASKED QUESTIONS') ||
+      /^(常见问题(解答)?|よくある質問)$/.test(cjkLabel);
     if (!isFaq) return;
 
     const els = [];
@@ -70,10 +79,9 @@ function buildFaqAccordions() {
     }
     if (!els.length) return;
 
-    // strip zero-width chars (heading anchor links add a trailing U+200B) before
-    // testing/labelling questions.
-    const clean = (s) => s.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, '').trim();
-    const isQuestion = (s) => /\?$/.test(clean(s));
+    // zh/ja author questions with the full-width ？ (U+FF1F); accept both it and
+    // the ASCII ? as a question terminator.
+    const isQuestion = (s) => /[?？]$/.test(clean(s));
 
     const items = [];
     let cur = null;
