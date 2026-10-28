@@ -495,6 +495,15 @@ test('the retired /docs/free-trials page redirects to the registration guide on 
   assert.match(zh, /location = \/docs\/free-trials \{ return 301 \/docs\/register-with-zilliz-cloud; \}/);
 });
 
+test('the 2026-10 GA4 search-origin cleanup mirrors retired slugs to ja and retargets SemanticHighlighter', () => {
+  const en = read('deploy/en/nginx.conf');
+  assert.match(en, /location = \/ja-JP\/docs\/access-control \{ return 301 \/ja-JP\/docs\/access-control-overview; \}/);
+  assert.match(en, /location = \/ja-JP\/search \{ return 301 \/ja-JP\/docs\/home; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/authentication \{ return 301 \/ja-JP\/docs\/email-accounts; \}/);
+  assert.match(en, /location = \/docs\/semantic-highlighter \{ return 301 \/reference\/python\/python\/Highlighter-LexicalHighlighter; \}/);
+  assert.match(en, /location = \/reference\/python\/python\/Highlighter-SemanticHighlighter \{ return 301 \/reference\/python\/python\/Highlighter-LexicalHighlighter; \}/);
+});
+
 test('both site-owned images route chat directly to the private agent runtime', () => {  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /upstream docs_agent\s*\{/);
   assert.ok(entrypoint.includes('hash \\$http_x_conversation_id consistent;'));
