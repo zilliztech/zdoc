@@ -507,6 +507,24 @@
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence. Release-channel state rides the same record projection, snapshot, and incremental planner."
     },
     {
+      "id": "lark-feishu-fetch-retry",
+      "paths": [
+        "packages/docs-tooling/src/lark/feishuFetch.js",
+        "packages/docs-tooling/src/lark/feishuFetch.test.js"
+      ],
+      "focusedTests": [
+        "node packages/docs-tooling/src/lark/feishuFetch.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The Feishu fetch retry layer wraps every scraper, writer, and reporting API call. Its retryable set must absorb transient bitable failures (429/5xx plus codes like 1254607 and 1254002) while permanent request errors such as 1254000 keep failing closed on the first attempt."
+    },
+    {
       "id": "sdk-reference-fallback-source-reconciliation",
       "paths": [
         "packages/docs-tooling/src/lark/larkUtils.js",
