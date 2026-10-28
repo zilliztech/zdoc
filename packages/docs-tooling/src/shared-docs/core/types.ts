@@ -28,13 +28,19 @@ export interface DiagnosticContext {
 }
 export interface SourceConfig { schema_version: 1; repository: string; track: string }
 export interface PublishTarget { manual: string; path: string }
+export interface Transform {
+  operation: 'add' | 'replace' | 'remove'
+  target: { block: string; language?: string; lines?: string }
+  position?: 'before' | 'after'
+  content?: { file?: string; lines?: string }
+  channel?: Channel
+}
 export interface PageConfig {
   schema_version: 1
   source: { file: string }
   publish: PublishTarget[]
   metadata?: { title?: string; description?: string; beta?: string }
-  /** Opaque until WP10 supplies the transform schema. */
-  transforms?: unknown[]
+  transforms?: Transform[]
 }
 export interface PageConfigContext extends DiagnosticContext {
   manuals: readonly string[]

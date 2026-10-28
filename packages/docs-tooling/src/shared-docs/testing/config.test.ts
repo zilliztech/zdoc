@@ -14,13 +14,13 @@ publish:
     path: tutorials/delete-entities
 `
 
-it('reads page fields and preserves opaque transforms without applying WP10 validation', () => {
-  const text = page + 'metadata: {title: Cloud, description: Example, beta: FALSE}\ntransforms: [null, {unknown_future_rule: true}]\n'
+it('reads page fields and validates typed transforms', () => {
+  const text = page + 'metadata: {title: Cloud, description: Example, beta: FALSE}\ntransforms: [{operation: remove, target: {block: example}}]\n'
   expect(parsePageConfig('delete-entities', text, context)).toEqual({ config: {
     schema_version: 1, source: { file: 'site/en/delete.md' },
     publish: [{ manual: 'guides', path: 'tutorials/delete-entities' }],
     metadata: { title: 'Cloud', description: 'Example', beta: 'FALSE' },
-    transforms: [null, { unknown_future_rule: true }],
+    transforms: [{ operation: 'remove', target: { block: 'example' } }],
   } })
 })
 

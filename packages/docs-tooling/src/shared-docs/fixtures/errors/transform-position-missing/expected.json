@@ -1,0 +1,9 @@
+[
+  {
+    "code": "TRANSFORM_POSITION_MISSING",
+    "file": "page.yaml",
+    "line": 6,
+    "page": "example",
+    "channel": "both"
+  }
+]

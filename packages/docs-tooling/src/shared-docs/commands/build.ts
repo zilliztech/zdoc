@@ -17,6 +17,8 @@ import { parseProductNames } from '../core/product-names'
 import { parseTabsRules } from '../core/site'
 import type { SharedDocsError } from '../core/types'
 import { parseVariables } from '../core/variables'
+import { yamlLine } from '../core/yaml'
+import type { ContentFile } from '../core/transforms'
 
 export interface BuildOptions { sharedDocs: string; repo: string; dev: string; out: string; page?: string; imageTimeout?: number }
 const within = (parent: string, path: string) => {
@@ -83,7 +85,24 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
     if (pageYaml === undefined) continue
     const parsed = parsePageConfig(pageId, pageYaml, { ...context, file: group.file(`pages/${pageId}/page.yaml`) })
     if ('errors' in parsed) errors.push(...parsed.errors)
-    else pages.set(pageId, { pageYaml, lockYaml, config: parsed.config })
+    else {
+      const contentFiles = new Map<string, ContentFile>()
+      const pageDirectory = await realpath(join(root, 'pages', pageId))
+      for (const [index, transform] of (parsed.config.transforms ?? []).entries()) {
+        const name = transform.content?.file
+        if (!name || contentFiles.has(name)) continue
+        try {
+          if (isAbsolute(name) || /[\\/\x00]/.test(name) || name === '.' || name === '..') throw new Error('Expected a file in the page directory')
+          const path = await realpath(join(pageDirectory, name))
+          if (dirname(path) !== pageDirectory || !(await lstat(path)).isFile()) throw new Error('Content must resolve to a regular file in the page directory')
+          contentFiles.set(name, { file: file(`pages/${pageId}/${name}`), text: await readFile(path, 'utf8') })
+        } catch (error) {
+          errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: `Cannot read Cloud content ${name}: ${error instanceof Error ? error.message : String(error)}`,
+            file: file(`pages/${pageId}/page.yaml`), line: yamlLine(pageYaml, ['transforms', index, 'content', 'file']), page: pageId, channel: transform.channel ?? 'both' })
+        }
+      }
+      pages.set(pageId, { pageYaml, lockYaml, config: parsed.config, contentFiles })
+    }
   }
   const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: group.file('source.yaml'), channel: 'both' })
   const variables = variablesJson === undefined ? undefined : parseVariables(variablesJson, { file: group.file('Variables.json') })

@@ -1,0 +1,9 @@
+[
+  {
+    "code": "LINE_AMBIGUOUS",
+    "file": "page.yaml",
+    "line": 6,
+    "page": "example",
+    "channel": "current"
+  }
+]

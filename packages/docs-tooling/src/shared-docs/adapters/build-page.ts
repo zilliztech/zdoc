@@ -18,8 +18,10 @@ import type { ImageFetcher } from './images'
 import { toMdx } from './mdx'
 import type { FragmentSnapshot, GuidesBase, InspectionReader, Md2md } from './types'
 import type { ZdocContentReader, ZdocPage } from './zdoc-content'
+import type { ContentFile } from '../core/transforms'
+import { remapError } from '../core/transforms/provenance'
 
-export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig }
+export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile> }
 export interface SharedDocsInputs {
   sharedDocsPath?: string
   sourceYaml: string
@@ -188,7 +190,8 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
 }
 
 async function productSources(version: InspectedChannel, source: string, shared: SharedDocsInputs, reader: BuildReader): Promise<ProductNameSource[]> {
-  const sources: ProductNameSource[] = [{ kind: 'source', file: source, text: await reader.readFile(version.commit, source) }]
+  const sources: ProductNameSource[] = version.transformSources ? [...version.transformSources] : [{ kind: 'source', file: source, text: await reader.readFile(version.commit, source) }]
+  if (!sources.some(entry => entry.kind === 'source')) sources.unshift({ kind: 'source', file: source, text: '' })
   await reader.withFragments(version.commit, async snapshot => {
     for (const dependency of version.dependencies.fragments) {
       const text = snapshot.files.get(dependency.path)
@@ -221,8 +224,6 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const config = parsed.config
   const errors: SharedDocsError[] = []
   const failures: BuildFailure[] = []
-  if (config.transforms?.length) errors.push({ ...context, code: 'CONFIG_FIELD_UNKNOWN',
-    line: yamlLine(page.pageYaml, ['transforms', '$key']), message: 'Nonempty transforms require WP10; WP8a cannot apply them.' })
   const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
   const records = await runtime.records()
   if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || config.publish.length !== 2
@@ -269,33 +270,46 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const sourceConfig = parseSourceConfig(shared.sourceYaml, context)
   const customEditUrl = runtime.fetchContext && !('errors' in sourceConfig)
     ? `https://github.com/milvus-io/milvus-docs/edit/${encodeURIComponent(sourceConfig.config.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
-  const inspected = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
-    variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context } }, reader, input.md2md)
+  const inspect = (index: number) => {
+    const release = targets.get(index)?.fetch?.channel ?? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase()
+    const availableChannels: Channel[] = release === 'next' ? ['next'] : release === 'retire-in-next' ? ['current'] : ['current', 'next']
+    return inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
+      variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context },
+      ...(config.transforms?.length ? { transformContext: { contentFiles: page.contentFiles ?? new Map(), tabsRules: shared.tabsRules,
+        manual: config.publish[index].manual, availableChannels } } : {}) }, reader, input.md2md)
+  }
+  const inspected = await inspect(0)
   if ('errors' in inspected) return { errors: [...errors, ...inspected.errors], failures }
-  // Unsupported transforms block every later content stage, but not independent validation above.
-  if (config.transforms?.length) return { errors, failures }
+  const inspections = new Map([[0, inspected]])
+  for (let index = 1; index < config.publish.length; index++) {
+    const result = config.transforms?.length ? await inspect(index) : inspected
+    if ('errors' in result) errors.push(...result.errors)
+    else inspections.set(index, result)
+  }
+  if (errors.length && config.transforms?.length) return { errors, failures }
   const versions = new Map<Channel, Map<number, BuiltPage>>()
   for (const channel of ['current', 'next'] as const) {
-    const version = inspected.channels[channel]
     const source = config.source.file
     const location = { page: pageId, channel, file: source }
-    const prepared = await runtime.prepare(version.content, source, version.commit, location)
-    const sharedPages = await runtime.sharedPages(version.commit)
-    const sources = await productSources(version, source, shared, reader)
     const output = new Map<number, BuiltPage>()
     versions.set(channel, output)
     for (const [index, target] of config.publish.entries()) {
       const dev = targets.get(index)
       if (!dev) continue
+      const version = inspections.get(index)!.channels[channel]
+      const prepared = await runtime.prepare(version.content, source, version.commit, location)
+      const sharedPages = await runtime.sharedPages(version.commit)
+      const sources = await productSources(version, source, shared, reader)
+      const mappedErrors = (items: SharedDocsError[]) => items.map(error => version.provenance ? remapError(error, version.provenance, source) : error)
       const rewritten = rewriteLinksAndImages({ ...prepared, markdown: version.content, sourceFile: source, sharedPages,
         linkMap: shared.linkMap, cloudPages: dev.pages, context: location })
-      if ('errors' in rewritten) { errors.push(...rewritten.errors); continue }
+      if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual as 'guides' | 'guides-byoc',
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
-      if ('errors' in adapted) { errors.push(...adapted.errors); continue }
+      if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
       const mdx = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
-      if ('errors' in mdx) { errors.push(...mdx.errors); continue }
+      if ('errors' in mdx) { errors.push(...mappedErrors(mdx.errors)); continue }
       const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources, rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
       if (checked.errors.length) { errors.push(...checked.errors); continue }
       output.set(index, { manual: target.manual, path: target.path, mdx: mdx.mdx, images: rewritten.images, notices: rewritten.notices,

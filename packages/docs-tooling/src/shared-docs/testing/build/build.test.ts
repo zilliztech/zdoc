@@ -165,18 +165,18 @@ it.each(['no-dev-page', 'no-snapshot-record'])('[CONFIG_PATH_UNKNOWN] reports ea
   } finally { await build.reader.dispose() }
 })
 
-it('rejects nonempty transforms at their key and continues independent pages without exposing outputs', async () => {
+it('rejects invalid transforms and continues independent pages without exposing outputs', async () => {
   const options = await demo()
   const file = 'pages/build-pipeline/page.yaml'
   const yaml = await readFile(join(options.sharedDocs, file), 'utf8')
-  await write(options.sharedDocs, file, yaml + 'transforms: [{replace: unsupported}]\n')
+  await write(options.sharedDocs, file, yaml + 'transforms: [{operation: remove, target: {block: missing}}]\n')
   await write(options.repo, 'site/en/source-target.md', (await readFile(join(options.repo, 'site/en/source-target.md'), 'utf8')) + '\nMilvus.\n')
   await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Independent product error')
   await rm(join(options.sharedDocs, 'pages/shared-target/lock.yaml'))
   const result = await command(options)
   expect(result.code).toBe(1)
-  expect(result.text).toContain(`page.yaml:${yaml.split('\n').length} [build-pipeline/both] CONFIG_FIELD_UNKNOWN`)
-  expect(result.text).toContain('WP10')
+  expect(result.text).toContain(`page.yaml:${yaml.split('\n').length} [build-pipeline/current] TRANSFORM_TARGET_NOT_FOUND`)
+  expect(result.text).toContain('Named block not found: missing')
   expect(result.text).toContain('[shared-target/current] PRODUCT_NAME_FOUND')
   expect(result.text).toContain('[shared-target/next] PRODUCT_NAME_FOUND')
   await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })

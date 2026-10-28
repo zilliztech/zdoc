@@ -1,0 +1,9 @@
+[
+  {
+    "code": "LINE_TOO_MANY",
+    "file": "page.yaml",
+    "line": 6,
+    "page": "example",
+    "channel": "both"
+  }
+]
