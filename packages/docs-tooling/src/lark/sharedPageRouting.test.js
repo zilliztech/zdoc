@@ -242,6 +242,73 @@ test('scraper excludes shared URLs from wiki requests and preserves explicit can
   assert.equal(source.base_placement_type, 'canonical')
   assert.equal(source.shared_page.inputs_sha256, digest)
 })
+test('full wiki walk skips the legacy node of an activated record and keeps the frozen body', async t => {
+  const Scraper = require('./larkDocScraper')
+  const records = [row()]
+  const scraper = new Scraper('root', 'base:*', 'wiki', temporary(t))
+  scraper.records = records
+  scraper.base_tables = [{table_id: 'tbl', name: 'Development'}]
+  scraper.routingContext = context(records, {active: {schema_version: 1,
+    pages: [{page: 'example', record: 'rec-shared', feishu_token: 'old', anchors: {}, activated_in: '123'}]}})
+  const frozen = JSON.stringify({obj_type: 'docx', node_token: 'old-node', obj_token: 'old', title: 'Example',
+    slug: 'example', blocks: {items: [{block_id: 'page', block_type: 1}], counts: 1}}, null, 2)
+  fs.writeFileSync(path.join(scraper.doc_source_dir, 'old.json'), frozen)
+  scraper.__slugify = () => {throw new Error('Legacy nodes of activated records must not be walked')}
+  await scraper.__fetch_wiki_children({node_token: 'old-node', obj_token: 'old', obj_type: 'docx', title: 'Example', has_child: false})
+  assert.equal(fs.readFileSync(path.join(scraper.doc_source_dir, 'old.json'), 'utf8'), frozen)
+  assert.deepEqual(fs.readdirSync(scraper.doc_source_dir), ['old.json'])
+})
+
+test('docx block completeness fails closed for live documents but never for frozen shared legacies', t => {
+  const Scraper = require('./larkDocScraper')
+  const records = [row()]
+  const dir = temporary(t)
+  fs.writeFileSync(path.join(dir, 'old.json'), JSON.stringify({obj_type: 'docx', node_token: 'old-node', obj_token: 'old', title: 'Example'}))
+  fs.writeFileSync(path.join(dir, 'broken.json'), JSON.stringify({obj_type: 'docx', node_token: 'broken-node', obj_token: 'broken',
+    title: 'Broken', blocks: {items: [], counts: 0}}))
+  const scraper = new Scraper('root', 'base:*', 'wiki', dir)
+  scraper.records = records
+  scraper.routingContext = context(records, {active: {schema_version: 1,
+    pages: [{page: 'example', record: 'rec-shared', feishu_token: 'old', anchors: {}, activated_in: '123'}]}})
+  assert.deepEqual(scraper.__docx_sources_missing_blocks(), ['  - broken.json (Broken)'])
+  const withoutRouting = new Scraper('root', 'base:*', 'wiki', dir)
+  const unwaived = withoutRouting.__docx_sources_missing_blocks().join('\n')
+  assert.match(unwaived, /old\.json \(Example\)/)
+  assert.match(unwaived, /broken\.json \(Broken\)/)
+})
+
+test('drive walk skips the legacy document of an activated record and keeps the frozen body', async t => {
+  const Scraper = require('./larkDocScraper')
+  const records = [row()]
+  const scraper = new Scraper('root', 'base:*', 'drive', temporary(t))
+  scraper.records = records
+  scraper.base_tables = [{table_id: 'tbl', name: 'Development'}]
+  scraper.routingContext = context(records, {active: {schema_version: 1,
+    pages: [{page: 'example', record: 'rec-shared', feishu_token: 'old', anchors: {}, activated_in: '123'}]}})
+  const frozen = JSON.stringify({type: 'docx', token: 'old', name: 'Legacy page', slug: 'legacy-page',
+    blocks: {items: [{block_id: 'page', block_type: 1}], counts: 1}}, null, 2)
+  fs.writeFileSync(path.join(scraper.doc_source_dir, 'old.json'), frozen)
+  scraper.docs = {token: 'folder', name: 'Manual', type: 'folder', slug: 'manual', children: []}
+  scraper.slugs = {}
+  scraper.__slugify = async () => 'resolved-slug'
+  const metadataCalls = []
+  scraper.fetch_docx_metadata = async token => { metadataCalls.push(token); return {revision_id: 7} }
+  scraper.__fetch_block_pages = async (node, token) => { node.blocks = {items: [{block_id: 'page', block_type: 1}], counts: 1} }
+  scraper.__fetchFeishuJson = async url => {
+    assert.match(url, /\/drive\/v1\/files\?folder_token=folder/)
+    return {code: 0, data: {files: [
+      {token: 'old', name: 'Legacy page', type: 'docx'},
+      {token: 'live', name: 'Live page', type: 'docx'},
+    ]}, has_more: false}
+  }
+  await scraper.__fetch_drive_children('folder', null, true)
+  assert.deepEqual(metadataCalls, ['live'], 'The legacy document must never request Feishu metadata')
+  assert.equal(fs.readFileSync(path.join(scraper.doc_source_dir, 'old.json'), 'utf8'), frozen)
+  const live = JSON.parse(fs.readFileSync(path.join(scraper.doc_source_dir, 'live.json'), 'utf8'))
+  assert.equal(live.blocks.items.length, 1)
+  assert.deepEqual(fs.readdirSync(scraper.doc_source_dir).sort(), ['folder.json', 'live.json', 'old.json'])
+})
+
 test('cleanup refuses to delete a stable record undergoing source transition', t => {
   const root = temporary(t)
   fs.mkdirSync(path.join(root, 'sources'))
