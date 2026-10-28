@@ -1,17 +1,18 @@
 ---
 title: "Remove Punct | BYOC"
 slug: /remove-punct-filter
-sidebar_label: "Remove Punct"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` フィルターは、トークンストリームから句読点または空白を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
+description: "removepunct フィルターは、句読点または空白を含むトークンを削除します。単語内の句読点を保持する tokenizer では、影響を受けるトークン全体を削除します。 | BYOC"
 type: origin
-token: TVfnwtCEQico7Bk9bngcnV1cnGb
-sidebar_position: 11
 displayed_sidebar: default
+token: shared-remove-punct-filter
+sidebar_label: "Remove Punct"
+sidebar_position: 11
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/removepunct-filter.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 `removepunct` フィルターは、トークンストリームから句読点または空白を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` tokenizer はトークン化時に句読点を破棄します。`whitespace` tokenizer は、トークン内の句読点も含めて句読点を保持します。`whitespace` と組み合わせた場合、`removepunct` はトークンに句読点または空白が含まれていればトークン全体を削除します。トークンから個々の文字を削除するわけではありません。
 
@@ -127,6 +128,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `removepunct` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
@@ -233,6 +235,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -245,14 +248,17 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Sample text to analyze
 sample_text = "Привет! Как дела?"
 
-# Run the standard analyzer with the defined configuration
+# Run the analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Analyzer output:", result)
 ```
 
 </TabItem>
@@ -269,6 +275,7 @@ import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -324,6 +331,9 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 let text = "Привет! Как дела?";
 
 let response = client
@@ -348,10 +358,11 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -380,6 +391,7 @@ const sampleText = "Привет! Как дела?";
 
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const result = await client.runAnalyzer({
@@ -387,7 +399,7 @@ const result = await client.runAnalyzer({
   text: sampleText,
 });
 
-console.log("Standard analyzer output:", result);
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -396,12 +408,14 @@ console.log("Standard analyzer output:", result);
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -409,13 +423,13 @@ await client.ConnectAsync();
 // Sample text to analyze
 string sampleText = "Привет! Как дела?";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     Texts = [sampleText],
     AnalyzerParams = analyzerParams
 });
-Console.WriteLine($"Standard analyzer output: {result}");
+Console.WriteLine($"Analyzer output: {result}");
 ```
 
 </TabItem>
@@ -434,11 +448,11 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['Привет', 'Как', 'дела']
 ```
-

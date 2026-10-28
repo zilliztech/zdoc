@@ -315,6 +315,7 @@ await client.createCollection({
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
 // Set up a Milvus client
@@ -336,6 +337,12 @@ CollectionSchema schema = new()
         new FieldSchema("metadata", DataType.Json) { Nullable = true }
     }
 };
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "product_catalog",
+    Schema = schema
+});
 ```
 
 </TabItem>
@@ -1763,3 +1770,4 @@ Zilliz Cloud は、文字列値を JSON 入力に表示されるとおりに正�
 ```plaintext
 'a"b', 'a\'b'
 ```
+

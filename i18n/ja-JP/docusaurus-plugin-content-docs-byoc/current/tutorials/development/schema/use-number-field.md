@@ -102,7 +102,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
 
-CreateCollectionReq.CollectionSchema schema = MilvusClientV2.CreateSchema();
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
 schema.addField(AddFieldReq.builder()
@@ -590,6 +590,16 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err = loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1021,7 +1031,10 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-for (const auto& row : response.Results()) {
+const auto& query_results = response.Results();
+milvus::EntityRows output_rows;
+query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
     std::cout << "\t" << row << std::endl;
 }
 ```
@@ -1209,7 +1222,10 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-for (const auto& row : response.Results()) {
+const auto& query_results = response.Results();
+milvus::EntityRows output_rows;
+query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
     std::cout << "\t" << row << std::endl;
 }
 ```
@@ -1386,7 +1402,10 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-for (const auto& row : response.Results()) {
+const auto& query_results = response.Results();
+milvus::EntityRows output_rows;
+query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
     std::cout << "\t" << row << std::endl;
 }
 ```
