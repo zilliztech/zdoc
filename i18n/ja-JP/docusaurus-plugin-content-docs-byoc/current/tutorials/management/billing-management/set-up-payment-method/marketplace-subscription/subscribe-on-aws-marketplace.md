@@ -68,7 +68,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1.  新しいタブで、以下の手順に従ってサブスクリプションを完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインします。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID を Zilliz Cloud アカウントにリンクするため、URL 内のすべてのクエリ文字列が保持されるようにしてください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、サインアップ方法を選択し、手順に従ってください。AWS の ID を Zilliz Cloud アカウントに関連付けるため、URL 内のすべてのクエリ文字列が保持されていることを確認してください。
 
         <Admonition type="info" title="Notes">
 

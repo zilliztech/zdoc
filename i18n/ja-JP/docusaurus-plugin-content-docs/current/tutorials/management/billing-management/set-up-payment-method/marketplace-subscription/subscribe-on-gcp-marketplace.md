@@ -78,7 +78,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 新しく開いたタブで、以下の手順に従って登録を完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合はログインしてください。お持ちでない場合は、[登録オプション](./register-with-zilliz-cloud)を選択して手続きを進めます。
+    1. Zilliz Cloud アカウントをすでにお持ちの場合は、そのままログインしてください。お持ちでない場合は、サインアップのオプションを選択し、手順に従ってください。
 
     1. サブスクリプションを既存の Zilliz Cloud 組織にリンクします。
 
@@ -163,4 +163,3 @@ Marketplace からの登録完了後、必要に応じていつでもサブス�
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
     - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-members)と Organization Owner ロールの付与を依頼する。
-

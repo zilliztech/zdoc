@@ -268,7 +268,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
 1. 新しく開いたタブで、以下の手順に従ってサブスクリプションを完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、ログインするだけです。お持ちでない場合は、サインアップオプションを選択し、手順に従ってください。
 
     1. サブスクリプションを既存の Zilliz Cloud 組織にリンクします。
 
@@ -353,4 +353,3 @@ Azure Marketplace でサブスクリプションをキャンセルする方法�
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
     - 他のユーザーに、自身の組織への [招待](./manage-platform-users#invite-organization-members) と Organization Owner ロールの付与を依頼する。
-

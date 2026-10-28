@@ -35,7 +35,7 @@ Zilliz Cloud は、Bring-Your-Own-Cloud（BYOC）ソリューションを提供�
 
 - Zilliz Cloud のアカウントを登録していること。
 
-    手順については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
+    手順については、Zilliz Cloud への登録を参照してください。
 
 - Zilliz Cloud の営業担当者に連絡し、アカウント情報を提供していること。
 

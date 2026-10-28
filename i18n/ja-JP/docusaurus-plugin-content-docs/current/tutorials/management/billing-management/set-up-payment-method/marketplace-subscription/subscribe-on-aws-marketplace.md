@@ -68,7 +68,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1.  新しいタブで、以下の手順に従ってサブスクリプションを完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインします。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID を Zilliz Cloud アカウントにリンクするため、URL に含まれるすべてのクエリ文字列が保持されるようにしてください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、ログインするだけです。アカウントをお持ちでない場合は、サインアップ方法を選択し、その手順に従ってください。AWS の ID を Zilliz Cloud アカウントにリンクするため、URL 内のすべてのクエリ文字列が保持されることを確認してください。
 
         <Admonition type="info" title="Notes">
 
@@ -165,4 +165,3 @@ Marketplace からのサブスクリプションが成功した後は、いつ�
     - [新しい組織を作成する](./organization-settings#create-an-organization)。
 
     - 他のユーザーに依頼して、自分の組織に[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner のロールを付与してもらいます。
-

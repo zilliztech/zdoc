@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # メールアカウント
 
-Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)すると、アカウント情報の管理、ログイン方法の切り替え、Google アカウントまたは GitHub アカウントとの連携解除を行えます。
+Zilliz Cloud にアカウントを登録すると、アカウント情報の管理、ログイン方法の切り替え、Google アカウントまたは GitHub アカウントとの連携解除を行えます。
 
 ## コンソールセッション\{#console-session}
 
@@ -88,7 +88,7 @@ Zilliz Cloud コンソールにサインインした後、コンソールを使�
 
 ### パスワードログインからサードパーティログインへ切り替える\{#switch-from-password-login-to-third-party-login}
 
-パスワードログインからサードパーティ（Google または GitHub）ログインへ切り替えるには、事前に [MFA を無効化](./multi-factor-auth#disable-mfa)した上で、[Zilliz Cloud アカウントをサードパーティサービスにリンクする](./register-with-zilliz-cloud#linking-to-google-account)場合と同じ手順を実行します。
+パスワードからサードパーティ（Google または GitHub）ログインに切り替えるには、Zilliz Cloud アカウントをサードパーティサービスにリンクする場合と同じ手順に従い、事前に [MFA が無効になっている](./multi-factor-auth#disable-mfa)ことを確認してください。
 
 ### サードパーティログインからパスワードログインへ切り替える\{#switch-from-third-party-login-to-password-login}
 
@@ -102,7 +102,7 @@ Zilliz Cloud アカウントをサードパーティアカウントにすでに�
 
 1. [現在のサードパーティアカウントとの連携を解除](./email-accounts#unlink-from-third-party-authentication)します。
 
-1. [Zilliz Cloud アカウントを新しいサードパーティアカウントにリンク](./register-with-zilliz-cloud)します。
+1. Zilliz Cloud アカウントを、希望する新しいサードパーティアカウントにリンクします。
 
 </Procedures>
 

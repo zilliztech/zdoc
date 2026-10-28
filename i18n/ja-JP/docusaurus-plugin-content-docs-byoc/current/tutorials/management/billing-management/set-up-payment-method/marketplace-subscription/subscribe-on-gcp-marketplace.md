@@ -78,7 +78,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 新しいタブで、以下の手順に従ってサブスクリプションを完了してください。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップ オプション](./register-with-zilliz-cloud) を選択し、手順に従ってください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、サインアップオプションを選択し、手順に従ってください。
 
     1. サブスクリプションを既存の Zilliz Cloud 組織にリンクします。
 

@@ -936,9 +936,9 @@
       "translatedAt": "2026-10-19T16:33:23.760Z"
     },
     "content/en/byoc/tutorials/get-started/quickstarts/quick-start.md": {
-      "sourceHash": "bd4400b3eee9ae8b1fe368d7462ffd96acd3f2d5a9b1c76a10c1b9a79a580148",
+      "sourceHash": "08264c8a5192febe0489d10175c3596ea05e4c880dcd6cc8eee4471f797f66ce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start.md",
-      "translatedAt": "2026-10-25T10:05:00.371Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/get-started/register-with-zilliz-cloud.md": {
       "sourceHash": "95de40a6343c60c416c74561bb425ff71356395697867551285c4ea58627ac8c",
@@ -1011,9 +1011,9 @@
       "translatedAt": "2026-10-19T16:41:41.512Z"
     },
     "content/en/byoc/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "3f39484d197a28bdc9a711fb6f6e14c2480f2edf3646a76aef1e4bc7ba1c82bd",
+      "sourceHash": "6fdc8cfd51c5a2bcfcef70df1027f222118f64df6945d0b10d44c2880ba88342",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-09-19T13:57:10.436Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/management/authentication/manage-api-keys.md": {
       "sourceHash": "1b52b28ac6e1f13fae9c12398b973634ecf22ae67ca8882b5f442683aad80f29",
@@ -1021,9 +1021,9 @@
       "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/authentication/multi-factor-auth.md": {
-      "sourceHash": "15b7ce8b513c7e945097b3a617f61f579021ab5abf8eff4dc4d410e103f2b532",
+      "sourceHash": "7717943d3351e4f7d1a75b8fc11f41d3ff398cc2133f1c0f0b79085851a17b77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/multi-factor-auth.md",
-      "translatedAt": "2026-09-19T13:57:10.436Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "6751cd1f0f30a00c648b53e8f25607a79918343ec000d2ea747725805e747d34",
@@ -1066,14 +1066,14 @@
       "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "c76389646793a936b2b977a84fb84e649f5409788b0fcf7365c970d1f7bcc03e",
+      "sourceHash": "be734232e3fe2b73bbcce25879a5de049d782cbb88cfb958a161138a984e1342",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-09-19T13:58:15.656Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "652dc9fd43e8346c4e0924917b4aad843498ee920d292bd8d0b0875c7247b200",
+      "sourceHash": "56ce40ceabac1a6c6cbf0e230cd6a356757ad1be08a015341a9f8d13153a509a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-09-19T13:58:15.656Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
       "sourceHash": "20b8b78c84dde7a0c79114a25cb2464b7de355055e81d50d6810df077d93fe07",
@@ -1081,9 +1081,9 @@
       "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "a7ad8ebc7fda9f7691f0091c47b62b90780744d2205ec67ea303253dfc0df4c1",
+      "sourceHash": "bc26757c97e898f828a40ad6a865bc35444d1c994eec811f0fc690b249e7bf86",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-09-19T13:58:15.656Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
       "sourceHash": "4ec3cccddc4fe7b5b5e23043737dc23f6709af4d04126b9481792e19f57fa9fe",
@@ -1354,11 +1354,6 @@
       "sourceHash": "1005ee56c3be8540a89bd16305c7c682a69850e7a2665d1a26d1f172b85bbe8b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
       "translatedAt": "2026-09-19T14:01:58.853Z"
-    },
-    "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "88bbab800303c14d63de7afe4e9f5ed24feb4d2ff4c2dec229fbac987ba0ac7c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "34666328637a665930612b66aeb7ff96e87e3605a15a000c6ab5e9e6ee014d5a",
@@ -2361,9 +2356,9 @@
       "translatedAt": "2026-10-25T10:12:57.207Z"
     },
     "content/en/guides/tutorials/get-started/register-with-zilliz-cloud.md": {
-      "sourceHash": "2a9dab1f2a724853654cadaf08c08783a4b76eba61c37bc117c7669c6eee5110",
+      "sourceHash": "786f02741e230b48039dd88fb377534de37d56e09ccdb23fba4a9a701e5fb25a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/register-with-zilliz-cloud.md",
-      "translatedAt": "2026-10-27T03:55:25.719Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
       "sourceHash": "b878dfef6082215afa0dedaf9b464a610ec61d68d64ff1ebf32acd0127b730ae",
@@ -2641,9 +2636,9 @@
       "translatedAt": "2026-10-19T17:49:29.775Z"
     },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "9d52dc0c246e79a6f73127671c78b9313d3ac93c880480fd03621f600fe5b05c",
+      "sourceHash": "ffe94cf86e07310c5e72b9920304fc58a301a9dfe6b00cb897f36bd0f39f2f2e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/authentication/manage-api-keys.md": {
       "sourceHash": "9b8cb310a9d365091bc95bbb0fc4e2026381eeeaf876d77934f4f514d22b7f4e",
@@ -2651,9 +2646,9 @@
       "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/authentication/multi-factor-auth.md": {
-      "sourceHash": "dd5048851c6c2b4241a8c8df0d73a80f1d89d43f35c3b506c2e755c25e1bbb85",
+      "sourceHash": "9b82dd5765555056142ff3338bfc4a9dbe90742e7e2aea8b64a14d74208bd633",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/multi-factor-auth.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
       "sourceHash": "cf5f2e50f331b6a5e2d1e9d8d8e3a5d42f5e73c0e419203fb73a08eb4588e1ab",
@@ -2731,9 +2726,9 @@
       "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md": {
-      "sourceHash": "c6363a4e1c23b8de95c176c07dd0fa9915e160e421f501c3fe2b388399fb9279",
+      "sourceHash": "392dd97358a6667da84d8c4b1a6cc9c14f7398aead57ec511cf1c44fe01f25c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
       "sourceHash": "70b595b9b7460f4f45d31336686f21bcfae600fc62da0d9da94e563786d4d5cf",
@@ -2741,14 +2736,14 @@
       "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "31d26cdd18a1f3c2de46142d15ca46f227d032ed7e3b92b049e4a0f95bf29125",
+      "sourceHash": "b4e191b0701c17101ebe3c5bd820a8ce1bd61e04504795916608e13f68c56c90",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "bb77494624187c32ccb52a65e6016c22fd63212620dda346780804aa87abce67",
+      "sourceHash": "e982889f049d6b4f47d29970f63f742e18419846f20270e1a9d62b911528da27",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
       "sourceHash": "2e216ec8ac136a606cc6ec5d8a5369915419a49174bcb02a1da0702c3fe1bdc4",
@@ -2756,9 +2751,9 @@
       "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "b68c7b58923a7bee18b6e460a9acb3787e31ac54f7dd72c8374604b6f03a4ac3",
+      "sourceHash": "62eea06de2cc73ee73b14ab1f708c7ce4702145ca68e5fc15675d9e868b7862e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
       "sourceHash": "371e94f85d527a56a6970501059d643ebc9a4060524a589510983d0d75073299",
@@ -2781,14 +2776,14 @@
       "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "824dff136f4501e56ecf936c44cd16fd59e2f56fb7e01e1f39baf44763b6aa7d",
+      "sourceHash": "448cc5e02f987bf2229c265706658423db148e3d1b068a18048465acb5c4df04",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "bf0ac637963365b09a75d16ea5c3ba5fad1ad5528be2ed7b786a42795c13dbc9",
+      "sourceHash": "8e7ecf76b0c24b663490fec38afcc16f6a75dc89735639b6350f7ffc06cecf9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",

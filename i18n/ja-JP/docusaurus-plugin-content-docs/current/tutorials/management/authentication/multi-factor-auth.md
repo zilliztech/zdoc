@@ -40,7 +40,7 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 - **SSO との互換性**: 組織で [SSO](./single-sign-on) が有効になっている場合、MFA は ID プロバイダー（IdP）によって管理されます。この場合は、IdP アカウントで MFA を設定するか、Organization Owner にお問い合わせください。
 
-- **ログイン方法の互換性**: 組み込みの Zilliz Cloud MFA 機能は、メールアドレスとパスワードで[登録](./register-with-zilliz-cloud#registration-options)したユーザーのみが利用できます。
+- **ログイン方法との互換性**: Zilliz Cloud の組み込み MFA 機能は、メールアドレスとパスワードで登録したユーザーのみ利用できます。
 
     - アカウントが Google にリンクされている場合、MFA は Google によって管理されます。詳細については、[2 段階認証プロセスを有効にする](https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) を参照してください。
 
@@ -121,4 +121,3 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 1.  **私は Organization Owner ですが、MFA の強制の後に一部のユーザーがロックアウトされています。どうすればよいですか？**
 
     それらのユーザーに、ログイン時に表示される案内に従って MFA の設定を完了するよう依頼してください。それでも組織にアクセスできない場合は、[Zilliz Cloud サポートにお問い合わせください](http://support.zilliz.com)。
-

@@ -37,7 +37,7 @@ Dedicated クラスターは、一貫して予測可能なパフォーマンス�
 
 以下を確認してください。
 
-- Zilliz Cloud への登録が完了していること。詳細については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
+- Zilliz Cloud に登録済みであること。Zilliz Cloud への登録を参照してください。
 
 - クラスターを作成する組織またはプロジェクトの所有権を持っていること。ロールと権限の詳細については、Access Control Explained を参照してください。
 
