@@ -71,3 +71,7 @@ dist/
 
 # Real-artifact replay evidence roots (reports are force-added separately)
 .claude/replay/
+
+# ZCode session tooling state
+.zcode/
+.zcodeignore
