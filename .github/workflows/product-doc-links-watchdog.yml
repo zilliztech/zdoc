@@ -1,4 +1,4 @@
-name: Product Doc Links Watchdog
+name: product doc links watchdog
 
 on:
   schedule:

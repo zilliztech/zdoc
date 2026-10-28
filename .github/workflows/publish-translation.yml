@@ -67,7 +67,7 @@ jobs:
           persist-credentials: true
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Authenticate the producer publication selection
         env:
@@ -156,7 +156,7 @@ jobs:
           persist-credentials: false
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download exact terminal Translation publication results
         uses: actions/download-artifact@v7

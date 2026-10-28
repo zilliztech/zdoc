@@ -1,4 +1,4 @@
-name: publish offline Translation
+name: publish offline translation
 run-name: offline ja-JP Guides ${{ inputs.candidate_sha }}
 
 on:
@@ -73,7 +73,7 @@ jobs:
         with: { ref: '${{ inputs.execution_tooling_sha }}', fetch-depth: 0, persist-credentials: false }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: prepare
         name: Authenticate, validate, and package the offline candidate
@@ -173,7 +173,7 @@ jobs:
           persist-credentials: ${{ inputs.publish }}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable offline publication selection
         uses: actions/download-artifact@v7
@@ -237,7 +237,7 @@ jobs:
         with: { ref: '${{ inputs.execution_tooling_sha }}', fetch-depth: 0, persist-credentials: false }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download exact immutable selection
         uses: actions/download-artifact@v7

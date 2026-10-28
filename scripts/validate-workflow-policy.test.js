@@ -2849,7 +2849,7 @@ test('Translation prepare installs exact tooling checkout dependencies before re
   assert.ok(checkout >= 0)
   assert.ok(pnpmSetup > checkout)
   assert.ok(nodeSetup > pnpmSetup)
-  assert.deepEqual(steps[nodeSetup].with, {'node-version': '22.6', cache: 'pnpm'})
+  assert.deepEqual(steps[nodeSetup].with, {'node-version': '22', cache: 'pnpm'})
   assert.ok(install > nodeSetup)
   assert.ok(handoff > install)
 })

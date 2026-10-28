@@ -333,7 +333,7 @@ Do not treat a successful parent run as proof that Translation finished. When Tr
 
 ### Feishu progress cards and the notification kill switch
 
-Fetch and Translation runs report progress through Feishu cards created by `pnpm docs-tooling report-card`, and the scheduled watchdogs (`docs ingestion watchdog`, `External Link Watchdog`, `Broken Links Report`) post alert cards only when they detect a problem. Card sending is non-essential reporting: every card step is best effort, and monitor jobs start only when a card exists.
+Fetch and Translation runs report progress through Feishu cards created by `pnpm docs-tooling report-card`, and the scheduled watchdogs (`docs ingestion watchdog`, `external link watchdog`, `broken links report`) post alert cards only when they detect a problem. Card sending is non-essential reporting: every card step is best effort, and monitor jobs start only when a card exists.
 
 To silence all workflow Feishu cards without touching the Feishu app credentials (which Fetch also uses to read source content), set the repository variable `FEISHU_NOTIFICATIONS_DISABLED` to `true` in GitHub Actions settings. The five card-sending workflows forward it to `docs-tooling` through their root `env`, the `report-card` command skips every action without contacting Feishu, and the resulting empty `card_id` output keeps all monitor and downstream card jobs disabled. Unset the variable, or set it to any other value, to restore notifications — no code or workflow change is required. This switch does not affect Feishu bitable reporting (`report-broken-links`, `report-external-links`) or Fetch content reads.
 
@@ -493,7 +493,7 @@ Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, 
 
 ### Search-origin 404 report
 
-`GA4 Search 404 Report` (`.github/workflows/ga4-search-404-report.yml`) lists the pages that Google search results still point at which now return 404 — the `page_not_found` events whose referrer was Google, per site, for a sliding window. It is scheduled daily at 03:17 UTC and can also be dispatched manually. Until the GA4 access below is configured, every run degrades to a notice instead of failing:
+`ga4 search 404 report` (`.github/workflows/ga4-search-404-report.yml`) lists the pages that Google search results still point at which now return 404 — the `page_not_found` events whose referrer was Google, per site, for a sliding window. It is scheduled daily at 03:17 UTC and can also be dispatched manually. Until the GA4 access below is configured, every run degrades to a notice instead of failing:
 
 1. Create a service account with read-only access to both GA4 properties and store its JSON key in the repository secret `GA4_SERVICE_ACCOUNT_JSON`.
 2. Add the repository variables `GA4_PROPERTY_ID_EN` and `GA4_PROPERTY_ID_ZH_CN` (numeric GA4 property IDs); at least one is required.

@@ -44,7 +44,7 @@ test('watchdog pins tooling and content identities before the exact rendered sca
   assert.match(refs.run, /content_sha=\$content_sha/)
 
   const node = steps.find(step => step.uses?.startsWith('actions/setup-node@'))
-  assert.equal(node.with['node-version'], '22.6')
+  assert.equal(node.with['node-version'], '22')
   assert.equal(Object.hasOwn(node.with, 'cache'), false)
   assert.match(stepNamed('Install dependencies').run, /^pnpm install --frozen-lockfile$/)
 
