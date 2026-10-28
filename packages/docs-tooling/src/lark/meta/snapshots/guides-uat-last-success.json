@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-28T01:15:16.249Z",
+  "generated_at": "2026-10-28T02:49:11.000Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -1062,14 +1062,14 @@
         "parent_node_token": "JmOIw7dRWip6V4kWkKFcWcNNnvc",
         "node_create_time": "1789456844",
         "obj_create_time": "1789456844",
-        "obj_edit_time": "1793068612",
+        "obj_edit_time": "1793148803",
         "revision_id": "141"
       },
       "node_token": "B3JxwyvmHiI8CZkUFp4cvRp9nrh",
       "origin_node_token": "B3JxwyvmHiI8CZkUFp4cvRp9nrh",
       "obj_token": "SyEHddEM3o7K2Exx6UAc5zuqnng",
       "obj_type": "docx",
-      "obj_edit_time": "1793068612",
+      "obj_edit_time": "1793148803",
       "revision_id": "141",
       "publish_targets": [
         "Zilliz.PaaS",
@@ -2899,33 +2899,24 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "View Collections",
+      "labels": "View",
       "slug": "view-collections",
-      "doc_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VAirw0c7ZiKCSqkjtDscAsC4nAf",
-      "source_file": "VAirw0c7ZiKCSqkjtDscAsC4nAf.json",
-      "source_hash": "5895793309ea009dcb7c362060c0812ccb6d8e5b3348886cdbf7692ccc760e4f",
-      "node_metadata": {
-        "requested_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-        "requested_node_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-        "node_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-        "origin_node_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-        "obj_token": "S1sodgieLo4QwyxIXZWcRSa5nRd",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "View Collections",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "XpEzwyxaJi181OkIKwqcQDWrnIh",
-        "node_create_time": "1729756050",
-        "obj_create_time": "1729756050",
-        "obj_edit_time": "1792983564",
-        "revision_id": "317"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/view-collections",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "view-collections",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
-      "node_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-      "origin_node_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-      "obj_token": "S1sodgieLo4QwyxIXZWcRSa5nRd",
-      "obj_type": "docx",
-      "obj_edit_time": "1792983564",
-      "revision_id": "317",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPnrtMmScA"
+      ],
+      "order": 50,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -2933,7 +2924,10 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/byoc/tutorials/development/collection/view-collections.md",
+        "content/en/guides/tutorials/development/collection/view-collections.md"
+      ]
     },
     {
       "record_id": "recvlPs9FBazpP",
@@ -3732,47 +3726,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "VarChar Field",
+      "labels": "VarChar",
       "slug": "use-string-field",
-      "doc_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/QBXVwP7oiiuEovkprDnckJlEnoK",
-      "source_file": "QBXVwP7oiiuEovkprDnckJlEnoK.json",
-      "source_hash": "ffc8a492cb4596ad1831a7b891f4ccd86eb89ee170d6bae4ac8da08467e95844",
-      "node_metadata": {
-        "requested_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-        "requested_node_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-        "node_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-        "origin_node_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-        "obj_token": "VvA8d6kHPoOyQGx2tXMcUv8vnbg",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "VarChar Field",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "NuWQwL1AhiDzokkx5UPckhthnsf",
-        "node_create_time": "1728630322",
-        "obj_create_time": "1728630322",
-        "obj_edit_time": "1792983721",
-        "revision_id": "1364"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-string-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-string-field",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
-      "node_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-      "origin_node_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-      "obj_token": "VvA8d6kHPoOyQGx2tXMcUv8vnbg",
-      "obj_type": "docx",
-      "obj_edit_time": "1792983721",
-      "revision_id": "1364",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPny7w8bvX"
+      ],
+      "order": 79,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "DjROwgK6ziCf7Rkoji6ccyEUnsg",
-        "GBynwwkyBihIHukvJXfc76dMnth",
-        "MBVVww2Zii8k6Bk77GJcXbZJnpf",
-        "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
-        "Q0wpw4xZiimaUsk4GvScAg2un1d"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/use-string-field.md",
+        "content/en/guides/tutorials/development/schema/use-string-field.md"
+      ]
     },
     {
       "record_id": "recvlPt8LaurJX",
@@ -4449,7 +4431,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "b633af8fcd32180a1232a9e35362ac86fec79effcfd8d0f81a9da545cbdc581f",
+        "inputs_sha256": "17c0ec46cd298cf468c70bd600f3c70abf182b2114b551e91667ad0f8575d9ff",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "source_file": null,
@@ -4715,43 +4697,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Alter Collection Field",
+      "labels": "Alter Field",
       "slug": "alter-collection-field",
-      "doc_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "source_file": "PLjFwlcT8ilFBakYXyfcg6S2n7d.json",
-      "source_hash": "9eb92927e27ed69bb577408a6ba72bf1025e9f55e5c79de6698412d25bce5c85",
-      "node_metadata": {
-        "requested_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-        "requested_node_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-        "node_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-        "origin_node_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-        "obj_token": "QadLdBojYo4RW4xQIcWc0uQPnyc",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Alter Collection Field",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "NuWQwL1AhiDzokkx5UPckhthnsf",
-        "node_create_time": "1739429956",
-        "obj_create_time": "1739429956",
-        "obj_edit_time": "1792984178",
-        "revision_id": "1345"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alter-collection-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alter-collection-field",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
-      "node_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "origin_node_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "obj_token": "QadLdBojYo4RW4xQIcWc0uQPnyc",
-      "obj_type": "docx",
-      "obj_edit_time": "1792984178",
-      "revision_id": "1345",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPny7w8bvX"
+      ],
+      "order": 98,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "UR9SwucAIiQ2TYkc9EucsgvSnng"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/alter-collection-field.md",
+        "content/en/guides/tutorials/development/schema/alter-collection-field.md"
+      ]
     },
     {
       "record_id": "recvlPtZzDu4ca",
@@ -7647,7 +7621,7 @@
       "doc_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
       "source_file": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf.json",
-      "source_hash": "e894a157b42e861b5f9a6dc75f6486bad578ed2df998182d252d1ba6fc37cdcb",
+      "source_hash": "f4c4a8f38fc7f1fa7fc8c0abfcd68b19ba0fa86aa6bfc6fa42c08138f4edff7a",
       "node_metadata": {
         "requested_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
         "requested_node_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
@@ -7661,15 +7635,15 @@
         "parent_node_token": "QHzrwVlEOipspAkPiyucWezqneC",
         "node_create_time": "1734071143",
         "obj_create_time": "1734071143",
-        "obj_edit_time": "1792486521",
-        "revision_id": "2088"
+        "obj_edit_time": "1793151155",
+        "revision_id": "2091"
       },
       "node_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
       "origin_node_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
       "obj_token": "DK4Kdgbs6o8fGlxZ9wfc3tFxnCf",
       "obj_type": "docx",
-      "obj_edit_time": "1792486521",
-      "revision_id": "2088",
+      "obj_edit_time": "1793151155",
+      "revision_id": "2091",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -8372,7 +8346,7 @@
       "doc_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ESVGwTkn8iLfUakSSrkc5dWJnye",
       "source_file": "ESVGwTkn8iLfUakSSrkc5dWJnye.json",
-      "source_hash": "2801a64326fb2d91ef4217f853da4d17ae5d37c862ed8a3a18fa0c59edd022fc",
+      "source_hash": "4b54d394be5e6258076b608a866b20f90d9ab8fd5ab36a82f63c23add51f4448",
       "node_metadata": {
         "requested_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
         "requested_node_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
@@ -8386,15 +8360,15 @@
         "parent_node_token": "VvikwOKc9iZ5vBkgMnycrXKmnId",
         "node_create_time": "1756890054",
         "obj_create_time": "1756890054",
-        "obj_edit_time": "1790664273",
-        "revision_id": "1447"
+        "obj_edit_time": "1793153272",
+        "revision_id": "1450"
       },
       "node_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
       "origin_node_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
       "obj_token": "Z265dsL60oohR6xFsRtcrrLmnXf",
       "obj_type": "docx",
-      "obj_edit_time": "1790664273",
-      "revision_id": "1447",
+      "obj_edit_time": "1793153272",
+      "revision_id": "1450",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
@@ -13899,53 +13873,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "StructArray Overview",
+      "labels": "Overview",
       "slug": "use-array-of-structs",
-      "doc_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-      "source_file": "VlAlwAJvEiVVW6k0RBvcvkpWnhK.json",
-      "source_hash": "403f00713200c095f9390ff9d97ad8d18625b5b108b088cacd4fd22a63dfd9b8",
-      "node_metadata": {
-        "requested_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-        "requested_node_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-        "node_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-        "origin_node_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-        "obj_token": "F5YwdM1feog30qxPSGYcuTkLnud",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "StructArray Overview",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
-        "node_create_time": "1781219908",
-        "obj_create_time": "1781219908",
-        "obj_edit_time": "1782889158",
-        "revision_id": "69"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-of-structs",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-array-of-structs",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
-      "node_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-      "origin_node_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-      "obj_token": "F5YwdM1feog30qxPSGYcuTkLnud",
-      "obj_type": "docx",
-      "obj_edit_time": "1782889158",
-      "revision_id": "69",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPtk8BZ2aP"
+      ],
+      "order": 88,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "Mf7GwGwgQiLCcykOi69cvaD8ncz",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VmGMwsTliiGZdFkzzeBckRNlnCh",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WDjyw7hO3i26RckEgqIcf36snMh",
-        "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "ZR1bwJFFSio2jkkabd7c1YAYncf"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
+        "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md"
+      ]
     },
     {
       "record_id": "recvmiXcFCqTXW",
@@ -22539,11 +22495,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VAirw0c7ZiKCSqkjtDscAsC4nAf",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/view-collections",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "view-collections",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
+      }
     },
     {
       "record_id": "recvlPs9FBazpP",
@@ -23182,11 +23145,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/QBXVwP7oiiuEovkprDnckJlEnoK",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-string-field",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-string-field",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
+      }
     },
     {
       "record_id": "recvlPt8LaurJX",
@@ -23383,11 +23353,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-of-structs",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-array-of-structs",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
+      }
     },
     {
       "record_id": "recvmiXcFCqTXW",
@@ -23613,11 +23590,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PLjFwlcT8ilFBakYXyfcg6S2n7d",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alter-collection-field",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alter-collection-field",
+        "inputs_sha256": "b182d725dea6201ea61d60f54170a0ff44dd34aaaebcf9e354edbca4b9c4d876",
+        "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
+      }
     },
     {
       "record_id": "recvlPtzPnygUH",
@@ -24067,7 +24051,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "b633af8fcd32180a1232a9e35362ac86fec79effcfd8d0f81a9da545cbdc581f",
+        "inputs_sha256": "17c0ec46cd298cf468c70bd600f3c70abf182b2114b551e91667ad0f8575d9ff",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       }
     },
@@ -29595,7 +29579,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "ef19a025cd6dcd54a21193bdf4c99bde8e3448326920181763d64b97e1ff3366",
+    "tblWv7PjNDsexddH": "528c9cea4d5ae14bca4a5af62236e6270d32cbe7f96bc86a2a584278436a5eb8",
     "tblZMzoITXNsyKmQ": "5084681e46f8032edc4905e7fbb80c275a152668d3bea077a954da2262e29806",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",

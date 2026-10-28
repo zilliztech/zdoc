@@ -2697,7 +2697,7 @@
       ]
     },
     "dev": {
-      "commit": "87a624641e63c2d11782e26b04defbc632a993f6",
+      "commit": "ca9e9c236c809d8d7ed1a46738229fa73a365c2f",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -3493,7 +3493,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/get-started/quickstarts/quick-start.md",
-          "sha256": "bd4400b3eee9ae8b1fe368d7462ffd96acd3f2d5a9b1c76a10c1b9a79a580148"
+          "sha256": "08264c8a5192febe0489d10175c3596ea05e4c880dcd6cc8eee4471f797f66ce"
         },
         {
           "path": "content/en/byoc/tutorials/get-started/register-with-zilliz-cloud.md",
@@ -3557,7 +3557,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/authentication/email-accounts.md",
-          "sha256": "3f39484d197a28bdc9a711fb6f6e14c2480f2edf3646a76aef1e4bc7ba1c82bd"
+          "sha256": "6fdc8cfd51c5a2bcfcef70df1027f222118f64df6945d0b10d44c2880ba88342"
         },
         {
           "path": "content/en/byoc/tutorials/management/authentication/manage-api-keys.md",
@@ -3565,7 +3565,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/authentication/multi-factor-auth.md",
-          "sha256": "15b7ce8b513c7e945097b3a617f61f579021ab5abf8eff4dc4d410e103f2b532"
+          "sha256": "7717943d3351e4f7d1a75b8fc11f41d3ff398cc2133f1c0f0b79085851a17b77"
         },
         {
           "path": "content/en/byoc/tutorials/management/backup-and-restore/create-backup.md",
@@ -3609,11 +3609,11 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-          "sha256": "c76389646793a936b2b977a84fb84e649f5409788b0fcf7365c970d1f7bcc03e"
+          "sha256": "be734232e3fe2b73bbcce25879a5de049d782cbb88cfb958a161138a984e1342"
         },
         {
           "path": "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-          "sha256": "652dc9fd43e8346c4e0924917b4aad843498ee920d292bd8d0b0875c7247b200"
+          "sha256": "56ce40ceabac1a6c6cbf0e230cd6a356757ad1be08a015341a9f8d13153a509a"
         },
         {
           "path": "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
@@ -3621,7 +3621,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-          "sha256": "a7ad8ebc7fda9f7691f0091c47b62b90780744d2205ec67ea303253dfc0df4c1"
+          "sha256": "bc26757c97e898f828a40ad6a865bc35444d1c994eec811f0fc690b249e7bf86"
         },
         {
           "path": "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
@@ -4753,7 +4753,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/register-with-zilliz-cloud.md",
-          "sha256": "2a9dab1f2a724853654cadaf08c08783a4b76eba61c37bc117c7669c6eee5110"
+          "sha256": "786f02741e230b48039dd88fb377534de37d56e09ccdb23fba4a9a701e5fb25a"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/changelogs.md",
@@ -4977,7 +4977,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/authentication/email-accounts.md",
-          "sha256": "9d52dc0c246e79a6f73127671c78b9313d3ac93c880480fd03621f600fe5b05c"
+          "sha256": "ffe94cf86e07310c5e72b9920304fc58a301a9dfe6b00cb897f36bd0f39f2f2e"
         },
         {
           "path": "content/en/guides/tutorials/management/authentication/manage-api-keys.md",
@@ -4985,7 +4985,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/authentication/multi-factor-auth.md",
-          "sha256": "dd5048851c6c2b4241a8c8df0d73a80f1d89d43f35c3b506c2e755c25e1bbb85"
+          "sha256": "9b82dd5765555056142ff3338bfc4a9dbe90742e7e2aea8b64a14d74208bd633"
         },
         {
           "path": "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
@@ -5049,7 +5049,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
-          "sha256": "936236346f36a99681292a9525e077ec421e0e5542e7375abe1ca441f6a47d64"
+          "sha256": "392dd97358a6667da84d8c4b1a6cc9c14f7398aead57ec511cf1c44fe01f25c3"
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
@@ -5057,11 +5057,11 @@
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-          "sha256": "31d26cdd18a1f3c2de46142d15ca46f227d032ed7e3b92b049e4a0f95bf29125"
+          "sha256": "b4e191b0701c17101ebe3c5bd820a8ce1bd61e04504795916608e13f68c56c90"
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-          "sha256": "bb77494624187c32ccb52a65e6016c22fd63212620dda346780804aa87abce67"
+          "sha256": "e982889f049d6b4f47d29970f63f742e18419846f20270e1a9d62b911528da27"
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
@@ -5069,7 +5069,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-          "sha256": "b68c7b58923a7bee18b6e460a9acb3787e31ac54f7dd72c8374604b6f03a4ac3"
+          "sha256": "62eea06de2cc73ee73b14ab1f708c7ce4702145ca68e5fc15675d9e868b7862e"
         },
         {
           "path": "content/en/guides/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
@@ -5089,11 +5089,11 @@
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-          "sha256": "7dc573e4fa5c77f48bfcc5f2f2c5fcecf9d64322015c2b11477392c38bfcb8af"
+          "sha256": "448cc5e02f987bf2229c265706658423db148e3d1b068a18048465acb5c4df04"
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-          "sha256": "bf0ac637963365b09a75d16ea5c3ba5fad1ad5528be2ed7b786a42795c13dbc9"
+          "sha256": "8e7ecf76b0c24b663490fec38afcc16f6a75dc89735639b6350f7ffc06cecf9c"
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
@@ -5281,7 +5281,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/ip-allowlists/setup-whitelist.md",
-          "sha256": "e8daf088c6a9acb9b30e135d3ef19a164394ac583687538120f1f87d7ba38cd1"
+          "sha256": "2bc75f3f88e74cd45d95637b7fe36c734c377b892edac6236db42787c3c83720"
         },
         {
           "path": "content/en/guides/tutorials/management/limits/api-comparison.md",
@@ -5521,7 +5521,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "9a1fc37d62e28401412648f94f133c7d1013c87424cb3d2904485e4b80559f8c"
+          "sha256": "f081ac91086d2171821705290c73d83f6b0e14b3e4e1c71800ab88e0b2b255a7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5529,11 +5529,11 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "f5166a0f660e6e2583032349b7323406093da29d0de078ca4b1fecda923daa8e"
+          "sha256": "03460667ba6457c5ce0b872f75dc44383a169acce31b781bb39c7ecdb585c160"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "f0b0f10131fcb8c898cce502b1f80f1af3b79a1df6c29c87b7761b6572747c0d"
+          "sha256": "df73ffad4cf0c6560f16ce4526d6ef379787962127cf4efebcf8f39e7dab6a2e"
         }
       ]
     },
@@ -9357,11 +9357,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/VAirw0c7ZiKCSqkjtDscAsC4nAf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/view-collections",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "view-collections"
+            }
           },
           {
             "record_id": "recvlPs9FBazpP",
@@ -10000,11 +10005,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/QBXVwP7oiiuEovkprDnckJlEnoK",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-string-field",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-string-field"
+            }
           },
           {
             "record_id": "recvlPt8LaurJX",
@@ -10201,11 +10211,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-of-structs",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-array-of-structs"
+            }
           },
           {
             "record_id": "recvmiXcFCqTXW",
@@ -10431,11 +10446,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/PLjFwlcT8ilFBakYXyfcg6S2n7d",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alter-collection-field",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "alter-collection-field"
+            }
           },
           {
             "record_id": "recvlPtzPnygUH",
@@ -16416,7 +16436,7 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "8e83f7ea8b0bbbb42dde8f2e220f6f1fc028a86108aec4d8919e1df1a3107805",
+          "tblWv7PjNDsexddH": "e5ad9e1f453069f592282c5cfd2ede82ef5dfd6f6f2cb74fed3370c17d597d81",
           "tblZMzoITXNsyKmQ": "5084681e46f8032edc4905e7fbb80c275a152668d3bea077a954da2262e29806"
         }
       },

@@ -1,17 +1,18 @@
 ---
 title: "VarChar Field | BYOC"
 slug: /use-string-field
-sidebar_label: "VarChar"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud clusters, textual scalar data can be stored with `VARCHAR` and `TEXT` fields. This page describes `VARCHAR`, which is designed for short, bounded string metadata such as names, tags, categories, and external IDs. | BYOC"
+description: "VARCHAR is a scalar field type for storing short, bounded string metadata in Zilliz Cloud. | BYOC"
 type: origin
-token: QBXVwP7oiiuEovkprDnckJlEnoK
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-use-string-field
+sidebar_label: "VarChar"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/string.md"
 
 ---
 
@@ -21,33 +22,35 @@ import TabItem from '@theme/TabItem';
 
 # VarChar Field
 
-In Zilliz Cloud clusters, textual scalar data can be stored with `VARCHAR` and `TEXT` fields. This page describes `VARCHAR`, which is designed for short, bounded string metadata such as names, tags, categories, and external IDs.
+Zilliz Cloud supports textual scalar data with `VARCHAR` and `TEXT` fields. This page describes `VARCHAR`, which is designed for short, bounded string metadata such as names, tags, categories, and external IDs.
 
-For longer source text, document passages, article bodies, tickets, or logs that should be stored and returned with entities, use a `TEXT` field instead. For details, refer to [TEXT Field](./use-text-field).
+For longer source text, document passages, article bodies, tickets, or logs that should be stored and returned with entities, use a `TEXT` field instead. Use `TEXT` when a value may exceed `65,535` bytes or when you do not want to set a fixed `max_length` in the collection schema. For details, refer to [Text Field](./use-text-field).
 
 When you define a `VARCHAR` field, two parameters are mandatory:
 
 - Set the `datatype` to `DataType.VARCHAR`.
 
-- Specify the `max_length`, which defines the maximum number of bytes the `VARCHAR` field can store. The valid range for `max_length` is from 1 to 65,535.
+- Specify the `max_length`, which defines the maximum number of UTF-8 bytes allowed for each field value. The valid range for `max_length` is from 1 to 65,535.
 
-<Admonition type="info" title="Notes">
+The number of bytes can differ from the number of characters. For example, with `max_length=10`, `"abcdefghij"` fits within the limit because it uses 10 UTF-8 bytes. The string `"一二三四五六七八九十"` also has 10 characters, but uses 30 UTF-8 bytes and exceeds the limit.
 
-Zilliz Cloud supports null values and default values for `VARCHAR` fields. To enable these features, set `nullable` to `True` and `default_value` to a string value. For details, refer to [Nullable & Default](./nullable-fields).
+<Admonition type="info" icon="📘" title="Notes">
+
+Zilliz Cloud supports NULL values and default values for `VARCHAR` fields. To enable these features, enable `nullable` and set `default_value` to a string value. For details, refer to [Nullable & Default](./nullable-fields).
 
 </Admonition>
 
 ## Add VARCHAR field\{#add-varchar-field}
 
-To store short, bounded string metadata in Zilliz Cloud clusters, define a `VARCHAR` field in your collection schema. Below is an example of defining a collection schema with two `VARCHAR` fields:
+To store short, bounded string metadata in Zilliz Cloud, define a `VARCHAR` field in your collection schema. Below is an example of defining a collection schema with two `VARCHAR` fields:
 
-- `varchar_field1`: stores up to 100 bytes, allows null values, and has a default value of `"Unknown"`.
+- `varchar_field1`: stores up to 100 bytes, allows NULL values, and has a default value of `"Unknown"`.
 
-- `varchar_field2`: stores up to 200 bytes, allows null values, but does not have a default value.
+- `varchar_field2`: stores up to 200 bytes, allows NULL values, but does not have a default value.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-If you set `enable_dynamic_field=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you enable `enable_dynamic_field` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 </Admonition>
 
@@ -62,7 +65,7 @@ from pymilvus import MilvusClient, DataType
 SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
 # Create a MilvusClient instance
-client = MilvusClient(uri=SERVER_ADDR)
+client = MilvusClient(uri=SERVER_ADDR, token="YOUR_CLUSTER_TOKEN")
 
 # Define the collection schema
 schema = client.create_schema(
@@ -70,9 +73,9 @@ schema = client.create_schema(
     enable_dynamic_field=True,
 )
 
-# Add `varchar_field1` that supports null values with default value "Unknown"
+# Add `varchar_field1` that supports NULL values with default value "Unknown"
 schema.add_field(field_name="varchar_field1", datatype=DataType.VARCHAR, max_length=100, nullable=True, default_value="Unknown")
-# Add `varchar_field2` that supports null values without default value
+# Add `varchar_field2` that supports NULL values without default value
 schema.add_field(field_name="varchar_field2", datatype=DataType.VARCHAR, max_length=200, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
@@ -92,8 +95,9 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
@@ -147,6 +151,7 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -233,7 +238,7 @@ let schema = CollectionSchema::new()
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -254,7 +259,8 @@ schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: `YOUR_CLUSTER_ENDPOINT`
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN"
 });
 
 const schema = [
@@ -334,13 +340,20 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Set index params\{#set-index-params}
 
-Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
+Indexing helps improve search and query performance. In Zilliz Cloud, indexing is mandatory for vector fields but optional for scalar fields.
 
-The following example creates indexes on the vector field `embedding` and the scalar field `varchar_field1`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
+The following example creates indexes on the vector field `embedding` and the scalar field `varchar_field1`, both using the `AUTOINDEX` index type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+You can also build an `NGRAM` index to accelerate `LIKE` filtering on `VARCHAR` fields. For details, refer to [NGRAM](./ngram-index-type).
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -379,7 +392,7 @@ indexes.add(IndexParam.builder()
         .indexName("varchar_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-        
+
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -392,13 +405,6 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
@@ -471,10 +477,11 @@ export indexParams='[
             "metricType": "COSINE",
             "indexType": "AUTOINDEX"
         }
-    ]' 
+    ]'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Create collection\{#create-collection}
@@ -498,8 +505,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -513,12 +518,6 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
@@ -583,6 +582,9 @@ await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -597,6 +599,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert data\{#insert-data}
@@ -656,13 +659,6 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 column1, _ := column.NewNullableColumnVarChar("varchar_field1",
     []string{"Product A", "Product B", "Product C", "Unknown", ""},
     []bool{true, true, false, true, false, true, true})
@@ -753,7 +749,7 @@ milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", 
                            {{"varchar_field1", "Product B"}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
                            {{"varchar_field1", nullptr}, {"varchar_field2", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
                            {{"varchar_field1", "Product C"}, {"varchar_field2", nullptr}, {"pk", 4}, {"embedding", std::vector<float>{0.5, 0.7, 0.2}}},
-                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.5, 0.4, 0.8}}},
+                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.6, 0.4, 0.8}}},
                            {{"varchar_field1", "Unknown"}, {"varchar_field2", nullptr}, {"pk", 6}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}},
                            {{"varchar_field1", ""}, {"varchar_field2", "Best seller"}, {"pk", 7}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}}};
 
@@ -827,6 +823,9 @@ await client.insert({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -849,6 +848,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Query with filter expressions\{#query-with-filter-expressions}
@@ -885,9 +885,6 @@ print(res)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
 
 String filter = "varchar_field1 == \"Product A\"";
 QueryResp resp = client.query(QueryReq.builder()
@@ -908,12 +905,6 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 filter := "varchar_field1 == \"Product A\""
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -992,6 +983,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1006,9 +1000,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-To retrieve entities where the `varchar_field2` is null:
+To retrieve entities where the `varchar_field2` is NULL:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1039,10 +1034,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String filter = "varchar_field2 is null";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1067,12 +1058,6 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 filter = "varchar_field2 is null"
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1146,6 +1131,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1160,9 +1148,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-To retrieve entities where `varchar_field1` has the value `"Unknown"`, use the following expression below. As the default value of `varchar_field1` is `"Unknown"`, the expected result should include entities with `varchar_field1` explicitly set to `"Unknown"` or with `varchar_field1` set to null.
+To retrieve entities where `varchar_field1` has the value `"Unknown"`, use the following expression below. As the default value of `varchar_field1` is `"Unknown"`, the expected result should include entities with `varchar_field1` explicitly set to `"Unknown"` or with `varchar_field1` set to NULL.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1192,10 +1181,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String filter = "varchar_field1 == \"Unknown\"";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1206,7 +1191,7 @@ QueryResp resp = client.query(QueryReq.builder()
 System.out.println(resp.getQueryResults());
 
 // Output
-// 
+//
 // [
 //    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=3}),
 //    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=Exclusive deal, pk=5}),
@@ -1219,12 +1204,6 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 filter = "varchar_field1 == \"Unknown\""
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1298,6 +1277,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1312,6 +1294,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Vector search with filter expressions\{#vector-search-with-filter-expressions}
@@ -1349,11 +1332,9 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
 
 String filter = "varchar_field2 == \"Best seller\"";
 SearchResp resp = client.search(SearchReq.builder()
@@ -1377,15 +1358,6 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "varchar_field2 == \"Best seller\""
 
@@ -1488,6 +1460,9 @@ await client.search({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1510,4 +1485,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

@@ -1,6 +1,6 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-10-28T00:59:21.710Z
+Generated: 2026-10-28T02:31:26.213Z
 Mode: full
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
@@ -8,7 +8,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 ## Summary
 
 - Changed docs: 0
-- Expanded docs: 401
+- Expanded docs: 397
 - Removed docs: 0
 - Warnings: 1
 
@@ -271,7 +271,6 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - PFbNwB7Mli18n6k6VWScGcpWndc
 - PIfLwbrMmiOZKAkqtpScjnhinXf
 - PJ4hwwD1DiVnv0kWPZBceLrdnSf
-- PLjFwlcT8ilFBakYXyfcg6S2n7d
 - PNj2w5fY9ifr82kbX8ucKgXAn0r
 - PV2bwNENViEjXWkOgzZcXoKHnce
 - PharwAysCiBzvgkuqqecmNzunQf
@@ -288,7 +287,6 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - Q7wIwcnrEiVDofk5G4Fc7vlonPh
 - Q8LHwWmyjiPOQJkpDq8cU3bxnwg
 - Q9ZcwPZieiYoU4kwEuOcFjewneP
-- QBXVwP7oiiuEovkprDnckJlEnoK
 - QGVxwmnGTidbjtk1LcYcEfqbnOe
 - QPgEwd4qziOa5RkgJR2c9gpnn3b
 - QTdywCXmKi0q10kWnencBLQinuc
@@ -356,14 +354,12 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
 - V7nZwzmpFiOokGksfTqcAcjcnXh
 - V7xfwDariioU5GkcmfXctzSEnyc
-- VAirw0c7ZiKCSqkjtDscAsC4nAf
 - VFMLwxpsniVGKYkE3DecmpQ2nrg
 - VOkIwd5adiziGQkoDO1cRoRFnre
 - VTZZwCkkCi7FwnklLDhcMJwvnQb
 - VbjiwU5RYi4bWdkC48Jceltnnpd
 - VcI1wZ5mQiGqdPkCzHccj1RLnbd
 - VeDpwQV7wiodggkf10pcJbxMnjf
-- VlAlwAJvEiVVW6k0RBvcvkpWnhK
 - VmGMwsTliiGZdFkzzeBckRNlnCh
 - Vs4YwNnvzitoQ8kunlGcWMJInbf
 - VsLcwDK6SiGs0CkJ7i0cmRYWnof

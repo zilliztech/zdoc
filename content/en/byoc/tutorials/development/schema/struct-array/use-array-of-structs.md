@@ -1,7 +1,6 @@
 ---
 title: "StructArray Overview | BYOC"
 slug: /use-array-of-structs
-sidebar_label: "Overview"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,16 +8,15 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Use StructArray when one entity needs to store an ordered list of structured elements, such as one document with many chunks, one page with many visual patches, or one video with many clips. StructArray keeps these elements inside the parent entity while still allowing vector search and scalar filtering on fields inside each element. | BYOC"
 type: origin
-token: VlAlwAJvEiVVW6k0RBvcvkpWnhK
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-use-array-of-structs
+sidebar_label: "Overview"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/array-of-structs.md"
 
 ---
 
 import Admonition from '@theme/Admonition';
-
-
-import Grid from '@site/src/components/Grid';
 
 # StructArray Overview
 
@@ -59,7 +57,7 @@ For example, a collection can store one article as an entity and store its chunk
 }
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 The two vector subfields in this example represent the same chunk from two search perspectives. `chunks[emb_list_vector]` is intended for EmbeddingList search with `MAX_SIM*` metrics, while `chunks[emb]` is intended for element-level search with regular vector metrics such as `COSINE`, `IP`, or `L2`.
 
@@ -95,43 +93,38 @@ Use the following matrix to choose the right StructArray path.
 
 ## Understand the two search models\{#understand-the-two-search-models}
 
-<Grid columnSize="2" widthRatios="50,50">
+<table>
+  <thead>
+    <tr>
+      <th scope="col"><h3 id="embeddinglist-search">EmbeddingList search</h3></th>
+      <th scope="col"><h3 id="element-level-search">Element-level search</h3></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p>EmbeddingList search treats the vectors inside a StructArray vector subfield as one embedding list for the parent entity. The query is also an embedding list. Zilliz Cloud compares the query embedding list with the stored embedding list by using a <code>MAX_SIM*</code> metric and returns matching entities.</p>
+        <ul>
+          <li>Query data: embedding list.</li>
+          <li>Metric family: <code>MAX_SIM*</code>.</li>
+          <li>Result granularity: entity level.</li>
+          <li>Best for: document-level or page-level late-interaction retrieval.</li>
+        </ul>
+      </td>
+      <td>
+        <p>Element-level search treats each Struct element as an independent vector-search candidate. Each hit represents a matched element inside the StructArray field, and ungrouped results can expose the element offset.</p>
+        <ul>
+          <li>Query data: regular vector.</li>
+          <li>Metric family: regular vector metrics.</li>
+          <li>Result granularity: Struct element level.</li>
+          <li>Best for: chunk-level, clip-level, or patch-level retrieval.</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-    <div>
-
-        ### EmbeddingList search\{#embeddinglist-search}
-
-        EmbeddingList search treats the vectors inside a StructArray vector subfield as one embedding list for the parent entity. The query is also an embedding list. Zilliz Cloud compares the query embedding list with the stored embedding list by using a `MAX_SIM*` metric and returns matching entities.
-
-        - Query data: embedding list.
-
-        - Metric family: `MAX_SIM*`.
-
-        - Result granularity: entity level.
-
-        - Best for: document-level or page-level late-interaction retrieval.
-
-    </div>
-
-    <div>
-
-        ### Element-level search\{#element-level-search}
-
-        Element-level search treats each Struct element as an independent vector-search candidate. Each hit represents a matched element inside the StructArray field, and ungrouped results can expose the element offset.
-
-        - Query data: regular vector.
-
-        - Metric family: regular vector metrics.
-
-        - Result granularity: Struct element level.
-
-        - Best for: chunk-level, clip-level, or patch-level retrieval.
-
-    </div>
-
-</Grid>
-
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 If your collection needs both EmbeddingList search and element-level search, use two separate vector subfields. A vector field or vector subfield accepts only one index, and the two search modes require different metric families.
 
@@ -153,7 +146,7 @@ StructArray documentation is split into modeling pages and search pages. Use the
 | Search | [Hybrid Search with StructArray](./hybrid-search-with-struct-array) | Combine StructArray element-level search with other vector searches. |
 | Search | [Filtered Search with StructArray](./filtered-search-with-struct-arrays) | Use StructArray filters in search, query, and hybrid search. |
 | Search | [Search with Embedding Lists](./tutorial-colbert-colpali) | Build ColBERT and ColPali-style retrieval systems with StructArray. |
-| Filter | [StructArray Operators](./struct-array-filtering) | Reference syntax for `element_filter` and `MATCH_*` operators. |
+| Filter | [StructArray Operators](./struct-array-filtering) | Reference syntax for `element_filter`, `MATCH_*` operators, and row-level StructArray path predicates. |
 
 ## Key limits to check first\{#key-limits-to-check-first}
 
@@ -163,7 +156,7 @@ StructArray documentation is split into modeling pages and search pages. Use the
 
 - Vector subfields require indexes. EmbeddingList search uses `MAX_SIM*` metrics, while element-level search uses regular vector metrics.
 
-- `element_filter` and `MATCH_*` are for scalar subfields inside StructArray fields. Use `$[subfield]` only inside these operators.
+- `element_filter` and `MATCH_*` are for scalar subfields inside StructArray fields. Use `$[subfield]` only inside these operators. Row-level filters can also reference StructArray paths directly, such as `chunks[0][section]`, `array_length(chunks)`, and `array_contains(chunks[section], ...)`.
 
 - Some search combinations are version-gated or mode-specific. Check [StructArray Limits](./struct-array-limits) before relying on range search, grouping search, hybrid search, nullable fields, or dynamically added fields.
 
@@ -171,11 +164,10 @@ StructArray documentation is split into modeling pages and search pages. Use the
 
 1. To design a schema, read [Create a StructArray Field](./create-struct-array).
 
-1. To prepare data, read [Insert Data into StructArray Fields](./insert-struct-array).
+2. To prepare data, read [Insert Data into StructArray Fields](./insert-struct-array).
 
-1. To choose indexes, read [Index StructArray Fields](./index-struct-array).
+3. To choose indexes, read [Index StructArray Fields](./index-struct-array).
 
-1. To search StructArray vector subfields, start with [Basic Vector Search with StructArray](./search-with-struct-array).
+4. To search StructArray vector subfields, start with [Basic Vector Search with StructArray](./search-with-struct-array).
 
-1. To filter StructArray scalar subfields, read [StructArray Operators](./struct-array-filtering) and [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
-
+5. To filter StructArray scalar subfields, read [StructArray Operators](./struct-array-filtering) and [Filtered Search with StructArray](./filtered-search-with-struct-arrays).

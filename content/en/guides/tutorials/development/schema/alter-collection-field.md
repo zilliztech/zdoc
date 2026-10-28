@@ -1,7 +1,6 @@
 ---
 title: "Alter Collection Field | Cloud"
 slug: /alter-collection-field
-sidebar_label: "Alter Field"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. | Cloud"
 type: origin
-token: PLjFwlcT8ilFBakYXyfcg6S2n7d
-sidebar_position: 17
 displayed_sidebar: default
+token: shared-alter-collection-field
+sidebar_label: "Alter Field"
+sidebar_position: 17
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/alter-collection-field.md"
 
 ---
 
@@ -21,11 +22,11 @@ import TabItem from '@theme/TabItem';
 
 # Alter Collection Field
 
-You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules.
+You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. 
 
 This page covers field property changes, not schema-shape changes such as adding or dropping fields. To add scalar fields or drop fields from an existing collection, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 - Each collection consists of only one primary field. Once set during collection creation, you cannot change the primary field or alter its properties.
 
@@ -35,7 +36,7 @@ This page covers field property changes, not schema-shape changes such as adding
 
 ## Alter VarChar field\{#alter-varchar-field}
 
-A VarChar field has a property named `max_length`, which constrains the maximum number of characters the field values can contain. You can change the `max_length` property.
+A VarChar field has a property named `max_length`, which defines the maximum number of bytes allowed for each field value. You can change the `max_length` property.
 
 The following example assumes the collection has a VarChar field named `varchar` and sets its `max_length` property.
 
@@ -100,6 +101,7 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -182,7 +184,16 @@ await client.alterCollectionFieldProperties({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
 
 await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 {
@@ -197,6 +208,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -213,6 +227,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Alter ARRAY field\{#alter-array-field}
@@ -239,8 +254,6 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
-
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("array")
@@ -337,6 +350,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -353,6 +369,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Alter field-level mmap settings\{#alter-field-level-mmap-settings}
@@ -377,8 +394,6 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
-
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("doc_chunk")
@@ -473,6 +488,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -489,4 +507,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

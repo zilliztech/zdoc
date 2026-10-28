@@ -103,7 +103,7 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
 
 ## Add project regions\{#add-project-regions}
 
-If your project is on the **Business Critical** plan, you can add more regions to your project. Your project must be a multi-regional one if you need to use the [Global Cluster](./global-cluster-explained) feature.
+If your applications serve users across different geographic locations, you can add regions to your project to deploy clusters closer to your users and reduce latency. A multi-region project is also required to use [Global Cluster](./global-cluster-explained).
 
 - **Via RESTful API**
 

@@ -9,6 +9,34 @@
         "MQo9dmwhvoFNvNxdItWcWyGdnv4": "delete-entities-from-partitions"
       },
       "activated_in": "40517911974"
+    },
+    {
+      "page": "view-collections",
+      "record": "recvlPs8qTFnJf",
+      "feishu_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
+      "anchors": {},
+      "activated_in": "40620199474"
+    },
+    {
+      "page": "use-string-field",
+      "record": "recvlPt5P3vHmN",
+      "feishu_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
+      "anchors": {},
+      "activated_in": "40620199474"
+    },
+    {
+      "page": "use-array-of-structs",
+      "record": "recvmiX4gMiGuY",
+      "feishu_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+      "anchors": {},
+      "activated_in": "40620199474"
+    },
+    {
+      "page": "alter-collection-field",
+      "record": "recvlPtzpXFjxH",
+      "feishu_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
+      "anchors": {},
+      "activated_in": "40620199474"
     }
   ]
 }

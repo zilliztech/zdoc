@@ -153,3 +153,14 @@ The following is the cost calculation:
 
 - **Total cost:** `$0.80 (storage) + $2.00 (data transfer) = $2.80`
 
+## FAQ\{#faq}
+
+**Why can’t I use cross-region backup?**
+
+To use cross-region backup, ensure that:
+
+- **Your project is on the Business Critical plan.**
+
+- **Your project is configured as a multi-region project.** Add all regions you want to use as backup destinations to the project.
+
+For instructions on upgrading your project plan and adding regions, see [Manage Projects](/docs/manage-projects).
