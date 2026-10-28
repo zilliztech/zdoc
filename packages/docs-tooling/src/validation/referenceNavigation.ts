@@ -2,7 +2,7 @@ import {existsSync, lstatSync, readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {manualRegistry} from '../manuals/registry.ts';
 import {

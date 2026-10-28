@@ -1,6 +1,6 @@
 import {createRequire} from 'node:module';
 
-import {z} from 'zod';
+import * as z from 'zod';
 
 import type {BrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
 import {resolveManualPublication} from '../manuals/registry.ts';

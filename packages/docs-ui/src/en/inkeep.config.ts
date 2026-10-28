@@ -1,5 +1,5 @@
 import { defineConfig } from "@inkeep/cxkit-docusaurus";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import * as z from "zod";
 import {
     answerConfidence,
     salesSignalType,
@@ -136,7 +136,7 @@ export const inkeepSettings ={
         function: {
           name: "detectSalesSignal",
           description: "Identify when users express interest in potentially purchasing a product.",
-          parameters: zodToJsonSchema(detectedSalesSignal),
+          parameters: z.toJSONSchema(detectedSalesSignal),
         },
         renderMessageButtons: ({ args }) => {
           if (args.type && validSalesSignalTypes.includes(args.type)) {
@@ -159,7 +159,7 @@ export const inkeepSettings ={
         function: {
           name: "detectSupportSignal",
           description: "Identify when users need support or assistance.",
-          parameters: zodToJsonSchema(detectedSupportSignal),
+          parameters: z.toJSONSchema(detectedSupportSignal),
         },
         renderMessageButtons: ({ args }) => {
           if (args.type && validSupportSignalTypes.includes(args.type)) {

@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import * as z from 'zod';
 
 const CommitSha = z.string().regex(/^[a-f0-9]{40}$/u);
 const Digest = z.string().regex(/^sha256:[a-f0-9]{64}$/u);

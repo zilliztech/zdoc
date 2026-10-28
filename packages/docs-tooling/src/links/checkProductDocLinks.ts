@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import * as z from 'zod';
 
 import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
 import {DEFAULT_PRODUCT_DOC_LINK_SOURCE, extractProductDocLinks, readProductDocLinkSource, resolveProductDocLinkGitHubToken, type ProductDocLinkEntry, type ProductDocLinkScope} from './productDocLinks.ts';
