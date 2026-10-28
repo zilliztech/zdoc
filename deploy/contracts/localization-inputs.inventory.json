@@ -2116,6 +2116,7 @@
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
+    "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
