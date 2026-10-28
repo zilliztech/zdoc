@@ -18,7 +18,10 @@ function isRetryableFetchError(err) {
 }
 
 function shouldRetryJsonResponse(res, json) {
-    return res.status === 429 || res.status >= 500 || [1254607, 99991400].includes(json?.code) || json?.status === 429
+    // 1254607 (data not ready) and 1254002 (generic bitable Fail) are transient
+    // bitable-side failures observed under request pressure; permanent request
+    // errors like 1254000 must keep failing closed on the first attempt.
+    return res.status === 429 || res.status >= 500 || [1254607, 1254002, 99991400].includes(json?.code) || json?.status === 429
 }
 
 function parseRetryAfterHeader(value) {

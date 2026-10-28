@@ -261,6 +261,35 @@ async function testFeishuDataNotReadyStopsAfterBoundedRetries() {
   });
 }
 
+async function testFeishuGenericBitableFailRetriesUntilSuccess() {
+  let attempts = 0;
+
+  await withMockedFetch(async () => {
+    attempts += 1;
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => JSON.stringify(attempts === 1 ? {
+        code: 1254002,
+        msg: 'Fail',
+        error: { log_id: 'log-1' },
+      } : {
+        code: 0,
+        data: { items: [{ record_id: 'record-1' }] },
+      }),
+    };
+  }, async ({ fetchFeishuJsonWithRetry }) => {
+    const json = await fetchFeishuJsonWithRetry(
+      'https://open.feishu.cn/open-apis/bitable/v1/apps/app/tables/table/records',
+      {},
+      'list Base records'
+    );
+
+    assert.equal(attempts, 2);
+    assert.equal(json.data.items[0].record_id, 'record-1');
+  });
+}
+
 async function testNonTransientFeishuErrorsAreNotRetried() {
   let attempts = 0;
 
@@ -294,6 +323,7 @@ async function run() {
   await testFeishuFrequencyLimitUsesConservativeFallbackWhenResetHeaderIsMissing();
   await testFeishuDataNotReadyRetriesUntilRecordsAreAvailable();
   await testFeishuDataNotReadyStopsAfterBoundedRetries();
+  await testFeishuGenericBitableFailRetriesUntilSuccess();
   await testNonTransientFeishuErrorsAreNotRetried();
   console.log('feishuFetch tests passed');
 }
