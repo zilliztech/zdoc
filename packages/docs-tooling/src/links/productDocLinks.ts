@@ -10,7 +10,7 @@ import { assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath } from '..
  * with the raw media type and accepts a bearer token. Anonymous reads only
  * work if the repository ever becomes public.
  */
-export const DEFAULT_PRODUCT_DOC_LINK_SOURCE = 'https://api.github.com/repos/zilliztech/zilliz-cloud-client/contents/packages/cloud/src/consts/Link.ts';
+export const DEFAULT_PRODUCT_DOC_LINK_SOURCE = 'https://api.github.com/repos/zilliztech/zilliz-cloud/contents/vdc/cloud-client/packages/cloud/src/consts/Link.ts';
 
 /**
  * Docs hosts the documentation team owns. Any other `docs.*` host under the
@@ -43,9 +43,10 @@ const DEPLOYMENT_SHAPES = [
 ] as const;
 
 const STUB_IMPORTS: Record<string, Record<string, string>> = {
-  // `common-components` re-exports non-docs marketplace links; empty strings
-  // keep them out of the docs-URL filter instead of hardcoding third-party URLs.
-  'common-components': {AWS_MARKETPLACE_LINK: '', GCP_MARKETPLACE_LINK: ''},
+  // The monorepo Link.ts re-exports non-docs marketplace links from the
+  // `@common/index` alias; empty strings keep them out of the docs-URL filter
+  // instead of hardcoding third-party URLs.
+  '@common/index': {AWS_MARKETPLACE_LINK: '', GCP_MARKETPLACE_LINK: ''},
 };
 
 function stubProductTypeModule(isEnglishLocale: boolean): Record<string, unknown> {

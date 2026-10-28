@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
 concurrency:
   group: product-doc-links-watchdog
   cancel-in-progress: false
@@ -34,9 +37,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # zilliztech/zilliz-cloud-client is a private repository. The
-      # PRODUCT_DOC_LINKS_GITHUB_TOKEN secret must be provisioned by an
-      # operator with contents:read access to it (fine-grained PAT or app
+      # The console Link.ts lives in the private zilliztech/zilliz-cloud
+      # monorepo. The PRODUCT_DOC_LINKS_GITHUB_TOKEN secret must be provisioned
+      # by an operator with contents:read access to it (fine-grained PAT or app
       # installation token); anonymous reads fail closed.
       - name: Resolve product link source revision
         id: source
@@ -44,13 +47,13 @@ jobs:
           PRODUCT_DOC_LINKS_GITHUB_TOKEN: ${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}
         run: |
           test -n "$PRODUCT_DOC_LINKS_GITHUB_TOKEN" || {
-            echo 'PRODUCT_DOC_LINKS_GITHUB_TOKEN is not configured; provision a secret with contents:read on zilliztech/zilliz-cloud-client' >&2
+            echo 'PRODUCT_DOC_LINKS_GITHUB_TOKEN is not configured; provision a secret with contents:read on zilliztech/zilliz-cloud' >&2
             exit 1
           }
           revision=$(curl -s --fail-with-body \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $PRODUCT_DOC_LINKS_GITHUB_TOKEN" \
-            https://api.github.com/repos/zilliztech/zilliz-cloud-client/commits/main \
+            https://api.github.com/repos/zilliztech/zilliz-cloud/commits/master \
             | jq -r '.sha')
           test -n "$revision"
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
