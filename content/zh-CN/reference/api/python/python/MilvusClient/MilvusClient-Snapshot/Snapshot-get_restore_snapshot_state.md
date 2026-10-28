@@ -2,12 +2,12 @@
 title: "get_restore_snapshot_state() | Python | MilvusClient"
 slug: /python/python/Snapshot-get_restore_snapshot_state
 sidebar_label: "get_restore_snapshot_state()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于查询异步恢复快照作业的状态和进度。 | Python | MilvusClient"
+description: "此操作会查询异步恢复快照任务的状态和进度。 | Python | MilvusClient"
 type: docx
 token: Ky0pdpA6WorUvbxwN3ucwUjgnec
 sidebar_position: 4
@@ -15,9 +15,9 @@ keywords:
   - 托管 Milvus
   - Serverless 向量 Database
   - Milvus 开源
-  - Milvus 的工作原理
-  - zilliz
-  - zilliz cloud
+  - Milvus 如何工作
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - get_restore_snapshot_state()
   - pymilvus30
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # get_restore_snapshot_state()
 
-此操作用于查询异步恢复快照作业的状态和进度。
+此操作会查询异步恢复快照任务的状态和进度。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,18 +46,18 @@ get_restore_snapshot_state(
 
 - **job_id** (*int*) -<br/>
   **[必需]**<br/>
-  由 `restore_snapshot()` 返回的恢复作业 ID。
+  `restore_snapshot()` 返回的恢复任务 ID。
 
 - **timeout** (*Optional[float]*) -<br/>
-  可选的时长，单位为秒，用于设置 RPC 的允许时限。
+  允许 RPC 执行的可选时长，单位为秒。
 
 **返回类型：**
 
 *RestoreSnapshotJobInfo*
 
-**返回值：**
+**返回：**
 
-一个包含恢复作业信息的 dataclass，具有以下字段：
+一个包含恢复任务信息的数据类，其字段如下：
 
 ```python
 {
@@ -77,7 +77,7 @@ get_restore_snapshot_state(
 
 - **job_id** (*int*) -
 
-    恢复作业 ID。
+    恢复任务 ID。
 
 - **snapshot_name** (*str*) -
 
@@ -93,15 +93,15 @@ get_restore_snapshot_state(
 
 - **state** (*str*) -
 
-    当前状态。可能的值包括：*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed*。
+    当前状态。可选值：*RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted* 和 *RestoreSnapshotFailed*。
 
 - **progress** (*int*) -
 
-    进度百分比（0-100）。
+    进度百分比（0 到 100）。
 
 - **reason** (*str*) -
 
-    如果作业失败，则为错误原因。
+    如果任务失败，则为错误原因。
 
 - **start_time** (*int*) -
 
@@ -109,13 +109,13 @@ get_restore_snapshot_state(
 
 - **time_cost** (*int*) -
 
-    耗时，单位为毫秒。
+    时间开销，单位为毫秒。
 
 **异常：**
 
 - **MilvusException**
 
-    如果作业 ID 无效或操作失败。
+    如果任务 ID 无效或操作失败。
 
 ## 示例\{#examples}
 

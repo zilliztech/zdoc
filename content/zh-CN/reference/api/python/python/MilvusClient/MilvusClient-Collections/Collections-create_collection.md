@@ -86,9 +86,9 @@ create_collection(
 
     此 Collection 中主字段的名称。该值默认为 id。您可以使用其他您认为合适的名称。如果您需要使用自定义 Schema 设置 Collection，请跳过此参数。此参数用于 Collection 的快速设置；如果 Schema 不为 None，且 Schema 中某个字段的 is_primary 设置为 True，则会忽略此参数。
 
-- **id_type**（*[DataType](DataType.md*) -
+- **id_type**（*[DataType](./Collections-DataType)*）-
 
-    一个选项，即 &ast;） - 此 Collection 中主字段的数据类型。该值默认为 DataType.INT64。可选值为 DataType.INT64 和 DataType.VARCHAR。此参数用于 Collection 的快速设置；如果 Schema 不为 None，则会忽略此参数。
+    此 Collection 中主字段的数据类型。该值默认为 DataType.INT64。可选值为 DataType.INT64 和 DataType.VARCHAR。此参数用于 Collection 的快速设置；如果 Schema 不为 None，则会忽略此参数。
 
 - **vector_field_name**（*str*）-
 
@@ -106,9 +106,9 @@ create_collection(
 
     此操作的超时持续时间。将其设置为 None 表示当收到任意响应或发生错误时，此操作即超时。
 
-- **schema**（*[CollectionSchema](CollectionSchema/CollectionSchema.md*) -
+- **schema**（*[CollectionSchema](./MilvusClient-CollectionSchema) | None*）-
 
-    一个选项，即 *|* None&ast;）此 Collection 的 Schema。将其设置为 None 表示将以快速设置方式创建此 Collection。要使用自定义 Schema 设置 Collection，您需要创建一个 CollectionSchema 对象并在此处引用它。在这种情况下，Milvus 会忽略请求中携带的所有其他 Schema 相关设置。
+    此 Collection 的 Schema。将其设置为 None 表示将以快速设置方式创建此 Collection。要使用自定义 Schema 设置 Collection，您需要创建一个 CollectionSchema 对象并在此处引用它。在这种情况下，Milvus 会忽略请求中携带的所有其他 Schema 相关设置。
 
 - **index_params**（*IndexParams* | *None*）-
 

@@ -58,23 +58,23 @@ client.add_function_field(
 
     要修改的 Collection 名称。
 
-- **field_schema** （*[FieldSchema](FieldSchema/FieldSchema.md*) -
+- **field_schema** (*[FieldSchema](./MilvusClient-FieldSchema)*) -
 
     **[必需]**
 
-    一个选项（&ast;）：由 Function 生成的新输出字段的 Schema。例如，用于 BM25 的 SPARSE_FLOAT_VECTOR 字段或用于 MinHash 的 BINARY_VECTOR 字段。
+    由 Function 生成的新输出字段的 Schema。例如，BM25 的 SPARSE_FLOAT_VECTOR 字段或 MinHash 的 BINARY_VECTOR 字段。
 
-- **func** （*[Function](Function/Function.md*) -
-
-    **[必需]**
-
-    一个选项（&ast;）：生成输出字段的 Function 定义。例如，FunctionType.BM25 或 FunctionType.MINHASH 类型的 Function。支持的组合包括 FunctionType.BM25 与 DataType.SPARSE_FLOAT_VECTOR，以及 FunctionType.MINHASH 与 DataType.BINARY_VECTOR。
-
-- **index_params** （*[IndexParams](../Management/prepare_index_params.md*) -
+- **func** (*[Function](./MilvusClient-Function)*) -
 
     **[必需]**
 
-    一个选项（&ast;）：绑定到新输出字段的索引定义。它必须只包含一个显式指定 index_type 的条目，例如 SPARSE_INVERTED_INDEX/BM25 或 MINHASH_LSH/MHJACCARD).
+    生成输出字段的 Function 定义。例如，FunctionType.BM25 或 FunctionType.MINHASH 类型的 Function。支持的组合为 FunctionType.BM25 与 DataType.SPARSE_FLOAT_VECTOR，以及 FunctionType.MINHASH 与 DataType.BINARY_VECTOR。
+
+- **index_params** (*[IndexParams](./Management-prepare_index_params)*) -
+
+    **[必需]**
+
+    绑定到新输出字段的索引定义。它必须恰好包含一个条目，并且该条目需显式指定 index_type（例如 SPARSE_INVERTED_INDEX/BM25 或 MINHASH_LSH/MHJACCARD).
 
 - **timeout** （*float | None*） -
 

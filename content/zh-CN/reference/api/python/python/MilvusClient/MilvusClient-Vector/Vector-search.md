@@ -122,9 +122,9 @@ search(
 
     Partition 名称列表。该值默认为 None。如果指定，则仅指定的 Partition 参与查询。此参数不适用于 Milvus Lite。有关 Milvus Lite 限制的更多信息，请参见 Run Milvus Lite。
 
-- **ranker** (*[Function](../Collections/Function/Function.md*) -
+- **ranker** (*[Function](./MilvusClient-Function) | FunctionScore*) -
 
-    一个选项，*|* FunctionScore&ast;) - 搜索使用的排序器。有关详细信息，请参见 Decay Ranker Overview 和 Model Ranker Overview。
+    用于搜索的 Ranker。有关详细信息，请参见 Decay Ranker 概述和 Model Ranker 概述。
 
 - **function_chains** (*FunctionChain | list[FunctionChain]*) -
 
@@ -323,4 +323,3 @@ res = client.search(
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
-

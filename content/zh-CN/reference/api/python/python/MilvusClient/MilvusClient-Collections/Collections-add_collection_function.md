@@ -63,11 +63,11 @@ client.add_collection_function(
 
     Collection 的名称。
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[必需]**
 
-    一个选项，即 &ast;） - 要添加的函数 Schema。这是一个 Function 对象，用于定义函数名称、类型、输入字段、输出字段和参数。
+    要添加的函数 Schema。这是一个 Function 对象，用于定义函数名称、类型、输入字段、输出字段和参数。
 
 - **timeout** （*float | None*） -
 

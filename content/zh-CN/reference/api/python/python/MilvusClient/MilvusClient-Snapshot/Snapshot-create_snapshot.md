@@ -2,12 +2,12 @@
 title: "create_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-create_snapshot
 sidebar_label: "create_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建 Collection 的时间点快照。使用快照可备份 Collection 数据和元数据，以便进行灾难恢复或迁移。 | Python | MilvusClient"
+description: "此操作会创建 Collection 的时间点快照。您可以使用快照备份 Collection 数据和元数据，以便进行灾难恢复或迁移。 | Python | MilvusClient"
 type: docx
 token: C8vld732kopQNMxbHyLcrORNnze
 sidebar_position: 1
@@ -16,8 +16,8 @@ keywords:
   - 视频搜索
   - AI 幻觉
   - AI Agent
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - create_snapshot()
   - pymilvus30
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # create_snapshot()
 
-此操作会创建 Collection 的时间点快照。使用快照可备份 Collection 数据和元数据，以便进行灾难恢复或迁移。
+此操作会创建 Collection 的时间点快照。您可以使用快照备份 Collection 数据和元数据，以便进行灾难恢复或迁移。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,19 +46,19 @@ create_snapshot(
 
 **参数：**
 
-- **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要创建快照的 Collection 名称。
+- **collection_name** （*str*） -<br/>
+  **[必需]**<br/>
+  要创建快照的 Collection 的名称。
 
-- **snapshot_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
+- **snapshot_name** （*str*） -<br/>
+  **[必需]**<br/>
   快照的唯一名称。不得与现有快照名称冲突。
 
-- **description** (*str*) -<br/>
+- **description** （*str*） -<br/>
   快照的可选人类可读描述。
 
-- **timeout** (*Optional[float]*) -<br/>
-  RPC 的可选超时时长，单位为秒。如果未提供，则使用客户端默认超时时间。
+- **timeout** （*Optional[float]*） -<br/>
+  允许 RPC 执行的持续时间，单位为秒，此参数为可选。如果未提供，则使用默认的客户端超时时间。
 
 **返回类型：**
 
@@ -68,7 +68,7 @@ create_snapshot(
 
 - **MilvusException**
 
-    如果 Collection 不存在、快照名称已被占用，或操作因任何其他原因失败，则会抛出此异常。
+    如果 Collection 不存在、快照名称已被使用，或操作因任何其他原因失败，则会引发此异常。
 
 ## 示例\{#examples}
 

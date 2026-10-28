@@ -48,9 +48,13 @@ class pymilvus.EmbeddingList
 
     用于验证的 embedding 参数中指定的向量嵌入的维度。如果提供此参数，所有指定的向量嵌入都必须遵循该维度限制。
 
-- **dtype** (*np.dtype, str, [DataType](../../Collections/DataType.md*) -
+- **dtype** (*np.dtype, str, [DataType](./Collections-DataType)*) -
 
-    一个选项，即 *) - np.dtype，例如 `np.float32`、`np.float16` 或 `np.unit8`：。字符串，例如 `'float32'`、`'float16'` 或 `'uint8'`：。DataType*&ast;，例如 `DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR` 或 `DataType.BINARY_VECTOR`：。
+    - *np.dtype*，例如 `np.float32`、`np.float16` 或 `np.unit8`。
+
+    - *string*，例如 `'float32'`、`'float16'` 或 `'uint8'`。
+
+    - *DataType*，例如 `DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR` 或 `DataType.BINARY_VECTOR`。
 
 **返回类型：**
 

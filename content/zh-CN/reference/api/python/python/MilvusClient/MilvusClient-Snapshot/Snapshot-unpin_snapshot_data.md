@@ -2,7 +2,7 @@
 title: "unpin_snapshot_data() | Python | MilvusClient"
 slug: /python/python/Snapshot-unpin_snapshot_data
 sidebar_label: "unpin_snapshot_data()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -18,7 +18,7 @@ keywords:
   - 异常检测
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - unpin_snapshot_data()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -40,15 +40,15 @@ unpin_snapshot_data(
 
 **参数：**
 
-- **pin_id** (*int*) -
+- **pin_id**（*int*）-
 
     由 pin_snapshot_data() 返回的 pin ID。
 
-- **timeout** (*Optional[float]*) -
+- **timeout**（*Optional[float]*）-
 
     此操作的超时时间，以秒为单位。
 
-- **kwargs** (*dict*) -
+- **kwargs**（*dict*）-
 
     传递给底层 RPC 的附加请求选项。
 

@@ -40,9 +40,9 @@ class pymilvus.FunctionScore
 
 **参数：**
 
-- **functions** (*[Function](../Collections/Function/Function.md*) -
+- **functions** (*[Function](./MilvusClient-Function), List[Function]*) -
 
-    一个选项，<em>,</em> List[Function]&ast;） - 要在此 FunctionScore 实例中组合的一个 Function 实例或 Function 实例列表。
+    要在当前 FunctionScore 实例中组合的 Function 实例或 Function 实例列表。
 
 - **params** (*Dict*) -
 

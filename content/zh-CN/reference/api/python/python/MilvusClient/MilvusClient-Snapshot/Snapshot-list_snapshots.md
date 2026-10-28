@@ -2,22 +2,22 @@
 title: "list_snapshots() | Python | MilvusClient"
 slug: /python/python/Snapshot-list_snapshots
 sidebar_label: "list_snapshots()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有快照名称。您也可以按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。 | Python | MilvusClient"
+description: "此操作会列出所有快照名称。您可以选择按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。 | Python | MilvusClient"
 type: docx
 token: WgmLdM6nUogd7LxGtmfc5dBKnku
 sidebar_position: 6
 keywords: 
-  - milvus 向量 Database
-  - milvus 数据库
-  - milvus 向量 db
+  - Milvus 向量 Database
+  - Milvus Database
+  - Milvus 向量 Database
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - 云
   - list_snapshots()
   - pymilvus30
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # list_snapshots()
 
-此操作会列出所有快照名称。您也可以按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。
+此操作会列出所有快照名称。您可以选择按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。
 
 ## 请求语法\{#request-syntax}
 
@@ -40,17 +40,17 @@ list_snapshots(
 
 **参数：**
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
-    用于筛选快照的可选 Collection 名称。如果为空，则列出所有快照。
+    用于筛选快照的可选 Collection 名称。如果为空，则会列出所有快照。
 
-- **db_name** (*str*) -
+- **db_name** （*str*） -
 
     用于筛选快照的可选 Database 名称。如果为空，则使用默认 Database。
 
-- **timeout** (*Optional[float]*) -
+- **timeout** （*Optional[float]*） -
 
-    允许执行 RPC 的可选时长，单位为秒。
+    允许 RPC 运行的可选持续时间，单位为秒。
 
 **返回类型：**
 

@@ -2,7 +2,7 @@
 title: "restore_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-restore_snapshot
 sidebar_label: "restore_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -46,33 +46,33 @@ client.restore_snapshot(
 
 **参数：**
 
-- **snapshot_name** (*str*) -
+- **snapshot_name** （*str*） -
 
     **[必需]**
 
     要恢复的快照的名称。
 
-- **source_collection_name** (*str*) -
+- **source_collection_name** （*str*） -
 
     **[必需]**
 
     快照所属的 Collection。需要用它来唯一标识快照。
 
-- **target_collection_name** (*str*) -
+- **target_collection_name** （*str*） -
 
     **[必需]**
 
     快照要恢复到的 Collection。该 Collection 必须尚不存在。
 
-- **source_db_name** (*str*) -
+- **source_db_name** （*str*） -
 
     源 Database 的名称。该值默认为当前活动的 Database。
 
-- **target_db_name** (*str*) -
+- **target_db_name** （*str*） -
 
     目标 Database 的名称。该值默认为当前活动的 Database。
 
-- **timeout** (*Optional[float]*) -
+- **timeout** （*Optional[float]*） -
 
     允许 RPC 运行的可选时长，单位为秒。
 

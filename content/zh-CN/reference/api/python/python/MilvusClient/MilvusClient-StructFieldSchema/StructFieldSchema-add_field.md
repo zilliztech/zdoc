@@ -46,11 +46,11 @@ add_field(
 
     字段名称。
 
-- **datatype** (*[DataType](../DataType.md*) -
+- **datatype** (*[DataType](./Collections-DataType)*) -
 
     **[必需]**
 
-    一个选项：&ast;) - 字段的数据类型。为不同字段选择数据类型时，可以从以下选项中选择。详情请参阅 Array of Structs。
+    字段的数据类型。为不同字段选择数据类型时，您可以从以下选项中进行选择。有关详细信息，请参阅结构体数组。
 
 - **max_length** (*int*) -
 

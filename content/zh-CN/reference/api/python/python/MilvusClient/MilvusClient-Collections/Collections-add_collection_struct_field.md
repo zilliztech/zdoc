@@ -38,36 +38,6 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-<Admonition type="info" title="Note">
-
-向现有 Collection 添加结构体字段时，需要将 nullable 设置为 True，因为现有 Entity 没有新字段的值。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-向现有 Collection 添加结构体字段时，需要将 nullable 设置为 True，因为现有 Entity 没有新字段的值。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-向现有 Collection 添加结构体字段时，需要将 nullable 设置为 True，因为现有 Entity 没有新字段的值。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-向现有 Collection 添加结构体字段时，需要将 nullable 设置为 True，因为现有 Entity 没有新字段的值。
-
-</Admonition>
-
-<Admonition type="info" title="Note">
-
-向现有 Collection 添加结构体字段时，需要将 nullable 设置为 True，因为现有 Entity 没有新字段的值。
-
-</Admonition>
-
 ## 请求语法\{#request-syntax}
 
 ```python
@@ -95,11 +65,11 @@ client.add_collection_struct_field(
 
     新结构体字段的名称。
 
-- **struct_schema**（*[StructFieldSchema](StructFieldSchema/StructFieldSchema.md*) -
+- **struct_schema** (*[StructFieldSchema](./MilvusClient-StructFieldSchema)*) -
 
     **[必需]**
 
-    一个选项：&ast;) - 要添加的结构体字段的 Schema。其名称会被 field_name 覆盖。
+    要添加的结构体字段的 Schema。其名称会被 field_name 覆盖。
 
 - **max_capacity**（*int*）-
 

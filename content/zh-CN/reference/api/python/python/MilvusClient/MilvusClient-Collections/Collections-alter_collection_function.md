@@ -64,11 +64,11 @@ client.alter_collection_function(
 
     要修改的函数的名称。
 
-- **function** (*[Function](Function/Function.md*) -
+- **function** (*[Function](./MilvusClient-Function)*) -
 
     **[必需]**
 
-    一个选项，即 &ast;） - 用于替换现有函数的新函数 Schema。
+    用于替换现有函数 Schema 的新函数 Schema。
 
 - **timeout** （*float | None*） -
 

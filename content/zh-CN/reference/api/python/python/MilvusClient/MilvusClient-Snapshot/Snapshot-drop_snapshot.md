@@ -2,7 +2,7 @@
 title: "drop_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-drop_snapshot
 sidebar_label: "drop_snapshot()"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -40,23 +40,23 @@ drop_snapshot(
 
 **参数：**
 
-- **snapshot_name** (*str*) -
+- **snapshot_name** （*str*） -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要删除的快照的名称。
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
-    **[REQUIRED]**
+    **[必需]**
 
     快照所属的 Collection 的名称。
 
-- **db_name** (*str*) -
+- **db_name** （*str*） -
 
     包含该 Collection 的 Database 的名称。如果此参数留空，则使用默认 Database。
 
-- **timeout** (*Optional[float]*) -
+- **timeout** （*Optional[float]*） -
 
     允许 RPC 运行的可选时长，单位为秒。
 

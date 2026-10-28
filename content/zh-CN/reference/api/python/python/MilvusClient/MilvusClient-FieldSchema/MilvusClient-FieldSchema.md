@@ -46,11 +46,11 @@ FieldSchema(
 
     字段的名称。
 
-- **dtype** (*[DataType](../DataType.md*) -
+- **dtype** (*[DataType](./Collections-DataType)*) -
 
     **[必需]**
 
-    用于指定字段数据类型的选项。
+    字段的数据类型。
 
 - **description** （*str*） -
 
