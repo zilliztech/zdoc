@@ -2,22 +2,22 @@
 title: "createSnapshot() | Java | v2"
 slug: /java/java/v2-Snapshots-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作为 Collection 创建快照。 | Java | v2"
+description: "此操作会为 Collection 创建快照。 | Java | v2"
 type: docx
 token: JhCEdppKrowJIqxFusBc2TXsnSg
 sidebar_position: 1
 keywords: 
-  - HNSW 算法
+  - hnsw 算法
   - 向量相似度搜索
   - 近似最近邻搜索
   - DiskANN
-  - Zilliz
-  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
   - 云
   - createSnapshot()
   - javaV230
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-此操作为 Collection 创建快照。
+此操作会为 Collection 创建快照。
 
 ```java
 public void createSnapshot(CreateSnapshotReq request)
@@ -53,7 +53,7 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - `databaseName(String databaseName)`
 
-    包含该 Collection 的 Database 名称。如果省略，则使用当前 Database。
+    包含该 Collection 的 Database 名称。如果省略此参数，则使用当前 Database。
 
 - `collectionName(String collectionName)`
 
@@ -65,17 +65,17 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - `description(String description)`
 
-    快照的可读描述。
+    快照的人类可读描述。
 
 - `compactionProtectionSeconds(Long compactionProtectionSeconds)`
 
-    保护快照免受 Compaction 影响的秒数。不需要保护时间窗口时，请使用 `0L`。
+    保护快照免受 Compaction 影响的秒数。无需保护窗口时，请使用 `0L`。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

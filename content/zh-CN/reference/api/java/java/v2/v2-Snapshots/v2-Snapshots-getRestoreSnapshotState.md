@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Java | v2"
 slug: /java/java/v2-Snapshots-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -61,45 +61,45 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 
 **参数：**
 
-- **jobInfo** （*RestoreSnapshotJobInfo*） -
+- **jobInfo** (*RestoreSnapshotJobInfo*) -
 
     恢复快照任务的信息。任务信息包含以下字段：
 
-    - **jobId** （*Long*） -
+    - **jobId** (*Long*) -
 
         恢复快照任务的 ID。
 
-    - **snapshotName** （*String*） -
+    - **snapshotName** (*String*) -
 
         正在恢复的快照的名称。
 
-    - **dbName** （*String*） -
+    - **dbName** (*String*) -
 
         目标 Database 的名称。
 
-    - **collectionName** （*String*） -
+    - **collectionName** (*String*) -
 
         目标 Collection 的名称。
 
-    - **state** （*String*） -
+    - **state** (*String*) -
 
         恢复任务的当前状态：RestoreSnapshotNone、RestoreSnapshotPending、RestoreSnapshotExecuting、RestoreSnapshotCompleted 或 RestoreSnapshotFailed。
 
-    - **progress** （*Integer*） -
+    - **progress** (*Integer*) -
 
         恢复任务的进度，以百分比表示。
 
-    - **reason** （*String*） -
+    - **reason** (*String*) -
 
         任务失败时的失败原因。
 
-    - **startTime** （*Long*） -
+    - **startTime** (*Long*) -
 
         恢复任务的开始时间。
 
-    - **timeCost** （*Long*） -
+    - **timeCost** (*Long*) -
 
-        恢复任务的时间开销。
+        恢复任务的耗时。
 
 **异常：**
 

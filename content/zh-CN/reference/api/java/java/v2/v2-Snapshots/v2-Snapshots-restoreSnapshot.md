@@ -2,17 +2,17 @@
 title: "restoreSnapshot() | Java | v2"
 slug: /java/java/v2-Snapshots-restoreSnapshot
 sidebar_label: "restoreSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会启动一个异步作业，将快照恢复到目标 Collection 中。 | Java | v2"
+description: "此操作会启动一个异步任务，将快照恢复到目标 Collection。 | Java | v2"
 type: docx
 token: SF5wdcArioRIsxxVzNjcgIhJnrc
 sidebar_position: 8
 keywords: 
-  - LLM 作为评判者
+  - LLM 作为评判器
   - 混合向量搜索
   - 视频去重
   - 视频相似性搜索
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-此操作会启动一个异步作业，将快照恢复到目标 Collection 中。
+此操作会启动一个异步任务，将快照恢复到目标 Collection。
 
 ```java
 public RestoreSnapshotResp restoreSnapshot(RestoreSnapshotReq request)
@@ -57,11 +57,11 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - `sourceCollectionName(String sourceCollectionName)`
 
-    创建该快照时源 Collection 的名称。
+    创建快照时所使用的 Collection 的名称。
 
 - `targetCollectionName(String targetCollectionName)`
 
-    要将快照恢复到的 Collection 的名称。
+    快照要恢复到的 Collection 的名称。
 
 - `sourceDbName(String sourceDbName)`
 
@@ -69,7 +69,7 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - `targetDbName(String targetDbName)`
 
-    要在其中创建已恢复 Collection 的 Database。如果省略，则使用当前 Database。
+    要在其中创建恢复后 Collection 的 Database。如果省略，则使用当前 Database。
 
 **返回类型：**
 
@@ -77,19 +77,19 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 **返回：**
 
-包含恢复快照作业 ID 的响应。
+包含恢复快照任务 ID 的响应。
 
 **参数：**
 
 - **jobId** (*Long*) -
 
-    恢复快照作业的 ID。
+    恢复快照任务的 ID。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

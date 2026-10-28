@@ -2,12 +2,12 @@
 title: "listRestoreSnapshotJobs() | Java | v2"
 slug: /java/java/v2-Snapshots-listRestoreSnapshotJobs
 sidebar_label: "listRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出恢复快照任务，可选范围限定为某个 Database 和 Collection。 | Java | v2"
+description: "此操作会列出恢复快照任务，并可选择限定到某个 Database 和 Collection。 | Java | v2"
 type: docx
 token: I98vddTeco48kYxHEkOccG9ynYe
 sidebar_position: 5
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-此操作会列出恢复快照任务，可选范围限定为某个 Database 和 Collection。
+此操作会列出恢复快照任务，并可选择限定到某个 Database 和 Collection。
 
 ```java
 public ListRestoreSnapshotJobsResp listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq request)
@@ -60,51 +60,51 @@ listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 
 *ListRestoreSnapshotJobsResp*
 
-**返回：**
+**返回值：**
 
 包含与请求筛选条件匹配的恢复快照任务的响应。
 
 **参数：**
 
-- **jobs** (*List&lt;RestoreSnapshotJobInfo&gt;*) -
+- **jobs** （*List&lt;RestoreSnapshotJobInfo&gt;*）-
 
     恢复快照任务列表，其中每个任务都是一个 **RestoreSnapshotJobInfo** 对象，包含以下字段：
 
-    - **jobId** (*Long*) -
+    - **jobId** （*Long*）-
 
         恢复快照任务的 ID。
 
-    - **snapshotName** (*String*) -
+    - **snapshotName** （*String*）-
 
-        正在恢复的快照的名称。
+        正在恢复的快照名称。
 
-    - **dbName** (*String*) -
+    - **dbName** （*String*）-
 
-        目标 Database 的名称。
+        目标 Database 名称。
 
-    - **collectionName** (*String*) -
+    - **collectionName** （*String*）-
 
-        目标 Collection 的名称。
+        目标 Collection 名称。
 
-    - **state** (*String*) -
+    - **state** （*String*）-
 
         恢复任务的当前状态：RestoreSnapshotNone、RestoreSnapshotPending、RestoreSnapshotExecuting、RestoreSnapshotCompleted 或 RestoreSnapshotFailed。
 
-    - **progress** (*Integer*) -
+    - **progress** （*Integer*）-
 
         恢复任务的进度，以百分比表示。
 
-    - **reason** (*String*) -
+    - **reason** （*String*）-
 
         任务失败时的失败原因。
 
-    - **startTime** (*Long*) -
+    - **startTime** （*Long*）-
 
         恢复任务的开始时间。
 
-    - **timeCost** (*Long*) -
+    - **timeCost** （*Long*）-
 
-        恢复任务的耗时。
+        恢复任务的时间开销。
 
 **异常：**
 

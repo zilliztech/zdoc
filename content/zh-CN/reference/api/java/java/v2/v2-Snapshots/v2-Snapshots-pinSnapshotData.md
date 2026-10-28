@@ -2,7 +2,7 @@
 title: "pinSnapshotData() | Java | v2"
 slug: /java/java/v2-Snapshots-pinSnapshotData
 sidebar_label: "pinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -64,7 +64,7 @@ pinSnapshotData(PinSnapshotDataReq.builder()
 
 - `ttlSeconds(Long ttlSeconds)`
 
-    快照数据固定的生存时间（TTL），以秒为单位。使用 `0L` 可采用服务器默认行为。
+    快照数据固定的生存时间，以秒为单位。使用 `0L` 可采用服务器默认行为。
 
 **返回类型：**
 
