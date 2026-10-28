@@ -574,6 +574,11 @@ for a successful Fetch and confirm its entry in dev's
 Feishu document. The old document must exist until that activation Fetch
 succeeds; afterwards links are resolved from `active.json` alone, and a retired
 document stops new block-ID links that the frozen anchor map cannot resolve.
+Retiring the old document is a content-hygiene step, not a pipeline
+requirement: once the record is activated, Fetch skips the old document's wiki
+node and never refetches its blocks, so a legacy document left in the tree (or
+already deleted) cannot block scheduled runs — its cached legacy body stays
+frozen beside the shared source.
 
 Once a page is active, its Base record must stay a publishable canonical row
 whose `Docs` points to the page directory. Switching `Docs` back to Feishu,

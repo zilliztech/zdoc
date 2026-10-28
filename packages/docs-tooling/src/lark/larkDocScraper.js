@@ -256,14 +256,7 @@ class larkDocScraper {
         }
 
         // validate all docx source files have blocks before proceeding
-        const incomplete = []
-        for (const file of fs.readdirSync(this.doc_source_dir).filter(f => f.endsWith('.json'))) {
-            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${file}`, 'utf8'))
-            const isDocx = source.obj_type === 'docx' || source.type === 'docx'
-            if (isDocx && (!source.blocks || !source.blocks.items || source.blocks.items.length === 0)) {
-                incomplete.push(`  - ${file} (${source.title || source.name || 'unknown'})`)
-            }
-        }
+        const incomplete = this.__docx_sources_missing_blocks()
         if (incomplete.length > 0) {
             throw new Error(`[fetch] ${incomplete.length} docx source file(s) are missing blocks. Re-run the fetch to retry:\n${incomplete.join('\n')}`)
         }
@@ -1002,6 +995,27 @@ class larkDocScraper {
             .filter(Boolean)
     }
 
+    __is_shared_alias_source(source) {
+        return this.__source_token_aliases(source).some(token => this.routingContext?.aliasesByToken.has(token))
+    }
+
+    __docx_sources_missing_blocks() {
+        const incomplete = []
+        for (const file of fs.readdirSync(this.doc_source_dir).filter(f => f.endsWith('.json'))) {
+            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${file}`, 'utf8'))
+            const isDocx = source.obj_type === 'docx' || source.type === 'docx'
+            if (!isDocx || source.blocks?.items?.length) continue
+            // The docx body of an activated shared record is frozen legacy state:
+            // routing never refetches it, so a missing body must not fail the run.
+            if (this.__is_shared_alias_source(source)) {
+                console.log(`[shared] ${file} is the frozen legacy body of an activated record; block completeness waived`)
+                continue
+            }
+            incomplete.push(`  - ${file} (${source.title || source.name || 'unknown'})`)
+        }
+        return incomplete
+    }
+
     __record_graph() {
         const sources = this.__source_files()
         const canonicalByToken = new Map()
@@ -1448,6 +1462,10 @@ class larkDocScraper {
     }
 
     async __fetch_wiki_children(node, recursive=false) {
+        // The legacy wiki node of an activated record is skipped entirely: its
+        // blocks are never refetched, and writing the bare node here would
+        // clobber the frozen cached body beside the shared source.
+        if (this.__is_shared_alias_source(node)) return
         node.slug = await this.__slugify(node.node_token, node.title)
         await this.__fetch_blocks(node)
 
@@ -1553,6 +1571,10 @@ class larkDocScraper {
                     }
 
                     if (child.type == 'docx') {
+                        // Same rationale as the wiki walk: the legacy docx of an activated
+                        // record is never refetched, and writing the listing stub would
+                        // clobber the frozen cached body beside the shared source.
+                        if (this.__is_shared_alias_source(child)) continue
                         await this.__fetch_blocks(child)
                         child.slug = await this.__slugify(child.token, child.name, currentDoc.slug)
                         this.__write_source(child, `${this.doc_source_dir}/${child.token}.json`)
@@ -1591,7 +1613,7 @@ class larkDocScraper {
     }
 
     async __fetch_blocks(node, attempt=1) {
-        if (this.__source_token_aliases(node).some(token => this.routingContext?.aliasesByToken.has(token))) return
+        if (this.__is_shared_alias_source(node)) return
         var token;
         const keys = Object.keys(node)
         if (keys.includes('obj_type') && node.obj_type == 'docx') {
