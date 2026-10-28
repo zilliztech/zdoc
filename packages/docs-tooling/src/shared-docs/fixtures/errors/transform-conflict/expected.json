@@ -1,0 +1,9 @@
+[
+  {
+    "code": "TRANSFORM_CONFLICT",
+    "file": "page.yaml",
+    "line": 7,
+    "page": "example",
+    "channel": "current"
+  }
+]

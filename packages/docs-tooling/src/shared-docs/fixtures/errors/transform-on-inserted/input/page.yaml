@@ -1,0 +1,7 @@
+schema_version: 1
+source: {file: site/en/page.md}
+publish:
+  - {manual: guides, path: tutorials/example}
+transforms:
+  - {"operation": "add", "target": {"block": "example", "language": "java"}, "content": {"file": "java.md"}}
+  - {"operation": "remove", "target": {"block": "example", "language": "java", "lines": "value = 1"}}

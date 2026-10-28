@@ -1,0 +1,7 @@
+schema_version: 1
+source: {file: site/en/page.md}
+publish:
+  - {manual: guides, path: tutorials/example}
+transforms:
+  - {"operation": "remove", "target": {"block": "example"}}
+  - {"operation": "remove", "target": {"block": "example"}}

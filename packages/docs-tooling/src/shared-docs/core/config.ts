@@ -1,5 +1,6 @@
 import type { ConfigResult, DiagnosticContext, PageConfig, PageConfigContext, SourceConfig } from './types'
 import { ConfigValidation, diagnostic, isBranchName, isRepositoryPath, parseYaml } from './yaml'
+import { validateTransforms } from './transforms/schema'
 
 export function parseSourceConfig(text: string, context: DiagnosticContext = {}): ConfigResult<SourceConfig> {
   const location = { file: 'source.yaml', channel: 'both' as const, ...context }
@@ -60,6 +61,7 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
       }
     }
     if ('transforms' in value && !Array.isArray(value.transforms)) check.error(['transforms'], 'transforms must be a list')
+    else if (Array.isArray(value.transforms)) validateTransforms(value.transforms, check)
   }
   return check.errors.length ? { errors: check.errors } : { config: value as unknown as PageConfig }
 }

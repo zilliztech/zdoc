@@ -13,7 +13,7 @@ rejects filesystem, process, network, Git and source-adapter dependencies.
   branch. `parsePageConfig(pageId, text, context)` validates the page fields. The
   caller supplies `manuals` and `betaValues`; core never imports the registry or UI.
   `FALSE` (including the YAML boolean spelling) means no tag; `BYOC` is rejected.
-  `transforms` must be a list, but its entries are opaque until WP10.
+  `transforms` validates the operation, target, content, position and channel fields described below.
 - `parseLock(text, context?)` validates the format and complete lowercase SHA-1
   values. Missing generation locks, malformed YAML and reserved Phase 1 `none`
   fail. `planLock({ existing, trackedHead, fromFork }, context?)` preserves an
@@ -237,3 +237,108 @@ The workflow tests execute their actual shell blocks with local temporary Git
 repositories and stub GitHub/package-manager commands. They cover the WP8
 candidate boundary, not live GitHub dispatch registration, branch-protection
 configuration or the later publish/recover journey.
+
+## Cloud content transforms
+
+`shared-docs build` applies optional `page.yaml` transforms to the marker-bearing
+source after block inventory, before removing markers and preprocessing the whole
+page. Both channel plans must validate before any edits are applied. Every target
+refers to the original source; a rule cannot transform another rule's inserted
+content. `shared-docs inspect` remains source-only and does not apply transforms.
+
+```yaml
+transforms:
+  - operation: replace
+    target: {block: introduction}
+    content: {file: cloud-introduction.md}
+  - operation: add
+    target: {block: connect, language: shell}
+    content: {file: cloud-cli.md}
+  - operation: replace
+    target:
+      block: connect
+      language: python
+      lines: |
+        connect("localhost:19530")
+    content:
+      lines: |
+        connect("{{var.cloud.endpoint}}")
+```
+
+Use `add`, `replace` or `remove` at the block, language or code-line level.
+Block and code-line additions require `position: before` or `after`; language
+additions append a fence, and WP4 orders and labels the resulting Tabs from the
+fences rather than the old switcher text. Languages are added only by explicit
+rules. Aliases from `presentation/cloud-sdk-tabs.yaml` normalize selectors and
+fence names. Duplicate canonical languages fail at the second fence. Removing the
+last language fails with `TRANSFORM_TARGET_KIND`; remove the whole block instead.
+WP4 still checks required languages for multilingual groups and chooses the first
+available language when the configured default is absent.
+
+Block-level additions stay separate Markdown blocks: each boundary against
+nonblank content has exactly one blank line, including between additions at the
+same boundary. Existing edge blanks are reused, and filtering cannot leave double
+separators. Internal content spacing and code-line additions remain unchanged.
+
+Block/language content comes from a regular file in the page directory. A
+language file contains exactly one fence of that language; replacing a code group
+requires a complete group, including its switcher when multilingual. File paths
+cannot escape the page directory, including through symlinks. Content files
+cannot contain named-block markers or authored `Tabs`, `TabItem` or `Admonition`
+components. Milvus alerts go through the existing site adapter. External image
+URLs go through the existing image stage. Page-directory images fail with
+`TRANSFORM_CONTENT_MARKUP` at their content-file line.
+
+Code-line selectors contain one to five consecutive, nonblank lines inside the
+chosen fence. Matching ignores leading/trailing indentation only, preserving
+internal spacing and comments. Missing or multiple matches fail. Inline
+`content.lines` shares the selected line's original indentation and preserves its
+own relative indentation, including Tabs. One YAML scalar terminal newline is
+removed; extra blank lines and fence/marker syntax fail. Remove accepts no
+content. Repeated block-adjacent additions and additions around the same line
+anchor preserve list order. Duplicate language additions, duplicate consuming
+rules, intersecting selections and parent/child edits fail with
+`TRANSFORM_CONFLICT`.
+
+Optional `channel: current` or `channel: next` selects that channel and must refer
+to a channel where the page exists. Unqualified rules apply to both channels;
+conflicts are checked separately for each. Unequal final output still fails at
+the existing WP11 boundary; two-version merging is not implemented here.
+
+Inserted content uses the Cloud variables, fragment expansion, links, Tabs and
+product-name checks. Standalone `<include target="paas">` / `</include>` and
+`<exclude target="saas">` / `</exclude>` tags support properly nested regions.
+Targets are individual tokens in Guides `zilliz.saas` or BYOC `zilliz.paas`;
+dotted full-target tags are rejected. Filtering applies only to inserted content.
+
+Diagnostics retain an origin for each line through edits, marker removal and
+product filtering. Content-file errors point to that file; inline-content errors
+point to the YAML scalar item. The normal md2md call owns validation, dependencies
+and limits. A second call to the same public engine carries origin boundaries
+through expansion, and its decoded bytes must equal the normal result. No
+variable/fragment expansion grammar is reimplemented. Expanded fragment lines
+retain their inclusion-site origin; exact locations inside multiline expansions
+remain a follow-up requiring an md2md output source map.
+
+An internal carrier/decode/byte-equality error fails the selected page through
+the existing build-command catch. Fetch builds each selected page independently;
+its source job retains that page's current dev bytes and receipt while continuing
+other pages. Fault-injection tests exercise the real source generator and bundle
+validation against a locally retained successful publication.
+
+The OpenAI assertion fixture copies the retained Python source with only named
+markers added. Its separately labeled synthetic multi-language examples cover
+Java, C++ aliases and selector failures; real multi-language evidence awaits C3
+content alignment. These fixtures do not establish new golden outputs.
+
+Run the isolated CLI demonstration from the repository root:
+
+```sh
+node -e 'const path = require("node:path"); const {loadTypeScript} = require("./scripts/lib/load-typescript"); loadTypeScript(path.resolve("packages/docs-tooling/src/shared-docs/testing/transforms/demo.ts")).runTransformDemo(path.resolve("tmp/wp10-demo")).then(result => console.log(JSON.stringify(result, null, 2)))'
+```
+
+Use a fresh destination directory each time. The demo builds a synthetic page
+with an introduction-block replacement and a Python code-line replacement in
+both manuals. It then deliberately changes the selector to `stale_selector()`;
+the second CLI invocation must report `LINE_NOT_FOUND` and create no failed output
+directory. Everything uses local fixture repositories and scratch output.
