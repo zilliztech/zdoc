@@ -341,9 +341,9 @@
       "translatedAt": "2026-10-28T03:00:26.017Z"
     },
     "content/en/byoc/tutorials/development/collection/view-collections.md": {
-      "sourceHash": "7a5b302ba297d6e833d4f67be37a367900668d56b532b7d1699287e8d5e48e8a",
+      "sourceHash": "940996db464bc012830a431c8c87b44c314268b4bba682c586d4eb7cf8b29300",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/view-collections.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/connect-for-on-demand-search.md": {
       "sourceHash": "2f9e9e6770d15c94c723925809aaad45f24400d93de5650ce6379d2f5bc825dc",
@@ -536,9 +536,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/byoc/tutorials/development/schema/alter-collection-field.md": {
-      "sourceHash": "4bb3449ed8f426f9bd49e29050740a18c65bed320ce1ac0689d1301c06ab06eb",
+      "sourceHash": "2fdeade824a43c7afbba8b70fd8926219b0b8af67addfd1e661c0ad22a2e9967",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/alter-collection-field.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/schema/alter-external-collection-schema.md": {
       "sourceHash": "53fc7570d53884fac4c6b72df93d7293feee0d2230c7e9915e7f29578255232f",
@@ -621,9 +621,9 @@
       "translatedAt": "2026-09-19T13:51:26.433Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md": {
-      "sourceHash": "3f891a124ff354d5e0e2e1149c4d1897bc1cf04bd079c0805c3556d1a4799bc6",
+      "sourceHash": "abae8dcfb0a1d69cffeba8edd87e9b2329445eed9f9723a6a1befdfac2e615c4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/use-array-of-structs.md",
-      "translatedAt": "2026-09-19T13:51:26.433Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/schema/use-array-fields.md": {
       "sourceHash": "4bc65c0736622025d3090c152c9d662f1dd3867eed42b78462d022bee44b692d",
@@ -656,9 +656,9 @@
       "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/schema/use-string-field.md": {
-      "sourceHash": "2450bddaf886b6c531fd5ff885880436ff87b4c784390273077a1661e8451c7d",
+      "sourceHash": "31f27aa8832e4b379b9cb535eacca3e800806a5fa2a21160ed68a02502214d27",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-string-field.md",
-      "translatedAt": "2026-10-19T14:27:06.280Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/schema/use-text-field.md": {
       "sourceHash": "6c9b58a3d23bedb935c858c64903870f91038f5c38a5cfcf42e4b668f46c4137",
@@ -1656,9 +1656,9 @@
       "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/collection/view-collections.md": {
-      "sourceHash": "75ae3c80b8e197ba4252057b539123883453bddcab2f1adb0e6e4f6086fbc77b",
+      "sourceHash": "b53e818c3ff299f868549720967284f56743e2393220e1842b8d3c8b25e58434",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/view-collections.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/connect-for-on-demand-search.md": {
       "sourceHash": "a85e3c2217f5c553f90a3ec456f2f0d7c77fe38539c036d23b15f74c2a4379ee",
@@ -1886,9 +1886,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
-      "sourceHash": "5b217e401d079b5df3fce8306bafdabe99eec5d5a964f1b54ce1dc6b07c6a561",
+      "sourceHash": "a0ade1ddb464cf08c006e56b7a713d96473477ad2b200554296f6bb64e4f6e38",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/alter-collection-field.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/alter-external-collection-schema.md": {
       "sourceHash": "5d26b5405d86b7aa4fa739f610d851ce68ff3e981f8f5b902f785de6dff8f338",
@@ -1971,9 +1971,9 @@
       "translatedAt": "2026-09-19T14:09:38.096Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md": {
-      "sourceHash": "27014c132efae6ac4740de7f048e50818b76913a4cd853ce3a3148db57b3e501",
+      "sourceHash": "42f68289b7c347b39076d94b8107a895aadc455962e326fc1b5ec535a5de9a61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/use-array-of-structs.md",
-      "translatedAt": "2026-09-19T14:09:38.096Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
       "sourceHash": "86bd08327c57856e705d505b1f6cbc860cd974b9b978f98def2eda967eadb568",
@@ -2006,9 +2006,9 @@
       "translatedAt": "2026-10-25T05:16:53.988Z"
     },
     "content/en/guides/tutorials/development/schema/use-string-field.md": {
-      "sourceHash": "091a77f7bfa6489b10beeb403381ea91a6fc1aca52e17c95d82d5cb553116ef4",
+      "sourceHash": "215e627b87d59cc7441251962c04bb623156f28d48bbd815a9bd4400967e9ffd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-string-field.md",
-      "translatedAt": "2026-10-19T15:12:29.324Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
       "sourceHash": "eee2a7744d5bdcaf0b703a0b9a0beb0ca3fd20ff9689b11cb1f170c7018b90a3",
@@ -2651,9 +2651,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
-      "sourceHash": "cf5f2e50f331b6a5e2d1e9d8d8e3a5d42f5e73c0e419203fb73a08eb4588e1ab",
+      "sourceHash": "c88b4d263eab8c003650d3c476ad245168cb5a695c1cc058648cc4bf492ad3aa",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "91cd57d02f94eab04c4f31c78acb28b9f87e4b008ab3513a951550c2429acfe0",
@@ -3161,9 +3161,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "cc69e319e333d6ce9656c845584e58eb89df7baf016141e0713a9ede45a4c355",
+      "sourceHash": "2a41774a98f5e46b0a26baf20e47c430824fc5028d8c0003cbd8e5f98f64b3df",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-10-23T14:58:51.793Z"
+      "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",

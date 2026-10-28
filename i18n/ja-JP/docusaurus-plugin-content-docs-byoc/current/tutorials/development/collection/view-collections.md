@@ -1,7 +1,6 @@
 ---
 title: "コレクションの表示 | BYOC"
 slug: /view-collections
-sidebar_label: "表示"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | BYOC"
 type: origin
-token: VAirw0c7ZiKCSqkjtDscAsC4nAf
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-view-collections
+sidebar_label: "表示"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/view-collections.md"
 
 ---
 
@@ -72,7 +73,7 @@ import (
     "context"
     "fmt"
 
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -202,6 +203,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `quick_setup` という名前のコレクションをすでに作成している場合、上記の例の結果は次のようになります。
@@ -209,6 +211,12 @@ curl --request POST \
 ```json
 ["quick_setup"]
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+`list_collections()` は、現在接続されているデータベース内のすべてのコレクション名を返しますが、存在確認を目的としたものではありません。特定のコレクションが存在するかどうかを確認するには、代わりに `has_collection()` を使用します（例：`client.has_collection("quick_setup")` はブール値を返します）。または、他の SDK の同等のメソッドを使用してください。
+
+</Admonition>
 
 ## コレクションの詳細表示\{#describe-collection}
 
@@ -245,12 +253,6 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 collection, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
 if err != nil {
     fmt.Println(err.Error())
@@ -342,11 +344,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記の例の結果は次のようになります。
 
-```sql
+```plaintext
 {
     'collection_name': 'quick_setup', 
     'auto_id': False, 
@@ -378,4 +381,3 @@ curl --request POST \
     'enable_dynamic_field': True
 }
 ```
-

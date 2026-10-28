@@ -1,7 +1,6 @@
 ---
 title: "StructArray の概要 | Cloud"
 slug: /use-array-of-structs
-sidebar_label: "概要"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,16 +8,15 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "1 つのエンティティが、多数のチャンクを持つ 1 つのドキュメント、多数の視覚パッチを持つ 1 つのページ、多数のクリップを持つ 1 つの動画など、構造化された要素の順序付きリストを保存する必要がある場合は、StructArray を使用します。StructArray は、各要素内のフィールドに対するベクトル検索とスカラーフィルタリングを可能にしながら、これらの要素を親エンティティの内部に保持します。 | Cloud"
 type: origin
-token: VlAlwAJvEiVVW6k0RBvcvkpWnhK
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-use-array-of-structs
+sidebar_label: "概要"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/array-of-structs.md"
 
 ---
 
 import Admonition from '@theme/Admonition';
-
-
-import Grid from '@site/src/components/Grid';
 
 # StructArray の概要
 
@@ -59,7 +57,7 @@ import Grid from '@site/src/components/Grid';
 }
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 この例の 2 つのベクトルサブフィールドは、同じチャンクを 2 つの検索観点から表しています。`chunks[emb_list_vector]` は `MAX_SIM*` メトリクスを使用する EmbeddingList 検索を目的としており、`chunks[emb]` は `COSINE`、`IP`、`L2` などの通常のベクトルメトリクスを使用する要素レベル検索を目的としています。
 
@@ -95,43 +93,38 @@ import Grid from '@site/src/components/Grid';
 
 ## 2 つの検索モデルを理解する\{#understand-the-two-search-models}
 
-<Grid columnSize="2" widthRatios="50,50">
+<table>
+  <thead>
+    <tr>
+      <th scope="col"><h3 id="embeddinglist-search">EmbeddingList 検索</h3></th>
+      <th scope="col"><h3 id="element-level-search">要素レベル検索</h3></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p>EmbeddingList 検索では、StructArray のベクトルサブフィールド内のベクトルを、親エンティティの 1 つの埋め込みリストとして扱います。クエリも埋め込みリストです。Zilliz Cloud は、<code>MAX_SIM*</code> メトリクスを使用してクエリの埋め込みリストと保存された埋め込みリストを比較し、一致するエンティティを返します。</p>
+        <ul>
+          <li>クエリデータ: 埋め込みリスト。</li>
+          <li>メトリクスファミリー: <code>MAX_SIM*</code>。</li>
+          <li>結果の粒度: エンティティレベル。</li>
+          <li>最適な用途: ドキュメントレベルまたはページレベルの late-interaction 検索。</li>
+        </ul>
+      </td>
+      <td>
+        <p>要素レベル検索では、各 Struct 要素を独立したベクトル検索の候補として扱います。各ヒットは、StructArray フィールド内で一致した要素を表し、グループ化されていない結果では要素のオフセットを示すことができます。</p>
+        <ul>
+          <li>クエリデータ: 通常のベクトル。</li>
+          <li>メトリクスファミリー: 通常のベクトルメトリクス。</li>
+          <li>結果の粒度: Struct 要素レベル。</li>
+          <li>最適な用途: チャンクレベル、クリップレベル、またはパッチレベルの検索。</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-    <div>
-
-        ### EmbeddingList 検索\{#embeddinglist-search}
-
-        EmbeddingList 検索では、StructArray のベクトルサブフィールド内のベクトルを、親エンティティの 1 つの埋め込みリストとして扱います。クエリも埋め込みリストです。Zilliz Cloud は、`MAX_SIM*` メトリクスを使用してクエリの埋め込みリストと保存された埋め込みリストを比較し、一致するエンティティを返します。
-
-        - クエリデータ：埋め込みリスト。
-
-        - メトリクスファミリー：`MAX_SIM*`。
-
-        - 結果の粒度：エンティティレベル。
-
-        - 最適な用途：ドキュメントレベルまたはページレベルの late-interaction 検索。
-
-    </div>
-
-    <div>
-
-        ### 要素レベル検索\{#element-level-search}
-
-        要素レベル検索では、各 Struct 要素を独立したベクトル検索の候補として扱います。各ヒットは StructArray フィールド内で一致した要素を表し、グループ化されていない結果では要素のオフセットを公開できます。
-
-        - クエリデータ：通常のベクトル。
-
-        - メトリクスファミリー：通常のベクトルメトリクス。
-
-        - 結果の粒度：Struct 要素レベル。
-
-        - 最適な用途：チャンクレベル、クリップレベル、またはパッチレベルの検索。
-
-    </div>
-
-</Grid>
-
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 コレクションで EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを使用してください。1 つのベクトルフィールドまたはベクトルサブフィールドが受け付けるインデックスは 1 つだけであり、2 つの検索モードには異なるメトリクスファミリーが必要です。
 
@@ -153,7 +146,7 @@ StructArray のドキュメントは、モデリングページと検索ペー�
 | Search | [StructArray を使ったハイブリッド検索](./hybrid-search-with-struct-array) | StructArray の要素レベル検索を他のベクトル検索と組み合わせます。 |
 | Search | [StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) | 検索、クエリ、およびハイブリッド検索で StructArray フィルタを使用します。 |
 | Search | [EmbeddingLists を使った検索: ColBERT と ColPali](./tutorial-colbert-colpali) | StructArray を使用して ColBERT および ColPali スタイルの検索システムを構築します。 |
-| Filter | [StructArray 演算子](./struct-array-filtering) | `element_filter` および `MATCH_*` 演算子のリファレンス構文。 |
+| Filter | [StructArray 演算子](./struct-array-filtering) | `element_filter`、`MATCH_*` 演算子、および行レベルの StructArray パス述語のリファレンス構文 |
 
 ## 最初に確認すべき主な制限\{#key-limits-to-check-first}
 
@@ -163,7 +156,7 @@ StructArray のドキュメントは、モデリングページと検索ペー�
 
 - ベクトルサブフィールドにはインデックスが必要です。EmbeddingList 検索では `MAX_SIM*` メトリクスを使用し、要素レベル検索では通常のベクトルメトリクスを使用します。
 
-- `element_filter` と `MATCH_*` は、StructArray フィールド内のスカラーサブフィールド用です。`$[subfield]` は、これらの演算子の内部でのみ使用してください。
+- `element_filter` と `MATCH_*` は、StructArray フィールド内のスカラーサブフィールド用です。`$[subfield]` はこれらの演算子内でのみ使用します。行レベルのフィルタでは、`chunks[0][section]`、`array_length(chunks)`、`array_contains(chunks[section], ...)` など、StructArray のパスを直接参照することもできます。
 
 - 一部の検索の組み合わせは、バージョンによる制限またはモード固有です。範囲検索、グループ化検索、ハイブリッド検索、nullable なフィールド、または動的に追加されたフィールドに依存する前に、[StructArray の制限](./struct-array-limits) を確認してください。
 
@@ -171,11 +164,10 @@ StructArray のドキュメントは、モデリングページと検索ペー�
 
 1. スキーマを設計するには、[StructArray フィールドを作成する](./create-struct-array) をお読みください。
 
-1. データを準備するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) をお読みください。
+2. データを準備するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) をお読みください。
 
-1. インデックスを選択するには、[StructArray フィールドにインデックスを作成する](./index-struct-array) をお読みください。
+3. インデックスを選択するには、[StructArray フィールドにインデックスを作成する](./index-struct-array) をお読みください。
 
-1. StructArray のベクトルサブフィールドを検索するには、まず [StructArray を使った基本的なベクトル検索](./search-with-struct-array) をお読みください。
+4. StructArray のベクトルサブフィールドを検索するには、まず [StructArray を使った基本的なベクトル検索](./search-with-struct-array) をお読みください。
 
-1. StructArray のスカラーサブフィールドをフィルタリングするには、[StructArray 演算子](./struct-array-filtering) と [StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) をお読みください。
-
+5. StructArray のスカラーサブフィールドをフィルタリングするには、[StructArray 演算子](./struct-array-filtering) と [StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) をお読みください。

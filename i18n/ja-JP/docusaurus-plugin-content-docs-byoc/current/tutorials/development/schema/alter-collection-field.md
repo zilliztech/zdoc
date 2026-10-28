@@ -1,7 +1,6 @@
 ---
 title: "コレクションフィールドの変更 | BYOC"
 slug: /alter-collection-field
-sidebar_label: "フィールドの変更"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | BYOC"
 type: origin
-token: PLjFwlcT8ilFBakYXyfcg6S2n7d
-sidebar_position: 17
 displayed_sidebar: default
+token: shared-alter-collection-field
+sidebar_label: "フィールドの変更"
+sidebar_position: 17
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/alter-collection-field.md"
 
 ---
 
@@ -21,11 +22,11 @@ import TabItem from '@theme/TabItem';
 
 # コレクションフィールドの変更
 
-コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
+コレクションフィールドのプロパティを変更することで、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
 
 このページでは、フィールドのプロパティの変更について説明します。フィールドの追加や削除などのスキーマ構造の変更は対象外です。スカラーフィールドを追加したり、既存のコレクションからフィールドを削除したりする方法については、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 - 各コレクションは、プライマリフィールドを 1 つだけ持ちます。コレクションの作成時に設定したプライマリフィールドは、変更したり、そのプロパティを変更したりすることはできません。
 
@@ -35,7 +36,7 @@ import TabItem from '@theme/TabItem';
 
 ## VarChar フィールドの変更\{#alter-varchar-field}
 
-VarChar フィールドには `max_length` というプロパティがあり、フィールド値に含めることができる最大文字数を制限します。`max_length` プロパティは変更できます。
+VarChar フィールドには `max_length` というプロパティがあり、各フィールド値に許可される最大バイト数を定義します。`max_length` プロパティは変更できます。
 
 次の例では、コレクションに `varchar` という名前の VarChar フィールドがあることを前提に、その `max_length` プロパティを設定します。
 
@@ -100,6 +101,7 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -182,7 +184,16 @@ await client.alterCollectionFieldProperties({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
 
 await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 {
@@ -197,6 +208,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -213,6 +227,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## ARRAY フィールドの変更\{#alter-array-field}
@@ -239,8 +254,6 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
-
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("array")
@@ -337,6 +350,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -353,6 +369,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## フィールドレベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
@@ -377,8 +394,6 @@ client.alter_collection_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
-
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("doc_chunk")
@@ -473,6 +488,9 @@ await client.AlterCollectionFieldAsync(new AlterCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
@@ -489,4 +507,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
