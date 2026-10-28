@@ -2,7 +2,7 @@
 title: "describeSnapshot() | Node.js"
 slug: /node/node/Snapshot-describeSnapshot
 sidebar_label: "describeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # describeSnapshot()
 
-此操作用于检索特定快照的详细信息。
+此操作检索特定快照的详细信息。
 
 ```typescript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
@@ -62,7 +62,7 @@ await milvusClient.describeSnapshot({
   Database 名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 运行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认为 undefined。
+  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
@@ -116,7 +116,7 @@ await milvusClient.describeSnapshot({
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
+        用于说明所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

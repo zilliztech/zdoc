@@ -2,7 +2,7 @@
 title: "listSnapshots() | Node.js"
 slug: /node/node/Snapshot-listSnapshots
 sidebar_label: "listSnapshots()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -57,7 +57,7 @@ await milvusClient.listSnapshots({
   Database 的名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 持续的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
@@ -76,7 +76,7 @@ await milvusClient.listSnapshots({
 **参数：**
 
 - **snapshots** (*string[]*) -<br/>
-  当前请求的 Collection 中存在的快照名称列表。
+  所请求 Collection 当前存在的快照名称列表。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。

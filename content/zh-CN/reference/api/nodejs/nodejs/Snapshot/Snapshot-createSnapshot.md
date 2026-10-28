@@ -2,7 +2,7 @@
 title: "createSnapshot() | Node.js"
 slug: /node/node/Snapshot-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -52,27 +52,27 @@ await milvusClient.createSnapshot({
 
 **参数：**
 
-- **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
+- **collection_name** （*string*） -<br/>
+  **[必需]**<br/>
   要创建快照的 Collection 名称。
 
-- **snapshot_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
+- **snapshot_name** （*string*） -<br/>
+  **[必需]**<br/>
   快照名称。
 
-- **description** (*string*) -<br/>
+- **description** （*string*） -<br/>
   可选的快照描述。
 
-- **compaction_protection_seconds** (*number | string*) -<br/>
-  保护被引用 Segment 免受 Compaction 影响的时长。可选。
+- **compaction_protection_seconds** （*number | string*） -<br/>
+  保护所引用 Segment 免受 Compaction 影响的时长。可选。
 
-- **db_name** (*string*) -<br/>
+- **db_name** （*string*） -<br/>
   Database 名称。可选。
 
-- **timeout** (*number*) -<br/>
-  RPC 允许的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** （*number*） -<br/>
+  允许 RPC 运行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
-- **client_request_id** (*string*) -<br/>
+- **client_request_id** （*string*） -<br/>
   用于请求跟踪的追踪 ID。可选。
 
 **返回：**
@@ -83,7 +83,7 @@ await milvusClient.createSnapshot({
 
 - **MilvusError**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#example}
 

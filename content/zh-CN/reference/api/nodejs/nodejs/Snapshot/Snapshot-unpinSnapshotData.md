@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -48,15 +48,15 @@ await milvusClient.unpinSnapshotData({
 
 **参数：**
 
-- **pin_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
+- **pin_id** （*number | string*） -<br/>
+  **[必需]**<br/>
   由 pinSnapshotData() 返回的 pin ID。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** （*number*） -<br/>
+  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** （*string*） -<br/>
+  用于跟踪请求的追踪 ID。可选。
 
 **返回：**
 

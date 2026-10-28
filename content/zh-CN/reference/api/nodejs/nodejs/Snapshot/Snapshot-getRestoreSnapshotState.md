@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Node.js"
 slug: /node/node/Snapshot-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
