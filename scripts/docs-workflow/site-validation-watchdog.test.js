@@ -8,6 +8,8 @@ const test = require('node:test')
 
 const {
   MAX_AGE_MS_DEFAULT,
+  appendGitHubOutputs,
+  main,
   selectStartupFailures,
   runSiteValidationWatchdog,
   safeOutputPath,
@@ -42,7 +44,7 @@ test('selectStartupFailures reruns only zero-job failures inside the age window'
 })
 
 test('selectStartupFailures fails closed on a missing job count for a failed run', () => {
-  const failed = run({id: 21})
+  const failed = run({id: 21, created_at: new Date(Date.now() - 60 * 1000).toISOString()})
   assert.throws(
     () => selectStartupFailures({runs: [failed], jobCountByRunId: new Map(), now: Date.now()}),
     /Job count is missing for failed run 21/,
@@ -125,5 +127,67 @@ test('safeOutputPath rejects absolute paths and escapes', () => {
     assert.throws(() => safeOutputPath('../escape.json', root), /stay inside the repository/)
   } finally {
     fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
+test('appendGitHubOutputs writes counts from a success result', () => {
+  const outputFile = path.join(os.tmpdir(), `site-validation-watchdog-outputs-${process.pid}-${Date.now()}`)
+  try {
+    appendGitHubOutputs({rerun: [1], notRerunnable: [], realFailures: [{id: 2}]}, outputFile)
+    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=1\nnot_rerunnable_count=0\nreal_failure_count=1\n')
+  } finally {
+    fs.rmSync(outputFile, {force: true})
+  }
+})
+
+test('appendGitHubOutputs emits zero counts for a failure result instead of throwing', () => {
+  const outputFile = path.join(os.tmpdir(), `site-validation-watchdog-outputs-${process.pid}-${Date.now()}`)
+  try {
+    appendGitHubOutputs({ok: false, reason: 'site validation watchdog failure: HTTP 502'}, outputFile)
+    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\n')
+  } finally {
+    fs.rmSync(outputFile, {force: true})
+  }
+})
+
+test('main keeps the failure reason visible when the GitHub API fails', async () => {
+  const outputDirectory = path.join(process.cwd(), 'tmp', `site-validation-watchdog-main-${process.pid}-${Date.now()}`)
+  const githubOutput = path.join(os.tmpdir(), `site-validation-watchdog-main-outputs-${process.pid}-${Date.now()}`)
+  const realFetch = globalThis.fetch
+  const realConsoleError = console.error
+  const realExitCode = process.exitCode
+  const realGitHubOutput = process.env.GITHUB_OUTPUT
+  const errors = []
+  console.error = message => errors.push(message)
+  globalThis.fetch = async () => ({
+    status: 502,
+    ok: false,
+    json: async () => ({message: 'Server Error'}),
+  })
+  process.env.GITHUB_OUTPUT = githubOutput
+  try {
+    const result = await main(
+      ['--repository', 'owner/name', '--output', path.relative(process.cwd(), path.join(outputDirectory, 'watchdog.json'))],
+      {GITHUB_TOKEN: 'token'},
+    )
+    assert.equal(result.ok, false)
+    assert.match(result.reason, /HTTP 502/)
+    assert.equal(process.exitCode, 1)
+    assert.deepEqual(errors, [result.reason])
+    const written = JSON.parse(fs.readFileSync(path.join(outputDirectory, 'watchdog.json'), 'utf8'))
+    assert.equal(written.ok, false)
+    assert.match(written.reason, /HTTP 502/)
+    assert.equal(
+      fs.readFileSync(githubOutput, 'utf8'),
+      'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\n',
+    )
+  } finally {
+    globalThis.fetch = realFetch
+    console.error = realConsoleError
+    process.exitCode = realExitCode
+    if (realGitHubOutput === undefined) delete process.env.GITHUB_OUTPUT
+    else process.env.GITHUB_OUTPUT = realGitHubOutput
+    fs.rmSync(outputDirectory, {recursive: true, force: true})
+    fs.rmSync(githubOutput, {force: true})
   }
 })

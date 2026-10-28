@@ -1,4 +1,4 @@
-name: GA4 Search 404 Report
+name: ga4 search 404 report
 
 # Runs daily at 03:17 UTC. Until operators configure the GA4 service account
 # secret and property variables, every run degrades to a no-op with a notice
@@ -52,7 +52,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '22.6'
+          node-version: '22'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

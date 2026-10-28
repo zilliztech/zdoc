@@ -1,5 +1,5 @@
-name: recover Translation safely
-run-name: recover Translation run ${{ inputs.previous_translation_run_id }}
+name: recover translation safely
+run-name: recover translation run ${{ inputs.previous_translation_run_id }}
 
 on:
   workflow_dispatch:
@@ -52,7 +52,7 @@ jobs:
         with: { ref: '${{ github.sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: identity
         name: Derive immutable recovery bundle identity

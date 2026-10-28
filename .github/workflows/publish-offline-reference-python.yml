@@ -72,7 +72,7 @@ jobs:
         with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: {node-version: '22.6', cache: pnpm}
+        with: {node-version: '22', cache: pnpm}
       - run: pnpm install --frozen-lockfile
       - name: Resolve exact candidate ref and immutable worker receipt
         uses: actions/github-script@v8
@@ -160,7 +160,7 @@ jobs:
         with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: '${{ inputs.publish }}'}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: {node-version: '22.6', cache: pnpm}
+        with: {node-version: '22', cache: pnpm}
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v7
         with: {name: '${{ needs.prepare_offline_reference_python.outputs.selection_artifact_name }}', path: '${{ runner.temp }}/publication-selection'}
@@ -202,7 +202,7 @@ jobs:
         with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: {node-version: '22.6', cache: pnpm}
+        with: {node-version: '22', cache: pnpm}
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v7
         with: {name: '${{ needs.prepare_offline_reference_python.outputs.selection_artifact_name }}', path: '${{ runner.temp }}/terminal-selection'}

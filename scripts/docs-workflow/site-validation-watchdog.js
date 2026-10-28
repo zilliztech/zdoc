@@ -120,10 +120,12 @@ async function runSiteValidationWatchdog({adapter, now = Date.now(), maxAgeMs = 
 
 function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
   if (!outputFile) return
+  // Failure results ({ok: false, reason}) carry no result arrays; emit zeros so
+  // the failure reason itself stays the only visible error in the workflow log.
   fs.appendFileSync(outputFile, [
-    `rerun_count=${result.rerun.length}`,
-    `not_rerunnable_count=${result.notRerunnable.length}`,
-    `real_failure_count=${result.realFailures.length}`,
+    `rerun_count=${result.rerun?.length ?? 0}`,
+    `not_rerunnable_count=${result.notRerunnable?.length ?? 0}`,
+    `real_failure_count=${result.realFailures?.length ?? 0}`,
     '',
   ].join('\n'), 'utf8')
 }
@@ -141,7 +143,10 @@ async function main(argv = process.argv.slice(2), environment = process.env) {
   fs.mkdirSync(path.dirname(output), {recursive: true})
   fs.writeFileSync(output, `${JSON.stringify(result, null, 2)}\n`, {mode: 0o600})
   appendGitHubOutputs(result)
-  if (!result.ok) process.exitCode = 1
+  if (!result.ok) {
+    console.error(result.reason)
+    process.exitCode = 1
+  }
   return result
 }
 

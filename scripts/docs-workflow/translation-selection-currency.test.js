@@ -7,7 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 
 const {finalizePublicationSelection, validatePublicationResults} = require('./publication-contracts')
-const {verifyTranslationSelectionCurrency} = require('./translation-selection-currency')
+const {matchesRecoveryRunTitle, verifyTranslationSelectionCurrency} = require('./translation-selection-currency')
 
 const SHA = character => character.repeat(40)
 
@@ -243,4 +243,13 @@ test('rejects non-publish selections and missing client capabilities', async t =
   artifactOnly.inputs.publish = false
   delete artifactOnly.selectionSha256
   await assert.rejects(() => verifyTranslationSelectionCurrency({selection: publishSelection({runId: 900, units: unitsFor(UNIT_KEYS)}), client: {}, scratchRoot: client.root}), /client must provide/i)
+})
+
+test('matchesRecoveryRunTitle accepts the lowercase title and the pre-rename capitalization', () => {
+  assert.equal(matchesRecoveryRunTitle('recover translation run 42', 42), true)
+  assert.equal(matchesRecoveryRunTitle('recover Translation run 42', 42), true)
+  assert.equal(matchesRecoveryRunTitle('recover translation run 43', 42), false)
+  assert.equal(matchesRecoveryRunTitle('recover TRANSLATION run 42', 42), false)
+  assert.equal(matchesRecoveryRunTitle(undefined, 42), false)
+  assert.equal(matchesRecoveryRunTitle('translate docs (1-2)', 42), false)
 })

@@ -10,7 +10,15 @@ const {readPublicationDocument} = require('./publication-contracts')
 const {validatePublicationHandoffMetadata} = require('./monitor-translation-progress')
 
 const SUCCESSFUL_UNIT_STATUSES = new Set(['published', 'no_changes'])
-const RECOVERY_RUN_TITLE = runId => `recover Translation run ${runId}`
+const RECOVERY_RUN_TITLE = runId => `recover translation run ${runId}`
+// Runs completed before the workflow title moved to the repo-wide lowercase
+// style keep the historical capitalization in their immutable display_title.
+const HISTORICAL_RECOVERY_RUN_TITLE = runId => `recover Translation run ${runId}`
+
+function matchesRecoveryRunTitle(displayTitle, sourceRunId) {
+  const title = String(displayTitle || '')
+  return title === RECOVERY_RUN_TITLE(sourceRunId) || title === HISTORICAL_RECOVERY_RUN_TITLE(sourceRunId)
+}
 
 function resultsArtifactPattern(producerRunId) {
   return new RegExp(`^publication-results-translation-${producerRunId}-([1-9][0-9]*)$`, 'u')
@@ -137,7 +145,7 @@ function createSelectionCurrencyClient(repository) {
       const pages = ghJson(['api', '--paginate', '--slurp', `repos/${repository}/actions/workflows/recover-translation.yml/runs?status=completed&per_page=100`])
       const runs = pages.flatMap(page => page.workflow_runs || [])
       return runs
-        .filter(run => run?.display_title === RECOVERY_RUN_TITLE(sourceRunId))
+        .filter(run => matchesRecoveryRunTitle(run?.display_title, sourceRunId))
         .map(run => ({runId: Number(run.id), runAttempt: Number(run.run_attempt)}))
     },
   }
@@ -171,5 +179,6 @@ if (require.main === module) {
 
 module.exports = {
   createSelectionCurrencyClient,
+  matchesRecoveryRunTitle,
   verifyTranslationSelectionCurrency,
 }

@@ -60,7 +60,7 @@ jobs:
         with: { ref: '${{ github.sha }}', fetch-depth: 1 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: target
         name: Validate card handoff target
@@ -123,7 +123,7 @@ jobs:
         with: { ref: '${{ steps.identity.outputs.tooling_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download authenticated recovery plan
         if: ${{ (inputs.recovery_bundle_artifact_name || '') != '' }}
@@ -347,7 +347,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Translation publication selection
         uses: actions/download-artifact@v7
@@ -501,7 +501,7 @@ jobs:
           persist-credentials: ${{ inputs.publish }}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download immutable Translation publication selection
         uses: actions/download-artifact@v7
@@ -558,7 +558,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: artifacts
         name: Derive exact Translation publication artifact names
@@ -661,7 +661,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.tooling_sha }}' }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download the immutable publication selection
         env:

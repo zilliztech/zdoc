@@ -55,7 +55,7 @@ test('the credential gate writes the secret to a temp file and skips every repor
 
 test('the report step calls the zero-dependency script without restoring or building content', () => {
   const node = steps.find(step => step.uses?.startsWith('actions/setup-node@'))
-  assert.equal(node.with['node-version'], '22.6')
+  assert.equal(node.with['node-version'], '22')
   assert.match(stepNamed('Install dependencies').run, /^pnpm install --frozen-lockfile$/)
 
   const report = stepNamed('Run GA4 search-origin 404 report')
