@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/insert-and-delete/insert-update-delete.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/insert-and-delete/insert-entities
+  - manual: guides-byoc
+    path: tutorials/development/insert-and-delete/insert-entities

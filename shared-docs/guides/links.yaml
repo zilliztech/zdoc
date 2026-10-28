@@ -3,6 +3,7 @@
 basic-vector-search-with-structarray.md: search-with-struct-array
 boolean.md: filtering-overview
 create-structarray-field.md: create-struct-array
+decay-ranker-overview.md: decay-ranker-oveview
 filtered-search-with-structarray.md: filtered-search-with-struct-arrays
 grouping-search-with-structarray.md: grouping-search-with-struct-array
 hybrid-search-with-structarray.md: hybrid-search-with-struct-array
@@ -11,8 +12,11 @@ index-structarray-fields.md: index-struct-array
 insert-data-into-structarray-fields.md: insert-struct-array
 ngram.md: ngram-index-type
 nullable-and-default.md: nullable-fields
+pattern-matching.md: pattern-match
 range-search-with-structarray.md: range-search-with-struct-arrays
+removepunct-filter.md: remove-punct-filter
 search-with-embedding-lists.md: tutorial-colbert-colpali
 struct-array-operators.md: struct-array-filtering
 structarray-limits.md: struct-array-limits
 text.md: use-text-field
+tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-based-ranking
