@@ -1,7 +1,6 @@
 ---
 title: "Decay Ranker の概要 | Cloud"
 slug: /decay-ranker-oveview
-sidebar_label: "Decay Ranker の概要"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "従来のベクトル検索では、結果はベクトルの類似度、つまり数学空間でベクトルがどれだけ一致するかだけに基づいてランク付けされます。しかし、実際のアプリケーションでは、コンテンツが本当に関連しているかどうかは、意味的な類似度だけでは決まらないことがよくあります。 | Cloud"
 type: origin
-token: QZYhwcQhWigYTVkLnHeczkwYnZb
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-decay-ranker-oveview
+sidebar_label: "Decay Ranker の概要"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/decay-ranker-overview.md"
 
 ---
 
@@ -99,26 +100,67 @@ final_score = max([normalized_score₁, normalized_score₂, ..., normalized_sco
 
 時間ベースの減衰を使用して **「AI 研究論文」** を検索する実用的なシナリオで、Decay ランキングを見てみましょう：
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 この例では、減衰スコアは時間の経過とともに関連度がどのように低下するかを反映しています。新しい論文ほど 1.0 に近いスコアを受け取り、古い論文ほど低いスコアを受け取ります。これらの値は、特定の Decay Ranker を使用して計算されます。詳細については、[適切な Decay Ranker を選択する](./decay-ranker-oveview#choose-the-right-decay-ranker) を参照してください。
 
 </Admonition>
 
-| 論文 | ベクトル類似度 | 正規化類似度スコア | 公開日 | 減衰スコア | 最終スコア | 最終順位 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 論文 A | 高 | 0.85 (`COSINE`) | 2 週間前 | 0.80 | 0.68 | #2 |
-| 論文 B | 非常に高い | 0.92 (`COSINE`) | 6 か月前 | 0.45 | 0.41 | #3 |
-| 論文 C | 中程度 | 0.75 (`COSINE`) | 1 日前 | 0.98 | 0.74 | #1 |
-| 論文 D | 中～高 | 0.76 (`COSINE`) | 3 週間前 | 0.70 | 0.53 | #4 |
+<table>
+   <tr>
+     <th><p>論文</p></th>
+     <th><p>ベクトル類似度</p></th>
+     <th><p>正規化類似度スコア</p></th>
+     <th><p>公開日</p></th>
+     <th><p>減衰スコア</p></th>
+     <th><p>最終スコア</p></th>
+     <th><p>最終順位</p></th>
+   </tr>
+   <tr>
+     <td><p>論文 A</p></td>
+     <td><p>高</p></td>
+     <td><p>0.85 (<code>COSINE</code>)</p></td>
+     <td><p>2 週間前</p></td>
+     <td><p>0.80</p></td>
+     <td><p>0.68</p></td>
+     <td>2</td>
+   </tr>
+   <tr>
+     <td><p>論文 B</p></td>
+     <td><p>非常に高い</p></td>
+     <td><p>0.92 (<code>COSINE</code>)</p></td>
+     <td><p>6 か月前</p></td>
+     <td><p>0.45</p></td>
+     <td><p>0.41</p></td>
+     <td>4</td>
+   </tr>
+   <tr>
+     <td><p>論文 C</p></td>
+     <td><p>中程度</p></td>
+     <td><p>0.75 (<code>COSINE</code>)</p></td>
+     <td><p>1 日前</p></td>
+     <td><p>0.98</p></td>
+     <td><p>0.74</p></td>
+     <td>1</td>
+   </tr>
+   <tr>
+     <td><p>論文 D</p></td>
+     <td><p>中〜高</p></td>
+     <td><p>0.76 (<code>COSINE</code>)</p></td>
+     <td><p>3 週間前</p></td>
+     <td><p>0.70</p></td>
+     <td><p>0.53</p></td>
+     <td>3</td>
+   </tr>
+</table>
 
 Decay 再ランキングを行わない場合、論文 B は純粋なベクトル類似度（0.92）に基づいて最高位にランク付けされます。しかし、Decay 再ランキングを適用すると、次のようになります。
 
 - 論文 C は中程度の類似度にもかかわらず、非常に新しい（昨日公開された）ため、1 位に浮上します。
 
-- 論文 B は非常に高い類似度にもかかわらず、比較的古いため、3 位に下がります。
+- 論文 B は類似度が非常に高くても、比較的古いため 4 位に下がります。
 
-- 論文 D は L2 距離（値が小さいほど良い）を使用するため、減衰を適用する前にスコアが 1.2 から 0.76 に正規化されます。
+- 論文 D は COSINE 類似度を使用しているため、減衰を適用する前に 0.76 のスコアがそのまま使用されます。
 
 ## 適切な Decay Ranker を選択する\{#choose-the-right-decay-ranker}
 
@@ -163,9 +205,9 @@ Zilliz Cloud は `gauss`、`exp`、`linear` という異なる Decay Ranker を�
 
 Decay Ranker は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Decay 関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマの定義、データの挿入を含む完全な動作例については、[チュートリアル：Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
+減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Zilliz Cloud で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -213,7 +255,7 @@ DecayRanker rerank = DecayRanker.builder()
         .name("time_decay")
         .inputFieldNames(Collections.singletonList("timestamp"))
         .function("gauss")
-        .origin(zdt.toInstant().toEpochMilli())
+        .origin(zdt.toInstant().getEpochSecond())
         .scale(7 * 24 * 60 * 60)
         .offset(24 * 60 * 60)
         .decay(0.5)
@@ -290,7 +332,7 @@ const rerank = {
   params: {
     reranker: "decay",
     function: "gauss",
-    origin: new Date(2025, 1, 15).getTime(),
+    origin: Math.floor(Date.UTC(2025, 0, 15) / 1000),
     scale: 7 * 24 * 60 * 60,
     offset: 24 * 60 * 60,
     decay: 0.5,
@@ -321,10 +363,11 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
 <TabItem value='bash'>
 
 ```bash
-# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
+# restful
 ```
 
 </TabItem>
+
 </Tabs>
 
 <table>
@@ -337,14 +380,14 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
    <tr>
      <td><p><code>name</code></p></td>
      <td><p>はい</p></td>
-     <td><p>検索を実行するときに使用する関数の識別子です。ユースケースに関連するわかりやすい名前を選択してください。</p></td>
-     <td><p><code>&quot;time_decay&quot;</code></p></td>
+     <td><p>検索実行時に使用する関数の識別子です。ユースケースに合ったわかりやすい名前を選択してください。</p></td>
+     <td><p><code>"time_decay"</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
      <td><p>はい</p></td>
-     <td><p>減衰スコアの計算に使用する数値フィールドです。減衰の計算に使用するデータ属性を決定します（例：時間ベースの減衰ではタイムスタンプ、位置ベースの減衰では座標）。</p><p>関連する数値を含むコレクション内のフィールドである必要があります。INT8/16/32/64, FLOAT、DOUBLE をサポートします。</p></td>
-     <td><p><code>[&quot;timestamp&quot;]</code></p></td>
+     <td><p>減衰スコア計算用の数値フィールドです。減衰の計算に使用するデータ属性を決定します（例：時間ベースの減衰ではタイムスタンプ、位置ベースの減衰では座標）。</p><p>関連する数値を含むコレクション内のフィールドである必要があります。INT8/16/32/64, FLOAT, DOUBLE をサポートします。</p></td>
+     <td><p><code>["timestamp"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>function_type</code></p></td>
@@ -355,14 +398,14 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
    <tr>
      <td><p><code>params.reranker</code></p></td>
      <td><p>はい</p></td>
-     <td><p>使用する再ランキング方法を指定します。</p><p>Decay ランキング機能を有効にするには、<code>&quot;decay&quot;</code> に設定する必要があります。</p></td>
-     <td><p><code>&quot;decay&quot;</code></p></td>
+     <td><p>使用する再ランキング方法を指定します。</p><p>Decay ランキング機能を有効にするには、<code>"decay"</code> に設定する必要があります。</p></td>
+     <td><p><code>"decay"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function</code></p></td>
      <td><p>はい</p></td>
-     <td><p>適用する数学的な Decay Ranker を指定します。関連度の低下曲線の形状を決定します。</p><p>適切な関数の選択についてのガイダンスは、<a href="./decay-ranker-oveview#choose-the-right-decay-ranker">適切な Decay Ranker を選択する</a>セクションを参照してください。</p></td>
-     <td><p><code>&quot;gauss&quot;</code>, <code>&quot;exp&quot;</code>, or <code>&quot;linear&quot;</code></p></td>
+     <td><p>適用する数学的な Decay Ranker を指定します。関連度の低下曲線の形状を決定します。</p><p>適切な関数の選択については、<a href="./decay-ranker-oveview#choose-the-right-decay-ranker">適切な Decay Ranker を選択する</a>セクションを参照してください。</p></td>
+     <td><p><code>"gauss"</code>、<code>"exp"</code>、または <code>"linear"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.origin</code></p></td>
@@ -373,14 +416,14 @@ var rerank = new DecayRerank("time_decay")     // Function identifier
    <tr>
      <td><p><code>params.scale</code></p></td>
      <td><p>はい</p></td>
-     <td><p>関連度が <code>decay</code> 値まで低下する距離または時間です。関連度の低下速度を制御します。</p><p>時間ベースの減衰では、時間単位がコレクションデータと一致している必要があります。</p><p>値が大きいほど関連度の低下が緩やかになり、値が小さいほど低下が急になります。</p></td>
-     <td><ul><li><p>時間の場合：秒単位の期間（例：7 日間の <code>7 &ast; 24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル（例：5 km の <code>5000</code>）</p></li></ul></td>
+     <td><p><code>decay</code> の値まで関連度が低下する距離または時間です。関連度が低下する速さを制御します。</p><p>時間ベースの減衰では、時間単位をコレクションデータと一致させる必要があります。</p><p>値が大きいほど関連度の低下が緩やかになり、値が小さいほど低下が急になります。</p></td>
+     <td><ul><li><p>時間の場合：秒単位の期間（例：7 日間の場合は <code>7 * 24 * 60 * 60</code>）</p></li><li><p>距離の場合：メートル（例：5 km の場合は <code>5000</code>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.offset</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p><code>origin</code> の周囲に「減衰なしゾーン」を作成し、その範囲内のアイテムが最大スコア（減衰スコア = 1.0）を維持するようにします。</p><p>時間ベースの減衰では、時間単位がコレクションデータと一致している必要があります。</p><p><code>origin</code> を中心とするこの範囲内のアイテムは、最大の関連度を維持します。</p></td>
-     <td><ul><li><p>時間の場合：秒単位の期間（例：1 日間の <code>24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル（例：500 m の <code>500</code>）</p></li></ul></td>
+     <td><p><code>origin</code> の周囲に、アイテムが満点のスコア（減衰スコア = 1.0）を維持する「減衰なしゾーン」を作成します。</p><p>時間ベースの減衰では、時間単位をコレクションデータと一致させる必要があります。</p><p><code>origin</code> からこの範囲内にあるアイテムは、最大の関連度を維持します。</p></td>
+     <td><ul><li><p>時間の場合：秒単位の期間（例：1 日間の場合は <code>24 * 60 * 60</code>）</p></li><li><p>距離の場合：メートル（例：500 m の場合は <code>500</code>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.decay</code></p></td>
@@ -492,7 +535,8 @@ function_score->AddFunction(rerank);
 
 auto request = milvus::SearchRequest()
                    .WithCollectionName(collection_name)
-                   .WithAnnsField("dense")
+                   .WithAnnsField("vector_field")
+                   .WithLimit(10)
                    .WithRerank(function_score)
                    .AddOutputField("document")
                    .AddOutputField("timestamp")
@@ -513,7 +557,7 @@ if (!status.IsOk()) {
 const result = await milvusClient.search({
   collection_name: collection_name,
   data: [your_query_vector], // Replace with your query vector
-  anns_field: "dense",
+  anns_field: "vector_field",
   limit: 10,
   output_fields: ["document", "timestamp"],
   rerank: rerank,
@@ -533,7 +577,8 @@ using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -559,8 +604,9 @@ SearchResp results = await client.SearchAsync(new SearchReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
+# restful
 ```
 
 </TabItem>
+
 </Tabs>

@@ -1,7 +1,6 @@
 ---
 title: "コレクションの削除 | Cloud"
 slug: /drop-collection
-sidebar_label: "削除"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "不要になったコレクションは削除できます。 | Cloud"
 type: origin
-token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 12
 displayed_sidebar: default
+token: shared-drop-collection
+sidebar_label: "削除"
+sidebar_position: 12
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/drop-collection.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 不要になったコレクションは削除できます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 マネージドコレクションの削除ではコレクションとデータの両方が削除されるのに対し、外部コレクションの削除ではコレクションのみが削除され、データはそのまま保持されます。
 
@@ -61,7 +62,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -185,15 +186,15 @@ console.log(res.error_code);
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
 
 const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-const string TOKEN = "YOUR_CLUSTER_TOKEN";
 
 using var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = CLUSTER_ENDPOINT,
-    ApiKey = TOKEN
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
 
@@ -224,4 +225,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

@@ -1,17 +1,18 @@
 ---
 title: "Standard トークナイザー | Cloud"
 slug: /standard-tokenizer
-sidebar_label: "Standard"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `standard` トークナイザーは、連続する Unicode の文字と数字を 1つのトークンにまとめ、その他の文字で分割します。 | Cloud"
+description: "Zilliz Cloud の標準トークナイザーは、連続する Unicode の文字と数字を 1つのトークンにまとめ、その他の文字で分割します。 | Cloud"
 type: origin
-token: GAX8wkC1QiTZhXkLBocc1GoTnke
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-standard-tokenizer
+sidebar_label: "Standard"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/tokenizer/standard-tokenizer.md"
 
 ---
 
@@ -28,7 +29,6 @@ Zilliz Cloud の `standard` トークナイザーは、連続する Unicode の�
 `standard` トークナイザーは、次のセットに属する連続した文字を同じトークンに保持します。
 
 - **ASCII 文字:** 英字 `A-Z` と `a-z`、および数字 `0-9`。
-
 - **非 ASCII 文字:** Unicode の `Alphabetic` プロパティ、または数値の一般カテゴリ `Nd`、`Nl`、`No` のいずれかを持つ文字。
 
 | Unicode のプロパティまたはカテゴリ | 意味 | トークンに保持される文字の例 |
@@ -73,7 +73,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
 ```
 
@@ -140,6 +139,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `standard` トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `standard` トークナイザーと `lowercase` フィルターを使用するアナライザーを定義しています。
@@ -164,9 +164,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
 ```
 
@@ -240,9 +238,10 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 より簡単に設定するには、`standard` トークナイザーと [`lowercase`](./lowercase-filter)[ フィルター](./lowercase-filter) を組み合わせた [`standard`](./standard-analyzer) [アナライザー](./standard-analyzer) を使用することもできます。
 
@@ -276,9 +275,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
 ```
 
@@ -353,6 +350,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
@@ -383,35 +381,27 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
+
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .token("YOUR_CLUSTER_TOKEN")
-
         .build();
-
 MilvusClientV2 client = new MilvusClientV2(config);
 
 List<String> texts = new ArrayList<>();
-
 texts.add("The Milvus vector database is built for scale!");
 
 RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
-
         .texts(texts)
-
         .analyzerParams(analyzerParams)
-
         .build());
-
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```
 
@@ -428,29 +418,22 @@ import (
 )
 
 ctx := context.Background()
-
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
 texts := []string{"The Milvus vector database is built for scale!"}
-
 option := milvusclient.NewRunAnalyzerOption(texts...).
-
     WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
@@ -471,18 +454,12 @@ let client = ClientV2::new(&config).await?;
 let sample_text = "The Milvus vector database is built for scale!";
 
 let result = client
-
     .run_analyzer(
-
         RunAnalyzerRequest::builder()
-
             .texts(vec![sample_text])
-
             .analyzer_params(analyzer_params)
-
             .build()?,
     )
-
     .await?;
 
 println!("Standard analyzer output: {:?}", result);
@@ -494,6 +471,7 @@ println!("Standard analyzer output: {:?}", result);
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -547,8 +525,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
@@ -577,15 +554,10 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "text": ["The Milvus vector database is built for scale!"],
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"lowercase\"]}"
@@ -593,11 +565,11 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```sql
+```plaintext
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 ```
-

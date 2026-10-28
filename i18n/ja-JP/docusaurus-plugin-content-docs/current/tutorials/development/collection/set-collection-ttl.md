@@ -115,7 +115,7 @@ TTL には 2つのモードがあります。
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
 schema.add_field("id", DataType.INT64, is_primary=True, auto_id=False)
@@ -156,6 +156,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
@@ -201,6 +202,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -262,7 +264,7 @@ client.create_collection(CreateCollectionRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
@@ -288,7 +290,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.createCollection({
   collection_name: "my_collection",
@@ -408,7 +410,7 @@ curl --request POST \
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Assumes "my_collection" was created earlier without TTL
 schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
@@ -455,6 +457,7 @@ import io.milvus.v2.service.collection.request.HasCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // Assumes "my_collection" was created earlier without TTL.
@@ -505,6 +508,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -585,7 +589,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 milvus::HasCollectionResponse has_response;
 status = client->HasCollection(milvus::HasCollectionRequest()
@@ -624,7 +628,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // Assumes "my_collection" was created earlier without TTL.
 if (!(await client.hasCollection({ collection_name: "my_collection" })).value) {
@@ -755,7 +759,7 @@ curl --request POST \
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # highlight-start
 client.drop_collection_properties(
@@ -778,6 +782,7 @@ import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // highlight-start
@@ -806,6 +811,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -846,7 +852,7 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
@@ -863,7 +869,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // highlight-start
 await client.dropCollectionProperties({
@@ -925,7 +931,7 @@ curl --request POST \
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 schema = client.create_schema(enable_dynamic_field=False)
 schema.add_field("id", DataType.INT64, is_primary=True, auto_id=False)
@@ -964,6 +970,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
@@ -1011,6 +1018,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -1074,7 +1082,7 @@ client.create_collection(CreateCollectionRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
@@ -1101,7 +1109,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.createCollection({
   collection_name: "my_collection",
@@ -1225,7 +1233,7 @@ curl --request POST \
 import random
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Assumes "my_collection" was created earlier with `ttl_field`: "expire_at"
 # highlight-start
@@ -1264,6 +1272,7 @@ import io.milvus.v2.service.vector.request.InsertReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // Assumes "my_collection" was created earlier with `ttl_field`: "expire_at".
@@ -1323,6 +1332,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -1391,7 +1401,7 @@ client.insert(InsertRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 std::vector<float> vector(128);
 for (auto& v : vector) {
@@ -1419,7 +1429,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 const vector = Array.from({ length: 128 }, () => Math.random());
 
@@ -1490,7 +1500,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --he
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 client.load_collection("my_collection")
 
@@ -1521,6 +1531,7 @@ import io.milvus.v2.service.vector.response.QueryResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 client.loadCollection(LoadCollectionReq.builder()
@@ -1556,6 +1567,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -1614,7 +1626,7 @@ println!("{:?}", results);
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 status = client->LoadCollection(milvus::LoadCollectionRequest()
                                     .WithCollectionName("my_collection"));
@@ -1644,7 +1656,7 @@ std::cout << rows.size() << " rows" << std::endl;
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.loadCollection({ collection_name: "my_collection" });
 
@@ -1728,7 +1740,7 @@ Compaction によってエンティティが物理的に削除される前に有
 import random
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # highlight-start
 client.upsert("my_collection", [
@@ -1758,6 +1770,7 @@ import io.milvus.v2.service.vector.request.UpsertReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 Gson gson = new Gson();
@@ -1797,6 +1810,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -1852,7 +1866,7 @@ client.upsert(UpsertRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 std::vector<float> vector(128);
 for (auto& v : vector) {
@@ -1878,7 +1892,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 const vector = Array.from({ length: 128 }, () => Math.random());
 
@@ -1939,7 +1953,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 import random
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # highlight-start
 # Step 1 — add a TIMESTAMPTZ column to the schema
@@ -1989,6 +2003,7 @@ import io.milvus.v2.service.vector.request.UpsertReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // highlight-start
@@ -2046,6 +2061,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -2130,7 +2146,7 @@ client.upsert(UpsertRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 // Step 1 — add a TIMESTAMPTZ column to the schema
 status = client->AddCollectionField(milvus::AddCollectionFieldRequest()
@@ -2172,7 +2188,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 const vector = Array.from({ length: 128 }, () => Math.random());
 
@@ -2269,7 +2285,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # highlight-start
 client.drop_collection_properties(
@@ -2292,6 +2308,7 @@ import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // highlight-start
@@ -2319,6 +2336,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -2359,7 +2377,7 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
@@ -2376,7 +2394,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // highlight-start
 await client.dropCollectionProperties({
@@ -2441,7 +2459,7 @@ curl --request POST \
 import random
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 # highlight-start
@@ -2499,6 +2517,7 @@ import io.milvus.v2.service.vector.request.UpsertReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // Assumes "my_collection" already exists with `collection.ttl.seconds` set.
@@ -2563,6 +2582,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -2660,7 +2680,7 @@ client.upsert(UpsertRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
@@ -2710,7 +2730,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
@@ -2829,7 +2849,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Assumes "my_collection" already exists with `ttl_field` set.
 # highlight-start
@@ -2860,6 +2880,7 @@ import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 // Assumes "my_collection" already exists with `ttl_field` set.
@@ -2896,6 +2917,7 @@ defer cancel()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -2948,7 +2970,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
@@ -2972,7 +2994,7 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // Assumes "my_collection" already exists with `ttl_field` set.
 await client.dropCollectionProperties({
@@ -3050,3 +3072,4 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_pro
 ### CU 容量はいつ減少しますか？\{#when-will-the-cu-capacity-decrease}
 
 クラスターの CU 容量は、メモリ使用量とストレージ使用量のうち大きい方です。ストレージ使用量が適用される場合、期限切れのデータが物理的に削除された後、Zilliz Cloud コンソールで CU 容量の減少を確認できます。
+

@@ -1,17 +1,18 @@
 ---
 title: "ICU | Cloud"
 slug: /icu-tokenizer
-sidebar_label: "ICU"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` トークナイザーは、ソフトウェアの国際化に向けた主要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
+description: "icu トークナイザーは、ソフトウェアの国際化に向けた主要なツールを提供する Internationalization Components of Unicode（ICU）オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
 type: origin
-token: Q3gKwc5lkilAbKkalCWcW2AbnLe
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-icu-tokenizer
+sidebar_label: "ICU"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/tokenizer/icu-tokenizer.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 `icu` トークナイザーは、ソフトウェアの国際化に向けた主要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 `icu` トークナイザーは、句読点とスペースを出力内の個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。こうした単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
@@ -56,7 +57,7 @@ analyzerParams.put("tokenizer", "icu");
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "icu"}
+analyzerParams := map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
@@ -102,6 +103,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `icu` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `icu` トークナイザーと [remove punct filter](./remove-punct-filter) を使用するアナライザーを定義しています。
@@ -131,7 +133,7 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepunct"}}
+analyzerParams := map[string]any{"tokenizer": "icu", "filter": []string{"removepunct"}}
 ```
 
 </TabItem>
@@ -183,6 +185,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `analyzer_params` を定義した後、コレクションスキーマを定義するときに、これらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
@@ -216,7 +219,7 @@ analyzerParams.put("tokenizer", "icu");
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "icu"}
+analyzerParams := map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
@@ -262,6 +265,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` による検証\{#verification-using-runanalyzer}
@@ -377,6 +381,7 @@ println!("ICU analyzer output: {:?}", result.results());
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -403,6 +408,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
 const sample_text = "Привет! Как дела?";
 
 // Run the icu analyzer with the defined configuration
@@ -430,6 +442,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}

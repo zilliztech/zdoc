@@ -1,7 +1,6 @@
 ---
 title: "エンティティの挿入 | Cloud"
 slug: /insert-entities
-sidebar_label: "挿入"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "コレクション内のエンティティは、同じフィールドのセットを共有するデータレコードです。各データレコードのフィールド値によって 1 つのエンティティが構成されます。このページでは、コレクションにエンティティを挿入する方法を紹介します。 | Cloud"
 type: origin
-token: L5jawEj7FiBXWZkGhLgcQCWQnDd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-insert-entities
+sidebar_label: "挿入"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/insert-update-delete.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 コレクション内のエンティティは、同じフィールドのセットを共有するデータレコードです。各データレコードのフィールド値によって 1 つのエンティティが構成されます。このページでは、コレクションにエンティティを挿入する方法を紹介します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-- **コレクション作成後に追加されるフィールド**: 作成後にコレクションへ新しいフィールドを追加し、挿入時に値を指定しない場合、MilvusZilliz Cloud は、定義済みのデフォルト値、またはデフォルト値が設定されていない場合は `NULL` を自動的に設定します。詳細は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
+- **コレクション作成後に追加されたフィールド**: コレクションの作成後に新しいフィールドを追加し、挿入時に値を指定しない場合、Zilliz Cloud は定義済みのデフォルト値、デフォルト値が設定されていない場合は `NULL` で自動的に埋めます。詳細は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
 - **重複の処理**: 標準の `insert` 操作では、主キーの重複はチェックされません。既存の主キーと同じ値のデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複やアプリケーションの問題につながる可能性があります。既存のエンティティを更新する、または重複を避けるには、代わりに **`upsert`** 操作を使用してください。詳細は、[エンティティの upsert](./upsert-entities) を参照してください。
 
@@ -33,15 +34,15 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-Zilliz Cloud のクラスターでは、**エンティティ**とは、同じ**スキーマ**を共有する**コレクション**内のデータレコードを指し、行の各フィールドのデータによって 1 つのエンティティが構成されます。したがって、同じコレクション内のエンティティは、同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
+Zilliz Cloud では、**エンティティ**とは、同じ **スキーマ** を共有する **コレクション** 内のデータレコードを指し、行の各フィールドのデータによって 1 つのエンティティが構成されます。したがって、同じコレクション内のエンティティは、同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
 
 コレクションにエンティティを挿入する場合、挿入するエンティティにスキーマで定義されたすべてのフィールドが含まれている場合に限り、そのエンティティを正常に追加できます。挿入されたエンティティは、挿入順に **_default** という名前のパーティションに入ります。特定のパーティションが存在する場合は、挿入リクエストでパーティション名を指定することで、そのパーティションにもエンティティを挿入できます。
 
-Zilliz Cloud は、コレクションの拡張性を維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**&#36;meta** という名前の予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細は、動的フィールドを参照してください。
+Zilliz Cloud は、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**\$meta** という名前の予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細は、動的フィールドを参照してください。
 
 ## コレクションへのエンティティの挿入\{#insert-entities-into-a-collection}
 
-データを挿入する前に、スキーマに従ってデータをディクショナリのリストとして整理する必要があります。各ディクショナリは 1 つのエンティティを表し、スキーマで定義されたすべてのフィールドを含みます。コレクションで動的フィールドが有効になっている場合、各ディクショナリにはスキーマで定義されていないフィールドを含めることもできます。
+データを挿入する前に、スキーマに従って各エンティティのフィールド名と値を整理します。コレクションで動的フィールドが有効になっている場合、エンティティにはスキーマで定義されていないフィールドも含めることができます。
 
 このセクションでは、クイックセットアップ方式で作成されたコレクションにエンティティを挿入します。この方式で作成されたコレクションには、**id** と **ベクトル** という名前の 2 つのフィールドしかありません。また、このコレクションでは動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない **color** というフィールドが含まれています。
 
@@ -283,9 +284,9 @@ var res = await client.insert({
 console.log(res.insert_cnt)
 
 // Output
-// 
+//
 // 10
-// 
+//
 ```
 
 </TabItem>
@@ -295,13 +296,13 @@ console.log(res.insert_cnt)
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
 using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -375,7 +376,7 @@ curl --request POST \
         {"id": 6, "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], "color": "red_9392"},
         {"id": 7, "vector": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], "color": "grey_8510"},
         {"id": 8, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "color": "white_9381"},
-        {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}        
+        {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}
     ],
     "collectionName": "quick_setup"
 }'
@@ -401,11 +402,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## パーティションへのエンティティの挿入\{#insert-entities-into-a-partition}
 
-指定したパーティションにもエンティティを挿入できます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+エンティティを指定したパーティションに挿入することもできます。以下のコードスニペットは、コレクションに **partitionA** という名前のパーティションがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -609,9 +611,9 @@ var res = await client.insert({
 console.log(res.insert_cnt)
 
 // Output
-// 
+//
 // 10
-// 
+//
 ```
 
 </TabItem>
@@ -620,6 +622,7 @@ console.log(res.insert_cnt)
 
 ```csharp
 using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Responses.Dml;
 using Milvus.Client.V2.Types;
 
 var vectors = new[]
@@ -692,7 +695,7 @@ curl --request POST \
         {"id": 16, "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], "color": "red_9392"},
         {"id": 17, "vector": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], "color": "grey_8510"},
         {"id": 18, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "color": "white_9381"},
-        {"id": 19, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}        
+        {"id": 19, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}
     ],
     "collectionName": "quick_setup",
     "partitionName": "partitionA"
@@ -719,4 +722,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

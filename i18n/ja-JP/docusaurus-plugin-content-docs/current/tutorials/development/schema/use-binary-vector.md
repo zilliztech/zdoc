@@ -51,7 +51,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Notes">
 
-バイナリベクトルは特定のシナリオでは優れていますが、表現能力に限界があり、複雑な意味関係を捉えることは困難です。そのため、実際のシナリオでは、効率と表現力のバランスを取るために、バイナリベクトルは他のベクトル型と組み合わせて使用されることがよくあります。詳細については、[Dense ベクトル](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
+Although binary ベクトル excel in specific scenarios, they have limitations in their expressive capability, making it difficult to capture complex semantic relationships. Therefore, in real-world scenarios, binary ベクトル are often used alongside other ベクトル types to balance efficiency and expressiveness. For more information, refer to [Dense ベクトル](./use-dense-vector) and [Sparse Vector](./use-sparse-vector).
 
 </Admonition>
 
@@ -471,6 +471,16 @@ err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
 if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err = loadTask.Await(ctx); err != nil {
     fmt.Println(err.Error())
     // handle error
 }
@@ -1003,3 +1013,4 @@ curl --request POST \
 </Tabs>
 
 類似検索パラメータの詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
+

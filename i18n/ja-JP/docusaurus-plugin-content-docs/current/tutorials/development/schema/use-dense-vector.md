@@ -359,7 +359,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-idx := index.NewAutoIndex(index.MetricType(entity.IP))
+idx := index.NewAutoIndex(entity.IP)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
 ```
 

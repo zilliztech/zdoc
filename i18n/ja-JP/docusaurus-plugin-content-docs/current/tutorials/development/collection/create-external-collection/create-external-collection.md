@@ -171,7 +171,9 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+
 milvus::CollectionSchema schema;
+schema.SetEnableDynamicField(false);
 schema.SetExternalSource("volume://my_volume/path/to/a/folder/");
 schema.SetExternalSpec(nlohmann::json{{"format", "parquet"}});
 ```
@@ -319,7 +321,6 @@ let schema = schema
         FieldSchema::new()
             .name("product_id")
             .data_type(DataType::Int64)
-            .primary_key(true)
             .external_field("id"),
     )
     .add_field(
@@ -344,9 +345,10 @@ let schema = schema
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+
 schema.AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64, "").WithExternalField("id"));
-schema.AddField(milvus::FieldSchema("product_name", milvus::DataType::VARCHAR, "").WithExternalField("name"));
-schema.AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "").WithExternalField("vector"));
+schema.AddField(milvus::FieldSchema("product_name", milvus::DataType::VARCHAR, "").WithMaxLength(512).WithExternalField("name"));
+schema.AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "").WithDimension(768).WithExternalField("vector"));
 ```
 
 </TabItem>
@@ -420,7 +422,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 CreateCollectionReq createReq = CreateCollectionReq.builder()
-        .dbName("my_database")
+        .databaseName("my_database")
         .collectionName("test_collection")
         .collectionSchema(schema)
         .build();
@@ -497,6 +499,7 @@ client
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.vectordb.zillizcloud.com", "YOUR_API_KEY"));
 status = client->UseDatabase("my_database");
@@ -596,7 +599,7 @@ List<IndexParam> indexParams = new ArrayList<>();
 indexParams.add(indexParamForIdField);
 indexParams.add(indexParamForVectorField);
 CreateIndexReq createIndexReq = CreateIndexReq.builder()
-        .dbName("my_database")
+        .databaseName("my_database")
         .collectionName("test_collection")
         .indexParams(indexParams)
         .build();
@@ -672,10 +675,12 @@ client
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+
 milvus::CreateIndexRequest indexRequest;
+indexRequest.WithDatabaseName("my_database");
 indexRequest.WithCollectionName("test_collection");
-indexRequest.AddIndex(milvus::IndexSchema("embedding", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE));
-indexRequest.AddIndex(milvus::IndexSchema("product_name", milvus::IndexType::AUTOINDEX));
+indexRequest.AddIndex(milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE));
+indexRequest.AddIndex(milvus::IndexDesc("product_name", "", milvus::IndexType::AUTOINDEX));
 status = client->CreateIndex(indexRequest);
 ```
 
@@ -739,6 +744,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
+import time
+
 job_id = client.refresh_external_collection(
     db_name="my_database",
     collection_name="test_collection"
@@ -770,6 +777,7 @@ import java.util.concurrent.TimeUnit;
 
 RefreshExternalCollectionResp refreshResp = client.refreshExternalCollection(
         RefreshExternalCollectionReq.builder()
+                .databaseName("my_database")
                 .collectionName("test_collection")
                 .build());
 
@@ -843,6 +851,7 @@ use milvus::v2::prelude::*;
 let refresh = client
     .refresh_external_collection(
         RefreshExternalCollectionRequest::builder()
+            .database_name("my_database")
             .collection_name("test_collection")
             .build()?,
     )
@@ -880,7 +889,9 @@ loop {
 #include <iostream>
 #include <thread>
 #include <chrono>
+
 milvus::RefreshExternalCollectionRequest refreshRequest;
+refreshRequest.WithDatabaseName("my_database");
 refreshRequest.WithCollectionName("test_collection");
 milvus::RefreshExternalCollectionResponse refreshResponse;
 status = client->RefreshExternalCollection(refreshRequest, refreshResponse);
@@ -908,6 +919,7 @@ while (true) {
 
 ```javascript
 const job = await client.refreshExternalCollection({
+    db_name: "my_database",
     collection_name: "test_collection",
 });
 while (true) {

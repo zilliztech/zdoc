@@ -1,17 +1,18 @@
 ---
 title: "正規表現 | Cloud"
 slug: /regex-filter
-sidebar_label: "正規表現アナライザーフィルター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` フィルターは正規表現フィルターです。トークナイザーが生成するトークンは、指定した式に一致する場合にのみ保持され、それ以外はすべて破棄されます。 | Cloud"
+description: "正規表現アナライザーフィルターは、正規表現に一致するトークンを保持し、それ以外を破棄します。 | Cloud"
 type: origin
-token: AwmtwHGQii1j9Wk1W04cNxvBnth
-sidebar_position: 12
 displayed_sidebar: default
+token: shared-regex-filter
+sidebar_label: "正規表現アナライザーフィルター"
+sidebar_position: 12
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/regex-filter.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 `regex` フィルターは正規表現フィルターです。トークナイザーが生成するトークンは、指定した式に一致する場合にのみ保持され、それ以外はすべて破棄されます。
 
-<Admonition type="info" title="Note">
+<Admonition type="info" icon="📘" title="Notes">
 
-このページでは、アナライザーパイプラインの regex フィルターについて説明します。このフィルターは、トークナイザーが生成したトークンをフィルタリングし、テキスト分析中に生成されるタームに影響します。クエリ、検索、ハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使用してエンティティをフィルタリングする場合は、[パターンマッチング](./pattern-match) を参照してください。
+このページでは、アナライザーパイプラインの `regex` フィルターについて説明します。このフィルターは、トークナイザーが生成するトークンをフィルタリングし、テキスト解析中に生成されるタームに影響します。`query`、`search`、またはハイブリッド検索で `field =~ "pattern"` や `field !~ "pattern"` などのスカラー式を使用してエンティティをフィルタリングする場合は、[パターンマッチング](./pattern-match) を参照してください。
 
 </Admonition>
 
@@ -159,13 +160,22 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `regex` フィルターでは、次の構成可能なパラメーターを使用できます。
 
-| パラメーター | 説明 |
-| --- | --- |
-| `expr` | 各トークンに適用される正規表現パターンです。一致するトークンは保持され、一致しないトークンは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+<table>
+   <tr>
+     <th><p>パラメーター</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>expr</code></p></td>
+     <td><p>各トークンに適用される正規表現パターンです。一致するトークンは保持され、一致しないトークンは破棄されます。
+ 正規表現構文の詳細については、<a href="https://docs.rs/fancy-regex/0.14.0/fancy_regex/#syntax">構文</a>を参照してください。</p></td>
+   </tr>
+</table>
 
 `regex` フィルターは、トークナイザーが生成するタームを処理するため、トークナイザーと組み合わせて使用する必要があります。
 
@@ -302,6 +312,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -314,14 +325,17 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Sample text to analyze
 sample_text = "testItem apple testCase banana"
 
-# Run the standard analyzer with the defined configuration
+# Run the analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Analyzer output:", result)
 ```
 
 </TabItem>
@@ -338,6 +352,7 @@ import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -385,7 +400,7 @@ if err != nil {
 
 for _, r := range result {
     for _, token := range r.Tokens {
-        fmt.Println("Standard analyzer output:", token.Text)
+        fmt.Println("Analyzer output:", token.Text)
     }
 }
 ```
@@ -398,7 +413,7 @@ for _, r := range result {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 let analyzer_params = serde_json::json!({
@@ -419,7 +434,7 @@ let result = client
     )
     .await?;
 
-println!("Standard analyzer output: {:?}", result);
+println!("Analyzer output: {:?}", result);
 ```
 
 </TabItem>
@@ -433,7 +448,7 @@ println!("Standard analyzer output: {:?}", result);
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -458,14 +473,17 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
 
 const sampleText = "testItem apple testCase banana";
 const result = await client.runAnalyzer({
     text: sampleText,
     analyzer_params,
 });
-console.log("Standard analyzer output:", result);
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -488,13 +506,13 @@ await client.ConnectAsync();
 // Sample text to analyze
 var sampleText = "testItem apple testCase banana";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
     Texts = new[] { sampleText }
 });
-Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -517,6 +535,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 想定される出力\{#expected-output}
