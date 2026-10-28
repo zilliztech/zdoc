@@ -2632,7 +2632,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "c5ba84b20c5f8569c82530d1de42ef22397031a2",
+      "commit": "b1c19157ced54550f82b7f16f8f62ef40da7d628",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2753,7 +2753,7 @@
       ]
     },
     "dev": {
-      "commit": "0ec75b2596d84939c41ae8d018d1c5e5268165cb",
+      "commit": "680a620fb751bc00776a6ffa7d616b6e926f8278",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -2913,11 +2913,11 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-          "sha256": "543ccbbd58aeaae90a109c740ddf3ea5333d59e2501b197846cfe849be94bf8d"
+          "sha256": "a3efd58da3f18932b29246b1e5bc409987a4af58b97e449d297dd821a43df38c"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-          "sha256": "9ee8e34aa289b349b757cc717bfa2edada8cc0a4fcedcdbab258e9b4f2a5b2ac"
+          "sha256": "8e23cf4a83bde6daad026b17f73a8701d87e33c281af611ddd14b643aa2d4216"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
@@ -2933,7 +2933,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-          "sha256": "40b1d41f9a446ce10fe843b0e131a6598720667b3691b5633f82e46597a27a32"
+          "sha256": "ed51323d545d9d4029a5a4e72ecaede179363017174f77f474fcf85a20771a5d"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
@@ -2949,7 +2949,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-          "sha256": "a2db244ea09c1c6614511e59048f44a6cc3397f6dec07976d2fd17529efcc018"
+          "sha256": "17f0b8c3abe4b9b7fd0698e5ef4543abb94c3155de70c40c10633f98cb451b89"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer.md",
@@ -2997,7 +2997,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md",
-          "sha256": "05324c699f792b48f21c93dfcfaa7328900225aabaad98431fb4edbface39e2a"
+          "sha256": "6a6937e1332cbdea24b974215b580e68f63ffd27e405bab8225cb1d27d425222"
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
@@ -3005,7 +3005,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/drop-collection.md",
-          "sha256": "6c2306e532a611641496f9ac1dafcfb0f9a8b6ae03a31b5c490f4a806f173789"
+          "sha256": "ca1ad485ca4675ab821305fb65cab24aaafb0afc7ed43536b967b2d26926eadd"
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/external-collection-limits.md",
@@ -3037,7 +3037,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/set-collection-ttl.md",
-          "sha256": "431e8291d9b98f8524e6d15893642ee75d828be337fec09c76d28a358337740b"
+          "sha256": "702c3b294d216429098b5bdc5ff7b5c74896b9d4da6b450faa008da2dfb7a93e"
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/truncate-collection.md",
@@ -3145,7 +3145,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview.md",
-          "sha256": "7dc68f4837aefda39dc129727828848f247162a9220cd78a3ca8e51f47c5b701"
+          "sha256": "9602e3a80047091bb65d215f78d465dbc37089db8686bdc43084319671001b93"
         },
         {
           "path": "content/en/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay.md",
@@ -3173,7 +3173,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/insert-and-delete/insert-entities.md",
-          "sha256": "de3eee03ff4d98f59c8805abe335bcf12652f666742b7cf471b4c8362a022714"
+          "sha256": "85320a0a050b0e1b4f8cb3a0f96cab5f516721f8e9f066e8832f8152624e84bc"
         },
         {
           "path": "content/en/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
@@ -3221,7 +3221,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md",
-          "sha256": "07b2bbc0af80d59945dc46772ce840e0ffb24274a3f4ac35f704889c150a7522"
+          "sha256": "e3db82dd49907adcae3e8bf2c70e00f02fd44d2dd989b1c76f9a94ac31cc950f"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/json-fields/json-indexing.md",
@@ -3281,11 +3281,11 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-binary-vector.md",
-          "sha256": "c323b69f2642f23001f9429988091dc0884fc5cbb2cc68df9d80c2084d209446"
+          "sha256": "72e294e3bb1dfc2e99ee3efbd258a37ee084971077a17fdf47e43d44552f8962"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-dense-vector.md",
-          "sha256": "96f9acfe449a16c8a28d919b094a3763fb7731366f378b99b2ab7dfcd9e739bb"
+          "sha256": "ec3941d04e5536c57fd70178327ae7f558aac9e178dfdaceb8333e2cfa9dfbc0"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-geometry-field.md",
@@ -3293,11 +3293,11 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-number-field.md",
-          "sha256": "59ed680e86153126ac1096448e9891358cd773893b1e63b9044ea2cb0e683c84"
+          "sha256": "34939909f488e47eb747c2a8b0b29f0c1aed9a7095916e4ec967b24b9fe49e7c"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-sparse-vector.md",
-          "sha256": "69376b2cfd3c3e0391184122ac7b580111a562d582b8694382fd9915d7aa0f11"
+          "sha256": "42b365757bcc8143c7224d4609ba8aa0989c12fc34112fb7b1815eab44f9e3e1"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-string-field.md",
@@ -3305,7 +3305,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-text-field.md",
-          "sha256": "6c9b58a3d23bedb935c858c64903870f91038f5c38a5cfcf42e4b668f46c4137"
+          "sha256": "c91a641e2c525e4e3d4e7bd25b2fb12b5735ceeb7fd7d32567678be95c4b9457"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-timestamptz-field.md",
@@ -3313,7 +3313,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/consistency-level.md",
-          "sha256": "32f8af68f9ef0342a5ed9db9e4c50ecd0525d99ba0adb3095fb8df578149ce5e"
+          "sha256": "8d85e5aac532c5a415d953a8388ba9453020e7538724e7a863404fe8cde446f1"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md",
@@ -4081,11 +4081,11 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-          "sha256": "4276354797843af0fc4f5073de0ac0525e2c4c341b2679b4873287cf4eb73ab3"
+          "sha256": "0030b57b109906c3c42904f554b940bd1846606769840ceb2e98b18dbdaf2680"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-          "sha256": "b8c45219d43dcf82786ab21fb87b0095f42752e3834923a40449d95761bb4bef"
+          "sha256": "3abd3e17d6a5893d04ea2c516f0594cf8ef08c9ff9824f04d99d4c47dc9e1633"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
@@ -4101,7 +4101,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-          "sha256": "2f1b3b2780fe991b894cf51f8aeb158d279f2305e7075d54b14018347205e3dd"
+          "sha256": "f387ed59d21f156540bf7fe6b1efa728a8e8696a9b4e36dd7e43b945649bb4ec"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
@@ -4117,7 +4117,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-          "sha256": "50fd8f5ed8b8a86de4843162c8ed9f5b5dfff4f2f9adcba536bd7cc15fe889c3"
+          "sha256": "43f33c3705b98937604316b2613e92dfae1f0a1e2138f24982feb2b543dec34b"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer.md",
@@ -4165,7 +4165,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-          "sha256": "9b003aa16429207082458589b10b54b8c5d4ca32e52516732c97e5d5c53fc140"
+          "sha256": "fa9ab911f3f2e9db5c8e05fa334913da02efbd43427e84519389e1b0048e9835"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
@@ -4173,7 +4173,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/drop-collection.md",
-          "sha256": "8d9e50c3c658cdb042e36f21c3a8e3380472650dfbd1e094fc04af2282a5201f"
+          "sha256": "715b68818c300e9560590ed1c095d3fe733754fde05af5cab2d93804f930de2c"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/external-collection-limits.md",
@@ -4205,7 +4205,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/set-collection-ttl.md",
-          "sha256": "b47bb12a893c5a7b783f8ef106f11c75e17824db3a357ac220bdad7a7485089a"
+          "sha256": "677cd6e65b00a0564cf1eade1ffc9fe081e2911c885ba760c10c93b61b7eb6c9"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/truncate-collection.md",
@@ -4329,7 +4329,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview.md",
-          "sha256": "15c22bc64c21ec44348ebcc1c5cfc7d1b482e2f8e706b0ddcf310e04b6771103"
+          "sha256": "9fd08aec6a156b067db7e0df590f64c87078a8671cb149226cf00612100ae77f"
         },
         {
           "path": "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay.md",
@@ -4373,7 +4373,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md",
-          "sha256": "d133f2f910983228502237c788b3167427115a14440808dc12b7bc5f81239b85"
+          "sha256": "6828a999ee7c819154d5dfe9861545bcd7410388b9769718686ae105c430b3cc"
         },
         {
           "path": "content/en/guides/tutorials/development/insert-and-delete/upsert-entities.md",
@@ -4421,7 +4421,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md",
-          "sha256": "8b70f2aa19566cbc277c8d439ad071fe7b17381e4b038dbfd828633621ca325a"
+          "sha256": "c5148b4c8f8ccdf51ed3c8714dde1fdf21e50889166fd8a496a2b5edfe0eebca"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md",
@@ -4481,11 +4481,11 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-binary-vector.md",
-          "sha256": "feb67bc8830f8d91b3f2ff1fb7d3ce28264b2eca6b3eaffccf95f80890529263"
+          "sha256": "9e54ce228e8bbdf685ed4d6a01b48165cc87b85373aa8113a435dd2414302b10"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-dense-vector.md",
-          "sha256": "852ebddb3bbf9458f3ad731a18bb11a36e1d8934427fe41434d1cc448766bd84"
+          "sha256": "c84ab82acdc287d55ec501d482046077790786bf492a8ad016e4925acdf126a8"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-geometry-field.md",
@@ -4493,11 +4493,11 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-number-field.md",
-          "sha256": "ec4df751b37e6c0b53a6c2d5ab4ff3612fcb16ad40ce0752dfdd456e624309c3"
+          "sha256": "c45e39fd1d9b3f56a0f1198dba5b10344559e622c68ce43f9c028bc30fcb0131"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-sparse-vector.md",
-          "sha256": "cfa7e9817df5a510054d4a71095269402ffb231b52bd3e011f3424c09b892eca"
+          "sha256": "a05bccebc9d1d3fdf84c847c74377c05b171cf6b5334d21a6e8e90f309a4e496"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-string-field.md",
@@ -4505,7 +4505,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-text-field.md",
-          "sha256": "eee2a7744d5bdcaf0b703a0b9a0beb0ca3fd20ff9689b11cb1f170c7018b90a3"
+          "sha256": "c55ef527c336a933020366b2a3b67fdeba26c7546af8836fede4b69f7f8b1dbc"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-timestamptz-field.md",
@@ -4513,7 +4513,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/consistency-level.md",
-          "sha256": "0806ff894f83e348aafa7a23318417c21049f9d3ed49944da9945ce3f4baa6f0"
+          "sha256": "9ad0cc7beffc1dba9b25e137fbe1882b9c206c1a640c03911b2a20f8f49f753a"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md",
@@ -4709,7 +4709,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/volume/managed-volume.md",
-          "sha256": "23599efce3a863ffea345c81aa3ce3a8ceb2ece03099822af5710ec9b726e9a6"
+          "sha256": "8ea95d4453e71da0dfdc10ccd1515a48286207601a4b724cb0584f241cc5bfb2"
         },
         {
           "path": "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
@@ -4813,7 +4813,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/changelogs.md",
-          "sha256": "b878dfef6082215afa0dedaf9b464a610ec61d68d64ff1ebf32acd0127b730ae"
+          "sha256": "a7a7bf211aee17efb2ce0301ae8b8b448a9e8e60de680817297dd0b16ad7160c"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md",
@@ -5389,7 +5389,11 @@
         },
         {
           "path": "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
-          "sha256": "72737deee5d9c6992c8db866514f37f3ec547455713bc3cf5453fb6bc45fc5d9"
+          "sha256": "9a0df023856d94499e14c5ae3c08fef62e31b74549ed6180980e1d5941a95ea9"
+        },
+        {
+          "path": "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma.md",
+          "sha256": "54d03e338a65df9db187ebdbf5af3359a3b71eec012789e9117b3c20f6fefbd1"
         },
         {
           "path": "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
@@ -5417,7 +5421,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-          "sha256": "a7a3a321421b78add105ad55b83ca2cb6ea9ae3d2713df8a4b0c14f1accf7f0d"
+          "sha256": "6f2ad87056a2a439cf0fc70a39efbfff5a6b77961380148c33cfba7feb2a122a"
         },
         {
           "path": "content/en/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
@@ -5577,35 +5581,63 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "b039d0ebaf0cf928733836d99e2ad6843cfeb5eae7c40ae96c7ba9491f57603d"
+          "sha256": "11cf1bfc3ed22f58c0a6e288756f9b704225305b088a1771604e5f2fa9f92307"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
-          "sha256": "e326e263e97296913f6274d8ff41974a85a88b8401efd382cd76a210b963bb2c"
+          "sha256": "3e99c4ee995d03a3eec17b892256f0e616ea934d53d9025b2dfb09bd45dcb351"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "f416532078c9de44570b1b7a45ad36c4e367d5ba8b6f0df4ed19c635868ee06d"
+          "sha256": "23ce01b0bf5114412c412a3371a90b85386b66f83bc45ab4d57078c29d220e1f"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
+          "sha256": "77d176cc02faa48ad48cc268b90eb4d3678e174b25430df0bbd242af2e2bcbfe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "aa0f3dc9019a41ca5dba6f76150e6da40869d1341ff88596da9cfabecb194236"
+          "sha256": "db2b7b9b0e9f6f4bd1dbc0a40ba2aed6420863f365a7f5cf487fe4785baa694b"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
+          "sha256": "f69f385d3e315b3b0e6d30c7a08b8fafa3515fb9a74f41eea2f4c9d0648bce52"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
+          "sha256": "9084e1a9f6734b29d9172938557e44ac8cd1f0e11827d037a212f2df45096021"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
+          "sha256": "7ef178a5d8ad5caa4f3ef09e540afaf09357f088396536c8645062f0b5f431bf"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
+          "sha256": "1a9cb9c8ea3728334f5c485e7d7f5c53e39c859b82ad707e3a7704251d56c56b"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
+          "sha256": "7cf33e28a7cc6f24359ee37d63e9540228d7a4f1d7fc789f57d9a478ce04c536"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
+          "sha256": "4f27809a5e9c2a7929739b2cb81ff21c38b87e06ca6c4d9ac584bdce3e6ef940"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "5e9dbe0ffa7bfe4a59077877e4a92dd3587acf90b87412a4c900d033fe396c0d"
+          "sha256": "5cc58013d1b2310e3fa25ad5429daa790ce8313f2956bb1e9380fc1464073d47"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "f3d3f5e7c8fae3161f4145963c269a56379f920128542a139428049ade37fa9c"
+          "sha256": "bf8a47cb05fa6f18af98aecbe00cf1708bffbaac3dd2fce3f1dd3e512e4b85c3"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "79939518a505960b4e6aff2ebc5a591f9676f61138dfdc205b7d1edc638ec2e2"
+          "sha256": "c9fe9c63eb2da57db43a5bea3f281ddc731f65b247de70977ad123bc55d5ae2e"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "9908be4710ec26182c67c401b57bf26c3610141b6776cc7cc995b9ff3c03eb4d"
+          "sha256": "e0ce3cb17d0be1dd1b0e37b786cd7c410befda1b5a6cee2e4c2fd3fb1f87a7d3"
         }
       ]
     },
@@ -16572,7 +16604,7 @@
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
     },
     "tools": {
-      "zdoc": "c5ba84b20c5f8569c82530d1de42ef22397031a2",
+      "zdoc": "b1c19157ced54550f82b7f16f8f62ef40da7d628",
       "md2md": "1.3.0"
     },
     "images": []

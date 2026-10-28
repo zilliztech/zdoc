@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-28T14:11:56.271Z",
+  "generated_at": "2026-10-28T18:36:06.812Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -2907,7 +2907,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "source_file": null,
@@ -3296,7 +3296,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "source_file": null,
@@ -3728,7 +3728,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "source_file": null,
@@ -4241,7 +4241,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "source_file": null,
@@ -4416,7 +4416,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "2275ee2a8ba4beabce6c63c38d09bfe19b7acc1dda205fbc3933cfe06fb04464",
+        "inputs_sha256": "a0baffba4c8eed3bb5a020d065184debd974d13f377f50f4b4d06f20ca3a4cca",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "source_file": null,
@@ -4690,7 +4690,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "source_file": null,
@@ -6122,7 +6122,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "source_file": null,
@@ -6247,7 +6247,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "source_file": null,
@@ -6329,7 +6329,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "source_file": null,
@@ -6410,7 +6410,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "source_file": null,
@@ -6988,7 +6988,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "source_file": null,
@@ -13819,7 +13819,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "source_file": null,
@@ -22487,7 +22487,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       }
     },
@@ -22677,7 +22677,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       }
     },
@@ -23144,7 +23144,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       }
     },
@@ -23352,7 +23352,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       }
     },
@@ -23589,7 +23589,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "a4ed34b14b096e514d34afb0e7487c2a48f5880d498929dda679c3278ddeedbd",
+        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       }
     },
@@ -23972,7 +23972,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       }
     },
@@ -24048,7 +24048,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "2275ee2a8ba4beabce6c63c38d09bfe19b7acc1dda205fbc3933cfe06fb04464",
+        "inputs_sha256": "a0baffba4c8eed3bb5a020d065184debd974d13f377f50f4b4d06f20ca3a4cca",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       }
     },
@@ -24953,7 +24953,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       }
     },
@@ -25357,7 +25357,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       }
     },
@@ -25456,7 +25456,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       }
     },
@@ -25782,7 +25782,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       }
     },
@@ -25812,7 +25812,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "cdbceed742bdd35a5a13d4ada4db785cf9adcb1f1df4ba275f4d9497cbaa65e9",
+        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       }
     },
@@ -29633,7 +29633,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "6c2198cd673362f665fc538c6ba12841edda788a73d5087a1179f5661a643fe9",
+    "tblWv7PjNDsexddH": "cdff0db33251d4509a59010164ded76c0d2e9040330adaec43f353441fde9def",
     "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",
