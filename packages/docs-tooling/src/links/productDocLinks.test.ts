@@ -15,7 +15,7 @@ import {
 
 const FIXTURE_SOURCE = `
 import { IS_CLOUD_LANGUAGE_EN } from "@/Utils/ProductType";
-export { AWS_MARKETPLACE_LINK, GCP_MARKETPLACE_LINK } from "common-components";
+export { AWS_MARKETPLACE_LINK, GCP_MARKETPLACE_LINK } from "@common/index";
 
 export const ZILLIZ_DOC_BASE_URL =
   import.meta.env.VITE_DOC_URL || \`https://docs.zilliz.com\`;
@@ -46,6 +46,14 @@ export const DATASET_DOWNLOAD_LINK = 'https://assets.zilliz.com/dataset.json';
 function urls(entries: ReturnType<typeof extractProductDocLinks>): string[] {
   return entries.map(entry => entry.url);
 }
+
+describe('DEFAULT_PRODUCT_DOC_LINK_SOURCE', () => {
+  it('points at the console Link.ts inside the zilliz-cloud monorepo', () => {
+    expect(DEFAULT_PRODUCT_DOC_LINK_SOURCE).toBe(
+      'https://api.github.com/repos/zilliztech/zilliz-cloud/contents/vdc/cloud-client/packages/cloud/src/consts/Link.ts',
+    );
+  });
+});
 
 describe('extractProductDocLinks', () => {
   it('extracts primary docs URLs across deployment shapes and merges constants per URL', () => {
