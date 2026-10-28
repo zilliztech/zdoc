@@ -97,7 +97,7 @@ export TOKEN="YOUR_API_KEY"
 
     Volume 为 Zilliz Cloud 项目层级下的资源。创建 Volume 时，您需要提供项目 ID、地域 ID 和 Volume 名称，如下所示：
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -205,6 +205,14 @@ export TOKEN="YOUR_API_KEY"
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: Managed Volume management is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -295,7 +303,7 @@ export TOKEN="YOUR_API_KEY"
 
     您可以通过如下方式查看特定项目内的所有 Volume。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -386,6 +394,14 @@ export TOKEN="YOUR_API_KEY"
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>
@@ -515,20 +531,314 @@ export TOKEN="YOUR_API_KEY"
 
 ## 上传数据至 Managed Volume\{#-upload-data-into-a-managed-volume}
 
+<NextChannel action="include">
+
+您可以通过 SDK 或 Web 控制台上传文件或文件夹至 Managed Volume 中。
+
+- **通过 SDK**
+
+    1. **初始化 Volume File Manager**
+
+        Volume File Manager 用于维护与 Zilliz Cloud Volume Service 中指定 Volume 的连接。在向 Volume 上传文件之前，您需要先完成 Volume File Manager 的初始化。
+
+        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+        <TabItem value='python'>
+
+        ```python
+        from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
+        
+        volume_file_manager = VolumeFileManager(
+            cloud_endpoint='https://api.cloud.zilliz.com',
+            api_key='YOUR_API_KEY',
+            volume_name='managed_volume',
+        )
+        ```
+
+        </TabItem>
+
+        <TabItem value='java'>
+
+        ```java
+        import io.milvus.bulkwriter.VolumeFileManager;
+        import io.milvus.bulkwriter.VolumeFileManagerParam;
+        
+        VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
+            .withCloudEndpoint("https://api.cloud.zilliz.com")
+            .withApiKey("YOUR_API_KEY")
+            .withVolumeName("managed_volume")
+            .build();
+        
+        VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
+        ```
+
+        </TabItem>
+
+        <TabItem value='go'>
+
+        ```go
+        // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+        ```
+
+        </TabItem>
+
+        <TabItem value='rust'>
+
+        ```rust
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+        ```
+
+        </TabItem>
+
+        <TabItem value='c++'>
+
+        ```c++
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+        ```
+
+        </TabItem>
+
+        <TabItem value='javascript'>
+
+        ```javascript
+        // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+        ```
+
+        </TabItem>
+
+        <TabItem value='bash'>
+
+        ```bash
+        # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+        ```
+
+        </TabItem>
+        </Tabs>
+
+    1. **上传文件或文件夹**
+
+        当 Volume File Manager 初始化完成后，您可以使用它将文件或文件夹上传到指定的 Managed Volume。
+
+        - **上传文件**
+
+            以下示例展示如何上传文件。
+
+            <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+            <TabItem value='python'>
+
+            ```python
+            result = volume_file_manager.upload_file_to_volume(
+                source_file_path="/path/to/your/local/data/file", 
+                target_volume_path="data/"
+            )
+            
+            print(f"\nuploadFileToVolume results: {result}")
+            
+            # uploadFileToVolume results: 
+            # 
+            # {
+            #     "volumeName": "managed_volume",
+            #     "path": "data/"
+            # }
+            ```
+
+            </TabItem>
+
+            <TabItem value='java'>
+
+            ```java
+            import com.google.gson.Gson;
+            import io.milvus.bulkwriter.model.UploadFilesResult;
+            import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+            
+            UploadFilesRequest request = UploadFilesRequest.builder()
+                .sourceFilePath("/path/to/your/local/data/file")
+                .targetVolumePath("data/")
+                .build();
+            
+            UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
+            
+            System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
+            
+            // uploadFileToVolume results: 
+            // 
+            // {
+            //     "volumeName": "managed_volume",
+            //     "path": "data/"
+            // }
+            ```
+
+            </TabItem>
+
+            <TabItem value='go'>
+
+            ```go
+            // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+            ```
+
+            </TabItem>
+
+            <TabItem value='rust'>
+
+            ```rust
+            // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+            ```
+
+            </TabItem>
+
+            <TabItem value='c++'>
+
+            ```c++
+            // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+            ```
+
+            </TabItem>
+
+            <TabItem value='javascript'>
+
+            ```javascript
+            // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+            ```
+
+            </TabItem>
+
+            <TabItem value='bash'>
+
+            ```bash
+            # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+            ```
+
+            </TabItem>
+            </Tabs>
+
+        - **上传文件夹**
+
+            以下示例展示如何上传文件夹。
+
+            <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+            <TabItem value='python'>
+
+            ```python
+            result = volume_file_manager.upload_file_to_volume(
+                source_file_path="/path/to/your/local/data/folder/",
+                target_volume_path="data/"
+            )
+            
+            print(f"\nuploadFileToVolume results: {result}")
+            
+            # uploadFileToVolume results:
+            #
+            # {
+            #     "volumeName": "managed_volume",
+            #     "path": "data/"
+            # }
+            ```
+
+            </TabItem>
+
+            <TabItem value='java'>
+
+            ```java
+            import com.google.gson.Gson;
+            import io.milvus.bulkwriter.model.UploadFilesResult;
+            import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+            
+            UploadFilesRequest request = UploadFilesRequest.builder()
+                    .sourceFilePath("/path/to/your/local/data/folder/")
+                    .targetVolumePath("data/")
+                    .build();
+            
+            UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
+            System.out.println("uploadFiles results: " + new Gson().toJson(result));
+            
+            // uploadFileToVolume results:
+            //
+            // {
+            //     "volumeName": "managed_volume",
+            //     "path": "data/"
+            // }
+            ```
+
+            </TabItem>
+
+            <TabItem value='go'>
+
+            ```go
+            // Note: Volume file upload is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+            ```
+
+            </TabItem>
+
+            <TabItem value='rust'>
+
+            ```rust
+            // Note: Volume file upload is not supported in milvus-sdk-rust as of v3.0.2.
+            ```
+
+            </TabItem>
+
+            <TabItem value='c++'>
+
+            ```c++
+            // Note: Volume file upload is not supported in milvus-sdk-cpp as of v3.0.3.
+            ```
+
+            </TabItem>
+
+            <TabItem value='javascript'>
+
+            ```javascript
+            // Note: Volume file upload is not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+            ```
+
+            </TabItem>
+
+            <TabItem value='bash'>
+
+            ```bash
+            # Note: Volume file upload is not exposed by the RESTful API as of the current v2 volume endpoints.
+            ```
+
+            </TabItem>
+            </Tabs>
+
+- **通过 Web 控制台**
+
+    请根据以下指南上传文件或文件夹。
+
+    <Procedures>
+
+    1. 前往您的目标 Volume。
+
+    1. 切换至**文件**页签。
+
+    1. 点击**上传文件**。
+
+        ![DI8VbeawhohCg6xgyxmcVdUSnxd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/di8vbeawhohcg6xgyxmcvdusnxd.png "DI8VbeawhohCg6xgyxmcVdUSnxd")
+
+    1. 点击**选择文件**或**选择文件夹**。
+
+        ![CaeEbeFRuoRgQBxgZ4icsSqSnMd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/caeebefruorgqbxgz4icssqsnmd.png "CaeEbeFRuoRgQBxgZ4icsSqSnMd")
+
+    1. 选择本地文件或文件夹并点击**上传**。
+
+    </Procedures>
+
+</NextChannel>
+
 目前您仅可以通过 SDK 上传文件或文件夹。
 
 1. **初始化 Volume File Manager**
 
     Volume File Manager 用于维护与 Zilliz Cloud Volume Service 中指定 Volume 的连接。在向 Volume 上传文件之前，您需要先完成 Volume File Manager 的初始化。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
     from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
     
     volume_file_manager = VolumeFileManager(
-        cloud_endpoint='https://api.cloud.zilliz.com.cn',
+        cloud_endpoint='https://api.cloud.zilliz.com',
         api_key='YOUR_API_KEY',
         volume_name='managed_volume',
     )
@@ -543,12 +853,52 @@ export TOKEN="YOUR_API_KEY"
     import io.milvus.bulkwriter.VolumeFileManagerParam;
     
     VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .withVolumeName("managed_volume")
         .build();
     
     VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
     ```
 
     </TabItem>

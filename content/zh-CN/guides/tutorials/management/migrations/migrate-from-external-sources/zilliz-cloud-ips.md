@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 使用一组固定的 IP 地址从您的数据源中拉取数据，并将其发送到目标集群。为了确保 Zilliz Cloud 能够执行此操作，您需要在防火墙中将这些 IP 地址添加到安全列表中： | Cloud"
 type: origin
 token: J86AwNi3midzR9kqgbHcnX14ntc
-sidebar_position: 8
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

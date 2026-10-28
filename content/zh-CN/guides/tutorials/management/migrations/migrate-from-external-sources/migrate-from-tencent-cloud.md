@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文档说明腾讯云向量数据库迁移过程中 Zilliz Cloud 的数据类型映射规则、JSON 字段转换机制及 Collection 命名规范。 | Cloud"
 type: origin
 token: WBTjw5BmvisFlLk6uGoc6q71nns
-sidebar_position: 6
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

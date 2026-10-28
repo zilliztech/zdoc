@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文档介绍从 Qdrant 迁移时，Zilliz Cloud 如何处理数据类型映射、Payload 字段转换及 Collection 命名规则。 | Cloud"
 type: origin
 token: Ii6EwCswKihb6LkI0MmcNVZZnIf
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

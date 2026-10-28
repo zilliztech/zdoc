@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文档说明从 OpenSearch 迁移时，Zilliz Cloud 如何处理数据类型映射、Collection 命名规则及注意事项。 | Cloud"
 type: origin
 token: Cf89wr8V3iGmr3kKiqAcP4D1nPb
-sidebar_position: 7
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

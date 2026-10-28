@@ -553,7 +553,6 @@
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md",
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
-    "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
     "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
@@ -3049,9 +3048,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/managed-volume.md",
-      "sha256": "e44e56cfd0c27d4a23f249e20a6c7720c00e612f0e5a5536d91918681807e47c",
+      "sha256": "9d9212be1b618442dd0caf56d06f08a9fa35f3fdd16b3be49c1e336fa2a5189d",
       "docToken": "JVtGwoZ0Ni6ZEmkTZvyc58kAnjc",
-      "revisionId": "781"
+      "revisionId": "866"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss.md",
@@ -3889,43 +3888,37 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
-      "sha256": "157d598e9b41c13e5e25f5f2bd347b57963068732d7b483ef287ae7f7feabca5",
+      "sha256": "a7cb752536f994fb3bf18a0ff5e4d584af2665722ba63dac6737dd1ca251f43b",
       "docToken": "CJN4wlKiGi1P8Zk4BHKcF04GnLb",
       "revisionId": "1060"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md",
-      "sha256": "63235e4cc324eb1ddf6d5a7448a354617758dd5e82d6edc5dea0a2c4cdd926bf",
+      "sha256": "aa0c3d5558cc2f9ae34dd4fce5fb013f1e6203238d80dba642ce2321f32e4746",
       "docToken": "Cf89wr8V3iGmr3kKiqAcP4D1nPb",
       "revisionId": "337"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
-      "sha256": "4f9e89f445ac24cb40e9c1c018ed65ff660c322de8c380668bd46bedaab04857",
+      "sha256": "6d57e8bc6c204bcc46edb8b8365a8c5b74247c1626b2d17877b9d8f4efaf6300",
       "docToken": "QrBFw5sXmiaaYRk1YpectbZpnzg",
       "revisionId": "598"
     },
     {
-      "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "sha256": "f1e2e09da65952bd1cd6e4af662fc00763f3622f68096a91e3f7d288caeb103e",
-      "docToken": "MjDcwfnLMiVRYVkFSqTckwQbnmc",
-      "revisionId": "391"
-    },
-    {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "sha256": "2885a24a3186eedc18bb48d81ffcf2618840dd0305c4a68ac8b9f97fc4048b68",
+      "sha256": "9dc4f32a9804c02d4c91ef7839e64ee484f33707e9b00522a85ffb671606c935",
       "docToken": "Ii6EwCswKihb6LkI0MmcNVZZnIf",
       "revisionId": "586"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "sha256": "c82292759607568e15d9e92993e53cf530131bb34846bbac7397fdf901b20f1d",
+      "sha256": "5a6921c22b46baec2a580b114c0a77fa044c08a197731608b5a68f7ca9756517",
       "docToken": "WBTjw5BmvisFlLk6uGoc6q71nns",
       "revisionId": "368"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "sha256": "f54d31ab109052ef0be6526dc510e43819435cffe91af3340537ea25c7e4c9c4",
+      "sha256": "800d084a9b54ac2b3eef831d6c6a4f05c8efb499811a32df77a7778d03f6a337",
       "docToken": "J86AwNi3midzR9kqgbHcnX14ntc",
       "revisionId": "233"
     },
@@ -4195,7 +4188,7 @@
     },
     {
       "path": "generated/zh-CN/sidebars/guides.sidebar.js",
-      "sha256": "6385ab721e360e8c52cab0a3c2151b2b47753fcf8dc1cb910fc5e08854068648",
+      "sha256": "b9d391392af4ba63fa2123748904be677e0808dc938276b3963a0389deffdcde",
       "docToken": null,
       "revisionId": null
     },

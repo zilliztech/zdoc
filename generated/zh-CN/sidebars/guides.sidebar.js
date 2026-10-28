@@ -1895,12 +1895,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone",
-                "label": "从 Pinecone 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone"
-              },
-              {
-                "type": "doc",
                 "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant",
                 "label": "从 Qdrant 迁移至 Zilliz Cloud",
                 "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant"
