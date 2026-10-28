@@ -2,7 +2,7 @@
 title: "DescribeSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -13,7 +13,7 @@ token: MjnKdyOXkoKD3exC7rUcXSCMnxe
 sidebar_position: 2
 keywords: 
   - ベクトル検索
-  - knnアルゴリズム
+  - knn アルゴリズム
   - HNSW
   - 非構造化データとは
   - zilliz
@@ -45,19 +45,19 @@ auto request = milvus::DescribeSnapshotRequest()
     .WithSnapshotName("snapshot_20260617");
 ```
 
-**リクエスト メソッド:**
+**リクエストメソッド:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    データベース名を指定します。
+    データベース名を設定します。
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    コレクション名を指定します。
+    コレクション名を設定します。
 
 - `WithSnapshotName(const std::string& snapshot_name)`
 
-    スナップショット名を指定します。
+    スナップショット名を設定します。
 
 **戻り値:**
 
@@ -67,7 +67,7 @@ auto request = milvus::DescribeSnapshotRequest()
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合、またはレスポンスの解析に失敗した場合に、この例外が発生する可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外が発生する可能性があります。
 
 ## 例\{#example}
 

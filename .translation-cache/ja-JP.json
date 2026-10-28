@@ -3886,49 +3886,49 @@
       "translatedAt": "2026-10-25T15:55:02.852Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md": {
-      "sourceHash": "da8ce129a018045a95dbe18ca90aff6fc810b4d96d8245e01376f1dd794da299",
+      "sourceHash": "9183cf42f3e21de03e8561af1b8d95423eb808cc07dd370f26fd41f01e41f9b4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md": {
-      "sourceHash": "daeaaf14a064c0466ec9b93ec13ad907bae9bb7593647b8f71f8260148b29f5f",
+      "sourceHash": "0be9b287dc42719c3c05b229cf38df89e3d6c782e9fa2cd2612f4f2f8c1d03da",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md": {
-      "sourceHash": "5613326ad57d94b7fd646d1accad453aef43ce29b32e47e62b8f0885deefa5f9",
+      "sourceHash": "2d89e633166d183a36d0df90bc2512fe07a5b0a3edb903c0a7d144b8d480a44b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md": {
-      "sourceHash": "7c8a3b5abdde20c65a6c23faaf3ea6b0a7449e7d84d2f93a50888b7b38b0b965",
+      "sourceHash": "55dc81fa842b1eaa00c6f049af6e12e2bd84d05a31db754ba4b82e98a637d235",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md": {
-      "sourceHash": "956c067ede6f03e1a2ea16f435eeaf376e5e0bb85acf252fe7bcd43fcb8b0645",
+      "sourceHash": "7e14d90e51589524490c6b5f5cea28328d0343784cb2ce67638e057c3a711514",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md": {
-      "sourceHash": "11c3f8f8796fbaf760c4cfe20cc9350d28549bdd5cd0d0f6638c7b2c54b59ff1",
+      "sourceHash": "8e8033013168ab68aea8d37b27090ba31f9e6c8ce1c60c043284660c39c79cb3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md": {
-      "sourceHash": "00f4f7100959df64185cac5223ed0ade86eefbe930057c03dbc621a9ff36bb72",
+      "sourceHash": "1359de0604d26abc777a46cd8c6305e5650a627746bad50d04900ee38d0c1eff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md": {
-      "sourceHash": "9aab8e0e954e6cb5d77058345b1fdef5e2f7037e99ddddd7b7b11e16007f78ac",
+      "sourceHash": "5139edf88fb326130db4492acec9b8cf7818f9e054bdc5038b0079c8b8d9d182",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md": {
-      "sourceHash": "7c5ca66ed565ab6f14312ce2901be6285dc4e61175fd630145ecbce0f2a37647",
+      "sourceHash": "5e0b3183672555b4323fd27c96009b3aba754421b383fef37b8132e055561404",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
-      "translatedAt": "2026-10-25T15:55:02.852Z"
+      "translatedAt": "2026-10-28T02:45:58.160Z"
     },
     "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md": {
       "sourceHash": "4be2982c58d3c963f7903e572c8e0b4745df2f6de2e1f9e4fc12a90f082f9d53",

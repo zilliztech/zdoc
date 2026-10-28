@@ -2,20 +2,20 @@
 title: "DropSnapshot() | Cloud"
 slug: /cpp/cpp/Snapshots-DropSnapshot
 sidebar_label: "DropSnapshot()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショットを削除します。不要になったスナップショットの削除に使用します。 | Cloud"
+description: "この操作はスナップショットを削除します。不要になったスナップショットを削除する場合に使用します。 | Cloud"
 type: docx
 token: M582dy1WyoYIbuxtun0cEc8ln3d
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense ベクトル
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - スパースとデンス
+  - 密ベクトル
+  - 階層型ナビゲート可能スモールワールド
+  - 密な埋め込み
   - zilliz
   - zilliz cloud
   - cloud
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # DropSnapshot()
 
-この操作はスナップショットを削除します。不要になったスナップショットの削除に使用します。
+この操作はスナップショットを削除します。不要になったスナップショットを削除する場合に使用します。
 
 ```c++
 Status DropSnapshot(const DropSnapshotRequest& request)
@@ -45,7 +45,7 @@ auto request = milvus::DropSnapshotRequest()
     .WithSnapshotName("snapshot_20260617");
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
@@ -59,15 +59,15 @@ auto request = milvus::DropSnapshotRequest()
 
     削除するスナップショット名を設定します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-**例外:**
+**例外：**
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合、またはレスポンスの解析に失敗した場合に、この例外が発生する可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に発生する可能性があります。
 
 ## 例\{#example}
 

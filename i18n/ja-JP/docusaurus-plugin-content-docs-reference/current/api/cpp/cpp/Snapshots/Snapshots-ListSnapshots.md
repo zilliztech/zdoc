@@ -2,7 +2,7 @@
 title: "ListSnapshots() | Cloud"
 slug: /cpp/cpp/Snapshots-ListSnapshots
 sidebar_label: "ListSnapshots()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -13,9 +13,9 @@ token: GJDKdgCbpoAxYkxpXygcdfFQnFe
 sidebar_position: 6
 keywords: 
   - knn
-  - Image Search
+  - 画像検索
   - LLMs
-  - Machine Learning
+  - 機械学習
   - zilliz
   - zilliz cloud
   - cloud
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # ListSnapshots()
 
-この操作は、コレクションのスナップショットを一覧表示します。利用可能な復元ポイントの確認に使用します。
+この操作は、コレクションのスナップショットを一覧表示します。利用可能な復元ポイントを確認するために使用します。
 
 ```c++
 Status ListSnapshots(const ListSnapshotsRequest& request, ListSnapshotsResponse& response)
@@ -62,7 +62,7 @@ auto request = milvus::ListSnapshotsRequest()
 
 - **std::exception**
 
-    この例外は、リクエストの送信に失敗した場合やレスポンスを解析できない場合にスローされる可能性があります。
+    この例外は、リクエストを送信できない場合や、レスポンスを解析できない場合に発生する可能性があります。
 
 ## 例\{#example}
 

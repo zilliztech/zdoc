@@ -2,7 +2,7 @@
 title: "ListRestoreSnapshotJobs() | Cloud"
 slug: /cpp/cpp/Snapshots-ListRestoreSnapshotJobs
 sidebar_label: "ListRestoreSnapshotJobs()"
-beta: false
+beta: ON REQUEST
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -13,12 +13,12 @@ token: ObE8dlNmooAuRQxQnyEci9RInxH
 sidebar_position: 5
 keywords: 
   - Zilliz Cloud
-  - what is milvus
+  - milvus とは
   - milvus データベース
   - milvus lite
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ListRestoreSnapshotJobs()
   - cppv30
 displayed_sidebar: cppSidebar
@@ -44,7 +44,7 @@ auto request = milvus::ListRestoreSnapshotJobsRequest()
     .WithCollectionName("book_restored");
 ```
 
-**リクエストメソッド:**
+**リクエストメソッド：**
 
 - `WithDatabaseName(const std::string& db_name)`
 
@@ -54,15 +54,15 @@ auto request = milvus::ListRestoreSnapshotJobsRequest()
 
     コレクション名を設定します。
 
-**戻り値:**
+**戻り値：**
 
 *Status*
 
-**例外:**
+**例外：**
 
 - **std::exception**
 
-    リクエストの送信に失敗した場合、またはレスポンスを解析できない場合に、この例外が発生する可能性があります。
+    リクエストを送信できない場合、またはレスポンスを解析できない場合に、この例外が発生する可能性があります。
 
 ## 例\{#example}
 
