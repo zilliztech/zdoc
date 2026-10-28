@@ -103,6 +103,34 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
   assert.match(snapshot.table_digests.tbl, /^[a-f0-9]{64}$/)
 })
 
+test('createSourceSnapshot records output paths for a docx Base link through the wiki node token', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-docx-'))
+  fs.writeFileSync(path.join(dir, 'node-token.json'), JSON.stringify({
+    title: 'Source', slug: 'source', node_token: 'node-token', origin_node_token: 'node-token', obj_token: 'docx-token',
+    base_record_id: 'rec-source', base_placement_type: 'canonical', blocks: { items: [] },
+  }))
+
+  const build = outputPathsByToken => createSourceSnapshot({
+    manualName: 'guides', targetsBuilt: ['zilliz.saas'], buildEnv: 'uat', sourceBranch: 'dev',
+    docSourceDir: dir, baseAppToken: 'base-token', outputPathsByToken,
+    nodeMetadataByToken: new Map([['docx-token', { node_token: 'node-token', origin_node_token: 'node-token', obj_token: 'docx-token', obj_type: 'docx', revision_id: 'rev-1' }]]),
+    records: [{
+      record_id: 'rec-source', base_table_id: 'tbl', base_table_name: 'Development',
+      fields: { Docs: { text: 'Source', link: 'https://zilliverse.feishu.cn/docx/docx-token' }, Slug: 'source', Progress: 'Draft', 'Placement Type': 'canonical' },
+    }],
+  }).records[0]
+
+  const generatedByNodeToken = build(new Map([['node-token', ['docs/tutorials/source.md']]]))
+  assert.equal(generatedByNodeToken.doc_token, 'docx-token')
+  assert.equal(generatedByNodeToken.source_file, 'node-token.json')
+  assert.deepEqual(generatedByNodeToken.output_paths, ['docs/tutorials/source.md'])
+
+  const generatedByBothTokens = build(new Map([['node-token', ['docs/tutorials/source.md']], ['docx-token', ['docs/tutorials/source.md']]]))
+  assert.deepEqual(generatedByBothTokens.output_paths, ['docs/tutorials/source.md'])
+
+  assert.deepEqual(build(new Map([['unrelated-token', ['docs/tutorials/other.md']]])).output_paths, [])
+})
+
 test('createSourceSnapshot persists Release Channel and candidate validation rejects unknown channels', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-'))
   try {

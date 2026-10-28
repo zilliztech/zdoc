@@ -333,6 +333,31 @@ test('shared completeness requires a validated receipt instead of accepting abse
   assert.match(result.identityErrors.join(' '), /shared receipt/)
 })
 
+test('planning receipts located from a source-cache manifest are still authenticated per record', t => {
+  const records = [row()]
+  const dir = temporary(t)
+  fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({children: [{base_record_id: 'rec-shared'}]}))
+  const snapshot = createSourceSnapshot({manualName: 'guides', docSourceDir: dir, records,
+    buildEnv: 'uat', baseAppToken: 'base', routingContext: context(records)})
+  const {hashSnapshot, validateSourceCompleteness} = require('./sourceCompleteness')
+  const workspace = temporary(t)
+  const manifest = path.join(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json')
+  fs.mkdirSync(path.dirname(manifest), {recursive: true})
+  fs.writeFileSync(manifest, JSON.stringify({schemaVersion: 2, manual: 'guides', snapshotHash: hashSnapshot(snapshot),
+    sharedReceipts: {'rec-shared': {token: 'forged', inputs: {fetch: {navigation: {navigationRecords: []}}}, outputs: []}}}))
+  const receipts = require('./incrementalSharedReceipts').sharedReceiptsForPlanning({workspace, sourceDirName: 'guides', snapshot})
+  assert.equal(receipts.size, 1, 'the manifest tier locates the forged receipt')
+  const result = validateSourceCompleteness({manual: 'guides', buildEnv: 'uat', rootToken: 'root', sourceDir: dir, snapshot, sharedReceiptsByRecordId: receipts})
+  assert.equal(result.validCanonicalSources, 0)
+  assert.equal(result.complete, false)
+  assert.match(result.identityErrors.join(' '), /shared receipt rec-shared/)
+  const {planIncrementalFetch} = require('./incrementalFetchPlanner')
+  const plan = planIncrementalFetch({manualName: 'guides', docSourceDir: dir, records, routingContext: context(records),
+    previousSnapshot: snapshot, buildEnv: 'uat', sourceCompleteness: result})
+  assert.equal(plan.mode, 'full')
+  assert.match(plan.warnings.join(' '), /Source cache is incomplete/)
+})
+
 test('pinned directory evidence ignores uncommitted shared pages and rejects a symlink page', t => {
   const {execFileSync} = require('node:child_process')
   const {pinnedSharedPages} = require('./sharedPageRouting')

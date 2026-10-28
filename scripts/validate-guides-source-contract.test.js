@@ -166,6 +166,38 @@ test('canonical token must generate exactly one body even when referenced elsewh
   assert.throws(() => validateGuidesSourceContract({ ...h, target: 'zilliz.saas' }), /canonical.*duplicate files/i)
 })
 
+test('a docx Base link resolves to the wiki node token the writer stamps into frontmatter', () => {
+  const f = fixture()
+  const canonical = f.snapshot.navigation_records.find(record => record.record_id === 'page')
+  canonical.doc_token = 'U94pdocxObjToken'
+  canonical.doc_link = 'https://zilliverse.feishu.cn/docx/U94pdocxObjToken'
+  f.snapshot.records = [{ record_id: 'page', doc_token: 'U94pdocxObjToken', obj_token: 'U94pdocxObjToken', node_token: 'JaTxwikiNodeToken', origin_node_token: 'JaTxwikiNodeToken' }]
+  fs.rmSync(path.join(f.outputDir, 'tools/section/page.md'))
+  write(f.outputDir, 'tools/section/page.md', 'JaTxwikiNodeToken')
+  const ref = f.snapshot.navigation_records.find(record => record.record_id === 'ref')
+  ref.ref_target = 'https://zilliverse.feishu.cn/wiki/JaTxwikiNodeToken'
+
+  assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+
+  f.snapshot.records = []
+  assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /canonical page missing file for token: U94pdocxObjToken/)
+
+  f.snapshot.records = [{ record_id: 'page', node_token: 'JaTxwikiNodeToken' }]
+  write(f.outputDir, 'tools/section/copy.md', 'U94pdocxObjToken')
+  assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /canonical.*duplicate files/i)
+})
+
+test('a section landing page linked by docx URL resolves through the same token aliases', () => {
+  const f = fixture()
+  const section = f.snapshot.navigation_records.find(record => record.record_id === 'section')
+  section.doc_token = 'SectionDocxToken'
+  f.snapshot.records = [{ record_id: 'section', doc_token: 'SectionDocxToken', node_token: 'SectionNodeToken' }]
+  write(f.outputDir, 'tools/section/index.md', 'SectionNodeToken')
+  f.sidebar[0].items[0].link = { type: 'doc', id: 'tutorials/tools/section/index' }
+
+  assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+})
+
 test('Chinese contract uses the canonical English slug for localized table names', () => {
   const f = fixture()
   for (const record of f.snapshot.navigation_records) record.table_name = '运维指南'

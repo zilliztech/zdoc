@@ -97,17 +97,21 @@ function cleanupRemovedIncrementalRecords({
         fs.rmSync(outputPath, { force: true });
         removedOutputs.push(path.relative(root, outputPath).split(path.sep).join('/'));
       }
-    } else if (record.doc_token && determineFilePath && fs.existsSync(outputRoot)) {
-      try {
-        const relativePath = determineFilePath(record.doc_token, outputRoot);
-        const outputPath = path.resolve(outputRoot, relativePath);
-        if (!isInsideOrEqual(outputRoot, outputPath)) throw new Error('Token lookup escaped output directory');
-        if (fs.existsSync(outputPath)) {
-          fs.rmSync(outputPath, { force: true });
-          removedOutputs.push(path.relative(root, outputPath).split(path.sep).join('/'));
+    } else if (recordTokens.length > 0 && determineFilePath && fs.existsSync(outputRoot)) {
+      // Older snapshots recorded no output paths; the generated frontmatter may
+      // carry any alias of the record (the wiki node token for a docx Base link).
+      for (const token of new Set(recordTokens)) {
+        try {
+          const relativePath = determineFilePath(token, outputRoot);
+          const outputPath = path.resolve(outputRoot, relativePath);
+          if (!isInsideOrEqual(outputRoot, outputPath)) throw new Error('Token lookup escaped output directory');
+          if (fs.existsSync(outputPath)) {
+            fs.rmSync(outputPath, { force: true });
+            removedOutputs.push(path.relative(root, outputPath).split(path.sep).join('/'));
+          }
+        } catch (error) {
+          if (!/Cannot find file for token/.test(error.message)) throw error;
         }
-      } catch (error) {
-        if (!/Cannot find file for token/.test(error.message)) throw error;
       }
     }
   }

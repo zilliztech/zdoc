@@ -310,6 +310,9 @@ function createSourceSnapshot({
         validateSharedSnapshotRecord(result)
         return result
       }
+      const nodeToken = nodeMetadata?.node_token || source?.node_token || null
+      const originNodeToken = nodeMetadata?.origin_node_token || source?.origin_node_token || null
+      const objToken = nodeMetadata?.obj_token || source?.obj_token || null
       return {
         record_id: record.record_id,
         table_id: record.table_id,
@@ -322,9 +325,9 @@ function createSourceSnapshot({
         source_file: source?.__source_file || null,
         source_hash: source?.__source_hash || null,
         node_metadata: nodeMetadata,
-        node_token: nodeMetadata?.node_token || source?.node_token || null,
-        origin_node_token: nodeMetadata?.origin_node_token || source?.origin_node_token || null,
-        obj_token: nodeMetadata?.obj_token || source?.obj_token || null,
+        node_token: nodeToken,
+        origin_node_token: originNodeToken,
+        obj_token: objToken,
         obj_type: nodeMetadata?.obj_type || source?.obj_type || null,
         obj_edit_time: nodeMetadata?.obj_edit_time || source?.obj_edit_time || null,
         revision_id: nodeMetadata?.revision_id || source?.revision_id || null,
@@ -332,7 +335,10 @@ function createSourceSnapshot({
         publish_status: plainValue(baseRecord?.fields?.Status ?? baseRecord?.fields?.Progress) || null,
         release_channel: guidesRecordChannel(baseRecord),
         outgoing_tokens: [...new Set(outgoingTokens)].sort(),
-        output_paths: [...new Set(outputPathsByToken.get(record.doc_token) || [])].sort(),
+        // Generated frontmatter carries the wiki node token, which differs from
+        // doc_token when the Base links the docx URL of a wiki-hosted page.
+        output_paths: [...new Set([record.doc_token, nodeToken, originNodeToken, objToken].filter(Boolean)
+          .flatMap(token => outputPathsByToken.get(token) || []))].sort(),
       }
     }),
   }
