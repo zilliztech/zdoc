@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義することで、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、およびユーザーの削除の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーを削除する方法を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
 
-## ユーザーの作成\{#create-a-user}
+## ユーザーを作成する\{#create-a-user}
 
 次の例では、ユーザー名 `user_1`、パスワード `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります。
 
@@ -114,23 +114,19 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.create_user(
-        sdk::request::rbac::CreateUserRequest::builder()
-            .username("user_1")
-            .password("P@ssw0rd")
-            .description("a new user in the developers team")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_user(
+    sdk::request::rbac::CreateUserRequest::builder()
+        .username("user_1")
+        .password("P@ssw0rd")
+        .description("a new user in the developers team")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -225,7 +221,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの一覧表示\{#list-users}
+## ユーザーを一覧表示する\{#list-users}
 
 複数のユーザーを作成した後、既存のすべてのユーザーを一覧表示して確認できます。
 
@@ -337,7 +333,7 @@ curl --request POST \
 ['root', 'user_1']
 ```
 
-## ユーザーへのロールの付与\{#grant-a-role-to-a-user}
+## ユーザーにロールを付与する\{#grant-a-role-to-a-user}
 
 次の例では、ユーザー `user_1` にロール `role_a` を付与する方法を示します。
 
@@ -420,22 +416,18 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.grant_role(
-        sdk::request::rbac::GrantRoleRequest::builder()
-            .username("user_1")
-            .role_name("role_a")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.grant_role(
+    sdk::request::rbac::GrantRoleRequest::builder()
+        .username("user_1")
+        .role_name("role_a")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -526,7 +518,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの詳細表示\{#describe-user}
+## ユーザーの詳細を表示する\{#describe-user}
 
 ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
@@ -651,7 +643,7 @@ curl --request POST \
 {'user_name': 'user_1', 'description':'a new user in the developers team', 'roles': 'role_a'}
 ```
 
-## ロールの取り消し\{#revoke-a-role}
+## ロールを取り消す\{#revoke-a-role}
 
 ユーザーに割り当てられたロールを取り消すこともできます。
 
@@ -778,7 +770,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの削除\{#drop-user}
+## ユーザーを削除する\{#drop-user}
 
 次の例では、ユーザー `user_1` を削除する方法を示します。
 
@@ -864,21 +856,17 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.drop_user(
-        sdk::request::rbac::DropUserRequest::builder()
-            .username("user_1")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.drop_user(
+    sdk::request::rbac::DropUserRequest::builder()
+        .username("user_1")
+        .build()?,
+).await?;
 ```
 
 </TabItem>

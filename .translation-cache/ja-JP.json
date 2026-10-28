@@ -2206,9 +2206,9 @@
       "translatedAt": "2026-10-28T03:29:32.772Z"
     },
     "content/en/guides/tutorials/development/snapshots/snapshots.md": {
-      "sourceHash": "b10c810f1c1e978a17f8d66925541a3be32376b9286aa371ed2d99b976af6955",
+      "sourceHash": "ade4ef8e0ac34bf3f89ab3d3bf84f9f15f792af1b21a9ac5f2338f907444e906",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
-      "translatedAt": "2026-08-25T08:25:57.060Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
       "sourceHash": "71803ea6d7f5b21979eb6bc65dbd08958117c20b454ef4f8727b689263988680",
@@ -2286,9 +2286,9 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
-      "sourceHash": "e8e2b1433fb67772ac77d3079c83dd0f80960afdf43e34a2d0e50a6f01335abb",
+      "sourceHash": "96df855d70c38a26612dcf67eda8ca39e325ee9e3d91e0f4f56db0d091af5d3a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
-      "translatedAt": "2026-10-27T03:55:25.719Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/cu-types-explained.md": {
       "sourceHash": "9ddcb032abdda161b207cd576c5327e72920adeb74d7d1e85bd6dabc80a74d68",
@@ -2316,9 +2316,9 @@
       "translatedAt": "2026-10-19T17:49:29.775Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-get-started.md": {
-      "sourceHash": "c471a81ce9f546e32596900882233bddfb5b26288b4291854245930b20a8ba4b",
+      "sourceHash": "8d41290b14f678f9c632230102326678cdb4ffdd2fc80d28dd0ee361e703ca89",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-get-started.md",
-      "translatedAt": "2026-08-04T05:08:03.392Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-resource-planning.md": {
       "sourceHash": "be23dfc91c00d330b5a1383b973f0abcbfe9711da810f1248e43a366abd2ed23",
@@ -2396,9 +2396,9 @@
       "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-200.md": {
-      "sourceHash": "869ac907b8e11acd5b460b8f5e55eab879cf49fbb69bb53e2f56d8cd32f03a31",
+      "sourceHash": "226935337b253e7601ade2537753d89217b27e6abb8b544b1f5e452a029d9d57",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-200.md",
-      "translatedAt": "2026-10-19T23:22:12.534Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-210.md": {
       "sourceHash": "44539a6299065ebf166f510e4416c9e4e809b369f91f7d07a62c2c7440cdd078",
@@ -2431,9 +2431,9 @@
       "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2140.md": {
-      "sourceHash": "9252c919e6bec94951bd09ca4ae4f18875e497a86cf7eb786b45e1ab711d6da6",
+      "sourceHash": "6b2518fea60fbeb5b2cd392d66874bf9eb71910f27ed566eb86ddb1229ccb278",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2140.md",
-      "translatedAt": "2026-10-19T23:22:12.534Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2150.md": {
       "sourceHash": "ed40cb78df0dbf844847900f613140f41be9a0396bec892f014b2349b7914909",
@@ -2546,9 +2546,9 @@
       "translatedAt": "2026-10-19T23:25:07.913Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-280.md": {
-      "sourceHash": "5a4d156be5317b80ce201d8ebbdf21b88901848c2d89ca4010e29ae3ec8d65a5",
+      "sourceHash": "5a011deee57f06a225409ef286e53e386f36741adde4f2fa144ebc5ab0654ae8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-280.md",
-      "translatedAt": "2026-10-19T23:25:07.913Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-290.md": {
       "sourceHash": "4bef3c6d68f8ff291ed23e76064997ca44b5595c7319f4cb00ef2f62afbe362c",
@@ -2821,14 +2821,14 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "cd904c70c00ee0f5c33d772144aeb243982e0f48f222e48850102c44df57b6f0",
+      "sourceHash": "033b146fa5462079e6e48e695f8bf66f6d79b9d89e09d1fa93ec02aaff781a5b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "c5d2bd59cc595514cabeaab6ef28b00d108f111896048092d3e14ddb21e77870",
+      "sourceHash": "4ba559f8d941e1af23dcebd2dff921d9833f394985bfb49a9e8ee6e79a4559f0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-10-26T11:56:32.471Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "8eb13c856cf31804a819b8e32e8c11413b875c8291fa6e41df12766f7eb716ac",
@@ -2931,9 +2931,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "47747c298e2ec704b3132582d3995db155a8de9fab7572c77f747cc0e2f80513",
+      "sourceHash": "eeffd61611847e1f0711f97355ce6ac6d87be467cdc75065f14be95b5cc97804",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
@@ -3106,9 +3106,9 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "a2fe1aedb6d2e3f6de722c9484b36032dad3cb0eb7e853c89d553da8b704a94f",
+      "sourceHash": "a7a3a321421b78add105ad55b83ca2cb6ea9ae3d2713df8a4b0c14f1accf7f0d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-10-23T14:58:51.793Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "e6a0b123b8c38d0f778536298b756775b1a0de08063b112bb7f676cc0168a3fd",
@@ -3176,9 +3176,9 @@
       "translatedAt": "2026-10-19T15:32:03.235Z"
     },
     "content/en/guides/tutorials/solution/schema-evolution/schema-evolution.md": {
-      "sourceHash": "bdabfbae778a0e5c41279ed75431900010662b8946a7a628817477c6faae01ab",
+      "sourceHash": "17586d8b8b8f46bfdffee37e6050710bf3ae20abe1c14f6ad2bace5fec743173",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/solution/schema-evolution/schema-evolution.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
       "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",

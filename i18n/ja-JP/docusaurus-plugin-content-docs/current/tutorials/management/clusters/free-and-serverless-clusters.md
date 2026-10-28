@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。 | Cloud"
+description: "Free および Serverless クラスターはサービングクラスターです。このページは、作成、接続、管理という基本的なライフサイクルに使用します。 | Cloud"
 type: origin
 token: EO58wVRLpiTBXQkceRjccN28nrh
 sidebar_position: 1
@@ -87,8 +87,6 @@ Free および Serverless クラスターでは、以下のサービングエン
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
-
-クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
