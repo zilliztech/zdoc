@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は、一連の固定 IP アドレスを使用してデータソースからデータを取得し、ターゲットクラスターに送信します。Zilliz Cloud がこの処理を実行できるようにするには、これらの IP アドレスをファイアウォールの許可リストに登録する必要があります | Cloud"
 type: origin
 token: KfgvwJKPDi8uDekl2aHcPOvgnSb
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---

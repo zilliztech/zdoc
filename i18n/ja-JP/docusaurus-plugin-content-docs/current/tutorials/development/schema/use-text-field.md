@@ -1097,10 +1097,7 @@ for _, resultSet := range resultSets {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto search_results = response.Results();
+auto search_results = searchResponse.Results();
 for (auto& result : search_results.Results()) {
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);

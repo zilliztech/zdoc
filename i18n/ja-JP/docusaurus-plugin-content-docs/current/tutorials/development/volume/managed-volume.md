@@ -625,6 +625,300 @@ export TOKEN="YOUR_API_KEY"
 
 ## マネージドボリュームにデータをアップロードする\{#upload-data-into-a-managed-volume}
 
+<NextChannel action="include">
+
+SDK または Web コンソールを使用して、データファイルまたはフォルダーをマネージドボリュームにアップロードできます。
+
+- **Via SDKs**
+
+    1. **ボリュームファイルマネージャーを初期化する**
+
+        ボリュームファイルマネージャーは、Zilliz Cloud のボリュームサービス上の特定のボリュームへの接続を維持します。ボリュームにファイルをアップロードする前に、ボリュームファイルマネージャーを初期化する必要があります。
+
+        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+        <TabItem value='python'>
+
+        ```python
+        from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
+        
+        volume_file_manager = VolumeFileManager(
+            cloud_endpoint='https://api.cloud.zilliz.com',
+            api_key='YOUR_API_KEY',
+            volume_name='managed_volume',
+        )
+        ```
+
+        </TabItem>
+
+        <TabItem value='java'>
+
+        ```java
+        import io.milvus.bulkwriter.VolumeFileManager;
+        import io.milvus.bulkwriter.VolumeFileManagerParam;
+        
+        VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
+            .withCloudEndpoint("https://api.cloud.zilliz.com")
+            .withApiKey("YOUR_API_KEY")
+            .withVolumeName("managed_volume")
+            .build();
+        
+        VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
+        ```
+
+        </TabItem>
+
+        <TabItem value='go'>
+
+        ```go
+        // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+        ```
+
+        </TabItem>
+
+        <TabItem value='rust'>
+
+        ```rust
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+        ```
+
+        </TabItem>
+
+        <TabItem value='c++'>
+
+        ```c++
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+        ```
+
+        </TabItem>
+
+        <TabItem value='javascript'>
+
+        ```javascript
+        // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+        ```
+
+        </TabItem>
+
+        <TabItem value='bash'>
+
+        ```bash
+        # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+        ```
+
+        </TabItem>
+        </Tabs>
+
+    1. **ファイルまたはフォルダーをアップロードする**
+
+        ボリュームファイルマネージャーの準備ができたら、それを使用してファイルまたはフォルダーを指定されたマネージドボリュームにアップロードします。
+
+        - **ファイルをアップロードする**
+
+            次の例では、ソースファイルパスのローカルファイルを、ボリューム内のターゲットファイルパスにアップロードします。
+
+            <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+            <TabItem value='python'>
+
+            ```python
+            result = volume_file_manager.upload_file_to_volume(
+                source_file_path="/path/to/your/local/data/file", 
+                target_volume_path="data/"
+            )
+            
+            print(f"\nuploadFileToVolume results: {result}")
+            
+            # uploadFileToVolume results: 
+            # 
+            # {
+            #     "volumeName": "managed_volume",
+            #     "path": "data/"
+            # }
+            ```
+
+            </TabItem>
+
+            <TabItem value='java'>
+
+            ```java
+            import com.google.gson.Gson;
+            import io.milvus.bulkwriter.model.UploadFilesResult;
+            import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+            
+            UploadFilesRequest request = UploadFilesRequest.builder()
+                .sourceFilePath("/path/to/your/local/data/file")
+                .targetVolumePath("data/")
+                .build();
+            
+            UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
+            
+            System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
+            
+            // uploadFileToVolume results: 
+            // 
+            // {
+            //     "volumeName": "managed_volume",
+            //     "path": "data/"
+            // }
+            ```
+
+            </TabItem>
+
+            <TabItem value='go'>
+
+            ```go
+            // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+            ```
+
+            </TabItem>
+
+            <TabItem value='rust'>
+
+            ```rust
+            // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+            ```
+
+            </TabItem>
+
+            <TabItem value='c++'>
+
+            ```c++
+            // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+            ```
+
+            </TabItem>
+
+            <TabItem value='javascript'>
+
+            ```javascript
+            // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+            ```
+
+            </TabItem>
+
+            <TabItem value='bash'>
+
+            ```bash
+            # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+            ```
+
+            </TabItem>
+            </Tabs>
+
+        - **フォルダーをアップロードする**
+
+            次の例では、ソースファイルパスのローカルファイルを、ボリューム内のターゲットファイルパスにアップロードします。
+
+            <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+            <TabItem value='python'>
+
+            ```python
+            result = volume_file_manager.upload_file_to_volume(
+                source_file_path="/path/to/your/local/data/folder/",
+                target_volume_path="data/"
+            )
+            
+            print(f"\nuploadFileToVolume results: {result}")
+            
+            # uploadFileToVolume results:
+            #
+            # {
+            #     "volumeName": "managed_volume",
+            #     "path": "data/"
+            # }
+            ```
+
+            </TabItem>
+
+            <TabItem value='java'>
+
+            ```java
+            import com.google.gson.Gson;
+            import io.milvus.bulkwriter.model.UploadFilesResult;
+            import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+            
+            UploadFilesRequest request = UploadFilesRequest.builder()
+                    .sourceFilePath("/path/to/your/local/data/folder/")
+                    .targetVolumePath("data/")
+                    .build();
+            
+            UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
+            System.out.println("uploadFiles results: " + new Gson().toJson(result));
+            
+            // uploadFileToVolume results:
+            //
+            // {
+            //     "volumeName": "managed_volume",
+            //     "path": "data/"
+            // }
+            ```
+
+            </TabItem>
+
+            <TabItem value='go'>
+
+            ```go
+            // Note: Volume file upload is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+            ```
+
+            </TabItem>
+
+            <TabItem value='rust'>
+
+            ```rust
+            // Note: Volume file upload is not supported in milvus-sdk-rust as of v3.0.2.
+            ```
+
+            </TabItem>
+
+            <TabItem value='c++'>
+
+            ```c++
+            // Note: Volume file upload is not supported in milvus-sdk-cpp as of v3.0.3.
+            ```
+
+            </TabItem>
+
+            <TabItem value='javascript'>
+
+            ```javascript
+            // Note: Volume file upload is not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+            ```
+
+            </TabItem>
+
+            <TabItem value='bash'>
+
+            ```bash
+            # Note: Volume file upload is not exposed by the RESTful API as of the current v2 volume endpoints.
+            ```
+
+            </TabItem>
+            </Tabs>
+
+- **Via web console**
+
+    マネージドボリュームにファイルまたはフォルダーをアップロードするには、以下の手順に従ってください。
+
+    <Procedures>
+
+    1. 対象のボリュームに移動します。
+
+    1. **Files** タブに切り替えます。
+
+    1. **Upload Files** をクリックします。
+
+        ![V5F1buTNaoQf4AxzFSycEQjTnQf](https://zdoc-images.s3.us-west-2.amazonaws.com/v5f1butnaoqf4axzfsyceqjtnqf.png "V5F1buTNaoQf4AxzFSycEQjTnQf")
+
+    1. 次に、**Choose Files** または **Choose Folder** をクリックします。
+
+        ![REGobDyeoo5iTjxGldwcZZlmnXd](https://zdoc-images.s3.us-west-2.amazonaws.com/regobdyeoo5itjxgldwczzlmnxd.png "REGobDyeoo5iTjxGldwcZZlmnXd")
+
+    1. ローカルのファイルまたはフォルダーを選択し、**Upload** をクリックします。
+
+    </Procedures>
+
+</NextChannel>
+
 現在、データファイルまたはフォルダーをマネージドボリュームにアップロードできるのは、SDK 経由のみです。
 
 1. **ボリュームファイルマネージャーを初期化する**

@@ -38,6 +38,7 @@ Zilliz Cloud は、主要なベクトルデータベースおよび検索プラ�
 | [PostgreSQL](./migrate-from-pgvector) | リレーショナルデータベース | ベクトル拡張（pgvector）のサポート |
 | [Tencent Cloud VectorDB](./migrate-from-tencent-cloud) | マネージドサービス | マネージドベクトルデータベースサービス |
 | [OpenSearch](./migrate-from-opensearch) | 検索プラットフォーム | ベクトル機能を備えた KNN プラグイン |
+| [Chroma](./migrate-from-chroma) | ベクトルデータベース | Chroma Cloud とセルフホスト型デプロイメント |
 
 ## コア機能\{#core-capabilities}
 
@@ -170,7 +171,7 @@ Create インデックス after migration をオフにすると、移行ジョ�
 
 移行が正常に完了したら、検索またはクエリを実行する前に、以下の手順に従ってください。インデックス作成をスキップした場合、ジョブの詳細に **インデックス skipped** と表示されます。
 
-1. **インデックスを確認します。** **Create indexes after migration** をオンのままにした場合は、インデックスの自動作成が成功したことを確認します。オフにした場合は、すべてのベクトルフィールドにインデックスを手動で作成します。ワークロードに応じてスカラーインデックスを作成します。インデックスの設定については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
+1. **インデックスを確認します。** **Create indexes after migration** をオンのままにした場合は、自動インデックス作成が成功したことを確認してください。オフにした場合は、すべてのベクトルフィールドに手動でインデックスを作成してください。必要に応じて、ワークロードに合わせてスカラーインデックスを作成してください。インデックス設定については、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
 
 1. **コレクションをロードします。** インデックス作成が完了したら、コレクションを手動でロードし、ロードが完了するまで待ちます。この手順は、インデックスが自動で作成された場合でも手動で作成された場合でも必要です。詳細は、[Load & Release](./load-release-collections) を参照してください。
 
@@ -202,7 +203,7 @@ Zilliz Cloud へのデータ移行を開始する準備はできていますか�
 
 </Procedures>
 
-<Supademo id="cmb7mg34n4sqrppkp8pnm8dub" title="Zilliz Cloud - Access Migration Portal Demo" />
+<Supademo id="cmvrvm4tz0qmaqmpsb3co5opk" title=""  />
 
 ### テキストデータ向けに Full Text Search を設定\{#configure-full-text-search-for-text-data}
 
@@ -212,7 +213,7 @@ Zilliz Cloud へのデータ移行を開始する準備はできていますか�
 
 ## プラットフォーム別の移行ガイド\{#platform-specific-migration-guides}
 
-プラットフォーム固有の詳細な手順、前提条件、およびデータマッピング情報については、以下を参照してください。
+ソース固有の前提条件、データ型マッピング、処理ルールについては、以下のガイドを参照してください。
 
 - [Pinecone から Zilliz Cloud へ移行](./migrate-from-pinecone)
 
@@ -225,3 +226,5 @@ Zilliz Cloud へのデータ移行を開始する準備はできていますか�
 - [Tencent Cloud から Zilliz Cloud へ移行](./migrate-from-tencent-cloud)
 
 - [OpenSearch から Zilliz Cloud へ移行](./migrate-from-opensearch)
+
+- [Chroma から Zilliz Cloud へ移行](./migrate-from-chroma)

@@ -84,17 +84,17 @@ import Grid from '@site/src/components/Grid';
 
         - [検索集約](/docs/search-aggregation)
 
-        - [検索](/docs/single-vector-search#sort-search-results-by-scalar-fields)と[クエリ](/docs/get-and-scalar-query#sort-query-results)の並べ替え
+        - [検索](/docs/single-vector-search#sort-search-results-by-scalar-fields-or-public)と[クエリ](/docs/get-and-scalar-query#sort-query-results-or-public)の並べ替え
 
-        - [クエリ集約](/docs/get-and-scalar-query#aggregate-query-results)
+        - [クエリ集約](/docs/get-and-scalar-query#aggregate-query-results-or-public)
 
-        - [正規表現フィルタリング](/docs/pattern-match#use-regex)
+        - [正規表現フィルタリング](/docs/pattern-match#use-regex-or-public)
 
         - StructArray フィールドの[要素レベルの検索](/docs/search-with-struct-array#run-element-level-search)と[一致演算子](/docs/struct-array-filtering)
 
         - [MinHash 関数](/docs/minhash-function)
 
-        - [エンティティレベルの TTL](/docs/set-collection-ttl#set-entity-level-ttl)
+        - [エンティティレベル TTL](/docs/set-collection-ttl#set-entity-level-ttl-or-public)
 
         - 既存のコレクションからの[フィールドと関数の削除](/docs/add-fields-to-an-existing-collection#drop-fields-and-functions-from-an-existing-collection)
 

@@ -2011,9 +2011,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "eee2a7744d5bdcaf0b703a0b9a0beb0ca3fd20ff9689b11cb1f170c7018b90a3",
+      "sourceHash": "c55ef527c336a933020366b2a3b67fdeba26c7546af8836fede4b69f7f8b1dbc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-10-26T07:34:58.623Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "943a7210b8c2535dfb7303fc4559d97b2cf1c61b7633e88ecb2585ea1d9ce82c",
@@ -2021,9 +2021,9 @@
       "translatedAt": "2026-10-10T05:54:19.895Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "0806ff894f83e348aafa7a23318417c21049f9d3ed49944da9945ce3f4baa6f0",
+      "sourceHash": "9ad0cc7beffc1dba9b25e137fbe1882b9c206c1a640c03911b2a20f8f49f753a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "7b5794cfede465d577de40f2ba346914dffd23699ff61061c8a1c19ae233e0e2",
@@ -2266,9 +2266,9 @@
       "translatedAt": "2026-10-25T10:12:57.207Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "23599efce3a863ffea345c81aa3ce3a8ceb2ece03099822af5710ec9b726e9a6",
+      "sourceHash": "8ea95d4453e71da0dfdc10ccd1515a48286207601a4b724cb0584f241cc5bfb2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
       "sourceHash": "d4e2123bc561bc520b28fd21d2f13939393df6a9d557c15e13958a1880209c23",
@@ -2361,9 +2361,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "b878dfef6082215afa0dedaf9b464a610ec61d68d64ff1ebf32acd0127b730ae",
+      "sourceHash": "a7a7bf211aee17efb2ce0301ae8b8b448a9e8e60de680817297dd0b16ad7160c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-10-23T21:01:45.272Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -3071,9 +3071,14 @@
       "translatedAt": "2026-10-19T15:32:03.235Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md": {
-      "sourceHash": "72737deee5d9c6992c8db866514f37f3ec547455713bc3cf5453fb6bc45fc5d9",
+      "sourceHash": "9a0df023856d94499e14c5ae3c08fef62e31b74549ed6180980e1d5941a95ea9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
-      "translatedAt": "2026-10-19T17:54:52.956Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma.md": {
+      "sourceHash": "54d03e338a65df9db187ebdbf5af3359a3b71eec012789e9117b3c20f6fefbd1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-chroma.md",
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md": {
       "sourceHash": "0bc14ab22f1dbad663fdaaa0e1d855c6689d9118b7a5b05cf4a3bc127cad793c",
@@ -3106,9 +3111,9 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "a7a3a321421b78add105ad55b83ca2cb6ea9ae3d2713df8a4b0c14f1accf7f0d",
+      "sourceHash": "6f2ad87056a2a439cf0fc70a39efbfff5a6b77961380148c33cfba7feb2a122a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-10-28T15:52:09.297Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "e6a0b123b8c38d0f778536298b756775b1a0de08063b112bb7f676cc0168a3fd",
