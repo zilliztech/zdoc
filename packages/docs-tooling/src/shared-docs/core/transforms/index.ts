@@ -11,7 +11,7 @@ export { filterContent } from './filter'
 
 const indent = (line: string) => /^[ \t]*/.exec(line)![0]
 function dedent(lines: string[]): string[] {
-  let prefix = indent(lines[0] ?? '')
+  let prefix = indent(lines.find(line => line.trim()) ?? '')
   for (const line of lines.filter(line => line.trim())) while (!line.startsWith(prefix)) prefix = prefix.slice(0, -1)
   return lines.map(line => line.slice(prefix.length))
 }

@@ -16,6 +16,7 @@ import { RealMd2md } from '../../adapters/md2md'
 import { createZdocContentReader } from '../../adapters/zdoc-content'
 import { buildImageManifest, readSharedDocs, runBuild } from '../../commands/build'
 import { imageDigest } from '../../core/links'
+import { currentView, nextView } from '../merge/helpers'
 import { createBuildDemo, externalImage, git, imageBytes, pageYaml, runBuildDemo, write } from './demo'
 
 // These tests start Git or CLI subprocesses. A slow shared CI runner can run several
@@ -128,7 +129,7 @@ it('accepts differing commits with identical final MDX and reports planned locks
   await expect(readFile(join(options.sharedDocs, 'pages/shared-target/lock.yaml'))).rejects.toMatchObject({ code: 'ENOENT' })
 })
 
-it('compares final MDX separately for each manual and gives a plain WP11 failure naming both commits', async () => {
+it('retains current metadata and reports differing summaries per manual', async () => {
   const options = await demo()
   const path = 'site/en/build-pipeline.md'
   await write(options.repo, path, (await readFile(join(options.repo, path), 'utf8')).replace('An end-to-end example.', 'A changed summary.'))
@@ -136,12 +137,12 @@ it('compares final MDX separately for each manual and gives a plain WP11 failure
   const next = await git(options.repo, 'rev-parse', 'HEAD')
   await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current: options.commit, next }))
   const result = await command(options)
-  expect(result.code).toBe(1)
-  expect(result.text).toContain(`Page build-pipeline, manual guides: final MDX differs between current ${options.commit} and next ${next}`)
-  expect(result.text).toContain('manual guides-byoc:')
-  expect(result.text).toContain('requires WP11')
-  expect(result.text).not.toContain('BUILD_VERSIONS_DIFFER')
-  await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })
+  expect(result.code, result.text).toBe(0)
+  const summary = JSON.parse(result.text)
+  expect(summary.pages.slice(0, 2).map((page: { notes: unknown }) => page.notes)).toEqual([
+    [{ code: 'MERGE_FRONT_MATTER_CURRENT', fields: ['description'], message: expect.any(String) }],
+    [{ code: 'MERGE_FRONT_MATTER_CURRENT', fields: ['description'], message: expect.any(String) }],
+  ])
 })
 
 it.each(['no-dev-page', 'no-snapshot-record'])('[CONFIG_PATH_UNKNOWN] reports each invalid publish path at its YAML location: %s', async name => {
@@ -350,7 +351,7 @@ it('preserves nonempty output, rejects overlaps, symlink redirection, unknown pa
 it('sorts the flat manifest by every field and preserves distinct digests for the same original', () => {
   const records = [{ original: 'z', sha256: 'b', address: 'b' }, { original: 'a', sha256: 'b', address: 'b' },
     { original: 'a', sha256: 'a', address: 'a' }, { original: 'a', sha256: 'a', address: 'a' }]
-  expect(buildImageManifest([{ manual: 'guides', path: 'x', mdx: '', notices: [], images: records }])).toEqual([records[2], records[1], records[0]])
+  expect(buildImageManifest([{ manual: 'guides', path: 'x', mdx: '', notices: [], notes: [], images: records }])).toEqual([records[2], records[1], records[0]])
 })
 
 it('runs the real CLI success/failure demo without external network and preserves both input repositories', async () => {
@@ -396,9 +397,14 @@ it('keys repository image bytes by commit so a changed committed image changes t
   const next = await git(options.repo, 'rev-parse', 'HEAD')
   await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current: options.commit, next }))
   const result = await command({ ...options, page: 'build-pipeline' })
-  expect(result.code).toBe(1)
-  expect(result.text.match(/two-version merging requires WP11/g)).toHaveLength(2)
-  await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })
+  expect(result.code, result.text).toBe(0)
+  const output = await readFile(join(options.out, 'guides/tutorials/build-pipeline.mdx'), 'utf8')
+  expect(currentView(output)).toContain(imageDigest(imageBytes))
+  expect(currentView(output)).not.toContain(imageDigest(new Uint8Array([9, 8, 7])))
+  expect(nextView(output)).toContain(imageDigest(new Uint8Array([9, 8, 7])))
+  expect(nextView(output)).not.toContain(`![Repository](shared/${imageDigest(imageBytes)}.png)`)
+  const manifest = JSON.parse(await readFile(join(options.out, 'images.json'), 'utf8'))
+  expect(manifest.filter((image: { original: string }) => image.original === 'assets/diagram.png').map((image: { sha256: string }) => image.sha256).sort()).toEqual([imageDigest(imageBytes), imageDigest(new Uint8Array([9, 8, 7]))].sort())
 })
 
 it('accepts an existing empty output directory and exposes a complete build after all branches pass', async () => {

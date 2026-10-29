@@ -4,6 +4,13 @@ import type { Transform } from '../../core/types'
 import { block, group, fence, execute } from './helpers'
 const body = (result: ReturnType<typeof execute>) => { if ('errors' in result) throw new Error(JSON.stringify(result.errors)); return result.text }
 
+it('dedents content files from the first nonblank line while keeping leading blanks', () => {
+  const transform: Transform = { operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } }
+  const result = execute(block('Original'), [transform], { 'cloud.md': '\n    first\n      second' })
+  expect(body(result)).toBe('\nfirst\n  second')
+  expect(body(execute(block('Original'), [transform], { 'cloud.md': '\n    \n' }))).toBe('\n    ')
+})
+
 it('[4-1] rejects the complete plan when a later rule has no original target', () => {
   const source = block('Original')
   const result = execute(source, [{ operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } },

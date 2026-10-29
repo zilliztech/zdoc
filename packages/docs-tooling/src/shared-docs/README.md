@@ -51,7 +51,10 @@ candidate journey. The owner-approved WP8 ledger closes T12 on the candidate
 boundary tested here: lock-only commit, exact pushed SHA, explicit validation
 dispatch and authenticated child result. This does not claim the complete
 publication/adoption/recovery journey; those stages remain later work packages.
-`MERGE_NESTED_CHANNEL` belongs to WP11 and `RECOVER_INPUT_MISSING` to WP15.
+WP11 closes 6-1 through 6-7, T13 and `MERGE_NESTED_CHANNEL` through literal
+merge, build, runtime-rendering and isolated CLI tests. This covers local
+generation and restoration; publication, promotion and recovery remain assigned
+to their later work packages. `RECOVER_INPUT_MISSING` belongs to WP15.
 Other spanning entries stay pending until their assigned coverage is complete.
 WP8 also closes 3-2 (initial NEXT snapshot) and 3-3 (every changed shared-input
 PR generates all pages). Requirement 3-6 remains assigned to WP14.
@@ -302,8 +305,9 @@ rules, intersecting selections and parent/child edits fail with
 
 Optional `channel: current` or `channel: next` selects that channel and must refer
 to a channel where the page exists. Unqualified rules apply to both channels;
-conflicts are checked separately for each. Unequal final output still fails at
-the existing WP11 boundary; two-version merging is not implemented here.
+conflicts are checked separately for each. Adapted current and next bodies are
+merged according to the two-version rules below, even when equal source locks
+produce different output because of a channel-specific transform.
 
 Inserted content uses the Cloud variables, fragment expansion, links, Tabs and
 product-name checks. Standalone `<include target="paas">` / `</include>` and
@@ -342,3 +346,91 @@ with an introduction-block replacement and a Python code-line replacement in
 both manuals. It then deliberately changes the selector to `stale_selector()`;
 the second CLI invocation must report `LINE_NOT_FOUND` and create no failed output
 directory. Everything uses local fixture repositories and scratch output.
+
+
+## Two-version generation (WP11)
+
+Each channel reads its exact lock and validates its transform plan independently.
+Markers are removed and each complete channel is preprocessed before adaptation:
+Cloud variables, fragments, product filtering for inserted content, links, images,
+alerts and SDK Tabs use their existing adapters. Merging never preprocesses partial
+changed regions. MDX patching, compilation and the product-name check run on the
+merged result once per manual. Channel origins survive diagnostics.
+
+Equal adapted channel bytes use the unchanged output path, regardless of lock SHA.
+Equality is decided before final MDX patches; two bodies that become equal only
+through patching can still emit a pair. For unequal bodies, common complete blocks
+are emitted once; maximal changed runs use `NextChannel action="exclude"` for
+current and `action="include"` for next. Lists, tables, fences, alerts and Tabs
+remain indivisible. Restoring either view preserves its standalone body blocks
+and their order; only parser-owned empty inter-block separators may differ.
+Current front matter is retained separately, and the required theme imports form
+one canonical union outside every gate. Metadata differences produce one
+`MERGE_FRONT_MATTER_CURRENT` note per manual with sorted field names.
+
+NEXT pages emit only the next body; RETIRE-IN-NEXT pages emit only current. Both
+plans still validate, and the existing Fetch page/sidebar metadata remains intact.
+These whole-page channels are tested through Fetch's context seam; standalone
+CLI channel propagation is outside this checkpoint.
+
+Authored gates and all supported code-comment channel directives are compatibility
+syntax: unchanged blocks preserve their bytes and their existing deployment
+semantics. They are never interpreted for alignment or generated as authoring
+instructions. A changed block containing an authored gate fails with
+`MERGE_NESTED_CHANNEL`; use a channel transform or change the source structure.
+A generated paired region containing fenced literal `<NextChannel` text fails
+closed with `ADAPT_UNSUPPORTED_MARKUP` at that source line because the unchanged
+Fetch lint scans literal tags inside fences. The same conservative guard also
+covers other literal channel-tag spellings in a paired region. Unclosed fences,
+ambiguous markup and incompatible global reference bindings fail closed as well.
+The unchanged static CURRENT resolver scans fixed triple backtick/tilde segments,
+so even valid long fences can hide generated gates when a literal shorter marker
+inside one fence shifts that scan into a later block. The complete assembled page
+is checked, including common blocks and both generated opening and closing tags.
+A hidden boundary fails with `ADAPT_UNSUPPORTED_MARKUP` at the original marker
+that starts the unsafe resolver segment; rewrite the fence example using
+indentation or different markers, or use a channel transform. Ordinary fences
+whose scan leaves all generated boundaries visible remain supported. Equal-input
+and whole-page output retain their existing paths without generated gates.
+
+Explicit heading IDs remain global in MDX. A duplicate ID across retained blocks
+fails with `ADAPT_UNSUPPORTED_MARKUP`, naming both origins and suggesting a
+`channel` transform or heading change. No automatic suffix or link rewrite is
+introduced. Implicit heading anchors continue to use the existing adapter's
+rules; this does not promise a new cross-channel anchor namespace.
+
+Run the isolated Delete Entities demonstration from the repository root:
+
+```sh
+node -e 'const path = require("node:path"); const {loadTypeScript} = require("./scripts/lib/load-typescript"); loadTypeScript(path.resolve("packages/docs-tooling/src/shared-docs/testing/merge/demo.ts")).runMergeDemo(path.resolve("tmp/wp11-demo")).then(result => console.log(JSON.stringify(result, null, 2)))'
+```
+
+Use a fresh destination directory. The demo commits the pinned original and a
+clearly labeled synthetic next source into a local fixture repository, copies the
+necessary group configuration, and creates minimal local dev navigation. It runs
+the real `shared-docs build` CLI three times: one two-version build and two
+independent equal-lock standalone builds. It needs no credentials, uploads, Base
+writes or services. [Fixture provenance](fixtures/merge/delete-entities/SOURCE.md)
+records the original commit and raw hash; pilot and golden files are unchanged.
+
+For each of `guides` and `guides-byoc`, inspect these retained files:
+
+- `tmp/wp11-demo/merged/<manual>/tutorials/delete-entities.mdx`
+- `tmp/wp11-demo/views/current/<manual>/tutorials/delete-entities.mdx`
+- `tmp/wp11-demo/views/next/<manual>/tutorials/delete-entities.mdx`
+- `tmp/wp11-demo/standalone-current/<manual>/tutorials/delete-entities.mdx`
+- `tmp/wp11-demo/standalone-next/<manual>/tutorials/delete-entities.mdx`
+
+The current body contains `You can delete the entities that are no longer needed`
+and the primary-key Python line `ids=[18, 19]`. Next instead contains
+`Synthetic next: remove obsolete entities`, the added
+`Synthetic next: the partition_name parameter limits deletion to the named partition.`
+and `ids=[118, 119]`. Both expand `YOUR_CLUSTER_ENDPOINT`, resolve the filtering
+link, and retain SDK Tabs. `evidence.json` records the exact local commits, CLI
+arguments and summaries. The demo's projection helper is limited to its generated
+gates; independent standalone builds provide the restoration expectations.
+Runtime rendering tests compile each complete generated MDX body and use the real
+NextChannel component with a mocked channel hook. Explicit theme substitutes for
+Admonition, Tabs and TabItem exercise content and gate visibility, not Docusaurus
+styling or browser hydration. The local demo does not cover later publication or
+recovery journeys.
