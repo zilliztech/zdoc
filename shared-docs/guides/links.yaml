@@ -10,6 +10,7 @@ hybrid-search-with-structarray.md: hybrid-search-with-struct-array
 index-explained.md: indexes
 index-structarray-fields.md: index-struct-array
 insert-data-into-structarray-fields.md: insert-struct-array
+multi-vector-search.md: hybrid-search
 ngram.md: ngram-index-type
 nullable-and-default.md: nullable-fields
 pattern-matching.md: pattern-match
