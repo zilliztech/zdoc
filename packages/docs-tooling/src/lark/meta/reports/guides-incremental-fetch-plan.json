@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T18:33:45.465Z",
+  "generated_at": "2026-10-29T02:32:06.891Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -19,7 +19,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
+        "inputs_sha256": "d854a07d15c33d4acaa4862afb3b3cd847f6996778beab1d9fabd57ce009d1a7",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "reasons": [
@@ -40,7 +40,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "reasons": [
@@ -61,7 +61,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
+        "inputs_sha256": "d854a07d15c33d4acaa4862afb3b3cd847f6996778beab1d9fabd57ce009d1a7",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "reasons": [
@@ -82,7 +82,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
+        "inputs_sha256": "d854a07d15c33d4acaa4862afb3b3cd847f6996778beab1d9fabd57ce009d1a7",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "reasons": [
@@ -103,7 +103,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "9dc5f88036009ec2b8be9e17d06d5b0943e52f450cdbd58c01b5bd1d49c5ea2a",
+        "inputs_sha256": "d854a07d15c33d4acaa4862afb3b3cd847f6996778beab1d9fabd57ce009d1a7",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "reasons": [
@@ -124,7 +124,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "reasons": [
@@ -145,7 +145,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "a0baffba4c8eed3bb5a020d065184debd974d13f377f50f4b4d06f20ca3a4cca",
+        "inputs_sha256": "170917c7514b39fdea8f16606791ef922da6f5d5010c12301e390dbaa7efc565",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "reasons": [
@@ -166,7 +166,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "reasons": [
@@ -187,7 +187,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "reasons": [
@@ -208,7 +208,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "reasons": [
@@ -229,7 +229,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "reasons": [
@@ -250,7 +250,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "0d6ef23839851387f4f1f3157fbc71adeb0d7852861934f77806371a07d6e25a",
+        "inputs_sha256": "80521b4d3e276563bcd72784582431ba83d311515a1a7dca8c5c1866485d16fb",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "reasons": [
@@ -500,7 +500,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-28T14:11:56.271Z",
+    "generated_at": "2026-10-28T18:36:06.812Z",
     "records": 403
   },
   "source_scope": "partial"
