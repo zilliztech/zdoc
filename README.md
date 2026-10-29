@@ -233,8 +233,10 @@ the deterministic applier (every entry must bind to a cited diff entry;
 denylist, `x-*`, and oneOf branch structure are asserted), gate the T4 ledger
 accounting, run the canonical
 bytes check, the change-scoped `test:for-change` union plus
-`pnpm test:rest-publication-contract` and `pnpm test:workflow-policy`, both
-site builds, `git diff --check`, and finally open the PR with
+`pnpm test:rest-publication-contract` and `pnpm test:workflow-policy`, and
+`git diff --check` — no site builds (a master checkout has no dev-owned
+`generated/`, so site verification happens in the sync candidate build on the
+dev tree right after merge) — and finally open the PR with
 `REST_UPSTREAM_REFRESH_PAT` so the pull-request checks actually run. The same
 commit bumps the lock pin to the refreshed upstream commit with its content
 SHA (atomic adoption: the watchdog goes quiet exactly when the PR merges) and

@@ -255,6 +255,16 @@ jobs:
           }
           if (applied.titleLog.length > 0) {
             fs.copyFileSync(path.join(process.env.RUNNER_TEMP, process.env.APPLIED, 'titles.json'), path.join(restMeta, 'titles.json'))
+            // The zh-build title assertion (refGen get_slug) cannot run on a
+            // master checkout (no dev-owned generated/ artifacts), so verify
+            // the landed mappings directly: every adopted zh title must map
+            // to its slug or the Chinese generation would fail downstream.
+            const titles = JSON.parse(fs.readFileSync(path.join(restMeta, 'titles.json'), 'utf8'))
+            for (const entry of applied.titleLog.filter(logEntry => logEntry.action === 'add')) {
+              if (titles[entry.zhTitle] !== entry.slug) {
+                throw new Error(`titles.json does not carry the landed zh mapping ${JSON.stringify(entry.zhTitle)} -> ${entry.slug}`)
+              }
+            }
           }
           const lockPath = path.join(restMeta, 'upstream', 'rest-upstream-lock.json')
           const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'))
@@ -344,11 +354,12 @@ jobs:
           pnpm test:rest-publication-contract
           pnpm test:workflow-policy
 
-      - name: Build both publication sites
-        run: |
-          pnpm build:en
-          pnpm build:zh-CN
-
+      # No site builds here on purpose: `generated/` is dev-owned and absent
+      # from a master checkout, so `build:en`/`build:zh-CN` cannot run on this
+      # tree (the zh titles assertion moved into the land step above). Site
+      # verification happens where the rest of the pipeline does it — the sync
+      # candidate build on the dev tree, which this PR feeds through the
+      # normal master→dev channel right after merge.
       - name: Check whitespace
         run: git diff --check 'HEAD~1' 'HEAD'
 
