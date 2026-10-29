@@ -1,7 +1,6 @@
 ---
 title: "RRF Ranker | Cloud"
 slug: /reranking-rrf
-sidebar_label: "RRF Ranker"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hybrid search that balances results from multiple vector search paths based on their ranking positions rather than their raw similarity scores. Like a sports tournament that considers players' rankings rather than individual statistics, RRF Ranker combines search results based on how highly each item ranks in different search paths, creating a fair and balanced final ranking. | Cloud"
 type: origin
-token: Nqguwf6ikiKrHEkGKgAc8g7Lnnh
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-reranking-rrf
+sidebar_label: "RRF Ranker"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/rrf-ranker.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -27,12 +27,33 @@ Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hyb
 
 RRF Ranker is specifically designed for hybrid search scenarios where you want to balance results from multiple vector search paths without assigning explicit importance weights. It's particularly effective for:
 
-| Use Case | Example | Why RRF Ranker Works Well |
-| --- | --- | --- |
-| Multimodal search with equal importance | Image-text search where both modalities matter equally | Balances results without requiring arbitrary weight assignments |
-| Ensemble vector search | Combining results from different embedding models | Democratically merges rankings without favoring any particular model's scoring distribution |
-| Cross-lingual search | Finding documents across multiple languages | Ranks results fairly regardless of language-specific embedding characteristics |
-| Expert recommendations | Combining recommendations from multiple expert systems | Creates consensus rankings when different systems use incomparable scoring methods |
+<table>
+   <tr>
+     <th><p>Use Case</p></th>
+     <th><p>Example</p></th>
+     <th><p>Why RRF Ranker Works Well</p></th>
+   </tr>
+   <tr>
+     <td><p>Multimodal search with equal importance</p></td>
+     <td><p>Image-text search where both modalities matter equally</p></td>
+     <td><p>Balances results without requiring arbitrary weight assignments</p></td>
+   </tr>
+   <tr>
+     <td><p>Ensemble vector search</p></td>
+     <td><p>Combining results from different embedding models</p></td>
+     <td><p>Democratically merges rankings without favoring any particular model's scoring distribution</p></td>
+   </tr>
+   <tr>
+     <td><p>Cross-lingual search</p></td>
+     <td><p>Finding documents across multiple languages</p></td>
+     <td><p>Ranks results fairly regardless of language-specific embedding characteristics</p></td>
+   </tr>
+   <tr>
+     <td><p>Expert recommendations</p></td>
+     <td><p>Combining recommendations from multiple expert systems</p></td>
+     <td><p>Creates consensus rankings when different systems use incomparable scoring methods</p></td>
+   </tr>
+</table>
 
 If your hybrid search application requires balancing multiple search paths democratically without assigning explicit weights, RRF Ranker is your ideal choice.
 
@@ -48,7 +69,7 @@ The main workflow of the RRFRanker strategy is as follows:
 
 1. **Aggregate Rankings**: Re-rank the search results based on the combined rankings to produce the final results.
 
-![M2SawupkSh2NZxbX7SAcwqZZnxd](https://zdoc-images.s3.us-west-2.amazonaws.com/M2SawupkSh2NZxbX7SAcwqZZnxd.png)
+![Rrf Ranker](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/b44372a644df1aa1ab2bd6a45aa9dce55b67d01bc91cd926334db7a9b797c9c2.png)
 
 ## Example of RRF Ranker\{#example-of-rrf-ranker}
 
@@ -56,46 +77,154 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 
 - Results of ANN search on sparse vectors of texts （topK=5)：
 
-    | **ID** | **Rank (sparse)** |
-    | --- | --- |
-    | 101 | 1 |
-    | 203 | 2 |
-    | 150 | 3 |
-    | 198 | 4 |
-    | 175 | 5 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Rank (sparse)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>1</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>2</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>3</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>4</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>5</p></td>
+       </tr>
+    </table>
 
 - Results of ANN search on dense vectors of texts （topK=5)：
 
-    | **ID** | **Rank (dense)** |
-    | --- | --- |
-    | 198 | 1 |
-    | 101 | 2 |
-    | 110 | 3 |
-    | 175 | 4 |
-    | 250 | 5 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Rank (dense)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>1</p></td>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>2</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>3</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>4</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>5</p></td>
+       </tr>
+    </table>
 
 - Use RRF to rearrange the rankings of the two sets of search results. Assume that the smoothing parameter `k` is set at 60.
 
-    | **ID** | **Score (Sparse)** | **Score (Dense)** | **Final Score** |
-    | --- | --- | --- | --- |
-    | 101 | 1 | 2 | 1/(60+1)+1/(60+2) = 0.03252247 |
-    | 198 | 4 | 1 | 1/(60+4)+1/(60+1) = 0.03201844 |
-    | 175 | 5 | 4 | 1/(60+5)+1/(60+4) = 0.03100962 |
-    | 203 | 2 | N/A | 1/(60+2) = 0.01612903 |
-    | 150 | 3 | N/A | 1/(60+3) = 0.01587302 |
-    | 110 | N/A | 3 | 1/(60+3) = 0.01587302 |
-    | 250 | N/A | 5 | 1/(60+5) = 0.01538462 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (Sparse)</strong></p></th>
+         <th><p><strong>Score (Dense)</strong></p></th>
+         <th><p><strong>Final Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>1</p></td>
+         <td><p>2</p></td>
+         <td><p>1/(60+1)+1/(60+2) = 0.03252247</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>4</p></td>
+         <td><p>1</p></td>
+         <td><p>1/(60+4)+1/(60+1) = 0.03201844</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>5</p></td>
+         <td><p>4</p></td>
+         <td><p>1/(60+5)+1/(60+4) = 0.03100962</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>2</p></td>
+         <td><p>N/A</p></td>
+         <td><p>1/(60+2) = 0.01612903</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>3</p></td>
+         <td><p>N/A</p></td>
+         <td><p>1/(60+3) = 0.01587302</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>N/A</p></td>
+         <td><p>3</p></td>
+         <td><p>1/(60+3) = 0.01587302</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>N/A</p></td>
+         <td><p>5</p></td>
+         <td><p>1/(60+5) = 0.01538462</p></td>
+       </tr>
+    </table>
 
 - The final results after reranking（topK=5)：
 
-    | **Rank** | **ID** | **Final Score** |
-    | --- | --- | --- |
-    | 1 | 101 | 0.03252247 |
-    | 2 | 198 | 0.03201844 |
-    | 3 | 175 | 0.03100962 |
-    | 4 | 203 | 0.01612903 |
-    | 5 | 150 | 0.01587302 |
-    | 5 | 110 | 0.01587302 |
+    <table>
+       <tr>
+         <th><p><strong>Rank</strong></p></th>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Final Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>1</p></td>
+         <td><p>101</p></td>
+         <td><p>0.03252247</p></td>
+       </tr>
+       <tr>
+         <td><p>2</p></td>
+         <td><p>198</p></td>
+         <td><p>0.03201844</p></td>
+       </tr>
+       <tr>
+         <td><p>3</p></td>
+         <td><p>175</p></td>
+         <td><p>0.03100962</p></td>
+       </tr>
+       <tr>
+         <td><p>4</p></td>
+         <td><p>203</p></td>
+         <td><p>0.01612903</p></td>
+       </tr>
+       <tr>
+         <td><p>5</p></td>
+         <td><p>150</p></td>
+         <td><p>0.01587302</p></td>
+       </tr>
+       <tr>
+         <td><p>5</p></td>
+         <td><p>110</p></td>
+         <td><p>0.01587302</p></td>
+       </tr>
+    </table>
 
 ## Usage of RRF Ranker\{#usage-of-rrf-ranker}
 
@@ -111,12 +240,12 @@ After your collection is set up with multiple vector fields, create an RRF Ranke
 ```python
 from pymilvus import Function, FunctionType
 
-rerank = Function(
+ranker = Function(
     name="rrf",
     input_field_names=[], # Must be an empty list
     function_type=FunctionType.RERANK,
     params={
-        "reranker": "rrf", 
+        "reranker": "rrf",
         "k": 100  # Optional
     }
 )
@@ -143,19 +272,9 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
-rerank := entity.NewFunction().
-
-    WithName("rrf").
-
-    WithType(entity.FunctionTypeRerank).
-
-    WithInputFields().
-
-    WithParam("reranker", "rrf").
-
-    WithParam("k", 100)
+rerank := milvusclient.NewRRFReranker().WithK(100)
 ```
 
 </TabItem>
@@ -166,13 +285,9 @@ rerank := entity.NewFunction().
 use milvus::v2::prelude::*;
 
 let rerank = Function::new()
-
     .name("rrf")
-
     .function_type(FunctionType::Rerank)
-
     .param("reranker", "rrf")
-
     .param("k", "100");
 ```
 
@@ -196,7 +311,7 @@ rerank->AddParam("k", "100");
 ```javascript
 import { FunctionType } from "@zilliz/milvus2-sdk-node";
 
-const rerank = {
+const ranker = {
   name: "rrf",
   input_field_names: [],
   type: FunctionType.RERANK,
@@ -212,7 +327,9 @@ const rerank = {
 <TabItem value='csharp'>
 
 ```csharp
-// Note: Creating a rerank function via FunctionSchema is not supported in milvus-sdk-csharp as of v3.0.0; use RrfReranker instead.
+using Milvus.Client.V2.Types;
+
+var rerank = new RrfReranker(100);
 ```
 
 </TabItem>
@@ -220,10 +337,7 @@ const rerank = {
 <TabItem value='bash'>
 
 ```bash
-# restful
-
 functions='[
-
   {
     "name": "rrf",
     "type": "RERANK",
@@ -233,33 +347,69 @@ functions='[
       "k": 100
     }
   }
-
 ]'
 ```
 
 </TabItem>
+
 </Tabs>
 
-| Parameter | Required? | Description | Value/Example |
-| --- | --- | --- | --- |
-| `name` | Yes | Unique identifier for this Function | `"rrf"` |
-| `input_field_names` | Yes | List of vector fields to apply the function to (must be empty for RRF Ranker) | [] |
-| `function_type` | Yes | The type of Function to invoke; use `RERANK` to specify a reranking strategy | `FunctionType.RERANK` |
-| `params.reranker` | Yes | Specifies the reranking method to use.<br/>Must be set to `rrf` to use RRF Ranker. | `"weighted"` |
-| `params.k` | No | Smoothing parameter that controls the impact of document ranks; higher `k` reduces sensitivity to top ranks. Range: (0, 16384); default: `60`.<br/>For details, refer to [Mechanism of RRF Ranker](./reranking-rrf#mechanism-of-rrf-ranker). | `100` |
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Required?</p></th>
+     <th><p>Description</p></th>
+     <th><p>Value/Example</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>Unique identifier for this Function</p></td>
+     <td><p><code>"rrf"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>input_field_names</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>List of vector fields to apply the function to (must be empty for RRF Ranker)</p></td>
+     <td><p>[]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>function_type</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>The type of Function to invoke; use <code>RERANK</code> to specify a reranking strategy</p></td>
+     <td><p><code>FunctionType.RERANK</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.reranker</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>rrf</code> to use RRF Ranker.</p></td>
+     <td><p><code>"rrf"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.k</code></p></td>
+     <td><p>No</p></td>
+     <td><p>Smoothing parameter that controls the impact of document ranks; higher <code>k</code> reduces sensitivity to top ranks. Range: (0, 16384); default: <code>60</code>.</p><p>For details, refer to <a href="./reranking-rrf#mechanism-of-rrf-ranker">Mechanism of RRF Ranker</a>.</p></td>
+     <td><p><code>100</code></p></td>
+   </tr>
+</table>
 
 ### Apply to hybrid search\{#apply-to-hybrid-search}
 
 RRF Ranker is designed specifically for hybrid search operations that combine multiple vector fields. Here's how to use it in a hybrid search:
 
+The examples assume an existing collection with a text embedding function for `text_vector` and a prepared image embedding that matches the dimension of `image_vector`. Replace the collection name and image embedding with your own values.
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, AnnSearchRequest
+from pymilvus import MilvusClient, AnnSearchRequest, RRFRanker
 
-# Connect to Milvus server
-milvus_client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+# Connect to Zilliz Cloud server
+milvus_client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Assume you have a collection setup
 
@@ -279,13 +429,16 @@ image_search = AnnSearchRequest(
     limit=10
 )
 
+# Create an RRF ranker with smoothing parameter k
+ranker = RRFRanker(k=100)
+
 # Apply RRF Ranker to product hybrid search
 # The smoothing parameter k controls the balance
 hybrid_results = milvus_client.hybrid_search(
     collection_name,
     [text_search, image_search],  # Multiple search requests
     # highlight-next-line
-    ranker=rerank,  # Apply the RRF ranker
+    ranker=ranker,  # Apply the RRF ranker
     limit=10,
     output_fields=["product_name", "price", "category"]
 )
@@ -303,53 +456,40 @@ import io.milvus.v2.service.vector.request.HybridSearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 List<AnnSearchReq> searchRequests = new ArrayList<>();
-
 searchRequests.add(AnnSearchReq.builder()
-
         .vectorFieldName("text_vector")
-
         .vectors(Collections.singletonList(new EmbeddedText("modern dining table")))
-
         .limit(10)
-
         .build());
-
 searchRequests.add(AnnSearchReq.builder()
-
         .vectorFieldName("image_vector")
-
         .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
-
         .limit(10)
-
         .build());
+
+RRFRanker ranker = RRFRanker.builder()
+                .k(100)
+                .build();
 
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-
-        .collectionName(collectionName)
-
-        .searchRequests(searchRequests)
-
-        .ranker(rerank)
-
-        .limit(10)
-
-        .outFields(Arrays.asList("product_name", "price", "category"))
-
-        .build();
-
+                .collectionName(COLLECTION_NAME)
+                .searchRequests(searchRequests)
+                .ranker(ranker)
+                .limit(10)
+                .outFields(Arrays.asList("product_name", "price", "category"))
+                .build();
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```
 
@@ -367,38 +507,29 @@ import (
 )
 
 ctx := context.Background()
-
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
-
 if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
+    panic(err)
 }
+defer client.Close(ctx)
 
 // Define text vector search request
-
-textSearch := milvusclient.NewAnnRequest("text_vector", 10, entity.FloatVector(textEmbedding))
+textSearch := milvusclient.NewAnnRequest("text_vector", 10, entity.Text("modern dining table"))
 
 // Define image vector search request
-
 imageSearch := milvusclient.NewAnnRequest("image_vector", 10, entity.FloatVector(imageEmbedding))
 
 // Apply RRF Ranker to product hybrid search
-
+rerank := milvusclient.NewRRFReranker().WithK(100)
 resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-
     collectionName, 10, textSearch, imageSearch,
-).WithReranker(rerank))
-
+).WithReranker(rerank).WithOutputFields("product_name", "price", "category"))
 if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
+    panic(err)
 }
-
 fmt.Println(resultSets)
 ```
 
@@ -409,55 +540,36 @@ fmt.Println(resultSets)
 ```rust
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 // Define text vector search request
-
 let text_search = SubSearchRequest::builder()
-
     .vector_field("text_vector")
-
     .vectors(SearchVectors::EmbeddedText(vec!["modern dining table".to_string()]))
-
     .limit(10)
-
     .build()?;
 
 // Define image vector search request
-
 let image_search = SubSearchRequest::builder()
-
     .vector_field("image_vector")
-
     .vectors(SearchVectors::Float(vec![image_embedding]))
-
     .limit(10)
-
     .build()?;
 
 // Apply RRF Ranker to product hybrid search
-
 let hybrid_results = client
-
     .hybrid_search(
-
         HybridSearchRequest::builder()
-
             .collection_name(collection_name)
-
             .sub_requests(vec![text_search, image_search])
-
             .rerank(RRFRerank::new().k(100))
-
             .limit(10)
-
             .output_fields(["product_name", "price", "category"])
-
             .build()?,
     )
-
     .await?;
 ```
 
@@ -470,6 +582,14 @@ let hybrid_results = client
 #include <memory>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto connect_status = client->Connect(milvus::ConnectParam{
+    "YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"});
+if (!connect_status.IsOk()) {
+    std::cout << connect_status.Message() << std::endl;
+    return;
+}
 
 auto text_search = milvus::SubSearchRequest()
                     .WithLimit(10)
@@ -503,22 +623,35 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
 
-const milvusClient = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const milvusClient = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
+});
 
 const text_search = {
     data: ["modern dining table"],
     anns_field: "text_vector",
-    param: {},
+    params: {},
     limit: 10,
 };
 
 const image_search = {
   data: [image_embedding],
   anns_field: "image_vector",
-  param: {},
+  params: {},
   limit: 10,
+};
+
+const ranker = {
+  name: "rrf",
+  input_field_names: [],
+  type: FunctionType.RERANK,
+  params: {
+    reranker: "rrf",
+    k: 100,
+  },
 };
 
 const search = await milvusClient.search({
@@ -526,7 +659,7 @@ const search = await milvusClient.search({
   data: [text_search, image_search],
   output_fields: ["product_name", "price", "category"],
   limit: 10,
-  rerank: rerank,
+  rerank: ranker,
 });
 ```
 
@@ -540,10 +673,11 @@ using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
 
-// Connect to Milvus server
+// Connect to Zilliz Cloud server
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -566,6 +700,8 @@ var imageSearch = new AnnSearchReq
     Limit = 10
 };
 
+var rerank = new RrfReranker(100);
+
 // Apply RRF Ranker to product hybrid search
 // The smoothing parameter k controls the balance
 SearchResp hybridResults = await client.HybridSearchAsync(new HybridSearchReq
@@ -587,27 +723,26 @@ SearchResp hybridResults = await client.HybridSearchAsync(new HybridSearchReq
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
+# Set IMAGE_EMBEDDING to your image vector as a JSON array before running this request.
+: "${IMAGE_EMBEDDING:?Set IMAGE_EMBEDDING to a JSON array of embedding values}"
+
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
--d '{
+--data-binary @- <<EOF
+{
     "collectionName": "collection_name",
-    "data": [
+    "search": [
         {
             "data": ["modern dining table"],
             "annsField": "text_vector",
             "limit": 10
         },
         {
-            "data": [image_embedding],
+            "data": [${IMAGE_EMBEDDING}],
             "annsField": "image_vector",
             "limit": 10
         }
@@ -620,10 +755,12 @@ curl --request POST \
     },
     "limit": 10,
     "outputFields": ["product_name", "price", "category"]
-}'
+}
+EOF
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information on hybrid search, refer to [Multi-Vector Hybrid Search](./hybrid-search).

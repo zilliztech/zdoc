@@ -281,13 +281,13 @@ var config = new ConnectConfig
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
 
-GetResp res = await client.GetAsync(new GetReq
+GetResp getResp = await client.GetAsync(new GetReq
 {
     CollectionName = "my_collection",
     Ids = [0, 1, 2],
     OutputFields = ["vector", "color"]
 });
-Console.WriteLine(res);
+Console.WriteLine(getResp);
 ```
 
 </TabItem>
@@ -2514,7 +2514,7 @@ using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
 
-GetResp res = await client.GetAsync(new GetReq
+GetResp getResp = await client.GetAsync(new GetReq
 {
     CollectionName = "my_collection",
     Partitions = ["partitionA"],
@@ -2685,7 +2685,8 @@ resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection")
     WithFilter("RANDOM_SAMPLE(0.01)").
     WithOutputFields("vector", "color"))
 if err != nil {
-    return err
+    fmt.Println(err.Error())
+    // handle error
 }
 
 resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
@@ -2693,7 +2694,8 @@ resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithLimit(10).
     WithOutputFields("vector", "color"))
 if err != nil {
-    return err
+    fmt.Println(err.Error())
+    // handle error
 }
 ```
 

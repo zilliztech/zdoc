@@ -68,7 +68,6 @@ The `lindera` tokenizer:
 
 This two-stage process—segmentation followed by POS-based filtering—enables precise control over which tokens are indexed for search.
 
-
 ## Configuration\{#configuration}
 
 To configure an analyzer using the `lindera` tokenizer, set `tokenizer.type` to `lindera`, choose a dictionary with `dict_kind`, and optionally apply filters.

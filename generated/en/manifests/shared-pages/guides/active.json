@@ -109,6 +109,13 @@
       "feishu_token": "DDrHwdsb7idJa9kVU6zc2VwInBf",
       "anchors": {},
       "activated_in": "40818704674"
+    },
+    {
+      "page": "reranking-rrf",
+      "record": "recvlUWzUlvYoV",
+      "feishu_token": "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
+      "anchors": {},
+      "activated_in": "40929317786"
     }
   ]
 }

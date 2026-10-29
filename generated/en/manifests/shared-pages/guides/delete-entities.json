@@ -2632,7 +2632,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "7e4aeda038480d81cd8f508e45d2e7c4b6e5b26b",
+      "commit": "4b453a0b9815e99b6e603e652aa76fc9496d4029",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2785,7 +2785,7 @@
       ]
     },
     "dev": {
-      "commit": "441bf9776a378c0c0d7e66b8591c58905275929f",
+      "commit": "39a00c512db5a3178e78252cb4cab0db53fcee58",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -3161,7 +3161,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/function/minhash-function.md",
-          "sha256": "58d712630b09a038db4570adb60dc23bf2ba1dd6e77711a4c5bb2ff7eb5c0387"
+          "sha256": "5c1562e40c82661b676200379222f1171580e3e5113c4726a64ec01a354a6a38"
         },
         {
           "path": "content/en/byoc/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md",
@@ -3281,7 +3281,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-          "sha256": "844af4e5dff8f0840f382152d03c0d2b8d1fe5d042c884fdd4369add27e5e4ce"
+          "sha256": "9bf9bde910c8d98bac7378c62426d20b2d1c0fab3629974b52862bc831e6bd31"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/schema-explained.md",
@@ -3389,7 +3389,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/filtering/pattern-match.md",
-          "sha256": "ffcbfdbf64373331937077ddd7451c36db14f862986779981ebdc6195b7d2acd"
+          "sha256": "aa921c0702f44c2684b838d5971430c7f543fd92f82599ab453125b71e2196c8"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/filtering/ramdom-sampling.md",
@@ -3429,7 +3429,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md",
-          "sha256": "4ac661e98f21785a149806aeee24cec495973d1d7ba38beedd55247d0c1a6c06"
+          "sha256": "661901948d4d97b44f40b201a0a89c866a02486f19b98568ff8583a876ee86d3"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/search-metrics-explained.md",
@@ -3737,7 +3737,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-          "sha256": "f2a0475b3295eb3c2a93f91718b921b02b7ed1e30ae8adda131e4fcd2f95e5fb"
+          "sha256": "fd438ab29dc6dd161c4535817c1ba10deb958c7521ea94222c55b9246b9bb16a"
         },
         {
           "path": "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
@@ -3769,7 +3769,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/clusters/free-and-serverless-clusters.md",
-          "sha256": "9df37d5f779a35fe40d1269ffcf067acba420d4686c211c90e41008db3ab6912"
+          "sha256": "0b6d28cfb0bf00cbf258d8311b876b5f44fa17e5e45826c5879d811bffb227c0"
         },
         {
           "path": "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
@@ -3805,7 +3805,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-          "sha256": "8f2b14718a0962b639145711ead28a8a82fa21525aa393d3aa609a2c7ee75f7c"
+          "sha256": "e403fe70781d59f0045d9ff964de61ca1e8f6f527f181f984d4a857dcca46dd6"
         },
         {
           "path": "content/en/byoc/tutorials/management/cmek/aws-kms.md",
@@ -4333,7 +4333,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/function/minhash-function.md",
-          "sha256": "eee0f1ca64c56f1125167508e73e160a949d297bc4f55e14752d882e85cc1ad4"
+          "sha256": "fd224016cfafe5349b1348f7bd715662e48bbef7a62ab41970c7f16b096d44c0"
         },
         {
           "path": "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md",
@@ -4385,7 +4385,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/function/text-embedding-funcs/hugging-face.md",
-          "sha256": "62e4581b17d0a2f3e59b2e115845f81b7968238202edaa067bec09744fbc2185"
+          "sha256": "a3243fbf6d3acd3b364f154add3acc666e531b8ad94423ab90fff4e226d52439"
         },
         {
           "path": "content/en/guides/tutorials/development/function/text-embedding-funcs/openai.md",
@@ -4481,7 +4481,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-          "sha256": "d9d06dc7209ff06e401d386aac93a75221832ada490dabba4fdade74a98cff93"
+          "sha256": "3db8cb8a84e5fa6c0d473001ecbaf3daad5819889e569207c8b9ff126589e947"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/schema-explained.md",
@@ -4589,7 +4589,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/filtering/pattern-match.md",
-          "sha256": "3b29325712fe88dbe3600446c8babf1e39ed3e0ac351e5d43702939fa29831cc"
+          "sha256": "909066acec68c2c6459c4e0ec9fd01e20dc3473dd9a329cd890f14fc6af6fb03"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/filtering/ramdom-sampling.md",
@@ -4629,7 +4629,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/search-aggregation.md",
-          "sha256": "8b10e22aaeddc15490fe08d0c68ce5728b86489354f1e88d9351cbb5ce958663"
+          "sha256": "b1cdd12ec60786fda96621c83c0dee512a8e6a3b591e8f5151765b285a8da6b1"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/search-metrics-explained.md",
@@ -4845,7 +4845,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/changelogs.md",
-          "sha256": "a7a7bf211aee17efb2ce0301ae8b8b448a9e8e60de680817297dd0b16ad7160c"
+          "sha256": "efa83e91ba7e300022e99fdde5306573f74a4d705c98fd4043289d360c28095e"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md",
@@ -4985,7 +4985,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-2610.md",
-          "sha256": "23ed325d573cec16df8eae3deeafba8d8de96c36dc9ad9cec9d2011b4cf8d72e"
+          "sha256": "1cbf7d06c0e03a89049875eb5be347a08ba016891edcc42e97e940e99586ea06"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-270.md",
@@ -5181,11 +5181,11 @@
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-          "sha256": "e0169154edc29e35617cf96ea3835c0a8d5b27f2595abdb4cc75fe1758cb9764"
+          "sha256": "d6025bbb67403f4989330e9e8c984de268cc6c477c2b05673a3ede2beeda7e10"
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-          "sha256": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f"
+          "sha256": "e9ac093682ad74be0664f8b63aec43f0c37a0024f6789ab20296256ad78d0cc9"
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
@@ -5213,7 +5213,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md",
-          "sha256": "033b146fa5462079e6e48e695f8bf66f6d79b9d89e09d1fa93ec02aaff781a5b"
+          "sha256": "593af9bbdc8ea0709b813d373482a9c2a969de324751d996a98ff06f17a4352d"
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
@@ -5249,7 +5249,7 @@
         },
         {
           "path": "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-          "sha256": "98ee1574eb78ab1e66a29f8d2ed6e0d177aeeb804fe39ed94e87c161dd407bd1"
+          "sha256": "d30dbb57fa95482819496bb843575591f962d5f6dddf5e82fdf7c2e1cf1e94ee"
         },
         {
           "path": "content/en/guides/tutorials/management/cmek/aws-kms.md",
@@ -5613,7 +5613,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "5f5410b939c704409c98d38a475e6d94361b8cfc4e40770274f5edc2223c5ddc"
+          "sha256": "fb2f15934141cdb4c363bdaf0d8fe16da57db21e1dd0946cedfdc15bd300f3c6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5621,67 +5621,67 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "9685f5c50a8d3e5ad5562f3b2c600273c43133cf5ab121ef6e96929edbd96d9d"
+          "sha256": "31b862a1a7f99a6c400c427320c5fc0ea71b47555084899f42cc7512b551f0ae"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "de37047a2aff391123969ccd33b040d4065f3b84489ab9d7ac40c327c2b14426"
+          "sha256": "ae8b602bac86c4032a051a86c8e720f7ba9aa1c024c376f1a4df3b30e94f0106"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "130857888651dc08a4368fc9415fee2fff8fe4dae351cb4878943e64d7166cd0"
+          "sha256": "1684190bbf3846c8553341dbaa37de00884662d5207395fac75a686d1449f0dd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "74f46bb128e73a75b6b85f655639b5e43b9c285a3fba79a24376c98c754b394e"
+          "sha256": "89295ce892a40406d3ba999349631493ea45db21774b1e887a633890cc90d250"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "15879138be29ef63246bb800fe33fa137deccf98de846d412b208cc443ba9f92"
+          "sha256": "867f2aac02e3eb8b961c4322740ec7cbfdf3f7e44b665006ae66ec17c602bd0e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "3e5950daf990b5ef854fa67e6a7fe8a241eac24b176b1f3f5870fd9741dc6706"
+          "sha256": "cdd3d727f5441f95967975582491901bb259ab9e00e5e37a776439a24f4b9347"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "af22e08cf8517bf3f8485345dced135bb51019649373c870a68cca9ed7e81fc5"
+          "sha256": "1290266373ef8392988ccf4565c9cea394dfef4fa4de696fcfd881fd75fdefb7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "8b8f1422e12f8a0fddd3f1dc07b3311ec7bf2865533813dec2f8603ac7c4301a"
+          "sha256": "7efe4223b69fde35714071a10e3fb4f8d5ea0048de9bc76e0e5b537efad3111e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "6dc4499189618adffc75290606a06511733cb1e4d0b0a3472a9bce1afcfb969f"
+          "sha256": "6fb238f275f9fdfd6b98ce2caef2209d53e753325a6affdf3ee92339e798889e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "995b571fa1059c8fb5f545b345bfb9412cf623b511a4bcf68b6ae1a1b2d06008"
+          "sha256": "e6b4697d9061a11ed0df075308b896b505354fa2cf4baa902d04a64cbed113d4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "1a92ed389a55faa5af68d84ad0b9ac71bc64af814746a53c338ea57095ba9a15"
+          "sha256": "ce0453e2de6badc87a87ecfeb3b1a7a6f0956ce28fb2a3a40140892676e32a12"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "34393ad97558715171a1e0cfa7e1946f85afcb545cce206254c87a152e749f1e"
+          "sha256": "3c186dc98d676dd8b10bb4b816c03a81bfa221eb021f9acc1442c545d14073ae"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "3efbfdf06a7579e0a14e8b2ab8ab38320152a7101a0979d9d72800bc724d0756"
+          "sha256": "8caef3f2b906cffc8f3c258a1d699469d107bda5f0fc28fce43e1417c5efdc2c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "42d11fe405f4f40c235f25bca5a653dae52c97bcda96bb53f2b0e1b862a6661a"
+          "sha256": "47275dabe3867cfdfdd3b17c62cca0afeadf14d780d84fcebc39536df31ba57a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "0fa3d5f4afe2a7d2bc077b607cb9bd301011a611c5fe7debe3af0acddb0f4968"
+          "sha256": "8dbef033f1eba64ffe3e8989b5c9fb26d390599877118770c2426fa70a10c159"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "fa76208b223bc40c52e411d3179f1aa7506a8e810da1f22210cc56412fd93983"
+          "sha256": "b9a9cb62d1e686cac60e8bb49bf5829bf0051fb0eb889c9c0e25bef558b3fc85"
         }
       ]
     },
@@ -11871,11 +11871,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/reranking-rrf",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "reranking-rrf"
+            }
           },
           {
             "record_id": "recvlUWkShmhNL",
@@ -16656,14 +16661,14 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "7f36dca163843cc8c0ba39bda2a5477b6aa8c8332d69a6fb6552e3ac19c59a4d",
+          "tblWv7PjNDsexddH": "41bb67c27bf17c37920d896a86f5253171b7fb3915015927305c4394a703e76d",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
     },
     "tools": {
-      "zdoc": "7e4aeda038480d81cd8f508e45d2e7c4b6e5b26b",
+      "zdoc": "4b453a0b9815e99b6e603e652aa76fc9496d4029",
       "md2md": "1.3.0"
     },
     "images": []
