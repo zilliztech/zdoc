@@ -398,20 +398,30 @@ jobs:
           // GitHub caps a PR body at 65536 characters; a two-day drift easily
           // exceeds it with the full per-entry report. Keep the head of the
           // report inside a budget and point at the run artifact for the rest.
+                    // GitHub caps a PR body at 65536 characters. Large drifts overflow
+          // in TWO places — the per-entry diff report and the unaddressed
+          // entry id list — so the body is assembled with a total budget:
+          // unaddressed ids keep their head, and the diff report gets
+          // whatever budget remains. Everything else stays in full.
           const bodyBudget = 60000
-          const overhead = 600
-          let diffMd = fullDiffMd
-          if (fullDiffMd.length + overhead > bodyBudget) {
-            const diffBudget = bodyBudget - overhead
+          const truncateLines = (text, budget) => {
+            if (text.length <= budget) return text
             const kept = []
             let used = 0
-            for (const line of fullDiffMd.split('\n')) {
-              if (used + line.length + 1 > diffBudget) break
+            for (const line of text.split("\n")) {
+              if (used + line.length + 1 > budget) break
               kept.push(line)
               used += line.length + 1
             }
-            diffMd = `${kept.join('\n')}\n\n> Report truncated at ${used} of ${fullDiffMd.length} characters — the complete per-entry report is in the run artifact \`rest-upstream-refresh-${process.env.GITHUB_RUN_ID}\` (diff/diff.md).`
+            return `${kept.join("\n")}\n\n> Report truncated at ${used} of ${text.length} characters — the complete per-entry report is in the run artifact \`rest-upstream-refresh-${process.env.GITHUB_RUN_ID}\` (diff/diff.md).`
           }
+          const unaddressedKeep = 30
+          const unaddressedShown = applied.unaddressedDiffEntries.length > unaddressedKeep
+            ? [...applied.unaddressedDiffEntries.slice(0, unaddressedKeep),
+               `… (${applied.unaddressedDiffEntries.length - unaddressedKeep} more in the run artifact)`]
+            : applied.unaddressedDiffEntries
+          const unaddressedNote = applied.unaddressedDiffEntries.length > unaddressedKeep
+            ? ` (first ${unaddressedKeep} shown)` : ''
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
@@ -434,14 +444,20 @@ jobs:
             `- overrides: ${applied.overrides.length}${applied.overrides.length ? ' — review each overrideReason below' : ''}`,
             `- normalized required arrays: ${(applied.normalizations ?? []).length}${(applied.normalizations ?? []).length ? ' — the applier rebuilt each array from the schema membership ± the cited field; the submitted arrays were advisory (details below)' : ''}`,
             `- ledger drafts: ${applied.ledgerDrafts.length}`,
-            `- unaddressed diff entries: ${applied.unaddressedDiffEntries.length}`,
+            `- unaddressed diff entries: ${applied.unaddressedDiffEntries.length}${unaddressedNote}`,
             '',
             '```json',
-            JSON.stringify({overrides: applied.overrides, normalizations: applied.normalizations ?? [], ledgerDrafts: applied.ledgerDrafts, unaddressedDiffEntries: applied.unaddressedDiffEntries}, null, 2),
+            JSON.stringify({overrides: applied.overrides, normalizations: applied.normalizations ?? [], ledgerDrafts: applied.ledgerDrafts, unaddressedDiffEntries: unaddressedShown}, null, 2),
             '```',
             '',
           ].join('\n')
-          process.stdout.write(lines)
+          // The diff report is the only elastic part: assemble the body with
+          // the full report, then shrink it into whatever budget the rest of
+          // the body left (floor 2000 so the summary always survives).
+          const body = lines.join('\n')
+          const diffBudget = Math.max(bodyBudget - (body.length - fullDiffMd.length), 2000)
+          const diffMd = truncateLines(fullDiffMd, diffBudget)
+          process.stdout.write(diffMd === fullDiffMd ? body : body.replace(fullDiffMd, () => diffMd))
           NODE
           git push "https://x-access-token:${REST_UPSTREAM_REFRESH_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${branch}"
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create rest-upstream-refresh --color D4C5F9 --description 'Automated REST upstream refresh' 2>/dev/null || true
