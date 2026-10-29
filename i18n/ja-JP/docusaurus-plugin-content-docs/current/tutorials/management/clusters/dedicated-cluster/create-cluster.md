@@ -57,10 +57,25 @@ Dedicated クラスターでは、次の情報を設定する必要がありま�
 | --- | --- |
 | **クラスター Name** | クラスターの一意の識別子を割り当てます。 |
 | **クラスター Description (optional)** | クラスターの説明を 255 文字以内で入力します。 |
+| <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Dedicated クラスターの Milvus バージョンを選択します。安定版（**GA**）がデフォルトで選択され、本番ワークロードに推奨されます。新機能を試すには、**Public Preview** とラベル付けされたバージョンを選択してください。これは評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。</NextChannel> |
 | **クラスター Type** | クラスターのパフォーマンス要件に合ったクラスタータイプを選択します。詳細については、[適切なクラスタータイプの選択](./cu-types-explained) を参照してください。 |
 | **Query CU** | クラスターの Query CU 数を選択します。個人用メールアドレスで作成された組織では、支払い方法が設定されていても、Dedicated クラスターの最大 Query CU サイズは 32 です。<br/>Enterprise プロジェクトでクラスターを作成する場合、オートスケーリングはデフォルトで有効になっています。入力ボックスに値を入力するかスライダーをドラッグして、オートスケーリングの最小および最大 Query CU 数を設定できます。オートスケーリングの詳細については、[オートスケーリング](./auto-scaling) を参照してください。 |
 | **Backup Policy (optional)** | 作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups) を参照してください。 |
 | **Replica** | クラスターのレプリカ数です。 |
+
+<NextChannel action="include">
+
+<Admonition type="info" title="Notes">
+
+- Milvus 3.0 のパブリックプレビュー期間中は、Milvus 2.6 がデフォルトで選択されます。プレビュー機能を試すには Milvus 3.0 を選択してください。Milvus 3.0 クラスターを Milvus 2.6 にダウングレードすることはできません。
+
+- クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK Compatibility](/docs/install-sdks#sdk-compatibility) を参照してください。
+
+- Milvus 3.0 クラスターをグローバルクラスターに変換することはできません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+
+</Admonition>
+
+</NextChannel>
 
 クラスターの作成中に、一度だけ表示されるクラスターの資格情報（ユーザーとパスワード）を保存する必要があります。
 
@@ -69,6 +84,8 @@ Dedicated クラスターでは、次の情報を設定する必要がありま�
 </TabItem>
 
 <TabItem value="Bash">
+
+<NextChannel action="exclude">
 
 リクエストは次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
@@ -120,6 +137,98 @@ curl --request POST \
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **デフォルトの Milvus バージョンで Dedicated クラスターを作成する**
+
+    デフォルトでは、Zilliz Cloud は安定版（GA）の Milvus バージョンで Dedicated クラスターを作成します。リクエストで Milvus バージョンを指定する必要はありません。
+
+    リクエストは次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+
+    リクエストは次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/clusters/createDedicated" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Accept: application/json" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "clusterName": "Cluster-05",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "plan": "Standard",
+        "cuType": "Performance-optimized",
+        "cuSize": 1,
+        "description": "A cluster for vector search workloads."
+    }'
+    ```
+
+    上記のコマンドでは、次のとおりです。
+
+    - `{API_KEY}`: API リクエストの認証に使用する資格情報です。値をご自身の値に置き換えてください。
+
+    - `clusterName`: 作成するクラスターの名前です。
+
+    - `projectId`: クラスターを作成するプロジェクトの ID です。プロジェクト ID を一覧表示するには、[List Projects](/reference/restful/list-projects-v2) オペレーションを呼び出します。
+
+    - `regionId`: クラスターを作成するクラウドリージョンの ID です。使用可能なクラウドリージョン ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) オペレーションを呼び出します。
+
+    - `cuType`: クラスターのタイプです。有効な値は、Performance-optimized、Capacity-optimized、Tiered-storage です。
+
+    - `cuSize`: クラスターに使用する Query CU 数です。値の範囲は 1 から 2,048 です。個人用メールアドレスで作成された組織では、支払い方法が設定されていても、Dedicated クラスターの最大 Query CU サイズは 32 です。
+
+    - `description`（オプション）: クラスターの説明です。
+
+    出力例は以下の通りです。
+
+    ```json
+    {
+        "code": 0,
+        "data": {
+            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+            "username": "db_admin",
+            "password": "****************",
+            "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+        }
+    }
+    ```
+
+- **特定の Milvus バージョンで Dedicated クラスターを作成する**
+
+    パブリックプレビュー版で利用可能な新機能を試す場合や、データ移行のためにソースクラスターの Milvus バージョンに合わせる場合は、Dedicated クラスターを作成するときに特定の Milvus バージョンを選択できます。
+
+    <Procedures>
+
+    1. **List Milvus Version** を使用して、利用可能な Milvus バージョンを取得します。
+
+        ```bash
+        # TODO: Add a request to list available Milvus versions.
+        ```
+
+    1. レスポンスからバージョンを選択し、クラスター作成リクエストで指定します。
+
+        ```bash
+        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        ```
+
+    </Procedures>
+
+    <Admonition type="info" title="Notes">
+
+    - パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
+    
+    - Milvus 3.0 クラスターを Milvus 2.6 にダウングレードすることはできません。
+    
+    - 選択した Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK Compatibility](/docs/install-sdks#sdk-compatibility) を参照してください。
+
+    </Admonition>
+
+</NextChannel>
+
 </TabItem>
 
 </Tabs>
@@ -162,6 +271,22 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 ## FAQ\{#faq}
 
+<NextChannel action="exclude">
+
 **クラスターを作成するときに Milvus のバージョンを指定できますか？**
 
 いいえ。Zilliz Cloud は、サポートされている最新バージョンの Milvus でクラスターを自動的にプロビジョニングし、管理されたローリングアップグレードを通じて最新の状態に保ちます。特定のバージョンが必要な場合は、[サポート](https://support.zilliz.com/hc/en-us/requests/new) に連絡し、ユースケースを説明してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+**クラスターを作成するときに Milvus のバージョンを指定できますか？**
+
+はい。複数の Milvus バージョンが利用可能な場合は、Dedicated クラスターを作成するときにバージョンを選択できます。安定版（GA）がデフォルトで選択されます。Milvus 3.0 のパブリックプレビュー期間中は、Milvus 2.6（GA）と Milvus 3.0（Public Preview）のいずれかを選択できます。
+
+バージョンの選択は、Free クラスターまたは Serverless クラスターでは利用できません。
+
+パブリックプレビュー機能のために既存の Dedicated クラスターをアップグレードするには、[Manage Cluster](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
+
+</NextChannel>

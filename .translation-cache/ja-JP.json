@@ -1561,9 +1561,9 @@
       "translatedAt": "2026-10-29T05:46:28.612Z"
     },
     "content/en/guides/tutorials/development/analyzer/built-in-analyzer/english-analyzer.md": {
-      "sourceHash": "fb0e2e564a4b49a7072587c96f160a1b9d2d7665e1b9ea208035d7ed3b650c6e",
+      "sourceHash": "198c2d76b48d7f94424a25b458645fbddb7b86d08dfed6f27fbf138d82f8c741",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/built-in-analyzer/english-analyzer.md",
-      "translatedAt": "2026-10-25T05:11:00.677Z"
+      "translatedAt": "2026-10-29T05:48:53.518Z"
     },
     "content/en/guides/tutorials/development/analyzer/built-in-analyzer/standard-analyzer.md": {
       "sourceHash": "5fdffd5d7fe6cabce3ed9748ac096001845cf22afcf585c204678b633f8618ab",
@@ -1951,9 +1951,9 @@
       "translatedAt": "2026-10-25T10:10:23.617Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "074726fdc74021914157b6522f088c984cd088a4e18a115d7d48a8297c5c9c7e",
+      "sourceHash": "c03fa29872e1bb1894d0780da485a107a28b73cc842e6c680ff6ec5e3ac98676",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-10-29T05:48:53.518Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
       "sourceHash": "2813d8127082cd86b698be4cbaaea538163c56eaf498c852c46743aa6a514e19",
@@ -2001,9 +2001,9 @@
       "translatedAt": "2026-10-28T15:48:53.927Z"
     },
     "content/en/guides/tutorials/development/schema/use-sparse-vector.md": {
-      "sourceHash": "a05bccebc9d1d3fdf84c847c74377c05b171cf6b5334d21a6e8e90f309a4e496",
+      "sourceHash": "eb9572ef36de5468d99606a9877157c52b49244c36613ea604b8b5c7d77e6bcc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-sparse-vector.md",
-      "translatedAt": "2026-10-28T15:48:53.927Z"
+      "translatedAt": "2026-10-29T05:48:53.518Z"
     },
     "content/en/guides/tutorials/development/schema/use-string-field.md": {
       "sourceHash": "215e627b87d59cc7441251962c04bb623156f28d48bbd815a9bd4400967e9ffd",
@@ -2011,9 +2011,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "c55ef527c336a933020366b2a3b67fdeba26c7546af8836fede4b69f7f8b1dbc",
+      "sourceHash": "7c81ebf5471535fc1bcfef40dcc936eb1896815d98642f2d83b3c79555d6a2d0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-10-28T15:52:09.297Z"
+      "translatedAt": "2026-10-29T05:48:53.518Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "943a7210b8c2535dfb7303fc4559d97b2cf1c61b7633e88ecb2585ea1d9ce82c",
@@ -2781,9 +2781,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "8e7ecf76b0c24b663490fec38afcc16f6a75dc89735639b6350f7ffc06cecf9c",
+      "sourceHash": "e0169154edc29e35617cf96ea3835c0a8d5b27f2595abdb4cc75fe1758cb9764",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-28T02:47:20.007Z"
+      "translatedAt": "2026-10-29T05:48:53.518Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",
