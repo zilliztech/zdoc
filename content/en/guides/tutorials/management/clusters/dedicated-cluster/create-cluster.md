@@ -57,10 +57,25 @@ You need to configure the following information of the Dedicated cluster.
 | --- | --- |
 | **Cluster Name** | Assign a unique identifier for your cluster. |
 | **Cluster Description (optional)** | Enter the description of your cluster, up to 255 characters. |
+| <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Select a Milvus version for your Dedicated cluster. The stable (**GA**) version is selected by default and is recommended for production workloads. To try new features, select a version labeled **Public Preview**, which is suitable for evaluation and non-critical production workloads. Features may change before general availability.</NextChannel> |
 | **Cluster Type** | Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). |
 | **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.<br/>If you are creating a cluster in an Enterprise project, auto-scaling is enabled by default. You can configure the minimum and maximum number of Query CUs for auto-scaling by entering values in the input boxes or dragging the slider. For details about auto-scaling, see [Auto-scaling](./auto-scaling). |
 | **Backup Policy (optional)** | Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups). |
 | **Replica** | The number of replicas of the cluster. |
+
+<NextChannel action="include">
+
+<Admonition type="info" title="Notes">
+
+- During the Milvus 3.0 public preview, Milvus 2.6 is selected by default. Select Milvus 3.0 to try its preview features. You cannot downgrade a Milvus 3.0 cluster to Milvus 2.6.
+
+- Use an SDK version compatible with your cluster’s Milvus version. For details, see [SDK Compatibility](/docs/install-sdks#sdk-compatibility).
+
+- Milvus 3.0 clusters cannot be converted to global clusters. If you plan to convert the cluster to a global cluster, select Milvus 2.6.
+
+</Admonition>
+
+</NextChannel>
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 
@@ -69,6 +84,8 @@ When the cluster status turns into "Running", the cluster is created successfull
 </TabItem>
 
 <TabItem value="Bash">
+
+<NextChannel action="exclude">
 
 Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
@@ -120,6 +137,98 @@ The following is an example output.
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **Create a Dedicated cluster with the default Milvus version**
+
+    By default, Zilliz Cloud creates a Dedicated cluster with the stable (GA) Milvus version. You do not need to specify a Milvus version in your request.
+
+    Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+
+    Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/clusters/createDedicated" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Accept: application/json" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "clusterName": "Cluster-05",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "plan": "Standard",
+        "cuType": "Performance-optimized",
+        "cuSize": 1,
+        "description": "A cluster for vector search workloads."
+    }'
+    ```
+
+    In the command above,
+
+    - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+
+    - `clusterName`: The name of the cluster to create.
+
+    - `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+
+    - `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
+
+    - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized, and Tiered-storage.
+
+    - `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
+
+    - `description` (optional): Description of the cluster.
+
+    The following is an example output.
+
+    ```json
+    {
+        "code": 0,
+        "data": {
+            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+            "username": "db_admin",
+            "password": "****************",
+            "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+        }
+    }
+    ```
+
+- **Create a Dedicated cluster with a specific Milvus version**
+
+    To try new features available in a public preview version or match the Milvus version of a source cluster for data migration, you can select a specific Milvus version when creating a Dedicated cluster. 
+
+    <Procedures>
+
+    1. Retrieve the available Milvus versions using **List Milvus Version**.
+
+        ```bash
+        # TODO: Add a request to list available Milvus versions.
+        ```
+
+    1. Select a version from the response, then specify it in your cluster creation request.
+
+        ```bash
+        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        ```
+
+    </Procedures>
+
+    <Admonition type="info" title="Notes">
+
+    - Public preview versions are suitable for evaluation and non-critical production workloads. Features may change before general availability.
+    
+    - You cannot downgrade a Milvus 3.0 cluster to Milvus 2.6.
+    
+    - Use an SDK version compatible with the selected Milvus version. For details, see [SDK Compatibility](/docs/install-sdks#sdk-compatibility).
+
+    </Admonition>
+
+</NextChannel>
+
 </TabItem>
 
 </Tabs>
@@ -162,6 +271,23 @@ Once you have added a KMS key, you can create an encrypted cluster as follows:
 
 ## FAQ\{#faq}
 
+<NextChannel action="exclude">
+
 **Can I specify the Milvus version when creating a cluster?**
 
 No. Zilliz Cloud automatically provisions clusters on the latest supported Milvus version and keeps them up to date through managed rolling upgrades. If you need a specific version, [contact support](https://support.zilliz.com/hc/en-us/requests/new) and explain your use case.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+**Can I specify the Milvus version when creating a cluster?**
+
+Yes. When multiple Milvus versions are available, you can select a version when creating a Dedicated cluster. The stable (GA) version is selected by default. During the Milvus 3.0 public preview, you can choose between Milvus 2.6 (GA) and Milvus 3.0 (Public Preview).
+
+Version selection is not available for Free or Serverless clusters.
+
+To upgrade an existing Dedicated cluster for public preview features, see [Manage Cluster](/docs/manage-cluster#upgrade-cluster-for-preview-features).
+
+</NextChannel>
+

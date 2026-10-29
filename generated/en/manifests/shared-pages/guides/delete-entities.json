@@ -2632,7 +2632,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "626e2ae8c70147a9bd9e13f91070968e20631c6f",
+      "commit": "6422c46832d2b4ba22ab6c07f1d072f5427e5bae",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2657,6 +2657,14 @@
         {
           "path": "shared-docs/guides/pages/decay-ranker-oveview/page.yaml",
           "sha256": "e23883ca583433e2568747d47c8558fe9bdc0c9ebc6068bb3cebd8be22179bb1"
+        },
+        {
+          "path": "shared-docs/guides/pages/decompounder-filter/lock.yaml",
+          "sha256": "35cab0adbb4d1a5620c72408e145c32919fb3d32dd690d686a57ad06623040aa"
+        },
+        {
+          "path": "shared-docs/guides/pages/decompounder-filter/page.yaml",
+          "sha256": "23e73f99b18302729c5ed95a5c4f06bbe5ef6e62cea05142834eb1a31dc44a9d"
         },
         {
           "path": "shared-docs/guides/pages/delete-entities/lock.yaml",
@@ -2691,6 +2699,14 @@
           "sha256": "7a9711e9928e6f197a73f7840f750b9c6d1ea71d6251133df31eea8e7ef39b9a"
         },
         {
+          "path": "shared-docs/guides/pages/lindera-tokenizer/lock.yaml",
+          "sha256": "35cab0adbb4d1a5620c72408e145c32919fb3d32dd690d686a57ad06623040aa"
+        },
+        {
+          "path": "shared-docs/guides/pages/lindera-tokenizer/page.yaml",
+          "sha256": "99832dfbc008495663709f4f8d7b2f0ab6711c87e91d3d58efed1b9941b83fb0"
+        },
+        {
           "path": "shared-docs/guides/pages/regex-filter/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
@@ -2713,6 +2729,14 @@
         {
           "path": "shared-docs/guides/pages/standard-tokenizer/page.yaml",
           "sha256": "dc4f7250a214776e9e526a19ae2a40d250f42d0f90d2fb896bb4a401b82c0eee"
+        },
+        {
+          "path": "shared-docs/guides/pages/stop-filter/lock.yaml",
+          "sha256": "35cab0adbb4d1a5620c72408e145c32919fb3d32dd690d686a57ad06623040aa"
+        },
+        {
+          "path": "shared-docs/guides/pages/stop-filter/page.yaml",
+          "sha256": "265a21f914cb5598745204e3c09590d29311bfae4b981ab1aa573601f905002a"
         },
         {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
@@ -2753,7 +2777,7 @@
       ]
     },
     "dev": {
-      "commit": "5a9f0f7e6faf4e6d611b3519e71b816f1517f82f",
+      "commit": "2c91e31500a15bb89f8a0a5cc9cdc41c98318009",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -5581,7 +5605,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "334b4fc18b46fcf68c5fd78d522962f1380fe4b94ac827aa78d89ee27a4d0d7a"
+          "sha256": "c66b94422c8f48a07342b929b6a672de3db8f934062b3b2399371b7318466c1e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5589,55 +5613,55 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "f276f8498f672af7fcd3c3b7dcbcf02eb5f4539d4c4aa30b878bca5eb1bcde1c"
+          "sha256": "1b0adfa278b893731ae2f55e3febc8793627bc55f0c76c55c055b322f88222d4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "634430ad3654f15a4e860fb13b1021d2f4cd3a139e30c432e0eb9ab5c7eef6c5"
+          "sha256": "ab502e83481ec90cadae8b4074ffbbcf51bda3f0499b0dea3d6c09bc88a370b2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "43bde9e4b14174de75f4cbf96216cdc63e428ae92835f607ec51b340979c17c9"
+          "sha256": "a4b76e4f175f9a6454426cd399b93933b3968efe8e1e93016a9a1962f07a8bdd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "fa4f9a2813f0968560343c81f6f882165bec8d0259dea1946a81e8f1c172906a"
+          "sha256": "aa738ee5644041590b802044dee49ab373ac35009a0c668e47f58fadc6ad80f8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "2a17ef089b8d986ba02ef24e5518b0827c4c01b2f5a2b7387c97c67663f3e949"
+          "sha256": "397553278c7d050197dbf5b4fa91f1358c8fa3a16ad7ffe8e76866318cc66cb3"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "9b59111a8de258371f5ac4de930743ed5f10ee83dae807782c36d50127b766f5"
+          "sha256": "20acc7ac7a817fbd81761ac8dfd36ea827599dca764881bf13c68770577d2c4e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "e2eee9c4ecf57a43f9655884c7dbb2785fbd5bfc5be497be957efb229f06b89e"
+          "sha256": "2ae0e37357b53e8a4ea5871d77433011f414fafcec0c1982e1e377489a09e257"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "74fa40933d8e465e8d0b8621eeffdf01788b3998810113adef244f8e85095bc3"
+          "sha256": "dbc34bf8c63a38aba049b7c9d011d11486814d762773d4637a15e5bea2c3775d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "296537c35d5ed80a2a76b88939b45ed2bf2a075d2ed402100ccb766adeb5d874"
+          "sha256": "005d5a5280167e13a24e38c51c13b4664d702aca2c9d294640c14be9ad581559"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "ef80c2ca9de8f223d84ae25841a5eada981468fcaba78c7897ea87d933aa9593"
+          "sha256": "5404299cef88f6a86a5d8c6b24922a7d9eb3d5c5e6a163ce4b3a1878f39300c2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "050f41b41cf61f8e0b2b8c787a9bba567383609f3bc4cf2105305ca1dbc839b4"
+          "sha256": "16f44d636a85698542cd711fce4cc8461b3b323de34c29fce9466aad66884683"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "308f9264be7e8f882335d274a3f78866e85eeda314286cc5cbcafdc591326ea1"
+          "sha256": "8fc163f2e9711015801b68e2ce722b333a1ce6cf53ae25dce6612e2cabe4f1cd"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "2f7b66ed65cc5a83842ed877f9594a5bb0c22389955871e5cd19b6b64c8c225d"
+          "sha256": "2b1f85d6d4a2cf3063d58bd64b71014353de9f71fba6ccdd0af5d42a8ea2f752"
         }
       ]
     },
@@ -12389,11 +12413,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "PvwZwtu3FiBQNqkPa5VcqH6qnmg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/PvwZwtu3FiBQNqkPa5VcqH6qnmg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/lindera-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "lindera-tokenizer"
+            }
           },
           {
             "record_id": "recvlPvps6Vpde",
@@ -12667,11 +12696,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "ScncwBnDBiVoLjksXAwcUgrgnod",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/ScncwBnDBiVoLjksXAwcUgrgnod",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/stop-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "stop-filter"
+            }
           },
           {
             "record_id": "recvlPvGmAYglw",
@@ -12690,11 +12724,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "DDrHwdsb7idJa9kVU6zc2VwInBf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/DDrHwdsb7idJa9kVU6zc2VwInBf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/decompounder-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "decompounder-filter"
+            }
           },
           {
             "record_id": "recvlPvI4UujsG",
@@ -16597,14 +16636,14 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "b680cf2ea9dc9b0b61ace175af24fb0e69a973f93dc121fe1d38f454a6666272",
+          "tblWv7PjNDsexddH": "7f36dca163843cc8c0ba39bda2a5477b6aa8c8332d69a6fb6552e3ac19c59a4d",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
     },
     "tools": {
-      "zdoc": "626e2ae8c70147a9bd9e13f91070968e20631c6f",
+      "zdoc": "6422c46832d2b4ba22ab6c07f1d072f5427e5bae",
       "md2md": "1.3.0"
     },
     "images": []

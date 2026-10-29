@@ -732,7 +732,7 @@ curl --request POST \
 
 ### Expected output\{#expected-output}
 
-```python
+```plaintext
 English analyzer output: ['milvus', 'vector', 'databas', 'built', 'scale']
 ```
 

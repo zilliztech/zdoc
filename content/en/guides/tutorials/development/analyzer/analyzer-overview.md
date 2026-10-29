@@ -1694,7 +1694,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
+idx := index.NewAutoIndex(entity.COSINE)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
 
 err = client.CreateCollection(ctx,

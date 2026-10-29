@@ -635,13 +635,7 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "my_collection",
     Schema = schema,
-    Indexes = new[]
-    {
-        new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
-        {
-            ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" }
-        }
-    }
+    Indexes = indexes
 });
 ```
 

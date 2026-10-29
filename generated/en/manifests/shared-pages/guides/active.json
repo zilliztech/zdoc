@@ -88,6 +88,27 @@
       "feishu_token": "AwmtwHGQii1j9Wk1W04cNxvBnth",
       "anchors": {},
       "activated_in": "40699375138"
+    },
+    {
+      "page": "lindera-tokenizer",
+      "record": "recvlPvni6z12G",
+      "feishu_token": "PvwZwtu3FiBQNqkPa5VcqH6qnmg",
+      "anchors": {},
+      "activated_in": "40818704674"
+    },
+    {
+      "page": "stop-filter",
+      "record": "recvlPvEwuN1gf",
+      "feishu_token": "ScncwBnDBiVoLjksXAwcUgrgnod",
+      "anchors": {},
+      "activated_in": "40818704674"
+    },
+    {
+      "page": "decompounder-filter",
+      "record": "recvlPvGmAYglw",
+      "feishu_token": "DDrHwdsb7idJa9kVU6zc2VwInBf",
+      "anchors": {},
+      "activated_in": "40818704674"
     }
   ]
 }

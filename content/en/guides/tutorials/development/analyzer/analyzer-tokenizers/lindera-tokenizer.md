@@ -1,17 +1,18 @@
 ---
 title: "Lindera | Cloud"
 slug: /lindera-tokenizer
-sidebar_label: "Lindera"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `lindera` tokenizer performs dictionary-based morphological analysis. It is designed for Japanese and Korean—languages where words are not separated by spaces and grammatical markers (particles) attach directly to words. | Cloud"
+description: "The lindera tokenizer performs dictionary-based morphological analysis. It is designed for Japanese and Korean—languages where words are not separated by spaces and grammatical markers (particles) attach directly to words. | Cloud"
 type: origin
-token: PvwZwtu3FiBQNqkPa5VcqH6qnmg
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-lindera-tokenizer
+sidebar_label: "Lindera"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/tokenizer/lindera-tokenizer.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 The `lindera` tokenizer performs dictionary-based morphological analysis. It is designed for Japanese and Korean—languages where words are not separated by spaces and grammatical markers (particles) attach directly to words.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **For Chinese text**: While `lindera` supports Chinese via the `cc-cedict` dictionary, we recommend using the [`jieba`](./jieba-tokenizer) tokenizer instead. Jieba is specifically designed for Chinese word segmentation and provides better results.
 
@@ -37,7 +38,7 @@ Japanese and Korean are agglutinative languages: grammatical markers called part
    <tr>
      <th><p>Language</p></th>
      <th><p>Root word</p></th>
-     <th><ul><li>Particle</li></ul></th>
+     <th><p>+ Particle</p></th>
      <th><p>= Combined form</p></th>
      <th><p>Meaning</p></th>
    </tr>
@@ -67,6 +68,7 @@ The `lindera` tokenizer:
 
 This two-stage process—segmentation followed by POS-based filtering—enables precise control over which tokens are indexed for search.
 
+
 ## Configuration\{#configuration}
 
 To configure an analyzer using the `lindera` tokenizer, set `tokenizer.type` to `lindera`, choose a dictionary with `dict_kind`, and optionally apply filters.
@@ -94,10 +96,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-Map<String, Object> analyzerParams = new HashMap<>();                                 
+Map<String, Object> analyzerParams = new HashMap<>();
   analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
-      put("type", "lindera");                                                           
-      put("dict_kind", "ko-dic");                                 
+      put("type", "lindera");
+      put("dict_kind", "ko-dic");
       put("filter", Arrays.asList(
           new HashMap<String, Object>() {{
               put("kind", "korean_stop_tags");
@@ -116,26 +118,22 @@ Map<String, Object> analyzerParams = new HashMap<>();
 <TabItem value='go'>
 
 ```go
-import "fmt"
-
 analyzerParams := map[string]interface{}{
-    "tokenizer": map[string]interface{}{
-        "type":      "lindera",
-        "dict_kind": "ko-dic",
-        "filter": []interface{}{
-            map[string]interface{}{
-                "kind": "korean_stop_tags",
-                "tags": []string{
-                    "SP", "SSC", "SSO", "SC", "SE", "SF",
-                    "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
-                    "JX", "JC", "UNK", "EP", "ETM",
-                },
-            },
-        },
-    },
-}
-
-fmt.Println(analyzerParams)
+      "tokenizer": map[string]interface{}{
+          "type":      "lindera",
+          "dict_kind": "ko-dic",
+          "filter": []interface{}{
+              map[string]interface{}{
+                  "kind": "korean_stop_tags",
+                  "tags": []string{
+                      "SP", "SSC", "SSO", "SC", "SE", "SF",
+                      "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
+                      "JX", "JC", "UNK", "EP", "ETM",
+                  },
+              },
+          },
+      },
+  }
 ```
 
 </TabItem>
@@ -235,10 +233,11 @@ curl --request POST \
 -d '{
     "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ko-dic\",\"filter\":[{\"kind\":\"korean_stop_tags\",\"tags\":[\"SP\",\"SSC\",\"SSO\",\"SC\",\"SE\",\"SF\",\"JKS\",\"JKC\",\"JKG\",\"JKO\",\"JKB\",\"JKV\",\"JKQ\",\"JX\",\"JC\",\"UNK\",\"EP\",\"ETM\"]}]}}",
     "text": ["서울에서 맛있는 음식을 먹었습니다"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 <table>
@@ -248,11 +247,11 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>The type of tokenizer. This is fixed to <code>&quot;lindera&quot;</code>.</p></td>
+     <td><p>The type of tokenizer. This is fixed to <code>"lindera"</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>dict_kind</code></p></td>
-     <td><p>A dictionary used to define vocabulary. Possible values:</p><ul><li><p><code>ko-dic</code>: Korean - Korean morphological dictionary (<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>)</p></li><li><p><code>ipadic</code>: Japanese - Standard morphological dictionary (<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>)</p></li></ul></td>
+     <td><p>A dictionary used to define vocabulary. Possible values:</p><ul><li><p><code>ko-dic</code>: Korean - Korean morphological dictionary (<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>)</p></li><li><p><code>ipadic</code>: Japanese - Standard morphological dictionary (<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>)</p></li><li><p><code>ipadic-neologd</code>: Japanese with neologism dictionary (extended) - Includes new words and proper nouns (<a href="https://github.com/neologd/mecab-ipadic-neologd">IPADIC NEologd</a>)</p></li><li><p><code>unidic</code>: Japanese UniDic (extended) - Academic standard dictionary with detailed linguistic information (<a href="https://clrd.ninjal.ac.jp/unidic/">UniDic</a>)</p></li><li><p><code>cc-cedict</code>: Mandarin Chinese (traditional/simplified) - Community-maintained Chinese-English dictionary (<a href="https://cc-cedict.org/wiki/">CC-CEDICT</a>)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>filter</code></p></td>
@@ -274,7 +273,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 analyzer_params = {
     "tokenizer": {
@@ -309,6 +308,7 @@ import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -397,7 +397,7 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 let analyzer_params = json!({
@@ -432,7 +432,7 @@ println!("{:?}", res.results());
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -468,6 +468,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const analyzer_params = {
@@ -524,8 +525,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 Dictionary<string, object> analyzerParams = new()
@@ -575,10 +575,11 @@ curl --request POST \
 -d '{
     "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ko-dic\",\"filter\":[{\"kind\":\"korean_stop_tags\",\"tags\":[\"SP\",\"SSC\",\"SSO\",\"SC\",\"SE\",\"SF\",\"JKS\",\"JKC\",\"JKG\",\"JKO\",\"JKB\",\"JKV\",\"JKQ\",\"JX\",\"JC\",\"UNK\",\"EP\",\"ETM\"]}]}}",
     "text": ["서울에서 맛있는 음식을 먹었습니다"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 **Expected output**:
@@ -597,7 +598,7 @@ Without `korean_stop_tags`, the output would include particles like `에서` (in
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 analyzer_params = {
     "tokenizer": {
@@ -632,6 +633,7 @@ import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -716,7 +718,7 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 let analyzer_params = json!({
@@ -751,7 +753,7 @@ println!("{:?}", res.results());
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -787,6 +789,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const analyzer_params = {
@@ -824,8 +827,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 Dictionary<string, object> analyzerParams = new()
@@ -875,10 +877,11 @@ curl --request POST \
 -d '{
     "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ipadic\",\"filter\":[{\"kind\":\"japanese_stop_tags\",\"tags\":[\"接続詞\",\"助詞,格助詞\",\"助詞,格助詞,一般\",\"助詞,格助詞,引用\",\"助詞,格助詞,連語\",\"助詞,係助詞\",\"助詞,終助詞\",\"助詞,接続助詞\",\"助詞,特殊\",\"助詞,副助詞\",\"助詞,副助詞／並立助詞／終助詞\",\"助詞,連体化\",\"助詞,副詞化\",\"助詞,並立助詞\",\"助動詞\",\"記号,一般\",\"記号,読点\",\"記号,句点\",\"記号,空白\",\"記号,括弧閉\",\"記号,括弧開\",\"その他,間投\",\"フィラー\",\"非言語音\"]}]}}",
     "text": ["東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 **Expected output:**

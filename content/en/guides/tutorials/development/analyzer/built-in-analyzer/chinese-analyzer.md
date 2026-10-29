@@ -537,7 +537,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 
 ### Expected output\{#expected-output}
 
-```python
+```plaintext
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
 ```
 

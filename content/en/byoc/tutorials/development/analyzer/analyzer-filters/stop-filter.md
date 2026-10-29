@@ -1,21 +1,21 @@
 ---
 title: "Stop | BYOC"
 slug: /stop-filter
-sidebar_label: "Stop"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `stop` filter removes specified stop words from tokenized text, helping to eliminate common, less meaningful words. You can configure the list of stop words using the `stopwords` parameter. | BYOC"
+description: "Use the stop filter to remove configured stop words from tokenized text during analysis. | BYOC"
 type: origin
-token: ScncwBnDBiVoLjksXAwcUgrgnod
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-stop-filter
+sidebar_label: "Stop"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/stop-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -25,9 +25,6 @@ The `stop` filter removes specified stop words from tokenized text, helping to e
 
 ## Configuration\{#configuration}
 
-The `stop` filter accepts its stop-words list either inline via the `stop_words` parameter or from a registered file resource via the `stop_words_file` parameter.
-
-### Inline stop-words list\{#inline-stop-words-list}
 
 To use the `stop` filter with an inline list, specify `"type": "stop"` in the filter configuration, along with a `stop_words` parameter that provides the list of stop words.
 
@@ -113,7 +110,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -165,6 +162,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 The `stop` filter accepts the following configurable parameters.
@@ -176,13 +174,14 @@ The `stop` filter accepts the following configurable parameters.
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>A list of words to be removed from tokenization. By default, the filter uses the built‑in <code>_english_</code> dictionary. You can override or extend it in three ways:</p><ul><li><p><strong>Built‑in dictionaries</strong> – supply one of these language aliases to use a predefined dictionary:</p><p><code>&quot;_english_&quot;</code>, <code>&quot;_danish_&quot;</code>, <code>&quot;_dutch_&quot;</code>, <code>&quot;_finnish_&quot;</code>, <code>&quot;_french_&quot;</code>, <code>&quot;_german_&quot;</code>, <code>&quot;_hungarian_&quot;</code>, <code>&quot;_italian_&quot;</code>, <code>&quot;_norwegian_&quot;</code>, <code>&quot;_portuguese_&quot;</code>, <code>&quot;_russian_&quot;</code>, <code>&quot;_spanish_&quot;</code>, <code>&quot;_swedish_&quot;</code></p></li><li><p><strong>Custom list</strong> – pass an array of your own terms, e.g. <code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>.</p></li><li><p><strong>Mixed list</strong> – combine aliases and custom terms, e.g. <code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>.</p></li></ul><p>For details on the exact content of each predefined dictionary, refer to <a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a>.</p></td>
+     <td><p>A list of words to be removed from tokenization. By default, the filter uses the built‑in <code>_english_</code> dictionary. You can override or extend it in three ways:</p><ul><li><p><strong>Built‑in dictionaries</strong> – supply one of these language aliases to use a predefined dictionary:</p><p><code>"_arabic_"</code>, <code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code>, <code>"_thai_"</code></p></li><li><p><strong>Custom list</strong> – pass an array of your own terms, e.g. <code>["foo", "bar", "baz"]</code>.</p></li><li><p><strong>Mixed list</strong> – combine aliases and custom terms, e.g. <code>["of", "to", "_english_"]</code>.</p><p>For details on the exact content of each predefined dictionary, refer to <a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a>. To inspect the Arabic or Thai dictionary, refer to the <a href="https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/arabic.txt">Arabic stop-word list</a> or <a href="https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/thai.txt">Thai stop-word list</a>.</p></li></ul></td>
    </tr>
 </table>
 
 The `stop` filter operates on the terms generated by the tokenizer, so it must be used in combination with a tokenizer. For a list of tokenizers available in Zilliz Cloud, refer to [Standard Tokenizer](./standard-tokenizer) and its sibling pages.
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+
 
 ## Examples\{#examples}
 
@@ -272,7 +271,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -324,6 +323,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
@@ -336,14 +336,14 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Sample text to analyze
 sample_text = "The stop filter allows control over common stop words for text processing."
 
-# Run the standard analyzer with the defined configuration
+# Run the analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Analyzer output:", result)
 ```
 
 </TabItem>
@@ -362,6 +362,7 @@ import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -449,7 +450,7 @@ let result = client
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -481,12 +482,12 @@ const client = new MilvusClient({
 
 const sample_text = "The stop filter allows control over common stop words for text processing.";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log("Standard analyzer output:", result);
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -502,14 +503,13 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
 string sampleText = "The stop filter allows control over common stop words for text processing.";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
@@ -539,6 +539,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Expected output\{#expected-output}
@@ -546,4 +547,3 @@ curl --request POST \
 ```plaintext
 ['The', 'stop', 'filter', 'allows', 'control', 'over', 'common', 'stop', 'words', 'text', 'processing']
 ```
-
