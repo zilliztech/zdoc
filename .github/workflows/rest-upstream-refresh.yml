@@ -222,7 +222,7 @@ jobs:
             --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
             --api-key-env AGENTIC_PROVIDER_API_KEY \
             --codex-home "$RUNNER_TEMP/rest-agent-codex-home" \
-            --timeout-ms 1500000
+            --timeout-ms 2700000
 
       # Gates 1-2 (change-set schema, applier reconcile + denylist/x-*/oneOf
       # assertions) run inside rest-upstream-apply, which never consults the
