@@ -8,10 +8,15 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import * as jsx from 'react/jsx-runtime'
 import { runBuild, readSharedDocs } from '../../commands/build'
+import { buildPage, createBuildReader, createBuildRuntime } from '../../adapters/build-page'
 import { runInspect } from '../../commands/inspect'
 import { FakeImageFetcher } from '../../adapters/images'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
+import { createGuidesSnapshot } from '../../adapters/guides-snapshot'
+import { createZdocContentReader } from '../../adapters/zdoc-content'
+import { RealMd2md } from '../../adapters/md2md'
 import { createBuildDemo, externalImage, git, imageBytes, write } from '../build/demo'
+import { currentView, nextView } from '../merge/helpers'
 import type { SharedDocsError, Transform } from '../../core/types'
 
 vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
@@ -32,6 +37,32 @@ async function build(options: Awaited<ReturnType<typeof setup>>) {
   return { code, text, errors, fetcher }
 }
 const addition: Transform = { operation: 'add', position: 'before', target: { block: 'connect' }, content: { file: 'cloud.md' } }
+
+it('preprocesses each transformed channel once and gives each manual an isolated filtered view', async () => {
+  const options = await setup([addition], '<include target="saas">\nSaaS only\n</include>\n<include target="paas">\nBYOC only\n</include>')
+  const sharedDocs = await readSharedDocs(options.sharedDocs)
+  if ('errors' in sharedDocs) throw new Error(JSON.stringify(sharedDocs.errors))
+  const reader = createBuildReader(options.repo)
+  const md2md = new RealMd2md()
+  const preprocess = vi.spyOn(md2md, 'preprocess')
+  const zdoc = new Map(['guides', 'guides-byoc'].map(manual => [manual, createZdocContentReader({ checkout: options.dev,
+    manualDirectory: `content/en/${manual === 'guides' ? 'guides' : 'byoc'}` })]))
+  const runtime = createBuildRuntime({ sharedDocs, reader, zdoc, guides: createGuidesSnapshot(options.dev),
+    fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) })
+  try {
+    const result = await buildPage({ pageId: 'build-pipeline', sharedDocs, reader, md2md, runtime })
+    if ('errors' in result) throw new Error(JSON.stringify(result))
+    expect(preprocess.mock.calls.filter(([input]) => !input.limits)).toHaveLength(2)
+    expect(preprocess.mock.calls.filter(([input]) => input.limits)).toHaveLength(2)
+    expect(result.pages).toHaveLength(2)
+    const guides = result.pages.find(page => page.manual === 'guides')!.mdx
+    const byoc = result.pages.find(page => page.manual === 'guides-byoc')!.mdx
+    expect(guides).toContain('SaaS only')
+    expect(guides).not.toContain('BYOC only')
+    expect(byoc).toContain('BYOC only')
+    expect(byoc).not.toContain('SaaS only')
+  } finally { await reader.dispose() }
+})
 
 it('[4-5] feeds inserted variables, fragments, alerts, links and nested product filters through the full build', async () => {
   const options = await setup([addition], '## Cloud setup\n\n{{var.Cloud.Product}}\n\n{{fragments/used.md}}\n\n<div class="alert note">\n[mapped](mapped.md)\n</div>\n\n<include target="paas">\nBYOC only\n<exclude target="saas">\nNested BYOC\n</exclude>\n</include>\n<include target="saas">\nSaaS only\n</include>')
@@ -102,14 +133,16 @@ it('rejects content-file traversal and symlink escapes without reading outside b
   expect(await readSharedDocs(options.sharedDocs)).toMatchObject({ errors: [expect.objectContaining({ code: 'TRANSFORM_CONTENT_NOT_FOUND' })] })
 })
 
-it('retains source-only inspect and the existing WP11 failure for unequal channel output', async () => {
+it('retains source-only inspect and successfully projects unequal channel output', async () => {
   const options = await setup([{ ...addition, channel: 'next' }], 'Next-only addition')
   let inspected = ''
   expect(await runInspect({ ...options, page: 'build-pipeline' }, value => { inspected += value })).toBe(0)
   expect(inspected).not.toContain('Next-only addition')
   const result = await build(options)
-  expect(result.code).toBe(1)
-  expect(result.text).toContain('two-version merging requires WP11')
+  expect(result.code, result.text).toBe(0)
+  const output = await readFile(join(options.out, 'guides/tutorials/build-pipeline.mdx'), 'utf8')
+  expect(currentView(output)).not.toContain('Next-only addition')
+  expect(nextView(output)).toContain('Next-only addition')
 })
 
 it('validates every transform before downloading any images', async () => {

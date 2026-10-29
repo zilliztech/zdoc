@@ -26,11 +26,13 @@ export interface InspectedChannel {
 export type InspectionResult = Omit<ReadSuccess, 'markdown'> & {
   planned: boolean
   channels: Record<Channel, InspectedChannel>
+  manualChannels?: ReadonlyMap<string, Record<Channel, InspectedChannel>>
 } | { errors: SharedDocsError[] }
 
 /** No writes to the page or source repository; temporary snapshots belong to the reader. */
 export async function inspectPage(input: ReadPageInput & { variablesJson: string; transformContext?: {
-  contentFiles: ReadonlyMap<string, ContentFile>; tabsRules: TabsRules; manual: string; availableChannels: readonly Channel[]
+  contentFiles: ReadonlyMap<string, ContentFile>; tabsRules: TabsRules
+  manuals: readonly { name: string; availableChannels: readonly Channel[] }[]
 } }, reader: InspectionReader, md2md: Md2md): Promise<InspectionResult> {
   const context = { page: input.pageId, channel: 'both' as const }
   const pageFile = input.context.file ?? groupFile(input.sharedDocsPath, `pages/${input.pageId}/page.yaml`)
@@ -51,6 +53,8 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
   const read = await readPageSources({ ...input, lockYaml }, reader)
   if ('errors' in read) return read
   const channels = {} as Record<Channel, InspectedChannel>
+  const manualChannels = new Map<string, Record<Channel, InspectedChannel>>()
+  for (const manual of input.transformContext?.manuals ?? []) manualChannels.set(manual.name, {} as Record<Channel, InspectedChannel>)
   const prepared = new Map<Channel, { parsed: ReturnType<Md2md['parseBlocks']>; blocks: NamedBlockInventory[]; plan?: TransformPlan }>()
   // Both channels are validated before applying any edit or preprocessing a page.
   for (const channel of ['current', 'next'] as const) {
@@ -62,10 +66,24 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
     const blocks = inventoryBlocks(markdown, parsed)
     let plan: TransformPlan | undefined
     if (input.transformContext && read.config.transforms?.length) {
-      const result = planTransforms({ ...input.transformContext, markdown, blocks, transforms: read.config.transforms,
-        channel, page: input.pageId, pageYaml: input.pageYaml, configFile: pageFile, sourceFile: sourceName })
-      if ('errors' in result) { errors.push(...result.errors); continue }
-      plan = result
+      const reported = new Map<string, number>()
+      for (const manual of input.transformContext.manuals) {
+        const result = planTransforms({ contentFiles: input.transformContext.contentFiles, tabsRules: input.transformContext.tabsRules,
+          availableChannels: manual.availableChannels, markdown, blocks, transforms: read.config.transforms,
+          channel, page: input.pageId, pageYaml: input.pageYaml, configFile: pageFile, sourceFile: sourceName })
+        if ('errors' in result) {
+          // Preserve repeated failures from distinct rules, while collapsing only
+          // the same occurrence repeated by another manual's availability check.
+          const occurrences = new Map<string, number>()
+          for (const error of result.errors) {
+            const identity = JSON.stringify(error), count = (occurrences.get(identity) ?? 0) + 1
+            occurrences.set(identity, count)
+            if (count > (reported.get(identity) ?? 0)) { errors.push(error); reported.set(identity, count) }
+          }
+        }
+        else plan ??= result
+      }
+      if (!plan) continue
     }
     prepared.set(channel, { parsed, blocks, plan })
   }
@@ -94,7 +112,7 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
         errors.push(...checked.errors.map(annotateSnapshotError))
       }
       if (result.ok) {
-        let output = result.content, provenance: MappedLine[] | undefined, transformSources: ProductNameSource[] | undefined
+        const output = result.content
         if (mapped?.length) {
           // The unannotated whole-page call above owns validation, dependencies and limits.
           // A second public-engine call transports origin boundaries without duplicating
@@ -106,17 +124,20 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
           if (!tagged.ok) throw new Error('md2md could not preserve transform origin boundaries')
           const expanded = carrier.decode(tagged.content)
           if (expanded.map(line => line.text).join('\n') !== output) throw new Error('md2md transform provenance changed output bytes')
-          const filtered = filterContent(expanded, input.transformContext!.manual === 'guides-byoc' ? 'zilliz.paas' : 'zilliz.saas')
-          if ('errors' in filtered) { errors.push(...filtered.errors.map(annotate)); return }
-          provenance = filtered.lines
-          output = provenance.map(line => line.text).join('\n')
-          transformSources = survivingSources(mapped, provenance)
+          for (const manual of input.transformContext!.manuals) {
+            const filtered = filterContent(expanded, manual.name === 'guides-byoc' ? 'zilliz.paas' : 'zilliz.saas')
+            if ('errors' in filtered) { errors.push(...filtered.errors.map(annotate)); continue }
+            const view = filtered.lines
+            manualChannels.get(manual.name)![channel] = { commit: read.lock[channel], blocks,
+              content: view.map(line => line.text).join('\n'), dependencies: result.dependencies, engine: result.engine,
+              provenance: view, transformSources: survivingSources(mapped, view) }
+          }
         }
-        channels[channel] = { commit: read.lock[channel], blocks, content: output, dependencies: result.dependencies, engine: result.engine,
-          ...(provenance ? { provenance, transformSources } : {}) }
+        channels[channel] = { commit: read.lock[channel], blocks, content: output, dependencies: result.dependencies, engine: result.engine }
       }
     })
   }
   if (errors.length) return { errors }
-  return { config: read.config, source: read.source, lock: read.lock, planned: input.lockYaml === undefined, channels }
+  return { config: read.config, source: read.source, lock: read.lock, planned: input.lockYaml === undefined, channels,
+    ...(manualChannels.size ? { manualChannels } : {}) }
 }

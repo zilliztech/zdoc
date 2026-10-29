@@ -204,7 +204,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
     await writeBuild(out, pages, images)
     await dependencies.onBuilt?.(pages)
     for (const page of pages) print(page.notices)
-    write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}` })), images: images.length, plannedLocks }, null, 2) + '\n')
+    write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}`, notes: page.notes })), images: images.length, plannedLocks }, null, 2) + '\n')
     return 0
   } catch (error) { write(`Build failed: ${error instanceof Error ? error.message : String(error)}\n`); return 1 }
 }

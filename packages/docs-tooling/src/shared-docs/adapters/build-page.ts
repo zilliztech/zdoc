@@ -4,11 +4,15 @@ import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, headingText, rewriteLinksAndImages } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
 import { adaptPage } from '../core/site'
-import type { TabsRules } from '../core/site'
+import type { AdaptedPage, TabsRules } from '../core/site'
 import { checkProductNames } from '../core/product-names'
-import type { ProductNameRules, ProductNameSource } from '../core/product-names'
+import { scanProductNames } from '../core/product-names/scan'
+import type { ProductNameDetail, ProductNameRules, ProductNameSource } from '../core/product-names'
 import type { Channel, DiagnosticContext, PageConfig, PageConfigContext, SharedDocsError, Variables } from '../core/types'
 import { yamlLine } from '../core/yaml'
+import { originalPageLine } from '../core/blocks'
+import { mergeMarkdown } from '../core/merge'
+import type { MergeNote, MergeOrigin, MergeOutput } from '../core/merge'
 import { inspectPage } from './inspect-page'
 import type { InspectedChannel } from './inspect-page'
 import { GitMilvusDocsReader } from './git-milvus-docs-reader'
@@ -39,7 +43,7 @@ export interface FetchBuildTarget {
   channel: 'current' | 'next' | 'retire-in-next'
 }
 export interface FetchBuildContext { page: string; targets: readonly FetchBuildTarget[]; records: Awaited<ReturnType<GuidesBase['getRecords']>> }
-export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[]
+export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[]; notes: MergeNote[]
   extension?: '.md' | '.mdx'; imageContents?: { original: string; bytes: Uint8Array; sha256: string }[] }
 export interface BuildFailure { message: string; page: string; manual: string; current: string; next: string }
 export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[]; failures: BuildFailure[] }
@@ -270,33 +274,28 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const sourceConfig = parseSourceConfig(shared.sourceYaml, context)
   const customEditUrl = runtime.fetchContext && !('errors' in sourceConfig)
     ? `https://github.com/milvus-io/milvus-docs/edit/${encodeURIComponent(sourceConfig.config.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
-  const inspect = (index: number) => {
+  const manualContexts = config.publish.map((target, index) => {
     const release = targets.get(index)?.fetch?.channel ?? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase()
     const availableChannels: Channel[] = release === 'next' ? ['next'] : release === 'retire-in-next' ? ['current'] : ['current', 'next']
-    return inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
-      variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context },
-      ...(config.transforms?.length ? { transformContext: { contentFiles: page.contentFiles ?? new Map(), tabsRules: shared.tabsRules,
-        manual: config.publish[index].manual, availableChannels } } : {}) }, reader, input.md2md)
-  }
-  const inspected = await inspect(0)
+    return { name: target.manual, availableChannels }
+  })
+  const inspected = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
+    variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context },
+    ...(config.transforms?.length ? { transformContext: { contentFiles: page.contentFiles ?? new Map(), tabsRules: shared.tabsRules,
+      manuals: manualContexts } } : {}) }, reader, input.md2md)
   if ('errors' in inspected) return { errors: [...errors, ...inspected.errors], failures }
-  const inspections = new Map([[0, inspected]])
-  for (let index = 1; index < config.publish.length; index++) {
-    const result = config.transforms?.length ? await inspect(index) : inspected
-    if ('errors' in result) errors.push(...result.errors)
-    else inspections.set(index, result)
-  }
-  if (errors.length && config.transforms?.length) return { errors, failures }
-  const versions = new Map<Channel, Map<number, BuiltPage>>()
+  type PreparedVersion = { adapted: AdaptedPage; origins: MergeOrigin[][]; sources: ProductNameSource[];
+    images: ImageRecord[]; notices: Notice[]; imageContents?: BuiltPage['imageContents'] }
+  const versions = new Map<Channel, Map<number, PreparedVersion>>()
   for (const channel of ['current', 'next'] as const) {
     const source = config.source.file
     const location = { page: pageId, channel, file: source }
-    const output = new Map<number, BuiltPage>()
+    const output = new Map<number, PreparedVersion>()
     versions.set(channel, output)
     for (const [index, target] of config.publish.entries()) {
       const dev = targets.get(index)
       if (!dev) continue
-      const version = inspections.get(index)!.channels[channel]
+      const version = inspected.manualChannels?.get(target.manual)?.[channel] ?? inspected.channels[channel]
       const prepared = await runtime.prepare(version.content, source, version.commit, location)
       const sharedPages = await runtime.sharedPages(version.commit)
       const sources = await productSources(version, source, shared, reader)
@@ -308,12 +307,12 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
       if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
-      const mdx = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
-      if ('errors' in mdx) { errors.push(...mappedErrors(mdx.errors)); continue }
-      const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources, rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
-      if (checked.errors.length) { errors.push(...checked.errors); continue }
-      output.set(index, { manual: target.manual, path: target.path, mdx: mdx.mdx, images: rewritten.images, notices: rewritten.notices,
-        ...(dev.fetch ? { extension: dev.fetch.extension, imageContents: rewritten.images.map(image => {
+      const origins = adapted.provenance.inputLines.map((_, index): MergeOrigin[] => {
+        const origin = version.provenance?.[index]?.origin
+        return [{ channel, file: origin?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
+      })
+      output.set(index, { adapted, origins, sources, images: rewritten.images, notices: rewritten.notices,
+        ...(dev.fetch ? { imageContents: rewritten.images.map(image => {
           const content = prepared.images.get(image.original)
           if (!content || content.sha256 !== image.sha256) throw new Error(`Missing accepted image bytes: ${image.original}`)
           return { original: image.original, sha256: content.sha256, bytes: Uint8Array.from(content.bytes) }
@@ -324,9 +323,127 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   for (const [index, target] of config.publish.entries()) {
     const current = versions.get('current')!.get(index), next = versions.get('next')!.get(index)
     if (!current || !next) continue
-    if (current.mdx !== next.mdx) failures.push({ page: pageId, manual: target.manual, current: inspected.lock.current, next: inspected.lock.next,
-      message: `Page ${pageId}, manual ${target.manual}: final MDX differs between current ${inspected.lock.current} and next ${inspected.lock.next}; two-version merging requires WP11.` })
-    else pages.push({ ...current, images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices] })
+    const dev = targets.get(index)!
+    const location = { page: pageId, file: config.source.file }
+    const lineOrigins = (version: PreparedVersion) => version.adapted.provenance.outputLines.map(line => line === null ? [] : version.origins[line - 1])
+    const merged = mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current), context: { ...location, channel: 'current' } },
+      next: { ...next.adapted, origins: lineOrigins(next), context: { ...location, channel: 'next' } }, context: location, releaseChannel: dev.fetch?.channel })
+    if ('errors' in merged) { errors.push(...merged.errors); continue }
+    // Keep the existing adapter's virtual input contract. A shared output line can
+    // name both source passes, even though toMdx transports one virtual line index.
+    const inputLines = [...current.adapted.provenance.inputLines, ...next.adapted.provenance.inputLines]
+    const registry = [...current.origins, ...next.origins]
+    const diagnostics = registry.map(origins => [...origins])
+    const virtualLines: (number | null)[] = []
+    const offset = current.adapted.provenance.inputLines.length
+    const sourceLine = (channel: Channel, adaptedLine: number) => {
+      const inputLine = (channel === 'current' ? current : next).adapted.provenance.outputLines[adaptedLine - 1]
+      return inputLine == null ? null : inputLine + (channel === 'next' ? offset : 0)
+    }
+    if (merged.unchanged) {
+      const visible = dev.fetch?.channel === 'next' ? 'next' : 'current'
+      for (let i = 0; i < merged.origins.length; i++) virtualLines[i] = sourceLine(visible, i + 1)
+    } else for (const emission of merged.emissions) {
+      const source = emission.sources[0]
+      for (let line = emission.span.startLine; line < emission.span.endLine; line++) {
+        virtualLines[line - 1] = sourceLine(source.channel, source.span.startLine + line - emission.span.startLine)
+      }
+    }
+    const assigned = new Map<number, string>(), aliases = new Map<string, number>()
+    const outputLines = merged.origins.map((origins, index) => {
+      if (!origins.length) return null
+      const line = virtualLines[index]
+      if (line == null) throw new Error('Merged output lost its virtual source input')
+      const slot = line - 1, identity = JSON.stringify(origins)
+      if (!assigned.has(slot) || assigned.get(slot) === identity) {
+        assigned.set(slot, identity); diagnostics[slot] = [...origins]
+        return line
+      }
+      // Expanded fragment lines may share one inclusion-site origin. Preserve
+      // their distinct generation passes without overwriting another output line.
+      const key = JSON.stringify([slot, identity])
+      if (!aliases.has(key)) {
+        inputLines.push(inputLines[slot]); diagnostics.push([...origins])
+        aliases.set(key, inputLines.length)
+      }
+      return aliases.get(key)!
+    })
+    const mdx = await toMdx({ markdown: merged.markdown, components: merged.components, provenance: { inputLines, outputLines } },
+      location, { preserveFrontMatter: !!runtime.fetchContext })
+    if ('errors' in mdx) {
+      for (const error of mdx.errors) {
+        const origins = error.line === undefined ? [] : diagnostics[error.line - 1] ?? []
+        const { line: _line, ...unlocated } = error
+        if (!origins.length) errors.push(unlocated)
+        else errors.push(...origins.map(origin => ({ ...unlocated, ...origin })))
+      }
+      continue
+    }
+    const sources = { current: current.sources, next: next.sources }
+    const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual,
+      sources: [...sources.current, ...sources.next], rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
+    if (checked.errors.length) {
+      errors.push(...attributeProductErrors(checked.errors, mdx.mdx, merged, sources, shared.productNames, dev.fetch?.channel, location))
+      continue
+    }
+    pages.push({ manual: target.manual, path: target.path, mdx: mdx.mdx, notes: merged.notes,
+      images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices],
+      ...(dev.fetch ? { extension: dev.fetch.extension, imageContents: [...current.imageContents!, ...next.imageContents!] } : {}) })
   }
   return errors.length || failures.length ? { errors, failures } : { pages, planned: inspected.planned }
+}
+
+/** Locate generated gates after MDX patching by their ordinal among all authored
+ * and generated gates. Authored common gates retain both generation channels. */
+function productChannels(mdx: string, merged: MergeOutput, release?: FetchBuildTarget['channel']) {
+  const gates = (text: string) => [...text.matchAll(/^<NextChannel action="(include|exclude)">|^<\/NextChannel>/gm)]
+  const before = gates(merged.markdown), after = gates(mdx)
+  if (before.length !== after.length || before.some((gate, i) => gate[0] !== after[i][0])) return undefined
+  const regions = merged.generatedRegions.map(region => {
+    const start = before.findIndex(gate => gate.index === region.openSpan.start)
+    const end = before.findIndex(gate => gate.index === region.closeSpan.start)
+    if (start < 0 || end < 0) throw new Error('Missing generated product attribution boundary')
+    return { start: after[start].index!, end: after[end].index!, channel: region.channel }
+  })
+  const frontEnd = /^---[^\n]*\n[\s\S]*?\n---(?:\n|$)/.exec(mdx)?.[0].length ?? 0
+  return (offset: number): Channel[] => {
+    if (offset < frontEnd) return ['current']
+    const region = regions.find(region => offset > region.start && offset < region.end)
+    if (region) return [region.channel]
+    return release === 'next' ? ['next'] : release === 'retire-in-next' ? ['current'] : ['current', 'next']
+  }
+}
+
+/** The final checker alone decides failure; pure attribution scans supply
+ * channel-indexed witnesses and final MDX line numbers, never new failures. */
+function attributeProductErrors(checked: SharedDocsError[], mdx: string, merged: MergeOutput,
+  sources: Record<Channel, ProductNameSource[]>, rules: ProductNameRules, release: FetchBuildTarget['channel'] | undefined,
+  context: DiagnosticContext): SharedDocsError[] {
+  const channels = productChannels(mdx, merged, release)
+  if (!channels) return [{ ...context, code: 'ADAPT_MDX_INVALID', message: 'MDX finalization changed channel boundaries; product attribution is unsafe' }]
+  const hits = scanProductNames(mdx, rules)
+  const witnesses = { current: sources.current.map(source => ({ source, hits: scanProductNames(source.text, rules) })),
+    next: sources.next.map(source => ({ source, hits: scanProductNames(source.text, rules) })) }
+  const errors: SharedDocsError[] = []
+  for (const spelling of new Set(checked.map(error => (error.detail as ProductNameDetail).spelling))) {
+    const template = checked.find(error => (error.detail as ProductNameDetail).spelling === spelling)!
+    for (const channel of ['current', 'next'] as const) {
+      const mdxLines = [...new Set(hits.filter(hit => hit.spelling === spelling && channels(hit.start).includes(channel)).map(hit => hit.line))]
+      if (!mdxLines.length) continue
+      const seen = new Set<string>()
+      const { line: _line, detail, ...diagnostic } = template
+      const { key: _key, ...commonDetail } = detail as ProductNameDetail
+      const base = { ...diagnostic, channel, detail: { ...commonDetail, mdxLines } }
+      for (const { source, hits } of witnesses[channel]) for (const hit of hits) {
+        if (hit.spelling !== spelling) continue
+        const identity = JSON.stringify([source.kind, source.file, source.key, hit.start, hit.end])
+        if (seen.has(identity)) continue
+        seen.add(identity)
+        errors.push({ ...base, file: source.file, ...(source.kind === 'variable' ? {} : { line: hit.line }),
+          detail: { ...base.detail, ...(source.kind === 'variable' ? { key: source.key } : {}) } })
+      }
+      if (!seen.size) errors.push({ ...base, file: sources[channel].find(source => source.kind === 'source')?.file ?? context.file })
+    }
+  }
+  return errors
 }
