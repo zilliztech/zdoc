@@ -1,0 +1,20 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/schema/analyzer/filter/decompounder-filter.md
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-filters/decompounder-filter
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-filters/decompounder-filter
+metadata:
+  description: "The `decompounder` filter splits compound words into individual components based on a specified dictionary, making it easier to search for parts of compound terms. This filter is particularly useful for languages that frequently use compound words, such as German."
+transforms:
+  - operation: remove
+    target:
+      block: decompounder-overview
+  - operation: remove
+    target:
+      block: decompounder-word-list-sources
+  - operation: remove
+    target:
+      block: decompounder-file-resource
