@@ -162,8 +162,11 @@ export function planTransforms(input: TransformInput): PlanResult {
       }
       const at = level === 0 ? (rule.position === 'before' ? block.startLine - 1 : block.endLine) : level === 1 ? end : rule.position === 'before' ? start : end
       edits.push({ start: at, end: at, lines: content, index })
-    } else edits.push({ start: level === 0 && rule.operation === 'remove' ? block.startLine - 1 : start,
-      end: level === 0 && rule.operation === 'remove' ? block.endLine : end, lines: content, index })
+    } else {
+      if (level === 0 && rule.operation === 'remove') content = [{ text: '', origin: origin(index), blockSeparator: true }]
+      edits.push({ start: level === 0 && rule.operation === 'remove' ? block.startLine - 1 : start,
+        end: level === 0 && rule.operation === 'remove' ? block.endLine : end, lines: content, index })
+    }
   }
   for (const [id, languages] of removed) if (originalLanguages.get(id)?.every(language => languages.has(language))
     && !active.some(({ rule }) => rule.target.block === id && rule.operation === 'add' && rule.target.language && rule.target.lines === undefined)) {
