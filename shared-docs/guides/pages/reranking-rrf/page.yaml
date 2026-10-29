@@ -1,0 +1,12 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/embeddings-reranking/reranking/rrf-ranker.md
+publish:
+  - manual: guides
+    path: tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf
+  - manual: guides-byoc
+    path: tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf
+transforms:
+  - operation: remove
+    target:
+      block: rrf-function-api-version-note
