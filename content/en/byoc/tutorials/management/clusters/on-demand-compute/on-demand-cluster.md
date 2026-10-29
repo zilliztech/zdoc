@@ -53,6 +53,7 @@ Before you create an on-demand cluster, ensure that:
 | Permission | To manage an on-demand cluster, you need to be a Project Admin. |
 | Cluster count | Each project can have up to 20 on-demand clusters. |
 | Data volume | An on-demand cluster can query up to 3 TB of raw data for every 8 CUs. Queries that exceed this limit return an error. |
+| <NextChannel action="include">Milvus version</NextChannel> | <NextChannel action="include">Milvus version selection is not supported for on-demand clusters.</NextChannel> |
 
 ## Create an on-demand cluster\{#create-an-on-demand-cluster}
 

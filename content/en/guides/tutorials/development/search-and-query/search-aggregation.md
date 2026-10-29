@@ -2,7 +2,7 @@
 title: "Search Aggregation | Cloud"
 slug: /search-aggregation
 sidebar_label: "Search Aggregation"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

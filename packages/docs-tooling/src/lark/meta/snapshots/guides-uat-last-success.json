@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-29T04:53:30.303Z",
+  "generated_at": "2026-10-29T10:37:01.602Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -1616,7 +1616,7 @@
       "doc_token": "WTsmwWdgOiKnwpkdZdScp093njh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/WTsmwWdgOiKnwpkdZdScp093njh",
       "source_file": "WTsmwWdgOiKnwpkdZdScp093njh.json",
-      "source_hash": "26c9279d1331dfd81ff324eb10a8143348cf46564558c80216c185c7e4a2d43c",
+      "source_hash": "cbd170310d34e9855a6c8ec78d322b8867b2d26b6b5dd132f04582ff6afe1a63",
       "node_metadata": {
         "requested_token": "WTsmwWdgOiKnwpkdZdScp093njh",
         "requested_node_token": "WTsmwWdgOiKnwpkdZdScp093njh",
@@ -1630,15 +1630,15 @@
         "parent_node_token": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
         "node_create_time": "1728630511",
         "obj_create_time": "1728630511",
-        "obj_edit_time": "1793076831",
-        "revision_id": "2471"
+        "obj_edit_time": "1793253478",
+        "revision_id": "2473"
       },
       "node_token": "WTsmwWdgOiKnwpkdZdScp093njh",
       "origin_node_token": "WTsmwWdgOiKnwpkdZdScp093njh",
       "obj_token": "KNoHdUgnPoTXm6xmvb3c0KF6ndc",
       "obj_type": "docx",
-      "obj_edit_time": "1793076831",
-      "revision_id": "2471",
+      "obj_edit_time": "1793253478",
+      "revision_id": "2473",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -1668,7 +1668,7 @@
       "doc_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
       "source_file": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf.json",
-      "source_hash": "17c19c91eeb2cb6dd3145c4544d5dcff036d13c0e59de960f388ab789071c045",
+      "source_hash": "291083654be609d12054802fb352f5d9a785cf85be0d9bbffcb1d957144510b5",
       "node_metadata": {
         "requested_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
         "requested_node_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
@@ -1682,15 +1682,15 @@
         "parent_node_token": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
         "node_create_time": "1728630533",
         "obj_create_time": "1728630533",
-        "obj_edit_time": "1792984929",
-        "revision_id": "1899"
+        "obj_edit_time": "1793261904",
+        "revision_id": "1900"
       },
       "node_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
       "origin_node_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
       "obj_token": "BenVdKzdNodn81xx4Q2cqHBvn3e",
       "obj_type": "docx",
-      "obj_edit_time": "1792984929",
-      "revision_id": "1899",
+      "obj_edit_time": "1793261904",
+      "revision_id": "1900",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -1815,7 +1815,7 @@
       "doc_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PFbNwB7Mli18n6k6VWScGcpWndc",
       "source_file": "PFbNwB7Mli18n6k6VWScGcpWndc.json",
-      "source_hash": "1605134edb788be53ddc39e0574ccd4eb62ecd5eff55e2df6890d1373efabf59",
+      "source_hash": "c9095d42d16098bf3a53403343ae7396dc5fac40c7407c139f3763b23fb02089",
       "node_metadata": {
         "requested_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
         "requested_node_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
@@ -2044,7 +2044,7 @@
       "doc_token": "ByJbwcpoCiBkDckR3VCcC4LTneg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ByJbwcpoCiBkDckR3VCcC4LTneg",
       "source_file": "ByJbwcpoCiBkDckR3VCcC4LTneg.json",
-      "source_hash": "091dbdcfb2eb9bcf2d5a3ed8c26e5459f8ced665c7ae53e67904c9246e78769b",
+      "source_hash": "d7e94418fc5f5fc0939447de96cc493d3dfc1ebd39ab81083482b2fddca0ac7b",
       "node_metadata": {
         "requested_token": "ByJbwcpoCiBkDckR3VCcC4LTneg",
         "requested_node_token": "ByJbwcpoCiBkDckR3VCcC4LTneg",
@@ -2907,7 +2907,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "source_file": null,
@@ -3296,7 +3296,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "source_file": null,
@@ -3728,7 +3728,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "source_file": null,
@@ -3806,7 +3806,7 @@
       "doc_token": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Gi6KwjOlKiBhdOkxlL3cdobBnLe",
       "source_file": "Gi6KwjOlKiBhdOkxlL3cdobBnLe.json",
-      "source_hash": "2f83a4115adb0c248c03e115f434035b0ccec464de9c62a83e2ad907b8a1a5f0",
+      "source_hash": "b755cad515745738ad145cda495151c2ca609c9064c42abc9a55fc0570c569a9",
       "node_metadata": {
         "requested_token": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
         "requested_node_token": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
@@ -4145,7 +4145,7 @@
       "doc_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VOkIwd5adiziGQkoDO1cRoRFnre",
       "source_file": "VOkIwd5adiziGQkoDO1cRoRFnre.json",
-      "source_hash": "56413355d20e0def2890e57f9edd19da9891040a00561a0bb900810cb677f1c3",
+      "source_hash": "f08ca7edeb52419016904168f7fa941e1e9c7a9e8addf0ed5bed5286c4914aaa",
       "node_metadata": {
         "requested_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
         "requested_node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
@@ -4159,15 +4159,15 @@
         "parent_node_token": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
         "node_create_time": "1758242058",
         "obj_create_time": "1758242058",
-        "obj_edit_time": "1792984230",
-        "revision_id": "4921"
+        "obj_edit_time": "1793251834",
+        "revision_id": "4922"
       },
       "node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
       "origin_node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
       "obj_token": "EmRZdpJ1No87NhxLKT1cDFxqnHR",
       "obj_type": "docx",
-      "obj_edit_time": "1792984230",
-      "revision_id": "4921",
+      "obj_edit_time": "1793251834",
+      "revision_id": "4922",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -4241,7 +4241,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "source_file": null,
@@ -4416,7 +4416,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "69e5a39b5e067b0f2ee65bf1b9fa76d7d8497e31b2a871ea7f7393b6a9dcbe7f",
+        "inputs_sha256": "8b97e47e800710424fc44ba9906d775e3699dfbc55e6c24c2d822fdc66249a87",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "source_file": null,
@@ -4690,7 +4690,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "source_file": null,
@@ -5986,7 +5986,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       },
       "source_file": null,
@@ -6068,7 +6068,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       },
       "source_file": null,
@@ -6104,7 +6104,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "source_file": null,
@@ -6229,7 +6229,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "source_file": null,
@@ -6311,7 +6311,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "source_file": null,
@@ -6347,7 +6347,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       },
       "source_file": null,
@@ -6383,7 +6383,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "source_file": null,
@@ -6687,7 +6687,7 @@
       "doc_token": "EAwdw2ZbtiBKttk66FTctUebn7f",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EAwdw2ZbtiBKttk66FTctUebn7f",
       "source_file": "EAwdw2ZbtiBKttk66FTctUebn7f.json",
-      "source_hash": "3906dd8a1a8ded4058d09ed2ca83d01796f97db878e0ddc27500f5818e7538fe",
+      "source_hash": "949e98ad7d549a7e94b11bf661eea4a30aa3a43719ae7c9c86176189adca6967",
       "node_metadata": {
         "requested_token": "EAwdw2ZbtiBKttk66FTctUebn7f",
         "requested_node_token": "EAwdw2ZbtiBKttk66FTctUebn7f",
@@ -6961,7 +6961,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "source_file": null,
@@ -7391,7 +7391,7 @@
       "doc_token": "EO58wVRLpiTBXQkceRjccN28nrh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EO58wVRLpiTBXQkceRjccN28nrh",
       "source_file": "EO58wVRLpiTBXQkceRjccN28nrh.json",
-      "source_hash": "1e3d139494ba9446f25aedd31192c70449338f400387b90e1e7606a4155f32bd",
+      "source_hash": "5ec0030106fb4af829830ceb408b1b95a55a86d5ffabc190740ac4164a53981f",
       "node_metadata": {
         "requested_token": "EO58wVRLpiTBXQkceRjccN28nrh",
         "requested_node_token": "EO58wVRLpiTBXQkceRjccN28nrh",
@@ -7405,15 +7405,15 @@
         "parent_node_token": "L8fuwpmhoiMgmlkw1jbc93yznxb",
         "node_create_time": "1780644193",
         "obj_create_time": "1780644193",
-        "obj_edit_time": "1793087032",
-        "revision_id": "50"
+        "obj_edit_time": "1793253535",
+        "revision_id": "64"
       },
       "node_token": "EO58wVRLpiTBXQkceRjccN28nrh",
       "origin_node_token": "EO58wVRLpiTBXQkceRjccN28nrh",
       "obj_token": "Ty9kdYFWSocblmxWUvXcnckdngf",
       "obj_type": "docx",
-      "obj_edit_time": "1793087032",
-      "revision_id": "50",
+      "obj_edit_time": "1793253535",
+      "revision_id": "64",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -7681,7 +7681,7 @@
       "doc_token": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MZ2WwklE5ifX4hkO4ZOcXz0indc",
       "source_file": "MZ2WwklE5ifX4hkO4ZOcXz0indc.json",
-      "source_hash": "d9ad0cf1d6f051bfa2eb4c751316cfe5d43c4d3c4df3def5e19602e9ec0ef865",
+      "source_hash": "1b94c168f8f7093238d122f30727a4464b6b348ed8ce6507f50157a76bedccd5",
       "node_metadata": {
         "requested_token": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
         "requested_node_token": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
@@ -7965,7 +7965,7 @@
       "doc_token": "PharwAysCiBzvgkuqqecmNzunQf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PharwAysCiBzvgkuqqecmNzunQf",
       "source_file": "PharwAysCiBzvgkuqqecmNzunQf.json",
-      "source_hash": "48e7c4abfb266777d9356c9b6fff58647e48ade44ef137275cddb0d5da1a1d8d",
+      "source_hash": "64a6b5a77e41d282de7df7598977ff5b958d30eb649fa017b9870dcef79afb5c",
       "node_metadata": {
         "requested_token": "PharwAysCiBzvgkuqqecmNzunQf",
         "requested_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
@@ -7979,15 +7979,15 @@
         "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
         "node_create_time": "1701225562",
         "obj_create_time": "1701225562",
-        "obj_edit_time": "1788418617",
-        "revision_id": "4978"
+        "obj_edit_time": "1793256676",
+        "revision_id": "4995"
       },
       "node_token": "PharwAysCiBzvgkuqqecmNzunQf",
       "origin_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
       "obj_token": "B1mRdvhLaouOfaxFQq7cEUmMncg",
       "obj_type": "docx",
-      "obj_edit_time": "1788418617",
-      "revision_id": "4978",
+      "obj_edit_time": "1793256676",
+      "revision_id": "4995",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -8056,7 +8056,7 @@
       "doc_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RoxawNJhki1vXXkFsEEc7laMnxe",
       "source_file": "RoxawNJhki1vXXkFsEEc7laMnxe.json",
-      "source_hash": "40b4171b75b7eeb22be08e825dfd7f6ace03830ad273876e97b430acd1ca5c31",
+      "source_hash": "d2ef33836bf7af191eee761bc6807581ea0f1634444b3a4b7e99992f5d3ea645",
       "node_metadata": {
         "requested_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
         "requested_node_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
@@ -8070,15 +8070,15 @@
         "parent_node_token": "BZNuwqh6di0QOFkrS7ncW8AnnSd",
         "node_create_time": "1781243572",
         "obj_create_time": "1781243572",
-        "obj_edit_time": "1791958663",
-        "revision_id": "132"
+        "obj_edit_time": "1793254375",
+        "revision_id": "140"
       },
       "node_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
       "origin_node_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
       "obj_token": "IazbdHagJonQoMxM9DhcZoVynhb",
       "obj_type": "docx",
-      "obj_edit_time": "1791958663",
-      "revision_id": "132",
+      "obj_edit_time": "1793254375",
+      "revision_id": "140",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -8102,7 +8102,7 @@
       "doc_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7",
       "source_file": "KrbjwFhy3iojF3k97XmcvvXMnW7.json",
-      "source_hash": "4bbc11ee27eed50ba3e52cda0a4d14ba280dc20b152d6c94b7bc09120cc15c38",
+      "source_hash": "61dc952440295dc349516729cf1c08eb99a623723670ebb9ddec5b51900b4c1a",
       "node_metadata": {
         "requested_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
         "requested_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -8116,15 +8116,15 @@
         "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
         "node_create_time": "1701223750",
         "obj_create_time": "1701223750",
-        "obj_edit_time": "1793246022",
-        "revision_id": "2802"
+        "obj_edit_time": "1793256728",
+        "revision_id": "2824"
       },
       "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
       "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
       "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
       "obj_type": "docx",
-      "obj_edit_time": "1793246022",
-      "revision_id": "2802",
+      "obj_edit_time": "1793256728",
+      "revision_id": "2824",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -8132,6 +8132,7 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [
+        "AICcwQ55yiNqEPkjdV6cb2i8nqe",
         "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
         "DsqzwjegpiYSdtk1k75c1zXsnZc",
         "EO58wVRLpiTBXQkceRjccN28nrh",
@@ -8139,6 +8140,7 @@
         "HDmKwGeGLi2P67kGdNXcigXDn3e",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
         "I5qmw4fxDiBxBQksrNwcLHQpnTc",
+        "J274wT61xiEM4fkYeL8cMb4Pnbd",
         "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
         "QuBiwrIJdiDw3ckVDKBcPofinfe",
         "UDjcwWISuixYjqkQy3GcmBpsnmV",
@@ -8576,7 +8578,7 @@
       "doc_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf",
       "source_file": "DbPIw4jLOiEabCk5uptc6EZ1nbf.json",
-      "source_hash": "9ea33b5d382f4961808de345978cf7c76af0f8cc37348351dbf0abf84999c85c",
+      "source_hash": "70aa4ed9a1a4ba7bf884ef58a62b1446c2a615d5f1668a4e08ec078a92fc228d",
       "node_metadata": {
         "requested_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
         "requested_node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
@@ -9586,7 +9588,7 @@
       "doc_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GMdhwQQCRi2QaLkimNOcc3qNnbh",
       "source_file": "GMdhwQQCRi2QaLkimNOcc3qNnbh.json",
-      "source_hash": "62d0c073932e3810d04e664a7632f561bbf96c13dac4182aaf2557ffa08b63a5",
+      "source_hash": "c530fc16fe6cb614835399515621d0776986428ec348bf7d392cf8717f69059e",
       "node_metadata": {
         "requested_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
         "requested_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
@@ -13695,7 +13697,7 @@
       "doc_token": "LQwnwNY73iCd8Hkj55ZczQTOn6g",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LQwnwNY73iCd8Hkj55ZczQTOn6g",
       "source_file": "LQwnwNY73iCd8Hkj55ZczQTOn6g.json",
-      "source_hash": "c72fb20620a867e21117c446703f4a951f1e4bd819a566240efc59f84d94e1cf",
+      "source_hash": "1da0ec770bf6de02518821d779ec34b82c1a9061012eee6e1c44fd79287286a2",
       "node_metadata": {
         "requested_token": "LQwnwNY73iCd8Hkj55ZczQTOn6g",
         "requested_node_token": "LQwnwNY73iCd8Hkj55ZczQTOn6g",
@@ -13743,7 +13745,7 @@
       "doc_token": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Za3QwAcfjiSSvxk8UzUcTPmfnmb",
       "source_file": "Za3QwAcfjiSSvxk8UzUcTPmfnmb.json",
-      "source_hash": "e0730bdc9fd8023d8286b0f81984f5532b83431a2957c3139370fa3a27f440ca",
+      "source_hash": "09f3c94deb8644f208e6c903915d8b7a8df8ca7806ff9f1d81b8d4aa5e6b5976",
       "node_metadata": {
         "requested_token": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
         "requested_node_token": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
@@ -13792,7 +13794,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "source_file": null,
@@ -14747,7 +14749,7 @@
       "doc_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc",
       "source_file": "MUL3wkn7Yi3YoFkYk59csf8bnNc.json",
-      "source_hash": "4377caeee7dd0c926ae785a189db507546914a84a7dcf6d04860256d90c951e1",
+      "source_hash": "3ef2a9447f40d15f2cbab92aa240aa70735d14420d53b40a57830074b15af57e",
       "node_metadata": {
         "requested_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
         "requested_node_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
@@ -14761,15 +14763,15 @@
         "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
         "node_create_time": "1759201678",
         "obj_create_time": "1759201678",
-        "obj_edit_time": "1793157291",
-        "revision_id": "4692"
+        "obj_edit_time": "1793266021",
+        "revision_id": "4699"
       },
       "node_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
       "origin_node_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
       "obj_token": "LwC9dlhnbovv54xNQ2tcdsEnnRh",
       "obj_type": "docx",
-      "obj_edit_time": "1793157291",
-      "revision_id": "4692",
+      "obj_edit_time": "1793266021",
+      "revision_id": "4699",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
@@ -14808,8 +14810,10 @@
         "ESVGwTkn8iLfUakSSrkc5dWJnye",
         "Ex99woZlsico4FkfwxGckjRRnqf",
         "FSUqwEEIii9k2sklkcLcIFJJnbf",
+        "Fighwx5zFiwaoIkV4q5cAJ1enDg",
         "Fz9swr5WwixkH8kKHircWCejnye",
         "GBY6wbUmwi9lLjkXSuKccODgnne",
+        "GBynwwkyBihIHukvJXfc76dMnth",
         "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
         "GQN0wDCrni4n36kyeVQcF41Lned",
         "GanXwLnJkiymKVkNPhecdi9MnGf",
@@ -14864,6 +14868,7 @@
         "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
         "P4KNwDdqaivEZFk7RpOcYeyhn2N",
         "PBEbwjRu9iyyaFkZnuzcINHCnke",
+        "PFbNwB7Mli18n6k6VWScGcpWndc",
         "PIfLwbrMmiOZKAkqtpScjnhinXf",
         "PJ4hwwD1DiVnv0kWPZBceLrdnSf",
         "PNj2w5fY9ifr82kbX8ucKgXAn0r",
@@ -14898,6 +14903,7 @@
         "VbjiwU5RYi4bWdkC48Jceltnnpd",
         "VcI1wZ5mQiGqdPkCzHccj1RLnbd",
         "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+        "VmGMwsTliiGZdFkzzeBckRNlnCh",
         "WBONwyqFAi02DTkCG41c93wCn6e",
         "WMh8w3tbKiBhukk3ICMc4ctznEg",
         "WQvUw9c9lifskGkgz0fcmUWvnFb",
@@ -16841,7 +16847,7 @@
       "doc_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "source_file": "Fighwx5zFiwaoIkV4q5cAJ1enDg.json",
-      "source_hash": "c93ef9ea6c524990bbfa6eabf9fdf84246c9ab29391c11525df2da79e592a650",
+      "source_hash": "b8977a3f70a53be0cd2f223473de240895d9fae153f29dce69dafca54d19cefb",
       "node_metadata": {
         "requested_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
         "requested_node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
@@ -16886,7 +16892,7 @@
       "doc_token": "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ETsNwO7T0iR5GDkvuMxcJG7JnIb",
       "source_file": "ETsNwO7T0iR5GDkvuMxcJG7JnIb.json",
-      "source_hash": "70cb6ed19a6fd48db7551f7892714aa62522654d4b029d9b620a778cbab3f92b",
+      "source_hash": "07aea6662a051f2649f105376d46cf61fb92e819075ac9d4d6284c7808218bd1",
       "node_metadata": {
         "requested_token": "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
         "requested_node_token": "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
@@ -18505,7 +18511,7 @@
       "doc_token": "A4jhweVMMigHOpkwDlLcKo0SnFe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/A4jhweVMMigHOpkwDlLcKo0SnFe",
       "source_file": "A4jhweVMMigHOpkwDlLcKo0SnFe.json",
-      "source_hash": "278d9f6727cb48d4af053a60c8d187cad5c95f6e8d97efe36721775749dfe39d",
+      "source_hash": "0b87edff70992f79a688837b898310a0aefd685fed27ba99e474c224678dc6a9",
       "node_metadata": {
         "requested_token": "A4jhweVMMigHOpkwDlLcKo0SnFe",
         "requested_node_token": "A4jhweVMMigHOpkwDlLcKo0SnFe",
@@ -18519,28 +18525,38 @@
         "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
         "node_create_time": "1792408655",
         "obj_create_time": "1792408655",
-        "obj_edit_time": "1792485272",
-        "revision_id": "31"
+        "obj_edit_time": "1793264580",
+        "revision_id": "49"
       },
       "node_token": "A4jhweVMMigHOpkwDlLcKo0SnFe",
       "origin_node_token": "A4jhweVMMigHOpkwDlLcKo0SnFe",
       "obj_token": "DXWgdiT9poKNukxHygmcqu44nNc",
       "obj_type": "docx",
-      "obj_edit_time": "1792485272",
-      "revision_id": "31",
+      "obj_edit_time": "1793264580",
+      "revision_id": "49",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [
+        "BaGlwzDmyiyVvVk6NurcFclInCd",
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "CdmcwKYHZimNZ2kw5wqcQDDOned",
+        "EAwdw2ZbtiBKttk66FTctUebn7f",
+        "Fighwx5zFiwaoIkV4q5cAJ1enDg",
+        "GBynwwkyBihIHukvJXfc76dMnth",
+        "GthGwnrpEiGpClkV5JXcgWUgn8c",
         "KIPiw0RqSieKkjkACwGcvgfLnSe",
         "L11Mw0GRTiKALikJaEycwj1wnKg",
         "MKAJwmebRiSsOrkgShUcaHS9nhe",
         "MvE5wUlFli3gJOk0MkeclZCqnib",
+        "PFbNwB7Mli18n6k6VWScGcpWndc",
         "PlX3wo82Di6oWVkg2ercRWCUnvV",
+        "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+        "UR9SwucAIiQ2TYkc9EucsgvSnng",
+        "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+        "VmGMwsTliiGZdFkzzeBckRNlnCh",
         "XDoSwZodyigAEVkjkWfc9nsfnCg"
       ],
       "output_paths": []
@@ -22460,7 +22476,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       }
     },
@@ -22650,7 +22666,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       }
     },
@@ -23117,7 +23133,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       }
     },
@@ -23325,7 +23341,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       }
     },
@@ -23562,7 +23578,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "ca81486c4d6bd4f1aa153757966051bf99eba532850e3ff1e62d92ce920ad210",
+        "inputs_sha256": "956b90fb20fc6fd8fd421f9f8c416994261e31db8d88335f642f1f081f8c0e6b",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       }
     },
@@ -23945,7 +23961,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       }
     },
@@ -24021,7 +24037,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "69e5a39b5e067b0f2ee65bf1b9fa76d7d8497e31b2a871ea7f7393b6a9dcbe7f",
+        "inputs_sha256": "8b97e47e800710424fc44ba9906d775e3699dfbc55e6c24c2d822fdc66249a87",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       }
     },
@@ -24926,7 +24942,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       }
     },
@@ -25330,7 +25346,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       }
     },
@@ -25406,7 +25422,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       }
     },
@@ -25436,7 +25452,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       }
     },
@@ -25693,7 +25709,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       }
     },
@@ -25723,7 +25739,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "3cd303d2b55b450b1ef4dc1f29a8df6c40ceeb896f1a66d4bbd8652d524cf24c",
+        "inputs_sha256": "b4c418bab438192988611702abfc079fec8281a59c3102a16eb63e6f6bc47a43",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       }
     },
@@ -25776,7 +25792,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       }
     },
@@ -25806,7 +25822,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "3d0fa8d18fd867b758dec17467140c28659d2a0b38c819d616c807d28e0f4058",
+        "inputs_sha256": "db231983bba8c7a7881c32853c2bbedf8055069926325b9560ecc5d7ff08b9df",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       }
     },
@@ -29627,7 +29643,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "fcd7eeae66fa0f9fdd7529113aa94f0da854c0c1728f61b44aefdd430137ff69",
+    "tblWv7PjNDsexddH": "35512fcb0b5bde1dec4a8a323ec8b4d37337634c38bf4b7a78ee37a35c1af72d",
     "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",

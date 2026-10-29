@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Oct 19, 2026 | Cloud"
+description: "Last updated Oct 29, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Oct 19, 2026
+**Last updated:** Oct 29, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,42 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[Oct 29, 2026](./release-notes-2610#milvus-v30x-public-preview)**
+
+    </div>
+
+    <div>
+
+        - 🐦 **[Milvus v3.0.x Public Preview](./release-notes-2610#milvus-v30x-public-preview)** is now available on Dedicated clusters — upgrade from the console with no downtime and no index rebuild:
+
+            - ↕️ **ORDER BY for [queries](./get-and-scalar-query) and [searches](./single-vector-search)** — sort results by one or more scalar fields with `order_by` and `order_by_fields`.
+
+            - 🧮 **[Query aggregation](./get-and-scalar-query)** — group results with `group_by_fields` and compute `count`, `min`, `max`, `sum`, and `avg` per group on the server.
+
+            - 🗂️ **[Search Aggregation](./search-aggregation)** — bucket ANN candidates by scalar fields and return representative hits, with up to four aggregation levels in one request.
+
+            - 🔤 **[Regular expression filtering](./pattern-match)** — filter `VARCHAR` fields, JSON string paths, and array elements with the `=~` and `!~` operators (RE2 syntax).
+
+            - 🎯 **[Membership Match filtering](/docs/membership-match)** — filter entities by set membership sent as a compact binary blob: `roaring` for exact matching on signed integers (also in `delete`), `bloom` for approximate matching.
+
+            - #️⃣ **[MinHash Function](./minhash-function)** — server-side MinHash signatures searched with the `MINHASH_LSH` index for near-duplicate detection and deduplication without an external model.
+
+            - 📜 **[TEXT data type](./use-text-field)** — store long text beyond the 65,535-byte `VARCHAR` limit and feed it to BM25 full-text search.
+
+            - 🧩 **[Flexible schema changes](./add-fields-to-an-existing-collection)** — add or drop fields and Functions on existing collections without recreating them.
+
+            - 🪆 **StructArray enhancements** — [element-level search](./use-array-of-structs) with more vector types, plus [match operators](./struct-array-filtering) such as `MATCH_ANY` and `MATCH_ALL`.
+
+            - ⏳ **[Entity-level TTL](./set-collection-ttl)** — expire individual entities through a `TIMESTAMPTZttl_field`; `NULL` means never expires.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

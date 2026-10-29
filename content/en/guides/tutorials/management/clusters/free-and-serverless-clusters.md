@@ -37,6 +37,8 @@ Before creating a Free or Serverless cluster, make sure you have registered with
 
 Each organization can have only one Free cluster. For additional serving clusters, use Serverless or Dedicated.
 
+<NextChannel action="include">The Milvus version of Free and Serverless clusters is managed by Zilliz Cloud and cannot be selected during creation.</NextChannel>
+
 </Admonition>
 
 You can create a Free or Serverless cluster from the Zilliz Cloud console. When the cluster status changes to **Running**, the cluster is ready. Save the cluster credentials shown during creation because the password is shown only once.
@@ -238,6 +240,16 @@ You can manage Free and Serverless clusters from the cluster details page.
 | Drop | Supported. Free clusters cannot be restored from the recycle bin after deletion. | Supported. |
 
 When an upgrade creates a new Dedicated cluster, remember to update the cluster endpoint in your application code.
+
+<NextChannel action="include">
+
+<Admonition type="info" title="Note">
+
+When you upgrade a Free or Serverless cluster running Milvus 3.0 to Dedicated, the new Dedicated cluster automatically uses Milvus 3.0. You do not need to select a Milvus version.
+
+</Admonition>
+
+</NextChannel>
 
 ## Drop\{#drop}
 

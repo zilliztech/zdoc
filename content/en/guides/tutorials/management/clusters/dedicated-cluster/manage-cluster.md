@@ -171,7 +171,29 @@ Once the resume operation is successful, a job record will be generated. You can
 
 ## Upgrade cluster for preview features\{#upgrade-cluster-for-preview-features}
 
+<NextChannel action="exclude">
+
 To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+To try the latest public preview features on an existing Dedicated cluster, upgrade the cluster’s compatible Milvus version by following the demo below.
+
+If you are creating a new Dedicated cluster, you can select a public preview Milvus version during creation without upgrading afterward. For details, see [Create Cluster](/docs/create-cluster).
+
+<Admonition type="info" title="Notes">
+
+- Public preview features are suitable for evaluation and non-critical production workloads. Features may change before general availability.
+
+- You cannot downgrade a cluster to an earlier Milvus version.
+
+- Before upgrading, check your SDK version and update it if needed. For compatible SDK versions, see [SDK Compatibility](/docs/install-sdks#sdk-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 ![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 

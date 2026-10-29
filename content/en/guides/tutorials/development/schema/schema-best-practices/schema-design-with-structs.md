@@ -79,7 +79,7 @@ The CoVLA dataset is a large-scale, multimodal driving dataset comprising 10,000
 
 The dataset structure is as follows:
 
-```python
+```plaintext
 ├── video_1                                       (VIDEO) # video.mp4
 │   ├── video_id                                  (INT)
 │   ├── video_url                                 (STRING)
@@ -113,9 +113,9 @@ The dataset structure is as follows:
 │   │   │   │   ├── lead_y                        (FLOAT)
 │   │   │   │   ├── lead_speed_kmh                (FLOAT)
 │   │   │   │   ├── lead_a                        (FLOAT)
-│   │   ├── frame_2                               (STRUCT)
-│   │   ├── ...                                   (STRUCT)
-│   │   ├── frame_n                               (STRUCT)
+│   │   │   ├── frame_2                               (STRUCT)
+│   │   │   ├── ...                                   (STRUCT)
+│   │   │   ├── frame_n                               (STRUCT)
 ├── video_2
 ├── ...
 ├── video_n

@@ -243,11 +243,13 @@ The following is an example output.
 
     <Admonition type="info" title="Notes">
 
+    - The stable (GA) Milvus version is selected by default. To try new features, select a public preview version. After creation, the cluster cannot be downgraded to an earlier Milvus version.
+    
+    - Use an SDK version compatible with your cluster’s Milvus version. For details, see [Install SDKs](./install-sdks).
+    
+    - Milvus 3.0 clusters cannot be converted to [global clusters](./global-cluster-explained). If you plan to convert the cluster to a global cluster, select Milvus 2.6.
+    
     - Public preview versions are suitable for evaluation and non-critical production workloads. Features may change before general availability.
-    
-    - You cannot downgrade a Milvus 3.0 cluster to Milvus 2.6.
-    
-    - Use an SDK version compatible with the selected Milvus version. For details, see [SDK Compatibility](/docs/install-sdks#sdk-compatibility).
 
     </Admonition>
 

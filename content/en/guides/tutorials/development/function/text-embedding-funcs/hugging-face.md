@@ -2,7 +2,7 @@
 title: "Hugging Face | Cloud"
 slug: /hugging-face
 sidebar_label: "Hugging Face"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

@@ -2,7 +2,7 @@
 title: "Pattern Matching | Cloud"
 slug: /pattern-match
 sidebar_label: "Pattern Matching"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
