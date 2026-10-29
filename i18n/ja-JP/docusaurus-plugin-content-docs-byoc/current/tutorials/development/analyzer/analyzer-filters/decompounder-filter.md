@@ -23,9 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。
 
-
 ## 構成\{#configuration}
-
 
 `decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター構成で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを指定します。
 
@@ -185,7 +183,6 @@ analyzerParams='{
 `decompounder` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
 `analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
-
 
 ## 例\{#examples}
 

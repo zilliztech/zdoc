@@ -68,7 +68,6 @@ import TabItem from '@theme/TabItem';
 
 この 2 段階のプロセス（分割の後に品詞ベースのフィルタリングを行う）により、検索用にインデックス化するトークンを正確に制御できます。
 
-
 ## 設定\{#configuration}
 
 `lindera` トークナイザーを使用するアナライザーを設定するには、`tokenizer.type` を `lindera` に設定し、`dict_kind` で辞書を選択し、必要に応じてフィルターを適用します。

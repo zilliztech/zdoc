@@ -25,7 +25,6 @@ import TabItem from '@theme/TabItem';
 
 ## 構成\{#configuration}
 
-
 インラインリストで `stop` フィルターを使用するには、フィルター構成で `"type": "stop"` を指定し、ストップワードのリストを提供する `stop_words` パラメーターを併せて指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
@@ -181,7 +180,6 @@ analyzerParams='{
 `stop` フィルターはトークナイザーが生成した用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
 `analyzer_params` を定義した後、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
-
 
 ## 例\{#examples}
 
