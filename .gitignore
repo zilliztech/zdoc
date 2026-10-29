@@ -43,6 +43,12 @@ k8s/**/secret.yaml
 # Lark-docs pre-fetched source JSON (generated build artifacts)
 /packages/docs-tooling/src/lark/meta/sources/
 
+# ja sidebar translation JSON (regenerated at en build time by
+# scripts/docs-workflow/generate-ja-sidebar-labels.js; excluded from
+# provenance localization inputs, see releaseInputDefinition)
+/i18n/ja-JP/docusaurus-plugin-content-docs/current.json
+/i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json
+
 # Local scratch files and build logs
 tmp/
 /.atomic-publication-state/

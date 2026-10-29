@@ -268,6 +268,37 @@ test('localization inputs reject untracked files and symlinks', () => {
   assert.throws(() => run(symlinkRoot), /localization input.*symbolic link|symbolic link.*localization input/i);
 });
 
+test('build-derived ja sidebar translation JSON on disk does not fail provenance and stays unattested', () => {
+  const root = fixture();
+  fs.appendFileSync(path.join(root, '.gitignore'), '/i18n/ja-JP/docusaurus-plugin-content-docs/current.json\n/i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json\n');
+  execFileSync('git', ['add', '.gitignore'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'ignore derived sidebar translations'], {cwd: root});
+  write(root, 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json', '{"sidebar.default.category.category:x":{"message":"あ"}}\n');
+  write(root, 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json', '{}\n');
+
+  const result = run(root);
+  const manifest = JSON.parse(fs.readFileSync(result.outputPath, 'utf8'));
+  assert.equal(manifest.workingTree, 'clean');
+  const recorded = manifest.localizationInputs.records.map(record => record.path);
+  assert.deepEqual(recorded, [
+    '.translation-cache/ja-JP.json',
+    'generated/en/sidebars/guides.sidebar.js',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+  ]);
+});
+
+test('excluded ja sidebar translations stay unattested even when tracked', () => {
+  const root = fixture();
+  write(root, 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json', '{}\n');
+  execFileSync('git', ['add', 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'track derived sidebar translations'], {cwd: root});
+
+  const result = run(root);
+  const recorded = JSON.parse(fs.readFileSync(result.outputPath, 'utf8'))
+    .localizationInputs.records.map(record => record.path);
+  assert.ok(!recorded.includes('i18n/ja-JP/docusaurus-plugin-content-docs/current.json'));
+});
+
 test('candidate workspace accepts only exact untracked inputs owned by the declared translation target', () => {
   const root = fixture();
   write(root, 'content/zh-CN/reference/generated.md', '# 候选参考文档\n');

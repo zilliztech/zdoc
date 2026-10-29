@@ -13,6 +13,13 @@ export function releaseInputDefinition(site) {
     return {
       roots: ['generated/en/sidebars', 'i18n/ja-JP'],
       required: ['.translation-cache/ja-JP.json'],
+      // Regenerated at en build time by scripts/docs-workflow/generate-ja-sidebar-labels.js
+      // as a pure function of tracked inputs (generated sidebars + tracked dictionary),
+      // so they stay gitignored derived outputs and are never attested inputs.
+      excluded: [
+        'i18n/ja-JP/docusaurus-plugin-content-docs/current.json',
+        'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json',
+      ],
     };
   }
   return {
@@ -21,7 +28,12 @@ export function releaseInputDefinition(site) {
   };
 }
 
+export function isExcludedInputPath(relativePath, definition) {
+  return (definition.excluded ?? []).includes(relativePath);
+}
+
 export function isInputPath(relativePath, definition) {
+  if (isExcludedInputPath(relativePath, definition)) return false;
   return definition.required.includes(relativePath)
     || definition.roots.some(root => pathInRoot(relativePath, root));
 }

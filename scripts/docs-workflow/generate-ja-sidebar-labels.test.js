@@ -9,6 +9,7 @@ const {
   buildPluginTranslations,
   loadDictionary,
   sortEntries,
+  assertOutputsUntracked,
   generateJaSidebarLabels,
 } = require('./generate-ja-sidebar-labels')
 
@@ -192,4 +193,80 @@ test('generateJaSidebarLabels throws with an actionable message and writes nothi
 
 test('generateJaSidebarLabels requires a loadSidebars function', () => {
   assert.throws(() => generateJaSidebarLabels({ workspace: '/repo' }), /loadSidebars loader function is required/)
+})
+
+test('generateJaSidebarLabels allow policy writes found entries and reports missing keys without throwing', () => {
+  const dictionary = { labels: { 'category:a': 'あ' } }
+  const fsImpl = makeFsImpl({
+    '/repo/config/translation/ja-JP-sidebar-labels.json': JSON.stringify(dictionary),
+  })
+  const sidebarsBySource = {
+    '/repo/guides.legacy.ts': { default: [{ type: 'category', key: 'category:a', label: 'A', items: [] }] },
+    '/repo/byoc.legacy.ts': { default: [{ type: 'category', key: 'category:missing', label: 'Missing', items: [] }] },
+  }
+
+  const result = generateJaSidebarLabels({
+    workspace: '/repo',
+    fsImpl,
+    loadSidebars: sourcePath => sidebarsBySource[sourcePath],
+    targets: [
+      { pluginLabel: 'guides', legacySidebarPath: 'guides.legacy.ts', outputPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json' },
+      { pluginLabel: 'guides-byoc', legacySidebarPath: 'byoc.legacy.ts', outputPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json' },
+    ],
+    missingPolicy: 'allow',
+  })
+
+  assert.deepEqual(result.missing, [
+    { pluginLabel: 'guides-byoc', sidebarName: 'default', type: 'category', key: 'category:missing', englishLabel: 'Missing' },
+  ])
+  const written = JSON.parse(fsImpl.written['/repo/i18n/ja-JP/docusaurus-plugin-content-docs/current.json'])
+  assert.deepEqual(Object.keys(written), ['sidebar.default.category.category:a'])
+  assert.equal(fsImpl.written['/repo/i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json'], '{}\n')
+})
+
+test('generateJaSidebarLabels rejects unknown missingPolicy values', () => {
+  const fsImpl = makeFsImpl({
+    '/repo/config/translation/ja-JP-sidebar-labels.json': JSON.stringify({ labels: {} }),
+  })
+  assert.throws(
+    () => generateJaSidebarLabels({
+      workspace: '/repo',
+      fsImpl,
+      loadSidebars: () => ({}),
+      missingPolicy: 'silent',
+    }),
+    /missingPolicy must be 'fail' or 'allow'/,
+  )
+})
+
+test('the en site build regenerates ja sidebar translations before docusaurus build', () => {
+  const nodeFs = require('node:fs')
+  const nodePath = require('node:path')
+  const pkg = JSON.parse(nodeFs.readFileSync(nodePath.join(__dirname, '../../apps/docs/package.json'), 'utf8'))
+  assert.match(
+    pkg.scripts['build:en'],
+    /node \.\.\/\.\.\/scripts\/docs-workflow\/generate-ja-sidebar-labels\.js --allow-missing && /,
+  )
+})
+
+test('assertOutputsUntracked probes every output and passes when none is tracked', () => {
+  const probed = []
+  assert.doesNotThrow(() => assertOutputsUntracked('/repo', (command, args) => {
+    probed.push(args[3])
+    throw new Error('untracked')
+  }))
+  assert.deepEqual(probed, [
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current.json',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json',
+  ])
+})
+
+test('assertOutputsUntracked fails loud when a publication lane already owns an output as tracked', () => {
+  assert.throws(
+    () => assertOutputsUntracked('/repo', (command, args) => {
+      if (args[3] === 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json') return Buffer.alloc(0)
+      throw new Error('untracked')
+    }),
+    /is git-tracked/,
+  )
 })

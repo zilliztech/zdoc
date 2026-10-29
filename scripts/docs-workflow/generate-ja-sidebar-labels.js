@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 'use strict'
 
+const { execFileSync } = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 
 const DICTIONARY_PATH = 'config/translation/ja-JP-sidebar-labels.json'
+
+// Repository root, resolved from this script's location so the CLI works from
+// any cwd (the en site build invokes it from apps/docs).
+const DEFAULT_WORKSPACE = path.resolve(__dirname, '..', '..')
 
 // Docusaurus derives a sidebar item's translation key from `item.key ?? item.label`
 // (see @docusaurus/plugin-content-docs/src/translations.ts). The dictionary is keyed
@@ -89,9 +94,11 @@ function loadDictionary(workspace, fsImpl = fs) {
   return parsed.labels
 }
 
+// Code-point order, not localeCompare: the output must be byte-identical
+// regardless of the ICU data on the machine that runs the build.
 function sortEntries(entries) {
   const sorted = {}
-  for (const key of Object.keys(entries).sort((a, b) => a.localeCompare(b))) sorted[key] = entries[key]
+  for (const key of Object.keys(entries).sort()) sorted[key] = entries[key]
   return sorted
 }
 
@@ -101,11 +108,42 @@ function formatMissing(missing) {
     .join('\n')
 }
 
+// The offline ja translation lane (offline-guides-publication.js SIDEBAR_PATHS) is
+// the only writer allowed to publish these files as tracked dev content. If one
+// ever lands tracked, build-time generation would silently shadow it on every
+// build:en, so refuse instead.
+function assertOutputsUntracked(workspace, execImpl = execFileSync) {
+  for (const target of PLUGIN_TARGETS) {
+    try {
+      execImpl('git', ['ls-files', '--error-unmatch', '--', target.outputPath], { cwd: workspace, stdio: 'ignore' })
+    } catch {
+      continue
+    }
+    throw new Error(
+      `${target.outputPath} is git-tracked; build-time generation refuses to shadow a publication-lane-owned file`,
+    )
+  }
+}
+
 // `loadSidebars` is injected (rather than requiring `../lib/load-typescript.js`
 // directly) so tests can supply an in-memory sidebars config instead of loading
 // real TypeScript through jiti.
-function generateJaSidebarLabels({ workspace, fsImpl = fs, loadSidebars, targets = PLUGIN_TARGETS }) {
-  if (!workspace) throw new Error('workspace is required')
+//
+// missingPolicy 'fail' (default) throws when any sidebar item has no dictionary
+// entry; 'allow' writes the found entries, skips the rest (Docusaurus falls back
+// to the English label), and returns them in `missing` so callers can report the
+// gap. The en site build runs this with --allow-missing so a brand-new English
+// category cannot break every locale's build.
+function generateJaSidebarLabels({
+  workspace = DEFAULT_WORKSPACE,
+  fsImpl = fs,
+  loadSidebars,
+  targets = PLUGIN_TARGETS,
+  missingPolicy = 'fail',
+}) {
+  if (!['fail', 'allow'].includes(missingPolicy)) {
+    throw new Error(`missingPolicy must be 'fail' or 'allow', got '${missingPolicy}'`)
+  }
   if (typeof loadSidebars !== 'function') throw new Error('loadSidebars loader function is required')
 
   const labels = loadDictionary(workspace, fsImpl)
@@ -119,7 +157,7 @@ function generateJaSidebarLabels({ workspace, fsImpl = fs, loadSidebars, targets
     results.push({ target, entries })
   }
 
-  if (allMissing.length > 0) {
+  if (allMissing.length > 0 && missingPolicy === 'fail') {
     throw new Error(
       `${DICTIONARY_PATH} is missing ${allMissing.length} sidebar label(s):\n${formatMissing(allMissing)}`,
     )
@@ -134,15 +172,32 @@ function generateJaSidebarLabels({ workspace, fsImpl = fs, loadSidebars, targets
     written.push({ pluginLabel: target.pluginLabel, outputPath: target.outputPath, entryCount: Object.keys(entries).length })
   }
 
-  return { written }
+  return { written, missing: allMissing }
 }
 
 if (require.main === module) {
   try {
+    const args = process.argv.slice(2)
+    const unknown = args.filter(arg => arg !== '--allow-missing')
+    if (unknown.length > 0) {
+      throw new Error(`Unknown argument(s): ${unknown.join(', ')}; supported: --allow-missing`)
+    }
     const { loadTypeScript } = require('../lib/load-typescript.js')
-    const result = generateJaSidebarLabels({ workspace: process.cwd(), loadSidebars: loadTypeScript })
+    assertOutputsUntracked(DEFAULT_WORKSPACE)
+    const result = generateJaSidebarLabels({
+      workspace: DEFAULT_WORKSPACE,
+      loadSidebars: loadTypeScript,
+      missingPolicy: args.includes('--allow-missing') ? 'allow' : 'fail',
+    })
     for (const entry of result.written) {
       console.log(`Wrote ${entry.entryCount} label(s) to ${entry.outputPath} (${entry.pluginLabel})`)
+    }
+    if (result.missing.length > 0) {
+      console.warn(
+        `[ja-sidebar-labels] ${DICTIONARY_PATH} is missing ${result.missing.length} sidebar label(s); ` +
+        'they fall back to English until the dictionary gains their keys:',
+      )
+      console.warn(formatMissing(result.missing))
     }
   } catch (error) {
     console.error(error.message)
@@ -151,6 +206,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  DEFAULT_WORKSPACE,
   DICTIONARY_PATH,
   PLUGIN_TARGETS,
   effectiveKey,
@@ -158,5 +214,6 @@ module.exports = {
   buildPluginTranslations,
   loadDictionary,
   sortEntries,
+  assertOutputsUntracked,
   generateJaSidebarLabels,
 }
