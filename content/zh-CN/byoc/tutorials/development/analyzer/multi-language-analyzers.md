@@ -77,7 +77,7 @@ import TabItem from '@theme/TabItem';
 
 `multi_analyzer_params` 是一个 JSON 对象，用于决定 Zilliz Cloud 如何为每条数据选择合适的 Analyzer。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -201,6 +201,37 @@ const multi_analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var multiAnalyzerParams = new Dictionary<string, object>
+{
+    // Define language-specific analyzers
+    // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
+    ["analyzers"] = new Dictionary<string, object>
+    {
+        ["english"] = new Dictionary<string, object> { ["type"] = "english" },   // English-optimized analyzer
+        ["chinese"] = new Dictionary<string, object> { ["type"] = "chinese" },   // Chinese-optimized analyzer
+        ["default"] = new Dictionary<string, object> { ["tokenizer"] = "icu" }   // Required fallback analyzer
+    },
+    ["by_field"] = "language",                    // Field determining analyzer selection
+    ["alias"] = new Dictionary<string, object>
+    {
+        ["cn"] = "chinese",                       // Use "cn" as shorthand for Chinese
+        ["en"] = "english"                        // Use "en" as shorthand for English
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -271,7 +302,7 @@ export multi_analyzer_params='{
 
 - **向量字段 (`sparse`)**：此字段用于存储 BM25 函数生成的稀疏向量。这些向量表示文本数据的可分析形式，也是 Zilliz Cloud 实际用于搜索的内容。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -511,6 +542,34 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Add fields: id (primary key), language (analyzer selection), text (multi-language analysis), sparse (BM25 output)
+var text = FieldSchema.CreateVarchar("text", maxLength: 8192, enableAnalyzer: true);
+text.MultiAnalyzerParams = multiAnalyzerParams;
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        new FieldSchema("language", DataType.VarChar) { MaxLength = 255 },
+        text,
+        new FieldSchema("sparse", DataType.SparseFloatVector)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -556,7 +615,7 @@ export sparseField='{
 
 定义 BM25 function 为文本生成稀疏向量：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -649,6 +708,22 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create the BM25 function and add it to the schema
+schema.Functions.Add(FunctionSchema.CreateBm25("text_to_vector", "text", "sparse"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -683,7 +758,7 @@ export schema="{
 
 为稀疏向量配置索引参数：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -765,6 +840,25 @@ const index_params = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Configure index parameters: add index for the sparse vector field
+var indexParams = new[]
+{
+    new IndexParam("sparse", null, IndexType.AutoIndex, MetricType.Bm25)   // Must be BM25 for this feature
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -792,7 +886,7 @@ export IndexParams='[
 
 - `index_params=index_params`：实现高效搜索所需的索引策略。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -923,6 +1017,33 @@ await client.loadCollection({ collection_name: COLLECTION_NAME });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "multilingual_documents";
+
+// Drop the existing collection if any, then create and load
+await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = indexParams
+});
+
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = collectionName });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -955,7 +1076,7 @@ curl --request POST \
 
 在向多语言 Collection 中添加文档时，每个文档必须同时包含文本内容和语言标识符：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1141,6 +1262,37 @@ console.log("Documents by language: 2 English, 2 Chinese");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "multilingual_documents";
+
+// Prepare multilingual documents
+var documents = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["text"] = "Artificial intelligence is transforming technology", ["language"] = "english" },
+    new Dictionary<string, object?> { ["text"] = "Machine learning models require large datasets", ["language"] = "en" },
+    new Dictionary<string, object?> { ["text"] = "人工智能正在改变技术领域", ["language"] = "chinese" },
+    new Dictionary<string, object?> { ["text"] = "机器学习模型需要大型数据集", ["language"] = "cn" },
+};
+
+// Insert the documents
+var result = await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData = documents
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1203,7 +1355,7 @@ curl --request POST \
 
 - `params={"drop_ratio_search": "0"}`：控制 BM25 的特定行为，此处表示保留查询中的所有词项。更多信息请参考 [稀疏向量](./use-sparse-vector)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1386,6 +1538,40 @@ english_results.results.forEach((hit, i) => {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "multilingual_documents";
+
+// Configure search parameters
+var searchParams = new SearchParameters
+{
+    OutputFields = { "text", "language" },
+    DropRatioSearch = 0,                     // Keep all terms in search (tweak as needed)
+    AnalyzerName = "english"                 // Analyzer that matches the query language
+};
+
+// Execute the search
+var englishResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,             // Collection to search
+    VectorFieldName = "sparse",                  // Field to search against
+    Texts = new[] { "artificial intelligence" }, // Query text
+    MetricType = MetricType.Bm25,                // Must match index configuration
+    Limit = 3,                                   // Max results to return
+    Parameters = searchParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1416,7 +1602,7 @@ curl --request POST \
 
 此示例演示了如何切换为中文 Analyzer（使用其别名 `"cn"`）来处理不同的查询文本。其他参数保持不变，但查询文本会按照中文特有的分词规则进行处理。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1571,6 +1757,32 @@ cn_results.results.forEach((hit, i) => {
     `${i + 1}. [${hit.score.toFixed(4)}] ${hit.text} ` +
       `(Language: ${hit.language})`
   );
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+searchParams.AnalyzerName = "cn";
+
+// Execute the search
+var chineseResults = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,     // Collection to search
+    VectorFieldName = "sparse",          // Field to search against
+    Texts = new[] { "人工智能" },        // Query text
+    MetricType = MetricType.Bm25,        // Must match index configuration
+    Limit = 3,                           // Max results to return
+    Parameters = searchParams
 });
 ```
 

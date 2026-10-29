@@ -82,7 +82,7 @@ import TabItem from '@theme/TabItem';
 
 当使用如下示例代码在上述 Entity 中进行搜索时，我们需要在 Search 请求中添加过滤条件。为了方便检查搜索结果是否满足过滤条件，我们还在 Search 请求中指定了 Output Fields。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -303,6 +303,43 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f
+});
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Expression = "color like \"red%\" and likes > 50",
+        OutputFields = { "color", "likes" }
+    }
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -391,7 +428,7 @@ zilliz vector search \
 
 要使用迭代 Filtered Search 进行过滤搜索，您可以执行以下操作：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -611,6 +648,46 @@ const filteredRes = await client.search({
     output_fields: ["color", "likes"]
     // highlight-end
 })
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var queryVector = new ReadOnlyMemory<float>(new[]
+{
+    0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f
+});
+
+var searchParams = new SearchParameters
+{
+    Expression = "color like \"red%\" and likes > 50",
+    Hints = "iterative_filter",
+    OutputFields = { "color", "likes" }
+};
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = searchParams
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
 ```
 
 </TabItem>

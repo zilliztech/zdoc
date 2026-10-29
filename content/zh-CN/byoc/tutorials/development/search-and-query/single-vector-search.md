@@ -55,7 +55,7 @@ ANN Search 依赖预先创建的索引。选择不同的索引算法会影响搜
 
 本节将演示如何在使用最简建表方式创建的 Collection 中进行单路查询。示例代码中的 Search 请示携带了一个查询向量，要求使用内积（IP）算法计算查询向量和目标向量间的相似度，并返回最相近的 3 个向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -294,6 +294,42 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 4. Single vector search
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3
+});
+
+var single = res.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -373,7 +409,7 @@ zilliz vector search \
 
 您也可以在 Search 请求中携带多个查询向量，Zilliz Cloud 将分别针对这两个查询向量执行 ANN Search，并返回两组查询结果。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -614,6 +650,32 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+// 7. Search with multiple vectors
+// 7.1. Prepare query vectors
+var queryVectors = new[]
+{
+    new ReadOnlyMemory<float>(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
+    new ReadOnlyMemory<float>(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
+};
+
+// 7.2. Start search
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVectors,
+    Limit = 3
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -708,7 +770,7 @@ zilliz vector search \
 
 除了可以在搜索请求中设置查询向量外，您还可以使用 Collection 中在指定字段上包含了查询向量的 Entity 的主键来进行查询。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -854,6 +916,24 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Ids = new object[] { 551L, 296L, 43L },
+    Limit = 3,
+    MetricType = MetricType.Ip
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -899,7 +979,7 @@ zilliz vector search \
 
 在以下示例代码中，假设存在一个名为 partitionA 的 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1089,6 +1169,25 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { PartitionNames = { "partitionA" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1163,7 +1262,7 @@ zilliz vector search \
 
 在 Zilliz Cloud 中，ANN Search 默认返回与查询向量最相近的 topK 个 Entity 的主键值 (**id**) 及该 Entity 与查询向量的相似度得分 (**distance** 或 **score**)。如果要求返回的每个 Entity 中都携带指定字段的值，可以在 Search 请求中指定 Output Fields (输出字段)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1334,6 +1433,25 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { OutputFields = { "color" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1415,7 +1533,7 @@ zilliz vector search \
 
 下面的示例按照 `price` 字段从低到高对搜索结果进行排序。如果你希望在响应中查看该字段的值，请将该排序字段一并添加到 `output_fields` 中。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1581,6 +1699,29 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 20,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "id", "price", "rating", "category" },
+        ExtraParameters = { ["order_by_fields"] = "price:asc" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1621,7 +1762,7 @@ zilliz vector search \
 
 你也可以按多个标量字段进行排序。Zilliz Cloud 会按照你指定的字段顺序依次应用排序规则。在下面的示例中，Zilliz Cloud 首先按 `price` 进行升序排序；对于具有相同 `price` 的 Entity，则再按 `rating` 进行降序排序。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1801,6 +1942,29 @@ console.log(res.results)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog",
+    VectorFieldName = "embedding",
+    Vectors = queryVector,
+    Limit = 20,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "id", "price", "rating", "category" },
+        ExtraParameters = { ["order_by_fields"] = "price:asc,rating:desc" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1860,7 +2024,7 @@ zilliz vector search \
 
 需要注意的是，ANN Search 单次召回 Entity 的数量为 `offset` 和 `limit` 两个参数之和，最大不超过 16,384。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2019,6 +2183,25 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { Offset = 10 }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2080,7 +2263,7 @@ zilliz vector search \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2248,6 +2431,25 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { ExtraParameters = { ["level"] = "10" } }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2316,7 +2518,7 @@ zilliz vector search \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2491,6 +2693,28 @@ res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        ExtraParameters = { ["level"] = "10", ["enable_recall_calculation"] = "true" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2539,7 +2763,7 @@ curl --request POST \
 
 以下示例展示了如何为 search 操作设置临时时区：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2685,6 +2909,25 @@ res = await client.search({
 })
 
 console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { Timezone = "America/Havana" }
+});
 ```
 
 </TabItem>

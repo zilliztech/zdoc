@@ -79,7 +79,7 @@ import TabItem from '@theme/TabItem';
 
 以下示例中，我们添加了一个名为 `dense_vector` 的向量字段，用于存储稠密向量。该字段的数据类型为 `FLOAT_VECTOR`，向量维度为 `4`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -244,6 +244,32 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateFloatVector("dense_vector", dimension: 4)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -288,7 +314,7 @@ export schema="{
 
 为加速语义搜索，我们需要为向量字段创建索引。索引可以显著提高大规模向量数据的检索效率。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -332,7 +358,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-idx := index.NewAutoIndex(index.MetricType(entity.IP))
+idx := index.NewAutoIndex(entity.IP)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
 ```
 
@@ -379,6 +405,24 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var indexParams = new[]
+{
+    new IndexParam(
+        fieldName: "dense_vector",
+        indexName: "dense_vector_index",
+        indexType: IndexType.AutoIndex,
+        metricType: MetricType.Ip)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -403,7 +447,7 @@ export indexParams='[
 
 稠密向量和索引定义完成后，我们便可以创建包含稠密向量的 Collection。以下示例通过 `create_collection` 方法创建了一个名为 `my_dense_collection` 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -508,6 +552,23 @@ console.log(createRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -533,7 +594,7 @@ curl --request POST \
 
 创建 Collection 后，我们可以通过 `insert` 方法插入包含稠密向量的数据。注意，插入的稠密向量的维度必须与[添加稠密向量字段](./use-dense-vector)时定义的 `dim` 值相同。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -668,6 +729,34 @@ console.log(insertRes);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+var data = new[]
+{
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.7f }
+    },
+    new Dictionary<string, object?>
+    {
+        ["dense_vector"] = new[] { 0.2f, 0.3f, 0.4f, 0.8f }
+    }
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -697,7 +786,7 @@ curl --request POST \
 
 基于稠密向量的语义搜索是 Milvus 的核心功能之一，可以根据向量之间的距离快速找到与查询向量最相似的数据。要执行相似性搜索，您需要准备查询向量和搜索参数，然后调用 `search` 方法。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -858,6 +947,33 @@ const searchRes = await client.search({
 });
 
 console.log(searchRes);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.3f, 0.7f });
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "dense_vector",
+    Vectors = new[] { queryVector },
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 10,
+        OutputFields = { "pk" }
+    }
+});
+Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
 ```
 
 </TabItem>

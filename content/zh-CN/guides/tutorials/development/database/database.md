@@ -239,7 +239,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-err := cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
 if err != nil {
     // handle err
 }

@@ -2,7 +2,7 @@
 title: "模式匹配 | BYOC"
 slug: /pattern-match
 sidebar_label: "模式匹配"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

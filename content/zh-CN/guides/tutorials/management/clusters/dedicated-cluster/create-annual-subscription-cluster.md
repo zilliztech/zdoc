@@ -50,8 +50,25 @@ import Admonition from '@theme/Admonition';
     | **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
     | **计费方式** | 请选择包年包月作为计费方式。<br/>如需创建按量计费集群，请参考[创建按量计费集群](./create-pay-as-you-go-cluster) |
     | **购买时长** | 请选择包年包月集群的购买时长。<br/>如果您选择了亚马逊云科技作为云服务提供商，您仅可以选择 1 年作为购买时长。如需长期包年订阅，请[联系销售](https://zilliz.com.cn/contact-sales)获取报价。 |
+    | <NextChannel action="include">**Milvus 版本**</NextChannel> | <NextChannel action="include">选择集群使用的 Milvus 版本。默认选择稳定版（GA），推荐用于生产环境。如需提前体验新功能，可选择公测版（Public Preview），适用于功能评估及非关键业务的生产环境。公测功能在正式发布前可能调整。</NextChannel> |
     | **集群类型和 Query CU 数量** | 集群类型和 Query CU 数量<br/>界面上提供集群类型的简要介绍，想了解更多相关内容，请参考[选择合适的 CU 类型](./cu-types-explained)。<br/>集群需要的 Query CU 数量由您的数据量决定，欢迎使用[价格计算器](https://zilliz.com.cn/pricing#calculator)预估所需 Query CU 数量。 |
     | **备份策略（可选）** | 请按需决定是否开启云备份。详情请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
+
+    <NextChannel action="include">
+
+    <Admonition type="info" title="说明">
+
+    - 默认选择稳定版（GA）Milvus。您可以按需选择公测版，但选择后不支持降级至较早的 Milvus 版本。
+    
+    - 请使用与集群 Milvus 版本兼容的 SDK。具体兼容关系，请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+    
+    - Milvus 3.0 集群不支持转换为[全球集群](./global-cluster-explained)（Global Cluster）。如需后续转换为全球集群，请选择 Milvus 2.6。
+    
+    - 公测版适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
+
+    </Admonition>
+
+    </NextChannel>
 
 1. 检查配置并点击**创建**。
 

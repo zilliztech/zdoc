@@ -101,7 +101,7 @@ Zilliz Cloud 允许您以编程方式或在Zilliz Cloud控制台中设置 `build
 
 以下示例假设您已完成准备工作中的步骤。将 `build_level` 设置为 `1` 表示使用**平衡型**选项。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -276,6 +276,48 @@ await client.createIndex({
 // 5. List indexes
 const res = await client.listIndexes({ collection_name: collectionName });
 console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Responses.Index;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// 4. Set up index
+// 4.1. Set up the index parameters
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    metricType: MetricType.Cosine,
+    indexType: IndexType.AutoIndex,
+    indexName: "vector_index")
+{
+    ExtraParams =
+    {
+        ["build_level"] = 1
+    }
+};
+
+// 4.3. Create the index
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "customized_setup",
+    Indexes = [indexParam]
+});
+
+// 5. List indexes
+ListIndexesResp res = await client.ListIndexesAsync(new ListIndexesReq { CollectionName = "customized_setup" });
 ```
 
 </TabItem>

@@ -57,7 +57,7 @@ import TabItem from '@theme/TabItem';
 
 若要为特定的 `VARCHAR` 字段启用短语匹配，请在定义字段 Schema 时将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,6 +110,8 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
@@ -149,7 +151,8 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
-     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
@@ -157,7 +160,7 @@ APIKey := "YOUR_API_KEY"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: APIKey
+    APIKey:  APIKey,
 })
 
 schema := entity.NewSchema().WithName(collectionName).
@@ -168,10 +171,60 @@ schema := entity.NewSchema().WithName(collectionName).
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Set up a MilvusClient
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Create a schema for a new collection
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    // Add a primary key field
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(true),
+    )
+    // Add a VARCHAR field configured for phrase matching
+    .add_field(
+        FieldSchema::new()
+            .name("text")
+            .data_type(DataType::VarChar)
+            .max_length(1000)
+            .enable_analyzer(true)
+            .enable_match(true),
+        // Optional: Use a custom analyzer for better phrase matching in specific languages.
+        // .analyzer_params(serde_json::json!({"type": "english"}))  // Example: English analyzer; uncomment to apply custom analyzer
+    )
+    // Add a vector field for embeddings
+    .add_field(
+        FieldSchema::new()
+            .name("embeddings")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <memory>
+#include <string>
 
 const std::string address = "YOUR_CLUSTER_ENDPOINT";
 const std::string token = "YOUR_CLUSTER_TOKEN";
@@ -225,6 +278,38 @@ const schema = {
       dim: 5,
     },
   ],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = TOKEN
+});
+
+// Create a schema for a new collection
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        // Add a primary key field
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        // Add a VARCHAR field configured for phrase matching
+        FieldSchema.CreateVarchar("text", 1000, enableAnalyzer: true, enableMatch: true),
+        new FieldSchema("embeddings", DataType.FloatVector) { Dimension = 5 }
+    }
 };
 ```
 
@@ -320,7 +405,7 @@ zilliz collection create --collection-name tech_articles --schema '{
 
 字段定义完成后，参考如下代码创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -341,6 +426,10 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+
 String COLLECTION_NAME = "tech_articles"; // Name your collection
 
 if (client.hasCollection(
@@ -392,9 +481,58 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Create the collection
+let collection_name = "tech_articles"; // Name your collection
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(collection_name)
+                .build()?,
+        )
+        .await?;
+}
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(collection_name)
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 const auto collection_name = "tech_articles";
 
 milvus::HasCollectionResponse response;
@@ -426,6 +564,28 @@ if (hasCollection.value) {
 }
 
 await client.createCollection(schema);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+// Create the collection
+const string COLLECTION_NAME = "tech_articles";
+
+if (await client.HasCollectionAsync(new HasCollectionReq { CollectionName = COLLECTION_NAME }) is { Has: true })
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = COLLECTION_NAME });
+}
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema
+});
 ```
 
 </TabItem>
@@ -519,7 +679,7 @@ zilliz collection create --collection-name tech_articles --schema '{
 
 <summary>Show example code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -572,13 +732,34 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 // Insert sample data with text containing "machine learning" phrases
 String COLLECTION_NAME = "tech_articles";
 
-List<JSONObject> data = new ArrayList<>();
-data.add(new JSONObject().fluentPut("text", "machine learning boosts efficiency").fluentPut("embeddings", Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
-data.add(new JSONObject().fluentPut("text", "learning machine is fun").fluentPut("embeddings", Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
-data.add(new JSONObject().fluentPut("text", "machine quickly boosts learning").fluentPut("embeddings", Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
+Gson gson = new Gson();
+List<JsonObject> data = new ArrayList<>();
+
+JsonObject row1 = new JsonObject();
+row1.addProperty("text", "machine learning boosts efficiency");
+row1.add("embeddings", gson.toJsonTree(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
+data.add(row1);
+
+JsonObject row2 = new JsonObject();
+row2.addProperty("text", "learning machine is fun");
+row2.add("embeddings", gson.toJsonTree(Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
+data.add(row2);
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("text", "machine quickly boosts learning");
+row3.add("embeddings", gson.toJsonTree(Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
+data.add(row3);
+
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
 ```
 
@@ -603,9 +784,76 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+let collection_name = "tech_articles";
+
+// Insert sample data with text containing "machine learning" phrases
+let data = vec![
+    json!({"text": "Machine learning is a subset of artificial intelligence that focuses on algorithms.", "embeddings": [0.1, 0.2, 0.3, 0.4, 0.5]}),
+    json!({"text": "Deep learning machine algorithms require large datasets for training.", "embeddings": [0.2, 0.3, 0.4, 0.5, 0.6]}),
+    json!({"text": "The machine learning model showed excellent performance on the test set.", "embeddings": [0.3, 0.4, 0.5, 0.6, 0.7]}),
+    json!({"text": "Natural language processing and machine learning go hand in hand.", "embeddings": [0.4, 0.5, 0.6, 0.7, 0.8]}),
+    json!({"text": "This article discusses various learning machine techniques and applications.", "embeddings": [0.5, 0.6, 0.7, 0.8, 0.9]}),
+];
+
+// Insert the data
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(collection_name)
+            .rows(data)
+            .build()?,
+    )
+    .await?;
+
+// Index the vector field and load the collection
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(collection_name)
+            .index_param(
+                IndexParam::new()
+                    .field_name("embeddings")
+                    .index_name("embeddings_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            )
+            .build()?,
+    )
+    .await?;
+
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <utility>
+#include <vector>
+
 milvus::EntityRows data = {
     {{"text", "Machine learning is a subset of artificial intelligence that focuses on algorithms."}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}}},
     {{"text", "Deep learning machine algorithms require large datasets for training."}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6}}},
@@ -685,6 +933,28 @@ await client.createIndex({
 
 await client.loadCollection({
     collection_name: COLLECTION_NAME,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+// Insert sample data with text containing "machine learning" phrases
+const string COLLECTION_NAME = "tech_articles";
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["text"] = "Machine learning is a subset of artificial intelligence that focuses on algorithms.", ["embeddings"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f } },
+        new Dictionary<string, object?> { ["text"] = "Deep learning machine algorithms require large datasets for training.", ["embeddings"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f } },
+        new Dictionary<string, object?> { ["text"] = "The machine learning model showed excellent performance.", ["embeddings"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f } }
+    ]
 });
 ```
 
@@ -781,7 +1051,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 使用 `PHRASE_MATCH` 表达式在搜索时指定字段、短语和可选的灵活性（`slop`）。语法如下：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -806,6 +1076,14 @@ PHRASE_MATCH(field_name, phrase, slop)
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = "PHRASE_MATCH(text, 'machine learning')";
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -818,6 +1096,14 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 ```javascript
 PHRASE_MATCH(field_name, phrase, slop)
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "PHRASE_MATCH(text, 'machine learning')";
 ```
 
 </TabItem>
@@ -864,7 +1150,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 此示例返回包含确切短语 <strong>"machine learning"</strong> 且中间没有任何额外内容的文档。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -891,6 +1177,7 @@ print("Query result: ", result)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
 
 String COLLECTION_NAME = "tech_articles";
 String filter = "PHRASE_MATCH(text, 'machine learning')";
@@ -920,9 +1207,41 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Match documents containing exactly "machine learning"
+let filter = "PHRASE_MATCH(text, 'machine learning')";
+
+let result = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("tech_articles")
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 auto request = milvus::QueryRequest()
@@ -951,6 +1270,26 @@ const result = await client.query({
     collection_name: COLLECTION_NAME,
     filter: filter,
     output_fields: ["id", "text"]
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Match documents containing exactly "machine learning"
+string filter = "PHRASE_MATCH(text, 'machine learning')";
+
+QueryResp result = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "tech_articles",
+    Expression = filter,
+    Parameters = new QueryParameters { OutputFields = { "id", "text" } }
 });
 ```
 
@@ -995,7 +1334,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 在这里，我们允许有1的容差。该过滤器应用于包含短语 <strong>"learning machine"</strong> 的文档，具有一定的灵活性。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1026,6 +1365,9 @@ print("Slop 1 result: ", result_slop1)
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 String COLLECTION_NAME = "tech_articles";
 String filterSlop1 = "PHRASE_MATCH(text, 'learning machine', 1)";
@@ -1067,9 +1409,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "learning machine" with slop=1
+let filter = "PHRASE_MATCH(text, 'learning machine', 1)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'learning machine', 1))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1104,6 +1482,32 @@ const result_slop1 = await client.search({
   filter: filter_slop1,
   limit: 10,
   output_fields: ["id", "text"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "learning machine" with slop=1
+string filter = "PHRASE_MATCH(text, 'learning machine', 1)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
 });
 ```
 
@@ -1153,7 +1557,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 此示例允许有 2 的容差，这意味着在 <strong>"machine"</strong> 和 <strong>"learning"</strong> 这两个词之间最多允许有两个额外的内容（或位置变换的词）。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1182,6 +1586,12 @@ print("Slop 2 result: ", result_slop2)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 // Example: Filter documents containing "machine learning" with slop=2
 String filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1219,9 +1629,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "machine learning" with slop=2
+let filter = "PHRASE_MATCH(text, 'machine learning', 2)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 2))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1256,6 +1702,32 @@ const result_slop2 = await client.search({
   filter: filter_slop2,
   limit: 10,
   output_fields: ["id", "text"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "machine learning" with slop=2
+string filter = "PHRASE_MATCH(text, 'machine learning', 2)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
 });
 ```
 
@@ -1299,7 +1771,7 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
 
 在这个例子中，slop 为 3 提供了更大的灵活性。过滤器搜索**"机器学习"**，允许单词之间最多有三个词元位置。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1328,6 +1800,12 @@ print("Slop 3 result: ", result_slop3)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 // Example: Filter documents containing "machine learning" with slop=3
 String filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1365,9 +1843,45 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
+// Example: Filter documents containing "machine learning" with slop=3
+let filter = "PHRASE_MATCH(text, 'machine learning', 3)";
+
+let result = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("tech_articles")
+            .vector_field("embeddings")
+            .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["id", "text"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 3))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1402,6 +1916,32 @@ const result_slop3 = await client.search({
   filter: filter_slop3,
   limit: 10,
   output_fields: ["id", "text"],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// Example: Filter documents containing "machine learning" with slop=3
+string filter = "PHRASE_MATCH(text, 'machine learning', 3)";
+
+SearchResp result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "tech_articles",
+    VectorFieldName = "embeddings",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }],
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = filter,
+        OutputFields = { "id", "text" }
+    }
 });
 ```
 

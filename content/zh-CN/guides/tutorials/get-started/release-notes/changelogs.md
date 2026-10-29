@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最近更新：2026 年 10 月 19 日 | Cloud"
+description: "最近更新：2026 年 10 月 29 日 | Cloud"
 type: origin
 token: JziCwn071iCV1tkX4NZcwGSDnmc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # 变更日志
 
-**最近更新**：2026 年 10 月 19 日
+**最近更新**：2026 年 10 月 29 日
 
 <Grid columnSize="2" widthRatios="24,75">
 
@@ -41,6 +41,42 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="24,75">
+
+    <div>
+
+        **[2026 年 10 月 29 日](./release-notes-2610#milvus-v30x-public-preview)**
+
+    </div>
+
+    <div>
+
+        - 🐦 [<strong>Milvus v3.0.x 公测版（Public Preview）</strong>](./release-notes-2610#milvus-v30x-public-preview)现已在 Dedicated 集群开放，可在控制台自助升级，升级不停机、无需重建 Index：
+
+            - ↕️ **查询与搜索支持 ORDER BY**：使用 `order_by` 和 `order_by_fields` 按一个或多个标量字段对结果排序，详见[查询](./get-and-scalar-query)与[基本 Vector Search](./single-vector-search)。
+
+            - 🧮 **查询聚合**：按 `group_by_fields` 分组，并在服务端计算每组的 `count`、`min`、`max`、`sum` 和 `avg`，详见[查询](./get-and-scalar-query)。
+
+            - 🗂️ **[搜索聚合](./search-aggregation#use-search-aggregation)**：按标量字段将候选结果分桶并返回代表性结果，单次请求最多支持四级聚合。
+
+            - 🔤 **[正则表达式过滤](./pattern-match#use-regex)**：使用 `=~` 和 `!~` 操作符（RE2 语法）过滤 `VARCHAR` 字段、JSON 字符串路径和数组元素。
+
+            - 🎯 **[Membership Match](./membership-match) 过滤**：以紧凑二进制 blob 按集合过滤 Entity，`roaring` 精确匹配有符号整型（也可用于 `delete`），`bloom` 近似匹配。
+
+            - #️⃣ **MinHash Function**：服务端生成 MinHash 签名，配合 `MINHASH_LSH` 索引完成近似重复检测和大规模去重，无需外部模型，详见[MinHash Function](./minhash-function)。
+
+            - 📜 **TEXT 数据类型**：存储超过 `VARCHAR` 65,535 字节上限的长文本，并可作为 BM25 Function 输入做全文检索，详见[Text 类型](./use-text-field)。
+
+            - 🧩 **[灵活 Schema 变更](./add-fields-to-an-existing-collection)**：可在已有 Collection 上添加或删除字段和 Function，无需重建 Collection。
+
+            - 🪆 **StructArray 增强**：[元素级搜索](./use-array-of-structs)支持更多向量类型，新增 [Match 系列操作符](./struct-array-filtering)（如 `MATCH_ANY`、`MATCH_ALL`）。
+
+            - ⏳ **[Entity 级 TTL](./set-collection-ttl)**：通过 `TIMESTAMPTZ` 类型的 `ttl_field` 让单个 Entity 按各自时间过期，`NULL` 表示永不过期。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="24,75">
 

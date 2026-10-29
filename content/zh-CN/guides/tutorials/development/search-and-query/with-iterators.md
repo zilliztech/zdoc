@@ -39,7 +39,7 @@ ANN Search 单次召回的 Entity 有最大数量限制，单纯使用基本 ANN
 
 如下代码演示了如何创建一个 Search Iterator。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,6 +223,37 @@ const iterator = await milvusClient.searchIterator({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// create iterator
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
+
+SearchIterator iterator = client.SearchIteratorAsync(new SearchIteratorReq
+{
+    CollectionName = "iterator_collection",
+    VectorFieldName = "vector",
+    Vectors = [queryVector],
+    MetricType = MetricType.L2,
+    BatchSize = 50,
+    Parameters = new SearchParameters { OutputFields = { "color" } },
+    Limit = 20000
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -273,7 +304,7 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 
 在创建好迭代器后，可以参考如下示例代码循环调用 `next()` 方法获取搜索结果。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -384,6 +415,20 @@ while (true) {
 ```javascript
 for await (const result of iterator) {
     console.log(result);
+}
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Responses.Dql;
+
+// Use SearchIterator
+await foreach (SingleResult result in iterator)
+{
+    Console.WriteLine(result.Scores);
 }
 ```
 

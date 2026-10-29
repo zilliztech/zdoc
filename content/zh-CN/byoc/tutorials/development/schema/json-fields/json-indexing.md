@@ -190,7 +190,7 @@ Zilliz Cloud 为 JSON 路径提供四种索引类型。每种索引类型适用�
 
 <summary>**连接并创建样例 Collection**</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -328,34 +328,102 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
+ctx := context.Background()
 
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+
+// Define a schema with a JSON field
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+    WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+
+// Minimal vector index so the collection can be loaded
+vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
+    WithIndexOptions(vecIndex))
+if err != nil {
+    log.Fatal(err)
+}
+
+// Insert one row that matches the sample JSON structure above
+metadata := []byte(`{
+    "category": "electronics",
+    "brand": "BrandA",
+    "in_stock": true,
+    "price": 99.99,
+    "string_price": "99.99",
+    "tags": ["clearance", "summer_sale"],
+    "supplier": {
+        "name": "SupplierX",
+        "country": "USA",
+        "contact": {
+            "email": "support@supplierx.com",
+            "phone": "+1-800-555-0199"
+        }
     }
-    defer cli.Close(ctx)
+}`)
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
+    WithInt64Column("pk", []int64{1}).
+    WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
+    WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
+if err != nil {
+    log.Fatal(err)
+}
+log.Printf("inserted %d rows", result.InsertCount)
+```
 
-    // Define a schema with a JSON field
-    schema := entity.NewSchema().WithDynamicFieldEnabled(false).
-        WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
-        WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
-        WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+</TabItem>
 
-    // Minimal vector index so the collection can be loaded
-    vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+<TabItem value='rust'>
 
-    err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
-        WithIndexOptions(vecIndex))
-    if err != nil {
-        log.Fatal(err)
-    }
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
 
-    // Insert one row that matches the sample JSON structure above
-    metadata := []byte(`{
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+// Define a schema with a JSON field
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
+    .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("your_collection_name")
+        .schema(schema)
+        .build()?,
+)
+.await?;
+
+// Minimal vector index so the collection can be loaded
+let vec_index = IndexParam::new()
+    .field_name("vec")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::L2);
+
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("your_collection_name")
+        .index_params(vec![vec_index])
+        .build()?,
+)
+.await?;
+
+// Insert one row that matches the sample JSON structure above
+let row = json!({
+    "pk": 1,
+    "vec": [0.1f32, 0.2, 0.3, 0.4],
+    "metadata": {
         "category": "electronics",
         "brand": "BrandA",
         "in_stock": true,
@@ -370,90 +438,15 @@ func main() {
                 "phone": "+1-800-555-0199"
             }
         }
-    }`)
-    result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
-        WithInt64Column("pk", []int64{1}).
-        WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
-        WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
-    if err != nil {
-        log.Fatal(err)
     }
-    log.Printf("inserted %d rows", result.InsertCount)
-}
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-    let client = ClientV2::new(&config).await?;
-
-    // Define a schema with a JSON field
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
-        .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
-        .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
-
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name("your_collection_name")
-            .schema(schema)
-            .build()?,
-    )
-    .await?;
-
-    // Minimal vector index so the collection can be loaded
-    let vec_index = IndexParam::new()
-        .field_name("vec")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::L2);
-
-    client.create_index(
-        CreateIndexRequest::builder()
-            .collection_name("your_collection_name")
-            .index_params(vec![vec_index])
-            .build()?,
-    )
-    .await?;
-
-    // Insert one row that matches the sample JSON structure above
-    let row = json!({
-        "pk": 1,
-        "vec": [0.1f32, 0.2, 0.3, 0.4],
-        "metadata": {
-            "category": "electronics",
-            "brand": "BrandA",
-            "in_stock": true,
-            "price": 99.99,
-            "string_price": "99.99",
-            "tags": ["clearance", "summer_sale"],
-            "supplier": {
-                "name": "SupplierX",
-                "country": "USA",
-                "contact": {
-                    "email": "support@supplierx.com",
-                    "phone": "+1-800-555-0199"
-                }
-            }
-        }
-    });
-    client.insert(
-        InsertRequest::builder()
-            .collection_name("your_collection_name")
-            .rows(vec![row])
-            .build()?,
-    )
-    .await?;
-
-    Ok(())
-}
+});
+client.insert(
+    InsertRequest::builder()
+        .collection_name("your_collection_name")
+        .rows(vec![row])
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -578,6 +571,76 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Define a schema with a JSON field
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true, autoId: false),
+        FieldSchema.CreateFloatVector("vec", dimension: 4),
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+
+// Minimal vector index so the collection can be loaded
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "your_collection_name",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("vec", "vec_index", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+// Insert one row that matches the sample JSON structure above
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "your_collection_name",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["vec"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+            ["metadata"] = new Dictionary<string, object?>
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -609,7 +672,7 @@ curl --request POST \
 
 准备一个 Index params 对象，用于收集后续示例中的索引定义：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -658,6 +721,16 @@ const indexParams = [];
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var indexParams = new List<IndexParam>();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -674,7 +747,7 @@ export indexParams="[]"
 
 为 `category` 字段建索引，以便按商品类别快速过滤。使用 `AUTOINDEX` 时，Zilliz Cloud 会根据数据中不同类别的数量选择 `BITMAP` 或 `STL_SORT`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -780,6 +853,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -801,7 +891,7 @@ export categoryIndex='{
 
 为深层嵌套的 `email` 字段建索引，以便按供应商联系邮箱查询。`json_path` 参数支持任意深度的方括号表示法。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -907,6 +997,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "email_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"][\"contact\"][\"email\"]",
+        ["json_cast_type"] = "VARCHAR"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -928,7 +1035,7 @@ export emailIndex='{
 
 如果您确定某个路径上的查询主要是范围比较（`>`、`<`、`>=`、`<=`），可以直接选择 `STL_SORT`。这样可以跳过基数测量，并立即构建排序布局。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1034,6 +1141,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "price_index", IndexType.StlSort)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"price\"]",
+        ["json_cast_type"] = "DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1057,7 +1181,7 @@ export priceIndex='{
 
 对于低基数 Key（例如状态码、布尔值、枚举式字符串），可以直接选择 `BITMAP`。等值查询和 `IN` 查询会变成位图操作。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1163,6 +1287,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "in_stock_index", IndexType.Bitmap)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"in_stock\"]",
+        ["json_cast_type"] = "BOOL"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1186,7 +1327,7 @@ export inStockIndex='{
 
 如果数值数据被错误地存储为字符串，可以使用 `STRING_TO_DOUBLE` 在构建索引时将值转换为数值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1300,6 +1441,24 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "string_to_double_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"string_price\"]",
+        ["json_cast_type"] = "DOUBLE",
+        ["json_cast_function"] = "STRING_TO_DOUBLE"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1328,7 +1487,7 @@ export stringToDoubleIndex='{
 
 为整个 `metadata` 对象建索引：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1434,6 +1593,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "metadata_full_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1453,7 +1629,7 @@ export metadataFullIndex='{
 
 也可以为某个子对象建索引，例如所有 `supplier` 信息：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1559,6 +1735,23 @@ indexParams.push({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "supplier_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"supplier\"]",
+        ["json_cast_type"] = "JSON"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1582,7 +1775,7 @@ export supplierIndex='{
 
 添加所有索引参数后，将它们应用到 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1664,6 +1857,21 @@ await client.createIndex(indexParams);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "your_collection_name",
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1691,7 +1899,7 @@ curl --request POST \
 
 索引构建是异步执行的。使用 `client.describe_index(...)` 可查看特定索引的构建状态：当 `state` 字段显示 `Finished` 时，表示构建完成；`total_rows`、`indexed_rows` 和 `pending_index_rows` 会显示构建进度。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1780,6 +1988,20 @@ await client.describeIndex({ collection_name: "your_collection_name", index_name
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+
+var describeResp = await client.DescribeIndexAsync(new DescribeIndexReq
+{
+    CollectionName = "your_collection_name",
+    IndexName = "category_index"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1844,7 +2066,7 @@ curl --request POST \
 
 默认情况下，当被索引值的不同取值数量**不超过 100** 时，`AUTOINDEX` 选择 `BITMAP`；否则选择 `STL_SORT`。您可以在索引参数中添加 `"bitmap_cardinality_limit"` 来覆盖该阈值（取值范围：1–1000）：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1952,6 +2174,24 @@ indexParams.push({
     json_cast_type: "VARCHAR",
     bitmap_cardinality_limit: 200,
   },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR",
+        ["bitmap_cardinality_limit"] = "200" // use BITMAP up to 200 distinct values
+    }
 });
 ```
 

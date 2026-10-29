@@ -140,7 +140,7 @@ Zilliz Cloud允许您将内置 Function 定义为 Schema 的一部分，以自�
 
 首先，我们需要创建一个空的 Schema。此步骤为我们定义数据模型建立了结构基础。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -221,6 +221,16 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+CollectionSchema schema = new();
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -234,7 +244,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 在完成 Schema 创建后，下一步就是在其中添加构成您数据的字段。每个字段都有各自的数据类型和属性。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -434,6 +444,21 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+schema.Fields.Add(new FieldSchema("article_id", DataType.Int64, isPrimaryKey: true, autoId: true, description: "article id"));
+schema.Fields.Add(FieldSchema.CreateVarchar("title", 200, description: "article title", enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("timestamp", DataType.Int32, description: "publish date"));
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 2000, description: "article text content", enableAnalyzer: true));
+schema.Fields.Add(new FieldSchema("text_dense_vector", DataType.FloatVector, description: "text dense vector") { Dimension = 768 });
+schema.Fields.Add(new FieldSchema("text_sparse_vector", DataType.SparseFloatVector, description: "text sparse vector"));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -498,7 +523,7 @@ export schema="{
 
 为增强数据查询能力，可将 Function 纳入 Schema 中。例如，可以创建一个 Function 来处理与特定字段相关的内容。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -590,6 +615,17 @@ const functions = [
       params: {},
     },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+FunctionSchema bm25Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse_vector", "bm25 function");
+schema.Functions.Add(bm25Function);
 ```
 
 </TabItem>

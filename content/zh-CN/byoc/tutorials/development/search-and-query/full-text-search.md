@@ -285,7 +285,7 @@ export schema='{
 
     在使用非默认的 Analyzer 时，需要在创建字段时指定 `analyzer_params` 参数。以此处的 `text` 为例，可以参考如下示例使用内置的 Chinese Analayzer。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -349,6 +349,20 @@ export schema='{
     let analyzer_params = {
         "tokenizer": "jieba",
         "filter": ["cnalphanumonly"]
+    };
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    using System.Collections.Generic;
+    
+    Dictionary<string, object> analyzerParams = new()
+    {
+        ["tokenizer"] = "jieba",
+        ["filter"] = new List<object> { "cnalphanumonly" }
     };
     ```
 

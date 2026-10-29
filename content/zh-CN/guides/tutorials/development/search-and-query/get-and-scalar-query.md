@@ -95,7 +95,7 @@ Collection 中可以存储多种类型的标量字段。您可以让 Milvus 基�
 
 您可以参考如下代码示例获取主键值为 `0`、`1`、`2` 的三个 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,6 +265,33 @@ const res = await client.get({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+GetResp res = await client.GetAsync(new GetReq
+{
+    CollectionName = "my_collection",
+    Ids = [0, 1, 2],
+    OutputFields = ["vector", "color"]
+});
+Console.WriteLine(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -302,7 +329,7 @@ curl --request POST \
 
 当您需要根据自定义条件查询，且返回所有或指定数量的符合条件的 Entity 时，可以使用 Query 方法。如下代码示例中假设 Collection 有 `id`、`vector` 和 `color` 三个字段。要求返回三个 `color` 以 `red` 开头的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -450,6 +477,35 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "vector", "color" },
+        Limit = 3
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -495,7 +551,7 @@ curl --request POST \
 
 向 `order_by` 参数传入一个 `"field_name:direction"` 字符串列表，其中 `direction` 为 `asc`（升序）或 `desc`（降序）。注意，`asc` 和 `desc` 区分大小写。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -655,6 +711,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query ORDER BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -690,7 +754,7 @@ curl --request POST \
 
 您可以同时按多个字段排序。结果会先按列表中的第一个字段排序。当两条结果在该字段上的值相同时，再由第二个字段决定它们的顺序，依此类推。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -834,6 +898,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query ORDER BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -869,7 +941,7 @@ curl --request POST \
 
 将 `order_by` 与 `limit` 和 `offset` 一起使用，可以对排序后的结果进行分页。例如，如果要按价格排序展示商品列表，每个页面都会按正确的价格顺序显示下一批商品，且不会出现重复或遗漏。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1089,6 +1161,42 @@ console.log(page2.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+// Note: order_by is not supported in milvus-sdk-csharp as of v3.0.0.
+
+// Page 1
+QueryResp page1 = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "color", "price" },
+        Limit = 5,
+        Offset = 0
+    }
+});
+
+// Page 2
+QueryResp page2 = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "color", "price" },
+        Limit = 5,
+        Offset = 5
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1149,7 +1257,7 @@ curl --request POST \
 
 以下示例按 `color` 字段对 Entity 进行分组，并返回每个颜色分组中的 Entity 数量：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1297,6 +1405,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query GROUP BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1330,7 +1446,7 @@ curl --request POST \
 
 一次调用中可以请求多个聚合表达式。以下示例按 `color` 分组，并返回每个分组的行数、平均价格和最高评分：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1466,6 +1582,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query GROUP BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1499,7 +1623,7 @@ curl --request POST \
 
 向 `group_by_fields` 传入多个字段可以构成复合分组。以下示例按 `(color, rating)` 分组，并计算每个分组中的价格范围：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1637,6 +1761,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query GROUP BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1670,7 +1802,7 @@ curl --request POST \
 
 还可以将 `group_by_fields` 与 `limit` 结合使用，限制返回的分组数量——当某个字段的基数较高、只需要采样部分分组时非常有用：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1809,6 +1941,14 @@ console.log(res.data);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: Query GROUP BY is not supported in milvus-sdk-csharp as of v3.0.0.
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1844,7 +1984,7 @@ curl --request POST \
 
 当您需要根据自定义条件查询，且分页返回所有符合条件的 Entity，可以使用 QueryIterator 创建一个迭代器。然后使用迭代器的 `next()` 方法循环遍历所有符合条件的 Entity。如下代码示例中假设 Collection 有 `id`、`vector` 和 `color` 三个字段。要求返回所有 `color` 以 `red` 开头的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2022,6 +2162,39 @@ for await (const value of iterator) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
+{
+    CollectionName = "my_collection",
+    BatchSize = 10,
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "color" }
+    }
+}))
+{
+    Console.WriteLine(batch);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2047,7 +2220,7 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 
 除了在 Collection 中进行过滤查询外，还可以在指定的一个或多个 Partition 中进行过滤查询，只需要在上面的 Get、Query 和 QueryIterator 方法中增加 Partition 名称即可。如下示例代码中假设 Collection 中存在一个名为 PartitionA 的 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2334,6 +2507,52 @@ for await (const value of iterator) {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+GetResp res = await client.GetAsync(new GetReq
+{
+    CollectionName = "my_collection",
+    Partitions = ["partitionA"],
+    Ids = [10, 11, 12],
+    OutputFields = ["vector", "color"]
+});
+
+QueryResp queryResp = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        PartitionNames = { "partitionA" },
+        OutputFields = { "vector", "color" },
+        Limit = 3
+    }
+});
+
+// Use QueryIterator
+await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
+{
+    CollectionName = "my_collection",
+    BatchSize = 10,
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        PartitionNames = { "partitionA" },
+        OutputFields = { "color" }
+    }
+}))
+{
+    Console.WriteLine(batch);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2389,7 +2608,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2562,6 +2781,39 @@ console.log(`Found ${res.data.length} red items in sample`);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+// Sample 1% of the entire collection
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "RANDOM_SAMPLE(0.01)",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "vector", "color" }
+    }
+});
+Console.WriteLine($"Sampled {res.RowCount} entities from collection");
+
+// Combine with other filters - first filter, then sample
+QueryResp res2 = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\" AND RANDOM_SAMPLE(0.005)",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "vector", "color" },
+        Limit = 10
+    }
+});
+Console.WriteLine($"Found {res2.RowCount} red items in sample");
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2609,7 +2861,7 @@ curl --request POST \
 
 以下示例展示了如何为 query 操作设置临时时区：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2713,6 +2965,27 @@ if (!status.IsOk()) {
 
 ```javascript
 // Note: The timezone query parameter is not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+
+// Query data and display the tsz field converted to "America/Havana"
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "id <= 10",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "tsz", "vec" },
+        Limit = 2,
+        Timezone = "America/Havana"
+    }
+});
 ```
 
 </TabItem>

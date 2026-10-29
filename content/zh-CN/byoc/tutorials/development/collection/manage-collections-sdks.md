@@ -57,7 +57,7 @@ Zilliz Cloud 支持为标量字段设置 nullable 属性和默认值。有关更
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -241,6 +241,33 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("my_id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("my_vector", dimension: 5),
+        FieldSchema.CreateVarchar("my_varchar", maxLength: 512)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -282,7 +309,7 @@ export schema='{
 
 在上述代码示例中，你需要为向量字段设置索引类型和度量类型。对于标量字段而言，只需要设置索引类型。值得注意的是，向量字段必须创建索引。您可以根据实际情况，有选择地为需要进行搜索加速的标量字段创建索引。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -390,6 +417,21 @@ const index_params = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var indexParams = new[]
+{
+    new IndexParam("my_id", "my_id", IndexType.AutoIndex, null),
+    new IndexParam("my_vector", "my_vector", IndexType.AutoIndex, MetricType.Cosine)
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -419,7 +461,7 @@ export indexParams='[
 
 如下示例演示了如何在创建 Collection 时携带索引参数，并在创建完成后检查 Collection 的加载状态。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -469,7 +511,7 @@ Boolean loaded = client.getLoadState(customSetupLoadStateReq1);
 System.out.println(loaded);
 
 // Output:
-// true
+// false
 ```
 
 </TabItem>
@@ -566,6 +608,23 @@ console.log(res.state)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_1",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -591,7 +650,7 @@ curl --request POST \
 
 如下示例演示了如何在创建 Collection 时不携带索引参数。在 Collection 创建完成后检查其加载状态时，其状态应为未加载。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -738,6 +797,22 @@ console.log(res.state)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_2",
+    Schema = schema
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -781,7 +856,7 @@ Shard 是对 Collection 的水平切分，每个 Shard 对应一条数据写入�
 
 如下代码演示了如何在创建 Collection 时设置 Shard 数量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -876,6 +951,23 @@ client.createCollection(createCollectionReq);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_3",
+    Schema = schema,
+    ShardsNum = 1
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -905,7 +997,7 @@ curl --request POST \
 
 Zilliz Cloud 在所有 Collection 上默认开启 mmap。该功能可以让 Zilliz Cloud 使用内存映射的方式加载所有字段的原始数据。节约内存使用的同时，提高 Collection 容量。关于该功能的具体内容，可以查看[使用 mmap](./use-mmap)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1003,6 +1095,26 @@ client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_4",
+    Schema = schema,
+    Properties =
+    {
+        ["mmap.enabled"] = "false"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1034,7 +1146,7 @@ curl --request POST \
 
 如下示例代码将 Collection 的 TTL 设置为 1 天（86400 秒）。建议将 TTL 至少设置为几天时间。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1138,6 +1250,26 @@ client.createCollection(createCollectionReq);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_5",
+    Schema = schema,
+    Properties =
+    {
+        ["collection.ttl.seconds"] = "86400"
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1167,7 +1299,7 @@ curl --request POST \
 
 在创建 Collection 时，您可以指定在该 Collection 中进行搜索和查询时使用的一致性水平。您也可以在具体的 Search 和 Query 请求中指定不同的一致性水平。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1262,6 +1394,23 @@ const createCollectionReq = {
 }
 
 client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "customized_setup_6",
+    Schema = schema,
+    ConsistencyLevel = ConsistencyLevel.BoundedStaleness
+});
 ```
 
 </TabItem>

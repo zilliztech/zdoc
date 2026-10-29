@@ -42,6 +42,8 @@ import Procedures from '@site/src/components/Procedures';
 
 - 每 8 个 Query CU 的 On-demand 集群最多可查询 3 TB 原始数据。超过此限制的查询将报错。
 
+- <NextChannel action="include">On-demand 集群不支持在创建时选择 Milvus 版本。</NextChannel>
+
 ## 创建 On-demand 集群\{#create-an-on-demand-cluster}
 
 - **通过 RESTful API**

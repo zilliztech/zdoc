@@ -53,7 +53,7 @@ Zilliz Cloud 提供了丰富的基本操作符，可帮助您高效过滤和查�
 
 假设有一个名为 `status` 的字段，您需要查找 `status` 为 "active" 的所有实体。可以使用等于操作符 `==`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -102,6 +102,14 @@ const filter = 'status == "active"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "status == \"active\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -115,7 +123,7 @@ filter='status == "active"'
 
 要查找 `status` 不为 "inactive" 的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -164,6 +172,14 @@ const filter = 'status != "inactive"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -177,7 +193,7 @@ filter='status != "inactive"'
 
 要查找 `age` 大于 30 的所有实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -226,6 +242,14 @@ const filter = 'age > 30';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > 30";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -239,7 +263,7 @@ filter='age > 30'
 
 要查找 `price` 小于 100 的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -288,6 +312,14 @@ const filter = 'price < 100';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price < 100";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -301,7 +333,7 @@ filter='price < 100'
 
 要查找 `rating` 大于或等于 4 的所有实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -350,6 +382,14 @@ const filter = 'rating >= 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "rating >= 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -363,7 +403,7 @@ filter='rating >= 4'
 
 要查找 `discount` 小于或等于 10% 的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -412,6 +452,14 @@ const filter = 'discount <= 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "discount <= 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -427,7 +475,7 @@ filter='discount <= 10'
 
 要查找 `color` 为 "red"、"green" 或 "blue" 的所有实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -476,6 +524,14 @@ const filter = 'color in ["red", "green", "blue"]';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -499,7 +555,7 @@ filter='color in ["red", "green", "blue"]'
 
 要查找 `name` 以 `Prod` 开头的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -548,6 +604,14 @@ const filter = 'name LIKE "Prod%"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -559,7 +623,7 @@ filter='name LIKE "Prod%"'
 
 要查找 `code` 中包含 `E1001` 等错误代码的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -608,6 +672,14 @@ const filter = 'code =~ "E[0-9]{4}"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -619,7 +691,7 @@ filter='code =~ "E[0-9]{4}"'
 
 要排除 `message` 以 `DEBUG` 开头的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -668,6 +740,14 @@ const filter = 'message !~ "^DEBUG"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -701,7 +781,7 @@ filter='message !~ "^DEBUG"'
 
 要查找 `id` 为偶数（即能被 2 整除）的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -750,6 +830,14 @@ const filter = 'id % 2 == 0';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "id % 2 == 0";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -763,7 +851,7 @@ filter='id % 2 == 0'
 
 要查找 `price` 的平方大于 1000 的实体：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,6 +900,14 @@ const filter = 'price ** 2 > 1000';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price > 1000";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -850,7 +946,7 @@ filter='price ** 2 > 1000'
 
 要查找已设置 `SHARE` 位的实体，请使用按位与（`&`）：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -899,6 +995,14 @@ const filter = '(permissions & 4) == 4';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -910,7 +1014,7 @@ filter='(permissions & 4) == 4'
 
 要查找设置 `WRITE` 位后得到 `READ + WRITE + SHARE` 权限组合的实体，请使用按位或（`|`）：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -959,6 +1063,14 @@ const filter = '(permissions | 2) == 7';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -970,7 +1082,7 @@ filter='(permissions | 2) == 7'
 
 要查找权限位与 `READ + WRITE + SHARE` 仅相差 `WRITE` 位的实体，请使用按位异或（`^`）：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1019,6 +1131,14 @@ const filter = '(permissions ^ 7) == 2';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1046,7 +1166,7 @@ filter='(permissions ^ 7) == 2'
 
 要查找 `price` 大于 100 且 `stock` 大于 50 的所有产品：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1095,6 +1215,14 @@ const filter = 'price > 100 AND stock > 50';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1108,7 +1236,7 @@ filter='price > 100 AND stock > 50'
 
 要查找 `color` 为 "red" 或 "blue" 的所有产品：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1157,6 +1285,14 @@ const filter = 'color == "red" OR color == "blue"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1170,7 +1306,7 @@ filter='color == "red" OR color == "blue"'
 
 要查找 `color` 不为 "green" 的所有产品：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1219,6 +1355,14 @@ const filter = 'NOT color == "green"';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "NOT (color == \"green\")";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1257,7 +1401,7 @@ filter='NOT color == "green"'
 
 要查找尚未生成向量的实体，请使用 `embedding IS NULL` 进行查询。请根据你的服务配置调整连接设置。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1414,6 +1558,41 @@ console.log(results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+QueryResp results = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "products",
+    Expression = "category IS NULL",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id" },
+        Limit = 10
+    }
+});
+
+for (int i = 0; i < results.RowCount; i++)
+{
+    Console.WriteLine(results.GetRow(i)["id"]);
+}
+// Output
+// 2
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1478,7 +1657,7 @@ Zilliz Cloud 集群 中的基本操作符用途广泛，不仅适用于标量字
 
 例如，如果 `product` 字段包含 `price`、`model` 和 `tags` 等多个键，应始终直接引用目标键：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1527,6 +1706,14 @@ const filter = 'product["price"] > 1000';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1538,7 +1725,7 @@ filter='product["price"] > 1000'
 
 要查找温度记录数组中第一个温度值超过指定数值的记录，可以使用：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1583,6 +1770,14 @@ std::string filter = "history_temperatures[0] > 30";
 
 ```javascript
 const filter = 'history_temperatures[0] > 30';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "history_temperatures[0] > 30";
 ```
 
 </TabItem>

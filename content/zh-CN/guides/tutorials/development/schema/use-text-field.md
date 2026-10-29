@@ -2,7 +2,7 @@
 title: "Text 类型 | Cloud"
 slug: /use-text-field
 sidebar_label: "Text 类型"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

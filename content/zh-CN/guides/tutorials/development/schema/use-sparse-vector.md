@@ -90,7 +90,7 @@ Zilliz Cloud 支持用以下任意格式表示稀疏向量：
 
 1. 通常建议您将原始文本和向量字段都存入 Collection中。您可以使用 VARCHAR 字段来存放原始文本。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -283,6 +283,29 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        FieldSchema.CreateVarchar("pk", maxLength: 100, isPrimaryKey: true, autoId: true),
+        new FieldSchema("sparse_vector", DataType.SparseFloatVector),
+        FieldSchema.CreateVarchar("text", maxLength: 65535, enableAnalyzer: true)
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -340,16 +363,18 @@ export schema="{
 
 为稀疏向量创建索引的过程和[稠密向量](./use-dense-vector)类似，但指定的索引类型（`index_type`），距离度量类型（`metric_type`），和索引参数（`params`）有所差别。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
+
 index_params.add_index(
     field_name="sparse_vector",
-    index_name="sparse_auto_index",
-    index_type="AUTOINDEX",
-    metric_type="IP"
+    index_name="sparse_inverted_index",
+    index_type="SPARSE_INVERTED_INDEX",
+    metric_type="IP",
+    params={"inverted_index_algo": "DAAT_MAXSCORE"}, # or "DAAT_WAND" or "TAAT_NAIVE"
 )
 ```
 
@@ -362,11 +387,16 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
+
+Map<String,Object> extraParams = new HashMap<>();
+extraParams.put("inverted_index_algo", "DAAT_MAXSCORE"); // Algorithm used for building and querying the index
+
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
-        .indexName("sparse_auto_index")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .indexName("sparse_inverted_index")
+        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.IP)
+        .extraParams(extraParams)
         .build());
 ```
 
@@ -411,7 +441,8 @@ let index_param = IndexParam::new()
 <TabItem value='c++'>
 
 ```c++
-milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
+milvus::IndexDesc sparse_index("sparse_vector", "sparse_inverted_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::IP);
+sparse_index.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 ```
 
 </TabItem>
@@ -424,8 +455,29 @@ import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 const indexParams = {
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
-    index_name: 'sparse_auto_index',
-    index_type: IndexType.AUTOINDEX,
+    index_name: 'sparse_inverted_index',
+    index_type: IndexType.SPARSE_INVERTED_INDEX,
+    params: {
+      inverted_index_algo: 'DAAT_MAXSCORE',
+    },
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var indexes = new[]
+{
+    new IndexParam("sparse_vector", "sparse_inverted_index", IndexType.SparseInvertedIndex, MetricType.Ip)
+    {
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE" } // or "DAAT_WAND" or "TAAT_NAIVE"
+    }
 };
 ```
 
@@ -438,8 +490,9 @@ export indexParams='[
         {
             "fieldName": "sparse_vector",
             "metricType": "IP",
-            "indexName": "sparse_auto_index",
-            "indexType": "AUTOINDEX"
+            "indexName": "sparse_inverted_index",
+            "indexType": "SPARSE_INVERTED_INDEX",
+            "params":{"inverted_index_algo": "DAAT_MAXSCORE"}
         }
     ]'
 ```
@@ -457,7 +510,7 @@ export indexParams='[
 
 稀疏向量和索引定义完成后，我们便可以创建包含稀疏向量的 Collection。以下示例通过 `create_collection` 方法创建了一个名为 `my_sparse_collection` 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -571,6 +624,21 @@ await client.loadCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = indexes
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -596,7 +664,7 @@ curl --request POST \
 
 在插入数据时，您需要为所有在 Schema 中字义的字段提供相应的值，除了那些自动生成的字段（如因开启 AutoID 为自动生成的主键等）。如果您使用内置的 BM25 功能自动生成稀疏向量字段，在插入数据时，也不需要提供该字段的取值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -767,6 +835,32 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval is a field of study.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 1, 100, 500 }, new[] { 0.5f, 0.3f, 0.8f })
+        },
+        new Dictionary<string, object?>
+        {
+            ["text"] = "information retrieval focuses on finding relevant information in large datasets.",
+            ["sparse_vector"] = new SparseVector<float>(new[] { 10, 200, 1000 }, new[] { 0.1f, 0.7f, 0.9f })
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -797,7 +891,7 @@ curl --request POST \
 
 要基于稀疏向量进行相似性搜索，您需要先准备查询向量和搜索参数。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -895,6 +989,23 @@ const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Prepare search parameters
+var searchParams = new SearchParameters
+{
+    ExtraParameters = { ["drop_ratio_search"] = "0.2" } // A tunable drop ratio parameter with a valid range between 0 and 1
+};
+
+// Query with sparse vector
+var queryData = new[] { new SparseVector<float>(new[] { 1, 50, 1000 }, new[] { 0.2f, 0.4f, 0.7f }) };
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -910,7 +1021,7 @@ export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 
 然后就可以使用 `search` 方法进行相似性搜索了。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1059,6 +1170,29 @@ await client.search({
     output_fields: ['pk'],
     params: searchParams,
     consistency_level: "Strong"
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "sparse_vector",
+    SparseVectors = queryData,
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "pk" },
+        ExtraParameters = { ["drop_ratio_search"] = "0.2" },
+        ConsistencyLevel = ConsistencyLevel.Strong
+    }
 });
 ```
 

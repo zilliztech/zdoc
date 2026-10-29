@@ -497,6 +497,12 @@ module.exports = [
                 "id": "tutorials/development/search-and-query/filtering/geometry-operators",
                 "label": "Geometry 操作符",
                 "key": "doc:tutorials/development/search-and-query/filtering/geometry-operators"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/filtering/membership-match",
+                "label": "Membership Match",
+                "key": "doc:tutorials/development/search-and-query/filtering/membership-match"
               }
             ]
           },

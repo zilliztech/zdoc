@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 创建按量计费集群
 
 集群对应一组用于运行向量数据库工作负载的计算资源。Zilliz Cloud 提供两种集群：Serving Clusters（持续运行，适用于需要持续在线、低延迟访问的生产负载）和 On-demand 集群（仅在请求到达时自动拉起，空闲时自动缩容至 0）。
@@ -49,9 +51,26 @@ import Supademo from '@site/src/components/Supademo';
 | --- | --- |
 | **集群名称** | 请输入集群的名称。当前存在随机默认值，您可根据需要修改该名称 |
 | **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
+| <NextChannel action="include">**Milvus 版本**</NextChannel> | <NextChannel action="include">选择集群使用的 Milvus 版本。默认选择稳定版（**GA**），推荐用于生产环境。如需提前体验新功能，可选择**公测版**（Public Preview），适用于功能评估及非关键业务的生产环境。公测功能在正式发布前可能调整</NextChannel> |
 | **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。 |
 | **Query CU** | 您可以使用[计算器](https://zilliz.com.cn/pricing#calculator)估算所需 Query CU 数量。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。<br/>默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅[手动扩缩容](./manual-scaling)。 |
 | **备份策略（可选）** | 设置定时创建备份的频率。更多详细信息，请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
+
+<NextChannel action="include">
+
+<Admonition type="info" title="说明">
+
+- 默认选择稳定版（GA）Milvus。您可以按需选择公测版，但选择后不支持降级至较早的 Milvus 版本。
+
+- 请使用与集群 Milvus 版本兼容的 SDK。具体兼容关系，请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+
+- Milvus 3.0 集群不支持转换为[全球集群](./global-cluster-explained)（Global Cluster）。如需后续转换为全球集群，请选择 Milvus 2.6。
+
+- 公测版适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
+
+</Admonition>
+
+</NextChannel>
 
 集群创建过程中，请保存集群访问凭证（用户名和密码）。该信息将仅展示一次。
 
@@ -60,6 +79,8 @@ import Supademo from '@site/src/components/Supademo';
 </TabItem>
 
 <TabItem value="bash">
+
+<NextChannel action="exclude">
 
 以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](/reference/restful/create-dedicated-cluster-v2)。
 
@@ -97,12 +118,107 @@ curl --request POST \
 
 - `description` (可选): 集群的描述。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **使用默认 Milvus 版本创建集群**
+
+    默认情况下，Zilliz Cloud 使用稳定版（GA）Milvus 创建 Dedicated 集群，您无需在请求中指定 Milvus 版本。
+
+    以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](/reference/restful/create-dedicated-cluster-v2)。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/clusters/createDedicated" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Accept: application/json" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "clusterName": "Cluster-05",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "plan": "Standard",
+        "cuType": "Performance-optimized",
+        "cuSize": 1,
+        "description": "A cluster for vector search workloads."
+    }'
+    ```
+
+    以下为参数说明：
+
+    - `{API_KEY}`：用于验证 API 请求的鉴权信息。请使用您自己的 Zilliz Cloud API 密钥。
+
+    - `clusterName`：需要创建的集群名称。
+
+    - `projectId`：需要创建的集群所属的项目的 ID。如需查看项目 ID，请使用[查看项目列表](/reference/restful/list-projects-v2)。
+
+    - `regionId`：需要创建的集群所部署的云服务地域 ID。如需查看所有 Zilliz Cloud 支持的云服务地域 ID，请使用[查看云服务区域](/reference/restful/list-cloud-regions-v2)。
+
+    - `clusterType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）。
+
+    - `cuSize`：集群的 Query CU 数量。参数值为 1-2,048 之间的整数。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。
+
+    - `description` (可选): 集群的描述。
+
+- **使用指定的 Milvus 版本创建集群**
+
+    如果您希望体验公测版本中的新功能，或在数据迁移时与源集群的 Milvus 版本保持一致，可以在创建 Dedicated 集群时指定 Milvus 版本。
+
+    <Procedures>
+
+    1. 调用 **List Milvus Version** 接口，获取可用的 Milvus 版本。
+
+        ```bash
+        # TODO: Add a request to list available Milvus versions.
+        ```
+
+    1. 从返回结果中选择版本，并在创建集群的请求中指定该版本。
+
+        ```bash
+        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        ```
+
+    <Admonition type="info" title="说明">
+
+    - 默认选择稳定版（GA）Milvus。您可以按需选择公测版，但选择后不支持降级至较早的 Milvus 版本。
+    
+    - 请使用与集群 Milvus 版本兼容的 SDK。具体兼容关系，请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+    
+    - Milvus 3.0 集群不支持转换为[全球集群](./global-cluster-explained)（Global Cluster）。如需后续转换为全球集群，请选择 Milvus 2.6。
+    
+    - 公测版适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
+
+    </Admonition>
+
+    </Procedures>
+
+</NextChannel>
+
 </TabItem>
 
 </Tabs>
 
 ## 常见问题\{#faq}
 
+<NextChannel action="exclude">
+
 **能否在创建集群时指定 Milvus 版本？**   
 
 不支持。Zilliz Cloud 会自动使用最新的 Milvus 版本创建集群，并通过滚动升级保持版本更新。如需使用特定版本，请[提交工单](https://support.zilliz.com.cn/hc/zh-cn/requests/new)并说明您的使用场景。                                                         
+
+</NextChannel>
+
+<NextChannel action="include">
+
+**能否在创建 Dedicated 集群时指定 Milvus 版本？**
+
+支持。当有多个可用的 Milvus 版本时，您可以在创建 Dedicated 集群时选择版本。默认选择稳定版（GA）。Milvus 3.0 公测期间，您可以选择 Milvus 2.6（稳定版）或 Milvus 3.0（公测版）。
+
+Free 和 Serverless 集群不支持选择 Milvus 版本。
+
+如需升级已有 Dedicated 集群以体验公测功能，请参见[管理集群](./manage-cluster#upgrade-cluster-for-preview-features)。
+
+</NextChannel>
+

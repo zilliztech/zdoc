@@ -85,7 +85,7 @@ import TabItem from '@theme/TabItem';
 
 <summary>设置示例 Collection</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -376,41 +376,37 @@ queryVector := []float32{0.11, 0.40, 0.19, 0.64, 0.30}
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let collection_name = "product_search_aggregation";
-    client.drop_collection(
-        DropCollectionRequest::builder().collection_name(collection_name).build()?,
-    ).await.ok();
+let collection_name = "product_search_aggregation";
+client.drop_collection(
+    DropCollectionRequest::builder().collection_name(collection_name).build()?,
+).await.ok();
 
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
-        .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
-        .add_field(FieldSchema::new().name("name").data_type(DataType::VarChar).max_length(200))
-        .add_field(FieldSchema::new().name("brand").data_type(DataType::VarChar).max_length(100))
-        .add_field(FieldSchema::new().name("category").data_type(DataType::VarChar).max_length(100))
-        .add_field(FieldSchema::new().name("color").data_type(DataType::VarChar).max_length(50))
-        .add_field(FieldSchema::new().name("price").data_type(DataType::Double))
-        .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
-        .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
+    .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
+    .add_field(FieldSchema::new().name("name").data_type(DataType::VarChar).max_length(200))
+    .add_field(FieldSchema::new().name("brand").data_type(DataType::VarChar).max_length(100))
+    .add_field(FieldSchema::new().name("category").data_type(DataType::VarChar).max_length(100))
+    .add_field(FieldSchema::new().name("color").data_type(DataType::VarChar).max_length(50))
+    .add_field(FieldSchema::new().name("price").data_type(DataType::Double))
+    .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
+    .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
 
-    let index_param = IndexParam::new()
-        .field_name("embedding")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::Cosine);
+let index_param = IndexParam::new()
+    .field_name("embedding")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Cosine);
 
-    client.create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name(collection_name)
-            .schema(schema)
-            .index_param(index_param)
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name(collection_name)
+        .schema(schema)
+        .index_param(index_param)
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -502,6 +498,69 @@ const searchParams = { metric_type: 'COSINE', params: {} };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_OR_PROJECT_ENDPOINT",
+    Username = "YOUR_AUTHORIZED_TOKEN"
+});
+
+string collectionName = "product_search_aggregation";
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = collectionName })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+}
+
+var schema = new CollectionSchema { Name = collectionName };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(FieldSchema.CreateFloatVector("embedding", 5));
+schema.Fields.Add(new FieldSchema("name", DataType.VarChar) { MaxLength = 200 });
+schema.Fields.Add(new FieldSchema("brand", DataType.VarChar) { MaxLength = 100 });
+schema.Fields.Add(new FieldSchema("category", DataType.VarChar) { MaxLength = 100 });
+schema.Fields.Add(new FieldSchema("color", DataType.VarChar) { MaxLength = 50 });
+schema.Fields.Add(new FieldSchema("price", DataType.Double));
+schema.Fields.Add(new FieldSchema("rating", DataType.Double));
+schema.Fields.Add(new FieldSchema("in_stock", DataType.Bool));
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = [ new IndexParam("embedding", null, IndexType.AutoIndex, MetricType.Cosine) ],
+    // Make preceding writes visible to searches from this client.
+    ConsistencyLevel = ConsistencyLevel.Session
+});
+
+var rows = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["id"] = 1L, ["embedding"] = new[] { 0.12f, 0.42f, 0.18f, 0.66f, 0.31f }, ["name"] = "Runner A1", ["brand"] = "Brand A", ["category"] = "running_shoes", ["color"] = "black", ["price"] = 129.99, ["rating"] = 4.7, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 2L, ["embedding"] = new[] { 0.10f, 0.39f, 0.20f, 0.61f, 0.29f }, ["name"] = "Trail A2", ["brand"] = "Brand A", ["category"] = "running_shoes", ["color"] = "blue", ["price"] = 139.99, ["rating"] = 4.6, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 3L, ["embedding"] = new[] { 0.14f, 0.44f, 0.19f, 0.68f, 0.33f }, ["name"] = "Runner B1", ["brand"] = "Brand B", ["category"] = "running_shoes", ["color"] = "white", ["price"] = 159.99, ["rating"] = 4.8, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 4L, ["embedding"] = new[] { 0.16f, 0.41f, 0.22f, 0.62f, 0.30f }, ["name"] = "Runner C1", ["brand"] = "Brand C", ["category"] = "running_shoes", ["color"] = "red", ["price"] = 119.99, ["rating"] = 4.4, ["in_stock"] = false },
+    new Dictionary<string, object?> { ["id"] = 5L, ["embedding"] = new[] { 0.48f, 0.20f, 0.59f, 0.15f, 0.71f }, ["name"] = "Jacket A1", ["brand"] = "Brand A", ["category"] = "jackets", ["color"] = "black", ["price"] = 99.99, ["rating"] = 4.5, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 6L, ["embedding"] = new[] { 0.45f, 0.18f, 0.55f, 0.17f, 0.69f }, ["name"] = "Jacket B1", ["brand"] = "Brand B", ["category"] = "jackets", ["color"] = "blue", ["price"] = 89.99, ["rating"] = 4.3, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 7L, ["embedding"] = new[] { 0.09f, 0.38f, 0.17f, 0.60f, 0.27f }, ["name"] = "Runner A3", ["brand"] = "Brand A", ["category"] = "running_shoes", ["color"] = "black", ["price"] = 159.99, ["rating"] = 4.8, ["in_stock"] = true },
+    new Dictionary<string, object?> { ["id"] = 8L, ["embedding"] = new[] { 0.13f, 0.43f, 0.21f, 0.65f, 0.32f }, ["name"] = "Runner A4", ["brand"] = "Brand A", ["category"] = "running_shoes", ["color"] = "black", ["price"] = 149.99, ["rating"] = 4.9, ["in_stock"] = true },
+};
+
+await client.InsertAsync(new InsertReq { CollectionName = collectionName, RowsData = rows });
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = collectionName });
+
+float[] queryVector = new[] { 0.11f, 0.40f, 0.19f, 0.64f, 0.30f };
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -538,7 +597,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" --h
 
 以下配置最多创建三个品牌桶，为每个桶计算指标，并按平均价格对桶排序：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -662,6 +721,39 @@ const aggregation = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Form one bucket for each distinct brand value.
+var aggregation = new SearchAggregation
+{
+    Fields = { "brand" },   // Group by brand
+    Size = 3,               // Return up to three buckets at this aggregation level
+    Metrics =
+    {
+        ["product_count"] = new AggregationMetricSpec { Op = AggregationMetricOp.Count, FieldName = "*" },
+        ["avg_price"] = new AggregationMetricSpec { Op = AggregationMetricOp.Avg, FieldName = "price" },
+        ["min_price"] = new AggregationMetricSpec { Op = AggregationMetricOp.Min, FieldName = "price" }
+    },
+    Order =
+    {
+        // Sort buckets by average price, highest first
+        new AggregationOrder { Key = "avg_price", Direction = AggregationDirection.Desc },
+        // If average prices are equal, sort by bucket key in ascending order
+        new AggregationOrder { Key = "_key", Direction = AggregationDirection.Asc }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -684,7 +776,7 @@ search "$payload"
 
 将该对象传给 `MilvusClient.search()` 的 `search_aggregation` 参数：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -816,6 +908,35 @@ const result = await client.search({
 });
 
 const buckets = result.agg_buckets;
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var result = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "embedding",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVector) },
+    Limit = 10,
+    MetricType = MetricType.Cosine,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "name", "brand", "category", "color", "price", "rating", "in_stock" }
+    },
+    SearchAggregation = aggregation
+});
+
+var buckets = result.AggregationBuckets?.FirstOrDefault();
 ```
 
 </TabItem>
@@ -952,7 +1073,7 @@ curl --request POST \
 
 要按向量匹配质量对桶排序，先根据 `_score` 计算桶级指标，再在 `order` 中使用该指标别名。不能直接将 `_score` 用作桶排序键，因为每个桶可能包含多个实体分数。例如，使用 `COSINE` 或 `IP` 时：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1037,6 +1158,30 @@ const aggregation = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var aggregation = new SearchAggregation
+{
+    Fields = { "brand" },
+    Size = 3,
+    Metrics =
+    {
+        ["max_score"] = new AggregationMetricSpec { Op = AggregationMetricOp.Max, FieldName = "_score" }
+    },
+    Order = { new AggregationOrder { Key = "max_score", Direction = AggregationDirection.Desc } }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1062,7 +1207,7 @@ search "$payload"
 
 要创建复合桶键，请在同一个列表中传入多个字段名：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1133,6 +1278,26 @@ const aggregation = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Combine brand and color to form a composite bucket key
+var aggregation = new SearchAggregation
+{
+    Fields = { "brand", "color" },
+    Size = 6
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1164,7 +1329,7 @@ search "$payload"
 
 按如下方式配置 `TopHits`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1264,6 +1429,37 @@ const aggregation = {
       { field_name: '_score', direction: 'desc' },
     ],
   },
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Return and sort representative entities for each selected bucket
+var aggregation = new SearchAggregation
+{
+    Fields = { "brand" },
+    Size = 3,
+    TopHits = new AggregationTopHits
+    {
+        // Return up to two entities per bucket
+        Size = 2,
+        // Apply sort criteria in list order
+        Sort =
+        {
+            new AggregationSort { FieldName = "rating", Direction = AggregationDirection.Desc },
+            new AggregationSort { FieldName = "_score", Direction = AggregationDirection.Desc }
+        }
+    }
 };
 ```
 
@@ -1371,7 +1567,7 @@ Child bucket keys:
 
 以下配置实现该层级结构：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1527,6 +1723,44 @@ const aggregation = {
       sort: [{ field_name: 'rating', direction: 'desc' }],
     },
   },
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// For each category bucket, group only its entities by brand
+var aggregation = new SearchAggregation
+{
+    Fields = { "category" },
+    Size = 2,
+    Metrics =
+    {
+        ["product_count"] = new AggregationMetricSpec { Op = AggregationMetricOp.Count, FieldName = "*" },
+        ["avg_price"] = new AggregationMetricSpec { Op = AggregationMetricOp.Avg, FieldName = "price" }
+    },
+    Order = { new AggregationOrder { Key = "product_count", Direction = AggregationDirection.Desc } },
+    SubAggregation = new SearchAggregation
+    {
+        Fields = { "brand" },
+        Size = 3,
+        Metrics =
+        {
+            ["brand_count"] = new AggregationMetricSpec { Op = AggregationMetricOp.Count, FieldName = "*" },
+            ["avg_rating"] = new AggregationMetricSpec { Op = AggregationMetricOp.Avg, FieldName = "rating" }
+        },
+        Order = { new AggregationOrder { Key = "avg_rating", Direction = AggregationDirection.Desc } },
+        TopHits = new AggregationTopHits { Size = 2, Sort = { new AggregationSort { FieldName = "rating", Direction = AggregationDirection.Desc } } }
+    }
 };
 ```
 

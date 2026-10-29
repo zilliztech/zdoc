@@ -41,7 +41,7 @@ Partition 是 Collection 的子集。每个 Partition 都与其所在的 Collect
 
 每个 Collection 在完成创建后都会包含一个名为 **_default** 的 Partition。您可以使用如下代码列出指定 Collection 中定义的 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -216,6 +216,32 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Partition;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -246,7 +272,7 @@ curl --request POST \
 
 您也可以根据需要在指定 Collection 中创建多个Partition，以便于分门别类地存放数据。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -396,6 +422,29 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.CreatePartitionAsync(new CreatePartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -442,7 +491,7 @@ curl --request POST \
 
 如果您知道某个 Partition 的名字，但不确定其是否存在，可以参考如下代码检查该 Partition 是否存在。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -553,6 +602,21 @@ console.log(res.value)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+var res = await client.HasPartitionAsync(new HasPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+Console.WriteLine(res.Has);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -588,7 +652,7 @@ curl --request POST \
 
 您可以 Load 指定 Collection 中的一个或多个 Partition。值得注意的是，只要 Collection 中存在任意一个未加载的 Partition，Collection 的 Load 状态始终为 NotLoaded。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -748,6 +812,28 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.LoadPartitionsAsync(new LoadPartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -796,7 +882,7 @@ curl --request POST \
 
 您也可以 Release 指定 Collection 中的一个或多个 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -950,6 +1036,28 @@ console.log(res)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1018,7 +1126,7 @@ curl --request POST \
 
 您也可以删除不再需要的 Partition。在删除 Partition 前，请确保该 Partition 处于未加载的状态。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1202,6 +1310,35 @@ console.log(res)
 
 // Output
 // ["_default"]
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Partition;
+
+await client.ReleasePartitionsAsync(new ReleasePartitionsReq
+{
+    CollectionName = "my_collection",
+    PartitionNames = new[] { "partitionA" }
+});
+
+await client.DropPartitionAsync(new DropPartitionReq
+{
+    CollectionName = "my_collection",
+    PartitionName = "partitionA"
+});
+
+var res = await client.ListPartitionsAsync(new ListPartitionsReq
+{
+    CollectionName = "my_collection"
+});
+foreach (var name in res.PartitionNames)
+{
+    Console.WriteLine(name);
+}
 ```
 
 </TabItem>

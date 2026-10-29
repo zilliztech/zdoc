@@ -2,7 +2,7 @@
 title: "MinHash Function | BYOC"
 slug: /minhash-function
 sidebar_label: "MinHash Function"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -99,7 +99,7 @@ Collection Schema 至少需要包含以下三个字段：
 
 - **二进制向量字段**（`BINARY_VECTOR`）：存储 MinHash Function 自动生成的二进制向量。该字段的维度必须等于 `32 * num_hashes`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -233,6 +233,32 @@ const fields = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+CollectionSchema schema = new()
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true),
+        FieldSchema.CreateVarchar("document_content", 9000, enableAnalyzer: true),
+        new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = 8192 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -252,7 +278,7 @@ MinHash Function 会将分析后的文本转换为二进制向量，用于近似
 
 定义 Function 并将其添加到 Schema 中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -358,6 +384,25 @@ const functions = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+// Note: milvus-sdk-csharp as of v3.0.0 cannot set MinHash function params
+// (num_hashes / shingle_size) — FunctionSchema.Params is not publicly settable;
+// the server defaults are used.
+FunctionSchema minhashFunction = new(
+    "minhash_function",
+    FunctionType.MinHash,
+    ["document_content"], // Name of the VARCHAR field containing raw text
+    ["binary_vector"]);   // Name of the BINARY_VECTOR field for generated signatures
+
+schema.Functions.Add(minhashFunction);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -420,7 +465,7 @@ MinHash Function 的 `params` 字典支持以下参数。所有参数名都**不
 
 MinHash 二进制向量推荐使用 `MINHASH_LSH` 索引，Metric Type 为 `MHJACCARD`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -524,6 +569,24 @@ const indexParam = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+IndexParam indexParam = new("binary_vector", "minhash_index", IndexType.MinHashLsh, MetricType.MhJaccard)
+{
+    ExtraParams =
+    {
+        ["mh_lsh_band"] = 128,
+        ["mh_element_bit_width"] = 32,
+        ["with_raw_data"] = true
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -539,7 +602,7 @@ indexParams='[
 
 使用上面定义的 Schema 和索引参数创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -630,6 +693,21 @@ await client.createIndex({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "dedup_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -666,7 +744,7 @@ curl --request POST \
 
 Collection 创建完成后，插入文本数据。您只需要提供原始文本，MinHash Function 会为每个文档自动生成二进制向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -789,6 +867,25 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "dedup_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a field of study that helps users find relevant information in large datasets" },
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a research field focused on helping users find relevant data in large collections" },
+        new Dictionary<string, object?> { ["document_content"] = "information retrieval is a field of research helping users search for relevant information in large datasets" }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -816,7 +913,7 @@ curl --request POST \
 
 插入数据后，您可以通过提供原始文本查询来搜索近重复文档。Zilliz Cloud 会自动将查询文本转换为 MinHash 二进制向量，并返回带有 `MHJACCARD` 分数的候选文档。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -968,6 +1065,16 @@ const results = await client.search({
   },
 });
 console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: Refined MinHash search (`mh_search_with_jaccard` / `refine_k`) is not
+// supported in milvus-sdk-csharp as of v3.0.0 — search params are string-typed,
+// and the server rejects the string form for MINHASH refinement.
 ```
 
 </TabItem>

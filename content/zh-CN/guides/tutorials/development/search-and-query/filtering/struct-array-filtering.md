@@ -2,7 +2,7 @@
 title: "StructArray 操作符 | Cloud"
 slug: /struct-array-filtering
 sidebar_label: "StructArray 操作符"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

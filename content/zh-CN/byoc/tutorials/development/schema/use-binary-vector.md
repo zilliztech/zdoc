@@ -65,7 +65,7 @@ Binary 向量可以通过多种方法生成。在文本处理中，可以使用�
 
 1. 使用 `dim` 参数指定向量的维度。注意，`dim` 必须是 8 的倍数，因为 Binary 向量在插入时需要转换为 byte 数组。每 8 个布尔值（0 或 1）将被打包为 1 个 byte。例如，如果 `dim=128`，则插入时需要提供 16 个 byte 的数组。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -237,6 +237,34 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("pk", DataType.VarChar, isPrimaryKey: true, autoId: true) { MaxLength = 100 },
+        new FieldSchema("binary_vector", DataType.BinaryVector) { Dimension = 128 }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -276,7 +304,7 @@ export schema="{
 
 为了加速搜索，我们需要为 Binary 向量字段创建索引。索引可以显著提高大规模向量数据的检索效率。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,6 +392,20 @@ const indexParams = [{
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+var indexParam = new IndexParam(
+    fieldName: "binary_vector",
+    indexName: "binary_vector_index",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.Hamming);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -388,7 +430,7 @@ export indexParams='[
 
 Binary 向量和索引定义完成后，我们便可以创建包含 Binary 向量的 Collection。以下示例通过 `create_collection` 方法创建了一个名为 `my_binary_collection` 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -429,6 +471,16 @@ err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
 if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err = loadTask.Await(ctx); err != nil {
     fmt.Println(err.Error())
     // handle error
 }
@@ -482,6 +534,21 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -506,7 +573,7 @@ curl --request POST \
 
 例如，对于 128 维的 Binary 向量，需要提供 16 个 byte 的数组（因为 128 位 ÷ 8 位/byte = 16 byte）。以下是插入数据的代码示例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -664,6 +731,35 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+// Binary vectors (128 bits = 16 bytes)
+// vector1: [1,0,0,1,1,0,1,1, 0,1,0,1,0,1,0,0] + [0]*112
+byte[] vector1 = { 0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+// vector2: [0,1,0,1,0,1,0,0, 1,1,0,0,1,1,0,1] + [0]*112
+byte[] vector2 = { 0x2A, 0xB3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    ColumnsData =
+    [
+        new BinaryVectorFieldData("binary_vector", new ReadOnlyMemory<byte>[]
+        {
+            vector1,
+            vector2
+        })
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -692,7 +788,7 @@ curl --request POST \
 
 在搜索时，Binary 向量同样需要以 byte 数组的形式提供。确保查询向量的维度与定义 `dim` 时一致，并按照 8 个布尔值转换为 1 个 byte。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -855,6 +951,34 @@ await client.search({
     output_fields: ['pk'],
     params: { nprobe: 10 }
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+// query vector = vector1
+byte[] queryBytes = { 0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    BinaryVectors = [new ReadOnlyMemory<byte>(queryBytes)],
+    VectorFieldName = "binary_vector",
+    MetricType = MetricType.Hamming,
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 10,
+        OutputFields = { "pk" }
+    }
+});
+Console.WriteLine(res);
 ```
 
 </TabItem>

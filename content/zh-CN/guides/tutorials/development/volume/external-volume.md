@@ -51,7 +51,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
 - **通过 SDK**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -168,6 +168,14 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -244,7 +252,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     您可以查看一个项目中的所有 Volume。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -335,6 +343,14 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     });
     
     console.log(res.data);
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-csharp as of v3.0.0.
     ```
 
     </TabItem>

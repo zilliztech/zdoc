@@ -57,7 +57,7 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 要在 BM25 Full Text Search 中高亮搜索词，需要创建一个 `LexicalHighlighter`，并为 BM25 Full Text Search 启用搜索词高亮：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -134,6 +134,30 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",            // Tag inserted before each highlighted term
+        ["post_tags"] = "[\"}\"]",           // Tag inserted after each highlighted term
+        ["highlight_search_text"] = "true"   // Enable search term highlighting for BM25 full text search
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -159,7 +183,7 @@ const highlighter = {
 
 创建 Highlighter 对象后，将其配置应用到 BM25 全文搜索请求中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -286,6 +310,41 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },        // Search term used in BM25 full text search
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter         // Pass highlighter config here
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -344,7 +403,7 @@ This document explains how text filtering works in Milvus.
 
 要高亮过滤条件中使用的查询词，需要创建一个 `LexicalHighlighter`，并定义一个与过滤条件对应的 `highlight_query`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,6 +489,30 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",                       // Tag inserted before each highlighted term
+        ["post_tags"] = "[\"}\"]",                      // Tag inserted after each highlighted term
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"text filtering\"}]"
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -455,7 +538,7 @@ const highlighter = {
 
 创建 Highlighter 对象后，在搜索请求中同时使用相同的过滤表达式，并传入 Highlighter 配置：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -592,6 +675,42 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    Expression = "TEXT_MATCH(text, \"text filtering\")",
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"text filtering\"}]"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -642,7 +761,7 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 要控制高亮片段的形态，需要在 `LexicalHighlighter` 中配置与片段相关的选项：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -734,6 +853,33 @@ const highlighter = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "5",      // Number of characters to reserve before the first matched term
+        ["fragment_size"] = "60",       // Max. length of each fragment to return
+        ["num_of_fragments"] = "1"      // Max. number of fragments to return
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -761,7 +907,7 @@ const highlighter = {
 
 创建 Highlighter 对象后，将其配置应用到搜索请求中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -888,6 +1034,44 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "5",
+        ["fragment_size"] = "60",
+        ["num_of_fragments"] = "1"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "highlighter_demo",
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "BM25" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -940,7 +1124,7 @@ const res = await client.search({
 
 <summary><strong>准备 Collection</strong></summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1223,6 +1407,60 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
+const string collectionName = "highlighter_demo";
+
+// Clean up existing collection
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = collectionName })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+}
+
+// Define schema
+var schema = new CollectionSchema { Name = collectionName };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true));
+schema.Fields.Add(FieldSchema.CreateVarchar("text", maxLength: 2000, enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
+schema.Functions.Add(FunctionSchema.CreateBm25("text_bm25", "text", "sparse_vector"));
+
+// Create collection and index
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = new[] { new IndexParam("sparse_vector", null, IndexType.SparseInvertedIndex, MetricType.Bm25)
+    {
+        ExtraParams = { ["inverted_index_algo"] = "DAAT_MAXSCORE", ["bm25_k1"] = "1.2", ["bm25_b"] = "0.75" }
+    } }
+});
+
+// Insert sample documents
+string[] docs =
+[
+    "my first test doc",
+    "my second test doc",
+    "my first test doc. Milvus is an open-source vector database built for GenAI applications.",
+    "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."
+];
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = collectionName,
+    RowsData = docs.Select(text => (IDictionary<string, object?>)new Dictionary<string, object?> { ["text"] = text }).ToList()
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1250,7 +1488,7 @@ const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
 
 - Highlighter 会使用 `{` 和 `}` 标签包裹文本中所有出现的 `"test"`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1397,6 +1635,43 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"   // Highlight BM25 query terms
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1437,7 +1712,7 @@ const res = await client.search({
 
 - Highlighter 会使用 `{` 和 `}` 包裹所有被匹配到的词项（`"my"`、`"test"`、`"doc"`）
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1596,6 +1871,44 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",   // Also highlight BM25 term
+        ["highlight_query"] = "[{\"type\":\"TextMatch\",\"field\":\"text\",\"text\":\"my doc\"}]"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1636,7 +1949,7 @@ const res = await client.search({
 
 - `num_of_fragments`：限制每个文本值最多返回的高亮片段数量（默认值为 5）。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1794,6 +2107,45 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true",
+        ["fragment_offset"] = "20",   // Keep 20 chars before match
+        ["fragment_size"] = "60"      // Max ~60 chars per fragment
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "Milvus" },
+    MetricType = MetricType.Bm25,
+    Limit = 10,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1832,7 +2184,7 @@ Doc 2: ['my second test doc. {Milvus} is an open-source vector database']
 
 - 第二个查询在其结果集中高亮 `"Milvus"`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1983,6 +2335,43 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"{\"]",
+        ["post_tags"] = "[\"}\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test", "Milvus" },   // Two queries
+    MetricType = MetricType.Bm25,
+    Limit = 2,
+    Parameters = highlighter
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -2019,7 +2408,7 @@ Query 'Milvus':
 
 你可以为高亮使用任意标签，例如适用于 Web UI 的 **HTML 安全标签**。这在浏览器中渲染搜索结果时非常有用。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2161,6 +2550,43 @@ const res = await client.search({
     limit: 10,
     output_fields: ["text"],
     highlighter,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+const string collectionName = "highlighter_demo";
+
+var highlighter = new SearchParameters
+{
+    OutputFields = { "text" },
+    HighlightType = HighlightType.Lexical,
+    Highlighter =
+    {
+        ["pre_tags"] = "[\"<mark>\"]",
+        ["post_tags"] = "[\"</mark>\"]",
+        ["highlight_search_text"] = "true"
+    }
+};
+
+var results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = collectionName,
+    VectorFieldName = "sparse_vector",
+    Texts = new[] { "test" },
+    MetricType = MetricType.Bm25,
+    Limit = 2,
+    Parameters = highlighter
 });
 ```
 

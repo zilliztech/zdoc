@@ -76,7 +76,7 @@ Milvus 3.0 还支持[搜索聚合](./search-aggregation)，该功能使用 `grou
 
 在 Search 请求中，将 `group_by_field` 和 `output_fields` 都设置为 `docId`。 在收到请求后，Zilliz Cloud 会根据指定的字段对搜索结果分组并返回每组结果中最与查询向量最相似的一个 Entity，并在每个返回的 Entity 中携带该 Entity 在 docId 字段上的取值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -194,6 +194,40 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(3)
+    .group_by_field("docId")
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -260,6 +294,41 @@ var docIds = res.results.map(result => result.docId)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+float[] queryVectors = new[] { 0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f };
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },
+    Limit = 3,
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",
+        OutputFields = { "docId" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -321,7 +390,7 @@ zilliz vector search \
 
 在默认情况下，Grouping Search 仅为每个分组返回一条 Entity。如果希望每个分组中返回多个结果，可以通过设置 `group_size` 和 `strict_group_size` 参数实现。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -425,6 +494,42 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+// Group search results
+let res = client.search(SearchRequest::builder()
+    .collection_name("my_collection")
+    .vector_field("vector")
+    .vectors(SearchVectors::Float(query_vectors)) // Query vector
+    .limit(5) // Number of groups to return
+    .group_by_field("docId") // Grouping field
+    .group_size(2) // Up to 2 entities to return from each group
+    .strict_group_size(true) // Return exactly 2 entities from each group
+    .output_fields(["docId"])
+    .build()?)
+    .await?;
+
+// Retrieve the values in the `docId` column
+let mut doc_ids = Vec::new();
+for result in res.results() {
+    for row in result.rows()? {
+        doc_ids.push(row.get_i32("docId")?);
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -491,6 +596,34 @@ const res = await client.search({
 
 // Retrieve the values in the `docId` column
 var docIds = res.results.map(result => result.docId)
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Group search results
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = new[] { new ReadOnlyMemory<float>(queryVectors) },  // Query vector
+    Limit = 5,                               // Number of groups to return
+    Parameters = new SearchParameters
+    {
+        GroupByField = "docId",              // Grouping field
+        GroupSize = 2,                       // Up to 2 entities to return from each group
+        StrictGroupSize = true,              // Return exactly 2 entities from each group
+        OutputFields = { "docId" }
+    }
+});
 ```
 
 </TabItem>
@@ -565,7 +698,7 @@ zilliz vector search \
 
 下面的示例按 `category` 字段对搜索结果进行分组，每个分组最多返回 3 条 Entity，并按照 `price` 字段从低到高对返回的分组进行排序。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -653,6 +786,47 @@ for _, result := range results {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+// Prerequisite: client is connected to the project endpoint;
+// cluster_id identifies the on-demand cluster containing product_catalog.
+let cluster_id = "YOUR_CLUSTER_ID";
+let session = client.session(cluster_id)?;
+
+let query_vectors = vec![
+    vec![0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088],
+];
+
+let res = session.search(SearchRequest::builder()
+    .collection_name("product_catalog")
+    .vector_field("embedding")
+    .vectors(SearchVectors::Float(query_vectors))
+    .limit(20)
+    .group_by_field("category")
+    .group_size(3)
+    .strict_group_size(true)
+    .output_fields(["category", "price", "rating"])
+    .order_by_fields([OrderByField::new()
+        .field_name("price")
+        .direction(AggDirection::Asc)])
+    .build()?)
+    .await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -710,6 +884,17 @@ const response = await session.search({
   order_by_fields: [{ field: "price", order: "asc" }],
 });
 console.log(response.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+
+// Note: Ordering groups by a scalar field uses the project-endpoint session API,
+// which is not yet supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

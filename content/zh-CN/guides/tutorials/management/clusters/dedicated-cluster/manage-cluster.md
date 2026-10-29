@@ -191,7 +191,17 @@ curl --request POST \
 | --- | --- |
 | Free 升级至 Serverless | 您的 Free 集群将升级为 Serverless 的部署方式。集群部署方式升级后，无法降级。 |
 | Free 升级至 Dedicated | 系统将创建一个新的 Dedicated 集群，并自动迁移您现有 Free 集群中的数据。原有的 Free 集群将被保留。<br/>请务必在应用程序代码中更新集群的 Endpoint 信息。 |
-| Serverless 升级至 Dedicated | 系统将创建一个新的 Dedicated 集群，并自动迁移您现有 Serverless 集群中的数据。原有的 Serverless 集群将被保留。<br/>x请务必在应用程序代码中更新集群的 Endpoint 信息。 |
+| Serverless 升级至 Dedicated | 系统将创建一个新的 Dedicated 集群，并自动迁移您现有 Serverless 集群中的数据。原有的 Serverless 集群将被保留。<br/>请务必在应用程序代码中更新集群的 Endpoint 信息。 |
+
+<NextChannel action="include">
+
+<Admonition type="info" title="说明">
+
+将兼容 Milvus 3.0 的 Free 或 Serverless 集群升级至 Dedicated 时，新建的 Dedicated 集群会自动使用 Milvus 3.0，您无需手动选择版本。
+
+</Admonition>
+
+</NextChannel>
 
 以下 Demo 以 Free 至 Dedicated 升级为例展示了如何升级集群部署方式。
 
@@ -199,7 +209,29 @@ curl --request POST \
 
 ## 升级集群兼容版本以试用公测版功能\{#upgrade-cluster-for-preview-features}
 
+<NextChannel action="exclude">
+
 如需试用公测版新功能，请升级 Dedicated 集群的兼容 Milvus 版本。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+如需在已有 Dedicated 集群上试用公测版新功能，请参考以下 Demo 升级集群的兼容 Milvus 版本。
+
+如果您准备创建新的 Dedicated 集群，可以在创建时直接选择公测版 Milvus，无需在创建后额外升级。具体操作，请参见[创建按量计费集群](./create-pay-as-you-go-cluster)。
+
+<Admonition type="info" title="说明">
+
+- 公测版功能适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
+
+- 升级后不支持降级至较早的 Milvus 版本。
+
+- 升级前，请检查 SDK 版本并按需更新。详情请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+
+</Admonition>
+
+</NextChannel>
 
 ![upgrade-to-preview-version-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/upgrade-to-preview-version-cn.png "upgrade-to-preview-version-cn")
 
