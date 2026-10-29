@@ -393,8 +393,25 @@ jobs:
           const fs = require('node:fs')
           const path = require('node:path')
           const staging = process.env.RUNNER_TEMP
-          const diffMd = fs.readFileSync(path.join(staging, process.env.STAGING, 'diff', 'diff.md'), 'utf8')
+          const fullDiffMd = fs.readFileSync(path.join(staging, process.env.STAGING, 'diff', 'diff.md'), 'utf8')
           const applied = JSON.parse(fs.readFileSync(path.join(staging, process.env.APPLIED, 'applied.json'), 'utf8'))
+          // GitHub caps a PR body at 65536 characters; a two-day drift easily
+          // exceeds it with the full per-entry report. Keep the head of the
+          // report inside a budget and point at the run artifact for the rest.
+          const bodyBudget = 60000
+          const overhead = 600
+          let diffMd = fullDiffMd
+          if (fullDiffMd.length + overhead > bodyBudget) {
+            const diffBudget = bodyBudget - overhead
+            const kept = []
+            let used = 0
+            for (const line of fullDiffMd.split('\n')) {
+              if (used + line.length + 1 > diffBudget) break
+              kept.push(line)
+              used += line.length + 1
+            }
+            diffMd = `${kept.join('\n')}\n\n> Report truncated at ${used} of ${fullDiffMd.length} characters — the complete per-entry report is in the run artifact \`rest-upstream-refresh-${process.env.GITHUB_RUN_ID}\` (diff/diff.md).`
+          }
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
