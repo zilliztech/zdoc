@@ -2,7 +2,7 @@
 title: "MinHash 関数 | BYOC"
 slug: /minhash-function
 sidebar_label: "MinHash 関数"
-beta: PRIVATE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

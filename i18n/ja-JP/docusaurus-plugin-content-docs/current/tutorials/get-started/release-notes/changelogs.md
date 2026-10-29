@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年10月19日 | Cloud"
+description: "最終更新日 2026年10月29日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年10月19日
+**最終更新日:** 2026年10月29日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,42 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[Oct 29, 2026](./release-notes-2610#milvus-v30x-public-preview)**
+
+    </div>
+
+    <div>
+
+        - 🐦 **[Milvus v3.0.x Public Preview](./release-notes-2610#milvus-v30x-public-preview)** が Dedicated クラスターで利用可能になりました — コンソールからダウンタイムなしでアップグレードでき、インデックスを再構築する必要はありません:
+
+            - ↕️ **[クエリ](./get-and-scalar-query) と [検索](./single-vector-search) の ORDER BY** — `order_by` と `order_by_fields` を使用して、1 つ以上のスカラーフィールドで結果を並べ替えます。
+
+            - 🧮 **[クエリ集約](./get-and-scalar-query)** — `group_by_fields` で結果をグループ化し、グループごとに `count`、`min`、`max`、`sum`、`avg` をサーバーで計算します。
+
+            - 🗂️ **[検索集約](./search-aggregation)** — ANN 候補をスカラーフィールドでバケットに分類し、代表的なヒットを返します。1 回のリクエストで最大 4 つの集約レベルを使用できます。
+
+            - 🔤 **[正規表現フィルタリング](./pattern-match)** — `VARCHAR` フィールド、JSON 文字列パス、配列要素を `=~` と `!~` 演算子（RE2 構文）でフィルタリングします。
+
+            - 🎯 **[Membership Match フィルタリング](/docs/membership-match)** — コンパクトなバイナリブロブとして送信されるセットのメンバーシップによってエンティティをフィルタリングします。`roaring` は符号付き整数の完全一致（`delete` でも使用可能）、`bloom` は近似一致に使用します。
+
+            - #️⃣ **[MinHash 関数](./minhash-function)** — サーバー側の MinHash 署名を `MINHASH_LSH` インデックスで検索し、外部モデルなしで近似重複の検出と重複排除を行います。
+
+            - 📜 **[TEXT データ型](./use-text-field)** — 65,535 バイトの `VARCHAR` 制限を超える長いテキストを保存し、BM25 全文検索に渡すことができます。
+
+            - 🧩 **[柔軟なスキーマ変更](./add-fields-to-an-existing-collection)** — 既存のコレクションで、再作成せずにフィールドと Function を追加または削除できます。
+
+            - 🪆 **StructArray の機能強化** — より多くのベクトル型をサポートする[要素レベルの検索](./use-array-of-structs)に加え、`MATCH_ANY` や `MATCH_ALL` などの[一致演算子](./struct-array-filtering)を利用できます。
+
+            - ⏳ **[エンティティレベル TTL](./set-collection-ttl)** — `TIMESTAMPTZttl_field` によって個々のエンティティを期限切れにできます。`NULL` は期限切れにならないことを意味します。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

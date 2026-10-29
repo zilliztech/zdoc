@@ -37,6 +37,8 @@ Free または Serverless クラスターを作成する前に、Zilliz Cloud �
 
 各組織が保有できる Free クラスターは 1 つだけです。追加のサービングクラスターには、Serverless または Dedicated を使用してください。
 
+<NextChannel action="include">Free および Serverless クラスターの Milvus バージョンは Zilliz Cloud によって管理されており、作成時に選択することはできません。</NextChannel>
+
 </Admonition>
 
 Free または Serverless クラスターは、Zilliz Cloud コンソールから作成できます。クラスターのステータスが **Running** に変わると、クラスターを使用できる状態になります。パスワードは一度しか表示されないため、作成時に表示されるクラスターの認証情報を保存してください。
@@ -238,6 +240,16 @@ Free および Serverless クラスターは、クラスターの詳細ページ
 | 削除 | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
 アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
+
+<NextChannel action="include">
+
+<Admonition type="info" title="Note">
+
+Milvus 3.0 を実行している Free または Serverless クラスターを Dedicated にアップグレードすると、新しい Dedicated クラスターは自動的に Milvus 3.0 を使用します。Milvus バージョンを選択する必要はありません。
+
+</Admonition>
+
+</NextChannel>
 
 ## 削除\{#drop}
 

@@ -79,7 +79,7 @@ CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時
 
 データセットの構造は以下の通りです。
 
-```python
+```plaintext
 ├── video_1                                       (VIDEO) # video.mp4
 │   ├── video_id                                  (INT)
 │   ├── video_url                                 (STRING)
@@ -113,9 +113,9 @@ CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時
 │   │   │   │   ├── lead_y                        (FLOAT)
 │   │   │   │   ├── lead_speed_kmh                (FLOAT)
 │   │   │   │   ├── lead_a                        (FLOAT)
-│   │   ├── frame_2                               (STRUCT)
-│   │   ├── ...                                   (STRUCT)
-│   │   ├── frame_n                               (STRUCT)
+│   │   │   ├── frame_2                               (STRUCT)
+│   │   │   ├── ...                                   (STRUCT)
+│   │   │   ├── frame_n                               (STRUCT)
 ├── video_2
 ├── ...
 ├── video_n
@@ -125,7 +125,7 @@ CoVLA データセットの構造は高度に階層化されており、収集�
 
 Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用して、コレクションスキーマ内にネスト構造を作成できます。ベクトル埋め込みがネスト形式の一部である場合、サポートされるのは Array-of-Structs フィールドのみです。ただし、Array 内の Struct 自体にさらにネストされた構造を含めることはできません。CoVLA データセットを重要な関係を維持したまま保存するには、不要な階層を削除し、Zilliz Cloud のコレクションスキーマに適合するようにデータをフラット化する必要があります。
 
-次の図は、後述するスキーマを使用してこのデータセットをモデリングする方法を示しています。
+The diagram below illustrates how we can model this dataset using the スキーマ illustrated in the following スキーマ:
 
 ![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.s3.us-west-2.amazonaws.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
 

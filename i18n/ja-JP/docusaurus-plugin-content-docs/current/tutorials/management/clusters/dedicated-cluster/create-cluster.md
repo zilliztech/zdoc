@@ -67,11 +67,13 @@ Dedicated クラスターでは、次の情報を設定する必要がありま�
 
 <Admonition type="info" title="Notes">
 
-- Milvus 3.0 のパブリックプレビュー期間中は、Milvus 2.6 がデフォルトで選択されます。プレビュー機能を試すには Milvus 3.0 を選択してください。Milvus 3.0 クラスターを Milvus 2.6 にダウングレードすることはできません。
+- 安定版（GA）の Milvus バージョンがデフォルトで選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
 
-- クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK Compatibility](/docs/install-sdks#sdk-compatibility) を参照してください。
+- クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-- Milvus 3.0 クラスターをグローバルクラスターに変換することはできません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+- Milvus 3.0 のクラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+
+- パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
 
 </Admonition>
 
@@ -219,11 +221,13 @@ curl --request POST \
 
     <Admonition type="info" title="Notes">
 
+    - 安定版（GA）の Milvus バージョンがデフォルトで選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
+    
+    - クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+    
+    - Milvus 3.0 のクラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+    
     - パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
-    
-    - Milvus 3.0 クラスターを Milvus 2.6 にダウングレードすることはできません。
-    
-    - 選択した Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK Compatibility](/docs/install-sdks#sdk-compatibility) を参照してください。
 
     </Admonition>
 
@@ -261,7 +265,7 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. 概要を確認し、**Create Cluster** をクリックします。
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -287,6 +291,6 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 バージョンの選択は、Free クラスターまたは Serverless クラスターでは利用できません。
 
-パブリックプレビュー機能のために既存の Dedicated クラスターをアップグレードするには、[Manage Cluster](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
+既存の Dedicated クラスターをパブリックプレビュー機能のためにアップグレードするには、[クラスターの管理](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
 
 </NextChannel>

@@ -441,9 +441,9 @@
       "translatedAt": "2026-10-10T04:37:34.328Z"
     },
     "content/en/byoc/tutorials/development/function/minhash-function.md": {
-      "sourceHash": "58d712630b09a038db4570adb60dc23bf2ba1dd6e77711a4c5bb2ff7eb5c0387",
+      "sourceHash": "5c1562e40c82661b676200379222f1171580e3e5113c4726a64ec01a354a6a38",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/minhash-function.md",
-      "translatedAt": "2026-10-24T04:01:05.886Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md": {
       "sourceHash": "3cedd82bd0760619d73f4e2cb93ae5447ce4df493f79d2e2df1ee2dd9693f3e7",
@@ -591,9 +591,9 @@
       "translatedAt": "2026-10-25T05:01:21.841Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "844af4e5dff8f0840f382152d03c0d2b8d1fe5d042c884fdd4369add27e5e4ce",
+      "sourceHash": "9bf9bde910c8d98bac7378c62426d20b2d1c0fab3629974b52862bc831e6bd31",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-10-25T05:47:48.541Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-explained.md": {
       "sourceHash": "7b8ef735dbd7d355cb9d48f8e58d95a300983f766adf89f690c7b47d9a8df31d",
@@ -726,9 +726,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/pattern-match.md": {
-      "sourceHash": "ffcbfdbf64373331937077ddd7451c36db14f862986779981ebdc6195b7d2acd",
+      "sourceHash": "aa921c0702f44c2684b838d5971430c7f543fd92f82599ab453125b71e2196c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/pattern-match.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/ramdom-sampling.md": {
       "sourceHash": "ad43abaacb444713e9a54ff2b6a08c07298cb671e29ea0002dfacd4a72cba611",
@@ -776,9 +776,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md": {
-      "sourceHash": "4ac661e98f21785a149806aeee24cec495973d1d7ba38beedd55247d0c1a6c06",
+      "sourceHash": "661901948d4d97b44f40b201a0a89c866a02486f19b98568ff8583a876ee86d3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-aggregation.md",
-      "translatedAt": "2026-10-28T03:14:38.024Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-metrics-explained.md": {
       "sourceHash": "8437024f48bccf38b02ec72517d2bf340e6451b3bcf67d8bca767e308ebf779d",
@@ -1116,9 +1116,9 @@
       "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "f2a0475b3295eb3c2a93f91718b921b02b7ed1e30ae8adda131e4fcd2f95e5fb",
+      "sourceHash": "fd438ab29dc6dd161c4535817c1ba10deb958c7521ea94222c55b9246b9bb16a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-29T05:46:28.612Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "9e0ade649ff796d74712c5801430fd2fdcdd197129049525697865448298b407",
@@ -1156,9 +1156,9 @@
       "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "9df37d5f779a35fe40d1269ffcf067acba420d4686c211c90e41008db3ab6912",
+      "sourceHash": "0b6d28cfb0bf00cbf258d8311b876b5f44fa17e5e45826c5879d811bffb227c0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-10-28T03:14:38.024Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
       "sourceHash": "aba7cc7461ecbb8f4604d883ee2dd74975a44ddd0bf69512b5e535118e96e801",
@@ -1201,9 +1201,9 @@
       "translatedAt": "2026-10-19T14:37:53.819Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "8f2b14718a0962b639145711ead28a8a82fa21525aa393d3aa609a2c7ee75f7c",
+      "sourceHash": "e403fe70781d59f0045d9ff964de61ca1e8f6f527f181f984d4a857dcca46dd6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-10-19T16:41:41.512Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "29f1386f4ed0189f30438c469defcd0530f64d81f27b17a445b8c87be590ffa5",
@@ -1756,9 +1756,9 @@
       "translatedAt": "2026-10-10T05:24:59.064Z"
     },
     "content/en/guides/tutorials/development/function/minhash-function.md": {
-      "sourceHash": "eee0f1ca64c56f1125167508e73e160a949d297bc4f55e14752d882e85cc1ad4",
+      "sourceHash": "fd224016cfafe5349b1348f7bd715662e48bbef7a62ab41970c7f16b096d44c0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/minhash-function.md",
-      "translatedAt": "2026-10-24T04:09:25.569Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md": {
       "sourceHash": "ce4327c5a199e096a80452067641b5a04f67f6137983d05081b3d8d049be958b",
@@ -1821,9 +1821,9 @@
       "translatedAt": "2026-10-25T05:12:48.532Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/hugging-face.md": {
-      "sourceHash": "62e4581b17d0a2f3e59b2e115845f81b7968238202edaa067bec09744fbc2185",
+      "sourceHash": "a3243fbf6d3acd3b364f154add3acc666e531b8ad94423ab90fff4e226d52439",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/hugging-face.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/openai.md": {
       "sourceHash": "9eab213cbeb6ff455739159206df39586462925cfdf657568e7cfe5a86b02b7e",
@@ -1941,9 +1941,9 @@
       "translatedAt": "2026-10-25T05:16:53.988Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "d9d06dc7209ff06e401d386aac93a75221832ada490dabba4fdade74a98cff93",
+      "sourceHash": "3db8cb8a84e5fa6c0d473001ecbaf3daad5819889e569207c8b9ff126589e947",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/development/schema/schema-explained.md": {
       "sourceHash": "78ea8dc0b5f8717604c0487a6a47e68dbcddd7e48935b5219d537b7a773e2ab9",
@@ -2076,9 +2076,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/pattern-match.md": {
-      "sourceHash": "3b29325712fe88dbe3600446c8babf1e39ed3e0ac351e5d43702939fa29831cc",
+      "sourceHash": "909066acec68c2c6459c4e0ec9fd01e20dc3473dd9a329cd890f14fc6af6fb03",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/pattern-match.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/ramdom-sampling.md": {
       "sourceHash": "98c8f3bd4f9bace9473bbfb417ac9368f338dbd824d4dde62fd6e34c9459cf1f",
@@ -2126,9 +2126,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/search-and-query/search-aggregation.md": {
-      "sourceHash": "8b10e22aaeddc15490fe08d0c68ce5728b86489354f1e88d9351cbb5ce958663",
+      "sourceHash": "b1cdd12ec60786fda96621c83c0dee512a8e6a3b591e8f5151765b285a8da6b1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-aggregation.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/development/search-and-query/search-metrics-explained.md": {
       "sourceHash": "4fcd1b333b92011ff83f1e3e121814da36343d255fbdbf79445dc1963185a179",
@@ -2361,9 +2361,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "a7a7bf211aee17efb2ce0301ae8b8b448a9e8e60de680817297dd0b16ad7160c",
+      "sourceHash": "efa83e91ba7e300022e99fdde5306573f74a4d705c98fd4043289d360c28095e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-10-28T15:52:09.297Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2536,9 +2536,9 @@
       "translatedAt": "2026-10-19T23:25:07.913Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2610.md": {
-      "sourceHash": "23ed325d573cec16df8eae3deeafba8d8de96c36dc9ad9cec9d2011b4cf8d72e",
+      "sourceHash": "1cbf7d06c0e03a89049875eb5be347a08ba016891edcc42e97e940e99586ea06",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2610.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-270.md": {
       "sourceHash": "88909936a784590840504abe6ce458eb2fd7dd7bc14ea636c8c4c9c84d29f54a",
@@ -2781,9 +2781,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "e0169154edc29e35617cf96ea3835c0a8d5b27f2595abdb4cc75fe1758cb9764",
+      "sourceHash": "d6025bbb67403f4989330e9e8c984de268cc6c477c2b05673a3ede2beeda7e10",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-29T05:48:53.518Z"
+      "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",

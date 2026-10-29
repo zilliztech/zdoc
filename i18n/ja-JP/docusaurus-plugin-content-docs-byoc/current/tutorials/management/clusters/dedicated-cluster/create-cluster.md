@@ -171,7 +171,7 @@ curl --request POST \
 
     リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
-    リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+    リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -243,11 +243,13 @@ curl --request POST \
 
     <Admonition type="info" title="Notes">
 
+    - デフォルトでは、安定版（GA）の Milvus バージョンが選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
+    
+    - クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[Install SDKs](./install-sdks) を参照してください。
+    
+    - Milvus 3.0 クラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+    
     - パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。一般提供前に機能が変更される可能性があります。
-    
-    - Milvus 3.0 クラスターを Milvus 2.6 にダウングレードすることはできません。
-    
-    - 選択した Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK の互換性](/docs/install-sdks#sdk-compatibility) を参照してください。
 
     </Admonition>
 
