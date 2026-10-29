@@ -1117,6 +1117,40 @@ StructArray フィールドを作成した後は、その既存の StructArray �
 <TabItem value='python'>
 
 ```python
+updated_chunk_schema = client.create_struct_field_schema()
+updated_chunk_schema.add_field(
+    field_name="text",
+    datatype=DataType.VARCHAR,
+    max_length=65535,
+)
+updated_chunk_schema.add_field(
+    field_name="section",
+    datatype=DataType.VARCHAR,
+    max_length=128,
+)
+updated_chunk_schema.add_field(
+    field_name="page",
+    datatype=DataType.INT64,
+)
+updated_chunk_schema.add_field(
+    field_name="quality_score",
+    datatype=DataType.FLOAT,
+)
+updated_chunk_schema.add_field(
+    field_name="has_code",
+    datatype=DataType.BOOL,
+)
+updated_chunk_schema.add_field(
+    field_name="emb_list_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+updated_chunk_schema.add_field(
+    field_name="emb",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
 client.drop_collection_field(
     collection_name="tech_articles",
     field_name="chunks",
@@ -1169,8 +1203,24 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 import (
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+updatedStructField := entity.NewField().
+    WithName("chunks").
+    WithDataType(entity.FieldTypeArray).
+    WithElementType(entity.FieldTypeStruct).
+    WithMaxCapacity(1000).
+    WithNullable(true).
+    WithStructSchema(entity.NewStructSchema().
+        WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
+        WithField(entity.NewField().WithName("section").WithDataType(entity.FieldTypeVarChar).WithMaxLength(128)).
+        WithField(entity.NewField().WithName("page").WithDataType(entity.FieldTypeInt64)).
+        WithField(entity.NewField().WithName("quality_score").WithDataType(entity.FieldTypeFloat)).
+        WithField(entity.NewField().WithName("has_code").WithDataType(entity.FieldTypeBool)).
+        WithField(entity.NewField().WithName("emb_list_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+        WithField(entity.NewField().WithName("emb").WithDataType(entity.FieldTypeFloatVector).WithDim(4)))
 
 err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("tech_articles", "chunks"))
 if err != nil {
@@ -1191,6 +1241,18 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+
+let updated_chunk_schema = StructFieldSchema::new()
+    .name("chunks")
+    .max_capacity(1000)
+    .nullable(true)
+    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(65_535))
+    .add_field(FieldSchema::new().name("section").data_type(DataType::VarChar).max_length(128))
+    .add_field(FieldSchema::new().name("page").data_type(DataType::Int64))
+    .add_field(FieldSchema::new().name("quality_score").data_type(DataType::Float))
+    .add_field(FieldSchema::new().name("has_code").data_type(DataType::Bool))
+    .add_field(FieldSchema::new().name("emb_list_vector").data_type(DataType::FloatVector).dimension(4))
+    .add_field(FieldSchema::new().name("emb").data_type(DataType::FloatVector).dimension(4));
 
 client
     .drop_collection_field(
@@ -1219,6 +1281,16 @@ client
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
+
+milvus::StructFieldSchema updated_struct_schema("chunks");
+updated_struct_schema.WithMaxCapacity(1000).WithNullable(true);
+updated_struct_schema.AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535));
+updated_struct_schema.AddField(milvus::FieldSchema("section", milvus::DataType::VARCHAR).WithMaxLength(128));
+updated_struct_schema.AddField(milvus::FieldSchema("page", milvus::DataType::INT64));
+updated_struct_schema.AddField(milvus::FieldSchema("quality_score", milvus::DataType::FLOAT));
+updated_struct_schema.AddField(milvus::FieldSchema("has_code", milvus::DataType::BOOL));
+updated_struct_schema.AddField(milvus::FieldSchema("emb_list_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+updated_struct_schema.AddField(milvus::FieldSchema("emb", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("tech_articles")
@@ -1271,7 +1343,22 @@ await client.addCollectionField({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+
+var updatedChunkSchema = new StructFieldSchema("chunks")
+{
+    MaxCapacity = 1000,
+    Nullable = true
+};
+updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
+updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("section", 128));
+updatedChunkSchema.Fields.Add(new FieldSchema("page", DataType.Int64));
+updatedChunkSchema.Fields.Add(new FieldSchema("quality_score", DataType.Float));
+updatedChunkSchema.Fields.Add(new FieldSchema("has_code", DataType.Bool));
+updatedChunkSchema.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+updatedChunkSchema.Fields.Add(new FieldSchema("emb", DataType.FloatVector) { Dimension = 4 });
 
 await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 {
@@ -1373,3 +1460,4 @@ curl --request POST \
 1. StructArray のベクトルサブフィールドを検索するには、[Basic ベクトル Search with StructArray](./search-with-struct-array) を参照してください。
 
 1. サポートされるデータ型、null 許容の動作、バージョン固有の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
+

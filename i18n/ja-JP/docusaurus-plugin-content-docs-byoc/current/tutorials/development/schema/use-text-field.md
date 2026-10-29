@@ -71,7 +71,14 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+use milvus::v2::prelude::*;
+
+let schema = schema.add_field(
+    FieldSchema::new()
+        .name("content")
+        .data_type(DataType::Text)
+        .enable_analyzer(true),
+);
 ```
 
 </TabItem>
@@ -304,7 +311,60 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(false).
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let collection_name = "text_bm25_collection";
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(collection_name)
+                .build()?,
+        )
+        .await?;
+}
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("content")
+            .data_type(DataType::Text)
+            .enable_analyzer(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("sparse")
+            .data_type(DataType::SparseFloatVector),
+    )
+    .add_function(
+        Function::new()
+            .name("content_bm25")
+            .function_type(FunctionType::Bm25)
+            .input_fields(["content"])
+            .output_fields(["sparse"]),
+    );
 ```
 
 </TabItem>
@@ -534,7 +594,38 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+use std::collections::HashMap;
+
+let index_param = IndexParam::new()
+    .field_name("sparse")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        (
+            "inverted_index_algo".to_string(),
+            "DAAT_MAXSCORE".to_string(),
+        ),
+        ("bm25_k1".to_string(), "1.2".to_string()),
+        ("bm25_b".to_string(), "0.75".to_string()),
+    ]));
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(collection_name)
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(collection_name)
+            .index_param(index_param)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -746,7 +837,30 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+use serde_json::json;
+
+let rows = [
+    json!({"id": 1, "content": "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications."}),
+    json!({"id": 2, "content": "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text."}),
+    json!({"id": 3, "content": "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."}),
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(collection_name)
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -942,7 +1056,19 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name(collection_name)
+            .vector_field("sparse")
+            .vectors(SearchVectors::EmbeddedText(vec![
+                "how does Milvus store source text for retrieval".into(),
+            ]))
+            .output_fields(["id", "content"])
+            .limit(2)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1089,7 +1215,15 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+for result in response.results() {
+    for row in result.rows()? {
+        let row = serde_json::Value::Object(row.to_entity_row()?);
+        println!(
+            "id: {}, score: {}, content: {}",
+            row["id"], row["score"], row["content"]
+        );
+    }
+}
 ```
 
 </TabItem>

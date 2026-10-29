@@ -1,21 +1,21 @@
 ---
 title: "Stop | BYOC"
 slug: /stop-filter
-sidebar_label: "Stop"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の少ない単語を取り除くのに役立ちます。ストップワードのリストは、`stopwords` パラメーターを使用して設定できます。 | BYOC"
+description: "分析時に、トークン化されたテキストから設定済みのストップワードを削除するには、stop フィルターを使用します。 | BYOC"
 type: origin
-token: ScncwBnDBiVoLjksXAwcUgrgnod
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-stop-filter
+sidebar_label: "Stop"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/stop-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -25,9 +25,6 @@ import TabItem from '@theme/TabItem';
 
 ## 設定\{#configuration}
 
-`stop` フィルターは、`stop_words` パラメーターによるインライン指定、または `stop_words_file` パラメーターによる登録済みファイルリソースからの指定のいずれかで、ストップワードのリストを受け付けます。
-
-### インラインのストップワードリスト\{#inline-stop-words-list}
 
 インラインリストを指定して `stop` フィルターを使用するには、フィルター設定で `"type": "stop"` を指定し、ストップワードのリストを提供する `stop_words` パラメーターを指定します。
 
@@ -113,7 +110,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -165,6 +162,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `stop` フィルターは、次の設定可能なパラメーターを受け付けます。
@@ -176,13 +174,14 @@ analyzerParams='{
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化から削除する単語のリストです。デフォルトでは、フィルターは組み込みの <code>_english_</code> 辞書を使用します。この辞書は次の 3 つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> – 定義済みの辞書を使用するには、次のいずれかの言語エイリアスを指定します。</p><p><code>&quot;_english_&quot;</code>, <code>&quot;_danish_&quot;</code>, <code>&quot;_dutch_&quot;</code>, <code>&quot;_finnish_&quot;</code>, <code>&quot;_french_&quot;</code>, <code>&quot;_german_&quot;</code>, <code>&quot;_hungarian_&quot;</code>, <code>&quot;_italian_&quot;</code>, <code>&quot;_norwegian_&quot;</code>, <code>&quot;_portuguese_&quot;</code>, <code>&quot;_russian_&quot;</code>, <code>&quot;_spanish_&quot;</code>, <code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します。例：<code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>。</p></li><li><p><strong>混合リスト</strong> – エイリアスとカスタム用語を組み合わせます。例：<code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>。</p></li></ul><p>各定義済み辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
+     <td><p>トークン化から削除する単語のリストです。デフォルトでは、フィルターは組み込みの <code>_english_</code> 辞書を使用します。次の 3 つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> — 定義済みの辞書を使用するには、次のいずれかの言語エイリアスを指定します。</p><p><code>"_arabic_"</code>, <code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code>, <code>"_thai_"</code></p></li><li><p><strong>カスタムリスト</strong> — 独自の用語の配列を渡します（例: <code>["foo", "bar", "baz"]</code>）。</p></li><li><p><strong>混合リスト</strong> — エイリアスとカスタム用語を組み合わせます（例: <code>["of", "to", "_english_"]</code>）。</p><p>各定義済み辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。アラビア語またはタイ語の辞書を確認するには、<a href="https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/arabic.txt">アラビア語のストップワードリスト</a> または <a href="https://github.com/milvus-io/milvus/blob/1945ba399b4552fd0fd0b131f7c735ddde21e71c/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words/thai.txt">タイ語のストップワードリスト</a> を参照してください。</p></li></ul></td>
    </tr>
 </table>
 
 `stop` フィルターはトークナイザーによって生成された用語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーのリストについては、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
 `analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+
 
 ## 例\{#examples}
 
@@ -272,7 +271,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -324,6 +323,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -336,14 +336,14 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Sample text to analyze
 sample_text = "The stop filter allows control over common stop words for text processing."
 
-# Run the standard analyzer with the defined configuration
+# Run the analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Analyzer output:", result)
 ```
 
 </TabItem>
@@ -362,6 +362,7 @@ import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -449,7 +450,7 @@ let result = client
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -481,12 +482,12 @@ const client = new MilvusClient({
 
 const sample_text = "The stop filter allows control over common stop words for text processing.";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log("Standard analyzer output:", result);
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -502,14 +503,13 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
 string sampleText = "The stop filter allows control over common stop words for text processing.";
 
-// Run the standard analyzer with the defined configuration
+// Run the analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
@@ -539,6 +539,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}

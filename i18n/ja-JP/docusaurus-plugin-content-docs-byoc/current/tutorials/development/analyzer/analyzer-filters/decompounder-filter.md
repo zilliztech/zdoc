@@ -1,7 +1,6 @@
 ---
 title: "Decompounder | BYOC"
 slug: /decompounder-filter
-sidebar_label: "Decompounder"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "`decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。 | BYOC"
 type: origin
-token: DDrHwdsb7idJa9kVU6zc2VwInBf
-sidebar_position: 9
 displayed_sidebar: default
+token: shared-decompounder-filter
+sidebar_label: "Decompounder"
+sidebar_position: 9
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/decompounder-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -23,11 +23,9 @@ import TabItem from '@theme/TabItem';
 
 `decompounder` フィルターは、指定した辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。
 
+
 ## 構成\{#configuration}
 
-`decompounder` フィルターは、構成要素の辞書を、`word_list` パラメーターでインラインに指定するか、登録済みのファイルリソースから `word_list_file` パラメーターで受け取ります。
-
-### インライン単語リスト\{#inline-word-list}
 
 `decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター構成で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターを指定します。
 
@@ -113,8 +111,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
-let analyzer_params = {
+const analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -169,17 +166,26 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `decompounder` フィルターでは、次の構成可能なパラメーターを使用できます。
 
-| パラメーター | 説明 |
-| --- | --- |
-| `word_list` | 複合語の分割に使用する単語構成要素のリストです。この辞書により、複合語が個々の用語に分解される方法が決まります。 |
+<table>
+   <tr>
+     <th><p>パラメーター</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>word_list</code></p></td>
+     <td><p>複合語を分割するために使用する単語構成要素のリストです。この辞書によって、複合語が個々の用語に分解される方法が決まります。</p></td>
+   </tr>
+</table>
 
 `decompounder` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
 `analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+
 
 ## 例\{#examples}
 
@@ -269,8 +275,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
-analyzer_params = {
+const analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -325,6 +330,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -337,14 +343,14 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Sample text to analyze
 sample_text = "dampfschifffahrt brotbackautomat"
 
-# Run the standard analyzer with the defined configuration
+# Run the analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Analyzer output:", result)
 ```
 
 </TabItem>
@@ -363,6 +369,7 @@ import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -453,7 +460,7 @@ println!("{:?}", result.results());
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -483,7 +490,6 @@ for (const auto& result : response.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
@@ -506,8 +512,9 @@ console.log(res);
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
 
-using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
 await client.ConnectAsync();
 
 // Sample text to analyze
@@ -520,7 +527,7 @@ var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 });
 foreach (var r in result.Results)
 {
-    Console.WriteLine("Standard analyzer output: " + string.Join(", ", r.Tokens.Select(t => t.Token)));
+    Console.WriteLine("Analyzer output: " + string.Join(", ", r.Tokens.Select(t => t.Token)));
 }
 ```
 
@@ -530,6 +537,9 @@ foreach (var r in result.Results)
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -541,6 +551,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
