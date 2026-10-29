@@ -267,6 +267,17 @@ jobs:
             : {commit: process.env.UPSTREAM_COMMIT}
           source.lastVerifiedAt = new Date().toISOString()
           fs.writeFileSync(lockPath, `${JSON.stringify(lock, null, 2)}\n`)
+          // The lifecycle-evidence bootstrap pins an inventory hash over the
+          // fragment bytes; a refresh legitimately changes those bytes while
+          // every lifecycle value stays frozen (the applier refuses x-*
+          // writes). Re-derive the hash into the same commit; a real
+          // lifecycle-value drift fails closed right here instead of as an
+          // opaque digest mismatch at the gate.
+          if (applied.changedFiles.length > 0) {
+            const {refreshLifecycleEvidenceInventory} = require('./scripts/rest-upstream/refresh-lifecycle-inventory')
+            const inventory = refreshLifecycleEvidenceInventory({root: process.cwd(), restMeta})
+            console.log(`lifecycle evidence inventory ${inventory.changed ? 'refreshed' : 'already current'} (${inventory.elements} elements)`)
+          }
           // Ledger drafts are agent proposals (design §8.2): land them in the
           // ledger as conservative `deferred` entries so the refresh PR stays
           // atomic (fragments + titles + ledger + lock) and the T4 accounting
