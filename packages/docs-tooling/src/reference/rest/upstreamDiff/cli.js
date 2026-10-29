@@ -126,7 +126,7 @@ function renderDiffMarkdown(diff) {
             lines.push(`- **${entry.category}** — ${where}: ${detail}${flags.length ? ` [${flags.join('; ')}]` : ''}`)
             lines.push(`  - id: \`${entry.id}\``)
             if (change.kind === 'required' && entry.scope !== 'parameter') {
-                lines.push(`  - write: the required drift is SCHEMA-level — opPath = the fragment schema object containing \`${entry.field}\` plus \`/required\`, value = that schema's required ARRAY with \`${entry.field}\` ${change.after ? 'added' : 'removed'} (order-insensitive; the applier derives and binds the expected array itself). Never write a boolean onto the field object.`)
+                lines.push(`  - write: SCHEMA-level required — opPath = the fragment schema object containing \`${entry.field}\` plus \`/required\`; value = that schema's required ARRAY read from the fragment copy in fragments/, \`KEEPING its existing members\` (drop nothing) and ${change.after ? `appending \`${entry.field}\`` : `removing \`${entry.field}\``}. Order-insensitive; the applier derives and binds the expected array itself. Never write a boolean onto the field object.`)
             }
             if (entry.lifecycle) {
                 const suggested = ['x-added-at', 'x-last-modified', 'x-deprecated-since']
