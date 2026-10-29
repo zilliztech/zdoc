@@ -79,6 +79,14 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
       },
     },
   },
-  redirects: {rules: []},
+  redirects: {rules: [
+    // Server 301s in deploy/zh-CN/nginx.conf only cover full page loads;
+    // these register the same moves for in-app SPA navigation.
+    {from: '/docs/migrate-from-pinecone', to: '/docs/migrate-from-qdrant'},
+    {from: '/docs/metrics-and-alerts', to: '/docs/metrics-alerts-reference'},
+    {from: '/docs/setup-a-private-link', to: '/docs/setup-a-private-link-aws'},
+    {from: '/docs/on-zilliz-cloud-console', to: '/docs/quick-start'},
+    {from: '/docs/data-import', to: '/docs/data-import-zero-to-hero'},
+  ]},
   robots: {index: true},
 }));

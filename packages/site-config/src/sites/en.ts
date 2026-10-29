@@ -98,6 +98,15 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
       },
     },
   },
-  redirects: {rules: []},
+  redirects: {rules: [
+    // Server 301s in deploy/en/nginx.conf only cover full page loads;
+    // these register the same moves for in-app SPA navigation.
+    {from: '/docs/on-zilliz-cloud-console', to: '/docs/byoc/quick-start'},
+    {from: '/docs/data-import', to: '/docs/data-import-zero-to-hero'},
+    {from: '/docs/metrics-and-alerts', to: '/docs/metrics-alerts-reference'},
+    {from: '/docs/setup-a-private-link', to: '/docs/setup-a-private-link-aws'},
+    {from: '/ja-JP/docs/setup-a-private-link', to: '/ja-JP/docs/setup-a-private-link-aws'},
+    {from: '/ja-JP/docs/metrics-and-alerts', to: '/ja-JP/docs/metrics-alerts-reference'},
+  ]},
   robots: {index: true},
 }));
