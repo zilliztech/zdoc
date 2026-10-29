@@ -99,8 +99,10 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
     },
   },
   redirects: {rules: [
-    // Server 301s in deploy/en/nginx.conf only cover full page loads;
-    // these register the same moves for in-app SPA navigation.
+    // nginx 301s (deploy/en/nginx.conf) cover full page loads; these rules
+    // also feed the client-side redirect map (apps/docs/plugins/spa-redirect-map)
+    // that the 404 page consults, so in-app SPA clicks to retired paths
+    // redirect too. A rule may only target a route the site serves.
     {from: '/docs/on-zilliz-cloud-console', to: '/docs/byoc/quick-start'},
     {from: '/docs/data-import', to: '/docs/data-import-zero-to-hero'},
     {from: '/docs/metrics-and-alerts', to: '/docs/metrics-alerts-reference'},

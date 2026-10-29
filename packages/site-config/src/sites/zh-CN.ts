@@ -80,8 +80,10 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
     },
   },
   redirects: {rules: [
-    // Server 301s in deploy/zh-CN/nginx.conf only cover full page loads;
-    // these register the same moves for in-app SPA navigation.
+    // nginx 301s (deploy/zh-CN/nginx.conf) cover full page loads; these rules
+    // also feed the client-side redirect map (apps/docs/plugins/spa-redirect-map)
+    // that the 404 page consults, so in-app SPA clicks to retired paths
+    // redirect too. A rule may only target a route the site serves.
     {from: '/docs/migrate-from-pinecone', to: '/docs/migrate-from-qdrant'},
     {from: '/docs/metrics-and-alerts', to: '/docs/metrics-alerts-reference'},
     {from: '/docs/setup-a-private-link', to: '/docs/setup-a-private-link-aws'},
