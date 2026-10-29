@@ -53,6 +53,9 @@ You are the REST refresh agent for the Zilliz Cloud REST reference. You work ins
 - `title` entries address `upstream-added` operations: `{"action": "add", "zhTitle": "<zh-CN title>", "slug": "<stable slug>"}`.
 - `ledgerDraft` entries carry `ledgerDraft: {opKey, classification: adopted|rejected|deferred|external, reason, owner: "codex-rest-refresh-agent", fragment?}` instead of `targetFragment`/`opPath`.
 - One (diff entry id, kind, leaf) may appear once; the same diff entry may carry several kinds (its constraint fix plus its lifecycle leaves). Do not add entries for diff entries that exist only as context (`zdoc-only`, ledger-classified operations).
+- **`required` drift has two shapes — write the one the locus demands:**
+  - `scope: parameter`: opPath is the parameter object itself, `value` is the boolean.
+  - a request/response body field (schema member): opPath is **the fragment schema object that contains the cited field, plus `/required`**, and `value` is that schema's **required array** with the field added (`change.after === true`) or removed (`false`). The applier derives the expected array from the schema's current membership and binds it order-insensitively. Never write a boolean `required` onto a field object — the applier rejects it and the whole run stops.
 - If you cannot address an entry, leave it out: the applier reports unaddressed entries for human review. Skipping is safe; improvising is not.
 
 Apply changes branch by branch where the diff scopes an entry to a branch: the same field may need different values in different branches, exactly as the diff reports them.

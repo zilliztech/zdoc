@@ -125,6 +125,9 @@ function renderDiffMarkdown(diff) {
             ].filter(Boolean)
             lines.push(`- **${entry.category}** — ${where}: ${detail}${flags.length ? ` [${flags.join('; ')}]` : ''}`)
             lines.push(`  - id: \`${entry.id}\``)
+            if (change.kind === 'required' && entry.scope !== 'parameter') {
+                lines.push(`  - write: the required drift is SCHEMA-level — opPath = the fragment schema object containing \`${entry.field}\` plus \`/required\`, value = that schema's required ARRAY with \`${entry.field}\` ${change.after ? 'added' : 'removed'} (order-insensitive; the applier derives and binds the expected array itself). Never write a boolean onto the field object.`)
+            }
             if (entry.lifecycle) {
                 const suggested = ['x-added-at', 'x-last-modified', 'x-deprecated-since']
                     .filter(key => key in entry.lifecycle)
