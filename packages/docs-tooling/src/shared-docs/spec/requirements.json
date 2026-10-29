@@ -5,7 +5,7 @@
     "prd": "docs/prd.md",
     "plan": "docs/phase-1.md",
     "errors": "docs/design/09-error-catalog.md",
-    "prd_commit": "1556bf513b68ab7831efed8debd6f423a18b0dfb"
+    "prd_commit": "5b5d49a3276c64ed328b11762799a28749abaefe"
   },
   "behaviours": [
     {
@@ -398,7 +398,7 @@
       "scenario": 9,
       "scenario_title": "从飞书切换到 Git（激活）",
       "phase": "Phase 1a",
-      "text": "已在 `active.json` 中的页面，表格中的 `Docs` 被改回飞书链接时，Fetch 失败并通知，页面保持 Git 版"
+      "text": "已在 `active.json` 中的页面，表格中的 `Docs` 被改回飞书链接，或这条记录被删除、placement type 不再是 `canonical`、`Progress` 改成不发布时，Fetch 失败并通知，页面保持 Git 版"
     },
     {
       "id": "9-4",
@@ -991,7 +991,7 @@
     {
       "code": "OWNERSHIP_REVERTED",
       "area": "发布与切换",
-      "when": "`active.json` 中的页面，`Docs` 被改回飞书链接",
+      "when": "`active.json` 中的页面，`Docs` 被改回飞书链接，或这条记录被删除、placement type 不再是 `canonical`、`Progress` 改成不发布",
       "area_id": "publish-and-cutover"
     },
     {

@@ -162,7 +162,7 @@ it.each(['no-dev-page', 'no-snapshot-record'])('[CONFIG_PATH_UNKNOWN] reports ea
     if (!('errors' in result)) throw new Error('Expected path error')
     const expected = JSON.parse(await readFile(new URL('expected.json', fixture), 'utf8'))
     expect(result.errors.map(({ message: _, ...error }) => error)).toEqual(expected)
-    expect(result.failures).toEqual([])
+    expect(result).not.toHaveProperty('failures')
   } finally { await build.reader.dispose() }
 })
 

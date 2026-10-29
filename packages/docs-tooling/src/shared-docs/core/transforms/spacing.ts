@@ -1,6 +1,6 @@
 import type { MappedLine } from './types'
 
-/** Normalize only blank runs touching a block-add boundary, preserving other spacing. */
+/** Normalize only blank runs touching a whole-block add/remove boundary, preserving other spacing. */
 export function normalizeBlockSeparators(lines: readonly MappedLine[]): MappedLine[] {
   const output: MappedLine[] = []
   for (let start = 0; start < lines.length;) {

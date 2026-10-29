@@ -35,6 +35,48 @@ it('[4-3] preserves relative space and Tab indentation and consumes YAML termina
   }
 })
 
+it('[4-3] collapses only the separator left by an interior whole-block removal', () => {
+  const result = execute('Before\n\n' + block('Removed') + '\n\nAfter', [{ operation: 'remove', target: { block: 'example' } }])
+  expect(body(result)).toBe('Before\n\nAfter')
+  if ('errors' in result) throw new Error(JSON.stringify(result.errors))
+  expect(result.lines.filter(line => line.text)).toEqual([
+    { text: 'Before', origin: { kind: 'source', file: 'site/en/page.md', line: 1 } },
+    { text: 'After', origin: { kind: 'source', file: 'site/en/page.md', line: 7 } },
+  ])
+  expect(result.lines[1]).toMatchObject({ text: '', origin: { kind: 'inline', file: 'page.yaml', transformIndex: 0 } })
+})
+
+it.each([
+  ['leading', block('Removed') + '\n\nAfter', 'After'],
+  ['trailing', 'Before\n\n' + block('Removed'), 'Before'],
+  ['all-content', '\n\n' + block('Removed') + '\n\n', ''],
+])('[4-3] removes edge blanks for whole-block %s removal', (_position, source, expected) => {
+  expect(body(execute(source, [{ operation: 'remove', target: { block: 'example' } }]))).toBe(expected)
+})
+
+it('[4-3] combines adjacent whole-block removal boundaries', () => {
+  const source = 'Before\n\n' + block('First', 'first') + '\n\n' + block('Second', 'second') + '\n\nAfter'
+  const transforms: Transform[] = ['first', 'second'].map(id => ({ operation: 'remove', target: { block: id } }))
+  expect(body(execute(source, transforms))).toBe('Before\n\nAfter')
+})
+
+it('[4-3] combines adjacent add and remove boundaries in either configuration order', () => {
+  const source = 'Before\n\n' + block('First', 'first') + '\n\n' + block('Second', 'second') + '\n\nAfter'
+  const transforms: Transform[] = [
+    { operation: 'add', position: 'after', target: { block: 'first' }, content: { file: 'cloud.md' } },
+    { operation: 'remove', target: { block: 'second' } },
+  ]
+  for (const rules of [transforms, [...transforms].reverse()]) {
+    expect(body(execute(source, rules, { 'cloud.md': 'Inserted' }))).toBe('Before\n\nFirst\n\nInserted\n\nAfter')
+  }
+})
+
+it('[4-3] preserves unrelated blank runs and blank lines inside surviving code fences', () => {
+  const preserved = 'Before\n\n\nUnrelated\n\n' + fence('python', 'first()\n\n\nsecond()')
+  const source = preserved + '\n\n' + block('Removed') + '\n\nAfter\n\n\nTail'
+  expect(body(execute(source, [{ operation: 'remove', target: { block: 'example' } }]))).toBe(preserved + '\n\nAfter\n\n\nTail')
+})
+
 it('keeps same-boundary block and line additions in configuration order', () => {
   const additions: Transform[] = ['one', 'two'].map(name => ({ operation: 'add', position: 'before', target: { block: 'example' }, content: { file: `${name}.md` } }))
   expect(body(execute(block('Original'), additions, { 'one.md': 'First', 'two.md': 'Second' }))).toBe('First\n\nSecond\n\nOriginal')

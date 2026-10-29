@@ -194,7 +194,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       for (const [pageId] of selected) {
         try {
           const result = await buildPage({ pageId, sharedDocs, reader, runtime, md2md: new RealMd2md() })
-          if ('errors' in result) { failed = true; print(result.errors); for (const failure of result.failures) write(failure.message + '\n') }
+          if ('errors' in result) { failed = true; print(result.errors) }
           else { pages.push(...result.pages); if (result.planned) plannedLocks.push(pageId) }
         } catch (error) { failed = true; write(`Build failed for ${pageId}: ${error instanceof Error ? error.message : String(error)}\n`) }
       }

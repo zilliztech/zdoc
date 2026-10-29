@@ -45,8 +45,7 @@ export interface FetchBuildTarget {
 export interface FetchBuildContext { page: string; targets: readonly FetchBuildTarget[]; records: Awaited<ReturnType<GuidesBase['getRecords']>> }
 export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[]; notes: MergeNote[]
   extension?: '.md' | '.mdx'; imageContents?: { original: string; bytes: Uint8Array; sha256: string }[] }
-export interface BuildFailure { message: string; page: string; manual: string; current: string; next: string }
-export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[]; failures: BuildFailure[] }
+export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[] }
 export interface BuildReader extends InspectionReader, LinkInputReader { dispose(): Promise<void> }
 
 /** WP3's snapshot lifetime and WP5's bulk reads stay local to this invocation. */
@@ -224,15 +223,14 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
   const file = groupFile(shared.sharedDocsPath, `pages/${pageId}/page.yaml`)
   const context = { file, page: pageId, channel: 'both' as const }
   const parsed = parsePageConfig(pageId, page.pageYaml, { ...shared.context, ...context })
-  if ('errors' in parsed) return { errors: parsed.errors, failures: [] }
+  if ('errors' in parsed) return { errors: parsed.errors }
   const config = parsed.config
   const errors: SharedDocsError[] = []
-  const failures: BuildFailure[] = []
   const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
   const records = await runtime.records()
   if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || config.publish.length !== 2
     || new Set(config.publish.map(target => target.manual)).size !== 2)) {
-    return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch requires exactly Guides and BYOC for the selected page' }], failures }
+    return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch requires exactly Guides and BYOC for the selected page' }] }
   }
   for (const [index, target] of config.publish.entries()) {
     if (target.manual !== 'guides' && target.manual !== 'guides-byoc') {
@@ -270,7 +268,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
     } })
   }
   // A paired Fetch decision must reject either invalid target before rendering/downloading.
-  if (runtime.fetchContext && errors.length) return { errors, failures }
+  if (runtime.fetchContext && errors.length) return { errors }
   const sourceConfig = parseSourceConfig(shared.sourceYaml, context)
   const customEditUrl = runtime.fetchContext && !('errors' in sourceConfig)
     ? `https://github.com/milvus-io/milvus-docs/edit/${encodeURIComponent(sourceConfig.config.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
@@ -283,7 +281,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
     variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context },
     ...(config.transforms?.length ? { transformContext: { contentFiles: page.contentFiles ?? new Map(), tabsRules: shared.tabsRules,
       manuals: manualContexts } } : {}) }, reader, input.md2md)
-  if ('errors' in inspected) return { errors: [...errors, ...inspected.errors], failures }
+  if ('errors' in inspected) return { errors: [...errors, ...inspected.errors] }
   type PreparedVersion = { adapted: AdaptedPage; origins: MergeOrigin[][]; sources: ProductNameSource[];
     images: ImageRecord[]; notices: Notice[]; imageContents?: BuiltPage['imageContents'] }
   const versions = new Map<Channel, Map<number, PreparedVersion>>()
@@ -390,7 +388,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices],
       ...(dev.fetch ? { extension: dev.fetch.extension, imageContents: [...current.imageContents!, ...next.imageContents!] } : {}) })
   }
-  return errors.length || failures.length ? { errors, failures } : { pages, planned: inspected.planned }
+  return errors.length ? { errors } : { pages, planned: inspected.planned }
 }
 
 /** Locate generated gates after MDX patching by their ordinal among all authored
