@@ -172,7 +172,8 @@
         "packages/chat-ui/tsconfig.json"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/components/ChatPanel/sourceAnalytics.test.ts packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx packages/docs-ui/src/en/inkeepEventBridge.test.ts packages/chat-ui/src/components/GroundedMarkdown.test.tsx"
+        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/components/ChatPanel/sourceAnalytics.test.ts packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx packages/docs-ui/src/en/inkeepEventBridge.test.ts packages/chat-ui/src/components/GroundedMarkdown.test.tsx",
+        "pnpm vitest run packages/docs-ui/src/shared/theme/NotFound/Content/index.test.tsx"
       ],
       "harnesses": [],
       "gates": [
@@ -623,7 +624,8 @@
       ],
       "focusedTests": [
         "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
-        "pnpm test:profiles"
+        "pnpm test:profiles",
+        "node --test apps/docs/plugins/spa-redirect-map/index.test.js"
       ],
       "harnesses": [],
       "gates": [],

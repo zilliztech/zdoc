@@ -102,17 +102,23 @@ function redirectPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
   if (profile.redirects.rules.length === 0) {
     return [];
   }
-  return [[
-    '@docusaurus/plugin-client-redirects',
-    {
-      createRedirects(existingPath: string): string[] | undefined {
-        const sources = profile.redirects.rules
-          .filter(rule => rule.to === existingPath)
-          .map(rule => rule.from);
-        return sources.length > 0 ? sources : undefined;
+  const rules = profile.redirects.rules.map(rule => ({from: rule.from, to: rule.to}));
+  return [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        createRedirects(existingPath: string): string[] | undefined {
+          const sources = profile.redirects.rules
+            .filter(rule => rule.to === existingPath)
+            .map(rule => rule.from);
+          return sources.length > 0 ? sources : undefined;
+        },
       },
-    },
-  ]];
+    ],
+    // The static redirect HTML only covers full page loads; this plugin hands
+    // the same rules to the 404 page so in-app SPA clicks redirect too.
+    [repositoryPath('apps/docs/plugins/spa-redirect-map'), {rules}],
+  ];
 }
 
 type BuildEnvironment = Record<string, string | undefined>;

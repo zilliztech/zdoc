@@ -945,6 +945,21 @@ describe('createDocusaurusConfig', () => {
     });
     expect(redirectPlugin[1].createRedirects('/docs')).toEqual(['/old']);
     expect(redirectPlugin[1].createRedirects('/other')).toBeUndefined();
+    const spaRedirectMapPlugin = (config.plugins ?? []).find(
+      plugin => Array.isArray(plugin) && String(plugin[0]).replaceAll('\\', '/').endsWith('/plugins/spa-redirect-map'),
+    ) as [string, {rules: Array<{from: string; to: string}>}];
+    expect(spaRedirectMapPlugin?.[1]).toEqual({rules: [{from: '/old', to: '/docs'}]});
+  });
+
+  it('registers no redirect surface when the profile has no rules', () => {
+    const config = createDocusaurusConfig(profile({redirects: {rules: []}}));
+    const redirectSurfaces = (config.plugins ?? []).filter(
+      plugin => Array.isArray(plugin) && (
+        plugin[0] === '@docusaurus/plugin-client-redirects'
+        || String(plugin[0]).replaceAll('\\', '/').endsWith('/plugins/spa-redirect-map')
+      ),
+    );
+    expect(redirectSurfaces).toEqual([]);
   });
 
   it('registers disjoint site-owned standalone page roots', () => {

@@ -2,6 +2,8 @@ import React, {useRef, useEffect} from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {Redirect, useLocation} from '@docusaurus/router';
+import {usePluginData} from '@docusaurus/useGlobalData';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {ThumbsUp, ThumbsDown, FileText, ArrowLeft} from 'lucide-react';
@@ -11,6 +13,7 @@ import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
 import {trackEvent} from '../../../utils/analytics';
 import {trackAiSourceClick} from '../../../components/ChatPanel/sourceAnalytics';
+import {SPA_REDIRECT_MAP_PLUGIN_NAME, spaRedirectTarget, type SpaRedirectRules} from './spaRedirectMap';
 import styles from '../styles.module.css';
 
 /* The panel's watermark bolt, for the card's empty middle — same path and
@@ -252,8 +255,17 @@ function FallbackCard() {
 
 export default function NotFoundContent(): React.ReactElement {
   const {siteConfig} = useDocusaurusContext();
+  const location = useLocation();
+  const redirectData = usePluginData(SPA_REDIRECT_MAP_PLUGIN_NAME) as {rules?: SpaRedirectRules} | undefined;
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
+  const redirectTarget = spaRedirectTarget(
+    location.pathname,
+    location.search,
+    location.hash,
+    redirectData?.rules,
+    siteConfig.baseUrl,
+  );
 
   // The 404 runs chrome-less: the topbar is hidden through this body class (see
   // :global(body.zd-notfound-page) in ../styles.module.css), removed again on
@@ -261,12 +273,21 @@ export default function NotFoundContent(): React.ReactElement {
   // It lives HERE and not in the NotFound wrapper because a miss under /docs is
   // rendered by the docs plugin's own route — the html still carries
   // `docs-wrapper plugin-docs` — which mounts this Content directly and never
-  // renders @theme/NotFound at all.
+  // renders @theme/NotFound at all. A mapped miss redirects instead, so it
+  // neither sets the class nor records the page_not_found event.
   useEffect(() => {
+    if (redirectTarget) {
+      return undefined;
+    }
     document.body.classList.add('zd-notfound-page');
     trackEvent('page_not_found', {requested_path: window.location.pathname});
     return () => document.body.classList.remove('zd-notfound-page');
-  }, []);
+  }, [redirectTarget]);
+
+  if (redirectTarget) {
+    // react-router v5 Redirect replaces by default (push defaults to false).
+    return <Redirect to={redirectTarget} />;
+  }
 
   return (
     <div className={styles.pageWrapper}>
