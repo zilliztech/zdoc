@@ -192,7 +192,9 @@
         "packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
         "packages/docs-tooling/src/reference/rest/index.js",
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.js",
-        "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js"
+        "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js",
+        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.js",
+        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js"
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js"
@@ -205,6 +207,43 @@
         "git diff --check"
       ],
       "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts."
+    },
+    {
+      "id": "rest-upstream-pipeline",
+      "paths": [
+        "packages/docs-tooling/src/reference/rest/upstreamDiff/**",
+        "packages/docs-tooling/src/reference/rest/meta/upstream/**",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-lock.schema.json",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-ledger.schema.json",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-change-set.schema.json",
+        "packages/docs-tooling/src/reference/rest/CUSTOM_ATTRIBUTES.md",
+        ".claude/specs/2026-10-28-rest-openapi-source-to-docs-research.md",
+        ".claude/specs/2026-10-28-rest-upstream-pipeline-design.md",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-ledger-proposal.schema.json",
+        ".github/prompts/codex-rest-refresh-agent.md",
+        "scripts/rest-upstream/**",
+        ".github/workflows/rest-upstream-drift-watchdog.yml",
+        ".github/workflows/rest-upstream-refresh.yml",
+        ".claude/specs/2026-10-28-rest-upstream-replay-10-21-alignment.md",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-source-tree-skeleton.schema.json",
+        ".claude/specs/2026-10-29-rest-upstream-milvus-extractor-p2.md",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-fragment-migration.schema.json",
+        ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md"
+      ],
+      "focusedTests": [
+        "pnpm test:rest-upstream",
+        "node --test scripts/rest-upstream/rest-refresh-agent.test.js",
+        "node --test scripts/rest-upstream/drift-watchdog.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:rest-publication-contract"
+      ],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check",
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The rest-upstream pipeline pins upstream REST sources (lock), records adoption decisions (ledger), diffs pinned upstreams against the fragments branch-aware, and applies agent change sets deterministically; its hermetic suite also guards the canonical fragment byte format every fragment must keep. P1 adds the read-only drift watchdog, the staged single-turn refresh agent with a repository-path isolation sweep, the deterministic ledger bootstrap, and the PAT-opened refresh workflow; the 10-21 replay alignment report is its acceptance evidence. P2 adds the vendored Go source-tree extractor (milvus data plane), the skeleton contract and converter, structure-only diffing for source-tree sources, cross-fragment component resolution, and source-tree drift classification in the watchdog; the P2 report is its acceptance evidence. P3 adds the data-plane lifecycle suggestions (x-added-at/x-last-modified/x-deprecated-since bound into change-set entries), the T4 ledger accounting gate with the schemaVersion 2 completeness receipt, and the machine-checked fragment-migration gate behind the rest-upstream-accounting and rest-upstream-migration CLI commands; the refresh workflow gains the milvus source-tree lane (setup-go + vendored extractor) and lands ledger drafts as deferred entries so adoption stays atomic."
     },
     {
       "id": "reference-navigation-validation",
