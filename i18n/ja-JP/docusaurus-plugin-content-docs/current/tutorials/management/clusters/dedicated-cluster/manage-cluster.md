@@ -171,7 +171,29 @@ curl --request POST \
 
 ## プレビュー機能向けにクラスターをアップグレード\{#upgrade-cluster-for-preview-features}
 
+<NextChannel action="exclude">
+
 最新のプレビュー機能を試すには、Dedicated クラスターの互換性のある Milvus バージョンをアップグレードする必要があります。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+既存の Dedicated クラスターで最新のパブリックプレビュー機能を試すには、以下のデモに従って、クラスターの互換性のある Milvus バージョンをアップグレードしてください。
+
+新しい Dedicated クラスターを作成する場合は、作成時にパブリックプレビューの Milvus バージョンを選択できるため、後からアップグレードする必要はありません。詳細については、[クラスターの作成](/docs/create-cluster) を参照してください。
+
+<Admonition type="info" title="Notes">
+
+- パブリックプレビュー機能は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
+
+- クラスターを以前の Milvus バージョンにダウングレードすることはできません。
+
+- アップグレードする前に、SDK のバージョンを確認し、必要に応じて更新してください。互換性のある SDK バージョンについては、[SDK の互換性](/docs/install-sdks#sdk-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 ![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 
@@ -234,4 +256,3 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
-

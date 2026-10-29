@@ -53,6 +53,7 @@ import Procedures from '@site/src/components/Procedures';
 | 権限 | オンデマンドクラスターを管理するには、Project Admin である必要があります。 |
 | クラスター数 | 各プロジェクトで最大 20 個のオンデマンドクラスターを作成できます。 |
 | データ量 | オンデマンドクラスターは、8 CU ごとに最大 3 TB の生データをクエリできます。この制限を超えるクエリはエラーを返します。 |
+| <NextChannel action="include">Milvus のバージョン</NextChannel> | <NextChannel action="include">オンデマンドクラスターでは、Milvus のバージョン選択はサポートされていません。</NextChannel> |
 
 ## オンデマンドクラスターを作成する\{#create-an-on-demand-cluster}
 

@@ -2786,9 +2786,9 @@
       "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
-      "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",
+      "sourceHash": "e9ac093682ad74be0664f8b63aec43f0c37a0024f6789ab20296256ad78d0cc9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
       "sourceHash": "f5cba8fb6a662e1c7c76f80f55301ab9016bcbdbb6b37abef4e41b2b3610f688",
@@ -2821,9 +2821,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "033b146fa5462079e6e48e695f8bf66f6d79b9d89e09d1fa93ec02aaff781a5b",
+      "sourceHash": "593af9bbdc8ea0709b813d373482a9c2a969de324751d996a98ff06f17a4352d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
       "sourceHash": "4ba559f8d941e1af23dcebd2dff921d9833f394985bfb49a9e8ee6e79a4559f0",
@@ -2866,9 +2866,9 @@
       "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "98ee1574eb78ab1e66a29f8d2ed6e0d177aeeb804fe39ed94e87c161dd407bd1",
+      "sourceHash": "d30dbb57fa95482819496bb843575591f962d5f6dddf5e82fdf7c2e1cf1e94ee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-10-19T17:54:52.956Z"
+      "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "78cc66af47d14f33eb539b9b1339d50ad6f5a3f8bd21b184dccb450c9c5946e2",
