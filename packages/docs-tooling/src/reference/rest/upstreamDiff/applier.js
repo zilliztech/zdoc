@@ -251,7 +251,7 @@ function branchLabelAt(document, tokens) {
     return null
 }
 
-function applyFragmentEntry(document, entry, cited, denylist) {
+function applyFragmentEntry(document, entry, cited, denylist, normalizations) {
     const label = entry.diffEntryId
     const kind = entry.kind
     if ((denylist || []).includes(decodePointer(entry.opPath).pop())) {
@@ -273,6 +273,35 @@ function applyFragmentEntry(document, entry, cited, denylist) {
     }
     if (kind === 'constraint' && leaf === 'required' && (typeof entry.value === 'boolean') !== isParameterObject(parent)) {
         fail('REST_UPSTREAM_APPLY_VALUE_INVALID', `${label}: boolean required belongs to parameter objects, arrays to schemas`)
+    }
+    // A schema-level required member change is NORMALIZED, not agent-authored:
+    // two real runs lost the schema's existing members when constructing the
+    // array by hand, and prompt tuning did not fix it. The landed value is
+    // always the schema's current membership ± the cited field (exactly what
+    // expectedConstraintValue derives); the agent's array is checked for shape
+    // and recorded, never trusted. Locus binding still applies, and the
+    // required-relaxation confirmation gate stays upstream of this.
+    if (kind === 'constraint' && leaf === 'required' && !isParameterObject(parent)) {
+        const field = String(cited.field || '').split('#')[0]
+        if (!isPlainObject(parent.properties) || !(field in parent.properties)) {
+            fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: target schema does not declare the cited field "${field}"`)
+        }
+        // The denylist is a hard red line (decision 8) and outranks
+        // normalization: an internal-field name inside the submitted array is
+        // a smuggle attempt, not an imperfect copy — reject, never drop.
+        for (const member of (Array.isArray(entry.value) ? entry.value : [])) {
+            if ((denylist || []).includes(member)) {
+                fail('REST_UPSTREAM_INTERNAL_FIELD', `${label}: "${member}" is an internal field and cannot enter through a required array`)
+            }
+        }
+        const current = Array.isArray(parent.required) ? parent.required : []
+        const expected = cited.change.after ? [...new Set([...current, field])] : current.filter(name => name !== field)
+        parent[leaf] = expected
+        if (!sameValue(entry.value, expected, true)) {
+            normalizations.push({diffEntryId: label, kind: 'required-array', submitted: entry.value, applied: expected,
+                note: 'normalized to the schema membership +/- the cited field; the submitted array is advisory'})
+        }
+        return
     }
     assertBoundToCitedEntry(document, entry, cited, parent, leaf, tokens)
     parent[leaf] = entry.value
@@ -341,6 +370,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
     const ledgerDrafts = []
     const titleEntries = []
     const overrides = []
+    const normalizations = []
 
     for (const entry of changeSet.entries) {
         const cited = citedById.get(entry.diffEntryId)
@@ -366,7 +396,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
         if (cited.fragment && cited.fragment !== entry.targetFragment) {
             fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${entry.diffEntryId}: drift was reported in ${cited.fragment}, not ${entry.targetFragment}`)
         }
-        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist)
+        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist, normalizations)
         appliedLog.push({diffEntryId: entry.diffEntryId, kind: entry.kind, targetFragment: entry.targetFragment, opPath: entry.opPath,
             ...(entry.override ? {override: true, overrideReason: entry.overrideReason} : {})})
     }
@@ -385,6 +415,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
         ledgerDrafts,
         titleLog: titleResult.log,
         overrides,
+        normalizations,
     }
 }
 

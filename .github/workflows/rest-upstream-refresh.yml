@@ -415,11 +415,12 @@ jobs:
             `### Applier log`, '',
             `- applied entries: ${applied.appliedLog.length}`,
             `- overrides: ${applied.overrides.length}${applied.overrides.length ? ' — review each overrideReason below' : ''}`,
+            `- normalized required arrays: ${(applied.normalizations ?? []).length}${(applied.normalizations ?? []).length ? ' — the applier rebuilt each array from the schema membership ± the cited field; the submitted arrays were advisory (details below)' : ''}`,
             `- ledger drafts: ${applied.ledgerDrafts.length}`,
             `- unaddressed diff entries: ${applied.unaddressedDiffEntries.length}`,
             '',
             '```json',
-            JSON.stringify({overrides: applied.overrides, ledgerDrafts: applied.ledgerDrafts, unaddressedDiffEntries: applied.unaddressedDiffEntries}, null, 2),
+            JSON.stringify({overrides: applied.overrides, normalizations: applied.normalizations ?? [], ledgerDrafts: applied.ledgerDrafts, unaddressedDiffEntries: applied.unaddressedDiffEntries}, null, 2),
             '```',
             '',
           ].join('\n')

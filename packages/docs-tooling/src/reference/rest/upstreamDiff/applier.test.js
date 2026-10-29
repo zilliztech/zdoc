@@ -414,6 +414,67 @@ test('ledger drafts are bound to the cited operation: a forged opKey or field-le
     assert.deepEqual(drafted.ledgerDrafts.map(draft => draft.opKey), ['post /v2/vectordb/collections/create'])
 })
 
+// Two real refresh runs lost the schema's existing required members when the
+// agent built the array by hand. The applier now normalizes schema-level
+// required writes to "membership +/- the cited field" and records the
+// deviation instead of failing the run.
+test('schema-level required writes are normalized to membership +/- the cited field', () => {
+    const diff = lifecycleDiff()
+    const documents = new Map([['05-collection-operations-v2.json', lifecycleFragment()]])
+    // the fragment schema carries no required array here; simulate one with an
+    // existing member to prove preservation
+    documents.get('05-collection-operations-v2.json').paths['/v2/vectordb/collections/describe'].post
+        .requestBody.content['application/json'].schema.required = ['actions']
+
+    const changeSetDoc = parseChangeSet(JSON.stringify(changeSet([
+        // agent array drops `actions` — exactly the run-4/run-5 failure shape
+        {id: MAXLENGTH_ID, kind: 'constraint', targetFragment: '05-collection-operations-v2.json',
+            opPath: `${DESCRIBE_POINTER}/requestBody/content/application~1json/schema/required`, value: ['comparisonMethod']},
+    ], diff)))
+    const result = applyChangeSet({documents, titles: {}, changeSet: changeSetDoc, diff, ruleset: RULESET})
+    const schema = result.documents.get('05-collection-operations-v2.json')
+        .paths['/v2/vectordb/collections/describe'].post.requestBody.content['application/json'].schema
+    // landed value is membership + field, preserving the existing member
+    // (the fixture's cited field is collectionName; the submitted array still
+    // mirrors the real run-4/run-5 failure shape of dropping the member)
+    assert.deepEqual(schema.required, ['actions', 'collectionName'])
+    // and the deviation is recorded for the PR reviewer
+    assert.equal(result.normalizations.length, 1)
+    assert.deepEqual(result.normalizations[0].submitted, ['comparisonMethod'])
+    assert.deepEqual(result.normalizations[0].applied, ['actions', 'collectionName'])
+    assert.match(result.normalizations[0].note, /normalized/)
+})
+
+test('a correct required array lands without a normalization record', () => {
+    const diff = lifecycleDiff()
+    const documents = new Map([['05-collection-operations-v2.json', lifecycleFragment()]])
+    documents.get('05-collection-operations-v2.json').paths['/v2/vectordb/collections/describe'].post
+        .requestBody.content['application/json'].schema.required = ['actions']
+    const changeSetDoc = parseChangeSet(JSON.stringify(changeSet([
+        {id: MAXLENGTH_ID, kind: 'constraint', targetFragment: '05-collection-operations-v2.json',
+            opPath: `${DESCRIBE_POINTER}/requestBody/content/application~1json/schema/required`, value: ['actions', 'collectionName']},
+    ], diff)))
+    const result = applyChangeSet({documents, titles: {}, changeSet: changeSetDoc, diff, ruleset: RULESET})
+    assert.deepEqual(result.documents.get('05-collection-operations-v2.json')
+        .paths['/v2/vectordb/collections/describe'].post.requestBody.content['application/json'].schema.required,
+        ['actions', 'collectionName'])
+    assert.deepEqual(result.normalizations, [])
+})
+
+test('a schema-level required write on a schema without the cited field still fails the locus', () => {
+    const diff = lifecycleDiff()
+    const documents = new Map([['05-collection-operations-v2.json', lifecycleFragment()]])
+    // citation names collectionName; write the required array on a schema that
+    // does not declare it (the operation object itself)
+    assert.throws(
+        () => applyChangeSet({documents, titles: {},
+            changeSet: parseChangeSet(JSON.stringify(changeSet([
+                {id: MAXLENGTH_ID, kind: 'constraint', targetFragment: '05-collection-operations-v2.json', opPath: '/paths/~1v2~1vectordb~1collections~1describe/post/required', value: ['collectionName']},
+            ], diff))), diff, ruleset: RULESET}),
+        /REST_UPSTREAM_APPLY_UNBOUND_LOCUS/,
+    )
+})
+
 test('lifecycle leaves the diff did not derive still require the override', () => {
     const diff = lifecycleDiff()
     assert.throws(

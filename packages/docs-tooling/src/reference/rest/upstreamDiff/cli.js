@@ -231,6 +231,7 @@ function registerApplyCommand(command) {
                 changedFiles: [...result.changedFiles].sort(),
                 appliedLog: result.appliedLog,
                 overrides: result.overrides,
+                normalizations: result.normalizations,
                 titleLog: result.titleLog,
                 ledgerDrafts: result.ledgerDrafts,
                 unaddressedDiffEntries: unaddressed,
