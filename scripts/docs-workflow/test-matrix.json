@@ -5,10 +5,14 @@
       "id": "build-provenance",
       "paths": [
         "scripts/build/write-provenance.mjs",
-        "scripts/build/write-provenance.test.mjs"
+        "scripts/build/write-provenance.test.mjs",
+        "scripts/build/localization-input-inventory.test.mjs",
+        "packages/docs-tooling/src/validation/localizationInputInventory.mjs",
+        ".gitignore"
       ],
       "focusedTests": [
-        "node --test scripts/build/write-provenance.test.mjs"
+        "node --test scripts/build/write-provenance.test.mjs",
+        "node --test scripts/build/localization-input-inventory.test.mjs"
       ],
       "harnesses": [],
       "gates": [

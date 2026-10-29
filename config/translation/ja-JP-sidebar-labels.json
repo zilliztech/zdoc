@@ -5,7 +5,7 @@
     "guides",
     "guides-byoc"
   ],
-  "description": "Japanese labels for guides/guides-byoc sidebar categories and links, keyed by each Docusaurus sidebar item's effective translation key (item.key ?? item.label — the same value Docusaurus itself uses to build sidebar.<sidebarName>.<category|link>.<key> translation entries). Consumed by scripts/docs-workflow/generate-ja-sidebar-labels.js. Reordering, moving, or renesting an existing sidebar item does not require a new entry here; only a brand-new item (new key) does.",
+  "description": "Japanese labels for guides/guides-byoc sidebar categories and links, keyed by each Docusaurus sidebar item's effective translation key (item.key ?? item.label — the same value Docusaurus itself uses to build sidebar.<sidebarName>.<category|link>.<key> translation entries). Consumed by scripts/docs-workflow/generate-ja-sidebar-labels.js, which the en site build runs before docusaurus build (--allow-missing: items missing here fall back to their English label). Reordering, moving, or renesting an existing sidebar item does not require a new entry here; only a brand-new item (new key) does.",
   "labels": {
     "Release notes": "リリースノート",
     "category:tutorials/ai-models": "AIモデル",

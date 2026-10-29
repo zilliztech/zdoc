@@ -13,6 +13,7 @@ import {fileURLToPath} from 'node:url';
 import {
   assertNoInputPathCollisions,
   compareBinary,
+  isExcludedInputPath,
   isInputPath,
   parseLocalizationInputInventory,
   pathInRoot,
@@ -267,7 +268,9 @@ function discoverInputDefinitionPaths(repositoryRoot, definition) {
       relativePath,
       'translation target input',
     ))),
-  ])].sort(compareBinary);
+  ])]
+    .filter(relativePath => !isExcludedInputPath(relativePath, definition))
+    .sort(compareBinary);
 }
 
 function resolveCandidateWorkspace(environment, site, externalSnapshot) {
@@ -323,7 +326,9 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     ...definition.roots.flatMap(root => walkReleaseInputRoot(repositoryRoot, root)),
     ...definition.required,
   ];
-  const actual = [...new Set(discovered)].sort(compareBinary);
+  const actual = [...new Set(discovered)]
+    .filter(relativePath => !isExcludedInputPath(relativePath, definition))
+    .sort(compareBinary);
   const tracked = new Set(trackedInputInventory
     ? readLocalizationInputInventory(repositoryRoot, trackedInputInventory)
     : trackedFiles(repositoryRoot));
