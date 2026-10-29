@@ -50,11 +50,22 @@ jobs:
             echo 'PRODUCT_DOC_LINKS_GITHUB_TOKEN is not configured; provision a secret with contents:read on zilliztech/zilliz-cloud' >&2
             exit 1
           }
-          revision=$(curl -s --fail-with-body \
+          # Fail closed on every layer, with the failure visible: the response
+          # lands in a file so the HTTP status and any error body reach the log
+          # (401 on an expired/revoked token, 403 on SSO/permission loss, 404
+          # on a vanished ref), and jq -e rejects any body whose .sha is not a
+          # 40-hex commit SHA. Without this, a curl failure used to survive as
+          # jq's literal "null" and disguise the auth problem as a green step.
+          set -o pipefail
+          http_code=$(curl -s --fail-with-body -o "$RUNNER_TEMP/source-commit.json" -w '%{http_code}' \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $PRODUCT_DOC_LINKS_GITHUB_TOKEN" \
-            https://api.github.com/repos/zilliztech/zilliz-cloud/commits/master \
-            | jq -r '.sha')
+            https://api.github.com/repos/zilliztech/zilliz-cloud/commits/master) || {
+            echo "source API HTTP ${http_code:-unknown}:" >&2
+            cat "$RUNNER_TEMP/source-commit.json" >&2 || true
+            exit 1
+          }
+          revision=$(jq -e -r '.sha | select(type == "string" and test("^[0-9a-f]{40}$"))' "$RUNNER_TEMP/source-commit.json")
           test -n "$revision"
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
