@@ -643,6 +643,68 @@ S3 failure never invalidates or deletes the successfully generated local artifac
 
 Control-plane publication always prepares both `en-US` and `zh-CN` artifacts from one validated collection. Existing files under `meta/openapi` remain inputs to `fetch-apifox-docs`; they are not accepted by `generate-integrated-spec` until a producer-backed manifest, fragment identity, and review provenance are available.
 
+### 5.3 `rest-upstream-*` (upstream refresh pipeline, P0 tooling)
+
+These commands implement the deterministic half of the upstream refresh flow
+described in `.claude/specs/2026-10-28-rest-upstream-pipeline-design.md`. They
+never publish and never touch `content/`, `generated/`, or `i18n/`.
+
+Inputs under `meta/upstream/`:
+
+| File | Role |
+|------|------|
+| `rest-upstream-lock.json` | Per-source upstream pin (`repository`, `artifact`, full-SHA `pin.commit`, optional `contentSha256`, `trackedRef`, `apiSurface`, `publicationTarget`). The lock not moving means "upstream drift is reported, not adopted"; adopting upstream is a PR that bumps the pin together with the fragment changes. Contract: `contracts/rest-upstream-lock.schema.json`. |
+| `ledger.json` | Append-only adoption decisions per `(source, opKey)`: `adopted` (requires `fragment`), `rejected`, `deferred`, `external`. `opKey` is the lowercase OpenAPI method plus path, e.g. `post /v2/projects`. Contract: `contracts/rest-upstream-ledger.schema.json`. |
+| `refresh-rules.json` | Machine-readable ruleset: `internalFieldDenylist` (never documented) plus the policy text the refresh agent must follow. |
+
+Commands (run through `node packages/docs-tooling/src/reference/rest/index.js <command>`):
+
+| Command | Purpose |
+|---------|---------|
+| `rest-upstream-lock [--lock <path>]` | Validate the lock and list pinned sources. |
+| `rest-upstream-format [--dir <path>] [--write]` | Check that every fragment is byte-canonical (`JSON.stringify(doc, null, 2)` + newline, raw UTF-8). The hermetic suite enforces this for `meta/openapi/**`; `--write` normalizes offenders in place. |
+| `rest-upstream-diff --source <id> --spec <file> --out <dir> [--upstream-commit <sha>] [--expect-pinned] [--migration <path>]` | Downgrade a fetched upstream spec (3.1 → 3.0.3, fail-closed on unmappable constructs) and diff it against the fragments. Writes deterministic `diff.json` plus a human `diff.md`. Categories: `upstream-added`, `fragment-only`, `upstream-modified`, `upstream-added-field`, `upstream-added-param`, `unattributed`, `zdoc-only`. Entry ids are `category|opKey|fragment|scope|branch|responseStatus|field|changeKind|changeKey` and are unique per diff. Operations that exist upstream are compared wherever a fragment documents them; `fragment-only` is reported only for fragments whose `fragment-migration.json` `apiSurface` matches the source (a data-plane fragment missing from the control-plane spec is expected), and every fragment must be classified there. |
+| `rest-upstream-apply --diff <file> --change-set <file> --out <dir>` | Apply an agent-authored change set (contract: `contracts/rest-upstream-change-set.schema.json`) to copies of the fragments and `titles.json`, then reconcile. Writes the applied fragments, `titles.json`, and `applied.json` (applied log, ledger drafts, title log, unaddressed diff entries). |
+
+Branch-aware diff semantics (user decision 2026-10-28): scenario `oneOf`/`anyOf`
+branches are documentation assets. An upstream merged object is treated as the
+union of all branch fields, fields a branch deliberately omits are never
+proposed for it, and fields covered by no branch surface once as
+`unattributed`. Responses are matched to the best-overlapping branch; the other
+tabs stay untouched. An upstream body without a `required` array yields one
+`requires-manual-confirmation` item per operation instead of per-field required
+changes (suspected generator loss, confirm with R&D).
+
+Applier guarantees: the change set must carry the `sha256:` digest of the exact
+`diff.json` it was authored against and every entry must name an existing diff
+entry id (unsourced edits are rejected); writes are limited to prose
+(`summary`/`description`/`example`), constraint, and lifecycle leaves with
+type-checked values; internal field names are refused as keys and as
+`required` members; and the structural skeleton (properties, branches, `x-*`
+keys) must be identical before and after. Each write is additionally **bound to
+the cited drift**: a prose entry must cite a `summary`/`description` drift and
+write that leaf; a constraint entry must cite a `constraint`/`required`/
+`deprecated` drift, write the reported key on the reported parameter or field
+(inside the very oneOf/anyOf branch the drift names — matched by `x-tab-label`
+— when the drift was branch-scoped, in the fragment the drift was reported in), and carry exactly the upstream value the diff
+recorded; title additions must cite an `upstream-added` operation and removals
+a `fragment-only` one. Deviating from the upstream value, applying a drift
+flagged `requiresConfirmation` (`required-array` absent upstream or
+`required-relaxation`), or writing lifecycle attributes requires
+`override: true` plus `overrideReason`, and every override is listed in
+`applied.json` for the reviewer. Structural changes such as new operations or
+fields remain a human/ledger lane.
+
+Known limits of the P0 diff (deliberate, revisit in P2/P3): oneOf/anyOf
+branches nested inside a property (for example vector `data` rows/columns) are
+compared as opaque values, so drift inside them is not reported; description
+comparison collapses whitespace, so Markdown-only changes (line breaks, code
+block indentation) are not reported; when the upstream body is itself branched
+its per-branch `required` arrays are not compared and one confirmation item is
+emitted instead. `reconcile()` guards direct library misuse; through the CLI the
+applied log is produced by the applier itself, so its stray/incomplete checks
+cannot trip there.
+
 ## 6. Attribute Resolution Quick Reference
 
 ### Beta Tag Resolution Order

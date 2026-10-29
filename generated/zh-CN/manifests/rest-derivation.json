@@ -31,16 +31,16 @@
     "29-on-demand-compute-v2.json": "6e84721ed0ad433acc1a29c3dee28f795997880e698a993701cdea26278a9708",
     "30-global-clusters.json": "f83d2d57e9d9a3c08ac8ae4f24038f28725bbdd6098f6bd97c4459bbabbcbc15",
     "31-storage-integration-v2.json": "6fee998964b6df4617db8d9fa6d0887ab007b4c24d6647aed040093cb8b3f4a0",
-    "32-spark-job-v2.json": "fd4cf8ae10c924fbf233539ba1834afc7cd84742f8b59264cb57dfb92f985c72",
+    "32-spark-job-v2.json": "f78a157a6145bd66b1249a5e7e5b0a7f075d2e99ff1447211df41383fa97e14e",
     "33-on-demand-cluster-operations-v2.json": "f70a2f9473dcd15c2a52e4626f8ceafb8f489641ff7705c362cea1640fb0a06d",
-    "34-cloud-access-control-operations-v2.json": "bb13285235f07c97fdf84c29d7c757f31322a1ca7c5dbb5ae28b4ae6beefcfb9",
+    "34-cloud-access-control-operations-v2.json": "edba0e39a4db76784d018af7f59f26a51bc48f98eae251375145e3ae6b16a680",
     "35-cloud-api-key-operations-v2.json": "f900ad3aa066c341734186b60280a96f5eef8c44390388fa6480049a80ab3cf8",
     "36-private-endpoint-operations-v2.json": "142740e95ce9ee40712741f696baee42e59d436a7fca9f44c8640189dde2b614",
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
     "38-snapshot-operations-v2.json": "5b2da4866372d10f55f97811420b191d10f96b3a24ebb7bf8b68bfd81e2b6db5"
   },
-  "generatedAt": "2026-10-29T06:47:42.897Z",
+  "generatedAt": "2026-10-29T07:26:35.031Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "0697feb7f60dcc9e6133caaecda9acb9cb6e0cc7"
+  "toolingSha": "2c35238e8313b32f6963378abc26acdaccd5168d"
 }

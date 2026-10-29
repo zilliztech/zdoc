@@ -7,6 +7,7 @@ const { loadSpecifications } = require('./specLoader')
 const { loadFragmentCollection } = require('./fragmentCollection')
 const { publishBilingualControlPlaneSpecs, publishIntegratedSpecs } = require('./integratedSpecPublisher')
 const {writeRestDerivationManifest} = require('./restDerivationManifest')
+const {registerUpstreamCommands, UPSTREAM_COMMANDS} = require('./upstreamDiff/cli')
 
 function registerFetchCommand(command) {
     command
@@ -138,6 +139,7 @@ module.exports = function () {
         extendCli(cli) {
             registerFetchCommand(cli.command('fetch-apifox-docs'))
             registerGenerateIntegratedSpecCommand(cli.command('generate-integrated-spec'))
+            registerUpstreamCommands(cli)
         },
     }
 }
@@ -147,6 +149,14 @@ if (require.main === module) {
         const cli = new Command()
             .name('fetch-apifox-docs')
         registerGenerateIntegratedSpecCommand(cli.command('generate-integrated-spec'))
+        cli.parseAsync(process.argv).catch(error => {
+            console.error(error instanceof Error ? error.message : String(error))
+            process.exitCode = 1
+        })
+    } else if (UPSTREAM_COMMANDS.has(process.argv[2])) {
+        const cli = new Command()
+            .name('fetch-apifox-docs')
+        registerUpstreamCommands(cli)
         cli.parseAsync(process.argv).catch(error => {
             console.error(error instanceof Error ? error.message : String(error))
             process.exitCode = 1

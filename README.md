@@ -198,6 +198,107 @@ For a new interface, the minimum review checklist is: source operation and
 matrix coverage; generated English/Chinese output; and the English build's
 Japanese localization provenance.
 
+### REST upstream drift watchdog and refresh
+
+The REST fragments are kept aligned with their upstream specs through two
+workflows driven by `packages/docs-tooling/src/reference/rest/meta/upstream/rest-upstream-lock.json`.
+The lock pins one commit per upstream source: `zilliz-cloud-control-plane` (a
+spec-file source) and `milvus-data-plane` (a source-tree source, classified by
+the vendored Go extractor). See
+[the pipeline design](.claude/specs/2026-10-28-rest-upstream-pipeline-design.md),
+[the 10-21 replay alignment report](.claude/specs/2026-10-28-rest-upstream-replay-10-21-alignment.md)
+(P1), and [the P2 milvus extractor report](.claude/specs/2026-10-29-rest-upstream-milvus-extractor-p2.md)
+for the acceptance evidence.
+
+`rest-upstream-drift-watchdog.yml` runs daily and on demand. It is read-only:
+for each source it compares the tracked ref HEAD with the pin and, on drift,
+runs the deterministic diff at HEAD — spec-file sources download the upstream
+spec, source-tree sources download the non-test Go files of the pinned
+directory and extract the skeleton with the vendored extractor (the workflow
+installs Go 1.27 via `actions/setup-go`; locally, `go` must be on PATH). The
+report artifact (`rest-upstream-drift-<run_id>`) carries
+`watchdog-report.{md,json}` plus the raw `diff.json`/`diff.md` (and the
+extracted `skeleton.json`) per drifting source; the Feishu card fires only
+when drift exists. The lock file is never written by the watchdog; pins move
+only through reviewed refresh PRs.
+
+`rest-upstream-refresh.yml` is dispatched by an operator after a watchdog
+report (inputs: `source`, optional `upstream_commit`, `base_ref`,
+`draft_pr`, optional `lifecycle_track`). One dispatch produces one PR per
+source: prepare an isolated
+staging directory (diff plus touched fragment copies plus the ruleset and the
+instruction pack, with a repository-path isolation sweep), run one codex agent
+turn on the internal gateway that emits a schema'd change set, apply it with
+the deterministic applier (every entry must bind to a cited diff entry;
+denylist, `x-*`, and oneOf branch structure are asserted), gate the T4 ledger
+accounting, run the canonical
+bytes check, the change-scoped `test:for-change` union plus
+`pnpm test:rest-publication-contract` and `pnpm test:workflow-policy`, both
+site builds, `git diff --check`, and finally open the PR with
+`REST_UPSTREAM_REFRESH_PAT` so the pull-request checks actually run. The same
+commit bumps the lock pin to the refreshed upstream commit with its content
+SHA (atomic adoption: the watchdog goes quiet exactly when the PR merges) and
+lands the agent's ledger drafts as conservative `deferred` ledger entries so
+the PR stays atomic; human review reclassifies them in the PR. For milvus
+data-plane dispatches, pass `lifecycle_track` (e.g. `3.0.x`) to make the diff
+derive `x-added-at`/`x-last-modified`/`x-deprecated-since` suggestions; the
+applier binds lifecycle change-set values to those suggestions and requires an
+explicit override to deviate. The refresh workflow handles source-tree sources
+end to end (checkout-free GitHub contents fetch, `setup-go` 1.27, vendored
+extractor).
+The PR body embeds the diff report and the applier log (overrides, ledger
+drafts, unaddressed entries) for human review. ja-JP is a deliberate
+follow-up: the change set cannot write ja (the applier freezes `x-i18n`
+leaves), so each en-US prose change records the ja pages the ja lane must
+refresh.
+
+Required credentials and variables (all fail closed when missing):
+
+- `REST_UPSTREAM_GITHUB_TOKEN` — contents:read on `zilliztech/zilliz-cloud`
+  (falls back to `PRODUCT_DOC_LINKS_GITHUB_TOKEN`).
+- `REST_UPSTREAM_REFRESH_PAT` — a PAT allowed to push a `rest-upstream-refresh/*`
+  branch and open a PR; it must not be the default `GITHUB_TOKEN` (bot-PR CI
+  is phantom by design).
+- `AGENTIC_PROVIDER_API_KEY` plus `REST_UPSTREAM_AGENT_MODEL` and
+  `REST_UPSTREAM_AGENT_BASE_URL` (each falls back to the translation agent's
+  `AGENTIC_*` counterparts).
+
+Upstream deltas are classified in the append-only ledger
+(`meta/upstream/ledger.json`): `adopted`, `rejected`, `deferred`, or
+`external`. Bootstrap (2026-10-28) pre-registered the 51 stock fragment-only
+operations (v1 legacy, spark, access-control, api-keys, private-endpoint) as
+`external` plus 3 deferred decisions. Generate or merge further classifications
+with:
+
+```bash
+node packages/docs-tooling/src/reference/rest/index.js rest-upstream-ledger-bootstrap \
+  --from-diff <diff.json> --date <YYYY-MM-DD> --out <proposal.json>   # review, then:
+node packages/docs-tooling/src/reference/rest/index.js rest-upstream-ledger-bootstrap \
+  --merge <proposal.json>
+```
+
+`rest-upstream-prepare` builds the same staging directory locally for manual
+rehearsals (add `--allow-empty-drift` when no drift exists). The agent runner
+(`scripts/rest-upstream/rest-refresh-agent.js`) requires the staging directory
+from prepare, so it never needs the repository.
+
+Source-tree sources (milvus) diff against an extracted skeleton instead of a
+spec file. Produce one from a pinned checkout of the upstream directory and
+pass it with `--skeleton`:
+
+```bash
+go run packages/docs-tooling/src/reference/rest/upstreamDiff/milvus/extractor.go \
+  --dir <checkout>/internal/distributed/proxy/httpserver --out skeleton.json
+node packages/docs-tooling/src/reference/rest/index.js rest-upstream-diff \
+  --source milvus-data-plane --skeleton skeleton.json --out diff-out
+```
+
+The extractor reads the route table and request structs of the pinned Go
+package and emits structural truth only (paths, handler names, request
+fields, Go-level types, `binding:"required"` membership); prose, response
+shapes, and doc-layer constraints are documentation territory and stay out of
+the skeleton.
+
 ## Production publication runbook
 
 > Pipeline map: [`fetch-translation-pipeline-map.md`](.claude/specs/2026-08-29-fetch-translation-pipeline-map.md) — the phase-by-phase flow, artifact contracts, the 4 Git push points, and the known failure modes with their recovery entries.

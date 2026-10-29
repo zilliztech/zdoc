@@ -1,0 +1,117 @@
+name: rest upstream drift watchdog
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+concurrency:
+  group: rest-upstream-drift-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out immutable tooling revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v5
+
+      # Source-tree sources (milvus) are classified by running the vendored Go
+      # extractor (design §6.1, decision D3): Go is installed only here and in
+      # the refresh workflow, never in the regular build chain.
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.27'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Read-only drift check: the lock pins upstream commits and is never
+      # written here; pins move only through reviewed rest-upstream-refresh PRs.
+      # The private zilliztech/zilliz-cloud source needs contents:read —
+      # REST_UPSTREAM_GITHUB_TOKEN, falling back to PRODUCT_DOC_LINKS_GITHUB_TOKEN.
+      - name: Scan REST upstream drift
+        id: scan
+        env:
+          REST_UPSTREAM_GITHUB_TOKEN: ${{ secrets.REST_UPSTREAM_GITHUB_TOKEN || secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/rest-upstream/drift-watchdog.js --out tmp/rest-upstream-watchdog
+          node <<'NODE'
+          const fs = require('node:fs')
+          const report = JSON.parse(fs.readFileSync('tmp/rest-upstream-watchdog/watchdog-report.json', 'utf8'))
+          const drifting = report.sources.filter(source => source.status !== 'no-drift')
+          for (const source of report.sources) {
+            if (typeof source.id !== 'string' || typeof source.status !== 'string') throw new Error('malformed watchdog report source')
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `drifting_count=${drifting.length}\ncard_status=${drifting.length === 0 ? 'success' : 'fail'}\n`)
+          NODE
+
+      - name: Upload drift report
+        uses: actions/upload-artifact@v6
+        with:
+          name: rest-upstream-drift-${{ github.run_id }}
+          path: tmp/rest-upstream-watchdog
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Append report to step summary
+        run: cat tmp/rest-upstream-watchdog/watchdog-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create documentation site report card
+        id: report_card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "REST Upstream Drift Watchdog" --stages "Scan REST upstream drift"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach documentation site report note
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/rest-upstream-watchdog/watchdog-report.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Finish documentation site report card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status "$CARD_STATUS"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.scan.outputs.card_status }}

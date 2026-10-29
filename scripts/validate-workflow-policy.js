@@ -30,6 +30,9 @@ const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
 ]))
 const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
+  // The REST refresh pushes one new refresh branch per dispatch with a PAT and
+  // opens a draft PR; it never pushes master or dev.
+  ['rest-upstream-refresh.yml', new Set(['refresh'])],
   ['shared-docs-lock.yml', new Set(['lock'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
