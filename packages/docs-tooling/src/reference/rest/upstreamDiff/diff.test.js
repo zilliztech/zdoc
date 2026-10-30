@@ -117,11 +117,13 @@ test('scenario branches are documentation assets: deliberate omissions stay sile
         ['unattributed|post /v2/vectordb/jobs/import/create|11-import-operations-v2.json|requestBody|||stageName|field-uncovered|'])
     // Internal fields never surface anywhere.
     assert.deepEqual(ids(result, entry => ['accessKey', 'innerCall'].includes(entry.field)), [])
-    // objectUrl maxLength drifted: reported inside each branch that documents it, with upstream evidence.
+    // objectUrl maxLength drifted: each documenting branch gets ONE mirror
+    // entry whose after is the resolved upstream subtree (structure follows
+    // upstream; local prose merges back in the assembler).
     const objectUrl = result.entries.filter(entry => create(entry) && entry.field === 'objectUrl')
-    assert.deepEqual(objectUrl.map(entry => [entry.branch, entry.change.key, entry.change.before, entry.change.after]), [
-        ['External storage (On-demand)', 'maxLength', 128, 256],
-        ['External storage (Serving)', 'maxLength', 128, 256],
+    assert.deepEqual(objectUrl.map(entry => [entry.branch, entry.change.kind, entry.change.key, entry.change.before, entry.change.after]), [
+        ['External storage (On-demand)', 'schema', 'mirror', null, {type: 'string', maxLength: 256}],
+        ['External storage (Serving)', 'schema', 'mirror', null, {type: 'string', maxLength: 256}],
     ])
     assert.equal(objectUrl[0].evidence, '/paths/~1v2~1vectordb~1jobs~1import~1create/post')
     // files exists only in the fragment: informational zdoc-only entry on its branch.
@@ -178,10 +180,13 @@ test('non-branched bodies report field-level drift directly', () => {
     assert.deepEqual(result.entries.map(entry => [entry.category, entry.scope, entry.field, entry.change.kind, entry.change.key]), [
         ['upstream-added-field', 'requestBody', 'plan', 'field-uncovered', undefined],
         ['upstream-modified', 'operation', undefined, 'deprecated', undefined],
-        ['upstream-modified', 'requestBody', 'projectName', 'constraint', 'maxLength'],
-        ['upstream-modified', 'requestBody', 'projectName', 'description', undefined],
+        ['upstream-modified', 'requestBody', 'projectName', 'schema', 'mirror'],
         ['zdoc-only', 'requestBody', 'legacyFlag', 'field-absent-upstream', undefined],
     ])
+    // the mirror carries the upstream subtree (maxLength + upstream description
+    // ride along; the assembler merges the local prose back in)
+    const mirror = result.entries.find(entry => entry.field === 'projectName')
+    assert.deepEqual(mirror.change.after, {type: 'string', maxLength: 50, description: 'Project name.'})
 })
 
 test('output is deterministic, sorted, and entry ids are unique', () => {
@@ -341,7 +346,7 @@ test('structure-only sources compare request bodies but skip prose, parameters, 
     assert.ok(!categories.has('upstream-modified'))
 })
 
-test('structure-only sources still report operation presence, deprecation, type, and required drift', () => {
+test('structure-only sources still report operation presence, deprecation, shape, and required drift', () => {
     const upstream = treeUpstream()
     upstream.paths['/v2/vectordb/collections/list'].post.deprecated = true
     upstream.components.schemas.CollectionNameReq.required = ['dbName']
@@ -354,12 +359,16 @@ test('structure-only sources still report operation presence, deprecation, type,
         ledger: EMPTY_LEDGER,
         ruleset: RULESET,
     })
-    // The fragment-side maxLength stays (zdoc-only, sorted last): doc design.
-    assert.deepEqual(result.entries.map(entry => [entry.category, entry.scope, entry.field ?? null, entry.change.kind, entry.change.after, entry.requiresConfirmation ?? null]), [
+    // Structure-only mirrors fire on shape keys only (type/items/properties/
+    // required): the extractor cannot speak to scalar constraints, so the
+    // fragment-side maxLength stays and the zdoc-only lane reports it.
+    const projection = result.entries.find(entry => entry.field === 'projection')
+    assert.equal(projection.change.kind, 'schema')
+    assert.deepEqual(projection.change.after, {type: 'array', items: {type: 'string'}})
+    assert.deepEqual(result.entries.filter(entry => entry.change.kind !== 'schema').map(entry => [entry.category, entry.scope, entry.field ?? null, entry.change.kind, entry.change.after, entry.requiresConfirmation ?? null]), [
         ['upstream-modified', 'operation', null, 'deprecated', true, null],
         ['upstream-modified', 'requestBody', 'collectionName', 'required', false, 'required-relaxation'],
         ['upstream-modified', 'requestBody', 'dbName', 'required', true, null],
-        ['upstream-modified', 'requestBody', 'projection', 'constraint', 'array', null],
         ['zdoc-only', 'requestBody', 'dbName', 'constraint', null, null],
     ])
 })

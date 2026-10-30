@@ -1,19 +1,24 @@
-// Deterministic assembler for the decisions-first refresh pipeline (2026-10-29).
-// The decision stage only takes stances (adopt/skip/ledger) on diff entries; this
-// module derives every structural byte of the change set — opPath from the diff
-// entry's own coordinates plus the fragment's branch shape, value from the drift's
-// before/after, evidence from a fixed template. The run-3/4/5/9 failure family
-// (mis-transcribed pointers, dropped required members, wrong value shapes) is
-// structurally impossible here: no decision input carries a locus or a value.
-//
-// The applier and its gates stay the final authority; assembler output is a
-// plain v1.0 change set so every existing binding/confirmation/normalization
-// rule keeps applying unchanged.
+// Deterministic assembler for the decisions-first refresh pipeline (2026-10-29;
+// 2026-10-30 merge model). Three lanes:
+//   - AUTO (no stance): field mirrors (change.kind "schema") rebuild the field
+//     subtree from the diff's own upstream bytes with local prose merged back
+//     in; added fields/parameters become additions — into scenario branches
+//     when the branch plan places them, else into the unbranched schema.
+//   - STANCE (model): operation deprecation, parameter required booleans,
+//     ledger attribution (upstream-added / fragment-only / unattributed).
+//   - REPORT (human): prose drift, fragment-only fields upstream retired,
+//     unplaced additions, relaxation-flagged mirrors, branch reorganizations.
+// The model never writes a path or a value: every structural byte derives from
+// the diff entry itself. The applier and its gates stay the final authority;
+// assembler output is a plain v1.0 change set so every existing binding/
+// confirmation/normalization rule keeps applying unchanged.
 
 const fs = require('node:fs')
 const path = require('node:path')
 const Ajv2020 = require('ajv/dist/2020')
 const {diffDigestOf} = require('./changeSet')
+const {mergeMirrorProse} = require('./mirror')
+const {buildPlacementRecords, validatePlacements, branchLabelsForScope} = require('./branchPlan')
 
 const decisionsSchema = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'contracts', 'rest-upstream-decisions.schema.json'), 'utf8'))
 const validateDecision = new Ajv2020({allErrors: true, strict: false}).compile(decisionsSchema)
@@ -30,12 +35,13 @@ const CONSTRAINT_KEYS = new Set([
     'enum', 'default', 'nullable', 'deprecated',
 ])
 const PROSE_KINDS = new Set(['description', 'summary'])
+const MIRROR_KINDS = new Set(['schema'])
 const LIFECYCLE_KEYS = new Set(['x-added-at', 'x-last-modified', 'x-deprecated-since'])
 const ADOPTABLE_CATEGORIES = new Set(['upstream-modified'])
-// The applier binds ledger drafts to operation-level drift only (field-level
-// attribution is human content work), so the assembler refuses them earlier
-// with the same rule.
+// The applier binds ledger drafts to operation-level drift only, so the
+// assembler refuses them earlier with the same rule.
 const LEDGERABLE_CATEGORIES = new Set(['upstream-added', 'fragment-only', 'unattributed'])
+const DELETION_KINDS = new Set(['field-absent-upstream', 'param-absent-upstream'])
 
 function validateDecisions(decisions) {
     for (const decision of decisions) {
@@ -105,13 +111,16 @@ function operationBasePath(opKey) {
 }
 
 // Scenario branches are oneOf/anyOf members tagged x-tab-label; the diff names
-// the branch, the fragment decides the container and the index.
+// the branch, the fragment decides the container and the index. A branch may
+// be a $ref to a shared component (storageIntegrations documents four tabs
+// through one component): the writable locus is then the component definition,
+// and every branch citing it mirrors idempotently onto the same bytes.
 function schemaContainerPath({base, scope, responseStatus, branch, fragmentDocument}) {
     let schemaPath
     if (scope === 'requestBody') {
         schemaPath = `${base}/requestBody/content/application~1json/schema`
     } else if (scope === 'response') {
-        schemaPath = `${base}/responses/${responseStatus}/content/application~1json/schema`
+        schemaPath = `${base}/responses/${responseStatus || '200'}/content/application~1json/schema`
     } else {
         fail('REST_UPSTREAM_ASSEMBLE_SCOPE_UNSUPPORTED', scope)
     }
@@ -130,8 +139,15 @@ function schemaContainerPath({base, scope, responseStatus, branch, fragmentDocum
         if (index >= 0 && index < members.length && members[index] && members[index]['x-tab-label'] === undefined) branchIndex = index
     }
     if (branchIndex < 0) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_NOT_FOUND', `${schemaPath}/${containerName} has no branch ${branch}`)
+    const member = members[branchIndex]
+    if (typeof member?.$ref === 'string' && member.$ref.startsWith('#/')) {
+        const componentPath = `/${member.$ref.slice(2).split('/').map(token => escapePointerToken(token.replace(/~1/g, '/').replace(/~0/g, '~'))).join('/')}`
+        const component = resolvePointer(fragmentDocument, componentPath)
+        if (!component) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_REF_DANGLING', `${branch}: ${member.$ref}`)
+        return {schemaPath: componentPath, container: component}
+    }
     const branchPath = `${schemaPath}/${containerName}/${branchIndex}`
-    return {schemaPath: branchPath, container: members[branchIndex]}
+    return {schemaPath: branchPath, container: member}
 }
 
 function locateParameter({base, field, fragmentDocument}) {
@@ -189,11 +205,9 @@ function mainEntry({decision, entry, context}) {
     const overrideFields = override ? {override: true, overrideReason: decision.overrideReason} : {override: false}
 
     if (PROSE_KINDS.has(change.kind)) {
-        // Rule 8: en-US prose copies the upstream text verbatim; the ja lane
-        // applies the follow-up, so the evidence names the pages to update.
-        return {diffEntryId: entry.id, kind: 'prose', targetFragment: entry.fragment,
-            opPath: `${context.fieldObjectPath}/${change.kind}`, value: change.after,
-            evidence: `${base} ${change.kind} updated to upstream text; ja-JP page for ${entry.opKey} needs the matching follow-up update`, ...overrideFields}
+        // Unreachable through the pipeline (prose is a report lane and the
+        // decision gates reject it); kept fail-closed for hand-authored files.
+        fail('REST_UPSTREAM_ASSEMBLE_PROSE_ADOPT', `${entry.id}: prose drift is never assembled; the fragments keep their own text`)
     }
     if (change.kind === 'required') {
         if (entry.scope === 'parameter') {
@@ -253,13 +267,169 @@ function ledgerEntry({decision, entry}) {
         evidence: `${base}: ledger proposal (${decision.reason})`}
 }
 
-function assembleChangeSet({diffDocument, decisions, fragmentLoader}) {
+// AUTO lane — mirror: the value is the upstream subtree with the fragment's
+// prose merged back in, recomputed here from the fragment copy. The applier
+// recomputes the same merge from the live fragment and refuses any deviation.
+function mirrorEntry({entry, fragmentDocument}) {
+    const base = evidenceBase(entry)
+    const context = stanceContext({entry, fragmentDocument})
+    const current = resolvePointer(fragmentDocument, context.fieldObjectPath)
+    if (!current || typeof current !== 'object') {
+        fail('REST_UPSTREAM_ASSEMBLE_MIRROR_LOCUS_MISSING', `${entry.id}: ${context.fieldObjectPath}`)
+    }
+    const value = mergeMirrorProse(entry.change.after, current)
+    const mirror = {diffEntryId: entry.id, kind: 'mirror', targetFragment: entry.fragment,
+        opPath: context.fieldObjectPath, value,
+        requiredMembership: entry.requiredMembership ?? null,
+        evidence: `${base} schema mirrored to upstream structure (local prose preserved at surviving nodes)${entry.droppedLocalFields?.length ? `; local fields retired: ${entry.droppedLocalFields.join(', ')}` : ''}`,
+        override: false}
+    const extra = entry.lifecycle ? lifecycleEntries({entry, context}) : []
+    return [mirror, ...extra]
+}
+
+// AUTO lane — addition: value shape is {<field>: subtree} merged into the
+// target branch's properties container, or the upstream parameter object
+// appended to the operation's parameters.
+function additionEntries({entry, targets, fragmentDocument}) {
+    const base = evidenceBase(entry)
+    if (entry.category === 'upstream-added-param') {
+        return [{diffEntryId: entry.id, kind: 'addition', targetFragment: entry.fragment,
+            opPath: `${operationBasePath(entry.opKey)}/parameters`, value: entry.change.after,
+            evidence: `${base} parameter added from upstream (appended to parameters)`, override: false}]
+    }
+    const entries = []
+    for (const target of targets) {
+        const {schemaPath} = schemaContainerPath({base: operationBasePath(entry.opKey), scope: entry.scope,
+            responseStatus: entry.responseStatus, branch: target, fragmentDocument})
+        const propertiesPath = `${schemaPath}/properties`
+        const where = target ? ` into branch '${target}'` : ''
+        entries.push({diffEntryId: entry.id, kind: 'addition', targetFragment: entry.fragment,
+            opPath: propertiesPath, value: {[entry.field]: entry.change.after},
+            requiredMembership: entry.requiredMembership ?? null,
+            evidence: `${base} added from upstream${where}`, override: false})
+        if (entry.lifecycle) {
+            entries.push(...lifecycleEntries({entry, context: {scopePath: propertiesPath, fieldObjectPath: `${propertiesPath}/${entry.field}`}}))
+        }
+    }
+    return entries
+}
+
+function buildReports() {
+    return {
+        descriptionDrift: [],
+        deletions: [],
+        unplaced: [],
+        pendingConfirmation: [],
+        supersededStances: [],
+        placementsApplied: [],
+        rejectedPlacements: [],
+        reorganizations: [],
+    }
+}
+
+function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan = null}) {
     validateDecisions(decisions)
     const byId = new Map(diffDocument.entries.map(entry => [entry.id, entry]))
-    const entries = []
+    // Invented decision ids are the hallucination path: every stance must cite
+    // a diff entry that exists, even when the cited lane would ignore it.
     for (const decision of decisions) {
-        const entry = byId.get(decision.diffEntryId)
-        if (!entry) fail('REST_UPSTREAM_ASSEMBLE_DIFF_ENTRY_UNKNOWN', decision.diffEntryId)
+        if (!byId.has(decision.diffEntryId)) fail('REST_UPSTREAM_ASSEMBLE_DIFF_ENTRY_UNKNOWN', decision.diffEntryId)
+    }
+    const decisionById = new Map(decisions.map(decision => [decision.diffEntryId, decision]))
+    const fragmentCache = new Map()
+    const loader = fileName => {
+        if (!fragmentCache.has(fileName)) fragmentCache.set(fileName, fragmentLoader(fileName))
+        return fragmentCache.get(fileName)
+    }
+    const placementValidation = branchPlan
+        ? validatePlacements(branchPlan, buildPlacementRecords(diffDocument, loader))
+        : {placements: new Map(), rejected: []}
+    const placements = placementValidation.placements
+    const reports = buildReports()
+    reports.rejectedPlacements = placementValidation.rejected
+    reports.reorganizations = branchPlan?.reorganizations ?? []
+    const entries = []
+
+    for (const entry of diffDocument.entries) {
+        const change = entry.change || {}
+        const decision = decisionById.get(entry.id)
+
+        // Report lanes: prose harvest and retirement review.
+        if (PROSE_KINDS.has(change.kind)) {
+            if (decision && decision.action === 'adopt') {
+                fail('REST_UPSTREAM_ASSEMBLE_PROSE_ADOPT', `${entry.id}: prose drift is never assembled; the fragments keep their own text`)
+            }
+            reports.descriptionDrift.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, branch: entry.branch ?? null,
+                field: entry.field ?? null, before: change.before ?? null, after: change.after ?? null, templateProse: entry.templateProse === true})
+            continue
+        }
+        if (entry.category === 'zdoc-only' && DELETION_KINDS.has(change.kind)) {
+            reports.deletions.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, field: entry.field ?? null, kind: change.kind})
+            continue
+        }
+
+        // AUTO lane: mirrors.
+        if (change.kind === 'schema') {
+            if (decision) {
+                fail('REST_UPSTREAM_ASSEMBLE_AUTO_STANCE', `${entry.id}: ${change.kind} entries are assembled automatically; no stance is taken on them`)
+            }
+            if (entry.requiresConfirmation) {
+                reports.pendingConfirmation.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, branch: entry.branch ?? null,
+                    field: entry.field ?? null, reason: entry.requiresConfirmation,
+                    droppedLocalFields: entry.droppedLocalFields ?? []})
+                continue
+            }
+            entries.push(...mirrorEntry({entry, fragmentDocument: loader(entry.fragment)}))
+            continue
+        }
+
+        // AUTO lane: additions (parameters, and fields with a placement or an
+        // unbranched target schema). Unplaced branched fields degrade to the
+        // human-review list; an unattributed ledger stance stays legal there.
+        if (entry.category === 'upstream-added-param') {
+            if (decision) fail('REST_UPSTREAM_ASSEMBLE_AUTO_STANCE', `${entry.id}: added parameters are assembled automatically; no stance is taken on them`)
+            entries.push(...additionEntries({entry, targets: [], fragmentDocument: loader(entry.fragment)}))
+            continue
+        }
+        if (entry.category === 'upstream-added-field' || entry.category === 'unattributed') {
+            if (decision && decision.action === 'adopt') {
+                fail('REST_UPSTREAM_ASSEMBLE_AUTO_STANCE', `${entry.id}: added fields are assembled automatically; no stance is taken on them`)
+            }
+            if (decision && decision.action === 'ledger' && entry.category === 'upstream-added-field') {
+                fail('REST_UPSTREAM_ASSEMBLE_LEDGER_TARGET_INVALID', `${entry.id}: ledger drafts must cite an operation-level drift (${[...LEDGERABLE_CATEGORIES].sort().join(', ')}), not ${entry.category}`)
+            }
+            const targets = placements.get(entry.id)
+            if (targets) {
+                if (decision && decision.action === 'ledger') {
+                    reports.supersededStances.push({id: entry.id, action: decision.action, note: 'branch placement takes precedence over the ledger stance'})
+                }
+                reports.placementsApplied.push({id: entry.id, opKey: entry.opKey, field: entry.field, targets})
+                entries.push(...additionEntries({entry, targets, fragmentDocument: loader(entry.fragment)}))
+                continue
+            }
+            const branchInfo = entry.fragment ? branchLabelsForScope(loader(entry.fragment), entry) : null
+            if (branchInfo) {
+                reports.unplaced.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, responseStatus: entry.responseStatus ?? null,
+                    field: entry.field, branchLabels: branchInfo.labels})
+                if (entry.category === 'unattributed' && decision?.action === 'ledger') entries.push(ledgerEntry({decision, entry}))
+                continue
+            }
+            if (entry.category === 'unattributed') {
+                // unattributed entries only arise from branched fragment bodies;
+                // without a ledger stance to fall back on, reaching here means
+                // the fragment drifted from the diff.
+                if (!decision || decision.action !== 'ledger') {
+                    fail('REST_UPSTREAM_ASSEMBLE_UNATTRIBUTED_UNBRANCHED', `${entry.id}: unattributed field but the fragment schema has no scenario branches`)
+                }
+                entries.push(ledgerEntry({decision, entry}))
+                continue
+            }
+            entries.push(...additionEntries({entry, targets: [null], fragmentDocument: loader(entry.fragment)}))
+            continue
+        }
+
+        // STANCE lanes: everything left needs an explicit decision to act.
+        if (!decision) continue
         if (decision.action === 'skip') continue
         if (decision.action === 'ledger') {
             if (!LEDGERABLE_CATEGORIES.has(entry.category)) {
@@ -271,19 +441,23 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader}) {
         if (!ADOPTABLE_CATEGORIES.has(entry.category)) {
             fail('REST_UPSTREAM_ASSEMBLE_ADOPT_TARGET_INVALID', `${entry.id}: only upstream-modified drift is mechanically adoptable (${entry.category} needs a ledger proposal or human content work)`)
         }
-        const fragmentDocument = fragmentLoader(entry.fragment)
+        const fragmentDocument = loader(entry.fragment)
         const context = stanceContext({entry, fragmentDocument})
         entries.push(mainEntry({decision, entry, context}))
         if (entry.lifecycle) entries.push(...lifecycleEntries({entry, context}))
     }
+
     const orderIds = (left, right) => (left < right ? -1 : left > right ? 1 : 0)
+    // Stable sort: equal (diffEntryId, kind) keep assembly order — lifecycle
+    // leaves in LIFECYCLE_KEYS order, multi-branch additions in target order.
     entries.sort((left, right) => orderIds(left.diffEntryId, right.diffEntryId) || orderIds(left.kind, right.kind))
-    return {
+    const changeSet = {
         schemaVersion: '1.0',
         source: diffDocument.source,
         diffDigest: diffDigestOf(diffDocument),
         entries,
     }
+    return {changeSet, reports}
 }
 
 // Assemblability of one stance from the diff entry alone (no fragment needed).
@@ -293,6 +467,10 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader}) {
 function stanceError(decision, entry) {
     if (!decision || !entry) return 'unknown diff entry'
     if (decision.action === 'skip') return null
+    const change = entry.change || {}
+    if (PROSE_KINDS.has(change.kind)) return 'prose drift is a report lane; the fragments keep their own text'
+    if (change.kind === 'schema') return 'field mirrors are assembled automatically; no stance is taken on them'
+    if (['upstream-added-field', 'upstream-added-param'].includes(entry.category)) return 'added fields/parameters are assembled automatically; no stance is taken on them'
     if (decision.action === 'ledger') {
         if (!LEDGERABLE_CATEGORIES.has(entry.category)) {
             return `ledger drafts must cite an operation-level drift (${[...LEDGERABLE_CATEGORIES].sort().join(', ')}), not ${entry.category}`
@@ -302,8 +480,7 @@ function stanceError(decision, entry) {
     if (!ADOPTABLE_CATEGORIES.has(entry.category)) {
         return `only upstream-modified drift is mechanically adoptable (${entry.category} needs a ledger proposal or human content work)`
     }
-    const change = entry.change || {}
-    if (PROSE_KINDS.has(change.kind) || change.kind === 'deprecated' || change.kind === 'required') return null
+    if (change.kind === 'deprecated' || change.kind === 'required') return null
     if (change.kind === 'constraint') {
         if (!CONSTRAINT_KEYS.has(change.key)) return `constraint key ${JSON.stringify(change.key)} is not mechanically writable`
         return null

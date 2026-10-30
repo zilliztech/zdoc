@@ -108,8 +108,8 @@ test('diff then apply round trip through the CLI against a YAML upstream spec', 
         assert.match(fs.readFileSync(path.join(outDir, 'diff.md'), 'utf8'), /## `post \/v2\/projects` \(21-project-operations-v2.json\)/)
 
         const summaryId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|operation||||summary|'
-        const maxLengthId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|requestBody|||projectName|constraint|maxLength'
-        assert.deepEqual(diffDocument.entries.map(entry => entry.id), [summaryId, maxLengthId])
+        const mirrorId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|requestBody|||projectName|schema|mirror'
+        assert.deepEqual(diffDocument.entries.map(entry => entry.id), [summaryId, mirrorId])
         fs.writeFileSync(path.join(dir, 'change-set.json'), JSON.stringify({
             schemaVersion: '1.0',
             source: 'zilliz-cloud-control-plane',
@@ -117,8 +117,9 @@ test('diff then apply round trip through the CLI against a YAML upstream spec', 
             entries: [
                 {diffEntryId: summaryId, kind: 'prose', evidence: '/paths/~1v2~1projects/post', targetFragment: '21-project-operations-v2.json',
                     opPath: '/paths/~1v2~1projects/post/summary', value: 'Create Project'},
-                {diffEntryId: maxLengthId, kind: 'constraint', evidence: '/paths/~1v2~1projects/post', targetFragment: '21-project-operations-v2.json',
-                    opPath: '/paths/~1v2~1projects/post/requestBody/content/application~1json/schema/properties/projectName/maxLength', value: 50},
+                {diffEntryId: mirrorId, kind: 'mirror', evidence: '/paths/~1v2~1projects/post', targetFragment: '21-project-operations-v2.json',
+                    opPath: '/paths/~1v2~1projects/post/requestBody/content/application~1json/schema/properties/projectName',
+                    value: {type: 'string', maxLength: 50}, requiredMembership: null},
             ],
         }))
         const applyOut = path.join(dir, 'applied')
@@ -182,37 +183,38 @@ test('diff then candidates then decisions then assemble then apply round trip th
             '--fragments', fragmentsDir, '--out', outDir])
         assert.equal(diff.status, 0, diff.stderr)
 
-        const summaryId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|operation||||summary|'
-        const maxLengthId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|requestBody|||projectName|constraint|maxLength'
-
+        // The 2026-10-30 merge model: prose is a report lane and the maxLength
+        // drift is an auto mirror — the stance stage has nothing to judge here.
         const candidatesFile = path.join(dir, 'candidates.jsonl')
         const candidates = runCli(['rest-upstream-candidates', '--diff', path.join(outDir, 'diff.json'), '--out', candidatesFile])
         assert.equal(candidates.status, 0, candidates.stderr)
-        assert.match(candidates.stdout, /candidates 2 line\(s\)/)
-        assert.deepEqual(fs.readFileSync(candidatesFile, 'utf8').trim().split('\n').map(line => JSON.parse(line).d), [summaryId, maxLengthId])
+        assert.match(candidates.stdout, /candidates 0 line\(s\)/)
+        assert.equal(fs.readFileSync(candidatesFile, 'utf8'), '\n')
 
-        fs.writeFileSync(path.join(dir, 'decisions.jsonl'), [
-            JSON.stringify({diffEntryId: summaryId, action: 'adopt'}),
-            JSON.stringify({diffEntryId: maxLengthId, action: 'adopt'}),
-        ].join('\n') + '\n')
+        fs.writeFileSync(path.join(dir, 'decisions.jsonl'), '')
         const changeSetFile = path.join(dir, 'change-set.json')
         const assemble = runCli(['rest-upstream-assemble', '--diff', path.join(outDir, 'diff.json'), '--decisions', path.join(dir, 'decisions.jsonl'),
+            '--reports', path.join(dir, 'reports.json'),
             '--fragments', fragmentsDir, '--out', changeSetFile])
         assert.equal(assemble.status, 0, assemble.stderr)
-        assert.match(assemble.stdout, /assembled 2 entr\(ies\) from 2 decision\(s\) \(adopt=2\)/)
+        assert.match(assemble.stdout, /assembled 1 entr\(ies\) from 0 decision\(s\) \(\)/)
         const changeSet = JSON.parse(fs.readFileSync(changeSetFile, 'utf8'))
         assert.equal(changeSet.schemaVersion, '1.0')
-        assert.deepEqual(changeSet.entries.map(entry => entry.diffEntryId), [summaryId, maxLengthId])
-        assert.deepEqual(changeSet.entries.map(entry => entry.kind), ['prose', 'constraint'])
+        const reports = JSON.parse(fs.readFileSync(path.join(dir, 'reports.json'), 'utf8'))
+        assert.deepEqual(reports.descriptionDrift.map(entry => entry.after), ['Create Project'])
+        assert.deepEqual(changeSet.entries.map(entry => entry.kind), ['mirror'])
+        assert.deepEqual(changeSet.entries[0].value, {type: 'string', maxLength: 50})
 
         const applyOut = path.join(dir, 'applied')
         const apply = runCli(['rest-upstream-apply', '--diff', path.join(outDir, 'diff.json'), '--change-set', changeSetFile,
             '--fragments', fragmentsDir, '--titles', path.join(dir, 'titles.json'), '--out', applyOut])
         assert.equal(apply.status, 0, apply.stderr)
-        assert.match(apply.stdout, /applied 2 entries; changed 1 fragment\(s\); 0 diff entries left unaddressed/)
+        assert.match(apply.stdout, /applied 1 entries; changed 1 fragment\(s\); 1 diff entries left unaddressed/)
         const applied = JSON.parse(fs.readFileSync(path.join(applyOut, '21-project-operations-v2.json'), 'utf8'))
-        assert.equal(applied.paths['/v2/projects'].post.summary, 'Create Project')
-        assert.equal(applied.paths['/v2/projects'].post.requestBody.content['application/json'].schema.properties.projectName.maxLength, 50)
+        // prose stays local: the summary keeps the fragment text
+        assert.equal(applied.paths['/v2/projects'].post.summary, 'Create Project.')
+        assert.deepEqual(applied.paths['/v2/projects'].post.requestBody.content['application/json'].schema.properties.projectName,
+            {type: 'string', maxLength: 50})
 
         // The decision stage never mints structural coordinates: an invented
         // diff entry id is refused by the assembler, not smuggled into apply.

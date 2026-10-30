@@ -1,13 +1,18 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
+const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
-// Truth assignment (design §4): upstream/code wins on API truth; the fragments
-// win on documentation design. Most importantly (user decision 2026-10-28):
-// oneOf/anyOf scenario branches are documentation assets — an upstream merged
-// object is treated as the UNION of all branch fields, deliberate per-branch
-// omissions are silent, and fields that NO branch covers become `unattributed`
-// ledger candidates. The diff never proposes adding fields to branches.
+// Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
+// wholesale — any deep API-truth difference in a field (type, shape keys,
+// nested fields, constraints, required membership) collapses into ONE
+// `schema|mirror` entry carrying the resolved upstream subtree, which the
+// assembler merges with local prose and the applier verifies by
+// recomputation. The fragments win on documentation design: prose, oneOf/anyOf
+// scenario branches (an upstream merged object is the UNION of branch fields,
+// deliberate per-branch omissions are silent, and fields that NO branch covers
+// become `unattributed` ledger/placement candidates), and doc-owned x-*
+// attributes. Prose drift is reported for human harvest, never auto-adopted.
 //
 // Source-tree sources (design §6, e.g. the milvus data plane) diff in
 // structure-only mode: the extracted skeleton carries no prose, no parameters,
@@ -215,6 +220,32 @@ function diffSchemaPair(context) {
                 change: {kind: 'field-absent-upstream', before: null, after: null}, evidence: context.upstreamEvidencePath}))
             continue
         }
+        // Structure follows upstream: one deep API-truth difference collapses
+        // the field into a single mirror entry (resolved upstream subtree plus
+        // required-membership truth). The per-leaf constraint/description/
+        // required reports below are superseded — the mirror carries the
+        // upstream side of all of them, and the assembler keeps the local
+        // prose at every node that survives. Structure-only sources (the
+        // extractor vocabulary cannot speak to scalar constraints) compare
+        // with those keys stripped, so doc-extrapolated formats/lengths stay
+        // and the leaf lanes keep reporting them.
+        const mirrorProjection = schema => apiProjection(context.structureOnly ? stripScalarConstraints(schema) : schema)
+        if (!isDeepStrictEqual(mirrorProjection(fragmentProperty), mirrorProjection(upstreamProperty))) {
+            const localHadRequired = Array.isArray(fragmentRequired) && fragmentRequired.includes(name)
+            const requiredMembership = upstreamRequired === null ? null : upstreamRequired.includes(name)
+            const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
+                change: {kind: 'schema', key: 'mirror', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperty)},
+                requiredMembership,
+                droppedLocalFields: [...droppedLocalFieldPaths(upstreamProperty, fragmentProperty), ...droppedLocalKeys(upstreamProperty, fragmentProperty)],
+                evidence: context.upstreamEvidencePath,
+                // Retiring a fragment-side required member on upstream say-so
+                // stays the "suspected generator loss" class (decision 9):
+                // mirror applies it only with an explicit override.
+                requiresConfirmation: requiredMembership === false && localHadRequired ? 'required-relaxation' : undefined})
+            suggestLifecycle(entry, context.lifecycle, fragmentProperty, upstreamProperty)
+            entries.push(entry)
+            continue
+        }
         for (const [key, after] of constraintPairs(upstreamDocument, upstreamProperty)) {
             if (isDeepStrictEqual(fragmentProperty[key], after)) continue
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
@@ -253,7 +284,12 @@ function diffSchemaPair(context) {
         for (const name of Object.keys(upstreamProperties)) {
             if (denylisted(ruleset, name) || name in fragmentProperties) continue
             const entry = makeEntry({...context.meta, category: 'upstream-added-field', scope: context.scope, branch: context.branch, field: name,
-                change: {kind: 'field-uncovered', before: null, after: null}, evidence: context.upstreamEvidencePath})
+                // The resolved upstream subtree rides the entry: the addition
+                // lane (assembler/applier) copies structure from the diff, so
+                // no downstream step ever needs the upstream spec again.
+                change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
+                evidence: context.upstreamEvidencePath})
             suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])
             entries.push(entry)
         }
@@ -322,7 +358,9 @@ function diffBodied(context, fragmentContent, upstreamContent, scope) {
     for (const name of Object.keys(upstreamUnionProperties)) {
         if (denylisted(ruleset, name) || coveredNames.has(name)) continue
         const entry = makeEntry({...context.meta, category: uncoveredCategory, scope, field: name,
-            change: {kind: 'field-uncovered', before: null, after: null}, evidence: context.upstreamEvidencePath})
+            change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamUnionProperties[name])},
+            requiredMembership: upstreamUnionRequired === null ? null : upstreamUnionRequired.includes(name),
+            evidence: context.upstreamEvidencePath})
         if (uncoveredCategory === 'upstream-added-field') suggestLifecycle(entry, context.lifecycle, null, upstreamUnionProperties[name])
         entries.push(entry)
     }
@@ -381,6 +419,7 @@ function diffResponses(context) {
             // Match the upstream shape to the branch it most overlaps; the remaining
             // tabs (e.g. failure shapes) are preserved untouched.
             const upstreamProperties = propertiesOf(upstreamDocument, upstreamContent.schema)
+            const upstreamRequired = requiredOf(upstreamDocument, upstreamContent.schema)
             let best = -1
             let bestScore = -1
             fragmentBranches.branches.forEach((branch, index) => {
@@ -402,7 +441,9 @@ function diffResponses(context) {
             for (const name of Object.keys(upstreamProperties)) {
                 if (denylisted(context.ruleset, name) || coveredNames.has(name)) continue
                 const entry = makeEntry({...statusContext.meta, category: 'upstream-added-field', scope: 'response', field: name,
-                    change: {kind: 'field-uncovered', before: null, after: null}, evidence: context.upstreamEvidencePath})
+                    change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                    requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
+                    evidence: context.upstreamEvidencePath})
                 suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])
                 entries.push(entry)
             }
@@ -437,7 +478,7 @@ function diffParameters(context) {
         const matches = fragmentIndex.get(key) || []
         if (matches.length === 0) {
             const entry = makeEntry({...meta, category: 'upstream-added-param', scope: 'parameter', field: key,
-                change: {kind: 'param-uncovered', before: null, after: null}, evidence: upstreamEvidencePath})
+                change: {kind: 'param-uncovered', before: null, after: structuredClone(upstreamParameter)}, evidence: upstreamEvidencePath})
             suggestLifecycle(entry, context.lifecycle, null, upstreamParameter)
             entries.push(entry)
             continue
@@ -603,6 +644,7 @@ function diffSpecifications({source, upstreamPin, upstream, fragments, ledger, r
     }
 
     entries.sort((left, right) => (left.id < right.id ? -1 : left.id > right.id ? 1 : 0))
+    flagTemplateProse(entries)
     const summary = {}
     for (const entry of entries) summary[entry.category] = (summary[entry.category] || 0) + 1
     return {
@@ -612,6 +654,31 @@ function diffSpecifications({source, upstreamPin, upstream, fragments, ledger, r
         upstreamPin,
         summary,
         entries,
+    }
+}
+
+// Prose that upstream repeats verbatim across many fields is shared template
+// copy (e.g. the "$ref payload" wording on merged response schemas), not
+// per-endpoint information. It is flagged so the candidate list skips it and
+// the PR review list labels it — the description lane never auto-adopts, so
+// this only shapes the noise the human reviewer sees.
+const TEMPLATE_PROSE_MIN_SITES = 3
+
+function flagTemplateProse(entries) {
+    const sitesByProse = new Map()
+    for (const entry of entries) {
+        if (entry.category !== 'upstream-modified' || entry.change?.kind !== 'description' || !entry.field) continue
+        const text = normalizeText(entry.change.after ?? '')
+        if (!text) continue
+        const site = `${entry.opKey}|${entry.field}`
+        if (!sitesByProse.has(text)) sitesByProse.set(text, new Set())
+        sitesByProse.get(text).add(site)
+    }
+    for (const entry of entries) {
+        if (entry.category !== 'upstream-modified' || entry.change?.kind !== 'description' || !entry.field) continue
+        const text = normalizeText(entry.change.after ?? '')
+        const sites = sitesByProse.get(text)
+        if (sites && sites.size >= TEMPLATE_PROSE_MIN_SITES) entry.templateProse = true
     }
 }
 
