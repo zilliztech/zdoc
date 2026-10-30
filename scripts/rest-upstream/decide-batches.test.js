@@ -3,7 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
-const {decideBatches, parseModelContent, acceptDecisionLine} = require('./decide-batches')
+const {decideBatches, parseModelContent, acceptDecisionLine, chatCompletionsUrl} = require('./decide-batches')
 
 // Minimal diff shaped like diff.js output: two fragment batches.
 function writeDiff(dir) {
@@ -63,7 +63,7 @@ test('decide-batches merges per-fragment stances, records rejections, and writes
                 {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||regionId:query|param-uncovered|', action: 'skip', reason: 'no mechanical write'},
             ]}),
         }
-        const {fetchImpl} = stubFetch(responses)
+        const {fetchImpl, calls} = stubFetch(responses)
         const outPath = path.join(dir, 'decisions.jsonl')
         const reportPath = path.join(dir, 'report.json')
         const {summary} = await decideBatches({
@@ -74,6 +74,10 @@ test('decide-batches merges per-fragment stances, records rejections, and writes
         assert.equal(summary.stances, 5)
         assert.equal(summary.rejectedLines, 2)
         assert.equal(summary.batches, 2)
+        // A bare-host base URL must still land on the versioned endpoint.
+        assert.ok(calls.length > 0)
+        assert.ok(calls.every(call => call.url === 'https://gateway.invalid/v1/chat/completions'),
+            `unexpected request URLs: ${calls.map(call => call.url).join(', ')}`)
         const decisions = fs.readFileSync(outPath, 'utf8').trim().split('\n').map(line => JSON.parse(line))
         assert.deepEqual(decisions.map(decision => decision.action), ['adopt', 'adopt', 'adopt', 'skip', 'skip'])
         const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
@@ -89,6 +93,15 @@ test('decide-batches merges per-fragment stances, records rejections, and writes
     } finally {
         fs.rmSync(dir, {recursive: true, force: true})
     }
+})
+
+test('chatCompletionsUrl accepts SDK-style base URLs that already carry the /v1 prefix', () => {
+    // Run 40992573983 regression: the provisioned DEEPSEEK_BASE_URL shape
+    // produced https://host/v1/v1/chat/completions and every batch 404'd.
+    assert.equal(chatCompletionsUrl('https://token.zasdas.com/v1'), 'https://token.zasdas.com/v1/chat/completions')
+    assert.equal(chatCompletionsUrl('https://token.zasdas.com/v1/'), 'https://token.zasdas.com/v1/chat/completions')
+    assert.equal(chatCompletionsUrl('https://gateway.invalid'), 'https://gateway.invalid/v1/chat/completions')
+    assert.equal(chatCompletionsUrl('https://gateway.invalid/'), 'https://gateway.invalid/v1/chat/completions')
 })
 
 test('parseModelContent tolerates fences, trailing garbage, and concatenated objects', () => {

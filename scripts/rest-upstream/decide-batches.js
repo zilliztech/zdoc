@@ -125,11 +125,18 @@ function acceptDecisionLine(line, candidateIds, entryById) {
     return {decision: line}
 }
 
+// The provisioned gateway vars (DEEPSEEK_BASE_URL and friends) follow the
+// OpenAI SDK convention where the base URL already carries the /v1 prefix;
+// accept both shapes so this never POSTs to a doubled /v1/v1 path again.
+function chatCompletionsUrl(baseUrl) {
+    return `${baseUrl.replace(/\/+$/, '').replace(/\/v1$/, '')}/v1/chat/completions`
+}
+
 async function callModel({candidates, baseUrl, apiKey, model, timeoutMs, fetchImpl}) {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), timeoutMs)
     try {
-        const response = await fetchImpl(`${baseUrl.replace(/\/$/, '')}/v1/chat/completions`, {
+        const response = await fetchImpl(chatCompletionsUrl(baseUrl), {
             method: 'POST',
             headers: {'content-type': 'application/json', authorization: `Bearer ${apiKey}`},
             body: JSON.stringify({
@@ -260,4 +267,4 @@ if (require.main === module) {
     })
 }
 
-module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, DEFAULT_MIN_COVERAGE}
+module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, chatCompletionsUrl, DEFAULT_MIN_COVERAGE}
