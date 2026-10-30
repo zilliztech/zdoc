@@ -27,7 +27,10 @@ test('keeps the plugin name in sync with the docs-ui redirect helper', () => {
   assert.match(helper, /export const SPA_REDIRECT_MAP_PLUGIN_NAME = 'zdoc-spa-redirect-map';/);
 });
 
-test('publishes the rules through global data', async () => {
+test('publishes the rules through global data in the shape the 404 page consumes', async () => {
+  // The 404 page reads usePluginData(name)?.rules; setGlobalData stores its
+  // value verbatim under globalData[PluginName]['default'], so publishing the
+  // bare array silently made every redirect a no-op in production.
   const rules = [{from: '/docs/old', to: '/docs/new'}];
   const plugin = buildPlugin(rules);
   let globalData;
@@ -37,7 +40,8 @@ test('publishes the rules through global data', async () => {
       globalData = data;
     }},
   });
-  assert.deepEqual(globalData, [{from: '/docs/old', to: '/docs/new'}]);
+  assert.deepEqual(globalData, {rules: [{from: '/docs/old', to: '/docs/new'}]});
+  assert.deepEqual(globalData.rules, rules);
 });
 
 test('strips option extras so only from/to reach the client bundle', async () => {
@@ -122,6 +126,6 @@ test('global data keeps the full map in every locale build', async () => {
         globalData = data;
       }},
     });
-    assert.deepEqual(globalData, MIXED_RULES);
+    assert.deepEqual(globalData, {rules: MIXED_RULES});
   }
 });

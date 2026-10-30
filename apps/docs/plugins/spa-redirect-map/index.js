@@ -72,7 +72,10 @@ module.exports = function spaRedirectMapPlugin(context, options) {
       return rules;
     },
     contentLoaded({content, actions}) {
-      actions.setGlobalData(content);
+      // The 404 page reads `usePluginData(name)?.rules`, so publish the object
+      // shape it consumes — setGlobalData stores the value verbatim under
+      // globalData[PluginName]['default'].
+      actions.setGlobalData({rules: content});
     },
     async postBuild({routesPaths, baseUrl}) {
       const served = new Set(routesPaths.map(stripTrailingSlash));
