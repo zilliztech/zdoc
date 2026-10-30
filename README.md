@@ -225,14 +225,18 @@ only through reviewed refresh PRs.
 `rest-upstream-refresh.yml` is dispatched by an operator after a watchdog
 report (inputs: `source`, optional `upstream_commit`, `base_ref`,
 `draft_pr`, optional `lifecycle_track`). One dispatch produces one PR per
-source: prepare an isolated
-staging directory (diff plus touched fragment copies plus the ruleset and the
-instruction pack, with a repository-path isolation sweep), run one codex agent
-turn on the internal gateway that emits a schema'd change set, apply it with
-the deterministic applier (every entry must bind to a cited diff entry;
-denylist, `x-*`, and oneOf branch structure are asserted), gate the T4 ledger
-accounting, run the canonical
-bytes check, the change-scoped `test:for-change` union plus
+source (decisions-first pipeline, design
+`.claude/specs/2026-10-29-rest-upstream-decisions-pipeline-design.md`):
+prepare an isolated staging directory (diff plus touched fragment copies plus
+the ruleset, with a repository-path isolation sweep), build the machine-generated
+candidate list and take one model stance per candidate on the internal gateway
+(`scripts/rest-upstream/decide-batches.js`, batched per fragment with
+citation/contract gates and a stance-coverage floor), assemble the change set
+deterministically from those stances (`rest-upstream-assemble` — the model
+never writes a path or a value), and apply it with the deterministic applier
+(every entry must bind to a cited diff entry; denylist, `x-*`, and oneOf
+branch structure are asserted), gate the T4 ledger accounting, run the
+canonical bytes check, the change-scoped `test:for-change` union plus
 `pnpm test:rest-publication-contract` and `pnpm test:workflow-policy`, and
 `git diff --check` — no site builds (a master checkout has no dev-owned
 `generated/`, so site verification happens in the sync candidate build on the
@@ -240,16 +244,18 @@ dev tree right after merge) — and finally open the PR with
 `REST_UPSTREAM_REFRESH_PAT` so the pull-request checks actually run. The same
 commit bumps the lock pin to the refreshed upstream commit with its content
 SHA (atomic adoption: the watchdog goes quiet exactly when the PR merges) and
-lands the agent's ledger drafts as conservative `deferred` ledger entries so
-the PR stays atomic; human review reclassifies them in the PR. For milvus
+lands ledger proposals as conservative `deferred` ledger entries so the PR
+stays atomic; human review reclassifies them in the PR. For milvus
 data-plane dispatches, pass `lifecycle_track` (e.g. `3.0.x`) to make the diff
 derive `x-added-at`/`x-last-modified`/`x-deprecated-since` suggestions; the
 applier binds lifecycle change-set values to those suggestions and requires an
 explicit override to deviate. The refresh workflow handles source-tree sources
 end to end (checkout-free GitHub contents fetch, `setup-go` 1.27, vendored
 extractor).
-The PR body embeds the diff report and the applier log (overrides, ledger
-drafts, unaddressed entries) for human review. ja-JP is a deliberate
+The PR body embeds the diff report, the applier log (overrides, ledger
+drafts, unaddressed entries), and the decision divergences (explicit model
+skips with reasons plus every model output line the citation/contract gates
+rejected) for human review. ja-JP is a deliberate
 follow-up: the change set cannot write ja (the applier freezes `x-i18n`
 leaves), so each en-US prose change records the ja pages the ja lane must
 refresh.
@@ -280,9 +286,11 @@ node packages/docs-tooling/src/reference/rest/index.js rest-upstream-ledger-boot
 ```
 
 `rest-upstream-prepare` builds the same staging directory locally for manual
-rehearsals (add `--allow-empty-drift` when no drift exists). The agent runner
-(`scripts/rest-upstream/rest-refresh-agent.js`) requires the staging directory
-from prepare, so it never needs the repository.
+rehearsals (add `--allow-empty-drift` when no drift exists). The decision stage
+(`scripts/rest-upstream/decide-batches.js`) reads only a diff output, so
+rehearsing it locally needs no staging — just the same gateway credentials the
+workflow injects (`AGENTIC_PROVIDER_API_KEY` or `DEEPSEEK_API_KEY` plus the
+model and base URL vars), `--diff <diff.json>`, and an output path.
 
 Source-tree sources (milvus) diff against an extracted skeleton instead of a
 spec file. Produce one from a pinned checkout of the upstream directory and

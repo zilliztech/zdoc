@@ -42,7 +42,7 @@ function assertStagingIsolation(stagingDir, repositoryRoot) {
 // context, and only diff-touched fragment copies are staged. The isolation
 // sweep runs over the finished tree; the manifest is written after it, so the
 // manifest itself is exempt from the sweep.
-function prepareRestUpstreamStaging({stagingDir, repositoryRoot, diff, diffMarkdown, specSha256, upstreamCommit, fragments, fragmentFiles, rulesPath, titlesPath, ledgerPath, lockPath, instructionsPath}) {
+function prepareRestUpstreamStaging({stagingDir, repositoryRoot, diff, diffMarkdown, specSha256, upstreamCommit, fragments, fragmentFiles, rulesPath, titlesPath, ledgerPath, lockPath}) {
     if (fs.existsSync(stagingDir) && fs.readdirSync(stagingDir).length > 0) fail('REST_UPSTREAM_STAGING_EXISTS', stagingDir)
     const layout = {
         'diff/diff.json': serializeDocument(diff),
@@ -51,7 +51,6 @@ function prepareRestUpstreamStaging({stagingDir, repositoryRoot, diff, diffMarkd
         'meta/titles.json': fs.readFileSync(titlesPath, 'utf8'),
         'meta/ledger.json': fs.readFileSync(ledgerPath, 'utf8'),
         'meta/lock.json': fs.readFileSync(lockPath, 'utf8'),
-        'INSTRUCTIONS.md': fs.readFileSync(instructionsPath, 'utf8'),
     }
     for (const fileName of fragmentFiles) {
         layout[path.join('fragments', fileName)] = serializeDocument(fragments.get(fileName))

@@ -51,7 +51,7 @@ jobs:
         with:
           ref: ${{ inputs.base_ref }}
           fetch-depth: 0
-          # The agent turn runs with full sandbox access; do not leave the
+          # The decision stage calls an external gateway; do not leave the
           # default checkout token in the workspace git config. The final step
           # pushes with the PAT URL instead.
           persist-credentials: false
@@ -202,10 +202,11 @@ jobs:
             "${args[@]}" \
             --staging "$RUNNER_TEMP/$STAGING"
 
-      # Single paid agent turn on the internal gateway (same exposure surface
-      # as the translation agent). Model/base URL come from repository vars;
-      # the runner fails closed when they are not provisioned.
-      - name: Run the REST refresh agent
+      # Decisions-first refresh (design: .claude/specs/2026-10-29-rest-upstream-
+      # decisions-pipeline-design.md): one stance per candidate line on the same
+      # gateway the translation agent uses. No file access, no repository paths,
+      # no structure in the model output — the assembler derives every byte.
+      - name: Decide the refresh stances
         env:
           # Same gateway credential and base URL the translation agent uses:
           # the dedicated names fall back to the provisioned translation ones.
@@ -216,17 +217,26 @@ jobs:
           test -n "$AGENTIC_PROVIDER_API_KEY" || { echo 'AGENTIC_PROVIDER_API_KEY (or DEEPSEEK_API_KEY) is not configured' >&2; exit 1; }
           test -n "$REST_UPSTREAM_AGENT_MODEL" || { echo 'REST_UPSTREAM_AGENT_MODEL (or AGENTIC_TRANSLATION_MODEL) var is not configured' >&2; exit 1; }
           test -n "$REST_UPSTREAM_AGENT_BASE_URL" || { echo 'REST_UPSTREAM_AGENT_BASE_URL (or DEEPSEEK_BASE_URL) var is not configured' >&2; exit 1; }
-          node scripts/rest-upstream/rest-refresh-agent.js \
-            --staging "$RUNNER_TEMP/$STAGING" \
-            --model "$REST_UPSTREAM_AGENT_MODEL" \
+          node scripts/rest-upstream/decide-batches.js \
+            --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
+            --out "$RUNNER_TEMP/$STAGING/decisions.jsonl" \
+            --report "$RUNNER_TEMP/$STAGING/decision-report.json" \
             --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
             --api-key-env AGENTIC_PROVIDER_API_KEY \
-            --codex-home "$RUNNER_TEMP/rest-agent-codex-home" \
-            --timeout-ms 2700000
+            --model "$REST_UPSTREAM_AGENT_MODEL"
 
-      # Gates 1-2 (change-set schema, applier reconcile + denylist/x-*/oneOf
-      # assertions) run inside rest-upstream-apply, which never consults the
-      # agent output alone: every entry must bind to a cited diff entry.
+      # The assembler turns the stances into a plain v1 change set: loci from
+      # the diff coordinates and the fragments' branch shape, values from the
+      # drift itself, evidence from fixed templates. Gates 1-2 (change-set
+      # schema, applier reconcile + denylist/x-*/oneOf assertions) then run in
+      # rest-upstream-apply, which never trusts the assembled output alone.
+      - name: Assemble the change set deterministically
+        run: |
+          node packages/docs-tooling/src/reference/rest/index.js rest-upstream-assemble \
+            --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
+            --decisions "$RUNNER_TEMP/$STAGING/decisions.jsonl" \
+            --fragments "$RUNNER_TEMP/$STAGING/fragments" \
+            --out "$RUNNER_TEMP/$STAGING/change-set.json"
       - name: Apply the change set deterministically
         run: |
           node packages/docs-tooling/src/reference/rest/index.js rest-upstream-apply \
@@ -373,7 +383,6 @@ jobs:
             ${{ runner.temp }}/${{ env.APPLIED }}
           if-no-files-found: error
           retention-days: 14
-
       # Gate 10: the PR is opened by a deterministic step with a PAT so the
       # pull_request checks actually run (the GITHUB_TOKEN bot-PR phantom CI
       # lesson). The agent holds no git credentials at any point.
@@ -395,14 +404,27 @@ jobs:
           const staging = process.env.RUNNER_TEMP
           const fullDiffMd = fs.readFileSync(path.join(staging, process.env.STAGING, 'diff', 'diff.md'), 'utf8')
           const applied = JSON.parse(fs.readFileSync(path.join(staging, process.env.APPLIED, 'applied.json'), 'utf8'))
+          // Decision-stage evidence (decisions-first pipeline): the stance
+          // list and the per-batch report drive the divergence review.
+          const decisionsPath = path.join(staging, process.env.STAGING, 'decisions.jsonl')
+          const reportPath = path.join(staging, process.env.STAGING, 'decision-report.json')
+          const decisions = fs.existsSync(decisionsPath)
+            ? fs.readFileSync(decisionsPath, 'utf8').trim().split('\n').filter(Boolean).map(line => JSON.parse(line))
+            : []
+          const report = fs.existsSync(reportPath) ? JSON.parse(fs.readFileSync(reportPath, 'utf8')) : null
+          const skips = decisions.filter(decision => decision.action === 'skip')
+          const rejectedLines = (report?.batches ?? []).flatMap(batch => batch.rejected.map(entry => ({fragment: batch.fragment, reason: entry.reason})))
+          const skipKeep = 30
+          const skipShown = skips.slice(0, skipKeep)
+          const rejectedKeep = 10
+          const rejectedShown = rejectedLines.slice(0, rejectedKeep)
           // GitHub caps a PR body at 65536 characters; a two-day drift easily
           // exceeds it with the full per-entry report. Keep the head of the
           // report inside a budget and point at the run artifact for the rest.
-                    // GitHub caps a PR body at 65536 characters. Large drifts overflow
-          // in TWO places — the per-entry diff report and the unaddressed
-          // entry id list — so the body is assembled with a total budget:
-          // unaddressed ids keep their head, and the diff report gets
-          // whatever budget remains. Everything else stays in full.
+          // Large drifts overflow in TWO places — the per-entry diff report and
+          // the unaddressed entry id list — so the body is assembled with a
+          // total budget: unaddressed ids keep their head, and the diff report
+          // gets whatever budget remains. Everything else stays in full.
           const bodyBudget = 60000
           const truncateLines = (text, budget) => {
             if (text.length <= budget) return text
@@ -425,8 +447,9 @@ jobs:
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
-            'Deterministic applier output; the agent-authored change set was reconciled',
-            'against the diff entry by entry (no unsourced edits). Human review checklist:',
+            'The change set was assembled deterministically from per-candidate decision stances',
+            '(the model never wrote a path or a value) and reconciled against the diff entry by',
+            'entry. Human review checklist:',
             '',
             '- [ ] oneOf/anyOf scenario branches: zero structural diff',
             '- [ ] `x-*` attributes: zero unexpected diff',
@@ -438,7 +461,7 @@ jobs:
             '- [ ] new operations carry a zh-CN titles.json mapping; no operation was removed',
             '',
             '### Diff report', '',
-            diffMd,
+            '@@DIFF_REPORT@@',
             `### Applier log`, '',
             `- applied entries: ${applied.appliedLog.length}`,
             `- overrides: ${applied.overrides.length}${applied.overrides.length ? ' — review each overrideReason below' : ''}`,
@@ -446,18 +469,31 @@ jobs:
             `- ledger drafts: ${applied.ledgerDrafts.length}`,
             `- unaddressed diff entries: ${applied.unaddressedDiffEntries.length}${unaddressedNote}`,
             '',
+            '### Decision divergences', '',
+            `- candidates: ${report?.summary?.candidates ?? 'n/a'}; stances: ${decisions.length} (${decisions.filter(decision => decision.action === 'adopt').length} adopt, ${skips.length} explicit skip, ${decisions.filter(decision => decision.action === 'ledger').length} ledger proposal)`,
+            `- model output lines rejected by the citation/contract gates: ${rejectedLines.length}${rejectedShown.length ? ` — first ${rejectedShown.length} below` : ''}`,
+            ...skipShown.map(skip => `- skip: \`${skip.diffEntryId}\` — ${skip.reason}`),
+            ...(skips.length > skipShown.length ? [`- … ${skips.length - skipShown.length} more skip(s) in the run artifact`] : []),
+            ...rejectedShown.map(rejected => `- rejected (${rejected.fragment}): ${rejected.reason}`),
+            ...(rejectedLines.length > rejectedShown.length ? [`- … ${rejectedLines.length - rejectedShown.length} more rejected line(s) in the run artifact`] : []),
+            '',
             '```json',
             JSON.stringify({overrides: applied.overrides, normalizations: applied.normalizations ?? [], ledgerDrafts: applied.ledgerDrafts, unaddressedDiffEntries: unaddressedShown}, null, 2),
             '```',
             '',
-          ].join('\n')
-          // The diff report is the only elastic part: assemble the body with
-          // the full report, then shrink it into whatever budget the rest of
-          // the body left (floor 2000 so the summary always survives).
-          const body = lines.join('\n')
-          const diffBudget = Math.max(bodyBudget - (body.length - fullDiffMd.length), 2000)
+          ]
+          // The diff report is the only elastic part: split the line array on
+          // the placeholder, shrink the report into the budget the rest of the
+          // body leaves (floor 2000 so the summary always survives), and write
+          // the body once. No back-reference into an already-built string.
+          const reportAt = lines.indexOf('@@DIFF_REPORT@@')
+          if (reportAt < 0) throw new Error('diff report placeholder missing from the body outline')
+          const head = lines.slice(0, reportAt).join('\n')
+          const tail = lines.slice(reportAt + 1).join('\n')
+          const reserved = head.length + tail.length + 2
+          const diffBudget = Math.max(bodyBudget - reserved, 2000)
           const diffMd = truncateLines(fullDiffMd, diffBudget)
-          process.stdout.write(diffMd === fullDiffMd ? body : body.replace(fullDiffMd, () => diffMd))
+          process.stdout.write(`${head}\n${diffMd}\n${tail}`)
           NODE
           git push "https://x-access-token:${REST_UPSTREAM_REFRESH_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${branch}"
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create rest-upstream-refresh --color D4C5F9 --description 'Automated REST upstream refresh' 2>/dev/null || true
