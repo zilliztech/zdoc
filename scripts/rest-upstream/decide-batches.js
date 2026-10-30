@@ -48,8 +48,12 @@ function parseArgs(argv) {
     return args
 }
 
-// Decision rules for the stance-only stage. Structure is never requested:
-// loci and values are derived downstream from the diff itself.
+// Decision rules for the stance-only stage (2026-10-30 merge model). Structure
+// is never requested: loci and values are derived downstream from the diff
+// itself. Prose, field mirrors, and added fields/params never appear as
+// candidates at all — structure follows upstream automatically, the fragments
+// keep their own text, and branch placement of new fields runs in its own
+// stage — so the model judges semantics only.
 function decisionSystemPrompt() {
     return [
         'You are the REST documentation refresh decision stage. For every candidate drift entry you take at most one stance. You never write paths, values, or any structure: the pipeline derives them deterministically from the drift itself.',
@@ -59,14 +63,13 @@ function decisionSystemPrompt() {
         '{"diffEntryId":"<id>","action":"ledger","classification":"adopted|rejected|deferred|external","reason":"<short why>"}',
         'Candidates you omit entirely count as skip-for-human-review, so only emit lines you are confident about.',
         'Rules:',
-        '1. upstream-modified with change=description or summary: adopt.',
-        '2. upstream-modified with scalar constraints (type, format, enum, minimum/maximum and exclusive forms, minLength/maxLength, minItems/maxItems, pattern, default, nullable): adopt.',
-        '3. upstream-modified with change=deprecated: adopt.',
-        '4. upstream-modified with change=required and after=true (upstream now requires the field): adopt.',
-        '5. upstream-modified with change=required and after=false (upstream relaxed the field): omit whenever the summary shows requiresConfirmation=required-relaxation; otherwise adopt only when unambiguous.',
-        '6. unattributed or upstream-added (operation-level attribution or new operations): emit a ledger proposal, classification deferred, reason naming the operation and field. Never adopt.',
-        '7. upstream-added-field or upstream-added-param, and fragment-only operations: omit — field attribution and retirement are human content decisions. Never adopt, never ledger.',
-        '8. Copy diffEntryId values verbatim. Never invent, shorten, or reformat an id.',
+        '1. upstream-modified with change=deprecated (operation-level deprecation flip): adopt.',
+        '2. upstream-modified with change=required and after=true (upstream now requires the parameter): adopt.',
+        '3. upstream-modified with change=required and after=false (upstream relaxed the parameter): omit whenever the summary shows requiresConfirmation=required-relaxation; otherwise adopt only when unambiguous.',
+        '4. upstream-added (new operations) and unattributed (unplaced fields on scenario-branched bodies): emit a ledger proposal, classification deferred, reason naming the operation and field. Never adopt.',
+        '5. fragment-only operations (retirement candidates): omit — retirement is a human content decision. Never adopt, never ledger.',
+        '6. Description, summary, schema-mirror, and added-field/param drift never appear as candidates: prose stays local, structure follows upstream, and new fields are placed by a separate stage. If you believe upstream prose is materially better, note it in a skip reason.',
+        '7. Copy diffEntryId values verbatim. Never invent, shorten, or reformat an id.',
     ].join('\n')
 }
 

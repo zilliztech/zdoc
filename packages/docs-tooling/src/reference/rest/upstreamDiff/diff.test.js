@@ -117,11 +117,13 @@ test('scenario branches are documentation assets: deliberate omissions stay sile
         ['unattributed|post /v2/vectordb/jobs/import/create|11-import-operations-v2.json|requestBody|||stageName|field-uncovered|'])
     // Internal fields never surface anywhere.
     assert.deepEqual(ids(result, entry => ['accessKey', 'innerCall'].includes(entry.field)), [])
-    // objectUrl maxLength drifted: reported inside each branch that documents it, with upstream evidence.
+    // objectUrl maxLength drifted: each documenting branch gets ONE mirror
+    // entry whose after is the resolved upstream subtree (structure follows
+    // upstream; local prose merges back in the assembler).
     const objectUrl = result.entries.filter(entry => create(entry) && entry.field === 'objectUrl')
-    assert.deepEqual(objectUrl.map(entry => [entry.branch, entry.change.key, entry.change.before, entry.change.after]), [
-        ['External storage (On-demand)', 'maxLength', 128, 256],
-        ['External storage (Serving)', 'maxLength', 128, 256],
+    assert.deepEqual(objectUrl.map(entry => [entry.branch, entry.change.kind, entry.change.key, entry.change.before, entry.change.after]), [
+        ['External storage (On-demand)', 'schema', 'mirror', null, {type: 'string', maxLength: 256}],
+        ['External storage (Serving)', 'schema', 'mirror', null, {type: 'string', maxLength: 256}],
     ])
     assert.equal(objectUrl[0].evidence, '/paths/~1v2~1vectordb~1jobs~1import~1create/post')
     // files exists only in the fragment: informational zdoc-only entry on its branch.
@@ -178,10 +180,13 @@ test('non-branched bodies report field-level drift directly', () => {
     assert.deepEqual(result.entries.map(entry => [entry.category, entry.scope, entry.field, entry.change.kind, entry.change.key]), [
         ['upstream-added-field', 'requestBody', 'plan', 'field-uncovered', undefined],
         ['upstream-modified', 'operation', undefined, 'deprecated', undefined],
-        ['upstream-modified', 'requestBody', 'projectName', 'constraint', 'maxLength'],
-        ['upstream-modified', 'requestBody', 'projectName', 'description', undefined],
+        ['upstream-modified', 'requestBody', 'projectName', 'schema', 'mirror'],
         ['zdoc-only', 'requestBody', 'legacyFlag', 'field-absent-upstream', undefined],
     ])
+    // the mirror carries the upstream subtree (maxLength + upstream description
+    // ride along; the assembler merges the local prose back in)
+    const mirror = result.entries.find(entry => entry.field === 'projectName')
+    assert.deepEqual(mirror.change.after, {type: 'string', maxLength: 50, description: 'Project name.'})
 })
 
 test('output is deterministic, sorted, and entry ids are unique', () => {
@@ -274,6 +279,53 @@ test('relaxing a requirement is flagged for R&D confirmation; tightening is adop
     ])
 })
 
+
+test('structure-only mirrors keep fragment scalar constraints; nested required relaxations confirm-gate', () => {
+    const upstream = treeUpstream()
+    // structure change (new nested field) triggers a mirror on dbName...
+    upstream.components.schemas.CollectionNameReq.properties.dbName = {type: 'object', properties: {id: {type: 'string'}}, required: ['id']}
+    const fragment = treeFragment()
+    // ...while the fragment carries an extrapolated maxLength and a nested
+    // required member the upstream no longer lists
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.dbName = {
+        type: 'object', maxLength: 255, properties: {id: {type: 'string'}, legacy: {type: 'string'}}, required: ['id', 'legacy'],
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const mirror = result.entries.find(entry => entry.field === 'dbName' && entry.change.kind === 'schema')
+    assert.ok(mirror, 'expected a dbName mirror')
+    // the preserve flag rides the entry so assembler AND applier merge with
+    // the same mode (P1-2)
+    assert.equal(mirror.preserveLocalScalarConstraints, true)
+    // nested required relaxation is confirmation-gated (P1-3), and the
+    // dropped content rides the same entry
+    assert.equal(mirror.requiresConfirmation, 'required-relaxation')
+    assert.deepEqual(mirror.droppedLocalFields, ['legacy', 'legacy'])
+})
+
+test('spec-file mirrors gate nested required relaxations too', () => {
+    const fragment = importFragment()
+    fragment.paths['/v2/vectordb/jobs/import/create'].post.requestBody.content['application/json'].schema.oneOf[2].properties.objectUrl = {
+        type: 'object', properties: {url: {type: 'string'}}, required: ['url'],
+    }
+    const upstream = importUpstream()
+    upstream.paths['/v2/vectordb/jobs/import/create'].post.requestBody.content['application/json'].schema.properties.objectUrl = {
+        type: 'object', properties: {url: {type: 'string'}},
+    }
+    const result = run({upstream, fragments: new Map([['11-import-operations-v2.json', fragment]])})
+    const mirror = result.entries.find(entry => entry.field === 'objectUrl' && entry.change.kind === 'schema'
+        && entry.branch === 'External storage (Serving)')
+    assert.ok(mirror)
+    assert.equal(mirror.requiresConfirmation, 'required-relaxation')
+    assert.deepEqual(mirror.droppedLocalFields, ['url'])
+})
+
 // --- Source-tree structure-only mode (design §6) ----------------------------
 
 const TREE_SOURCE = {id: 'milvus-data-plane', repository: 'milvus-io/milvus', apiSurface: 'data-plane', publicationTarget: 'milvus', artifact: {kind: 'source-tree'}}
@@ -341,7 +393,7 @@ test('structure-only sources compare request bodies but skip prose, parameters, 
     assert.ok(!categories.has('upstream-modified'))
 })
 
-test('structure-only sources still report operation presence, deprecation, type, and required drift', () => {
+test('structure-only sources still report operation presence, deprecation, shape, and required drift', () => {
     const upstream = treeUpstream()
     upstream.paths['/v2/vectordb/collections/list'].post.deprecated = true
     upstream.components.schemas.CollectionNameReq.required = ['dbName']
@@ -354,12 +406,16 @@ test('structure-only sources still report operation presence, deprecation, type,
         ledger: EMPTY_LEDGER,
         ruleset: RULESET,
     })
-    // The fragment-side maxLength stays (zdoc-only, sorted last): doc design.
-    assert.deepEqual(result.entries.map(entry => [entry.category, entry.scope, entry.field ?? null, entry.change.kind, entry.change.after, entry.requiresConfirmation ?? null]), [
+    // Structure-only mirrors fire on shape keys only (type/items/properties/
+    // required): the extractor cannot speak to scalar constraints, so the
+    // fragment-side maxLength stays and the zdoc-only lane reports it.
+    const projection = result.entries.find(entry => entry.field === 'projection')
+    assert.equal(projection.change.kind, 'schema')
+    assert.deepEqual(projection.change.after, {type: 'array', items: {type: 'string'}})
+    assert.deepEqual(result.entries.filter(entry => entry.change.kind !== 'schema').map(entry => [entry.category, entry.scope, entry.field ?? null, entry.change.kind, entry.change.after, entry.requiresConfirmation ?? null]), [
         ['upstream-modified', 'operation', null, 'deprecated', true, null],
         ['upstream-modified', 'requestBody', 'collectionName', 'required', false, 'required-relaxation'],
         ['upstream-modified', 'requestBody', 'dbName', 'required', true, null],
-        ['upstream-modified', 'requestBody', 'projection', 'constraint', 'array', null],
         ['zdoc-only', 'requestBody', 'dbName', 'constraint', null, null],
     ])
 })

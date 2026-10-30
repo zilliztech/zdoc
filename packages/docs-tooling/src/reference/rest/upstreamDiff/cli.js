@@ -16,6 +16,11 @@ const {accountUpstreamOperations, assertAccountingComplete} = require('./account
 const {loadRestFragmentMigration, assertMigrationConsistency, assertCanonicalReady} = require('./migration')
 const {buildCandidateLines, serializeCandidateLines} = require('./candidates')
 const {loadDecisions, assembleChangeSet} = require('./assembler')
+const {parseBranchPlan} = require('./branchPlan')
+
+function parseBranchPlanFile(filePath) {
+    return parseBranchPlan(fs.readFileSync(filePath, 'utf8'), path.basename(filePath))
+}
 
 // Six levels up from upstreamDiff/: rest → reference → src → docs-tooling → packages → repo root.
 const REPOSITORY_ROOT = path.resolve(__dirname, '..', '..', '..', '..', '..', '..')
@@ -102,6 +107,17 @@ function substantiveDriftEntries(diff) {
 }
 
 function renderDiffMarkdown(diff) {
+    // Subtree payloads (mirror/added-field entries carry resolved upstream
+    // schemas) render as one-line structure summaries: diff.md is a review
+    // surface with a PR-body budget, not the payload itself (diff.json is).
+    const summarizeSubtree = subtree => {
+        if (!subtree || typeof subtree !== 'object') return JSON.stringify(subtree)
+        const names = subtree.properties ? Object.keys(subtree.properties) : []
+        const parts = [`type=${JSON.stringify(subtree.type ?? null)}`]
+        if (names.length) parts.push(`properties=[${names.join(', ')}]`)
+        if (subtree.items) parts.push(`items=${summarizeSubtree(subtree.items)}`)
+        return parts.join(' ')
+    }
     const lines = [`# rest-upstream diff: ${diff.source} @ ${diff.upstreamPin}`, '']
     lines.push(`Publication target: ${diff.publicationTarget}`, '')
     lines.push('## Summary', '')
@@ -118,11 +134,24 @@ function renderDiffMarkdown(diff) {
         for (const entry of entries) {
             const where = [entry.scope, entry.branch ? `branch "${entry.branch}"` : null, entry.field ? `\`${entry.field}\`` : null].filter(Boolean).join(' · ')
             const change = entry.change
-            const detail = change.key ? `${change.kind} ${change.key}: ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}`
-                : (change.before !== null || change.after !== null) ? `${change.kind}: ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}` : change.kind
+            let detail
+            if (change.kind === 'schema') {
+                detail = `schema mirror: field subtree rebuilt to upstream structure (${summarizeSubtree(change.after)})`
+                    + (entry.droppedLocalFields?.length ? `; local fields retired: ${entry.droppedLocalFields.join(', ')}` : '')
+                    + `; requiredMembership=${JSON.stringify(entry.requiredMembership ?? null)}`
+            } else if (change.kind === 'field-uncovered' && change.after && typeof change.after === 'object') {
+                detail = `+ field from upstream (${summarizeSubtree(change.after)})`
+            } else if (change.key) {
+                detail = `${change.kind} ${change.key}: ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}`
+            } else if (change.before !== null || change.after !== null) {
+                detail = `${change.kind}: ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}`
+            } else {
+                detail = change.kind
+            }
             const flags = [
                 entry.ledgerStatus ? `ledger: ${entry.ledgerStatus}` : null,
                 entry.requiresConfirmation ? `⚠️ confirm with R&D (${entry.requiresConfirmation})` : null,
+                entry.templateProse ? `template copy (upstream repeats this text verbatim across many fields)` : null,
             ].filter(Boolean)
             lines.push(`- **${entry.category}** — ${where}: ${detail}${flags.length ? ` [${flags.join('; ')}]` : ''}`)
             lines.push(`  - id: \`${entry.id}\``)
@@ -338,14 +367,17 @@ function registerCandidatesCommand(command) {
 
 function registerAssembleCommand(command) {
     command
-        .description('Assemble the deterministic change set from decision stances (JSONL) plus the diff and fragment copies')
+        .description('Assemble the deterministic change set from decision stances (JSONL), the branch plan (optional), plus the diff and fragment copies')
         .requiredOption('--diff <path>', 'diff.json the decisions cite')
         .requiredOption('--decisions <file>', 'Decisions JSONL (one stance per line)')
         .requiredOption('--out <file>', 'Change set JSON output path')
+        .option('--branch-plan <file>', 'Branch-placement plan JSON from the branch-plan stage', null)
+        .option('--reports <file>', 'Human-review lists output path (prose drift, retirements, unplaced fields, pending confirmations)', null)
         .option('--fragments <dir>', 'Fragment copies the loci resolve against', DEFAULTS.fragments)
         .action(opts => {
             const diff = JSON.parse(fs.readFileSync(opts.diff, 'utf8'))
             const decisions = loadDecisions(opts.decisions)
+            const branchPlan = opts.branchPlan ? parseBranchPlanFile(opts.branchPlan) : null
             const fragmentsDir = opts.fragments
             const fragmentCache = new Map()
             const fragmentLoader = fileName => {
@@ -356,12 +388,15 @@ function registerAssembleCommand(command) {
                 }
                 return fragmentCache.get(fileName)
             }
-            const changeSet = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader})
+            const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader, branchPlan})
             fs.mkdirSync(path.dirname(path.resolve(opts.out)), {recursive: true})
             fs.writeFileSync(opts.out, serializeDocument(changeSet))
+            if (opts.reports) fs.writeFileSync(opts.reports, serializeDocument(reports))
             const stances = decisions.reduce((counts, decision) => ({...counts, [decision.action]: (counts[decision.action] || 0) + 1}), {})
             const tally = Object.entries(stances).sort(([left], [right]) => left.localeCompare(right)).map(([action, count]) => `${action}=${count}`).join(', ')
-            console.log(`assembled ${changeSet.entries.length} entr(ies) from ${decisions.length} decision(s) (${tally}) -> ${opts.out}`)
+            console.log(`assembled ${changeSet.entries.length} entr(ies) from ${decisions.length} decision(s) (${tally}); `
+                + `auto lanes: ${reports.placementsApplied.length} placed, ${reports.unplaced.length} unplaced, ${reports.pendingConfirmation.length} pending confirmation; `
+                + `reports: ${reports.descriptionDrift.length} prose, ${reports.deletions.length} retirement(s) -> ${opts.out}`)
         })
 }
 

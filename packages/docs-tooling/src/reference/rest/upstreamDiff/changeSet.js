@@ -15,6 +15,8 @@ const KIND_REQUIREMENTS = {
     prose: ['targetFragment', 'opPath', 'value'],
     constraint: ['targetFragment', 'opPath', 'value'],
     lifecycle: ['targetFragment', 'opPath', 'value'],
+    mirror: ['targetFragment', 'opPath', 'value'],
+    addition: ['targetFragment', 'opPath', 'value'],
     title: ['value'],
     ledgerDraft: ['ledgerDraft'],
 }

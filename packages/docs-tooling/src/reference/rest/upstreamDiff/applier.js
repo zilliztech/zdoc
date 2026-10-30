@@ -3,18 +3,24 @@ const path = require('node:path')
 const {isDeepStrictEqual} = require('node:util')
 const {serializeDocument} = require('./formatter')
 const {verifyAgainstDiff} = require('./changeSet')
+const {assertMirrorValueBound, mirrorValueMatches, isTranslationComplete, assertSchemaShape} = require('./mirror')
 
-// Deterministic applier: the agent authors a schema-validated change set; this
-// module (plain code, never the agent) mutates the canonical fragment objects.
-// Invariants (design §8.2/§8.3):
+// Deterministic applier: the pipeline authors a schema-validated change set;
+// this module (plain code, never the model) mutates the canonical fragment
+// objects. Invariants (design §8.2/§8.3 + 2026-10-30 merge model):
 //   - every applied entry traces to a diff output entry AND is bound to it: the
 //     written leaf, its location, and (for constraints) its value must match the
 //     cited drift; deviating needs an explicit, logged override
-//   - writes are limited to whitelisted mutable leaves; the structural skeleton
-//     (everything except mutable leaves) must be deep-equal before and after, so
-//     properties, oneOf/anyOf branches, and x-* keys can never drift through here
+//   - writes are limited to whitelisted mutable leaves plus two assembled
+//     structural lanes: mirrors (field subtrees rebuilt from the diff's own
+//     upstream bytes, prose merged, value verified by recomputation) and
+//     additions (new properties/parameters appended from the diff's subtree).
+//     Everything outside cited structural lanes must stay deep-equal before and
+//     after, so properties, oneOf/anyOf branches, and x-* keys can never drift
+//     through here
 //   - internal denylisted field names can never be introduced (as keys or as
-//     required-array members)
+//     required-array members), and any prose a mirror/addition introduces must
+//     be translation-complete (zh-CN + ja-JP) before it may land
 
 const PROSE_KEYS = new Set(['summary', 'description', 'example'])
 const CONSTRAINT_KEYS = new Set(['type', 'format', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems', 'uniqueItems', 'enum', 'default', 'nullable', 'deprecated', 'required'])
@@ -102,10 +108,58 @@ function stripMutableLeaves(value) {
     return result
 }
 
-function assertSkeletonUnchanged(before, after, label) {
-    if (!isDeepStrictEqual(stripMutableLeaves(before), stripMutableLeaves(after))) {
-        fail('REST_UPSTREAM_STRUCTURE_CHANGED', `${label}: structural skeleton drifted; structural edits are a human/ledger lane`)
+function assertSkeletonUnchanged(before, after, label, exemptions = []) {
+    const beforeSkeleton = stripMutableLeaves(before)
+    const afterSkeleton = stripMutableLeaves(after)
+    // Cited structural lanes (mirror/addition) legitimately rewrite their
+    // subtrees; excise exactly those coordinates from the skeletons before the
+    // comparison so nothing outside them can sneak through.
+    const decode = pointer => pointer.split('/').slice(1).map(token => token.replace(/~1/g, '/').replace(/~0/g, '~'))
+    const excise = (root, pointer) => {
+        const tokens = decode(pointer)
+        let parent = root
+        for (const token of tokens.slice(0, -1)) {
+            if (parent === null || typeof parent !== 'object') return
+            parent = Array.isArray(parent) ? parent[Number(token)] : parent[token]
+        }
+        const leaf = tokens[tokens.length - 1]
+        if (parent === null || typeof parent === 'undefined' || typeof parent !== 'object') return
+        if (Array.isArray(parent)) {
+            const index = Number(leaf)
+            if (/^[0-9]+$/.test(leaf) && index < parent.length) parent.splice(index, 1)
+            return
+        }
+        if (leaf in parent) delete parent[leaf]
     }
+    // Array-index exemptions splice: apply them highest-index-first so later
+    // additions in the same array keep pointing at the right element.
+    const orderedExemptions = [...exemptions].sort((left, right) => {
+        const leftIndex = Number(left.pointer.split('/').pop())
+        const rightIndex = Number(right.pointer.split('/').pop())
+        if (Number.isInteger(leftIndex) && Number.isInteger(rightIndex)) return rightIndex - leftIndex
+        return 0
+    })
+    for (const exempt of orderedExemptions) {
+        if (exempt.side !== 'after') excise(beforeSkeleton, exempt.pointer)
+        excise(afterSkeleton, exempt.pointer)
+    }
+    if (!isDeepStrictEqual(beforeSkeleton, afterSkeleton)) {
+        fail('REST_UPSTREAM_STRUCTURE_CHANGED', `${label}: structural skeleton drifted outside the cited structural lanes (first difference: ${firstSkeletonDifference(beforeSkeleton, afterSkeleton)}); structural edits are a mirror/addition lane`)
+    }
+}
+
+// First differing path for the failure message, so an unexpected skeleton
+// drift is locatable without re-running under a debugger.
+function firstSkeletonDifference(before, after, trail = '') {
+    if (isDeepStrictEqual(before, after)) return null
+    const plain = value => typeof value === 'object' && value !== null
+    if (!plain(before) || !plain(after) || Array.isArray(before) !== Array.isArray(after)) return trail || '(root)'
+    const keys = [...new Set([...Object.keys(before), ...Object.keys(after)])].sort()
+    for (const key of keys) {
+        const child = firstSkeletonDifference(before[key], after[key], `${trail}/${key}`)
+        if (child) return child
+    }
+    return trail || '(root)'
 }
 
 function collectKeysAndRequiredMembers(value, seen = new Set(), out = {keys: new Set(), requiredMembers: new Set()}) {
@@ -251,11 +305,145 @@ function branchLabelAt(document, tokens) {
     return null
 }
 
-function applyFragmentEntry(document, entry, cited, denylist, normalizations) {
+// Navigate to a decoded token path (no leaf semantics).
+function resolveAt(document, tokens, diffEntryId) {
+    let current = document
+    for (const token of tokens) {
+        if (Array.isArray(current)) {
+            if (!/^[0-9]+$/.test(token) || Number(token) >= current.length) {
+                fail('REST_UPSTREAM_APPLY_TARGET_MISSING', `${diffEntryId}: index "${token}" out of range`)
+            }
+            current = current[Number(token)]
+            continue
+        }
+        if (!isPlainObject(current) || !(token in current)) {
+            fail('REST_UPSTREAM_APPLY_TARGET_MISSING', `${diffEntryId}: missing "${token}"`)
+        }
+        current = current[token]
+    }
+    return current
+}
+
+// Landed required membership from a mirror/addition: +field (create the array
+// when the upstream truth requires the field and the fragment schema has none)
+// or -field (remove; the relaxation itself is confirmation-gated upstream of
+// this write). Mirrors carry the schema two tokens up (…/properties/<field>);
+// additions carry it one token up (…/properties).
+function applyRequiredMembership(document, entry, schemaTokens, field) {
+    if (entry.requiredMembership !== true && entry.requiredMembership !== false) return
+    const schema = resolveAt(document, schemaTokens, entry.diffEntryId)
+    if (!isPlainObject(schema)) fail('REST_UPSTREAM_APPLY_TARGET_INVALID', `${entry.diffEntryId}: required-membership target is not a schema object`)
+    const current = Array.isArray(schema.required) ? schema.required : []
+    const expected = entry.requiredMembership ? [...new Set([...current, field])] : current.filter(name => name !== field)
+    if (expected.length === 0 && current.length > 0) delete schema.required
+    else if (expected.length > 0 || current.length > 0) schema.required = expected
+}
+
+function applyFragmentEntry(document, entry, cited, denylist, normalizations, exemptions, writtenSubtrees) {
     const label = entry.diffEntryId
     const kind = entry.kind
     if ((denylist || []).includes(decodePointer(entry.opPath).pop())) {
         fail('REST_UPSTREAM_INTERNAL_FIELD', `${label}: "${entry.opPath}" targets an internal field`)
+    }
+    // --- assembled structural lane: mirrors -------------------------------
+    // The subtree is rebuilt from the diff's own upstream bytes with the
+    // fragment's prose merged back in; the applier RECOMPUTES that merge from
+    // the live fragment and refuses any hand-authored value. Locus, branch,
+    // and confirmation binding all still apply.
+    if (kind === 'mirror') {
+        if (cited.change?.kind !== 'schema') {
+            fail('REST_UPSTREAM_APPLY_UNBOUND_TARGET', `${label}: mirror entries must cite a schema-mirror drift, not ${cited.change?.kind}`)
+        }
+        if (cited.requiresConfirmation && !entry.override) {
+            fail('REST_UPSTREAM_APPLY_CONFIRMATION_REQUIRED', `${label}: drift is flagged ${cited.requiresConfirmation}; apply only with override after R&D confirmation`)
+        }
+        if (!isTranslationComplete(entry.value)) {
+            fail('REST_UPSTREAM_APPLY_TRANSLATION_INCOMPLETE', `${label}: the mirrored subtree carries prose without zh-CN/ja-JP; run the translation stage`)
+        }
+        const {parent, leaf, tokens} = resolveParent(document, entry.opPath, label)
+        // The mirror's opPath leaf IS the cited field (…/properties/<field>).
+        if (cited.field !== undefined && leaf !== String(cited.field).split('#')[0]) {
+            fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: target "${leaf}" is not the cited field "${cited.field}"`)
+        }
+        if (cited.branch) {
+            // A $ref branch writes through the shared component definition, a
+            // pointer no branch wraps; there the recomputed merge (which reads
+            // the live component bytes) is the binding.
+            const branchLabel = branchLabelAt(document, tokens)
+            if (branchLabel !== null && branchLabel !== cited.branch) {
+                fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: drift is scoped to branch "${cited.branch}" but the target sits in branch "${branchLabel}"`)
+            }
+        }
+        const current = parent[leaf]
+        if (!isPlainObject(current)) fail('REST_UPSTREAM_APPLY_TARGET_INVALID', `${label}: mirror target ${entry.opPath} is not a schema object`)
+        assertMirrorValueBound(entry, cited, current)
+        parent[leaf] = structuredClone(entry.value)
+        applyRequiredMembership(document, entry, tokens.slice(0, -2), String(cited.field).split('#')[0])
+        exemptions.push({pointer: entry.opPath, side: 'both'})
+        writtenSubtrees.push({label, value: entry.value})
+        return
+    }
+    // --- assembled structural lane: additions ------------------------------
+    if (kind === 'addition') {
+        if (!isTranslationComplete(entry.value)) {
+            fail('REST_UPSTREAM_APPLY_TRANSLATION_INCOMPLETE', `${label}: the added subtree carries prose without zh-CN/ja-JP; run the translation stage`)
+        }
+        if (cited.category === 'upstream-added-param') {
+            if (cited.change?.kind !== 'param-uncovered') {
+                fail('REST_UPSTREAM_APPLY_UNBOUND_TARGET', `${label}: parameter additions must cite an upstream-added-param drift`)
+            }
+            if (!isPlainObject(entry.value)) fail('REST_UPSTREAM_APPLY_VALUE_INVALID', `${label}: parameter additions carry the parameter object`)
+            const [pname, pin] = String(cited.field || '').split(':')
+            if (entry.value.name !== pname || entry.value.in !== pin) {
+                fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: added parameter ${entry.value.name}:${entry.value.in} is not the cited ${cited.field}`)
+            }
+            // The added object is the diff's own upstream parameter, plus the
+            // translation overlay — never a hand-authored shape.
+            if (!mirrorValueMatches(cited.change.after, entry.value)) {
+                fail('REST_UPSTREAM_APPLY_VALUE_UNBOUND', `${label}: added parameter differs from the diff's upstream parameter (translations aside)`)
+            }
+            const {parent, leaf} = resolveParent(document, entry.opPath, label)
+            if (leaf !== 'parameters') fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: parameter additions target the operation's parameters array, not "${leaf}"`)
+            const parameters = Array.isArray(parent[leaf]) ? parent[leaf] : []
+            if (parameters.some(candidate => candidate && candidate.name === pname && candidate.in === pin)) {
+                fail('REST_UPSTREAM_APPLY_TARGET_EXISTS', `${label}: parameter ${cited.field} already exists`)
+            }
+            const createdArray = !Array.isArray(parent[leaf])
+            parameters.push(structuredClone(entry.value))
+            parent[leaf] = parameters
+            // When this write created the array itself, the empty container is
+            // also part of the sanctioned delta.
+            exemptions.push({pointer: createdArray ? entry.opPath : `${entry.opPath}/${parameters.length - 1}`, side: 'after'})
+            writtenSubtrees.push({label, value: entry.value})
+            return
+        }
+        if (['upstream-added-field', 'unattributed'].includes(cited.category) && cited.change?.kind === 'field-uncovered') {
+            if (!isPlainObject(entry.value) || Object.keys(entry.value).length !== 1 || !(cited.field in entry.value)) {
+                fail('REST_UPSTREAM_APPLY_VALUE_INVALID', `${label}: field additions carry exactly {${JSON.stringify(cited.field)}: upstreamSubtree}`)
+            }
+            if (!mirrorValueMatches(cited.change.after, entry.value[cited.field])) {
+                fail('REST_UPSTREAM_APPLY_VALUE_UNBOUND', `${label}: added field differs from the diff's upstream subtree (translations aside)`)
+            }
+            const {parent, leaf} = resolveParent(document, entry.opPath, label)
+            if (leaf !== 'properties') fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: field additions target the schema's properties container, not "${leaf}"`)
+            if (cited.branch) {
+                const branchLabel = branchLabelAt(document, decodePointer(entry.opPath))
+                if (branchLabel !== null && branchLabel !== cited.branch) {
+                    fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: placement targets branch "${cited.branch}" but the container sits in branch "${branchLabel}"`)
+                }
+            }
+            const createdContainer = parent[leaf] === undefined
+            if (parent[leaf] === undefined) parent[leaf] = {}
+            if (!isPlainObject(parent[leaf])) fail('REST_UPSTREAM_APPLY_TARGET_INVALID', `${label}: ${entry.opPath} is not a properties container`)
+            if (cited.field in parent[leaf]) fail('REST_UPSTREAM_APPLY_TARGET_EXISTS', `${label}: field "${cited.field}" already exists at ${entry.opPath}`)
+            parent[leaf][cited.field] = structuredClone(entry.value[cited.field])
+            // opPath ends at the properties container; the owning schema is one token up.
+            applyRequiredMembership(document, entry, decodePointer(entry.opPath).slice(0, -1), cited.field)
+            exemptions.push({pointer: createdContainer ? entry.opPath : `${entry.opPath}/${cited.field}`, side: 'after'})
+            writtenSubtrees.push({label, value: entry.value[cited.field]})
+            return
+        }
+        fail('REST_UPSTREAM_APPLY_UNBOUND_TARGET', `${label}: addition entries must cite an upstream-added-param/field or unattributed field drift, not ${cited.category}`)
     }
     // Parameter-level required is FULLY mechanical (three runs produced three
     // different broken shapes for it): the agent cites the entry, the applier
@@ -395,6 +583,8 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
     const titleEntries = []
     const overrides = []
     const normalizations = []
+    const exemptionsByFile = new Map()
+    const writtenSubtrees = []
 
     for (const entry of changeSet.entries) {
         const cited = citedById.get(entry.diffEntryId)
@@ -420,14 +610,28 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
         if (cited.fragment && cited.fragment !== entry.targetFragment) {
             fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${entry.diffEntryId}: drift was reported in ${cited.fragment}, not ${entry.targetFragment}`)
         }
-        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist, normalizations)
+        const exemptions = []
+        const entrySubtrees = []
+        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist, normalizations, exemptions, entrySubtrees)
+        if (exemptions.length > 0) {
+            const list = exemptionsByFile.get(entry.targetFragment) ?? []
+            list.push(...exemptions)
+            exemptionsByFile.set(entry.targetFragment, list)
+        }
+        for (const subtree of entrySubtrees) writtenSubtrees.push(subtree)
         appliedLog.push({diffEntryId: entry.diffEntryId, kind: entry.kind, targetFragment: entry.targetFragment, opPath: entry.opPath,
             ...(entry.override ? {override: true, overrideReason: entry.overrideReason} : {})})
     }
 
     for (const [file, before] of snapshots) {
-        assertSkeletonUnchanged(before, documents.get(file), file)
+        assertSkeletonUnchanged(before, documents.get(file), file, exemptionsByFile.get(file) ?? [])
         assertNoInternalFields(before, documents.get(file), denylist, file)
+    }
+    // Shape gate: whatever a mirror/addition wrote must be type-consistent —
+    // the PR #964 monster class (object+items, string+properties) can never
+    // reach a fragment.
+    for (const subtree of writtenSubtrees) {
+        assertSchemaShape(subtree.value, subtree.label)
     }
 
     const titleResult = applyTitleEntries(titles, titleEntries)
