@@ -1,7 +1,6 @@
 ---
 title: "Filtered Search | BYOC"
 slug: /filtered-search
-sidebar_label: "Filtered Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | BYOC"
 type: origin
-token: CpBbwcJ87irHp0k9oCSc2RNIn3d
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-filtered-search
+sidebar_label: "Filtered Search"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/filtered-search.md"
 
 ---
 
@@ -31,7 +32,7 @@ In Zilliz Cloud, filtered searches are categorized into two types — **standard
 
 If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once Zilliz Cloud receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.
 
-![QIeKwvDN1h7lTnb9iJ7cPubknrb](https://zdoc-images.s3.us-west-2.amazonaws.com/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
+![Filtered Search](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/ca76a147dc27c4b928684d27b311f2281c5fdc4c95ef7aaa48705d9e341c8a01.png)
 
 As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
 
@@ -45,7 +46,7 @@ As shown in the above diagram, the search request carries `chunk like "%red%"` a
 
 The standard filtering process effectively narrows the search scope to a small range. However, overly complex filtering expressions may result in very high search latency. In such cases, iterative filtering can serve as an alternative, helping to reduce the workload of scalar filtering.
 
-![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
+![Iterative Filtering](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/3c819dde52a727cfbccd1beed35019f5889794efc33759e4ee9eb22f456543d3.png)
 
 As illustrated in the diagram above, a search with iterative filtering performs the vector search in iterations. Each entity returned by the iterator undergoes scalar filtering, and this process continues until the specified topK results are achieved.
 
@@ -55,7 +56,7 @@ However, it’s important to note that the iterator processes entities one at a 
 
 ## Examples\{#examples}
 
-This section demonstrates how to conduct a filtered search. Code snippets in this section assume  you already have the following entities in your collection. Each entity has four fields, namely **id**, **vector**, **color**, and **likes**.
+This section demonstrates how to conduct a filtered search. Code snippets in this section assume you already have the following entities in your collection. Each entity has four fields, namely **id**, **vector**, **color**, and **likes**. The examples use a loaded collection named `my_collection` with a five-dimensional `vector` field indexed with the `COSINE` metric.
 
 ```json
 [
@@ -72,15 +73,18 @@ This section demonstrates how to conduct a filtered search. Code snippets in thi
 ]
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 If the query vectors already exist in the target collection, consider using `ids` instead of retrieving them before searches. For details, refer to [Primary-Key Search](./primary-key-search).
 
 </Admonition>
 
+The examples use PyMilvus 3.0.2, Java SDK 3.0.10, Go SDK 3.0.0 (`client/v3`), Rust SDK 3.0.2, C++ SDK 3.0.4, NodeJS SDK 3.0.6, and C# SDK 3.0.0.
+
 ### Search with standard filtering\{#search-with-standard-filtering}
 
 The following code snippets demonstrate a search with standard filtering, and the request in the following code snippet carries a filtering condition and several output fields.
+
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -121,7 +125,10 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -132,7 +139,7 @@ FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.60234957
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
-        .topK(5)
+        .limit(5)
         .filter("color like \"red%\" and likes > 50")
         .outputFields(Arrays.asList("color", "likes"))
         .build();
@@ -177,8 +184,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     APIKey:  token,
 })
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
 }
 defer client.Close(ctx)
 
@@ -193,8 +199,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithFilter("color like 'red%' and likes > 50").
     WithOutputFields("color", "likes"))
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
 }
 
 for _, resultSet := range resultSets {
@@ -241,6 +246,7 @@ println!("{:?}", res.results());
 ```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
@@ -248,10 +254,10 @@ auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -264,13 +270,16 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -282,7 +291,7 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -306,6 +315,8 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Linq;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
@@ -335,7 +346,10 @@ SearchResp res = await client.SearchAsync(new SearchReq
         OutputFields = { "color", "likes" }
     }
 });
-Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
+if (res.SingleResults is { } results)
+{
+    Console.WriteLine(string.Join(", ", results.SelectMany(r => r.Scores)));
+}
 ```
 
 </TabItem>
@@ -361,7 +375,8 @@ curl --request POST \
     "limit": 5,
     "outputFields": ["color", "likes"]
 }'
-# {"code":0,"cost":0,"data":[{"color":"red_4794","distance":0.5975796,"id":4,"likes":122},{"color":"red_9392","distance":-0.24996185,"id":6,"likes":58}],"topks":[2]}
+# Illustrative response; scores and cost can vary.
+# {"code":0,"cost":0,"data":[{"color":"red_4794","distance":0.5975796,"id":4,"likes":122},{"color":"red_9392","distance":-0.2499619,"id":6,"likes":58}],"topks":[2]}
 ```
 
 </TabItem>
@@ -395,30 +410,32 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
-The filtering condition carried in the search request reads `color like "red%" and likes > 50`. It uses the and operator to include two conditions: the first one asks for entities that have a value starting with `red` in the `color` field, and the other asks for entities with a value greater than `50` in the `likes` field. There are only two entities meeting these requirements. With the top-K set to `3`, Zilliz Cloud will calculate the distance between these two entities to the query vector and return them as the search results.
+
+The filtering condition carried in the search request reads `color like "red%" and likes > 50`. It uses the and operator to include two conditions: the first one asks for entities that have a value starting with `red` in the `color` field, and the other asks for entities with a value greater than `50` in the `likes` field. There are only two entities meeting these requirements. With the top-K set to `5`, Zilliz Cloud will calculate the distance between these two entities to the query vector and return them as the search results.
+
+The following example shows the shape of the Python results with illustrative cosine scores. Scores can vary with floating-point precision. Only the requested output fields appear in `entity`; the REST examples return those fields at the top level of each hit.
 
 ```json
 [
     {
-        "id": 4, 
-        "distance": 0.3345786594834839,
+        "id": 4,
+        "distance": 0.5975796,
         "entity": {
-            "vector": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], 
-            "color": "red_4794", 
+            "color": "red_4794",
             "likes": 122
         }
     },
     {
-        "id": 6, 
-        "distance": 0.6638239834383389，
+        "id": 6,
+        "distance": -0.2499619,
         "entity": {
-            "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], 
-            "color": "red_9392", 
+            "color": "red_9392",
             "likes": 58
         }
-    },
+    }
 ]
 ```
 
@@ -427,6 +444,7 @@ For more information on the operators you can use in metadata filtering, refer t
 ### Search with iterative filtering\{#search-with-iterative-filtering}
 
 To conduct a filtered search with iterative filtering, you can do as follows:
+
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -470,7 +488,10 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -481,12 +502,10 @@ FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.60234957
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
-        .topK(5)
+        .limit(5)
         .filter("color like \"red%\" and likes > 50")
         .outputFields(Arrays.asList("color", "likes"))
-        .searchParams(new HashMap<String, Object>() {{
-            put("hints", "iterative_filter");
-        }})
+        .searchParams(Collections.<String, Object>singletonMap("hints", "iterative_filter"))
         .build();
 
 SearchResp searchResp = client.search(searchReq);
@@ -529,8 +548,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     APIKey:  token,
 })
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
 }
 defer client.Close(ctx)
 
@@ -546,8 +564,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("color", "likes").
     WithSearchParam("hints", "iterative_filter"))
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
 }
 
 for _, resultSet := range resultSets {
@@ -596,6 +613,7 @@ println!("{:?}", res.results());
 ```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
@@ -603,10 +621,10 @@ auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -620,13 +638,16 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -638,7 +659,15 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const filteredRes = await client.search({
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+const res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
@@ -655,6 +684,8 @@ const filteredRes = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Linq;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
@@ -687,7 +718,10 @@ SearchResp res = await client.SearchAsync(new SearchReq
     Limit = 5,
     Parameters = searchParams
 });
-Console.WriteLine(string.Join(", ", res.SingleResults.SelectMany(r => r.Scores)));
+if (res.SingleResults is { } results)
+{
+    Console.WriteLine(string.Join(", ", results.SelectMany(r => r.Scores)));
+}
 ```
 
 </TabItem>
@@ -714,7 +748,8 @@ curl --request POST \
     "limit": 5,
     "outputFields": ["color", "likes"]
 }'
-# {"code":0,"cost":0,"data":[{"color":"red_4794","distance":0.5975796,"id":4,"likes":122},{"color":"red_9392","distance":-0.24996185,"id":6,"likes":58}],"topks":[2]}
+# Illustrative response; scores and cost can vary.
+# {"code":0,"cost":0,"data":[{"color":"red_4794","distance":0.5975796,"id":4,"likes":122},{"color":"red_9392","distance":-0.2499619,"id":6,"likes":58}],"topks":[2]}
 ```
 
 </TabItem>
@@ -751,4 +786,6 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
+

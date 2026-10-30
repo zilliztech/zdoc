@@ -709,7 +709,6 @@ client.createCollection(requestCreate);
 ```go
 // go
 import (
-    "context"
     "fmt"
     "log"
 
@@ -717,18 +716,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-        APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-        log.Fatal("failed to connect:", err)
-}
-defer cli.Close(ctx)
-
-schema := &entity.Schema{
+schema = &entity.Schema{
         CollectionName: "demo_manual_ids",
         Fields: []*entity.Field{
                 entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeVarChar).WithIsPrimaryKey(true).WithMaxLength(100),
@@ -1032,12 +1020,12 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-data := []any{
+data = []any{
         map[string]any{"product_id": "PROD-001", "embedding": []float32{0.1, 0.2, 0.3, 0.4}, "category": "book"},
         map[string]any{"product_id": "PROD-002", "embedding": []float32{0.2, 0.3, 0.4, 0.5}, "category": "toy"},
 }
 
-result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo_manual_ids", data...))
+result, err = cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo_manual_ids", data...))
 if err != nil {
         log.Fatal("failed to insert:", err)
 }
@@ -1086,7 +1074,7 @@ auto status = client->Insert(milvus::InsertRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-auto ids = response.Results().IdArray().StrIDArray();
+auto string_ids = response.Results().IdArray().StrIDArray();
 ```
 
 </TabItem>

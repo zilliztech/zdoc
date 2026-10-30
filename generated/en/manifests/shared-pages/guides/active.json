@@ -235,6 +235,28 @@
       ],
       "anchors": {},
       "activated_in": "41034927510"
+    },
+    {
+      "page": "filtered-search",
+      "record": "recvlPp3B7L5Gj",
+      "feishu_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+      "feishu_aliases": [
+        "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+        "XHMed32msofjsHxd69NcpG8tnhe"
+      ],
+      "anchors": {},
+      "activated_in": "41105134798"
+    },
+    {
+      "page": "tutorial-colbert-colpali",
+      "record": "recvmiYb14LJdy",
+      "feishu_token": "Mf7GwGwgQiLCcykOi69cvaD8ncz",
+      "feishu_aliases": [
+        "I59YdqMpioEHGVxFiqccJawsnZf",
+        "Mf7GwGwgQiLCcykOi69cvaD8ncz"
+      ],
+      "anchors": {},
+      "activated_in": "41105134798"
     }
   ]
 }

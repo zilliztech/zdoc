@@ -1,22 +1,22 @@
 ---
 title: "Search with EmbeddingLists: ColBERT and ColPali | BYOC"
 slug: /tutorial-colbert-colpali
-sidebar_label: "ColBERT and ColPali"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This tutorial shows how to build ColBERT-style and ColPali-style retrieval systems with EmbeddingList search on StructArray vector subfields in Zilliz Cloud. Use it when your query and stored data are both represented as lists of vectors and you want entity-level late-interaction retrieval with `MAXSIM` metrics. | BYOC"
+description: "This tutorial shows how to build ColBERT-style and ColPali-style retrieval systems with EmbeddingList search on StructArray vector subfields in Zilliz Cloud. Use it when your query and stored data are both represented as lists of vectors and you want entity-level late-interaction retrieval with MAX_SIM* metrics. | BYOC"
 type: origin
-token: Mf7GwGwgQiLCcykOi69cvaD8ncz
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-tutorial-colbert-colpali
+sidebar_label: "ColBERT and ColPali"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/search-with-embedding-lists.md"
 
 ---
 
 import Admonition from '@theme/Admonition';
-
 
 # Search with EmbeddingLists: ColBERT and ColPali
 
@@ -26,7 +26,7 @@ For the StructArray basics behind this tutorial, see [Create a StructArray Field
 
 ## Overview\{#overview}
 
-To build a text retrieval system, you might need to split documents into chunks and store each chunk along with its embeddings as an entity in a vector database to ensure precision and accuracy, especially for long documents where full-text embeddings could dilute semantic specificity or exceed model input limits. 
+To build a text retrieval system, you might need to split documents into chunks and store each chunk along with its embeddings as an entity in a vector database to ensure precision and accuracy, especially for long documents where full-text embeddings could dilute semantic specificity or exceed model input limits.
 
 However, storing data in chunks leads to chunk-wise search results, meaning that retrieval initially identifies relevant *segments* rather than cohesive *documents*. To address this, you should perform additional post-search processing.
 
@@ -36,7 +36,7 @@ ColBERT (arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)) is a text-text r
 
 During data ingestion in ColBERT, each document is split into tokens, which are then vectorized and stored as an embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$. When a query arrives, it is also tokenized, vectorized, and stored as an embedding list, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$.
 
-In the above formulae, 
+In the above formulae,
 
 - $d$: a document
 
@@ -54,13 +54,15 @@ In the above formulae,
 
 Once vectorization is complete, the query embedding list is compared with each document embedding list, token by token, to determine the final similarity score.
 
-![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
+![Late interaction scores each query token against document tokens.](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7f1b7ae9c3e5e36d7cfa7c3eae0ebf1aa39d8d17192c3056611534917609fd8c.png)
 
-As shown in the diagram above, the query contains two tokens, namely `machine` and `learning`, and the document in the window has four tokens: `neural`, `network`, `python`, and `tutorial`. Once these tokens are vectorized, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from each score list are summed to produce the final score. The process for determining a document's final score is known as maximum similarity (**MAX_SIM**). For details on maximum similarity, refer to [Maximum similarity](./search-metrics-explained#maximum-similarity).
+As shown in the diagram above, the query contains two tokens, namely `machine` and `learning`, and the document in the window has four tokens: `neural`, `network`, `python`, and `tutorial`. Once these tokens are vectorized, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from each score list are summed to produce the final score. The process for determining a document's final score is known as maximum similarity (**MAX_SIM**).
 
-<Admonition type="info" title="Notes">
+For details on maximum similarity, see [Maximum similarity](https://docs.zilliz.com/docs/search-metrics-explained#maximum-similarity).
 
-When implementing a ColBERT-like text retrieval system in Milvus, you are not limited to splitting documents into tokens. 
+<Admonition type="info" icon="📘" title="Notes">
+
+When implementing a ColBERT-like text retrieval system in Zilliz Cloud, you are not limited to splitting documents into tokens.
 
 Instead, you can divide the documents into segments of any appropriate size, embed each segment to create an embedding list, and store the document along with its embedded segments in an entity.
 
@@ -72,21 +74,23 @@ Based on ColBERT, ColPali (arXiv: [2407.01449](https://arxiv.org/abs/2407.01449?
 
 This method preserves non-textual information, such as the document layout, images, and table structures, which are lost when using text-only retrieval systems.
 
-![SuHjwmWiDhLs79buw22cw9aAnqf](https://zdoc-images.s3.us-west-2.amazonaws.com/SuHjwmWiDhLs79buw22cw9aAnqf.png)
+![ColPali compares query token embeddings with document page patch embeddings.](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/c89769a1373bffb01fe9381ecf67cdd9b223ab1db5271dd3d230594c695c3b85.png)
 
-The VLM used in ColPali is called PaliGemma (arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)), which comprises an image encoder (**SigLIP-400M**), a decoder-only language model (**Gemma2-2B**), and a linear layer that projects the image encoder's output into the language model's vector space, as shown in the above diagram.
+This diagram illustrates the retrieval workflow. Its intermediate dimensions are schematic; use the model configuration and the embedding tensor shape for implementation. The visual patches do not include additional text or special tokens in the model input.
 
-During data ingestion, a document page, represented as a raw image, is divided into multiple visual patches, each of which is embedded to generate a list of vector embeddings. Then they are projected into the language model's vector space to obtain the final embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$. When a query arrives, it is tokenized, and each token is embedded to generate a list of vector embeddings, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$. Then, **MAX_SIM** has been applied to compare the two embedding lists and obtain the final score between the query and the document page. 
+The VLM used in ColPali is called PaliGemma (arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)), which comprises an image encoder (**SigLIP-400M**), a decoder-only language model (**Gemma-2B**), and a linear layer that projects the image encoder's output into the language model's vector space, as shown in the above diagram.
+
+During data ingestion, a document page, represented as a raw image, is divided into multiple visual patches, each of which is embedded to generate a list of vector embeddings. Then they are projected into the language model's vector space to obtain the final embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$. When a query arrives, it is tokenized, and each token is embedded to generate a list of vector embeddings, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$. Then, **MAX_SIM** has been applied to compare the two embedding lists and obtain the final score between the query and the document page.
 
 ## ColBERT text retrieval system\{#colbert-text-retrieval-system}
 
-In this section, we are going to set up a ColBERT text retrieval system using StructArray. Before that, set up a Zilliz Cloud cluster compatible with Milvus v2.6.x, and obtain a Cohere access token.
+Use a Zilliz Cloud cluster that supports StructArray vector subfields, `MAX_SIM_COSINE` indexes, and EmbeddingList search. See [StructArray Limits](./struct-array-limits) for requirements. The database examples use PyMilvus 3.0.2. You also need a Cohere access token.
 
 ### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
 
 Run the following command to install the dependencies.
 
-```shell
+```bash
 pip install --upgrade huggingface-hub transformers datasets pymilvus cohere
 ```
 
@@ -99,8 +103,8 @@ from datasets import load_dataset
 
 lang = "simple"
 docs = load_dataset(
-    "Cohere/wikipedia-2023-11-embed-multilingual-v3", 
-    lang, 
+    "Cohere/wikipedia-2023-11-embed-multilingual-v3",
+    lang,
     split="train[:10000]"
 )
 ```
@@ -158,7 +162,7 @@ schema.add_field('title', DataType.VARCHAR, max_length=512)
 # Create struct schema
 struct_schema = client.create_struct_field_schema()
 struct_schema.add_field('text', DataType.VARCHAR, max_length=65535)
-struct_schema.add_field('emb', DataType.FLOAT_VECTOR, dim=512)
+struct_schema.add_field('emb', DataType.FLOAT_VECTOR, dim=1024)
 
 schema.add_field('paragraphs', DataType.ARRAY,
                  element_type=DataType.STRUCT,
@@ -174,8 +178,8 @@ index_params.add_index(
 
 # Create a collection
 client.create_collection(
-    collection_name='wiki_documents', 
-    schema=schema, 
+    collection_name='wiki_documents',
+    schema=schema,
     index_params=index_params
 )
 ```
@@ -186,42 +190,31 @@ Now we can insert the prepared data into the collection we created above.
 
 ```python
 client.insert(
-    collection_name='wiki_documents', 
+    collection_name='wiki_documents',
     data=data
 )
 ```
 
 ### Step 6: Search within the Cohere dataset\{#step-6-search-within-the-cohere-dataset}
 
-According to ColBERT's design, the query text should be tokenized and then embedded into an EmbeddingList. In this step, we will use the same model that Cohere used to generate embeddings for the paragraphs in the Wikipedia dataset.
+This example demonstrates late interaction between query terms and stored paragraphs. It uses Cohere's `embed-multilingual-v3.0` model, which produces 1,024-dimensional embeddings, rather than ColBERT's contextual token encoder. Embed the query terms with `search_query` to match the retrieval use case.
 
 ```python
 import cohere
 
 co = cohere.ClientV2("COHERE_API_KEY")
 
-query_inputs = [
-    {
-        'content': [
-            {'type': 'text', 'text': 'Adobe'},
-        ]
-    },
-    {
-        'content': [
-            {'type': 'text', 'text': 'software'}
-        ]
-    }
-]
+query_inputs = ["Adobe", "software"]
 
 embeddings = co.embed(
-    inputs=query_inputs,
+    texts=query_inputs,
     model='embed-multilingual-v3.0',
-    input_type="classification",
+    input_type="search_query",
     embedding_types=["float"],
 )
 ```
 
-In the code, the query texts are organized into tokens in `query_inputs` and embedded into a list of float vectors. Then you can use Milvus' EmbeddingList to conduct a similarity search as follows.
+In the code, the query terms are stored in `query_inputs` and embedded into a list of float vectors. Then you can use the `EmbeddingList` API to conduct a similarity search as follows.
 
 ```python
 from pymilvus.client.embedding_list import EmbeddingList
@@ -243,36 +236,28 @@ for hit in results[0]:
   print(f"Document {hit['entity']['title']}: {hit['distance']:.4f}")
 ```
 
-The output of the above code is similar to the following:
+The following schematic output illustrates the format. Document titles, ordering, and scores depend on the dataset and query embeddings:
 
 ```python
-# Document Software: 2.3035
-# Document Application: 2.1875
-# Document Adobe Illustrator: 2.1167
-# Document Open source: 2.0542
-# Document Computer: 1.9811
-# Document Microsoft: 1.9784
-# Document Web browser: 1.9655
-# Document Program: 1.9627
-# Document Website: 1.9594
-# Document Computer science: 1.9460
+# Document <title>: <score>
+# Document <another title>: <score>
 ```
 
 Each pairwise cosine similarity score ranges from `-1` to `1`. The final `MAX_SIM_COSINE` score can be greater than `1` because it aggregates multiple token-level maximum similarity scores.
 
 ## ColPali document retrieval system\{#colpali-document-retrieval-system}
 
-In this section, we will set up a ColPali-based document retrieval system using StructArray. Before that, set up a Zilliz Cloud cluster compatible with Milvus v2.6.x.
+Use a Zilliz Cloud cluster that supports StructArray vector subfields, `MAX_SIM_COSINE` indexes, and EmbeddingList search. See [StructArray Limits](./struct-array-limits) for requirements. The database examples use PyMilvus 3.0.2.
 
-### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
+### Step 1: Install the dependencies\{#step-1-install-the-dependencies-1}
 
-```shell
+```bash
 pip install --upgrade huggingface-hub transformers datasets pymilvus 'colpali-engine>=0.3.0,<0.4.0'
 ```
 
 ### Step 2: Load the Vidore dataset\{#step-2-load-the-vidore-dataset}
 
-In this section, we will use a Vidore dataset named **vidore_v2_finance_en**. This dataset is a corpus of annual reports from the banking sector, intended for long-document understanding tasks. It is one of the 10 corpora comprising the ViDoRe v3 Benchmark. You can find details about this dataset on [this page](https://huggingface.co/datasets/vidore/vidore_v3_finance_en). 
+In this section, we will use a Vidore dataset named **vidore_v3_finance_en**. This dataset is a corpus of annual reports from the banking sector, intended for long-document understanding tasks. It is one of the 10 corpora comprising the ViDoRe v3 Benchmark. You can find details about this dataset on [this page](https://huggingface.co/datasets/vidore/vidore_v3_finance_en).
 
 ```python
 from datasets import load_dataset
@@ -292,7 +277,7 @@ Running the above scripts will download the dataset if it is not available local
 
 ### Step 3: Generate embeddings for the page images\{#step-3-generate-embeddings-for-the-page-images}
 
-As illustrated in the [Overview](./tutorial-colbert-colpali#colpali-extension) section, the ColPali model is a VLM that projects images into the vector space of a text model. In this step, we will use the latest ColPali model **vidore/colpali-v1.3**. You can find details about this model on [this page](https://huggingface.co/vidore/colpali-v1.3). 
+As illustrated in the [ColPali extension](./tutorial-colbert-colpali#colpali-extension) section, the ColPali model is a VLM that projects images into the vector space of a text model. In this step, we will use the ColPali model **vidore/colpali-v1.3**. You can find details about this model on [this page](https://huggingface.co/vidore/colpali-v1.3).
 
 ```python
 import torch
@@ -332,7 +317,7 @@ print(patches_embeddings.shape)
 # [1031, 128]
 ```
 
-In the code above, the ColPali model resizes the image to 448 x 448 pixels, then divides it into patches, each measuring 14 x 14 pixels. Lastly, these patches are embedded into 1,031 embeddings, each with 128 dimensions.
+In the code above, the ColPali model resizes the image to 448 x 448 pixels, then divides it into patches, each measuring 14 x 14 pixels. The example output contains 1,031 embeddings, each with 128 dimensions, including embeddings for additional non-image tokens. The output length depends on the model and processor; inspect the tensor shape and ensure it fits the StructArray capacity before insertion.
 
 You can generate embeddings for all the images using a loop as follows:
 
@@ -361,7 +346,7 @@ for _, row in df.iterrows():
     })
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 This step is relatively time-consuming due to the large amount of data that needs to be embedded.
 
@@ -375,8 +360,8 @@ Once the data is ready, we will create a collection. In the collection, `patches
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri=YOUR_CLUSTER_ENDPOINT,
-    token=YOUR_API_KEY
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 schema = client.create_schema()
@@ -440,13 +425,13 @@ client.insert(
 )
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Inserting the financial reports can take a long time. Each page can contain more than one thousand patch vectors, and each vector is stored inside the `patches` StructArray field. For larger datasets, split `data` into smaller batches and insert one batch at a time.
 
 </Admonition>
 
-From the output, you can find that all pages from the Vidore dataset are inserted.
+Check the insert response to confirm how many pages were inserted.
 
 ### Step 6: Search within the financial reports\{#step-6-search-within-the-financial-reports}
 

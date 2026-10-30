@@ -42,6 +42,11 @@ client.rename_collection(
     old_name="my_collection",
     new_name="my_new_collection"
 )
+
+client.rename_collection(
+    old_name="my_new_collection",
+    new_name="my_collection"
+)
 ```
 
 </TabItem>
@@ -61,12 +66,19 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-    
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
         .collectionName("my_collection")
         .newCollectionName("my_new_collection")
+        .build();
+
+client.renameCollection(renameCollectionReq);
+
+renameCollectionReq = RenameCollectionReq.builder()
+        .collectionName("my_new_collection")
+        .newCollectionName("my_collection")
         .build();
 
 client.renameCollection(renameCollectionReq);
@@ -105,6 +117,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+err = client.RenameCollection(ctx, milvusclient.NewRenameCollectionOption("my_new_collection", "my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -116,6 +134,14 @@ client.rename_collection(
     RenameCollectionRequest::builder()
         .collection_name("my_collection")
         .new_collection_name("my_new_collection")
+        .build()?,
+)
+.await?;
+
+client.rename_collection(
+    RenameCollectionRequest::builder()
+        .collection_name("my_new_collection")
+        .new_collection_name("my_collection")
         .build()?,
 )
 .await?;
@@ -143,6 +169,13 @@ status = client->RenameCollection(milvus::RenameCollectionRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+status = client->RenameCollection(milvus::RenameCollectionRequest()
+                                    .WithCollectionName("my_new_collection")
+                                    .WithNewCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -159,6 +192,11 @@ const client = new MilvusClient({address, token});
 const res = await client.renameCollection({
     collection_name: "my_collection",
     new_collection_name: "my_new_collection"
+});
+
+const res2 = await client.renameCollection({
+    collection_name: "my_new_collection",
+    new_collection_name: "my_collection"
 });
 ```
 
@@ -184,6 +222,12 @@ await client.RenameCollectionAsync(new RenameCollectionReq
     CollectionName = "my_collection",
     NewCollectionName = "my_new_collection"
 });
+
+await client.RenameCollectionAsync(new RenameCollectionReq
+{
+    CollectionName = "my_new_collection",
+    NewCollectionName = "my_collection"
+});
 ```
 
 </TabItem>
@@ -202,6 +246,16 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "newCollectionName": "my_new_collection"
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_new_collection",
+    "newCollectionName": "my_collection"
 }'
 ```
 

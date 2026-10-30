@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "309e5ec78ff3feaff0141c0ce9425c8ae6c77ea4",
+      "commit": "bb48000ed4fcbe00fa93c2b8b057376cd1a00149",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2702,6 +2702,22 @@
         {
           "path": "shared-docs/guides/pages/drop-collection/page.yaml",
           "sha256": "98fc7a5eabb1edb8ebe14f41499df122449e36facdd1f6d33ec4950e419aaf90"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtered-search/cloud-iterative-cli.md",
+          "sha256": "3c6bdb719184e1828ec35cf6edbbaf1a6539f318f6b8de836fb391866626a641"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtered-search/cloud-standard-cli.md",
+          "sha256": "04c45c6e2b32a43adca3877ae5b0753406d3432d536cdd0b855fbb929dddea07"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtered-search/lock.yaml",
+          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtered-search/page.yaml",
+          "sha256": "a48d8d850bf08945c4335407ca86a299592c8dbec5894c7da5bab9b877f6f1c1"
         },
         {
           "path": "shared-docs/guides/pages/icu-tokenizer/lock.yaml",
@@ -2796,6 +2812,26 @@
           "sha256": "88fedf4a3a8fb96c489e1dffa641e144ee85dbb999123a62577176c1eb9aecf6"
         },
         {
+          "path": "shared-docs/guides/pages/tutorial-colbert-colpali/cloud-colbert-prerequisites.md",
+          "sha256": "9512513b4053d1f0046b07607bf6b53177dfc0ded79312bc7e4870df6d7c1d60"
+        },
+        {
+          "path": "shared-docs/guides/pages/tutorial-colbert-colpali/cloud-colpali-prerequisites.md",
+          "sha256": "4447700ac066341b80a1c4f9958e8376aa65dc2ca44def3ee840c854d46e0c1d"
+        },
+        {
+          "path": "shared-docs/guides/pages/tutorial-colbert-colpali/cloud-maximum-similarity-reference.md",
+          "sha256": "b296bfbd522b000f79701e129a28b8f16d8471be04a3da111cb9806cced51972"
+        },
+        {
+          "path": "shared-docs/guides/pages/tutorial-colbert-colpali/lock.yaml",
+          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+        },
+        {
+          "path": "shared-docs/guides/pages/tutorial-colbert-colpali/page.yaml",
+          "sha256": "6e4fe8697b1f30736009801ae1acbdc9a1baa8f934ddc4fe9617ab9af307bb80"
+        },
+        {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
           "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
         },
@@ -2834,7 +2870,7 @@
       ]
     },
     "dev": {
-      "commit": "d108fa8d0e449d7eaddc0fb3ac88319825b383a5",
+      "commit": "93ab5a32eedf9dd82b28355b7c6aebb31ded8cf1",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -2958,7 +2994,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
-          "sha256": "73000baaff4a3fe076d7cec42b55a512ab62f292579b8cbcbe2aa64bf56c5ed2"
+          "sha256": "cabf308c70803c81450237c852b3aacbb3ea37f608ff262d73f16d2246038db2"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/arabic-normalization.md",
@@ -2966,7 +3002,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-          "sha256": "a9169758492222db0bd4ad44d9b67aeaaed84ac80e9c7c5edb9ff62ac41f3a3b"
+          "sha256": "151a953177a4781044144c6c71c784dc1bde48ecc2dc0bad2af08489a30ade89"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
@@ -2986,7 +3022,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-          "sha256": "0c12919c490a1f6e9258f82c438d1ded094a478d9c8c7d240d6ea70f0f7643c1"
+          "sha256": "a0119e6feeff27766f34c2fcaf0c80771e18c033a7ccae8d4553347a85af3d8a"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
@@ -3350,7 +3386,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
-          "sha256": "971708c37613ec9de2965af0d377b20efd089d5cd22ce108579d7b42c0cac0d4"
+          "sha256": "7441e4bbff40198a1015a5b38c87702832b9d47f6b5bab03f280f34c1486343e"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -3446,7 +3482,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
-          "sha256": "8bf082d4fe351e979ef9095cd6ade570855356293e1ccfe7efdbc4bfa4b9dfb7"
+          "sha256": "be1da3a815fa6a0dca9c11296b4b8dd8743b94941ad2369a2197a24f679fc8e6"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/full-text-search.md",
@@ -3454,7 +3490,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/get-and-scalar-query.md",
-          "sha256": "04a21840d145c2e74fddc9538e76b86108a8f5d7a8f096140d0035200b0e2c8a"
+          "sha256": "6cf9903ec3ef6b4efa99e4f6883dd488c8db7409aa63d32521b56e46aa7fc534"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/grouping-search.md",
@@ -4126,7 +4162,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
-          "sha256": "e77eda8e5eb977b7cfcfcd66b16dfc042a16946fdf8b3445cf9cb0d9ac2238d3"
+          "sha256": "0858e748d13e929638e34d178c9ecab42675d28b9936d93bc17725f2c937049e"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/arabic-normalization.md",
@@ -4134,7 +4170,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-          "sha256": "7b10bf0330719b3fac28a0c89114786f57cf2bc9cd4902b4230467ea75fa521c"
+          "sha256": "23c8b7fcae68cc2726ea3a5ca81a927b2fbe217f42490b041a98a97984b33087"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
@@ -4154,7 +4190,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-          "sha256": "d268cf51fc64710295d0f650a0f909c1a7fb70b448c8e72c35329114fe15f1f8"
+          "sha256": "91f4ad3394118a2c85ba18f2714ad866f22c256295ed0c79ba6224f929d405b7"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
@@ -4550,7 +4586,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
-          "sha256": "1bf6faf7bf8e7c515e6e1f9fa357f86084b382a6a321b8dc1dad443d0688d99c"
+          "sha256": "35e0fc10c58c8c37c934bf5af289df09fa467c39e29e33afb6c8801a379f05c1"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -4646,7 +4682,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
-          "sha256": "7717018e315073faffd639007977fb2fa0e69dde0d8acf1636417f493ee19261"
+          "sha256": "15aff35000d1ecbf9f6b4ed495dccae2ca79a0069117a494e39a7f19eadf2941"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/full-text-search.md",
@@ -4654,7 +4690,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/get-and-scalar-query.md",
-          "sha256": "86afaf9cd2918d01bf8f92fde6ecc410a0aeaf92d035160a01f68e84d87b6ed5"
+          "sha256": "a0db3c29f2929ef988351348c508dcd855a3ded066ce89490319f2c3facf7469"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/grouping-search.md",
@@ -5662,79 +5698,99 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "57865de28fcbbf2ecca406be6b2ddd83625450b3a4715581bf427804adf5aafc"
+          "sha256": "682b64d10f1b4815df88e5c977c93da7acb5a228a07c809e4727ebc3212158dc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
-          "sha256": "beb407b1a7028f92cfb1fb70c0f7ec88bd902c10fc6dbc4a0854006533adbeca"
+          "sha256": "3dc3223a40663bebae1122645363804f91619fe205c10401e38a0cd4ad37c049"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
+          "sha256": "f2854b9f91096eb32e9c58ec2fb89b57fc754834d8db4664d34cfff49e7a7a84"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "c6868741dfc01c639a0b3678a7d19eac712e5cee8c5bd22eeda8005216f6751a"
+          "sha256": "18af1455d56d2b0a929ddba2888bc2564d5a7751cb58b3772a0dcc5183b9c8bf"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
+          "sha256": "15d339263478ab2513ee013797a292a3b3798efcd63e3fe76beb7fc460e4da1b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "af7cc1ce28abf89498fc1e4d04a0a623bc0c0c0da1e5797e5ba40a207fe9694e"
+          "sha256": "47bff0208c881889c0a3f13e329edcdf3e20a1f4e1e1487d4367187a79e6a4f6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "5af1839b4ead950ded6b792efbb690b2ca141170995f04787ddd658d06841c53"
+          "sha256": "e9b277309854d8b725932370ae661ff1fe72b1b5213d6ab893c7e7b5c2e7e073"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "fd2a4402fcf132f4f2834abcf034344f7060ea9955378674e80c6475c41d65a7"
+          "sha256": "4f9271728baefdc8ae8c3a2a833bfab0e04142dda7fea646b74059405b204332"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "e138ba613c49f3a99f70e030c9ff1ed8142f118c8378c1f044f134ecb10402a6"
+          "sha256": "bdc4129105bbc717ebfcb5f39b1261b3a1f6af9635927233e5c325f353778841"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "e1eb852da3a5ed9944e96f69bb64d10e731d5d15254649b21ea963d2f4907ab7"
+          "sha256": "2f3d42f5db49d8d3b817190ef454ee57de78f825a19db9d18570c679ff359b66"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "a345d18e4e0801836ec492c909cc0468783389e0b2161abb51ee8a28d6f75762"
+          "sha256": "59863afda96da9a3baf65b44061eac44ad13b23eec6452e3e2bfdf5999371c5f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "06e530a20565a86ae123a39d4d2213af8f9649cc69d2e9cd06da2a609333ba2c"
+          "sha256": "277c8855ca6e86e207b009fb77f7ea6f8605a5469c337ab10d4b0367a907c501"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
+          "sha256": "34c8537602c27b6800372cca4a873d227608d80260a9ce22993c903efe5da6a8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "e22fb12c6b3eaf3aac9fc53768ad1a0aa4279a3af436e995c65c6eecf7d687a6"
+          "sha256": "128a2b386f7d92e60bbac80895c1a4459459a5641f095e3817e6e0765a65b867"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "e632e55515b49fc41f2b332b3d352eb276aa83e46a7941817c65937d9ac617c2"
+          "sha256": "30f30379239e0b3ccc633feb0c6df4b23ac172d3f15f59eb27f5dbc9469f18fe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "404e08f590c55301aa6e74fd2d7fbd7f372631a86091959be207d4a42a477ef7"
+          "sha256": "801fda0f21547875d4fe03be3e5a82e6d0b204bd204eed41c9436cd185e48e53"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "2ecdcddd2ea157421c6467681d487274672b281157e18b45ce581336137abc8b"
+          "sha256": "9ae3a9d24be83427a354d118c24560a34519abdf4fbafe0b63b6f4e657f07bb2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "901ffca95e7732497646db1873dfaeb4a39a2f1a3a6d5a3b74dad168f9b02cba"
+          "sha256": "fe17f953a63f32ef8cd899345b260e64acc15b6d416db94b36b71db5ea711eed"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
+          "sha256": "bdaa243f3a88d84efbe50be3234f23d28a626b46710dcf1026620e139022ca57"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
+          "sha256": "7af3f06ca78d77a1fcf28541bcc2e5ee5699c63ec80e33c431066f4473259e35"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "fd38309e7a47693a1decfdb559c21f8f9a3c8dfae5921859b86e30203a8867c4"
+          "sha256": "d5610cda759e842c82a9d7f1c6bb4a86a5968aec110e7dfd9ad8e8f5ddc981fe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "1343357534be76e12e8283b015d5f276bef9bd0e8028de04b664e9e96a9b79fb"
+          "sha256": "738e8a0e7c2d6134a8f1fc71e0622c05b01e84ef5679c42e95d05ae717770df0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "e0ceaaa29767d50ef0c94562622fe0532760c98ca462efb0bd5d2754fd04db92"
+          "sha256": "a9ecc480b53754818eae7d87007ba7e3f64220deeb436ae6339250e253d34438"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "75d126f8a9ed7d1000f50ed6f1b0f96db7b8ede27bd137a970fc7bcae0599832"
+          "sha256": "92a096ee7c88304e9fc4308dbad57e6bab54d397457874e19c2abd51b5fa0019"
         }
       ]
     },
@@ -8562,11 +8618,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/CpBbwcJ87irHp0k9oCSc2RNIn3d",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "filtered-search"
+            }
           },
           {
             "record_id": "recvlPp5huUFoy",
@@ -9205,11 +9266,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Mf7GwGwgQiLCcykOi69cvaD8ncz",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Mf7GwGwgQiLCcykOi69cvaD8ncz",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/tutorial-colbert-colpali",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "tutorial-colbert-colpali"
+            }
           },
           {
             "record_id": "recvlPqRV02Ocr",
@@ -16739,7 +16805,7 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "038ef2d0e73d54c61e88cc5471c5bb54b4b19924d6cc0d8f0454ae8c688d941c",
+          "tblWv7PjNDsexddH": "8131fd4da4ba58fe8e3703701d1c834f69d6e4f1c08f591d5dceb3e313c06ce9",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
@@ -16771,7 +16837,7 @@
       }
     },
     "tools": {
-      "zdoc": "309e5ec78ff3feaff0141c0ce9425c8ae6c77ea4",
+      "zdoc": "bb48000ed4fcbe00fa93c2b8b057376cd1a00149",
       "md2md": "1.3.0"
     },
     "images": []
