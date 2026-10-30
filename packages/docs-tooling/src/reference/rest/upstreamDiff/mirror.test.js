@@ -87,6 +87,39 @@ test('mirrorValueMatches tolerates exactly the translation overlay and nothing e
         {type: 'object', properties: {name: {type: 'string', maxLength: 9}}}), /REST_UPSTREAM_APPLY_VALUE_UNBOUND/)
 })
 
+
+test('mirrorValueMatches recurses arrays: overlays inside oneOf/items are tolerated', () => {
+    // the P1-1 deadlock: translate writes x-i18n on oneOf members too
+    const expected = {type: 'object', oneOf: [
+        {'x-tab-label': 'success', type: 'object', properties: {code: {type: 'integer', description: 'Code.'}}},
+        {'x-tab-label': 'error', type: 'object'},
+    ]}
+    const overlaid = {type: 'object', oneOf: [
+        {'x-tab-label': 'success', type: 'object', properties: {code: {type: 'integer', description: 'Code.',
+            'x-i18n': {'zh-CN': {description: '码'}, 'ja-JP': {description: 'コード'}}}}},
+        {'x-tab-label': 'error', type: 'object'},
+    ]}
+    assert.equal(mirrorValueMatches(expected, overlaid), true)
+    // existing upstream zh preserved byte-identically, ja added on top
+    const withZh = {type: 'object', items: {type: 'string', description: 'x', 'x-i18n': {'zh-CN': {description: '中'}}}}
+    const withZhJa = {type: 'object', items: {type: 'string', description: 'x', 'x-i18n': {'zh-CN': {description: '中'}, 'ja-JP': {description: 'ヤ'}}}}
+    assert.equal(mirrorValueMatches(withZh, withZhJa), true)
+    // changed structure inside an array member is still refused
+    const mutated = JSON.parse(JSON.stringify(overlaid))
+    mutated.oneOf[0].properties.code.type = 'string'
+    assert.equal(mirrorValueMatches(expected, mutated), false)
+    assert.equal(mirrorValueMatches(expected, {type: 'object', oneOf: [overlaid.oneOf[0]]}), false)
+})
+
+test('mergeMirrorProse preserves local scalar constraints only in preserve mode', () => {
+    const upstream = {type: 'object', properties: {limit: {type: 'integer', description: 'keep'}}}
+    const local = {type: 'object', properties: {limit: {type: 'integer', maximum: 64, description: 'local keep'}}}
+    const preserved = mergeMirrorProse(upstream, local, {preserveLocalScalarConstraints: true})
+    assert.equal(preserved.properties.limit.maximum, 64)
+    const plain = mergeMirrorProse(upstream, local)
+    assert.equal(plain.properties.limit.maximum, undefined)
+})
+
 test('proseNodes never descends into x-i18n; completeness needs both locales', () => {
     const value = {type: 'object', properties: {
         a: {type: 'string', description: 'one'},

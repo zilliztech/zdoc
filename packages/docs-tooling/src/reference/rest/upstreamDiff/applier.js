@@ -335,7 +335,8 @@ function applyRequiredMembership(document, entry, schemaTokens, field) {
     if (!isPlainObject(schema)) fail('REST_UPSTREAM_APPLY_TARGET_INVALID', `${entry.diffEntryId}: required-membership target is not a schema object`)
     const current = Array.isArray(schema.required) ? schema.required : []
     const expected = entry.requiredMembership ? [...new Set([...current, field])] : current.filter(name => name !== field)
-    if (expected.length > 0 || current.length > 0) schema.required = expected
+    if (expected.length === 0 && current.length > 0) delete schema.required
+    else if (expected.length > 0 || current.length > 0) schema.required = expected
 }
 
 function applyFragmentEntry(document, entry, cited, denylist, normalizations, exemptions, writtenSubtrees) {

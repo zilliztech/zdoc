@@ -112,6 +112,7 @@ async function planBranches({diffPath, fragmentsDir, outPath, baseUrl, apiKeyEnv
     }
     let lastError = null
     let validated = null
+    let lastParsed = null
     let attempts = 0
     while (attempts < retries) {
         attempts += 1
@@ -132,15 +133,23 @@ async function planBranches({diffPath, fragmentsDir, outPath, baseUrl, apiKeyEnv
             continue
         }
         validated = validatePlacements(parsed, records)
+        lastParsed = parsed
         // Retry while coverage is implausibly low; omissions are legal (they
         // degrade to human review) but a near-empty response is model failure.
         if (validated.placements.size >= Math.ceil(records.length / 2)) break
         lastError = `placement coverage ${validated.placements.size}/${records.length} below half`
     }
-    if (!validated) fail(`REST_UPSTREAM_BRANCH_PLAN_FAILED: ${lastError}`)
+    // Same semantics as decide-batches: omissions degrade to human review, but
+    // a systematically low coverage after every retry is model failure — fail
+    // the run instead of shipping a mostly-unplaced refresh.
+    if (!validated || validated.placements.size < Math.ceil(records.length / 2)) {
+        fail(`REST_UPSTREAM_BRANCH_PLAN_FAILED: ${lastError}`)
+    }
     const plan = {
         placements: [...validated.placements.entries()].map(([diffEntryId, targets]) => ({diffEntryId, targets})),
-        reorganizations: [],
+        // Reorganization proposals are validated by the contract schema and
+        // reported in the PR body — the pipeline never executes them.
+        reorganizations: lastParsed.reorganizations ?? [],
     }
     fs.mkdirSync(path.dirname(path.resolve(outPath)), {recursive: true})
     fs.writeFileSync(outPath, `${JSON.stringify(plan, null, 2)}\n`)

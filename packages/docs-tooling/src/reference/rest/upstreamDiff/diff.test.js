@@ -279,6 +279,53 @@ test('relaxing a requirement is flagged for R&D confirmation; tightening is adop
     ])
 })
 
+
+test('structure-only mirrors keep fragment scalar constraints; nested required relaxations confirm-gate', () => {
+    const upstream = treeUpstream()
+    // structure change (new nested field) triggers a mirror on dbName...
+    upstream.components.schemas.CollectionNameReq.properties.dbName = {type: 'object', properties: {id: {type: 'string'}}, required: ['id']}
+    const fragment = treeFragment()
+    // ...while the fragment carries an extrapolated maxLength and a nested
+    // required member the upstream no longer lists
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.dbName = {
+        type: 'object', maxLength: 255, properties: {id: {type: 'string'}, legacy: {type: 'string'}}, required: ['id', 'legacy'],
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const mirror = result.entries.find(entry => entry.field === 'dbName' && entry.change.kind === 'schema')
+    assert.ok(mirror, 'expected a dbName mirror')
+    // the preserve flag rides the entry so assembler AND applier merge with
+    // the same mode (P1-2)
+    assert.equal(mirror.preserveLocalScalarConstraints, true)
+    // nested required relaxation is confirmation-gated (P1-3), and the
+    // dropped content rides the same entry
+    assert.equal(mirror.requiresConfirmation, 'required-relaxation')
+    assert.deepEqual(mirror.droppedLocalFields, ['legacy', 'legacy'])
+})
+
+test('spec-file mirrors gate nested required relaxations too', () => {
+    const fragment = importFragment()
+    fragment.paths['/v2/vectordb/jobs/import/create'].post.requestBody.content['application/json'].schema.oneOf[2].properties.objectUrl = {
+        type: 'object', properties: {url: {type: 'string'}}, required: ['url'],
+    }
+    const upstream = importUpstream()
+    upstream.paths['/v2/vectordb/jobs/import/create'].post.requestBody.content['application/json'].schema.properties.objectUrl = {
+        type: 'object', properties: {url: {type: 'string'}},
+    }
+    const result = run({upstream, fragments: new Map([['11-import-operations-v2.json', fragment]])})
+    const mirror = result.entries.find(entry => entry.field === 'objectUrl' && entry.change.kind === 'schema'
+        && entry.branch === 'External storage (Serving)')
+    assert.ok(mirror)
+    assert.equal(mirror.requiresConfirmation, 'required-relaxation')
+    assert.deepEqual(mirror.droppedLocalFields, ['url'])
+})
+
 // --- Source-tree structure-only mode (design §6) ----------------------------
 
 const TREE_SOURCE = {id: 'milvus-data-plane', repository: 'milvus-io/milvus', apiSurface: 'data-plane', publicationTarget: 'milvus', artifact: {kind: 'source-tree'}}

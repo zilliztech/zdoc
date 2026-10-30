@@ -97,9 +97,9 @@ function resolveSchemaDeep(document, schema, depth = 0) {
 // only exist upstream keep the upstream prose (and any upstream x-i18n); nodes
 // that only exist locally are dropped by construction (the diff reports them
 // as droppedLocalFields).
-function mergeMirrorProse(upstreamNode, localNode) {
+function mergeMirrorProse(upstreamNode, localNode, options = {}) {
     if (Array.isArray(upstreamNode)) {
-        return upstreamNode.map((member, index) => mergeMirrorProse(member, Array.isArray(localNode) ? localNode[index] : undefined))
+        return upstreamNode.map((member, index) => mergeMirrorProse(member, Array.isArray(localNode) ? localNode[index] : undefined, options))
     }
     if (!isPlainObject(upstreamNode)) return upstreamNode
     const local = isPlainObject(localNode) ? localNode : {}
@@ -111,11 +111,11 @@ function mergeMirrorProse(upstreamNode, localNode) {
         }
         if (key === 'properties' && isPlainObject(child)) {
             const localProperties = isPlainObject(local.properties) ? local.properties : {}
-            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, mergeMirrorProse(property, localProperties[name])]))
+            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, mergeMirrorProse(property, localProperties[name], options)]))
             continue
         }
         if (key === 'items' && isPlainObject(child)) {
-            result[key] = mergeMirrorProse(child, isPlainObject(local.items) ? local.items : undefined)
+            result[key] = mergeMirrorProse(child, isPlainObject(local.items) ? local.items : undefined, options)
             continue
         }
         if ((key === 'oneOf' || key === 'anyOf') && Array.isArray(child)) {
@@ -126,7 +126,7 @@ function mergeMirrorProse(upstreamNode, localNode) {
                     ? member['x-tab-label']
                     : null
                 const localByLabel = label === null ? null : localMembers.find(candidate => isPlainObject(candidate) && candidate['x-tab-label'] === label)
-                return mergeMirrorProse(member, localByLabel ?? localMember)
+                return mergeMirrorProse(member, localByLabel ?? localMember, options)
             })
             continue
         }
@@ -135,7 +135,17 @@ function mergeMirrorProse(upstreamNode, localNode) {
     // Local-only doc keys on a surviving node (e.g. x-admonition the upstream
     // lacks) must not silently disappear with the mirrored structure.
     for (const [key, value] of Object.entries(local)) {
-        if (!(key in result) && isDocOwnedKey(key)) result[key] = value
+        if (key in result) continue
+        if (isDocOwnedKey(key)) {
+            result[key] = value
+            continue
+        }
+        // Structure-only sources cannot see scalar constraints (the extractor
+        // vocabulary has no maxLength/enum/...), so "absent upstream" there
+        // means unseen, not deleted: keep the fragment's extrapolated values.
+        if (options.preserveLocalScalarConstraints && key !== 'type' && SCALAR_CONSTRAINT_KEYS.has(key)) {
+            result[key] = value
+        }
     }
     return result
 }
@@ -176,10 +186,11 @@ function droppedLocalFieldPaths(upstreamNode, localNode, prefix = '') {
 // Scalar constraint keys the upstream subtree lacks where the local subtree has
 // them — mirrored fields retire these too (the merge keeps only doc-owned
 // local keys), so they ride the same deletion-review list as retired fields.
+// `example` is NOT here: it is a doc-owned key the merge always preserves.
 const SCALAR_CONSTRAINT_KEYS = new Set([
     'format', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'minLength',
     'maxLength', 'pattern', 'minItems', 'maxItems', 'uniqueItems', 'enum', 'default',
-    'nullable', 'deprecated', 'example',
+    'nullable', 'deprecated',
 ])
 
 function droppedLocalKeys(upstreamNode, localNode, prefix = '') {
@@ -208,6 +219,40 @@ function droppedLocalKeys(upstreamNode, localNode, prefix = '') {
     return dropped
 }
 
+// Required members the local subtree requires at NESTED nodes that the upstream
+// subtree does not — a mirror would silently relax them (decision 9's
+// suspected-generator-loss class). The top-level membership is handled by the
+// diff's requiredMembership; this walker covers everything beneath it.
+function relaxedRequiredMembers(upstreamNode, localNode, prefix = '') {
+    const relaxed = []
+    const walk = (upstream, local, path) => {
+        if (!isPlainObject(local) || !isPlainObject(upstream)) return
+        if (Array.isArray(local.required)) {
+            const upstreamMembers = Array.isArray(upstream.required) ? upstream.required : []
+            for (const member of local.required) {
+                if (typeof member === 'string' && !upstreamMembers.includes(member)) {
+                    relaxed.push(path ? `${path}(${member})` : member)
+                }
+            }
+        }
+        if (isPlainObject(local.properties) && isPlainObject(upstream.properties)) {
+            for (const [name, child] of Object.entries(local.properties)) {
+                if (!isPlainObject(upstream.properties[name])) continue
+                walk(upstream.properties[name], child, path ? `${path}.${name}` : name)
+            }
+        }
+        if (isPlainObject(local.items) && isPlainObject(upstream.items)) walk(upstream.items, local.items, `${path}[]`)
+        for (const combinator of ['oneOf', 'anyOf']) {
+            if (!Array.isArray(local[combinator]) || !Array.isArray(upstream[combinator])) continue
+            local[combinator].forEach((member, index) => {
+                if (isPlainObject(upstream[combinator][index])) walk(upstream[combinator][index], member, `${path}/${index}`)
+            })
+        }
+    }
+    walk(upstreamNode, localNode, prefix)
+    return relaxed
+}
+
 // The applier recomputes the merge from the live fragment and requires the
 // change-set value to match it exactly — with ONE sanctioned overlay: the
 // translation stage may add x-i18n {zh-CN, ja-JP} descriptions on
@@ -224,6 +269,14 @@ function isTranslationOverlay(node) {
 
 function mirrorValueMatches(expected, value) {
     if (isDeepStrictEqual(expected, value)) return true
+    // Arrays recurse element-wise so members inside oneOf/anyOf/items get the
+    // same translation-overlay tolerance as object nodes — the translate stage
+    // writes x-i18n there too, and a strict array compare would deadlock the
+    // entry between the translation gate and this binding.
+    if (Array.isArray(expected) || Array.isArray(value)) {
+        if (!Array.isArray(expected) || !Array.isArray(value) || expected.length !== value.length) return false
+        return expected.every((member, index) => mirrorValueMatches(member, value[index]))
+    }
     if (!isPlainObject(expected) || !isPlainObject(value)) return false
     for (const [key, expectedChild] of Object.entries(expected)) {
         if (!(key in value)) return false
@@ -255,7 +308,8 @@ function isTranslationSuperset(expectedNode, valueNode) {
 }
 
 function assertMirrorValueBound(entry, cited, currentSubtree) {
-    const expected = mergeMirrorProse(cited.change.after, currentSubtree)
+    const expected = mergeMirrorProse(cited.change.after, currentSubtree,
+        cited.preserveLocalScalarConstraints ? {preserveLocalScalarConstraints: true} : {})
     if (!mirrorValueMatches(expected, entry.value)) {
         fail('REST_UPSTREAM_APPLY_VALUE_UNBOUND', `${entry.diffEntryId}: mirror value differs from the recomputed upstream-structure/local-prose merge; mirrors are assembled, never hand-written`)
     }
@@ -335,4 +389,4 @@ function stripScalarConstraints(value) {
     return result
 }
 
-module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, isTranslationComplete, assertSchemaShape}
+module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, isTranslationComplete, assertSchemaShape}

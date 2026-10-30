@@ -1,6 +1,6 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
-const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
 // Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
@@ -227,21 +227,36 @@ function diffSchemaPair(context) {
         // upstream side of all of them, and the assembler keeps the local
         // prose at every node that survives. Structure-only sources (the
         // extractor vocabulary cannot speak to scalar constraints) compare
-        // with those keys stripped, so doc-extrapolated formats/lengths stay
-        // and the leaf lanes keep reporting them.
+        // with those keys stripped AND keep the fragment's extrapolated
+        // constraints in the merged value — absent upstream there means
+        // unseen, not deleted.
         const mirrorProjection = schema => apiProjection(context.structureOnly ? stripScalarConstraints(schema) : schema)
         if (!isDeepStrictEqual(mirrorProjection(fragmentProperty), mirrorProjection(upstreamProperty))) {
             const localHadRequired = Array.isArray(fragmentRequired) && fragmentRequired.includes(name)
             const requiredMembership = upstreamRequired === null ? null : upstreamRequired.includes(name)
+            const droppedLocalFields = [
+                ...droppedLocalFieldPaths(upstreamProperty, fragmentProperty),
+                // structure-only keeps these keys, so they are not retired
+                ...(context.structureOnly ? [] : droppedLocalKeys(upstreamProperty, fragmentProperty)),
+                // a nested required member the upstream dropped is a relaxation
+                ...relaxedRequiredMembers(upstreamProperty, fragmentProperty),
+            ]
+            const nestedRelaxation = relaxedRequiredMembers(upstreamProperty, fragmentProperty)
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
                 change: {kind: 'schema', key: 'mirror', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperty)},
                 requiredMembership,
-                droppedLocalFields: [...droppedLocalFieldPaths(upstreamProperty, fragmentProperty), ...droppedLocalKeys(upstreamProperty, fragmentProperty)],
+                ...(context.structureOnly ? {preserveLocalScalarConstraints: true} : {}),
+                droppedLocalFields,
                 evidence: context.upstreamEvidencePath,
                 // Retiring a fragment-side required member on upstream say-so
                 // stays the "suspected generator loss" class (decision 9):
-                // mirror applies it only with an explicit override.
-                requiresConfirmation: requiredMembership === false && localHadRequired ? 'required-relaxation' : undefined})
+                // mirror applies it only with an explicit override — at the
+                // top level and anywhere in the mirrored subtree.
+                requiresConfirmation: requiredMembership === false && localHadRequired
+                    ? 'required-relaxation'
+                    : nestedRelaxation.length > 0
+                        ? 'required-relaxation'
+                        : undefined})
             suggestLifecycle(entry, context.lifecycle, fragmentProperty, upstreamProperty)
             entries.push(entry)
             continue

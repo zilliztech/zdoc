@@ -120,6 +120,50 @@ test('invented ids and unknown labels are rejected per line; a half-covered retr
     }
 })
 
+
+test('reorganization proposals pass through to the plan file', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-branch-plan-reorg-'))
+    process.env.BRANCH_PLAN_TEST_KEY = 'key'
+    try {
+        const diffPath = writeDiff(dir)
+        const fragmentsDir = writeFragments(dir)
+        const fetchImpl = async (url, options) => {
+            const body = JSON.parse(options.body)
+            const id = JSON.parse(body.messages[1].content.split('\n\n')[1].trim()).diffEntryId
+            return {ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: JSON.stringify({
+                placements: [{diffEntryId: id, targets: ['use volume']}],
+                reorganizations: [{opKey: 'post /v2/etl/merge', scope: 'requestBody', action: 'split',
+                    reason: 'data-source scenarios diverged upstream', branches: [{xTabLabel: 'use volume', fields: ['clusterId']}]}],
+            })}}]}) }
+        }
+        const outPath = path.join(dir, 'branch-plan.json')
+        await planBranches({diffPath, fragmentsDir, outPath, baseUrl: 'https://gateway.invalid',
+            apiKeyEnv: 'BRANCH_PLAN_TEST_KEY', model: 'm', fetchImpl})
+        const plan = JSON.parse(fs.readFileSync(outPath, 'utf8'))
+        assert.equal(plan.reorganizations.length, 1)
+        assert.equal(plan.reorganizations[0].action, 'split')
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
+test('systematically low placement coverage fails the run after retries', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-branch-plan-lowcov-'))
+    process.env.BRANCH_PLAN_TEST_KEY = 'key'
+    try {
+        const diffPath = writeDiff(dir)
+        const fragmentsDir = writeFragments(dir)
+        const fetchImpl = async () => ({ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: JSON.stringify({placements: [], reorganizations: []})}}]})})
+        await assert.rejects(
+            planBranches({diffPath, fragmentsDir, outPath: path.join(dir, 'o.json'), baseUrl: 'https://gateway.invalid',
+                apiKeyEnv: 'BRANCH_PLAN_TEST_KEY', model: 'm', retries: 2, fetchImpl}),
+            /REST_UPSTREAM_BRANCH_PLAN_FAILED.*below half/,
+        )
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
 test('missing api key fails closed before any model call', async () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-branch-plan-nokey-'))
     try {

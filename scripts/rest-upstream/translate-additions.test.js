@@ -16,7 +16,7 @@ const CHANGE_SET = {
         // carries nothing: both locales must be filled
         {diffEntryId: 'upstream-added-field|post /v2/x|01-a.json|response||200|result|field-uncovered|', kind: 'addition',
             targetFragment: '01-a.json', opPath: '/paths/~1v2~1x/post/responses/200/content/application~1json/schema/properties',
-            value: {result: {type: 'string', description: 'The result.'}}}, 
+            value: {result: {type: 'string', description: 'The result.'}}},
         {diffEntryId: 'upstream-modified|post /v2/x|01-a.json|operation||||deprecated|', kind: 'constraint',
             targetFragment: '01-a.json', opPath: '/paths/~1v2~1x/post/deprecated', value: true, evidence: 'e', override: false},
     ],
@@ -94,6 +94,17 @@ test('a degraded-then-completed response still fails the post-verify when lines 
     })
     assert.equal(report.degraded.length, 1)
     assert.ok(!changeSet.entries.some(entry => entry.kind === 'addition'))
+})
+
+
+test('every entry degrading fails with its own code, not an opaque schema error', async () => {
+    process.env.TRANSLATE_TEST_KEY = 'key'
+    const {fetchImpl} = stubFetch([new Error('gateway down'), new Error('gateway down'), new Error('gateway down'), new Error('gateway down')])
+    await assert.rejects(
+        translateChangeSet({changeSet: structuredClone(CHANGE_SET), baseUrl: 'https://gateway.invalid',
+            apiKeyEnv: 'TRANSLATE_TEST_KEY', model: 'm', retries: 4, fetchImpl}),
+        /REST_UPSTREAM_TRANSLATE_ALL_DEGRADED/,
+    )
 })
 
 test('missing api key fails closed before any model call', async () => {

@@ -136,7 +136,15 @@ function schemaContainerPath({base, scope, responseStatus, branch, fragmentDocum
     if (branchIndex < 0) {
         const positional = /^branch-([0-9]+)$/.exec(branch)
         const index = positional ? Number(positional[1]) - 1 : -1
-        if (index >= 0 && index < members.length && members[index] && members[index]['x-tab-label'] === undefined) branchIndex = index
+        if (index >= 0) {
+            // diff.js and the applier's branchLabelAt number positional
+            // branches by PLAIN-OBJECT member rank (non-object members do not
+            // count); resolve the same member here.
+            const objectMembers = members.filter(member => member && typeof member === 'object' && !Array.isArray(member))
+            if (index < objectMembers.length && objectMembers[index]['x-tab-label'] === undefined) {
+                branchIndex = members.indexOf(objectMembers[index])
+            }
+        }
     }
     if (branchIndex < 0) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_NOT_FOUND', `${schemaPath}/${containerName} has no branch ${branch}`)
     const member = members[branchIndex]
@@ -277,10 +285,12 @@ function mirrorEntry({entry, fragmentDocument}) {
     if (!current || typeof current !== 'object') {
         fail('REST_UPSTREAM_ASSEMBLE_MIRROR_LOCUS_MISSING', `${entry.id}: ${context.fieldObjectPath}`)
     }
-    const value = mergeMirrorProse(entry.change.after, current)
+    const mergeOptions = entry.preserveLocalScalarConstraints ? {preserveLocalScalarConstraints: true} : {}
+    const value = mergeMirrorProse(entry.change.after, current, mergeOptions)
     const mirror = {diffEntryId: entry.id, kind: 'mirror', targetFragment: entry.fragment,
         opPath: context.fieldObjectPath, value,
         requiredMembership: entry.requiredMembership ?? null,
+        ...(entry.preserveLocalScalarConstraints ? {preserveLocalScalarConstraints: true} : {}),
         evidence: `${base} schema mirrored to upstream structure (local prose preserved at surviving nodes)${entry.droppedLocalFields?.length ? `; local fields retired: ${entry.droppedLocalFields.join(', ')}` : ''}`,
         override: false}
     const extra = entry.lifecycle ? lifecycleEntries({entry, context}) : []
@@ -294,7 +304,7 @@ function additionEntries({entry, targets, fragmentDocument}) {
     const base = evidenceBase(entry)
     if (entry.category === 'upstream-added-param') {
         return [{diffEntryId: entry.id, kind: 'addition', targetFragment: entry.fragment,
-            opPath: `${operationBasePath(entry.opKey)}/parameters`, value: entry.change.after,
+            opPath: `${operationBasePath(entry.opKey)}/parameters`, value: structuredClone(entry.change.after),
             evidence: `${base} parameter added from upstream (appended to parameters)`, override: false}]
     }
     const entries = []
@@ -304,7 +314,7 @@ function additionEntries({entry, targets, fragmentDocument}) {
         const propertiesPath = `${schemaPath}/properties`
         const where = target ? ` into branch '${target}'` : ''
         entries.push({diffEntryId: entry.id, kind: 'addition', targetFragment: entry.fragment,
-            opPath: propertiesPath, value: {[entry.field]: entry.change.after},
+            opPath: propertiesPath, value: {[entry.field]: structuredClone(entry.change.after)},
             requiredMembership: entry.requiredMembership ?? null,
             evidence: `${base} added from upstream${where}`, override: false})
         if (entry.lifecycle) {
@@ -378,6 +388,12 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan 
                     field: entry.field ?? null, reason: entry.requiresConfirmation,
                     droppedLocalFields: entry.droppedLocalFields ?? []})
                 continue
+            }
+            // Retired local content rides the same human-review list as
+            // upstream-absent fields, so a mirror can never drop prose or
+            // constraints without a reviewer seeing it.
+            for (const retired of entry.droppedLocalFields ?? []) {
+                reports.deletions.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, field: retired, kind: 'mirror-retired-local'})
             }
             entries.push(...mirrorEntry({entry, fragmentDocument: loader(entry.fragment)}))
             continue

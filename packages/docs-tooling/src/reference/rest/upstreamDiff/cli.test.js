@@ -363,6 +363,54 @@ function writePrepareFixture(dir, {specMaxLength, specSummary}) {
     ].join('\n'))
 }
 
+
+test('rest-upstream-assemble consumes --branch-plan placements end to end', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-cli-branchplan-'))
+    try {
+        const fragmentsDir = path.join(dir, 'fragments')
+        fs.mkdirSync(fragmentsDir)
+        fs.writeFileSync(path.join(fragmentsDir, '19-etl-v2.json'), `${JSON.stringify({
+            openapi: '3.0.1',
+            paths: {'/v2/etl/merge': {post: {requestBody: {content: {'application/json': {schema: {anyOf: [
+                {'x-tab-label': 'use volume', properties: {clusterId: {type: 'string'}}},
+                {'x-tab-label': 'use object storage', properties: {objectUrl: {type: 'string'}}},
+            ]}}}}}},
+        }}, null, 2)}\n`)
+        fs.writeFileSync(path.join(dir, 'diff.json'), JSON.stringify({
+            schemaVersion: '1.0',
+            source: 'zilliz-cloud-control-plane',
+            publicationTarget: 'zilliz',
+            upstreamPin: 'a'.repeat(40),
+            summary: {},
+            entries: [{id: 'unattributed|post /v2/etl/merge|19-etl-v2.json|requestBody|||onError|field-uncovered|',
+                category: 'unattributed', opKey: 'post /v2/etl/merge', fragment: '19-etl-v2.json', scope: 'requestBody',
+                branch: '', responseStatus: '', field: 'onError',
+                change: {kind: 'field-uncovered', before: null, after: {type: 'string', description: 'Error handling mode.'}},
+                requiredMembership: null, evidence: '/paths/x/post'}],
+        }, null, 2) + '\n')
+        fs.writeFileSync(path.join(dir, 'decisions.jsonl'), `${JSON.stringify({diffEntryId: 'unattributed|post /v2/etl/merge|19-etl-v2.json|requestBody|||onError|field-uncovered|', action: 'ledger', classification: 'deferred', reason: 'placed instead'})}\n`)
+        fs.writeFileSync(path.join(dir, 'branch-plan.json'), JSON.stringify({placements: [
+            {diffEntryId: 'unattributed|post /v2/etl/merge|19-etl-v2.json|requestBody|||onError|field-uncovered|', targets: ['use volume', 'use object storage']},
+        ], reorganizations: []}, null, 2) + '\n')
+        const changeSetFile = path.join(dir, 'change-set.json')
+        const assemble = runCli(['rest-upstream-assemble', '--diff', path.join(dir, 'diff.json'), '--decisions', path.join(dir, 'decisions.jsonl'),
+            '--branch-plan', path.join(dir, 'branch-plan.json'), '--reports', path.join(dir, 'reports.json'),
+            '--fragments', fragmentsDir, '--out', changeSetFile])
+        assert.equal(assemble.status, 0, assemble.stderr)
+        assert.match(assemble.stdout, /1 placed, 0 unplaced/)
+        const reports = JSON.parse(fs.readFileSync(path.join(dir, 'reports.json'), 'utf8'))
+        assert.deepEqual(reports.placementsApplied.map(entry => entry.targets), [['use volume', 'use object storage']])
+        assert.deepEqual(reports.supersededStances.length, 1)
+        const changeSet = JSON.parse(fs.readFileSync(changeSetFile, 'utf8'))
+        assert.deepEqual(changeSet.entries.filter(entry => entry.kind === 'addition').map(entry => entry.opPath), [
+            '/paths/~1v2~1etl~1merge/post/requestBody/content/application~1json/schema/anyOf/0/properties',
+            '/paths/~1v2~1etl~1merge/post/requestBody/content/application~1json/schema/anyOf/1/properties',
+        ])
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
 test('rest-upstream-ledger-bootstrap --from-diff defaults --date to today', () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-bootstrap-date-'))
     try {

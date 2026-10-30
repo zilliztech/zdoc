@@ -149,6 +149,16 @@ async function translateChangeSet({changeSet, baseUrl, apiKeyEnv, model, timeout
             }
         }
     }
+    // A change set whose translatable entries ALL degraded must fail with its
+    // own code, not as an opaque change-set schema error downstream: the
+    // gateway is down or systematically misbehaving — inspect the report
+    // artifact and re-run. Non-translatable entries (constraints, drafts) may
+    // still land; that is the partial-degradation path.
+    const translatableCount = changeSet.entries
+        .filter(entry => TRANSLATABLE_KINDS.has(entry.kind) && entry.value && typeof entry.value === 'object').length
+    if (translatableCount > 0 && report.translatedEntries === 0) {
+        fail('REST_UPSTREAM_TRANSLATE_ALL_DEGRADED: every mirror/addition entry failed translation; the translate report artifact lists the pending entries — restore the gateway and re-run')
+    }
     return {changeSet: {...changeSet, entries: translated}, report}
 }
 
