@@ -8,42 +8,66 @@
       "anchors": {
         "MQo9dmwhvoFNvNxdItWcWyGdnv4": "delete-entities-from-partitions"
       },
-      "activated_in": "40517911974"
+      "activated_in": "40517911974",
+      "feishu_aliases": [
+        "F79AdBqEpobEc8xOQzQco5Tynpf",
+        "RhKcwNACpi3WihkTzo8cr4BCnee"
+      ]
     },
     {
       "page": "view-collections",
       "record": "recvlPs8qTFnJf",
       "feishu_token": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
       "anchors": {},
-      "activated_in": "40620199474"
+      "activated_in": "40620199474",
+      "feishu_aliases": [
+        "S1sodgieLo4QwyxIXZWcRSa5nRd",
+        "VAirw0c7ZiKCSqkjtDscAsC4nAf"
+      ]
     },
     {
       "page": "use-string-field",
       "record": "recvlPt5P3vHmN",
       "feishu_token": "QBXVwP7oiiuEovkprDnckJlEnoK",
       "anchors": {},
-      "activated_in": "40620199474"
+      "activated_in": "40620199474",
+      "feishu_aliases": [
+        "QBXVwP7oiiuEovkprDnckJlEnoK",
+        "VvA8d6kHPoOyQGx2tXMcUv8vnbg"
+      ]
     },
     {
       "page": "use-array-of-structs",
       "record": "recvmiX4gMiGuY",
       "feishu_token": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
       "anchors": {},
-      "activated_in": "40620199474"
+      "activated_in": "40620199474",
+      "feishu_aliases": [
+        "F5YwdM1feog30qxPSGYcuTkLnud",
+        "VlAlwAJvEiVVW6k0RBvcvkpWnhK"
+      ]
     },
     {
       "page": "alter-collection-field",
       "record": "recvlPtzpXFjxH",
       "feishu_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
       "anchors": {},
-      "activated_in": "40620199474"
+      "activated_in": "40620199474",
+      "feishu_aliases": [
+        "PLjFwlcT8ilFBakYXyfcg6S2n7d",
+        "QadLdBojYo4RW4xQIcWc0uQPnyc"
+      ]
     },
     {
       "page": "drop-collection",
       "record": "recvlPso50Hw2Q",
       "feishu_token": "DEUuwEwM4iMLOikU7XpcpNnKnGd",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "DEUuwEwM4iMLOikU7XpcpNnKnGd",
+        "HMIjdIrgoomlVhxIRcgcqhfEnjh"
+      ]
     },
     {
       "page": "insert-entities",
@@ -52,70 +76,165 @@
       "anchors": {
         "Cj7Ad8PtZo7RuUxui4DcjLOSnWb": "insert-entities-into-a-partition"
       },
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "L5jawEj7FiBXWZkGhLgcQCWQnDd",
+        "YMRkdDVzmoPUOFx0Gzkcadkenkc"
+      ]
     },
     {
       "page": "decay-ranker-oveview",
       "record": "recvlUWMyUPaS4",
       "feishu_token": "QZYhwcQhWigYTVkLnHeczkwYnZb",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "BO7ed6hjgoJnXJxGcY6cwuM9n0b",
+        "QZYhwcQhWigYTVkLnHeczkwYnZb"
+      ]
     },
     {
       "page": "standard-tokenizer",
       "record": "recvlPvhgnFFDA",
       "feishu_token": "GAX8wkC1QiTZhXkLBocc1GoTnke",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "ACwyd8KLfoqEhqxb54KcpY1bnqd",
+        "GAX8wkC1QiTZhXkLBocc1GoTnke"
+      ]
     },
     {
       "page": "icu-tokenizer",
       "record": "recvlPvps6Vpde",
       "feishu_token": "Q3gKwc5lkilAbKkalCWcW2AbnLe",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "OecedmLOPoue6hxkSwZcIDaln5e",
+        "Q3gKwc5lkilAbKkalCWcW2AbnLe"
+      ]
     },
     {
       "page": "remove-punct-filter",
       "record": "recvlPvJP0pbh9",
       "feishu_token": "TVfnwtCEQico7Bk9bngcnV1cnGb",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "PzfgdaFZLoMCGIx6gl9cO3Xjnkb",
+        "TVfnwtCEQico7Bk9bngcnV1cnGb"
+      ]
     },
     {
       "page": "regex-filter",
       "record": "recvlPvLU6eZIJ",
       "feishu_token": "AwmtwHGQii1j9Wk1W04cNxvBnth",
       "anchors": {},
-      "activated_in": "40699375138"
+      "activated_in": "40699375138",
+      "feishu_aliases": [
+        "AwmtwHGQii1j9Wk1W04cNxvBnth",
+        "HG9sdiutroGrwhxDzssclx4MnMf"
+      ]
     },
     {
       "page": "lindera-tokenizer",
       "record": "recvlPvni6z12G",
       "feishu_token": "PvwZwtu3FiBQNqkPa5VcqH6qnmg",
       "anchors": {},
-      "activated_in": "40818704674"
+      "activated_in": "40818704674",
+      "feishu_aliases": [
+        "NGizdLPIZovxcLxpFfucoivcnsf",
+        "PvwZwtu3FiBQNqkPa5VcqH6qnmg"
+      ]
     },
     {
       "page": "stop-filter",
       "record": "recvlPvEwuN1gf",
       "feishu_token": "ScncwBnDBiVoLjksXAwcUgrgnod",
       "anchors": {},
-      "activated_in": "40818704674"
+      "activated_in": "40818704674",
+      "feishu_aliases": [
+        "JAF2dpeW6oF6K5xYjqxcA52lnKc",
+        "ScncwBnDBiVoLjksXAwcUgrgnod"
+      ]
     },
     {
       "page": "decompounder-filter",
       "record": "recvlPvGmAYglw",
       "feishu_token": "DDrHwdsb7idJa9kVU6zc2VwInBf",
       "anchors": {},
-      "activated_in": "40818704674"
+      "activated_in": "40818704674",
+      "feishu_aliases": [
+        "DDrHwdsb7idJa9kVU6zc2VwInBf",
+        "FKIidUQhBoWbl8xZhj1chQlUnIe"
+      ]
     },
     {
       "page": "reranking-rrf",
       "record": "recvlUWzUlvYoV",
       "feishu_token": "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
       "anchors": {},
-      "activated_in": "40929317786"
+      "activated_in": "40929317786",
+      "feishu_aliases": [
+        "Lu2ndUPtboOD4AxxuCZcO590n5M",
+        "Nqguwf6ikiKrHEkGKgAc8g7Lnnh"
+      ]
+    },
+    {
+      "page": "struct-array-filtering",
+      "record": "recvlPpvCPSjHn",
+      "feishu_token": "VmGMwsTliiGZdFkzzeBckRNlnCh",
+      "feishu_aliases": [
+        "VmGMwsTliiGZdFkzzeBckRNlnCh",
+        "WPecdPKNeoRHvlxYF2gcXSVRneF"
+      ],
+      "anchors": {},
+      "activated_in": "41034927510"
+    },
+    {
+      "page": "struct-array-limits",
+      "record": "recvmiXheOIXXi",
+      "feishu_token": "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
+      "feishu_aliases": [
+        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
+        "Vm1FdiWBxo3acex4UiQc62dXnxd"
+      ],
+      "anchors": {},
+      "activated_in": "41034927510"
+    },
+    {
+      "page": "lowercase-filter",
+      "record": "recvlPvtPoZNRE",
+      "feishu_token": "AhAhw08MFiB9OpkDjbPcVUTVnlg",
+      "feishu_aliases": [
+        "AhAhw08MFiB9OpkDjbPcVUTVnlg",
+        "Gb3ZdUJlLoKFPVxw5khcUueJnRg"
+      ],
+      "anchors": {},
+      "activated_in": "41034927510"
+    },
+    {
+      "page": "ascii-folding-filter",
+      "record": "recvlPvwdnURsZ",
+      "feishu_token": "SFLCweOuaiChuVkjazqcqyE7neb",
+      "feishu_aliases": [
+        "CDCEdKkepomuG8xVUpgccNeFnCg",
+        "SFLCweOuaiChuVkjazqcqyE7neb"
+      ],
+      "anchors": {},
+      "activated_in": "41034927510"
+    },
+    {
+      "page": "alphanumonly-filter",
+      "record": "recvlPvxLc6exY",
+      "feishu_token": "BZkiw99tkiDkLXktLhqcJtjKnmb",
+      "feishu_aliases": [
+        "BZkiw99tkiDkLXktLhqcJtjKnmb",
+        "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      ],
+      "anchors": {},
+      "activated_in": "41034927510"
     }
   ]
 }

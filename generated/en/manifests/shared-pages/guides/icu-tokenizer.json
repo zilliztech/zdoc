@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "2d9be3c33f3565d3d8164ba75140b6ae7ff90c45",
+      "commit": "309e5ec78ff3feaff0141c0ce9425c8ae6c77ea4",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2648,12 +2648,28 @@
           "sha256": "b50dabcfd0db8dd7f187b05366fd566a9b12765111e6ae338542aa20c4b0348f"
         },
         {
+          "path": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
+          "sha256": "ad0120a57b59ccc84a0ba638428fc7e7981b8c7c29b195544a00a97ea271104e"
+        },
+        {
+          "path": "shared-docs/guides/pages/alphanumonly-filter/page.yaml",
+          "sha256": "b139b13325d2eb7495ce7f692034f9429fcce36ce5d2868c4bea5b2c4261784a"
+        },
+        {
           "path": "shared-docs/guides/pages/alter-collection-field/lock.yaml",
           "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
         },
         {
           "path": "shared-docs/guides/pages/alter-collection-field/page.yaml",
           "sha256": "4cea31c415a2a021e7572a8ceddadc0b9af02e2524cb61cdaa2f4e1d7b300130"
+        },
+        {
+          "path": "shared-docs/guides/pages/ascii-folding-filter/lock.yaml",
+          "sha256": "ad0120a57b59ccc84a0ba638428fc7e7981b8c7c29b195544a00a97ea271104e"
+        },
+        {
+          "path": "shared-docs/guides/pages/ascii-folding-filter/page.yaml",
+          "sha256": "8c49e38dad7bbd982e3a86732dbd10ab0483f062ffe0425c99af02cfbe59eebe"
         },
         {
           "path": "shared-docs/guides/pages/decay-ranker-oveview/lock.yaml",
@@ -2712,6 +2728,14 @@
           "sha256": "99832dfbc008495663709f4f8d7b2f0ab6711c87e91d3d58efed1b9941b83fb0"
         },
         {
+          "path": "shared-docs/guides/pages/lowercase-filter/lock.yaml",
+          "sha256": "ad0120a57b59ccc84a0ba638428fc7e7981b8c7c29b195544a00a97ea271104e"
+        },
+        {
+          "path": "shared-docs/guides/pages/lowercase-filter/page.yaml",
+          "sha256": "12281712e864b404e9d754c4b76b7235386c88019f410a145f92d813d4098145"
+        },
+        {
           "path": "shared-docs/guides/pages/regex-filter/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
@@ -2752,6 +2776,26 @@
           "sha256": "265a21f914cb5598745204e3c09590d29311bfae4b981ab1aa573601f905002a"
         },
         {
+          "path": "shared-docs/guides/pages/struct-array-filtering/lock.yaml",
+          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/page.yaml",
+          "sha256": "37c9cc341efb770d7f2c82da2690781af1da0aa78bf013184d5cfa8d79906186"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-availability.md",
+          "sha256": "0cdaa4bd60d88ef211015ad3b38aaefe27c068c1ea716a9b4f5eebd1c538d499"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/lock.yaml",
+          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/page.yaml",
+          "sha256": "88fedf4a3a8fb96c489e1dffa641e144ee85dbb999123a62577176c1eb9aecf6"
+        },
+        {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
           "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
         },
@@ -2781,7 +2825,7 @@
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "61b2e5d1aca87ab30bcbe2d50f803768c120e07d3c5e55323a6b4665342bf8f8"
+          "sha256": "2576a0dea02ef8cab7eae316e6b3477d64f0f7cc3ed507b97d2c6d6d517039cb"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -2790,7 +2834,7 @@
       ]
     },
     "dev": {
-      "commit": "8701530f1ea6adeb5ea22531f087680ba668abb0",
+      "commit": "d108fa8d0e449d7eaddc0fb3ac88319825b383a5",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -5618,7 +5662,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "dbc3d8a75054fc2eb0b93aa580842926049d91e0ac93db9000e48eb8cef4c2ed"
+          "sha256": "57865de28fcbbf2ecca406be6b2ddd83625450b3a4715581bf427804adf5aafc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5626,71 +5670,71 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "b9f5e81315550990a75556ee10ab5d7f3df430e5a7c822301d0e1eff37282ead"
+          "sha256": "c6868741dfc01c639a0b3678a7d19eac712e5cee8c5bd22eeda8005216f6751a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "6672e6eee31324e10a55e7b23d7701f0b7b30f69097359ec9b2addc93814b3cf"
+          "sha256": "af7cc1ce28abf89498fc1e4d04a0a623bc0c0c0da1e5797e5ba40a207fe9694e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "04f807a9a8b92e74c29fe38d49f5881a814f055105a020d1da90256f2a6beade"
+          "sha256": "5af1839b4ead950ded6b792efbb690b2ca141170995f04787ddd658d06841c53"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "b211ec46c708b7ed46d21e39b2afdfd8cc9dfc5af18349026b8c499d91010afe"
+          "sha256": "fd2a4402fcf132f4f2834abcf034344f7060ea9955378674e80c6475c41d65a7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "0a078bd59eb9247b310aa92e6b8e52b825b8b1331fa2b827ea49411f6398c3bb"
+          "sha256": "e138ba613c49f3a99f70e030c9ff1ed8142f118c8378c1f044f134ecb10402a6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "2513e5abaa424bc3697b1b7e82329b8c7bf3d693fc1a717a4c4a24e9473741fd"
+          "sha256": "e1eb852da3a5ed9944e96f69bb64d10e731d5d15254649b21ea963d2f4907ab7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "3f4e78d54961957f5796e1afdbd705ce8f4ce5000b8027367de7f7f601c4032a"
+          "sha256": "a345d18e4e0801836ec492c909cc0468783389e0b2161abb51ee8a28d6f75762"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "1597e10114b953da69ee48eb57cfc749ce80aaf3adf9bd4e170018e63d1371ab"
+          "sha256": "06e530a20565a86ae123a39d4d2213af8f9649cc69d2e9cd06da2a609333ba2c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "cca02848720fbb82e5a0d7dbf5dc54c0b691088e115ba625dc212246f82e2ff5"
+          "sha256": "e22fb12c6b3eaf3aac9fc53768ad1a0aa4279a3af436e995c65c6eecf7d687a6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "f679aaef742d48f6aaf1b607240c6d4b361dee5f7ae7fdf2d6442db91d656bfe"
+          "sha256": "e632e55515b49fc41f2b332b3d352eb276aa83e46a7941817c65937d9ac617c2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "05cd814d752a4e241126932115506ecaae551cea98b0d184ccc6908b726fdd61"
+          "sha256": "404e08f590c55301aa6e74fd2d7fbd7f372631a86091959be207d4a42a477ef7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "f5ea7d8be9c5a51e9cb297df6072fd0db41129a6ce01f27926d6f154d757f93e"
+          "sha256": "2ecdcddd2ea157421c6467681d487274672b281157e18b45ce581336137abc8b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "6d5fb04e758deedbdebab9360d7d742b63a7c6af67464e38f01a7a3cc7097261"
+          "sha256": "901ffca95e7732497646db1873dfaeb4a39a2f1a3a6d5a3b74dad168f9b02cba"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "a033c0e44f37ed266682629b431d150b214e7412dafeb095afa944fac073219f"
+          "sha256": "fd38309e7a47693a1decfdb559c21f8f9a3c8dfae5921859b86e30203a8867c4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "c704febc575d639367576a0db00a2da684440c33630c971d38610cd7309f538f"
+          "sha256": "1343357534be76e12e8283b015d5f276bef9bd0e8028de04b664e9e96a9b79fb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "bf3716f9be8241d927a6317299b885e8383ad0d303c871d26f7b038e2f71264a"
+          "sha256": "e0ceaaa29767d50ef0c94562622fe0532760c98ca462efb0bd5d2754fd04db92"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "8e420ffe1674b9aa60e2c7d1ce04b0294f6a1686b6f13bd2e4350e823ee8180c"
+          "sha256": "75d126f8a9ed7d1000f50ed6f1b0f96db7b8ede27bd137a970fc7bcae0599832"
         }
       ]
     },
@@ -8837,11 +8881,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "VmGMwsTliiGZdFkzzeBckRNlnCh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/VmGMwsTliiGZdFkzzeBckRNlnCh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-filtering",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "struct-array-filtering"
+            }
           },
           {
             "record_id": "recvlPpxxbPaVv",
@@ -10470,11 +10519,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Q7wIwcnrEiVDofk5G4Fc7vlonPh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-limits",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "struct-array-limits"
+            }
           },
           {
             "record_id": "recvlPtlO4t2zh",
@@ -12569,11 +12623,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "AhAhw08MFiB9OpkDjbPcVUTVnlg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/AhAhw08MFiB9OpkDjbPcVUTVnlg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/lowercase-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "lowercase-filter"
+            }
           },
           {
             "record_id": "recvlPvwdnURsZ",
@@ -12592,11 +12651,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "SFLCweOuaiChuVkjazqcqyE7neb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/SFLCweOuaiChuVkjazqcqyE7neb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ascii-folding-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "ascii-folding-filter"
+            }
           },
           {
             "record_id": "recvlPvxLc6exY",
@@ -12615,11 +12679,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "BZkiw99tkiDkLXktLhqcJtjKnmb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/BZkiw99tkiDkLXktLhqcJtjKnmb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alphanumonly-filter",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "alphanumonly-filter"
+            }
           },
           {
             "record_id": "recvlPvzooBaHs",
@@ -16670,14 +16739,39 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "41bb67c27bf17c37920d896a86f5253171b7fb3915015927305c4394a703e76d",
+          "tblWv7PjNDsexddH": "038ef2d0e73d54c61e88cc5471c5bb54b4b19924d6cc0d8f0454ae8c688d941c",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
-      "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com"
+      "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com",
+      "render_targets": {
+        "schema_version": 1,
+        "targets": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer",
+            "extension": ".md",
+            "navigation": {
+              "sidebar_label": "ICU",
+              "sidebar_position": 5
+            },
+            "channel": "current"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer",
+            "extension": ".md",
+            "navigation": {
+              "sidebar_label": "ICU",
+              "sidebar_position": 5
+            },
+            "channel": "current"
+          }
+        ]
+      }
     },
     "tools": {
-      "zdoc": "2d9be3c33f3565d3d8164ba75140b6ae7ff90c45",
+      "zdoc": "309e5ec78ff3feaff0141c0ce9425c8ae6c77ea4",
       "md2md": "1.3.0"
     },
     "images": []

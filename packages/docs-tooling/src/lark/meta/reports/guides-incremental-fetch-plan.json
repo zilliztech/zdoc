@@ -1,10 +1,46 @@
 {
-  "generated_at": "2026-10-30T02:34:05.756Z",
+  "generated_at": "2026-10-30T09:51:06.903Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [
+    {
+      "record_id": "recvlPpiienCU8",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Query",
+      "labels": "Query",
+      "slug": "get-and-scalar-query",
+      "release_channel": "current",
+      "doc_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpvCPSjHn",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "StructArray Operators",
+      "labels": "StructArray",
+      "slug": "struct-array-filtering",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-filtering",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "struct-array-filtering",
+        "inputs_sha256": "2e88b691424558ec09dbf46d0e2a524f311af42e4329b9c57e2911b6adac6677",
+        "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
+      },
+      "reasons": [
+        "source ownership changed",
+        "shared inputs changed"
+      ]
+    },
     {
       "record_id": "recvlPs8qTFnJf",
       "table_id": "tblWv7PjNDsexddH",
@@ -19,7 +55,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "433b173bd8dc36c2aa92b0789ce085e45f6a9c3fa326dc4f3eba7f90bf3f2789",
+        "inputs_sha256": "3b2005228c20ce3de6a068efcfed2846f98094f68cbbcc589e9a611f35bf2e73",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "reasons": [
@@ -40,7 +76,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "4d3ca927d7dc714eef59d431768904db761f129f0af93607d1b847d6f65173ae",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "reasons": [
@@ -61,7 +97,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "433b173bd8dc36c2aa92b0789ce085e45f6a9c3fa326dc4f3eba7f90bf3f2789",
+        "inputs_sha256": "e1de2a67f48a8500ef83439b7b08ee962f12cb6791059654bb367ca1a6d84a96",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "reasons": [
@@ -82,10 +118,32 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "433b173bd8dc36c2aa92b0789ce085e45f6a9c3fa326dc4f3eba7f90bf3f2789",
+        "inputs_sha256": "f3a8c9b03854827f20fffccbd03af213fe86c4a55617c55228c97022a3d24921",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiXheOIXXi",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "StructArray Limits",
+      "labels": "",
+      "slug": "struct-array-limits",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-limits",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "struct-array-limits",
+        "inputs_sha256": "97d44c586d556f0390d46b3ed650bb041cdaa854bd05c964c0a675314303f596",
+        "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
+      },
+      "reasons": [
+        "source ownership changed",
         "shared inputs changed"
       ]
     },
@@ -103,7 +161,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "433b173bd8dc36c2aa92b0789ce085e45f6a9c3fa326dc4f3eba7f90bf3f2789",
+        "inputs_sha256": "31e5852b6504b1f33e267ad921ff0885eba7b9afea1f24da28b8c0a8a213ac12",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "reasons": [
@@ -124,7 +182,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "4d1cf5eb6f75e232a52e27a8ce0f015b21534b1b33ed048e160f9476e23dacfe",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "reasons": [
@@ -145,7 +203,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "93af1effff2ea054dc7194b4c5fbf83e16bcd3ba7d95e5b97bd93d2e9ec0b306",
+        "inputs_sha256": "71dd40249cfb1f44eb1d4d26ed412e7c0ec712a2ea11da89a52ebd4863d182a3",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "reasons": [
@@ -166,7 +224,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "3577fded26a131c8a67eb8cf3e6559580db481e255e983ae682ed92cca260a3d",
+        "inputs_sha256": "6ef3681457d828ac2525c421abe56ff2a31ee894984f3c7f97042102693a562b",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       },
       "reasons": [
@@ -187,7 +245,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "e3ede0c8f65eac7f90cec6f0bb15c257ceec303995d150c15ce22a24e57b2784",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "reasons": [
@@ -208,7 +266,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "3e72610151922e42af244fc7b2048fae929252f6854000bf632ebf52cd74248d",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "reasons": [
@@ -229,7 +287,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "e5fdf320ab06c3e6051916a460bb73c87c08d0a3ea7e2fa85d70799898e9c487",
+        "inputs_sha256": "7202fd2c8eacdee3e619d9f75b3fbaea8d505c02b5de5e21f3b572f087408790",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       },
       "reasons": [
@@ -250,10 +308,76 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "23bf6a6036cc11416d38e70847290a75d65e53990e3698fcb9c500c7d3c9c8c3",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvtPoZNRE",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Lowercase",
+      "labels": "Lowercase",
+      "slug": "lowercase-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/lowercase-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "lowercase-filter",
+        "inputs_sha256": "05239468387f9977d14529acc2c0845cbc4b8063a5b0f7227a91fa76b4a8c2b4",
+        "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
+      },
+      "reasons": [
+        "source ownership changed",
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvwdnURsZ",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "ASCII folding",
+      "labels": "ASCII folding",
+      "slug": "ascii-folding-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ascii-folding-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "ascii-folding-filter",
+        "inputs_sha256": "79d9c6a523b229b95ed3c615902d67d509cdbc2c64a2b690fcc0ce1235a6ff18",
+        "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
+      },
+      "reasons": [
+        "source ownership changed",
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvxLc6exY",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Alphanumonly",
+      "labels": "Alphanumonly",
+      "slug": "alphanumonly-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alphanumonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alphanumonly-filter",
+        "inputs_sha256": "9172bd43e3a9a89678136a8889dff87a0b7fe11b79d59be56d12b3f6252afe40",
+        "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
+      },
+      "reasons": [
+        "source ownership changed",
         "shared inputs changed"
       ]
     },
@@ -271,7 +395,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "e5fdf320ab06c3e6051916a460bb73c87c08d0a3ea7e2fa85d70799898e9c487",
+        "inputs_sha256": "ae54597564372351f1a1fcad53d8471a37de0f641cb8f1f0b3c1a11ede0311f3",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       },
       "reasons": [
@@ -292,7 +416,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "e5fdf320ab06c3e6051916a460bb73c87c08d0a3ea7e2fa85d70799898e9c487",
+        "inputs_sha256": "4c8f9602bd4b05f060940f5404ba01d8a8b9b25abca67e4e60b7d592dc2dc667",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       },
       "reasons": [
@@ -313,7 +437,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "1d7d1f7f1f6f0dff07a921375a47209e95a31bf2a5abdb0633239853a5581795",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "reasons": [
@@ -334,7 +458,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "1659ae5ea8e9e4bb21a2a33660176cf7c3b21aafa17812c6a59b07c708b9baf6",
+        "inputs_sha256": "bd7bdb6f7139eca20ccea389edab32ef4cc959575667aa962dce6c5f05eb821b",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "reasons": [
@@ -342,46 +466,128 @@
       ]
     }
   ],
-  "changed_tokens": [],
+  "changed_tokens": [
+    "R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+  ],
   "expanded_tokens": [
     "A4jhweVMMigHOpkwDlLcKo0SnFe",
-    "AhAhw08MFiB9OpkDjbPcVUTVnlg",
-    "BZkiw99tkiDkLXktLhqcJtjKnmb",
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "BClgwKlHaiushBkPPssclTkYnef",
     "BaGlwzDmyiyVvVk6NurcFclInCd",
+    "ByJbwcpoCiBkDckR3VCcC4LTneg",
     "CK0ewQWC2iz6lakP0kscqogbnGh",
     "CmR5wFcybi3iMokOJBxcXDQcntg",
     "Dj2NwrlqTiYlmDkwfAbcJNWSntd",
+    "DjROwgK6ziCf7Rkoji6ccyEUnsg",
     "EA2twSf5oiERMDkriKScU9GInc4",
+    "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
     "EV41wG08BiOWW8kbo9xcTGoPnKd",
+    "EqSpwh9BaiEISgkG5YVcDbCUnpe",
+    "F2QrwjFSziSUkJkyXzbcwovUnCg",
     "FbVmwmuaei9WkIkIWJmcs3ManEd",
     "G39mw621Yi3iICkv69JcQ0J5nHf",
     "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+    "I60hwuYrSiVSWBkYq9RcqRcpnFh",
+    "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
     "JCMPwIyVciCT4Hk4O20c96MEnch",
     "JGURwBQNOijp2DkspFFctbAGnLh",
+    "LBbUwOGcwi1UMak3eE2cM1gvnUe",
     "M7xHwZSIuiAP4Fkfm67cBU7Pn8g",
     "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
     "MUL3wkn7Yi3YoFkYk59csf8bnNc",
     "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+    "OFl9wHXpriM8aEkoONScpU1lnIf",
     "PFbNwB7Mli18n6k6VWScGcpWndc",
     "PV2bwNENViEjXWkOgzZcXoKHnce",
     "PmaowiSUaiTa8ckPMYJcqdRYnQg",
     "Pulhw06e5iXJTFkidFXcGbylnod",
+    "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
     "RQQKwqhZUiubFzkHo4WcR62Gnvh",
-    "SFLCweOuaiChuVkjazqcqyE7neb",
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf",
+    "RzSBwW7dUizQeekka9CcZ3Etnyg",
+    "TumJwDYrhiDYcUkKsUIcuSnbnCf",
     "UR9SwucAIiQ2TYkc9EucsgvSnng",
     "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
     "V7xfwDariioU5GkcmfXctzSEnyc",
     "VOkIwd5adiziGQkoDO1cRoRFnre",
     "Vs4YwNnvzitoQ8kunlGcWMJInbf",
+    "VvkEwug9ciPZYVk6hM1chLydnib",
     "W0WhwqRyciRMRLklcsdca1U2nae",
+    "WDjyw7hO3i26RckEgqIcf36snMh",
     "WMSvwXXz4iR7mZkGmUscF3Y1nxs",
+    "WTPbww9GkifmAvkuRWLcVd4jnnh",
     "WTsmwWdgOiKnwpkdZdScp093njh",
     "YBYmwvx68iMKFRknytJccwk0nPf",
-    "YtJPwEVETiTaPMkWSfAccjXTnge"
+    "YtJPwEVETiTaPMkWSfAccjXTnge",
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+    "ZR1bwJFFSio2jkkabd7c1YAYncf"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
+    "R7F7wY8pCiJ5Q4kbntxcMsE6nLf": [
+      "wiki node revision changed"
+    ],
+    "UR9SwucAIiQ2TYkc9EucsgvSnng": [
+      "outgoing reference from R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
+      "outgoing reference from R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "ByJbwcpoCiBkDckR3VCcC4LTneg": [
+      "outgoing reference from R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf": [
+      "outgoing reference from R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "A4jhweVMMigHOpkwDlLcKo0SnFe": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "BClgwKlHaiushBkPPssclTkYnef": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "IrQ2wm2oaiAWl4kqQhkc303Rnlg": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "JCMPwIyVciCT4Hk4O20c96MEnch": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "OFl9wHXpriM8aEkoONScpU1lnIf": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "PV2bwNENViEjXWkOgzZcXoKHnce": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL": [
+      "incoming reference to R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+    ],
+    "WDjyw7hO3i26RckEgqIcf36snMh": [
+      "outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
+    "EDzFwzb7Sifsz4kFYZIcAF9Pn1p": [
+      "outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
+    "VvkEwug9ciPZYVk6hM1chLydnib": [
+      "outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
+    "LBbUwOGcwi1UMak3eE2cM1gvnUe": [
+      "incoming reference to VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
+    "PFbNwB7Mli18n6k6VWScGcpWndc": [
+      "incoming reference to VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
+    "TumJwDYrhiDYcUkKsUIcuSnbnCf": [
+      "incoming reference to VmGMwsTliiGZdFkzzeBckRNlnCh"
+    ],
     "EV41wG08BiOWW8kbo9xcTGoPnKd": [
       "incoming reference to DEUuwEwM4iMLOikU7XpcpNnKnGd"
     ],
@@ -400,35 +606,32 @@
     "YBYmwvx68iMKFRknytJccwk0nPf": [
       "incoming reference to QBXVwP7oiiuEovkprDnckJlEnoK"
     ],
-    "A4jhweVMMigHOpkwDlLcKo0SnFe": [
-      "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
-    ],
     "CK0ewQWC2iz6lakP0kscqogbnGh": [
-      "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
-    ],
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
-      "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
-    ],
-    "UR9SwucAIiQ2TYkc9EucsgvSnng": [
       "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
     ],
     "VOkIwd5adiziGQkoDO1cRoRFnre": [
       "incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK"
     ],
-    "PV2bwNENViEjXWkOgzZcXoKHnce": [
-      "incoming reference to PLjFwlcT8ilFBakYXyfcg6S2n7d"
+    "RzSBwW7dUizQeekka9CcZ3Etnyg": [
+      "outgoing reference from Q7wIwcnrEiVDofk5G4Fc7vlonPh"
+    ],
+    "WTPbww9GkifmAvkuRWLcVd4jnnh": [
+      "outgoing reference from Q7wIwcnrEiVDofk5G4Fc7vlonPh"
+    ],
+    "DjROwgK6ziCf7Rkoji6ccyEUnsg": [
+      "incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh"
+    ],
+    "EqSpwh9BaiEISgkG5YVcDbCUnpe": [
+      "incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh"
+    ],
+    "I60hwuYrSiVSWBkYq9RcqRcpnFh": [
+      "incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh"
+    ],
+    "ZR1bwJFFSio2jkkabd7c1YAYncf": [
+      "incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh"
     ],
     "YtJPwEVETiTaPMkWSfAccjXTnge": [
       "outgoing reference from L5jawEj7FiBXWZkGhLgcQCWQnDd"
-    ],
-    "JCMPwIyVciCT4Hk4O20c96MEnch": [
-      "incoming reference to L5jawEj7FiBXWZkGhLgcQCWQnDd"
-    ],
-    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
-      "incoming reference to L5jawEj7FiBXWZkGhLgcQCWQnDd"
     ],
     "WTsmwWdgOiKnwpkdZdScp093njh": [
       "outgoing reference from Nqguwf6ikiKrHEkGKgAc8g7Lnnh"
@@ -457,22 +660,13 @@
     "WMSvwXXz4iR7mZkGmUscF3Y1nxs": [
       "outgoing reference from GAX8wkC1QiTZhXkLBocc1GoTnke"
     ],
-    "AhAhw08MFiB9OpkDjbPcVUTVnlg": [
-      "outgoing reference from GAX8wkC1QiTZhXkLBocc1GoTnke"
-    ],
     "H8MVwnjdgihp0hkRHHKcjBe9n5e": [
       "outgoing reference from GAX8wkC1QiTZhXkLBocc1GoTnke"
-    ],
-    "BZkiw99tkiDkLXktLhqcJtjKnmb": [
-      "incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke"
     ],
     "MKdvwWBDRi5MMAkkn5PcD1x9nfh": [
       "incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke"
     ],
     "Pulhw06e5iXJTFkidFXcGbylnod": [
-      "incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke"
-    ],
-    "SFLCweOuaiChuVkjazqcqyE7neb": [
       "incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke"
     ],
     "W0WhwqRyciRMRLklcsdca1U2nae": [
@@ -481,8 +675,8 @@
     "JGURwBQNOijp2DkspFFctbAGnLh": [
       "outgoing reference from PvwZwtu3FiBQNqkPa5VcqH6qnmg"
     ],
-    "PFbNwB7Mli18n6k6VWScGcpWndc": [
-      "outgoing reference from AwmtwHGQii1j9Wk1W04cNxvBnth"
+    "F2QrwjFSziSUkJkyXzbcwovUnCg": [
+      "incoming reference to AhAhw08MFiB9OpkDjbPcVUTVnlg"
     ]
   },
   "warnings": [],
@@ -584,7 +778,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-29T18:30:34.286Z",
+    "generated_at": "2026-10-30T02:36:54.925Z",
     "records": 403
   },
   "source_scope": "partial"

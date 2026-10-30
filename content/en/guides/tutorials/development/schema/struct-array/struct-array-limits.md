@@ -1,7 +1,6 @@
 ---
 title: "StructArray Limits | Cloud"
 slug: /struct-array-limits
-sidebar_label: "StructArray Limits"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,14 +8,13 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "StructArray support spans schema definition, insert payloads, indexing, search modes, and StructArray-specific filters. Use this page as the limits reference before you rely on StructArray behavior in production. | Cloud"
 type: origin
-token: Q7wIwcnrEiVDofk5G4Fc7vlonPh
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-struct-array-limits
+sidebar_label: "StructArray Limits"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/structarray-limits.md"
 
 ---
-
-import Admonition from '@theme/Admonition';
-
 
 # StructArray Limits
 
@@ -25,6 +23,8 @@ StructArray support spans schema definition, insert payloads, indexing, search m
 Most StructArray limits come from one of three places: the StructArray schema model, the search mode you choose for vector subfields, and the Zilliz Cloud version that your collection runs on.
 
 ## Limits at a glance\{#limits-at-a-glance}
+
+The main StructArray limits are:
 
 | Area | Limit |
 | --- | --- |
@@ -41,6 +41,8 @@ Most StructArray limits come from one of three places: the StructArray schema mo
 
 ## Schema limits\{#schema-limits}
 
+StructArray schemas have the following limits:
+
 | Limit | Details |
 | --- | --- |
 | Struct is not a top-level field type. | Create a StructArray field as `datatype=DataType.ARRAY` with `element_type=DataType.STRUCT` and a `struct_schema`. |
@@ -54,7 +56,7 @@ For schema creation examples, see [Create a StructArray Field](./create-struct-a
 
 ## Supported subfield data types\{#supported-subfield-data-types}
 
-StructArray subfields map to physical array-style storage. The following table lists supported and unsupported physical types.
+StructArray subfields map to physical array-style storage. The following table lists supported and unsupported physical types:
 
 | Struct subfield physical type | Support | Notes |
 | --- | --- | --- |
@@ -77,23 +79,25 @@ StructArray subfields map to physical array-style storage. The following table l
 
 ## Nullable and dynamic schema limits\{#nullable-and-dynamic-schema-limits}
 
-Nullable StructArray behavior and dynamic StructArray field addition are version-gated.
+The following table describes nullable StructArray behavior and dynamic StructArray field addition, subject to the availability statement below:
 
 | Capability | Limit |
 | --- | --- |
-| Nullable StructArray field | Supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Set `nullable=True` on the StructArray parent; do not configure Struct sub-fields as nullable independently. |
-| Null value in Python | Use `None` to insert a null StructArray value in Python. Do not use `Null` or `null`. |
-| Null scope | Null applies to the whole StructArray field. For example, `chunks=None` is valid only when `chunks` is nullable. |
+| Nullable StructArray field | Subject to the availability statement below, set `nullable=True` on the StructArray parent; do not configure Struct subfields as nullable independently. |
+| NULL value in Python | Use `None` to insert a null StructArray value in Python. Do not use `Null` or `null`. |
+| Null scope | NULL applies to the whole StructArray field. For example, `chunks=None` is valid only when `chunks` is nullable. |
 | Partially null StructArray value | When a StructArray field contains a valid array value, do not mix null subfield arrays with valid subfield arrays in the same value. |
-| Dynamic add StructArray field | Supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. |
+| Dynamic add StructArray field | Subject to the availability statement below. |
 | Nullable requirement for dynamic add | A StructArray field added to an existing collection must be nullable because existing entities have no value for the new field. |
-| Existing entities after dynamic add | Existing entities return `null` for the added StructArray field across its subfields. |
+| Existing entities after dynamic add | Existing entities return `null` for the added StructArray field. |
 
 On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
 
 For insert examples with nullable StructArray fields, see [Insert Data into StructArray Fields](./insert-struct-array).
 
 ## Insert limits\{#insert-limits}
+
+StructArray insert payloads have the following limits:
 
 | Limit | Details |
 | --- | --- |
@@ -106,7 +110,7 @@ For insert examples with nullable StructArray fields, see [Insert Data into Stru
 
 ## Index and metric limits\{#index-and-metric-limits}
 
-A StructArray vector subfield can be indexed for either EmbeddingList search or element-level search. The same vector subfield cannot use both metric families because each vector field or vector subfield accepts only one index.
+A StructArray vector subfield can be indexed for either EmbeddingList search or element-level search. The same vector subfield cannot use both metric families because each vector field or vector subfield accepts only one index. The search modes use the following metric families:
 
 | Search mode | Metric family | Result level |
 | --- | --- | --- |
@@ -120,6 +124,8 @@ StructArray vector subfields count as vector subfields when you plan your collec
 For the supported index-type and metric-type matrix, see [Index StructArray Fields](./index-struct-array).
 
 ## Search limits\{#search-limits}
+
+StructArray search behavior has the following limits:
 
 | Search behavior | Support and limits |
 | --- | --- |
@@ -138,6 +144,8 @@ At a high level:
 
 - Use `$[subfield]` only inside StructArray operators.
 
+- Row-level filter expressions can also reference StructArray paths directly: `chunks[0][section]` for one element position, `array_length(chunks)` for the element count, `array_contains(chunks[section], ...)` for subfield values across elements, and `chunks is null` on a nullable StructArray field.
+
 - Use scalar subfields for scalar predicates.
 
 - Do not use vector subfields as `$[...]` scalar predicate inputs.
@@ -150,9 +158,8 @@ At a high level:
 
 1. To create a StructArray field, read [Create a StructArray Field](./create-struct-array).
 
-1. To insert data, read [Insert Data into StructArray Fields](./insert-struct-array).
+2. To insert data, read [Insert Data into StructArray Fields](./insert-struct-array).
 
-1. To create vector and scalar indexes, read [Index StructArray Fields](./index-struct-array).
+3. To create vector and scalar indexes, read [Index StructArray Fields](./index-struct-array).
 
-1. To review StructArray filter syntax, read [StructArray Operators](./struct-array-filtering).
-
+4. To review StructArray filter syntax, read [StructArray Operators](./struct-array-filtering).
