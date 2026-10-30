@@ -1,15 +1,71 @@
 // @vitest-environment node
 import { fileURLToPath } from 'node:url'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import requirements from './requirements.json'
 import pending from './pending.json'
 import { checkCoverage, readTestSources, requirementIds, testReferences } from './coverage'
+
+const sharedFetchTests = [
+  'scripts/docs-workflow/guides-shared-sources.test.js',
+  'scripts/docs-workflow/guides-shared-regeneration.test.js',
+  'scripts/docs-workflow/replay-shared-pages.test.js',
+  'scripts/docs-workflow/fetch-publication-selection.test.js',
+  'packages/docs-tooling/src/lark/sharedPageRouting.test.js',
+  'packages/docs-tooling/src/lark/sharedImageUploader.test.js',
+  'packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js',
+  'packages/docs-tooling/src/lark/incrementalSharedReceipts.test.js',
+]
 
 const small = { behaviours: [{ id: '3-1' }], acceptance: [], errors: [] }
 describe('requirement coverage infrastructure', () => {
   it('accounts for every zdoc requirement and reports remaining work', () => {
     const result = checkCoverage(requirements, pending, readTestSources(fileURLToPath(new URL('../', import.meta.url))))
     console.info(`Shared docs: ${result.remaining} requirement IDs pending`)
+  })
+  it('discovers exactly the explicit shared Fetch JavaScript files and recursive local TypeScript tests', () => {
+    const repository = mkdtempSync(join(tmpdir(), 'shared-coverage-'))
+    const root = join(repository, 'packages/docs-tooling/src/shared-docs')
+    const put = (file: string, source: string) => {
+      mkdirSync(join(repository, file, '..'), { recursive: true })
+      writeFileSync(join(repository, file), source)
+    }
+    try {
+      for (const [index, file] of sharedFetchTests.entries()) put(file, `test('[9-${index + 1}] executable', () => { assert.ok(true) })`)
+      put('scripts/docs-workflow/unrelated.test.js', "test('[UNRELATED] excluded', () => {})")
+      put('packages/docs-tooling/src/lark/unrelated.test.js', "test('[UNRELATED] excluded', () => {})")
+      put('packages/docs-tooling/src/shared-docs/nested/local.test.ts', "it('[LOCAL_TS] included', () => {})")
+      put('packages/docs-tooling/src/shared-docs/nested/local.test.tsx', "it('[LOCAL_TSX] included', () => {})")
+      put('packages/docs-tooling/src/shared-docs/local.test.js', "test('[UNRELATED] excluded', () => {})")
+      const sources = readTestSources(root, repository)
+      expect(sources).toHaveLength(10)
+      expect(sources.flatMap(testReferences).map(ref => ref.id).sort()).toEqual([
+        '9-1', '9-2', '9-3', '9-4', '9-5', '9-6', '9-7', '9-8', 'LOCAL_TS', 'LOCAL_TSX',
+      ])
+      rmSync(join(repository, sharedFetchTests[1]))
+      expect(() => readTestSources(root, repository)).toThrow(/guides-shared-regeneration.test.js/)
+    } finally { rmSync(repository, { recursive: true, force: true }) }
+  })
+  it('resolves default discovery from the module instead of the current working directory', () => {
+    const previous = process.cwd()
+    const elsewhere = mkdtempSync(join(tmpdir(), 'shared-coverage-cwd-'))
+    try {
+      const expected = readTestSources()
+      process.chdir(elsewhere)
+      expect(readTestSources()).toEqual(expected)
+    } finally { process.chdir(previous); rmSync(elsewhere, { recursive: true, force: true }) }
+  })
+  it('rejects node:test skip and todo options including skipped suites', () => {
+    for (const source of [
+      "test('[3-1] skipped', {skip: true}, () => {})",
+      "test('[3-1] todo', {todo: true}, () => {})",
+      "test('[3-1] reason', {skip: 'unavailable'}, () => {})",
+      "suite('suite', {skip: true}, () => { test('[3-1] nested', () => {}) })",
+      "describe('suite', {todo: true}, () => { test('[3-1] nested', () => {}) })",
+    ]) expect(() => checkCoverage(small, {}, [source])).toThrow('Missing coverage')
+    expect(checkCoverage(small, {}, ["test('[3-1] runs', {skip: false, todo: false}, () => {})"])).toEqual({ remaining: 0 })
   })
   it('uses stable IDs and area IDs without depending on display text', () => {
     const machineOnly = {

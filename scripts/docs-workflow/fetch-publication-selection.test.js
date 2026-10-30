@@ -182,3 +182,10 @@ test('CLI help exposes only selection and ready modes', () => {
   assert.match(result.stdout, /ready/)
   assert.doesNotMatch(result.stdout, /progress|results/)
 })
+
+test('receipt regeneration checkpoint validation runs exactly once for English Guides and nowhere else', () => {
+  const command = 'node scripts/docs-workflow/guides-shared-publication.js --operation validate --snapshot packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
+  for (const unit of buildFetchPublicationSelection(input()).units) {
+    assert.equal(unit.validationCommands.filter(value => value === command).length, unit.site === 'en' && unit.group === 'guides' ? 1 : 0, unit.unitKey)
+  }
+})

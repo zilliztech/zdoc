@@ -232,7 +232,7 @@ async function regenerate(options, dependencies = {}) {
   options.out = path.join(options.root, `bundle-${options.sequence}`)
   options.scratch = path.join(options.root, `image-scratch-${options.sequence}`)
   options.oldReads = []
-  const result = await generateSharedSources(options, {fetchOld: async token => {
+  const result = await generateSharedSources(options, {assertToolIdentity: () => {}, fetchOld: async token => {
     options.oldReads.push(token)
     return {blocks: {items: [{...heading, heading2: {elements: [{text_run: {content: 'Current heading', text_element_style: {}}}]}}]}}
   }, ...dependencies})
@@ -344,7 +344,7 @@ async function runReplay({evidenceRoot, exactBaseline = false, comparisonBaselin
   const report = {kind: 'synthetic-regression', root: options.root, pilot, scenarios: []}
   await regenerate(options)
   assert.ok(options.bundle.outcomes.every(row => row.status === 'success'), JSON.stringify(options.bundle.outcomes))
-  assert.deepEqual(options.oldReads, ['old', 'old1'])
+  assert.deepEqual(options.oldReads, ['old'])
   await assemble(options)
   const first = await publish(options)
   assert.ok(first.changed.includes(`${publication.MANIFEST}/active.json`))
@@ -487,6 +487,18 @@ async function legacyComparison(options, {exactBaseline = false, baselineSha = L
     configurationOrigin: baselineConfiguration ? 'pinned-baseline' : 'synthetic-fixture', configurationTree, results}
 }
 
+function overlaySiteFixture(options, site) {
+  for (const physical of ['guides', 'byoc']) {
+    const home = `content/en/${physical}/tutorials/home.md`
+    // The synthetic sidebars require this landing even when the retained site does not.
+    if (!fs.existsSync(path.join(site, home))) fs.copyFileSync(path.join(options.last.assembly, home), path.join(site, home))
+    for (const table of ['manage-data', 'read-more']) fs.cpSync(path.join(options.last.assembly, `content/en/${physical}/tutorials/${table}`), path.join(site, `content/en/${physical}/tutorials/${table}`), {recursive: true})
+  }
+  for (const manual of ['guides', 'guides-byoc']) {
+    fs.copyFileSync(path.join(options.last.assembly, `generated/en/sidebars/${manual}.sidebar.js`), path.join(site, `generated/en/sidebars/${manual}.sidebar.js`))
+  }
+}
+
 /** Optional real English/Japanese build and isolated Chrome check; never uses a user's profile. */
 async function validateSite({options, evidenceRoot, baselineRepository, baselineSha}) {
   for (const physical of ['guides', 'byoc']) {
@@ -504,12 +516,7 @@ async function validateSite({options, evidenceRoot, baselineRepository, baseline
   execFileSync('bash', [path.join(TOOLING, 'scripts/restore-generated-state.sh'), '--exact', '--ref', baselineSha], {cwd: site, stdio: 'pipe'})
   require('./link-workspace-dependencies').linkWorkspaceDependencies(TOOLING, site)
   assert.ok(fs.existsSync(path.join(site, 'apps/docs/node_modules/jiti')))
-  for (const physical of ['guides', 'byoc']) {
-    for (const table of ['manage-data', 'read-more']) fs.cpSync(path.join(options.last.assembly, `content/en/${physical}/tutorials/${table}`), path.join(site, `content/en/${physical}/tutorials/${table}`), {recursive: true})
-  }
-  for (const manual of ['guides', 'guides-byoc']) {
-    fs.copyFileSync(path.join(options.last.assembly, `generated/en/sidebars/${manual}.sidebar.js`), path.join(site, `generated/en/sidebars/${manual}.sidebar.js`))
-  }
+  overlaySiteFixture(options, site)
   const logFile = path.join(evidenceRoot, 'shared-site-build.log')
   const log = fs.openSync(logFile, 'w')
   try {
@@ -654,7 +661,7 @@ async function inspectSite({options, evidenceRoot, site, baselineRepository, bas
   await put(evidenceRoot, 'shared-site-browser.json', result)
   return result
 }
-module.exports = {fixture, replayFixture, regenerate, assemble, publish, prepare, runReplay, fileStore, blobMap, files, put, TOOLING, SOURCE, SNAPSHOT, FIXED_TIME, image, legacyComparison, ordinaryWorker, LEGACY_SHA, validateSite, inspectSite}
+module.exports = {fixture, replayFixture, regenerate, assemble, publish, prepare, runReplay, fileStore, blobMap, files, put, TOOLING, SOURCE, SNAPSHOT, FIXED_TIME, image, legacyComparison, ordinaryWorker, LEGACY_SHA, overlaySiteFixture, validateSite, inspectSite}
 if (require.main === module) {
   const args = process.argv.slice(2)
   if (args[0] === '--ordinary-worker' && args.length === 2) {

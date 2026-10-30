@@ -1332,6 +1332,7 @@
       "id": "shared-handoff-routing",
       "paths": [
         "packages/docs-tooling/src/lark/sharedPageRouting*",
+        "packages/docs-tooling/src/lark/sharedPageAliases.js",
         "packages/docs-tooling/src/lark/larkSourceIndex*",
         "packages/docs-tooling/src/lark/sourceCompleteness*",
         "packages/docs-tooling/src/lark/incrementalSharedReceipts*",
@@ -1340,7 +1341,8 @@
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/lark/sharedPageRouting.test.js packages/docs-tooling/src/lark/larkSourceIndex.test.js packages/docs-tooling/src/lark/sourceCompleteness.test.js packages/docs-tooling/src/lark/incrementalSharedReceipts.test.js packages/docs-tooling/src/lark/incrementalReconciliation.test.js",
-        "pnpm vitest run packages/docs-tooling/src/lark/revisionInventory.test.ts packages/docs-tooling/src/cli-main.integration.test.ts"
+        "pnpm vitest run packages/docs-tooling/src/lark/revisionInventory.test.ts packages/docs-tooling/src/cli-main.integration.test.ts",
+        "node --test scripts/docs-workflow/guides-shared-sources.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:fetch"
@@ -1403,10 +1405,12 @@
       "paths": [
         "packages/docs-tooling/src/lark/sharedPagePublication*",
         "scripts/docs-workflow/guides-shared-publication*",
-        "scripts/collect-build-card-notes*"
+        "scripts/collect-build-card-notes*",
+        "scripts/docs-workflow/guides-shared-regeneration*"
       ],
       "focusedTests": [
-        "node --test scripts/docs-workflow/guides-shared-sources.test.js scripts/collect-build-card-notes.test.js"
+        "node --test scripts/docs-workflow/guides-shared-sources.test.js scripts/collect-build-card-notes.test.js",
+        "node --test scripts/docs-workflow/guides-shared-regeneration.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:fetch",
@@ -1418,7 +1422,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared publication validates final bytes and permanent navigation, preserves authenticated fallback navigation and append-only activation, and prevents partial runs from becoming successful cache generations."
+      "reason": "Shared publication validates final bytes and permanent navigation, preserves authenticated fallback navigation and append-only activation, and prevents partial runs from becoming successful cache generations. Independent clean regeneration binds frozen render targets and accepted image bytes before source sealing; checkpoint validation rejects proof or output mutations."
     },
     {
       "id": "shared-pages-replay",

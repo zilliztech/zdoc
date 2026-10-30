@@ -423,7 +423,7 @@ class larkDocWriter {
     }
 
     __fetch_doc_source_by_any_token(token) {
-        const fallback = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.status === 'fallback' && (outcome.baseline.active?.feishu_token === token ||
+        const fallback = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.status === 'fallback' && (require('./sharedPageAliases').matches(outcome.baseline.active, token) ||
             this.sharedBundle.bundle.preparation.previous_snapshot?.records?.some(record => record.record_id === outcome.record_id && [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].includes(token))))
         if (fallback) {
             const previous = this.sharedBundle.bundle.preparation.previous_snapshot
@@ -432,7 +432,7 @@ class larkDocWriter {
             return {title: nav.title, slug: nav.slug, node_token: token, base_record_id: nav.record_id, shared_baseline_fallback: true,
                 base_placement_type: 'canonical', base_targets: nav.targets, base_status: nav.progress, base_labels: nav.labels}
         }
-        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.feishu_token === token)
+        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => require('./sharedPageAliases').matches(entry, token))
         if (active && this.sourceIndex) {
             // The legacy docx source of an activated record stays cached beside
             // its shared source; resolve the record to its shared projection.
@@ -637,7 +637,7 @@ class larkDocWriter {
         const original = this.__safe_url(rawUrl)
         if (!original) return rawUrl
 
-        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => entry.feishu_token === this.__link_token(rawUrl))
+        const active = this.sharedBundle?.bundle.effective_active.pages.find(entry => require('./sharedPageAliases').matches(entry, this.__link_token(rawUrl)))
         const replacement = active ? {replacement_url: `./${active.page}`, anchor_map: active.anchors} :
             this.linkReplacementShim?.byToken.get(this.__link_token(rawUrl)) || this.linkReplacementShim?.byUrl.get(`${original.origin}${original.pathname}`)
         if (!replacement) return rawUrl

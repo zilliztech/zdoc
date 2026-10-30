@@ -61,3 +61,8 @@ test('operator and agent prose name the replay harness selection contract', () =
   assert.equal(agents.includes('pnpm test:for-change'), true)
   assert.equal(fs.existsSync(path.join(repositoryRoot, '.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md')), true)
 })
+
+
+test('the existing shared-pages PR harness executes independent regeneration cases', () => {
+  assert.match(read('scripts/docs-workflow/replay-shared-pages.test.js'), /^require\('\.\/guides-shared-regeneration\.test'\)/mu)
+})

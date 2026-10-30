@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 
 export interface Requirements {
@@ -14,6 +15,20 @@ export function requirementIds(requirements: Requirements, ownedOnly = false): s
     .filter(id => !ownedOnly || !md2mdIds.has(id))
     .concat(requirements.errors.filter(row => !ownedOnly || !md2mdAreas.has(row.area_id)).map(row => row.code))
 }
+
+const sharedDocsRoot = fileURLToPath(new URL('../', import.meta.url))
+const repositoryRoot = fileURLToPath(new URL('../../../../../', import.meta.url))
+// Explicit Fetch evidence only; unrelated workflow and Lark suites do not close gaps.
+const sharedFetchTests = [
+  'scripts/docs-workflow/guides-shared-sources.test.js',
+  'scripts/docs-workflow/guides-shared-regeneration.test.js',
+  'scripts/docs-workflow/replay-shared-pages.test.js',
+  'scripts/docs-workflow/fetch-publication-selection.test.js',
+  'packages/docs-tooling/src/lark/sharedPageRouting.test.js',
+  'packages/docs-tooling/src/lark/sharedImageUploader.test.js',
+  'packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js',
+  'packages/docs-tooling/src/lark/incrementalSharedReceipts.test.js',
+] as const
 
 /** Parse test declarations, not comments, assertion strings or fake error responses. */
 export function testReferences(source: string): { id: string; covered: boolean }[] {
@@ -32,6 +47,15 @@ export function testReferences(source: string): { id: string; covered: boolean }
       const isTest = parts[0] === 'it' || parts[0] === 'test'
       if (isTest || isSuite) {
         skipped ||= parts.some(part => ['skip', 'todo', 'skipIf', 'runIf'].includes(part))
+        const options = node.arguments[1]
+        if (options && ts.isObjectLiteralExpression(options)) {
+          skipped ||= options.properties.some(property => {
+            if (!ts.isPropertyAssignment(property)) return false
+            const name = property.name
+            return (ts.isIdentifier(name) || ts.isStringLiteral(name)) && ['skip', 'todo'].includes(name.text)
+              && property.initializer.kind !== ts.SyntaxKind.FalseKeyword
+          })
+        }
         const title = node.arguments[0]
         if (isTest && title && ts.isStringLiteralLike(title)) {
           for (const match of title.text.matchAll(/\[(\d+-\d+|T\d+|[A-Z][A-Z0-9_]*)\]/g)) {
@@ -46,12 +70,16 @@ export function testReferences(source: string): { id: string; covered: boolean }
   return references
 }
 
-export function readTestSources(root: string): string[] {
-  return readdirSync(root, { withFileTypes: true }).flatMap(entry => {
-    const path = join(root, entry.name)
-    if (entry.isDirectory()) return readTestSources(path)
-    return /\.test\.tsx?$/.test(entry.name) ? [readFileSync(path, 'utf8')] : []
-  })
+export function readTestSources(root = sharedDocsRoot, repository = repositoryRoot): string[] {
+  function localSources(directory: string): string[] {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const path = join(directory, entry.name)
+      if (entry.isDirectory()) return localSources(path)
+      return /\.test\.tsx?$/.test(entry.name) ? [readFileSync(path, 'utf8')] : []
+    })
+  }
+  // readFileSync intentionally fails if an allowlisted evidence file disappears.
+  return [...localSources(root), ...sharedFetchTests.map(file => readFileSync(join(repository, file), 'utf8'))]
 }
 
 export function checkCoverage(requirements: Requirements, pending: Record<string, string>, sources: string[]) {
