@@ -203,9 +203,11 @@ jobs:
             --staging "$RUNNER_TEMP/$STAGING"
 
       # Decisions-first refresh (design: .claude/specs/2026-10-29-rest-upstream-
-      # decisions-pipeline-design.md): one stance per candidate line on the same
-      # gateway the translation agent uses. No file access, no repository paths,
-      # no structure in the model output — the assembler derives every byte.
+      # decisions-pipeline-design.md; 2026-10-30 merge model): one stance per
+      # candidate line on the same gateway the translation agent uses. No file
+      # access, no repository paths, no structure in the model output — the
+      # assembler derives every byte. Prose, mirrors, and additions are auto or
+      # report lanes; the model judges deprecation/attribution semantics only.
       - name: Decide the refresh stances
         env:
           # Same gateway credential and base URL the translation agent uses:
@@ -225,23 +227,68 @@ jobs:
             --api-key-env AGENTIC_PROVIDER_API_KEY \
             --model "$REST_UPSTREAM_AGENT_MODEL"
 
-      # The assembler turns the stances into a plain v1 change set: loci from
-      # the diff coordinates and the fragments' branch shape, values from the
-      # drift itself, evidence from fixed templates. Gates 1-2 (change-set
-      # schema, applier reconcile + denylist/x-*/oneOf assertions) then run in
+      # Branch placement (2026-10-30 merge model §3.3): scenario oneOf/anyOf
+      # tabs are documentation assets, so which existing tab(s) receive each
+      # newly added upstream field is a semantic judgment. The model only
+      # copies ids and picks branch labels from a closed set; omissions
+      # degrade to the PR human-review list.
+      - name: Plan the branch placements
+        env:
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
+          REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
+          REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
+        run: |
+          node scripts/rest-upstream/branch-plan.js \
+            --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
+            --fragments "$RUNNER_TEMP/$STAGING/fragments" \
+            --out "$RUNNER_TEMP/$STAGING/branch-plan.json" \
+            --report "$RUNNER_TEMP/$STAGING/branch-plan-report.json" \
+            --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
+            --api-key-env AGENTIC_PROVIDER_API_KEY \
+            --model "$REST_UPSTREAM_AGENT_MODEL"
+
+      # The assembler turns the stances plus the auto lanes (mirrors,
+      # placed additions) into a plain v1 change set: loci from the diff
+      # coordinates and the fragments' branch shape, values from the drift
+      # itself, evidence from fixed templates. It also emits the human-review
+      # lists (prose drift, retirements, unplaced fields, pending
+      # confirmations) for the PR body. Gates 1-2 (change-set schema, applier
+      # reconcile + denylist/x-*/oneOf assertions) then run in
       # rest-upstream-apply, which never trusts the assembled output alone.
       - name: Assemble the change set deterministically
         run: |
           node packages/docs-tooling/src/reference/rest/index.js rest-upstream-assemble \
             --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
             --decisions "$RUNNER_TEMP/$STAGING/decisions.jsonl" \
+            --branch-plan "$RUNNER_TEMP/$STAGING/branch-plan.json" \
+            --reports "$RUNNER_TEMP/$STAGING/assemble-reports.json" \
             --fragments "$RUNNER_TEMP/$STAGING/fragments" \
             --out "$RUNNER_TEMP/$STAGING/change-set.json"
+
+      # Translation gate (2026-10-30): every prose node a mirror/addition
+      # introduces must carry zh-CN and ja-JP before anything lands. zh copies
+      # the upstream x-i18n when present; the rest (and all Japanese) is
+      # translated here. Entries that cannot be completed degrade to the PR
+      # human-review list — never half-translated content.
+      - name: Translate the added and mirrored prose
+        env:
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
+          REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
+          REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
+        run: |
+          node scripts/rest-upstream/translate-additions.js \
+            --change-set "$RUNNER_TEMP/$STAGING/change-set.json" \
+            --out "$RUNNER_TEMP/$STAGING/change-set-translated.json" \
+            --report "$RUNNER_TEMP/$STAGING/translate-report.json" \
+            --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
+            --api-key-env AGENTIC_PROVIDER_API_KEY \
+            --model "$REST_UPSTREAM_AGENT_MODEL"
+
       - name: Apply the change set deterministically
         run: |
           node packages/docs-tooling/src/reference/rest/index.js rest-upstream-apply \
             --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
-            --change-set "$RUNNER_TEMP/$STAGING/change-set.json" \
+            --change-set "$RUNNER_TEMP/$STAGING/change-set-translated.json" \
             --out "$RUNNER_TEMP/$APPLIED"
 
       # Gate 9a: land the verified outputs on the refresh branch. Only files
@@ -412,6 +459,14 @@ jobs:
             ? fs.readFileSync(decisionsPath, 'utf8').trim().split('\n').filter(Boolean).map(line => JSON.parse(line))
             : []
           const report = fs.existsSync(reportPath) ? JSON.parse(fs.readFileSync(reportPath, 'utf8')) : null
+          // 2026-10-30 merge-model reports: prose harvest, retirement review,
+          // unplaced additions, pending confirmations, translations.
+          const reportsPath = path.join(staging, process.env.STAGING, 'assemble-reports.json')
+          const assembleReports = fs.existsSync(reportsPath)
+            ? JSON.parse(fs.readFileSync(reportsPath, 'utf8'))
+            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], placementsApplied: [], rejectedPlacements: [], reorganizations: []}
+          const translatePath = path.join(staging, process.env.STAGING, 'translate-report.json')
+          const translateReport = fs.existsSync(translatePath) ? JSON.parse(fs.readFileSync(translatePath, 'utf8')) : null
           const skips = decisions.filter(decision => decision.action === 'skip')
           const rejectedLines = (report?.batches ?? []).flatMap(batch => batch.rejected.map(entry => ({fragment: batch.fragment, reason: entry.reason})))
           const skipKeep = 30
@@ -437,33 +492,63 @@ jobs:
             }
             return `${kept.join("\n")}\n\n> Report truncated at ${used} of ${text.length} characters — the complete per-entry report is in the run artifact \`rest-upstream-refresh-${process.env.GITHUB_RUN_ID}\` (diff/diff.md).`
           }
+          const head = (list, keep) => list.length > keep
+            ? [...list.slice(0, keep), `… (${list.length - keep} more in the run artifact)`]
+            : list
           const unaddressedKeep = 30
-          const unaddressedShown = applied.unaddressedDiffEntries.length > unaddressedKeep
-            ? [...applied.unaddressedDiffEntries.slice(0, unaddressedKeep),
-               `… (${applied.unaddressedDiffEntries.length - unaddressedKeep} more in the run artifact)`]
-            : applied.unaddressedDiffEntries
+          const unaddressedShown = head(applied.unaddressedDiffEntries, unaddressedKeep)
           const unaddressedNote = applied.unaddressedDiffEntries.length > unaddressedKeep
             ? ` (first ${unaddressedKeep} shown)` : ''
+          const descriptionKeep = 40
+          const descriptionShown = head(assembleReports.descriptionDrift, descriptionKeep)
+          const deletionsShown = head(assembleReports.deletions, 40)
+          const unplacedShown = head(assembleReports.unplaced, 30)
+          const pendingShown = head(assembleReports.pendingConfirmation, 20)
+          const proseLine = entry => `- ${entry.templateProse ? '[template copy] ' : ''}\`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''}${entry.branch ? ` (${entry.branch})` : ''}: ${JSON.stringify(entry.before)} → ${JSON.stringify(entry.after)}`
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
-            'The change set was assembled deterministically from per-candidate decision stances',
-            '(the model never wrote a path or a value) and reconciled against the diff entry by',
-            'entry. Human review checklist:',
+            'The change set was assembled deterministically (the model never wrote a path or a value):',
+            'structure mirrors and additions come from the diff\'s own upstream subtrees, descriptions',
+            'stay local, and every introduced prose node carries zh-CN + ja-JP. Human review checklist:',
             '',
-            '- [ ] oneOf/anyOf scenario branches: zero structural diff',
-            '- [ ] `x-*` attributes: zero unexpected diff',
+            '- [ ] mirrored field subtrees: structure matches the upstream API change; local prose/links survived',
+            '- [ ] fields the mirror retires (see deletions list) are genuinely gone upstream',
+            '- [ ] machine translations (zh/ja) read correctly; upstream-copied zh is API-truth',
+            '- [ ] scenario-tab placements are semantically right (which tab documents the new field)',
+            '- [ ] `x-*` attributes: zero unexpected diff outside new/mirrored subtrees',
             '- [ ] no internal-field denylist term in any changed value',
-            '- [ ] zh-CN changes are API-truth only (SKU semantics untouched)',
             `- [ ] the lock pin is bumped to ${process.env.UPSTREAM_COMMIT} in the same commit (atomic adoption)`,
-            '- [ ] ja-JP follow-up: the change set cannot write ja (x-i18n is applier-frozen); every en-US prose change lists the ja pages the ja lane must refresh',
             '- [ ] entries flagged `requiresConfirmation` that were applied carry an override reason',
             '- [ ] new operations carry a zh-CN titles.json mapping; no operation was removed',
+            '',
+            '### Description drift (harvest manually — never auto-adopted)', '',
+            `- ${assembleReports.descriptionDrift.length} upstream description/summary drift(s)${assembleReports.descriptionDrift.length > descriptionShown.length ? ` (first ${descriptionShown.length} shown)` : ''}; entries tagged [template copy] repeat shared upstream wording and are usually noise.`,
+            ...descriptionShown.map(proseLine),
+            '',
+            '### Retirements to confirm (fields/params the upstream no longer has)', '',
+            deletionsShown.length ? deletionsShown.map(entry => `- \`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''} (${entry.kind})`).join('\n') : '- none',
+            '',
+            '### Unplaced additions (need a scenario-tab decision)', '',
+            unplacedShown.length ? unplacedShown.map(entry => `- \`${entry.opKey}\` \`${entry.field}\` — tabs: ${entry.branchLabels.join(' | ')}`).join('\n') : '- none',
+            '',
+            '### Pending confirmations (mirror would retire a required member)', '',
+            pendingShown.length ? pendingShown.map(entry => `- \`${entry.opKey}\` \`${entry.field}\` — ${entry.reason}${entry.droppedLocalFields.length ? `; retires: ${entry.droppedLocalFields.join(', ')}` : ''}`).join('\n') : '- none',
+            '',
+            '### Branch reorganization proposals (reported, never executed)', '',
+            assembleReports.reorganizations.length ? assembleReports.reorganizations.map(entry => `- ${entry.action} \`${entry.opKey}\` ${entry.scope}: ${entry.reason}`).join('\n') : '- none',
+            '',
+            '### Translations', '',
+            translateReport
+              ? `- ${translateReport.translatedEntries} change-set entr(ies) completed (${translateReport.translatedNodes} prose node(s)); ${translateReport.degraded.length} degraded to human review${translateReport.degraded.length ? ' — those entries were NOT applied' : ''}`
+              : '- no translation report (no mirror/addition entries or older run)',
+            ...head(translateReport?.degraded ?? [], 20).map(entry => `- degraded: \`${entry.diffEntryId}\` — ${entry.reason}`),
             '',
             '### Diff report', '',
             '@@DIFF_REPORT@@',
             `### Applier log`, '',
             `- applied entries: ${applied.appliedLog.length}`,
+            `- placements applied: ${assembleReports.placementsApplied.length}; rejected placement lines: ${assembleReports.rejectedPlacements.length}`,
             `- overrides: ${applied.overrides.length}${applied.overrides.length ? ' — review each overrideReason below' : ''}`,
             `- normalized required arrays: ${(applied.normalizations ?? []).length}${(applied.normalizations ?? []).length ? ' — the applier rebuilt each array from the schema membership ± the cited field; the submitted arrays were advisory (details below)' : ''}`,
             `- ledger drafts: ${applied.ledgerDrafts.length}`,
@@ -488,12 +573,12 @@ jobs:
           // the body once. No back-reference into an already-built string.
           const reportAt = lines.indexOf('@@DIFF_REPORT@@')
           if (reportAt < 0) throw new Error('diff report placeholder missing from the body outline')
-          const head = lines.slice(0, reportAt).join('\n')
+          const headText = lines.slice(0, reportAt).join('\n')
           const tail = lines.slice(reportAt + 1).join('\n')
-          const reserved = head.length + tail.length + 2
+          const reserved = headText.length + tail.length + 2
           const diffBudget = Math.max(bodyBudget - reserved, 2000)
           const diffMd = truncateLines(fullDiffMd, diffBudget)
-          process.stdout.write(`${head}\n${diffMd}\n${tail}`)
+          process.stdout.write(`${headText}\n${diffMd}\n${tail}`)
           NODE
           git push "https://x-access-token:${REST_UPSTREAM_REFRESH_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${branch}"
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create rest-upstream-refresh --color D4C5F9 --description 'Automated REST upstream refresh' 2>/dev/null || true
