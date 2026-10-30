@@ -1,0 +1,1 @@
+On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
