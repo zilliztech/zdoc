@@ -17,10 +17,10 @@ const LIFECYCLE_KEYS = ['x-added-at', 'x-last-modified', 'x-deprecated-since']
 const TRACK_PATTERN = /^[0-9]+\.[0-9]+\.x$/
 
 // Change kinds whose adoption changes the public contract (CUSTOM_ATTRIBUTES
-// §1.10 "public contract changed"): constraint/required membership and
-// deprecation flips. Prose-only drifts and upstream-absence shapes are not
-// contract changes and get no suggestion.
-const CONTRACT_CHANGE_KINDS = new Set(['constraint', 'required'])
+// §1.10 "public contract changed"): constraint/required membership, structural
+// mirrors, and deprecation flips. Prose-only drifts and upstream-absence
+// shapes are not contract changes and get no suggestion.
+const CONTRACT_CHANGE_KINDS = new Set(['constraint', 'required', 'schema'])
 
 function fail(code, message) {
     throw new Error(`${code}: ${message}`)
