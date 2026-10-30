@@ -332,6 +332,14 @@ async function generateSharedSources(options, dependencies = {}) {
   bundle.notices = notices
   bundle.information = (data.alias_evidence.gaps || []).map(gap => `Alias evidence incomplete for ${gap.record_id}: ${gap.message}`)
   for (const line of bundle.information) console.info(`[shared-aliases] ${line}`)
+  // Run-global evidence (dev inventory, navigation) is already carried once at the
+  // preparation level, and success contexts only add the per-page upstream pin, so
+  // emitting per-record copies made the handoff grow with every onboarded page.
+  for (const input of Object.values(bundle.preparation.inputs)) {
+    delete input.evidence.dev_files
+    delete input.evidence.navigation
+  }
+  for (const outcome of bundle.outcomes) if (outcome.input_context) outcome.input_context = {upstream: outcome.input_context.upstream}
   // This is a machine handoff: indentation of repeated input evidence can push
   // otherwise valid bundles past the reader's limit. Embedded proof bytes stay exact.
   write(out, 'bundle.json', JSON.stringify(bundle) + '\n')

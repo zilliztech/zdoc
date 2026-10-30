@@ -421,6 +421,22 @@ test('portable bundle authenticates both manual outputs, evidence, images and re
   const handoff = loadBundle(options.out, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
   assert.equal(handoff.routing.inspectedDocsByRecordId.size, options.records.length)
   assert.ok(Object.isFrozen(handoff.bundle))
+  // Run-global evidence stays at the preparation level; success contexts only pin upstream.
+  assert.deepEqual(Object.keys(bundle.outcomes[0].input_context), ['upstream'])
+  assert.deepEqual(Object.keys(bundle.preparation.inputs[bundle.outcomes[0].record_id].evidence).sort(), ['dev_commit', 'files', 'master_commit'])
+  // Bundles generated before the dedup still validate: restoring the per-input
+  // copies and full context mirrors reproduces the legacy shape exactly.
+  const legacy = structuredClone(bundle)
+  for (const input of Object.values(legacy.preparation.inputs)) {
+    input.evidence.dev_files = legacy.preparation.dev_files
+    input.evidence.navigation = legacy.preparation.navigation
+  }
+  for (const outcome of legacy.outcomes) if (outcome.input_context) {
+    outcome.input_context = {...structuredClone(legacy.preparation.inputs[outcome.record_id].evidence), upstream: outcome.input_context.upstream}
+  }
+  const legacyFiles = new Map(handoff.files)
+  legacyFiles.set('bundle.json', Buffer.from(JSON.stringify(legacy)))
+  assert.equal(validateBundle(legacyFiles, {masterSha: options.masterCommit, devBaselineSha: options.devCommit}).bundle.outcomes.length, bundle.outcomes.length)
   const prettyFiles = new Map(handoff.files)
   prettyFiles.set('bundle.json', Buffer.from(JSON.stringify(bundle, null, 2) + '\n'))
   assert.deepEqual(validateBundle(prettyFiles).bundle, handoff.bundle)
@@ -432,6 +448,15 @@ test('portable bundle authenticates both manual outputs, evidence, images and re
   }
   assert.throws(change(data => data.outcomes[0].outputs.pop()), /incomplete paired/)
   assert.throws(change(data => data.outcomes.push(data.outcomes[0])), /duplicate/)
+  assert.throws(change(data => data.outcomes[0].input_context = {upstream: data.outcomes[0].input_context.upstream, files: []}), /input context/)
+  assert.throws(change(data => data.outcomes[0].input_context = {}), /input context/)
+  assert.throws(change(data => data.outcomes[0].input_context = {upstream: null}), /input context/)
+  assert.throws(change(data => delete data.outcomes[0].input_context), /input context/)
+  assert.throws(change(data => {
+    for (const input of Object.values(data.preparation.inputs)) {input.evidence.dev_files = data.preparation.dev_files; input.evidence.navigation = data.preparation.navigation}
+    for (const outcome of data.outcomes) if (outcome.input_context) outcome.input_context = {...structuredClone(data.preparation.inputs[outcome.record_id].evidence), upstream: outcome.input_context.upstream}
+    data.preparation.inputs[data.outcomes[0].record_id].evidence.dev_files = []
+  }), /input evidence/)
   assert.throws(change(data => data.master_commit = 'a'.repeat(40)), /commit binding/)
   assert.throws(change(data => data.dev_commit = 'b'.repeat(40)), /commit binding/)
   assert.throws(change((data, files) => files.set(data.outcomes[0].outputs[0].file, Buffer.from('tampered'))), /digest mismatch/)
@@ -1504,6 +1529,9 @@ test('combined retained-evidence admission preserves authenticated aliases and p
 // Exercise the production limits without allocating a full oversized payload on disk.
 test('bundle limits report the offending file, measured bytes and exact limit', t => {
   const {loadBundle, validateBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  // Pin the raised value itself: every other limit test derives from the constant,
+  // so a silent revert to the old bound would otherwise stay green.
+  assert.equal(FILE_LIMIT, 64 * 1024 * 1024)
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'bundle-limits-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const file = path.join(root, 'bundle.json')
