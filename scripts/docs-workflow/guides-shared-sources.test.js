@@ -449,6 +449,9 @@ test('portable bundle authenticates both manual outputs, evidence, images and re
   assert.throws(change(data => data.outcomes[0].outputs.pop()), /incomplete paired/)
   assert.throws(change(data => data.outcomes.push(data.outcomes[0])), /duplicate/)
   assert.throws(change(data => data.outcomes[0].input_context = {upstream: data.outcomes[0].input_context.upstream, files: []}), /input context/)
+  assert.throws(change(data => data.outcomes[0].input_context = {}), /input context/)
+  assert.throws(change(data => data.outcomes[0].input_context = {upstream: null}), /input context/)
+  assert.throws(change(data => delete data.outcomes[0].input_context), /input context/)
   assert.throws(change(data => {
     for (const input of Object.values(data.preparation.inputs)) {input.evidence.dev_files = data.preparation.dev_files; input.evidence.navigation = data.preparation.navigation}
     for (const outcome of data.outcomes) if (outcome.input_context) outcome.input_context = {...structuredClone(data.preparation.inputs[outcome.record_id].evidence), upstream: outcome.input_context.upstream}
@@ -1526,6 +1529,9 @@ test('combined retained-evidence admission preserves authenticated aliases and p
 // Exercise the production limits without allocating a full oversized payload on disk.
 test('bundle limits report the offending file, measured bytes and exact limit', t => {
   const {loadBundle, validateBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  // Pin the raised value itself: every other limit test derives from the constant,
+  // so a silent revert to the old bound would otherwise stay green.
+  assert.equal(FILE_LIMIT, 64 * 1024 * 1024)
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'bundle-limits-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const file = path.join(root, 'bundle.json')

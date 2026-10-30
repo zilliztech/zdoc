@@ -82,6 +82,9 @@ function validateBundle(files, expected = {}) {
         dev_files: input.evidence.dev_files ?? prep.dev_files, navigation: input.evidence.navigation ?? prep.navigation}
       if ((input.evidence.dev_files && !equal(input.evidence.dev_files, prep.dev_files)) || (input.evidence.navigation && !equal(input.evidence.navigation, prep.navigation))
         || evidence.master_commit !== bundle.master_commit || evidence.dev_commit !== bundle.dev_commit) fail('input evidence')
+      // `{upstream: undefined}` stringifies like `{}`, so the compact equality alone
+      // would accept a context whose upstream pin was dropped or never computed.
+      if (!outcome.input_context || typeof outcome.input_context.upstream !== 'object' || outcome.input_context.upstream === null) fail('input context')
       if (!equal(outcome.input_context, {...evidence, upstream: outcome.input_context.upstream})
         && !equal(outcome.input_context, {upstream: outcome.input_context.upstream})) fail('input context')
       if (outcome.receipt !== `pages/${outcome.page}/receipt-draft.json`) fail('receipt file path')
