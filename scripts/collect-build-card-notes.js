@@ -297,7 +297,10 @@ function sharedPublicationNote({directory} = {}) {
   const report = freshJsonReport(guidesReportFile(directory, 'guides-shared-publication.json'))
   if (!report || report.schema_version !== 1 || !Array.isArray(report.failures) || !Array.isArray(report.notices)) return null
   return ['# Guides shared pages', '', ...report.failures.map(row => `- ${row.code}: ${row.record_id}: ${row.message}`),
-    ...report.notices.map(row => `- SHARED_ANCHOR_UNKNOWN: ${row.source_page || row.source_token}: ${row.url} → ${row.page}`)].join('\n')
+    ...report.notices.map(row => row.code === 'IMAGE_SOURCE_CHANGED'
+      ? `- ${row.code}: ${row.source_page || row.page}: ${row.url} → ${row.page}; recorded=${row.recorded}; observed=${row.observed}`
+      : `- ${row.code || 'SHARED_ANCHOR_UNKNOWN'}: ${row.source_page || row.source_token}: ${row.url} → ${row.page}`),
+    ...(Array.isArray(report.information) ? report.information.filter(line => typeof line === 'string').map(line => `- Information: ${line}`) : [])].join('\n')
 }
 
 const GUIDES_REPORTS = Object.freeze([

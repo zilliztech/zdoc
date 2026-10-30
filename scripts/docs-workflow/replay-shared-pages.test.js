@@ -13,6 +13,9 @@ const adapter = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {loadBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
 const timeout = 120000
 
+// Keep independent clean regeneration in the existing PR replay entrypoint.
+require('./guides-shared-regeneration.test')
+
 async function commitConfig(options, file, bytes) {
   if (bytes === null) fs.rmSync(path.join(options.repositoryRoot, file))
   else await write(options.repositoryRoot, file, bytes)
@@ -25,7 +28,7 @@ async function seed(t) {
   return options
 }
 
-test('shared source artifact, offline tables, fresh assembly and local checkpoint publish activation and Cloud-only changes atomically', {timeout}, async t => {
+test('[9-2][9-6][T06] shared source artifact, offline tables, fresh assembly and local checkpoint publish activation and Cloud-only changes atomically', {timeout}, async t => {
   const {options, report} = await replay.runReplay()
   t.after(() => fs.rmSync(options.root, {recursive: true, force: true}))
   assert.equal(report.scenarios.length, 2)
@@ -36,6 +39,8 @@ test('shared source artifact, offline tables, fresh assembly and local checkpoin
     assert.match(text, /https:\/\/changed.example.test/)
     assert.match(text, /CHANGED_TOKEN/)
     assert.doesNotMatch(text, /OLD guides|OLD byoc/)
+    assert.match(text, /!\[Diagram\]\(https:\/\/images\.example\.test\/shared\/[0-9a-f]{64}\.png\)/)
+    assert.ok(text.includes('## Current heading\\{#current-heading}'))
     assert.match(text, /<Tabs/); assert.match(text, /value=['"]python['"]/); assert.match(text, /value=['"]java['"]/)
     const front = yaml.load(text.split('---')[1])
     assert.equal(front.channel, 'next'); assert.equal(front.sidebar_label, 'Fresh Base label')
@@ -73,7 +78,7 @@ test('shared source artifact, offline tables, fresh assembly and local checkpoin
   assert.equal(replay.files(options.store.root).length, 2, 'Old immutable objects remain available after adopting a new image URL')
 })
 
-test('one selected page activates from cold current headings while obsolete cached inbound links do not gate publication', {timeout}, async t => {
+test('[9-1] one selected page activates from cold current headings while obsolete cached inbound links do not gate publication', {timeout}, async t => {
   const options = await replay.replayFixture(t, {pages: ['sample']})
   // This stale cache source is absent from the current Base/snapshot graph. Its
   // removed link cannot require an anchor in the newly generated page.
@@ -105,7 +110,7 @@ test('ordinary Feishu and anchored Base refs produce identical blobs with valid 
   assert.ok(result.results.every(row => row.files >= 7 && row.sharedCalls === 0))
 })
 
-test('per-page generation, path and configuration failures retain both outputs, receipt and active entry while sibling publishes', {timeout}, async t => {
+test('[OWNERSHIP_PATH_MISMATCH][OWNERSHIP_CONFIG_MISSING][OWNERSHIP_REVERTED] per-page generation, path and configuration failures retain both outputs, receipt and active entry while sibling publishes', {timeout}, async t => {
   const options = await seed(t)
   const initialSnapshot = JSON.parse(fs.readFileSync(path.join(options.baselineRoot, replay.SNAPSHOT)))
   const previous = initialSnapshot.records.find(row => row.record_id === 'rec0')
@@ -149,7 +154,7 @@ test('per-page generation, path and configuration failures retain both outputs, 
   assert.equal(await git(options.bareRemote, 'rev-parse', 'refs/heads/dev'), version)
 })
 
-test('current linking pages gate first activation, old-document failures isolate the page, and sealed output tampering rejects publication', {timeout}, async t => {
+test('[9-1][ACTIVATE_CHECK_FAILED] current linking pages gate first activation, old-document failures isolate the page, and sealed output tampering rejects publication', {timeout}, async t => {
   for (const mode of ['missing-anchor', 'fetch-failure']) {
     const options = await replay.replayFixture(t)
     options.records = options.records.filter(row => row.record_id !== 'ref-only')
@@ -197,7 +202,7 @@ test('current linking pages gate first activation, old-document failures isolate
   assert.equal(await git(options.bareRemote, 'rev-parse', 'refs/heads/dev'), options.devCommit)
 })
 
-test('upload/readback failures stop before source sealing and preserve existing run_translations gates', {timeout}, async t => {
+test('[PUBLISH_IMAGE_UPLOAD_FAILED] upload/readback failures stop before source sealing and preserve existing run_translations gates', {timeout}, async t => {
   const options = await replay.replayFixture(t)
   await replay.regenerate(options)
   for (const fault of ['upload', 'readback']) {
@@ -267,6 +272,33 @@ test('a failed new page with OWNERSHIP_PATH_MISMATCH never activates while exist
   assert.equal(options.bundle.effective_active.pages.some(row => row.record === 'new-record'), false)
   assert.equal(fs.existsSync(path.join(options.last.assembly, publication.MANIFEST, 'new.json')), false)
   for (const physical of ['guides', 'byoc']) assert.equal(replay.files(path.join(options.last.assembly, `content/en/${physical}`)).some(file => /\/new\.mdx?$/.test(file)), false)
+})
+
+test('site overlay supplies its synthetic home dependency without changing retained documents', {timeout}, async t => {
+  const options = await replay.replayFixture(t)
+  await replay.regenerate(options); await replay.assemble(options)
+  const site = path.join(options.root, 'site-without-home')
+  const retained = 'content/en/guides/tutorials/retained.md'
+  const retainedBytes = Buffer.from('---\nslug: /retained\ntitle: Retained\n---\nRetained baseline document.\n')
+  await write(site, retained, retainedBytes)
+  fs.mkdirSync(path.join(site, 'generated/en/sidebars'), {recursive: true})
+  for (const physical of ['guides', 'byoc']) {
+    fs.mkdirSync(path.join(site, `content/en/${physical}/tutorials`), {recursive: true})
+    assert.equal(fs.existsSync(path.join(site, `content/en/${physical}/tutorials/home.md`)), false)
+  }
+  replay.overlaySiteFixture(options, site)
+  for (const [manual, physical] of [['guides', 'guides'], ['guides-byoc', 'byoc']]) {
+    const sidebar = require(path.join(site, `generated/en/sidebars/${manual}.sidebar.js`))
+    assert.ok(sidebar.some(item => item.id === 'tutorials/home'))
+    const home = `content/en/${physical}/tutorials/home.md`
+    assert.ok(fs.existsSync(path.join(site, home)), `Synthetic sidebar requires ${home}`)
+    assert.deepEqual(fs.readFileSync(path.join(site, home)), fs.readFileSync(path.join(options.last.assembly, home)))
+  }
+  assert.deepEqual(fs.readFileSync(path.join(site, retained)), retainedBytes)
+  for (const physical of ['guides', 'byoc']) await write(site, `content/en/${physical}/tutorials/home.md`, retainedBytes)
+  replay.overlaySiteFixture(options, site)
+  for (const physical of ['guides', 'byoc']) assert.deepEqual(fs.readFileSync(path.join(site, `content/en/${physical}/tutorials/home.md`)), retainedBytes)
+  assert.deepEqual(fs.readFileSync(path.join(site, retained)), retainedBytes)
 })
 
 test('site browser startup failure always closes the actual local HTTP listener', {timeout}, async () => {

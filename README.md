@@ -339,7 +339,7 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay:recovery` covers retained Translation selection/results/progress authentication, legacy REST exclusion, recovery-map construction, and non-mutating fault overlays.
 - `pnpm test:replay:translation` covers Translation FIFO publication and monitor artifact authentication; it is slower and runs on the scheduled replay workflow.
 - `pnpm test:replay:requested` covers the requested Guides fetch surfaces (planner closure, state-merge receipts, checkpoint scope) against a committed real-data slice extracted from retained production artifacts.
-- `pnpm test:replay:shared-pages` exercises selected shared Guides generation, authenticated source artifacts, offline tables, fresh assembly, immutable image uploads and a real checkpoint transaction against a local bare remote. It also compares ordinary Feishu output with valid and malformed inactive configuration.
+- `pnpm test:replay:shared-pages` includes the focused independent regeneration tests and exercises selected shared Guides generation, authenticated source artifacts, offline tables, fresh assembly, immutable image uploads and a real checkpoint transaction against a local bare remote. It also compares ordinary Feishu output with valid and malformed inactive configuration.
 - `pnpm test:replay` is the PR-level contract + Fetch + recovery + requested Guides + shared-pages gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
@@ -615,7 +615,11 @@ and exact dev baseline before ordinary Feishu body reads. After source fetching,
 `Generate selected shared Guides sources` builds each selected record's Guides and
 BYOC outputs together. Current Base navigation, publish targets and release channel
 are checked before rendering; an existing `.md` or `.mdx` extension is retained,
-and a new page uses `.mdx`. Unselected page configurations are not loaded by Fetch;
+and a new page uses `.mdx`. `IMAGE_BED_URL` must be a valid HTTPS image-bed base
+when shared work is selected, including artifact-only skip mode; a missing or invalid
+value fails Guides as an infrastructure error before generation or image services.
+Confirm the repository variable is set before merge. Ordinary-only runs do not
+require it. Unselected page configurations are not loaded by Fetch;
 the default `shared-docs build` command still validates the whole group.
 
 The source job writes its draft bundle to
@@ -649,11 +653,13 @@ access. Record the HTTP result and digest with the pilot evidence. These checks
 gate the first image-bearing activation; a page without images can be activated
 before them.
 
-On first activation, the job reads the old document once at its current
-revision and checks current inbound heading references against both generated
-manuals; `ACTIVATE_CHECK_FAILED` retains both baseline outputs. Existing active
-pages reuse their retained anchor map. A run with no shared records and no active
-shared state creates no shared bundle and keeps the legacy source payload unchanged.
+On first activation, the job reads the old document at its current revision only
+when a current body link or Base ref requires a heading anchor. Page-top-only
+references do not require that read. It checks required anchors against both
+generated manuals; `ACTIVATE_CHECK_FAILED` retains both baseline outputs. Existing
+active pages reuse their retained anchor map. A run with no shared records and no
+active shared state creates no shared bundle and keeps the legacy source payload
+unchanged.
 
 To activate a page, switch its record's `Docs` to the page directory URL, wait
 for a successful Fetch and confirm its entry in dev's
@@ -666,6 +672,16 @@ requirement: once the record is activated, Fetch skips the old document's wiki
 node and never refetches its blocks, so a legacy document left in the tree (or
 already deleted) cannot block scheduled runs — its cached legacy body stays
 frozen beside the shared source.
+
+Activated entries retain every known `feishu_aliases` token, including a non-null
+`feishu_token`. Recover additional aliases only from that entry, authenticated
+same-record frozen legacy cache evidence, and snapshot history reachable from the
+pinned dev commit. Cache hashes alone do not authorize aliases. Missing independent
+proof or shallow history produces an informational evidence-gap line in the run
+summary and `guides-shared-publication.json`; known aliases remain and the page can
+publish. Fetch does not retrieve more history or call Feishu to recover aliases.
+The source-contract validator uses this validated alias set in its canonical-token
+index and active-target lookup, including `docx/<obj_token>#heading` Base refs.
 
 Once a page is active, its Base record must stay a publishable canonical row
 whose `Docs` points to the page directory. Switching `Docs` back to Feishu,
@@ -742,7 +758,9 @@ After complete table restore and canonical publication, assembly verifies the
 actual output hashes and tokens, writes final page receipts with the full immutable
 Base navigation projection, and appends only successful first activations to
 `generated/en/manifests/shared-pages/guides/active.json`. Existing activation
-entries and anchors remain unchanged. The same checkpoint owns MDX, receipts,
+entries preserve their page, record, Feishu token, anchors and activation identity;
+only evidenced alias additions may enrich a successful existing entry. The same
+checkpoint owns MDX, receipts,
 active state, and `_publication.json`; its underscore prefix cannot collide with
 a valid page slug. This last file binds the observed/effective snapshot hashes,
 active state, and exact prior snapshot bytes and output digests for fallback.
@@ -767,19 +785,72 @@ manifests carry validated final receipts, and any shared page failure suppresses
 cache generation so the next Fetch retries it. Build notes report page failures
 and unknown post-activation anchors with the referring page and source URL. Old
 Feishu token links resolve to the shared page; known heading blocks use the
-activation anchor map, while unknown blocks resolve to the page top. WP9 does not
-change Translation/recovery cache identities or adopt recorded images.
+activation anchor map, while unknown blocks resolve to the page top. Translation
+and recovery cache identities remain unchanged.
 
+For a recorded image digest, generation reuses hash-verified accepted bytes. If an
+origin read succeeds with changed bytes, `IMAGE_SOURCE_CHANGED` reports the old and
+observed digests while the accepted image and both manual outputs remain unchanged.
+Missing or corrupt accepted objects fail the page; an unreadable origin retains
+its existing failure behavior. Typed notices flow through the existing build card.
+Receipt merge notes serialize deterministically into the existing `notes: string[]`.
+
+Before sealing a successful source, an independent clean generation uses the new
+candidate receipt's pinned inputs, frozen render targets and accepted images under
+the same tooling. It compares the exact output path set, bytes and hashes;
+`PUBLISH_REGEN_MISMATCH` retains that page's baseline pair while valid siblings
+continue. Checkpoint validation verifies the bound replay proof and rejects output
+or proof mutation. A historical receipt replayed by newer tooling is an upgrade
+comparison and never a publication veto; changed inputs are not compared with old
+output hashes.
+
+New receipts carry optional `inputs.fetch.render_targets` version 1 with only the
+manual, path, extension, label, position and channel consumed by generation. Legacy
+receipts without it remain readable, but cannot supply new exact replay evidence.
+Older strict-key tooling rejects receipts containing this new field, so rolling
+back the tooling after such receipts publish requires a compatible receipt reader.
+Future target changes must use explicit version handling rather than silently
+adding keys to an existing version.
 
 #### Shared Fetch requirement accounting
 
-The shared-pages replay covers the Fetch portions of `3-6`, `5-3`, `9-1`,
-`9-2`, `9-3`, `9-6`, `9-9`, `ACTIVATE_CHECK_FAILED`,
-`PUBLISH_IMAGE_UPLOAD_FAILED`, `OWNERSHIP_PATH_MISMATCH`,
-`OWNERSHIP_CONFIG_MISSING` and `OWNERSHIP_REVERTED`. The requirement tests close
-only `3-6`, `5-3` and `9-9`; the other entries retain their WP14 pending marker
-for the dev-PR, old-writer and recovery ownership checks. `T06` retains its
-pending marker: the optional real site/browser mode supplies Tabs, languages,
-links, anchors, image and edit-entry evidence, while recorded-image change
-semantics remain deferred. `PUBLISH_REGEN_MISMATCH` and `IMAGE_SOURCE_CHANGED`
-remain WP9b work; receipt/output tamper rejection is not clean regeneration.
+Requirement discovery recursively scans shared-docs `.test.ts`/`.test.tsx` files
+and exactly eight explicit shared Fetch JavaScript suites in `spec/coverage.ts`.
+It resolves from the module/repository root, fails on a missing allowlisted file,
+and counts literal IDs in executable declarations, excluding skipped/todo cases.
+This closes the Fetch accounting for `9-1`, `9-2`, `9-3`, `9-6`, `T06`,
+`ACTIVATE_CHECK_FAILED`, `OWNERSHIP_REVERTED`, `OWNERSHIP_PATH_MISMATCH`,
+`OWNERSHIP_CONFIG_MISSING`, `PUBLISH_IMAGE_UPLOAD_FAILED`, `PUBLISH_REGEN_MISMATCH`
+and `IMAGE_SOURCE_CHANGED`. Existing `4-3`, `3-6`, `5-3` and `9-9` stay covered.
+The default replay asserts generated Tabs/languages, links, anchors, images and
+edit entries; it is synthetic regression evidence, not a browser run. `T06` still
+requires the separate real site/browser evidence described above. WP14 dev-PR and
+old-writer ownership cases, retirement, `T07`, `T08`, `T09` and `T10` remain deferred.
+
+Before WP9b-2 merges, the maintainer must supply artifact-only Fetch evidence for
+Guides and one SDK group, since link resolution is shared by every group. Run the
+SDK Fetch with `group=<one SDK group>`, `publish=false`, `run_translations=false`
+and the default `media_upload_mode=write`. For Guides, use `group=guides`,
+`publish=false`, `run_translations=false` and `media_upload_mode=skip`. The SDK
+skip incompatibility is not an implementation blocker, and no workflow change is
+needed. The maintainer must check link conversion through `larkDocWriter.js`,
+confirm there are no new errors, and verify outputs are unchanged except for
+WP9b's intended behavior. If zero-upload SDK evidence is desired, enabling skip
+is a separate maintainer-owned workflow change outside WP9b.
+Retained regeneration comparisons must use real receipts from the first Fetch
+with merged WP9b-1; missing retained inputs, accepted objects or Git history are
+evidence gaps. Preflight every retained checkpoint, authenticate run/attempt,
+artifact digests and pinned identities, restore exact generated state, and use an
+isolated bare remote with production push targets absent. Compare every successful
+receipt-declared output path byte-for-byte to retained post-WP9b-1 output and the
+pre-WP9b-2 lane. Expect no WP9b-2 MDX changes; the only accepted delivery changes
+are WP9b-1's six manual outputs with enumerated LF removals (Lindera 1, Stop 2,
+Decompounder 3 per manual). Report alias, input/tool identity, notes and notice
+metadata differences separately. Preserve commands, baseline/candidate SHAs,
+artifact identities, verified input/page/file counts, success/fallback/mismatch
+counts and every mismatch. Run the exact pre-WP9b-2 upstream comparison containing
+WP9b-1 with `--comparison-baseline-sha`, fixed inputs and time, valid/malformed
+inactive configs and cold/warm caches; ordinary lanes must have identical path
+sets and bytes, zero shared generation/image-store calls and no empty authority
+directory. Separate site/browser and retained-artifact inventory/build gates remain
+required; the default suite and requirement tags cannot replace them.

@@ -146,7 +146,7 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
 }
 
 export async function runBuild(options: BuildOptions, write: (text: string) => void = text => process.stdout.write(text),
-  dependencies: { fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void> } = {}): Promise<number> {
+  dependencies: { readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array>; fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void> } = {}): Promise<number> {
   const print = (errors: readonly SharedDocsError[]) => {
     dependencies.onErrors?.(errors)
     for (const error of errors) {
@@ -187,7 +187,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       if (publication && !zdoc.has(manual)) zdoc.set(manual, createZdocContentReader({ checkout: dev, manualDirectory: publication.contentRoot }))
     }
     const reader = createBuildReader(repo)
-    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: dependencies.fetchContext ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } } : createGuidesSnapshot(dev), fetchContext: dependencies.fetchContext })
+    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: dependencies.fetchContext ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } } : createGuidesSnapshot(dev), fetchContext: dependencies.fetchContext, readAcceptedImage: dependencies.readAcceptedImage })
     const pages: BuiltPage[] = [], plannedLocks: string[] = []
     let failed = false
     try {

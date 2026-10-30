@@ -1,7 +1,7 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
-import { cloudAnchor, headingText, rewriteLinksAndImages } from '../core/links'
+import { cloudAnchor, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
 import { adaptPage } from '../core/site'
 import type { AdaptedPage, TabsRules } from '../core/site'
@@ -42,7 +42,7 @@ export interface FetchBuildTarget {
   navigation: { sidebar_label?: string; sidebar_position?: number }
   channel: 'current' | 'next' | 'retire-in-next'
 }
-export interface FetchBuildContext { page: string; targets: readonly FetchBuildTarget[]; records: Awaited<ReturnType<GuidesBase['getRecords']>> }
+export interface FetchBuildContext { recordedImages?: Map<string, string>; page: string; targets: readonly FetchBuildTarget[]; records: Awaited<ReturnType<GuidesBase['getRecords']>> }
 export interface BuiltPage { manual: string; path: string; mdx: string; images: ImageRecord[]; notices: Notice[]; notes: MergeNote[]
   extension?: '.md' | '.mdx'; imageContents?: { original: string; bytes: Uint8Array; sha256: string }[] }
 export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[] }
@@ -143,18 +143,30 @@ export interface BuildRuntime {
   sharedPages(commit: string): Promise<ReadonlyMap<string, string>>
   manual(manual: string): Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>
   fetchContext?: FetchBuildContext
+  acceptedImage(image: ImageRecord, observed?: { sha256: string; bytes: Uint8Array }): Promise<{ original: string; sha256: string; bytes: Uint8Array }>
   records(): ReturnType<GuidesBase['getRecords']>
 }
 /** A command owns one runtime; every selected page shares these caches. */
 export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader: BuildReader; fetcher: ImageFetcher;
-  zdoc: ReadonlyMap<string, ZdocContentReader>; guides: GuidesBase; fetchContext?: FetchBuildContext }): BuildRuntime {
+  zdoc: ReadonlyMap<string, ZdocContentReader>; guides: GuidesBase; fetchContext?: FetchBuildContext;
+  readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array> }): BuildRuntime {
   const preparations = new Map<string, Promise<PreparedLinkInputs>>()
   const registries = new Map<string, Promise<ReadonlyMap<string, string>>>()
   const manuals = new Map<string, Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>>()
+  const accepted = new Map<string, Promise<Uint8Array>>()
   const replay = createPairedImageFetcher(input.fetcher)
   let records: ReturnType<GuidesBase['getRecords']> | undefined
   return {
     fetchContext: input.fetchContext,
+    async acceptedImage(image, observed) {
+      const key = JSON.stringify([image.original, image.sha256])
+      if (!accepted.has(key)) accepted.set(key, (async () => {
+        const bytes = observed?.sha256 === image.sha256 ? observed.bytes : await input.readAcceptedImage?.(image.original, image.sha256)
+        if (!bytes || bytes.byteLength > 32 * 1024 * 1024 || imageDigest(bytes) !== image.sha256) throw new Error(`Missing or corrupt accepted image bytes: ${image.original}`)
+        return Uint8Array.from(bytes)
+      })())
+      return { original: image.original, sha256: image.sha256, bytes: Uint8Array.from(await accepted.get(key)!) }
+    },
     async prepare(content, source, commit, context) {
       const key = JSON.stringify([commit, source, content])
       if (!preparations.has(key)) preparations.set(key, prepareLinkInputs(content, source, commit, input.reader, replay()))
@@ -299,8 +311,9 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
       const sources = await productSources(version, source, shared, reader)
       const mappedErrors = (items: SharedDocsError[]) => items.map(error => version.provenance ? remapError(error, version.provenance, source) : error)
       const rewritten = rewriteLinksAndImages({ ...prepared, markdown: version.content, sourceFile: source, sharedPages,
-        linkMap: shared.linkMap, cloudPages: dev.pages, context: location })
+        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
+      for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
       const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual as 'guides' | 'guides-byoc',
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
@@ -310,11 +323,7 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
         return [{ channel, file: origin?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
       })
       output.set(index, { adapted, origins, sources, images: rewritten.images, notices: rewritten.notices,
-        ...(dev.fetch ? { imageContents: rewritten.images.map(image => {
-          const content = prepared.images.get(image.original)
-          if (!content || content.sha256 !== image.sha256) throw new Error(`Missing accepted image bytes: ${image.original}`)
-          return { original: image.original, sha256: content.sha256, bytes: Uint8Array.from(content.bytes) }
-        }) } : {}) })
+        ...(dev.fetch ? { imageContents: await Promise.all(rewritten.images.map(image => runtime.acceptedImage(image, prepared.images.get(image.original)))) } : {}) })
     }
   }
   const pages: BuiltPage[] = []

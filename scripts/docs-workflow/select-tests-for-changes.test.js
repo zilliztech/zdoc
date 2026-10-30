@@ -214,3 +214,15 @@ test('Git affected-file mode resolves immutable commits without shell interpolat
   assert.deepEqual(changedFilesBetween(head, head, repositoryRoot), [])
   assert.throws(() => resolveCommit('--upload-pack=unsafe', repositoryRoot), /unsafe/u)
 })
+
+
+test('selector explicitly maps shared aliases and independent regeneration to executable focused tests', () => {
+  const aliases = selectTests(['packages/docs-tooling/src/lark/sharedPageAliases.js'])
+  assert.ok(aliases.areas.some(area => area.id === 'shared-handoff-routing'))
+  assert.ok(aliases.commands.some(command => command.includes('guides-shared-sources.test.js')))
+  for (const file of ['scripts/docs-workflow/guides-shared-regeneration.js', 'scripts/docs-workflow/guides-shared-regeneration.test.js']) {
+    const selected = selectTests([file])
+    assert.ok(selected.commands.includes('node --test scripts/docs-workflow/guides-shared-regeneration.test.js'), file)
+    assert.ok(selected.commands.includes('pnpm test:replay:shared-pages'), file)
+  }
+})

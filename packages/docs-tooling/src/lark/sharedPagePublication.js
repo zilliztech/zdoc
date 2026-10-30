@@ -9,6 +9,8 @@ const {validateSharedReceipt, validateSharedSnapshotRecord, validateActiveState}
 const hashSnapshot = snapshot => require('./sourceCompleteness').hashSnapshot(snapshot)
 const MANIFEST = 'generated/en/manifests/shared-pages/guides'
 const EFFECTIVE = 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-effective.json'
+const aliases = require('./sharedPageAliases')
+const {validateRegenerationEvidence} = require('../../../../scripts/docs-workflow/guides-shared-regeneration')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 function check(condition, message) { if (!condition) throw new Error(`Shared publication: ${message}`) }
 function json(root, file) { return JSON.parse(regularBytes(root, file)) }
@@ -76,13 +78,17 @@ function finalizePublication({workspace, handoff, candidate}) {
   const {bundle, files} = handoff, snapshot = effectiveSnapshot(candidate, handoff)
   const fallbacks = []
   // Read and verify every byte before writing any new authority.
-  const receipts = [], baselineReceipts = []
+  const receipts = [], baselineReceipts = [], regeneration = {}
   for (const outcome of bundle.outcomes) {
     if (outcome.status === 'success') {
       const receipt = JSON.parse(files.get(outcome.receipt))
       receipt.inputs.fetch.navigation = structuredClone(bundle.navigation)
       const record = snapshot.records.find(row => row.record_id === outcome.record_id)
       validatePublishedReceipt(receipt, record, {workspace, snapshot})
+      if (receipt.inputs.fetch.render_targets || outcome.regeneration) {
+        validateRegenerationEvidence(outcome.regeneration, receipt, receipt.outputs.map(output => ({...output, bytes: regularBytes(workspace, output.path)})))
+        regeneration[outcome.record_id] = outcome.regeneration
+      }
       receipts.push([record.shared_page.record, receipt])
     } else {
       const record = bundle.preparation.previous_snapshot?.records?.find(row => row.record_id === outcome.record_id)
@@ -93,15 +99,23 @@ function finalizePublication({workspace, handoff, candidate}) {
         const receipt = outcome.baseline.receipt, bytes = files.get(receipt.file)
         check(bytes && digest(bytes) === receipt.sha256, 'fallback receipt changed')
         baselineReceipts.push([receipt.path, bytes])
+        const retainedReceipt = JSON.parse(bytes)
+        if (retainedReceipt.inputs.fetch.render_targets) {
+          const authority = JSON.parse(git(workspace, ['show', `${bundle.dev_commit}:${MANIFEST}/_publication.json`]))
+          const proof = authority.regeneration?.[outcome.record_id]
+          validateRegenerationEvidence(proof, retainedReceipt, retainedReceipt.outputs.map(output => ({...output, bytes: regularBytes(workspace, output.path)})))
+          regeneration[outcome.record_id] = proof
+        }
       }
       if (record) fallbacks.push({record, outputs: outcome.baseline.outputs.map(({path, sha256}) => ({path, sha256}))})
     }
   }
   validateActiveState(bundle.effective_active)
+  aliases.authenticate({workspace, devCommit: bundle.dev_commit, evidence: bundle.preparation.alias_evidence, git})
   const publication = {schema_version: 1, dev_commit: bundle.dev_commit, observed_sha256: hashSnapshot(candidate),
     effective_sha256: hashSnapshot(snapshot), active: bundle.effective_active, cache_eligible: bundle.outcomes.every(row => row.status === 'success'),
     baseline_snapshot: bundle.previous_snapshot_file ? files.get(bundle.previous_snapshot_file).toString('utf8') : null,
-    fallbacks}
+    fallbacks, alias_evidence: bundle.preparation.alias_evidence, regeneration}
   // A clean assembly checkout has no dev-owned receipt directory. The bundle
   // binds these exact bytes to the pinned baseline; never reserialize old receipts.
   for (const [file, bytes] of baselineReceipts) {
@@ -112,7 +126,7 @@ function finalizePublication({workspace, handoff, candidate}) {
   if (bundle.effective_active.pages.length) put(workspace, `${MANIFEST}/active.json`, bundle.effective_active)
   put(workspace, `${MANIFEST}/_publication.json`, publication)
   put(workspace, EFFECTIVE, snapshot)
-  put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || []})
+  put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || []})
   return {snapshot, publication}
 }
 function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = null} = {}) {
@@ -131,6 +145,12 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
     check(authority.schema_version === 1 && authority.effective_sha256 === hashSnapshot(snapshot), 'effective snapshot binding mismatch')
     check(/^[a-f0-9]{40}$/.test(authority.dev_commit) && /^[a-f0-9]{64}$/.test(authority.observed_sha256)
       && typeof authority.cache_eligible === 'boolean' && Array.isArray(authority.fallbacks), 'invalid publication authority')
+    const proofs = authority.regeneration || {}
+    check(proofs && typeof proofs === 'object' && !Array.isArray(proofs), 'invalid regeneration evidence')
+    for (const [id, receipt] of receipts) if (receipt.inputs.fetch.render_targets || Object.hasOwn(proofs, id)) {
+      validateRegenerationEvidence(proofs[id], receipt, verifyFiles ? receipt.outputs.map(output => ({...output, bytes: read(workspace, output.path)})) : undefined)
+    }
+    check(Object.keys(proofs).every(id => receipts.has(id)), 'extra regeneration evidence')
     active = validateActiveState(authority.active)
     if (authority.active.pages.length) check(equal(readJson(workspace, `${MANIFEST}/active.json`), authority.active), 'active state mismatch')
     const oldSnapshot = authority.baseline_snapshot ? JSON.parse(authority.baseline_snapshot) : null
@@ -139,11 +159,14 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
     const oldActivePath = `${MANIFEST}/active.json`
     const exists = git(workspace, ['ls-tree', authority.dev_commit, '--', oldActivePath]).length
     if (exists) oldActive = validateActiveState(JSON.parse(git(workspace, ['show', `${authority.dev_commit}:${oldActivePath}`])))
-    for (const old of oldActive.pages) check(equal(old, authority.active.pages.find(entry => entry.record === old.record)), 'baseline active entry was changed')
+    aliases.authenticate({workspace, devCommit: authority.dev_commit, evidence: authority.alias_evidence, git})
+    const recovered = aliases.recover({active: oldActive, previousSnapshot: oldSnapshot, evidence: authority.alias_evidence, recordIds: authority.active.pages.map(entry => entry.record)})
+    for (const old of oldActive.pages) aliases.verifyEnrichment(old, authority.active.pages.find(entry => entry.record === old.record), recovered.aliases[old.record] || [])
     for (const entry of authority.active.pages) if (!oldActive.pages.some(old => old.record === entry.record)) {
       const record = snapshot.records.find(row => row.record_id === entry.record)
       const previous = oldSnapshot?.records.find(row => row.record_id === entry.record)
       check(record?.source_kind === 'shared-page' && record.shared_page.page === entry.page && entry.feishu_token === (previous?.doc_token || previous?.node_token || null), 'activation provenance mismatch')
+      if (entry.feishu_aliases) check(equal(entry.feishu_aliases, recovered.aliases[entry.record] || []), 'activation alias provenance mismatch')
     }
     if (authority.fallbacks.length) {
       check(/^[a-f0-9]{40}$/.test(authority.dev_commit), 'invalid fallback baseline')

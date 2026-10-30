@@ -30,7 +30,7 @@ for (const mode of ['new', 'existing', 'race']) test(`immutable ${mode} storage 
   assert.deepEqual(calls.map(c => c.constructor.name), mode === 'existing'
     ? ['GetObjectCommand'] : ['GetObjectCommand', 'PutObjectCommand', 'GetObjectCommand'])
 })
-test('tampering and corrupt readback fail without overwrite or deletion', async () => {
+test('[PUBLISH_IMAGE_UPLOAD_FAILED] tampering and corrupt readback fail without overwrite or deletion', async () => {
   const {uploader, calls} = fixture('corrupt')
   await assert.rejects(uploader.upload({group: 'guides', key, sha256: sha, bytes: Buffer.from('tamper')}), {code: 'PUBLISH_IMAGE_UPLOAD_FAILED'})
   assert.equal(calls.length, 0)
@@ -69,3 +69,22 @@ test('corrupt existing content and write failures stop without repair, deletion 
     assert.deepEqual(calls.map(call => call.constructor.name), mode === 'existing-corrupt' ? ['GetObjectCommand'] : ['GetObjectCommand', 'PutObjectCommand'])
   }
 })
+
+test('shared uploader requires an explicit valid image base even in skip mode', () => {
+  const previous = process.env.IMAGE_BED_URL
+  delete process.env.IMAGE_BED_URL
+  try {
+    for (const baseUrl of [undefined, '', 'http://images.test', 'https://user:secret@images.test', 'https://images.test/?query=1']) {
+      assert.throws(() => new SharedImageUploader({baseUrl, mode: 'skip'}), /IMAGE_BED_URL/)
+    }
+    process.env.IMAGE_BED_URL = 'https://environment.test/'
+    assert.equal(new SharedImageUploader({mode: 'skip'}).baseUrl, 'https://environment.test')
+  } finally {if (previous === undefined) delete process.env.IMAGE_BED_URL; else process.env.IMAGE_BED_URL = previous}
+})
+
+for (const baseUrl of ['https:images.test', 'https:/images.test', 'https:///images.test', 'https://images.test/\npath',
+  'https://images.test/\rpath', 'https://images.test/\tpath', 'https://images.test/\\path', 'https://images.test/?', 'https://images.test/#']) {
+  test(`shared image base rejects malformed raw URL ${JSON.stringify(baseUrl)}`, () => {
+    assert.throws(() => new SharedImageUploader({baseUrl, mode: 'skip'}), /IMAGE_BED_URL/)
+  })
+}

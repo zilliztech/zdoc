@@ -45,11 +45,15 @@ export function createRoutingContext(input: {
       context.sharedInputsByRecordId.set(record.record_id, {...identity})
     }
     const baseline = input.previousSnapshot?.records?.find(entry => entry.record_id === record.record_id)
-    for (const token of [previous?.feishu_token, baseline?.doc_token, baseline?.node_token, baseline?.origin_node_token, baseline?.obj_token].filter(Boolean) as string[]) {
+    for (const token of [previous?.feishu_token, ...(previous?.feishu_aliases || []), baseline?.doc_token, baseline?.node_token, baseline?.origin_node_token, baseline?.obj_token].filter(Boolean) as string[]) {
       const owner = context.aliasesByToken.get(token)
       if (owner && owner !== record.record_id) throw new Error(`Conflicting shared alias: ${token}`)
       context.aliasesByToken.set(token, record.record_id)
     }
+  }
+  for (const [id, route] of context.routesByRecordId) if (route.kind === 'feishu') {
+    const owner = context.aliasesByToken.get(route.token)
+    if (owner && owner !== id) throw new Error(`Conflicting shared alias: ${route.token}`)
   }
   return context
 }

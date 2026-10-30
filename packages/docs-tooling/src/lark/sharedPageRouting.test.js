@@ -32,7 +32,7 @@ test('canonical membership never treats a Git directory or arbitrary URL as a Fe
   assert.equal(records[1].doc_token, null)
   assert.equal(records[1].routing_error.code, 'OWNERSHIP_CONFIG_MISSING')
 })
-test('routing preflight returns page failures and refuses active Feishu reversion', () => {
+test('[9-3][OWNERSHIP_REVERTED] routing preflight returns page failures and refuses active Feishu reversion', () => {
   const routing = context([row(), row('bad', 'https://example.com/page')])
   assert.equal(routing.routesByRecordId.get('rec-shared').kind, 'shared-page')
   assert.equal(routing.errors[0].record_id, 'bad')
@@ -242,7 +242,7 @@ test('scraper excludes shared URLs from wiki requests and preserves explicit can
   assert.equal(source.base_placement_type, 'canonical')
   assert.equal(source.shared_page.inputs_sha256, digest)
 })
-test('full wiki walk skips the legacy node of an activated record and keeps the frozen body', async t => {
+test('[9-2] full wiki walk skips the legacy node of an activated record and keeps the frozen body', async t => {
   const Scraper = require('./larkDocScraper')
   const records = [row()]
   const scraper = new Scraper('root', 'base:*', 'wiki', temporary(t))

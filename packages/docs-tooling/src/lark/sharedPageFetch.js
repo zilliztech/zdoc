@@ -11,6 +11,7 @@ const {createGuidesNavigationState} = require('./sourceSnapshot')
 const {extractContentLinks} = require('./canonicalLinkAuditor')
 const {guidesCanonicalIsPublishable, guidesRecordPublishTargets, guidesRecordChannel} = require('./guidesBaseRecordSemantics')
 const Writer = require('./larkDocWriter')
+const aliases = require('./sharedPageAliases')
 const SourceIndex = require('./larkSourceIndex')
 const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
 const {analysisMarkdown} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/links/anchors.ts'))
@@ -57,14 +58,18 @@ function regularBytes(root, relative) {
 function assertInventory(root, inventory) {
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw new Error(`Pinned input drift: ${file.path}`)
 }
-function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, site = 'en'}) {
+function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, sourceDir, rootToken, site = 'en'}) {
   if (site !== 'en') return null
   pinnedCommit(repositoryRoot, masterCommit); pinnedCommit(baselineRoot, devCommit)
   const active = routing.readActiveState(baselineRoot) || {schema_version: 1, pages: []}
   const previousSnapshot = fs.existsSync(path.join(baselineRoot, snapshotPath)) ? JSON.parse(regularBytes(baselineRoot, snapshotPath)) : null
   const links = records.map(routing.recordLink)
   const availablePages = routing.pinnedSharedPages(repositoryRoot, masterCommit, links)
-  const context = routing.createRoutingContext({records, availablePages, active, previousSnapshot})
+  const recordIds = records.filter(record => guidesCanonicalIsPublishable(record) && routing.classifySourceRoute(routing.recordLink(record), {availablePages}).kind === 'shared-page').map(record => record.record_id)
+  const aliasEvidence = recordIds.length ? aliases.collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, repositoryRoot, rootToken, recordIds, git, regularBytes}) : undefined
+  const recovered = recordIds.length ? aliases.recover({active, previousSnapshot, evidence: aliasEvidence, recordIds}) : {active, aliases: {}}
+  const context = routing.createRoutingContext({records, availablePages, active: recovered.active, previousSnapshot})
+  aliases.index(context, recovered.aliases)
   // Removing or demoting an activated row would otherwise drop its output while the
   // published receipt still expects it. Retirement belongs to WP14; until then fail
   // the run with a named error, like a revert to Feishu.
@@ -92,7 +97,7 @@ function prepareSharedSources({records, repositoryRoot, baselineRoot, masterComm
     context.sharedInputsByRecordId.set(record.record_id, identity)
     inputs[record.record_id] = {identity, evidence}
   }
-  return {context, data: {schema_version: 1, master_commit: masterCommit, dev_commit: devCommit, records, active, previous_snapshot: previousSnapshot,
+  return {context, data: {schema_version: 1, master_commit: masterCommit, dev_commit: devCommit, records, active, alias_evidence: aliasEvidence, previous_snapshot: previousSnapshot,
     available_pages: availablePages, navigation, dev_files: devFiles, inputs, errors: context.errors}}
 }
 function pendingSourceSnapshot(candidate, context) {
@@ -109,13 +114,16 @@ function pendingSourceSnapshot(candidate, context) {
   return {...candidate, records}
 }
 function restoreRouting(data) {
-  return routing.createRoutingContext({records: data.records, active: data.active, previousSnapshot: data.previous_snapshot,
+  const recovered = data.effective_routing ? {active: data.active, aliases: {}} : aliases.recover({active: data.active, previousSnapshot: data.previous_snapshot, evidence: data.alias_evidence, recordIds: Object.keys(data.inputs)})
+  const context = routing.createRoutingContext({records: data.records, active: recovered.active, previousSnapshot: data.previous_snapshot,
     availablePages: data.available_pages, sharedInputsByRecordId: new Map(Object.entries(data.inputs).map(([id, input]) => [id, input.identity]))})
+  aliases.index(context, recovered.aliases)
+  return context
 }
 async function initializeSharedScraper(scraper, options) {
   if (options.site !== 'en') return null
   if (!scraper.records) await scraper.__base({progressLabel: '[shared-routes] Base scan'})
-  const prepared = prepareSharedSources({...options, records: scraper.records})
+  const prepared = prepareSharedSources({...options, rootToken: options.rootToken || scraper.root, records: scraper.records})
   if (!prepared) {
     if (options.output && fs.existsSync(options.output)) {
       if (!fs.lstatSync(options.output).isFile() || fs.lstatSync(options.output).isSymbolicLink()) throw new Error('Unsafe stale preparation file')
@@ -175,19 +183,20 @@ async function fetchActivationHeadings(scraper, token, oldLink = null) {
   return {blocks: {items: result.blocks.items.filter(block => /^heading\d+$/.test(scraperHeadingType(block)))}}
 }
 function scraperHeadingType(block) { return Writer.prototype.__block_types()[block.block_type - 1] }
-async function activationDraft({record, page, active, previousSnapshot, currentSources, navigation, pages, sourceDir, rootToken, fetchOld, runId}) {
+async function activationDraft({record, page, active, previousSnapshot, currentSources, navigation, pages, sourceDir, rootToken, fetchOld, runId, recoveredAliases}) {
   const existing = active.pages.find(entry => entry.record === record.record_id)
-  if (existing) return {entry: existing, firstActivation: false, references: []}
   const old = previousSnapshot?.records?.find(entry => entry.record_id === record.record_id)
-  const token = old?.doc_token || old?.node_token || null
-  const references = token ? [
-    ...currentSources.flatMap(extractContentLinks).filter(link => link.token === token),
-    ...(navigation?.navigationRecords || []).filter(row => row.placement_type === 'ref' && row.ref_target_token === token)
-      .map(row => ({token, anchor: row.ref_target_anchor, source_record_id: row.record_id, source_table_id: row.table_id,
+  const token = existing?.feishu_token ?? (old?.doc_token || old?.node_token || null)
+  const allAliases = [...new Set([...(recoveredAliases || aliases.tokens(old?.source_kind === 'shared-page' ? null : old)), ...aliases.activeTokens(existing), ...(token ? [token] : [])])].sort()
+  const references = allAliases.length ? [
+    ...currentSources.flatMap(extractContentLinks).filter(link => allAliases.includes(link.token)),
+    ...(navigation?.navigationRecords || []).filter(row => row.placement_type === 'ref' && allAliases.includes(row.ref_target_token))
+      .map(row => ({token: row.ref_target_token, anchor: row.ref_target_anchor, source_record_id: row.record_id, source_table_id: row.table_id,
         source_slug: row.slug, url: row.ref_target, location: 'Ref Target Doc'})),
   ] : []
+  if (existing) return {entry: {...existing, feishu_aliases: allAliases}, firstActivation: false, references}
   try {
-    const headings = token ? await fetchOld(token) : null
+    const headings = token && references.some(reference => reference.anchor) ? await fetchOld(token) : null
     const anchors = {}
     for (const reference of references) {
       if (!reference.anchor) continue
@@ -208,7 +217,7 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
       }
       anchors[reference.anchor] = matched
     }
-    return {entry: {page, record: record.record_id, feishu_token: token, anchors, activated_in: String(runId)}, firstActivation: true, references}
+    return {entry: {page, record: record.record_id, feishu_token: token, feishu_aliases: allAliases, anchors, activated_in: String(runId)}, firstActivation: true, references}
   } catch (error) {
     throw Object.assign(new Error(`ACTIVATE_CHECK_FAILED: ${error.message}`), {code: 'ACTIVATE_CHECK_FAILED', detail: {old_token: token, links: references, reason: error.message}})
   }

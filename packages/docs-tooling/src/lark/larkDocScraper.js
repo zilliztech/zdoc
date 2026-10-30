@@ -1115,6 +1115,7 @@ class larkDocScraper {
 
         const canonicalReport = auditCanonicalLinks({
             manualName: 'legacy',
+            routingContext: this.routingContext,
             docSourceDir: this.doc_source_dir,
             records: this.records,
             target: null,

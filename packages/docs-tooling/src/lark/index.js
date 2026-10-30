@@ -632,10 +632,10 @@ function larkDocsPlugin(context, options) {
                         scraper.records = structuredClone(sharedHandoff.bundle.preparation.records)
                     }
                     // Source-job ownership is bound before metadata/body fetch or cache planning.
-                    if (manualName === 'guides' && path.basename(docSourceDir) === 'guides'
+                    if (!sharedHandoff && manualName === 'guides' && path.basename(docSourceDir) === 'guides'
                         && process.env.DOCS_TOOLING_SHARED_BASELINE && process.env.DOCS_TOOLING_SHARED_MASTER_SHA) {
                         await require('./sharedPageFetch').initializeSharedScraper(scraper, {
-                            site: 'en', repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
+                            site: 'en', sourceDir: docSourceDir, repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
                             masterCommit: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devCommit: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
                             output: process.env.DOCS_TOOLING_SHARED_PREPARATION,
                         })
@@ -646,12 +646,25 @@ function larkDocsPlugin(context, options) {
                         fs.mkdirSync(docSourceDir, { recursive: true })
                     }
 
+                    // The separate post-generation audit must use the authenticated run outcomes,
+                    // including aliases recovered after source-cache restoration.
+                    const generatedSharedRoot = 'tmp/docs-tooling/en/shared-pages/guides'
+                    if (!sharedHandoff && opts.auditCanonicalLinks && manualName === 'guides'
+                        && process.env.DOCS_TOOLING_SHARED_MASTER_SHA && process.env.DOCS_TOOLING_SHARED_DEV_SHA
+                        && fs.existsSync(`${generatedSharedRoot}/bundle.json`)) {
+                        scraper.routingContext = require('./sharedPageBundle').loadBundle(generatedSharedRoot, {
+                            masterSha: process.env.DOCS_TOOLING_SHARED_MASTER_SHA,
+                            devBaselineSha: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
+                        }).routing
+                    }
+
                     const contentLinkReportPath = `./packages/docs-tooling/src/lark/meta/reports/${manualName}-broken-content-links.json`
                     const shouldAutoValidateContentLinks = () => sourceType === 'wiki' && base.endsWith(':*')
                     const validateContentLinks = async ({ force=false, fresh=false } = {}) => {
                         if (opts.skipLinkValidation) return null
                         if (!force && !shouldAutoValidateContentLinks()) return null
                         const validationScraper = fresh ? new docScraper(root, base, sourceType, docSourceDir) : scraper
+                        validationScraper.routingContext = scraper.routingContext
                         return validationScraper.validate_content_links({
                             reportPath: contentLinkReportPath,
                             failOnBroken: !!opts.failOnBrokenContentLinks,

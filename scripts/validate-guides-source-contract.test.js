@@ -267,3 +267,25 @@ test('site validation fails separately for an incomplete source graph and missin
   fs.rmSync(mediaManifestPath)
   assert.throws(() => validateGuidesSourceSite({ site: 'zh-CN', config }), /media\.json|no such file|ENOENT/i)
 })
+
+test('shared docx object aliases render their mapped anchor and validate the canonical route', () => {
+  for (const legacy of [false, true]) {
+    const f = fixture(), token = legacy ? 'old' : 'object'
+    const active = {page: 'page', record: 'page', feishu_token: 'old', anchors: {block: 'resolved-heading'}, activated_in: '123',
+      ...(legacy ? {} : {feishu_aliases: ['object', 'old', 'origin']})}
+    f.activeState = {schema_version: 1, pages: [active]}
+    f.snapshot.records = [{record_id: 'page', source_kind: 'shared-page', shared_page: {group: 'guides', page: 'page'}}]
+    write(f.outputDir, 'tools/section/page.md', 'shared-page')
+    const ref = f.snapshot.navigation_records.find(row => row.record_id === 'ref')
+    ref.ref_target = `https://zilliverse.feishu.cn/docx/${token}#block`
+    ref.ref_target_token = token; ref.ref_target_anchor = 'block'
+    const writer = Object.create(require('../packages/docs-tooling/src/lark/larkDocWriter').prototype)
+    writer.sharedBundle = {bundle: {effective_active: f.activeState}}
+    assert.equal(writer.__apply_link_replacement_shim(ref.ref_target), './page#resolved-heading')
+    const item = f.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
+    item.href = '/docs/page#resolved-heading'
+    assert.equal(validateGuidesSourceContract({...f, target: 'zilliz.saas'}).checkedRecords, 4)
+    item.href = '/docs/page#wrong-heading'
+    assert.throws(() => validateGuidesSourceContract({...f, target: 'zilliz.saas'}), /ref.*target mismatch/)
+  }
+})

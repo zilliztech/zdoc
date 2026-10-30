@@ -135,13 +135,28 @@ For a new behavior, put the narrow assertion at level 1, the cross-module scenar
 - **Keep one stable aggregate PR check.** Fine-grained harnesses may be selected internally, but the required check should remain the stable `Site validation gate`. GitHub documents that a workflow skipped by path filtering can leave an associated required check Pending, so do not make each path-filtered harness an independent required check; see [Triggering a workflow](https://docs.github.com/actions/using-workflows/triggering-a-workflow).
 - **Protect high-risk ownership files explicitly when maintainers are known.** GitHub recommends CODEOWNERS for workflow files and for CODEOWNERS itself. Add this only with verified repository teams; do not invent an owner identity. See GitHub's [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use) and [About code owners](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
 
+### Shared Fetch alias recovery
+
+`shared-handoff-routing` explicitly maps `lark/sharedPageAliases.js` alongside the
+routing helpers. Run its routing/source-completeness/incremental focused command
+and `node --test scripts/docs-workflow/guides-shared-sources.test.js`, then the
+existing Fetch replay, typecheck and workflow policy/matrix gates. Alias tests
+require independent pinned snapshot/cache provenance, preserve known aliases and
+report bounded evidence gaps without freezing otherwise publishable active pages.
+
 ### Shared Fetch offline handoff
 
 `shared-fetch-offline-handoff` covers `lark/sharedImageUploader*`, `lark/sharedPageBundle*`, `shared-docs/adapters/image-store.ts`, and `scripts/docs-workflow/guides-shared-images*`. Run `node --test packages/docs-tooling/src/lark/sharedImageUploader.test.js scripts/docs-workflow/guides-shared-sources.test.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js`, then `pnpm test:replay:fetch`, typecheck, workflow policy/matrix, and diff checks. Tests exercise conditional HTTP upload headers, readback/deduplication, full source evidence authentication, physical extensions, frozen navigation hashes and exact fallback placement before complete-table artifact creation. Image bodies remain source-job scratch data. Existing table-by-target ownership is unchanged.
 
 ### Shared Fetch publication
 
-`shared-fetch-publication` maps `lark/sharedPagePublication*`, `scripts/docs-workflow/guides-shared-publication*`, and `scripts/collect-build-card-notes*` to the shared source and build-card-note focused tests, Fetch and shared-pages replay, typecheck, workflow policy/matrix, and diff checks. The shared-pages replay exercises unrelated requested continuation through the actual CLI, authenticated artifacts and checkpoint publication, and retained fallback channels/order. Final receipts retain navigation content; effective fallback paths and append-only activation publish atomically with Guides output. Partial runs suppress cache generation.
+`shared-fetch-publication` maps `lark/sharedPagePublication*`, `scripts/docs-workflow/guides-shared-publication*`, and `scripts/collect-build-card-notes*` to the shared source and build-card-note focused tests, Fetch and shared-pages replay, typecheck, workflow policy/matrix, and diff checks. `scripts/docs-workflow/guides-shared-regeneration*` additionally selects
+`node --test scripts/docs-workflow/guides-shared-regeneration.test.js`. The existing
+`replay-shared-pages.test.js` entrypoint requires that suite, so the PR replay gate
+executes independent clean-generation mismatches, frozen target/image validation,
+page-local fallback and checkpoint proof/output tamper rejection without a new
+package script or workflow. Assembly fingerprints include both this helper and
+`lark/sharedPageAliases.js`. The shared-pages replay exercises unrelated requested continuation through the actual CLI, authenticated artifacts and checkpoint publication, and retained fallback channels/order. Final receipts retain navigation content; effective fallback paths and append-only activation publish atomically with Guides output. Partial runs suppress cache generation.
 
 ### Shared-page publication replay
 
@@ -162,5 +177,8 @@ configuration tree from the pinned local baseline and records its file hashes.
 The site mode builds English and Japanese with an ungated CURRENT pilot heading
 initially below the viewport and exercises real browser
 interactions. Neither mode replaces retained production artifact replay.
-Fetch coverage and deferred WP14/WP9b requirements are accounted separately in
-README; do not remove a pending marker for a partially covered requirement.
+Fetch coverage is accounted in README and the explicit eight-file JavaScript
+allowlist in shared-docs `spec/coverage.ts`, alongside recursive local TypeScript
+tests. WP9b removes exactly twelve approved Fetch pending IDs; `T06` still needs
+separate site/browser acceptance evidence, and WP14 dev-PR/old-writer cases remain
+outside these tests. Tags alone cannot replace retained-artifact evidence.
