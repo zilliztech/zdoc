@@ -34,11 +34,12 @@
       "required": ["diffEntryId", "kind", "evidence"],
       "properties": {
         "diffEntryId": {"type": "string", "minLength": 1},
-        "kind": {"enum": ["prose", "constraint", "title", "ledgerDraft", "lifecycle"]},
+        "kind": {"enum": ["prose", "constraint", "title", "ledgerDraft", "lifecycle", "mirror", "addition"]},
         "evidence": {"type": "string", "minLength": 1},
         "targetFragment": {"$ref": "#/$defs/fragmentFile"},
         "opPath": {"$ref": "#/$defs/jsonPointer"},
         "value": {},
+        "requiredMembership": {"oneOf": [{"type": "boolean"}, {"type": "null"}]},
         "ledgerDraft": {"$ref": "#/$defs/ledgerDraft"},
         "override": {"type": "boolean"},
         "overrideReason": {"type": "string", "minLength": 1}
