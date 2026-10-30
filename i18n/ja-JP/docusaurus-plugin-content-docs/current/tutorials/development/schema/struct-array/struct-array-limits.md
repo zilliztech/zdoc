@@ -1,7 +1,6 @@
 ---
 title: "StructArray の制限 | Cloud"
 slug: /struct-array-limits
-sidebar_label: "StructArray の制限"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,14 +8,13 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "StructArray のサポートは、スキーマ定義、挿入ペイロード、インデックス作成、検索モード、StructArray 固有のフィルターに及びます。本番環境で StructArray の動作に依存する前に、このページを制限のリファレンスとして使用してください。 | Cloud"
 type: origin
-token: Q7wIwcnrEiVDofk5G4Fc7vlonPh
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-struct-array-limits
+sidebar_label: "StructArray の制限"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/structarray-limits.md"
 
 ---
-
-import Admonition from '@theme/Admonition';
-
 
 # StructArray の制限
 
@@ -25,6 +23,8 @@ StructArray のサポートは、スキーマ定義、挿入ペイロード、�
 StructArray の制限の多くは、次の 3 つのいずれかに由来します。StructArray のスキーマモデル、ベクトルサブフィールドに選択する検索モード、そしてコレクションが実行されている Zilliz Cloud のバージョンです。
 
 ## 制限の概要\{#limits-at-a-glance}
+
+主な StructArray の制限は次のとおりです。
 
 | 領域 | 制限 |
 | --- | --- |
@@ -41,6 +41,8 @@ StructArray の制限の多くは、次の 3 つのいずれかに由来しま�
 
 ## スキーマの制限\{#schema-limits}
 
+StructArray スキーマには次の制限があります。
+
 | 制限 | 詳細 |
 | --- | --- |
 | Struct はトップレベルのフィールド型ではありません。 | StructArray フィールドは、`datatype=DataType.ARRAY`、`element_type=DataType.STRUCT`、および `struct_schema` を指定して作成します。 |
@@ -54,7 +56,7 @@ StructArray の制限の多くは、次の 3 つのいずれかに由来しま�
 
 ## サポートされるサブフィールドデータ型\{#supported-subfield-data-types}
 
-StructArray のサブフィールドは、物理的な配列形式のストレージにマッピングされます。次の表に、サポートされる物理型とサポートされない物理型を示します。
+StructArray のサブフィールドは、物理的な配列形式のストレージにマッピングされます。次の表に、サポートされている物理型とサポートされていない物理型を示します。
 
 | Struct サブフィールドの物理型 | サポート | 備考 |
 | --- | --- | --- |
@@ -77,23 +79,25 @@ StructArray のサブフィールドは、物理的な配列形式のストレ�
 
 ## Nullable と動的スキーマの制限\{#nullable-and-dynamic-schema-limits}
 
-nullable な StructArray の動作と、StructArray フィールドの動的追加はバージョンによって制限されます。
+次の表では、nullable な StructArray の動作と StructArray フィールドの動的追加について、後述の可用性に関する記述を条件として説明します。
 
 | 機能 | 制限 |
 | --- | --- |
-| nullable な StructArray フィールド | Milvus 3.0.0 以降の 3.0.x 系を実行しているオンデマンドクラスターでサポートされます。`nullable=True` は StructArray の親に設定し、Struct サブフィールドを個別に nullable として構成しないでください。 |
-| Python での null 値 | Python で null の StructArray 値を挿入するには `None` を使用します。`Null` や `null` は使用しないでください。 |
-| null の適用範囲 | null は StructArray フィールド全体に適用されます。たとえば、`chunks=None` は `chunks` が nullable の場合にのみ有効です。 |
+| nullable な StructArray フィールド | 後述の可用性に関する記述を条件として、StructArray の親に `nullable=True` を設定してください。Struct のサブフィールドを個別に nullable に設定しないでください。 |
+| Python での NULL 値 | Python で null の StructArray 値を挿入するには `None` を使用します。`Null` や `null` は使用しないでください。 |
+| null の適用範囲 | NULL は StructArray フィールド全体に適用されます。たとえば、`chunks=None` は `chunks` が nullable の場合にのみ有効です。 |
 | 部分的に null の StructArray 値 | StructArray フィールドに有効な配列値が含まれている場合、同じ値の中で null のサブフィールド配列と有効なサブフィールド配列を混在させないでください。 |
-| StructArray フィールドの動的追加 | Milvus 3.0.0 以降の 3.0.x 系を実行しているオンデマンドクラスターでサポートされます。 |
+| StructArray フィールドの動的追加 | 後述の可用性に関する記述を条件とします。 |
 | 動的追加における nullable の要件 | 既存のコレクションに追加される StructArray フィールドは、既存のエンティティが新しいフィールドの値を持たないため、nullable である必要があります。 |
-| 動的追加後の既存エンティティ | 既存のエンティティは、追加された StructArray フィールドについて、そのサブフィールド全体で `null` を返します。 |
+| 動的追加後の既存エンティティ | 既存のエンティティは、追加された StructArray フィールドに対して `null` を返します。 |
 
 Zilliz Cloud では、nullable な StructArray フィールド、nullable なベクトル配列、および StructArray フィールドの動的追加は、Milvus 3.0.0 以降の 3.0.x 系を実行しているオンデマンドクラスターでサポートされています。サービングクラスターはこれらの機能をサポートしていません。
 
 nullable な StructArray フィールドを使用した挿入例については、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
 
 ## 挿入の制限\{#insert-limits}
+
+StructArray の挿入ペイロードには次の制限があります。
 
 | 制限 | 詳細 |
 | --- | --- |
@@ -106,7 +110,7 @@ nullable な StructArray フィールドを使用した挿入例については�
 
 ## インデックスとメトリクスの制限\{#index-and-metric-limits}
 
-StructArray のベクトルサブフィールドは、EmbeddingList 検索または要素レベル検索のいずれかに対してインデックスを作成できます。同じベクトルサブフィールドで両方のメトリクスファミリーを使用することはできません。これは、各ベクトルフィールドまたはベクトルサブフィールドが 1 つのインデックスのみを受け付けるためです。
+StructArray のベクトルサブフィールドには、EmbeddingList 検索または要素レベル検索のいずれか一方で使用するインデックスを作成できます。各ベクトルフィールドまたはベクトルサブフィールドは 1 つのインデックスのみを受け付けるため、同じベクトルサブフィールドで両方のメトリクスファミリーを使用することはできません。検索モードでは次のメトリクスファミリーを使用します。
 
 | 検索モード | メトリクスファミリー | 結果レベル |
 | --- | --- | --- |
@@ -121,11 +125,13 @@ StructArray のベクトルサブフィールドは、コレクションスキ�
 
 ## 検索の制限\{#search-limits}
 
+StructArray の検索動作には次の制限があります。
+
 | 検索動作 | サポートと制限 |
 | --- | --- |
 | 基本的な EmbeddingList 検索 | `MAX_SIM*` メトリクスでインデックスが作成された StructArray のベクトルサブフィールドでサポートされます。エンティティレベルの結果を返します。 |
 | 基本的な要素レベル検索 | 通常のベクトルメトリクスでインデックスが作成された StructArray のベクトルサブフィールドでサポートされます。一致した要素のオフセットを返すことができます。 |
-| 範囲検索 | 対象バージョンの検索モードと index/metric のサポート状況に応じてサポートされます。要素レベルの StructArray リクエストにおけるハイブリッド検索の範囲の動作については、対象バージョンを確認してください。 |
+| 範囲検索 | 対象バージョンの検索モードおよびインデックス/metric のサポート状況に応じてサポートされます。要素レベルの StructArray リクエストにおけるハイブリッド検索の範囲検索動作については、対象バージョンを確認してください。 |
 | グループ化検索 | 要素レベルのグループ化検索はオフセットを返すことができます。要素レベルの StructArray リクエストにおけるハイブリッド検索のグループ化の動作はバージョンによって制限されます。 |
 | ハイブリッド検索 | ハイブリッド検索リクエストには、対象バージョンがその検索の組み合わせをサポートしている場合にのみ、StructArray のベクトルサブフィールドのリクエストを含めることができます。各リクエストは、引き続きインデックスが作成されたベクトルサブフィールドのメトリクスファミリーに従います。 |
 | オフセットの出力 | オフセットは要素レベルの検索結果で利用できます。EmbeddingList 検索はエンティティレベルの結果を返し、主要な結果単位として要素のオフセットを使用しません。 |
@@ -137,6 +143,8 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 概要は次のとおりです。
 
 - `$[subfield]` は StructArray 演算子の内部でのみ使用します。
+
+- 行レベルのフィルター式では、StructArray のパスを直接参照することもできます。1 つの要素位置には `chunks[0][section]`、要素数には `array_length(chunks)`、要素全体にわたるサブフィールド値には `array_contains(chunks[section], ...)`、nullable な StructArray フィールドには `chunks is null` を使用できます。
 
 - スカラー述語にはスカラーサブフィールドを使用します。
 
@@ -150,9 +158,8 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 
 1. StructArray フィールドを作成するには、[StructArray フィールドを作成する](./create-struct-array) を参照してください。
 
-1. データを挿入するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
+2. データを挿入するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
 
-1. ベクトルインデックスとスカラーインデックスを作成するには、[StructArray フィールドにインデックスを作成する](./index-struct-array) を参照してください。
+3. ベクトルインデックスとスカラーインデックスを作成するには、[StructArray フィールドにインデックスを作成する](./index-struct-array) を参照してください。
 
-1. StructArray のフィルター構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。
-
+4. StructArray のフィルター構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。

@@ -1,21 +1,21 @@
 ---
 title: "Alphanumonly | Cloud"
 slug: /alphanumonly-filter
-sidebar_label: "Alphanumonly"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。 | Cloud"
+description: "alphanumonly フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。 | Cloud"
 type: origin
-token: BZkiw99tkiDkLXktLhqcJtjKnmb
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-alphanumonly-filter
+sidebar_label: "Alphanumonly"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/alphanumonly-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -42,14 +42,8 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 ```
 
@@ -77,6 +71,8 @@ let analyzer_params = serde_json::json!({
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {"alphanumonly"}}
@@ -123,6 +119,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `alphanumonly` フィルターはトークナイザーが生成した語句に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
@@ -150,14 +147,8 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 ```
 
@@ -185,6 +176,8 @@ let analyzer_params = serde_json::json!({
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {"alphanumonly"}}
@@ -232,6 +225,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
@@ -262,35 +256,25 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .token("YOUR_CLUSTER_TOKEN")
-
         .build();
-
 MilvusClientV2 client = new MilvusClientV2(config);
 
 List<String> texts = new ArrayList<>();
-
 texts.add("Milvus 2.0 @ Scale! #AI #Vector_Databasé");
 
 RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
-
         .texts(texts)
-
         .analyzerParams(analyzerParams)
-
         .build());
-
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```
 
@@ -329,7 +313,7 @@ if err != nil {
 
 for _, r := range result {
     for _, token := range r.Tokens {
-        fmt.Println("Standard analyzer output:", token.Text)
+        fmt.Println(token.Text)
     }
 }
 ```
@@ -417,6 +401,7 @@ console.log("Standard analyzer output:", result);
 <TabItem value='csharp'>
 
 ```csharp
+using System;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
@@ -425,8 +410,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
@@ -468,6 +452,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
@@ -475,4 +460,3 @@ curl --request POST \
 ```python
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']
 ```
-

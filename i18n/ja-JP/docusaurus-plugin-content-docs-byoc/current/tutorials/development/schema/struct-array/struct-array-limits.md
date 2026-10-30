@@ -1,7 +1,6 @@
 ---
 title: "StructArray の制限 | BYOC"
 slug: /struct-array-limits
-sidebar_label: "StructArray の制限"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,14 +8,13 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "StructArray のサポートは、スキーマ定義、挿入ペイロード、インデックス作成、検索モード、および StructArray 固有のフィルターに及びます。本番環境で StructArray の動作に依存する前に、このページを制限事項のリファレンスとして使用してください。 | BYOC"
 type: origin
-token: Q7wIwcnrEiVDofk5G4Fc7vlonPh
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-struct-array-limits
+sidebar_label: "StructArray の制限"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/structarray-limits.md"
 
 ---
-
-import Admonition from '@theme/Admonition';
-
 
 # StructArray の制限
 
@@ -25,6 +23,8 @@ StructArray のサポートは、スキーマ定義、挿入ペイロード、�
 StructArray の制限の多くは、次の 3 つのいずれかに由来します。StructArray のスキーマモデル、ベクトルサブフィールドに対して選択する検索モード、そしてコレクションが実行されている Zilliz Cloud のバージョンです。
 
 ## 制限の概要\{#limits-at-a-glance}
+
+StructArray の主な制限は次のとおりです。
 
 | 領域 | 制限 |
 | --- | --- |
@@ -40,6 +40,8 @@ StructArray の制限の多くは、次の 3 つのいずれかに由来しま�
 | フィールドの動的追加 | 既存のコレクションへの StructArray フィールドの追加はバージョン制限があり、追加するフィールドは nullable である必要があります。 |
 
 ## スキーマの制限\{#schema-limits}
+
+StructArray スキーマには次の制限があります。
 
 | 制限 | 詳細 |
 | --- | --- |
@@ -77,23 +79,25 @@ StructArray のサブフィールドは、物理的な配列形式のストレ�
 
 ## nullable と動的スキーマの制限\{#nullable-and-dynamic-schema-limits}
 
-nullable な StructArray の動作と、StructArray フィールドの動的追加にはバージョン制限があります。
+次の表では、後述の可用性に関する記述に従うことを前提として、nullable な StructArray の動作と StructArray フィールドの動的追加について説明します。
 
 | 機能 | 制限 |
 | --- | --- |
-| nullable な StructArray フィールド | 3.0.x 系の Milvus 3.0.0 以降を実行するオンデマンドクラスターでサポートされます。StructArray の親に `nullable=True` を設定してください。Struct のサブフィールドを個別に nullable として構成しないでください。 |
-| Python での null 値 | Python で null の StructArray 値を挿入するには `None` を使用します。`Null` や `null` は使用しないでください。 |
-| null の適用範囲 | null は StructArray フィールド全体に適用されます。たとえば、`chunks=None` は `chunks` が nullable の場合にのみ有効です。 |
+| nullable な StructArray フィールド | 後述の可用性に関する記述に従い、StructArray の親に `nullable=True` を設定してください。Struct のサブフィールドを個別に nullable として設定しないでください。 |
+| Python での NULL 値 | Python で null の StructArray 値を挿入するには `None` を使用します。`Null` や `null` は使用しないでください。 |
+| null の適用範囲 | NULL は StructArray フィールド全体に適用されます。たとえば、`chunks=None` は `chunks` が nullable の場合にのみ有効です。 |
 | 部分的に null な StructArray 値 | StructArray フィールドに有効な配列値が含まれる場合、同じ値の中で null のサブフィールド配列と有効なサブフィールド配列を混在させないでください。 |
-| StructArray フィールドの動的追加 | 3.0.x 系の Milvus 3.0.0 以降を実行するオンデマンドクラスターでサポートされます。 |
+| StructArray フィールドの動的追加 | 後述の可用性に関する記述に従います。 |
 | 動的追加時の nullable 要件 | 既存のコレクションに追加する StructArray フィールドは、既存のエンティティに新しいフィールドの値がないため、nullable である必要があります。 |
-| 動的追加後の既存エンティティ | 既存のエンティティは、追加された StructArray フィールドについて、そのすべてのサブフィールドで `null` を返します。 |
+| 動的追加後の既存エンティティ | 既存のエンティティは、追加された StructArray フィールドに対して `null` を返します。 |
 
 Zilliz Cloud では、nullable な StructArray フィールド、nullable なベクトル配列、および StructArray フィールドの動的追加は、3.0.x 系の Milvus 3.0.0 以降を実行するオンデマンドクラスターでサポートされます。Serving クラスターはこれらの機能をサポートしません。
 
 nullable な StructArray フィールドを含む挿入例については、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
 
 ## 挿入の制限\{#insert-limits}
+
+StructArray の挿入ペイロードには次の制限があります。
 
 | 制限 | 詳細 |
 | --- | --- |
@@ -106,7 +110,7 @@ nullable な StructArray フィールドを含む挿入例については、[Str
 
 ## インデックスとメトリクスの制限\{#index-and-metric-limits}
 
-StructArray のベクトルサブフィールドには、EmbeddingList 検索または要素レベル検索のいずれか用のインデックスを作成できます。各ベクトルフィールドまたはベクトルサブフィールドが受け付けるインデックスは 1 つだけであるため、同じベクトルサブフィールドで両方のメトリクスファミリーを使用することはできません。
+StructArray のベクトルサブフィールドは、EmbeddingList 検索または要素レベル検索のいずれかにインデックスを作成できます。各ベクトルフィールドまたはベクトルサブフィールドは 1 つのインデックスしか受け付けないため、同じベクトルサブフィールドで両方のメトリクスファミリーを使用することはできません。検索モードでは、次のメトリクスファミリーを使用します。
 
 | 検索モード | メトリクスファミリー | 結果レベル |
 | --- | --- | --- |
@@ -121,11 +125,13 @@ StructArray のベクトルサブフィールドは、コレクションスキ�
 
 ## 検索の制限\{#search-limits}
 
+StructArray の検索動作には次の制限があります。
+
 | 検索動作 | サポートと制限 |
 | --- | --- |
 | 基本的な EmbeddingList 検索 | `MAX_SIM*` メトリクスでインデックス化された StructArray ベクトルサブフィールドでサポートされます。エンティティレベルの結果を返します。 |
 | 基本的な要素レベル検索 | 通常のベクトルメトリクスでインデックス化された StructArray ベクトルサブフィールドでサポートされます。一致した要素のオフセットを返すことができます。 |
-| 範囲検索 | 対象バージョンの検索モードおよび index/metric のサポートに応じてサポートされます。要素レベルの StructArray リクエストにおけるハイブリッド検索の範囲動作については、対象バージョンを確認してください。 |
+| 範囲検索 | 対象バージョンの検索モードとインデックス/metric のサポートに応じてサポートされます。要素レベルの StructArray リクエストにおけるハイブリッド検索の範囲検索動作については、対象バージョンを確認してください。 |
 | グループ化検索 | 要素レベルのグループ化検索はオフセットを返すことができます。要素レベルの StructArray リクエストに対するハイブリッド検索の group-by 動作にはバージョン制限があります。 |
 | ハイブリッド検索 | ハイブリッド検索リクエストには、対象バージョンがその検索の組み合わせをサポートしている場合にのみ、StructArray のベクトルサブフィールドリクエストを含めることができます。各リクエストは、引き続きインデックス化されたベクトルサブフィールドのメトリクスファミリーに従います。 |
 | オフセット出力 | オフセットは要素レベルの検索結果で利用できます。EmbeddingList 検索はエンティティレベルの結果を返し、主要な結果単位として要素のオフセットは使用しません。 |
@@ -137,6 +143,8 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 大まかには、次のとおりです。
 
 - `$[subfield]` は StructArray 演算子の内部でのみ使用してください。
+
+- 行レベルのフィルター式では、StructArray のパスを直接参照することもできます。たとえば、1 つの要素位置には `chunks[0][section]`、要素数には `array_length(chunks)`、複数の要素にわたるサブフィールド値には `array_contains(chunks[section], ...)`、nullable な StructArray フィールドには `chunks is null` を使用します。
 
 - スカラー述語にはスカラーサブフィールドを使用してください。
 
@@ -150,8 +158,8 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 
 1. StructArray フィールドを作成するには、[StructArray フィールドを作成する](./create-struct-array) を参照してください。
 
-1. データを挿入するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
+2. データを挿入するには、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。
 
-1. ベクトルインデックスとスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
+3. ベクトルインデックスとスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
-1. StructArray のフィルター構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。
+4. StructArray のフィルター構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。

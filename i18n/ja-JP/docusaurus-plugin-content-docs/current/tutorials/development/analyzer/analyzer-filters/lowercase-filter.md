@@ -1,21 +1,21 @@
 ---
 title: "Lowercase | Cloud"
 slug: /lowercase-filter
-sidebar_label: "Lowercase"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字が区別されないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | Cloud"
+description: "lowercase フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字が区別されないようにします。たとえば、[\"High\", \"Performance\", \"ベクトル\", \"データベース\"] を [\"high\", \"performance\", \"ベクトル\", \"データベース\"] に変換できます。 | Cloud"
 type: origin
-token: AhAhw08MFiB9OpkDjbPcVUTVnlg
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-lowercase-filter
+sidebar_label: "Lowercase"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/lowercase-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -42,10 +42,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -77,6 +73,8 @@ let analyzer_params = json!({
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {"lowercase"}}
@@ -123,6 +121,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `lowercase` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
@@ -150,10 +149,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -185,6 +180,8 @@ let analyzer_params = json!({
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {"lowercase"}}
@@ -227,10 +224,11 @@ analyzerParams='{
   "filter": [
     "lowercase"
   ]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
@@ -261,12 +259,11 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -319,7 +316,7 @@ if err != nil {
 
 for _, r := range result {
     for _, token := range r.Tokens {
-        fmt.Println("Standard analyzer output:", token.Text)
+        fmt.Println(token.Text)
     }
 }
 ```
@@ -356,6 +353,8 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <string>
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -386,6 +385,7 @@ import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const sample_text = 'The Lowercase Filter Ensures Uniformity In Text Processing.';
@@ -402,6 +402,7 @@ console.log('Standard analyzer output:', tokens);
 <TabItem value='csharp'>
 
 ```csharp
+using System;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
@@ -410,8 +411,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
@@ -445,10 +445,11 @@ curl --request POST \
   --data-raw '{
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"lowercase\"]}",
     "text": ["The Lowercase Filter Ensures Uniformity In Text Processing."]
-  }' 
+  }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}

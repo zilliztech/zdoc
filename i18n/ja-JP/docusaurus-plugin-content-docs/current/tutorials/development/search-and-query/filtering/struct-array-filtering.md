@@ -1,176 +1,130 @@
 ---
 title: "StructArray 演算子 | Cloud"
 slug: /struct-array-filtering
-sidebar_label: "StructArray"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "StructArray フィールドでのスカラーフィルタリングは、StructArray フィールド内のスカラーサブフィールドに対する述語を評価します。このページは、StructArray フィールドでのスカラーフィルタリング、および `elementfilter` と `MATCH` 演算子ファミリーの構文リファレンスとして利用できます。 | Cloud"
+description: "StructArray 演算子は、StructArray フィールド内のスカラーサブフィールドに対する述語を評価することにより、エンティティをフィルタリングします。このページは、element_filter、MATCH_* 演算子ファミリー、および StructArray パスに対する行レベル述語の構文リファレンスとして使用してください。 | Cloud"
 type: origin
-token: VmGMwsTliiGZdFkzzeBckRNlnCh
-sidebar_position: 7
 displayed_sidebar: default
+token: shared-struct-array-filtering
+sidebar_label: "StructArray"
+sidebar_position: 7
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/struct-array-operators.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # StructArray 演算子
 
-StructArray フィールドでのスカラーフィルタリングは、StructArray フィールド内のスカラーサブフィールドに対する述語を評価します。このページは、StructArray フィールドでのスカラーフィルタリング、および `element_filter` と `MATCH_*` 演算子ファミリーの構文リファレンスとして利用できます。
+StructArray 演算子は、StructArray フィールド内のスカラーサブフィールドに対する述語を評価することにより、エンティティをフィルタリングします。このページは、`element_filter`、`MATCH_*` 演算子ファミリー、および StructArray パスに対する行レベル述語の構文リファレンスとして使用してください。
 
-StructArray は以下のスカラーフィルタリングパターンをサポートします。
+StructArray フィルタリングには、2 つの演算子ファミリーと一連の行レベルパス述語があります。
 
-| スカラーフィルタリングパターン | 主な目的 | 結果の挙動 |
+| フィルター形式 | 主な目的 | 結果の動作 |
 | --- | --- | --- |
-| StructArray サブフィールドアクセス | 指定したインデックス（添字）にある指定サブフィールドの値がスカラー述語を満たすかどうかに基づいて entity を選択します。 | entity レベルのフィルタリング。 |
-| `ARRAY_CONTAINS` | 指定した値がサブフィールド内に存在するかどうかに基づいて entity を選択します。 | entity レベルのフィルタリング。 |
-| `ARRAY_LENGTH` | 指定したサブフィールド内の要素数が式に一致するかどうかに基づいて entity を選択します。 | entity レベルのフィルタリング。 |
-| `element_filter` | スカラー述語を満たす Struct 要素を一致させます。 | 要素レベル検索では、一致したヒットに要素オフセットを含めることができます。行レベルのクエリまたはフィルタ付き検索では、結果の形状は API と出力フィールドに依存します。 |
-| `MATCH_*` | スカラー述語を満たす Struct 要素の数に基づいて entity を選択します。 | entity レベルのフィルタリング。これらの演算子自体では要素オフセットは返しません。 |
+| `element_filter` | スカラー述語を満たす Struct 要素を一致させます。 | 要素レベル検索では、一致したヒットに要素オフセットが含まれる場合があります。行レベルクエリまたはフィルター付き検索では、結果の形式は API と出力フィールドによって異なります。 |
+| `MATCH_*` | スカラー述語を満たす Struct 要素の数に基づいて entity を選択します。 | 行レベルフィルタリングです。これらの演算子自体は要素オフセットを返しません。 |
+| 行レベルパス述語 | `$[...]` 述語を使用せずに、1 つの要素位置をテストしたり、Struct 要素をカウントしたり、要素間でサブフィールド値をテストしたりします。 | 行レベルフィルタリングです。これらの述語は要素オフセットを返しません。 |
 
 Use スカラー subfields in StructArray operators. ベクトル subfields are used by ベクトル search paths and are not スカラー predicate inputs.
 
 ## どの演算子を使うべきか\{#when-to-use-which-operator}
 
+フィルタリングの目的に応じて、適切な演算子を選択してください。
+
 | 目的 | 使用するもの |
 | --- | --- |
 | Constrain element-level ベクトル search to elements that match スカラー conditions. | `element_filter` |
 | 同じ Struct 要素内で複数のスカラー条件を一致させる。 | `element_filter` |
-| struct サブフィールドに指定した値が含まれる entity のみを返す。 | `ARRAY_CONTAINS` |
-| struct サブフィールドが指定した数の要素を持つ entity のみを返す。 | `ARRAY_LENGTH` |
-| 特定の Struct 要素が述語を満たす entity のみを返す。 | StructArray インデックス（添字）アクセス |
 | 少なくとも 1 つの Struct 要素が述語を満たす entity のみを返す。 | `MATCH_ANY` |
-| すべての Struct 要素が述語を満たす entity のみを返す。 | `MATCH_ALL`,<br/>StructArray サブフィールドアクセス, |
+| すべての Struct 要素が述語を満たす entity のみを返す。 | `MATCH_ALL` |
 | 少なくとも、最大で、またはちょうど `N` 個の Struct 要素が述語を満たす entity のみを返す。 | `MATCH_LEAST`、`MATCH_MOST`、または `MATCH_EXACT` |
+| 特定の位置（最初のチャンクなど）にある Struct 要素を確認する。 | `chunks[0][section]` などの位置指定パス |
+| エンティティ内の Struct 要素数でフィルタリングする。 | `array_length(chunks)` |
+| 同じ要素に対する条件を組み合わせずに、いずれかの Struct 要素がサブフィールド値を持つかどうかを確認する。 | `chunks[section]` などのサブフィールドパスに対する `array_contains`、`array_contains_any`、または `array_contains_all` |
 
 ## データ例\{#example-data}
 
-以下のセクションの例では、`chunks` フィールドが以下のように設定された entity（**Entity A** と **Entity B**）を使用します。
+以下の部分的なエンティティ例は、**エンティティ A** と **エンティティ B** の `chunks` フィールドのみを示しています。これらは完全な挿入ペイロードではありません。
+
+**エンティティ A**:
 
 ```json
-// chunks field in an entity (Entity A)
-"chunks": [
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.74,
-        "has_code": true
-        ...
-    },
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.72,
-        "has_code": true
-        ...
-    },
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.83,
-        "has_code": true
-        ...
-    },
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.87,
-        "has_code": true
-        ...
-    }
-],
-
-// chunks field in another entity (Entity B)
-"chunks": [
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.95,
-        "has_code": true
-        ...
-    },
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.92,
-        "has_code": true
-        ...
-    },
-    {
-        ...,
-        "section": "index",
-        "quality_score": 0.97,
-        "has_code": true
-        ...
-    }
-],
+{
+    "chunks": [
+        {
+            "section": "index",
+            "quality_score": 0.74,
+            "has_code": true
+        },
+        {
+            "section": "index",
+            "quality_score": 0.72,
+            "has_code": true
+        },
+        {
+            "section": "index",
+            "quality_score": 0.83,
+            "has_code": true
+        },
+        {
+            "section": "index",
+            "quality_score": 0.87,
+            "has_code": true
+        }
+    ]
+}
 ```
 
-## サブフィールドアクセス\{#subfield-access}
+**エンティティ B**:
 
-スカラーフィルタリング式では StructArray サブフィールドを使用して、すべての struct 内、または配列内の特定の struct 内のサブフィールド値に基づいて entity を選択できます。
-
-以下のフィルタリング式を見てみましょう。
-
-```python
-chunks[0][quality_score] > 0.8
+```json
+{
+    "chunks": [
+        {
+            "section": "index",
+            "quality_score": 0.95,
+            "has_code": true
+        },
+        {
+            "section": "index",
+            "quality_score": 0.92,
+            "has_code": true
+        },
+        {
+            "section": "index",
+            "quality_score": 0.97,
+            "has_code": true
+        }
+    ]
+}
 ```
 
-このフィルタ式は、entity 内の StructArray フィールドの**最初の要素**にある `quality_score` サブフィールドの値が 0.8 を超えている場合、その entity が一致することを示します。
-
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity B** のみです。
-
-スカラーフィルタリングでサブフィールドアクセスを使用する場合、サブフィールド要素自体にはアクセスできないことに注意してください。
-
-```python
-❌ chunks[quality_score][0] > 0.8
-```
-
-## ARRAY 演算子\{#array-operators}
-
-Array フィールドのサブタイプとして、StructArray も `ARRAY_CONTAIN` や `ARRAY_LENGTH` などの ARRAY 演算子をサポートします。
-
-以下の式を見てみましょう。
-
-```python
-ARRAY_CONTAINS(chunks[quality_score], 0.74)
-```
-
-上記の式は、entity のすべての要素にまたがる `quality_score` サブフィールドのいずれかが `0.74` の値を持つ場合、その entity が一致することを示します。[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity A** のみです。
-
-```python
-ARRAY_LENGTH(chunks[quality_score]) == 3
-```
-
-上記の式は、`quality_score` サブフィールドが 3 つの値を含む場合、その entity が一致することを示します。[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity B** のみです。
-
-## Element filter\{#element-filter}
+## 要素フィルター\{#element-filter}
 
 `element_filter(structArrayField, predicate)` を使用して、StructArray フィールド内の Struct 要素を一致させます。
 
 述語の内部では、現在の Struct 要素のスカラーサブフィールドを参照するために `$[subfield]` を使用します。
 
-```python
+```text
 element_filter(chunks, $[section] == "index")
 ```
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式は両方の entity に一致します。
+エンティティ A とエンティティ B の両方が一致します。示されている 7 つの要素はすべて `section` が `"index"` に設定されています。
 
 述語の内部で複数の条件を使用する場合、すべての `$[subfield]` 参照は同じ Struct 要素に適用されます。
 
-```python
+```text
 element_filter(chunks, $[section] == "index" && $[quality_score] > 0.9)
 ```
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity B** のみです。
+エンティティ B のみが一致します。その 3 つの要素はすべて両方の条件を満たしています。
 
 entity レベルの述語を `element_filter` と組み合わせる場合は、`element_filter` を式の末尾に配置してください。
 
-```python
+```text
 # Correct
 category == "index" && element_filter(chunks, $[quality_score] > 0.9)
 
@@ -178,11 +132,13 @@ category == "index" && element_filter(chunks, $[quality_score] > 0.9)
 element_filter(chunks, $[quality_score] > 0.9) && category == "index"
 ```
 
+`category` の例は、`category` を定義していないサンプルデータとは関係なく、式の順序を説明するものです。
+
 `element_filter` はフィルタ式内に 1 回しか記述できません。別の `element_filter` の中に `element_filter` や `MATCH_*` をネストしないでください。
 
-## Match ファミリー演算子\{#match-family-operators}
+## MATCH ファミリー演算子\{#match-family-operators}
 
-`MATCH_*` 演算子は、ある entity を述語を満たす Struct 要素の数に基づいて選択する必要がある場合に使用します。
+エンティティを選択する基準が、述語を満たす Struct 要素の数である場合は、`MATCH_*` 演算子を使用します。各演算子の意味は次の通りです。
 
 | 演算子 | 意味 |
 | --- | --- |
@@ -198,72 +154,172 @@ element_filter(chunks, $[quality_score] > 0.9) && category == "index"
 
 `MATCH_ANY` は、StructArray 内の少なくとも 1 つの要素が述語を満たす場合に `true` と評価されます。
 
-```python
+```text
 MATCH_ANY(chunks, $[section] == "index")
 ```
 
-空の StructArray に対しては、`MATCH_ANY` は `false` を返します。
+エンティティ A とエンティティ B はどちらも、`section` が `"index"` に設定された要素が少なくとも 1 つあるため一致します。
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式は両方の entity に一致します。
+空の StructArray に対しては、`MATCH_ANY` は `false` を返します。
 
 ### MATCH_ALL\{#matchall}
 
 `MATCH_ALL` は、StructArray 内のすべての要素が述語を満たす場合に `true` と評価されます。
 
-```python
+```text
 MATCH_ALL(chunks, $[has_code] == true)
 ```
 
-空の StructArray に対しては、`MATCH_ALL` は `true` を返します。
+示されているすべての要素で `has_code` が `true` に設定されているため、エンティティ A とエンティティ B の両方が一致します。
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式は両方の entity に一致します。
+空の StructArray に対しては、`MATCH_ALL` は `true` を返します。
 
 ### MATCH_LEAST\{#matchleast}
 
 `MATCH_LEAST` は、述語を満たす要素数が `threshold` 以上の場合に `true` と評価されます。
 
-```python
+```text
 MATCH_LEAST(chunks, $[quality_score] > 0.9, threshold=2)
 ```
 
-`MATCH_LEAST` では、`threshold` は正の整数でなければなりません。
+エンティティ B のみが一致します。エンティティ A には条件を満たす要素が 0 個、エンティティ B には 3 個あります。
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity B** のみです。
+`MATCH_LEAST` では、`threshold` は正の整数でなければなりません。
 
 ### MATCH_MOST\{#matchmost}
 
 `MATCH_MOST` は、述語を満たす要素数が `threshold` 以下の場合に `true` と評価されます。
 
-```python
+```text
 MATCH_MOST(chunks, $[has_code] == true, threshold=1)
 ```
 
-`MATCH_MOST` では、`threshold` は 0 または正の整数にできます。
+どちらのエンティティも一致しません。エンティティ A には条件を満たす要素が 4 個、エンティティ B には 3 個あります。
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式にはどちらも一致しません。
+`MATCH_MOST` では、`threshold` は 0 または正の整数にできます。
 
 ### MATCH_EXACT\{#matchexact}
 
 `MATCH_EXACT` は、述語を満たす要素数が `threshold` とちょうど等しい場合に `true` と評価されます。
 
-```python
+```text
 MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 ```
 
+どちらのエンティティにも `section` が `"filter"` に設定された要素がないため、一致しません。
+
 `MATCH_EXACT` では、`threshold` は 0 または正の整数にできます。
 
-[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式にはどちらも一致しません。
+## StructArray パスに対する行レベル述語\{#row-level-predicates-on-structarray-paths}
+
+`element_filter` と `MATCH_*` に加えて、通常のフィルター式から StructArray フィールドまたはそのスカラーサブフィールドの 1 つを直接参照できます。これらの述語はエンティティレベルで評価され、要素オフセットを返しません。
+
+### サブフィールドアクセス\{#subfield-access}
+
+#### 位置による Struct 要素へのアクセス\{#access-a-struct-element-by-position}
+
+`structArrayField[index][subfield]` を使用して、0 から始まる位置にある Struct 要素の 1 つのスカラーサブフィールドを参照します。位置を先に書き、その後にサブフィールド名を記述します。逆順のパス `chunks[quality_score][0] > 0.8` は無効です。
+
+たとえば、最初の要素の品質スコアをテストします。
+
+```text
+chunks[0][quality_score] > 0.8
+```
+
+この式に一致するのはエンティティ B のみです。
+
+```text
+# The first chunk belongs to the "index" section.
+chunks[0][section] == "index"
+
+# The second chunk has a high quality score.
+chunks[1][quality_score] > 0.9
+
+# The first chunk is on page 1, 2, or 3.
+chunks[0][page] in [1, 2, 3]
+
+# Chained range on a positional path.
+0.8 < chunks[0][quality_score] < 0.95
+```
+
+エンティティ A とエンティティ B では、最初の section 述語は両方のエンティティに一致し、2 番目のスコア述語はエンティティ B のみに一致し、厳密なスコア範囲はどちらにも一致しません。`page` 述語は一般的な例であり、サンプルデータには `page` が定義されていません。
+
+位置指定パスでは、スカラーサブフィールドに対する比較、`in`、`not in`、および連鎖範囲述語がサポートされます。エンティティの StructArray フィールドにその位置の要素がない場合、そのエンティティは一致しません。
+
+### ARRAY 演算子\{#array-operators}
+
+#### Struct 要素をカウントする\{#count-struct-elements}
+
+`array_length(structArrayField)` を使用して、エンティティ内の Struct 要素数でフィルタリングします。`array_length(chunks[section])` など、サブフィールドパスに対する `array_length` は、各サブフィールドが Struct 要素ごとに 1 つの値を保持するため、同じ数を返します。
+
+```text
+# Articles with at least three chunks.
+array_length(chunks) >= 3
+
+# Articles with exactly one chunk.
+array_length(chunks) == 1
+```
+
+親フィールドのカウント述語では、`>= 3` の場合は両方のエンティティが一致し、`== 1` の場合はどちらも一致しません。サブフィールドパスで値をカウントすることもできます。
+
+```text
+ARRAY_LENGTH(chunks[quality_score]) == 3
+```
+
+`quality_score` サブフィールドに 3 つの値があるため、エンティティ B のみが一致します。
+
+#### 要素間でのサブフィールド値のテスト\{#test-subfield-values-across-elements}
+
+たとえば、いずれかの品質スコアが `0.74` に等しいかどうかをテストします。
+
+```text
+ARRAY_CONTAINS(chunks[quality_score], 0.74)
+```
+
+一致するのはエンティティ A のみです。
+
+スカラーサブフィールドパスで `array_contains`、`array_contains_any`、または `array_contains_all` を使用して、エンティティ内のすべての Struct 要素にわたってそのサブフィールドの値をテストします。各サブフィールドパスは個別に評価されるため、異なるサブフィールドに対する条件は、異なる Struct 要素によって満たされる可能性があります。
+
+```text
+# At least one chunk belongs to the "index" section.
+array_contains(chunks[section], "index")
+
+# At least one chunk belongs to the "index" or the "search" section.
+array_contains_any(chunks[section], ["index", "search"])
+
+# The chunks cover both the "index" and the "search" sections,
+# not necessarily in the same chunk.
+array_contains_all(chunks[section], ["index", "search"])
+```
+
+サンプルデータでは、`array_contains` 式と `array_contains_any` 式は両方のエンティティに一致します。`array_contains_all` 式は、どちらのエンティティにも `"search"` セクションがないため、どちらにも一致しません。これらの例は、異なるサブフィールド上の条件が異なる要素によって満たされることを示すものではありません。
+
+`array_contains(chunks[section], "index")` は、`MATCH_ANY(chunks, $[section] == "index")` と同じエンティティを選択します。複数の条件を同じ Struct 要素に対して満たす必要がある場合は、`MATCH_*` または `element_filter` を使用してください。`$[...]` 述語は要素ごとに評価されるためです。
+
+### null 許容の StructArray フィールドが null かどうかのテスト\{#test-whether-a-nullable-structarray-field-is-null}
+
+null 許容の StructArray フィールドで `IS NULL` または `IS NOT NULL` を使用して、フィールド値全体をテストします。NULL は StructArray フィールド全体に適用されるため、これらの述語はフィールド名のみを受け入れ、サブフィールドパスは受け入れません。
+
+```text
+# Entities that have no chunks value.
+chunks is null
+
+# Entities that have a chunks value.
+chunks is not null
+```
+
+適用可能性については、[null 許容と動的スキーマの制限](./struct-array-limits#nullable-and-dynamic-schema-limits) を参照してください。エンティティ A とエンティティ B はどちらも NULL 以外の StructArray 値を持っています。
 
 ## サポートされる述語\{#supported-predicates}
 
-`$[...]` 構文は、現在の Struct 要素のスカラー値を表します。述語のサポートは、スカラーサブフィールドの型に依存します。
+`$[...]` 構文は、現在の Struct 要素のスカラー値を表します。述語のサポートは、スカラーサブフィールドの型によって異なります。
 
 | サブフィールド型 | 要素レベル述語のサポート |
 | --- | --- |
 | `BOOL` | `$[has_code] == true` や `!($[has_code] == true)` などのスカラー述語。`$[has_code]` のような裸の boolean 式は避けてください。 |
 | `INT8`, `INT16`, `INT32`, `INT64` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、`/`、または `%` を使った算術式の後に比較を行う式、および論理結合。 |
 | `FLOAT`, `DOUBLE` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、または `/` を使った算術式の後に比較を行う式、および論理結合。浮動小数点サブフィールドでは `%` 演算子はサポートされません。 |
-| `VARCHAR` | 文字列比較、連鎖範囲、`in`、`not in`、`like`、`=&#126;`、`!&#126;`、および論理結合。 |
+| `VARCHAR` | 文字列比較、連鎖範囲、`in`、`not in`、`like`、`=~`、`!~`、および論理結合。 |
 | ベクトル subfields | Not supported as `$[...]` スカラー predicate inputs. Use ベクトル subfields through EmbeddingList search or element-level ベクトル search instead. |
 
 `&&`、`||`、`!` などの論理演算子は述語式に適用されます。たとえば、`!$[has_code]` ではなく `!($[has_code] == true)` と記述してください。
@@ -276,7 +332,7 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 - JSON パス構文、JSON パスに対する `exists`、または `json_contains`、`json_contains_all`、`json_contains_any` などの JSON 関数。
 
-- `array_contains`、`array_contains_all`、`array_contains_any`、`array_length` などの配列コンテナ関数。
+- `$[subfield]` に対する `array_contains`、`array_contains_all`、`array_contains_any`、`array_length` などの配列コンテナ関数。代わりに、行レベル述語では `chunks[section]` などのサブフィールドパスでこれらの関数を使用してください。
 
 - `$[subfield] is null` または `$[subfield] is not null`。
 
@@ -292,9 +348,11 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 ## 構文ルール\{#syntax-rules}
 
+次の構文ルールに従ってください。
+
 - `MATCH_*` 演算子名では大文字小文字は区別されません。
 
-- `$[subfield]` は `element_filter` または `MATCH_*` 述語の内部でのみ使用してください。
+- `$[subfield]` は `element_filter` または `MATCH_*` 述語の内部でのみ使用してください。たとえば、`array_length($[section])` は拒否されます。
 
 - Do not use `$[subfield]` as a JSON path, array container, or ベクトル field reference.
 
@@ -302,11 +360,17 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 - `MATCH_LEAST`、`MATCH_MOST`、`MATCH_EXACT` では、名前付きの `threshold=N` を使用してください。
 
+- 位置指定パスでは、サブフィールド名の前に要素位置を記述します。`chunks[0][section]` と記述し、`chunks[section][0]` とは記述しません。
+
+- `IS NULL` と `IS NOT NULL` は、`chunks is null` など StructArray フィールド全体にのみ使用してください。`chunks[section]` などのサブフィールドパスや `$[subfield]` には使用しないでください。
+
 - 空の StructArray に対する `MATCH_ANY` は `false` を返します。
 
 - 空の StructArray に対する `MATCH_ALL` は `true` を返します。
 
 ## 参考情報\{#see-also}
+
+関連するガイダンスについては、次を参照してください。
 
 - [StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays)
 
@@ -315,4 +379,3 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 - [StructArray フィールドにインデックスを付与する](./index-struct-array)
 
 - [StructArray の制限](./struct-array-limits)
-

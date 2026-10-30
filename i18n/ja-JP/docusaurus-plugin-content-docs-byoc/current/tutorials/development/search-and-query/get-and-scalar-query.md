@@ -120,9 +120,14 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.orm.iterator.QueryIterator;
+import io.milvus.response.QueryResultsWrapper;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.GetReq;
+import io.milvus.v2.service.vector.request.QueryIteratorReq;
+import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.GetResp;
 import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.*;
@@ -140,7 +145,7 @@ GetReq getReq = GetReq.builder()
 
 GetResp getResp = client.get(getReq);
 
-List<QueryResp.QueryResult> results = getResp.getGetResults();
+List<QueryResp.QueryResult> results = getResp.getQueryResults();
 for (QueryResp.QueryResult result : results) {
     System.out.println(result.getEntity());
 }
@@ -198,7 +203,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 
 ```rust
 use milvus::v2::prelude::*;
-
+use std::collections::HashMap;
 let client = ClientV2::new(
     &ConnectConfig::new()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -222,6 +227,7 @@ let res = client.get(
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -237,7 +243,7 @@ auto request = milvus::GetRequest()
                    .WithIDs(std::move(ids))
                    .AddOutputField("color")
                    .AddOutputField("vector");
-                   
+
 milvus::GetResponse response;
 status = client->Get(request, response);
 if (!status.IsOk()) {
@@ -271,6 +277,7 @@ const res = await client.get({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
@@ -333,13 +340,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 res = client.query(
     collection_name="my_collection",
     filter="color like \"red%\"",
@@ -353,17 +353,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("color like \"red%\"")
@@ -389,12 +378,6 @@ for (QueryResp.QueryResult result : results) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
@@ -414,8 +397,6 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -432,16 +413,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
- #include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 auto request = milvus::QueryRequest()
                    .WithCollectionName("my_collection")
                    .WithFilter(R"(color like "red%")")
@@ -461,12 +432,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 const res = await client.query({
     collection_name: "my_collection",
     filter: 'color like "red%"',
@@ -480,18 +445,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Dql;
-
-var config = new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-};
-using var client = new MilvusClientV2(config);
-await client.ConnectAsync();
-
 QueryResp res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -555,13 +508,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 # Sort results by id in ascending order
 res = client.query(
     collection_name="my_collection",
@@ -578,19 +524,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("order_by_fields", "id:asc");
@@ -614,13 +547,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
@@ -641,8 +567,6 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -660,17 +584,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 auto request = milvus::QueryRequest()
                    .WithCollectionName("my_collection")
                    .WithFilter(R"(color like "red%")")
@@ -691,12 +604,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({ address, token });
-
 const res = await client.query({
   collection_name: "my_collection",
   filter: 'color like "red%"',
@@ -774,12 +681,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("order_by_fields", "rating:desc,price:asc");
@@ -803,13 +704,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("").
     WithOutputFields("color", "rating", "price").
@@ -829,8 +723,6 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -851,17 +743,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 auto request = milvus::QueryRequest()
                    .WithCollectionName("my_collection")
                    .WithFilter("")
@@ -973,12 +854,6 @@ page2 = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("order_by_fields", "price:asc");
@@ -1017,13 +892,6 @@ for (QueryResp.QueryResult result : page2.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 page1, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("color", "price").
@@ -1055,8 +923,6 @@ fmt.Println("page2: ", page2.GetColumn("color").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let page1 = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -1087,17 +953,6 @@ let page2 = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 auto page1Req = milvus::QueryRequest()
                     .WithCollectionName("my_collection")
                     .WithFilter(R"(color like "red%")")
@@ -1164,8 +1019,6 @@ console.log(page2.data);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-
 // Note: order_by is not supported in milvus-sdk-csharp as of v3.0.0.
 
 // Page 1
@@ -1261,13 +1114,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 res = client.query(
     collection_name="my_collection",
     filter="",
@@ -1276,12 +1122,6 @@ res = client.query(
     output_fields=["color", "count(*)"],
     # highlight-end
 )
-
-# [{'color': 'red',    'count(*)': 10},
-#  {'color': 'orange', 'count(*)': 10},
-#  {'color': 'yellow', 'count(*)': 10},
-#  {'color': 'green',  'count(*)': 10},
-#  {'color': 'blue',   'count(*)': 10}]
 ```
 
 </TabItem>
@@ -1289,19 +1129,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("group_by_fields", "color");
@@ -1340,9 +1167,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -1361,14 +1185,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("")
@@ -1387,12 +1203,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
@@ -1427,10 +1237,9 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "filter": "",
-    "limit": 5,
-    "outputFields": ["color", "avg(price)", "count(*)"],
+    "outputFields": ["color", "count(*)"],
     "groupByFields": ["color"]
-}' 
+}'
 ```
 
 </TabItem>
@@ -1471,12 +1280,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("group_by_fields", "color");
@@ -1515,9 +1318,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -1536,14 +1336,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("")
@@ -1564,12 +1356,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
@@ -1604,10 +1390,9 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "filter": "",
-    "limit": 5,
-    "outputFields": ["color", "avg(price)", "count(*)"],
+    "outputFields": ["color", "count(*)", "avg(price)", "max(rating)"],
     "groupByFields": ["color"]
-}' 
+}'
 ```
 
 </TabItem>
@@ -1649,12 +1434,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> queryParams = new HashMap<>();
 // highlight-next-line
 queryParams.put("group_by_fields", "color,rating");
@@ -1694,9 +1473,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -1715,14 +1491,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("")
@@ -1743,12 +1511,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
@@ -1783,10 +1545,9 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "filter": "",
-    "limit": 5,
-    "outputFields": ["color", "avg(price)", "count(*)"],
-    "groupByFields": ["color"]
-}' 
+    "outputFields": ["color", "rating", "min(price)", "max(price)"],
+    "groupByFields": ["color", "rating"]
+}'
 ```
 
 </TabItem>
@@ -1827,12 +1588,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> queryParams = new HashMap<>();
 queryParams.put("group_by_fields", "color");
 
@@ -1872,9 +1627,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -1894,14 +1646,6 @@ let res = client.query(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("")
@@ -1922,12 +1666,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
@@ -1966,7 +1704,7 @@ curl --request POST \
     "limit": 5,
     "outputFields": ["color", "avg(price)", "count(*)"],
     "groupByFields": ["color"]
-}' 
+}'
 ```
 
 </TabItem>
@@ -2012,12 +1750,6 @@ while True:
 <TabItem value='java'>
 
 ```java
-import io.milvus.orm.iterator.QueryIterator;
-import io.milvus.response.QueryResultsWrapper;
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.QueryIteratorReq;
-import java.util.*;
-
 QueryIteratorReq req = QueryIteratorReq.builder()
         .collectionName("my_collection")
         .expr("color like \"red%\"")
@@ -2049,13 +1781,6 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 iterator, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption("my_collection").
     WithFilter("color like \"red%\"").
     WithBatchSize(10).
@@ -2080,8 +1805,6 @@ for {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let mut iterator = client.query_iterator(
     QueryIteratorRequest::builder()
         .query(
@@ -2113,7 +1836,7 @@ request.SetFilter(R"(color like "red%")");
 request.AddOutputField("color");
 
 milvus::QueryIteratorPtr iterator;
-auto status = client->QueryIterator(request, iterator);
+status = client->QueryIterator(request, iterator);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -2132,6 +1855,9 @@ while (true) {
         std::cout << status.Message() << std::endl;
         break;
     }
+    if (rows.empty()) {
+        break;
+    }
     for (const auto& row : rows) {
         std::cout << row.dump() << std::endl;
     }
@@ -2143,8 +1869,6 @@ while (true) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const iterator = await client.queryIterator({
   collection_name: 'my_collection',
   batchSize: 10,
@@ -2165,19 +1889,6 @@ for await (const value of iterator) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
-var config = new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-};
-using var client = new MilvusClientV2(config);
-await client.ConnectAsync();
-
 await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
 {
     CollectionName = "my_collection",
@@ -2266,16 +1977,6 @@ while True:
 <TabItem value='java'>
 
 ```java
-import io.milvus.orm.iterator.QueryIterator;
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.GetReq;
-import io.milvus.v2.service.vector.request.QueryIteratorReq;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.GetResp;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 GetReq getReq = GetReq.builder()
         .collectionName("my_collection")
         .partitionName("partitionA")
@@ -2311,15 +2012,6 @@ QueryIterator queryIterator = client.queryIterator(req);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Get(ctx, milvusclient.NewQueryOption("my_collection").
     WithPartitions("partitionA").
     WithIDs(column.NewColumnInt64("id", []int64{10, 11, 12})).
@@ -2345,6 +2037,26 @@ if err != nil {
 fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
 fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
 fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+
+// Use QueryIterator
+iterator, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption("my_collection").
+    WithPartitions("partitionA").
+    WithFilter("color like \"red%\"").
+    WithBatchSize(10).
+    WithOutputFields("color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for {
+    resultSet, err := iterator.Next(ctx)
+    if err != nil {
+        fmt.Println(err.Error())
+        break
+    }
+    fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -2352,8 +2064,6 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.get(
     GetRequest::builder()
         .collection_name("my_collection")
@@ -2459,6 +2169,9 @@ while let Some(result) = iterator.next().await? {
             std::cout << status.Message() << std::endl;
             break;
         }
+        if (rows.empty()) {
+            break;
+        }
         for (const auto& row : rows) {
             std::cout << row.dump() << std::endl;
         }
@@ -2510,10 +2223,6 @@ for await (const value of iterator) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 GetResp getResp = await client.GetAsync(new GetReq
 {
     CollectionName = "my_collection",
@@ -2639,10 +2348,6 @@ print(f"Found {len(res)} red items in sample")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("RANDOM_SAMPLE(0.01)")
@@ -2672,15 +2377,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("RANDOM_SAMPLE(0.01)").
     WithOutputFields("vector", "color"))
@@ -2704,8 +2400,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -2755,12 +2449,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 // Sample 1% of the entire collection
 let res = await client.query({
     collection_name: "my_collection",
@@ -2786,8 +2474,6 @@ console.log(`Found ${res.data.length} red items in sample`);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-
 // Sample 1% of the entire collection
 QueryResp res = await client.QueryAsync(new QueryReq
 {
@@ -2885,19 +2571,6 @@ results = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 Map<String, Object> queryParams = new HashMap<>();
 queryParams.put("timezone", "America/Havana");
 
@@ -2928,8 +2601,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
@@ -2976,8 +2647,6 @@ if (!status.IsOk()) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-
 // Query data and display the tsz field converted to "America/Havana"
 QueryResp results = await client.QueryAsync(new QueryReq
 {
