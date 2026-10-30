@@ -631,8 +631,8 @@ using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Aliases;
 
 // 9.3 Describe alias
-var res = await client.DescribeAliasAsync(new DescribeAliasReq { Alias = "bob" });
-Console.WriteLine(res);
+var describeResp = await client.DescribeAliasAsync(new DescribeAliasReq { Alias = "bob" });
+Console.WriteLine(describeResp);
 ```
 
 </TabItem>

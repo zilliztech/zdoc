@@ -609,12 +609,12 @@ console.log(res.value)
 ```csharp
 using Milvus.Client.V2.Requests.Partition;
 
-var res = await client.HasPartitionAsync(new HasPartitionReq
+var hasResp = await client.HasPartitionAsync(new HasPartitionReq
 {
     CollectionName = "my_collection",
     PartitionName = "partitionA"
 });
-Console.WriteLine(res.Has);
+Console.WriteLine(hasResp.Has);
 ```
 
 </TabItem>
@@ -826,12 +826,12 @@ await client.LoadPartitionsAsync(new LoadPartitionsReq
     PartitionNames = new[] { "partitionA" }
 });
 
-var res = await client.GetLoadStateAsync(new GetLoadStateReq
+var loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
-Console.WriteLine(res.State);
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>
@@ -1050,12 +1050,12 @@ await client.ReleasePartitionsAsync(new ReleasePartitionsReq
     PartitionNames = new[] { "partitionA" }
 });
 
-var res = await client.GetLoadStateAsync(new GetLoadStateReq
+var loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
-Console.WriteLine(res.State);
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>

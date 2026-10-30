@@ -280,7 +280,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -618,7 +618,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -859,7 +859,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -1099,7 +1099,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -1419,7 +1419,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -1646,7 +1646,7 @@ std::cout << rows.size() << " rows" << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -1882,7 +1882,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -2178,7 +2178,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -2384,7 +2384,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 

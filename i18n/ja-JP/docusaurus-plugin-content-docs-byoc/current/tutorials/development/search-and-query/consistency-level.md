@@ -155,9 +155,43 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const fields = [
+    {
+        name: "id",
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        autoID: false
+    },
+    {
+        name: "vector",
+        data_type: DataType.FloatVector,
+        dim: 5
+    },
+    {
+        name: "color",
+        data_type: DataType.VarChar,
+        max_length: 512
+    }
+];
+
+const index_params = [
+    {
+        field_name: "vector",
+        index_type: "AUTOINDEX",
+        metric_type: "COSINE"
+    }
+];
+
 await client.createCollection({
     collection_name: "my_collection",
-    schema,
+    fields,
+    index_params,
     consistency_level: "Bounded",
 });
 ```

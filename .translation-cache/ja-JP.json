@@ -311,9 +311,9 @@
       "translatedAt": "2026-10-25T05:33:29.889Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-aliases.md": {
-      "sourceHash": "b36b5418494130b5461c0bafdb8e16b06e022e62628e9d9994a419ecaf54ae2d",
+      "sourceHash": "b96d168b401e0b73792dabb18f58806c086d43417f30826366daf3b00bdf24d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-aliases.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "170ea4bd3fbca177cdc234205dc71cb56e56fb9e71c6f6b4df68b3eb124748cf",
@@ -321,19 +321,19 @@
       "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-partitions.md": {
-      "sourceHash": "f484d626661ea4ccd640c9bb13f6254be8fea10c1f4c1d1d41d5b9700463825c",
+      "sourceHash": "88fd10395f2e281d382ec19fa036f33e5f303026b4c0024dc09c845d45b7cf75",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-partitions.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/collection/modify-collections.md": {
-      "sourceHash": "ed3a2906a46c04b5eff73281248ab27356a0464fa7622bcfdd0d4c6c5f9302a9",
+      "sourceHash": "3ba3a855bd9c68ef4f3e15301f195ede74cde476ff7f7f99e16ffb5cf3459a76",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/modify-collections.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/collection/set-collection-ttl.md": {
-      "sourceHash": "702c3b294d216429098b5bdc5ff7b5c74896b9d4da6b450faa008da2dfb7a93e",
+      "sourceHash": "de373a3e5bcd632086e485fa6aa167f659e64c63a6fb014f2c1b97a5862f504a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/set-collection-ttl.md",
-      "translatedAt": "2026-10-28T15:45:32.623Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/collection/truncate-collection.md": {
       "sourceHash": "92058b94584dc5338d02cae0fa6bc30af3e3e5b5cf5a65d7fb231348b8fe23c1",
@@ -576,9 +576,9 @@
       "translatedAt": "2026-10-25T05:47:48.541Z"
     },
     "content/en/byoc/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "06f84263d759731950074bbd5f234d33f3f45273cd14094741f6dd9d51214818",
+      "sourceHash": "d7cf6946b9066290a0f9cefed252f57cf1c35e607c884b6755e2bd39ac8ba1c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-10-25T05:47:48.541Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "6c226920701a6d630c4140a3ce22d759cb874bdc4f95b5ec1ce5f7877829ec7e",
@@ -671,9 +671,9 @@
       "translatedAt": "2026-10-10T05:46:29.774Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "8d85e5aac532c5a415d953a8388ba9453020e7538724e7a863404fe8cde446f1",
+      "sourceHash": "3a9bbec9d55a8a8d80123e8bbcb3c683cb7b0792e5a37fe80780989a8cb23f76",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-28T15:48:53.927Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "3770a3c32ca2eea586bff1f8f17132d1a4ef03b1cf231ccaa638532fe19761c8",
@@ -686,9 +686,9 @@
       "translatedAt": "2026-10-25T05:05:32.096Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtered-search.md": {
-      "sourceHash": "23834dff1e726743ee9b708cfbe60d9624d510c64b6204c44ec3d197b935f67d",
+      "sourceHash": "e872edc71af69825d57235bb712eb861c040e19e6ea70c3b180284d9d43379a8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtered-search.md",
-      "translatedAt": "2026-10-25T06:05:30.641Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
       "sourceHash": "6c5cff282cad715e31350073bac238f900fcd08ebd597cb9c1e9c4a1f06df54e",
@@ -816,9 +816,9 @@
       "translatedAt": "2026-10-25T06:05:30.641Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md": {
-      "sourceHash": "b68b1045ec34e8bc73ec47aa66e353346a6fbdea133c00c710a08c29f0a518ac",
+      "sourceHash": "141f630a5b46952b67cb9a62e4c3d5770a93a71635650e458a3e8bcddfd931e7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
-      "translatedAt": "2026-09-19T13:54:29.135Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-highlighter.md": {
       "sourceHash": "aeac31e1cc510765b870635167f5fc745a0ef4d0e623a6657531b6502c25d632",
@@ -1621,9 +1621,9 @@
       "translatedAt": "2026-10-25T10:09:11.241Z"
     },
     "content/en/guides/tutorials/development/collection/manage-aliases.md": {
-      "sourceHash": "922883841522cb96c79e286d9438868270af87eeeb32d741996ded562738d321",
+      "sourceHash": "4c10e77a80f743d4444e18685b2d66cac7c77f5a1ba87baaa4d6ba8b95348e46",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-aliases.md",
-      "translatedAt": "2026-10-25T05:11:00.677Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "020a0863591fa035a8920c817c7ec2cb7022c3109f18bdca4e787c51c13f6022",
@@ -1631,19 +1631,19 @@
       "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/guides/tutorials/development/collection/manage-partitions.md": {
-      "sourceHash": "60c1586b9befeb90736f5d8f7b5494b1c92188a09752c706550de32e41e10259",
+      "sourceHash": "c500b1d9a61d4f8fba2405cc4f85a9a1daf0992918815369ffe9f26a33abc111",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-partitions.md",
-      "translatedAt": "2026-10-25T05:11:00.677Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/collection/modify-collections.md": {
-      "sourceHash": "080b94ca0da0493faa1a019558e3bf46d1b28da63dc34002bd8c31082f23f19f",
+      "sourceHash": "a6ed8dbb6c6183989b2b106ae3dd79b81d3eff29f041e86465cab04da4d6fbcc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/modify-collections.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/collection/set-collection-ttl.md": {
-      "sourceHash": "677cd6e65b00a0564cf1eade1ffc9fe081e2911c885ba760c10c93b61b7eb6c9",
+      "sourceHash": "8e1798dda61b1623731c7c348cca9b351f9eecfdee1caf77b2c14ffdb5b8314e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/set-collection-ttl.md",
-      "translatedAt": "2026-10-28T15:48:53.927Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/collection/truncate-collection.md": {
       "sourceHash": "31da2132e6192bd8a6a060d29ff7140c4ebcf2da02ff9f5d493675462d216b8b",
@@ -1926,9 +1926,9 @@
       "translatedAt": "2026-10-25T10:10:23.617Z"
     },
     "content/en/guides/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "ed79abeaaf9c2fc29c4a7d6f50e0e168fefdc87682a302fd178c6a0ba856e429",
+      "sourceHash": "c5d5d35ee136973f6ed481202b7cc38cf016ed45e1206e6354bbd9fe2c2913fe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
@@ -2021,9 +2021,9 @@
       "translatedAt": "2026-10-10T05:54:19.895Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "9ad0cc7beffc1dba9b25e137fbe1882b9c206c1a640c03911b2a20f8f49f753a",
+      "sourceHash": "79bd32c7754c5c4f535ddb7329df3dcd05059f2fa8759fb2e356136ec0e94bac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-28T15:52:09.297Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "7b5794cfede465d577de40f2ba346914dffd23699ff61061c8a1c19ae233e0e2",
@@ -2036,9 +2036,9 @@
       "translatedAt": "2026-10-25T05:16:53.988Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtered-search.md": {
-      "sourceHash": "9308019d3d35a8934f61e88254e1f60cecdf51802f48cc00e782119c8da2ecd4",
+      "sourceHash": "5b04ed8bb4c2ef949e5bc78cb43a13cbeff555ec0f4f79af80f406e1936be44e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtered-search.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
       "sourceHash": "b54519661d885254cefb08dfdf051c464a0c511ba32d9032114d4e284056f625",
