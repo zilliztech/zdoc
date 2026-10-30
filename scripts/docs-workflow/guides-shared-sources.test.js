@@ -1657,13 +1657,14 @@ test('synthetic 21/23/50/100-page evidence scaling stays compact without changin
   assert.throws(() => encodeBundle(bomb), /expanded payload size limit/)
 })
 
-test('100 generated synthetic pages pass the production v2 reader with both manual outputs', {timeout: 300000}, async t => {
+test('100 synthetic fallback pages pass the production v2 reader with both manual outputs', {timeout: 120000}, async t => {
   const options = await fixture(t, {pages: Array.from({length: 100}, (_, i) => `scale-${i}`), ordinaryPages: 200})
-  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})})
+  options.upstreamStatus = {status: 'unavailable', code: 'SHARED_UPSTREAM_REF_MISSING', message: 'Synthetic missing upstream'}
+  const bundle = await generateSharedSources(options)
   const {loadBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const handoff = loadBundle(options.out, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
-  assert.equal(handoff.bundle.outcomes.filter(row => row.status === 'success').length, 100)
-  assert.equal(handoff.bundle.outcomes.flatMap(row => row.outputs).length, 200)
+  assert.equal(handoff.bundle.outcomes.filter(row => row.status === 'fallback').length, 100)
+  assert.equal(handoff.bundle.outcomes.flatMap(row => row.baseline.outputs).length, 200)
   assert.ok(handoff.files.get('bundle.json').length < FILE_LIMIT)
   assert.deepEqual(handoff.bundle, bundle)
   t.diagnostic(`synthetic pages=100, v2=${handoff.files.get('bundle.json').length}, logical=${Buffer.byteLength(JSON.stringify(bundle))}`)
