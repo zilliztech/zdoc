@@ -1,0 +1,21 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/filtered-search.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtered-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtered-search
+transforms:
+  - operation: add
+    target:
+      block: filtered-search-standard
+      language: shell
+    content:
+      file: cloud-standard-cli.md
+  - operation: add
+    target:
+      block: filtered-search-iterative
+      language: shell
+    content:
+      file: cloud-iterative-cli.md
