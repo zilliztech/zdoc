@@ -1,0 +1,20 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/structarray-limits.md
+
+metadata:
+  beta: PUBLIC
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/struct-array/struct-array-limits
+  - manual: guides-byoc
+    path: tutorials/development/schema/struct-array/struct-array-limits
+
+transforms:
+  - operation: replace
+    target:
+      block: structarray-availability
+    content:
+      file: cloud-availability.md
