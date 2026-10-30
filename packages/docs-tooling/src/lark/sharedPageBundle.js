@@ -7,7 +7,9 @@ const {safeHandoffPath, validateSharedReceipt, validateActiveState} = require('.
 const {loadTypeScript} = require('../../../../scripts/lib/load-typescript')
 const {finalizeFetchFrontMatter} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/site/front-matter.ts'))
 const ROOT = 'tmp/docs-tooling/en/shared-pages/guides'
-const LIMIT = 256 * 1024 * 1024, FILE_LIMIT = 32 * 1024 * 1024
+// Production bundles carry per-page evidence that scales with Base rows; 26 shared
+// pages reached 33.97 MB on 2026-10-30 (about 0.7 MB per page), so keep headroom.
+const LIMIT = 256 * 1024 * 1024, FILE_LIMIT = 64 * 1024 * 1024
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const fail = message => {throw new Error(`Invalid shared source bundle: ${message}`)}
