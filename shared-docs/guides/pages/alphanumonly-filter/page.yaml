@@ -1,0 +1,8 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/schema/analyzer/filter/alphanumonly-filter.md
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-filters/alphanumonly-filter
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-filters/alphanumonly-filter
