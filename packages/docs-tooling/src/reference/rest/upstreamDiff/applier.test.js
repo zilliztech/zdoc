@@ -226,8 +226,13 @@ test('parameter required flags apply as booleans; schema required stays an array
     assert.equal(operation.parameters[0].required, false)
     assert.deepEqual(operation.requestBody.content['application/json'].schema.required, [])
 
-    assert.throws(() => apply([{id: paramId, kind: 'constraint', targetFragment: '21-project-operations-v2.json',
-        opPath: '/paths/~1v2~1x/post/parameters/0/required', value: ['projectId'], ...confirmed}]), /REST_UPSTREAM_APPLY_VALUE_INVALID/)
+    // parameter-level required is fully mechanical (#941-style): a wrong-shape
+    // value is normalized to the cited boolean and recorded, not fatal
+    const reshaped = apply([{id: paramId, kind: 'constraint', targetFragment: '21-project-operations-v2.json',
+        opPath: '/paths/~1v2~1x/post/parameters/0/required', value: ['projectId'], ...confirmed}])
+    assert.equal(reshaped.documents.get('21-project-operations-v2.json').paths['/v2/x'].post.parameters[0].required, false)
+    assert.equal(reshaped.normalizations.filter(entry => entry.kind === 'required-parameter').length, 1)
+    // a boolean on a schema stays a shape error
     assert.throws(() => apply([{id: bodyId, kind: 'constraint', targetFragment: '21-project-operations-v2.json',
         opPath: '/paths/~1v2~1x/post/requestBody/content/application~1json/schema/required', value: true, ...confirmed}]), /REST_UPSTREAM_APPLY_VALUE_INVALID/)
     // Internal field names cannot enter through a required array either, override or not.
@@ -473,6 +478,48 @@ test('a schema-level required write on a schema without the cited field still fa
             ], diff))), diff, ruleset: RULESET}),
         /REST_UPSTREAM_APPLY_UNBOUND_LOCUS/,
     )
+})
+
+// Three runs produced three different broken shapes for parameter-level
+// required. The applier now ignores the submitted opPath/value entirely and
+// writes from the diff's own coordinates.
+test('parameter-level required writes are fully mechanical from the cited entry', () => {
+    const fragment = {openapi: '3.0.1', paths: {'/v2/x': {post: {
+        summary: 'X',
+        parameters: [{name: 'projectId', in: 'query', required: true, description: 'Project.'}],
+        requestBody: {content: {'application/json': {schema: {type: 'object', required: ['name'], properties: {name: {type: 'string'}}}}}},
+        responses: {'200': {description: 'ok'}},
+    }}}}
+    const upstream = {openapi: '3.0.3', paths: {'/v2/x': {post: {
+        summary: 'X',
+        parameters: [{name: 'projectId', in: 'query', required: false, description: 'Project.'}],
+        requestBody: {content: {'application/json': {schema: {type: 'object', required: [], properties: {name: {type: 'string'}}}}}},
+        responses: {'200': {description: 'ok'}},
+    }}}}
+    const diff = diffSpecifications({source: SOURCE, upstreamPin: SHA, upstream, fragments: new Map([['21-project-operations-v2.json', fragment]]),
+        ledger: {schemaVersion: '1.0', entries: []}, ruleset: RULESET})
+    const paramId = 'upstream-modified|post /v2/x|21-project-operations-v2.json|parameter|||projectId:query|required|'
+    const confirmed = {override: true, overrideReason: 'R&D confirmed 2026-10-28'}
+    const apply = entries => applyChangeSet({documents: new Map([['21-project-operations-v2.json', structuredClone(fragment)]]),
+        changeSet: changeSet(entries, diff), diff, ruleset: RULESET})
+    // a broken shape (opPath at an array index, object value) still lands the
+    // correct boolean — the submitted parts are advisory
+    const broken = apply([{id: paramId, kind: 'constraint', targetFragment: '21-project-operations-v2.json',
+        opPath: '/paths/~1v2~1x/post/parameters/0/required/1', value: {nonsense: true}, ...confirmed}])
+    const brokenOp = broken.documents.get('21-project-operations-v2.json').paths['/v2/x'].post
+    assert.equal(brokenOp.parameters[0].required, false)
+    assert.equal(broken.normalizations.length, 1)
+    assert.equal(broken.normalizations[0].kind, 'required-parameter')
+    assert.equal(broken.normalizations[0].applied, false)
+
+    // a well-shaped submission lands clean, no normalization record
+    const clean = apply([{id: paramId, kind: 'constraint', targetFragment: '21-project-operations-v2.json',
+        opPath: '/paths/~1v2~1x/post/parameters/0/required', value: false, ...confirmed}])
+    assert.equal(clean.documents.get('21-project-operations-v2.json').paths['/v2/x'].post.parameters[0].required, false)
+    assert.deepEqual(clean.normalizations, [])
+
+    // (A citation for a parameter absent from the operation is unreachable:
+    // verifyAgainstDiff rejects any entry id that is not in the diff output.)
 })
 
 test('lifecycle leaves the diff did not derive still require the override', () => {

@@ -257,6 +257,30 @@ function applyFragmentEntry(document, entry, cited, denylist, normalizations) {
     if ((denylist || []).includes(decodePointer(entry.opPath).pop())) {
         fail('REST_UPSTREAM_INTERNAL_FIELD', `${label}: "${entry.opPath}" targets an internal field`)
     }
+    // Parameter-level required is FULLY mechanical (three runs produced three
+    // different broken shapes for it): the agent cites the entry, the applier
+    // locates the parameter from the diff's own coordinates (opKey + field)
+    // and writes the boolean. The submitted opPath/value are advisory.
+    if (cited.change && cited.change.kind === 'required' && cited.scope === 'parameter') {
+        // The confirmation gate (decision 9) outranks the normalization: a
+        // relaxation applies only with an explicit override, mechanical or not.
+        if (cited.requiresConfirmation && !entry.override) {
+            fail('REST_UPSTREAM_APPLY_CONFIRMATION_REQUIRED', `${label}: drift is flagged ${cited.requiresConfirmation}; apply only with override after R&D confirmation`)
+        }
+        const [method, endpoint] = String(cited.opKey).split(' ')
+        const operation = document.paths?.[endpoint]?.[method]
+        if (!operation) fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: the cited operation ${cited.opKey} is not in ${entry.targetFragment}`)
+        const [pname, pin] = String(cited.field || '').split(':')
+        const parameter = (operation.parameters || []).find(candidate => candidate && candidate.name === pname && candidate.in === pin)
+        if (!parameter) fail('REST_UPSTREAM_APPLY_UNBOUND_LOCUS', `${label}: parameter ${cited.field} not found in ${cited.opKey}`)
+        const expected = Boolean(cited.change.after)
+        parameter.required = expected
+        if (typeof entry.value !== 'boolean' || Boolean(entry.value) !== expected) {
+            normalizations.push({diffEntryId: label, kind: 'required-parameter', submitted: entry.value ?? null, applied: expected,
+                note: 'normalized to the cited parameter boolean; the submitted value is advisory'})
+        }
+        return
+    }
     if (kind === 'lifecycle' && entry.value !== null && !LIFECYCLE_TRACK.test(entry.value)) {
         fail('REST_UPSTREAM_APPLY_VALUE_INVALID', `${label}: lifecycle values use the major.minor.x track format`)
     }
