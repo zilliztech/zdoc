@@ -124,7 +124,7 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
   }
   for (const entry of activeState?.pages || []) {
     const canonical = canonicalRecords.find(record => record.record_id === entry.record)
-    if (canonical && entry.feishu_token) canonicalByToken.set(entry.feishu_token, canonical)
+    if (canonical) for (const token of require('../packages/docs-tooling/src/lark/sharedPageAliases').activeTokens(entry)) canonicalByToken.set(token, canonical)
   }
   const generatedDocsByToken = collectGeneratedDocsByToken(outputDir, idPrefix)
   const generatedIdsForRecord = record => [...new Set(tokenAliases(record).flatMap(alias => generatedDocsByToken.get(alias) || []))]
@@ -194,7 +194,7 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
       }
       const routeBase = target === 'zilliz.paas' ? '/docs/byoc' : '/docs'
       const expectedHref = canonical ? `${routeBase}/${String(canonical.slug || '').replace(/^\/+/, '')}` : null
-      const active = activeState?.pages.find(entry => entry.record === canonical.record_id && entry.feishu_token === targetToken)
+      const active = activeState?.pages.find(entry => entry.record === canonical.record_id && require('../packages/docs-tooling/src/lark/sharedPageAliases').matches(entry, targetToken))
       const mappedAnchor = record.ref_target_anchor && active && Object.hasOwn(active.anchors, record.ref_target_anchor)
         ? active.anchors[record.ref_target_anchor] : null
       const hrefMatches = active ? item?.href === `${expectedHref}${mappedAnchor ? `#${mappedAnchor}` : ''}` : record.ref_target_anchor

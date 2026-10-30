@@ -61,7 +61,7 @@ async function fixture() {
     const candidate = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: sourceDir, baseAppToken: 'base', records, routingContext: prepared.context })
     const out = join(root, name)
     const bundle = await generateSharedSources({ preparation: prepared.data, repositoryRoot, baselineRoot, repo, sourceDir, candidate,
-      rootToken: 'root', out, scratch: join(root, `${name}-scratch`), runId: '123' }, dependencies)
+      imageBaseUrl: 'https://images.example.test', rootToken: 'root', out, scratch: join(root, `${name}-scratch`), runId: '123' }, { assertToolIdentity: () => {}, ...dependencies })
     return { out, bundle, candidate }
   }
   const baseline = await run('baseline')

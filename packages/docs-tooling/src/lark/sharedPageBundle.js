@@ -12,10 +12,17 @@ const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const fail = message => {throw new Error(`Invalid shared source bundle: ${message}`)}
 function freeze(value) { if (value && typeof value === 'object') {Object.values(value).forEach(freeze); Object.freeze(value)} return value }
+function checkFileLimits(file, size, count, total) {
+  const name = JSON.stringify(file)
+  if (!safeHandoffPath(file)) fail(`unsafe path: ${name}`)
+  if (size > FILE_LIMIT) fail(`file size limit exceeded: ${name} has ${size} bytes; limit ${FILE_LIMIT}`)
+  if (count > 8192) fail(`file count limit exceeded at ${name}: ${count} files; limit 8192`)
+  if (total > LIMIT) fail(`payload size limit exceeded at ${name}: ${total} bytes; limit ${LIMIT}`)
+}
 function validateBundle(files, expected = {}) {
   if (!files.size) return null
-  if (files.size > 8192 || [...files.values()].reduce((sum, bytes) => sum + bytes.length, 0) > LIMIT) fail('payload limit exceeded')
-  for (const [file, bytes] of files) if (!safeHandoffPath(file) || bytes.length > FILE_LIMIT) fail('unsafe path or file size')
+  let count = 0, total = 0
+  for (const [file, bytes] of files) checkFileLimits(file, bytes.length, ++count, total += bytes.length)
   if (files.has('continuation.json')) return require('./sharedPagePublication').validateContinuation(files, expected)
   const used = new Set()
   function read(file, hash) {
@@ -31,6 +38,9 @@ function validateBundle(files, expected = {}) {
   if (!prep || prep.master_commit !== bundle.master_commit || prep.dev_commit !== bundle.dev_commit || !equal(prep.navigation, bundle.navigation)
     || !equal(prep.active, bundle.baseline_active) || !Array.isArray(prep.records) || !Array.isArray(prep.errors) || !Array.isArray(prep.dev_files)) fail('preparation evidence')
   validateActiveState(bundle.baseline_active); validateActiveState(bundle.effective_active)
+  const aliases = require('./sharedPageAliases')
+  aliases.authenticate({devCommit: bundle.dev_commit, evidence: prep.alias_evidence})
+  const recovered = aliases.recover({active: bundle.baseline_active, previousSnapshot: prep.previous_snapshot, evidence: prep.alias_evidence, recordIds: Object.keys(prep.inputs)})
   const records = new Set()
   for (const record of prep.records) {if (!record.record_id || records.has(record.record_id)) fail('duplicate Base record'); records.add(record.record_id)}
   const inventory = new Map()
@@ -81,7 +91,18 @@ function validateBundle(files, expected = {}) {
       }
       if (!Array.isArray(outcome.images) || !equal(receipt.inputs.images, outcome.images.map(image => ({source: image.original, sha256: image.sha256, object: image.address})))) fail('image manifest')
       for (const image of outcome.images) if (!new RegExp(`^shared/${image.sha256}\\.[a-z0-9]+$`).test(image.address) || !/^[a-f0-9]{64}$/.test(image.sha256)) fail('image address')
-      if (outcome.activation.firstActivation) activations.pages.push(outcome.activation.entry)
+      const entry = outcome.activation.entry, old = activations.pages.find(row => row.record === outcome.record_id)
+      if (old) {
+        if (outcome.activation.firstActivation) fail('existing activation marked new')
+        aliases.verifyEnrichment(old, entry, recovered.aliases[outcome.record_id] || [])
+        activations.pages[activations.pages.indexOf(old)] = entry
+      } else {
+        if (!outcome.activation.firstActivation || entry.record !== outcome.record_id || entry.page !== outcome.page) fail('activation identity')
+        const previous = prep.previous_snapshot?.records?.find(row => row.record_id === outcome.record_id)
+        if (entry.feishu_token !== (previous?.doc_token || previous?.node_token || null)
+          || !equal(entry.feishu_aliases, recovered.aliases[outcome.record_id] || [])) fail('activation aliases')
+        activations.pages.push(entry)
+      }
     } else if (outcome.status === 'fallback') {
       const prior = prep.previous_snapshot?.records?.find(record => record.record_id === outcome.record_id)
       descriptors = outcome.baseline.outputs
@@ -104,10 +125,17 @@ function validateBundle(files, expected = {}) {
       }
       else read(output.file, output.sha256)
     }
+    if (outcome.status === 'success') {
+      const receipt = JSON.parse(files.get(outcome.receipt))
+      if (receipt.inputs.fetch.render_targets || outcome.regeneration) {
+        if (!equal(receipt.inputs.fetch.render_targets?.targets, outcome.targets)) fail('frozen render targets mismatch')
+        require('../../../../scripts/docs-workflow/guides-shared-regeneration').validateRegenerationEvidence(outcome.regeneration, receipt, descriptors.map(output => ({...output, bytes: files.get(output.file)})))
+      }
+    }
   }
   if (seen.size !== expectedRecords.size || used.size !== files.size || !equal(activations, bundle.effective_active)) fail('incomplete or extra bundle evidence')
   // Validation has no mutation of the authenticated source candidate or identity.
-  return {bundle: freeze(bundle), files, routing: require('./sharedPageFetch').restoreRouting({...prep, active: bundle.effective_active})}
+  return {bundle: freeze(bundle), files, routing: require('./sharedPageFetch').restoreRouting({...prep, active: bundle.effective_active, effective_routing: true})}
 }
 function fromPayload(payload, expected) {
   const files = new Map([...payload].filter(([file]) => file.startsWith(`${ROOT}/`)).map(([file, bytes]) => [file.slice(ROOT.length + 1), bytes]))
@@ -120,23 +148,30 @@ function fromPayload(payload, expected) {
   }
   return handoff
 }
-function loadBundle(root, expected) {
+// Stat the complete directory before reading payloads. The producer uses the same
+// bounds so an unusable handoff fails generation rather than the next audit step.
+function checkBundleLimits(root) {
   if (fs.realpathSync(root) !== path.resolve(root)) fail('symlink root ancestor')
-  const files = new Map(); let total = 0
+  const files = []; let total = 0
   const visit = (directory, relative = '') => {
     if (fs.lstatSync(directory).isSymbolicLink()) fail('symlink directory')
-    for (const entry of fs.readdirSync(directory, {withFileTypes: true})) {
+    for (const entry of fs.readdirSync(directory, {withFileTypes: true}).sort((a, b) => a.name.localeCompare(b.name))) {
       const file = relative ? `${relative}/${entry.name}` : entry.name, full = path.join(directory, entry.name)
       if (entry.isSymbolicLink()) fail('symlink file')
       if (entry.isDirectory()) visit(full, file)
       else {
+        if (!entry.isFile()) fail(`non-regular file: ${JSON.stringify(file)}`)
         const size = fs.statSync(full).size
-        if (!entry.isFile() || size > FILE_LIMIT || (total += size) > LIMIT || files.size >= 8192) fail('file limit')
-        files.set(file, fs.readFileSync(full))
+        checkFileLimits(file, size, files.length + 1, total += size)
+        files.push({file, full})
       }
     }
   }
-  visit(root); return validateBundle(files, expected)
+  visit(root); return files
+}
+function loadBundle(root, expected) {
+  const files = new Map(checkBundleLimits(root).map(({file, full}) => [file, fs.readFileSync(full)]))
+  return validateBundle(files, expected)
 }
 function emitPrebuilt(writer, request) {
   const handoff = writer.sharedBundle
@@ -186,4 +221,4 @@ function restoreTableFallbacks(handoff, workspace, ownedPath) {
   }
   return emitted
 }
-module.exports = {ROOT, LIMIT, FILE_LIMIT, validateBundle, fromPayload, loadBundle, emitPrebuilt, restoreTableFallbacks}
+module.exports = {ROOT, LIMIT, FILE_LIMIT, validateBundle, fromPayload, checkBundleLimits, loadBundle, emitPrebuilt, restoreTableFallbacks}

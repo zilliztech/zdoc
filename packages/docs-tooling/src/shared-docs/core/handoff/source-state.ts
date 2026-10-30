@@ -4,7 +4,7 @@ export type SourceRoute =
   | {kind: 'shared-page'; group: string; page: string; directory: string; url: string}
   | {kind: 'invalid'; code: 'OWNERSHIP_CONFIG_MISSING' | 'OWNERSHIP_PATH_MISMATCH'; message: string}
 export interface SharedPageIdentity {group: string; page: string; inputs_sha256: string; record: string}
-export interface ActivePage {page: string; record: string; feishu_token: string | null; anchors: Record<string, string>; activated_in: string}
+export interface ActivePage {page: string; record: string; feishu_token: string | null; feishu_aliases?: string[]; anchors: Record<string, string>; activated_in: string}
 export interface ActiveState {schema_version: 1; pages: ActivePage[]}
 export interface SharedReceipt {
   schema_version: 1; page: string; token: string
@@ -12,7 +12,7 @@ export interface SharedReceipt {
     milvus_docs: {repository: string; current: string; next: string; files: {path: string; current: string | null; next: string | null}[]}
     zdoc: {repository: string; commit: string; files: {path: string; sha256: string}[]}
     dev: {commit: string; files: {path: string; sha256: string}[]}
-    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string}
+    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: {manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}[]}}
     tools: {zdoc: string; md2md: string}
     images: {source: string; sha256: string; object: string}[]
   }
@@ -70,13 +70,16 @@ export function validateActiveState(value: unknown): ActiveState {
   assert(state.schema_version === 1 && Array.isArray(state.pages), 'Invalid shared active schema')
   const pages = new Set(), records = new Set(), aliases = new Set()
   for (const entry of state.pages) {
-    keys(entry, ['page', 'record', 'feishu_token', 'anchors', 'activated_in'], 'Shared active page')
+    keys(entry, ['page', 'record', 'feishu_token', 'anchors', 'activated_in', ...(Object.hasOwn(entry, 'feishu_aliases') ? ['feishu_aliases'] : [])], 'Shared active page')
     assert(matches(entry.page, SLUG), 'Invalid active page')
     text(entry.record, 'Active record'); text(entry.activated_in, 'Active run')
     assert(/^\d+$/.test(entry.activated_in), 'Active run must be a run ID')
     assert(entry.feishu_token === null || (typeof entry.feishu_token === 'string' && matches(entry.feishu_token, TOKEN)), 'Invalid active Feishu token')
-    assert(!pages.has(entry.page) && !records.has(entry.record) && (entry.feishu_token === null || !aliases.has(entry.feishu_token)), 'Duplicate active authority')
-    pages.add(entry.page); records.add(entry.record); if (entry.feishu_token) aliases.add(entry.feishu_token)
+    const tokens = Object.hasOwn(entry, 'feishu_aliases') ? entry.feishu_aliases : (entry.feishu_token ? [entry.feishu_token] : [])
+    assert(Array.isArray(tokens) && tokens.every(token => matches(token, TOKEN) && !/^(?:base_|shared-)/.test(token)) && new Set(tokens).size === tokens.length, 'Invalid active Feishu aliases')
+    assert(entry.feishu_token === null ? tokens.length === 0 : tokens.includes(entry.feishu_token), 'Active aliases must include primary token')
+    assert(!pages.has(entry.page) && !records.has(entry.record) && tokens.every(token => !aliases.has(token)), 'Duplicate active authority')
+    pages.add(entry.page); records.add(entry.record); tokens.forEach(token => aliases.add(token))
     object(entry.anchors, 'Active anchors')
     for (const [block, anchor] of Object.entries(entry.anchors)) {
       assert(matches(block, TOKEN) && typeof anchor === 'string' && !!anchor && !/[\s/#?\\\0]/.test(anchor) && anchor !== '.' && anchor !== '..', 'Invalid active anchor')
@@ -141,7 +144,25 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   assert(zdoc.repository === 'zilliztech/zdoc' && matches(zdoc.commit, COMMIT), 'Invalid zdoc commit/repository')
   files(zdoc.files, ['sha256'], 'Shared zdoc files')
   keys(dev, ['commit', 'files'], 'Shared dev input'); assert(matches(dev.commit, COMMIT), 'Invalid dev commit'); files(dev.files, ['sha256'], 'Shared dev files')
-  keys(fetchInputs, ['navigation', 'image_base_url'], 'Shared Fetch inputs')
+  keys(fetchInputs, ['navigation', 'image_base_url', ...(Object.hasOwn(fetchInputs, 'render_targets') ? ['render_targets'] : [])], 'Shared Fetch inputs')
+  if (fetchInputs.render_targets !== undefined) {
+    const projection = fetchInputs.render_targets
+    keys(projection, ['schema_version', 'targets'], 'Shared render targets')
+    assert(projection.schema_version === 1 && Array.isArray(projection.targets) && projection.targets.length === 2
+      && Array.isArray(receipt.outputs) && receipt.outputs.length === 2, 'Invalid render target version or pair')
+    const manuals = new Set<string>()
+    for (const target of projection.targets) {
+      keys(target, ['manual', 'path', 'extension', 'navigation', 'channel'], 'Shared render target')
+      assert(['guides', 'guides-byoc'].includes(target.manual) && !manuals.has(target.manual), 'Invalid render target manual'); manuals.add(target.manual)
+      assert(safeHandoffPath(target.path) && ['.md', '.mdx'].includes(target.extension), 'Invalid render target path/extension')
+      keys(target.navigation, ['sidebar_label', 'sidebar_position'], 'Shared render navigation')
+      text(target.navigation.sidebar_label, 'Render label')
+      assert(Number.isSafeInteger(target.navigation.sidebar_position) && target.navigation.sidebar_position > 0, 'Invalid render position')
+      assert(target.channel === (receipt.channel || 'current'), 'Render channel mismatch')
+      const output = receipt.outputs?.find(output => output.manual === target.manual)
+      assert(output?.path === `content/en/${target.manual === 'guides' ? 'guides' : 'byoc'}/${target.path}${target.extension}`, 'Render output path mismatch')
+    }
+  }
   if (typeof fetchInputs.navigation === 'string') assert(matches(fetchInputs.navigation, SHA), 'Invalid Fetch navigation digest')
   else {
     keys(fetchInputs.navigation, ['navigationRecords', 'tableDigests'], 'Shared permanent navigation')

@@ -4,12 +4,19 @@ const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-
 const {NodeHttpHandler} = require('@smithy/node-http-handler')
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const missing = error => error.$metadata?.httpStatusCode === 404 || ['NoSuchKey', 'NotFound'].includes(error.name)
-class SharedImageUploader {
-  constructor({client, bucket = process.env.AWS_BUCKET, baseUrl = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com', mode = 'upload'} = {}) {
-    if (!['upload', 'skip'].includes(mode)) throw new Error('Invalid shared image upload mode')
+function validateImageBaseUrl(baseUrl) {
+  try {
+    // URL parsing repairs malformed schemes and strips controls; reject those raw inputs before publication.
+    if (typeof baseUrl !== 'string' || !/^https:\/\/[^/]/i.test(baseUrl) || /[\s\\\u0000-\u001f\u007f?#]/u.test(baseUrl)) throw new Error('invalid URL syntax')
     const url = new URL(baseUrl)
-    if (url.protocol !== 'https:' || url.search || url.hash || url.username || url.password) throw new Error('Invalid image base URL')
-    this.baseUrl = baseUrl.replace(/\/$/, ''); this.bucket = bucket; this.mode = mode; this.client = client; this.verified = new Map()
+    if (url.protocol !== 'https:' || url.search || url.hash || url.username || url.password) throw new Error('invalid URL')
+    return baseUrl.replace(/\/$/, '')
+  } catch { throw new Error('IMAGE_BED_URL must be an explicit HTTPS base URL without credentials, query or fragment') }
+}
+class SharedImageUploader {
+  constructor({client, bucket = process.env.AWS_BUCKET, baseUrl = process.env.IMAGE_BED_URL, mode = 'upload'} = {}) {
+    if (!['upload', 'skip'].includes(mode)) throw new Error('Invalid shared image upload mode')
+    this.baseUrl = validateImageBaseUrl(baseUrl); this.bucket = bucket; this.mode = mode; this.client = client; this.verified = new Map()
   }
   store() {
     if (!this.client) this.client = new S3Client({region: process.env.AWS_REGION,
@@ -47,4 +54,4 @@ class SharedImageUploader {
   }
   destroy() { this.client?.destroy?.() }
 }
-module.exports = {SharedImageUploader}
+module.exports = {SharedImageUploader, validateImageBaseUrl}

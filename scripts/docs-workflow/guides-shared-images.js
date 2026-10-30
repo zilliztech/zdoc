@@ -6,9 +6,10 @@ const {SharedImageUploader} = require('../../packages/docs-tooling/src/lark/shar
 const {regularBytes} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {loadTypeScript} = require('../lib/load-typescript')
 const {AcceptedImageStore} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/adapters/image-store.ts'))
-async function uploadSharedImages({bundleRoot, scratch, mode = 'write', uploader = new SharedImageUploader({mode: mode === 'write' ? 'upload' : mode})}) {
+async function uploadSharedImages({bundleRoot, scratch, mode = 'write', uploader}) {
   if (!fs.existsSync(bundleRoot)) return {images: 0}
   try {
+    uploader ||= new SharedImageUploader({mode: mode === 'write' ? 'upload' : mode})
     const {bundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle').loadBundle(bundleRoot)
     if (fs.realpathSync(scratch) !== path.resolve(scratch)) throw new Error('Unsafe scratch root')
     const seen = new Set()
@@ -22,7 +23,7 @@ async function uploadSharedImages({bundleRoot, scratch, mode = 'write', uploader
     }
     return {images: seen.size}
   } catch (cause) { throw Object.assign(new Error(`PUBLISH_IMAGE_UPLOAD_FAILED: ${cause.message}`, {cause}), {code: 'PUBLISH_IMAGE_UPLOAD_FAILED'}) }
-  finally { uploader.destroy() }
+  finally { uploader?.destroy() }
 }
 if (require.main === module) {
   const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, arg, index, all) => arg.startsWith('--') ? [...pairs, [arg.slice(2), all[index + 1]]] : pairs, []))

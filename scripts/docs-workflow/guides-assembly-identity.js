@@ -43,6 +43,8 @@ const FINGERPRINT_FILES = Object.freeze([
   'packages/docs-tooling/src/lark/sharedPagePublication.js',
   'packages/docs-tooling/src/lark/sharedPageFetch.js',
   'packages/docs-tooling/src/lark/sharedPageBundle.js',
+  'packages/docs-tooling/src/lark/sharedPageAliases.js',
+  'scripts/docs-workflow/guides-shared-regeneration.js',
   'packages/docs-tooling/src/shared-docs/core/handoff/source-state.ts',
   'packages/docs-tooling/src/shared-docs/core/site/front-matter.ts',
   'packages/docs-tooling/src/shared-docs/adapters/build-page.ts',
