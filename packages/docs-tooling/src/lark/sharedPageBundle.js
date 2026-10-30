@@ -75,8 +75,18 @@ function validateBundle(files, expected = {}) {
     if (outcome.status === 'success') {
       const input = prep.inputs[outcome.record_id]
       if (!input || !equal(input.identity, outcome.identity) || outcome.page !== input.identity.page || routing.routesByRecordId.get(outcome.record_id)?.page !== outcome.page) fail('route identity')
-      if (!equal(input.evidence.dev_files, prep.dev_files) || input.evidence.master_commit !== bundle.master_commit || input.evidence.dev_commit !== bundle.dev_commit) fail('input evidence')
-      if (!equal(outcome.input_context, {...input.evidence, upstream: outcome.input_context.upstream})) fail('input context')
+      // Bundles generated before the schema dedup carry per-input dev_files/navigation
+      // copies and full input_context mirrors; accept both shapes and reconstruct the
+      // run-global pieces so evidence checks keep one source of truth.
+      const evidence = {master_commit: input.evidence.master_commit, dev_commit: input.evidence.dev_commit, files: input.evidence.files,
+        dev_files: input.evidence.dev_files ?? prep.dev_files, navigation: input.evidence.navigation ?? prep.navigation}
+      if ((input.evidence.dev_files && !equal(input.evidence.dev_files, prep.dev_files)) || (input.evidence.navigation && !equal(input.evidence.navigation, prep.navigation))
+        || evidence.master_commit !== bundle.master_commit || evidence.dev_commit !== bundle.dev_commit) fail('input evidence')
+      // `{upstream: undefined}` stringifies like `{}`, so the compact equality alone
+      // would accept a context whose upstream pin was dropped or never computed.
+      if (!outcome.input_context || typeof outcome.input_context.upstream !== 'object' || outcome.input_context.upstream === null) fail('input context')
+      if (!equal(outcome.input_context, {...evidence, upstream: outcome.input_context.upstream})
+        && !equal(outcome.input_context, {upstream: outcome.input_context.upstream})) fail('input context')
       if (outcome.receipt !== `pages/${outcome.page}/receipt-draft.json`) fail('receipt file path')
       const receipt = JSON.parse(read(outcome.receipt)); validateSharedReceipt(receipt, outcome.identity)
       if (receipt.inputs.zdoc.commit !== bundle.master_commit || receipt.inputs.dev.commit !== bundle.dev_commit
@@ -187,7 +197,7 @@ function emitPrebuilt(writer, request) {
   const output = outcome.outputs.find(output => output.manual === manual), target = outcome.targets.find(target => target.manual === manual)
   const configPath = `shared-docs/guides/pages/${outcome.page}/page.yaml`
   const configBytes = require('./sharedPageFetch').regularBytes(writer.sharedWorkspace, configPath)
-  const configInput = outcome.input_context.files.find(file => file.path === configPath)
+  const configInput = handoff.bundle.preparation.inputs?.[outcome.record_id]?.evidence.files.find(file => file.path === configPath)
   if (!configInput || configInput.sha256 !== digest(configBytes) || configInput.size !== configBytes.length) fail('pinned publish configuration drift')
   const publish = yaml.load(configBytes.toString('utf8')).publish
   if (!Array.isArray(publish) || publish.filter(entry => entry.manual === manual && entry.path === target.path).length !== 1) fail('configured publish path mismatch')
