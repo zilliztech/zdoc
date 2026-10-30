@@ -527,7 +527,7 @@ test('real source artifact creation and restoration authenticate the portable sh
   const options = await fixture(t)
   await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})})
   const workspace = path.join(options.root, 'artifact-workspace'), artifact = path.join(options.root, 'artifact'), restored = path.join(options.root, 'restored')
-  const {ROOT, loadBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const {ROOT, loadBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const {createGuidesStageArtifact, restoreGuidesStageArtifact, validateGuidesStageArtifact} = require('./guides-stage-artifact')
   const put = (file, value) => {const full = path.join(workspace, file); fs.mkdirSync(path.dirname(full), {recursive: true}); fs.writeFileSync(full, JSON.stringify(value))}
   const reports = 'packages/docs-tooling/src/lark/meta/reports/'
@@ -554,7 +554,7 @@ test('real source artifact creation and restoration authenticate the portable sh
   const manifestFile = path.join(artifact, 'manifest.json')
   image.size++; fs.writeFileSync(manifestFile, JSON.stringify(manifest))
   await assert.rejects(validateGuidesStageArtifact(artifact), /size mismatch/)
-  image.size--; image.size = 33 * 1024 * 1024; fs.writeFileSync(manifestFile, JSON.stringify(manifest))
+  image.size--; image.size = FILE_LIMIT + 1; fs.writeFileSync(manifestFile, JSON.stringify(manifest))
   await assert.rejects(validateGuidesStageArtifact(artifact), /limit exceeded/)
 })
 test('actual shared-upload workflow shell fails before source artifacts and preserves existing reconciliation gates', {timeout: 120000}, async t => {
@@ -1502,30 +1502,31 @@ test('combined retained-evidence admission preserves authenticated aliases and p
 })
 
 // Exercise the production limits without allocating a full oversized payload on disk.
-test('bundle limits report the offending file, measured bytes and unchanged limit', t => {
+test('bundle limits report the offending file, measured bytes and exact limit', t => {
   const {loadBundle, validateBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'bundle-limits-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const file = path.join(root, 'bundle.json')
   fs.writeFileSync(file, '')
   fs.truncateSync(file, FILE_LIMIT + 1)
-  const message = /file size limit exceeded: "bundle.json" has 33554433 bytes; limit 33554432/
+  const message = new RegExp(`file size limit exceeded: "bundle.json" has ${FILE_LIMIT + 1} bytes; limit ${FILE_LIMIT}`)
   assert.throws(() => loadBundle(root), message)
   assert.throws(() => validateBundle(new Map([['bundle.json', Buffer.alloc(FILE_LIMIT + 1)]])), message)
   // Exactly at the limit reaches semantic validation, rather than a size rejection.
   assert.throws(() => validateBundle(new Map([['other.json', Buffer.alloc(FILE_LIMIT)]])), /missing, duplicate or unsafe file bundle.json/)
 })
 test('bundle limits distinguish total payload bytes from single-file size', t => {
-  const {loadBundle, validateBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const {loadBundle, validateBundle, FILE_LIMIT, LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'bundle-total-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
-  const bytes = Buffer.alloc(FILE_LIMIT), files = new Map()
+  const partSize = LIMIT / 8
+  const bytes = Buffer.alloc(partSize), files = new Map()
   for (let index = 0; index < 9; index++) {
-    const name = `part-${index}.json`, size = index === 8 ? 1 : FILE_LIMIT
+    const name = `part-${index}.json`, size = index === 8 ? 1 : partSize
     fs.writeFileSync(path.join(root, name), ''); fs.truncateSync(path.join(root, name), size)
     files.set(name, bytes.subarray(0, size))
   }
-  const message = /payload size limit exceeded at "part-8.json": 268435457 bytes; limit 268435456/
+  const message = new RegExp(`payload size limit exceeded at "part-8.json": ${LIMIT + 1} bytes; limit ${LIMIT}`)
   assert.throws(() => loadBundle(root), message)
   assert.throws(() => validateBundle(files), message)
   files.delete('part-8.json')
