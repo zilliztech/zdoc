@@ -9,3 +9,5 @@ allow:
   - The Milvus vector database is built for scale
   - 'Milvus 2.0 @ Scale! #AI #Vector_Databasé'
   - "['Milvus', '2', '0', 'Scale', 'AI', 'Vector']"
+  # Preserve the explicit engine version in the StructArray availability statement.
+  - On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
