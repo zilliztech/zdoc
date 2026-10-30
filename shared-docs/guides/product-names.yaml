@@ -7,3 +7,5 @@ check:
 allow:
   - Zilliz Cloud is built on Milvus
   - The Milvus vector database is built for scale
+  - 'Milvus 2.0 @ Scale! #AI #Vector_Databasé'
+  - "['Milvus', '2', '0', 'Scale', 'AI', 'Vector']"
