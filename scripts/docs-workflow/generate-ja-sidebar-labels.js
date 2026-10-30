@@ -108,10 +108,9 @@ function formatMissing(missing) {
     .join('\n')
 }
 
-// The offline ja translation lane (offline-guides-publication.js SIDEBAR_PATHS) is
-// the only writer allowed to publish these files as tracked dev content. If one
-// ever lands tracked, build-time generation would silently shadow it on every
-// build:en, so refuse instead.
+// These files are generated at build time, never published as tracked dev
+// content. If one ever lands tracked, build-time generation would silently
+// shadow it on every build:en, so refuse instead.
 function assertOutputsUntracked(workspace, execImpl = execFileSync) {
   for (const target of PLUGIN_TARGETS) {
     try {
