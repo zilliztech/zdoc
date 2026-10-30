@@ -49,8 +49,6 @@ function fixture() {
 }
 
 test('staging layout is deterministic and carries a manifest with per-file digests', () => {
-    const instructions = tmpDir('rest-upstream-instructions-')
-    fs.writeFileSync(path.join(instructions, 'codex-rest-refresh-agent.md'), '# Instruction pack\n')
     const first = tmpDir('rest-upstream-staging-a-')
     const second = tmpDir('rest-upstream-staging-b-')
     const root = tmpDir('rest-upstream-staging-root-')
@@ -68,14 +66,12 @@ test('staging layout is deterministic and carries a manifest with per-file diges
             titlesPath: path.join(__dirname, '..', 'meta', 'titles.json'),
             ledgerPath: path.join(__dirname, '..', 'meta', 'upstream', 'ledger.json'),
             lockPath: path.join(__dirname, '..', 'meta', 'upstream', 'rest-upstream-lock.json'),
-            instructionsPath: path.join(instructions, 'codex-rest-refresh-agent.md'),
         }
         const firstManifest = prepareRestUpstreamStaging({stagingDir: first, ...options})
         const secondManifest = prepareRestUpstreamStaging({stagingDir: second, ...options})
         assert.deepEqual(firstManifest, secondManifest)
         assert.equal(firstManifest.diffDigest, diffDigestOf(diff))
         assert.deepEqual(firstManifest.files.map(file => file.path), [
-            'INSTRUCTIONS.md',
             'diff/diff.json',
             'diff/diff.md',
             'fragments/21-project-operations-v2.json',
@@ -91,6 +87,6 @@ test('staging layout is deterministic and carries a manifest with per-file diges
         assert.equal(fs.readFileSync(path.join(first, 'fragments', '21-project-operations-v2.json'), 'utf8'), '{\n  "openapi": "3.0.1",\n  "paths": {}\n}\n')
         assert.throws(() => prepareRestUpstreamStaging({stagingDir: first, ...options}), /REST_UPSTREAM_STAGING_EXISTS/)
     } finally {
-        for (const dir of [instructions, first, second, root]) fs.rmSync(dir, {recursive: true, force: true})
+        for (const dir of [first, second, root]) fs.rmSync(dir, {recursive: true, force: true})
     }
 })

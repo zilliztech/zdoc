@@ -14,10 +14,11 @@ const {prepareRestUpstreamStaging} = require('./staging')
 const {loadRestUpstreamSkeleton, skeletonToUpstreamDocument, assertSkeletonMatchesSource} = require('./sourceTree')
 const {accountUpstreamOperations, assertAccountingComplete} = require('./accounting')
 const {loadRestFragmentMigration, assertMigrationConsistency, assertCanonicalReady} = require('./migration')
+const {buildCandidateLines, serializeCandidateLines} = require('./candidates')
+const {loadDecisions, assembleChangeSet} = require('./assembler')
 
 // Six levels up from upstreamDiff/: rest → reference → src → docs-tooling → packages → repo root.
 const REPOSITORY_ROOT = path.resolve(__dirname, '..', '..', '..', '..', '..', '..')
-const DEFAULT_INSTRUCTIONS = path.join(REPOSITORY_ROOT, '.github', 'prompts', 'codex-rest-refresh-agent.md')
 
 const REST_ROOT = path.join(__dirname, '..')
 const DEFAULTS = {
@@ -279,7 +280,6 @@ function registerPrepareCommand(command) {
         .option('--upstream-commit <sha>', 'Commit the spec was fetched from; defaults to the lock pin')
         .option('--expect-pinned', 'Fail unless the spec bytes match the lock contentSha256', false)
         .option('--allow-empty-drift', 'Stage even when no substantive drift exists (rehearsal escape hatch)', false)
-        .option('--instructions <path>', 'Agent instruction pack', path.join(REPOSITORY_ROOT, '.github', 'prompts', 'codex-rest-refresh-agent.md'))
         .option('--lock <path>', 'Lock file path', DEFAULTS.lock)
         .option('--ledger <path>', 'Ledger file path', DEFAULTS.ledger)
         .option('--rules <path>', 'Refresh ruleset path', DEFAULTS.rules)
@@ -288,11 +288,6 @@ function registerPrepareCommand(command) {
         .option('--migration <path>', 'fragment-migration.json used to scope fragment-only reporting by api surface', DEFAULTS.migration)
         .option('--lifecycle-track <track>', 'Derive lifecycle suggestions into the staged diff (data-plane sources only, design §6.3)')
         .action(opts => {
-            // The default pack anchors REPOSITORY_ROOT; a wrong root would
-            // only surface as an ENOENT deep in staging. Trip here instead.
-            if (!fs.existsSync(opts.instructions)) {
-                fail('REST_UPSTREAM_INSTRUCTIONS_MISSING', `${opts.instructions}: instruction pack not found (REPOSITORY_ROOT=${REPOSITORY_ROOT})`)
-            }
             const {diff, specSha256, source} = computeUpstreamDiff(opts)
             const drift = substantiveDriftEntries(diff)
             if (drift.length === 0 && !opts.allowEmptyDrift) {
@@ -316,11 +311,57 @@ function registerPrepareCommand(command) {
                 titlesPath: opts.titles,
                 ledgerPath: opts.ledger,
                 lockPath: opts.lock,
-                instructionsPath: opts.instructions,
             })
             console.log(`staged ${touchedFiles.length} fragment(s), ${drift.length} substantive drift entr(ies) -> ${opts.staging}`)
             console.log(`diff ${manifest.diffDigest}`)
             for (const file of manifest.files) console.log(`  ${file.path}`)
+        })
+}
+
+// Decisions-first pipeline (2026-10-29): the decision stage takes stances on
+// machine-generated candidates, and the assembler derives every structural
+// byte of the change set from the diff and the fragment copies.
+function registerCandidatesCommand(command) {
+    command
+        .description('Emit the machine-generated candidate list (one JSONL line per stanceable diff entry) for the decision stage')
+        .requiredOption('--diff <path>', 'diff.json produced by rest-upstream-diff')
+        .requiredOption('--out <file>', 'Candidates JSONL output path')
+        .option('--fragment <name>', 'Restrict candidates to one fragment file (batch unit)', null)
+        .action(opts => {
+            const diff = JSON.parse(fs.readFileSync(opts.diff, 'utf8'))
+            const lines = buildCandidateLines(diff, {fragmentFilter: opts.fragment})
+            fs.mkdirSync(path.dirname(path.resolve(opts.out)), {recursive: true})
+            fs.writeFileSync(opts.out, serializeCandidateLines(lines))
+            console.log(`candidates ${lines.length} line(s)${opts.fragment ? ` for ${opts.fragment}` : ''} -> ${opts.out}`)
+        })
+}
+
+function registerAssembleCommand(command) {
+    command
+        .description('Assemble the deterministic change set from decision stances (JSONL) plus the diff and fragment copies')
+        .requiredOption('--diff <path>', 'diff.json the decisions cite')
+        .requiredOption('--decisions <file>', 'Decisions JSONL (one stance per line)')
+        .requiredOption('--out <file>', 'Change set JSON output path')
+        .option('--fragments <dir>', 'Fragment copies the loci resolve against', DEFAULTS.fragments)
+        .action(opts => {
+            const diff = JSON.parse(fs.readFileSync(opts.diff, 'utf8'))
+            const decisions = loadDecisions(opts.decisions)
+            const fragmentsDir = opts.fragments
+            const fragmentCache = new Map()
+            const fragmentLoader = fileName => {
+                if (!fragmentCache.has(fileName)) {
+                    const filePath = path.join(fragmentsDir, fileName)
+                    if (!fs.existsSync(filePath)) fail('REST_UPSTREAM_ASSEMBLE_FRAGMENT_MISSING', filePath)
+                    fragmentCache.set(fileName, JSON.parse(fs.readFileSync(filePath, 'utf8')))
+                }
+                return fragmentCache.get(fileName)
+            }
+            const changeSet = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader})
+            fs.mkdirSync(path.dirname(path.resolve(opts.out)), {recursive: true})
+            fs.writeFileSync(opts.out, serializeDocument(changeSet))
+            const stances = decisions.reduce((counts, decision) => ({...counts, [decision.action]: (counts[decision.action] || 0) + 1}), {})
+            const tally = Object.entries(stances).sort(([left], [right]) => left.localeCompare(right)).map(([action, count]) => `${action}=${count}`).join(', ')
+            console.log(`assembled ${changeSet.entries.length} entr(ies) from ${decisions.length} decision(s) (${tally}) -> ${opts.out}`)
         })
 }
 
@@ -387,8 +428,10 @@ function registerUpstreamCommands(cli) {
     registerPrepareCommand(cli.command('rest-upstream-prepare'))
     registerAccountingCommand(cli.command('rest-upstream-accounting'))
     registerMigrationCommand(cli.command('rest-upstream-migration'))
+    registerCandidatesCommand(cli.command('rest-upstream-candidates'))
+    registerAssembleCommand(cli.command('rest-upstream-assemble'))
 }
 
-const UPSTREAM_COMMANDS = new Set(['rest-upstream-lock', 'rest-upstream-format', 'rest-upstream-diff', 'rest-upstream-apply', 'rest-upstream-ledger-bootstrap', 'rest-upstream-prepare', 'rest-upstream-accounting', 'rest-upstream-migration'])
+const UPSTREAM_COMMANDS = new Set(['rest-upstream-lock', 'rest-upstream-format', 'rest-upstream-diff', 'rest-upstream-apply', 'rest-upstream-ledger-bootstrap', 'rest-upstream-prepare', 'rest-upstream-accounting', 'rest-upstream-migration', 'rest-upstream-candidates', 'rest-upstream-assemble'])
 
 module.exports = {registerUpstreamCommands, renderDiffMarkdown, loadSpecFile, loadRuleset, loadFragmentSurfaces, computeUpstreamDiff, substantiveDriftEntries, UPSTREAM_COMMANDS, DEFAULTS, REPOSITORY_ROOT}

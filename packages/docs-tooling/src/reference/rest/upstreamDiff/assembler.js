@@ -1,0 +1,314 @@
+// Deterministic assembler for the decisions-first refresh pipeline (2026-10-29).
+// The decision stage only takes stances (adopt/skip/ledger) on diff entries; this
+// module derives every structural byte of the change set — opPath from the diff
+// entry's own coordinates plus the fragment's branch shape, value from the drift's
+// before/after, evidence from a fixed template. The run-3/4/5/9 failure family
+// (mis-transcribed pointers, dropped required members, wrong value shapes) is
+// structurally impossible here: no decision input carries a locus or a value.
+//
+// The applier and its gates stay the final authority; assembler output is a
+// plain v1.0 change set so every existing binding/confirmation/normalization
+// rule keeps applying unchanged.
+
+const fs = require('node:fs')
+const path = require('node:path')
+const Ajv2020 = require('ajv/dist/2020')
+const {diffDigestOf} = require('./changeSet')
+
+const decisionsSchema = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'contracts', 'rest-upstream-decisions.schema.json'), 'utf8'))
+const validateDecision = new Ajv2020({allErrors: true, strict: false}).compile(decisionsSchema)
+
+function fail(code, message) {
+    throw new Error(`${code}: ${message}`)
+}
+
+// Scalar constraint leaves the diff may report on a field or parameter. Schema
+// membership drift arrives as change.kind "required", never as this key.
+const CONSTRAINT_KEYS = new Set([
+    'type', 'format', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
+    'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems', 'uniqueItems',
+    'enum', 'default', 'nullable', 'deprecated',
+])
+const PROSE_KINDS = new Set(['description', 'summary'])
+const LIFECYCLE_KEYS = new Set(['x-added-at', 'x-last-modified', 'x-deprecated-since'])
+const ADOPTABLE_CATEGORIES = new Set(['upstream-modified'])
+// The applier binds ledger drafts to operation-level drift only (field-level
+// attribution is human content work), so the assembler refuses them earlier
+// with the same rule.
+const LEDGERABLE_CATEGORIES = new Set(['upstream-added', 'fragment-only', 'unattributed'])
+
+function validateDecisions(decisions) {
+    for (const decision of decisions) {
+        const shapeError = decisionShapeError(decision)
+        if (shapeError) fail('REST_UPSTREAM_DECISION_INVALID', `${JSON.stringify(decision)}: ${shapeError}`)
+    }
+    const seen = new Set()
+    for (const decision of decisions) {
+        if (seen.has(decision.diffEntryId)) {
+            fail('REST_UPSTREAM_DECISION_DUPLICATE', decision.diffEntryId)
+        }
+        seen.add(decision.diffEntryId)
+    }
+}
+
+// Contract shape of a single decision line, for callers that must reject one
+// bad line instead of failing a whole file (the batched decision stage).
+function decisionShapeError(decision) {
+    if (!validateDecision(decision)) {
+        return validateDecision.errors.map(error => `${error.instancePath || '/'} ${error.message}`).join('; ')
+    }
+    if (decision.action === 'ledger' && decision.override !== undefined) return 'ledger decisions carry no override'
+    if (decision.action === 'skip' && decision.override !== undefined) return 'skip decisions carry no override'
+    if (decision.override !== true && decision.overrideReason !== undefined) return 'overrideReason without override'
+    return null
+}
+
+function parseDecisions(text, label = 'decisions.jsonl') {
+    const decisions = []
+    for (const [index, line] of text.split('\n').entries()) {
+        if (!line.trim()) continue
+        let decision
+        try {
+            decision = JSON.parse(line)
+        } catch (error) {
+            fail('REST_UPSTREAM_DECISIONS_MALFORMED_JSON', `${label}:${index + 1}: ${error.message}`)
+        }
+        decisions.push(decision)
+    }
+    validateDecisions(decisions)
+    return decisions
+}
+
+function loadDecisions(filePath) {
+    return parseDecisions(fs.readFileSync(filePath, 'utf8'), path.basename(filePath))
+}
+
+function escapePointerToken(token) {
+    return String(token).replace(/~/g, '~0').replace(/\//g, '~1')
+}
+
+function resolvePointer(document, pointer) {
+    let current = document
+    for (const raw of pointer.split('/').slice(1)) {
+        const key = raw.replace(/~1/g, '/').replace(/~0/g, '~')
+        current = current?.[key]
+    }
+    return current
+}
+
+function operationBasePath(opKey) {
+    const space = opKey.indexOf(' ')
+    if (space <= 0) fail('REST_UPSTREAM_ASSEMBLE_OPKEY_INVALID', opKey)
+    const method = opKey.slice(0, space)
+    const operationPath = opKey.slice(space + 1)
+    return `/paths/${escapePointerToken(operationPath)}/${method}`
+}
+
+// Scenario branches are oneOf/anyOf members tagged x-tab-label; the diff names
+// the branch, the fragment decides the container and the index.
+function schemaContainerPath({base, scope, responseStatus, branch, fragmentDocument}) {
+    let schemaPath
+    if (scope === 'requestBody') {
+        schemaPath = `${base}/requestBody/content/application~1json/schema`
+    } else if (scope === 'response') {
+        schemaPath = `${base}/responses/${responseStatus}/content/application~1json/schema`
+    } else {
+        fail('REST_UPSTREAM_ASSEMBLE_SCOPE_UNSUPPORTED', scope)
+    }
+    if (!branch) return {schemaPath, container: resolvePointer(fragmentDocument, schemaPath)}
+    const schema = resolvePointer(fragmentDocument, schemaPath)
+    const containerName = schema && (schema.oneOf ? 'oneOf' : schema.anyOf ? 'anyOf' : null)
+    if (!containerName) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_CONTAINER_MISSING', `${schemaPath} branch=${branch}`)
+    const members = schema[containerName]
+    let branchIndex = members.findIndex(member => member && member['x-tab-label'] === branch)
+    // diff.js labels unlabeled oneOf/anyOf members by position (branch-N,
+    // 1-based) and the applier's branchLabelAt resolves the same fallback; a
+    // positional citation may only land on a member that is still unlabeled.
+    if (branchIndex < 0) {
+        const positional = /^branch-([0-9]+)$/.exec(branch)
+        const index = positional ? Number(positional[1]) - 1 : -1
+        if (index >= 0 && index < members.length && members[index] && members[index]['x-tab-label'] === undefined) branchIndex = index
+    }
+    if (branchIndex < 0) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_NOT_FOUND', `${schemaPath}/${containerName} has no branch ${branch}`)
+    const branchPath = `${schemaPath}/${containerName}/${branchIndex}`
+    return {schemaPath: branchPath, container: members[branchIndex]}
+}
+
+function locateParameter({base, field, fragmentDocument}) {
+    const separator = field.indexOf(':')
+    if (separator <= 0) fail('REST_UPSTREAM_ASSEMBLE_FIELD_INVALID', field)
+    const name = field.slice(0, separator)
+    const rest = field.slice(separator + 1)
+    // diff.js mints copy indexes for duplicated parameters (name:in#N, the
+    // 0-based occurrence) and the applier compares with the suffix stripped;
+    // resolve the same occurrence here.
+    const hash = rest.indexOf('#')
+    const where = (hash < 0 ? rest : rest.slice(0, hash)) || 'query'
+    const copy = hash < 0 ? null : Number(rest.slice(hash + 1))
+    const parameters = resolvePointer(fragmentDocument, `${base}/parameters`) || []
+    const matches = []
+    for (const [index, parameter] of parameters.entries()) {
+        if (parameter && parameter.name === name && parameter.in === where) matches.push(index)
+    }
+    const position = copy ?? 0
+    if (matches.length === 0 || position >= matches.length) {
+        fail('REST_UPSTREAM_ASSEMBLE_PARAMETER_NOT_FOUND', `${base}/parameters name=${name} in=${where}${copy === null ? '' : ` copy=${copy}`}`)
+    }
+    return {parameterPath: `${base}/parameters/${matches[position]}`}
+}
+
+// Shared stance context: the drift coordinates and the fragment locus they
+// resolve to. Lifecycle leaves attach to the same object the drift touched.
+function stanceContext({entry, fragmentDocument}) {
+    const base = operationBasePath(entry.opKey)
+    const {scope, branch, responseStatus, field} = entry
+    if (scope === 'parameter') {
+        const {parameterPath} = locateParameter({base, field, fragmentDocument})
+        return {base, scopePath: parameterPath, fieldObjectPath: parameterPath}
+    }
+    if (scope === 'operation') {
+        return {base, scopePath: base, fieldObjectPath: base}
+    }
+    const {schemaPath, container} = schemaContainerPath({base, scope, responseStatus, branch, fragmentDocument})
+    return {base, scopePath: schemaPath, container, fieldObjectPath: `${schemaPath}/properties/${field}`}
+}
+
+function evidenceBase(entry) {
+    return [
+        entry.opKey,
+        entry.scope,
+        entry.branch ? `branch '${entry.branch}'` : '',
+        entry.field ? `field '${entry.field}'` : '',
+    ].filter(Boolean).join(' ')
+}
+
+function mainEntry({decision, entry, context}) {
+    const base = evidenceBase(entry)
+    const change = entry.change || {}
+    const override = decision.override === true
+    const overrideFields = override ? {override: true, overrideReason: decision.overrideReason} : {override: false}
+
+    if (PROSE_KINDS.has(change.kind)) {
+        // Rule 8: en-US prose copies the upstream text verbatim; the ja lane
+        // applies the follow-up, so the evidence names the pages to update.
+        return {diffEntryId: entry.id, kind: 'prose', targetFragment: entry.fragment,
+            opPath: `${context.fieldObjectPath}/${change.kind}`, value: change.after,
+            evidence: `${base} ${change.kind} updated to upstream text; ja-JP page for ${entry.opKey} needs the matching follow-up update`, ...overrideFields}
+    }
+    if (change.kind === 'required') {
+        if (entry.scope === 'parameter') {
+            // #946 semantics: parameter-level required is the boolean on the
+            // parameter object itself; the applier locates and binds it.
+            return {diffEntryId: entry.id, kind: 'constraint', targetFragment: entry.fragment,
+                opPath: context.fieldObjectPath, value: change.after,
+                evidence: `${base} required → ${change.after}`, ...overrideFields}
+        }
+        // #941 semantics: the landed value is the schema's current membership
+        // plus/minus the cited field; the boolean itself is never written.
+        const current = Array.isArray(context.container?.required) ? context.container.required : []
+        const landed = change.after === true
+            ? (current.includes(entry.field) ? current : [...current, entry.field])
+            : current.filter(member => member !== entry.field)
+        return {diffEntryId: entry.id, kind: 'constraint', targetFragment: entry.fragment,
+            opPath: `${context.scopePath}/required`, value: landed,
+            evidence: `${base} required ${change.after ? 'gains' : 'drops'} '${entry.field}' (membership derived from the fragment copy)`, ...overrideFields}
+    }
+    if (change.kind === 'constraint') {
+        if (!CONSTRAINT_KEYS.has(change.key)) {
+            fail('REST_UPSTREAM_ASSEMBLE_CHANGE_UNSUPPORTED', `${change.kind}(${change.key}) ${entry.id}`)
+        }
+        return {diffEntryId: entry.id, kind: 'constraint', targetFragment: entry.fragment,
+            opPath: `${context.fieldObjectPath}/${change.key}`, value: change.after,
+            evidence: `${base} ${change.key} ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}`, ...overrideFields}
+    }
+    if (change.kind === 'deprecated') {
+        return {diffEntryId: entry.id, kind: 'constraint', targetFragment: entry.fragment,
+            opPath: `${context.scopePath}/deprecated`, value: change.after,
+            evidence: `${base} ${change.kind} ${JSON.stringify(change.before)} → ${JSON.stringify(change.after)}`, ...overrideFields}
+    }
+    fail('REST_UPSTREAM_ASSEMBLE_CHANGE_UNSUPPORTED', `${change.kind} ${entry.id}`)
+}
+
+// Rule 10: contract drift earns lifecycle writes; the diff derives the exact
+// suggested leaves, the assembler copies them onto the drifted object. A
+// schema-scope required drift anchors on the schema itself: the applier binds
+// required-cited entries to the schema declaring the cited field (its
+// .properties), so the field object is not a legal locus for them.
+function lifecycleEntries({entry, context}) {
+    const base = evidenceBase(entry)
+    const change = entry.change || {}
+    const anchor = entry.scope !== 'parameter' && entry.scope !== 'operation' && change.kind === 'required'
+        ? context.scopePath
+        : context.fieldObjectPath
+    const leaves = Object.keys(entry.lifecycle || {}).filter(key => LIFECYCLE_KEYS.has(key))
+    return leaves.map(leaf => ({diffEntryId: entry.id, kind: 'lifecycle', targetFragment: entry.fragment,
+        opPath: `${anchor}/${leaf}`, value: entry.lifecycle[leaf],
+        evidence: `${base} ${leaf}=${JSON.stringify(entry.lifecycle[leaf])} (diff-suggested lifecycle)`, override: false}))
+}
+
+function ledgerEntry({decision, entry}) {
+    const base = evidenceBase(entry)
+    return {diffEntryId: entry.id, kind: 'ledgerDraft',
+        ledgerDraft: {opKey: entry.opKey, classification: decision.classification, reason: decision.reason, owner: 'rest-decision-stage', ...(entry.fragment ? {fragment: entry.fragment} : {})},
+        evidence: `${base}: ledger proposal (${decision.reason})`}
+}
+
+function assembleChangeSet({diffDocument, decisions, fragmentLoader}) {
+    validateDecisions(decisions)
+    const byId = new Map(diffDocument.entries.map(entry => [entry.id, entry]))
+    const entries = []
+    for (const decision of decisions) {
+        const entry = byId.get(decision.diffEntryId)
+        if (!entry) fail('REST_UPSTREAM_ASSEMBLE_DIFF_ENTRY_UNKNOWN', decision.diffEntryId)
+        if (decision.action === 'skip') continue
+        if (decision.action === 'ledger') {
+            if (!LEDGERABLE_CATEGORIES.has(entry.category)) {
+                fail('REST_UPSTREAM_ASSEMBLE_LEDGER_TARGET_INVALID', `${entry.id}: ledger drafts must cite an operation-level drift (${[...LEDGERABLE_CATEGORIES].sort().join(', ')}), not ${entry.category}`)
+            }
+            entries.push(ledgerEntry({decision, entry}))
+            continue
+        }
+        if (!ADOPTABLE_CATEGORIES.has(entry.category)) {
+            fail('REST_UPSTREAM_ASSEMBLE_ADOPT_TARGET_INVALID', `${entry.id}: only upstream-modified drift is mechanically adoptable (${entry.category} needs a ledger proposal or human content work)`)
+        }
+        const fragmentDocument = fragmentLoader(entry.fragment)
+        const context = stanceContext({entry, fragmentDocument})
+        entries.push(mainEntry({decision, entry, context}))
+        if (entry.lifecycle) entries.push(...lifecycleEntries({entry, context}))
+    }
+    const orderIds = (left, right) => (left < right ? -1 : left > right ? 1 : 0)
+    entries.sort((left, right) => orderIds(left.diffEntryId, right.diffEntryId) || orderIds(left.kind, right.kind))
+    return {
+        schemaVersion: '1.0',
+        source: diffDocument.source,
+        diffDigest: diffDigestOf(diffDocument),
+        entries,
+    }
+}
+
+// Assemblability of one stance from the diff entry alone (no fragment needed).
+// The batched decision stage uses this to downgrade an out-of-grid stance to a
+// per-line rejection instead of losing every other stance with the run; the
+// assembler's own gates stay fail-closed and re-check everything.
+function stanceError(decision, entry) {
+    if (!decision || !entry) return 'unknown diff entry'
+    if (decision.action === 'skip') return null
+    if (decision.action === 'ledger') {
+        if (!LEDGERABLE_CATEGORIES.has(entry.category)) {
+            return `ledger drafts must cite an operation-level drift (${[...LEDGERABLE_CATEGORIES].sort().join(', ')}), not ${entry.category}`
+        }
+        return null
+    }
+    if (!ADOPTABLE_CATEGORIES.has(entry.category)) {
+        return `only upstream-modified drift is mechanically adoptable (${entry.category} needs a ledger proposal or human content work)`
+    }
+    const change = entry.change || {}
+    if (PROSE_KINDS.has(change.kind) || change.kind === 'deprecated' || change.kind === 'required') return null
+    if (change.kind === 'constraint') {
+        if (!CONSTRAINT_KEYS.has(change.key)) return `constraint key ${JSON.stringify(change.key)} is not mechanically writable`
+        return null
+    }
+    return `change kind ${JSON.stringify(change.kind)} has no mechanical write`
+}
+
+module.exports = {parseDecisions, loadDecisions, assembleChangeSet, decisionShapeError, stanceError, CONSTRAINT_KEYS, LIFECYCLE_KEYS}
