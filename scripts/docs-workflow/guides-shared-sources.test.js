@@ -1557,8 +1557,10 @@ test('compact generated bundle retains production-scale evidence and all paired 
   const bytes = fs.readFileSync(path.join(options.out, 'bundle.json'))
   const pretty = Buffer.from(JSON.stringify(bundle, null, 2) + '\n')
   t.diagnostic(`emitted=${bytes.length}, compact=${Buffer.byteLength(JSON.stringify(bundle) + "\n")}, pretty=${pretty.length}, limit=${FILE_LIMIT}`)
-  assert.ok(pretty.length > FILE_LIMIT, 'fixture must reproduce the pretty-print size rejection')
-  assert.ok(bytes.length < FILE_LIMIT, 'producer must preserve evidence within the existing limit')
+  assert.ok(bytes.length < FILE_LIMIT, 'producer must preserve evidence within the limit')
+  // Production-scale pretty printing no longer crosses the limit, so exercise the
+  // size rejection directly instead of relying on fixture bytes to exceed it.
+  assert.throws(() => validateBundle(new Map([['bundle.json', Buffer.alloc(FILE_LIMIT + 1)]])), /file size limit exceeded: "bundle.json"/)
   assert.deepEqual(JSON.parse(bytes), bundle)
   const handoff = loadBundle(options.out, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
   assert.deepEqual(handoff.bundle.preparation.alias_evidence, bundle.preparation.alias_evidence)
@@ -1572,16 +1574,14 @@ test('compact generated bundle retains production-scale evidence and all paired 
   }
   assert.equal(outputs, 32)
   const files = new Map(handoff.files)
-  files.set('bundle.json', pretty)
-  assert.throws(() => validateBundle(files), /file size limit exceeded: "bundle.json"/)
-  files.set('bundle.json', bytes)
   files.set(bundle.outcomes[0].outputs[0].file, Buffer.from('tampered'))
   assert.throws(() => validateBundle(files), /digest mismatch/)
 })
 test('generation rejects a still-oversized bundle before reporting success', {timeout: 120000}, async t => {
   const options = await fixture(t)
+  const {FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   // A selected record's preparation diagnostic is retained as evidence.
-  options.preparation.errors.push({record_id: 'rec0', message: 'x'.repeat(32 * 1024 * 1024)})
+  options.preparation.errors.push({record_id: 'rec0', message: 'x'.repeat(FILE_LIMIT)})
   await assert.rejects(generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})}),
-    /file size limit exceeded: "bundle.json" has \d+ bytes; limit 33554432/)
+    new RegExp(`file size limit exceeded: "bundle.json" has \\d+ bytes; limit ${FILE_LIMIT}`))
 })
