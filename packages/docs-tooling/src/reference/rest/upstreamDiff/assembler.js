@@ -287,10 +287,14 @@ function mirrorEntry({entry, fragmentDocument}) {
     }
     const mergeOptions = entry.preserveLocalScalarConstraints ? {preserveLocalScalarConstraints: true} : {}
     const value = mergeMirrorProse(entry.change.after, current, mergeOptions)
+    // NOTE: preserveLocalScalarConstraints deliberately does NOT ride the
+    // change-set entry — the contract's entry object is closed
+    // (additionalProperties: false) and the applier reads the flag from the
+    // cited diff entry, so a change-set copy would be dead weight that Ajv
+    // rejects. The diffDigest binding keeps the two documents in lockstep.
     const mirror = {diffEntryId: entry.id, kind: 'mirror', targetFragment: entry.fragment,
         opPath: context.fieldObjectPath, value,
         requiredMembership: entry.requiredMembership ?? null,
-        ...(entry.preserveLocalScalarConstraints ? {preserveLocalScalarConstraints: true} : {}),
         evidence: `${base} schema mirrored to upstream structure (local prose preserved at surviving nodes)${entry.droppedLocalFields?.length ? `; local fields retired: ${entry.droppedLocalFields.join(', ')}` : ''}`,
         override: false}
     const extra = entry.lifecycle ? lifecycleEntries({entry, context}) : []

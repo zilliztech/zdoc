@@ -97,6 +97,32 @@ test('a degraded-then-completed response still fails the post-verify when lines 
 })
 
 
+
+test('entries with zero pending prose pass through without a model call and never false-fail', async () => {
+    process.env.TRANSLATE_TEST_KEY = 'key'
+    // the milvus structure-only shape: mirrors carry no prose at all, so the
+    // translate stage has nothing to do — it must succeed with zero model
+    // calls, not report ALL_DEGRADED (P1-B regression)
+    const changeSet = {
+        schemaVersion: '1.0', source: 's', diffDigest: 'sha256:' + 'a'.repeat(64),
+        entries: [
+            {diffEntryId: 'm1', kind: 'mirror', targetFragment: '01-a.json', opPath: '/p',
+                value: {type: 'object', properties: {id: {type: 'string'}}}, requiredMembership: null, evidence: 'e', override: false},
+            {diffEntryId: 'm2', kind: 'mirror', targetFragment: '01-a.json', opPath: '/q',
+                value: {type: 'string'}, requiredMembership: null, evidence: 'e', override: false},
+        ],
+    }
+    let called = 0
+    const {changeSet: translated, report} = await translateChangeSet({
+        changeSet, baseUrl: 'https://gateway.invalid', apiKeyEnv: 'TRANSLATE_TEST_KEY', model: 'm',
+        fetchImpl: async () => { called += 1; throw new Error('must not be called') },
+    })
+    assert.equal(called, 0)
+    assert.equal(report.translatedEntries, 0)
+    assert.deepEqual(report.degraded, [])
+    assert.equal(translated.entries.length, 2)
+})
+
 test('every entry degrading fails with its own code, not an opaque schema error', async () => {
     process.env.TRANSLATE_TEST_KEY = 'key'
     const {fetchImpl} = stubFetch([new Error('gateway down'), new Error('gateway down'), new Error('gateway down'), new Error('gateway down')])

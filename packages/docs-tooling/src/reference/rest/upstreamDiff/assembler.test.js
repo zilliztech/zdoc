@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const {parseDecisions, loadDecisions, assembleChangeSet, stanceError} = require('./assembler')
+const {parseChangeSet} = require('./changeSet')
 const {diffDigestOf} = require('./changeSet')
 
 // Fragment copy shaped like the staged copies: scenario branches are oneOf /
@@ -157,6 +158,22 @@ test('mirrors are auto lanes: the value merges the upstream structure with the l
     assert.deepEqual(mirror.value, {type: 'string', maxLength: 50, description: 'Database name.'})
     assert.equal(mirror.requiredMembership, null)
     assert.match(mirror.evidence, /schema mirrored to upstream structure/)
+})
+
+
+test('a structure-only mirror change set survives the real parse/contract path', () => {
+    // P1-A regression: the preserve flag lives on the DIFF entry only; the
+    // change-set entry must stay within the closed contract shape, and the
+    // landed artifact must parse through loadChangeSet (Ajv) cleanly.
+    const diff = diffDocument()
+    const mirror = diff.entries.find(entry => entry.change.kind === 'schema')
+    mirror.preserveLocalScalarConstraints = true
+    const {changeSet} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader})
+    const parsed = parseChangeSet(JSON.stringify(changeSet))
+    const landed = parsed.entries.find(entry => entry.kind === 'mirror')
+    assert.equal(landed.diffEntryId, mirror.id)
+    assert.equal(landed.preserveLocalScalarConstraints, undefined)
+    assert.deepEqual(landed.value, {type: 'string', maxLength: 50, description: 'Database name.'})
 })
 
 test('a relaxation-flagged mirror waits in pendingConfirmation instead of the change set', () => {
