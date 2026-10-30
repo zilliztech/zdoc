@@ -1,0 +1,26 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/search-with-embedding-lists.md
+publish:
+  - manual: guides
+    path: >-
+      tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali
+  - manual: guides-byoc
+    path: >-
+      tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali
+transforms:
+  - operation: replace
+    target:
+      block: colbert-prerequisites
+    content:
+      file: cloud-colbert-prerequisites.md
+  - operation: replace
+    target:
+      block: colpali-prerequisites
+    content:
+      file: cloud-colpali-prerequisites.md
+  - operation: replace
+    target:
+      block: embeddinglist-metric-reference
+    content:
+      file: cloud-maximum-similarity-reference.md

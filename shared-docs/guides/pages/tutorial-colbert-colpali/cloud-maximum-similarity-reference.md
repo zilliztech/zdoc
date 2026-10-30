@@ -1,0 +1,1 @@
+For details on maximum similarity, see [Maximum similarity](https://docs.zilliz.com/docs/search-metrics-explained#maximum-similarity).
