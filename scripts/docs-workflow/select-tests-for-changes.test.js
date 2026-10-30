@@ -6,7 +6,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
 
-const {branchPolicy, changedFilesBetween, loadMatrix, loadOwnershipContract, matchesPattern, normalizeRepositoryPath, resolveCommit, selectTests} = require('./select-tests-for-changes')
+const {branchPolicy, changedFilesBetween, headTreeFiles, loadMatrix, loadOwnershipContract, matchesPattern, normalizeRepositoryPath, resolveCommit, selectTests} = require('./select-tests-for-changes')
 
 const repositoryRoot = path.resolve(__dirname, '../..')
 
@@ -52,6 +52,23 @@ test('path matching supports exact, prefix-star, and recursive directory entries
   assert.equal(matchesPattern('scripts/docs-workflow/publication-contracts.test.js', 'scripts/docs-workflow/publication-contracts*'), true)
   assert.equal(matchesPattern('scripts/docs-workflow/publication-scheduler.js', 'scripts/docs-workflow/publication-contracts*'), false)
   assert.equal(matchesPattern('README.md', 'README.md'), true)
+})
+
+test('diff-mode selector input drops paths deleted on the head side', () => {
+  const tree = headTreeFiles('HEAD')
+  assert.equal(tree.has('package.json'), true)
+  assert.equal(tree.has('scripts/docs-workflow/retired-from-the-tree.js'), false)
+  assert.deepEqual(['package.json', 'scripts/docs-workflow/retired-from-the-tree.js'].filter(file => tree.has(file)), ['package.json'])
+  assert.throws(() => selectTests(['scripts/docs-workflow/retired-from-the-tree.js']), /no entry/u)
+})
+
+test('diff-mode selector wiring skips an empty or fully deleted diff without the gap error', () => {
+  const empty = spawnSync('node', [path.join(repositoryRoot, 'scripts/docs-workflow/select-tests-for-changes.js'), '--base', 'HEAD', '--head', 'HEAD'], {cwd: repositoryRoot, encoding: 'utf8'})
+  assert.equal(empty.status, 0, empty.stderr)
+  assert.match(empty.stdout, /nothing left to test/u)
+  const json = spawnSync('node', [path.join(repositoryRoot, 'scripts/docs-workflow/select-tests-for-changes.js'), '--json', '--base', 'HEAD', '--head', 'HEAD'], {cwd: repositoryRoot, encoding: 'utf8'})
+  assert.equal(json.status, 0, json.stderr)
+  assert.deepEqual(JSON.parse(json.stdout).commands, ['git diff --check'])
 })
 
 test('branch policy derives master, dev, preserved exceptions, and candidate-derived ownership from the sync contract', () => {
