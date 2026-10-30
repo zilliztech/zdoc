@@ -329,6 +329,29 @@ Armed cycles carry three guards. A **source build gate** builds the current `dev
 2. Check the current `dev` tip and make sure no production Fetch, Translation, or tooling run is already active.
 3. For a risky workflow or artifact change, run the repository tests and a local real-artifact replay first. A replay must use real retained checkpoint archives, a local bare Git remote, the exact validation commands and site environment, and an isolated dependency layout. It must never push to the real `origin`.
 
+### Shared Guides source bundle compatibility
+
+Shared Guides source artifacts now write bundle schema v2: exact JSON input
+evidence is stored once per SHA-256 in `common_evidence`, and preparation inputs
+and successful page contexts carry `evidence_ref` references. Per-page upstream
+context remains inline. Readers restore the original schema-v1 memory shape
+before the existing commit, provenance, receipt, frozen-target, regeneration and
+paired-output checks. Permanent receipts and `inputs_sha256` are unchanged.
+
+The reader accepts retained v1 bundles as well as v2. Old tooling rejects v2;
+roll out the producer and reader together through the normal master PR and
+validated master-to-dev sync. For rollback, use a retained v1 source artifact or
+regenerate with the corresponding old tooling within the original limits. Do
+not relabel v2 as v1 or mix new producer artifacts with an old reader.
+
+The bounds remain 32 MiB per file, 256 MiB per bundle and 8192 files. V2 also
+limits the expanded logical payload (including other bundle files) to 256 MiB,
+with at most 2048 inputs/outcomes and 4096 common-evidence entries. References
+are one-level, hash-checked and fully consumed; missing, duplicate, unused or
+malformed entries fail closed. Reaching a bound still requires diagnosis, not
+raising the limit. A retained source tar is source evidence, not a checkpoint;
+preflight any accompanying checkpoint separately using the replay procedure.
+
 ### Replay harnesses
 
 Use the [docs-workflow code-to-test matrix](.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md) to map changed files to focused tests, replay harnesses, and broader gates. `pnpm test:for-change -- <repository-relative-path>...` prints the required command union and fails when a workflow path is not mapped.

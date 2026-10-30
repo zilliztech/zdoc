@@ -332,10 +332,13 @@ async function generateSharedSources(options, dependencies = {}) {
   bundle.notices = notices
   bundle.information = (data.alias_evidence.gaps || []).map(gap => `Alias evidence incomplete for ${gap.record_id}: ${gap.message}`)
   for (const line of bundle.information) console.info(`[shared-aliases] ${line}`)
-  // This is a machine handoff: indentation of repeated input evidence can push
-  // otherwise valid bundles past the reader's limit. Embedded proof bytes stay exact.
-  write(out, 'bundle.json', JSON.stringify(bundle) + '\n')
-  require('../../packages/docs-tooling/src/lark/sharedPageBundle').checkBundleLimits(out)
+  // Intern exact common evidence only on disk; callers and receipt identities keep
+  // the original logical shape. All consumers decode before authenticating it.
+  const {encodeBundle, decodeBundle, checkBundleLimits} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const wire = encodeBundle(bundle)
+  write(out, 'bundle.json', JSON.stringify(wire) + '\n')
+  const files = checkBundleLimits(out)
+  decodeBundle(wire, files.filter(entry => entry.file !== 'bundle.json').reduce((sum, entry) => sum + fs.statSync(entry.full).size, 0))
   return bundle
 }
 async function main(argv, dependencies = {}) {

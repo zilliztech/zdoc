@@ -1399,7 +1399,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Immutable source-job image uploads must send conditional HTTP creates and read back exact bytes; bounded authenticated bundles preserve both outcomes, complete raw routing evidence and exact baseline fallbacks within existing table ownership before offline artifact creation."
+      "reason": "Immutable source-job image uploads must send conditional HTTP creates and read back exact bytes; bounded authenticated bundles preserve both outcomes, complete raw routing evidence and exact baseline fallbacks within existing table ownership before offline artifact creation. Bundle v2 additionally checks exact v1 restoration, hash references, expanded-byte bounds and synthetic 21/23/50/100-page scaling without changing receipt identities."
     },
     {
       "id": "shared-fetch-publication",

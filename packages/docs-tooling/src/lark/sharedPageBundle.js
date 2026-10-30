@@ -11,13 +11,88 @@ const LIMIT = 256 * 1024 * 1024, FILE_LIMIT = 32 * 1024 * 1024
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const fail = message => {throw new Error(`Invalid shared source bundle: ${message}`)}
-function freeze(value) { if (value && typeof value === 'object') {Object.values(value).forEach(freeze); Object.freeze(value)} return value }
+function freeze(value) { if (value && typeof value === 'object' && !Object.isFrozen(value)) {Object.values(value).forEach(freeze); Object.freeze(value)} return value }
 function checkFileLimits(file, size, count, total) {
   const name = JSON.stringify(file)
   if (!safeHandoffPath(file)) fail(`unsafe path: ${name}`)
   if (size > FILE_LIMIT) fail(`file size limit exceeded: ${name} has ${size} bytes; limit ${FILE_LIMIT}`)
   if (count > 8192) fail(`file count limit exceeded at ${name}: ${count} files; limit 8192`)
   if (total > LIMIT) fail(`payload size limit exceeded at ${name}: ${total} bytes; limit ${LIMIT}`)
+}
+// v2 changes only the wire representation. Hash the exact JSON (including key
+// order): input/receipt identities still use their original evidence bytes.
+const EVIDENCE_KEYS = ['master_commit', 'dev_commit', 'files', 'dev_files', 'navigation']
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+const keysAre = (value, keys) => object(value) && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key))
+const jsonSize = value => Buffer.byteLength(JSON.stringify(value))
+function evidenceBytes(value) {
+  if (!keysAre(value, EVIDENCE_KEYS)) fail('common evidence shape')
+  const bytes = JSON.stringify(value)
+  if (Buffer.byteLength(bytes) > FILE_LIMIT) fail('common evidence size limit exceeded')
+  return bytes
+}
+function encodeBundle(bundle) {
+  if (bundle.schema_version !== 1 || Object.hasOwn(bundle, 'common_evidence')) fail('encoder requires logical v1 bundle')
+  const pool = new Map()
+  const reference = evidence => {
+    const bytes = evidenceBytes(evidence), id = digest(bytes)
+    if (pool.has(id) && JSON.stringify(pool.get(id)) !== bytes) fail('conflicting common evidence')
+    pool.set(id, evidence)
+    return id
+  }
+  const inputs = Object.fromEntries(Object.entries(bundle.preparation.inputs).map(([id, input]) =>
+    [id, {...input, evidence: {evidence_ref: reference(input.evidence)}}]))
+  const outcomes = bundle.outcomes.map(outcome => {
+    if (outcome.status !== 'success') return outcome
+    const {upstream, ...evidence} = outcome.input_context
+    return {...outcome, input_context: {evidence_ref: reference(evidence), upstream}}
+  })
+  const wire = {...bundle, schema_version: 2, preparation: {...bundle.preparation, inputs}, outcomes,
+    common_evidence: [...pool].map(([sha256, value]) => ({sha256, value}))}
+  // Reject amplification at the producer too, before reporting a usable handoff.
+  decodeBundle(wire)
+  return wire
+}
+function decodeBundle(wire, otherBytes = 0) {
+  if (wire.schema_version === 1) {
+    if (Object.hasOwn(wire, 'common_evidence')) fail('unexpected v1 common evidence')
+    return wire
+  }
+  if (wire.schema_version !== 2) fail('identity')
+  if (!Array.isArray(wire.common_evidence) || wire.common_evidence.length > 4096
+    || !object(wire.preparation?.inputs) || Object.keys(wire.preparation.inputs).length > 2048
+    || !Array.isArray(wire.outcomes) || wire.outcomes.length > 2048) fail('evidence reference counts')
+  const pool = new Map(), used = new Set()
+  for (const entry of wire.common_evidence) {
+    if (!keysAre(entry, ['sha256', 'value']) || !/^[a-f0-9]{64}$/.test(entry.sha256) || pool.has(entry.sha256)) fail('duplicate or invalid common evidence')
+    if (digest(evidenceBytes(entry.value)) !== entry.sha256) fail('common evidence digest mismatch')
+    pool.set(entry.sha256, entry.value)
+  }
+  const {common_evidence, ...bundle} = wire
+  bundle.schema_version = 1
+  let expanded = jsonSize(bundle) + otherBytes
+  const budget = () => {if (expanded > LIMIT) fail(`expanded payload size limit exceeded: ${expanded} bytes; limit ${LIMIT}`)}
+  budget()
+  const restore = (wrapper, context = false) => {
+    if (!keysAre(wrapper, context ? ['evidence_ref', 'upstream'] : ['evidence_ref'])
+      || typeof wrapper.evidence_ref !== 'string' || !pool.has(wrapper.evidence_ref)) fail('missing or invalid evidence reference')
+    used.add(wrapper.evidence_ref)
+    const evidence = pool.get(wrapper.evidence_ref)
+    const restored = context ? {...evidence, upstream: wrapper.upstream} : evidence
+    expanded += jsonSize(restored) - jsonSize(wrapper)
+    budget() // Check logical bytes before attaching the expanded reference.
+    return restored
+  }
+  bundle.preparation = {...wire.preparation, inputs: Object.fromEntries(Object.entries(wire.preparation.inputs).map(([id, input]) => {
+    if (!object(input)) fail('input evidence reference')
+    return [id, {...input, evidence: restore(input.evidence)}]
+  }))}
+  bundle.outcomes = wire.outcomes.map(outcome => {
+    if (!object(outcome)) fail('outcomes')
+    return outcome.status === 'success' ? {...outcome, input_context: restore(outcome.input_context, true)} : outcome
+  })
+  if (used.size !== pool.size) fail('unused common evidence')
+  return bundle
 }
 function validateBundle(files, expected = {}) {
   if (!files.size) return null
@@ -31,7 +106,8 @@ function validateBundle(files, expected = {}) {
     if (hash && digest(bytes) !== hash) fail(`digest mismatch ${file}`)
     return bytes
   }
-  const bundle = JSON.parse(read('bundle.json'))
+  const bytes = read('bundle.json')
+  const bundle = decodeBundle(JSON.parse(bytes), total - bytes.length)
   if (bundle.schema_version !== 1 || !/^[a-f0-9]{40}$/.test(bundle.master_commit) || !/^[a-f0-9]{40}$/.test(bundle.dev_commit)) fail('identity')
   if (expected.masterSha && expected.masterSha !== bundle.master_commit || expected.devBaselineSha && expected.devBaselineSha !== bundle.dev_commit) fail('commit binding')
   const prep = bundle.preparation
@@ -221,4 +297,4 @@ function restoreTableFallbacks(handoff, workspace, ownedPath) {
   }
   return emitted
 }
-module.exports = {ROOT, LIMIT, FILE_LIMIT, validateBundle, fromPayload, checkBundleLimits, loadBundle, emitPrebuilt, restoreTableFallbacks}
+module.exports = {ROOT, LIMIT, FILE_LIMIT, encodeBundle, decodeBundle, validateBundle, fromPayload, checkBundleLimits, loadBundle, emitPrebuilt, restoreTableFallbacks}

@@ -1559,7 +1559,7 @@ test('compact generated bundle retains production-scale evidence and all paired 
   t.diagnostic(`emitted=${bytes.length}, compact=${Buffer.byteLength(JSON.stringify(bundle) + "\n")}, pretty=${pretty.length}, limit=${FILE_LIMIT}`)
   assert.ok(pretty.length > FILE_LIMIT, 'fixture must reproduce the pretty-print size rejection')
   assert.ok(bytes.length < FILE_LIMIT, 'producer must preserve evidence within the existing limit')
-  assert.deepEqual(JSON.parse(bytes), bundle)
+  assert.deepEqual(require('../../packages/docs-tooling/src/lark/sharedPageBundle').decodeBundle(JSON.parse(bytes)), bundle)
   const handoff = loadBundle(options.out, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
   assert.deepEqual(handoff.bundle.preparation.alias_evidence, bundle.preparation.alias_evidence)
   let outputs = 0
@@ -1584,4 +1584,87 @@ test('generation rejects a still-oversized bundle before reporting success', {ti
   options.preparation.errors.push({record_id: 'rec0', message: 'x'.repeat(32 * 1024 * 1024)})
   await assert.rejects(generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})}),
     /file size limit exceeded: "bundle.json" has \d+ bytes; limit 33554432/)
+})
+
+
+test('v2 common evidence is exact, bounded, and authenticated before old semantic checks', {timeout: 120000}, async t => {
+  const options = await fixture(t, {pages: ['sample', 'sibling']})
+  const original = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})})
+  const {encodeBundle, decodeBundle, loadBundle, validateBundle, LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const handoff = loadBundle(options.out)
+  assert.deepEqual(handoff.bundle, original)
+  const wire = JSON.parse(handoff.files.get('bundle.json'))
+  assert.equal(wire.schema_version, 2)
+  assert.equal(wire.common_evidence.length, 1)
+  assert.equal(JSON.stringify(decodeBundle(wire)), JSON.stringify(original), 'identity-bearing key order stays exact')
+  const legacy = new Map(handoff.files)
+  legacy.set('bundle.json', Buffer.from(JSON.stringify(original)))
+  assert.deepEqual(validateBundle(legacy).bundle, handoff.bundle, 'old v1 packages still authenticate')
+  const check = (mutate, pattern) => {
+    const changed = structuredClone(wire), files = new Map(handoff.files)
+    mutate(changed); files.set('bundle.json', Buffer.from(JSON.stringify(changed)))
+    assert.throws(() => validateBundle(files), pattern)
+  }
+  check(w => {w.preparation.inputs.rec0.evidence.evidence_ref = '0'.repeat(64)}, /missing or invalid evidence reference/)
+  check(w => {delete w.outcomes[0].input_context.evidence_ref}, /missing or invalid evidence reference/)
+  check(w => {w.outcomes[0].input_context.navigation = {}}, /missing or invalid evidence reference/)
+  check(w => {w.common_evidence[0].value.master_commit = '0'.repeat(40)}, /common evidence digest mismatch/)
+  check(w => {w.common_evidence.push(w.common_evidence[0])}, /duplicate or invalid common evidence/)
+  check(w => {w.common_evidence[0].value.evidence_ref = w.common_evidence[0].sha256}, /common evidence shape/)
+  check(w => {w.common_evidence[0].sha256 = '__proto__'}, /duplicate or invalid common evidence/)
+  check(w => {
+    const value = {...w.common_evidence[0].value, master_commit: '0'.repeat(40)}
+    w.common_evidence.push({sha256: adapter.digest(JSON.stringify(value)), value})
+  }, /unused common evidence/)
+  check(w => {
+    const entry = w.common_evidence[0], old = entry.sha256
+    entry.value.dev_commit = '0'.repeat(40); entry.sha256 = adapter.digest(JSON.stringify(entry.value))
+    for (const input of Object.values(w.preparation.inputs)) input.evidence.evidence_ref = entry.sha256
+    for (const outcome of w.outcomes) if (outcome.input_context?.evidence_ref === old) outcome.input_context.evidence_ref = entry.sha256
+  }, /input evidence/)
+  check(w => {w.outcomes[0].regeneration.inputs_sha256 = '0'.repeat(64)}, /Unbound replay evidence/)
+  check(w => {w.schema_version = 1}, /unexpected v1 common evidence/)
+  const distinct = structuredClone(original)
+  distinct.preparation.inputs.rec1.evidence.navigation = {...distinct.preparation.inputs.rec1.evidence.navigation, marker: 'different'}
+  const distinctWire = encodeBundle(distinct)
+  assert.equal(distinctWire.common_evidence.length, 2, 'different evidence must never collapse')
+  assert.deepEqual(decodeBundle(distinctWire), distinct)
+  const logical = Buffer.byteLength(JSON.stringify(original))
+  assert.deepEqual(decodeBundle(wire, LIMIT - logical), original, 'exact expanded limit is accepted')
+  assert.throws(() => decodeBundle(wire, LIMIT - logical + 1), /expanded payload size limit/)
+  assert.throws(() => decodeBundle({...wire, outcomes: Array(2049).fill(wire.outcomes[0])}), /evidence reference counts/)
+})
+
+test('synthetic 21/23/50/100-page evidence scaling stays compact without changing logical bytes', () => {
+  const {encodeBundle, decodeBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  // Synthetic resource stress, not a retained production artifact or publication proof.
+  const evidence = {master_commit: 'a'.repeat(40), dev_commit: 'b'.repeat(40),
+    files: [{path: 'shared-docs/guides/large', sha256: 'c'.repeat(64), diagnostic: 'x'.repeat(400000)}],
+    dev_files: [], navigation: {navigationRecords: []}}
+  for (const count of [21, 23, 50, 100]) {
+    const bundle = {schema_version: 1, preparation: {inputs: {}}, outcomes: []}
+    for (let i = 0; i < count; i++) {
+      bundle.preparation.inputs[`rec${i}`] = {identity: {page: `page-${i}`}, evidence}
+      bundle.outcomes.push({status: 'success', record_id: `rec${i}`, input_context: {...evidence, upstream: {page: i}}})
+    }
+    const wire = encodeBundle(bundle)
+    assert.equal(wire.common_evidence.length, 1)
+    assert.ok(Buffer.byteLength(JSON.stringify(wire)) < FILE_LIMIT)
+    assert.deepEqual(decodeBundle(wire), bundle)
+  }
+  const bomb = {schema_version: 1, preparation: {inputs: {}}, outcomes: []}
+  for (let i = 0; i < 1000; i++) bomb.preparation.inputs[`rec${i}`] = {evidence}
+  assert.throws(() => encodeBundle(bomb), /expanded payload size limit/)
+})
+
+test('100 generated synthetic pages pass the production v2 reader with both manual outputs', {timeout: 300000}, async t => {
+  const options = await fixture(t, {pages: Array.from({length: 100}, (_, i) => `scale-${i}`), ordinaryPages: 200})
+  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})})
+  const {loadBundle, FILE_LIMIT} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const handoff = loadBundle(options.out, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
+  assert.equal(handoff.bundle.outcomes.filter(row => row.status === 'success').length, 100)
+  assert.equal(handoff.bundle.outcomes.flatMap(row => row.outputs).length, 200)
+  assert.ok(handoff.files.get('bundle.json').length < FILE_LIMIT)
+  assert.deepEqual(handoff.bundle, bundle)
+  t.diagnostic(`synthetic pages=100, v2=${handoff.files.get('bundle.json').length}, logical=${Buffer.byteLength(JSON.stringify(bundle))}`)
 })
