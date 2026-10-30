@@ -1,0 +1,1 @@
+Use a Zilliz Cloud cluster that supports StructArray vector subfields, `MAX_SIM_COSINE` indexes, and EmbeddingList search. See [StructArray Limits](structarray-limits.md) for requirements. The database examples use PyMilvus 3.0.2. You also need a Cohere access token.
