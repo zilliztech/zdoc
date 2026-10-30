@@ -152,7 +152,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -160,7 +160,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -578,7 +579,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -815,7 +817,7 @@
                 "properties": {
                   "projectId": {
                     "type": "string",
-                    "description": "The ID of the project to which the alert rule belongs.",
+                    "description": "ID of the project the alert rule belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则所属项目 ID。"
@@ -827,7 +829,7 @@
                   },
                   "ruleName": {
                     "type": "string",
-                    "description": "The name of the alert rule.",
+                    "description": "Name of the alert rule. Defaults to the metric display name when omitted.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则名称。"
@@ -839,7 +841,7 @@
                   },
                   "level": {
                     "type": "string",
-                    "description": "The level of the alert rule.",
+                    "description": "Severity level of the alert rule.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则级别。"
@@ -855,7 +857,7 @@
                   },
                   "metricName": {
                     "type": "string",
-                    "description": "The name of the metric that the alert rule monitors.",
+                    "description": "Name of the metric the alert rule evaluates.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则监控的指标名称。"
@@ -867,7 +869,7 @@
                   },
                   "threshold": {
                     "type": "string",
-                    "description": "The threshold value of the alert rule.",
+                    "description": "Threshold that triggers the alert.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则阈值。"
@@ -879,7 +881,7 @@
                   },
                   "windowSize": {
                     "type": "string",
-                    "description": "The time window for the alert rule in minutes.",
+                    "description": "Size of the evaluation window for the alert rule.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则的时间窗口，单位为分钟。"
@@ -891,7 +893,7 @@
                   },
                   "enabled": {
                     "type": "boolean",
-                    "description": "Indicates whether the alert rule is enabled.",
+                    "description": "Whether the alert rule is enabled.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则是否启用。"
@@ -903,7 +905,7 @@
                   },
                   "sendResolved": {
                     "type": "boolean",
-                    "description": "Indicates whether to send notifications when the alert rule is resolved.",
+                    "description": "Whether to send a notification when the alert is resolved.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则是否发送已解决的通知。"
@@ -915,7 +917,7 @@
                   },
                   "actions": {
                     "type": "array",
-                    "description": "The actions to take when the alert rule is triggered.",
+                    "description": "Notification actions taken when the alert fires.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "触发告警规则时采取的操作列表。"
@@ -1124,7 +1126,7 @@
                   },
                   "comparisonMethod": {
                     "type": "string",
-                    "description": "The comparison operator used in the alert rule.",
+                    "description": "Comparison method used to evaluate the metric against the threshold.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则使用的比较运算符。"
@@ -1143,7 +1145,7 @@
                   },
                   "targetInstanceIds": {
                     "type": "array",
-                    "description": "The IDs of the clusters to which the alert rule applies.",
+                    "description": "IDs of the instances the alert rule applies to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则适用的集群 ID 列表。"
@@ -1167,7 +1169,7 @@
                   },
                   "metricUnit": {
                     "type": "string",
-                    "description": "The unit of the metric (e.g., \"bytes\", \"percent\").",
+                    "description": "Unit of the metric the alert rule evaluates.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "指标单位（如 \"bytes\"、\"percent\"）。"
@@ -1179,7 +1181,7 @@
                   },
                   "repeatIntervalSeconds": {
                     "type": "integer",
-                    "description": "The interval in seconds between repeated alert notifications.",
+                    "description": "Minimum interval in seconds between repeated alert notifications.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "重复告警通知的间隔时间（秒）。"
@@ -1187,7 +1189,8 @@
                       "ja-JP": {
                         "description": "アラート通知を繰り返し送信する間隔（秒）。"
                       }
-                    }
+                    },
+                    "format": "int32"
                   }
                 },
                 "required": [
@@ -1197,7 +1200,8 @@
                   "metricName",
                   "enabled",
                   "sendResolved",
-                  "actions"
+                  "actions",
+                  "comparisonMethod"
                 ],
                 "example": {
                   "projectId": "proj-b44a39b0c51cf21791a841",
@@ -1426,7 +1430,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1434,7 +1438,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1799,7 +1804,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -2039,7 +2045,7 @@
                 "properties": {
                   "ruleName": {
                     "type": "string",
-                    "description": "The name of the alert rule.",
+                    "description": "Name of the alert rule. Defaults to the metric display name when omitted.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则名称。"
@@ -2051,7 +2057,7 @@
                   },
                   "level": {
                     "type": "string",
-                    "description": "The level of the alert rule.",
+                    "description": "Severity level of the alert rule.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则级别。"
@@ -2067,7 +2073,7 @@
                   },
                   "metricName": {
                     "type": "string",
-                    "description": "The name of the metric that the alert rule monitors.",
+                    "description": "Name of the metric the alert rule evaluates.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则监控的指标名称。"
@@ -2079,7 +2085,7 @@
                   },
                   "threshold": {
                     "type": "string",
-                    "description": "The threshold value of the alert rule.",
+                    "description": "Threshold that triggers the alert.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则阈值。"
@@ -2091,7 +2097,7 @@
                   },
                   "windowSize": {
                     "type": "string",
-                    "description": "The time window for the alert rule in minutes.",
+                    "description": "Size of the evaluation window.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则的时间窗口，单位为分钟。"
@@ -2103,7 +2109,7 @@
                   },
                   "enabled": {
                     "type": "boolean",
-                    "description": "Indicates whether the alert rule is enabled.",
+                    "description": "Whether the alert rule is enabled.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则是否启用。"
@@ -2115,7 +2121,7 @@
                   },
                   "sendResolved": {
                     "type": "boolean",
-                    "description": "Indicates whether to send notifications when the alert rule is resolved.",
+                    "description": "Whether to send a notification when the alert is resolved.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则是否发送已解决的通知。"
@@ -2127,7 +2133,7 @@
                   },
                   "actions": {
                     "type": "array",
-                    "description": "The actions to take when the alert rule is triggered.",
+                    "description": "Notification actions taken when the alert fires.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "触发告警规则时采取的操作列表。"
@@ -2336,7 +2342,7 @@
                   },
                   "comparisonMethod": {
                     "type": "string",
-                    "description": "The comparison operator used in the alert rule.",
+                    "description": "Comparison method used to evaluate the metric against the threshold.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则使用的比较运算符。"
@@ -2355,7 +2361,7 @@
                   },
                   "targetInstanceIds": {
                     "type": "array",
-                    "description": "The IDs of the clusters to which the alert rule applies.",
+                    "description": "IDs of the instances the alert rule applies to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "告警规则适用的集群 ID 列表。"
@@ -2391,7 +2397,7 @@
                   },
                   "repeatIntervalSeconds": {
                     "type": "integer",
-                    "description": "The interval in seconds between repeated alert notifications.",
+                    "description": "Minimum interval in seconds between repeated alert notifications.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "重复告警通知的间隔时间（秒）。"
@@ -2399,7 +2405,8 @@
                       "ja-JP": {
                         "description": "繰り返し送信されるアラート通知の間隔（秒）。"
                       }
-                    }
+                    },
+                    "format": "int32"
                   }
                 },
                 "example": {
@@ -2493,7 +2500,15 @@
                       }
                     }
                   ]
-                }
+                },
+                "required": [
+                  "actions",
+                  "comparisonMethod",
+                  "enabled",
+                  "level",
+                  "metricName",
+                  "sendResolved"
+                ]
               },
               "example": {
                 "id": "12391290837zs09sad0d09123",
@@ -2624,7 +2639,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2632,7 +2647,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2997,7 +3013,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -3250,7 +3267,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -3258,7 +3275,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         }
                       }
                     },
@@ -3394,7 +3412,7 @@
                 "properties": {
                   "start": {
                     "type": "string",
-                    "description": "The starting date and time for the metric reporting period, expressed in ISO 8601 timestamp format in UTC. Include this parameter and `end` when the `period` parameter is not set.",
+                    "description": "Start of the query range as an ISO 8601 timestamp in UTC.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "指标报告期间的起始日期和时间，以 UTC 时间格式的 ISO 8601 时间戳表示。当 `period` 参数未设置时，需同时包含 `start` 和 `end` 参数。"
@@ -3406,7 +3424,7 @@
                   },
                   "end": {
                     "type": "string",
-                    "description": "The ending date and time for the metric reporting period, expressed in ISO 8601 timestamp format in UTC. Include this parameter and `start` when the `period` parameter is not set.",
+                    "description": "End of the query range as an ISO 8601 timestamp in UTC.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "指标报告期间的结束日期和时间，以 UTC 时间格式的 ISO 8601 时间戳表示。当 `period` 参数未设置时，需同时包含 `start` 和 `end` 参数。"
@@ -3418,7 +3436,7 @@
                   },
                   "period": {
                     "type": "string",
-                    "description": "The duration over which Zilliz Cloud reports the metrics, expressed in ISO 8601 duration format in UTC. Include this parameter when both `start` and `end` parameters are not set.",
+                    "description": "Period covered by the query as an ISO 8601 duration, e.g. PT99H.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Zilliz Cloud 向用户报告指标的持续时间，以 UTC 时间格式的 ISO 8601 持续时间表示。当 `start` 和 `end` 参数未设置时，需同时包含 `period` 参数。"
@@ -3430,7 +3448,7 @@
                   },
                   "granularity": {
                     "type": "string",
-                    "description": "The time interval at which Zilliz Cloud reports the metrics, expressed in ISO 8601 duration format in UTC. The minimum granularity is PT30S.",
+                    "description": "Granularity of the returned data points as an ISO 8601 duration, with a minimum of PT30S.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Zilliz Cloud 向用户报告指标的时间间隔，以 UTC 时间格式的 ISO 8601 持续时间表示。最小粒度为 PT30S。"
@@ -3442,7 +3460,7 @@
                   },
                   "dbName": {
                     "type": "string",
-                    "description": "The name of the target database.",
+                    "description": "Name of the database to filter metrics by.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "目标 Database 名称。"
@@ -3454,7 +3472,7 @@
                   },
                   "collectionName": {
                     "type": "string",
-                    "description": "The name of the target collection.",
+                    "description": "Name of the collection to filter metrics by.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "目标 Collection 名称。"
@@ -3537,7 +3555,7 @@
                         }
                       }
                     },
-                    "description": "List of **MetricQuery** objects.",
+                    "description": "Metrics to query.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "一个 **MetricQuery** 对象列表。"
@@ -3587,7 +3605,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -3595,7 +3613,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -3698,7 +3717,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"

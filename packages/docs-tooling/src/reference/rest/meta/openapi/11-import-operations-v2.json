@@ -74,7 +74,7 @@
                     "properties": {
                       "clusterId": {
                         "type": "string",
-                        "description": "The ID of the serving cluster to which the collection belongs.\nSetting this to a non-existing cluster results in an error. You can get the cluster ID by calling the [`/v2/clusters`](/reference/restful/list-clusters-v2) endpoint, or copy the cluster ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the cluster to import data into.",
                         "example": "inxx-xxxxxxxxxxxxxxxx",
                         "x-i18n": {
                           "zh-CN": {
@@ -110,7 +110,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+                        "description": "Name of the database to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
@@ -125,7 +125,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                        "description": "Name of the collection to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
@@ -140,7 +140,7 @@
                       },
                       "partitionName": {
                         "type": "string",
-                        "description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
+                        "description": "Name of the partition to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
@@ -155,7 +155,7 @@
                       },
                       "volumeName": {
                         "type": "string",
-                        "description": "The name of the volume from which the data files will be uploaded. The volume must be created beforehand. For details, refer to [Create Volume](/reference/restful/create-volume-v2)",
+                        "description": "Name of the Volume to import from.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
@@ -170,7 +170,7 @@
                       },
                       "dataPaths": {
                         "type": "array",
-                        "description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified volume.",
+                        "description": "Paths of the data files to import from the stage or Volume.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待上传的数据文件路径列表。路径应相对于指定 volume 的根目录。"
@@ -230,7 +230,7 @@
                     "properties": {
                       "projectId": {
                         "type": "string",
-                        "description": "The ID of the project to which the database and collection belongs.\nSetting this to a non-existing project results in an error. You can get the project ID by calling the [`/v2/projects`](/reference/restful/list-projects-v2) endpoint, or copy the project ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the project the cluster belongs to.",
                         "example": "proj-xxxxxxxxxxxxxxxx",
                         "x-i18n": {
                           "zh-CN": {
@@ -266,7 +266,7 @@
                       },
                       "regionId": {
                         "type": "string",
-                        "description": "The ID of the region to which the database and collection belongs.\nSetting this to a non-existing region results in an error. You can get the region ID by calling the [`/v2/regions`](/reference/restful/list-cloud-regions-v2) endpoint, or copy the region ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the region the cluster is in.",
                         "example": "aws-us-west-2",
                         "x-i18n": {
                           "zh-CN": {
@@ -303,7 +303,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+                        "description": "Name of the database to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
@@ -318,7 +318,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                        "description": "Name of the collection to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
@@ -333,7 +333,7 @@
                       },
                       "partitionName": {
                         "type": "string",
-                        "description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
+                        "description": "Name of the partition to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
@@ -348,7 +348,7 @@
                       },
                       "volumeName": {
                         "type": "string",
-                        "description": "The name of the volume from which the data files will be uploaded. The volume must be created beforehand. For details, refer to [Create Volume](/reference/restful/create-volume-v2)",
+                        "description": "Name of the Volume to import from.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
@@ -363,7 +363,7 @@
                       },
                       "dataPaths": {
                         "type": "array",
-                        "description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified volume.",
+                        "description": "Paths of the data files to import from the stage or Volume.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待上传的数据文件路径列表。路径应相对于指定 volume 的根目录。"
@@ -420,7 +420,7 @@
                     "properties": {
                       "clusterId": {
                         "type": "string",
-                        "description": "The ID of the serving cluster to which the collection belongs.\nSetting this to a non-existing cluster results in an error. You can get the cluster ID by calling the [`/v2/clusters`](/reference/restful/list-clusters-v2) endpoint, or copy the cluster ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the cluster to import data into.",
                         "example": "inxx-xxxxxxxxxxxxxxxx",
                         "x-i18n": {
                           "zh-CN": {
@@ -456,7 +456,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+                        "description": "Name of the database to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
@@ -471,7 +471,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                        "description": "Name of the collection to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
@@ -486,7 +486,7 @@
                       },
                       "partitionName": {
                         "type": "string",
-                        "description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
+                        "description": "Name of the partition to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
@@ -566,7 +566,7 @@
                             "x-deprecated-since": null
                           }
                         },
-                        "description": "Bulk-import options.",
+                        "description": "Additional import options.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "批量导入任务选项设置。"
@@ -584,7 +584,7 @@
                       },
                       "objectUrl": {
                         "type": "string",
-                        "description": "The URL of the object to import. This URL should be accessible to the S3-compatible object storage service, such as AWS S3, GCS, Azure blob storage.",
+                        "description": "URL of the object to import.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待导入数据的 URL。该 URL 应来自与诸如阿里云 OSS 或腾讯云 COS 等与 MinIO S3 兼容的对象存储服务。"
@@ -603,7 +603,7 @@
                       },
                       "objectUrls": {
                         "type": "array",
-                        "description": "The URLs of the objects to import. <br/>Applicable formats and how to import multiple objects in one job are as follows:<ul><li><a href=\"https://docs.zilliz.com/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-numpy#import-data\">NumPy</a></li></ul>",
+                        "description": "List of object URL groups to import.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待批量导入的对象 URL列表。<br/>当前支持的文件类型及如何在同一个任务中批量导入多个相同类型的数据文件，可参考：<ul><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
@@ -714,7 +714,7 @@
                     "properties": {
                       "projectId": {
                         "type": "string",
-                        "description": "The ID of the project to which the database and collection belongs.\nSetting this to a non-existing project results in an error. You can get the project ID by calling the [`/v2/projects`](/reference/restful/list-projects-v2) endpoint, or copy the project ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the project the cluster belongs to.",
                         "example": "proj-xxxxxxxxxxxxxxxx",
                         "x-i18n": {
                           "zh-CN": {
@@ -750,7 +750,7 @@
                       },
                       "regionId": {
                         "type": "string",
-                        "description": "The ID of the region to which the database and collection belongs.\nSetting this to a non-existing region results in an error. You can get the region ID by calling the [`/v2/regions`](/reference/restful/list-cloud-regions-v2) endpoint, or copy the region ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+                        "description": "ID of the region the cluster is in.",
                         "example": "aws-us-west-2",
                         "x-i18n": {
                           "zh-CN": {
@@ -787,7 +787,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+                        "description": "Name of the database to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
@@ -802,7 +802,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                        "description": "Name of the collection to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
@@ -817,7 +817,7 @@
                       },
                       "partitionName": {
                         "type": "string",
-                        "description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
+                        "description": "Name of the partition to import into.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
@@ -897,7 +897,7 @@
                             "x-deprecated-since": null
                           }
                         },
-                        "description": "Bulk-import options.",
+                        "description": "Additional import options.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "批量导入任务选项设置。"
@@ -915,7 +915,7 @@
                       },
                       "objectUrl": {
                         "type": "string",
-                        "description": "The URL of the object to import. This URL should be accessible to the S3-compatible object storage service, such as AWS S3, GCS, Azure blob storage.",
+                        "description": "URL of the object to import.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待导入数据的 URL。该 URL 应来自与诸如阿里云 OSS 或腾讯云 COS 等与 MinIO S3 兼容的对象存储服务。"
@@ -934,7 +934,7 @@
                       },
                       "objectUrls": {
                         "type": "array",
-                        "description": "The URLs of the objects to import. <br/>Applicable formats and how to import multiple objects in one job are as follows:<ul><li><a href=\"https://docs.zilliz.com/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-numpy#import-data\">NumPy</a></li></ul>",
+                        "description": "List of object URL groups to import.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待批量导入的对象 URL列表。<br/>当前支持的文件类型及如何在同一个任务中批量导入多个相同类型的数据文件，可参考：<ul><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
@@ -1263,7 +1263,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1276,11 +1276,12 @@
                           "example": 0,
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "array",
-                          "description": "Response payload which carries the IDs of the created bulk-import jobs.",
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含了当前操作创建的批量导入任务的 ID。"
@@ -1509,7 +1510,7 @@
                 "properties": {
                   "clusterId": {
                     "type": "string",
-                    "description": "ID of a specific cluster on Zilliz Cloud.",
+                    "description": "ID of the cluster. Specify clusterId or both projectId and regionId.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Zilliz Cloud 上的特定集群的 ID。"
@@ -1527,7 +1528,7 @@
                   },
                   "pageSize": {
                     "type": "integer",
-                    "description": "Number of records to return at each request.",
+                    "description": "Number of import jobs per page.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "每次返回的记录数。"
@@ -1541,11 +1542,12 @@
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "format": "int32"
                   },
                   "currentPage": {
                     "type": "integer",
-                    "description": "Current page number.",
+                    "description": "Page number of the result page to return.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "当前页码。"
@@ -1559,11 +1561,12 @@
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "format": "int32"
                   },
                   "dbName": {
                     "type": "string",
-                    "description": "Name of the database to which the import job belongs.",
+                    "description": "Name of the database to filter import jobs by.",
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null,
@@ -1609,8 +1612,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "string",
-                          "description": "Response code.",
+                          "type": "integer",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1621,7 +1624,8 @@
                           },
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1800,7 +1804,7 @@
                               "x-deprecated-since": null
                             }
                           },
-                          "description": "Response payload, which is a list of import jobs in detail.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为导入任务详情列表。"
@@ -1931,7 +1935,7 @@
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress",
-        "deprecated": true,
+        "deprecated": false,
         "description": "Deprecated compatibility route. Use `/v2/vectordb/jobs/import/describe` instead to retrieve the progress of a specified import job.",
         "x-i18n": {
           "zh-CN": {
@@ -2013,7 +2017,7 @@
                     "properties": {
                       "jobId": {
                         "type": "string",
-                        "description": "The ID of the import job in concern",
+                        "description": "ID of the import job.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
@@ -2028,7 +2032,7 @@
                       },
                       "clusterId": {
                         "type": "string",
-                        "description": "The ID of a cluster to which this operation applies.",
+                        "description": "ID of the cluster the import job runs on. Specify clusterId or both projectId and regionId.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定集群 ID。"
@@ -2059,7 +2063,7 @@
                     "properties": {
                       "jobId": {
                         "type": "string",
-                        "description": "The ID of the import job in concern",
+                        "description": "ID of the import job.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
@@ -2074,7 +2078,7 @@
                       },
                       "projectId": {
                         "type": "string",
-                        "description": "The ID of a project to which this operation applies.",
+                        "description": "ID of the project the cluster belongs to.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定项目 ID。"
@@ -2089,7 +2093,7 @@
                       },
                       "regionId": {
                         "type": "string",
-                        "description": "The ID of a region to which this operation applies.",
+                        "description": "ID of the region the cluster is in.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定地域 ID。"
@@ -2182,8 +2186,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "string",
-                          "description": "Response code.",
+                          "type": "integer",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2194,7 +2198,8 @@
                           },
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2484,7 +2489,7 @@
                               "x-deprecated-since": null
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -2679,7 +2684,7 @@
                 "properties": {
                   "clusterId": {
                     "type": "string",
-                    "description": "The ID of a cluster to which this operation applies.",
+                    "description": "ID of the cluster the import job runs on. Specify clusterId or both projectId and regionId.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "指定集群 ID。"
@@ -2713,7 +2718,7 @@
                   },
                   "jobId": {
                     "type": "string",
-                    "description": "The ID of the bulk-import job of your interest. \nThe [Create Import Jobs](/reference/restful/create-import-jobs-v2) operation usually returns a job ID. You can also call [List Import Jobs](/reference/restful/list-import-jobs-v2) to get the IDs of all bulk-import jobs related to the specific cluster.",
+                    "description": "ID of the import job.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "需要查询的导入任务 ID。\n[创建导入任务](/reference/restful/create-import-jobs-v2)操作通常会返回一个任务 ID。您也可以调用[列出导入任务](/reference/restful/list-import-jobs-v2)获取特定集群相关的所有导入任务的 ID。"
@@ -2755,7 +2760,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2768,11 +2773,12 @@
                           "example": 0,
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which contains the progress of the specified bulk-import job in detail.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为包含指定导入任务进度信息在内的详细信息。"

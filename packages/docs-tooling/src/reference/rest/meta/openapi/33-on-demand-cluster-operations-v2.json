@@ -67,7 +67,7 @@
                 "properties": {
                   "projectId": {
                     "type": "string",
-                    "description": "The ID of the project to create the cluster in.",
+                    "description": "ID of the project the Query Cluster belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群所属项目 ID。"
@@ -79,7 +79,7 @@
                   },
                   "regionId": {
                     "type": "string",
-                    "description": "The ID of the cloud region to create the cluster in.",
+                    "description": "ID of the region the Query Cluster is created in.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群所属地域。"
@@ -91,7 +91,7 @@
                   },
                   "cuSize": {
                     "type": "integer",
-                    "description": "The CU size to use for the cluster. The minimum CU size is 1.",
+                    "description": "CU size of the Query Cluster. Must be at least 8 and a multiple of 8.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "分配给待创建集群的 CU 大小。"
@@ -99,11 +99,13 @@
                       "ja-JP": {
                         "description": "クラスターに使用する CU サイズ。最小 CU サイズは 1 です。"
                       }
-                    }
+                    },
+                    "format": "int32",
+                    "minimum": 8
                   },
                   "clusterName": {
                     "type": "string",
-                    "description": "The name of the cluster to create.",
+                    "description": "Display name of the Query Cluster. At most 64 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群名称。"
@@ -111,11 +113,13 @@
                       "ja-JP": {
                         "description": "作成するクラスターの名前。"
                       }
-                    }
+                    },
+                    "maxLength": 64,
+                    "minLength": 0
                   },
                   "description": {
                     "type": "string",
-                    "description": "Description of the on-demand cluster.",
+                    "description": "Description of the Query Cluster. At most 255 characters.",
                     "example": "Ad hoc analytics query cluster",
                     "x-i18n": {
                       "zh-CN": {
@@ -125,11 +129,13 @@
                       "ja-JP": {
                         "description": "オンデマンドクラスターの説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "autoSuspend": {
-                    "type": "integer",
-                    "description": "Auto-suspend idle window. The cluster will be automatically suspended if there is no request within the specified period. The value should be an integer representing the number of seconds. For example, `300` means 5 minutes.",
+                    "type": "string",
+                    "description": "Auto-suspend idle timeout as a duration string, e.g. 60s, 5m, 1h, 10d. Numeric JSON values are treated as seconds.",
                     "default": 60,
                     "x-i18n": {
                       "zh-CN": {
@@ -138,13 +144,15 @@
                       "ja-JP": {
                         "description": "自動一時停止のアイドルウィンドウ。指定した期間内にリクエストがない場合、クラスターは自動的に一時停止されます。値は秒数を表す整数を指定します。たとえば、`300` は 5 分を意味します。"
                       }
-                    }
+                    },
+                    "pattern": "^(?=\\d)(?:\\d+d)?(?:\\d+h)?(?:\\d+m)?(?:\\d+s)?$"
                   }
                 },
                 "required": [
                   "projectId",
                   "regionId",
-                  "cuSize"
+                  "cuSize",
+                  "clusterName"
                 ]
               },
               "examples": {
@@ -197,7 +205,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -205,7 +213,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -235,7 +244,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -432,12 +441,13 @@
                   "properties": {
                     "code": {
                       "type": "integer",
-                      "description": "Response code.",
+                      "description": "Business response code; 0 indicates success.",
                       "x-i18n": {
                         "ja-JP": {
                           "description": "レスポンスコード。"
                         }
-                      }
+                      },
+                      "format": "int32"
                     },
                     "data": {
                       "type": "object",
@@ -637,7 +647,8 @@
                             }
                           }
                         }
-                      }
+                      },
+                      "description": "Response payload; the type varies by endpoint."
                     }
                   }
                 },
@@ -834,7 +845,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -842,7 +853,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -872,7 +884,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -1044,7 +1056,7 @@
                   "properties": {
                     "code": {
                       "type": "integer",
-                      "description": "Response code.",
+                      "description": "Business response code; 0 indicates success.",
                       "x-i18n": {
                         "zh-CN": {
                           "description": "响应码。"
@@ -1052,11 +1064,12 @@
                         "ja-JP": {
                           "description": "レスポンスコード。"
                         }
-                      }
+                      },
+                      "format": "int32"
                     },
                     "data": {
                       "type": "object",
-                      "description": "Details of the current cluster",
+                      "description": "Response payload; the type varies by endpoint.",
                       "x-i18n": {
                         "zh-CN": {
                           "description": "当前集群的详细情况。"
@@ -1305,7 +1318,7 @@
           {
             "name": "CLUSTER_ID",
             "in": "path",
-            "description": "The ID of the on-demand cluster to update.",
+            "description": "The ID of the on-demand cluster to modify.",
             "required": true,
             "example": "inxx-xxxxxxxxxxxxxxx",
             "schema": {
@@ -1365,7 +1378,7 @@
                 "properties": {
                   "clusterName": {
                     "type": "string",
-                    "description": "The new name of the cluster. The value cannot be an empty string.",
+                    "description": "New name of the Query Cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "集群的新名称。值不能为空字符串。"
@@ -1377,7 +1390,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "The new description of the cluster. The value can be an empty string.",
+                    "description": "New description of the Query Cluster. At most 255 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "集群的新描述。值可以为空字符串。"
@@ -1385,12 +1398,14 @@
                       "ja-JP": {
                         "description": "クラスターの新しい説明。空の文字列を指定できます。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "autoSuspend": {
                     "type": "string",
-                    "description": "Auto-suspend idle window. The value must use the `<number><s|m|h>` format, such as `60s`, `5m`, or `1h`, and must be at least 60 seconds.",
-                    "pattern": "^\\d+[smh]$",
+                    "description": "New auto-suspend idle timeout as a duration string, e.g. 60s, 5m, 1h, 10d.",
+                    "pattern": "^(?=\\d)(?:\\d+d)?(?:\\d+h)?(?:\\d+m)?(?:\\d+s)?$",
                     "example": "5m",
                     "x-i18n": {
                       "zh-CN": {
@@ -1457,12 +1472,13 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1486,7 +1502,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスペイロード。"

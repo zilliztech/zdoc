@@ -146,7 +146,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -155,11 +155,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/ListStorageIntegrationsData",
-                          "description": "Returns the list of storage integrations.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回 Storage Integration 列表。"
@@ -448,7 +449,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -457,11 +458,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/StorageIntegrationMutationData",
-                          "description": "Returns the created storage integration.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回创建的 Storage Integration。"
@@ -639,7 +641,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -648,11 +650,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/StorageIntegrationDetail",
-                          "description": "Returns the storage integration details.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回 Storage Integration 详情。"
@@ -848,7 +851,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -857,11 +860,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/StorageIntegrationMutationData",
-                          "description": "Returns the deleted storage integration.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回删除的 Storage Integration。"
@@ -1058,7 +1062,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1067,11 +1071,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/ValidateStorageIntegrationData",
-                          "description": "Returns the validation result.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回校验结果。"
@@ -1285,7 +1290,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1294,11 +1299,12 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "$ref": "#/components/schemas/AwsS3AuthorizationMaterialsData",
-                          "description": "Returns the AWS S3 authorization materials.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回 AWS S3 授权材料。"

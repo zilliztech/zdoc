@@ -95,8 +95,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "number",
-                          "description": "Response code.",
+                          "type": "integer",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -104,7 +104,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "array",
@@ -234,7 +235,7 @@
                               }
                             }
                           },
-                          "description": "Response payload, which is a list of projects in detail.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，是一个项目详情列表。"
@@ -395,7 +396,7 @@
                 "properties": {
                   "projectName": {
                     "type": "string",
-                    "description": "The name of the project to create.",
+                    "description": "Name of the project. Required, at most 50 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建项目的名称。"
@@ -403,11 +404,13 @@
                       "ja-JP": {
                         "description": "作成するプロジェクトの名前。"
                       }
-                    }
+                    },
+                    "maxLength": 50,
+                    "minLength": 0
                   },
                   "description": {
                     "type": "string",
-                    "description": "The description of the project.",
+                    "description": "Description of the project. At most 255 characters.",
                     "example": "Production search workloads",
                     "x-i18n": {
                       "zh-CN": {
@@ -417,11 +420,13 @@
                       "ja-JP": {
                         "description": "プロジェクトの説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "plan": {
                     "type": "string",
-                    "description": "The subscription plan of the project. The possible values are `Standard`, `Enterprise`, and `BusinessCritical`.",
+                    "description": "Plan of the project. Required.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "项目的订阅计划。当前仅支持 `Enterprise` 一种。"
@@ -434,7 +439,7 @@
                   },
                   "regionIds": {
                     "type": "array",
-                    "description": "A list of region IDs to bind to the project. When the `plan` is `Enterprise`, only a single region is allowed. To bind multiple regions, the `BusinessCritical` plan is required. Note that the `BusinessCritical` plan may not be available in all environments.",
+                    "description": "Region IDs to bind to the project.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要绑定到项目的地域 ID 列表。当订阅计划为 `Enterprise` 时，仅允许指定单个地域。如需绑定多个地域，需要使用 `BusinessCritical` 订阅计划。请注意，`BusinessCritical` 订阅计划在某些环境中可能不可用。"
@@ -497,7 +502,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -507,10 +512,11 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "object",
+                          "type": "string",
                           "properties": {
                             "projectId": {
                               "type": "string",
@@ -522,7 +528,7 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the ID of the created project.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含创建的项目 ID。"
@@ -691,7 +697,7 @@
                 "properties": {
                   "projectName": {
                     "type": "string",
-                    "description": "The new name of the project. The value cannot be an empty string",
+                    "description": "New name of the project. At most 50 characters and cannot be blank.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "项目的新名称。值不能为空字符串。"
@@ -699,11 +705,14 @@
                       "ja-JP": {
                         "description": "プロジェクトの新しい名前。値を空文字列にすることはできません"
                       }
-                    }
+                    },
+                    "maxLength": 50,
+                    "minLength": 0,
+                    "pattern": ".*\\S.*"
                   },
                   "description": {
                     "type": "string",
-                    "description": "The new description of the project. The value can be an empty string.",
+                    "description": "New description of the project. At most 255 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "项目的新描述。值可以为空字符串。"
@@ -711,7 +720,9 @@
                       "ja-JP": {
                         "description": "プロジェクトの新しい説明。値は空文字列にできます。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   }
                 }
               },
@@ -755,7 +766,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "type": "integer",
                           "example": 0,
                           "x-i18n": {
@@ -765,11 +776,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "string",
-                          "description": "A string 'ok' indicating the project is updated successfully.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "一个字符串 'ok'，表示项目更新成功。"
@@ -940,7 +952,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -950,7 +962,8 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1068,7 +1081,7 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the details of the specified project.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含指定项目的详细信息。"
@@ -1237,7 +1250,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1247,11 +1260,12 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "string",
-                          "description": "A string 'ok' indicating the project is deleted successfully.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "一个字符串 'ok'，表示项目删除成功。"
@@ -1404,7 +1418,7 @@
                 "properties": {
                   "plan": {
                     "type": "string",
-                    "description": "The subscription plan to upgrade to. Possible values are `Standard`, `Enterprise`, or `BusinessCritical`. If you need to upgrade your project to `BusinessCritical`, please [contact us](https://support.zilliz.com/hc/en-us).",
+                    "description": "New plan of the project. Allowed values: Standard, Enterprise, BusinessCritical.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "升级到的订阅计划。当前仅支持 `Enterprise` 一种。"
@@ -1442,7 +1456,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "type": "integer",
                           "example": 0,
                           "x-i18n": {
@@ -1452,11 +1466,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "string",
-                          "description": "A string 'ok' indicating the project is upgraded successfully.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "一个字符串 'ok'，表示项目升级成功。"
@@ -1604,7 +1619,7 @@
                 "properties": {
                   "regionIds": {
                     "type": "array",
-                    "description": "A region ID list.",
+                    "description": "Region IDs to add to the project. Must not be empty.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "地域 ID 列表。"
@@ -1670,7 +1685,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "type": "integer",
                           "example": 0,
                           "x-i18n": {
@@ -1680,10 +1695,11 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "object",
+                          "type": "array",
                           "properties": {
                             "projectId": {
                               "type": "string",
@@ -1710,7 +1726,7 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the current project and the regions added to the project this time.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含当前项目 ID 及此次添加到当前项目的地域 ID。"
@@ -1900,7 +1916,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "example": 0,
                           "x-i18n": {
                             "zh-CN": {
@@ -1909,11 +1925,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "array",
-                          "description": "The region IDs that remain bound to the project.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "移除操作完成后仍绑定到项目的地域 ID。"

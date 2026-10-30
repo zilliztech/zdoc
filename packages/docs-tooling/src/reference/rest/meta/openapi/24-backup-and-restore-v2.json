@@ -214,7 +214,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -222,11 +222,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is a list of backups.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为备份列表。"
@@ -666,7 +667,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -674,11 +675,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the information about the backup in detail.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为备份的详细信息。"
@@ -1185,7 +1187,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1193,11 +1195,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the information about the deleted backup.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为已删除备份的信息。"
@@ -1395,7 +1398,7 @@
                 "properties": {
                   "integrationId": {
                     "type": "string",
-                    "description": "The ID of the integrated external storage that the backup files will be exported to. For how to integrate an AWS S3 block storage service into Zilliz Cloud, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3). For how to obtain the integration ID, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3#obtain-the-integration-id).",
+                    "description": "ID of the storage integration used for the export.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "备份文件导出到的外部存储的 ID。关于如何配置对象存储，请参阅 [文档](https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket)。关于如何获取外部存储桶的集成 ID，可以参考 [文档](https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket#obtain-the-integration-id)。"
@@ -1408,7 +1411,7 @@
                   },
                   "directory": {
                     "type": "string",
-                    "description": "The directory in the specified external storage where the backup files will be exported to.",
+                    "description": "Target directory the backup is exported to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "备份文件导出到的外部存储的目录。"
@@ -1441,16 +1444,17 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the ID of the export job created to export the backup files.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为导出备份文件的任务 ID。"
@@ -1616,7 +1620,7 @@
                 "properties": {
                   "backupType": {
                     "type": "string",
-                    "description": "The type of the resources to be backed up.",
+                    "description": "Type of the backup to create.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "需要备份的资源类型。"
@@ -1632,7 +1636,7 @@
                   },
                   "dbCollections": {
                     "type": "array",
-                    "description": "The collections that need to be backed up. This is mandatory when the `backupType` is set to `COLLECTION`. Note that all collections listed in this field must belong to the same database.",
+                    "description": "Databases and collections to include in the backup. Required for COLLECTION backups: exactly one database entry with nonempty collectionNames.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "需要备份的 Collection 列表。当 `backupType` 设置为 `COLLECTION` 时，该字段为必填项。注意，该字段中列出的所有 Collection 必须属于同一个数据库。"
@@ -1694,7 +1698,7 @@
                   },
                   "crossRegionCopies": {
                     "type": "array",
-                    "description": "The list of cloud regions to which the backup will be copied. Note that Zilliz Cloud will create a backup in the same region as the cluster by default, so you only need to specify the regions where you want to copy the backup to. Each entry in the list results in one copy of the permanent backup being created in the specified region.",
+                    "description": "Cross-region copies to create for the backup.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "备份将被复制到的云区域列表。注意，Zilliz Cloud 会默认在与集群相同的区域创建备份，因此您只需指定您希望备份复制到的其他区域。列表中的每条记录都会在指定区域创建一个永久保留的备份副本。"
@@ -1828,12 +1832,13 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1867,7 +1872,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -2026,7 +2032,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2034,11 +2040,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the backup policy of the specified cluster.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为指定集群的备份策略。"
@@ -2367,7 +2374,7 @@
                 "properties": {
                   "frequency": {
                     "type": "string",
-                    "description": "The week days on which the backup is performed. The value is a comma-separated list of numbers from 1 to 7, where 1 represents Monday and 7 represents Sunday.",
+                    "description": "Backup frequency as a comma-separated list of weekdays.",
                     "example": "1,2,5",
                     "x-i18n": {
                       "zh-CN": {
@@ -2380,7 +2387,7 @@
                   },
                   "startTime": {
                     "type": "string",
-                    "description": "The start time is a two-hour duration for the backup policy to execute in the format of HH:mm-HH:mm UTC time.",
+                    "description": "Daily backup window in HH:mm-HH:mm format.",
                     "example": "02:00-04:00",
                     "x-i18n": {
                       "zh-CN": {
@@ -2393,7 +2400,7 @@
                   },
                   "retentionDays": {
                     "type": "integer",
-                    "description": "The number of days to retain the backup.",
+                    "description": "Number of days backups are retained.",
                     "minimum": 1,
                     "maximum": 30,
                     "x-i18n": {
@@ -2404,11 +2411,12 @@
                         "description": "バックアップを保持する日数。"
                       }
                     },
-                    "example": 7
+                    "example": 7,
+                    "format": "int32"
                   },
                   "enabled": {
                     "type": "boolean",
-                    "description": "Whether automatic backup is enabled or not.",
+                    "description": "Whether the backup policy is enabled.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "是否启用自动备份。"
@@ -2421,7 +2429,7 @@
                   },
                   "crossRegionCopies": {
                     "type": "array",
-                    "description": "The list of cross-region backup policies.",
+                    "description": "Cross-region copies created for scheduled backups.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "跨区域备份策略列表。"
@@ -2552,7 +2560,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2560,7 +2568,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2593,7 +2602,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -2756,7 +2766,7 @@
                 "properties": {
                   "projectId": {
                     "type": "string",
-                    "description": "The ID of the project to which the restored cluster belongs. If the specified cluster in the path is not in the region bound to the project, the restoration will fail.",
+                    "description": "ID of the project the restored cluster belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "恢复后的集群所属的项目 ID。如果路径中指定的集群不在绑定到该项目的区域内，恢复将失败。"
@@ -2768,7 +2778,7 @@
                   },
                   "clusterName": {
                     "type": "string",
-                    "description": "The name of the restored cluster.",
+                    "description": "Name of the cluster restored from the backup.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "恢复后的集群名称。"
@@ -2780,7 +2790,7 @@
                   },
                   "cuSize": {
                     "type": "integer",
-                    "description": "The CU size allocated to the restored cluster.",
+                    "description": "CU size of the restored cluster.",
                     "minimum": 1,
                     "maximum": 1024,
                     "x-i18n": {
@@ -2790,11 +2800,12 @@
                       "ja-JP": {
                         "description": "復元後のクラスターに割り当てられる CU サイズ。"
                       }
-                    }
+                    },
+                    "format": "int64"
                   },
                   "collectionStatus": {
                     "type": "string",
-                    "description": "The status of the collections in the restored cluster.",
+                    "description": "Status applied to the restored collections. Defaults to RELEASE.",
                     "enum": [
                       "KEEP",
                       "RELEASE"
@@ -2810,7 +2821,7 @@
                   },
                   "restoreVersionPolicy": {
                     "type": "string",
-                    "description": "The policy to select the Milvus version for the restored cluster. Possible values are: <ul><li><b>LATEST</b>: Restores the cluster to the latest compatible GA Milvus version available.</li><li><b>ORIGINAL</b>: Restores the cluster to its original compatible Milvus version.</li></ul>",
+                    "description": "Version policy applied when restoring the backup.",
                     "enum": [
                       "LATEST",
                       "ORIGINAL"
@@ -2855,7 +2866,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2863,11 +2874,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the information of the restored cluster.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含恢复后的集群信息。"
@@ -3090,7 +3102,7 @@
                 "properties": {
                   "destClusterId": {
                     "type": "string",
-                    "description": "The ID of the cluster to which the restored collection belongs.",
+                    "description": "ID of the destination cluster to restore into.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "恢复后的 Collection 所属集群的 ID。"
@@ -3102,7 +3114,7 @@
                   },
                   "dbCollections": {
                     "type": "array",
-                    "description": "A list of collection groups.",
+                    "description": "Databases and collections to restore.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 组列表。"
@@ -3251,7 +3263,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -3259,11 +3271,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is the ID of an asynchronous control-plane job.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含异步控制平面任务的 ID。"

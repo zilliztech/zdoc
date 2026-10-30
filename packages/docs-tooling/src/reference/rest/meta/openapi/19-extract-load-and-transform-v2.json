@@ -22,7 +22,7 @@
     "/v2/etl/merge": {
       "post": {
         "summary": "Merge Data",
-        "deprecated": false,
+        "deprecated": true,
         "description": "You can use this interface to add fields with or without data to an existing collection.<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Volume and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.</li><li>If you choose to add without data, the new fields will be created with null values.</li></ul></div>You need to be a project admin or above to perform this operation. For details, refer to <a href=\"/docs/merge-data\">Merge Data</a>.<br/>",
         "x-i18n": {
           "zh-CN": {
@@ -71,7 +71,7 @@
                     "properties": {
                       "clusterId": {
                         "type": "string",
-                        "description": "Name of the cluster that holds the target collection of this operation.",
+                        "description": "ID of the cluster the merge runs on.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 所在集群的名称。"
@@ -84,7 +84,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "Name of the database that holds the target collection of this operation.",
+                        "description": "Name of the source database. Defaults to \"default\".",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 所在数据库的名称。"
@@ -96,7 +96,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "Name of the target collection of this operation.",
+                        "description": "Name of the source collection.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 的名称。"
@@ -108,7 +108,7 @@
                       },
                       "destDbName": {
                         "type": "string",
-                        "description": "Name of the database that holds the collection to create.",
+                        "description": "Name of the destination database. Defaults to \"default\".",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待创建 Collection 所在数据库的名称。"
@@ -120,7 +120,7 @@
                       },
                       "destCollectionName": {
                         "type": "string",
-                        "description": "Name of the collection to create. This collection will hold the merged data.",
+                        "description": "Name of the destination collection.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待创建 Collection 的名称。该 Collection 将保存合并后的数据。"
@@ -132,7 +132,7 @@
                       },
                       "dataSource": {
                         "type": "object",
-                        "description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Volume as the data source and then provide the URL of the data file optionally with the access credentials.",
+                        "description": "Data source the new field values are read from.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Volume 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
@@ -184,7 +184,7 @@
                       },
                       "mergeField": {
                         "type": "string",
-                        "description": " The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
+                        "description": "Field used to match records during the merge.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据合并操作类似于关系型数据库中的左连接操作，其合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
@@ -196,7 +196,7 @@
                       },
                       "newFields": {
                         "type": "array",
-                        "description": "The schema of the fields to create in the new collection. The schema should be an array of field schemas.",
+                        "description": "New fields added by the merge.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待创建 Collection 的各字段数据结构。该参数的值应该为字段数据结构数组。"
@@ -295,7 +295,7 @@
                     "properties": {
                       "clusterId": {
                         "type": "string",
-                        "description": "Name of the cluster that holds the target collection of this operation.",
+                        "description": "ID of the cluster the merge runs on.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 所在集群的名称。"
@@ -308,7 +308,7 @@
                       },
                       "dbName": {
                         "type": "string",
-                        "description": "Name of the database that holds the target collection of this operation.",
+                        "description": "Name of the source database. Defaults to \"default\".",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 所在数据库的名称。"
@@ -320,7 +320,7 @@
                       },
                       "collectionName": {
                         "type": "string",
-                        "description": "Name of the target collection of this operation.",
+                        "description": "Name of the source collection.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "本操作目标 Collection 的名称。"
@@ -332,7 +332,7 @@
                       },
                       "destDbName": {
                         "type": "string",
-                        "description": "Name of the database that holds the collection to create.",
+                        "description": "Name of the destination database. Defaults to \"default\".",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待创建 Collection 所在数据库的名称。"
@@ -344,7 +344,7 @@
                       },
                       "destCollectionName": {
                         "type": "string",
-                        "description": "Name of the collection to create. This collection will hold the merged data.",
+                        "description": "Name of the destination collection.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待创建 Collection 的名称。该 Collection 将保存合并后的数据。"
@@ -356,7 +356,7 @@
                       },
                       "dataSource": {
                         "type": "object",
-                        "description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Volume as the data source and then provide the URL of the data file optionally with the access credentials.",
+                        "description": "Data source the new field values are read from.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Volume 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
@@ -432,7 +432,7 @@
                       },
                       "mergeField": {
                         "type": "string",
-                        "description": "The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
+                        "description": "Field used to match records during the merge.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据合并操作类似于关系型数据库中的左连接操作，合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
@@ -444,7 +444,7 @@
                       },
                       "newFields": {
                         "type": "array",
-                        "description": "The schema of the fields to add to the existing collection. The schema should be an array of field schemas.",
+                        "description": "New fields added by the merge.",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待添加字段的 Schema。该参数应为一个字段 Schema 的数组。"
@@ -650,7 +650,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -660,11 +660,12 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "array",
-                          "description": "Response payload which carries the IDs of the created data-merge jobs.",
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含了当前操作创建的数据合并任务的 ID。"

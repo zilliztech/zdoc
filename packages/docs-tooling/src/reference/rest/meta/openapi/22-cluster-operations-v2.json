@@ -154,7 +154,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -162,10 +162,11 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "array",
+                          "type": "object",
                           "items": {
                             "type": "object",
                             "properties": {
@@ -410,7 +411,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，是一个集群详情列表。"
@@ -675,7 +676,7 @@
                 "properties": {
                   "clusterName": {
                     "type": "string",
-                    "description": "Name of the cluster to create.",
+                    "description": "Name of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群名称。"
@@ -687,7 +688,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Description of the cluster.",
+                    "description": "Description of the cluster. At most 255 characters.",
                     "example": "Production vector search cluster",
                     "x-i18n": {
                       "zh-CN": {
@@ -697,11 +698,13 @@
                       "ja-JP": {
                         "description": "クラスターの説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "projectId": {
                     "type": "string",
-                    "description": "ID of the project to which the cluster belongs.",
+                    "description": "ID of the project the cluster belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群所属项目。"
@@ -713,7 +716,7 @@
                   },
                   "plan": {
                     "type": "string",
-                    "description": "Subscription plan of the project to which the cluster belongs. Possible values are `Standard` and `Enterprise`.",
+                    "description": "Plan of the dedicated cluster. Defaults to the project plan when omitted.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群所在项目的订阅计划。当前仅支持 `Enterprise`。"
@@ -730,7 +733,7 @@
                       "Capacity-optimized",
                       "Tiered-storage"
                     ],
-                    "description": "CU type of the cluster.<br/> This applies to dedicated clusters only. For free and serverless clusters, the value is empty.<br/>For possible values, you can refer to the drop-down below or find them when you create cluster on Zilliz Cloud console.",
+                    "description": "CU type of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群使用的 CU 类型。<br/>仅适用于 Dedicated 集群。对于 Free 和 Serverless 集群，该值为空。<br/>可能的值可以参考下拉选项，或在 Zilliz Cloud 控制台创建集群时查看。"
@@ -744,7 +747,7 @@
                     "type": "integer",
                     "minimum": 1,
                     "maximum": 1024,
-                    "description": "CU size of the cluster.<br/>For free and serverless clusters, the value is always `0`.<br/>For dedicated clusters in Standard plan, the value can be `1` to `32`, and possible values can be 1, 2, 4, 8, 12, 16, 20, 24, 28, 32.<br/>For dedicated clusters in Enterprise plan, the value can be `1` to `1,024`, and possible values can be 1, 2, 4, 8, 12, 16, 20, 24, 28, 32,...,64, 72, 80, 88,...,256, 272, 288, ...,1024.<br/>For details on the increment rules for the CU size, refer to the `Deployment` section in [Detailed Plan Comparison](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment).",
+                    "description": "CU size of the cluster. Specify either cuSize or autoscaling.cu, but not both.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群使用的 CU 大小。<br/>对于 Free 和 Serverless 集群，该值始终为 `0`。<br/>对于 Standard 计划的 Dedicated 集群，该值取值范围为 `1` 到 `32`，可能的值为1、2、4、8、12、16、20、24、28、32。<br/>对于 Enterprise 计划的 Dedicated 集群，该值取值范围为 `1` 到 `1024`，可能的值为1、2、4、8、12、16、20、24、28、32、...、64、72、80、88、...、256、272、288、...、1024。<br/>关于 CU 大小的增量规则，请参阅 [详细计划对比](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment) 中的 `Deployment` 部分。"
@@ -752,11 +755,12 @@
                       "ja-JP": {
                         "description": "クラスターの CU サイズ。<br/>free および serverless クラスターでは、この値は常に `0` です。<br/>Standard プランの Dedicated Cluster では、この値は `1` から `32` までで、指定可能な値は 1, 2, 4, 8, 12, 16, 20, 24, 28, 32 です。<br/>Enterprise プランの Dedicated Cluster では、この値は `1` から `1,024` までで、指定可能な値は 1, 2, 4, 8, 12, 16, 20, 24, 28, 32,...,64, 72, 80, 88,...,256, 272, 288, ...,1024 です。<br/>CU サイズの増分ルールの詳細については、[Detailed Plan Comparison](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment) の `Deployment` セクションを参照してください。"
                       }
-                    }
+                    },
+                    "format": "int64"
                   },
                   "labels": {
                     "type": "object",
-                    "description": "Key-value labels for BYOC cluster identification.",
+                    "description": "Kubernetes labels applied to the cluster, used in BYOC scenarios.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "BYOC 集群标识键值对标签。"
@@ -771,7 +775,7 @@
                   },
                   "bucketInfo": {
                     "type": "object",
-                    "description": "Custom bucket configuration for BYOC clusters.",
+                    "description": "Custom bucket configuration of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "BYOC 集群的自定义存储桶配置。"
@@ -803,7 +807,7 @@
                   },
                   "keyIdentifier": {
                     "type": "string",
-                    "description": "The key identifier for encryption in BYOC clusters.",
+                    "description": "Identifier of the encryption key used by the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "BYOC 集群加密的密钥标识符。"
@@ -874,7 +878,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -882,7 +886,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -936,7 +941,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -1086,7 +1091,7 @@
                 "properties": {
                   "clusterName": {
                     "type": "string",
-                    "description": "Name of the cluster to create.",
+                    "description": "Name of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群名称。"
@@ -1098,7 +1103,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Description of the cluster.",
+                    "description": "Description of the cluster. At most 255 characters.",
                     "example": "Production vector search cluster",
                     "x-i18n": {
                       "zh-CN": {
@@ -1108,11 +1113,13 @@
                       "ja-JP": {
                         "description": "クラスターの説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "projectId": {
                     "type": "string",
-                    "description": "ID of the project to which the cluster belongs.",
+                    "description": "ID of the project the cluster belongs to.",
                     "example": "proj-xxxxxxxxxxxxxxxxxxxx",
                     "x-i18n": {
                       "zh-CN": {
@@ -1176,7 +1183,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1184,7 +1191,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1238,7 +1246,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -1388,7 +1396,7 @@
                 "properties": {
                   "clusterName": {
                     "type": "string",
-                    "description": "Name of the cluster to create.",
+                    "description": "Name of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群名称。"
@@ -1400,7 +1408,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Description of the cluster.",
+                    "description": "Description of the cluster. At most 255 characters.",
                     "example": "Production vector search cluster",
                     "x-i18n": {
                       "zh-CN": {
@@ -1410,11 +1418,13 @@
                       "ja-JP": {
                         "description": "クラスターの説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "projectId": {
                     "type": "string",
-                    "description": "ID of the project to which the cluster belongs.",
+                    "description": "ID of the project the cluster belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群所属项目 ID。"
@@ -1478,7 +1488,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1486,7 +1496,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1540,7 +1551,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -1721,7 +1732,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1729,7 +1740,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2215,7 +2227,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -2588,7 +2600,7 @@
                 "properties": {
                   "clusterName": {
                     "type": "string",
-                    "description": "The new name of the cluster. The value cannot be an empty string.",
+                    "description": "New name of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "集群的新名称。值不能为空字符串。"
@@ -2600,7 +2612,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "The new description of the cluster. The value can be an empty string.",
+                    "description": "New description of the cluster. At most 255 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "集群的新描述。值可以为空字符串。"
@@ -2608,7 +2620,9 @@
                       "ja-JP": {
                         "description": "クラスターの新しい説明。値は空文字列でもかまいません。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   }
                 },
                 "description": "Request payload for updating a dedicated cluster.",
@@ -2658,12 +2672,13 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2687,7 +2702,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスペイロード。"
@@ -2868,7 +2883,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -2876,7 +2891,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -2906,7 +2922,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -3072,7 +3088,7 @@
                 "properties": {
                   "cuSize": {
                     "type": "integer",
-                    "description": "Number of CUs allocated to this cluster after the modification. This parameter and `autoscaling.cu` are mutually exclusive; you can specify only one of them. The product of this parameter and `replica` should not exceed 1024.<br/>For dedicated clusters in Standard plan, the value can be `1` to `32`, and possible values can be 1, 2, 4, 8, 12, 16, 20, 24, 28, 32.<br/>For dedicated clusters in Enterprise plan, the value can be `1` to `1,024`, and possible values can be 1, 2, 4, 8, 12, 16, 20, 24, 28, 32,...,64, 72, 80, 88,...,256, 272, 288, ...,1024.<br/>For details on the increment rules for the CU size, refer to the `Deployment` section in [Detailed Plan Comparison](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment).",
+                    "description": "New CU size of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "修改后分配给指定集群的 CU 数量。此参数与 `autoscaling.cu` 互斥；您只能指定其中一个。此参数与 `replica` 的乘积不得超过 1024。<br/>对于 Standard 计划的 Dedicated 集群，该值取值范围为 `1` 到 `32`，可能的值为1、2、4、8、12、16、20、24、28、32。<br/>对于 Enterprise 计划的 Dedicated 集群，该值取值范围为 `1` 到 `1024`，可能的值为1、2、4、8、12、16、20、24、28、32、...、64、72、80、88、...、256、272、288、...、1024。<br/>关于 CU 大小的增量规则，请参阅 [详细计划对比](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment) 中的 `Deployment` 部分。"
@@ -3083,11 +3099,12 @@
                     },
                     "minimum": 1,
                     "maximum": 1024,
-                    "exclusiveMinimum": true
+                    "exclusiveMinimum": true,
+                    "format": "int64"
                   },
                   "replica": {
                     "type": "integer",
-                    "description": "Number of replicas for this cluster after the modification. This parameter and `autoscaling.replica` are mutually exclusive; you can specify only one of them. The product of this parameter and `cuSize` should not exceed 1024.",
+                    "description": "New replica count of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "修改后指定集群的副本数量。此参数与 `autoscaling.replica` 互斥；您只能指定其中一个。此参数与 `cuSize` 的乘积不得超过 1024。"
@@ -3098,11 +3115,12 @@
                     },
                     "minimum": 1,
                     "maximum": 10,
-                    "exclusiveMinimum": true
+                    "exclusiveMinimum": true,
+                    "format": "int64"
                   },
                   "autoscaling": {
                     "type": "object",
-                    "description": "Auto-scaling configuration for the cluster. This parameter and `cuSize` or `replica` are mutually exclusive; you can specify only one of them.",
+                    "description": "Autoscaling configuration of the cluster.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "集群的自动扩缩容配置。此参数与 `cuSize` 或 `replica` 互斥；您只能指定其中一个。"
@@ -3369,12 +3387,13 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -3398,7 +3417,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスペイロード。"
@@ -3560,7 +3579,7 @@
                 "properties": {
                   "replica": {
                     "type": "integer",
-                    "description": "Number of replicas for this cluster after the modification.",
+                    "description": "New replica count of the cluster. Specify replica or autoscaling.replica.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "修改后的集群副本数量。"
@@ -3570,7 +3589,8 @@
                       }
                     },
                     "minimum": 1,
-                    "maximum": 8
+                    "maximum": 8,
+                    "format": "int64"
                   }
                 },
                 "required": [
@@ -3627,12 +3647,13 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -3656,7 +3677,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "ja-JP": {
                               "description": "レスポンスペイロード。"
@@ -3837,7 +3858,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -3845,7 +3866,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -3875,7 +3897,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -4054,7 +4076,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -4062,7 +4084,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -4092,7 +4115,7 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"

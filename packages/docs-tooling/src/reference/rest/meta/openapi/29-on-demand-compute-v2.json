@@ -82,7 +82,7 @@
                 "properties": {
                   "projectId": {
                     "type": "string",
-                    "description": "The ID of the project.",
+                    "description": "ID of the project.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "项目 ID。"
@@ -94,7 +94,7 @@
                   },
                   "regionId": {
                     "type": "string",
-                    "description": "The ID of the region.",
+                    "description": "ID of the region.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "地域 ID。"
@@ -163,7 +163,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -173,7 +173,8 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -221,7 +222,7 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the On-Demand Compute status.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含按需计算状态。"
@@ -425,7 +426,7 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -435,7 +436,8 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -483,7 +485,7 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the On-Demand Compute status.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含按需计算状态。"

@@ -154,7 +154,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -162,7 +162,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -256,7 +257,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -395,7 +397,7 @@
                 "properties": {
                   "projectId": {
                     "type": "string",
-                    "description": "The ID of the project to which the volume belongs.",
+                    "description": "ID of the project the Volume belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "所属项目的 ID。"
@@ -408,7 +410,7 @@
                   },
                   "regionId": {
                     "type": "string",
-                    "description": "The ID of the region where the volume will be created. You can use [List Cloud Regions](/reference/list-cloud-regions-v2) to list available regions. The region should be bound to the specified project.",
+                    "description": "ID of the region the Volume belongs to.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Volume 所属区域的 ID。您可以使用 [查看云服务区域](/reference/list-cloud-regions-v2) 接口列出可用区域。该区域应与指定项目绑定。"
@@ -420,7 +422,7 @@
                   },
                   "volumeName": {
                     "type": "string",
-                    "description": "The name of the volume to create.",
+                    "description": "Name of the Volume.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Volume 名称。"
@@ -432,7 +434,7 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Description of the volume.",
+                    "description": "Description of the Volume. At most 255 characters.",
                     "example": "Raw import data for recommendation workloads",
                     "x-i18n": {
                       "zh-CN": {
@@ -442,11 +444,13 @@
                       "ja-JP": {
                         "description": "volume の説明。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   },
                   "type": {
                     "type": "string",
-                    "description": "The category of the volume. Valid values are `MANAGED` and `EXTERNAL`. Defaults to `MANAGED`.",
+                    "description": "Category of the Volume, managed or external; defaults to managed when omitted.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Volume 的类别。有效值为 `MANAGED` 和 `EXTERNAL`。默认值为 `MANAGED`。"
@@ -458,7 +462,7 @@
                   },
                   "storageIntegrationId": {
                     "type": "string",
-                    "description": "The storage integration ID. Required when `type` is `EXTERNAL`.",
+                    "description": "ID of the storage integration used by an external Volume.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "存储集成 ID。当 `type` 为 `EXTERNAL` 时必填。"
@@ -470,7 +474,7 @@
                   },
                   "path": {
                     "type": "string",
-                    "description": "The path prefix within the volume. Required when `type` is `EXTERNAL`.",
+                    "description": "Path prefix inside the external bucket; only used for external Volumes.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "存储卷内的路径前缀。当 `type` 为 `EXTERNAL` 时必填。"
@@ -572,7 +576,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -580,7 +584,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -597,7 +602,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -748,7 +754,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -756,11 +762,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which contains volume details.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含 Volume 详情。"
@@ -1082,7 +1089,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1090,7 +1097,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -1107,7 +1115,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -1261,7 +1270,7 @@
                 "properties": {
                   "description": {
                     "type": "string",
-                    "description": "The new description of the volume. The value can be an empty string.",
+                    "description": "New description of the volume. At most 255 characters.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Volume 的新描述。值可以为空字符串。"
@@ -1269,7 +1278,9 @@
                       "ja-JP": {
                         "description": "ボリュームの新しい説明。値には空文字列を指定できます。"
                       }
-                    }
+                    },
+                    "maxLength": 255,
+                    "minLength": 0
                   }
                 },
                 "required": [
@@ -1317,7 +1328,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -1325,11 +1336,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which contains volume details.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含 Volume 详情。"

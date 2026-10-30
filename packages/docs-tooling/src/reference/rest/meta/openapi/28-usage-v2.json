@@ -71,7 +71,7 @@
                   "start": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "The start of the query period, in RFC 3339 format (for example, `2026-09-16T00:00:00Z`). Must be midnight UTC. A non-UTC offset is converted to UTC first, which shifts the day. A start that is not midnight UTC silently returns that day's bucket with an empty `items` array and a `total` of `0`.",
+                    "description": "Start of the usage query range.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "查询时间段的开始时间，采用 RFC 3339 格式（例如 `2026-09-16T00:00:00Z`）。必须为 UTC 零点整。非 UTC 时区偏移会先被换算为 UTC，日期随之偏移。开始时间不是 UTC 零点时，接口不报错，静默返回当天 `items` 为空、`total` 为 `0` 的日区间。"
@@ -84,7 +84,7 @@
                   "end": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "The end of the query period, in RFC 3339 format (for example, `2026-09-17T00:00:00Z`). The end date is inclusive: setting `end` equal to `start` returns a single daily bucket.",
+                    "description": "End of the usage query range.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "查询时间段的结束时间，采用 RFC 3339 格式（例如 `2026-09-17T00:00:00Z`）。结束日期为包含边界：`end` 与 `start` 相同时仅返回一个日区间。"
@@ -141,7 +141,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -149,11 +149,12 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
-                          "description": "The usage query result. The full requested range is returned in a single response.",
+                          "description": "Response payload; the type varies by endpoint.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "用量查询结果。整个查询区间在单次响应中完整返回。"

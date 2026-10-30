@@ -134,7 +134,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -142,10 +142,11 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
-                          "type": "array",
+                          "type": "object",
                           "items": {
                             "type": "object",
                             "properties": {
@@ -395,7 +396,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
@@ -583,7 +585,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
-                          "description": "Response code.",
+                          "description": "Business response code; 0 indicates success.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
@@ -591,7 +593,8 @@
                             "ja-JP": {
                               "description": "レスポンスコード。"
                             }
-                          }
+                          },
+                          "format": "int32"
                         },
                         "data": {
                           "type": "object",
@@ -797,7 +800,8 @@
                                 }
                               }
                             }
-                          }
+                          },
+                          "description": "Response payload; the type varies by endpoint."
                         }
                       }
                     },
