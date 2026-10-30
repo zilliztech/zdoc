@@ -50,7 +50,7 @@ describe('docs UI localization', () => {
 
   it('maps secondary navbar labels for Japanese and passes unmapped labels through', () => {
     const text = getDocsUiText('en', 'ja-JP');
-    expect(localizeNavLabel('Zilliz-Managed Cloud', text)).toBe('Zilliz マネージド Cloud');
+    expect(localizeNavLabel('Zilliz-Managed Cloud', text)).toBe('マネージド Cloud');
     expect(localizeNavLabel('Bring Your Own Cloud', text)).toBe('BYOC');
     expect(localizeNavLabel('Releases', text)).toBe('リリースノート');
     expect(localizeNavLabel('API & SDK', text)).toBe('API & SDK');

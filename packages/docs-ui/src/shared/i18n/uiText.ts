@@ -569,7 +569,7 @@ const japanese: DocsUiText = {
     releases: 'リリースノート',
     byoc: 'BYOC',
     apiAndSdk: 'API & SDK',
-    managedCloud: 'Zilliz マネージド Cloud',
+    managedCloud: 'マネージド Cloud',
     contactSales: '営業に問い合わせ',
   },
   sidebar: {
@@ -591,7 +591,7 @@ const japanese: DocsUiText = {
     signUpFree: '無料で登録',
     menu: 'メニュー',
     secondaryLabels: {
-      'Zilliz-Managed Cloud': 'Zilliz マネージド Cloud',
+      'Zilliz-Managed Cloud': 'マネージド Cloud',
       'Bring Your Own Cloud': 'BYOC',
       Releases: 'リリースノート',
     },
