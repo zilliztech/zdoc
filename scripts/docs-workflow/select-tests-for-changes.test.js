@@ -158,6 +158,27 @@ test('selector maps REST OpenAPI fragments to publication and integrated-spec ch
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
 })
 
+test('selector maps the REST zh title table to the same fragment checks', () => {
+  const selected = selectTests(['packages/docs-tooling/src/reference/rest/meta/titles.json'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['rest-reference-fragments'])
+  assert.equal(selected.commands.includes('pnpm test:rest-publication-contract'), true)
+})
+
+test('the rest-upstream refresh workflow executes the change-scoped selector union', () => {
+  const yaml = require('js-yaml')
+  const workflow = yaml.load(fs.readFileSync(path.join(repositoryRoot, '.github/workflows/rest-upstream-refresh.yml'), 'utf8'))
+  const step = workflow.jobs.refresh.steps.find(candidate => candidate.name === 'Run the change-scoped test union')
+  assert.notEqual(step, undefined)
+  const script = step.run
+  // The selector is invoked in JSON mode against the landed commit's changed paths.
+  assert.match(script, /select-tests-for-changes\.js --json "\$\{changed_paths\[@\]\}"/u)
+  // Every selected command is executed, not merely listed, and a failing one stops the step.
+  assert.match(script, /eval "\$command"/u)
+  // The two explicit gates survive so they never depend on matrix edits.
+  assert.match(script, /pnpm test:rest-publication-contract/u)
+  assert.match(script, /pnpm test:workflow-policy/u)
+})
+
 test('selector maps REST reference rendering to its localized component regression', () => {
   const selected = selectTests([
     'packages/docs-ui/src/shared/components/RestSpecs/index.js',
