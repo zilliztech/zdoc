@@ -549,23 +549,6 @@
                       },
                       "options": {
                         "type": "object",
-                        "properties": {
-                          "timeout": {
-                            "type": "string",
-                            "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values.",
-                            "x-i18n": {
-                              "zh-CN": {
-                                "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
-                              },
-                              "ja-JP": {
-                                "description": "作成されるインポートジョブのタイムアウト時間です。値は正の数値に __s__（秒）、__m__（分）、__h__（時間）の接尾辞を付けて指定する必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
-                              }
-                            },
-                            "x-added-at": "2.6.x",
-                            "x-last-modified": "2.6.x",
-                            "x-deprecated-since": null
-                          }
-                        },
                         "description": "Bulk-import options.",
                         "x-i18n": {
                           "zh-CN": {
@@ -702,7 +685,8 @@
                       }
                     },
                     "required": [
-                      "collectionName"
+                      "collectionName",
+                      "files"
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
@@ -880,23 +864,6 @@
                       },
                       "options": {
                         "type": "object",
-                        "properties": {
-                          "timeout": {
-                            "type": "string",
-                            "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values.",
-                            "x-i18n": {
-                              "zh-CN": {
-                                "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
-                              },
-                              "ja-JP": {
-                                "description": "作成されたインポートジョブのタイムアウト時間です。値は、正の数の末尾に __s__（秒）、__m__（分）、__h__（時間）を付ける必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
-                              }
-                            },
-                            "x-added-at": "2.6.x",
-                            "x-last-modified": "2.6.x",
-                            "x-deprecated-since": null
-                          }
-                        },
                         "description": "Bulk-import options.",
                         "x-i18n": {
                           "zh-CN": {
@@ -1033,7 +1000,8 @@
                       }
                     },
                     "required": [
-                      "collectionName"
+                      "collectionName",
+                      "files"
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
@@ -1572,6 +1540,9 @@
                         "description": "このインポートジョブが属するデータベースの名前。"
                       }
                     }
+                  },
+                  "collectionName": {
+                    "type": "string"
                   }
                 },
                 "required": [
