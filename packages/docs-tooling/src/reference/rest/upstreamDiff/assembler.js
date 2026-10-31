@@ -124,8 +124,22 @@ function schemaContainerPath({base, scope, responseStatus, branch, fragmentDocum
     } else {
         fail('REST_UPSTREAM_ASSEMBLE_SCOPE_UNSUPPORTED', scope)
     }
-    if (!branch) return {schemaPath, container: resolvePointer(fragmentDocument, schemaPath)}
-    const schema = resolvePointer(fragmentDocument, schemaPath)
+    let schema = resolvePointer(fragmentDocument, schemaPath)
+    // A request/response schema may itself be a $ref to a component that
+    // carries the content (milvus alter_properties requestBody $ref →
+    // component properties) or the branches (milvus create: requestBody $ref →
+    // CreateCollectionRequest oneOf → {$ref: QuickSetupCollection} members,
+    // with the tab labels living inside the target components). Translate the
+    // write into the component definition, same as the member-$ref
+    // translation below.
+    if (schema && typeof schema.$ref === 'string' && schema.$ref.startsWith('#/')) {
+        const componentPath = `/${schema.$ref.slice(2).split('/').map(token => escapePointerToken(token.replace(/~1/g, '/').replace(/~0/g, '~'))).join('/')}`
+        const component = resolvePointer(fragmentDocument, componentPath)
+        if (!component) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_REF_DANGLING', `${schemaPath}: ${schema.$ref}`)
+        schemaPath = componentPath
+        schema = component
+    }
+    if (!branch) return {schemaPath, container: schema}
     const containerName = schema && (schema.oneOf ? 'oneOf' : schema.anyOf ? 'anyOf' : null)
     if (!containerName) fail('REST_UPSTREAM_ASSEMBLE_BRANCH_CONTAINER_MISSING', `${schemaPath} branch=${branch}`)
     const members = schema[containerName]
