@@ -1,5 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
+const path = require('node:path')
 const {translateChangeSet, translationPrompt, missingLanguage} = require('./translate-additions')
 const {proseNodes} = require('../../packages/docs-tooling/src/reference/rest/upstreamDiff/mirror')
 
@@ -155,4 +156,18 @@ test('missingLanguage and proseNodes agree on the ladder problem', () => {
     assert.equal(missingLanguage(node, 'ja-JP'), false)
     // the walker must not treat translations as new source prose
     assert.deepEqual(proseNodes(node), [node])
+})
+
+// The CLI entry never ran anywhere before the first mirror-model refresh
+// dispatch (the replay drives translateChangeSet directly), so a broken
+// import contract surfaced as `parseArgs is not a function` only in CI.
+// Smoke-test the argv path: missing required flags must fail with the usage
+// line, not with a module-level TypeError.
+test('the CLI fails with usage, not a TypeError, when flags are missing', () => {
+    const {spawnSync} = require('node:child_process')
+    const repositoryRoot = path.resolve(__dirname, '../..')
+    const run = spawnSync(process.execPath, [path.join(repositoryRoot, 'scripts/rest-upstream/translate-additions.js')], {encoding: 'utf8'})
+    assert.equal(run.status, 1)
+    assert.match(run.stderr, /Usage: node scripts\/rest-upstream\/translate-additions\.js/u)
+    assert.doesNotMatch(run.stderr, /is not a function/u)
 })
