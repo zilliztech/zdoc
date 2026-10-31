@@ -587,6 +587,10 @@ test('the 2026-10-31 GA-derived cleanup fixes wrong targets and sends dead CLI l
   assert.match(en, /location = \/reference\/cli\/cli\/MilvusStandalone-install \{ return 301 \/reference\/cli\/cli\/overview; \}/);
   assert.match(en, /location = \/ja-JP\/reference\/cli\/DataOperations \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
   assert.match(en, /location = \/ja-JP\/reference\/cli\/CloudManagement \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
+  // The BYOC IP list merged into the top-level IP page on both sites.
+  assert.match(en, /location = \/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/docs\/zilliz-cloud-ips; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/ja-JP\/docs\/zilliz-cloud-ips; \}/);
+  assert.match(read('deploy/zh-CN/nginx.conf'), /location = \/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/docs\/zilliz-cloud-ips; \}/);
   // GA-evidenced retired SDK reference paths, targets verified live 2026-10-31.
   assert.match(en, /location = \/reference\/go\/v2-Vector-Query \{ return 301 \/reference\/go\/go\/v2-Vector-Query; \}/);
   assert.match(en, /location = \/reference\/go\/v2-Vector-Search \{ return 301 \/reference\/go\/go\/v2-Vector-Search; \}/);
