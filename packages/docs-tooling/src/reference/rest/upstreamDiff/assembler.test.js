@@ -160,6 +160,26 @@ test('mirrors are auto lanes: the value merges the upstream structure with the l
     assert.match(mirror.evidence, /schema mirrored to upstream structure/)
 })
 
+test('unresolvable recursive subtrees are a report lane: nothing is assembled for them', () => {
+    // diff.js flags entries whose upstream subtree is self-referential
+    // (mirror value would be infinite); the assembler must divert them to a
+    // human-review list and write nothing, instead of failing or mirroring.
+    const diff = diffDocument()
+    const mirrorEntry = diff.entries.find(entry => entry.change.kind === 'schema')
+    mirrorEntry.unresolvableSubtree = true
+    mirrorEntry.change.after = null
+    const addedEntry = diff.entries.find(entry => entry.change.kind === 'field-uncovered' && entry.category === 'upstream-added-field')
+    addedEntry.unresolvableSubtree = true
+    addedEntry.change.after = null
+    const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader})
+    const flagged = new Set([mirrorEntry.id, addedEntry.id])
+    assert.deepEqual(changeSet.entries.filter(entry => flagged.has(entry.diffEntryId)), [])
+    assert.deepEqual(reports.unresolvableSubtrees.map(entry => [entry.id, entry.category]).sort(), [
+        ['upstream-added-field|delete /v2/things/{ID}|01-things-v2.json|response||200|data|field-uncovered|', 'upstream-added-field'],
+        ['upstream-modified|post /v2/things|01-things-v2.json|requestBody|||dbName|schema|mirror', 'upstream-modified'],
+    ].sort())
+})
+
 
 test('a structure-only mirror change set survives the real parse/contract path', () => {
     // P1-A regression: the preserve flag lives on the DIFF entry only; the

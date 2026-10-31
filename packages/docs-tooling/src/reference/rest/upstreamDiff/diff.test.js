@@ -420,6 +420,50 @@ test('structure-only sources still report operation presence, deprecation, shape
     ])
 })
 
+test('recursive upstream subtrees are flagged for human follow-up instead of failing the diff', () => {
+    // The real milvus skeleton self-references FieldSchema (nested struct
+    // fields) and SearchAggregationReq (sub-aggregations); no finite inlined
+    // mirror value exists for either.
+    const upstream = treeUpstream()
+    upstream.components.schemas.SearchAggregationReq = {type: 'object', properties: {
+        fields: {type: 'array', items: {type: 'string'}},
+        subAggregation: {$ref: '#/components/schemas/SearchAggregationReq'},
+    }}
+    upstream.components.schemas.CollectionNameReq.properties.searchAggregation = {$ref: '#/components/schemas/SearchAggregationReq'}
+    const fragment = treeFragment()
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.searchAggregation = {
+        type: 'object', properties: {fields: {type: 'array', items: {type: 'string'}}},
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const mirror = result.entries.find(entry => entry.field === 'searchAggregation' && entry.change.kind === 'schema')
+    assert.ok(mirror, 'expected a searchAggregation mirror entry')
+    assert.equal(mirror.unresolvableSubtree, true)
+    assert.equal(mirror.change.after, null)
+    // the flag is conditional: unaffected entries carry no residue
+    assert.ok(result.entries.filter(entry => entry.field !== 'searchAggregation').every(entry => entry.unresolvableSubtree === undefined))
+
+    // a recursive ADDED field is flagged the same way and carries no subtree
+    upstream.components.schemas.CollectionNameReq.properties.nestedAggregation = {$ref: '#/components/schemas/SearchAggregationReq'}
+    const added = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    }).entries.find(entry => entry.field === 'nestedAggregation' && entry.change.kind === 'field-uncovered')
+    assert.ok(added, 'expected a nestedAggregation added-field entry')
+    assert.equal(added.unresolvableSubtree, true)
+    assert.equal(added.change.after, null)
+})
+
 test('unattributed fields work for structure-only branched bodies', () => {
     const fragment = treeFragment()
     fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema = {oneOf: [
