@@ -192,6 +192,7 @@
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
         "packages/docs-tooling/src/reference/rest/meta/lifecycle-evidence/**",
         "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json",
+        "packages/docs-tooling/src/reference/rest/meta/titles.json",
         "packages/docs-tooling/src/reference/rest/refGen.js",
         "packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
         "packages/docs-tooling/src/reference/rest/index.js",
@@ -210,7 +211,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts."
+      "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts; the zh title table (titles.json) is written by the refresh land step alongside fragment changes."
     },
     {
       "id": "rest-upstream-pipeline",

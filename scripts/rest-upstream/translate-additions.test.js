@@ -1,7 +1,7 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
 const {translateChangeSet, translationPrompt, missingLanguage} = require('./translate-additions')
-const {proseNodes} = require('/Users/anthony/Documents/projects/zdoc/.claude/worktrees/rest-refresh-review/packages/docs-tooling/src/reference/rest/upstreamDiff/mirror')
+const {proseNodes} = require('../../packages/docs-tooling/src/reference/rest/upstreamDiff/mirror')
 
 const CHANGE_SET = {
     schemaVersion: '1.0',
