@@ -41,14 +41,20 @@ function apiProjection(value) {
 
 // Deep-resolve $ref (and allOf merges) at every node of a subtree so a mirror
 // value is self-contained: it must survive copy into a fragment without
-// dragging upstream component references along. Cycles fail closed.
-function resolveSchemaDeep(document, schema, depth = 0) {
+// dragging upstream component references along. Recursive upstream shapes
+// (self-referential components — milvus nested struct fields, sub-aggregations)
+// have no finite inlined form, so a reference that re-enters its own resolution
+// path fails closed deterministically; the depth limit stays as the backstop
+// for pathological finite chains.
+function resolveSchemaDeep(document, schema, depth = 0, resolving = new Set()) {
     if (depth > 16) fail('REST_UPSTREAM_MIRROR_REF_CYCLE', 'mirror subtree exceeds the reference depth limit')
-    if (Array.isArray(schema)) return schema.map(item => resolveSchemaDeep(document, item, depth + 1))
+    if (Array.isArray(schema)) return schema.map(item => resolveSchemaDeep(document, item, depth + 1, resolving))
     if (!isPlainObject(schema)) return schema
     let effective = schema
+    let onPath = false
     if (typeof schema.$ref === 'string') {
         if (!schema.$ref.startsWith('#/')) fail('REST_UPSTREAM_MIRROR_REF_UNSUPPORTED', schema.$ref)
+        if (resolving.has(schema.$ref)) fail('REST_UPSTREAM_MIRROR_REF_CYCLE', `recursive reference ${schema.$ref} cannot be inlined into a self-contained mirror value`)
         let target = document
         for (const token of schema.$ref.slice(2).split('/').map(token => token.replace(/~1/g, '/').replace(/~0/g, '~'))) {
             target = target === null || typeof target !== 'object' ? undefined : Array.isArray(target) ? target[Number(token)] : target[token]
@@ -56,39 +62,45 @@ function resolveSchemaDeep(document, schema, depth = 0) {
         if (target === undefined) fail('REST_UPSTREAM_MIRROR_REF_DANGLING', schema.$ref)
         const {$ref, ...siblings} = schema
         effective = {...(isPlainObject(target) ? target : {}), ...siblings}
+        resolving.add(schema.$ref)
+        onPath = true
     }
-    if (Array.isArray(effective.allOf)) {
-        const merged = {...effective}
-        delete merged.allOf
-        for (const member of effective.allOf) {
-            const resolvedMember = resolveSchemaDeep(document, member, depth + 1)
-            if (!isPlainObject(resolvedMember)) continue
-            for (const [key, value] of Object.entries(resolvedMember)) {
-                if (key === 'properties' && isPlainObject(merged.properties) && isPlainObject(value)) {
-                    merged.properties = {...value, ...merged.properties}
-                } else if (key === 'required' && Array.isArray(merged.required) && Array.isArray(value)) {
-                    merged.required = [...new Set([...value, ...merged.required])]
-                } else if (!(key in merged)) {
-                    merged[key] = value
+    try {
+        if (Array.isArray(effective.allOf)) {
+            const merged = {...effective}
+            delete merged.allOf
+            for (const member of effective.allOf) {
+                const resolvedMember = resolveSchemaDeep(document, member, depth + 1, resolving)
+                if (!isPlainObject(resolvedMember)) continue
+                for (const [key, value] of Object.entries(resolvedMember)) {
+                    if (key === 'properties' && isPlainObject(merged.properties) && isPlainObject(value)) {
+                        merged.properties = {...value, ...merged.properties}
+                    } else if (key === 'required' && Array.isArray(merged.required) && Array.isArray(value)) {
+                        merged.required = [...new Set([...value, ...merged.required])]
+                    } else if (!(key in merged)) {
+                        merged[key] = value
+                    }
                 }
             }
+            effective = merged
         }
-        effective = merged
-    }
-    const result = {}
-    for (const [key, child] of Object.entries(effective)) {
-        if (key === 'allOf') continue
-        if (key === 'properties' && isPlainObject(child)) {
-            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, resolveSchemaDeep(document, property, depth + 1)]))
-        } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
-            result[key] = resolveSchemaDeep(document, child, depth + 1)
-        } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems') && Array.isArray(child)) {
-            result[key] = child.map(member => resolveSchemaDeep(document, member, depth + 1))
-        } else {
-            result[key] = child
+        const result = {}
+        for (const [key, child] of Object.entries(effective)) {
+            if (key === 'allOf') continue
+            if (key === 'properties' && isPlainObject(child)) {
+                result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, resolveSchemaDeep(document, property, depth + 1, resolving)]))
+            } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
+                result[key] = resolveSchemaDeep(document, child, depth + 1, resolving)
+            } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems') && Array.isArray(child)) {
+                result[key] = child.map(member => resolveSchemaDeep(document, member, depth + 1, resolving))
+            } else {
+                result[key] = child
+            }
         }
+        return result
+    } finally {
+        if (onPath) resolving.delete(schema.$ref)
     }
-    return result
 }
 
 // The mirror merge: upstream structure with the fragment's doc-owned keys

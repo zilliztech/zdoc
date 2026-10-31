@@ -483,7 +483,7 @@ jobs:
           const reportsPath = path.join(staging, process.env.STAGING, 'assemble-reports.json')
           const assembleReports = fs.existsSync(reportsPath)
             ? JSON.parse(fs.readFileSync(reportsPath, 'utf8'))
-            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], placementsApplied: [], rejectedPlacements: [], reorganizations: []}
+            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], unresolvableSubtrees: [], placementsApplied: [], rejectedPlacements: [], reorganizations: []}
           const translatePath = path.join(staging, process.env.STAGING, 'translate-report.json')
           const translateReport = fs.existsSync(translatePath) ? JSON.parse(fs.readFileSync(translatePath, 'utf8')) : null
           const retirePath = path.join(staging, process.env.APPLIED, 'lifecycle-evidence-retirements.json')
@@ -542,6 +542,7 @@ jobs:
             '- [ ] no internal-field denylist term in any changed value',
             `- [ ] the lock pin is bumped to ${process.env.UPSTREAM_COMMIT} in the same commit (atomic adoption)`,
             '- [ ] entries flagged `requiresConfirmation` that were applied carry an override reason',
+            '- [ ] recursive-subtree entries (unresolvable list) get a hand-written fragment update or an explicit defer',
             '- [ ] new operations carry a zh-CN titles.json mapping; no operation was removed',
             '',
             '### Description drift (harvest manually — never auto-adopted)', '',
@@ -561,6 +562,15 @@ jobs:
             '',
             '### Pending confirmations (mirror would retire a required member)', '',
             pendingShown.length ? pendingShown.map(entry => `- \`${entry.opKey}\` \`${entry.field}\` — ${entry.reason}${entry.droppedLocalFields.length ? `; retires: ${entry.droppedLocalFields.join(', ')}` : ''}`).join('\n') : '- none',
+            '',
+            '### Unresolvable subtrees (recursive upstream schemas — handle by hand)', '',
+            (assembleReports.unresolvableSubtrees ?? []).length
+              ? [
+                  `- ${assembleReports.unresolvableSubtrees.length} entr(ies) carry a self-referential upstream schema (nested struct fields, sub-aggregations); no finite mirror value exists, so nothing was written for them.`,
+                  ...assembleReports.unresolvableSubtrees.slice(0, 20).map(entry => `- \`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''} (${entry.category}${entry.requiresConfirmation ? `, ${entry.requiresConfirmation}` : ''})`),
+                  ...(assembleReports.unresolvableSubtrees.length > 20 ? [`- … (${assembleReports.unresolvableSubtrees.length - 20} more in the run artifact)`] : []),
+                ].join('\n')
+              : '- none',
             '',
             '### Branch reorganization proposals (reported, never executed)', '',
             assembleReports.reorganizations.length ? assembleReports.reorganizations.map(entry => `- ${entry.action} \`${entry.opKey}\` ${entry.scope}: ${entry.reason}`).join('\n') : '- none',

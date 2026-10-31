@@ -179,6 +179,19 @@ function makeEntry(parts) {
     return entry
 }
 
+// A recursive upstream subtree (self-referential schema — milvus nested struct
+// fields, sub-aggregations) has no finite inlined mirror value. Flag the entry
+// for human follow-up instead of failing the whole diff: the drift stays
+// visible, the assembler reports it and writes nothing.
+function resolveMirrorSubtree(upstreamDocument, node) {
+    try {
+        return {after: resolveSchemaDeep(upstreamDocument, node), unresolvableSubtree: false}
+    } catch (error) {
+        if (!error.message.startsWith('REST_UPSTREAM_MIRROR_REF_CYCLE:')) throw error
+        return {after: null, unresolvableSubtree: true}
+    }
+}
+
 // Design §6.3: data-plane refreshes carry lifecycle suggestions on the diff
 // entries so neither the agent nor a human has to invent track values. No-op
 // unless a track was supplied (the default diff output stays byte-identical).
@@ -242,9 +255,11 @@ function diffSchemaPair(context) {
                 ...relaxedRequiredMembers(upstreamProperty, fragmentProperty),
             ]
             const nestedRelaxation = relaxedRequiredMembers(upstreamProperty, fragmentProperty)
+            const mirrorSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperty)
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
-                change: {kind: 'schema', key: 'mirror', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperty)},
+                change: {kind: 'schema', key: 'mirror', before: null, after: mirrorSubtree.after},
                 requiredMembership,
+                ...(mirrorSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                 ...(context.structureOnly ? {preserveLocalScalarConstraints: true} : {}),
                 droppedLocalFields,
                 evidence: context.upstreamEvidencePath,
@@ -298,11 +313,13 @@ function diffSchemaPair(context) {
     if (!context.suppressUpstreamOnlyFields) {
         for (const name of Object.keys(upstreamProperties)) {
             if (denylisted(ruleset, name) || name in fragmentProperties) continue
+            const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperties[name])
             const entry = makeEntry({...context.meta, category: 'upstream-added-field', scope: context.scope, branch: context.branch, field: name,
                 // The resolved upstream subtree rides the entry: the addition
                 // lane (assembler/applier) copies structure from the diff, so
                 // no downstream step ever needs the upstream spec again.
-                change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+                ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                 requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
                 evidence: context.upstreamEvidencePath})
             suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])
@@ -372,8 +389,10 @@ function diffBodied(context, fragmentContent, upstreamContent, scope) {
     const uncoveredCategory = scope === 'requestBody' ? 'unattributed' : 'upstream-added-field'
     for (const name of Object.keys(upstreamUnionProperties)) {
         if (denylisted(ruleset, name) || coveredNames.has(name)) continue
+        const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamUnionProperties[name])
         const entry = makeEntry({...context.meta, category: uncoveredCategory, scope, field: name,
-            change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamUnionProperties[name])},
+            change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+            ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
             requiredMembership: upstreamUnionRequired === null ? null : upstreamUnionRequired.includes(name),
             evidence: context.upstreamEvidencePath})
         if (uncoveredCategory === 'upstream-added-field') suggestLifecycle(entry, context.lifecycle, null, upstreamUnionProperties[name])
@@ -455,8 +474,10 @@ function diffResponses(context) {
             }
             for (const name of Object.keys(upstreamProperties)) {
                 if (denylisted(context.ruleset, name) || coveredNames.has(name)) continue
+                const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperties[name])
                 const entry = makeEntry({...statusContext.meta, category: 'upstream-added-field', scope: 'response', field: name,
-                    change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                    change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+                    ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                     requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
                     evidence: context.upstreamEvidencePath})
                 suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])

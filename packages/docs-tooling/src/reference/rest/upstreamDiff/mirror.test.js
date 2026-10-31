@@ -23,10 +23,32 @@ test('resolveSchemaDeep inlines refs and allOf merges; cycles fail closed', () =
     assert.deepEqual(resolved, {type: 'object', properties: {id: {type: 'string'}}, required: ['id']})
     const merged = resolveSchemaDeep(document, {allOf: [{$ref: '#/components/schemas/Base'}], type: 'object', properties: {own: {type: 'integer'}}})
     assert.deepEqual(merged.properties, {base: {type: 'string'}, own: {type: 'integer'}})
-    // a cycle through structure keys recurses until the depth guard fires
+    // a cycle through structure keys fails deterministically at the first
+    // recurrence, naming the reference (not an arbitrary depth count)
     const cyclic = {components: {schemas: {Loop: {type: 'object', properties: {self: {$ref: '#/components/schemas/Loop'}}}}}}
-    assert.throws(() => resolveSchemaDeep(cyclic, {$ref: '#/components/schemas/Loop'}), /REST_UPSTREAM_MIRROR_REF_CYCLE/)
+    assert.throws(() => resolveSchemaDeep(cyclic, {$ref: '#/components/schemas/Loop'}), /REST_UPSTREAM_MIRROR_REF_CYCLE: recursive reference #\/components\/schemas\/Loop/)
     assert.throws(() => resolveSchemaDeep(document, {$ref: '#/components/schemas/Missing'}), /REST_UPSTREAM_MIRROR_REF_DANGLING/)
+})
+
+test('resolveSchemaDeep keeps sibling re-references resolvable; only true paths are cycles', () => {
+    const document = {components: {schemas: {
+        Dto: {type: 'object', properties: {id: {type: 'string'}}},
+        Tree: {type: 'object', properties: {
+            left: {$ref: '#/components/schemas/Dto'},
+            right: {$ref: '#/components/schemas/Dto'},
+        }},
+    }}}
+    // two siblings citing the same component share nothing on the resolution
+    // path: the path-scoped set must forget each ref when its subtree ends
+    const resolved = resolveSchemaDeep(document, {$ref: '#/components/schemas/Tree'})
+    assert.deepEqual(resolved.properties.left, {type: 'object', properties: {id: {type: 'string'}}})
+    assert.deepEqual(resolved.properties.right, {type: 'object', properties: {id: {type: 'string'}}})
+    // a mutual cycle between two components is caught the same way
+    const mutual = {components: {schemas: {
+        Ping: {type: 'object', properties: {next: {$ref: '#/components/schemas/Pong'}}},
+        Pong: {type: 'object', properties: {back: {$ref: '#/components/schemas/Ping'}}},
+    }}}
+    assert.throws(() => resolveSchemaDeep(mutual, {$ref: '#/components/schemas/Ping'}), /REST_UPSTREAM_MIRROR_REF_CYCLE/)
 })
 
 test('mergeMirrorProse keeps local prose/x-* at surviving nodes and adopts upstream structure', () => {

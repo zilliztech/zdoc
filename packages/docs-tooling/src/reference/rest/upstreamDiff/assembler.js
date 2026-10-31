@@ -334,6 +334,7 @@ function buildReports() {
         deletions: [],
         unplaced: [],
         pendingConfirmation: [],
+        unresolvableSubtrees: [],
         supersededStances: [],
         placementsApplied: [],
         rejectedPlacements: [],
@@ -379,6 +380,14 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan 
         }
         if (entry.category === 'zdoc-only' && DELETION_KINDS.has(change.kind)) {
             reports.deletions.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, field: entry.field ?? null, kind: change.kind})
+            continue
+        }
+
+        // Recursive upstream subtrees cannot be mirrored (no finite inlined
+        // value): report for human follow-up and write nothing.
+        if (entry.unresolvableSubtree) {
+            reports.unresolvableSubtrees.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, branch: entry.branch ?? null,
+                field: entry.field ?? null, category: entry.category, requiresConfirmation: entry.requiresConfirmation ?? null})
             continue
         }
 
