@@ -130,3 +130,112 @@ test('an element present in fragments but absent from the evidence is drift too'
         fs.rmSync(ws.root, {recursive: true, force: true})
     }
 })
+
+// Elements evolution: the structural mirror retires subtrees, so evidence
+// elements inside a rewritten coordinate leave the list instead of failing
+// the run — everything else keeps failing closed.
+
+const ENDPOINT_POINTER = '/paths/~1v2~1vectordb~1file_resources~1list/post'
+
+function appliedFile(ws, entries) {
+    const appliedPath = path.join(ws.root, 'applied.json')
+    fs.writeFileSync(appliedPath, `${JSON.stringify({schemaVersion: '1.0', appliedLog: entries}, null, 2)}\n`)
+    return appliedPath
+}
+
+function twoElementFragment() {
+    const ws = workspace()
+    const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+    const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+    const response = spec.paths['/v2/vectordb/file_resources/list'].post.responses['200']
+    response['x-added-at'] = '3.0.x'
+    response['x-last-modified'] = '3.0.x'
+    response['x-deprecated-since'] = null
+    // re-pin the evidence to the two-element tree before any mutation
+    const evidencePath = path.join(ws.restMeta, 'lifecycle-evidence', 'milvus-2.6.x-bootstrap.json')
+    const evidence = JSON.parse(fs.readFileSync(evidencePath, 'utf8'))
+    for (const row of collect(spec)) {
+        if (!evidence.elements.some(item => item.jsonPointer === row.jsonPointer)) {
+            evidence.elements.push({fragment: ws.fragments[0], jsonPointer: row.jsonPointer, change: 'added',
+                lifecycle: row.lifecycle, source: {commit: 'a'.repeat(40), file: 'request.go', symbol: 'List'}})
+        }
+    }
+    evidence.summary.elements = evidence.elements.length
+    fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+    const inventoryHash = crypto.createHash('sha256')
+    for (const name of [ws.fragments[0]]) {
+        const bytes = fs.readFileSync(fragmentPath)
+        inventoryHash.update(`${crypto.createHash('sha256').update(bytes).digest('hex')}  meta/openapi/${name}\n`)
+    }
+    evidence.reproducibility.fragmentInventorySha256 = inventoryHash.digest('hex')
+    fs.writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`)
+    return ws
+}
+
+test('an element the mirror rewrote away is retired from the list and reported', () => {
+    const ws = twoElementFragment()
+    try {
+        const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+        const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+        delete spec.paths['/v2/vectordb/file_resources/list'].post.responses
+        fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+        const applied = appliedFile(ws, [{kind: 'mirror', targetFragment: ws.fragments[0], opPath: `${ENDPOINT_POINTER}/responses`}])
+
+        const result = refreshLifecycleEvidenceInventory({root: ws.root, restMeta: ws.restMeta, appliedFile: applied})
+        assert.equal(result.changed, true)
+        assert.equal(result.retired.length, 1)
+        assert.equal(result.retired[0].jsonPointer, `${ENDPOINT_POINTER}/responses/200`)
+        assert.equal(result.retired[0].retiredBy, `${ENDPOINT_POINTER}/responses`)
+        const evidence = JSON.parse(fs.readFileSync(path.join(ws.restMeta, 'lifecycle-evidence', 'milvus-2.6.x-bootstrap.json'), 'utf8'))
+        assert.equal(evidence.elements.length, 1)
+        assert.equal(evidence.summary.elements, 1)
+        assert.equal(evidence.reproducibility.fragmentInventorySha256, result.hash)
+    } finally {
+        fs.rmSync(ws.root, {recursive: true, force: true})
+    }
+})
+
+test('an absence no applied coordinate explains still fails closed', () => {
+    const ws = twoElementFragment()
+    try {
+        const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+        const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+        delete spec.paths['/v2/vectordb/file_resources/list'].post.responses
+        fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+        const applied = appliedFile(ws, [{kind: 'mirror', targetFragment: ws.fragments[0], opPath: `${ENDPOINT_POINTER}/parameters`}])
+
+        assert.throws(
+            () => refreshLifecycleEvidenceInventory({root: ws.root, restMeta: ws.restMeta, appliedFile: applied}),
+            /REST_UPSTREAM_LIFECYCLE_ELEMENT_DRIFT/,
+        )
+    } finally {
+        fs.rmSync(ws.root, {recursive: true, force: true})
+    }
+})
+
+test('a surviving element whose values changed fails closed even inside a rewritten coordinate', () => {
+    const ws = twoElementFragment()
+    try {
+        const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+        const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+        spec.paths['/v2/vectordb/file_resources/list'].post['x-last-modified'] = '9.9.x'
+        fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+        const applied = appliedFile(ws, [{kind: 'mirror', targetFragment: ws.fragments[0], opPath: ENDPOINT_POINTER}])
+
+        assert.throws(
+            () => refreshLifecycleEvidenceInventory({root: ws.root, restMeta: ws.restMeta, appliedFile: applied}),
+            /REST_UPSTREAM_LIFECYCLE_ELEMENT_DRIFT/,
+        )
+    } finally {
+        fs.rmSync(ws.root, {recursive: true, force: true})
+    }
+})
+
+test('coordinate coverage respects JSON-pointer segment boundaries', () => {
+    const {pointerCovers} = require('./refresh-lifecycle-inventory')
+    assert.equal(pointerCovers('/a/b', '/a/b/c'), true)
+    assert.equal(pointerCovers('/a/b/c', '/a/b'), true)
+    assert.equal(pointerCovers('/a/b', '/a/bc'), false)
+    assert.equal(pointerCovers('/a/bc', '/a/b'), false)
+    assert.equal(pointerCovers('/a/b', '/a/b'), true)
+})
