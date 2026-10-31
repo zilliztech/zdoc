@@ -582,7 +582,10 @@ Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, 
 2. Add the repository variables `GA4_PROPERTY_ID_EN` and `GA4_PROPERTY_ID_ZH_CN` (numeric GA4 property IDs); at least one is required.
 3. Dispatch the workflow once and verify the Feishu card and the report artifact — the daily schedule then picks up the same configuration automatically.
 
-Without the secret and property variables the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks.
+Without the secret and property variables the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks. Two invariants keep a fixed English rule from regressing on another surface:
+
+- **ja-JP mirrors.** Every English exact-match 301 needs a `/ja-JP`-prefixed twin in the same conf unless the twin is withheld on purpose (the ja page is still live and the mirror would shadow it). The twins of the 2026-10-31 batch were production-probed so no twin chains into a second 404; the drift test in `container.test.mjs` fails when a new English rule lands without its twin, and withheld twins are recorded in its `JA_MIRROR_EXEMPTIONS` list with a reason.
+- **SPA fallback coverage.** The 404 page's client-side redirect map (in-app SPA clicks never reach nginx) is derived at config load from the same nginx conf by `apps/docs/src/config/nginxRedirectRules.ts`, so no separate SPA rule list needs maintenance. Whole-version retirements that use regex `location ~` rules stay nginx-only — the SPA map intentionally covers exact-match rules.
 
 ### Engagement funnel report
 
