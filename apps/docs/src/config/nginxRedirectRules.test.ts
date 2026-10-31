@@ -62,6 +62,14 @@ server {
     location = /healthz {
         return 404 /healthz-404.html;
     }
+
+    # location = /docs/commented-out { return 301 /docs/ghost; }
+
+    location = /docs/root-target { return 301 /; }
+
+    location = /docs/spaced { return 301 /docs/new-page; }
+
+    location=/docs/tight {return 301 /docs/new-page;}
 }
 `;
 
@@ -77,10 +85,13 @@ describe('extractExact301Pairs', () => {
       {from: '/docs/into-external', to: '/docs/to-external'},
       {from: '/docs/to-var', to: '/docs/$1-landing'},
       {from: '/ja-JP/docs/old-page', to: '/ja-JP/docs/new-page'},
+      {from: '/docs/root-target', to: '/'},
+      {from: '/docs/spaced', to: '/docs/new-page'},
+      {from: '/docs/tight', to: '/docs/new-page'},
     ]);
   });
 
-  it('skips try_files fallbacks, multi-return blocks, regex locations, and non-301 gates', () => {
+  it('skips try_files fallbacks, multi-return blocks, regex locations, non-301 gates, and commented-out rules', () => {
     const pairs = extractExact301Pairs(CONF_FIXTURE);
     const sources = pairs.map(pair => pair.from);
     expect(sources).not.toContain('/ja-JP/docs/fallback-page');
@@ -89,11 +100,18 @@ describe('extractExact301Pairs', () => {
     expect(sources).not.toContain('/healthz');
     // trailing-slash catch rules collapse to a self-loop after normalization
     expect(sources).not.toContain('/docs/self-loop');
+    // a commented-out rule must not become a phantom client redirect
+    expect(sources).not.toContain('/docs/commented-out');
   });
 
   it('normalizes trailing slashes and strips fragments from both sides', () => {
     const pairs = extractExact301Pairs('location = /a/ { return 301 /b/#anchor; }');
     expect(pairs).toEqual([{from: '/a', to: '/b'}]);
+  });
+
+  it('keeps the site root as a legal target while still dropping normalized self-loops', () => {
+    expect(extractExact301Pairs('location = /search { return 301 /; }')).toEqual([{from: '/search', to: '/'}]);
+    expect(extractExact301Pairs('location = /x/ { return 301 /x; }')).toEqual([]);
   });
 });
 

@@ -358,7 +358,16 @@ test('English nginx redirect targets resolve to published routes, redirect chain
   for (const match of nginx.matchAll(/return 301\s+([^;\s]+);/gu)) {
     let target = match[1].split('#', 1)[0];
     if (/^https?:\/\//u.test(target) || target.includes('$')) continue;
-    if (target.startsWith('/ja-JP/')) target = target.slice('/ja-JP'.length);
+    if (target.startsWith('/ja-JP/')) {
+      target = target.slice('/ja-JP'.length);
+      // The prefix strip reduces a bare locale root to '/', which the route
+      // snapshot happens to contain; redirecting users to the bare locale
+      // root is always a mapping mistake, so judge it unresolved.
+      if (target === '/') {
+        unresolved.push('/ja-JP/ (bare locale root is not a redirect target)');
+        continue;
+      }
+    }
     checked += 1;
     if (routes.has(target) || exactSources.has(target) || allowlist.has(target)) continue;
     unresolved.push(target);
@@ -531,6 +540,11 @@ test('every English nginx 301 rule is mirrored to ja-JP or recorded as an exempt
   // ja users to a deliberate different or locale-stripped target), while the
   // redirect-target lint above proves whatever each twin targets actually
   // resolves. A gap here is exactly what grew the 2026-10 GA 404 backlog.
+  // Scope note: regex `location ~` sources are intentionally outside this
+  // contract (they cannot be mirrored mechanically without risking shadows of
+  // live ja pages) — the whole-version ^/reference/{java,go}/v1 retirements
+  // carry hand-authored ja twins instead, and future regex rules need the
+  // same manual treatment.
   const exemptions = new Map(JA_MIRROR_EXEMPTIONS.map(entry => [entry.from, entry.reason]));
   const missing = [];
   const redundantExemptions = [];

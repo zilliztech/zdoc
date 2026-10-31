@@ -8,12 +8,21 @@ import fs from 'node:fs';
 export type NginxRedirectPair = {readonly from: string; readonly to: string};
 
 // Exact-match location blocks in the hand-maintained confs are flat (no nested
-// braces), so a non-greedy scan to the first `}` is sufficient. Blocks whose
-// body carries several `return` directives are ambiguous for this purpose and
-// are skipped — adding a second return to a redirect block means the block
-// needs human review, not a silent client-side guess.
+// braces), so a non-greedy scan to the first `}` is sufficient. Whitespace
+// around `=` and the brace is tolerated, and `#`-comments are stripped first
+// (only when the `#` starts the line or follows whitespace, so fragment-bearing
+// targets like `/docs/x#anchor` survive) — a commented-out rule must not become
+// a phantom client redirect. Quoted location sources (`location = "/x y"`) are
+// not supported. Blocks whose body carries several `return` directives are
+// ambiguous for this purpose and are skipped — adding a second return to a
+// redirect block means the block needs human review, not a silent client-side
+// guess.
 const EXACT_BLOCK_PATTERN = /location\s*=\s*([^ {]+?)\s*\{([^}]*)\}/gu;
 const RETURN_301_PATTERN = /return\s+301\s+([^;\s]+);/gu;
+
+function stripComments(conf: string): string {
+  return conf.replaceAll(/(^|\s)#.*$/gmu, '$1');
+}
 
 function normalizePath(rawPath: string): string {
   let normalized = rawPath.trim();
@@ -35,16 +44,18 @@ function isSkippedTarget(target: string): boolean {
  * their sources still participate as chain intermediates. Trailing-slash
  * catch rules (`location = /x/ { return 301 /x; }`) vanish here: after
  * normalization both sides collapse to `/x`, a self-loop the client matcher
- * can never need (a normalized request to `/x` is already the live route). */
+ * can never need (a normalized request to `/x` is already the live route).
+ * The site root is a legal target (the SPA serves a real route at `/`), so
+ * only normalized self-loops are dropped. */
 export function extractExact301Pairs(conf: string): NginxRedirectPair[] {
   const pairs: NginxRedirectPair[] = [];
-  for (const block of conf.matchAll(EXACT_BLOCK_PATTERN)) {
+  for (const block of stripComments(conf).matchAll(EXACT_BLOCK_PATTERN)) {
     const from = normalizePath(block[1]);
     if (from.length <= 1) continue;
     const returns = [...block[2].matchAll(RETURN_301_PATTERN)];
     if (returns.length !== 1) continue;
     const to = normalizePath(returns[0][1]);
-    if (to.length <= 1 || to === from) continue;
+    if (to === from) continue;
     pairs.push({from, to});
   }
   return pairs;
@@ -111,7 +122,8 @@ export function mergeRedirectRules(
     const existing = merged.get(from);
     if (existing !== undefined && existing !== to) {
       throw new Error(
-        `Redirect source "${from}" is defined both in the nginx conf ("${existing}") and the site profile ("${to}")`,
+        // `existing` is the chain-resolved conf target, not verbatim conf text.
+        `Redirect source "${from}" resolves to "${existing}" via the nginx conf (chains walked to their final target) but the site profile declares "${to}"`,
       );
     }
     merged.set(from, to);
