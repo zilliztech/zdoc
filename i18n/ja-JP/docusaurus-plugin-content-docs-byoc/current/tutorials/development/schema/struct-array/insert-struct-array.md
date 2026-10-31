@@ -1052,12 +1052,12 @@ client.loadCollection(LoadCollectionReq.builder()
         .collectionName("tech_articles")
         .build());
 
-QueryResp resp = client.query(QueryReq.builder()
+QueryResp queryResp = client.query(QueryReq.builder()
         .collectionName("tech_articles")
         .filter("doc_id in [1, 2, 3]")
         .outputFields(Arrays.asList("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
         .build());
-System.out.println(resp.getQueryResults());
+System.out.println(queryResp.getQueryResults());
 ```
 
 </TabItem>

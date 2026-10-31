@@ -31,6 +31,11 @@ Zilliz Cloud では、長いソーステキストをエンティティととも�
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(
     field_name="content",
     # highlight-next-line
@@ -45,7 +50,14 @@ schema.add_field(
 ```java
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
 schema.addField(AddFieldReq.builder()
         .fieldName("content")
         .dataType(DataType.Text)
@@ -58,12 +70,16 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
-schema.WithField(entity.NewField().
-    WithName("content").
-    WithDataType(entity.FieldTypeText).
-    WithEnableAnalyzer(true))
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().
+        WithName("content").
+        WithDataType(entity.FieldTypeText).
+        WithEnableAnalyzer(true))
 ```
 
 </TabItem>
@@ -73,7 +89,8 @@ schema.WithField(entity.NewField().
 ```rust
 use milvus::v2::prelude::*;
 
-let schema = schema.add_field(
+let mut schema = CollectionSchema::new();
+schema = schema.add_field(
     FieldSchema::new()
         .name("content")
         .data_type(DataType::Text)
@@ -97,13 +114,13 @@ content_field.EnableAnalyzer(true);
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-schema.push({
-    name: "content",
-    data_type: DataType.Text,
-    enable_analyzer: true
-});
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const schema = [
+    { name: "id", data_type: DataType.Int64, is_primary_key: true },
+    { name: "content", data_type: DataType.Text, enable_analyzer: true },
+];
 ```
 
 </TabItem>
@@ -111,6 +128,14 @@ schema.push({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2.Types;
+
+var schema = new CollectionSchema
+{
+    Name = "text_bm25_collection",
+    EnableDynamicFields = false
+};
+
 // DataType.Text is an alias of VarChar with analyzer support for full-text search
 schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
 ```
@@ -1088,8 +1113,8 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("content")
                    .AddEmbeddedText(query_text);
 
-milvus::SearchResponse response;
-status = client->Search(request, response);
+milvus::SearchResponse search_response;
+status = client->Search(request, search_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1231,7 +1256,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-auto search_results = searchResponse.Results();
+auto search_results = search_response.Results();
 for (auto& result : search_results.Results()) {
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);

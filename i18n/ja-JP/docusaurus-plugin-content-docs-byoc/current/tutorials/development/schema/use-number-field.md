@@ -1031,7 +1031,7 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-const auto& query_results = response.Results();
+auto query_results = response.Results();
 milvus::EntityRows output_rows;
 query_results.OutputRows(output_rows);
 for (const auto& row : output_rows) {
@@ -1222,7 +1222,7 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-const auto& query_results = response.Results();
+auto query_results = response.Results();
 milvus::EntityRows output_rows;
 query_results.OutputRows(output_rows);
 for (const auto& row : output_rows) {
@@ -1402,7 +1402,7 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-const auto& query_results = response.Results();
+auto query_results = response.Results();
 milvus::EntityRows output_rows;
 query_results.OutputRows(output_rows);
 for (const auto& row : output_rows) {
@@ -1667,7 +1667,7 @@ using Milvus.Client.V2.Types;
 
 string filter = "25 <= age <= 35";
 
-var res = await client.SearchAsync(new SearchReq
+var searchResp = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
     VectorFieldName = "embedding",
@@ -1681,7 +1681,7 @@ var res = await client.SearchAsync(new SearchReq
     }
 });
 
-Console.WriteLine(res);
+Console.WriteLine(searchResp);
 ```
 
 </TabItem>
