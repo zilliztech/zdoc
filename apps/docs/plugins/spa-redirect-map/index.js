@@ -1,9 +1,10 @@
 'use strict';
 
-// Publishes the site profile's redirects.rules as plugin global data so the
-// swizzled 404 page (packages/docs-ui/src/shared/theme/NotFound/Content) can
-// redirect in-app SPA clicks from retired paths to their live successors.
-// nginx 301s only see full page loads; this map is the client-router fallback.
+// Publishes the site profile's redirect rules (nginx-conf-derived, merged with
+// the profile's hand-maintained rules) as plugin global data so the swizzled
+// 404 page (packages/docs-ui/src/shared/theme/NotFound/Content) can redirect
+// in-app SPA clicks from retired paths to their live successors. nginx 301s
+// only see full page loads; this map is the client-router fallback.
 // The plugin name must stay in sync with SPA_REDIRECT_MAP_PLUGIN_NAME in
 // packages/docs-ui/src/shared/theme/NotFound/Content/spaRedirectMap.ts.
 
@@ -65,6 +66,7 @@ function routeTargetOf(target, i18n) {
 
 module.exports = function spaRedirectMapPlugin(context, options) {
   const rules = normalizeRules(options.rules);
+  const productionRoutes = new Set(options.productionRoutes ?? []);
   const i18n = context.i18n;
   return {
     name: PluginName,
@@ -80,14 +82,28 @@ module.exports = function spaRedirectMapPlugin(context, options) {
     async postBuild({routesPaths, baseUrl}) {
       const served = new Set(routesPaths.map(stripTrailingSlash));
       const basePrefix = baseUrl === '/' ? '' : baseUrl.replace(/\/+$/, '');
+      const productionOnly = [];
       for (const {from, to} of rules) {
         const target = `${basePrefix}${routeTargetOf(to, i18n)}`;
-        if (!served.has(stripTrailingSlash(target))) {
-          throw new Error(
-            `[${PluginName}] redirect ${from} -> ${to} targets a route the site does not serve; `
-            + 'retire the rule together with its target page',
-          );
+        if (served.has(stripTrailingSlash(target))) continue;
+        if (productionRoutes.has(routeTargetOf(to, i18n))) {
+          // The route snapshot says production serves the page but this
+          // checkout's build inventory lags it (dev-owned generated content
+          // regenerates on the publication branch, not on master PRs). nginx
+          // owns the full-page-load hop either way, so warn instead of failing.
+          productionOnly.push(`${from} -> ${to}`);
+          continue;
         }
+        throw new Error(
+          `[${PluginName}] redirect ${from} -> ${to} targets a route the site does not serve; `
+          + 'retire the rule together with its target page',
+        );
+      }
+      if (productionOnly.length > 0) {
+        console.warn(
+          `[${PluginName}] ${productionOnly.length} redirect target(s) exist in production but not in this build's route inventory:\n`
+          + productionOnly.map(entry => `  ${entry}`).join('\n'),
+        );
       }
     },
   };
