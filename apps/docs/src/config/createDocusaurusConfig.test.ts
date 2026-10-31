@@ -948,18 +948,23 @@ describe('createDocusaurusConfig', () => {
     const spaRedirectMapPlugin = (config.plugins ?? []).find(
       plugin => Array.isArray(plugin) && String(plugin[0]).replaceAll('\\', '/').endsWith('/plugins/spa-redirect-map'),
     ) as [string, {rules: Array<{from: string; to: string}>}];
-    expect(spaRedirectMapPlugin?.[1]).toEqual({rules: [{from: '/old', to: '/docs'}]});
+    // The SPA map is the nginx-conf-derived ruleset merged with the profile's
+    // hand-maintained rules, so it must carry the profile entry and the bulk
+    // of the deploy conf's exact-match 301s.
+    expect(spaRedirectMapPlugin?.[1].rules).toContainEqual({from: '/old', to: '/docs'});
+    expect(spaRedirectMapPlugin?.[1].rules.length).toBeGreaterThan(100);
   });
 
-  it('registers no redirect surface when the profile has no rules', () => {
+  it('keeps the nginx-derived SPA map even when the profile has no redirect rules', () => {
     const config = createDocusaurusConfig(profile({redirects: {rules: []}}));
-    const redirectSurfaces = (config.plugins ?? []).filter(
-      plugin => Array.isArray(plugin) && (
-        plugin[0] === '@docusaurus/plugin-client-redirects'
-        || String(plugin[0]).replaceAll('\\', '/').endsWith('/plugins/spa-redirect-map')
-      ),
+    const clientRedirects = (config.plugins ?? []).find(
+      plugin => Array.isArray(plugin) && plugin[0] === '@docusaurus/plugin-client-redirects',
     );
-    expect(redirectSurfaces).toEqual([]);
+    expect(clientRedirects).toBeUndefined();
+    const spaRedirectMapPlugin = (config.plugins ?? []).find(
+      plugin => Array.isArray(plugin) && String(plugin[0]).replaceAll('\\', '/').endsWith('/plugins/spa-redirect-map'),
+    ) as [string, {rules: Array<{from: string; to: string}>}];
+    expect(spaRedirectMapPlugin?.[1].rules.length).toBeGreaterThan(100);
   });
 
   it('registers disjoint site-owned standalone page roots', () => {
