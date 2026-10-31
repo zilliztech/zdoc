@@ -78,6 +78,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -90,8 +91,10 @@
                         },
                         "data": {
                           "type": "array",
+                          "description": "Response payload which is a list of applicable cloud providers.",
                           "items": {
                             "type": "object",
+                            "description": "List of applicable cloud providers.",
                             "properties": {
                               "cloudId": {
                                 "type": "string",
@@ -118,7 +121,6 @@
                                 }
                               }
                             },
-                            "description": "List of applicable cloud providers.",
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "当前可用云服务商列表。"
@@ -128,7 +130,6 @@
                               }
                             }
                           },
-                          "description": "Response payload which is a list of applicable cloud providers.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，是一个包含当前可用云服务商列表的数组。"
@@ -347,6 +348,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -359,8 +361,10 @@
                         },
                         "data": {
                           "type": "array",
+                          "description": "Response payload.",
                           "items": {
                             "type": "object",
+                            "description": "List of applicable cloud regions.",
                             "properties": {
                               "cloudId": {
                                 "type": "string",
@@ -397,9 +401,23 @@
                                     "description": "コントロールプレーン上の V2 API server のベースURL。"
                                   }
                                 }
+                              },
+                              "supportedClusterTypes": {
+                                "type": "array",
+                                "description": "Cluster types supported by the region. Possible values are free, serverless, and dedicated; an empty list means no cluster type is currently available in the region.",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "该地域支持的集群类型，可能值为 free、serverless 和 dedicated；空列表表示该地域当前没有可用的集群类型。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "リージョンでサポートされている Cluster タイプ。指定可能な値は free、serverless、dedicated です。空のリストは、そのリージョンで現在利用可能な Cluster タイプがないことを意味します。"
+                                  }
+                                }
                               }
                             },
-                            "description": "List of applicable cloud regions.",
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "可用云地域列表。"
@@ -409,7 +427,6 @@
                               }
                             }
                           },
-                          "description": "Response payload.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
