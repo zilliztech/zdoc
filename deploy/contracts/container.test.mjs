@@ -516,11 +516,7 @@ test('the 2026-10 GA4 search-origin cleanup mirrors retired slugs to ja and reta
 // English rules whose /ja-JP/<source> is a live ja page on production: adding
 // the twin would shadow a page real users can still reach, so the mirror is
 // withheld on purpose. Everything else in the English map must be mirrored.
-const JA_MIRROR_EXEMPTIONS = [
-  // The ja build still ships the CLI reference tree even though the English
-  // one retired, so /ja-JP/reference/cli/cli/overview serves real content.
-  {from: '/ja-JP/reference/cli/cli/overview', reason: 'live ja page on production (2026-10-31 probe)'},
-];
+const JA_MIRROR_EXEMPTIONS = [];
 
 test('every English nginx 301 rule is mirrored to ja-JP or recorded as an exemption', () => {
   const en = read('deploy/en/nginx.conf');
@@ -548,6 +544,13 @@ test('every English nginx 301 rule is mirrored to ja-JP or recorded as an exempt
   const exemptions = new Map(JA_MIRROR_EXEMPTIONS.map(entry => [entry.from, entry.reason]));
   const missing = [];
   const redundantExemptions = [];
+  // Every `return 301` must be a terminated directive. The extraction regexes
+  // only see semicolon-terminated ones, so a dropped semicolon would make a
+  // rule silently vanish from every contract (and abort nginx at container
+  // start) instead of failing here — this pair of counts closes that hole.
+  const bareReturns = (en.match(/return 301\s+\S+/gu) ?? []).length;
+  const terminatedReturns = (en.match(/return 301\s+[^;]+;/gu) ?? []).length;
+  assert.equal(bareReturns, terminatedReturns, 'every `return 301` directive must end with a semicolon');
   for (const from of enRules) {
     const twin = `/ja-JP${from}`;
     if (exactSources.has(twin)) {
@@ -568,16 +571,22 @@ test('every English nginx 301 rule is mirrored to ja-JP or recorded as an exempt
   );
 });
 
-test('the 2026-10-31 GA-derived cleanup fixes wrong targets and redirects the retired CLI reference', () => {
+test('the 2026-10-31 GA-derived cleanup fixes wrong targets and sends dead CLI leaves to the live CLI hub', () => {
   const en = read('deploy/en/nginx.conf');
   // /reference/api/go/Vector/Insert() used to target the Query successor page.
   assert.match(en, /location = \/reference\/api\/go\/Vector\/Insert\(\) \{\s*return 301 \/reference\/go\/go\/v2-Vector-Insert;\s*\}/);
-  // The whole CLI reference retired after the 2026-09-30 route snapshot; every
-  // rule that pointed at the dead /reference/cli/cli/overview now targets the
-  // reference hub, and the direct hits get a rule of their own.
-  assert.doesNotMatch(en, /return 301 \/reference\/cli\/cli\/overview;/);
-  assert.match(en, /location = \/reference\/cli\/CloudManagement-Import \{\s*return 301 \/reference\/restful;\s*\}/);
-  assert.match(en, /location = \/reference\/cli\/cli\/overview \{ return 301 \/reference\/restful; \}/);
+  // The CLI reference was PARTIALLY retired: the section root /reference/cli and
+  // a leaf set (Completion-*, MilvusStandalone-*) are gone, but the
+  // /reference/cli/cli/overview hub and most leaves are still published (verified
+  // against production and the 2026-10-31 route snapshot). GA-evidenced dead
+  // leaves therefore go to the live hub, and the hub itself must never become a
+  // redirect source (it would shadow a live page).
+  assert.doesNotMatch(en, /location = \/reference\/cli\/cli\/overview \{/);
+  assert.match(en, /location = \/reference\/cli\/CloudManagement-Import \{\s*return 301 \/reference\/cli\/cli\/overview;\s*\}/);
+  assert.match(en, /location = \/reference\/cli\/cli\/Completion-show \{ return 301 \/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/reference\/cli\/cli\/MilvusStandalone-install \{ return 301 \/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/ja-JP\/reference\/cli\/DataOperations \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/ja-JP\/reference\/cli\/CloudManagement \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
   // GA-evidenced retired SDK reference paths, targets verified live 2026-10-31.
   assert.match(en, /location = \/reference\/go\/v2-Vector-Query \{ return 301 \/reference\/go\/go\/v2-Vector-Query; \}/);
   assert.match(en, /location = \/reference\/go\/v2-Vector-Search \{ return 301 \/reference\/go\/go\/v2-Vector-Search; \}/);
