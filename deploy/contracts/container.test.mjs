@@ -358,7 +358,16 @@ test('English nginx redirect targets resolve to published routes, redirect chain
   for (const match of nginx.matchAll(/return 301\s+([^;\s]+);/gu)) {
     let target = match[1].split('#', 1)[0];
     if (/^https?:\/\//u.test(target) || target.includes('$')) continue;
-    if (target.startsWith('/ja-JP/')) target = target.slice('/ja-JP'.length);
+    if (target.startsWith('/ja-JP/')) {
+      target = target.slice('/ja-JP'.length);
+      // The prefix strip reduces a bare locale root to '/', which the route
+      // snapshot happens to contain; redirecting users to the bare locale
+      // root is always a mapping mistake, so judge it unresolved.
+      if (target === '/') {
+        unresolved.push('/ja-JP/ (bare locale root is not a redirect target)');
+        continue;
+      }
+    }
     checked += 1;
     if (routes.has(target) || exactSources.has(target) || allowlist.has(target)) continue;
     unresolved.push(target);
@@ -502,6 +511,107 @@ test('the 2026-10 GA4 search-origin cleanup mirrors retired slugs to ja and reta
   assert.match(en, /location = \/ja-JP\/docs\/authentication \{ return 301 \/ja-JP\/docs\/email-accounts; \}/);
   assert.match(en, /location = \/docs\/semantic-highlighter \{ return 301 \/reference\/python\/python\/Highlighter-LexicalHighlighter; \}/);
   assert.match(en, /location = \/reference\/python\/python\/Highlighter-SemanticHighlighter \{ return 301 \/reference\/python\/python\/Highlighter-LexicalHighlighter; \}/);
+});
+
+// English rules whose /ja-JP/<source> is a live ja page on production: adding
+// the twin would shadow a page real users can still reach, so the mirror is
+// withheld on purpose. Everything else in the English map must be mirrored.
+const JA_MIRROR_EXEMPTIONS = [];
+
+test('every English nginx 301 rule is mirrored to ja-JP or recorded as an exemption', () => {
+  const en = read('deploy/en/nginx.conf');
+  const exactSources = new Set();
+  const enRules = [];
+  for (const match of en.matchAll(/location = ([^ {]+) \{([^}]*)\}/gu)) {
+    const source = match[1].trim();
+    exactSources.add(source);
+    const returns = [...match[2].matchAll(/return 301\s+([^;\s]+);/gu)];
+    if (returns.length !== 1 || source.startsWith('/ja-JP/')) continue;
+    const target = returns[0][1].trim();
+    if (target.includes('$')) continue; // nginx variable rewrites cannot be locale-prefixed
+    enRules.push(source);
+  }
+  // Mirror completeness and mirror target quality are separate contracts: any
+  // exact ja location satisfies this test (hand-authored twins sometimes send
+  // ja users to a deliberate different or locale-stripped target), while the
+  // redirect-target lint above proves whatever each twin targets actually
+  // resolves. A gap here is exactly what grew the 2026-10 GA 404 backlog.
+  // Scope note: regex `location ~` sources are intentionally outside this
+  // contract (they cannot be mirrored mechanically without risking shadows of
+  // live ja pages) — the whole-version ^/reference/{java,go}/v1 retirements
+  // carry hand-authored ja twins instead, and future regex rules need the
+  // same manual treatment.
+  const exemptions = new Map(JA_MIRROR_EXEMPTIONS.map(entry => [entry.from, entry.reason]));
+  const missing = [];
+  const redundantExemptions = [];
+  // Every `return 301` must be a terminated directive. The extraction regexes
+  // only see semicolon-terminated ones, so a dropped semicolon would make a
+  // rule silently vanish from every contract (and abort nginx at container
+  // start) instead of failing here — this pair of counts closes that hole.
+  const bareReturns = (en.match(/return 301\s+\S+/gu) ?? []).length;
+  const terminatedReturns = (en.match(/return 301\s+[^;]+;/gu) ?? []).length;
+  assert.equal(bareReturns, terminatedReturns, 'every `return 301` directive must end with a semicolon');
+  for (const from of enRules) {
+    const twin = `/ja-JP${from}`;
+    if (exactSources.has(twin)) {
+      if (exemptions.has(twin)) redundantExemptions.push(twin);
+      continue;
+    }
+    if (!exemptions.has(twin)) missing.push(twin);
+  }
+  assert.deepEqual(
+    redundantExemptions,
+    [],
+    'exemption entries whose ja location exists anyway are stale and must be removed',
+  );
+  assert.deepEqual(
+    missing,
+    [],
+    'every English nginx 301 must carry a ja-JP location (new retirement gaps are exactly what drove the 2026-10 GA 404 backlog) or be exempted as a live ja page',
+  );
+});
+
+test('the 2026-10-31 GA-derived cleanup fixes wrong targets and sends dead CLI leaves to the live CLI hub', () => {
+  const en = read('deploy/en/nginx.conf');
+  // /reference/api/go/Vector/Insert() used to target the Query successor page.
+  assert.match(en, /location = \/reference\/api\/go\/Vector\/Insert\(\) \{\s*return 301 \/reference\/go\/go\/v2-Vector-Insert;\s*\}/);
+  // The CLI reference was PARTIALLY retired: the section root /reference/cli and
+  // a leaf set (Completion-*, MilvusStandalone-*) are gone, but the
+  // /reference/cli/cli/overview hub and most leaves are still published (verified
+  // against production and the 2026-10-31 route snapshot). GA-evidenced dead
+  // leaves therefore go to the live hub, and the hub itself must never become a
+  // redirect source (it would shadow a live page).
+  assert.doesNotMatch(en, /location = \/reference\/cli\/cli\/overview \{/);
+  assert.match(en, /location = \/reference\/cli\/CloudManagement-Import \{\s*return 301 \/reference\/cli\/cli\/overview;\s*\}/);
+  assert.match(en, /location = \/reference\/cli\/cli\/Completion-show \{ return 301 \/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/reference\/cli\/cli\/MilvusStandalone-install \{ return 301 \/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/ja-JP\/reference\/cli\/DataOperations \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
+  assert.match(en, /location = \/ja-JP\/reference\/cli\/CloudManagement \{ return 301 \/ja-JP\/reference\/cli\/cli\/overview; \}/);
+  // The BYOC IP list merged into the top-level IP page on both sites.
+  assert.match(en, /location = \/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/docs\/zilliz-cloud-ips; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/ja-JP\/docs\/zilliz-cloud-ips; \}/);
+  assert.match(read('deploy/zh-CN/nginx.conf'), /location = \/docs\/byoc\/zilliz-cloud-ips \{ return 301 \/docs\/zilliz-cloud-ips; \}/);
+  // GA-evidenced retired SDK reference paths, targets verified live 2026-10-31.
+  assert.match(en, /location = \/reference\/go\/v2-Vector-Query \{ return 301 \/reference\/go\/go\/v2-Vector-Query; \}/);
+  assert.match(en, /location = \/reference\/go\/v2-Vector-Search \{ return 301 \/reference\/go\/go\/v2-Vector-Search; \}/);
+  assert.match(en, /location = \/reference\/go\/v1-Collection-Insert \{ return 301 \/reference\/go; \}/);
+  assert.match(en, /location = \/reference\/python\/Rerankers \{ return 301 \/reference\/python; \}/);
+  assert.match(en, /location = \/reference\/python\/Vector-GroupBy \{ return 301 \/reference\/python; \}/);
+  assert.match(en, /location = \/reference\/node\/Collections \{ return 301 \/reference\/nodejs; \}/);
+  assert.match(en, /location = \/reference\/java\/v1-Authentication \{ return 301 \/reference\/java; \}/);
+  assert.match(en, /location = \/reference\/java\/java\/v2-Volume-VolumeFileManager\/v2-VolumeFileManager-uploadFilesAsync \{ return 301 \/reference\/java\/java\/v2-Volume-VolumeFileManager; \}/);
+  // The ja mirrors of the top GA 404 sources (docs.zilliz.com ja traffic).
+  assert.match(en, /location = \/ja-JP\/docs\/agents\/zilliz-import-prompts \{ return 301 \/ja-JP\/docs\/zilliz-import-prompts; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/zilliz-mcp-server \{ return 301 \/ja-JP\/docs\/zilliz-skill; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/connect-to-cluster \{ return 301 \/ja-JP\/docs\/connect-to-serving-cluster; \}/);
+  // Whole-version SDK retirements use regex locations on the English site;
+  // their ja twins mirror the same catch, while the exact section-index twin
+  // (location =) wins over the regex with the same destination.
+  assert.match(en, /location ~ \^\/reference\/java\/v1 \{\s*return 301 \/reference\/java;\s*\}/);
+  assert.match(en, /location ~ \^\/ja-JP\/reference\/java\/v1 \{\s*return 301 \/ja-JP\/reference\/java;\s*\}/);
+  assert.match(en, /location ~ \^\/ja-JP\/reference\/go\/v1 \{\s*return 301 \/ja-JP\/reference\/go;\s*\}/);
+  assert.match(en, /location = \/ja-JP\/reference\/java\/v1 \{ return 301 \/ja-JP\/reference\/java; \}/);
+  assert.match(en, /location = \/ja-JP\/docs\/security \{ return 301 \/ja-JP\/docs\/setup-console-ip-allowlist; \}/);
 });
 
 test('both site-owned images route chat directly to the private agent runtime', () => {  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');

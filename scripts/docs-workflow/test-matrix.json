@@ -668,6 +668,7 @@
       ],
       "focusedTests": [
         "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
+        "pnpm vitest run apps/docs/src/config/nginxRedirectRules.test.ts",
         "pnpm test:profiles",
         "node --test apps/docs/plugins/spa-redirect-map/index.test.js"
       ],

@@ -5,6 +5,7 @@ import {canonicalRouteKey, type ContentPluginProfile, type DeepReadonly, type Si
 import {chineseUiModules, englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
 import {config as loadDotenv} from 'dotenv';
 import {resolveMarkdownPolicy} from './markdownPolicy';
+import {loadNginxRedirectRules, mergeRedirectRules} from './nginxRedirectRules';
 
 function findRepositoryRoot(startDirectory: string): string {
   let current = path.resolve(startDirectory);
@@ -98,26 +99,70 @@ function buildCapabilityPlugins(profile: DeepReadonly<SiteProfile>): PluginConfi
   ];
 }
 
-function redirectPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
-  if (profile.redirects.rules.length === 0) {
-    return [];
+// The hand-maintained nginx map lives under the site's deploy directory; the
+// client-side SPA map derives from the same file so the two surfaces cannot
+// drift apart (nginx 301s cover full page loads, the SPA map covers in-app
+// clicks — but both must agree on where a retired path goes).
+const SITE_NGINX_CONF: Record<string, string> = {
+  en: 'deploy/en/nginx.conf',
+  'zh-CN': 'deploy/zh-CN/nginx.conf',
+};
+
+// The redirect-target route snapshots (deploy/contracts) record which pages
+// production actually serves. postBuild uses them to tell "this checkout's
+// build inventory lags dev-owned generated content" (warn — nginx owns the
+// full-page-load hop and production serves the page) apart from "the target
+// is dead everywhere" (fail the build).
+const SITE_REDIRECT_TARGET_ROUTES: Record<string, string> = {
+  en: 'deploy/contracts/en-redirect-target-routes.json',
+  'zh-CN': 'deploy/contracts/zh-CN-redirect-target-routes.json',
+};
+
+function loadProductionRedirectRoutes(siteId: string): string[] {
+  const snapshotPath = repositoryPath(SITE_REDIRECT_TARGET_ROUTES[siteId]);
+  let snapshot: {routes?: unknown};
+  try {
+    snapshot = JSON.parse(fs.readFileSync(snapshotPath, 'utf8')) as {routes?: unknown};
+  } catch (error) {
+    throw new Error(`Unable to read the redirect-target route snapshot at ${snapshotPath}: ${String(error)}`);
   }
-  const rules = profile.redirects.rules.map(rule => ({from: rule.from, to: rule.to}));
+  if (!Array.isArray(snapshot.routes) || snapshot.routes.some(route => typeof route !== 'string')) {
+    throw new Error(`The redirect-target route snapshot at ${snapshotPath} must contain a string[] "routes"`);
+  }
+  return snapshot.routes as string[];
+}
+
+function redirectPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
+  const confRelativePath = SITE_NGINX_CONF[profile.id];
+  if (confRelativePath === undefined) {
+    throw new Error(`No nginx redirect map is configured for site "${profile.id}"`);
+  }
+  const derivedRules = loadNginxRedirectRules(repositoryPath(confRelativePath));
+  const profileRules = profile.redirects.rules.map(rule => ({from: rule.from, to: rule.to}));
+  const spaRules = mergeRedirectRules(derivedRules, profileRules);
+  const productionRoutes = loadProductionRedirectRoutes(profile.id);
   return [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        createRedirects(existingPath: string): string[] | undefined {
-          const sources = profile.redirects.rules
-            .filter(rule => rule.to === existingPath)
-            .map(rule => rule.from);
-          return sources.length > 0 ? sources : undefined;
-        },
-      },
-    ],
-    // The static redirect HTML only covers full page loads; this plugin hands
-    // the same rules to the 404 page so in-app SPA clicks redirect too.
-    [repositoryPath('apps/docs/plugins/spa-redirect-map'), {rules}],
+    ...(profileRules.length > 0
+      ? [
+          [
+            '@docusaurus/plugin-client-redirects',
+            {
+              createRedirects(existingPath: string): string[] | undefined {
+                const sources = profileRules
+                  .filter(rule => rule.to === existingPath)
+                  .map(rule => rule.from);
+                return sources.length > 0 ? sources : undefined;
+              },
+            },
+          ] as PluginConfig,
+        ]
+      : []),
+    // The static redirect HTML above only covers full page loads; this plugin
+    // hands the (nginx-derived ∪ profile) rules to the 404 page so in-app SPA
+    // clicks redirect too.
+    ...(spaRules.length > 0
+      ? [[repositoryPath('apps/docs/plugins/spa-redirect-map'), {rules: spaRules, productionRoutes}] as PluginConfig]
+      : []),
   ];
 }
 
