@@ -151,6 +151,7 @@ function renderDiffMarkdown(diff) {
             const flags = [
                 entry.ledgerStatus ? `ledger: ${entry.ledgerStatus}` : null,
                 entry.requiresConfirmation ? `⚠️ confirm with R&D (${entry.requiresConfirmation})` : null,
+                entry.unresolvableSubtree ? `recursive upstream subtree — reported for human follow-up, nothing auto-mirrored` : null,
                 entry.templateProse ? `template copy (upstream repeats this text verbatim across many fields)` : null,
             ].filter(Boolean)
             lines.push(`- **${entry.category}** — ${where}: ${detail}${flags.length ? ` [${flags.join('; ')}]` : ''}`)
