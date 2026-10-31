@@ -9,12 +9,23 @@
 // must follow the tree while the element values still fail closed here: this
 // script never writes a lifecycle value, and any observed drift stops it
 // before the evidence is touched.
+//
+// Elements evolution (the §6.3 follow-up): a structural mirror legitimately
+// rewrites/retires subtrees, so evidence elements whose pointers no longer
+// resolve are expected whenever the refresh's own change-set rewrote that
+// coordinate. With `appliedFile` pointing at the run's applied.json, an
+// ABSENT element covered by a mirror/addition opPath (segment-boundary-safe
+// prefix, same fragment) is retired from the elements list and reported for
+// PR review instead of failing. Every other drift — a surviving element whose
+// values changed, an uncovered absence, an element the fragments gained —
+// still fails closed and never re-hashes.
 
 const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
 
 const LIFECYCLE_KEYS = ['x-added-at', 'x-last-modified', 'x-deprecated-since']
+const REWRITING_KINDS = new Set(['mirror', 'addition'])
 
 function escapePointer(value) {
     return value.replaceAll('~', '~0').replaceAll('/', '~1')
@@ -35,7 +46,25 @@ function collect(node, pointer = '') {
     return rows
 }
 
-function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milvus-2.6.x-bootstrap.json'}) {
+// JSON-pointer containment on segment boundaries: `/a/b` covers `/a/b/c` but
+// never `/a/bc`.
+function pointerCovers(outer, inner) {
+    return outer === inner || inner.startsWith(`${outer}/`) || outer.startsWith(`${inner}/`)
+}
+
+function rewriteCoordinates(appliedFile) {
+    const coordinates = new Map()
+    if (!appliedFile) return coordinates
+    const applied = JSON.parse(fs.readFileSync(appliedFile, 'utf8'))
+    for (const entry of applied.appliedLog ?? []) {
+        if (!REWRITING_KINDS.has(entry.kind) || !entry.targetFragment || !entry.opPath) continue
+        if (!coordinates.has(entry.targetFragment)) coordinates.set(entry.targetFragment, [])
+        coordinates.get(entry.targetFragment).push(entry.opPath)
+    }
+    return coordinates
+}
+
+function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milvus-2.6.x-bootstrap.json', appliedFile = null}) {
     // The verify script hashes "<sha256>  <repo-relative posix path>" lines;
     // the inventory is only reproducible when this script derives the exact
     // same lines, so the repository root is mandatory context here.
@@ -54,16 +83,27 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
         for (const row of collect(JSON.parse(bytes))) observed.set(`${fragment}:${row.jsonPointer}`, row.lifecycle)
     }
 
-    // Element drift is a real contract change, never an inventory refresh:
-    // list it and stop (a refresh that lands lifecycle writes needs the
-    // evidence elements reviewed and updated by a human in the PR).
+    // Element drift is a real contract change, never an inventory refresh —
+    // except the one retirement the change-set itself proves: an element whose
+    // pointer the fragments no longer resolve AND whose coordinate a
+    // mirror/addition entry rewrote was retired by this very refresh, so it
+    // leaves the elements list and is reported for PR review. A SURVIVING
+    // element whose values differ always fails closed, covered or not.
+    const coordinates = rewriteCoordinates(appliedFile)
     const drifts = []
-    const expected = new Map(evidence.elements.map(row => [`${row.fragment}:${row.jsonPointer}`, row.lifecycle]))
-    for (const [key, lifecycle] of expected) {
+    const retired = []
+    const expected = new Map(evidence.elements.map(row => [`${row.fragment}:${row.jsonPointer}`, row]))
+    for (const [key, row] of expected) {
         const actual = observed.get(key)
-        if (JSON.stringify(actual) !== JSON.stringify(lifecycle)) {
-            drifts.push(`${key}: evidence ${JSON.stringify(lifecycle)} vs fragments ${JSON.stringify(actual ?? null)}`)
+        if (JSON.stringify(actual) === JSON.stringify(row.lifecycle)) continue
+        if (actual === undefined && appliedFile) {
+            const retiredBy = (coordinates.get(row.fragment) ?? []).find(opPath => pointerCovers(opPath, row.jsonPointer))
+            if (retiredBy !== undefined) {
+                retired.push({fragment: row.fragment, jsonPointer: row.jsonPointer, lifecycle: row.lifecycle, retiredBy})
+                continue
+            }
         }
+        drifts.push(`${key}: evidence ${JSON.stringify(row.lifecycle)} vs fragments ${JSON.stringify(actual ?? null)}`)
     }
     for (const key of observed.keys()) {
         if (!expected.has(key)) drifts.push(`${key}: lifecycle element present in fragments but absent from the evidence`)
@@ -73,15 +113,20 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
     }
 
     const nextHash = inventoryHash.digest('hex')
-    if (evidence.reproducibility.fragmentInventorySha256 === nextHash) {
-        return {changed: false, hash: nextHash, elements: observed.size}
+    if (retired.length > 0) {
+        const retiredKeys = new Set(retired.map(item => `${item.fragment}:${item.jsonPointer}`))
+        evidence.elements = evidence.elements.filter(row => !retiredKeys.has(`${row.fragment}:${row.jsonPointer}`))
+        evidence.summary.elements = evidence.elements.length
+    }
+    if (evidence.reproducibility.fragmentInventorySha256 === nextHash && retired.length === 0) {
+        return {changed: false, hash: nextHash, elements: observed.size, retired: []}
     }
     evidence.reproducibility.fragmentInventorySha256 = nextHash
     fs.writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`)
-    return {changed: true, hash: nextHash, elements: observed.size}
+    return {changed: true, hash: nextHash, elements: evidence.elements.length, retired}
 }
 
-module.exports = {refreshLifecycleEvidenceInventory, collect}
+module.exports = {refreshLifecycleEvidenceInventory, collect, pointerCovers}
 
 if (require.main === module) {
     const root = path.resolve(__dirname, '..', '..')
