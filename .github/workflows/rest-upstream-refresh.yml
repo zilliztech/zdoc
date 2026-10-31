@@ -407,7 +407,16 @@ jobs:
         run: |
           readarray -t changed_paths < <(git diff --name-only 'HEAD~1' 'HEAD')
           test "${#changed_paths[@]}" -gt 0
-          pnpm test:for-change -- "${changed_paths[@]}"
+          # The selector only prints the change-scoped union, so execute every
+          # command it selects; a selector throw (unmapped changed path) still
+          # fails this step. The two gates below stay explicit because they are
+          # cheap and must never depend on matrix edits.
+          node scripts/docs-workflow/select-tests-for-changes.js --json "${changed_paths[@]}" > "$RUNNER_TEMP/test-union.json"
+          while IFS= read -r command; do
+            test -n "$command" || continue
+            echo "+ $command"
+            eval "$command"
+          done < <(node -p 'JSON.parse(require("node:fs").readFileSync(0, "utf8")).commands.join("\n")' < "$RUNNER_TEMP/test-union.json")
           pnpm test:rest-publication-contract
           pnpm test:workflow-policy
 
