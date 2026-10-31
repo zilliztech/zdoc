@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "ca2f00110cc8511aa99cdbd5623c94a4ac16a1ad",
+      "commit": "1afe8385c8b8b11474574cfbeeb7a221e53dc560",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2870,7 +2870,7 @@
       ]
     },
     "dev": {
-      "commit": "621dcd4504fe94f887e1207d82c1919c0962b215",
+      "commit": "5914b706afedcb333f0cff689077ce9de720eae2",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -5698,7 +5698,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "bec3a963b4f44763dce3942e70327c516883b0a007683546b96b82fe2ecb13ca"
+          "sha256": "7d39f2fe78aa663d54fed6ac80b30d1276297e5cc1da323f3e48028b75d64908"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5706,99 +5706,99 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "ba707ce75406cacb5caf29fc1682a7efd37f961566c701bb1dfe115f479f39f1"
+          "sha256": "05e0d41e598ad248c4b692b071ba8abbb2e78a3b2108086cd072994458325e08"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "1461da68cd54350a174b1b5b3ac5145a3b84993f04d90a4ef34508de7afa548b"
+          "sha256": "9c1016633dbf7e6f74f1f24d2cd032f861880712d99a9ee620a8c2ac7a609115"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "78fc8da25da0efd870f03ad8f722d5051275fee95b82ad2071fc682a440455a6"
+          "sha256": "4bd7ee5ddae6b0f96862d397a36bbb27b37b9b3d0b8e145d152e0088a2360269"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "9e0a0a2c812eb87e76622c2edf60c3b7c61680664be5ffbb1b516bb9d53f0c74"
+          "sha256": "8eeffda59dd991415d50559f94bbafc4f09e2075be6a3089e808f26e50358de9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "3f81a69d3c0d9120776c16c886befa2d5360e7a5df730f59575ce52d09830531"
+          "sha256": "dabf331844a8adf084c56d647a0e1b65c964030acf594626bbfa4da1f84a9019"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "c1a60fb2cf2a3a5d7a0c9acc574a2e6396c8a989d09aafe9ff62647cc6b5c5d6"
+          "sha256": "fc9f1a7bf4fd06198fc9827c79a38a91651516eb8f6e3dc911262e2581138fbd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "1d87f37e8c25b07c52ab0e5278ada17374acc53a8c13834c0d85ca1ce5844713"
+          "sha256": "84f5608c70dc2294b35b5b8824f64d768e8680e0b7ee9e722635e62d2e18a768"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "71e89212dc0a2bcbb3e50d83ecaaf06febe29c44f034cbe60c1caac438ce479c"
+          "sha256": "247d0376ddaaecb509a9ea5c5707957b19704af61e2b70054070e69a58a734f9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "2155cbd851b88687edc24223b615bb20720b303aed6849b420ced74cc3aa129a"
+          "sha256": "daa9290d1576167001b7aa3a58de7d16f599cbe2d17eded91fd97d96c4b5a6d5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "40437dba979b4f4080c919c3c3ffe8246ddb787bcbe706792242f2ddc54ccc81"
+          "sha256": "79e3e6e0e35657c9905b449a095a85e4a98e7446fa53b5f827d5887facba4967"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "1168ea65ae770ca00e881e729972836cae4c7a756de22d0630ec11e135c924c4"
+          "sha256": "27624559d0d26420da7d8a7d7a8aa5f655b8f21817d98127c51534872ddb6da0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "2c69d90f5a3729105ce205280bb18c7cfa431a0b740ddfe8c046b0e148538f07"
+          "sha256": "8acc2054a874952dde13a6b1fee595c9a8dfcf421f67603026b70520d04bf880"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "b830cbe9b89aef85245f8586d264116e56d2f6dc432879b2823eb68967ed775a"
+          "sha256": "c59a4e4e9d5511d71cbd3db39b98db372528a1cd2001eb242b4feac058a15c66"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "1aef6bd8a028d6640f381ccb970021fc1b9586fa72a08f5608d7790c7a855c6c"
+          "sha256": "05f94e1a4be90330e5c3855b906abb1e4946109e0ff8e5756b8e69bd3eb58204"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "82d14a7aa88f3272ef4f5058cefc99652fba985a4e1f97b9857b6328dc8096d4"
+          "sha256": "9023ef8c753720ec994c2d90c7955593c1b3fd4bcf7c638c68b31bca6f3d14db"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "b475a3af3efc4cd44c5d8f9eecf2b9f7814fc06582c0ed5d57b445721e3e4db7"
+          "sha256": "21c4b2b0d00d5e670833267fae5cf40b5e78be969dcdac648f0b1043ad4b065d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "ebf7c8d6385ba4e960c65118e092f3649cea6226cfd57e486c5e6df1c88f6be2"
+          "sha256": "44a0da489bb93d8c8dbb8ae2cbc92d30a8a6bd8564be3a4094795fe036f46b01"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "76faabd265825b5dc45b35fea792f567f06972d132d6d5ab92a17c660ac1d4d3"
+          "sha256": "6042c259b6260c148ff894f985e97789040a3070342f4ae09bd48710da0625cc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "69d22b991a776d80cd05e6e3d4e283fee06520e44222ad5413c5435c36c53ba9"
+          "sha256": "c4f4b0d44992be335f707499d65ebe7b3983e564deb346964953dafb7fb6d634"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "fac9f7a06faee5b863e3e7ec8dcf18a6e7bafc3450592fd8e2b56ab810951536"
+          "sha256": "732826833846b946e80fb36fb28aa46d33791734475d5a67dc729b21cd30b7a8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "a0d753d926812ec8d7fe22dba0c131d625bf08db58a8c19936dc1bf6b461d030"
+          "sha256": "1d79b65fa9b0f2ab5cbb63a029c34b8522989815f076460c99bf247cc8b30fbe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "d7795770dd7292cbf24a509391e08676718ffba41b737b1479cf2229acfa4ce5"
+          "sha256": "7e282c301bb50a7032375207bbe806f3ea0aba35abbcca87ae568f5b5c1bf617"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "acc7d1da73262a46b5088a25b7e0e14041ad10e8521edadf8d9d1546d667cfbe"
+          "sha256": "3b2a15a2841e4f38ef50b12b99ae931c22ded7c69107e7351f2d37def49b7def"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "ddb1fecdba0c50cb1d37b03d0a7a1f5f0143462a520cd1425e36e5db9c8c889d"
+          "sha256": "7c70e4f9b63929104ae512820d4e0dfee0b9d3a6fd5e81b45042de897133d9e8"
         }
       ]
     },
@@ -16845,7 +16845,7 @@
       }
     },
     "tools": {
-      "zdoc": "ca2f00110cc8511aa99cdbd5623c94a4ac16a1ad",
+      "zdoc": "1afe8385c8b8b11474574cfbeeb7a221e53dc560",
       "md2md": "1.3.0"
     },
     "images": [
