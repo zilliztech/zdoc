@@ -163,6 +163,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -172,11 +174,11 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "type": "integer",
                           "example": 0
                         },
                         "data": {
                           "type": "object",
+                          "description": "Response payload which contains the On-Demand Compute status.",
                           "properties": {
                             "projectId": {
                               "type": "string",
@@ -205,12 +207,6 @@
                             "status": {
                               "type": "string",
                               "description": "The On-Demand Compute status.",
-                              "enum": [
-                                "disabled",
-                                "enabling",
-                                "enabled",
-                                "abnormal"
-                              ],
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按需计算状态。可选值为 `disabled`（已禁用）、`enabling`（启用中）、`enabled`（已启用）或 `abnormal`（异常）。"
@@ -221,7 +217,6 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the On-Demand Compute status.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含按需计算状态。"
@@ -425,6 +420,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -434,11 +431,11 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "type": "integer",
                           "example": 0
                         },
                         "data": {
                           "type": "object",
+                          "description": "Response payload which contains the On-Demand Compute status.",
                           "properties": {
                             "projectId": {
                               "type": "string",
@@ -467,12 +464,6 @@
                             "status": {
                               "type": "string",
                               "description": "The On-Demand Compute status.",
-                              "enum": [
-                                "disabled",
-                                "enabling",
-                                "enabled",
-                                "abnormal"
-                              ],
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按需计算状态。可选值为 `disabled`（已禁用）、`enabling`（启用中）、`enabled`（已启用）或 `abnormal`（异常）。"
@@ -483,7 +474,6 @@
                               }
                             }
                           },
-                          "description": "Response payload which contains the On-Demand Compute status.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含按需计算状态。"

@@ -180,6 +180,7 @@
                       "properties": {
                         "code": {
                           "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {

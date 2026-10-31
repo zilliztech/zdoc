@@ -549,22 +549,8 @@
                       },
                       "options": {
                         "type": "object",
-                        "properties": {
-                          "timeout": {
-                            "type": "string",
-                            "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values.",
-                            "x-i18n": {
-                              "zh-CN": {
-                                "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
-                              },
-                              "ja-JP": {
-                                "description": "作成されるインポートジョブのタイムアウト時間です。値は正の数値に __s__（秒）、__m__（分）、__h__（時間）の接尾辞を付けて指定する必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
-                              }
-                            },
-                            "x-added-at": "2.6.x",
-                            "x-last-modified": "2.6.x",
-                            "x-deprecated-since": null
-                          }
+                        "additionalProperties": {
+                          "type": "object"
                         },
                         "description": "Bulk-import options.",
                         "x-i18n": {
@@ -596,7 +582,6 @@
                         "x-include-target": [
                           "zilliz"
                         ],
-                        "deprecated": true,
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": "2.6.x"
@@ -880,22 +865,8 @@
                       },
                       "options": {
                         "type": "object",
-                        "properties": {
-                          "timeout": {
-                            "type": "string",
-                            "description": "The timeout duration of the created import jobs. The value should be a positive number suffixed by __s__ (seconds), __m__ (minutes), and __h__(hours). For example, _300s_, _1.5h_, and _1h45_ are all valid values.",
-                            "x-i18n": {
-                              "zh-CN": {
-                                "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
-                              },
-                              "ja-JP": {
-                                "description": "作成されたインポートジョブのタイムアウト時間です。値は、正の数の末尾に __s__（秒）、__m__（分）、__h__（時間）を付ける必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
-                              }
-                            },
-                            "x-added-at": "2.6.x",
-                            "x-last-modified": "2.6.x",
-                            "x-deprecated-since": null
-                          }
+                        "additionalProperties": {
+                          "type": "object"
                         },
                         "description": "Bulk-import options.",
                         "x-i18n": {
@@ -927,7 +898,6 @@
                         "x-include-target": [
                           "zilliz"
                         ],
-                        "deprecated": true,
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": "2.6.x"
@@ -1263,6 +1233,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -1272,15 +1244,28 @@
                               "description": "レスポンスコードです。"
                             }
                           },
-                          "type": "integer",
                           "example": 0,
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
                           "x-deprecated-since": null
                         },
                         "data": {
-                          "type": "array",
+                          "type": "object",
                           "description": "Response payload which carries the IDs of the created bulk-import jobs.",
+                          "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "ID of the created import job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "创建的导入任务 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "作成されたインポートジョブの ID。"
+                                }
+                              }
+                            }
+                          },
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含了当前操作创建的批量导入任务的 ID。"
@@ -1288,38 +1273,6 @@
                             "ja-JP": {
                               "description": "作成された一括インポートジョブの ID を含むレスポンスペイロードです。"
                             }
-                          },
-                          "items": {
-                            "type": "object",
-                            "description": "A created bulk-import job.",
-                            "x-i18n": {
-                              "zh-CN": {
-                                "description": "一个已创建的批量导入任务。"
-                              },
-                              "ja-JP": {
-                                "description": "作成された一括インポートジョブです。"
-                              }
-                            },
-                            "properties": {
-                              "jobId": {
-                                "type": "string",
-                                "description": "The ID of the current bulk-import job.",
-                                "x-i18n": {
-                                  "zh-CN": {
-                                    "description": "当前创建的批量导入任务 ID。"
-                                  },
-                                  "ja-JP": {
-                                    "description": "現在の一括インポートジョブの ID です。"
-                                  }
-                                },
-                                "x-added-at": "2.6.x",
-                                "x-last-modified": "2.6.x",
-                                "x-deprecated-since": null
-                              }
-                            },
-                            "x-added-at": "2.6.x",
-                            "x-last-modified": "2.6.x",
-                            "x-deprecated-since": null
                           },
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
@@ -1527,6 +1480,7 @@
                   },
                   "pageSize": {
                     "type": "integer",
+                    "format": "int32",
                     "description": "Number of records to return at each request.",
                     "x-i18n": {
                       "zh-CN": {
@@ -1545,6 +1499,7 @@
                   },
                   "currentPage": {
                     "type": "integer",
+                    "format": "int32",
                     "description": "Current page number.",
                     "x-i18n": {
                       "zh-CN": {
@@ -1570,6 +1525,30 @@
                     "x-i18n": {
                       "ja-JP": {
                         "description": "このインポートジョブが属するデータベースの名前。"
+                      }
+                    }
+                  },
+                  "projectId": {
+                    "type": "string",
+                    "description": "ID of the project the cluster belongs to.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所属项目的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスタが属するプロジェクトの ID。"
+                      }
+                    }
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "ID of the region the cluster is in.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所在地域的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスターが存在するリージョンの ID。"
                       }
                     }
                   }
@@ -1609,7 +1588,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "string",
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -1625,65 +1605,14 @@
                         },
                         "data": {
                           "type": "object",
+                          "description": "Response payload, which is a list of import jobs in detail.",
                           "properties": {
-                            "count": {
-                              "type": "integer",
-                              "description": "Total number of records listed in this response.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "本次返回的记录总数。"
-                                },
-                                "ja-JP": {
-                                  "description": "このレスポンスに一覧表示されるレコードの総数。"
-                                }
-                              },
-                              "x-include-target": [
-                                "zilliz"
-                              ],
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "currentPage": {
-                              "type": "integer",
-                              "description": "Current page number for your reference.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前页码。"
-                                },
-                                "ja-JP": {
-                                  "description": "参照用の現在のページ番号。"
-                                }
-                              },
-                              "x-include-target": [
-                                "zilliz"
-                              ],
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "pageSize": {
-                              "type": "integer",
-                              "description": "Maximum number of records to be included in each return.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "每次返回包含的最大记录数。"
-                                },
-                                "ja-JP": {
-                                  "description": "各返却に含まれるレコードの最大数。"
-                                }
-                              },
-                              "x-include-target": [
-                                "zilliz"
-                              ],
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
                             "records": {
                               "type": "array",
+                              "description": "List of import jobs in detail.",
                               "items": {
                                 "type": "object",
+                                "description": "An import job in detail.",
                                 "properties": {
                                   "collectionName": {
                                     "type": "string",
@@ -1726,54 +1655,11 @@
                                         "description": "このインポートジョブの状態。"
                                       }
                                     },
-                                    "enum": [
-                                      "Pending",
-                                      "InProgress",
-                                      "Completed",
-                                      "Failed"
-                                    ],
-                                    "x-added-at": "2.6.x",
-                                    "x-last-modified": "2.6.x",
-                                    "x-deprecated-since": null
-                                  },
-                                  "progress": {
-                                    "type": "number",
-                                    "description": "Progress of this import job.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "当前导入任务的进度。"
-                                      },
-                                      "ja-JP": {
-                                        "description": "このインポートジョブの進行状況。"
-                                      }
-                                    },
-                                    "x-include-target": [
-                                      "milvus"
-                                    ],
-                                    "x-added-at": "2.6.x",
-                                    "x-last-modified": "2.6.x",
-                                    "x-deprecated-since": null
-                                  },
-                                  "reason": {
-                                    "type": "string",
-                                    "description": "Reason for the failure of this import job.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "当前导入任务失败的原因。"
-                                      },
-                                      "ja-JP": {
-                                        "description": "このインポートジョブが失敗した理由。"
-                                      }
-                                    },
-                                    "x-include-target": [
-                                      "milvus"
-                                    ],
                                     "x-added-at": "2.6.x",
                                     "x-last-modified": "2.6.x",
                                     "x-deprecated-since": null
                                   }
                                 },
-                                "description": "An import job in detail.",
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "导入任务的详细信息。"
@@ -1786,7 +1672,6 @@
                                 "x-last-modified": "2.6.x",
                                 "x-deprecated-since": null
                               },
-                              "description": "List of import jobs in detail.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "导入任务详情列表。"
@@ -1798,9 +1683,65 @@
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
+                            },
+                            "count": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Total number of records listed in this response.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "本次返回的记录总数。"
+                                },
+                                "ja-JP": {
+                                  "description": "このレスポンスに一覧表示されるレコードの総数。"
+                                }
+                              },
+                              "x-include-target": [
+                                "zilliz"
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "currentPage": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Current page number for your reference.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "当前页码。"
+                                },
+                                "ja-JP": {
+                                  "description": "参照用の現在のページ番号。"
+                                }
+                              },
+                              "x-include-target": [
+                                "zilliz"
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "pageSize": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Maximum number of records to be included in each return.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "每次返回包含的最大记录数。"
+                                },
+                                "ja-JP": {
+                                  "description": "各返却に含まれるレコードの最大数。"
+                                }
+                              },
+                              "x-include-target": [
+                                "zilliz"
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
-                          "description": "Response payload, which is a list of import jobs in detail.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为导入任务详情列表。"
@@ -1931,7 +1872,7 @@
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress",
-        "deprecated": true,
+        "deprecated": false,
         "description": "Deprecated compatibility route. Use `/v2/vectordb/jobs/import/describe` instead to retrieve the progress of a specified import job.",
         "x-i18n": {
           "zh-CN": {
@@ -2182,7 +2123,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "string",
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -2198,6 +2140,7 @@
                         },
                         "data": {
                           "type": "object",
+                          "description": "Response payload.",
                           "properties": {
                             "jobId": {
                               "type": "string",
@@ -2246,6 +2189,7 @@
                             },
                             "fileSize": {
                               "type": "integer",
+                              "format": "int64",
                               "description": "Size of the data file object.",
                               "x-i18n": {
                                 "zh-CN": {
@@ -2270,18 +2214,13 @@
                                   "description": "この import job の状態。"
                                 }
                               },
-                              "enum": [
-                                "Pending",
-                                "Importing",
-                                "Completed",
-                                "Failed"
-                              ],
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "progress": {
                               "type": "integer",
+                              "format": "int32",
                               "description": "Progress in percentage of the current import job.",
                               "x-i18n": {
                                 "zh-CN": {
@@ -2327,6 +2266,7 @@
                             },
                             "totalRows": {
                               "type": "integer",
+                              "format": "int64",
                               "description": "Number of rows in the specified collection.",
                               "x-i18n": {
                                 "zh-CN": {
@@ -2342,17 +2282,10 @@
                             },
                             "details": {
                               "type": "array",
+                              "description": "Statistics on data import oriented to data files.",
                               "items": {
                                 "type": "object",
                                 "description": "Detailed information about the processing of a source data file.",
-                                "x-i18n": {
-                                  "zh-CN": {
-                                    "description": "关于一个数据文件处理情况的详细信息。"
-                                  },
-                                  "ja-JP": {
-                                    "description": "ソースデータファイルの処理に関する詳細情報。"
-                                  }
-                                },
                                 "properties": {
                                   "fileName": {
                                     "type": "string",
@@ -2371,6 +2304,7 @@
                                   },
                                   "fileSize": {
                                     "type": "integer",
+                                    "format": "int64",
                                     "description": "The size of the data file.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -2395,18 +2329,13 @@
                                         "description": "データファイルの処理状態。"
                                       }
                                     },
-                                    "enum": [
-                                      "Pending",
-                                      "Importing",
-                                      "Completed",
-                                      "Failed"
-                                    ],
                                     "x-added-at": "2.6.x",
                                     "x-last-modified": "2.6.x",
                                     "x-deprecated-since": null
                                   },
                                   "progress": {
                                     "type": "integer",
+                                    "format": "int32",
                                     "description": "The progress in percentage.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -2452,6 +2381,7 @@
                                   },
                                   "totalRows": {
                                     "type": "integer",
+                                    "format": "int64",
                                     "description": "Number of rows inserted from this file.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -2466,11 +2396,18 @@
                                     "x-deprecated-since": null
                                   }
                                 },
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "关于一个数据文件处理情况的详细信息。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "ソースデータファイルの処理に関する詳細情報。"
+                                  }
+                                },
                                 "x-added-at": "2.6.x",
                                 "x-last-modified": "2.6.x",
                                 "x-deprecated-since": null
                               },
-                              "description": "Statistics on data import oriented to data files.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
@@ -2484,7 +2421,6 @@
                               "x-deprecated-since": null
                             }
                           },
-                          "description": "Response payload.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
@@ -2725,6 +2661,30 @@
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
+                  },
+                  "projectId": {
+                    "type": "string",
+                    "description": "ID of the project the cluster belongs to.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所属项目的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスタが属するプロジェクトの ID。"
+                      }
+                    }
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "ID of the region the cluster is in.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所在地域的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスターが存在するリージョンの ID。"
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -2755,6 +2715,8 @@
                       "type": "object",
                       "properties": {
                         "code": {
+                          "type": "integer",
+                          "format": "int32",
                           "description": "Response code.",
                           "x-i18n": {
                             "zh-CN": {
@@ -2764,7 +2726,6 @@
                               "description": "レスポンスコード。"
                             }
                           },
-                          "type": "integer",
                           "example": 0,
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
@@ -2773,15 +2734,22 @@
                         "data": {
                           "type": "object",
                           "description": "Response payload which contains the progress of the specified bulk-import job in detail.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应负载，为包含指定导入任务进度信息在内的详细信息。"
-                            },
-                            "ja-JP": {
-                              "description": "指定された一括インポートジョブの進行状況を詳細に含むレスポンスペイロード。"
-                            }
-                          },
                           "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "The ID of this bulk-import job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "批量导入任务 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "この一括インポートジョブの ID。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
                             "collectionName": {
                               "type": "string",
                               "description": "The name of the target collection of this bulk-import job.",
@@ -2791,6 +2759,65 @@
                                 },
                                 "ja-JP": {
                                   "description": "この一括インポートジョブの対象コレクションの名前。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "fileName": {
+                              "type": "string",
+                              "description": "Name of the imported file.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "导入文件的名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "インポートされたファイルの名前。"
+                                }
+                              }
+                            },
+                            "fileSize": {
+                              "type": "integer",
+                              "format": "int64",
+                              "description": "The uploaded file size in bytes.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "已上传文件大小（字节）。"
+                                },
+                                "ja-JP": {
+                                  "description": "アップロードされたファイルのサイズ（バイト単位）。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "state": {
+                              "type": "string",
+                              "description": "The state of this bulk-import job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "当前导入任务的状态。"
+                                },
+                                "ja-JP": {
+                                  "description": "この一括インポートジョブの状態。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "progress": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "The progress in percentage of the current bulk-import job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "当前导入任务的进度百分比。"
+                                },
+                                "ja-JP": {
+                                  "description": "現在の一括インポートジョブの進行率（パーセンテージ）。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2812,26 +2839,44 @@
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
+                            "reason": {
+                              "type": "string",
+                              "description": "The reason for the failure to bulk import data. The field value stays empty if this job succeeds.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "当前导入任务失败的原因。任务成功时为空字符串。"
+                                },
+                                "ja-JP": {
+                                  "description": "データの一括インポートに失敗した理由です。このジョブが成功した場合、フィールド値は空のままです。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "totalRows": {
+                              "type": "integer",
+                              "format": "int64",
+                              "description": "The number of rows in the specified collection.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "当前导入任务完成后，目标 Collection 中的总行数。"
+                                },
+                                "ja-JP": {
+                                  "description": "指定されたコレクション内の行数。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
                             "details": {
                               "type": "array",
+                              "description": "Statistics on data import oriented to data files.",
                               "items": {
                                 "type": "object",
+                                "description": "Statistics on data import from a file.",
                                 "properties": {
-                                  "completeTime": {
-                                    "type": "string",
-                                    "description": "The timestamp at which the file is processed.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "当前数据文件完成处理时间。"
-                                      },
-                                      "ja-JP": {
-                                        "description": "ファイルが処理された時刻のタイムスタンプ。"
-                                      }
-                                    },
-                                    "x-added-at": "2.6.x",
-                                    "x-last-modified": "2.6.x",
-                                    "x-deprecated-since": null
-                                  },
                                   "fileName": {
                                     "type": "string",
                                     "description": "The name of a data file.",
@@ -2848,7 +2893,8 @@
                                     "x-deprecated-since": null
                                   },
                                   "fileSize": {
-                                    "type": "string",
+                                    "type": "integer",
+                                    "format": "int64",
                                     "description": "The size of the data file.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -2856,21 +2902,6 @@
                                       },
                                       "ja-JP": {
                                         "description": "データファイルのサイズ。"
-                                      }
-                                    },
-                                    "x-added-at": "2.6.x",
-                                    "x-last-modified": "2.6.x",
-                                    "x-deprecated-since": null
-                                  },
-                                  "progress": {
-                                    "type": "string",
-                                    "description": "The progress in percentage.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "进度百分比。"
-                                      },
-                                      "ja-JP": {
-                                        "description": "進行率（パーセンテージ）。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2888,12 +2919,37 @@
                                         "description": "データファイルの処理状態。"
                                       }
                                     },
-                                    "enum": [
-                                      "Pending",
-                                      "Importing",
-                                      "Completed",
-                                      "Failed"
-                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
+                                  },
+                                  "progress": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The progress in percentage.",
+                                    "x-i18n": {
+                                      "zh-CN": {
+                                        "description": "进度百分比。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "進行率（パーセンテージ）。"
+                                      }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
+                                  },
+                                  "completeTime": {
+                                    "type": "string",
+                                    "description": "The timestamp at which the file is processed.",
+                                    "x-i18n": {
+                                      "zh-CN": {
+                                        "description": "当前数据文件完成处理时间。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "ファイルが処理された時刻のタイムスタンプ。"
+                                      }
+                                    },
                                     "x-added-at": "2.6.x",
                                     "x-last-modified": "2.6.x",
                                     "x-deprecated-since": null
@@ -2913,23 +2969,9 @@
                                     "x-last-modified": "2.6.x",
                                     "x-deprecated-since": null
                                   },
-                                  "importedRows": {
-                                    "type": "string",
-                                    "description": "The number of rows imported from this file.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "从当前文件导入的行数。"
-                                      },
-                                      "ja-JP": {
-                                        "description": "このファイルからインポートされた行数。"
-                                      }
-                                    },
-                                    "x-added-at": "2.6.x",
-                                    "x-last-modified": "2.6.x",
-                                    "x-deprecated-since": null
-                                  },
                                   "totalRows": {
-                                    "type": "string",
+                                    "type": "integer",
+                                    "format": "int64",
                                     "description": "The number of rows in the specified collection upon the import from this file is complete.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -2944,7 +2986,6 @@
                                     "x-deprecated-since": null
                                   }
                                 },
-                                "description": "Statistics on data import from a file.",
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "从某个数据文件中导入数据的统计信息。"
@@ -2957,7 +2998,6 @@
                                 "x-last-modified": "2.6.x",
                                 "x-deprecated-since": null
                               },
-                              "description": "Statistics on data import oriented to data files.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
@@ -2969,117 +3009,14 @@
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，为包含指定导入任务进度信息在内的详细信息。"
                             },
-                            "fileSize": {
-                              "type": "integer",
-                              "description": "The uploaded file size in bytes.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "已上传文件大小（字节）。"
-                                },
-                                "ja-JP": {
-                                  "description": "アップロードされたファイルのサイズ（バイト単位）。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "jobId": {
-                              "type": "integer",
-                              "description": "The ID of this bulk-import job.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "批量导入任务 ID。"
-                                },
-                                "ja-JP": {
-                                  "description": "この一括インポートジョブの ID。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "progress": {
-                              "type": "integer",
-                              "description": "The progress in percentage of the current bulk-import job.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前导入任务的进度百分比。"
-                                },
-                                "ja-JP": {
-                                  "description": "現在の一括インポートジョブの進行率（パーセンテージ）。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "state": {
-                              "type": "string",
-                              "description": "The state of this bulk-import job.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前导入任务的状态。"
-                                },
-                                "ja-JP": {
-                                  "description": "この一括インポートジョブの状態。"
-                                }
-                              },
-                              "enum": [
-                                "Pending",
-                                "Importing",
-                                "Completed",
-                                "Failed"
-                              ],
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "reason": {
-                              "type": "string",
-                              "description": "The reason for the failure to bulk import data. The field value stays empty if this job succeeds.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前导入任务失败的原因。任务成功时为空字符串。"
-                                },
-                                "ja-JP": {
-                                  "description": "データの一括インポートに失敗した理由です。このジョブが成功した場合、フィールド値は空のままです。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "importedRows": {
-                              "type": "integer",
-                              "description": "The number of rows inserted into the specified collection upon this import.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前任务完成导入完成后，向目标 Collection 中插入的行数。"
-                                },
-                                "ja-JP": {
-                                  "description": "このインポート時に指定されたコレクションに挿入された行数。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
-                            },
-                            "totalRows": {
-                              "type": "integer",
-                              "description": "The number of rows in the specified collection.",
-                              "x-i18n": {
-                                "zh-CN": {
-                                  "description": "当前导入任务完成后，目标 Collection 中的总行数。"
-                                },
-                                "ja-JP": {
-                                  "description": "指定されたコレクション内の行数。"
-                                }
-                              },
-                              "x-added-at": "2.6.x",
-                              "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
+                            "ja-JP": {
+                              "description": "指定された一括インポートジョブの進行状況を詳細に含むレスポンスペイロード。"
                             }
                           },
                           "x-added-at": "2.6.x",
