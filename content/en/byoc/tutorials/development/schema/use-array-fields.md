@@ -1307,7 +1307,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.*;
 
 String filter = "tags[0] == \"pop\"";
-SearchResp resp = client.search(SearchReq.builder()
+SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .annsField("embedding")
         .data(Collections.singletonList(new FloatVec(new float[]{0.3f, -0.6f, 0.1f})))
@@ -1316,7 +1316,7 @@ SearchResp resp = client.search(SearchReq.builder()
         .filter(filter)
         .build());
 
-System.out.println(resp.getSearchResults());
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1441,7 +1441,7 @@ using Milvus.Client.V2.Types;
 
 string filter = "tags[0] == \"pop\"";
 
-SearchResp res = await client.SearchAsync(new SearchReq
+SearchResp searchResp = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
     VectorFieldName = "embedding",
