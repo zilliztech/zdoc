@@ -337,13 +337,23 @@ jobs:
           // The lifecycle-evidence bootstrap pins an inventory hash over the
           // fragment bytes; a refresh legitimately changes those bytes while
           // every lifecycle value stays frozen (the applier refuses x-*
-          // writes). Re-derive the hash into the same commit; a real
-          // lifecycle-value drift fails closed right here instead of as an
-          // opaque digest mismatch at the gate.
+          // writes). Re-derive the hash into the same commit. Elements whose
+          // pointers the structural mirror rewrote away are retired from the
+          // list and reported for PR review (each one is provably inside a
+          // mirror/addition coordinate); any other lifecycle drift still
+          // fails closed right here instead of as an opaque digest mismatch
+          // at the gate.
           if (applied.changedFiles.length > 0) {
             const {refreshLifecycleEvidenceInventory} = require('./scripts/rest-upstream/refresh-lifecycle-inventory')
-            const inventory = refreshLifecycleEvidenceInventory({root: process.cwd(), restMeta})
-            console.log(`lifecycle evidence inventory ${inventory.changed ? 'refreshed' : 'already current'} (${inventory.elements} elements)`)
+            const appliedFile = path.join(process.env.RUNNER_TEMP, process.env.APPLIED, 'applied.json')
+            const inventory = refreshLifecycleEvidenceInventory({root: process.cwd(), restMeta, appliedFile})
+            console.log(`lifecycle evidence inventory ${inventory.changed ? 'refreshed' : 'already current'} (${inventory.elements} elements; ${inventory.retired.length} element(s) retired inside rewritten coordinates)`)
+            for (const item of inventory.retired) {
+              console.log(`  retired: ${item.fragment}:${item.jsonPointer} (by ${item.retiredBy})`)
+            }
+            if (inventory.retired.length > 0) {
+              fs.writeFileSync(path.join(process.env.RUNNER_TEMP, process.env.APPLIED, 'lifecycle-evidence-retirements.json'), `${JSON.stringify({schemaVersion: 1, evidenceFile: 'milvus-2.6.x-bootstrap.json', retired: inventory.retired}, null, 2)}\n`)
+            }
           }
           // Ledger drafts are agent proposals (design §8.2): land them in the
           // ledger as conservative `deferred` entries so the refresh PR stays
@@ -476,6 +486,8 @@ jobs:
             : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], placementsApplied: [], rejectedPlacements: [], reorganizations: []}
           const translatePath = path.join(staging, process.env.STAGING, 'translate-report.json')
           const translateReport = fs.existsSync(translatePath) ? JSON.parse(fs.readFileSync(translatePath, 'utf8')) : null
+          const retirePath = path.join(staging, process.env.APPLIED, 'lifecycle-evidence-retirements.json')
+          const retireReport = fs.existsSync(retirePath) ? JSON.parse(fs.readFileSync(retirePath, 'utf8')) : null
           const skips = decisions.filter(decision => decision.action === 'skip')
           const rejectedLines = (report?.batches ?? []).flatMap(batch => batch.rejected.map(entry => ({fragment: batch.fragment, reason: entry.reason})))
           const skipKeep = 30
@@ -526,6 +538,7 @@ jobs:
             '- [ ] machine translations (zh/ja) read correctly; upstream-copied zh is API-truth',
             '- [ ] scenario-tab placements are semantically right (which tab documents the new field)',
             '- [ ] `x-*` attributes: zero unexpected diff outside new/mirrored subtrees',
+            '- [ ] retired lifecycle-evidence elements (if any) all sit inside mirrored/added subtrees',
             '- [ ] no internal-field denylist term in any changed value',
             `- [ ] the lock pin is bumped to ${process.env.UPSTREAM_COMMIT} in the same commit (atomic adoption)`,
             '- [ ] entries flagged `requiresConfirmation` that were applied carry an override reason',
@@ -537,6 +550,11 @@ jobs:
             '',
             '### Retirements to confirm (fields/params the upstream no longer has)', '',
             deletionsShown.length ? deletionsShown.map(entry => `- \`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''} (${entry.kind})`).join('\n') : '- none',
+            '',
+            '### Retired lifecycle-evidence elements (rewritten away by mirrored subtrees)', '',
+            retireReport && retireReport.retired.length
+              ? [...head(retireReport.retired, 30).map(item => `- \`${item.fragment}:${item.jsonPointer}\` — retired by \`${item.retiredBy}\``), ...(retireReport.retired.length > 30 ? [`- … (${retireReport.retired.length - 30} more in the run artifact)`] : [])].join('\n')
+              : '- none',
             '',
             '### Unplaced additions (need a scenario-tab decision)', '',
             unplacedShown.length ? unplacedShown.map(entry => `- \`${entry.opKey}\` \`${entry.field}\` — tabs: ${entry.branchLabels.join(' | ')}`).join('\n') : '- none',
