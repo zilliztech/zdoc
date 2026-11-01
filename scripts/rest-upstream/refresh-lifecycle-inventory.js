@@ -119,7 +119,22 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
             drifts.push(`${key}: lifecycle element present in fragments but absent from the evidence`)
             continue
         }
-        added.push({fragment: row.fragment, jsonPointer: row.jsonPointer, lifecycle: row.lifecycle, addedBy})
+        // The relocated element carries no provenance of its own — the API
+        // truth is unchanged, only the pointer moved. Copy the metadata from
+        // the evidence element that donates the lifecycle values (same
+        // fragment, identical values), preferring a component-definition
+        // donor: inlining is exactly the mirror relocating component content
+        // to the property position. No donor means the annotation is genuinely
+        // new and needs human classification — fail closed.
+        const donorCandidates = evidence.elements.filter(candidate => candidate.fragment === row.fragment
+            && JSON.stringify(candidate.lifecycle) === JSON.stringify(row.lifecycle))
+        const donor = donorCandidates.find(candidate => candidate.jsonPointer.startsWith('/components/schemas/'))
+            ?? donorCandidates.sort((left, right) => (left.jsonPointer < right.jsonPointer ? -1 : left.jsonPointer > right.jsonPointer ? 1 : 0))[0]
+        if (!donor) {
+            drifts.push(`${key}: lifecycle element has no evidence donor for its values — human review must classify it`)
+            continue
+        }
+        added.push({...structuredClone(donor), fragment: row.fragment, jsonPointer: row.jsonPointer, lifecycle: row.lifecycle, addedBy})
     }
     if (drifts.length > 0) {
         throw new Error(`REST_UPSTREAM_LIFECYCLE_ELEMENT_DRIFT: ${drifts.length} lifecycle value drift(s) between the evidence and the fragments (refresh them in review, do not re-hash):\n  ${drifts.slice(0, 10).join('\n  ')}`)
@@ -132,7 +147,7 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
         evidence.summary.elements = evidence.elements.length
     }
     if (added.length > 0) {
-        evidence.elements = [...evidence.elements, ...added.map(({fragment, jsonPointer, lifecycle}) => ({fragment, jsonPointer, lifecycle}))]
+        evidence.elements = [...evidence.elements, ...added.map(({fragment, jsonPointer, lifecycle, ...metadata}) => ({...metadata, fragment, jsonPointer, lifecycle}))]
         evidence.summary.elements = evidence.elements.length
     }
     if (evidence.reproducibility.fragmentInventorySha256 === nextHash && retired.length === 0 && added.length === 0) {
