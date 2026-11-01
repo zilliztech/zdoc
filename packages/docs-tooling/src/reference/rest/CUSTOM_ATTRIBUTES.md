@@ -95,7 +95,7 @@ Controls the visibility badge shown on API reference pages. The effective value 
 }
 ```
 
-Valid values: `DEPRECATED`, `FALSE`, `PRIVATE`, `PUBLIC`.
+Valid values: `DEPRECATED`, `FALSE`, `PRIVATE`, `PUBLIC`, `ON REQUEST`. `ON REQUEST` marks contact-to-enable features (release-notes tier of the same name); it is valid at operation and tag level — the `Snapshot Operations (V2)` tag in `38-snapshot-operations-v2.json` is the in-tree example.
 
 ### 1.4 `x-admonition`
 

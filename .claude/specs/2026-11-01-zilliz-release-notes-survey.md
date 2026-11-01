@@ -100,3 +100,12 @@ Serverless GA + Milvus 2.4 GA (2100); RESTful API v2 (291).
   availability runner; matrices labeled `{env, deployment, clusterType}`.
 - Confirmed marks land as reviewed PRs; the enum gap (finding 2) and the
   missing ON REQUEST marks (finding 3) are the first corrections to file.
+
+## Pending external reports (2026-11-01)
+
+- `GET /v2/projects/{projectId}/regions` returns `An internal system error
+  occurred` on BOTH UAT3 and prod (repro: any valid API key + an existing
+  project id). Spec-documented endpoint; worth a bug report to the cloud
+  team. Captured in both control-plane read-only matrices.
+- `createServerless` requires `projectId` in practice, but the zilliz-cloud
+  spec marks only `regionId` as required.

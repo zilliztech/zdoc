@@ -769,6 +769,78 @@ Known limitation: the Chinese site's client-side search index is built from sour
 
 ## Verification
 
+### REST upstream and availability operations
+
+The daily cadence and the human touchpoints of the REST program. Design in
+one line: the machine discovers, assembles, validates, and publishes; humans
+decide timing, judgments, and commitments. See
+`.claude/specs/2026-11-01-rest-availability-harness.md` (availability),
+`.claude/specs/2026-11-01-zilliz-release-notes-survey.md` (zilliz tiers),
+and `.claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md` (registry).
+
+**Daily (passive).** The drift watchdog runs at 04:17 UTC over both pinned
+sources and milvus tags. Green: nothing to do. Drift red: note the
+substantive count, batch it until a refresh is worth one model run. Track
+coverage red: a new milvus minor line exists — start the new-track sequence
+below. If the card does not arrive, `gh workflow run
+rest-upstream-drift-watchdog.yml` and read the `watchdog-report.md` artifact.
+
+**Refresh (on demand, the only paid step).** When accumulated drift matters:
+
+```bash
+gh workflow run rest-upstream-refresh.yml \
+  -f source=zilliz-cloud-control-plane \
+  -f upstream_commit=<sha from the watchdog report> \
+  -f base_ref=master -f draft_pr=true
+```
+
+The run assembles the change set deterministically and opens a draft PR.
+Review only the judgment lists in the PR body: retirements (did the field
+really die upstream), pendingConfirmation (required relaxations go back to
+R&D), unplaced/reorganize (scenario-tab placement), translation degradations,
+and ledger flips for new operations (drafts land as deferred). Merge moves
+nothing else: the master-to-dev sync regenerates REST artifacts, byte-compares
+them, and auto-merges when green.
+
+**Milvus releases.** A new patch of a managed track (for example 3.0.6) has no
+automatic reminder — the watchdog report lists `latestTag` per track as an
+informational field. Re-run the availability matrix for that track and diff
+verdicts; behavior flips become reviewed fragment updates:
+
+```bash
+# milvus-cell vCluster: helm standalone pinned to the tag (v3.0.x needs
+# requests 1c/2Gi, limits 4c/8Gi — LimitRange defaults starve the all-in-one
+# process — plus extraConfig.http.requestTimeoutMs=120000), then:
+kubectl port-forward svc/milvus 19530:19530 &
+node packages/docs-tooling/src/reference/rest/index.js rest-availability \
+  --base http://127.0.0.1:19530 --label milvus-<tag> --out tmp/rest-availability
+```
+
+A new minor line (watchdog card red): attribute its content with
+`x-added-at: <new>.x` (source-verified per tag), extend the evidence, add the
+matrix environment, then refresh.
+
+**Zilliz cadence (manual by design).** New zilliz release notes: read the
+GA / Public Preview / Private Preview / ON REQUEST tiers and update
+`x-beta` / `x-next-channel` marks plus the prior rules in
+`packages/docs-tooling/src/reference/rest/availability/zillizPriors.js`
+through a reviewed PR. Suspected data-plane generation changes (serverless
+has run a 3.0-generation plane while fresh Dedicated clusters defaulted to
+2.6.x): create a disposable cluster and run
+
+```bash
+node packages/docs-tooling/src/reference/rest/index.js rest-availability \
+  --base <cluster connectAddress> --label zilliz-<env>-<type> --zilliz uat3|prod
+```
+
+(transport note: the zilliz gateway rejects Node's TLS fingerprint with 401,
+the runner rides curl for `--zilliz`). New CU categories in
+zilliz-cloud-config manifests: extend the `x-zilliz-cluster-types` domain in
+CUSTOM_ATTRIBUTES §1.13 and its contract test. API keys are project-scoped
+regardless of the owning user's role — cluster creation outside the key's
+project fails with 96041; environment work means key scope first.
+
+
 Run proportional checks while developing. Before a repository-wide retirement or release change, run:
 
 ```bash
