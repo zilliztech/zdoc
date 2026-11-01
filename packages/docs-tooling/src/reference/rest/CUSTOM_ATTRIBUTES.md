@@ -25,6 +25,7 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 | `x-added-at` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element exists. Format: `major.minor.x`. |
 | `x-last-modified` | Milvus data-plane operations and public contract elements | Yes | — | Most recent managed minor track in which the element changed. Audit-only; never controls visibility. |
 | `x-deprecated-since` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element is deprecated; `null` means not deprecated. |
+| `x-next-channel` | Operations, parameters, schema properties | Yes | — | Stages the element for the NEXT release channel; mirrors the `<NextChannel>` authoring tag. Values: `include` \| `exclude`. |
 
 *Build-time stripping in `s3Uploader.js` preserves `x-i18n` only when generating the `zh-CN` S3 artifact.
 
@@ -367,6 +368,44 @@ Lifecycle enforcement is staged:
 1. **Tooling merge:** lifecycle validation is audit-compatible for incomplete legacy fragments.
 2. **Bootstrap migration:** all managed Milvus data-plane operations and fields are populated.
 3. **Post-bootstrap:** missing lifecycle metadata is a hard validation failure.
+
+
+### 1.12 `x-next-channel`
+
+Registers an operation, parameter, or schema property for the **NEXT release
+channel** — the staged-for-next-release registry, behaviorally aligned with the
+`<NextChannel action="include|exclude">` authoring tag and the
+`current` / `next` / `retire-in-next` channel vocabulary used across the docs
+(`releaseChannel.ts`, page frontmatter `channel`, sidebar `customProps.channel`).
+
+```json
+{
+  "x-next-channel": "include"
+}
+```
+
+| Value | Meaning | Operation-level rendering |
+|-------|---------|---------------------------|
+| `include` | Ships in the NEXT release; hidden on CURRENT production | generated page gets frontmatter `channel: next` and `sidebar_custom_props.channel: next` — hidden wherever the runtime `RELEASE_CHANNEL` is unknown or `current` (fail-closed, exactly like guides NEXT pages) |
+| `exclude` | Retires in the NEXT release; CURRENT keeps the final wording | generated page gets `channel: retire-in-next` — stays served on CURRENT, ships its final wording, and is removed wholesale in NEXT |
+
+Placement scope matches `x-include-target`: operations, parameters, and schema
+properties. Operation-level marks drive page rendering today (`refGen.js`
+`resolveNextChannel`); parameter/property-level marks are registry-only for now
+and feed the availability matrices until per-field rendering lands.
+
+Relationship to the other attributes:
+
+- Orthogonal to the Milvus lifecycle triple: `x-added-at` records the release
+  **track** an element belongs to; `x-next-channel` records the **site channel**
+  staging decision. A staged element may carry both (`x-added-at: "3.0.x"` +
+  `x-next-channel: "include"`).
+- When the staged release ships, remove `x-next-channel` in the same change
+  that publishes the content, leaving the lifecycle triple as the record.
+- Complements `x-beta`: `x-beta` communicates maturity (GA / preview tiers) of
+  **published** content; `x-next-channel` gates **unpublished** content.
+
+Like all internal `x-*` keys, it is stripped from public generated specs.
 
 ---
 
