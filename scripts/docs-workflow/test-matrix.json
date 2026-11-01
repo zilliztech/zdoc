@@ -1520,7 +1520,8 @@
       "id": "rest-availability",
       "paths": [
         "packages/docs-tooling/src/reference/rest/availability/**",
-        ".claude/specs/2026-11-01-rest-availability-harness.md"
+        ".claude/specs/2026-11-01-rest-availability-harness.md",
+        ".claude/specs/2026-11-01-zilliz-release-notes-survey.md"
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/reference/rest/availability/availability.test.js"
