@@ -79,7 +79,7 @@ function registerAvailabilityCommand(command) {
         const prefix = opts.zilliz === 'prod' ? 'ZILLIZ_PROD' : 'ZILLIZ_UAT3';
         const key = env[`${prefix}_API_KEY`];
         if (!key) throw new Error(`missing ${prefix}_API_KEY in .env`);
-        headers = {Authorization: `Bearer ${key}`};
+        headers = {Authorization: `Bearer ${process.env.ZILLIZ_DP_TOKEN || key}`};
         fetchImpl = buildCurlFetch();
       }
       const r = await runSuite({suite, base: opts.base, label: opts.label, outDir: opts.out, fetchImpl, headers});

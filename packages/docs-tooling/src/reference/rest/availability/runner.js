@@ -20,18 +20,27 @@ const MARKS = {
 
 function makeCall({base, fetchImpl = fetch, now = () => Date.now(), headers = {}, v2Prefix = '/v2/vectordb'}) {
   const v2 = base.replace(/\/+$/, '') + v2Prefix;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   return async function call(opPath, body, opts = {}) {
+    const rateLimitRetries = opts.rateLimitRetries ?? 5;
     let http = 0, json = null, err = null;
-    try {
-      const r = await fetchImpl(v2 + opPath, {
-        method: opts.method || 'POST',
-        headers: {'Content-Type': 'application/json', ...headers, ...(opts.headers || {})},
-        body: opts.method === 'GET' && body === undefined ? undefined : JSON.stringify(body ?? {}),
-      });
-      http = r.status;
-      json = await r.json().catch(() => null);
-    } catch (e) {
-      err = String((e && e.message) || e);
+    for (let attempt = 0; ; attempt++) {
+      err = null; json = null;
+      try {
+        const r = await fetchImpl(v2 + opPath, {
+          method: opts.method || 'POST',
+          headers: {'Content-Type': 'application/json', ...headers, ...(opts.headers || {})},
+          body: opts.method === 'GET' && body === undefined ? undefined : JSON.stringify(body ?? {}),
+        });
+        http = r.status;
+        json = await r.json().catch(() => null);
+      } catch (e) {
+        err = String((e && e.message) || e);
+      }
+      const msg = json ? String(json.message ?? json.msg ?? '') : '';
+      const throttled = /rate limit exceeded|RateLimiter/i.test(msg);
+      if (!throttled || attempt >= rateLimitRetries) break;
+      await sleep(Math.min(1000 * 2 ** attempt, 15000));
     }
     const code = json ? json.code : undefined;
     const msg = json ? (json.message ?? json.msg ?? '') : (err || `http ${http}`);

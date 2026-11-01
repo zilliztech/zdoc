@@ -96,3 +96,40 @@ attribution commit on the milvus refresh branch (x-added-at marks).
   spec — "Try Preview Features" (release-notes-2610) is console-side, so the
   3.0-preview data-plane matrix needs console access or an internal API;
   recorded as the next vehicle decision.
+
+## Serverless matrix point (landed same day, cluster deleted after use)
+
+User-provided project `proj-03b45fcdd7d4f3784e6dd0` (Default Project,
+Enterprise, regions aws-us-west-2 + gcp-us-west1) accepted the key's
+`createServerless` — cluster `in05-9c8bfa8775548f9` @ gcp-us-west1, endpoint
+`https://<id>.serverless.gcp-us-west1.cloud-uat3.zilliz.com` (no port).
+Suite adaptations landed with this run: rate-limit retry in the runner call
+layer (serverless throttles writes), DB2-optional suite (databases/create is
+denied on serverless even for the cluster admin account —
+PrivilegeCreateDatabase), and a `ZILLIZ_DP_TOKEN` bearer override for
+cluster-account credentials.
+
+Matrix `zilliz-uat3-serverless-v26` — headline finding: **the serverless data
+plane is Milvus 3.0-generation**, not 2.6.x:
+
+- vs `milvus-3.0.5`: 123/130 identical verdicts; the 7 deltas are 5× the
+  dbName family (platform denies multi-database on serverless) + hybrid
+  `functionChains` explicitly rejected ("not supported for hybrid search
+  yet" — a 3.0-line message; open-source 3.0.5 supports it) + the setup row
+- vs `zilliz-uat3-dedicated-v26` (2.6.x): orderByFields actually sorts,
+  searchAggregation returns buckets, functionChains limit op applies,
+  groupByFields aggregation works — the whole 3.0 feature set lights up
+
+First `x-zilliz-cluster-types` evidence set (same REST surface, cluster type
+decides generation and limits):
+
+| capability | dedicated (default) | serverless |
+|---|---|---|
+| Milvus data-plane generation | 2.6.x | **3.0-generation** |
+| databases/create (dbName) | ✓ | ✗ platform-denied (even cluster admin) |
+| ANN nq upper bound | 16384 | **10** |
+| hybrid functionChains | unsupported (2.6 silent) | explicit "not supported yet" |
+
+Cluster deleted via `DELETE /v2/clusters/{id}/drop` (30-day recycle bin).
+Note: the spec has no plain `DELETE /v2/clusters/{id}` route — drop is the
+documented form.

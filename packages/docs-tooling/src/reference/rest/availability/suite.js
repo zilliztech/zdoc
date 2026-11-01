@@ -90,9 +90,15 @@ async function createHybrid() {
   if (r.code !== 0) throw new Error("create hybrid failed: " + r.msg);
 }
 
+  const db2Blocked = {ok: false, reason: null};
+  const db2skip = (op, param) => api.rec(op, param, "databases unavailable on this cluster type (PermissionDenied)", "record", {code: "skipped", msg: db2Blocked.reason || "no database privilege"});
+
 async function createDb2() {
   let r = await api.call("/databases/create", { dbName: DB2 });
-  if (r.code !== 0 && !/exist/i.test(r.msg)) throw new Error("create db failed: " + r.msg);
+  if (r.code !== 0 && !/exist/i.test(r.msg)) {
+    if (/PermissionDenied|permission deny/i.test(String(r.msg))) { db2Blocked.ok = true; db2Blocked.reason = String(r.msg).slice(0, 120); return; }
+    throw new Error("create db failed: " + r.msg);
+  }
   r = await api.call("/collections/create", {
     dbName: DB2,
     collectionName: DB2_COLL,
@@ -110,6 +116,7 @@ async function createDb2() {
 }
 
 async function load(coll, dbName) {
+  if (dbName && db2Blocked.ok) return;
   const r = await api.call("/collections/load", dbName ? { dbName, collectionName: coll } : { collectionName: coll });
   if (r.code !== 0 && !/loaded|already/i.test(String(r.msg))) throw new Error("load failed: " + r.msg);
   for (let i = 0; i < 60; i++) {
@@ -150,8 +157,10 @@ async function seed() {
   }
   r = await api.call("/entities/insert", { collectionName: HYBRID, data: hrows });
   if (r.code !== 0) throw new Error("seed hybrid failed: " + r.msg);
-  r = await api.call("/entities/insert", { dbName: DB2, collectionName: DB2_COLL, data: [{ id: 200, vector: hot(0), price: 7 }] });
-  if (r.code !== 0) throw new Error("seed db2 failed: " + r.msg);
+  if (!db2Blocked.ok) {
+    r = await api.call("/entities/insert", { dbName: DB2, collectionName: DB2_COLL, data: [{ id: 200, vector: hot(0), price: 7 }] });
+    if (r.code !== 0) throw new Error("seed db2 failed: " + r.msg);
+  }
 }
 
 const fcL2 = (extraOps = []) => [{
@@ -227,7 +236,7 @@ const fcL2 = (extraOps = []) => [{
     await api.rec("insert", "collectionName(unknown)", "nonexistent collection rejected", "err", r);
   }
   {
-    const r = await api.call("/entities/insert", { dbName: DB2, collectionName: DB2_COLL, data: [{ id: 201, vector: hot(2), price: 9 }] });
+    const r = db2Blocked.ok ? {code: "skipped", msg: db2Blocked.reason} : await api.call("/entities/insert", { dbName: DB2, collectionName: DB2_COLL, data: [{ id: 201, vector: hot(2), price: 9 }] });
     await api.rec("insert", "dbName", "routes insert into target database", "ok", r, async () => {
       const qr = await api.call("/entities/query", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 201", outputFields: ["id"] });
       return { ok: qr.code === 0 && (qr.data || []).length === 1, detail: "db2 rows=" + (qr.data || []).length };
@@ -437,7 +446,7 @@ const fcL2 = (extraOps = []) => [{
     });
   }
   {
-    const r = await api.call("/entities/delete", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 201" });
+    const r = db2Blocked.ok ? {code: "skipped", msg: db2Blocked.reason} : await api.call("/entities/delete", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 201" });
     await api.rec("delete", "dbName", "delete inside named database", "ok", r, async () => {
       const qr = await api.call("/entities/query", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 201", outputFields: ["id"] });
       return { ok: qr.code === 0 && (qr.data || []).length === 0, detail: "remaining=" + (qr.data || []).length };
@@ -603,7 +612,7 @@ const fcL2 = (extraOps = []) => [{
     });
   }
   {
-    const r = await api.call("/entities/query", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 200", outputFields: ["id"] });
+    const r = db2Blocked.ok ? {code: "skipped", msg: db2Blocked.reason} : await api.call("/entities/query", { dbName: DB2, collectionName: DB2_COLL, filter: "id == 200", outputFields: ["id"] });
     await api.rec("query", "dbName", "query inside named database", "ok", r, () => ({ ok: (r.data || []).length === 1, detail: "rows=" + (r.data || []).length }));
   }
 
@@ -794,7 +803,7 @@ const fcL2 = (extraOps = []) => [{
     });
   }
   {
-    const r = await api.call("/entities/search", { dbName: DB2, collectionName: DB2_COLL, data: [hot(0)], limit: 3, outputFields: ["id"] });
+    const r = db2Blocked.ok ? {code: "skipped", msg: db2Blocked.reason} : await api.call("/entities/search", { dbName: DB2, collectionName: DB2_COLL, data: [hot(0)], limit: 3, outputFields: ["id"] });
     await api.rec("search", "dbName", "search inside named database", "ok", r);
   }
 
@@ -963,7 +972,7 @@ const fcL2 = (extraOps = []) => [{
     await api.rec("hybrid_search", "groupingField+groupSize+strictGroupSize", "grouped hybrid search", "record", r);
   }
   {
-    const r = await api.call("/entities/hybrid_search", {
+    const r = db2Blocked.ok ? {code: "skipped", msg: db2Blocked.reason} : await api.call("/entities/hybrid_search", {
       dbName: DB2, collectionName: DB2_COLL,
       search: [{ data: [hot(0)], annsField: "vector", limit: 3 }],
       rerank: { strategy: "rrf", params: { k: 60 } },
