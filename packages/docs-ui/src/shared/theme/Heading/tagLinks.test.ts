@@ -18,6 +18,10 @@ describe('resolveTagLink', () => {
     expect(resolveTagLink('CONTACT SALES', '/docs/byoc/byoc-intro', 'zh-CN')).toBe('https://zilliz.com.cn/contact-sales');
   });
 
+  it('sends the CONTACT SALES link on ja-JP pages to the Japanese contact form', () => {
+    expect(resolveTagLink('CONTACT SALES', '/ja-JP/docs/byoc/byoc-intro', 'en')).toBe('https://zilliz.com/jp/contact-sales');
+  });
+
   it('links ON REQUEST to the support center matching the site language', () => {
     expect(resolveTagLink('ON REQUEST', '/docs/manage-indexes', 'en')).toBe('https://support.zilliz.com/hc/en-us');
     expect(resolveTagLink('ON REQUEST', '/docs/manage-indexes', 'zh-CN')).toBe('https://support.zilliz.com.cn/hc/zh-cn');
@@ -45,5 +49,10 @@ describe('contactSalesUrl', () => {
   it('serves the marketing site that matches the docs deployment', () => {
     expect(contactSalesUrl('en')).toBe('https://zilliz.com/contact-sales');
     expect(contactSalesUrl('zh-CN')).toBe('https://zilliz.com.cn/contact-sales');
+  });
+
+  it('serves the Japanese contact form for ja-JP paths', () => {
+    expect(contactSalesUrl('en', '/ja-JP/docs/byoc/byoc-intro')).toBe('https://zilliz.com/jp/contact-sales');
+    expect(contactSalesUrl('en', '/docs/byoc/byoc-intro')).toBe('https://zilliz.com/contact-sales');
   });
 });
