@@ -75,10 +75,24 @@ attribution commit on the milvus refresh branch (x-added-at marks).
 - Transport note: the zilliz gateway rejects Node's TLS fingerprint with 401
   (curl passes on h1 and h2), so zilliz probes ride a curl-backed fetchImpl
   with credentials in a 0600 curl config file — never argv.
-- Data-plane vehicle BLOCKED (user decision pending): createFree on UAT3
-  fails all three ways — My Project supports only aws-us-west-2 which does
-  not offer the free plan (96019); tf-uat-playground (gcp-us-west-1) rejects
-  the key with `Missing ACL permission ... serving_cluster/action=create`
-  (96041). Options: grant the key create ACL on the playground project,
-  enable a free-plan region for My Project, or accept a paid dedicated
-  cluster as the vehicle.
+- Data-plane vehicle RESOLVED (user confirmation: UAT3 incurs no cost, all
+  plans creatable): dedicated cluster `in01-f93145f52dca837`
+  (Capacity-optimized 1CU, aws-us-west-2) created via `createDedicated` and
+  reached RUNNING; data-plane endpoint
+  `https://<id>.aws-us-west-2.vectordb-uat3.zillizcloud.com:19539` (UAT port
+  19539) with Bearer API-key auth via the curl transport.
+- `rest-availability --zilliz uat3` runs the full data-plane suite against a
+  zilliz cluster. First matrix `zilliz-uat3-dedicated-v26`: 130 cases,
+  0 FAIL, 0 NO-EFFECT — verdict distribution identical to the self-hosted
+  milvus-2.6.26 run (130/130 identical verdicts), and differing from
+  milvus-3.0.5 in exactly the 7-case 3.0 feature set. This is the first
+  machine confirmation that the self-hosted vCluster environment is a
+  faithful proxy for the zilliz data plane at the same Milvus version.
+- Serverless matrix point not creatable on UAT3: aws-us-west-2 rejects
+  `createServerless` with "region does not support serverless plan" (96020);
+  the gcp playground project lacks the create ACL. Prod-side serverless
+  probing stays read-only.
+- Milvus v3.0.x preview on zilliz: no upgrade/preview endpoint exists in the
+  spec — "Try Preview Features" (release-notes-2610) is console-side, so the
+  3.0-preview data-plane matrix needs console access or an internal API;
+  recorded as the next vehicle decision.

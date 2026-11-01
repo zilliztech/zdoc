@@ -911,7 +911,9 @@ const fcL2 = (extraOps = []) => [{
       rerank: { strategy: "rrf", params: { k: 60 } },
       limit: 10, outputFields: ["id"],
     });
-    const sawIt = ((r.data || [])[0] || []).some((x) => x.id === 999);
+    const d0 = (r.data || [])[0];
+    const g = Array.isArray(d0) ? d0 : (r.data || []);
+    const sawIt = g.some((x) => x.id === 999);
     await api.rec("hybrid_search", "search[].ignoreGrowing", "field absent from upstream SubSearchReq struct; if the fresh growing row is visible the flag is a no-op", "record", r,
       { ok: r.code === 0, detail: sawIt ? "growing row VISIBLE with ignoreGrowing=true => param ignored" : "growing row not visible (inconclusive or honored)" });
   }

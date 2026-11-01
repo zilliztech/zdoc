@@ -30,7 +30,7 @@ function buildCurlFetch({spawnImpl} = {}) {
     fsMod.writeFileSync(cfg, lines.join('\n') + '\n', {mode: 0o600});
     try {
       const {spawnSync: run} = require('node:child_process');
-      const r = run('curl', ['-K', cfg], {input: init.body === undefined ? undefined : String(init.body), encoding: 'buffer', maxBuffer: 16 * 1024 * 1024});
+      const r = run('curl', ['-K', cfg], {input: init.body === undefined ? undefined : String(init.body), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024});
       if (r.status !== 0 && !r.stdout.length) throw new Error(`curl exited ${r.status}: ${r.stderr.toString().slice(0, 200)}`);
       const out = r.stdout.toString();
       const idx = out.lastIndexOf('\n');
@@ -68,9 +68,21 @@ function registerAvailabilityCommand(command) {
     .requiredOption('--base <url>', 'REST v2 base URL, e.g. http://127.0.0.1:19530')
     .requiredOption('--label <label>', 'Matrix label, e.g. milvus-3.0.5')
     .option('--out <dir>', 'Output directory for the availability matrix', 'tmp/rest-availability')
+    .option('--zilliz <env>', 'Authenticate against a zilliz cluster endpoint: uat3 | prod (Bearer from .env, curl transport)')
     .action(async (opts) => {
       const {runDataPlaneSuite: suite} = require('./suite');
-      const r = await runSuite({suite, base: opts.base, label: opts.label, outDir: opts.out});
+      let fetchImpl;
+      let headers = {};
+      if (opts.zilliz) {
+        const root = path.resolve(__dirname, '..', '..', '..', '..', '..');
+        const env = loadZillizEnv(root);
+        const prefix = opts.zilliz === 'prod' ? 'ZILLIZ_PROD' : 'ZILLIZ_UAT3';
+        const key = env[`${prefix}_API_KEY`];
+        if (!key) throw new Error(`missing ${prefix}_API_KEY in .env`);
+        headers = {Authorization: `Bearer ${key}`};
+        fetchImpl = buildCurlFetch();
+      }
+      const r = await runSuite({suite, base: opts.base, label: opts.label, outDir: opts.out, fetchImpl, headers});
       const bad = (r.counts.FAIL || 0) + (r.counts['NO-EFFECT'] || 0);
       if (bad > 0) {
         console.error(`${bad} case(s) failed or had no effect; inspect ${r.file}`);
@@ -121,7 +133,7 @@ function registerPriorsCommand(command) {
     });
 }
 
-module.exports = {registerAvailabilityCommand, registerZillizCommand, registerPriorsCommand, AVAILABILITY_COMMANDS, runDataPlaneSuite};
+module.exports = {registerAvailabilityCommand, registerZillizCommand, registerPriorsCommand, AVAILABILITY_COMMANDS, runDataPlaneSuite, buildCurlFetch, loadZillizEnv};
 
 if (require.main === module) {
   const {Command} = require('commander');
