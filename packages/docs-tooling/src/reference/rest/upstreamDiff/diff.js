@@ -1,6 +1,6 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
-const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
 // Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
@@ -179,13 +179,24 @@ function makeEntry(parts) {
     return entry
 }
 
-// A recursive upstream subtree (self-referential schema — milvus nested struct
-// fields, sub-aggregations) has no finite inlined mirror value. Flag the entry
-// for human follow-up instead of failing the whole diff: the drift stays
-// visible, the assembler reports it and writes nothing.
-function resolveMirrorSubtree(upstreamDocument, node) {
+// The deep view for one mirror candidate: both subtrees resolved against
+// their own documents (so nested $ref-vs-inline asymmetries and referenced
+// component content are visible to the comparison and the retirement
+// walkers), the fragment's content overlaid below opaque boundaries
+// (extractor blind spots — generic maps forwarded to gRPC — where the
+// fragment's hand-authored documentation is the authority), and the value
+// stripped of blind-spot markers so no tooling marker rides into a fragment.
+// `fragmentDocument`/`fragmentNode` are null for additions, where no local
+// subtree exists yet. A recursive subtree on either side has no finite
+// inlined value: the caller flags the entry for human follow-up instead of
+// failing the whole diff.
+function resolveMirrorSubtree(upstreamDocument, node, fragmentDocument = null, fragmentNode = null) {
     try {
-        return {after: resolveSchemaDeep(upstreamDocument, node), unresolvableSubtree: false}
+        const resolvedUpstream = resolveSchemaDeep(upstreamDocument, node)
+        const resolvedLocal = fragmentDocument ? resolveSchemaDeep(fragmentDocument, fragmentNode) : null
+        const comparableUpstream = overlayOpaque(resolvedUpstream, resolvedLocal)
+        return {resolvedUpstream, resolvedLocal, comparableUpstream,
+            after: stripOpaqueMarkers(comparableUpstream), unresolvableSubtree: false}
     } catch (error) {
         if (!error.message.startsWith('REST_UPSTREAM_MIRROR_REF_CYCLE:')) throw error
         return {after: null, unresolvableSubtree: true}
@@ -242,24 +253,35 @@ function diffSchemaPair(context) {
         // extractor vocabulary cannot speak to scalar constraints) compare
         // with those keys stripped AND keep the fragment's extrapolated
         // constraints in the merged value — absent upstream there means
-        // unseen, not deleted.
+        // unseen, not deleted. Opaque upstream nodes (extractor blind spots —
+        // generic maps forwarded to gRPC) are wildcards: the fragment's
+        // hand-authored content is the authority below them, so the overlay
+        // feeds the comparison, the retirement walkers, and the mirror value.
+        // The comparison runs on the deep-resolved pair so nested $ref-vs-
+        // inline asymmetries don't fabricate drift; only a pair that is
+        // shallow-unequal AND too recursive to resolve stays a flagged entry.
+        const mirrorPair = resolveMirrorSubtree(upstreamDocument, upstreamProperty, fragmentDocument, fragmentProperty)
+        const comparableUpstream = mirrorPair.unresolvableSubtree ? upstreamProperty : mirrorPair.comparableUpstream
+        const localView = mirrorPair.unresolvableSubtree ? fragmentProperty : mirrorPair.resolvedLocal
         const mirrorProjection = schema => apiProjection(context.structureOnly ? stripScalarConstraints(schema) : schema)
-        if (!isDeepStrictEqual(mirrorProjection(fragmentProperty), mirrorProjection(upstreamProperty))) {
+        if (!isDeepStrictEqual(mirrorProjection(localView), mirrorProjection(comparableUpstream))) {
             const localHadRequired = Array.isArray(fragmentRequired) && fragmentRequired.includes(name)
             const requiredMembership = upstreamRequired === null ? null : upstreamRequired.includes(name)
-            const droppedLocalFields = [
-                ...droppedLocalFieldPaths(upstreamProperty, fragmentProperty),
+            // A flagged entry writes nothing (the assembler diverts it to the
+            // human-review list), so it retires nothing either: the retirement
+            // walkers only run for entries that will actually mirror.
+            const droppedLocalFields = mirrorPair.unresolvableSubtree ? [] : [
+                ...droppedLocalFieldPaths(comparableUpstream, localView),
                 // structure-only keeps these keys, so they are not retired
-                ...(context.structureOnly ? [] : droppedLocalKeys(upstreamProperty, fragmentProperty)),
+                ...(context.structureOnly ? [] : droppedLocalKeys(comparableUpstream, localView)),
                 // a nested required member the upstream dropped is a relaxation
-                ...relaxedRequiredMembers(upstreamProperty, fragmentProperty),
+                ...relaxedRequiredMembers(comparableUpstream, localView),
             ]
-            const nestedRelaxation = relaxedRequiredMembers(upstreamProperty, fragmentProperty)
-            const mirrorSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperty)
+            const nestedRelaxation = mirrorPair.unresolvableSubtree ? [] : relaxedRequiredMembers(comparableUpstream, localView)
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
-                change: {kind: 'schema', key: 'mirror', before: null, after: mirrorSubtree.after},
+                change: {kind: 'schema', key: 'mirror', before: null, after: mirrorPair.unresolvableSubtree ? null : mirrorPair.after},
                 requiredMembership,
-                ...(mirrorSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
+                ...(mirrorPair.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                 ...(context.structureOnly ? {preserveLocalScalarConstraints: true} : {}),
                 droppedLocalFields,
                 evidence: context.upstreamEvidencePath,
@@ -276,7 +298,7 @@ function diffSchemaPair(context) {
             entries.push(entry)
             continue
         }
-        for (const [key, after] of constraintPairs(upstreamDocument, upstreamProperty)) {
+        for (const [key, after] of constraintPairs(upstreamDocument, comparableUpstream)) {
             if (isDeepStrictEqual(fragmentProperty[key], after)) continue
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
                 change: {kind: 'constraint', key, before: fragmentProperty[key] === undefined ? null : fragmentProperty[key], after},
@@ -285,7 +307,7 @@ function diffSchemaPair(context) {
             entries.push(entry)
         }
         for (const key of CONSTRAINT_KEYS) {
-            if (key in fragmentProperty && !(key in upstreamProperty)) {
+            if (key in fragmentProperty && !(key in comparableUpstream)) {
                 entries.push(makeEntry({...context.meta, category: 'zdoc-only', scope: context.scope, branch: context.branch, field: name,
                     change: {kind: 'constraint', key, before: fragmentProperty[key], after: null}, evidence: context.upstreamEvidencePath}))
             }
