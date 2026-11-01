@@ -239,3 +239,59 @@ test('coordinate coverage respects JSON-pointer segment boundaries', () => {
     assert.equal(pointerCovers('/a/bc', '/a/b'), false)
     assert.equal(pointerCovers('/a/b', '/a/b'), true)
 })
+
+test('an element gained inside a rewritten coordinate joins the evidence and is reported', () => {
+    const ws = twoElementFragment()
+    try {
+        const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+        const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+        // The mirror lane inlines a $ref'd component's subtree at the property
+        // position; the relocated content carries lifecycle keys, so the
+        // fragments GAIN an element the evidence does not know — inside the
+        // coordinate this very refresh rewrote.
+        spec.paths['/v2/vectordb/file_resources/list'].post.requestBody = {
+            content: {'application/json': {schema: {
+                'x-added-at': '3.0.x', 'x-last-modified': '3.0.x', 'x-deprecated-since': null,
+            }}},
+        }
+        fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+        const applied = appliedFile(ws, [{kind: 'mirror', targetFragment: ws.fragments[0], opPath: `${ENDPOINT_POINTER}/requestBody`}])
+
+        const result = refreshLifecycleEvidenceInventory({root: ws.root, restMeta: ws.restMeta, appliedFile: applied})
+        assert.equal(result.changed, true)
+        assert.equal(result.added.length, 1)
+        assert.equal(result.added[0].jsonPointer, `${ENDPOINT_POINTER}/requestBody/content/application~1json/schema`)
+        assert.equal(result.added[0].addedBy, `${ENDPOINT_POINTER}/requestBody`)
+        const evidence = JSON.parse(fs.readFileSync(path.join(ws.restMeta, 'lifecycle-evidence', 'milvus-2.6.x-bootstrap.json'), 'utf8'))
+        assert.equal(evidence.elements.length, 3)
+        assert.equal(evidence.summary.elements, 3)
+        const gained = evidence.elements.find(item => item.jsonPointer === result.added[0].jsonPointer)
+        assert.deepEqual(gained.lifecycle, {'x-added-at': '3.0.x', 'x-last-modified': '3.0.x', 'x-deprecated-since': null})
+        assert.equal(evidence.reproducibility.fragmentInventorySha256, result.hash)
+    } finally {
+        fs.rmSync(ws.root, {recursive: true, force: true})
+    }
+})
+
+test('an element appearing outside every rewritten coordinate still fails closed', () => {
+    const ws = twoElementFragment()
+    try {
+        const fragmentPath = path.join(ws.restMeta, 'openapi', ws.fragments[0])
+        const spec = JSON.parse(fs.readFileSync(fragmentPath, 'utf8'))
+        spec.paths['/v2/vectordb/file_resources/list'].post.requestBody = {
+            content: {'application/json': {schema: {
+                'x-added-at': '3.0.x', 'x-last-modified': '3.0.x', 'x-deprecated-since': null,
+            }}},
+        }
+        fs.writeFileSync(fragmentPath, `${JSON.stringify(spec, null, 2)}\n`)
+        // the refresh rewrote a sibling subtree, not this one
+        const applied = appliedFile(ws, [{kind: 'mirror', targetFragment: ws.fragments[0], opPath: `${ENDPOINT_POINTER}/responses`}])
+
+        assert.throws(
+            () => refreshLifecycleEvidenceInventory({root: ws.root, restMeta: ws.restMeta, appliedFile: applied}),
+            /REST_UPSTREAM_LIFECYCLE_ELEMENT_DRIFT/,
+        )
+    } finally {
+        fs.rmSync(ws.root, {recursive: true, force: true})
+    }
+})
