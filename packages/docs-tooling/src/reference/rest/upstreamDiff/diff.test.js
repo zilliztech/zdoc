@@ -464,6 +464,86 @@ test('recursive upstream subtrees are flagged for human follow-up instead of fai
     assert.equal(added.change.after, null)
 })
 
+test('opaque pass-through maps are local-authority: hand-authored params are never retired', () => {
+    // The real retirement that must never happen again: the skeleton sees
+    // `params map[string]interface{}` as a bare object, while the fragment
+    // documents the pass-through parameters (enableDynamicField arrives in
+    // the params map and is forwarded to gRPC; max_length rides elementType-
+    // Params). The mirror must keep the fragment content and stay silent.
+    const upstream = treeUpstream()
+    upstream.components.schemas.CollectionNameReq.properties.params = {type: 'object', 'x-milvus-opaque': true}
+    const fragment = treeFragment()
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.params = {
+        type: 'object', description: 'Extra parameters.',
+        properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}},
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    assert.deepEqual(result.entries.filter(entry => entry.field === 'params'), [])
+    // a genuinely new sibling field next to the blind spot still mirrors,
+    // and its value keeps the local content below the blind spot while
+    // stripping the tooling marker
+    upstream.components.schemas.CollectionNameReq.properties.extraParams = {type: 'object', 'x-milvus-opaque': true}
+    upstream.components.schemas.CollectionNameReq.properties.partitionNames = {type: 'array', items: {type: 'string'}}
+    const withDrift = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const addedPlain = withDrift.entries.find(entry => entry.field === 'partitionNames' && entry.change.kind === 'field-uncovered')
+    assert.ok(addedPlain, 'expected the plain added field')
+    assert.deepEqual(addedPlain.change.after, {type: 'array', items: {type: 'string'}})
+    const addedOpaque = withDrift.entries.find(entry => entry.field === 'extraParams' && entry.change.kind === 'field-uncovered')
+    assert.ok(addedOpaque, 'expected the opaque added field')
+    assert.deepEqual(addedOpaque.change.after, {type: 'object'})
+    assert.equal(addedOpaque.change.after['x-milvus-opaque'], undefined)
+    // a mirror whose subtree holds a blind spot carries the fragment content
+    // below the boundary and no marker: the struct gains a VISIBLE field the
+    // extractor can see, while the map field inside stays fragment-authored
+    upstream.components.schemas.CollectionNameReq.properties.params = {type: 'object', properties: {
+        allowInsertNonBM25: {type: 'boolean'},
+        extra: {type: 'object', 'x-milvus-opaque': true},
+    }}
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.params = {
+        type: 'object', description: 'Extra parameters.',
+        properties: {
+            allowInsertNonBM25: {type: 'boolean', description: 'Whether to allow it.'},
+            extra: {type: 'object', properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}}},
+        },
+    }
+    upstream.components.schemas.CollectionNameReq.properties.params.properties.newVisibleField = {type: 'string'}
+    const mirrorEntry = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    }).entries.find(entry => entry.field === 'params' && entry.change.kind === 'schema')
+    assert.ok(mirrorEntry, 'expected a params mirror for the visible-field addition')
+    // the after value carries upstream structure; doc-owned prose at VISIBLE
+    // nodes is merged back at assemble time — but the fragment content below
+    // the opaque boundary rides the value whole (descriptions included)
+    assert.deepEqual(mirrorEntry.change.after, {
+        type: 'object',
+        properties: {
+            allowInsertNonBM25: {type: 'boolean'},
+            newVisibleField: {type: 'string'},
+            extra: {type: 'object', properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}}},
+        },
+    })
+    assert.deepEqual(mirrorEntry.droppedLocalFields, [])
+})
+
 test('unattributed fields work for structure-only branched bodies', () => {
     const fragment = treeFragment()
     fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema = {oneOf: [
