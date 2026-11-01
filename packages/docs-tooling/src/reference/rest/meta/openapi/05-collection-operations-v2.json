@@ -1720,8 +1720,14 @@
                   "partitionNames": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    }
+                      "type": "string",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -2382,8 +2388,14 @@
                   "partitionNames": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    }
+                      "type": "string",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -2517,8 +2529,14 @@
                   "partitionNames": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    }
+                      "type": "string",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -2768,22 +2786,40 @@
                     "type": "object",
                     "properties": {
                       "description": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "params": {
                         "type": "object",
@@ -2801,7 +2837,10 @@
                         "x-deprecated-since": null
                       },
                       "type": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -2985,22 +3024,40 @@
                     "type": "object",
                     "properties": {
                       "description": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "params": {
                         "type": "object",
@@ -3018,7 +3075,10 @@
                         "x-deprecated-since": null
                       },
                       "type": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -4679,22 +4739,40 @@
                     "type": "object",
                     "properties": {
                       "description": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        }
+                          "type": "string",
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "params": {
                         "type": "object",
@@ -4712,7 +4790,10 @@
                         "x-deprecated-since": null
                       },
                       "type": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -5115,12 +5196,21 @@
                     ],
                     "properties": {
                       "collectionName": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   },
                   {
                     "required": [
@@ -5129,12 +5219,21 @@
                     ],
                     "properties": {
                       "collectionName": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
-                        "type": "string"
+                        "type": "string",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 ],
                 "x-added-at": "3.0.x",
@@ -6275,13 +6374,22 @@
             }
           },
           "consistencyLevel": {
-            "type": "string"
+            "type": "string",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
-            "type": "object"
+            "type": "object",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "vectorFieldType": {
-            "type": "string"
+            "type": "string",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
@@ -7148,10 +7256,16 @@
             "x-deprecated-since": null
           },
           "consistencyLevel": {
-            "type": "string"
+            "type": "string",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
-            "type": "object"
+            "type": "object",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           }
         },
         "x-added-at": "2.6.x",
@@ -7263,10 +7377,16 @@
             "x-deprecated-since": null
           },
           "consistencyLevel": {
-            "type": "string"
+            "type": "string",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
-            "type": "object"
+            "type": "object",
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           }
         },
         "x-added-at": "2.6.x",
@@ -8101,7 +8221,10 @@
           "partitionNames": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "A list of partition names. If any partition names are specified, releasing any of these partitions results in the return of a NotLoad state.",
             "x-i18n": {
@@ -8232,8 +8355,14 @@
           "partitionNames": {
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [

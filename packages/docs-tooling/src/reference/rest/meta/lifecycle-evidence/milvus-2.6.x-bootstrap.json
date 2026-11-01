@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2328,
+    "elements": 2459,
     "highConfidenceIncremental": 294,
     "managedFloor": 2045,
     "modified": 9,
@@ -60563,6 +60563,3412 @@
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
       }
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1insert/post/requestBody/content/application~1json/schema/properties/fieldOps",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.17",
+        "headCommit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "releaseBranch": "2.6",
+        "commit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionDataReq.FieldOps / FieldPartialUpdateOpReq"
+      },
+      "confidence": "high",
+      "rationale": "Partial-update field ops parsed by buildFieldPartialUpdateOps since v2.6.17 (fieldName/op only)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1insert/post/requestBody/content/application~1json/schema/properties/fieldOps/items/properties/fieldName",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.17",
+        "headCommit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "releaseBranch": "2.6",
+        "commit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "FieldPartialUpdateOpReq.FieldName"
+      },
+      "confidence": "high",
+      "rationale": "FieldPartialUpdateOpReq introduced with fieldOps in v2.6.17."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1insert/post/requestBody/content/application~1json/schema/properties/fieldOps/items/properties/op",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.17",
+        "headCommit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "releaseBranch": "2.6",
+        "commit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "FieldPartialUpdateOpReq.Op / parseFieldPartialUpdateOp"
+      },
+      "confidence": "high",
+      "rationale": "REPLACE/ARRAY_APPEND/ARRAY_REMOVE parser present since v2.6.17."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1insert/post/requestBody/content/application~1json/schema/properties/fieldOps/items/properties/path",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.3",
+        "headCommit": "328df0cd2f323c2d3c50cef91bfc9f2c412bcb09",
+        "releaseBranch": "3.0",
+        "commit": "328df0cd2f323c2d3c50cef91bfc9f2c412bcb09",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "FieldPartialUpdateOpReq.Path / parseFieldPartialUpdateOpV2"
+      },
+      "confidence": "high",
+      "rationale": "Path plus PATH_REPLACE parser only exist from v3.0.3 (absent through v3.0.2, present at v3.0.3)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1query/post/requestBody/content/application~1json/schema/properties/groupByFields",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.1",
+        "headCommit": "658cbd16899bb715a17d4d6f727531a376678ca6",
+        "releaseBranch": "3.0",
+        "commit": "658cbd16899bb715a17d4d6f727531a376678ca6",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "QueryReqV2.GroupByFields"
+      },
+      "confidence": "high",
+      "rationale": "GroupByFields absent at v3.0.0, present from v3.0.1."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/orderByFields",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "SearchReqV2.OrderByFields"
+      },
+      "confidence": "high",
+      "rationale": "Top-level OrderByFields re-sort introduced with the v3.0.0 search request struct."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/description",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/description",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/inputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/inputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/name",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/name",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/outputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/outputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/params",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/params",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/type",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/type",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/name",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/args",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items/properties/column",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items/properties/literal",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/name",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/params",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/inputs",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/op",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/outputs",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/params",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/stage",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0 (FunctionChainReq family in request_v2/utils)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1refresh_load/post/requestBody/content/application~1json/schema/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1load/post/requestBody/content/application~1json/schema/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1release/post/requestBody/content/application~1json/schema/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/description",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/description",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/description",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/name",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/name",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/name",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/type",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/type",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/type",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "07-index-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/requestBody/content/application~1json/schema/properties/timestamp",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "07-index-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1drop/post/requestBody/content/application~1json/schema/properties/timestamp",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "07-index-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1list/post/requestBody/content/application~1json/schema/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "08-partition-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1partitions~1list/post/requestBody/content/application~1json/schema/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "09-role-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1roles~1describe/post/requestBody/content/application~1json/schema/properties/description",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.19",
+        "headCommit": "5b99e9806de9746a802fc8080c9eac28be4ae59d",
+        "releaseBranch": "2.6",
+        "commit": "5b99e9806de9746a802fc8080c9eac28be4ae59d",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "RoleReq.Description"
+      },
+      "confidence": "high",
+      "rationale": "RoleReq.Description absent through v2.6.18, present from v2.6.19."
+    },
+    {
+      "fragment": "09-role-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1roles~1drop/post/requestBody/content/application~1json/schema/properties/description",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.19",
+        "headCommit": "5b99e9806de9746a802fc8080c9eac28be4ae59d",
+        "releaseBranch": "2.6",
+        "commit": "5b99e9806de9746a802fc8080c9eac28be4ae59d",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "RoleReq.Description"
+      },
+      "confidence": "high",
+      "rationale": "RoleReq.Description absent through v2.6.18, present from v2.6.19."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1create/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1create/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter/properties/node_labels",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/limits",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/limits",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/limits/properties/node_num",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/limits/properties/node_num",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter/properties/node_labels",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/node_filter/properties/node_labels",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/requests",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/requests",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/requests/properties/node_num",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/requests/properties/node_num",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from/items/properties/resource_group",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from/items/properties/resource_group",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to/items/properties/resource_group",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to/items/properties/resource_group",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "11-import-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/properties/collectionName",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "13-user-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1users~1list/post/requestBody/content/application~1json/schema/properties/dbName",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "14-privilege-group-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1drop/post/requestBody/content/application~1json/schema/properties/privileges",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1insert/post/requestBody/content/application~1json/schema/properties/fieldOps/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.17",
+        "headCommit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "releaseBranch": "2.6",
+        "commit": "1d584f5e0a9d774bfa77cdfd78f310100321cdd1",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "FieldPartialUpdateOpReq"
+      },
+      "confidence": "high",
+      "rationale": "Field ops element schema introduced with fieldOps in v2.6.17."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chain element schemas shipped with hybrid functionChains in v3.0.0."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chain element schemas shipped with hybrid functionChains in v3.0.0."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chain element schemas shipped with hybrid functionChains in v3.0.0."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1describe/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_from/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "10-resource-group-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1resource_groups~1drop/post/requestBody/content/application~1json/schema/properties/config/properties/transfer_to/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1query/post/requestBody/content/application~1json/schema/properties/groupByFields/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.1",
+        "headCommit": "658cbd16899bb715a17d4d6f727531a376678ca6",
+        "releaseBranch": "3.0",
+        "commit": "658cbd16899bb715a17d4d6f727531a376678ca6",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "QueryReqV2.GroupByFields"
+      },
+      "confidence": "high",
+      "rationale": "GroupByFields absent at v3.0.0, present from v3.0.1."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/orderByFields/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "SearchReqV2.OrderByFields"
+      },
+      "confidence": "high",
+      "rationale": "Top-level OrderByFields re-sort introduced with the v3.0.0 search request struct."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/inputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/outputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/inputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionScore/properties/functions/items/properties/outputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/inputs/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/functionChains/items/properties/ops/items/properties/outputs/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "HybridSearchReq.FunctionChains / genFunctionChains"
+      },
+      "confidence": "high",
+      "rationale": "Function chains on hybrid search shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1refresh_load/post/requestBody/content/application~1json/schema/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1load/post/requestBody/content/application~1json/schema/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1release/post/requestBody/content/application~1json/schema/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/inputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1alter_function/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1add_function_field/post/requestBody/content/application~1json/schema/properties/function/properties/outputFieldNames/items",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "FunctionSchema / add_function_field route"
+      },
+      "confidence": "high",
+      "rationale": "add_function_field route and FunctionSchema body shipped in v3.0.0."
+    },
+    {
+      "fragment": "07-index-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1list/post/requestBody/content/application~1json/schema/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "08-partition-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1partitions~1list/post/requestBody/content/application~1json/schema/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "14-privilege-group-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1drop/post/requestBody/content/application~1json/schema/properties/privileges/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/0",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/0/properties/collectionName",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/0/properties/dbName",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/1",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/1/properties/collectionName",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1fields~1drop/post/requestBody/content/application~1json/schema/anyOf/1/properties/dbName",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "symbol": "AlterCollectionSchema (fields/drop route)"
+      },
+      "confidence": "high",
+      "rationale": "fields/drop route shipped in v3.0.0 (absent in v2.6.26); scenario anyOf branches follow the operation track."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/QuickSetupCollection/properties/consistencyLevel",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/QuickSetupCollection/properties/properties",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/QuickSetupCollection/properties/vectorFieldType",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomSetupCollection/properties/consistencyLevel",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomSetupCollection/properties/properties",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/ExternalSetupCollection/properties/consistencyLevel",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/ExternalSetupCollection/properties/properties",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "releaseBranch": "3.0",
+        "commit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "CollectionReq"
+      },
+      "confidence": "high",
+      "rationale": "Field present in CollectionReq from v3.0.0 (absent through v2.6.26)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CollectionLoadStateRequest/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CollectionCommons/properties/partitionNames",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CollectionCommons/properties/partitionNames/items",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
     }
   ],
   "managedFloorPolicy": {
@@ -60573,7 +63979,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "672e08f94f1a2f20bfa7edbad3997b0542f03fa24935cf428966a4d813c54886",
+    "fragmentInventorySha256": "86f9b1d1688637c00c6b5459d8a02d5f415dbce07339d3c6f768ce81398d771a",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",

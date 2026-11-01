@@ -126,9 +126,15 @@
                         "type": "object",
                         "properties": {
                           "node_labels": {
-                            "type": "object"
+                            "type": "object",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "requests": {
                         "type": "object",
@@ -976,25 +982,43 @@
                         "type": "object",
                         "properties": {
                           "node_num": {
-                            "type": "integer"
+                            "type": "integer",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "node_filter": {
                         "type": "object",
                         "properties": {
                           "node_labels": {
-                            "type": "object"
+                            "type": "object",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "requests": {
                         "type": "object",
                         "properties": {
                           "node_num": {
-                            "type": "integer"
+                            "type": "integer",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_from": {
                         "type": "array",
@@ -1002,13 +1026,22 @@
                           "type": "object",
                           "properties": {
                             "resource_group": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
                             "resource_group"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_to": {
                         "type": "array",
@@ -1016,13 +1049,22 @@
                           "type": "object",
                           "properties": {
                             "resource_group": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
                             "resource_group"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -1030,7 +1072,10 @@
                       "requests",
                       "transfer_from",
                       "transfer_to"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1706,25 +1751,43 @@
                         "type": "object",
                         "properties": {
                           "node_num": {
-                            "type": "integer"
+                            "type": "integer",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "node_filter": {
                         "type": "object",
                         "properties": {
                           "node_labels": {
-                            "type": "object"
+                            "type": "object",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "requests": {
                         "type": "object",
                         "properties": {
                           "node_num": {
-                            "type": "integer"
+                            "type": "integer",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_from": {
                         "type": "array",
@@ -1732,13 +1795,22 @@
                           "type": "object",
                           "properties": {
                             "resource_group": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
                             "resource_group"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_to": {
                         "type": "array",
@@ -1746,13 +1818,22 @@
                           "type": "object",
                           "properties": {
                             "resource_group": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
                             "resource_group"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -1760,7 +1841,10 @@
                       "requests",
                       "transfer_from",
                       "transfer_to"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [

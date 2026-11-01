@@ -1576,7 +1576,10 @@
                     }
                   },
                   "collectionName": {
-                    "type": "string"
+                    "type": "string",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [

@@ -504,16 +504,31 @@
                       "type": "object",
                       "properties": {
                         "fieldName": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "op": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "path": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
                         }
-                      }
-                    }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1788,8 +1803,14 @@
                   "groupByFields": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    }
+                      "type": "string",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -2533,28 +2554,52 @@
                           "type": "object",
                           "properties": {
                             "description": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "inputFieldNames": {
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              }
+                                "type": "string",
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "name": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "outputFieldNames": {
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              }
+                                "type": "string",
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "params": {
-                              "type": "object"
+                              "type": "object",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "type": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
@@ -2562,8 +2607,14 @@
                             "name",
                             "outputFieldNames",
                             "type"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "params": {
                         "type": "object",
@@ -2648,8 +2699,14 @@
                   "orderByFields": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    }
+                      "type": "string",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -3568,28 +3625,52 @@
                           "type": "object",
                           "properties": {
                             "description": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "inputFieldNames": {
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              }
+                                "type": "string",
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "name": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "outputFieldNames": {
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              }
+                                "type": "string",
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "params": {
-                              "type": "object"
+                              "type": "object",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "type": {
-                              "type": "string"
+                              "type": "string",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "required": [
@@ -3597,8 +3678,14 @@
                             "name",
                             "outputFieldNames",
                             "type"
-                          ]
-                        }
+                          ],
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "params": {
                         "type": "object",
@@ -3665,7 +3752,10 @@
                       "type": "object",
                       "properties": {
                         "name": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
                         },
                         "ops": {
                           "type": "array",
@@ -3681,46 +3771,101 @@
                                       "type": "object",
                                       "properties": {
                                         "column": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-added-at": "3.0.x",
+                                          "x-last-modified": "3.0.x",
+                                          "x-deprecated-since": null
                                         },
-                                        "literal": {}
-                                      }
-                                    }
+                                        "literal": {
+                                          "x-added-at": "3.0.x",
+                                          "x-last-modified": "3.0.x",
+                                          "x-deprecated-since": null
+                                        }
+                                      },
+                                      "x-added-at": "3.0.x",
+                                      "x-last-modified": "3.0.x",
+                                      "x-deprecated-since": null
+                                    },
+                                    "x-added-at": "3.0.x",
+                                    "x-last-modified": "3.0.x",
+                                    "x-deprecated-since": null
                                   },
                                   "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "x-added-at": "3.0.x",
+                                    "x-last-modified": "3.0.x",
+                                    "x-deprecated-since": null
                                   },
                                   "params": {
-                                    "type": "object"
+                                    "type": "object",
+                                    "x-added-at": "3.0.x",
+                                    "x-last-modified": "3.0.x",
+                                    "x-deprecated-since": null
                                   }
-                                }
+                                },
+                                "x-added-at": "3.0.x",
+                                "x-last-modified": "3.0.x",
+                                "x-deprecated-since": null
                               },
                               "inputs": {
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                }
+                                  "type": "string",
+                                  "x-added-at": "3.0.x",
+                                  "x-last-modified": "3.0.x",
+                                  "x-deprecated-since": null
+                                },
+                                "x-added-at": "3.0.x",
+                                "x-last-modified": "3.0.x",
+                                "x-deprecated-since": null
                               },
                               "op": {
-                                "type": "string"
+                                "type": "string",
+                                "x-added-at": "3.0.x",
+                                "x-last-modified": "3.0.x",
+                                "x-deprecated-since": null
                               },
                               "outputs": {
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                }
+                                  "type": "string",
+                                  "x-added-at": "3.0.x",
+                                  "x-last-modified": "3.0.x",
+                                  "x-deprecated-since": null
+                                },
+                                "x-added-at": "3.0.x",
+                                "x-last-modified": "3.0.x",
+                                "x-deprecated-since": null
                               },
                               "params": {
-                                "type": "object"
+                                "type": "object",
+                                "x-added-at": "3.0.x",
+                                "x-last-modified": "3.0.x",
+                                "x-deprecated-since": null
                               }
-                            }
-                          }
+                            },
+                            "x-added-at": "3.0.x",
+                            "x-last-modified": "3.0.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
                         },
                         "stage": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "3.0.x",
+                          "x-last-modified": "3.0.x",
+                          "x-deprecated-since": null
                         }
-                      }
-                    }
+                      },
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
