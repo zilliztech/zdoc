@@ -954,6 +954,7 @@
         "package.json",
         "AGENTS.md",
         "README.md",
+        "runbook/**",
         "scripts/docs-workflow/replay-requested-guides*",
         "scripts/docs-workflow/fixtures/requested-guides/**"
       ],
