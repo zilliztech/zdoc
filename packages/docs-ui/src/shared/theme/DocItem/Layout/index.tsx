@@ -256,7 +256,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
               {showContactSales && (
                 <a
                   className={styles.tocContactSales}
-                  href={contactSalesUrl(siteConfig.customFields?.site)}
+                  href={contactSalesUrl(siteConfig.customFields?.site, pathname)}
                   target="_blank"
                   rel="noopener noreferrer">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
