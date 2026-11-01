@@ -2065,7 +2065,24 @@
         "security": [],
         "x-added-at": "2.6.x",
         "x-last-modified": "3.0.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": null,
+        "x-admonition": [
+          {
+            "type": "info",
+            "title": "Data plane version",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect on a Milvus v3.0.x data plane or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters run Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "x-i18n": {
+              "zh-CN": {
+                "title": "数据面版本",
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在 Milvus v3.0.x 及以上版本的数据面上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认运行 Milvus v2.6.x，升级至 v3.0.x Public Preview 后可用。"
+              },
+              "ja-JP": {
+                "title": "データプレーンのバージョン",
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降のデータプレーンでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x を実行します。"
+              }
+            }
+          }
+        ]
       }
     },
     "/v2/vectordb/entities/search": {
@@ -3052,7 +3069,24 @@
         "security": [],
         "x-added-at": "2.6.x",
         "x-last-modified": "3.0.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": null,
+        "x-admonition": [
+          {
+            "type": "info",
+            "title": "Data plane version",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect on a Milvus v3.0.x data plane or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters run Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "x-i18n": {
+              "zh-CN": {
+                "title": "数据面版本",
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在 Milvus v3.0.x 及以上版本的数据面上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认运行 Milvus v2.6.x，升级至 v3.0.x Public Preview 后可用。"
+              },
+              "ja-JP": {
+                "title": "データプレーンのバージョン",
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降のデータプレーンでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x を実行します。"
+              }
+            }
+          }
+        ]
       }
     },
     "/v2/vectordb/entities/hybrid_search": {
@@ -4183,7 +4217,24 @@
         "security": [],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": null,
+        "x-admonition": [
+          {
+            "type": "info",
+            "title": "Data plane version",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect on a Milvus v3.0.x data plane or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters run Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "x-i18n": {
+              "zh-CN": {
+                "title": "数据面版本",
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在 Milvus v3.0.x 及以上版本的数据面上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认运行 Milvus v2.6.x，升级至 v3.0.x Public Preview 后可用。"
+              },
+              "ja-JP": {
+                "title": "データプレーンのバージョン",
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降のデータプレーンでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x を実行します。"
+              }
+            }
+          }
+        ]
       }
     },
     "/v2/vectordb/entities/get": {
