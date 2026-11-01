@@ -21,7 +21,7 @@ const RUN_FIELDS = [
 const ACTIVE_STATUSES = new Set(['queued', 'in_progress', 'waiting', 'requested'])
 const KNOWN_ISSUE_STATUSES = new Set(['known-expected', 'watch', 'in-progress', 'resolved'])
 const CADENCES = new Set(['daily', 'weekly'])
-const CONCLUSION_ORDER = ['success', 'failure', 'cancelled', 'skipped', 'other']
+const FETCH_CHANNELS = new Set(['job-logs', 'conclusion', 'artifact'])
 
 function parseArgs(argv) {
   const args = new Map()
@@ -44,14 +44,18 @@ function parseArgs(argv) {
     index += 2
   }
   if (args.get('--json') && args.get('--markdown')) throw new Error('--json and --markdown are mutually exclusive')
-  const limit = args.get('--limit') === undefined ? 300 : Number(args.get('--limit'))
+  const limit = args.get('--limit') === undefined ? 1000 : Number(args.get('--limit'))
   if (!Number.isInteger(limit) || limit < 1) throw new Error('--limit must be a positive integer')
+  if (args.get('--validate-ledger') && args.get('--json')) {
+    throw new Error('--validate-ledger prints plain text and cannot combine with --json')
+  }
   return {
     window: args.get('--window') || null,
     limit,
     repository: args.get('--repository') || REPOSITORY_DEFAULT,
     ledgerPath: args.get('--ledger') || LEDGER_PATH,
     json: args.get('--json') === true,
+    markdown: args.get('--markdown') === true,
     validateLedger: args.get('--validate-ledger') === true,
   }
 }
@@ -66,13 +70,13 @@ function formatTimezoneOffset(date) {
 }
 
 function localDayWindow(now = new Date()) {
-  const offset = formatTimezoneOffset(now)
-  const day = new Date(now)
-  day.setDate(day.getDate() - 1)
-  const pad = value => String(value).padStart(2, '0')
-  const yesterday = `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`
-  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
-  return `${yesterday}T00:00:00${offset}..${today}T00:00:00${offset}`
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  // Each bound carries its own local offset so a DST transition inside the
+  // window cannot shift one of the two midnights.
+  const iso = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T00:00:00${formatTimezoneOffset(date)}`
+  return `${iso(yesterday)}..${iso(today)}`
 }
 
 function createGhAdapter({repository = REPOSITORY_DEFAULT, exec = execFileSync} = {}) {
@@ -108,6 +112,13 @@ function workflowFileIndex(workflows) {
   return index
 }
 
+function assertWindowComplete(runs, limit) {
+  const count = (runs || []).length
+  if (count >= limit) {
+    throw new Error(`window fetched ${count} runs and hit --limit ${limit}; statistics and the watchdog cross-check would be truncated — raise --limit`)
+  }
+}
+
 function runFile(run, fileByWorkflowId) {
   return fileByWorkflowId.get(run.workflowDatabaseId) || null
 }
@@ -129,14 +140,17 @@ function summarizeWindow({runs, fileByWorkflowId}) {
     if (run.status !== 'completed') {
       bucket.other += 1 // still-active runs inside the window are neither success nor failure
     } else if (run.conclusion === 'success') bucket.success += 1
-    else if (run.conclusion === 'failure') {
+    else if (run.conclusion === 'cancelled') bucket.cancelled += 1
+    else if (run.conclusion === 'skipped') bucket.other += 1
+    else {
+      // failure, startup_failure, and any future non-success conclusion count as failures
       bucket.failure += 1
       failures.push({
         runId: run.databaseId, file, name: run.workflowName || null, title: run.displayTitle || null,
         event: run.event || null, branch: run.headBranch || null, url: run.url || null,
+        conclusion: run.conclusion || null,
       })
-    } else if (run.conclusion === 'cancelled') bucket.cancelled += 1
-    else bucket.other += 1
+    }
     byWorkflow.set(label, bucket)
   }
   const workflows = [...byWorkflow.values()].sort((a, b) => b.runs - a.runs || String(a.file).localeCompare(String(b.file)))
@@ -224,6 +238,23 @@ function loadLedger(ledgerPath = LEDGER_PATH) {
 function validateLedger(ledger, {workflowsDir = WORKFLOWS_DIR} = {}) {
   const errors = []
   if (ledger.schemaVersion !== 1) errors.push(`schemaVersion must be 1 (got ${JSON.stringify(ledger.schemaVersion)})`)
+  const checkWorkflowFile = (item, label) => {
+    if (typeof item !== 'string' || !/\.ya?ml$/.test(item) || path.basename(item) !== item) {
+      errors.push(`${label} must be a bare workflow file name (.yml): ${JSON.stringify(item)}`)
+      return false
+    }
+    let stats = null
+    try {
+      stats = fs.statSync(path.join(workflowsDir, item))
+    } catch {
+      stats = null
+    }
+    if (!stats || !stats.isFile()) {
+      errors.push(`${label} references a missing workflow file: ${item}`)
+      return false
+    }
+    return true
+  }
   const checkWorkflowList = (key, {required = true} = {}) => {
     const list = ledger[key]
     if (!Array.isArray(list) || list.length === 0) {
@@ -232,10 +263,12 @@ function validateLedger(ledger, {workflowsDir = WORKFLOWS_DIR} = {}) {
     }
     const seen = new Set()
     for (const item of list) {
-      if (typeof item !== 'string' || !/\.ya?ml$/.test(item)) errors.push(`${key} entries must be workflow file names (.yml): ${JSON.stringify(item)}`)
-      else if (seen.has(item)) errors.push(`${key} contains a duplicate: ${item}`)
-      else if (!fs.existsSync(path.join(workflowsDir, item))) errors.push(`${key} references a missing workflow file: ${item}`)
-      else seen.add(item)
+      if (!checkWorkflowFile(item, `${key} entries`)) continue
+      if (seen.has(item)) {
+        errors.push(`${key} contains a duplicate: ${item}`)
+        continue
+      }
+      seen.add(item)
     }
     return seen
   }
@@ -250,16 +283,21 @@ function validateLedger(ledger, {workflowsDir = WORKFLOWS_DIR} = {}) {
     errors.push('watchdogs must be a non-empty array')
   } else {
     const ids = new Set()
+    const watchdogFiles = new Set()
     for (const watchdog of ledger.watchdogs) {
       const at = `watchdogs[${watchdog && watchdog.workflow}]`
       if (!watchdog || typeof watchdog !== 'object') {
         errors.push(`${at} must be an object`)
         continue
       }
-      if (typeof watchdog.workflow !== 'string' || !fs.existsSync(path.join(workflowsDir, watchdog.workflow))) {
-        errors.push(`${at} references a missing workflow file: ${JSON.stringify(watchdog.workflow)}`)
+      if (checkWorkflowFile(watchdog.workflow, `${at} workflow`)) {
+        if (watchdogFiles.has(watchdog.workflow)) errors.push(`watchdogs contains a duplicate entry: ${watchdog.workflow}`)
+        watchdogFiles.add(watchdog.workflow)
       }
       if (!CADENCES.has(watchdog.cadence)) errors.push(`${at} cadence must be daily|weekly (got ${JSON.stringify(watchdog.cadence)})`)
+      if (watchdog.fetch !== undefined && !FETCH_CHANNELS.has(watchdog.fetch)) {
+        errors.push(`${at} fetch must be one of job-logs|conclusion|artifact (got ${JSON.stringify(watchdog.fetch)})`)
+      }
       for (const issue of watchdog.knownIssues || []) {
         if (!issue || typeof issue !== 'object' || typeof issue.id !== 'string' || issue.id.length === 0) {
           errors.push(`${at} knownIssues entries need a non-empty string id`)
@@ -279,7 +317,7 @@ function validateLedger(ledger, {workflowsDir = WORKFLOWS_DIR} = {}) {
 function renderQueueLine(entry) {
   const where = entry.branch ? ` on ${entry.branch}` : ''
   const title = entry.title ? ` — ${entry.title}` : ''
-  return `- ${entry.file || entry.name}: [run ${entry.runId}](${entry.url}) ${entry.status}${where}, ${formatDuration(entry.elapsedMs)}${title}`
+  return `- ${entry.file || entry.name || 'unknown'}: [run ${entry.runId}](${entry.url || '#'}) ${entry.status}${where}, ${formatDuration(entry.elapsedMs)}${title}`
 }
 
 function renderMarkdown({windowLabel, summary, queue, watchdogCheck, producerNote}) {
@@ -299,13 +337,13 @@ function renderMarkdown({windowLabel, summary, queue, watchdogCheck, producerNot
   lines.push('| Workflow | Runs | Success | Failure | Cancelled | Other |')
   lines.push('| --- | ---: | ---: | ---: | ---: | ---: |')
   for (const row of summary.workflows) {
-    lines.push(`| ${row.file || row.name} | ${row.runs} | ${row.success} | ${row.failure} | ${row.cancelled} | ${row.other} |`)
+    lines.push(`| ${row.file || row.name || 'unknown'} | ${row.runs} | ${row.success} | ${row.failure} | ${row.cancelled} | ${row.other} |`)
   }
   if (summary.failures.length > 0) {
     lines.push('')
     lines.push('Failures:')
     for (const failure of summary.failures) {
-      lines.push(`- ${failure.file || failure.name}: [run ${failure.runId}](${failure.url}) (${failure.event}${failure.branch ? `, ${failure.branch}` : ''}) — ${failure.title}`)
+      lines.push(`- ${failure.file || failure.name || 'unknown'}: [run ${failure.runId}](${failure.url || '#'}) (${failure.event || 'unknown event'}${failure.branch ? `, ${failure.branch}` : ''}) — ${failure.title || '(no title)'}`)
     }
   }
 
@@ -340,6 +378,7 @@ function main(argv = process.argv.slice(2)) {
     adapter.listRuns({limit: 100}),
     adapter.listWorkflows(),
   ]
+  assertWindowComplete(windowRuns, args.limit)
   const fileByWorkflowId = workflowFileIndex(workflows)
   const summary = summarizeWindow({runs: windowRuns, fileByWorkflowId})
   const queue = snapshotQueue({runs: currentRuns, fileByWorkflowId, ledger})
@@ -379,6 +418,7 @@ module.exports = {
   summarizeWindow,
   snapshotQueue,
   crossCheckWatchdogs,
+  assertWindowComplete,
   validateLedger,
   loadLedger,
   renderMarkdown,

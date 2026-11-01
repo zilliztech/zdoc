@@ -24,7 +24,7 @@
     "listByWorkflowFile": "Always filter by workflow file name, never display name: display-name casing churned during the 2026-10 renaming (#889).",
     "failedRunLogs": "gh run view <id> --log-failed; when logs return BlobNotFound, fall back to gh run view <id> for job-level failed steps.",
     "artifacts": "gh run download <id> --dir <tmp-dir> then read the report files.",
-    "spaShellTrap": "docs.zilliz.com serves the SPA shell with HTTP 200 for missing paths; judge page liveness by <title>, and curl needs --compressed to see it."
+    "spaShellTrap": "Judge page liveness by <title>, not status codes alone; curl needs --compressed (responses are gzip-encoded). Unknown-path behavior differs per site — the en site returns a real HTTP 404 with a Page Not Found title — so verify per site before relying on the status code."
   },
   "watchdogs": [
     {
@@ -62,7 +62,7 @@
       "schedule": "01:00 UTC",
       "fetch": "conclusion",
       "fetchDetail": "Conclusion is sufficient; details from --log-failed on failures.",
-      "steadyState": "Green; the four build-side watchdogs pin Node '22'.",
+      "steadyState": "Green; every watchdog that pins a Node version uses the floating '22' pin (site-validation-watchdog pins none).",
       "knownIssues": [
         {
           "id": "external-link-node-pin-esm-regression",
@@ -221,7 +221,7 @@
           "symptom": "Both sources (zilliz-cloud-control-plane, milvus-data-plane) report drift with pins not advanced.",
           "classification": "Upstream keeps moving while refresh candidate branches remain unmerged; backlog priority rises as upstream advances.",
           "action": "Digest reports the day-over-day series and reminds that the fix path is dispatching rest-upstream-refresh.yml (source input, one reviewed PR per source). The digest itself never dispatches it.",
-          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-10-30 scheduled run 41002552300: pins unmoved, upstream heads advanced, diffDigests changed. Two control-plane refresh candidate branches exist on the remote."
+          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-10-30 scheduled run 41002552300: pins unmoved, upstream heads advanced, diffDigests changed. As of 2026-10-30, two control-plane refresh candidate branches had appeared on the remote, unmerged."
         }
       ],
       "history": [

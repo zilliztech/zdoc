@@ -7,6 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 
 const {
+  assertWindowComplete,
   parseArgs,
   localDayWindow,
   workflowFileIndex,
@@ -48,17 +49,21 @@ const FILE_INDEX = new Map([
 test('parseArgs accepts defaults and validates flags', () => {
   const defaults = parseArgs([])
   assert.equal(defaults.repository, 'zilliztech/zdoc')
-  assert.equal(defaults.limit, 300)
+  assert.equal(defaults.limit, 1000)
   assert.equal(defaults.json, false)
+  assert.equal(defaults.markdown, false)
   assert.equal(defaults.validateLedger, false)
   assert.equal(defaults.window, null)
 
   const custom = parseArgs(['--json', '--window', '2026-10-30T00:00:00+08:00..2026-10-31T00:00:00+08:00', '--limit', '50'])
   assert.equal(custom.json, true)
+  assert.equal(custom.markdown, false)
   assert.equal(custom.limit, 50)
   assert.equal(custom.window, '2026-10-30T00:00:00+08:00..2026-10-31T00:00:00+08:00')
+  assert.equal(parseArgs(['--markdown']).markdown, true)
 
   assert.throws(() => parseArgs(['--json', '--markdown']), /mutually exclusive/)
+  assert.throws(() => parseArgs(['--validate-ledger', '--json']), /cannot combine with --json/)
   assert.throws(() => parseArgs(['--nonsense']), /Unsupported argument/)
   assert.throws(() => parseArgs(['--limit']), /Invalid value/)
   assert.throws(() => parseArgs(['--limit', '--json']), /Invalid value/)
@@ -94,19 +99,21 @@ test('summarizeWindow buckets conclusions, lists failures, and sorts by volume',
       run({databaseId: 2, workflowDatabaseId: 101, conclusion: 'failure', displayTitle: 'fetch failed', url: 'u2'}),
       run({databaseId: 3, workflowDatabaseId: 102, conclusion: 'cancelled'}),
       run({databaseId: 4, workflowDatabaseId: 104, status: 'in_progress', conclusion: null}),
+      run({databaseId: 6, workflowDatabaseId: 104, conclusion: 'startup_failure', displayTitle: 'never scheduled', url: 'u6'}),
       run({databaseId: 5, workflowDatabaseId: 999, workflowName: 'unknown flow', conclusion: 'failure', url: 'u5'}),
     ],
   })
-  assert.equal(summary.total, 5)
+  assert.equal(summary.total, 6)
   assert.equal(summary.success, 1)
-  assert.equal(summary.failure, 2)
+  assert.equal(summary.failure, 3)
   const fetch = summary.workflows.find(row => row.file === 'fetch-docs.yml')
   assert.equal(fetch.runs, 2)
   assert.equal(fetch.failure, 1)
-  // volume sort: fetch-docs (2 runs) first, then single-run rows by label
-  assert.equal(summary.workflows[0].file, 'fetch-docs.yml')
+  // volume sort: the two 2-run workflows tie and fall back to label order
+  assert.equal(summary.workflows[0].file, 'broken-links-report.yml')
+  assert.equal(summary.workflows[0].runs, 2)
   const failedFiles = summary.failures.map(failure => failure.file)
-  assert.deepEqual([...failedFiles].sort(), ['fetch-docs.yml', null])
+  assert.deepEqual([...failedFiles].sort(), ['broken-links-report.yml', 'fetch-docs.yml', null])
   const unnamed = summary.failures.find(failure => failure.file === null)
   assert.equal(unnamed.name, 'unknown flow')
 })
@@ -165,6 +172,14 @@ test('crossCheckWatchdogs flags missing daily runs but not weekly non-running da
   assert.equal(missing[0].flag, 'no-run-yesterday')
 })
 
+test('assertWindowComplete fails loudly when the fetched window hits the limit', () => {
+  const runs = Array.from({length: 3}, (_, index) => run({databaseId: index + 1}))
+  assert.throws(() => assertWindowComplete(runs, 3), /hit --limit 3; statistics and the watchdog cross-check would be truncated/)
+  assert.throws(() => assertWindowComplete(runs, 2), /hit --limit 2/)
+  assert.doesNotThrow(() => assertWindowComplete(runs, 4))
+  assert.doesNotThrow(() => assertWindowComplete([], 1))
+})
+
 function ledgerFixture(overrides = {}) {
   return {
     schemaVersion: 1,
@@ -202,10 +217,12 @@ test('validateLedger fails closed on schema, missing files, bad enums, duplicate
   try {
     const broken = ledgerFixture({
       schemaVersion: 2,
-      productionQueueWorkflows: ['fetch-docs.yml', 'missing.yml', 'fetch-docs.yml'],
+      productionQueueWorkflows: ['fetch-docs.yml', 'missing.yml', 'fetch-docs.yml', '../elsewhere/evil.yml'],
       producerWorkflows: ['translate-codex.yml', 'fetch-docs.yml'],
       watchdogs: [
-        {workflow: 'gone.yml', cadence: 'hourly', knownIssues: [{id: 'a', status: 'maybe'}, {id: 'a', status: 'watch'}]},
+        {workflow: 'gone.yml', cadence: 'hourly', fetch: 'carrier-pigeon', knownIssues: [{id: 'a', status: 'maybe'}, {id: 'a', status: 'watch'}]},
+        {workflow: 'fetch-docs.yml', cadence: 'daily', knownIssues: []},
+        {workflow: 'fetch-docs.yml', cadence: 'daily', knownIssues: []},
       ],
     })
     const result = validateLedger(broken, {workflowsDir: dir})
@@ -213,10 +230,13 @@ test('validateLedger fails closed on schema, missing files, bad enums, duplicate
     const joined = result.errors.join('\n')
     assert.match(joined, /schemaVersion must be 1/)
     assert.match(joined, /missing workflow file: missing\.yml/)
+    assert.match(joined, /bare workflow file name/)
     assert.match(joined, /duplicate: fetch-docs\.yml/)
     assert.match(joined, /producerWorkflows must stay off the production queue/)
-    assert.match(joined, /missing workflow file: "gone\.yml"/)
+    assert.match(joined, /workflow references a missing workflow file: gone\.yml/)
     assert.match(joined, /cadence must be daily\|weekly/)
+    assert.match(joined, /fetch must be one of job-logs\|conclusion\|artifact/)
+    assert.match(joined, /duplicate entry: fetch-docs\.yml/)
     assert.match(joined, /status must be one of/)
     assert.match(joined, /duplicate known-issue id: a/)
   } finally {
