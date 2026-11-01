@@ -58,9 +58,27 @@ attribution commit on the milvus refresh branch (x-added-at marks).
   upsert `fieldOps.path` rejects with a path-format error while insert accepts
   it (asymmetry to raise with upstream).
 
-## Next (P2)
+## P2 (landed 2026-11-01, same day)
 
-Zilliz track on the same runner: control-plane/data-plane endpoints from the
-`.env` `# Zilliz` block (UAT3 + prod, prod read-only), matrices labeled by
-`{env, deployment, clusterType}`, feeding `x-beta` confirmation and the
-proposed `x-zilliz-cluster-types`.
+- `rest-zilliz-priors` CLI: static prior matrix from fragments (x-beta,
+  x-include-target) + zilliz-cloud spec presence (control plane only —
+  /v2/vectordb/* is cluster-served and never in the control spec) + the
+  release-notes tier survey. First derivation: GA 149, PUBLIC_PREVIEW 10,
+  NOT_AVAILABLE (milvus-only) 12, ON_REQUEST 3, PRIVATE_PREVIEW 1,
+  control-plane CANDIDATE_NOT_IN_SPEC 65 (legacy v1 surface, review list).
+- `rest-availability-zilliz --env uat3|prod`: read-only control-plane probes
+  (projects, clusters, on-demand list, negative control). Both environments:
+  0 FAIL; on-demand (x-beta PUBLIC) confirmed reachable from an ordinary key;
+  **finding: GET /v2/projects/{projectId}/regions returns an internal error
+  on BOTH environments** (kept as a recorded observation — spec-documented
+  endpoint, worth a bug report to the cloud team).
+- Transport note: the zilliz gateway rejects Node's TLS fingerprint with 401
+  (curl passes on h1 and h2), so zilliz probes ride a curl-backed fetchImpl
+  with credentials in a 0600 curl config file — never argv.
+- Data-plane vehicle BLOCKED (user decision pending): createFree on UAT3
+  fails all three ways — My Project supports only aws-us-west-2 which does
+  not offer the free plan (96019); tf-uat-playground (gcp-us-west-1) rejects
+  the key with `Missing ACL permission ... serving_cluster/action=create`
+  (96041). Options: grant the key create ACL on the playground project,
+  enable a free-plan region for My Project, or accept a paid dedicated
+  cluster as the vehicle.

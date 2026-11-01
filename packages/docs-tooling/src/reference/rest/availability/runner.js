@@ -18,15 +18,15 @@ const MARKS = {
   REJECTED: '·', FAIL: '✗', 'NO-EFFECT': '⚠',
 };
 
-function makeCall({base, fetchImpl = fetch, now = () => Date.now()}) {
-  const v2 = base.replace(/\/+$/, '') + '/v2/vectordb';
-  return async function call(opPath, body) {
+function makeCall({base, fetchImpl = fetch, now = () => Date.now(), headers = {}, v2Prefix = '/v2/vectordb'}) {
+  const v2 = base.replace(/\/+$/, '') + v2Prefix;
+  return async function call(opPath, body, opts = {}) {
     let http = 0, json = null, err = null;
     try {
       const r = await fetchImpl(v2 + opPath, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body ?? {}),
+        method: opts.method || 'POST',
+        headers: {'Content-Type': 'application/json', ...headers, ...(opts.headers || {})},
+        body: opts.method === 'GET' && body === undefined ? undefined : JSON.stringify(body ?? {}),
       });
       http = r.status;
       json = await r.json().catch(() => null);
@@ -102,10 +102,10 @@ function writeMatrix({outDir, label, base, results, durationMs, startedAt}) {
   return file;
 }
 
-async function runSuite({suite, base, label, outDir, fetchImpl, now = () => new Date().toISOString(), log = console.log}) {
+async function runSuite({suite, base, label, outDir, fetchImpl, headers = {}, v2Prefix = '/v2/vectordb', now = () => new Date().toISOString(), log = console.log}) {
   const startedAt = now();
   const t0 = Date.now();
-  const call = makeCall({base, fetchImpl});
+  const call = makeCall({base, fetchImpl, headers, v2Prefix});
   const {rec, results} = makeRecorder({label, log});
   const api = {call, rec, sleep: (ms) => new Promise((r) => setTimeout(r, ms))};
   await suite(api);
