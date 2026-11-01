@@ -41,7 +41,7 @@ const RELEASE_NOTE_TIERS = [
   {
     match: {ops: ['post /v2/clusters/createOnDemandCluster', 'get /v2/clusters/onDemandClusters', 'get /v2/clusters/onDemandClusters/{CLUSTER_ID}', 'delete /v2/clusters/onDemandClusters/{CLUSTER_ID}']},
     tier: 'PUBLIC_PREVIEW',
-    evidence: 'spec + fragments carry x-beta PUBLIC on all five on-demand ops',
+    evidence: 'spec + fragments carry x-beta PUBLIC on the on-demand op set',
   },
 ];
 

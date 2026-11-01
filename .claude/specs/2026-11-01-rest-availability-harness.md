@@ -17,7 +17,7 @@ attribution commit on the milvus refresh branch (x-added-at marks).
   REJECTED / NO-EFFECT / FAIL. Matrices are JSON documents keyed
   `{op, param, verdict, effect}` per case plus counts.
 - `.../availability/cli.js` + `rest-availability` command on the REST CLI and
-  `pnpm test:rest-availability` — operator-triggered, live endpoints only:
+  `pnpm rest:availability` (operator script, deliberately not under the test:* prefix) — operator-triggered, live endpoints only:
   `node packages/docs-tooling/src/reference/rest/index.js rest-availability
   --base http://127.0.0.1:19530 --label milvus-3.0.5 --out tmp/rest-availability`.
 - `.../availability/availability.test.js` — hermetic: verdict mapping, effect

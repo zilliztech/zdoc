@@ -40,12 +40,14 @@ test('rec maps expectations to the verdict taxonomy', async () => {
   assert.equal(await rec('op', 'p', 'accepted, broken effect', 'ok', ok, {ok: false, detail: 'd'}), 'NO-EFFECT');
   assert.equal(await rec('op', 'p', 'accepted, no assertion', 'ok', ok), 'PASS');
   assert.equal(await rec('op', 'p', 'expected rejection holds', 'err', err), 'REJECTED');
+  assert.equal(await rec('op', 'p', 'http 404 without code is a rejection', 'err', {http: 404, code: undefined, msg: 'no route'}), 'REJECTED');
+  assert.equal(await rec('op', 'p', 'transport failure proves nothing', 'err', {http: 0, code: undefined, msg: 'fetch failed'}), 'FAIL');
   assert.equal(await rec('op', 'p', 'expected rejection violated', 'err', ok), 'FAIL');
   assert.equal(await rec('op', 'p', 'observation accepted', 'record', ok), 'RECORDED');
   assert.equal(await rec('op', 'p', 'observation rejected', 'record', err), 'REJECTED(record)');
-  assert.equal(results.length, 7);
+  assert.equal(results.length, 9);
   assert.deepEqual(summarize(results), {
-    'PASS-EFFECT': 1, 'NO-EFFECT': 1, PASS: 1, REJECTED: 1, FAIL: 1, RECORDED: 1, 'REJECTED(record)': 1,
+    'PASS-EFFECT': 1, 'NO-EFFECT': 1, PASS: 1, REJECTED: 2, FAIL: 2, RECORDED: 1, 'REJECTED(record)': 1,
   });
 });
 

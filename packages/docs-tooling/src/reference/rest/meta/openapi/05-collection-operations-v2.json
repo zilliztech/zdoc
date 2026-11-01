@@ -2787,12 +2787,30 @@
                     "properties": {
                       "description": {
                         "type": "string",
+                        "description": "The description of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的描述。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の説明。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
+                        "description": "The names of the input fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输入字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の入力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "2.6.x",
@@ -2805,12 +2823,30 @@
                       },
                       "name": {
                         "type": "string",
+                        "description": "The name of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的名称。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の名前。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
+                        "description": "The names of the output fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输出字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の出力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "2.6.x",
@@ -2838,6 +2874,20 @@
                       },
                       "type": {
                         "type": "string",
+                        "enum": [
+                          "BM25",
+                          "TEXTEMBEDDING",
+                          "RERANK"
+                        ],
+                        "description": "The type of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的类型。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function のタイプ。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
@@ -3025,12 +3075,30 @@
                     "properties": {
                       "description": {
                         "type": "string",
+                        "description": "The description of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的描述。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の説明。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
+                        "description": "The names of the input fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输入字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の入力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "2.6.x",
@@ -3043,12 +3111,30 @@
                       },
                       "name": {
                         "type": "string",
+                        "description": "The name of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的名称。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の名前。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
+                        "description": "The names of the output fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输出字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の出力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "2.6.x",
@@ -3076,6 +3162,20 @@
                       },
                       "type": {
                         "type": "string",
+                        "enum": [
+                          "BM25",
+                          "TEXTEMBEDDING",
+                          "RERANK"
+                        ],
+                        "description": "The type of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的类型。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function のタイプ。"
+                          }
+                        },
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
@@ -4740,12 +4840,30 @@
                     "properties": {
                       "description": {
                         "type": "string",
+                        "description": "The description of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的描述。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の説明。"
+                          }
+                        },
                         "x-added-at": "3.0.x",
                         "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "inputFieldNames": {
                         "type": "array",
+                        "description": "The names of the input fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输入字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の入力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "3.0.x",
@@ -4758,12 +4876,30 @@
                       },
                       "name": {
                         "type": "string",
+                        "description": "The name of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的名称。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の名前。"
+                          }
+                        },
                         "x-added-at": "3.0.x",
                         "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "outputFieldNames": {
                         "type": "array",
+                        "description": "The names of the output fields for the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的输出字段名称列表。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function の出力フィールド名。"
+                          }
+                        },
                         "items": {
                           "type": "string",
                           "x-added-at": "3.0.x",
@@ -4791,6 +4927,20 @@
                       },
                       "type": {
                         "type": "string",
+                        "enum": [
+                          "BM25",
+                          "TEXTEMBEDDING",
+                          "RERANK"
+                        ],
+                        "description": "The type of the function to create.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待创建 Function 的类型。"
+                          },
+                          "ja-JP": {
+                            "description": "作成する function のタイプ。"
+                          }
+                        },
                         "x-added-at": "3.0.x",
                         "x-last-modified": "3.0.x",
                         "x-deprecated-since": null

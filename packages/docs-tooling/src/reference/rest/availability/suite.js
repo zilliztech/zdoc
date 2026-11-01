@@ -6,7 +6,7 @@
 // with an observable effect) or rejection. Observation-only cases ("record")
 // capture behavior the fragments do not promise.
 //
-// Environment-agnostic: the runner injects {call, rec, q, sleep}.
+// Environment-agnostic: the runner injects {call, rec, sleep}; q() is a local helper over call().
 "use strict";
 
 async function runDataPlaneSuite(api) {
@@ -90,8 +90,10 @@ async function createHybrid() {
   if (r.code !== 0) throw new Error("create hybrid failed: " + r.msg);
 }
 
+  // When the environment denies databases (zilliz serverless), the dbName
+  // cases deliberately record FAIL verdicts: the rejection IS the
+  // cluster-type evidence the matrices diff on.
   const db2Blocked = {ok: false, reason: null};
-  const db2skip = (op, param) => api.rec(op, param, "databases unavailable on this cluster type (PermissionDenied)", "record", {code: "skipped", msg: db2Blocked.reason || "no database privilege"});
 
 async function createDb2() {
   let r = await api.call("/databases/create", { dbName: DB2 });

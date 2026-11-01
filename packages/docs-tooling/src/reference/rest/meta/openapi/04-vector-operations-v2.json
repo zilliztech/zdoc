@@ -2572,12 +2572,30 @@
                           "properties": {
                             "description": {
                               "type": "string",
+                              "description": "The description of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 描述。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function の説明。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "inputFieldNames": {
                               "type": "array",
+                              "description": "A list of scalar fields to use as input for the function.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "作为 Function 输入的标量字段名称列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "function の入力として使用するスカラー フィールドのリスト。"
+                                }
+                              },
                               "items": {
                                 "type": "string",
                                 "x-added-at": "2.6.x",
@@ -2590,12 +2608,30 @@
                             },
                             "name": {
                               "type": "string",
+                              "description": "The name of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function の名前。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "outputFieldNames": {
                               "type": "array",
+                              "description": "A list of vector fields to use as output for the function.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "作为 Function 输出的向量字段名称列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "function の出力として使用するベクトル フィールドのリスト。"
+                                }
+                              },
                               "items": {
                                 "type": "string",
                                 "x-added-at": "2.6.x",
@@ -2608,12 +2644,35 @@
                             },
                             "params": {
                               "type": "object",
+                              "description": "Extra parameters for the function in key-value pairs.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "Function 附加参数，以键值对形式提供。"
+                                },
+                                "ja-JP": {
+                                  "description": "キーと値のペアによる function の追加パラメータ。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "type": {
                               "type": "string",
+                              "enum": [
+                                "BM25",
+                                "TEXTEMBEDDING",
+                                "RERANK"
+                              ],
+                              "description": "The type of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 类型。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function のタイプ。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
@@ -3660,12 +3719,30 @@
                           "properties": {
                             "description": {
                               "type": "string",
+                              "description": "The description of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 描述。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function の説明。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "inputFieldNames": {
                               "type": "array",
+                              "description": "A list of scalar fields to use as input for the function.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "作为 Function 输入的标量字段名称列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "function の入力として使用するスカラー フィールドのリスト。"
+                                }
+                              },
                               "items": {
                                 "type": "string",
                                 "x-added-at": "2.6.x",
@@ -3678,12 +3755,30 @@
                             },
                             "name": {
                               "type": "string",
+                              "description": "The name of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function の名前。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "outputFieldNames": {
                               "type": "array",
+                              "description": "A list of vector fields to use as output for the function.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "作为 Function 输出的向量字段名称列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "function の出力として使用するベクトル フィールドのリスト。"
+                                }
+                              },
                               "items": {
                                 "type": "string",
                                 "x-added-at": "2.6.x",
@@ -3696,12 +3791,35 @@
                             },
                             "params": {
                               "type": "object",
+                              "description": "Extra parameters for the function in key-value pairs.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "Function 附加参数，以键值对形式提供。"
+                                },
+                                "ja-JP": {
+                                  "description": "キーと値のペアによる function の追加パラメータ。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null
                             },
                             "type": {
                               "type": "string",
+                              "enum": [
+                                "BM25",
+                                "TEXTEMBEDDING",
+                                "RERANK"
+                              ],
+                              "description": "The type of the function to apply.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "待应用的 Function 类型。"
+                                },
+                                "ja-JP": {
+                                  "description": "適用する function のタイプ。"
+                                }
+                              },
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
                               "x-deprecated-since": null

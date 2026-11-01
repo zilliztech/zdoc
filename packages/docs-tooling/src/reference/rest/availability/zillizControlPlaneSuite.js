@@ -12,12 +12,13 @@ function buildZillizControlPlaneSuite({projectId}) {
     await api.rec('projects', 'GET /v2/projects', 'read-only GA probe: project list reachable with API key', 'ok',
       await get('/v2/projects'));
 
+    const projectsRes = await get('/v2/projects');
     const clusters = await get('/v2/clusters');
+    clusters.__projects = projectsRes.data || [];
     await api.rec('clusters', 'GET /v2/clusters', 'read-only GA probe: cluster list', 'ok', clusters);
 
     // x-beta PUBLIC set (public preview): reachable like GA from an ordinary key
-    const projectsRes = await get('/v2/projects');
-    const projectRow = (projectsRes.data || []).find((p) => p.projectId === projectId) || (projectsRes.data || [])[0];
+    const projectRow = (clusters.__projects || []).find((p) => p.projectId === projectId) || (clusters.__projects || [])[0];
     const regionId = projectRow && (projectRow.regionIds || [])[0];
     const onDemand = projectId && regionId
       ? await get(`/v2/clusters/onDemandClusters?projectId=${encodeURIComponent(projectId)}&regionId=${encodeURIComponent(regionId)}`)

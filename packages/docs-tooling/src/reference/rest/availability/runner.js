@@ -68,7 +68,11 @@ function makeRecorder({label, retries = 3, retryDelayMs = 500, sleep = (ms) => n
     const id = `C${String(++seq).padStart(3, '0')}`;
     let verdict;
     if (expect === 'err') {
-      verdict = (res.code === undefined || res.code !== 0) ? 'REJECTED' : 'FAIL';
+      // A numeric non-zero code or an HTTP >= 400 status is a server
+      // rejection (contract holds); http 0 with no code is a transport
+      // failure, which proves nothing about the contract.
+      const rejected = (typeof res.code === 'number' && res.code !== 0) || res.http >= 400;
+      verdict = rejected ? 'REJECTED' : 'FAIL';
     } else if (expect === 'ok' || expect === 'record') {
       if (res.code === 0) {
         verdict = effect ? (effect.ok ? 'PASS-EFFECT' : 'NO-EFFECT') : (expect === 'record' ? 'RECORDED' : 'PASS');

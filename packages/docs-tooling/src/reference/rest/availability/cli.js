@@ -18,7 +18,6 @@ const AVAILABILITY_COMMANDS = ['rest-availability', 'rest-availability-zilliz', 
 // curl-backed fetch implementation. Credentials travel through a 0600 curl
 // config file, never argv.
 function buildCurlFetch({spawnImpl} = {}) {
-  const {spawnSync} = spawnImpl ? {spawnImpl: null, spawnSync: undefined} || {} : require('node:child_process');
   return async function curlFetch(url, init = {}) {
     const os = require('node:os');
     const fsMod = require('node:fs');
