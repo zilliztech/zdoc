@@ -80,22 +80,29 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
         const bytes = fs.readFileSync(fragmentPath)
         const relative = path.relative(root, fragmentPath).split(path.sep).join('/')
         inventoryHash.update(`${crypto.createHash('sha256').update(bytes).digest('hex')}  ${relative}\n`)
-        for (const row of collect(JSON.parse(bytes))) observed.set(`${fragment}:${row.jsonPointer}`, row.lifecycle)
+        for (const row of collect(JSON.parse(bytes))) observed.set(`${fragment}:${row.jsonPointer}`, {fragment, jsonPointer: row.jsonPointer, lifecycle: row.lifecycle})
     }
 
     // Element drift is a real contract change, never an inventory refresh —
-    // except the one retirement the change-set itself proves: an element whose
-    // pointer the fragments no longer resolve AND whose coordinate a
-    // mirror/addition entry rewrote was retired by this very refresh, so it
-    // leaves the elements list and is reported for PR review. A SURVIVING
-    // element whose values differ always fails closed, covered or not.
+    // except the two moves the change-set itself proves. RETIRED: an element
+    // whose pointer the fragments no longer resolve AND whose coordinate a
+    // mirror/addition entry rewrote was retired by this very refresh. ADDED:
+    // the mirror lane writes self-contained values, so it legitimately
+    // relocates lifecycle-bearing fragment content to new pointers (a $ref'd
+    // component's subtree inlined at the property position); an element the
+    // fragments gained INSIDE a rewritten coordinate is that relocation. Both
+    // leave/enter the elements list and are reported for PR review. A
+    // SURVIVING element whose values differ, an uncovered absence, or an
+    // element appearing outside the refresh's own coordinates always fails
+    // closed.
     const coordinates = rewriteCoordinates(appliedFile)
     const drifts = []
     const retired = []
+    const added = []
     const expected = new Map(evidence.elements.map(row => [`${row.fragment}:${row.jsonPointer}`, row]))
     for (const [key, row] of expected) {
         const actual = observed.get(key)
-        if (JSON.stringify(actual) === JSON.stringify(row.lifecycle)) continue
+        if (actual && JSON.stringify(actual.lifecycle) === JSON.stringify(row.lifecycle)) continue
         if (actual === undefined && appliedFile) {
             const retiredBy = (coordinates.get(row.fragment) ?? []).find(opPath => pointerCovers(opPath, row.jsonPointer))
             if (retiredBy !== undefined) {
@@ -103,10 +110,16 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
                 continue
             }
         }
-        drifts.push(`${key}: evidence ${JSON.stringify(row.lifecycle)} vs fragments ${JSON.stringify(actual ?? null)}`)
+        drifts.push(`${key}: evidence ${JSON.stringify(row.lifecycle)} vs fragments ${JSON.stringify(actual?.lifecycle ?? null)}`)
     }
-    for (const key of observed.keys()) {
-        if (!expected.has(key)) drifts.push(`${key}: lifecycle element present in fragments but absent from the evidence`)
+    for (const [key, row] of observed) {
+        if (expected.has(key)) continue
+        const addedBy = appliedFile ? (coordinates.get(row.fragment) ?? []).find(opPath => pointerCovers(opPath, row.jsonPointer)) : undefined
+        if (addedBy === undefined) {
+            drifts.push(`${key}: lifecycle element present in fragments but absent from the evidence`)
+            continue
+        }
+        added.push({fragment: row.fragment, jsonPointer: row.jsonPointer, lifecycle: row.lifecycle, addedBy})
     }
     if (drifts.length > 0) {
         throw new Error(`REST_UPSTREAM_LIFECYCLE_ELEMENT_DRIFT: ${drifts.length} lifecycle value drift(s) between the evidence and the fragments (refresh them in review, do not re-hash):\n  ${drifts.slice(0, 10).join('\n  ')}`)
@@ -118,12 +131,16 @@ function refreshLifecycleEvidenceInventory({root, restMeta, evidenceFile = 'milv
         evidence.elements = evidence.elements.filter(row => !retiredKeys.has(`${row.fragment}:${row.jsonPointer}`))
         evidence.summary.elements = evidence.elements.length
     }
-    if (evidence.reproducibility.fragmentInventorySha256 === nextHash && retired.length === 0) {
-        return {changed: false, hash: nextHash, elements: observed.size, retired: []}
+    if (added.length > 0) {
+        evidence.elements = [...evidence.elements, ...added.map(({fragment, jsonPointer, lifecycle}) => ({fragment, jsonPointer, lifecycle}))]
+        evidence.summary.elements = evidence.elements.length
+    }
+    if (evidence.reproducibility.fragmentInventorySha256 === nextHash && retired.length === 0 && added.length === 0) {
+        return {changed: false, hash: nextHash, elements: observed.size, retired: [], added: []}
     }
     evidence.reproducibility.fragmentInventorySha256 = nextHash
     fs.writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`)
-    return {changed: true, hash: nextHash, elements: evidence.elements.length, retired}
+    return {changed: true, hash: nextHash, elements: evidence.elements.length, retired, added}
 }
 
 module.exports = {refreshLifecycleEvidenceInventory, collect, pointerCovers}
