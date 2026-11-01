@@ -237,7 +237,8 @@
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-source-tree-skeleton.schema.json",
         ".claude/specs/2026-10-29-rest-upstream-milvus-extractor-p2.md",
         "packages/docs-tooling/src/reference/rest/contracts/rest-fragment-migration.schema.json",
-        ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md"
+        ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md",
+        ".claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md"
       ],
       "focusedTests": [
         "pnpm test:rest-upstream",
