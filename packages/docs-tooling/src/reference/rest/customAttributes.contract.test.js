@@ -56,3 +56,12 @@ test('documents x-next-channel staging aligned with the NextChannel tag', () => 
   assert.match(doc, /<NextChannel/i);
   assert.match(doc, /fail-closed|fails? closed/i);
 });
+
+test('documents x-zilliz-cluster-types with the manifests-locked domain', () => {
+  const doc = readDoc();
+  assert.match(doc, /x-zilliz-cluster-types/i);
+  for (const v of ['serverless', 'memory', 'disk', 'tiered', 'byoc-memory', 'byoc-disk', 'byoc-tiered']) {
+    assert.match(doc, new RegExp(`\`${v}\``));
+  }
+  assert.match(doc, /absent.*all cluster types|fail-open/i);
+});

@@ -199,7 +199,8 @@
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.js",
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js",
         "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.js",
-        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js"
+        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js",
+        "packages/docs-tooling/src/reference/rest/customAttributes.contract.test.js"
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js"

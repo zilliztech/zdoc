@@ -63979,7 +63979,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "86f9b1d1688637c00c6b5459d8a02d5f415dbce07339d3c6f768ce81398d771a",
+    "fragmentInventorySha256": "9b4da6c6a4ddcf87cc8f46170ef76b0aeea2c09cccf062b573ce0f71f2123221",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",

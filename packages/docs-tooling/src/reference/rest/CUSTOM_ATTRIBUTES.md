@@ -26,6 +26,7 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 | `x-last-modified` | Milvus data-plane operations and public contract elements | Yes | — | Most recent managed minor track in which the element changed. Audit-only; never controls visibility. |
 | `x-deprecated-since` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element is deprecated; `null` means not deprecated. |
 | `x-next-channel` | Operations, parameters, schema properties | Yes | — | Stages the element for the NEXT release channel; mirrors the `<NextChannel>` authoring tag. Values: `include` \| `exclude`. |
+| `x-zilliz-cluster-types` | Operations, parameters, schema properties | Yes | — | Restricts the element to the listed Zilliz cluster types (CU categories). Absent ⇒ all types. Values below. |
 
 *Build-time stripping in `s3Uploader.js` preserves `x-i18n` only when generating the `zh-CN` S3 artifact.
 
@@ -406,6 +407,42 @@ Relationship to the other attributes:
   **published** content; `x-next-channel` gates **unpublished** content.
 
 Like all internal `x-*` keys, it is stripped from public generated specs.
+
+
+### 1.13 `x-zilliz-cluster-types`
+
+Records which Zilliz Cloud cluster types (CU categories) an operation,
+parameter, or schema property applies to. Zilliz does not version its REST
+surface; availability varies by cluster type instead, and this attribute is
+the registry the availability program writes into (marks land through
+reviewed PRs backed by live-matrix evidence — never auto-written).
+
+```json
+{
+  "x-zilliz-cluster-types": ["memory", "disk", "tiered", "byoc-memory", "byoc-disk", "byoc-tiered"]
+}
+```
+
+| Value | Console name (zilliz-cloud-config manifests) |
+|-------|----------------------------------------------|
+| `serverless` | Serverless |
+| `memory` | Performance-optimized |
+| `disk` | Cost-optimized |
+| `tiered` | Capacity-optimized |
+| `byoc-memory` / `byoc-disk` / `byoc-tiered` | the BYOC equivalents (no BYOC serverless exists) |
+
+Semantics: whitelist array mirroring `x-include-target`; **absent ⇒ available
+on all cluster types** (fail-open). Zilliz-only (ignored for
+`target === 'milvus'`, like `x-base-urls`). Placement scope matches
+`x-include-target`. Phase 1 (current): machine-readable — consumed by the
+availability matrices and `rest-zilliz-priors`; rendering is a separate
+decision. Stripped from public specs with all internal `x-*` keys.
+
+First evidence-backed mark: `databases/create` carries the six dedicated
+types — the UAT3 serverless matrix proved `databases/create` is
+platform-denied on serverless (PrivilegeCreateDatabase, even for the cluster
+admin account), while dedicated clusters create databases normally; BYOC
+shares the dedicated data plane.
 
 ---
 

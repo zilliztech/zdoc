@@ -1,8 +1,9 @@
 # Proposal: `x-zilliz-cluster-types` custom attribute
 
-Status: proposal (2026-11-01). Not yet accepted, not enforced by tooling, not
-rendered by `RestSpecs`. Accepting this spec means adding the attribute to
-`CUSTOM_ATTRIBUTES.md` §1 and landing the validation listed below.
+Status: ADOPTED (2026-11-01). Documented as CUSTOM_ATTRIBUTES §1.13 with the
+manifests-locked value domain; the first evidence-backed mark
+(`databases/create`, serverless-denied) is landed. Per-field rendering and
+the additional validation guards below remain follow-ups.
 
 ## Problem
 

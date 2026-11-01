@@ -133,3 +133,16 @@ decides generation and limits):
 Cluster deleted via `DELETE /v2/clusters/{id}/drop` (30-day recycle bin).
 Note: the spec has no plain `DELETE /v2/clusters/{id}` route — drop is the
 documented form.
+
+
+## P3 (landed 2026-11-01): release-track coverage in the drift watchdog
+
+The daily drift watchdog now derives the managed minor-track set from the
+lifecycle values the fragments actually carry and compares it with milvus
+upstream tags. A minor line newer than the oldest managed track that no
+fragment manages (a future `3.1.x`, or a `2.7.x` between managed lines)
+turns the report card red with an adoption action — adopt the lifecycle
+track and add an availability matrix before refresh lanes attribute content
+to it. Historical lines below the managed floor (2.5.x and older) are
+expected to stay unmanaged and never alert. Live suites remain
+operator-triggered by design; CI only guards the hermetic machinery.
