@@ -448,6 +448,14 @@ Fetch and Translation runs report progress through Feishu cards created by `pnpm
 
 To silence all workflow Feishu cards without touching the Feishu app credentials (which Fetch also uses to read source content), set the repository variable `FEISHU_NOTIFICATIONS_DISABLED` to `true` in GitHub Actions settings. The five card-sending workflows forward it to `docs-tooling` through their root `env`, the `report-card` command skips every action without contacting Feishu, and the resulting empty `card_id` output keeps all monitor and downstream card jobs disabled. Unset the variable, or set it to any other value, to restore notifications — no code or workflow change is required. This switch does not affect Feishu bitable reporting (`report-broken-links`, `report-external-links`) or Fetch content reads.
 
+### Daily ops digest and the watchdog known-issues ledger
+
+`scripts/docs-workflow/watchdog-known-issues.json` is the reviewed, machine-readable ledger of watchdog triage knowledge: for every scheduled watchdog it records the fetch channel (job logs, artifact, or conclusion), the steady-state baseline, known issues with a status (`known-expected` / `watch` / `in-progress` / `resolved`), and closed-incident history. A daily digest automation compares live watchdog output against this ledger; it also names the five `docs-production-dev` queue members and the translation producer so tooling can tell queue occupancy from an off-queue producer run.
+
+- Validate the ledger fail-closed (schema version, referenced workflow files exist, status/cadence enums, producer stays off the production queue) with `node scripts/docs-workflow/daily-ops-summary.js --validate-ledger`; the digest consumes the ledger only after this passes.
+- Get the digest's mechanical sections on demand — current production-queue occupancy (including wait times), per-workflow run statistics for yesterday (or a custom `--window`), and a watchdog run cross-check — with `node scripts/docs-workflow/daily-ops-summary.js --markdown` (add `--json` for machine consumption). The script is read-only: it lists runs through the `gh` CLI and never dispatches, reruns, or cancels anything.
+- Status changes in the ledger go through reviewed changes like any other tooling. Volatile daily numbers (for example the rest-upstream drift `substantiveCount`/`diffDigest` series) deliberately stay in a local state file outside the repository — only rules, statuses, and thresholds belong in the ledger.
+
 ### Evidence required after a successful run
 
 Record the run URLs and retain these facts before handing off to Jenkins:
