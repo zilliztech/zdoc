@@ -570,7 +570,7 @@ const japanese: DocsUiText = {
     byoc: 'BYOC',
     apiAndSdk: 'API & SDK',
     managedCloud: 'マネージド Cloud',
-    contactSales: '営業に問い合わせ',
+    contactSales: 'お問い合わせ',
   },
   sidebar: {
     label: 'サイドバー',
