@@ -702,7 +702,8 @@
                       }
                     },
                     "required": [
-                      "collectionName"
+                      "collectionName",
+                      "files"
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
@@ -1033,7 +1034,8 @@
                       }
                     },
                     "required": [
-                      "collectionName"
+                      "collectionName",
+                      "files"
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
@@ -1572,6 +1574,9 @@
                         "description": "このインポートジョブが属するデータベースの名前。"
                       }
                     }
+                  },
+                  "collectionName": {
+                    "type": "string"
                   }
                 },
                 "required": [

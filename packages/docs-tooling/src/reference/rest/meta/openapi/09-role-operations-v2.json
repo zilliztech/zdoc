@@ -350,6 +350,9 @@
                         "description": "データベース名。指定しない場合は、デフォルトのデータベースが使用されます。"
                       }
                     }
+                  },
+                  "description": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -1634,6 +1637,9 @@
                         "description": "データベースの名前。指定しない場合は、デフォルトのデータベースが使用されます。"
                       }
                     }
+                  },
+                  "description": {
+                    "type": "string"
                   }
                 },
                 "required": [

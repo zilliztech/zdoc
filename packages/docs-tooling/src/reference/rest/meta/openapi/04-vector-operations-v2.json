@@ -134,7 +134,8 @@
                   }
                 },
                 "required": [
-                  "collectionName"
+                  "collectionName",
+                  "filter"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
@@ -494,6 +495,23 @@
                     "x-i18n": {
                       "ja-JP": {
                         "description": "部分更新を有効にするかどうか。有効にすると、指定されたフィールドのみが更新されます。"
+                      }
+                    }
+                  },
+                  "fieldOps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "fieldName": {
+                          "type": "string"
+                        },
+                        "op": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -1766,6 +1784,12 @@
                     "x-added-at": "3.0.x",
                     "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
+                  },
+                  "groupByFields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "required": [
@@ -2502,125 +2526,44 @@
                   },
                   "functionScore": {
                     "type": "object",
-                    "description": "Function settings for the current search request.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "当前搜索请求的 Function 设置。"
-                      },
-                      "ja-JP": {
-                        "description": "現在の検索リクエストに対する function 設定。"
-                      }
-                    },
                     "properties": {
-                      "name": {
-                        "type": "string",
-                        "description": "The name of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 名称。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する function の名前。"
-                          }
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "description": {
-                        "type": "string",
-                        "description": "The description of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 描述。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する function の説明。"
-                          }
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "type": {
-                        "type": "string",
-                        "description": "The type of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 类型。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する function のタイプ。"
-                          }
-                        },
-                        "enum": [
-                          "BM25",
-                          "TEXTEMBEDDING",
-                          "RERANK"
-                        ],
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "inputFieldNames": {
+                      "functions": {
                         "type": "array",
-                        "description": "A list of scalar fields to use as input for the function.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "作为 Function 输入的标量字段名称列表。"
-                          },
-                          "ja-JP": {
-                            "description": "function の入力として使用するスカラー フィールドのリスト。"
-                          }
-                        },
                         "items": {
-                          "type": "string",
-                          "description": "A scalar field to use as input for the function.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "作为 Function 输入的一个标量字段名称。"
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string"
                             },
-                            "ja-JP": {
-                              "description": "function の入力として使用するスカラー フィールド。"
+                            "inputFieldNames": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "outputFieldNames": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "params": {
+                              "type": "object"
+                            },
+                            "type": {
+                              "type": "string"
                             }
                           },
-                          "x-added-at": "2.6.x",
-                          "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "outputFieldNames": {
-                        "type": "array",
-                        "description": "A list of vector fields to use as output for the function.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "作为 Function 输出的向量字段名称列表。"
-                          },
-                          "ja-JP": {
-                            "description": "function の出力として使用するベクトル フィールドのリスト。"
-                          }
-                        },
-                        "items": {
-                          "type": "string",
-                          "description": "A vector field to use as output for the function.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "作为 Function 输出的一个向量字段名称。"
-                            },
-                            "ja-JP": {
-                              "description": "function の出力として使用するベクトル フィールド。"
-                            }
-                          },
-                          "x-added-at": "2.6.x",
-                          "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
+                          "required": [
+                            "inputFieldNames",
+                            "name",
+                            "outputFieldNames",
+                            "type"
+                          ]
+                        }
                       },
                       "params": {
                         "type": "object",
@@ -2636,6 +2579,15 @@
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
+                      }
+                    },
+                    "description": "Function settings for the current search request.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "当前搜索请求的 Function 设置。"
+                      },
+                      "ja-JP": {
+                        "description": "現在の検索リクエストに対する function 設定。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -2692,6 +2644,12 @@
                     "x-added-at": "3.0.x",
                     "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
+                  },
+                  "orderByFields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "required": [
@@ -3603,125 +3561,44 @@
                   },
                   "functionScore": {
                     "type": "object",
-                    "description": "Function settings for the current search request.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "当前搜索请求的 Function 设置。"
-                      },
-                      "ja-JP": {
-                        "description": "現在の検索リクエストの関数設定。"
-                      }
-                    },
                     "properties": {
-                      "name": {
-                        "type": "string",
-                        "description": "The name of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 名称。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する関数の名前。"
-                          }
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "description": {
-                        "type": "string",
-                        "description": "The description of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 描述。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する関数の説明。"
-                          }
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "type": {
-                        "type": "string",
-                        "description": "The type of the function to apply.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "待应用的 Function 类型。"
-                          },
-                          "ja-JP": {
-                            "description": "適用する関数のタイプ。"
-                          }
-                        },
-                        "enum": [
-                          "BM25",
-                          "TEXTEMBEDDING",
-                          "RERANK"
-                        ],
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "inputFieldNames": {
+                      "functions": {
                         "type": "array",
-                        "description": "A list of scalar fields to use as input for the function.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "作为 Function 输入的标量字段名称列表。"
-                          },
-                          "ja-JP": {
-                            "description": "関数への入力として使用するスカラー フィールドのリスト。"
-                          }
-                        },
                         "items": {
-                          "type": "string",
-                          "description": "A scalar field to use as input for the function.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "作为 Function 输入的一个标量字段名称。"
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string"
                             },
-                            "ja-JP": {
-                              "description": "関数への入力として使用するスカラー フィールド。"
+                            "inputFieldNames": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "outputFieldNames": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "params": {
+                              "type": "object"
+                            },
+                            "type": {
+                              "type": "string"
                             }
                           },
-                          "x-added-at": "2.6.x",
-                          "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
-                      },
-                      "outputFieldNames": {
-                        "type": "array",
-                        "description": "A list of vector fields to use as output for the function.",
-                        "x-i18n": {
-                          "zh-CN": {
-                            "description": "作为 Function 输出的向量字段名称列表。"
-                          },
-                          "ja-JP": {
-                            "description": "関数の出力として使用するベクトル フィールドのリスト。"
-                          }
-                        },
-                        "items": {
-                          "type": "string",
-                          "description": "A vector field to use as output for the function.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "作为 Function 输出的一个向量字段名称。"
-                            },
-                            "ja-JP": {
-                              "description": "関数の出力として使用するベクトル フィールド。"
-                            }
-                          },
-                          "x-added-at": "2.6.x",
-                          "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
-                        },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
+                          "required": [
+                            "inputFieldNames",
+                            "name",
+                            "outputFieldNames",
+                            "type"
+                          ]
+                        }
                       },
                       "params": {
                         "type": "object",
@@ -3737,6 +3614,15 @@
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
+                      }
+                    },
+                    "description": "Function settings for the current search request.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "当前搜索请求的 Function 设置。"
+                      },
+                      "ja-JP": {
+                        "description": "現在の検索リクエストの関数設定。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -3770,6 +3656,69 @@
                       },
                       "ja-JP": {
                         "description": "検索結果をグループ化する対象のフィールド名。"
+                      }
+                    }
+                  },
+                  "functionChains": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "ops": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "expr": {
+                                "type": "object",
+                                "properties": {
+                                  "args": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "column": {
+                                          "type": "string"
+                                        },
+                                        "literal": {}
+                                      }
+                                    }
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "params": {
+                                    "type": "object"
+                                  }
+                                }
+                              },
+                              "inputs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "op": {
+                                "type": "string"
+                              },
+                              "outputs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "params": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        },
+                        "stage": {
+                          "type": "string"
+                        }
                       }
                     }
                   }

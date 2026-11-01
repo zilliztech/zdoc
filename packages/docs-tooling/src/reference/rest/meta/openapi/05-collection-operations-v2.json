@@ -1716,6 +1716,12 @@
                         "description": "対象コレクションの名前です。\n存在しないコレクションを指定するとエラーになります。"
                       }
                     }
+                  },
+                  "partitionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "required": [
@@ -2372,6 +2378,12 @@
                         "description": "対象の collection の名前です。\n存在しない collection を指定するとエラーになります。"
                       }
                     }
+                  },
+                  "partitionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "required": [
@@ -2500,6 +2512,12 @@
                       "ja-JP": {
                         "description": "対象の collection の名前です。\n存在しない collection を指定するとエラーになります。"
                       }
+                    }
+                  },
+                  "partitionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
                     }
                   }
                 },
@@ -2747,7 +2765,51 @@
                     "x-deprecated-since": null
                   },
                   "function": {
-                    "$ref": "#/components/schemas/FunctionSchema",
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "inputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "outputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "params": {
+                        "type": "object",
+                        "description": "Configuration parameters specific to the current function. Once the function type is set to `BM25`, no parameter is required. For applicable parameters to functions of `TEXTEMBEDDING` or `RERANK`, refer to <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "当前 Function 的配置参数。当函数类型为 `BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
+                          },
+                          "ja-JP": {
+                            "description": "現在の function に固有の構成パラメータ。function type が `BM25` に設定されている場合、パラメータは不要です。`TEXTEMBEDDING` または `RERANK` の function に適用可能なパラメータについては、<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> および <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a> を参照してください。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "inputFieldNames",
+                      "name",
+                      "outputFieldNames",
+                      "type"
+                    ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null,
@@ -2920,7 +2982,51 @@
                     "x-deprecated-since": null
                   },
                   "function": {
-                    "$ref": "#/components/schemas/FunctionSchema",
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "inputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "outputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "params": {
+                        "type": "object",
+                        "description": "Configuration parameters specific to the current function. Once the function type is set to `BM25`, no parameter is required. For applicable parameters to functions of `TEXTEMBEDDING` or `RERANK`, refer to <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "当前 Function 的配置参数。当函数类型为 `BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
+                          },
+                          "ja-JP": {
+                            "description": "現在の function に固有の構成パラメータ。function type が `BM25` に設定されている場合、パラメータは不要です。`TEXTEMBEDDING` または `RERANK` の function に適用可能なパラメータについては、<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> および <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a> を参照してください。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "inputFieldNames",
+                      "name",
+                      "outputFieldNames",
+                      "type"
+                    ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null,
@@ -4570,7 +4676,51 @@
                     }
                   },
                   "function": {
-                    "$ref": "#/components/schemas/FunctionSchema",
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "inputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "outputFieldNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "params": {
+                        "type": "object",
+                        "description": "Configuration parameters specific to the current function. Once the function type is set to `BM25`, no parameter is required. For applicable parameters to functions of `TEXTEMBEDDING` or `RERANK`, refer to <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "当前 Function 的配置参数。当函数类型为 `BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
+                          },
+                          "ja-JP": {
+                            "description": "現在の function に固有の構成パラメータ。function type が `BM25` に設定されている場合、パラメータは不要です。`TEXTEMBEDDING` または `RERANK` の function に適用可能なパラメータについては、<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> および <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a> を参照してください。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "inputFieldNames",
+                      "name",
+                      "outputFieldNames",
+                      "type"
+                    ],
                     "x-added-at": "3.0.x",
                     "x-last-modified": "3.0.x",
                     "x-deprecated-since": null,
@@ -4960,13 +5110,31 @@
                 "anyOf": [
                   {
                     "required": [
-                      "fieldName"
-                    ]
+                      "fieldName",
+                      "collectionName"
+                    ],
+                    "properties": {
+                      "collectionName": {
+                        "type": "string"
+                      },
+                      "dbName": {
+                        "type": "string"
+                      }
+                    }
                   },
                   {
                     "required": [
-                      "fieldId"
-                    ]
+                      "fieldId",
+                      "collectionName"
+                    ],
+                    "properties": {
+                      "collectionName": {
+                        "type": "string"
+                      },
+                      "dbName": {
+                        "type": "string"
+                      }
+                    }
                   }
                 ],
                 "x-added-at": "3.0.x",
@@ -6105,6 +6273,15 @@
                 "description": "コレクションの追加パラメーター。"
               }
             }
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object"
+          },
+          "vectorFieldType": {
+            "type": "string"
           }
         },
         "required": [
@@ -6969,11 +7146,20 @@
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object"
           }
         },
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": null,
+        "required": [
+          "collectionName"
+        ]
       },
       "ExternalSetupCollection": {
         "x-tab-label": "external setup",
@@ -7075,11 +7261,20 @@
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object"
           }
         },
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": null,
+        "required": [
+          "collectionName"
+        ]
       },
       "CustomCollectionParams": {
         "description": "Extra parameters for the collection.",
@@ -7905,6 +8100,9 @@
           },
           "partitionNames": {
             "type": "array",
+            "items": {
+              "type": "string"
+            },
             "description": "A list of partition names. If any partition names are specified, releasing any of these partitions results in the return of a NotLoad state.",
             "x-i18n": {
               "zh-CN": {
@@ -8030,6 +8228,12 @@
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
