@@ -54,7 +54,8 @@
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "pnpm test:frontend",
     "test:replay:requested": "node --test scripts/docs-workflow/replay-requested-guides.test.js",
-    "test:replay:shared-pages": "node --test scripts/docs-workflow/replay-shared-pages.test.js"
+    "test:replay:shared-pages": "node --test scripts/docs-workflow/replay-shared-pages.test.js",
+    "test:rest-availability": "node packages/docs-tooling/src/reference/rest/index.js rest-availability --base http://127.0.0.1:19530 --label milvus-dev --out tmp/rest-availability"
   },
   "dependencies": {
     "@actions/artifact": "6.2.1",

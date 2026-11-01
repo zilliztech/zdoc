@@ -8,6 +8,7 @@ const { loadFragmentCollection } = require('./fragmentCollection')
 const { publishBilingualControlPlaneSpecs, publishIntegratedSpecs } = require('./integratedSpecPublisher')
 const {writeRestDerivationManifest} = require('./restDerivationManifest')
 const {registerUpstreamCommands, UPSTREAM_COMMANDS} = require('./upstreamDiff/cli')
+const {registerAvailabilityCommand, AVAILABILITY_COMMANDS} = require('./availability/cli')
 
 function registerFetchCommand(command) {
     command
@@ -140,6 +141,7 @@ module.exports = function () {
             registerFetchCommand(cli.command('fetch-apifox-docs'))
             registerGenerateIntegratedSpecCommand(cli.command('generate-integrated-spec'))
             registerUpstreamCommands(cli)
+            registerAvailabilityCommand(cli.command('rest-availability'))
         },
     }
 }
@@ -153,10 +155,11 @@ if (require.main === module) {
             console.error(error instanceof Error ? error.message : String(error))
             process.exitCode = 1
         })
-    } else if (UPSTREAM_COMMANDS.has(process.argv[2])) {
+    } else if (UPSTREAM_COMMANDS.has(process.argv[2]) || AVAILABILITY_COMMANDS.includes(process.argv[2])) {
         const cli = new Command()
             .name('fetch-apifox-docs')
         registerUpstreamCommands(cli)
+        registerAvailabilityCommand(cli.command('rest-availability'))
         cli.parseAsync(process.argv).catch(error => {
             console.error(error instanceof Error ? error.message : String(error))
             process.exitCode = 1

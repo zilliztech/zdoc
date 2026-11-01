@@ -1515,6 +1515,21 @@
         "git diff --check"
       ],
       "reason": "Cloud-data components, snapshots, marker resolution, and the nginx SSI+njs chain share one renderer source; a change to any surface must re-prove fragment parity, the baked stub, and the live nginx fallback behavior."
+    },
+    {
+      "id": "rest-availability",
+      "paths": [
+        "packages/docs-tooling/src/reference/rest/availability/**",
+        ".claude/specs/2026-11-01-rest-availability-harness.md"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/reference/rest/availability/availability.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "git diff --check"
+      ],
+      "reason": "REST data-plane availability program. The hermetic test pins the runner machinery (verdict taxonomy, effect retry, matrix writer); the data-plane suite itself runs against live endpoints (milvus-cell vCluster per release track, zilliz UAT/prod later) through `rest-availability --base --label --out` and is operator-triggered, never CI. Matrices land in tmp/rest-availability and back the x-added-at release-track attribution and the future x-zilliz-cluster-types marks."
     }
   ]
 }
