@@ -1169,6 +1169,23 @@
       "reason": "The watchdog re-runs site validation runs that failed at startup with zero jobs (transient Actions scheduling faults); real validation failures always carry jobs and stay untouched."
     },
     {
+      "id": "ops-digest-tooling",
+      "paths": [
+        "scripts/docs-workflow/daily-ops-summary*",
+        "scripts/docs-workflow/watchdog-known-issues.json"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/daily-ops-summary.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The daily ops digest reads the watchdog known-issues ledger and aggregates production-queue occupancy plus per-workflow run statistics through the gh CLI; ledger validation stays fail-closed so the digest never consumes a drifted schema."
+    },
+    {
       "id": "mdx-validator-adapter",
       "paths": [
         "packages/docs-tooling/src/mdx/index.ts",

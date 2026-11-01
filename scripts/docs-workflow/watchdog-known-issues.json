@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-01",
+  "description": "Known-issues ledger for the scheduled watchdog workflows. Holds the durable triage knowledge the daily ops digest compares against: fetch channels, steady-state baselines, known-issue classifications, and closed-incident history. Volatile daily numbers (for example the rest-upstream drift substantiveCount/diffDigest series) intentionally live in a local state file outside the repository; only rules, statuses, and thresholds belong here.",
+  "statusSemantics": {
+    "known-expected": "Appears in healthy runs; do not report unless it disappears or worsens.",
+    "watch": "Low-level signal under observation; report only trend changes.",
+    "in-progress": "Tracked follow-up with a named owner/path; report status changes.",
+    "resolved": "Closed; reopen as a new issue if it reappears."
+  },
+  "productionQueueWorkflows": [
+    "fetch-docs.yml",
+    "fetch-guides-requested.yml",
+    "publish-translation.yml",
+    "repair-fetch-dev.yml",
+    "sync-master-tooling-to-dev.yml"
+  ],
+  "producerWorkflows": [
+    "translate-codex.yml"
+  ],
+  "producerNote": "translate-codex.yml deliberately stays off docs-production-dev in standalone mode; it publishes through the short-lock publisher (publish-translation.yml), so a running producer does not by itself mean the production queue is occupied.",
+  "fetching": {
+    "runWindow": "Enumerate with gh run list --workflow <file> --created \"<yesterday>T00:00:00+08:00..<today>T00:00:00+08:00\"; convert the dates for the run day.",
+    "listByWorkflowFile": "Always filter by workflow file name, never display name: display-name casing churned during the 2026-10 renaming (#889).",
+    "failedRunLogs": "gh run view <id> --log-failed; when logs return BlobNotFound, fall back to gh run view <id> for job-level failed steps.",
+    "artifacts": "gh run download <id> --dir <tmp-dir> then read the report files.",
+    "spaShellTrap": "docs.zilliz.com serves the SPA shell with HTTP 200 for missing paths; judge page liveness by <title>, and curl needs --compressed to see it."
+  },
+  "watchdogs": [
+    {
+      "workflow": "broken-links-report.yml",
+      "cadence": "daily",
+      "schedule": "02:17 UTC",
+      "fetch": "job-logs",
+      "fetchDetail": "No artifact; scheduled runs set FEISHU_NOTIFICATIONS_DISABLED=true and skip report-card. The only channel is the job log: gh api repos/zilliztech/zdoc/actions/jobs/<jobId>/logs --allow-escape-sequences, strip ANSI, then grep 'Broken links:|Broken anchors:' and the 'Broken link on source page path' / 'linking to' detail lines.",
+      "steadyState": "The zh /docs/home -> ./migrate-from-pinecone entry appears every day by design (build-time scanner still reports it; the navigation layer is covered by #918, merged 6cf9e3020).",
+      "knownIssues": [
+        {
+          "id": "broken-links-zh-home-migrate-from-pinecone",
+          "status": "known-expected",
+          "symptom": "zh /docs/home links to ./migrate-from-pinecone reported broken daily.",
+          "classification": "Known; build-time scan only. The 404 page SPA redirect (#918) covers readers.",
+          "action": "None; do not report unless the entry disappears or the count grows.",
+          "evidence": "#918 (merged 6cf9e3020)."
+        },
+        {
+          "id": "broken-links-ja-zh-free-trials",
+          "status": "resolved",
+          "symptom": "ja 7 links + 14 anchors and zh 3 links under free-trials pages (reported 2026-10-28).",
+          "classification": "English source fix propagated through Fetch/translation; healed to zero on 2026-10-29.",
+          "action": "Reopen as a new issue if it reappears.",
+          "evidence": "2026-10-29 digest: counts back to zero."
+        }
+      ],
+      "history": [
+        "2026-10-28: ja/zh free-trials breakage first reported; self-healed 2026-10-29 after the en source fix propagated."
+      ]
+    },
+    {
+      "workflow": "external-link-watchdog.yml",
+      "cadence": "daily",
+      "schedule": "01:00 UTC",
+      "fetch": "conclusion",
+      "fetchDetail": "Conclusion is sufficient; details from --log-failed on failures.",
+      "steadyState": "Green; the four build-side watchdogs pin Node '22'.",
+      "knownIssues": [
+        {
+          "id": "external-link-node-pin-esm-regression",
+          "status": "resolved",
+          "symptom": "Watchdog failure with cloud-data-model.js failing on require(esm) needing Node >= 22.12 (2026-10-28).",
+          "classification": "Root cause: #884/#886 pinned setup-node to 22.6; #889 restored the floating '22' pin.",
+          "action": "If it fails again, first check the failed run's setup-node node-version input for a pin regression before suspecting content.",
+          "evidence": "#889; 2026-10-29 digest closure."
+        }
+      ],
+      "history": [
+        "2026-10-28: single-day failure closed by the #889 pin restoration; all four build watchdogs now use '22'."
+      ]
+    },
+    {
+      "workflow": "ga4-search-404-report.yml",
+      "cadence": "daily",
+      "schedule": "03:17 UTC",
+      "fetch": "artifact",
+      "fetchDetail": "Report artifact plus Feishu card; per-site page_not_found events with Google referrer over a sliding window. Degrades to a notice (not a failure) while GA4_SERVICE_ACCOUNT_JSON / GA4_PROPERTY_ID_* are unconfigured.",
+      "steadyState": "A short tail of low-count ja-JP 404 paths under observation; recurring high-count paths are the actionable signal.",
+      "knownIssues": [
+        {
+          "id": "ga4-404-reference-python-highlighter",
+          "status": "resolved",
+          "symptom": "/reference/python/python/Highlighter-SemanticHighlighter search-origin 404s.",
+          "classification": "301 from #893 took effect; events decayed to zero in run 40812178036 (2026-10-29).",
+          "action": "Reopen if it reappears.",
+          "evidence": "Run 40812178036."
+        },
+        {
+          "id": "ga4-404-ja-search",
+          "status": "resolved",
+          "symptom": "/ja-JP/docs/search search-origin 404s.",
+          "classification": "Events reached zero by 2026-10-30 (run 40997399168).",
+          "action": "Reopen if it reappears.",
+          "evidence": "Run 40997399168."
+        },
+        {
+          "id": "ga4-404-ja-access-control-authentication",
+          "status": "watch",
+          "symptom": "Low-count /ja-JP/docs/access-control and /ja-JP/docs/authentication 404s.",
+          "classification": "ja 301 mirror-coverage direction (the #893 topic); targets are live, these are rule gaps.",
+          "action": "Keep observing at low counts; fold into the next ja mirror batch if the counts grow.",
+          "evidence": "2026-10-30 run: 3 events total (2+1)."
+        }
+      ],
+      "history": [
+        "2026-10-29/30: two recurring paths closed by #893's 301 batch; two low-count ja paths remain under watch."
+      ]
+    },
+    {
+      "workflow": "product-doc-links-watchdog.yml",
+      "cadence": "daily",
+      "schedule": "03:43 UTC",
+      "fetch": "conclusion",
+      "fetchDetail": "Broken-link counts from the job log / report output; the probe validates product pages against the private zilliztech/zilliz-cloud monorepo revision fail-closed.",
+      "steadyState": "broken = 15 is healthy. Only entries outside the known list below are report-worthy.",
+      "knownIssues": [
+        {
+          "id": "product-doc-links-revision-token-failures",
+          "status": "resolved",
+          "symptom": "Four consecutive failures (2026-10-29 03:45 scheduled plus 06:25/06:33/06:36 dispatches) with 'revision must be 40-char SHA'.",
+          "classification": "The old resolve step masked a curl failure during token setup as a literal jq null; fixed by PRODUCT_DOC_LINKS_GITHUB_TOKEN configuration plus hardening commits ed046f5efd/41cee6aaa8 that make resolve fail loudly itself.",
+          "action": "If the same failure shape returns, check the token and private-repo access first.",
+          "evidence": "Green 06:57Z run 40832368191 (2026-10-29); persistent green on run 40999188827 (2026-10-30, rev 33686e21)."
+        },
+        {
+          "id": "product-doc-links-cn-mirror-301-gaps",
+          "status": "resolved",
+          "symptom": "Three .cn broken entries: byoc/bootstrap-infrastructure-terraform, hosted-models, manage-stages.",
+          "classification": "#920's .cn nginx 301s shipped; the three entries left Broken and became redirect-dependent (confirmed 2026-10-30).",
+          "action": "Reappearance = regression of the #920 redirects.",
+          "evidence": "2026-10-30 confirmation in the digest."
+        },
+        {
+          "id": "product-doc-links-pinecone-mapping-rule-link",
+          "status": "resolved",
+          "symptom": "PINECONE_MIGRATION_MAPPING_RULE_LINK reported broken.",
+          "classification": "#912's .cn 301 shipped and downgraded it to redirect-dependent (lands on the qdrant page head).",
+          "action": "None required. Pointing the product constant at .../qdrant#data-type-mapping remains an optional low-priority deep-link improvement; do not chase.",
+          "evidence": "2026-10-30 confirmation."
+        },
+        {
+          "id": "product-doc-links-international-only-features",
+          "status": "known-expected",
+          "symptom": "Fifteen broken entries on the international product that do not exist on the China product.",
+          "classification": "Deliberate product feature divergence between the international and China consoles (user decision on 2026-10-29/30). Full list: byoc/configure-vpc, byoc/deploy-byoc-aws, byoc/deploy-byoc-gcp, byoc/deploy-byoc-i-aws, byoc/deploy-byoc-i-azure, byoc/deploy-byoc-i-gcp, integrate-with-azure-blob-storage (+anchor), subscribe-by-adding-credit-card, zero-downtime-migration, openid-connect, scim-provisioning-overview, single-sign-on-with-google-workspace, single-sign-on-with-microsoft-entra, single-sign-on-with-other-idp.",
+          "action": "Do not report; steady state is exactly these fifteen. Only a new entry outside this list is report-worthy.",
+          "evidence": "User sign-off 2026-10-29/30; broken-count evolution 11 -> 19 (new source exposure) -> 15 (expected full set)."
+        }
+      ],
+      "history": [
+        "2026-10-29: source switched to the private zilliztech/zilliz-cloud monorepo (#899) with fail-closed revision resolution; the same day's token incident was closed by configuration plus resolve-step hardening."
+      ]
+    },
+    {
+      "workflow": "docs-ingestion-watchdog.yml",
+      "cadence": "daily",
+      "schedule": "21:00 UTC",
+      "fetch": "conclusion",
+      "fetchDetail": "Conclusion plus ok flag; verify/aggregate job presence within 24h.",
+      "steadyState": "ok = true is healthy.",
+      "knownIssues": [
+        {
+          "id": "docs-ingestion-final-sha-null-quirk",
+          "status": "known-expected",
+          "symptom": "final_sha = null with final_sha_reason 'docs-card report artifact unavailable'.",
+          "classification": "Long-standing quirk, not a fault.",
+          "action": "None; ok = true is the health signal.",
+          "evidence": "Repeated across 2026-10 digests."
+        }
+      ],
+      "history": []
+    },
+    {
+      "workflow": "site-validation-watchdog.yml",
+      "cadence": "daily",
+      "schedule": "hourly (~24 runs/day)",
+      "fetch": "artifact",
+      "fetchDetail": "Only failed runs matter: download the artifact and read realFailures. Do not trust conclusion alone.",
+      "steadyState": "Real failures are either already-merged PR history or transient zero-job startup faults the watchdog itself re-runs.",
+      "knownIssues": [
+        {
+          "id": "site-validation-merged-pr-history",
+          "status": "known-expected",
+          "symptom": "realFailures naming a pull_request run whose PR is already merged.",
+          "classification": "Historical run of a merged PR; resolved by definition.",
+          "action": "Do not report.",
+          "evidence": "Standing digest rule."
+        },
+        {
+          "id": "site-validation-sync-candidate-failures",
+          "status": "resolved",
+          "symptom": "realFailures on automation/master-tooling-sync/* branches.",
+          "classification": "Master-to-dev sync candidate validation failures surface here (sync gates on site-validation). The 2026-10-29 instance (run 40816589650) was the spa-redirect-map ja-JP rule-target check not using the build locale's route set; fixed by a7548baa8 (locale scope) + #954 (data shape); sync PRs #955/#956 merged and #920 landed on dev.",
+          "action": "Same-shape recurrences: confirm the failed branch is automation/master-tooling-sync/* and whether dev already contains the corresponding master commits before reporting.",
+          "evidence": "Run 40816589650; 2026-10-29/30 digest closure."
+        }
+      ],
+      "history": [
+        "2026-10-29: sync-candidate failure loop closed; baseline rule is that only the same new run recurring across multiple days is a new problem."
+      ]
+    },
+    {
+      "workflow": "rest-upstream-drift-watchdog.yml",
+      "cadence": "daily",
+      "schedule": "04:17 UTC",
+      "fetch": "artifact",
+      "fetchDetail": "Historically the job succeeds even while drift is present, so the drift signal lives in the artifact rest-upstream-drift-<run_id> (retained 14 days): read watchdog-report.json for sources[].status (no-drift|drift), substantiveCount, summary categories, and diffDigest. A failed conclusion is itself report-worthy (first observed 2026-10-31, run 41168026117).",
+      "steadyState": "Both sources drift while upstream moves faster than refreshes land; the digest tracks the day-over-day substantiveCount/diffDigest series and the unattributed counts in the local state file, never in this ledger.",
+      "knownIssues": [
+        {
+          "id": "rest-upstream-drift-backlog",
+          "status": "in-progress",
+          "symptom": "Both sources (zilliz-cloud-control-plane, milvus-data-plane) report drift with pins not advanced.",
+          "classification": "Upstream keeps moving while refresh candidate branches remain unmerged; backlog priority rises as upstream advances.",
+          "action": "Digest reports the day-over-day series and reminds that the fix path is dispatching rest-upstream-refresh.yml (source input, one reviewed PR per source). The digest itself never dispatches it.",
+          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-10-30 scheduled run 41002552300: pins unmoved, upstream heads advanced, diffDigests changed. Two control-plane refresh candidate branches exist on the remote."
+        }
+      ],
+      "history": [
+        "2026-10-29: watchdog added by #906; first run established the baseline (drift by design at first pinning).",
+        "2026-10-30: entered the daily schedule; unattributed counts (extractor attribution blind spots) are tracked separately and worth flagging when they grow."
+      ]
+    },
+    {
+      "workflow": "ga4-engagement-report.yml",
+      "cadence": "weekly",
+      "schedule": "Mondays 04:17 UTC",
+      "fetch": "artifact",
+      "fetchDetail": "Weekly report artifact plus Feishu card; per-event totals and GA4 key-event counts per site. On non-Mondays there is no run by design.",
+      "steadyState": "The signal to watch is an event whose count stays 0 across runs — that means the instrumentation or its GTM trigger went quiet.",
+      "knownIssues": [],
+      "history": [
+        "Merged 2026-10-28 by #895; first scheduled run expected 2026-11-02."
+      ]
+    }
+  ]
+}
