@@ -1,6 +1,38 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape} = require('./mirror')
+
+test('opaque blind spots are local-authority boundaries: overlay substitutes the fragment, retirement walkers stop', () => {
+    // The Go extractor marks generic maps / interface{} / json.RawMessage as
+    // x-milvus-opaque: params.enableDynamicField and elementTypeParams.
+    // max_length are forwarded to gRPC and invisible to the route-table
+    // structs, so the fragment's hand-authored documentation is the authority
+    // below the marker.
+    const upstream = {type: 'object', properties: {
+        params: {type: 'object', 'x-milvus-opaque': true},
+        collectionName: {type: 'string'},
+        rows: {type: 'array', items: {'x-milvus-opaque': true}},
+    }}
+    const local = {type: 'object', properties: {
+        params: {type: 'object', properties: {enableDynamicField: {type: 'boolean', description: 'local doc'}}},
+        collectionName: {type: 'string'},
+        rows: {type: 'array', items: {type: 'object', properties: {id: {type: 'string'}}}},
+    }}
+    const overlaid = overlayOpaque(upstream, local)
+    // below the opaque boundary the fragment content wins wholesale
+    assert.deepEqual(overlaid.properties.params, local.properties.params)
+    assert.deepEqual(overlaid.properties.rows, local.properties.rows)
+    // above the boundary the upstream still rules: a genuinely new sibling
+    // stays visible to the comparison
+    assert.deepEqual(overlaid.properties.collectionName, {type: 'string'})
+    // nothing is reported as retired below a blind-spot boundary
+    assert.deepEqual(droppedLocalFieldPaths(overlaid, local), [])
+    assert.deepEqual(droppedLocalKeys(overlaid, local), [])
+    // without the fragment-side subtree (additions) the upstream shape stays,
+    // and markers never ride into a fragment
+    assert.deepEqual(stripOpaqueMarkers(overlayOpaque({type: 'object', 'x-milvus-opaque': true}, null)), {type: 'object'})
+    assert.deepEqual(stripOpaqueMarkers({'x-milvus-opaque': true, anyOf: [{type: 'string'}]}), {anyOf: [{type: 'string'}]})
+})
 
 test('apiProjection strips doc-owned keys at every depth and keeps API truth', () => {
     const schema = {

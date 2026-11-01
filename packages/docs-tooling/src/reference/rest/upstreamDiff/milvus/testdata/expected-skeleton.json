@@ -58,7 +58,9 @@
               }
             }
           },
-          "any": {},
+          "any": {
+            "x-milvus-opaque": true
+          },
           "collectionName": {
             "type": "string"
           },
@@ -68,16 +70,20 @@
           "data": {
             "type": "array",
             "items": {
-              "type": "object"
+              "type": "object",
+              "x-milvus-opaque": true
             }
           },
           "dbName": {
             "type": "string"
           },
           "options": {
-            "type": "object"
+            "type": "object",
+            "x-milvus-opaque": true
           },
-          "raw": {}
+          "raw": {
+            "x-milvus-opaque": true
+          }
         },
         "required": [
           "collectionName",

@@ -24,6 +24,57 @@ function isPlainObject(value) {
 const DOC_OWNED_KEYS = new Set(['description', 'example', 'summary'])
 const isDocOwnedKey = key => DOC_OWNED_KEYS.has(key) || key.startsWith('x-')
 
+// Opaque containers (the Go extractor's x-milvus-opaque marker) are extractor
+// blind spots: generic maps forward their entries to gRPC verbatim (params.
+// enableDynamicField, elementTypeParams.max_length) and interface{}/
+// json.RawMessage accept arbitrary JSON, so the skeleton asserts nothing
+// about their content. The fragment's hand-authored documentation is the
+// authority below an opaque node — a mirror must never retire it as
+// upstream-deleted. overlayOpaque substitutes the local subtree wherever the
+// upstream is blind: comparisons see equal content below the boundary, the
+// retirement walkers stop there, and produced mirror values carry the local
+// documentation. Subtree positions the local side does not have keep the
+// upstream shape (the marker is stripped before a value rides into a
+// fragment).
+const OPAQUE_KEY = 'x-milvus-opaque'
+
+function overlayOpaque(upstreamNode, localNode) {
+    if (Array.isArray(upstreamNode)) {
+        return upstreamNode.map((member, index) => overlayOpaque(member, Array.isArray(localNode) ? localNode[index] : undefined))
+    }
+    if (!isPlainObject(upstreamNode)) return upstreamNode
+    if (upstreamNode[OPAQUE_KEY] === true) {
+        return isPlainObject(localNode) ? structuredClone(localNode) : structuredClone(upstreamNode)
+    }
+    const result = {}
+    for (const [key, child] of Object.entries(upstreamNode)) {
+        if (key === 'properties' && isPlainObject(child)) {
+            const localProperties = isPlainObject(localNode?.properties) ? localNode.properties : {}
+            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, overlayOpaque(property, localProperties[name])]))
+        } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
+            const localChild = isPlainObject(localNode?.[key]) ? localNode[key] : undefined
+            result[key] = overlayOpaque(child, localChild)
+        } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems' || key === 'allOf') && Array.isArray(child)) {
+            const localMembers = Array.isArray(localNode?.[key]) ? localNode[key] : []
+            result[key] = child.map((member, index) => overlayOpaque(member, localMembers[index]))
+        } else {
+            result[key] = child
+        }
+    }
+    return result
+}
+
+function stripOpaqueMarkers(node) {
+    if (Array.isArray(node)) return node.map(stripOpaqueMarkers)
+    if (!isPlainObject(node)) return node
+    const result = {}
+    for (const [key, child] of Object.entries(node)) {
+        if (key === OPAQUE_KEY) continue
+        result[key] = stripOpaqueMarkers(child)
+    }
+    return result
+}
+
 // API-truth projection: the subtree with every doc-owned key stripped at every
 // depth. Two properties with equal projections carry identical structure and
 // constraints; any difference (a type, a nested items/properties swap, a new
@@ -401,4 +452,4 @@ function stripScalarConstraints(value) {
     return result
 }
 
-module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, isTranslationComplete, assertSchemaShape}
+module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, isTranslationComplete, assertSchemaShape}
