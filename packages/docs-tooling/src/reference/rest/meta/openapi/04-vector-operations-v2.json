@@ -1563,10 +1563,7 @@
             "description": "The ID of the on-demand cluster that this operation will be performed on. This parameter applies only when you use an on-demand compute endpoint.",
             "required": true,
             "schema": {
-              "type": "string",
-              "x-added-at": "2.6.x",
-              "x-last-modified": "2.6.x",
-              "x-deprecated-since": null
+              "type": "string"
             },
             "example": "inxx-xxxxxxxxxxxxxxxxx",
             "x-i18n": {
@@ -1582,10 +1579,7 @@
             ],
             "x-base-url-target": [
               "on-demand-compute"
-            ],
-            "x-added-at": "2.6.x",
-            "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            ]
           }
         ],
         "requestBody": {
@@ -2137,10 +2131,7 @@
             "description": "The ID of the on-demand cluster that search will be performed on. This parameter applies only when you use an on-demand compute endpoint.",
             "required": true,
             "schema": {
-              "type": "string",
-              "x-added-at": "2.6.x",
-              "x-last-modified": "2.6.x",
-              "x-deprecated-since": null
+              "type": "string"
             },
             "example": "inxx-xxxxxxxxxxxxxxxxx",
             "x-i18n": {
@@ -2156,10 +2147,7 @@
             ],
             "x-base-url-target": [
               "on-demand-compute"
-            ],
-            "x-added-at": "2.6.x",
-            "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            ]
           }
         ],
         "requestBody": {
@@ -3200,10 +3188,7 @@
             "description": "The ID of the on-demand cluster that this operation will be performed on. This parameter applies only when you use an on-demand compute endpoint.",
             "required": true,
             "schema": {
-              "type": "string",
-              "x-added-at": "2.6.x",
-              "x-last-modified": "2.6.x",
-              "x-deprecated-since": null
+              "type": "string"
             },
             "example": "inxx-xxxxxxxxxxxxxxxxx",
             "x-i18n": {
@@ -3219,10 +3204,7 @@
             ],
             "x-base-url-target": [
               "on-demand-compute"
-            ],
-            "x-added-at": "2.6.x",
-            "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            ]
           }
         ],
         "requestBody": {
@@ -4407,10 +4389,7 @@
             "description": "The ID of the on-demand cluster that this operation will be performed on. This parameter applies only when you use an on-demand compute endpoint.",
             "required": true,
             "schema": {
-              "type": "string",
-              "x-added-at": "2.6.x",
-              "x-last-modified": "2.6.x",
-              "x-deprecated-since": null
+              "type": "string"
             },
             "example": "inxx-xxxxxxxxxxxxxxxxx",
             "x-i18n": {
@@ -4426,10 +4405,7 @@
             ],
             "x-base-url-target": [
               "on-demand-compute"
-            ],
-            "x-added-at": "2.6.x",
-            "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            ]
           }
         ],
         "requestBody": {

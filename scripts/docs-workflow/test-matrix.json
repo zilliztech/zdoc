@@ -200,6 +200,8 @@
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js",
         "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.js",
         "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js",
+        "packages/docs-tooling/src/reference/rest/dualTargetStructure.contract.test.js",
+        "scripts/verify-rest-lifecycle-evidence.mjs",
         "packages/docs-tooling/src/reference/rest/customAttributes.contract.test.js",
         "packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js",
         "packages/docs-tooling/src/reference/rest/templates/**",

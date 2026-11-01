@@ -65,6 +65,36 @@ Usage locations:
 - **Parameters / Properties**: Hide fields in the `RestSpecs` UI.
 - **Examples**: Hide request/response examples.
 
+**Same-endpoint dual-implementation modeling rules** (contract; enforced by
+`dualTargetStructure.contract.test.js` and the target-survival gate in
+`scripts/verify-rest-lifecycle-evidence.mjs`). When one route is implemented
+by both publication targets with divergent payloads — the import family is
+the canonical case: the open-source Milvus data plane implements
+`files`+`options` bulk import while the Zilliz Cloud control plane implements
+volume- and object-storage-based import behind the same paths — the
+divergence is modeled inside the single operation instead of pretending it is
+one API:
+
+- The `oneOf`/`anyOf` branch axis is the **implementation**; branches of
+  different implementations each carry an explicit `x-include-target` and are
+  never merged through field-level marks. One implementation's internal
+  variants (deployment options, protocol shapes) stay inside branches already
+  scoped to that implementation.
+- A branch without `x-include-target` counts as shared and must not contain
+  fields whose target sets are disjoint.
+- An operation pinned to one target must not contain nodes of the other
+  target; where implementations use different routes, keep separate
+  operations with operation-level `x-include-target` (for example
+  `describe` versus `get_progress`), and an alias route stays attached to the
+  target whose code registers it.
+- Visibility is `x-include-target`'s job; availability on a target is the job
+  of `x-beta` / `x-zilliz-availability` / `x-zilliz-cluster-types`. Never hide
+  a field a target's API actually accepts by marking it for the other target.
+- Lifecycle keys (`x-added-at`/`x-last-modified`/`x-deprecated-since`) and
+  their evidence rows are Milvus-track attestations: they belong only on
+  nodes that survive the milvus target filter, and the target-survival gate
+  fails any evidence pointer the filter removes.
+
 ### 1.2.1 `x-include-langs`
 
 Conditionally includes tags or operations by documentation language at build time. If this attribute is present and the current language is not in the list, the page is not generated.
