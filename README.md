@@ -591,6 +591,15 @@ Without the secret and property variables the run degrades to a notice instead o
 
 `ga4 engagement report` (`.github/workflows/ga4-engagement-report.yml`) collects the tracked dataLayer events the 404 report does not cover — the search funnel (`search_open`, `search_performed`, `search_result_clicked`), the Ask-AI funnel (`ask_ai_open`, `ask_ai_query`, `ask_ai_completed`, `ask_ai_feedback`, `ai_source_click`, `chat_message_copy`), page engagement (`code_copy`, `doc_feedback`, `toc_click`), and navigation/conversion (`lang_switch`, `cta_click`) — as per-event totals plus GA4 key-event counts for each site. It is scheduled weekly Monday 04:17 UTC and can also be dispatched manually. It reuses the same `GA4_SERVICE_ACCOUNT_JSON` plus property-variable setup as the 404 report, so no extra operator configuration is needed. Like the 404 report it is informational only; the signal to watch is an event whose count stays 0 across runs, which means the instrumentation or its GTM trigger went quiet.
 
+### Periodic GA4 console reconciliation
+
+The two scheduled reports start from what the docs site sends. Reconcile them against the GA4 console itself about once a month so a silent report or a missed instrumentation surface cannot hide:
+
+1. In each GA4 property, compare the 404 landing share and the top 404 pages against the latest `ga4 search 404 report` artifact. A page trending in the console but absent from the report means the report's Google-referrer or window filter is missing it — investigate the report before touching content.
+2. Japanese 404 paths are usually redirect-rule gaps, not missing pages: probe the target before assuming content is absent, and judge liveness by `<title>` (curl needs `--compressed`) — the SPA serves its shell with HTTP 200 for nonexistent paths. A live target means the missing piece is a `/ja-JP` mirror 301.
+3. Audit mirror coverage by counting the exact-match 301 rules and their `/ja-JP` twins in `deploy/en/nginx.conf`; the drift test in `deploy/contracts/container.test.mjs` already fails on a new English rule without its twin, and withheld twins are recorded in its `JA_MIRROR_EXEMPTIONS` list — a gap is anything beyond those recorded exemptions.
+4. Feed confirmed recurring paths into the remediation path documented above (nginx `return 301` + matching redirect assertion), and let the next daily report confirm the counts decay.
+
 ## Containers
 
 The runtime images contain only Nginx plus the selected static build output. Build from the repository root:
@@ -604,6 +613,21 @@ docker build --build-arg ZDOC_SHA="$SOURCE_SHA" --build-arg ZDOC_SITE=zh-CN --bu
 The English image includes Japanese content. The two commands are independent; invoke only the selected target or invoke both without treating one target's failure as a repository-level requirement for the other. The Dockerfiles build the static sites internally, so Jenkins does not need to run `pnpm build:*` before these container builds. Image naming and registry tagging remain Jenkins-owned.
 
 The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`. `deploy/runtime/nginx.main.conf` replaces the stock image main config solely to `load_module` the njs module (main-context-only directive; see the cloud-data chain below).
+
+### Release verification (UAT → production)
+
+Jenkins pipelines are external, but the repository owns the trigger interface and the release-evidence contract. Two repo-side surfaces apply:
+
+- **Triggering.** `scripts/doc-publish-bot` plans the Jenkins triggers (see its README for the bot flow and credentials): UAT builds go to the `zilliz-docs-dev` job with `BRANCH` (default `dev`), and production builds go to the `zilliz-docs-prod` job, which requires a `vX.X.X` release branch and accepts an optional `image_tag` to promote an already-built image instead of rebuilding. The evidence rule from the runbook applies verbatim: start or inspect Jenkins only after the exact `dev` SHA is known, and confirm the build label carries that SHA.
+- **Release records.** Every UAT and production deployment is described by a release record (`deploy/contracts/release.schema.json`, shape example in `release-record.example.json`): `site` (en/zh-CN), `environment` (uat/prod), `mode` (`rebuild` for UAT and rebuild-from-branch; `specified-image` for image-tag promotion), the 40-hex `sourceSha`, the immutable `sha256:` digests, and a `jenkinsBuildIdentity` of the form `vdc-jenkins/<english|chinese>-<uat|prod>/<build>`. Production records additionally carry `sourceUatDigest` (plus `operatorImageRef` in `specified-image` mode), and the Dockerfiles bake the build args `ZDOC_SHA`/`JENKINS_BUILD_ID` into the OCI `org.opencontainers.image` labels, binding each image to its source revision and build.
+
+`deploy/contracts/verify-image.mjs` verifies the contract fail-closed:
+
+```bash
+node deploy/contracts/verify-image.mjs verify-record --root <dir> --record <record.json>
+```
+
+`verify-record` checks one record's shape. `verify-rebuild` and `verify-specified-image` additionally prove that a production record has unique successful UAT evidence for the same site, source SHA, and digest — they read `evidence/uat-records.json`, `evidence/resolved-images.json`, and `evidence/prod-records.json` from a trusted evidence root (`VDC_JENKINS_EVIDENCE_ROOT`, kernel-read-only mounted, asserted by `VDC_JENKINS_EVIDENCE_PROTECTION=kernel-read-only-mount`), and image-tag promotion additionally requires the trusted resolution of `operatorImageRef` to equal both `sourceUatDigest` and `finalDeployedDigest` — you promoted exactly the digest UAT tested. `verify-rollback` accepts only a target digest that has a recorded successful production release.
 
 ### Cloud-data live tables in `.md` routes (SSI + njs)
 
