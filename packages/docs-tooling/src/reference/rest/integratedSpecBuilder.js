@@ -408,4 +408,6 @@ function buildIntegratedSpec(specifications, options) {
 
 module.exports = {
   buildIntegratedSpec,
+  filterSelection,
+  selectionAllows,
 };
