@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 'use strict'
 
+// The image bed base is a caller-supplied publication input. Capture it
+// before any require: the lark dependency chain loads dotenv at module
+// scope (today via sharedPageFetch's transitive requires), which would
+// otherwise silently re-supply a base the caller deliberately withheld —
+// guides-shared-sources.test.js pins the reject-on-missing contract, and
+// that pin is unenforceable on any machine holding a repo-root .env
+// unless the read happens before the side effect.
+const imageBaseUrlFromEnv = process.env.IMAGE_BED_URL
+
 const fs = require('node:fs')
 const path = require('node:path')
 const {execFileSync} = require('node:child_process')
@@ -370,7 +379,7 @@ async function main(argv, dependencies = {}) {
   const upstreamStatus = options['upstream-status'] && fs.existsSync(options['upstream-status']) ? JSON.parse(fs.readFileSync(options['upstream-status'], 'utf8')) : null
   const bundle = await generateSharedSources({preparation, upstreamStatus, repositoryRoot: options.workspace, baselineRoot: options.baseline,
     repo: options.repo, sourceDir: options['source-dir'], candidate, plan, rootToken: options['root-token'],
-    out: options.out, scratch: options.scratch, runId: options['run-id'], imageTimeout: Number(options['image-timeout'] || 120), imageBaseUrl: process.env.IMAGE_BED_URL},
+    out: options.out, scratch: options.scratch, runId: options['run-id'], imageTimeout: Number(options['image-timeout'] || 120), imageBaseUrl: imageBaseUrlFromEnv},
   {fetchOld: token => fetch.fetchActivationHeadings(scraper, token, preparation.previous_snapshot?.records?.find(record => record.doc_token === token)?.doc_link), ...dependencies})
   if (bundle) {
     fs.writeFileSync(options.snapshot, JSON.stringify(candidate, null, 2) + '\n')
