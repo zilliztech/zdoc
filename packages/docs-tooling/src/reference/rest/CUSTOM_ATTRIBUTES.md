@@ -73,6 +73,8 @@ clusters, serverless deployments, …) inside a node that is published to both
 targets must be scoped with this attribute or with the inline
 `<include target="zilliz">…</include>` span. `milvusTargetHygiene.test.js`
 guards the milvus-target projection against unscoped zilliz-only vocabulary.
+The guard is one-way by design: it protects the milvus target only, and there
+is no equivalent scan for milvus-only concepts on the zilliz target.
 
 **Same-endpoint dual-implementation modeling rules** (contract; enforced by
 `dualTargetStructure.contract.test.js` and the target-survival gate in
@@ -97,12 +99,17 @@ one API:
   `describe` versus `get_progress`), and an alias route stays attached to the
   target whose code registers it.
 - Visibility is `x-include-target`'s job; availability on a target is the job
-  of `x-beta` / `x-zilliz-availability` / `x-zilliz-cluster-types`. Never hide
+  of `x-beta` / `x-zilliz-cluster-types`. Never hide
   a field a target's API actually accepts by marking it for the other target.
 - Lifecycle keys (`x-added-at`/`x-last-modified`/`x-deprecated-since`) and
   their evidence rows are Milvus-track attestations: they belong only on
   nodes that survive the milvus target filter, and the target-survival gate
-  fails any evidence pointer the filter removes.
+  fails any evidence pointer the filter removes. A shared surface attested
+  against milvus-io/milvus upstream commits therefore needs no target scope
+  on its tag — fragment 38 (snapshots) is the standing example: its elements
+  are attested against milvus v3.0.0 commits, so it publishes to both
+  targets and its 2.6.x/3.0.x visibility comes from the lifecycle stamps
+  alone.
 
 ### 1.2.1 `x-include-langs`
 
