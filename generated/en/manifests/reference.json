@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "e7cd0dd0bbd6528d9bc8eb367f1093a67076e7b7",
+  "sourceCommit": "86f2cb629999a453ae0a846bdd93af91e0398970",
   "records": [
     {
       "manual": "cli",
@@ -6780,12 +6780,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/describe-role-v2.mdx",
-      "sourceHash": "bf1dbaf2240ee6f4182509b38390f883635844b906fd4f4ac06571b420b44571"
+      "sourceHash": "44f428bfe9ea3c23dbbd08fc99e993e41d8821d6325aac6b329d8dccca456f23"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/drop-role-v2.mdx",
-      "sourceHash": "6803f18862f8a84f83bc53d99a85148751865b52a40ded3f0b1f0120dca4a216"
+      "sourceHash": "1a08c2feb3708150ebada92e73cc7479137c53fe4aefd084908f562e2f53a8e2"
     },
     {
       "manual": "rest",
