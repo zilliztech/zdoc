@@ -2064,15 +2064,15 @@
           {
             "type": "info",
             "title": "Milvus version compatibility",
-            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters are compatible with Milvus v3.0.x, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
             "x-i18n": {
               "zh-CN": {
                 "title": "Milvus 版本兼容性",
-                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群与 Milvus v3.0.x 兼容；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
               },
               "ja-JP": {
                 "title": "Milvus バージョンの互換性",
-                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは Milvus v3.0.x と互換性があり、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
               }
             }
           }
@@ -3121,15 +3121,15 @@
           {
             "type": "info",
             "title": "Milvus version compatibility",
-            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters are compatible with Milvus v3.0.x, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
             "x-i18n": {
               "zh-CN": {
                 "title": "Milvus 版本兼容性",
-                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群与 Milvus v3.0.x 兼容；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
               },
               "ja-JP": {
                 "title": "Milvus バージョンの互換性",
-                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは Milvus v3.0.x と互換性があり、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
               }
             }
           }
@@ -4322,15 +4322,15 @@
           {
             "type": "info",
             "title": "Milvus version compatibility",
-            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters run a 3.0-generation data plane, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
+            "content": "Server-side sorting, grouping, and search aggregation parameters (<code>orderByFields</code>, <code>groupByFields</code>, <code>searchAggregation</code>) take effect only on clusters compatible with Milvus v3.0.x or later. On Zilliz Cloud, serverless clusters are compatible with Milvus v3.0.x, while Dedicated clusters are compatible with Milvus v2.6.x unless upgraded to the v3.0.x Public Preview.",
             "x-i18n": {
               "zh-CN": {
                 "title": "Milvus 版本兼容性",
-                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群已运行 3.0 代数据面；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
+                "content": "服务端排序、分组与搜索聚合参数（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）仅在与 Milvus v3.0.x 或更高版本兼容的集群上生效。在 Zilliz Cloud 上，Serverless 集群与 Milvus v3.0.x 兼容；Dedicated 集群默认与 Milvus v2.6.x 兼容，升级至 v3.0.x Public Preview 后可用。"
               },
               "ja-JP": {
                 "title": "Milvus バージョンの互換性",
-                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは 3.0 世代のデータプレーンを実行しており、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
+                "content": "サーバーサイドのソート、グループ化、および検索集約のパラメータ（<code>orderByFields</code>、<code>groupByFields</code>、<code>searchAggregation</code>）は、Milvus v3.0.x 以降と互換性のあるクラスターでのみ有効です。Zilliz Cloud では、サーバーレスクラスタは Milvus v3.0.x と互換性があり、Dedicated クラスタは v3.0.x Public Preview にアップグレードしない限り Milvus v2.6.x と互換性があります。"
               }
             }
           }
