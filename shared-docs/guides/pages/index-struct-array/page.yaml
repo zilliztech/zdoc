@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "source": {
+    "file": "site/en/userGuide/schema/index-structarray-fields.md"
+  },
+  "metadata": {
+    "beta": "PUBLIC"
+  },
+  "publish": [
+    {
+      "manual": "guides",
+      "path": "tutorials/development/schema/struct-array/index-struct-array"
+    },
+    {
+      "manual": "guides-byoc",
+      "path": "tutorials/development/schema/struct-array/index-struct-array"
+    }
+  ],
+  "transforms": [
+    {
+      "operation": "replace",
+      "target": {
+        "block": "structarray-vector-indexes"
+      },
+      "content": {
+        "file": "cloud-vector-indexes.md"
+      }
+    },
+    {
+      "operation": "replace",
+      "target": {
+        "block": "structarray-scalar-indexes"
+      },
+      "content": {
+        "file": "cloud-scalar-indexes.md"
+      }
+    },
+    {
+      "operation": "replace",
+      "target": {
+        "block": "structarray-emblist-matrix"
+      },
+      "content": {
+        "file": "cloud-emblist-matrix.md"
+      }
+    },
+    {
+      "operation": "replace",
+      "target": {
+        "block": "structarray-element-matrix"
+      },
+      "content": {
+        "file": "cloud-element-matrix.md"
+      }
+    }
+  ]
+}
