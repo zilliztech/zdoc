@@ -12,9 +12,9 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2396,
+    "elements": 2398,
     "highConfidenceIncremental": 294,
-    "managedFloor": 2046,
+    "managedFloor": 2048,
     "modified": 9,
     "deprecated": 1
   },
@@ -50380,18 +50380,6 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1describe/post/requestBody/content/application~1json/schema/oneOf/2/properties/dbName",
-      "elementType": "schema-property",
-      "change": "baseline-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      }
-    },
-    {
-      "fragment": "11-import-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1describe/post/requestBody/content/application~1json/schema/oneOf/2/properties/jobId",
       "elementType": "schema-property",
       "change": "baseline-floor",
@@ -50583,6 +50571,18 @@
       },
       "confidence": "managed-floor",
       "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "11-import-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1describe/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/createTime",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      }
     },
     {
       "fragment": "11-import-operations-v2.json",
@@ -51296,18 +51296,6 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/requestBody/content/application~1json/schema/properties/dbName",
-      "elementType": "schema-property",
-      "change": "baseline-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      }
-    },
-    {
-      "fragment": "11-import-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/requestBody/content/application~1json/schema/properties/jobId",
       "elementType": "schema-property",
       "change": "baseline-floor",
@@ -51502,6 +51490,18 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/createTime",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "fragment": "11-import-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/details",
       "elementType": "schema-property",
       "change": "baseline-floor",
@@ -51632,6 +51632,18 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/details/items/properties/importedRows",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "fragment": "11-import-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/details/items/properties/progress",
       "elementType": "schema-property",
       "change": "baseline-floor",
@@ -51736,7 +51748,7 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/fileName",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/fileSize",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -51762,29 +51774,15 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/fileSize",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1get_progress/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/importedRows",
       "elementType": "schema-property",
       "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
       "lifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
-      },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+      }
     },
     {
       "fragment": "11-import-operations-v2.json",
@@ -52178,55 +52176,39 @@
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/properties/collectionName",
-      "elementType": "schema-property",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/oneOf/1",
+      "elementType": "schema-branch",
       "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
       "lifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
-      },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+      }
     },
     {
       "fragment": "11-import-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/properties/dbName",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/oneOf/1/properties/collectionName",
       "elementType": "schema-property",
       "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
       "lifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
-      },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+      }
+    },
+    {
+      "fragment": "11-import-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1jobs~1import~1list/post/requestBody/content/application~1json/schema/oneOf/1/properties/dbName",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction.",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      }
     },
     {
       "fragment": "11-import-operations-v2.json",
@@ -62033,7 +62015,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "ce6180793759ee86cf4cb8dd2f30a094d768f5feb3e1276e84947814cea8a4af",
+    "fragmentInventorySha256": "820d1f2d6869082a4a5d96367c9c7b4024c10e4d99f9199e025b922e755fee4b",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
