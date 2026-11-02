@@ -1355,7 +1355,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
                 "x-deprecated-since": null,
@@ -1554,7 +1553,6 @@
                           "x-deprecated-since": null
                         },
                         "data": {
-                          "type": "object",
                           "description": "Response payload, which is a list of import jobs in detail.",
                           "x-i18n": {
                             "zh-CN": {
@@ -2561,7 +2559,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
                 "x-deprecated-since": null,
