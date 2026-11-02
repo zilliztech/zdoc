@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "d92b3e0443f9c3ce7ff06cbb8567574c8f273333",
+  "sourceCommit": "ec81ee523dce36a6114f10fd0b5ef10c54f4b8fc",
   "records": [
     {
       "manual": "cli",
@@ -7210,7 +7210,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/search-v2.mdx",
-      "sourceHash": "ee8ef20b12bff42dadfe78cc48fb3143b9d54a3fc07757d1515b7e7affb698ef"
+      "sourceHash": "3ec2348fcaea697cefd01999a0ea024b9d5a432e4ffde10237488a029f81bb26"
     },
     {
       "manual": "rest",
