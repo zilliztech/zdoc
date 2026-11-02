@@ -2,22 +2,17 @@ import type { AdoptionDependency, PageIdentity, UpdateUnit } from './types'
 
 export const pageIdentityKey = (page: PageIdentity): string => JSON.stringify([page.pageId, page.manual, page.path])
 
-/** Resolve the actual Cloud reference path without filesystem or URL I/O. */
+/** Shared-page routes use page IDs; publication directories only identify artifacts. */
 export function referencesPage(from: PageIdentity, to: PageIdentity, url: string): boolean {
   if (from.manual !== to.manual || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(url)) return false
   const destination = url.split('#')[0]
   if (destination.includes('?')) return false
   let decoded: string
   try { decoded = decodeURIComponent(destination) } catch { return false }
-  if (decoded.startsWith('/')) return decoded.replace(/\.mdx?$/, '') === `/${to.path}` || decoded === `/${to.pageId}`
-  const parts = (decoded ? [...from.path.split('/').slice(0, -1), ...decoded.split('/')] : from.path.split('/'))
-  const normalized: string[] = []
-  for (const part of parts) {
-    if (!part || part === '.') continue
-    if (part === '..') { if (!normalized.length) return false; normalized.pop() }
-    else normalized.push(part)
-  }
-  return normalized.join('/').replace(/\.mdx?$/, '') === to.path
+  const pageId = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+  if (!pageId.test(from.pageId) || !pageId.test(to.pageId)) return false
+  if (!decoded) return from.pageId === to.pageId
+  return decoded === `./${to.pageId}` || decoded === `/${to.pageId}` || decoded === to.pageId
 }
 
 /** Only adoption evidence couples pages. Shared preprocessing dependencies are not edges. */

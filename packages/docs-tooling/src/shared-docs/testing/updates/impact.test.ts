@@ -4,11 +4,11 @@ import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { expect, it, onTestFinished, vi } from 'vitest'
 import { RealMd2md } from '../../adapters/md2md'
-import { createBuildDemo, git, write, externalImage, imageBytes } from '../build/demo'
+import { createBuildDemo, git, write, externalImage, imageBytes, pageYaml } from '../build/demo'
 import { buildPage, createBuildReader, createBuildRuntime } from '../../adapters/build-page'
 import { FakeImageFetcher } from '../../adapters/images'
 import { createZdocContentReader } from '../../adapters/zdoc-content'
-import { createGuidesSnapshot } from '../../adapters/guides-snapshot'
+import { createGuidesSnapshot, guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { collectUpdateInputs, readUpdateConfiguration } from '../../adapters/update-inputs'
 import { analyzeUpdates, renderImpactJson, renderImpactMarkdown } from '../../core/updates/impact'
 
@@ -189,4 +189,45 @@ it('reports complete multilingual code groups even without named markers', async
   expect(code.after!.text).toContain('class="multipleCode"')
   expect(code.after!.text).toContain('```java')
   expect(code.after!.text).toContain('```python')
+})
+
+
+it('closes actual slug-route adoption across different publication directories', async () => {
+  const f = await fixture()
+  await write(f.repo, 'site/en/source.md', '---\nid: source.md\ntitle: Source\nsummary: Source example.\n---\n\n# Source\n\n[Target](target.md#Old)\n')
+  const targetBefore = '---\nid: target.md\ntitle: Target\nsummary: Target example.\n---\n\n# Target\n\n<!-- doc:block:start id="section" -->\n## Old\n\nStable target context.\n<!-- doc:block:end id="section" -->\n'
+  await write(f.repo, 'site/en/target.md', targetBefore)
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '--quiet', '-m', 'Synthetic cross-directory adoption baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  for (const [pageId, path] of [['source', 'tutorials/source'], ['target', 'concepts/target']]) {
+    await write(f.sharedDocs, `pages/${pageId}/page.yaml`, pageYaml(`site/en/${pageId}.md`, path))
+    for (const physical of ['guides', 'byoc']) await write(f.dev, `content/en/${physical}/${path}.mdx`, `---\nslug: /${pageId}\ntitle: ${pageId}\n---\n\nExisting content.\n`)
+  }
+  const snapshot = JSON.parse(await readFile(join(f.dev, guidesSnapshotPath), 'utf8'))
+  snapshot.records.push(...['source', 'target'].map(slug => ({ record_id: `cross-directory-${slug}`, slug, placement_type: 'canonical', release_channel: 'CURRENT', publish_targets: ['Zilliz.SaaS'], output_paths: [] })))
+  await write(f.dev, guidesSnapshotPath, JSON.stringify(snapshot))
+  await git(f.dev, 'add', '.'); await git(f.dev, 'commit', '--quiet', '-m', 'Synthetic cross-directory publication inputs')
+  const versions = { ...f.versions, dev: await git(f.dev, 'rev-parse', 'HEAD') }
+  const configuration = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in configuration) throw new Error(JSON.stringify(configuration.errors))
+  await write(f.repo, 'site/en/target.md', targetBefore.replace('## Old', '## Renamed'))
+  const candidate = await f.change('site/en/source.md', text => text.replace('target.md#Old', 'target.md#Renamed'))
+  const input = await collectUpdateInputs({ versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: ['source', 'target'].map(pageId => ({ pageId, oldNext: { commit: baseline, configuration }, current: { commit: baseline, configuration }, candidateNext: { commit: candidate, configuration } })) })
+  const source = input.pages.find(page => page.pageId === 'source')!
+  expect(source.candidateNext.manuals.every(manual => manual.output!.includes('slug: /source') && manual.output!.includes('[Target](./target#renamed)'))).toBe(true)
+  const report = analyzeUpdates(input)
+  expect(report.pages.flatMap(page => page.errors)).toEqual([])
+  expect(report.units).toHaveLength(1)
+  expect(report.units[0].pages).toEqual([
+    { pageId: 'source', manual: 'guides', path: 'tutorials/source' },
+    { pageId: 'source', manual: 'guides-byoc', path: 'tutorials/source' },
+    { pageId: 'target', manual: 'guides', path: 'concepts/target' },
+    { pageId: 'target', manual: 'guides-byoc', path: 'concepts/target' },
+  ])
+  expect(report.units[0].dependencies).toHaveLength(2)
+  const relation = report.pages.find(page => page.pageId === 'target')!.promotion.anchors.find(relation => relation.manual === 'guides')!
+  const reference = source.candidateNext.manuals.find(manual => manual.manual === 'guides')!.references.find(reference => reference.url === './target#renamed')!
+  const explicit = { from: { pageId: 'source', manual: 'guides', path: 'tutorials/source' }, to: { pageId: 'target', manual: 'guides', path: 'concepts/target' }, evidence: { axis: 'current-to-candidate-next' as const, relation, reference } }
+  expect(analyzeUpdates({ ...input, adoptionDependencies: [explicit] }).units).toEqual(report.units)
 })

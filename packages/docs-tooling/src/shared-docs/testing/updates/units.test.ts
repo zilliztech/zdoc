@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
-import { computeUpdateUnits } from '../../core/updates/units'
+import { computeUpdateUnits, referencesPage } from '../../core/updates/units'
 const a = { pageId: 'alpha', manual: 'guides', path: 'tutorials/alpha' }
 const b = { pageId: 'beta', manual: 'guides', path: 'tutorials/beta' }
 const c = { pageId: 'gamma', manual: 'guides-byoc', path: 'tutorials/gamma' }
@@ -33,4 +33,25 @@ it('keeps every publish manual of a shared page in one adoption unit', () => {
 it('rejects contradictory manual identities and duplicate publication destinations', () => {
   expect(() => computeUpdateUnits({ pages: [a, { ...a, path: 'other/path' }] })).toThrow(/identity/i)
   expect(() => computeUpdateUnits({ pages: [a, { ...a, pageId: 'other' }] })).toThrow(/destination/i)
+})
+
+
+it('resolves shared-page slug routes independently of publication directories', () => {
+  const target = { ...b, path: 'concepts/beta' }
+  for (const url of ['./beta#new', '/beta#new', 'beta#new']) {
+    expect(referencesPage(a, target, url)).toBe(true)
+    expect(computeUpdateUnits({ pages: [a, target], dependencies: [{ ...edge, to: target, evidence: { ...edge.evidence,
+      relation: { ...edge.evidence.relation, path: target.path }, reference: { ...edge.evidence.reference, url } } }] })).toHaveLength(1)
+  }
+  expect(referencesPage(a, a, '#new')).toBe(true)
+  expect(referencesPage(a, target, '#new')).toBe(false)
+  expect(referencesPage(a, { ...target, manual: 'guides-byoc' }, './beta#new')).toBe(false)
+})
+
+it.each([
+  './unrelated#new', '/unrelated#new', '../beta#new', './concepts/beta#new', '/concepts/beta#new',
+  'https://example.test/beta#new', '//example.test/beta#new', '%2f%2fexample.test/beta#new',
+  './%2e%2e/beta#new', './beta?x=1#new', './beta%3fx=1#new', './beta%23new#new', './%ZZ#new',
+])('rejects nonmatching or unsafe slug destinations: %s', url => {
+  expect(referencesPage(a, { ...b, path: 'concepts/beta' }, url)).toBe(false)
 })
