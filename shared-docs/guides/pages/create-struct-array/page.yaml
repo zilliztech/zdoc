@@ -1,0 +1,20 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/create-structarray-field.md
+
+metadata:
+  beta: PUBLIC
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/struct-array/create-struct-array
+  - manual: guides-byoc
+    path: tutorials/development/schema/struct-array/create-struct-array
+
+transforms:
+  - operation: replace
+    target:
+      block: structarray-create-availability
+    content:
+      file: cloud-availability.md
