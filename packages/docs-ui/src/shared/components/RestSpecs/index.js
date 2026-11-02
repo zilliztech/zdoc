@@ -209,6 +209,19 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                                 lang={lang}
                                 target={target} />
                         )
+                    } else if (prop?.$ref) {
+                        // A $ref left in place is a recursive component the
+                        // generator deliberately stopped expanding (see
+                        // specLoader.resolveRefs). Name the type instead of
+                        // rendering an empty primitive.
+                        return (
+                            <RecursiveRef key={index}
+                                name={propName}
+                                refPath={prop.$ref}
+                                description={textFilter(desc, target, lang)}
+                                required={requireds.includes(propName)}
+                                lang={lang} />
+                        )
                     } else {
                         return (
                             <Primitive key={index} 
@@ -223,6 +236,20 @@ const Properties = ({ name, description, properties, requiredFields, required, l
             </div>
        
         </>
+    )
+}
+
+const RecursiveRef = ({ name, refPath, description, required, lang }) => {
+    const typeName = refPath.startsWith('#/components/schemas/') ? refPath.slice('#/components/schemas/'.length) : refPath
+    return (
+        <div className={styles.paramContainer}>
+            <div className={styles.paramLabels}>
+                <span className={styles.paramName}>{name}</span>
+                <span className={styles.label}>object ({typeName})</span>
+                { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
+            </div>
+            { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description}}></div> }
+        </div>
     )
 }
 
@@ -264,6 +291,11 @@ const Items = ({ name, description, obj, required, lang, target }) => {
                     required={obj.items.required}
                     lang={lang}
                     target={target} />}
+                { obj.items?.$ref && <RecursiveRef name={`[]${name}`}
+                    refPath={obj.items.$ref}
+                    description={textFilter(obj.items["x-i18n"]?.[lang]?.description ? obj.items["x-i18n"][lang].description : obj.items.description, target, lang)}
+                    required={required}
+                    lang={lang} />}
             </div>
         </>
     )
@@ -380,6 +412,27 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
     )
 }
 
+// A combinator (anyOf/oneOf) whose option list filtered down to a single
+// entry renders its content directly — a lone tab label like "Zilliz Cloud"
+// carries no choice and only adds noise. The panel body is exactly Tab's.
+const SingleOption = ({ content, lang, target }) => {
+    if (!content) {
+        return null
+    }
+
+    const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
+
+    return (
+        <div className={styles.tabPanel}>
+            { content?.type === 'object' && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
+            { content?.type === 'array' && <Items description={translatedDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
+            { (content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean') && <Primitive obj={{...content, description: translatedDescription}} lang={lang} target={target} /> }
+            { content?.$ref && <Primitive obj={{type: 'object', description: translatedDescription || `\`${content.$ref.slice('#/components/schemas/'.length)}\` (recursive reference).`}} lang={lang} target={target} /> }
+            { content?.properties && content?.type === undefined && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
+        </div>
+    )
+}
+
 const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
     const r = getRandomString(5)
     const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
@@ -426,24 +479,26 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
-        <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
-            <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {validItems.map(({ item, originalIndex }) => {
-                    const optionValue = getOptionValue(item.label, originalIndex)
-                    return (
-                        <Tab key={originalIndex}
-                            name={`${name}-${r}`} 
-                            id={originalIndex+1}
-                            content={item} 
-                            lang={lang}
-                            target={target}
-                            selected={selected}
-                            setSelected={setSelectedOption}
-                            optionValue={optionValue} />
-                    )
-                })}
-            </div>
-        </div>
+        { validItems.length === 1
+            ? <SingleOption content={validItems[0].item} lang={lang} target={target} />
+            : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
+                <div className={styles.tabs} style={{ marginTop: '1rem' }}>
+                    {validItems.map(({ item, originalIndex }) => {
+                        const optionValue = getOptionValue(item.label, originalIndex)
+                        return (
+                            <Tab key={originalIndex}
+                                name={`${name}-${r}`}
+                                id={originalIndex+1}
+                                content={item}
+                                lang={lang}
+                                target={target}
+                                selected={selected}
+                                setSelected={setSelectedOption}
+                                optionValue={optionValue} />
+                        )
+                    })}
+                </div>
+            </div> }
     </>)
 }
 
@@ -493,24 +548,26 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
-        <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
-            <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {validItems.map(({ item, originalIndex }) => {
-                    const optionValue = getOptionValue(item.label, originalIndex)
-                    return (
-                        <Tab key={originalIndex}
-                            name={`${name}-${r}`} 
-                            id={originalIndex+1}
-                            content={item} 
-                            lang={lang} 
-                            target={target}
-                            selected={selected}
-                            setSelected={setSelectedOption}
-                            optionValue={optionValue} />
-                    )
-                })}
-            </div>
-        </div>
+        { validItems.length === 1
+            ? <SingleOption content={validItems[0].item} lang={lang} target={target} />
+            : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
+                <div className={styles.tabs} style={{ marginTop: '1rem' }}>
+                    {validItems.map(({ item, originalIndex }) => {
+                        const optionValue = getOptionValue(item.label, originalIndex)
+                        return (
+                            <Tab key={originalIndex}
+                                name={`${name}-${r}`}
+                                id={originalIndex+1}
+                                content={item}
+                                lang={lang}
+                                target={target}
+                                selected={selected}
+                                setSelected={setSelectedOption}
+                                optionValue={optionValue} />
+                        )
+                    })}
+                </div>
+            </div> }
     </>)
 }
 

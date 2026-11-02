@@ -193,6 +193,8 @@
         "packages/docs-tooling/src/reference/rest/meta/lifecycle-evidence/**",
         "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json",
         "packages/docs-tooling/src/reference/rest/meta/titles.json",
+        "packages/docs-tooling/src/reference/rest/specLoader.js",
+        "packages/docs-tooling/src/reference/rest/specLoader.test.js",
         "packages/docs-tooling/src/reference/rest/refGen.js",
         "packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
         "packages/docs-tooling/src/reference/rest/index.js",
@@ -208,7 +210,7 @@
         "packages/docs-tooling/src/reference/rest/templates/reference.mdx"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/specLoader.test.js packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js"
       ],
       "harnesses": [
         "pnpm test:rest-publication-contract"
