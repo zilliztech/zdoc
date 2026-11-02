@@ -1,17 +1,18 @@
 ---
 title: "Hybrid Search with StructArray | BYOC"
 slug: /hybrid-search-with-struct-array
-sidebar_label: "Hybrid Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Use this page to combine StructArray vector search with other vector searches in one hybrid search request. StructArray hybrid search can produce either entity-level results or element-level results, depending on the `AnnSearchRequest` objects you combine. | BYOC"
+description: "Use this page to combine StructArray vector search with other vector searches in one hybrid search request. StructArray hybrid search can produce either entity-level results or element-level results, depending on the AnnSearchRequest objects you combine. | BYOC"
 type: origin
-token: EqSpwh9BaiEISgkG5YVcDbCUnpe
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-hybrid-search-with-struct-array
+sidebar_label: "Hybrid Search"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/hybrid-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ Use this page to combine StructArray vector search with other vector searches in
 
 This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a top-level vector field named `title_vector` and a StructArray field named `chunks`. The `chunks[emb_list_vector]` subfield is indexed for EmbeddingList search, and `chunks[emb]` is indexed for element-level search.
 
+Before running these examples, create the collection, insert the example data, create the required vector indexes, and load the collection. Use 4-dimensional vectors for the fields shown here. Each code block assumes the connection and variables from the preceding examples in the same language unless it defines them again.
+
 ## How hybrid search applies to StructArray\{#how-hybrid-search-applies-to-structarray}
 
 | `AnnSearchRequest` combination | Final candidate scope | Result behavior | `element_scope` |
@@ -34,7 +37,9 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Multiple element-level subfields under the same StructArray field | Element level | Final candidates are keyed by primary key plus Struct element offset. | Do not use. |
 | Element-level subfields under different StructArray fields | Entity level | Element offsets do not share identity, so each StructArray element-level `AnnSearchRequest` is collapsed before reranking. | Optional collapse config on each StructArray element-level `AnnSearchRequest`. |
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
+
+Warning
 
 Use `element_scope` only to configure collapse for StructArray element-level `AnnSearchRequest` objects in a non-same-struct element-level hybrid search. Do not use it for EmbeddingList requests, collection-level vector requests, or same-StructArray element-level hybrid search.
 
@@ -193,6 +198,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
@@ -255,6 +261,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -283,6 +290,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -396,6 +404,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, both `AnnSearchRequest` objects produce entity-level candidates. The final result is keyed by the parent entity primary key. Do not add `element_scope` to the EmbeddingList request.
@@ -404,7 +413,7 @@ In this example, both `AnnSearchRequest` objects produce entity-level candidates
 
 When all `AnnSearchRequest` objects target element-level vector subfields under the same StructArray field, hybrid search can keep element-level candidates through reranking. This is the only StructArray hybrid mode where final results remain element-level.
 
-The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both use regular vector metrics.
+The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both use `COSINE`. Define and populate the additional 4-dimensional `code_emb` subfield when creating the collection; it is not included in the base schema linked above.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -546,6 +555,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
@@ -606,6 +616,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -633,6 +644,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -731,6 +743,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Both `AnnSearchRequest` objects search vector subfields under `chunks`. The same zero-based offset refers to the same Struct element, so the hybrid reranker can rank element candidates directly. Do not set `element_scope` in this mode because no entity-level collapse is performed.
@@ -741,7 +754,7 @@ If a hybrid search mixes a StructArray element-level `AnnSearchRequest` with a c
 
 Use `element_scope` inside the `params` of the StructArray element-level `AnnSearchRequest` when you need to control how multiple matched elements from the same entity are collapsed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -871,91 +884,10 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
-let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
-
-let title_req = SubSearchRequest::builder()
-    .vector_field("title_vector")
-    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-    .limit(10)
-    .build()?;
-
-let chunk_req = SubSearchRequest::builder()
-    .vector_field("chunks[emb]")
-    .vectors(SearchVectors::Float(vec![query_vector]))
-    .limit(30)
-    .filter("element_filter(chunks, $[quality_score] > 0.8)")
-    // Note: element_scope collapse is not yet supported in milvus-sdk-rust as of v3.0.2.
-    .build()?;
-
-let request = HybridSearchRequest::builder()
-    .collection_name("tech_articles")
-    .sub_requests(vec![title_req, chunk_req])
-    .rerank(RRFRerank::new().k(60))
-    .limit(5)
-    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-    .build()?;
-
-let results = client.hybrid_search(request).await?;
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include <iostream>
-#include <memory>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-#include "milvus/request/dql/HybridSearchRequest.h"
-#include "milvus/types/SubSearchRequest.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
-
-auto title_req = std::make_shared<milvus::SubSearchRequest>();
-title_req->WithAnnsField("title_vector").WithLimit(10);
-title_req->AddFloatVector(query_vector);
-
-auto chunk_req = std::make_shared<milvus::SubSearchRequest>();
-chunk_req->WithAnnsField("chunks[emb]").WithLimit(30);
-chunk_req->WithFilter("element_filter(chunks, $[quality_score] > 0.8)");
-chunk_req->AddExtraParam("params", "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}");
-chunk_req->AddFloatVector(query_vector);
-
-milvus::HybridSearchRequest request;
-request.WithCollectionName("tech_articles")
-       .WithLimit(5)
-       .AddSubRequest(title_req)
-       .AddSubRequest(chunk_req)
-       .WithRerank(std::make_shared<milvus::RRFRerank>(60));
-request.WithOutputFields({"doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
-
-milvus::HybridSearchResponse response;
-status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -980,45 +912,6 @@ const results = await client.search({
   rerank: { strategy: "rrf", params: { k: 60 } },
   limit: 5,
   output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
-});
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
-var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
-
-var titleReq = new AnnSearchReq
-{
-    VectorFieldName = "title_vector",
-    Vectors = new[] { queryVector },
-    Limit = 10
-};
-
-var chunkReq = new AnnSearchReq
-{
-    VectorFieldName = "chunks[emb]",
-    Vectors = new[] { queryVector },
-    Limit = 30,
-    Expression = "element_filter(chunks, $[quality_score] > 0.8)",
-    ExtraParameters = { ["params"] = "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}" }
-};
-
-var results = await client.HybridSearchAsync(new HybridSearchReq
-{
-    CollectionName = "tech_articles",
-    SearchRequests = new[] { titleReq, chunkReq },
-    Reranker = new RrfReranker(60),
-    Limit = 5,
-    Parameters = new SearchParameters
-    {
-        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
-    }
 });
 ```
 
@@ -1061,7 +954,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+The C++ and Rust 3.0.2 SDK builders and the C# 3.0.0 SDK do not encode the nested `element_scope` object used in this example through their string-valued extra-parameter interfaces. Use one of the SDKs shown above or the REST API to configure this collapse strategy.
 
 In this example, `title_req` is entity-level, so the final hybrid result is also entity-level. The `chunk_req` request first returns element hits from `chunks[emb]`, then collapses the returned elements from the same entity by summing the best three element scores. If `element_scope` is omitted when entity-level collapse is needed, the collapse strategy defaults to `max`.
 
@@ -1079,7 +975,7 @@ Collapse uses only the element hits returned by that StructArray element-level `
 
 ## Add filters, range search, and grouping\{#add-filters-range-search-and-grouping}
 
-You can attach `element_filter` to a StructArray element-level `AnnSearchRequest` when scalar conditions should apply to the same Struct elements that participate in vector search. You can also use a top-level `filter` on `hybrid_search()` for parent-entity conditions.
+You can attach `element_filter` to a StructArray element-level `AnnSearchRequest` when scalar conditions should apply to the same Struct elements that participate in vector search. Apply a parent-entity condition to each sub-request that must satisfy it; do not rely on a top-level `filter` argument to propagate it to every request.
 
 StructArray element-level vector fields support range search in hybrid search. Add `radius` and, optionally, `range_filter` to the element-level `AnnSearchRequest`. EmbeddingList-level StructArray requests do not support range search.
 
@@ -1131,4 +1027,3 @@ Element-level hybrid grouping is supported only when all `AnnSearchRequest` obje
 1. To group element-level hybrid results by parent entity, read [Grouping Search with StructArray](./grouping-search-with-struct-array).
 
 1. To check StructArray search limits, read [StructArray Limits](./struct-array-limits).
-

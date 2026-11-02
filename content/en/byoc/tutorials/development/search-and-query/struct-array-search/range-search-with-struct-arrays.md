@@ -1,7 +1,6 @@
 ---
 title: "Range Search with StructArray | BYOC"
 slug: /range-search-with-struct-arrays
-sidebar_label: "Range Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Use this page to run range search on StructArray vector subfields. Range search returns vector hits whose score or distance falls within a specified boundary. For StructArray fields, use range search with element-level vector search, where each Struct element is searched independently. | BYOC"
 type: origin
-token: ZR1bwJFFSio2jkkabd7c1YAYncf
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-range-search-with-struct-arrays
+sidebar_label: "Range Search"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/range-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ Use this page to run range search on StructArray vector subfields. Range search 
 
 This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a StructArray field named `chunks`. The `chunks[emb]` vector subfield is indexed for element-level search with a regular vector metric such as `COSINE`, `IP`, or `L2`.
 
+Before running these examples, create the collection, insert the example data, create the required vector indexes, and load the collection. Use 4-dimensional vectors for the fields shown here. Each code block assumes the connection and variables from the preceding examples in the same language unless it defines them again.
+
 ## How range search applies to StructArray\{#how-range-search-applies-to-structarray}
 
 | Search mode | Range search behavior | Result granularity |
@@ -33,7 +36,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Element-level search | Use a regular vector query with `radius` and, optionally, `range_filter`. | Struct element level. |
 | Hybrid search | Supported when the StructArray request targets an element-level vector field. EmbeddingList-level requests do not support range search. | Element-level sub-search, then hybrid reranking. |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 If you only need the nearest Struct elements, start with [Basic Vector Search with StructArray](./search-with-struct-array). Use range search when the result must satisfy a score or distance boundary instead of only a top-K ranking.
 
@@ -65,7 +68,7 @@ When only `radius` is set, the range search returns hits that satisfy the outer 
 
 ## Run element-level range search\{#run-element-level-range-search}
 
-The following example searches individual chunks whose `chunks[emb]` vectors are similar enough to the query vector. Each result hit represents a matched Struct element.
+The examples use a `COSINE` index on `chunks[emb]` and 4-dimensional query vectors. The following example searches individual chunks whose `chunks[emb]` vectors are similar enough to the query vector. Each result hit represents a matched Struct element.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -104,7 +107,7 @@ results = client.search(
 for hits in results:
     for hit in hits:
         print(
-            "doc_id:", hit["id"],
+            "doc_id:", hit["doc_id"],
             "distance:", hit["distance"],
             "offset:", hit.get("offset"),
             "entity:", hit["entity"],
@@ -237,6 +240,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 auto request = milvus::SearchRequest()
@@ -257,6 +261,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -307,9 +312,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -323,7 +328,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
     {
         Radius = "0.80",
         RangeFilter = "0.95",
-        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
     }
 });
 ```
@@ -362,6 +367,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, `COSINE` is a similarity-style metric, so the result range is greater than `radius` and less than or equal to `range_filter`. The `offset` value identifies the matched Struct element in the `chunks` array when returned.
@@ -540,6 +546,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 auto request = milvus::SearchRequest()
@@ -561,6 +568,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -614,9 +622,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -633,7 +641,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
         Radius = "0.80",
         RangeFilter = "0.95",
         Expression = filterExpr,
-        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
     }
 });
 ```
@@ -673,6 +681,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 The top-level predicate selects candidate entities. The `element_filter` predicate restricts vector range search to matching Struct elements. For more filtering examples, see [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
@@ -764,7 +773,7 @@ AnnSearchReq chunkReq = AnnSearchReq.builder()
         .vectors(Collections.singletonList(queryVector))
         .params("{\"radius\": 0.80, \"range_filter\": 0.95}")
         .limit(10)
-        .expr("element_filter(chunks, $[section] == \"index\")")
+        .filter("element_filter(chunks, $[section] == \"index\")")
         .build();
 
 SearchResp resp = client.hybridSearch(HybridSearchReq.builder()
@@ -882,6 +891,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -909,6 +919,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -978,6 +989,7 @@ AnnSearchReq chunkReq = new()
     Vectors = [queryVector],
     Radius = "0.80",
     RangeFilter = "0.95",
+    Expression = "element_filter(chunks, $[section] == \"index\")",
     Limit = 10
 };
 
@@ -986,7 +998,11 @@ SearchResp results = await client.HybridSearchAsync(new HybridSearchReq
     CollectionName = "tech_articles",
     SearchRequests = [titleReq, chunkReq],
     Reranker = new RrfReranker(),
-    Limit = 10
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
 });
 ```
 
@@ -1011,11 +1027,9 @@ curl --request POST \
         "data": [[0.19, 0.24, 0.30, 0.37]],
         "annsField": "chunks[emb]",
         "limit": 10,
-        "searchParams": {
-          "params": {
-            "radius": 0.80,
-            "range_filter": 0.95
-          }
+        "params": {
+          "radius": 0.80,
+          "range_filter": 0.95
         },
         "filter": "element_filter(chunks, $[section] == \"index\")"
       }
@@ -1033,15 +1047,18 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, only the `chunks[emb]` sub-request uses range-search parameters. The StructArray request still follows element-level semantics: the range boundary applies to Struct element hits before the hybrid search combines and reranks results.
 
 ## Interpret range results\{#interpret-range-results}
 
+The following table describes standalone element-level range search. In the mixed hybrid example above, element hits are collapsed to parent entities before reranking, so the final results are entity-level and do not retain an element offset.
+
 | Result item | Meaning |
 | --- | --- |
-| `id` | Primary key of the entity that contains the matched Struct element. |
+| Primary key (`doc_id` in these examples) | Primary key of the entity that contains the matched Struct element. |
 | `distance` or score | The score or distance between the query vector and the matched Struct element vector. |
 | `offset` | Zero-based position of the matched Struct element in the StructArray field when returned. |
 | Repeated primary keys | Possible. More than one Struct element in the same entity can fall within the specified range. |
@@ -1071,9 +1088,8 @@ In this example, only the `chunks[emb]` sub-request uses range-search parameters
 
 1. To learn the two basic StructArray vector search modes, read [Basic Vector Search with StructArray](./search-with-struct-array).
 
-1. To add scalar filters to range search, read [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
+2. To add scalar filters to range search, read [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
 
-1. To return at most one result per parent entity where supported, read [Grouping Search with StructArray](./grouping-search-with-struct-array).
+3. To return at most one result per parent entity where supported, read [Grouping Search with StructArray](./grouping-search-with-struct-array).
 
-1. To check version-specific search limits, read [StructArray Limits](./struct-array-limits).
-
+4. To check version-specific search limits, read [StructArray Limits](./struct-array-limits).

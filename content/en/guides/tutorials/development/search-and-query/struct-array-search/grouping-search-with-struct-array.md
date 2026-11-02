@@ -1,7 +1,6 @@
 ---
 title: "Grouping Search with StructArray | Cloud"
 slug: /grouping-search-with-struct-array
-sidebar_label: "Grouping Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Use this page to group StructArray element-level search results by the parent entity. Element-level search can return multiple hits from the same entity when several Struct elements match the query. Grouping collapses those element hits so each parent entity appears at most once. | Cloud"
 type: origin
-token: I60hwuYrSiVSWBkYq9RcqRcpnFh
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-grouping-search-with-struct-array
+sidebar_label: "Grouping Search"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/grouping-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,10 @@ Use this page to group StructArray element-level search results by the parent en
 
 This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a StructArray field named `chunks`. The `chunks[emb]` vector subfield is indexed for element-level search with a regular vector metric.
 
+The examples use the default group size of one.
+
+Before running these examples, create the collection, insert the example data, create the required vector indexes, and load the collection. Use 4-dimensional vectors for the fields shown here. Each code block assumes the connection and variables from the preceding examples in the same language unless it defines them again.
+
 ## How grouping applies to StructArray\{#how-grouping-applies-to-structarray}
 
 | Search mode | Grouping behavior | Result behavior |
@@ -33,7 +38,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Element-level search | Supported by grouping on the primary key. | Returns at most one result per parent entity. Element-level metadata is preserved, so the selected element index or offset can be returned when exposed by the API or SDK. |
 | Hybrid search | Supported only when all sub-searches target element-level vector fields under the same StructArray field. | Element-level sub-searches are grouped by primary key before final result handling. |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Use grouping when ungrouped element-level search returns too many duplicate parent entities. If you want every matching Struct element as an individual hit, use [Basic Vector Search with StructArray](./search-with-struct-array) without `group_by_field`.
 
@@ -129,7 +134,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 for (List<SearchResp.SearchResult> results : searchResp.getSearchResults()) {
     for (SearchResp.SearchResult result : results) {
-        System.out.println("doc_id: " + result.getEntity().get("doc_id")
+        System.out.println("doc_id: " + result.getId()
                 + ", distance: " + result.getScore()
                 + ", offset: " + result.getElementOffset()
                 + ", entity: " + result.getEntity());
@@ -158,6 +163,7 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 defer cli.Close(ctx)
 
@@ -172,6 +178,7 @@ resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 for _, resultSet := range resultSets {
@@ -225,6 +232,7 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -246,6 +254,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 for (const auto& result : response.Results().Results()) {
@@ -298,9 +307,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -348,6 +357,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Without grouping, the same `doc_id` can appear multiple times if several chunks match the query. With `group_by_field="doc_id"`, each parent entity appears at most once. Grouping preserves element-level metadata, so the grouped result can still include the selected Struct element index or offset when the API or SDK exposes it.
@@ -447,6 +457,7 @@ resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 for _, resultSet := range resultSets {
@@ -518,6 +529,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -554,9 +566,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -600,6 +612,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 The top-level predicate selects candidate entities. The `element_filter` predicate restricts element-level vector search to matching Struct elements. Grouping then collapses matching element hits by the primary key.
@@ -608,9 +621,9 @@ The top-level predicate selects candidate entities. The `element_filter` predica
 
 Hybrid grouping with StructArray is an element-level feature. It is supported only when all sub-searches target element-level vector fields under the same StructArray field. Do not use EmbeddingList-level requests in a grouped StructArray hybrid search.
 
-The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both are indexed with regular vector metrics.
+The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both are indexed with `COSINE`. Define and populate the additional 4-dimensional `code_emb` subfield when creating the collection; it is not included in the base schema linked above.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -622,7 +635,7 @@ code_query_vector = [0.18, 0.23, 0.29, 0.36]
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
-    param={"metric_type": "COSINE", "params": {"efSearch": 64}},
+    param={"metric_type": "COSINE"},
     limit=10,
     expr='element_filter(chunks, $[section] == "index")',
 )
@@ -630,7 +643,7 @@ index_chunk_req = AnnSearchRequest(
 code_chunk_req = AnnSearchRequest(
     data=[code_query_vector],
     anns_field="chunks[code_emb]",
-    param={"metric_type": "COSINE", "params": {"efSearch": 64}},
+    param={"metric_type": "COSINE"},
     limit=10,
     expr='element_filter(chunks, $[has_code] == true)',
 )
@@ -691,48 +704,6 @@ SearchResp searchResp = client.hybridSearch(HybridSearchReq.builder()
         .groupByFieldName("doc_id")
         .outFields(Arrays.asList("doc_id", "title", "chunks[text]", "chunks[section]"))
         .build());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-queryVector := []float32{0.19, 0.24, 0.30, 0.37}
-codeQueryVector := []float32{0.18, 0.23, 0.29, 0.36}
-
-annReq1 := milvusclient.NewAnnRequest("chunks[emb]", 10, entity.FloatVector(queryVector)).
-    WithFilter("element_filter(chunks, $[section] == \"index\")").
-    WithSearchParam("metric_type", "COSINE").
-    WithGroupByField("doc_id")
-
-annReq2 := milvusclient.NewAnnRequest("chunks[code_emb]", 10, entity.FloatVector(codeQueryVector)).
-    WithFilter("element_filter(chunks, $[has_code] == true)").
-    WithSearchParam("metric_type", "COSINE").
-    WithGroupByField("doc_id")
-
-resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-    "tech_articles",
-    5,
-    annReq1, annReq2,
-).WithReranker(milvusclient.NewRRFReranker()).
-    WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]"))
-if err != nil {
-    fmt.Println(err.Error())
-}
-
-for _, resultSet := range resultSets {
-    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
-    fmt.Println("Scores: ", resultSet.Scores)
-    fmt.Println("doc_id: ", resultSet.GetColumn("doc_id").FieldData().GetScalars())
-}
 ```
 
 </TabItem>
@@ -814,38 +785,8 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const query_vector = [0.19, 0.24, 0.30, 0.37];
-const code_query_vector = [0.18, 0.23, 0.29, 0.36];
-
-const res = await client.hybridSearch({
-  collection_name: "tech_articles",
-  data: [
-    {
-      anns_field: "chunks[emb]",
-      data: query_vector,
-      limit: 10,
-      expr: 'element_filter(chunks, $[section] == "index")',
-    },
-    {
-      anns_field: "chunks[code_emb]",
-      data: code_query_vector,
-      limit: 10,
-      expr: 'element_filter(chunks, $[has_code] == true)',
-    },
-  ],
-  rerank: { strategy: "rrf", params: {} },
-  limit: 5,
-  group_by_field: "doc_id",
-  output_fields: ["doc_id", "title", "chunks[text]", "chunks[section]"],
-});
 ```
 
 </TabItem>
@@ -861,9 +802,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 float[] codeQueryVector = [0.18f, 0.23f, 0.29f, 0.36f];
@@ -933,7 +874,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+The Go client source shipped with Milvus 3.0.2 does not expose final hybrid grouping through `NewHybridSearchOption`. Setting `WithGroupByField` on each sub-request does not configure final hybrid grouping. NodeJS 3.0.6 also omits the top-level `group_by_field` from hybrid rank parameters. Use one of the APIs shown above for this example.
 
 In this example, both sub-requests target element-level vector fields under the same StructArray field, `chunks`. A hybrid search does not support element-level group-by if it mixes normal vector fields, different StructArray fields, or EmbeddingList-level requests.
 
@@ -941,7 +885,7 @@ In this example, both sub-requests target element-level vector fields under the 
 
 | Result item | Meaning |
 | --- | --- |
-| `id` | Primary key of the grouped parent entity. |
+| Primary key (`doc_id` in these examples) | Primary key of the grouped parent entity. |
 | `distance` or score | Score or distance of the selected Struct element for that parent entity. |
 | `offset` | Zero-based position of the selected Struct element when returned. |
 | Repeated primary keys | Not expected when grouping by the primary key. |
@@ -979,9 +923,8 @@ In this example, both sub-requests target element-level vector fields under the 
 
 1. To learn ungrouped element-level search first, read [Basic Vector Search with StructArray](./search-with-struct-array).
 
-1. To add scalar filters to grouped search, read [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
+2. To add scalar filters to grouped search, read [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
 
-1. To use score or distance boundaries instead of grouping, read [Range Search with StructArray](./range-search-with-struct-arrays).
+3. To use score or distance boundaries instead of grouping, read [Range Search with StructArray](./range-search-with-struct-arrays).
 
-1. To check StructArray search limits, read [StructArray Limits](./struct-array-limits).
-
+4. To check StructArray search limits, read [StructArray Limits](./struct-array-limits).

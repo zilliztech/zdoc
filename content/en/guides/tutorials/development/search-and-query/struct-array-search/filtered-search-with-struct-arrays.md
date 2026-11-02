@@ -1,17 +1,18 @@
 ---
 title: "Filtered Search with StructArray | Cloud"
 slug: /filtered-search-with-struct-arrays
-sidebar_label: "Filtered Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Use this page to add scalar filtering to vector search on StructArray fields. StructArray filtering has two levels row-level filters select parent entities, while element-level filters constrain which Struct elements participate in element-level vector search. | Cloud"
+description: "Use this page to add scalar filtering to vector search on StructArray fields. StructArray filtering has two levels: row-level filters select parent entities, while element-level filters constrain which Struct elements participate in element-level vector search. | Cloud"
 type: origin
-token: WDjyw7hO3i26RckEgqIcf36snMh
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-filtered-search-with-struct-arrays
+sidebar_label: "Filtered Search"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/filtered-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ Use this page to add scalar filtering to vector search on StructArray fields. St
 
 This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a StructArray field named `chunks`, with scalar subfields such as `section`, `page`, `quality_score`, and `has_code`, plus vector subfields for search.
 
+Before running these examples, create the collection, insert the example data, create the required vector indexes, and load the collection. Use 4-dimensional vectors for the fields shown here. Each code block assumes the connection and variables from the preceding examples in the same language unless it defines them again.
+
 ## Choose a filter type\{#choose-a-filter-type}
 
 | Goal | Use | Result behavior |
@@ -32,8 +35,9 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Filter by a top-level scalar field, such as `category`. | Regular filter expression. | Selects parent entities before or during search. |
 | Constrain element-level vector search to Struct elements that match scalar conditions. | `element_filter`. | Searches only matching Struct elements and can return matched element offsets. |
 | Select entities by whether any, all, or a specific number of Struct elements match a predicate. | `MATCH_ANY`, `MATCH_ALL`, `MATCH_LEAST`, `MATCH_MOST`, or `MATCH_EXACT`. | Row-level filtering. These operators do not return offsets by themselves. |
+| Test one element position, count Struct elements, or check subfield values across elements without `$[...]`. | Row-level StructArray paths, such as `chunks[0][section]`, `array_length(chunks)`, or `array_contains(chunks[section], ...)`. | Row-level filtering. For syntax, see [StructArray Operators](./struct-array-filtering). |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 This page explains how to use StructArray filters in search workflows. For the full syntax rules, supported predicate types, and unsupported predicate matrix, see [StructArray Operators](./struct-array-filtering).
 
@@ -145,6 +149,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 3,
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -191,6 +196,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 milvus::EmbeddingList query;
@@ -209,6 +215,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -293,6 +300,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 The filter above selects only entities whose top-level `category` field is `"search"`. It does not identify one matched Struct element.
@@ -418,6 +426,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 5,
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -464,6 +473,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -480,6 +490,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -555,11 +566,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, the top-level predicate `category == "search"` selects candidate entities, and `element_filter` restricts element-level vector search to chunks where `section`, `quality_score`, and `has_code` all match in the same Struct element.
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
+
+Warning
 
 When you combine a top-level predicate with `element_filter`, place `element_filter` at the end of the expression. A filter expression can contain only one `element_filter`, and you cannot nest `element_filter` or `MATCH_*` inside another StructArray operator.
 
@@ -683,6 +697,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 3,
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -731,6 +746,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 milvus::EmbeddingList query;
@@ -749,6 +765,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -826,13 +843,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Use `MATCH_ANY` here because the EmbeddingList search result is entity-level. The filter requires at least one chunk in the entity to be an `"index"` chunk with high quality, but the search result itself still represents the parent entity.
 
 ## Use filters in hybrid search\{#use-filters-in-hybrid-search}
 
-In hybrid search, apply StructArray filters where the condition should take effect. A top-level filter can be shared by the whole hybrid search. An `element_filter` should be attached to the StructArray element-level request that needs element-level constraints.
+In hybrid search, apply StructArray filters where the condition should take effect. Apply a parent-entity condition to each sub-request that must satisfy it. Attach `element_filter` only to the StructArray element-level request that needs element-level constraints, after the parent-entity condition.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -958,6 +976,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -1016,6 +1035,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -1042,6 +1062,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -1143,9 +1164,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-The `filter` argument applies the top-level entity condition, while the `expr` on `chunk_req` constrains only the StructArray element-level vector request. For supported hybrid search combinations and version-specific limits, see [Hybrid Search with StructArray](./hybrid-search-with-struct-array) and [StructArray Limits](./struct-array-limits).
+Both sub-requests apply `category == "search"`. The `chunk_req` expression also constrains the Struct elements that participate in its vector search. For supported hybrid search combinations and version-specific limits, see [Hybrid Search with StructArray](./hybrid-search-with-struct-array) and [StructArray Limits](./struct-array-limits).
 
 ## Predicate support summary\{#predicate-support-summary}
 
@@ -1179,9 +1201,8 @@ For unsupported cases such as JSON paths, array container functions, text match 
 
 1. To review full StructArray filter syntax, read [StructArray Operators](./struct-array-filtering).
 
-1. To run unfiltered vector searches first, read [Basic Vector Search with StructArray](./search-with-struct-array).
+2. To run unfiltered vector searches first, read [Basic Vector Search with StructArray](./search-with-struct-array).
 
-1. To create scalar indexes for frequently used StructArray filters, read [Index StructArray Fields](./index-struct-array).
+3. To create scalar indexes for frequently used StructArray filters, read [Index StructArray Fields](./index-struct-array).
 
-1. To check version-specific filter and search limits, read [StructArray Limits](./struct-array-limits).
-
+4. To check version-specific filter and search limits, read [StructArray Limits](./struct-array-limits).

@@ -1,15 +1,15 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-02T02:32:31.489Z
+Generated: 2026-11-02T07:15:30.876Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-01T18:26:55.806Z
+Previous snapshot: 2026-11-02T02:36:07.134Z
 
 ## Summary
 
 - Changed docs: 0
-- Expanded docs: 48
+- Expanded docs: 39
 - Removed docs: 0
 - Warnings: 0
 
@@ -17,11 +17,19 @@ Previous snapshot: 2026-11-01T18:26:55.806Z
 
 - Filtered Search (null): shared inputs changed
 - StructArray Operators (null): shared inputs changed
+- Basic Vector Search with StructArray (null): source ownership changed; shared inputs changed
+- Filtered Search with StructArray (null): source ownership changed; shared inputs changed
+- Range Search with StructArray (null): source ownership changed; shared inputs changed
+- Grouping Search with StructArray (null): source ownership changed; shared inputs changed
+- Hybrid Search with StructArray (null): source ownership changed; shared inputs changed
 - Search with EmbeddingLists: ColBERT and ColPali (null): shared inputs changed
 - View Collections (null): shared inputs changed
 - Drop Collection (null): shared inputs changed
 - VarChar Field (null): shared inputs changed
 - StructArray Overview (null): shared inputs changed
+- Create a StructArray Field (null): source ownership changed; shared inputs changed
+- Insert Data into StructArray Fields (null): source ownership changed; shared inputs changed
+- Index StructArray Fields (null): source ownership changed; shared inputs changed
 - StructArray Limits (null): shared inputs changed
 - Alter Collection Field (null): shared inputs changed
 - Insert Entities (null): shared inputs changed
@@ -29,6 +37,7 @@ Previous snapshot: 2026-11-01T18:26:55.806Z
 - RRF Ranker (null): shared inputs changed
 - Decay Ranker Overview (null): shared inputs changed
 - Standard Tokenizer (null): shared inputs changed
+- Whitespace (null): source ownership changed; shared inputs changed
 - Lindera (null): shared inputs changed
 - ICU (null): shared inputs changed
 - Lowercase (null): shared inputs changed
@@ -49,15 +58,11 @@ Previous snapshot: 2026-11-01T18:26:55.806Z
 - Dj2NwrlqTiYlmDkwfAbcJNWSntd: outgoing reference from QZYhwcQhWigYTVkLnHeczkwYnZb
 - DjROwgK6ziCf7Rkoji6ccyEUnsg: incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh
 - EA2twSf5oiERMDkriKScU9GInc4: incoming reference to QBXVwP7oiiuEovkprDnckJlEnoK
-- EDzFwzb7Sifsz4kFYZIcAF9Pn1p: outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh
 - EOxmwUDxMiy2cpkOfIsc1dYzn4c: outgoing reference from Mf7GwGwgQiLCcykOi69cvaD8ncz
 - EV41wG08BiOWW8kbo9xcTGoPnKd: incoming reference to DEUuwEwM4iMLOikU7XpcpNnKnGd
-- EqSpwh9BaiEISgkG5YVcDbCUnpe: incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh
-- F2QrwjFSziSUkJkyXzbcwovUnCg: incoming reference to AhAhw08MFiB9OpkDjbPcVUTVnlg
 - FbVmwmuaei9WkIkIWJmcs3ManEd: outgoing reference from QZYhwcQhWigYTVkLnHeczkwYnZb
 - G39mw621Yi3iICkv69JcQ0J5nHf: outgoing reference from QZYhwcQhWigYTVkLnHeczkwYnZb
 - H8MVwnjdgihp0hkRHHKcjBe9n5e: outgoing reference from GAX8wkC1QiTZhXkLBocc1GoTnke
-- I60hwuYrSiVSWBkYq9RcqRcpnFh: incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh
 - JCMPwIyVciCT4Hk4O20c96MEnch: incoming reference to L5jawEj7FiBXWZkGhLgcQCWQnDd
 - JGURwBQNOijp2DkspFFctbAGnLh: outgoing reference from PvwZwtu3FiBQNqkPa5VcqH6qnmg
 - LBbUwOGcwi1UMak3eE2cM1gvnUe: outgoing reference from CpBbwcJ87irHp0k9oCSc2RNIn3d
@@ -71,7 +76,6 @@ Previous snapshot: 2026-11-01T18:26:55.806Z
 - PmaowiSUaiTa8ckPMYJcqdRYnQg: incoming reference to QZYhwcQhWigYTVkLnHeczkwYnZb
 - Pulhw06e5iXJTFkidFXcGbylnod: incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke
 - RQQKwqhZUiubFzkHo4WcR62Gnvh: incoming reference to QBXVwP7oiiuEovkprDnckJlEnoK
-- RzSBwW7dUizQeekka9CcZ3Etnyg: outgoing reference from Mf7GwGwgQiLCcykOi69cvaD8ncz
 - TumJwDYrhiDYcUkKsUIcuSnbnCf: incoming reference to VmGMwsTliiGZdFkzzeBckRNlnCh
 - U7OvwHP3AiUWlckzIEKclLQQnPr: outgoing reference from CpBbwcJ87irHp0k9oCSc2RNIn3d
 - UR9SwucAIiQ2TYkc9EucsgvSnng: incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK
@@ -79,16 +83,12 @@ Previous snapshot: 2026-11-01T18:26:55.806Z
 - V7xfwDariioU5GkcmfXctzSEnyc: incoming reference to Nqguwf6ikiKrHEkGKgAc8g7Lnnh
 - VOkIwd5adiziGQkoDO1cRoRFnre: incoming reference to VlAlwAJvEiVVW6k0RBvcvkpWnhK
 - Vs4YwNnvzitoQ8kunlGcWMJInbf: incoming reference to QBXVwP7oiiuEovkprDnckJlEnoK
-- VvkEwug9ciPZYVk6hM1chLydnib: outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh
 - W0WhwqRyciRMRLklcsdca1U2nae: incoming reference to GAX8wkC1QiTZhXkLBocc1GoTnke
-- WDjyw7hO3i26RckEgqIcf36snMh: outgoing reference from VmGMwsTliiGZdFkzzeBckRNlnCh
 - WMSvwXXz4iR7mZkGmUscF3Y1nxs: outgoing reference from GAX8wkC1QiTZhXkLBocc1GoTnke
-- WTPbww9GkifmAvkuRWLcVd4jnnh: outgoing reference from Q7wIwcnrEiVDofk5G4Fc7vlonPh
 - WTsmwWdgOiKnwpkdZdScp093njh: incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d
 - YBYmwvx68iMKFRknytJccwk0nPf: incoming reference to QBXVwP7oiiuEovkprDnckJlEnoK
 - YtJPwEVETiTaPMkWSfAccjXTnge: outgoing reference from L5jawEj7FiBXWZkGhLgcQCWQnDd
 - Z9AMwNkVLiog0jkXxNscuMpJnjL: incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d
-- ZR1bwJFFSio2jkkabd7c1YAYncf: incoming reference to Q7wIwcnrEiVDofk5G4Fc7vlonPh
 
 ## Removed Docs
 

@@ -1,7 +1,6 @@
 ---
 title: "Insert Data into StructArray Fields | BYOC"
 slug: /insert-struct-array
-sidebar_label: "Insert Data into StructArray Fields"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Insert data into a StructArray field when each entity contains an ordered list of structured elements. In the insert payload, a StructArray field is represented as an array of objects. Each object represents one Struct element and uses the Struct subfield names defined in the collection schema. | BYOC"
 type: origin
-token: WTPbww9GkifmAvkuRWLcVd4jnnh
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-insert-struct-array
+sidebar_label: "Insert Data into StructArray Fields"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/insert-data-into-structarray-fields.md"
 
 ---
 
@@ -35,7 +36,7 @@ Make sure the collection schema already contains the `chunks` StructArray field.
 | `title` | `VARCHAR` | Article title. |
 | `category` | `VARCHAR` | Article category. |
 | `title_vector` | `FLOAT_VECTOR` | Article-level embedding. |
-| `chunks` | `ARRAY<STRUCT>` | A list of chunk objects. |
+| `chunks` | `ARRAY` | A list of chunk objects. |
 
 Each object in `chunks` must follow the Struct schema.
 
@@ -49,7 +50,7 @@ Each object in `chunks` must follow the Struct schema.
 | `emb_list_vector` | `FLOAT_VECTOR` | Vector written for EmbeddingList search. |
 | `emb` | `FLOAT_VECTOR` | Vector written for element-level search. |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In an insert payload, `chunks` is a regular field whose value is an array of Struct objects. Inside each object, use subfield names such as `text` and `emb`. Use path syntax, such as `chunks[text]` or `chunks[emb]`, only after insertion when you create indexes, run searches, build filters, or specify output fields.
 
@@ -92,7 +93,7 @@ The `chunks` value is an array of Struct elements. Each element is an object who
 
 ## Insert rows\{#insert-rows}
 
-Use `client.insert()` to insert rows that contain StructArray values.
+Use the insert operation to write the following three entities. Each entity includes all required Struct subfields. The Go example uses column-based input: each map groups the subfield arrays for one entity.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -371,7 +372,7 @@ result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_art
     WithFloatVectorColumn("title_vector", 4, [][]float32{{0.12, 0.08, 0.32, 0.48}, {0.2, 0.18, 0.22, 0.4}, {0.33, 0.11, 0.29, 0.37}}).
     WithStructArrayColumn("chunks", chunksSchema, chunksRows))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 fmt.Printf("inserted %d rows\n", result.InsertCount)
 ```
@@ -473,17 +474,18 @@ println!("insert count: {}", resp.insert_count());
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include <vector>
 
-#include <milvus/thirdparty/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 #include "milvus/MilvusClientV2.h"
 #include "milvus/request/dml/InsertRequest.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 nlohmann::json rows = nlohmann::json::array({
@@ -567,7 +569,7 @@ for (auto& row : rows) {
 milvus::InsertResponse response;
 status = client->Insert(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -638,26 +640,109 @@ console.log(res.status.error_code, res.insert_cnt);
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Dml;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var data = new Dictionary<string, object?>[]
+{
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 1L,
+        ["title"] = "StructArray indexing patterns",
+        ["category"] = "index",
+        ["title_vector"] = new float[] { 0.12f, 0.08f, 0.32f, 0.48f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Create one index for each vector subfield.",
+                ["section"] = "index",
+                ["page"] = 1L,
+                ["quality_score"] = 0.96f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.1f, 0.2f, 0.3f, 0.4f },
+                ["emb"] = new float[] { 0.1f, 0.2f, 0.3f, 0.4f }
+            },
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Use MAX_SIM metrics for EmbeddingList search.",
+                ["section"] = "index",
+                ["page"] = 2L,
+                ["quality_score"] = 0.91f,
+                ["has_code"] = true,
+                ["emb_list_vector"] = new float[] { 0.16f, 0.24f, 0.35f, 0.45f },
+                ["emb"] = new float[] { 0.16f, 0.24f, 0.35f, 0.45f }
+            }
+        }
+    },
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 2L,
+        ["title"] = "Filtered StructArray search",
+        ["category"] = "filter",
+        ["title_vector"] = new float[] { 0.2f, 0.18f, 0.22f, 0.4f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Use element_filter to match scalar conditions within the same Struct element.",
+                ["section"] = "filter",
+                ["page"] = 1L,
+                ["quality_score"] = 0.93f,
+                ["has_code"] = true,
+                ["emb_list_vector"] = new float[] { 0.21f, 0.18f, 0.33f, 0.44f },
+                ["emb"] = new float[] { 0.21f, 0.18f, 0.33f, 0.44f }
+            },
+            new Dictionary<string, object?>
+            {
+                ["text"] = "MATCH_LEAST checks how many elements satisfy a predicate.",
+                ["section"] = "filter",
+                ["page"] = 2L,
+                ["quality_score"] = 0.88f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.24f, 0.22f, 0.31f, 0.39f },
+                ["emb"] = new float[] { 0.24f, 0.22f, 0.31f, 0.39f }
+            }
+        }
+    },
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 3L,
+        ["title"] = "Element-level search with offsets",
+        ["category"] = "search",
+        ["title_vector"] = new float[] { 0.33f, 0.11f, 0.29f, 0.37f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Element-level search can return the offset of the matched Struct element.",
+                ["section"] = "search",
+                ["page"] = 1L,
+                ["quality_score"] = 0.95f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.32f, 0.14f, 0.28f, 0.41f },
+                ["emb"] = new float[] { 0.32f, 0.14f, 0.28f, 0.41f }
+            }
+        }
+    }
+};
 
 await client.InsertAsync(new InsertReq
 {
     CollectionName = "tech_articles",
-    RowsData =
-    [
-        new Dictionary<string, object?>
-        {
-            ["doc_id"] = 1L,
-            ["title"] = "StructArray indexing patterns",
-            ["category"] = "index",
-            ["title_vector"] = new[] { 0.12f, 0.08f, 0.32f, 0.48f },
-            ["chunks"] = new object[]
-            {
-                new Dictionary<string, object?> { ["text"] = "Create one index for each vector subfield.", ["section"] = "index", ["page"] = 1L, ["quality_score"] = 0.95f },
-                new Dictionary<string, object?> { ["text"] = "Load the collection before search.", ["section"] = "search", ["page"] = 2L, ["quality_score"] = 0.88f }
-            }
-        }
-    ]
+    RowsData = data
 });
 ```
 
@@ -815,11 +900,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert into nullable StructArray fields\{#insert-into-nullable-structarray-fields}
 
-If the `chunks` field is nullable, an entity can set the entire `chunks` field to null. In Python, use `None` to represent a null value.
+Run this optional example only if the parent `chunks` field was created with nullable enabled. NULL applies to the entire field, not an individual Struct element or subfield. An empty array is a present value and is not NULL.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -871,7 +957,6 @@ client.insert(InsertReq.builder()
 import (
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -880,15 +965,9 @@ _, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_articles"
     WithVarcharColumn("title", []string{"Article without chunks yet"}).
     WithVarcharColumn("category", []string{"draft"}).
     WithFloatVectorColumn("title_vector", 4, [][]float32{{0.05, 0.10, 0.15, 0.20}}).
-    WithStructArrayColumn("chunks", chunksSchema, []map[string]any{
-        {
-            "text": []string{}, "section": []string{}, "page": []int64{},
-            "quality_score": []float32{}, "has_code": []bool{},
-            "emb_list_vector": [][]float32{}, "emb": [][]float32{},
-        },
-    }))
+    WithStructArrayColumn("chunks", chunksSchema, []map[string]any{nil}))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 ```
 
@@ -934,7 +1013,7 @@ request.AddRowData(std::move(row));
 milvus::InsertResponse response;
 status = client->Insert(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -1002,19 +1081,20 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-When a nullable StructArray field contains a valid StructArray value, all subfields in that value should either be null or have valid values. Inserting an entity with some subfields set to null and others set to valid values results in an error.
+For a non-NULL StructArray value, provide valid values for every required subfield. Do not mix NULL subfield arrays with present subfield arrays in the same entity.
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
 
-Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x. If you dynamically add a StructArray field to an existing collection, the added field must be nullable, and existing entities return `null` for the new field across all its subfields.
+For version and deployment availability, see [StructArray Limits](./struct-array-limits). A StructArray field added to an existing collection must be nullable; existing entities have NULL for the whole added field.
 
 </Admonition>
 
 ## Validate inserted data\{#validate-inserted-data}
 
-You can query the collection and return the StructArray field or selected subfields.
+Before loading the collection, create the required vector indexes as described in [Index StructArray Fields](./index-struct-array). The following examples wait for loading to complete, then query selected subfields. For cURL, install `jq` to check the load-state response. With bounded-staleness consistency, a query immediately after insertion may not include the new rows; repeat it after the writes become visible, or configure strong consistency when creating the example collection.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1071,15 +1151,19 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-if _, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles")); err != nil {
-    fmt.Println(err.Error())
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles"))
+if err != nil {
+    panic(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    panic(err)
 }
 
 rs, err := cli.Query(ctx, milvusclient.NewQueryOption("tech_articles").
     WithFilter("doc_id in [1, 2, 3]").
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 fmt.Printf("query returned %d rows\n", rs.ResultCount)
 ```
@@ -1091,7 +1175,10 @@ fmt.Printf("query returned %d rows\n", rs.ResultCount)
 ```rust
 use milvus::v2::prelude::*;
 
-client.load_collection(LoadCollectionRequest::builder().collection_name("tech_articles").build()?).await?;
+client.load_collection(LoadCollectionRequest::builder()
+    .collection_name("tech_articles")
+    .sync(true)
+    .build()?).await?;
 
 let resp = client.query(QueryRequest::builder()
     .collection_name("tech_articles")
@@ -1109,7 +1196,7 @@ println!("query rows: {}", resp.results().get_output_field("doc_id").map(|f| f.l
 milvus::LoadCollectionRequest load_req;
 load_req.WithCollectionName("tech_articles");
 status = client->LoadCollection(load_req);
-if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 
 milvus::QueryRequest query_req;
 query_req.WithCollectionName("tech_articles")
@@ -1117,7 +1204,12 @@ query_req.WithCollectionName("tech_articles")
          .WithOutputFields({"doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
 milvus::QueryResponse query_resp;
 status = client->Query(query_req, query_resp);
-if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+
+milvus::EntityRows output_rows;
+status = query_resp.Results().OutputRows(output_rows);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+for (const auto& row : output_rows) { std::cout << row << std::endl; }
 ```
 
 </TabItem>
@@ -1165,16 +1257,31 @@ Console.WriteLine($"rows: {rows.FieldsData.FirstOrDefault()?.RowCount ?? 0}");
 <TabItem value='bash'>
 
 ```bash
+set -euo pipefail
+
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "tech_articles"
-}'
+curl --fail-with-body --silent --show-error --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data-raw '{"collectionName":"tech_articles"}' | jq -e '.code == 0' >/dev/null
+
+loaded=false
+for attempt in $(seq 1 60); do
+  state=$(curl --fail-with-body --silent --show-error --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data-raw '{"collectionName":"tech_articles"}' | jq -er 'if .code == 0 then .data.loadState else error("load-state request failed") end')
+  if [ "$state" = "LoadStateLoaded" ]; then
+    loaded=true
+    break
+  fi
+  sleep 1
+done
+[ "$loaded" = true ] || { echo "Collection did not finish loading" >&2; exit 1; }
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1184,10 +1291,11 @@ curl --request POST \
     "collectionName": "tech_articles",
     "filter": "doc_id in [1, 2, 3]",
     "outputFields": ["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 Use StructArray field paths, such as `chunks[text]`, only when you query, search, filter, or create indexes. Insert payloads should still use nested objects under `chunks`.
@@ -1224,7 +1332,6 @@ Use StructArray field paths, such as `chunks[text]`, only when you query, search
 
 1. To create indexes for `chunks[emb_list_vector]`, `chunks[emb]`, and scalar subfields, read [Index StructArray Fields](./index-struct-array).
 
-1. To search StructArray vector subfields, read [Basic Vector Search with StructArray](./search-with-struct-array).
+2. To search StructArray vector subfields, read [Basic Vector Search with StructArray](./search-with-struct-array).
 
-1. To review nullable behavior and version-specific limitations, read [StructArray Limits](./struct-array-limits).
-
+3. To review nullable behavior and version-specific limitations, read [StructArray Limits](./struct-array-limits).

@@ -1,17 +1,18 @@
 ---
 title: "Basic Vector Search with StructArray | BYOC"
 slug: /search-with-struct-array
-sidebar_label: "Basic Vector Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Use this page to run vector search on vector subfields inside a StructArray field. StructArray supports two basic vector search modes EmbeddingList search, which scores an embedding list stored in each entity, and element-level search, which searches each Struct element independently. | BYOC"
+description: "Use this page to run vector search on vector subfields inside a StructArray field. StructArray supports two basic vector search modes: EmbeddingList search, which scores an embedding list stored in each entity, and element-level search, which searches each Struct element independently. | BYOC"
 type: origin
-token: EDzFwzb7Sifsz4kFYZIcAF9Pn1p
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-search-with-struct-array
+sidebar_label: "Basic Vector Search"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/basic-vector-search-with-structarray.md"
 
 ---
 
@@ -27,7 +28,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 
 ## Before you begin\{#before-you-begin}
 
-Make sure the collection schema, data, and indexes are already prepared.
+Make sure the collection schema, data, and indexes are already prepared. The example vectors have four dimensions. Each search example initializes a client and waits for `tech_articles` to load before searching. For cURL, install `jq` to check the load-state response.
 
 | Requirement | Where to prepare it |
 | --- | --- |
@@ -36,7 +37,9 @@ Make sure the collection schema, data, and indexes are already prepared.
 | Create a `MAX_SIM*` index on `chunks[emb_list_vector]` for EmbeddingList search. | [Index StructArray Fields](./index-struct-array) |
 | Create a regular vector-metric index on `chunks[emb]` for element-level search. | [Index StructArray Fields](./index-struct-array) |
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
+
+Warning
 
 A vector field or vector subfield accepts only one index. If you need both EmbeddingList search and element-level search, create two separate vector subfields. In this page, `chunks[emb_list_vector]` is indexed for EmbeddingList search, and `chunks[emb]` is indexed for element-level search.
 
@@ -70,6 +73,8 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN",
 )
 
+client.load_collection(collection_name="tech_articles")
+
 query = EmbeddingList()
 query.add([0.12, 0.21, 0.32, 0.44])
 query.add([0.18, 0.23, 0.29, 0.36])
@@ -90,7 +95,7 @@ results = client.search(
 
 for hits in results:
     for hit in hits:
-        print(hit.id, hit.distance, hit.entity)
+        print(hit["doc_id"], hit["distance"], hit["entity"])
 ```
 
 </TabItem>
@@ -98,6 +103,7 @@ for hits in results:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
@@ -113,6 +119,10 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("tech_articles")
+        .build());
 
 EmbeddingList query = new EmbeddingList();
 query.add(new FloatVec(Arrays.asList(0.12f, 0.21f, 0.32f, 0.44f)));
@@ -153,8 +163,15 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
-    fmt.Println(err)
-    return
+    panic(err)
+}
+
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles"))
+if err != nil {
+    panic(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    panic(err)
 }
 
 query := entity.FloatVectorArray{
@@ -168,14 +185,19 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption(
     []entity.Vector{query},
 ).WithANNSField("chunks[emb_list_vector]").WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
 if err != nil {
-    fmt.Println(err)
-    return
+    panic(err)
 }
 
 for _, result := range results {
     for i := 0; i < result.ResultCount; i++ {
-        id, _ := result.IDs.Get(i)
+        id, err := result.IDs.Get(i)
+        if err != nil { panic(err) }
         fmt.Println(id, result.Scores[i])
+        for _, field := range result.Fields {
+            value, err := field.Get(i)
+            if err != nil { panic(err) }
+            fmt.Println(field.Name(), value)
+        }
     }
 }
 ```
@@ -189,6 +211,11 @@ use milvus::v2::prelude::*;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
+
+client.load_collection(LoadCollectionRequest::builder()
+    .collection_name("tech_articles")
+    .sync(true)
+    .build()?).await?;
 
 let query = EmbeddingList::new().vectors(vec![
     vec![0.12, 0.21, 0.32, 0.44],
@@ -219,14 +246,19 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+    .WithCollectionName("tech_articles").WithSync(true));
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 
 milvus::EmbeddingList query;
 query.AddFloatVector({0.12, 0.21, 0.32, 0.44});
@@ -246,12 +278,13 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
     for (const auto& row : output_rows) {
         std::cout << row << std::endl;
     }
@@ -269,6 +302,8 @@ const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
   token: "YOUR_CLUSTER_TOKEN",
 });
+
+await client.loadCollection({ collection_name: "tech_articles" });
 
 const query = [
   [0.12, 0.21, 0.32, 0.44],
@@ -297,6 +332,10 @@ console.log(JSON.stringify(results.results, null, 2));
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Linq;
+using System.Text.Json;
+using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
@@ -308,6 +347,12 @@ var client = new MilvusClientV2(new ConnectConfig
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "tech_articles",
+    Sync = true
+});
 
 var query = new EmbeddingList();
 query.Add(new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.32f, 0.44f }));
@@ -324,7 +369,11 @@ SearchResp results = await client.SearchAsync(new SearchReq
         OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]" }
     }
 });
-Console.WriteLine(string.Join(", ", results.SingleResults.SelectMany(r => r.Scores)));
+foreach (var result in results.SingleResults!)
+{
+    for (int i = 0; i < result.Scores.Count; i++)
+        Console.WriteLine(JsonSerializer.Serialize(result.GetRow(i)));
+}
 ```
 
 </TabItem>
@@ -332,6 +381,32 @@ Console.WriteLine(string.Join(", ", results.SingleResults.SelectMany(r => r.Scor
 <TabItem value='bash'>
 
 ```bash
+set -euo pipefail
+
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --fail-with-body --silent --show-error --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data-raw '{"collectionName":"tech_articles"}' | jq -e '.code == 0' >/dev/null
+
+loaded=false
+for attempt in $(seq 1 60); do
+  state=$(curl --fail-with-body --silent --show-error --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data-raw '{"collectionName":"tech_articles"}' | jq -er 'if .code == 0 then .data.loadState else error("load-state request failed") end')
+  if [ "$state" = "LoadStateLoaded" ]; then
+    loaded=true
+    break
+  fi
+  sleep 1
+done
+[ "$loaded" = true ] || { echo "Collection did not finish loading" >&2; exit 1; }
+
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -357,11 +432,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this search mode, `limit` controls how many entities are returned for each query. The output can include StructArray subfields, but the hit itself represents the matched parent entity rather than one specific Struct element.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 For a full ColBERT or ColPali-style walkthrough, see [Search with Embedding Lists](./tutorial-colbert-colpali). This page only covers the basic StructArray search behavior.
 
@@ -381,6 +457,8 @@ client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN",
 )
+
+client.load_collection(collection_name="tech_articles")
 
 query_vector = [0.19, 0.24, 0.30, 0.37]
 
@@ -402,10 +480,10 @@ results = client.search(
 for hits in results:
     for hit in hits:
         print(
-            "doc_id:", hit.id,
-            "distance:", hit.distance,
+            "doc_id:", hit["doc_id"],
+            "distance:", hit["distance"],
             "offset:", hit.get("offset"),
-            "entity:", hit.entity,
+            "entity:", hit["entity"],
         )
 ```
 
@@ -414,6 +492,7 @@ for hits in results:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
@@ -428,6 +507,10 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("tech_articles")
+        .build());
 
 SearchResp resp = client.search(SearchReq.builder()
         .collectionName("tech_articles")
@@ -467,25 +550,37 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
-    fmt.Println(err)
-    return
+    panic(err)
 }
 
-// Note: the element-level hit offset is not exposed by the Go SDK as of client/v3.0.0.
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles"))
+if err != nil {
+    panic(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    panic(err)
+}
+
+// Go client/v3.0.0 does not expose element offsets in ResultSet.
 results, err := cli.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles",
     5,
     []entity.Vector{entity.FloatVector{0.19, 0.24, 0.30, 0.37}},
 ).WithANNSField("chunks[emb]").WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"))
 if err != nil {
-    fmt.Println(err)
-    return
+    panic(err)
 }
 
 for _, result := range results {
     for i := 0; i < result.ResultCount; i++ {
-        id, _ := result.IDs.Get(i)
+        id, err := result.IDs.Get(i)
+        if err != nil { panic(err) }
         fmt.Println("doc_id:", id, "distance:", result.Scores[i])
+        for _, field := range result.Fields {
+            value, err := field.Get(i)
+            if err != nil { panic(err) }
+            fmt.Println(field.Name(), value)
+        }
     }
 }
 ```
@@ -499,6 +594,11 @@ use milvus::v2::prelude::*;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
+
+client.load_collection(LoadCollectionRequest::builder()
+    .collection_name("tech_articles")
+    .sync(true)
+    .build()?).await?;
 
 let query_vector = vec![0.19, 0.24, 0.30, 0.37];
 
@@ -530,14 +630,19 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+    .WithCollectionName("tech_articles").WithSync(true));
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 
 auto request = milvus::SearchRequest()
                    .WithCollectionName("tech_articles")
@@ -554,12 +659,13 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
     for (const auto& row : output_rows) {
         std::cout << row << std::endl;
     }
@@ -577,6 +683,8 @@ const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
   token: "YOUR_CLUSTER_TOKEN",
 });
+
+await client.loadCollection({ collection_name: "tech_articles" });
 
 const query_vector = [0.19, 0.24, 0.30, 0.37];
 
@@ -603,6 +711,10 @@ console.log(JSON.stringify(results.results, null, 2));
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Linq;
+using System.Text.Json;
+using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Responses.Dql;
@@ -614,6 +726,12 @@ var client = new MilvusClientV2(new ConnectConfig
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
+
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "tech_articles",
+    Sync = true
+});
 
 var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
 
@@ -628,10 +746,13 @@ SearchResp results = await client.SearchAsync(new SearchReq
         OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
     }
 });
-foreach (var result in results.SingleResults)
+foreach (var result in results.SingleResults!)
 {
-    Console.WriteLine(string.Join(", ", result.Scores));
+    for (int i = 0; i < result.Scores.Count; i++)
+        Console.WriteLine(JsonSerializer.Serialize(result.GetRow(i)));
 }
+// One query: ElementIndices aligns with its hit order.
+Console.WriteLine(JsonSerializer.Serialize(results.ElementIndices));
 ```
 
 </TabItem>
@@ -639,6 +760,32 @@ foreach (var result in results.SingleResults)
 <TabItem value='bash'>
 
 ```bash
+set -euo pipefail
+
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --fail-with-body --silent --show-error --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data-raw '{"collectionName":"tech_articles"}' | jq -e '.code == 0' >/dev/null
+
+loaded=false
+for attempt in $(seq 1 60); do
+  state=$(curl --fail-with-body --silent --show-error --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data-raw '{"collectionName":"tech_articles"}' | jq -er 'if .code == 0 then .data.loadState else error("load-state request failed") end')
+  if [ "$state" = "LoadStateLoaded" ]; then
+    loaded=true
+    break
+  fi
+  sleep 1
+done
+[ "$loaded" = true ] || { echo "Collection did not finish loading" >&2; exit 1; }
+
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -662,6 +809,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In element-level search, each hit represents a matched Struct element. The `offset` value is the zero-based position of that element in the StructArray field. The same entity can appear more than once if more than one Struct element matches the query. The `limit` value applies to element hits, not unique parent entities.
@@ -670,11 +818,13 @@ In element-level search, each hit represents a matched Struct element. The `offs
 
 | Result item | EmbeddingList search | Element-level search |
 | --- | --- | --- |
-| `id` | Primary key of the matched entity. | Primary key of the entity that contains the matched Struct element. |
+| Primary key (`doc_id` in this schema) | Primary key of the matched entity. | Primary key of the entity that contains the matched Struct element. |
 | `distance` or score | Score or distance between the query embedding list and the stored embedding list. | Score or distance between the query vector and the matched Struct element vector. |
 | `offset` | Not applicable. | Zero-based position of the matched Struct element when returned. |
 | Repeated primary keys | Not expected for a single query because results are entity-level. | Possible, because multiple Struct elements in the same entity can match. |
 | Requested StructArray output fields | Returned from the matched entity. | Returned with the element-level hit shape supported by the target API and SDK. |
+
+The Python examples use PyMilvus 3.0.2 and access the primary key by its schema name, `doc_id`. Result accessors differ by SDK. Go client/v3.0.0 does not expose element offsets in `ResultSet`; other examples display offsets only through their SDK's supported result interface.
 
 ## Common mistakes\{#common-mistakes}
 
@@ -694,11 +844,10 @@ In element-level search, each hit represents a matched Struct element. The `offs
 
 1. To restrict element-level search by scalar conditions, read [Filtered Search with StructArray](./filtered-search-with-struct-arrays).
 
-1. To search by score or distance boundaries, read [Range Search with StructArray](./range-search-with-struct-arrays).
+2. To search by score or distance boundaries, read [Range Search with StructArray](./range-search-with-struct-arrays).
 
-1. To return at most one result per parent entity after element-level search, read [Grouping Search with StructArray](./grouping-search-with-struct-array).
+3. To return at most one result per parent entity after element-level search, read [Grouping Search with StructArray](./grouping-search-with-struct-array).
 
-1. To combine StructArray search with other vector searches, read [Hybrid Search with StructArray](./hybrid-search-with-struct-array).
+4. To combine StructArray search with other vector searches, read [Hybrid Search with StructArray](./hybrid-search-with-struct-array).
 
-1. To review supported data types, metrics, filters, and version-specific limits, read [StructArray Limits](./struct-array-limits).
-
+5. To review supported data types, metrics, filters, and version-specific limits, read [StructArray Limits](./struct-array-limits).

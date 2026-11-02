@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "48c0d7bfa7a6e74d7f645cf626bd81bae8003473",
+      "commit": "0719a6698e72ea8a58dd2fee6bec6741c10699b7",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2672,6 +2672,18 @@
           "sha256": "8c49e38dad7bbd982e3a86732dbd10ab0483f062ffe0425c99af02cfbe59eebe"
         },
         {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-availability.md",
+          "sha256": "0cdaa4bd60d88ef211015ad3b38aaefe27c068c1ea716a9b4f5eebd1c538d499"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/lock.yaml",
+          "sha256": "21f94c841635df1eb7325535e1d5373508c6b4626618ae89824ff673cc7d858d"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/page.yaml",
+          "sha256": "05c7506395789edcf936bcae2c10a668a5bf8753b7bd6ec6c65f81f919bf2944"
+        },
+        {
           "path": "shared-docs/guides/pages/decay-ranker-oveview/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
@@ -2704,6 +2716,14 @@
           "sha256": "98fc7a5eabb1edb8ebe14f41499df122449e36facdd1f6d33ec4950e419aaf90"
         },
         {
+          "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/lock.yaml",
+          "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/page.yaml",
+          "sha256": "3e8edaaf67144096f5ea5c384536a05cb574388fd28d7a3ea5758ce01ce1182c"
+        },
+        {
           "path": "shared-docs/guides/pages/filtered-search/cloud-iterative-cli.md",
           "sha256": "3c6bdb719184e1828ec35cf6edbbaf1a6539f318f6b8de836fb391866626a641"
         },
@@ -2720,6 +2740,22 @@
           "sha256": "a48d8d850bf08945c4335407ca86a299592c8dbec5894c7da5bab9b877f6f1c1"
         },
         {
+          "path": "shared-docs/guides/pages/grouping-search-with-struct-array/lock.yaml",
+          "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search-with-struct-array/page.yaml",
+          "sha256": "5d526bb52b9746d10efe52444d669e862d0c4632e6ccb832d8ccae38be39d28c"
+        },
+        {
+          "path": "shared-docs/guides/pages/hybrid-search-with-struct-array/lock.yaml",
+          "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
+        },
+        {
+          "path": "shared-docs/guides/pages/hybrid-search-with-struct-array/page.yaml",
+          "sha256": "8dee86d296316c75ffc80471b51f1a5d2f14391954f08ecc47392d9e162867f7"
+        },
+        {
           "path": "shared-docs/guides/pages/icu-tokenizer/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
@@ -2728,12 +2764,44 @@
           "sha256": "6209aada37ff346bb9d98e4faeb8206b24efc9671ce82cf71142d4eb193779b4"
         },
         {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-element-matrix.md",
+          "sha256": "4672fe6f7933f874aa3f308347865f5b7d00bc91d2f527025be58b3b19f23c4e"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-emblist-matrix.md",
+          "sha256": "f15d65392de63ba8d690f13fa0777425da64fb98d9cb63dd60bad3ea9917b426"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-scalar-indexes.md",
+          "sha256": "477a5acccab4a43d00fc9c01ca68ad0e4401feb11c6f977f1b2223cb5f85d0c3"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-vector-indexes.md",
+          "sha256": "12d217852c9f0704b8e5969b50d64bb721ba1d297b38352705be4558de3a5916"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/lock.yaml",
+          "sha256": "21f94c841635df1eb7325535e1d5373508c6b4626618ae89824ff673cc7d858d"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/page.yaml",
+          "sha256": "0886c6d4d18fdeb5d4c6c6a903f76f8b0a838ff9e21cd1198cdfc0521c697824"
+        },
+        {
           "path": "shared-docs/guides/pages/insert-entities/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
         {
           "path": "shared-docs/guides/pages/insert-entities/page.yaml",
           "sha256": "7a9711e9928e6f197a73f7840f750b9c6d1ea71d6251133df31eea8e7ef39b9a"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-struct-array/lock.yaml",
+          "sha256": "0e35b171f542dc28e080754f4c694e66bd8cf1d39389a6ed1c1b835f5eb5ec32"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-struct-array/page.yaml",
+          "sha256": "0b793c1b186ab6fcf182e8d6aae62f78d5b58f63575dbb84fa3e56ea2503198f"
         },
         {
           "path": "shared-docs/guides/pages/lindera-tokenizer/lock.yaml",
@@ -2750,6 +2818,14 @@
         {
           "path": "shared-docs/guides/pages/lowercase-filter/page.yaml",
           "sha256": "12281712e864b404e9d754c4b76b7235386c88019f410a145f92d813d4098145"
+        },
+        {
+          "path": "shared-docs/guides/pages/range-search-with-struct-arrays/lock.yaml",
+          "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
+        },
+        {
+          "path": "shared-docs/guides/pages/range-search-with-struct-arrays/page.yaml",
+          "sha256": "d29908e7fd1f093c11c364137cd7ffc729c7cc3acd9528942cbfadb8ed686ae4"
         },
         {
           "path": "shared-docs/guides/pages/regex-filter/lock.yaml",
@@ -2774,6 +2850,14 @@
         {
           "path": "shared-docs/guides/pages/reranking-rrf/page.yaml",
           "sha256": "4c052230e9cea72c9e4f99a61f4bbe02a51aec12fb9845c199adc4bf4602ab53"
+        },
+        {
+          "path": "shared-docs/guides/pages/search-with-struct-array/lock.yaml",
+          "sha256": "0e35b171f542dc28e080754f4c694e66bd8cf1d39389a6ed1c1b835f5eb5ec32"
+        },
+        {
+          "path": "shared-docs/guides/pages/search-with-struct-array/page.yaml",
+          "sha256": "c14169f73abee4f6d1a7bbad142c2900ed4428f08000dc840202fbaa1316fd04"
         },
         {
           "path": "shared-docs/guides/pages/standard-tokenizer/lock.yaml",
@@ -2856,12 +2940,24 @@
           "sha256": "027bba4d2d7f9e6c04aaf116a9c57a285854b313d4b9a79a093a765255320dab"
         },
         {
+          "path": "shared-docs/guides/pages/whitespace-tokenizer/cloud-verification-heading.md",
+          "sha256": "e3ccffd280c6e0fefc3931cebb2e092a8ecfd76e19246bac5bd8152460a2e15a"
+        },
+        {
+          "path": "shared-docs/guides/pages/whitespace-tokenizer/lock.yaml",
+          "sha256": "9ac9f49fbf2ca593f29049a4e410a34d77e312730e4b92a2d6480b45c488c5e8"
+        },
+        {
+          "path": "shared-docs/guides/pages/whitespace-tokenizer/page.yaml",
+          "sha256": "be80e1cdb36e505b69ab0a6e770d633baa38f59e1930e48c5bd71fb8f8a08d46"
+        },
+        {
           "path": "shared-docs/guides/presentation/cloud-sdk-tabs.yaml",
           "sha256": "933cee506db4c72a44e911ecfe82fe9cf5f41cb406289a3f7f45af45a5dd98a0"
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "2576a0dea02ef8cab7eae316e6b3477d64f0f7cc3ed507b97d2c6d6d517039cb"
+          "sha256": "ad6d9274d79cefb2abcc7e0df45e646acc7e0b981296aa864995f1d0208b596e"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -2870,7 +2966,7 @@
       ]
     },
     "dev": {
-      "commit": "323030f8658aabaea2485d14096022fb01d18039",
+      "commit": "beee60fc00bba7bbe1b5a5252c2a8d590d1772b3",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -5698,7 +5794,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "972f4175e0f12ea0a3a943a66199d3babbf17c94c8dc63ac1314b9de9e42d56b"
+          "sha256": "7337266b563665099db2b6d79481991442ac5c3c5c8049d984fb0b0f64e7f612"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5706,99 +5802,99 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "ee5588da0983624895e3740e2006e76d9525ff465a04704dbcf24982b35c7991"
+          "sha256": "6cf124e45ae5465f85b2767a60b103571a854705a586b1065acc4de516edb57b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "75b130837903ac80f8788c059bce83aa52e7cc919cd01684f03092e1aad53103"
+          "sha256": "2040c39f89b7e5d212b9c98552664651f295d58cfae345ea2994544e76e8f39a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "c4fa6f43f062fc3a82ff6d7b9314f518a243f32dec9642dd988644324a3ce358"
+          "sha256": "2ed22f0eb3320d951d732fafcc3822e6eecff732c0bc605e83f0c385321e2f16"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "df1f071bad5332b276f0ceaee346d295adb17829df8dc3fbe5aabec0075a1fcb"
+          "sha256": "659e562c30757773a320691081c7baae123e4d1d23b2fdc1ac373b6cf54abfb1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "38e77683295552a4666e4474242aef6d2ae710ce6734214374d7389bcfeed191"
+          "sha256": "81d252d3c1ddde0db3e5067e0f5f699efa8577bb35038de13f61c30ca44fadeb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "8476b5c77a88677c41f12b93b08b8ec7f056cc046ef989d9f95dbe82288b15f2"
+          "sha256": "1bb1d2df1622a027eed3aa3d7a6a251975ebbbc00d8455d293ec98f67cd9dd6f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "63958b963f1ef57eaffb7473e091f9bae79b4640cbeaafe8288a2ac81035fc87"
+          "sha256": "f9af9b3e11b98990c0c707dd59268ab5989a584a564e39e6973a2745dd0c1020"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "f3dc9e22a205505d7403c0bff805a55217b6e502a855e5aa1fbf26ef34545a18"
+          "sha256": "bd072c5187e5fbcab38773c378c9e3a679dc11616bbb0b510ee7e9fb121ef6e4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "6f974a2421346c86e1bf438b8c3e8efd91142105c748c8263dfde3ef6868ae5f"
+          "sha256": "80aeea6817643ea64e0cfe0572162daede1755cdb60dcf21618d807e7eb168be"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "466ec918fedc51879c3fc4cb7340f01d0fee4277704cad860d3a05873345309e"
+          "sha256": "b371911bc30ecec0aa79cf1e10c28eed84aaaa7bc46c3a8b3247068c72bff824"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "7454497c80933c5e3177f2b2ec38fb30ce5b6de16d3b5e4be129dcf7ee061ffa"
+          "sha256": "6aa7cb794c0bf770c9495543820032e58ead3649104e6f192f49883f351dd53c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "ec5a927989243abd94de3ceb8d977d42518a92f454ca2b334c8d21de4471c6a1"
+          "sha256": "5bed02e7e451ccecdcbfcea1db58a895a54621230fb0310d0a2fa4c3406eefd0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "ad28a1875bfca884b8ab417e9ab8b3a663ae37eb2d344fb2fb3b4d5538c69988"
+          "sha256": "aff4ed14b9c25e6f79216237351919fa2bf809a0989c20c55fd791201290c5a3"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "33508109ba35abe780349e53b526665fca2c4b50474e7673377b2fe3b9f95cd6"
+          "sha256": "4e0a0ac7deb7f5f9644dda376b0d4ae1948083b62b92ea7b0f059c71c4455cca"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "d2281ea16357e984a0d0bc9c97d704b63c6924bbe6fa9088b33262291551ef04"
+          "sha256": "c1499bd5ed631d63bf0e019f48fa888166fda06b7a261b81af85ed2cda77c873"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "b6c8028e704ed138c69f54c85fa9126813aedd1afa46a615df2f6ef10f61e5b9"
+          "sha256": "5a943b24a24ec290c663d459ae8c01390931b8fd4ab9e955f8a10835fc65bea9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "6e1dc95044cf4431b34aff4089625bff4aa3df8f3ea08fcc9b98b8dbb97136d0"
+          "sha256": "11b0755328a08d61a081d8d335d4a78cf1504aed4bc0758461ec7fb67185c625"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "c6e2e0fda2ecc6f9daaf5fd6ec331d357104a930c90a60ed7e66162c53a26685"
+          "sha256": "b3f1117c24dd7e2eaafc8674c8667c55f31a585b12e9e2991940e0bcd7ba3ed0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "08ecf8d24bd2a3c140f6fca3d370b4bbaeb9c65a30caac04c462776eed62e9ec"
+          "sha256": "58cfa7cec6ce6dd9826fd68dddac5c2ab7cb68677d52bce54bc6cd2684f3e403"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "b6e51d852174c4b949ebab2d128bad1381692700ce65e06df79c579b2729ce59"
+          "sha256": "5f22208f78314f837e8b154dfed18d0716320af9a22047d0384716ecc24dec5f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "7e336c7d0218e1f5dbeb4de500d7efd5968feec868329507e04010b0799b4825"
+          "sha256": "1e31b6ff1376cd739250af9d2074453a3339e0208f444d0075c196a6a3a59f83"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "da90d6070a9c92a4a9c00b4b0bcdd9bae5a33c0260afa54163561c92e0f26508"
+          "sha256": "af870a2fae2900b793c6e8616ac97f4f152cfbc537995b64fc3712ac8e1b426c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "9b71f367d56a6a3a5cb553be0f38a494dc878acdb60cd7aa12580465e98804d1"
+          "sha256": "fc84458f51b7bf16450455d1c0e6800c6f243aba58b64577c8bd8bc02c3ae67c"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "cde7826a6fd398a764005f6b6a418cee97c44c6a489c0419cf12c7b2c2943981"
+          "sha256": "389f86495d90d9387de2f810ad99dc48fe1fa39258d1f852724541de7ffa74e3"
         }
       ]
     },
@@ -9159,11 +9255,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/search-with-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "search-with-struct-array"
+            }
           },
           {
             "record_id": "recvmiYazRHkb7",
@@ -9182,11 +9283,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/WDjyw7hO3i26RckEgqIcf36snMh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search-with-struct-arrays",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "filtered-search-with-struct-arrays"
+            }
           },
           {
             "record_id": "recvmiYaHQq90e",
@@ -9205,11 +9311,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/ZR1bwJFFSio2jkkabd7c1YAYncf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search-with-struct-arrays",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "range-search-with-struct-arrays"
+            }
           },
           {
             "record_id": "recvmiYaOEEiuv",
@@ -9228,11 +9339,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/I60hwuYrSiVSWBkYq9RcqRcpnFh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search-with-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "grouping-search-with-struct-array"
+            }
           },
           {
             "record_id": "recvmiYaUTQk9R",
@@ -9251,11 +9367,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/EqSpwh9BaiEISgkG5YVcDbCUnpe",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/hybrid-search-with-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "hybrid-search-with-struct-array"
+            }
           },
           {
             "record_id": "recvmiYb14LJdy",
@@ -10524,11 +10645,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/RzSBwW7dUizQeekka9CcZ3Etnyg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/create-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "create-struct-array"
+            }
           },
           {
             "record_id": "recvmiXeibUjFw",
@@ -10547,11 +10673,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/WTPbww9GkifmAvkuRWLcVd4jnnh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "insert-struct-array"
+            }
           },
           {
             "record_id": "recvmiXfJKVEi6",
@@ -10570,11 +10701,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/VvkEwug9ciPZYVk6hM1chLydnib",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/index-struct-array",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "index-struct-array"
+            }
           },
           {
             "record_id": "recvmiXheOIXXi",
@@ -12529,11 +12665,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/F2QrwjFSziSUkJkyXzbcwovUnCg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/whitespace-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "whitespace-tokenizer"
+            }
           },
           {
             "record_id": "recvlPvlBPwyMm",
@@ -16813,7 +16954,7 @@
           "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "8131fd4da4ba58fe8e3703701d1c834f69d6e4f1c08f591d5dceb3e313c06ce9",
+          "tblWv7PjNDsexddH": "7e59ba8f51af978fec9d4a5aa00f801d176844211ebd88f2b0a470b4ea718545",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
@@ -16845,7 +16986,7 @@
       }
     },
     "tools": {
-      "zdoc": "48c0d7bfa7a6e74d7f645cf626bd81bae8003473",
+      "zdoc": "0719a6698e72ea8a58dd2fee6bec6741c10699b7",
       "md2md": "1.3.0"
     },
     "images": []

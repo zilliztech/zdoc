@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-02T02:36:07.134Z",
+  "generated_at": "2026-11-02T07:18:56.565Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -1398,7 +1398,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search",
-        "inputs_sha256": "efd980bc0a19b9b64843add6452fe9beda17fbe6d6727085df045c5d0e6282d2",
+        "inputs_sha256": "9971c70f7c1a34d01012f553e599800a268715df3301241bc340f3418743e83e",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
       },
       "source_file": null,
@@ -1990,7 +1990,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-filtering",
-        "inputs_sha256": "3e8a13646a1089cf45df5d2fdc0be6d83323629b83b03f03c631e77595d1c4f6",
+        "inputs_sha256": "7c244fd12af6c8f90de9f6ea9f3aedfb4cc1c78109620280e31d0598a866a079",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
       },
       "source_file": null,
@@ -2885,7 +2885,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "6c5cfe3873d26b5a968eb7205d00b7039cd896672d2ad6de21ee10185296370d",
+        "inputs_sha256": "646a3f825a12310253dc634f8b5738276fe99e7ecee9c02d75af35453cb59b2b",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "source_file": null,
@@ -3274,7 +3274,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "d202c0e1668402b55a2a914bfce6dee094cb4c37b408ffc1b6596219b1bcdf87",
+        "inputs_sha256": "bba3070fc6f474fa1e41e6f9325fafcbbaf37bf37326a08113356b3375ceb226",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "source_file": null,
@@ -3706,7 +3706,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "0601f0f893172371b100e51eccb4e6fd4f85ca0caba3a7fd1024a4af6aad675f",
+        "inputs_sha256": "8ee5b781a90f6f2ec81ea5eb88b93d0e53ec551f5e96f2713e9bb772a0f6b51c",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "source_file": null,
@@ -4219,7 +4219,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "9992b9b6e472425743a2086f5df0e032c19253eca4d98a390d4972a0671d975e",
+        "inputs_sha256": "19672a1c25eacd235dc9fd0fe49b88f167c85a3add16759fc886055fd70f582f",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "source_file": null,
@@ -4394,7 +4394,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "3a9af11ea2cea7e7aa0f639bc725faed0a268b61c183de5768135ab54081195e",
+        "inputs_sha256": "0e5db023be2bf4b2ec565a5e376dbe8621a816d43c91146e6d25feaa1c09f294",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "source_file": null,
@@ -4668,7 +4668,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "406533c0d32448af35df7c1c53b6ea4ed67d76b81ca9fac1210ac796f993ce49",
+        "inputs_sha256": "fa79de22b35a51c9112300d1d0ddde7e80391841f0bbbfaf9929ef3090484142",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "source_file": null,
@@ -5964,7 +5964,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "811b0d13395f9141f81fb3728576b0fae2500395f1eeff1791971f1b3f75cbf4",
+        "inputs_sha256": "2b6531dfffa72e919b281a456f12f35c95550c61389c74acf7ad5935b2d326b1",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       },
       "source_file": null,
@@ -6046,7 +6046,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "fb1cfa32267d71acbe9b2738ce005725464a42332771cc70d0f40024e778cd50",
+        "inputs_sha256": "67bf9cfd9e653b4f9767dc3f5e0a672c893f97132035765c3d45abed3f06bde2",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       },
       "source_file": null,
@@ -6082,7 +6082,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "067c9651ff823ea82f9fd7e6870521cfd89b5643e9c2b6031d095da76999dbde",
+        "inputs_sha256": "bebde21017cc4b20e17d21ea79e537921bfbd853ff7391d5b9f12cac3a1d2b00",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "source_file": null,
@@ -6154,44 +6154,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Whitespace",
+      "labels": "Whitespace",
       "slug": "whitespace-tokenizer",
-      "doc_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/F2QrwjFSziSUkJkyXzbcwovUnCg",
-      "source_file": "F2QrwjFSziSUkJkyXzbcwovUnCg.json",
-      "source_hash": "b8da0e761fcf33347e9bdeb0d573f8f6ca0c5ea7d8120d1beec9dab5c924aca5",
-      "node_metadata": {
-        "requested_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-        "requested_node_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-        "node_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-        "origin_node_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-        "obj_token": "XobrdPs0goDKcfxQE6scpCJtnSg",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Whitespace",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
-        "node_create_time": "1730174660",
-        "obj_create_time": "1730174660",
-        "obj_edit_time": "1792822798",
-        "revision_id": "224"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/whitespace-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "whitespace-tokenizer",
+        "inputs_sha256": "8cca95ad54c2bbb317481f1d13afddad95f8e4777934609cadf4c2564ec8fac7",
+        "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
       },
-      "node_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-      "origin_node_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-      "obj_token": "XobrdPs0goDKcfxQE6scpCJtnSg",
-      "obj_type": "docx",
-      "obj_edit_time": "1792822798",
-      "revision_id": "224",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv2oXHh4w"
+      ],
+      "order": 178,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "AhAhw08MFiB9OpkDjbPcVUTVnlg",
-        "H8MVwnjdgihp0hkRHHKcjBe9n5e"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md"
+      ]
     },
     {
       "record_id": "recvlPvJP0pbh9",
@@ -6207,7 +6198,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "7b1ccc023672d44ae0f2a7051c0cfd63578e2279518b8041d0984139470fdd97",
+        "inputs_sha256": "f5863e5c3f8b724c1c3931c364d0bef9b369e3a38f1360fdb01b1a827b55f6f2",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "source_file": null,
@@ -6289,7 +6280,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "61d588ef1cf5ff267320b8a76ee4788a85314a87956bf2fa1c864106515ff3f9",
+        "inputs_sha256": "e753e4183bfde0e28284b01206019f0d2a422ad77344cfba1e6f7f34a8a31089",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "source_file": null,
@@ -6325,7 +6316,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "a602846acb7c83a8b18e71bc630ea88101f4f838b921b507e37db1a3fadce11a",
+        "inputs_sha256": "fab5e66191729fe025bc6e2c14e5b036983b911c2aad93996284dc9a812ce219",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       },
       "source_file": null,
@@ -6361,7 +6352,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "4d8a31577e9dc621dda8556968a25ea72ee64c1bc3c02eb4ddd4aebb9ec8f286",
+        "inputs_sha256": "877add77a36b18f18cbef2d2d215fdff2d918c542bee91bdb139bf8979255586",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "source_file": null,
@@ -6442,7 +6433,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lowercase-filter",
-        "inputs_sha256": "d4547312399dee73725f322140322770837b2578b12c04ffafb9a5b114f821d9",
+        "inputs_sha256": "0e8041931297c454763644a9f84aac26cdd3f60a0d08c469f2e1adc3161e4c26",
         "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
       },
       "source_file": null,
@@ -6478,7 +6469,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ascii-folding-filter",
-        "inputs_sha256": "8d8ae45b3050cc24251c54a749386de156b4bf3ff9fa0411eef31a191a799476",
+        "inputs_sha256": "7651b322f8aaac4f7700b371e89a659e04bdbea98fa50e6c9b6f0a72d5bd0057",
         "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
       },
       "source_file": null,
@@ -6514,7 +6505,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alphanumonly-filter",
-        "inputs_sha256": "558112d8f3a8512fc9969bef5dace44baad8db8a5b5943f528dc60cc0d053203",
+        "inputs_sha256": "f7c585d7b995c910a9206354db680815ed683b5b5e7733d67497fd05d0986eb6",
         "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
       },
       "source_file": null,
@@ -6913,7 +6904,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "30ded51db49869955ec010825eea4c82c4f2056954ae63430d204975b3293cd9",
+        "inputs_sha256": "5e6e5707527151355a5aa52c08b10b1031ff3f42f705f885130ed5a833e3b0e9",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "source_file": null,
@@ -7171,7 +7162,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "12dc6cbed33c2780378d612267a376da1c3b5f3d018f13f7e40561aefe7b7c8e",
+        "inputs_sha256": "3448569be80ae3fc53a3c409f5a20a2ac8330a6075d8201b09920f85d7dcffb9",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       },
       "source_file": null,
@@ -13737,7 +13728,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "93768ac87c28b377379c379bea352f6a906be9dcef8eaa824892de5aa7b47a8d",
+        "inputs_sha256": "754fcb744986bc1760add5b3931ba9776506de9a83aca9a291e32f089ee5bfda",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "source_file": null,
@@ -13765,46 +13756,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Create a StructArray Field",
+      "labels": "",
       "slug": "create-struct-array",
-      "doc_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/RzSBwW7dUizQeekka9CcZ3Etnyg",
-      "source_file": "RzSBwW7dUizQeekka9CcZ3Etnyg.json",
-      "source_hash": "36c4a13615cdb1674db90aa9ed476ebce2c82e21770c28467fe1abc0614c0a67",
-      "node_metadata": {
-        "requested_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "requested_node_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "node_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "origin_node_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "obj_token": "S42mdbcmaoCTLXxBARScu5f3nBb",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Create a StructArray Field",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
-        "node_create_time": "1781219917",
-        "obj_create_time": "1781219917",
-        "obj_edit_time": "1793246270",
-        "revision_id": "134"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/create-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "create-struct-array",
+        "inputs_sha256": "89e838c3a45603df56a02c278d082765331d7371cb244097c0343afea71d1223",
+        "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
       },
-      "node_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-      "origin_node_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-      "obj_token": "S42mdbcmaoCTLXxBARScu5f3nBb",
-      "obj_type": "docx",
-      "obj_edit_time": "1793246270",
-      "revision_id": "134",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPtk8BZ2aP"
+      ],
+      "order": 89,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WTPbww9GkifmAvkuRWLcVd4jnnh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md",
+        "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiXeibUjFw",
@@ -13812,46 +13792,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Insert Data into StructArray Fields",
+      "labels": "",
       "slug": "insert-struct-array",
-      "doc_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/WTPbww9GkifmAvkuRWLcVd4jnnh",
-      "source_file": "WTPbww9GkifmAvkuRWLcVd4jnnh.json",
-      "source_hash": "4b369fb263fcfaabc93e633e28e43cb61db8637cb65949aecd010f5f3a762153",
-      "node_metadata": {
-        "requested_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "requested_node_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "node_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "origin_node_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "obj_token": "XcEFdhEudo1T7ExB5dWci43Zn4f",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Insert Data into StructArray Fields",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
-        "node_create_time": "1781219931",
-        "obj_create_time": "1781219931",
-        "obj_edit_time": "1793390033",
-        "revision_id": "72"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "insert-struct-array",
+        "inputs_sha256": "854adf5cc12984675b50bead2b238f0c0d783c46e70fa6f0eead501f1efc7d9b",
+        "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
       },
-      "node_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-      "origin_node_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-      "obj_token": "XcEFdhEudo1T7ExB5dWci43Zn4f",
-      "obj_type": "docx",
-      "obj_edit_time": "1793390033",
-      "revision_id": "72",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPtk8BZ2aP"
+      ],
+      "order": 90,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VvkEwug9ciPZYVk6hM1chLydnib"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md",
+        "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiXfJKVEi6",
@@ -13859,46 +13828,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Index StructArray Fields",
+      "labels": "",
       "slug": "index-struct-array",
-      "doc_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VvkEwug9ciPZYVk6hM1chLydnib",
-      "source_file": "VvkEwug9ciPZYVk6hM1chLydnib.json",
-      "source_hash": "2e6c43f689e1b428c4e915b6fa561f5f639d468ed4af39b56c0abdc0708f56d9",
-      "node_metadata": {
-        "requested_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-        "requested_node_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-        "node_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-        "origin_node_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-        "obj_token": "ATkTdEgAioEZnSxNIyYcmjDxnsf",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Index StructArray Fields",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
-        "node_create_time": "1781219948",
-        "obj_create_time": "1781219948",
-        "obj_edit_time": "1792857093",
-        "revision_id": "404"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/index-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "index-struct-array",
+        "inputs_sha256": "abfc93264d22cd6897482d4178e8ffd9523f6194e736c576565a57d66da5c3f6",
+        "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
       },
-      "node_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-      "origin_node_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-      "obj_token": "ATkTdEgAioEZnSxNIyYcmjDxnsf",
-      "obj_type": "docx",
-      "obj_edit_time": "1792857093",
-      "revision_id": "404",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPtk8BZ2aP"
+      ],
+      "order": 91,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "WDjyw7hO3i26RckEgqIcf36snMh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/struct-array/index-struct-array.md",
+        "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiXheOIXXi",
@@ -13914,7 +13872,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-limits",
-        "inputs_sha256": "b6ca7d35a5d45609b16402571d924db3fcdff506dab9f4baff675d334665913e",
+        "inputs_sha256": "bab1738fcc1862f17bfa44b2ae37f9308d5f5dc5374f64f52557f749fa89f0b8",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
       },
       "source_file": null,
@@ -13942,51 +13900,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Basic Vector Search with StructArray",
+      "labels": "Basic Vector Search",
       "slug": "search-with-struct-array",
-      "doc_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-      "source_file": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p.json",
-      "source_hash": "503ce70fffe8fabd38b3d46729514dceb9e963de37784e7f7fe9c985aa537cb9",
-      "node_metadata": {
-        "requested_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "requested_node_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "node_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "origin_node_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "obj_token": "GjW0dOBKio3khWx9qC7cnZtEncg",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Basic Vector Search with StructArray",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "DGCFwPHDqijeJJklqTScLwUunrh",
-        "node_create_time": "1781219995",
-        "obj_create_time": "1781219995",
-        "obj_edit_time": "1792814724",
-        "revision_id": "81"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "search-with-struct-array",
+        "inputs_sha256": "3109f50d38e0b1b592121fb4967769f18488eed17526bfb1f5d4ff8ba4d048ec",
+        "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
       },
-      "node_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-      "origin_node_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-      "obj_token": "GjW0dOBKio3khWx9qC7cnZtEncg",
-      "obj_type": "docx",
-      "obj_edit_time": "1792814724",
-      "revision_id": "81",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPqNYYZSJr"
+      ],
+      "order": 29,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "Mf7GwGwgQiLCcykOi69cvaD8ncz",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WDjyw7hO3i26RckEgqIcf36snMh",
-        "WTPbww9GkifmAvkuRWLcVd4jnnh",
-        "ZR1bwJFFSio2jkkabd7c1YAYncf"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
+        "content/en/guides/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiYaHQq90e",
@@ -13994,48 +13936,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Range Search with StructArray",
+      "labels": "Range Search",
       "slug": "range-search-with-struct-arrays",
-      "doc_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/ZR1bwJFFSio2jkkabd7c1YAYncf",
-      "source_file": "ZR1bwJFFSio2jkkabd7c1YAYncf.json",
-      "source_hash": "95d2933cd96e12709f26a92cc049dfecd50a866152d66cb92d4889b37b77c80c",
-      "node_metadata": {
-        "requested_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-        "requested_node_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-        "node_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-        "origin_node_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-        "obj_token": "Xrn5d296folMzaxrDBucPtsAnPf",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Range Search with StructArray",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "DGCFwPHDqijeJJklqTScLwUunrh",
-        "node_create_time": "1781220012",
-        "obj_create_time": "1781220012",
-        "obj_edit_time": "1792862194",
-        "revision_id": "71"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search-with-struct-arrays",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "range-search-with-struct-arrays",
+        "inputs_sha256": "e1a990d6e8b323673c3bcf2f0b60fa2587914b4f36a5ed6bbc34f052e66c6f89",
+        "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
       },
-      "node_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-      "origin_node_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-      "obj_token": "Xrn5d296folMzaxrDBucPtsAnPf",
-      "obj_type": "docx",
-      "obj_edit_time": "1792862194",
-      "revision_id": "71",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPqNYYZSJr"
+      ],
+      "order": 31,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WDjyw7hO3i26RckEgqIcf36snMh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
+        "content/en/guides/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md"
+      ]
     },
     {
       "record_id": "recvmiYaOEEiuv",
@@ -14043,48 +13972,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Grouping Search with StructArray",
+      "labels": "Grouping Search",
       "slug": "grouping-search-with-struct-array",
-      "doc_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/I60hwuYrSiVSWBkYq9RcqRcpnFh",
-      "source_file": "I60hwuYrSiVSWBkYq9RcqRcpnFh.json",
-      "source_hash": "f9dd0dfe02a47bf388e1fe6a16037757f9777d847b311bf86b23af4ed13a603a",
-      "node_metadata": {
-        "requested_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "requested_node_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "node_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "origin_node_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "obj_token": "RNA1dUNodoBBHQxt7UScU1HZn4e",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Grouping Search with StructArray",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "DGCFwPHDqijeJJklqTScLwUunrh",
-        "node_create_time": "1781220043",
-        "obj_create_time": "1781220043",
-        "obj_edit_time": "1792809723",
-        "revision_id": "57"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "grouping-search-with-struct-array",
+        "inputs_sha256": "ed1dfc37c640414c004cfa4e275bc25b090b9bcb6618be2fc4604723dba43ce2",
+        "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
       },
-      "node_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-      "origin_node_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-      "obj_token": "RNA1dUNodoBBHQxt7UScU1HZn4e",
-      "obj_type": "docx",
-      "obj_edit_time": "1792809723",
-      "revision_id": "57",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPqNYYZSJr"
+      ],
+      "order": 32,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WDjyw7hO3i26RckEgqIcf36snMh",
-        "ZR1bwJFFSio2jkkabd7c1YAYncf"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
+        "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiYaUTQk9R",
@@ -14092,49 +14008,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Hybrid Search with StructArray",
+      "labels": "Hybrid Search",
       "slug": "hybrid-search-with-struct-array",
-      "doc_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EqSpwh9BaiEISgkG5YVcDbCUnpe",
-      "source_file": "EqSpwh9BaiEISgkG5YVcDbCUnpe.json",
-      "source_hash": "cedf2da6e3b631e0f643d313cff5d6dc6165655629e96a68dfd5f6f2bb932650",
-      "node_metadata": {
-        "requested_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "requested_node_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "node_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "origin_node_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "obj_token": "UMWCdhossoY0EcxclMJcBSRtnyK",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Hybrid Search with StructArray",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "DGCFwPHDqijeJJklqTScLwUunrh",
-        "node_create_time": "1781220357",
-        "obj_create_time": "1781220357",
-        "obj_edit_time": "1792824634",
-        "revision_id": "62"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/hybrid-search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "hybrid-search-with-struct-array",
+        "inputs_sha256": "3126b416b38cf625fe26258cbb42cae4264e3a9136b388796e70272e2233ffa1",
+        "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
       },
-      "node_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-      "origin_node_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-      "obj_token": "UMWCdhossoY0EcxclMJcBSRtnyK",
-      "obj_type": "docx",
-      "obj_edit_time": "1792824634",
-      "revision_id": "62",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPqNYYZSJr"
+      ],
+      "order": 33,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VvkEwug9ciPZYVk6hM1chLydnib",
-        "WDjyw7hO3i26RckEgqIcf36snMh",
-        "ZR1bwJFFSio2jkkabd7c1YAYncf"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
+        "content/en/guides/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md"
+      ]
     },
     {
       "record_id": "recvmiYazRHkb7",
@@ -14142,48 +14044,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Filtered Search with StructArray",
+      "labels": "Filtered Search",
       "slug": "filtered-search-with-struct-arrays",
-      "doc_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/WDjyw7hO3i26RckEgqIcf36snMh",
-      "source_file": "WDjyw7hO3i26RckEgqIcf36snMh.json",
-      "source_hash": "4ade8bbf024357f3b43259b023829cf0ea74ced6fdd311b14bdf0860f6608a95",
-      "node_metadata": {
-        "requested_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-        "requested_node_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-        "node_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-        "origin_node_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-        "obj_token": "BxOudLjD8oPBgexFVz8cWwlwnlh",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Filtered Search with StructArray",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "DGCFwPHDqijeJJklqTScLwUunrh",
-        "node_create_time": "1781220024",
-        "obj_create_time": "1781220024",
-        "obj_edit_time": "1792857102",
-        "revision_id": "55"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search-with-struct-arrays",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "filtered-search-with-struct-arrays",
+        "inputs_sha256": "1fd659127cbcb0360fde3b294df60a64c81b7ea3964973df1149403bb8df5381",
+        "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
       },
-      "node_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-      "origin_node_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-      "obj_token": "BxOudLjD8oPBgexFVz8cWwlwnlh",
-      "obj_type": "docx",
-      "obj_edit_time": "1792857102",
-      "revision_id": "55",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPqNYYZSJr"
+      ],
+      "order": 30,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-        "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-        "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
-        "RzSBwW7dUizQeekka9CcZ3Etnyg",
-        "VmGMwsTliiGZdFkzzeBckRNlnCh",
-        "VvkEwug9ciPZYVk6hM1chLydnib"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
+        "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md"
+      ]
     },
     {
       "record_id": "recvmiYb14LJdy",
@@ -14199,7 +14088,7 @@
       "shared_page": {
         "group": "guides",
         "page": "tutorial-colbert-colpali",
-        "inputs_sha256": "d0347a1f5bfa684f06e9e87dbd51a9f98f85f6b335477f85c3e4b995d56ce8d2",
+        "inputs_sha256": "dde09ad532450417b4baf88bd20d419ec1926a49e57f8baa541cca0a5c73a1e4",
         "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
       },
       "source_file": null,
@@ -21400,7 +21289,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search",
-        "inputs_sha256": "efd980bc0a19b9b64843add6452fe9beda17fbe6d6727085df045c5d0e6282d2",
+        "inputs_sha256": "9971c70f7c1a34d01012f553e599800a268715df3301241bc340f3418743e83e",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
       }
     },
@@ -21726,7 +21615,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-filtering",
-        "inputs_sha256": "3e8a13646a1089cf45df5d2fdc0be6d83323629b83b03f03c631e77595d1c4f6",
+        "inputs_sha256": "7c244fd12af6c8f90de9f6ea9f3aedfb4cc1c78109620280e31d0598a866a079",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
       }
     },
@@ -21928,11 +21817,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/search-with-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "search-with-struct-array",
+        "inputs_sha256": "3109f50d38e0b1b592121fb4967769f18488eed17526bfb1f5d4ff8ba4d048ec",
+        "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiYazRHkb7",
@@ -21951,11 +21847,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "WDjyw7hO3i26RckEgqIcf36snMh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/WDjyw7hO3i26RckEgqIcf36snMh",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search-with-struct-arrays",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "filtered-search-with-struct-arrays",
+        "inputs_sha256": "1fd659127cbcb0360fde3b294df60a64c81b7ea3964973df1149403bb8df5381",
+        "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
+      }
     },
     {
       "record_id": "recvmiYaHQq90e",
@@ -21974,11 +21877,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "ZR1bwJFFSio2jkkabd7c1YAYncf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/ZR1bwJFFSio2jkkabd7c1YAYncf",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search-with-struct-arrays",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "range-search-with-struct-arrays",
+        "inputs_sha256": "e1a990d6e8b323673c3bcf2f0b60fa2587914b4f36a5ed6bbc34f052e66c6f89",
+        "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
+      }
     },
     {
       "record_id": "recvmiYaOEEiuv",
@@ -21997,11 +21907,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/I60hwuYrSiVSWBkYq9RcqRcpnFh",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search-with-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "grouping-search-with-struct-array",
+        "inputs_sha256": "ed1dfc37c640414c004cfa4e275bc25b090b9bcb6618be2fc4604723dba43ce2",
+        "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiYaUTQk9R",
@@ -22020,11 +21937,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EqSpwh9BaiEISgkG5YVcDbCUnpe",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/hybrid-search-with-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "hybrid-search-with-struct-array",
+        "inputs_sha256": "3126b416b38cf625fe26258cbb42cae4264e3a9136b388796e70272e2233ffa1",
+        "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiYb14LJdy",
@@ -22052,7 +21976,7 @@
       "shared_page": {
         "group": "guides",
         "page": "tutorial-colbert-colpali",
-        "inputs_sha256": "d0347a1f5bfa684f06e9e87dbd51a9f98f85f6b335477f85c3e4b995d56ce8d2",
+        "inputs_sha256": "dde09ad532450417b4baf88bd20d419ec1926a49e57f8baa541cca0a5c73a1e4",
         "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
       }
     },
@@ -22417,7 +22341,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "6c5cfe3873d26b5a968eb7205d00b7039cd896672d2ad6de21ee10185296370d",
+        "inputs_sha256": "646a3f825a12310253dc634f8b5738276fe99e7ecee9c02d75af35453cb59b2b",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       }
     },
@@ -22607,7 +22531,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "d202c0e1668402b55a2a914bfce6dee094cb4c37b408ffc1b6596219b1bcdf87",
+        "inputs_sha256": "bba3070fc6f474fa1e41e6f9325fafcbbaf37bf37326a08113356b3375ceb226",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       }
     },
@@ -23074,7 +22998,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "0601f0f893172371b100e51eccb4e6fd4f85ca0caba3a7fd1024a4af6aad675f",
+        "inputs_sha256": "8ee5b781a90f6f2ec81ea5eb88b93d0e53ec551f5e96f2713e9bb772a0f6b51c",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       }
     },
@@ -23282,7 +23206,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "93768ac87c28b377379c379bea352f6a906be9dcef8eaa824892de5aa7b47a8d",
+        "inputs_sha256": "754fcb744986bc1760add5b3931ba9776506de9a83aca9a291e32f089ee5bfda",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       }
     },
@@ -23303,11 +23227,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "RzSBwW7dUizQeekka9CcZ3Etnyg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/RzSBwW7dUizQeekka9CcZ3Etnyg",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/create-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "create-struct-array",
+        "inputs_sha256": "89e838c3a45603df56a02c278d082765331d7371cb244097c0343afea71d1223",
+        "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiXeibUjFw",
@@ -23326,11 +23257,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "WTPbww9GkifmAvkuRWLcVd4jnnh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/WTPbww9GkifmAvkuRWLcVd4jnnh",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "insert-struct-array",
+        "inputs_sha256": "854adf5cc12984675b50bead2b238f0c0d783c46e70fa6f0eead501f1efc7d9b",
+        "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiXfJKVEi6",
@@ -23349,11 +23287,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "VvkEwug9ciPZYVk6hM1chLydnib",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VvkEwug9ciPZYVk6hM1chLydnib",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/index-struct-array",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "index-struct-array",
+        "inputs_sha256": "abfc93264d22cd6897482d4178e8ffd9523f6194e736c576565a57d66da5c3f6",
+        "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
+      }
     },
     {
       "record_id": "recvmiXheOIXXi",
@@ -23381,7 +23326,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-limits",
-        "inputs_sha256": "b6ca7d35a5d45609b16402571d924db3fcdff506dab9f4baff675d334665913e",
+        "inputs_sha256": "bab1738fcc1862f17bfa44b2ae37f9308d5f5dc5374f64f52557f749fa89f0b8",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
       }
     },
@@ -23526,7 +23471,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "406533c0d32448af35df7c1c53b6ea4ed67d76b81ca9fac1210ac796f993ce49",
+        "inputs_sha256": "fa79de22b35a51c9112300d1d0ddde7e80391841f0bbbfaf9929ef3090484142",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       }
     },
@@ -23909,7 +23854,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "9992b9b6e472425743a2086f5df0e032c19253eca4d98a390d4972a0671d975e",
+        "inputs_sha256": "19672a1c25eacd235dc9fd0fe49b88f167c85a3add16759fc886055fd70f582f",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       }
     },
@@ -23985,7 +23930,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "3a9af11ea2cea7e7aa0f639bc725faed0a268b61c183de5768135ab54081195e",
+        "inputs_sha256": "0e5db023be2bf4b2ec565a5e376dbe8621a816d43c91146e6d25feaa1c09f294",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       }
     },
@@ -24804,7 +24749,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "12dc6cbed33c2780378d612267a376da1c3b5f3d018f13f7e40561aefe7b7c8e",
+        "inputs_sha256": "3448569be80ae3fc53a3c409f5a20a2ac8330a6075d8201b09920f85d7dcffb9",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       }
     },
@@ -24897,7 +24842,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "30ded51db49869955ec010825eea4c82c4f2056954ae63430d204975b3293cd9",
+        "inputs_sha256": "5e6e5707527151355a5aa52c08b10b1031ff3f42f705f885130ed5a833e3b0e9",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       }
     },
@@ -25301,7 +25246,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "067c9651ff823ea82f9fd7e6870521cfd89b5643e9c2b6031d095da76999dbde",
+        "inputs_sha256": "bebde21017cc4b20e17d21ea79e537921bfbd853ff7391d5b9f12cac3a1d2b00",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       }
     },
@@ -25322,11 +25267,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "F2QrwjFSziSUkJkyXzbcwovUnCg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/F2QrwjFSziSUkJkyXzbcwovUnCg",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/whitespace-tokenizer",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "whitespace-tokenizer",
+        "inputs_sha256": "8cca95ad54c2bbb317481f1d13afddad95f8e4777934609cadf4c2564ec8fac7",
+        "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
+      }
     },
     {
       "record_id": "recvlPvlBPwyMm",
@@ -25377,7 +25329,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "a602846acb7c83a8b18e71bc630ea88101f4f838b921b507e37db1a3fadce11a",
+        "inputs_sha256": "fab5e66191729fe025bc6e2c14e5b036983b911c2aad93996284dc9a812ce219",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       }
     },
@@ -25407,7 +25359,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "4d8a31577e9dc621dda8556968a25ea72ee64c1bc3c02eb4ddd4aebb9ec8f286",
+        "inputs_sha256": "877add77a36b18f18cbef2d2d215fdff2d918c542bee91bdb139bf8979255586",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       }
     },
@@ -25503,7 +25455,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lowercase-filter",
-        "inputs_sha256": "d4547312399dee73725f322140322770837b2578b12c04ffafb9a5b114f821d9",
+        "inputs_sha256": "0e8041931297c454763644a9f84aac26cdd3f60a0d08c469f2e1adc3161e4c26",
         "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
       }
     },
@@ -25533,7 +25485,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ascii-folding-filter",
-        "inputs_sha256": "8d8ae45b3050cc24251c54a749386de156b4bf3ff9fa0411eef31a191a799476",
+        "inputs_sha256": "7651b322f8aaac4f7700b371e89a659e04bdbea98fa50e6c9b6f0a72d5bd0057",
         "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
       }
     },
@@ -25563,7 +25515,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alphanumonly-filter",
-        "inputs_sha256": "558112d8f3a8512fc9969bef5dace44baad8db8a5b5943f528dc60cc0d053203",
+        "inputs_sha256": "f7c585d7b995c910a9206354db680815ed683b5b5e7733d67497fd05d0986eb6",
         "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
       }
     },
@@ -25685,7 +25637,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "811b0d13395f9141f81fb3728576b0fae2500395f1eeff1791971f1b3f75cbf4",
+        "inputs_sha256": "2b6531dfffa72e919b281a456f12f35c95550c61389c74acf7ad5935b2d326b1",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       }
     },
@@ -25715,7 +25667,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "fb1cfa32267d71acbe9b2738ce005725464a42332771cc70d0f40024e778cd50",
+        "inputs_sha256": "67bf9cfd9e653b4f9767dc3f5e0a672c893f97132035765c3d45abed3f06bde2",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       }
     },
@@ -25768,7 +25720,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "7b1ccc023672d44ae0f2a7051c0cfd63578e2279518b8041d0984139470fdd97",
+        "inputs_sha256": "f5863e5c3f8b724c1c3931c364d0bef9b369e3a38f1360fdb01b1a827b55f6f2",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       }
     },
@@ -25798,7 +25750,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "61d588ef1cf5ff267320b8a76ee4788a85314a87956bf2fa1c864106515ff3f9",
+        "inputs_sha256": "e753e4183bfde0e28284b01206019f0d2a422ad77344cfba1e6f7f34a8a31089",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       }
     },
@@ -29619,7 +29571,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "7ab567f8dae066c45feaa2178694f8f89153d6d7a4972030a79e499936707f44",
+    "tblWv7PjNDsexddH": "1e765b34bfe1ec29e63c6f944eab5d04f4513a3e5fd1bcdc7c3e59168fb477ea",
     "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",
