@@ -1,17 +1,17 @@
 {
   "fragmentHashes": {
-    "01-import-operations.json": "8ee465afdbca201b93d4e6fbb7dd4ba03c686d79a16169054931f46756c107dd",
+    "01-import-operations.json": "3b258a55eb288f7e194548b8c0aebb6602d9f7e2cf6e7239da82d8676c2c561c",
     "02-collection-operations.json": "b1322559a1df84e676b58a8357be533381545772d80080c7fde15ee978953a3c",
     "03-vector-operations.json": "a3103bf1afdc730a0fc8edf0bed2bd1b0ec3d7f645e5c4747235772f6a7c6d60",
-    "04-vector-operations-v2.json": "6ab4b70fbbdb65996ccb11e88b27dabb04ede8d595017a3cc4ff646170a19c40",
-    "05-collection-operations-v2.json": "ca8c6589adbe871a0dc375e3a8a6e85661fc2574bda4867844eba461dfa453e8",
-    "06-database-operations-v2.json": "e32df34f33464c792dcf95937109bbf0b51d8dd62b3f78ddc573d6817d4baf0e",
-    "07-index-operations-v2.json": "3bdb0578ad14b0c9130ecb4ec2aff0d012fd73a63c37d2d95586cf7003a2a48c",
+    "04-vector-operations-v2.json": "9ff29adeeddd4ba8d1f6f6875220c4537698a598b3dcc738812a2ab6e90b0bd0",
+    "05-collection-operations-v2.json": "c1a848a694c5c2883bebf1a73ea86da955cb8778ca2cb90c378ca805f54e97f2",
+    "06-database-operations-v2.json": "f1baa3857e7c3389bcf357354491168fe42babc8858126f17e592e4402aee139",
+    "07-index-operations-v2.json": "d4a57905a3c081d714ac3b3080ec90b74a3224656ec8bf92aa2b14341a640197",
     "08-partition-operations-v2.json": "e6448bb922344416605c45b03a303fd4d7d66d2dede806a0b535c71f95b37e33",
     "09-role-operations-v2.json": "381f81f8b618eabe5cc4eebb2b1c4d11c1c87e3b2abaea759566fc183ce747f3",
     "10-resource-group-v2.json": "c86dbdaea0cf8b51fadfc6b30706bbe6cd25cef518f90973e49e82b5d39ca625",
     "11-import-operations-v2.json": "33381ca81de8a5d0e5a437443819640bdf1b39a335df9c470aa1a70b032bbfe5",
-    "12-alias-operations-v2.json": "2f39d2e660f452b5ef254356d022505997d1484eb41cf7b173609d2526daf07b",
+    "12-alias-operations-v2.json": "52f5e7f8af8d802809a812d2115b8422d688b0507ce7bc9c923a549e4200aeee",
     "13-user-operations-v2.json": "50d8c113e403e313bd63a07c02f33349e7ae31c7529dea6aaa366802516583c3",
     "14-privilege-group-operations-v2.json": "0afdaf35fad31b29ce411a75908ad6124773ed08b77ab5f8a2e0f7fcc20aa532",
     "15-cloud-meta.json": "91bb5a4fdd9f7eac85b68979ac66a6b6061ba14216117879ba30352236618723",
@@ -36,11 +36,11 @@
     "34-cloud-access-control-operations-v2.json": "edba0e39a4db76784d018af7f59f26a51bc48f98eae251375145e3ae6b16a680",
     "35-cloud-api-key-operations-v2.json": "f900ad3aa066c341734186b60280a96f5eef8c44390388fa6480049a80ab3cf8",
     "36-private-endpoint-operations-v2.json": "142740e95ce9ee40712741f696baee42e59d436a7fca9f44c8640189dde2b614",
-    "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
-    "38-snapshot-operations-v2.json": "5b2da4866372d10f55f97811420b191d10f96b3a24ebb7bf8b68bfd81e2b6db5"
+    "37-file-resource-operations-v2.json": "e3292d2a32b845c202059502d071126d38c513021bfc07f4c979e032184fb453",
+    "38-snapshot-operations-v2.json": "53d3a0b1f09ea6e9f990144b25492cd6eb3e601849dcf1705477dcbe5a755a9d"
   },
-  "generatedAt": "2026-11-02T13:06:33.838Z",
+  "generatedAt": "2026-11-02T13:45:36.494Z",
   "locale": "ja-JP",
   "schemaVersion": 1,
-  "toolingSha": "24c35395bdebcb0f85acd3ac76dc5ce621561742"
+  "toolingSha": "3ba5ecb2d00cdbd4b5e6edd6da5147d35f3717ed"
 }
