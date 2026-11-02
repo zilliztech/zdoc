@@ -2966,7 +2966,7 @@
       ]
     },
     "dev": {
-      "commit": "beee60fc00bba7bbe1b5a5252c2a8d590d1772b3",
+      "commit": "dda58f947b4f1ea860c73a5c4b315fb79b35e27c",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -3170,7 +3170,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-          "sha256": "18c842b69977cb6a35105faea5a23585d2ca5facccb94fb4639d233235185171"
+          "sha256": "4c5879495de8fe3584e76c9b55f8acb41aaceee9a269ceb110b493c5569be796"
         },
         {
           "path": "content/en/byoc/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md",
@@ -3470,15 +3470,15 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md",
-          "sha256": "0abca01829a1dc8e5fe8291f26b7d2a376951a27d5f2fedf8f489aaea5a8e188"
+          "sha256": "aacc43fca4aea2083d84b3d7bad410367f98b98d8d46fb9e01ed434dd23d5ff2"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/index-struct-array.md",
-          "sha256": "9911bdd074d2847f73f1e30ffaf643c209e33ef11e7acd143a9d7bdc882d1814"
+          "sha256": "3e1041c054537ab6adbb9b61e35d8da616d2fe6ef8ee98dac363d0af83c803d1"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md",
-          "sha256": "5025178623322a18e6d62c895b4ab273d775db663ce3d5bb60d16a6c0572749a"
+          "sha256": "7d814025c6a4f210e0d4e407faf3ae36b776dc0f85b286c4e695313bc5a2b1d6"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
@@ -3622,23 +3622,23 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-          "sha256": "94bb5fda06660ccb0b07c6441a9cf8154b41324370f70e484ed08701109cc07f"
+          "sha256": "967d923d6e754188d5878e8e2c495be0f54daaf47710ab6effb2996c34e9a401"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
-          "sha256": "a8c8e40ea23f508c36ea692d1eaa4cb4cb8027d992d69bb6f0e9640671435a9c"
+          "sha256": "1b708bcb2037d004a552fd145c315e890fb46c4032f77db9b6cd3f8e71656f28"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
-          "sha256": "420817554408fc9537abdec261721dd7b430025892735d09dea017044d03c8f5"
+          "sha256": "69c7efe423acf5fff08c70decc3514d2b85508ccb50cff85051a9a6362d1a3e6"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
-          "sha256": "a7b6182dc7492ff09106d7676295f8179162b46d4833e7ed8720058f19ab04a4"
+          "sha256": "85a694de892267e146bfc3bfc3038c7ed3e7b6c56f757a1ae30bac850d4059dd"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
-          "sha256": "abc429689bc25d1e0f60c7dca80c3a2d14d4bd056451dc3e35399e7aaa267609"
+          "sha256": "f8e3969946fbf25fe811f8454c1c1ff84d3b5ea7b5774cbfce6d173ecd4b827f"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
@@ -4338,7 +4338,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-          "sha256": "234a692cd5823e544761380d9e51d30d89381c43c33b1769d392f2cc7ec92c5b"
+          "sha256": "3838cb79a2c285d7f16faacd8dc03e6bc41326b99d5524950a26703ee96623a0"
         },
         {
           "path": "content/en/guides/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md",
@@ -4670,15 +4670,15 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md",
-          "sha256": "c03fa29872e1bb1894d0780da485a107a28b73cc842e6c680ff6ec5e3ac98676"
+          "sha256": "b22ad6b2fc05e2832c4adcabd971224124f02157a2a25a840ed84ce62878ba3b"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md",
-          "sha256": "2813d8127082cd86b698be4cbaaea538163c56eaf498c852c46743aa6a514e19"
+          "sha256": "401abe3b9d9a092171f2f47d6970f225c2b403f213ae5b9856db9b932d5a8035"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md",
-          "sha256": "24a7c2c11f8d26b16c6fa526b19b23120ce6f3e03b20e72294fd2016f639dca0"
+          "sha256": "8f932df5eb20d8817bd1286fc3a8d44e1d4fd67e81b8cdc278634e5ca777ee48"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
@@ -4822,23 +4822,23 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-          "sha256": "b02ec1ee303040ac239599cb243caa8528a2f4c9a2a7ec9a18004f54122cf466"
+          "sha256": "8a4324549360b2f9b6b2ffcc054b4668228f26158c98f4e8fde4fc4e500d991f"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
-          "sha256": "2a73678eb90456516bf58ecfd4628616cf00beffa2a177d29a484e25ea1bdebb"
+          "sha256": "b765258333032e1a1628ca499b90bd6c88ed9da61dff9b63bd0290fda1689fce"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
-          "sha256": "1115773cf68bcf420af4ec27e93029c8839c9a846225206d18e7d724854556e1"
+          "sha256": "3ef61100146b6cdc640916ac077a1d0279044608c2cc45d38049ff50f8b2467e"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
-          "sha256": "64acefb0d8482579c5684f7b073e5ccc1833f95591ae5868e2fc7abdedfd244f"
+          "sha256": "cd99849b82f96ace4b68eeb867cb33f8b4f65201e33f41b33e9dcaecffff20a5"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
-          "sha256": "015ffd99b8212c6c031c8cf5b33cc1629d8888c960a94151b4342dd8f54e0f14"
+          "sha256": "a6912ab91b7d842b5fbe96a13778269fba23a76ffa2ac8c6b7b8238b35380bae"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
@@ -5794,107 +5794,143 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "7337266b563665099db2b6d79481991442ac5c3c5c8049d984fb0b0f64e7f612"
+          "sha256": "32e6b4e1de30f53607c2bb032df0f0fd90ff357a9522a3939bcae811a416d035"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
-          "sha256": "40ee47b46f5e8c197dcf2dc69c9fcb2cfa4df6d3527d4a79cc9e5573a5f28610"
+          "sha256": "237eaa1ee288be343a2a4daeb7b6df9e2d8c001da9fa400e7d35e04c153f95bb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "6cf124e45ae5465f85b2767a60b103571a854705a586b1065acc4de516edb57b"
+          "sha256": "107692609bb9ece1ebcfec7914200be9e89848dc55fd36bff125428715d3ece7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "2040c39f89b7e5d212b9c98552664651f295d58cfae345ea2994544e76e8f39a"
+          "sha256": "e1d531ccde3e876f5e22f36d577bc641b1369fe64f6f9b5d95b9cf676bd0d7f4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "2ed22f0eb3320d951d732fafcc3822e6eecff732c0bc605e83f0c385321e2f16"
+          "sha256": "199449325b26ac9c5bf7fb7ae6f176f95efff20d5c8c1fad323935309af6e512"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/create-struct-array.json",
+          "sha256": "aa5c70f7ded7cf9b22cf740275b2829bdfe7634e36ff937afadc67b6e048f94d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "659e562c30757773a320691081c7baae123e4d1d23b2fdc1ac373b6cf54abfb1"
+          "sha256": "d95f55ffa18f7ed3821eb45360a408e6cf6824413760a6287a9db77731cc942d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "81d252d3c1ddde0db3e5067e0f5f699efa8577bb35038de13f61c30ca44fadeb"
+          "sha256": "c8c1741fe11ac15abc847312369b5fe82371941aa3669fdf7420de3b839c1560"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "1bb1d2df1622a027eed3aa3d7a6a251975ebbbc00d8455d293ec98f67cd9dd6f"
+          "sha256": "c27d089c3e850b69adcfc12c8d238e8db788afcea7f393866495dd89721f50e6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "f9af9b3e11b98990c0c707dd59268ab5989a584a564e39e6973a2745dd0c1020"
+          "sha256": "b433ee9aae07599b9f6fa825e33912717d193ebd11610b07b17e8aad9ef2b7ce"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json",
+          "sha256": "7c6300b0215d5c2facc6cec3b981be5664b3f84f9ead0957407f588493dce730"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "bd072c5187e5fbcab38773c378c9e3a679dc11616bbb0b510ee7e9fb121ef6e4"
+          "sha256": "239d3b36ef84d07842ec2503a9a4c39f3885e238c7a29897db863a4b5ca55fd2"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json",
+          "sha256": "c3e0a096a2cf35863cdf96b444492a2b18cddc45a5073136e13b577bc719e7ef"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json",
+          "sha256": "144460353fc3250a344d83f37a39e6cfa8829fb5d2b93095025497c120371d16"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "80aeea6817643ea64e0cfe0572162daede1755cdb60dcf21618d807e7eb168be"
+          "sha256": "89b87ea11cd2fca92fcd8f97aa6cb83b8250ad7f987a7213d09ac3ce090476cd"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/index-struct-array.json",
+          "sha256": "db4935fc2874b711e91a4c5e478f1630418b89bf498d0e10c41160d460c366c5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "b371911bc30ecec0aa79cf1e10c28eed84aaaa7bc46c3a8b3247068c72bff824"
+          "sha256": "1a7fad2e007fc39cbb22a655582aba271670843db1514537678907593d093c72"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/insert-struct-array.json",
+          "sha256": "b902037c18409faba52e786299ee4552b74cd75014e3596871d5a6d3cc22d29a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "6aa7cb794c0bf770c9495543820032e58ead3649104e6f192f49883f351dd53c"
+          "sha256": "d1cfd434581b0ce94658400c1f7ac2224a959d16bfc26dc2c667b6018750e337"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "5bed02e7e451ccecdcbfcea1db58a895a54621230fb0310d0a2fa4c3406eefd0"
+          "sha256": "b3480f20e181fd18f70ac72efa392990c452fc06d4d757028d3b7eb764f586b1"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json",
+          "sha256": "19378e6ef6c0d2a7e83ab45060b4988ac74c0f8dba043c04af951d409d27e681"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "aff4ed14b9c25e6f79216237351919fa2bf809a0989c20c55fd791201290c5a3"
+          "sha256": "b9afd46155f25d4f002044017b9c707cd64160305d079e3f5166a478b6170d5f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "4e0a0ac7deb7f5f9644dda376b0d4ae1948083b62b92ea7b0f059c71c4455cca"
+          "sha256": "a618ea568a7d6340abf543d99f2045fb779b4c63c2866a774cf67a7763411af8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "c1499bd5ed631d63bf0e019f48fa888166fda06b7a261b81af85ed2cda77c873"
+          "sha256": "8871181c3426fa742f5a0e09d35fd52709ee082915aa7a408ba4ecb9cd150983"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
+          "sha256": "1356ba47f83b4c14a98fa9c9cd7bc6445d235f11219fd7fadd27f0a0b614e86d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "5a943b24a24ec290c663d459ae8c01390931b8fd4ab9e955f8a10835fc65bea9"
+          "sha256": "47bed34ea17253e840327b3092c6daaec130b8f95971a45945a64f6a135f967c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "11b0755328a08d61a081d8d335d4a78cf1504aed4bc0758461ec7fb67185c625"
+          "sha256": "f70a88b8690420b6fa06c103c4775cb06413bdd6d0eeec2cf0f9d7ce3cadf5ac"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "b3f1117c24dd7e2eaafc8674c8667c55f31a585b12e9e2991940e0bcd7ba3ed0"
+          "sha256": "48eb8db4d3ee91983dd231a6bcaa1a2398cde3e898e41941f1c40750a9b53ecb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "58cfa7cec6ce6dd9826fd68dddac5c2ab7cb68677d52bce54bc6cd2684f3e403"
+          "sha256": "8e56d6a68f07c3f4ff6e8b78b6c018ef0b4390855b18577502d4cf22368ed22c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "5f22208f78314f837e8b154dfed18d0716320af9a22047d0384716ecc24dec5f"
+          "sha256": "6efc0d08d18246710c80bcfe1d33f160c8f6346776966e5064397b468cee19d9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "1e31b6ff1376cd739250af9d2074453a3339e0208f444d0075c196a6a3a59f83"
+          "sha256": "4b9bf6ae57acf411e1f294daf19491500638f7af7862a7e360979781136512ad"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "af870a2fae2900b793c6e8616ac97f4f152cfbc537995b64fc3712ac8e1b426c"
+          "sha256": "412f9bcbb8b57dd3360d0681c85893bfbaf9f20d750637fc3ace5b0d9a301e34"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "fc84458f51b7bf16450455d1c0e6800c6f243aba58b64577c8bd8bc02c3ae67c"
+          "sha256": "bec52efcd1e0e8d6e8e54271c60b807f5512a18a114b200805b0f64284a118d9"
+        },
+        {
+          "path": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json",
+          "sha256": "24c6a20500b1868e29c77e6513e03f3c2a046fe1aa8283a46f07f9f7d2e84c9f"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "389f86495d90d9387de2f810ad99dc48fe1fa39258d1f852724541de7ffa74e3"
+          "sha256": "e936638746b3ce586df08cbe9cbf7d0153c0b025f69c3495f4e6999e8bdcc0c7"
         }
       ]
     },

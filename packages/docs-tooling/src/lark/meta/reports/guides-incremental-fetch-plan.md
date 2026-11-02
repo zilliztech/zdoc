@@ -1,10 +1,10 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-02T07:15:30.876Z
+Generated: 2026-11-02T10:29:06.755Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-02T02:36:07.134Z
+Previous snapshot: 2026-11-02T07:18:56.565Z
 
 ## Summary
 
@@ -17,19 +17,19 @@ Previous snapshot: 2026-11-02T02:36:07.134Z
 
 - Filtered Search (null): shared inputs changed
 - StructArray Operators (null): shared inputs changed
-- Basic Vector Search with StructArray (null): source ownership changed; shared inputs changed
-- Filtered Search with StructArray (null): source ownership changed; shared inputs changed
-- Range Search with StructArray (null): source ownership changed; shared inputs changed
-- Grouping Search with StructArray (null): source ownership changed; shared inputs changed
-- Hybrid Search with StructArray (null): source ownership changed; shared inputs changed
+- Basic Vector Search with StructArray (null): shared inputs changed
+- Filtered Search with StructArray (null): shared inputs changed
+- Range Search with StructArray (null): shared inputs changed
+- Grouping Search with StructArray (null): shared inputs changed
+- Hybrid Search with StructArray (null): shared inputs changed
 - Search with EmbeddingLists: ColBERT and ColPali (null): shared inputs changed
 - View Collections (null): shared inputs changed
 - Drop Collection (null): shared inputs changed
 - VarChar Field (null): shared inputs changed
 - StructArray Overview (null): shared inputs changed
-- Create a StructArray Field (null): source ownership changed; shared inputs changed
-- Insert Data into StructArray Fields (null): source ownership changed; shared inputs changed
-- Index StructArray Fields (null): source ownership changed; shared inputs changed
+- Create a StructArray Field (null): shared inputs changed
+- Insert Data into StructArray Fields (null): shared inputs changed
+- Index StructArray Fields (null): shared inputs changed
 - StructArray Limits (null): shared inputs changed
 - Alter Collection Field (null): shared inputs changed
 - Insert Entities (null): shared inputs changed
@@ -37,7 +37,7 @@ Previous snapshot: 2026-11-02T02:36:07.134Z
 - RRF Ranker (null): shared inputs changed
 - Decay Ranker Overview (null): shared inputs changed
 - Standard Tokenizer (null): shared inputs changed
-- Whitespace (null): source ownership changed; shared inputs changed
+- Whitespace (null): shared inputs changed
 - Lindera (null): shared inputs changed
 - ICU (null): shared inputs changed
 - Lowercase (null): shared inputs changed
