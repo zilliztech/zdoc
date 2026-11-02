@@ -1,21 +1,21 @@
 ---
 title: "Whitespace | BYOC"
 slug: /whitespace-tokenizer
-sidebar_label: "Whitespace"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`whitespace` トークナイザーは、タブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。 | BYOC"
+description: "whitespace トークナイザーは、タブ、ラインフィード、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。 | BYOC"
 type: origin
-token: F2QrwjFSziSUkJkyXzbcwovUnCg
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-whitespace-tokenizer
+sidebar_label: "Whitespace"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/tokenizer/whitespace-tokenizer.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -48,7 +48,7 @@ import TabItem from '@theme/TabItem';
 | `"a\x0Bb"` | `["a\x0Bb"]` |
 | `"a\u00A0b"` | `["a\u00A0b"]` |
 | `"a\u3000b"` | `["a\u3000b"]` |
-| `"\x20a\x20\x20b\x20"` | `["a", "b"]` |
+| `" a  b "` | `["a", "b"]` |
 
 ## 構成\{#configuration}
 
@@ -85,7 +85,9 @@ analyzerParams := map[string]any{"tokenizer": "whitespace"}
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
+use serde_json::json;
+
+let analyzer_params = json!({"tokenizer": "whitespace"});
 ```
 
 </TabItem>
@@ -93,6 +95,8 @@ let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "whitespace"}
 };
@@ -113,16 +117,11 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
-var analyzerParams = new Dictionary<string, object>
+Dictionary<string, object> analyzerParams = new()
 {
-    ["tokenizer"] = "whitespace",
+    ["tokenizer"] = "whitespace"
 };
 ```
 
@@ -131,16 +130,14 @@ var analyzerParams = new Dictionary<string, object>
 <TabItem value='bash'>
 
 ```bash
-# restful
-analyzerParams='{
-  "tokenizer": "whitespace"
-}'
+analyzerParams='{"tokenizer": "whitespace"}'
 ```
 
 </TabItem>
+
 </Tabs>
 
-whitespace トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter) を使用するアナライザーを定義します。
+whitespace トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`whitespace` トークナイザーと [小文字フィルター](./lowercase-filter) を使用するアナライザーを定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -148,7 +145,7 @@ whitespace トークナイザーは、1 つ以上のフィルターと組み合�
 ```python
 analyzer_params = {
     "tokenizer": "whitespace",
-    "filter": ["lowercase"]
+    "filter": ["lowercase"],
 }
 ```
 
@@ -167,7 +164,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+analyzerParams := map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -175,7 +172,12 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+});
 ```
 
 </TabItem>
@@ -183,6 +185,8 @@ let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "whitespace"},
     {"filter", {"lowercase"}}
@@ -196,7 +200,7 @@ nlohmann::json analyzer_params = {
 ```javascript
 const analyzer_params = {
     "tokenizer": "whitespace",
-    "filter": ["lowercase"]
+    "filter": ["lowercase"],
 };
 ```
 
@@ -205,17 +209,12 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
-var analyzerParams = new Dictionary<string, object>
+Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "whitespace",
-    ["filter"] = new[] { "lowercase" }
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -234,13 +233,14 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。選択した言語の検証例では、以下の構成を使用します。
 
 ### アナライザー構成\{#analyzer-configuration}
 
@@ -250,7 +250,7 @@ analyzerParams='{
 ```python
 analyzer_params = {
     "tokenizer": "whitespace",
-    "filter": ["lowercase"]
+    "filter": ["lowercase"],
 }
 ```
 
@@ -269,7 +269,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+analyzerParams := map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -277,7 +277,12 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+});
 ```
 
 </TabItem>
@@ -285,6 +290,8 @@ let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "whitespace"},
     {"filter", {"lowercase"}}
@@ -298,7 +305,7 @@ nlohmann::json analyzer_params = {
 ```javascript
 const analyzer_params = {
     "tokenizer": "whitespace",
-    "filter": ["lowercase"]
+    "filter": ["lowercase"],
 };
 ```
 
@@ -307,17 +314,12 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
-var analyzerParams = new Dictionary<string, object>
+Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "whitespace",
-    ["filter"] = new[] { "lowercase" }
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -332,10 +334,11 @@ analyzerParams='{
   "filter": [
     "lowercase"
   ]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -366,11 +369,11 @@ print("Whitespace analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -386,6 +389,12 @@ RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
         .analyzerParams(analyzerParams)
         .build());
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+
+for (RunAnalyzerResp.AnalyzerResult result : results) {
+    for (RunAnalyzerResp.AnalyzerToken token : result.getTokens()) {
+        System.out.println(token.getToken());
+    }
+}
 ```
 
 </TabItem>
@@ -401,14 +410,16 @@ import (
 )
 
 ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
 }
+
+defer client.Close(ctx)
 
 texts := []string{"The Milvus vector database is built for scale!"}
 option := milvusclient.NewRunAnalyzerOption(texts...).
@@ -416,8 +427,13 @@ option := milvusclient.NewRunAnalyzerOption(texts...).
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+    panic(err)
+}
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println(token.Text)
+    }
 }
 ```
 
@@ -428,17 +444,23 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-let sample_text = "The Milvus vector database is built for scale!";
-client
+let response = client
     .run_analyzer(
         RunAnalyzerRequest::builder()
-            .texts([sample_text])
-            .analyzer_params(analyzer_params.clone())
+            .texts(["The Milvus vector database is built for scale!"])
+            .analyzer_params(analyzer_params)
             .build()?,
     )
     .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("Whitespace analyzer output: {}", token.get_text());
+    }
+}
 ```
 
 </TabItem>
@@ -446,15 +468,17 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <string>
+#include <iostream>
+#include <stdexcept>
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 std::string text = "The Milvus vector database is built for scale!";
@@ -465,7 +489,13 @@ auto request = milvus::RunAnalyzerRequest()
 milvus::RunAnalyzerResponse response;
 status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
+}
+
+for (const auto& result : response.Results()) {
+    for (const auto& token : result.Tokens()) {
+        std::cout << token.token_ << std::endl;
+    }
 }
 ```
 
@@ -474,23 +504,20 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
-// Sample text to analyze
-const sample_text = "The Milvus vector database is built for scale!";
-
-// Run the whitespace analyzer with the defined configuration
+const sample_text = 'The Milvus vector database is built for scale!';
 const result = await client.runAnalyzer({
-    text: sample_text,
-    analyzer_params: analyzer_params
+  text: sample_text,
+  analyzer_params,
 });
-
-console.log("Whitespace analyzer output:", result);
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('Whitespace analyzer output:', tokens);
 ```
 
 </TabItem>
@@ -498,32 +525,35 @@ console.log("Whitespace analyzer output:", result);
 <TabItem value='csharp'>
 
 ```csharp
+using System;
 using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
 using Milvus.Client.V2.Types;
 
-using Milvus.Client.V2.Requests.Utility;
-
-var client = new MilvusClientV2(new ConnectConfig
+MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Sample text to analyze
 string sampleText = "The Milvus vector database is built for scale!";
 
 // Run the whitespace analyzer with the defined configuration
-var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
     Texts = new[] { sampleText }
 });
-Console.WriteLine("Whitespace analyzer output: " + string.Join(",", result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token)) ?? Array.Empty<string>()));
+
+foreach (AnalyzerResult r in result.Results)
+{
+    foreach (AnalyzerToken t in r.Tokens)
+    {
+        Console.WriteLine($"Whitespace analyzer output: {t.Token}");
+    }
+}
 ```
 
 </TabItem>
@@ -531,23 +561,24 @@ Console.WriteLine("Whitespace analyzer output: " + string.Join(",", result.Resul
 <TabItem value='bash'>
 
 ```bash
-# restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export SAMPLE_TEXT="The Milvus vector database is built for scale!"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "text": ["'"${SAMPLE_TEXT}"'"],
-    "analyzerParams": "{\"tokenizer\":\"whitespace\",\"filter\":[\"lowercase\"]}"
-  }' 
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "analyzerParams": "{\"tokenizer\": \"whitespace\", \"filter\": [\"lowercase\"]}",
+    "text": ["The Milvus vector database is built for scale!"]
+  }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```sql
+サンプルテキストに対して、アナライザーは次のトークンを順番に生成します。SDK の応答オブジェクトと出力形式は言語によって異なります。REST 応答には、これらのトークンが `data.results[].tokens[].token` に含まれます。
+
+```plaintext
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']
 ```

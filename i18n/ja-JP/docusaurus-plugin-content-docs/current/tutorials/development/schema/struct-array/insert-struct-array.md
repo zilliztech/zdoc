@@ -1,7 +1,6 @@
 ---
 title: "StructArray フィールドへのデータの挿入 | Cloud"
 slug: /insert-struct-array
-sidebar_label: "StructArray フィールドへのデータの挿入"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "各エンティティに構造化要素の順序付きリストが含まれる場合は、StructArray フィールドにデータを挿入します。挿入ペイロードでは、StructArray フィールドはオブジェクトの配列として表されます。各オブジェクトは 1 つの Struct 要素を表し、コレクションスキーマで定義された Struct サブフィールド名を使用します。 | Cloud"
 type: origin
-token: WTPbww9GkifmAvkuRWLcVd4jnnh
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-insert-struct-array
+sidebar_label: "StructArray フィールドへのデータの挿入"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/insert-data-into-structarray-fields.md"
 
 ---
 
@@ -35,7 +36,7 @@ import TabItem from '@theme/TabItem';
 | `title` | `VARCHAR` | 記事タイトル。 |
 | `category` | `VARCHAR` | 記事カテゴリ。 |
 | `title_vector` | `FLOAT_VECTOR` | 記事レベルのエンベディング。 |
-| `chunks` | `ARRAY<STRUCT>` | チャンクオブジェクトのリスト。 |
+| `chunks` | `ARRAY` | チャンクオブジェクトのリスト。 |
 
 `chunks` 内の各オブジェクトは、Struct スキーマに従う必要があります。
 
@@ -49,7 +50,7 @@ import TabItem from '@theme/TabItem';
 | `emb_list_vector` | `FLOAT_VECTOR` | EmbeddingList 検索用に書き込まれるベクトル。 |
 | `emb` | `FLOAT_VECTOR` | 要素レベルの検索用に書き込まれるベクトル。 |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 挿入ペイロードでは、`chunks` は通常のフィールドであり、その値は Struct オブジェクトの配列です。各オブジェクト内では、`text` や `emb` などのサブフィールド名を使用します。`chunks[text]` や `chunks[emb]` などのパス構文は、挿入後にインデックスを作成する場合、検索を実行する場合、フィルターを作成する場合、または出力フィールドを指定する場合にのみ使用します。
 
@@ -92,7 +93,7 @@ import TabItem from '@theme/TabItem';
 
 ## 行を挿入する\{#insert-rows}
 
-`client.insert()` を使用して、StructArray 値を含む行を挿入します。
+挿入操作を使用して、次の 3 つのエンティティを書き込みます。各エンティティには、必要な Struct サブフィールドがすべて含まれます。Go の例では列ベースの入力を使用します。各マップは、1 つのエンティティのサブフィールド配列をグループ化します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -371,7 +372,7 @@ result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_art
     WithFloatVectorColumn("title_vector", 4, [][]float32{{0.12, 0.08, 0.32, 0.48}, {0.2, 0.18, 0.22, 0.4}, {0.33, 0.11, 0.29, 0.37}}).
     WithStructArrayColumn("chunks", chunksSchema, chunksRows))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 fmt.Printf("inserted %d rows\n", result.InsertCount)
 ```
@@ -473,17 +474,18 @@ println!("insert count: {}", resp.insert_count());
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include <vector>
 
-#include <milvus/thirdparty/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 #include "milvus/MilvusClientV2.h"
 #include "milvus/request/dml/InsertRequest.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 nlohmann::json rows = nlohmann::json::array({
@@ -567,7 +569,7 @@ for (auto& row : rows) {
 milvus::InsertResponse response;
 status = client->Insert(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -638,26 +640,109 @@ console.log(res.status.error_code, res.insert_cnt);
 <TabItem value='csharp'>
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Dml;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var data = new Dictionary<string, object?>[]
+{
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 1L,
+        ["title"] = "StructArray indexing patterns",
+        ["category"] = "index",
+        ["title_vector"] = new float[] { 0.12f, 0.08f, 0.32f, 0.48f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Create one index for each vector subfield.",
+                ["section"] = "index",
+                ["page"] = 1L,
+                ["quality_score"] = 0.96f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.1f, 0.2f, 0.3f, 0.4f },
+                ["emb"] = new float[] { 0.1f, 0.2f, 0.3f, 0.4f }
+            },
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Use MAX_SIM metrics for EmbeddingList search.",
+                ["section"] = "index",
+                ["page"] = 2L,
+                ["quality_score"] = 0.91f,
+                ["has_code"] = true,
+                ["emb_list_vector"] = new float[] { 0.16f, 0.24f, 0.35f, 0.45f },
+                ["emb"] = new float[] { 0.16f, 0.24f, 0.35f, 0.45f }
+            }
+        }
+    },
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 2L,
+        ["title"] = "Filtered StructArray search",
+        ["category"] = "filter",
+        ["title_vector"] = new float[] { 0.2f, 0.18f, 0.22f, 0.4f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Use element_filter to match scalar conditions within the same Struct element.",
+                ["section"] = "filter",
+                ["page"] = 1L,
+                ["quality_score"] = 0.93f,
+                ["has_code"] = true,
+                ["emb_list_vector"] = new float[] { 0.21f, 0.18f, 0.33f, 0.44f },
+                ["emb"] = new float[] { 0.21f, 0.18f, 0.33f, 0.44f }
+            },
+            new Dictionary<string, object?>
+            {
+                ["text"] = "MATCH_LEAST checks how many elements satisfy a predicate.",
+                ["section"] = "filter",
+                ["page"] = 2L,
+                ["quality_score"] = 0.88f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.24f, 0.22f, 0.31f, 0.39f },
+                ["emb"] = new float[] { 0.24f, 0.22f, 0.31f, 0.39f }
+            }
+        }
+    },
+    new Dictionary<string, object?>
+    {
+        ["doc_id"] = 3L,
+        ["title"] = "Element-level search with offsets",
+        ["category"] = "search",
+        ["title_vector"] = new float[] { 0.33f, 0.11f, 0.29f, 0.37f },
+        ["chunks"] = new object[]
+        {
+            new Dictionary<string, object?>
+            {
+                ["text"] = "Element-level search can return the offset of the matched Struct element.",
+                ["section"] = "search",
+                ["page"] = 1L,
+                ["quality_score"] = 0.95f,
+                ["has_code"] = false,
+                ["emb_list_vector"] = new float[] { 0.32f, 0.14f, 0.28f, 0.41f },
+                ["emb"] = new float[] { 0.32f, 0.14f, 0.28f, 0.41f }
+            }
+        }
+    }
+};
 
 await client.InsertAsync(new InsertReq
 {
     CollectionName = "tech_articles",
-    RowsData =
-    [
-        new Dictionary<string, object?>
-        {
-            ["doc_id"] = 1L,
-            ["title"] = "StructArray indexing patterns",
-            ["category"] = "index",
-            ["title_vector"] = new[] { 0.12f, 0.08f, 0.32f, 0.48f },
-            ["chunks"] = new object[]
-            {
-                new Dictionary<string, object?> { ["text"] = "Create one index for each vector subfield.", ["section"] = "index", ["page"] = 1L, ["quality_score"] = 0.95f },
-                new Dictionary<string, object?> { ["text"] = "Load the collection before search.", ["section"] = "search", ["page"] = 2L, ["quality_score"] = 0.88f }
-            }
-        }
-    ]
+    RowsData = data
 });
 ```
 
@@ -815,11 +900,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## null 許容の StructArray フィールドへの挿入\{#insert-into-nullable-structarray-fields}
 
-`chunks` フィールドが null 許容の場合、エンティティは `chunks` フィールド全体を null に設定できます。Python では、null 値を表すために `None` を使用します。
+このオプションの例は、親の `chunks` フィールドが null 許容を有効にして作成された場合にのみ実行します。NULL はフィールド全体に適用され、個々の Struct 要素やサブフィールドには適用されません。空の配列は存在する値であり、NULL ではありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -871,7 +957,6 @@ client.insert(InsertReq.builder()
 import (
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -880,15 +965,9 @@ _, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_articles"
     WithVarcharColumn("title", []string{"Article without chunks yet"}).
     WithVarcharColumn("category", []string{"draft"}).
     WithFloatVectorColumn("title_vector", 4, [][]float32{{0.05, 0.10, 0.15, 0.20}}).
-    WithStructArrayColumn("chunks", chunksSchema, []map[string]any{
-        {
-            "text": []string{}, "section": []string{}, "page": []int64{},
-            "quality_score": []float32{}, "has_code": []bool{},
-            "emb_list_vector": [][]float32{}, "emb": [][]float32{},
-        },
-    }))
+    WithStructArrayColumn("chunks", chunksSchema, []map[string]any{nil}))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 ```
 
@@ -934,7 +1013,7 @@ request.AddRowData(std::move(row));
 milvus::InsertResponse response;
 status = client->Insert(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -1002,19 +1081,20 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-null 許容の StructArray フィールドに有効な StructArray 値が含まれている場合、その値内のすべてのサブフィールドは null であるか、有効な値を持つ必要があります。一部のサブフィールドを null に設定し、他のサブフィールドを有効な値に設定したエンティティを挿入すると、エラーになります。
+NULL 以外の StructArray 値では、必須のすべてのサブフィールドに有効な値を指定します。同じエンティティ内で、NULL のサブフィールド配列と存在するサブフィールド配列を混在させないでください。
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
 
-null 許容の StructArray フィールドは、Milvus v3.0.x と互換性のあるクラスターでのみ使用できます。既存のコレクションに StructArray フィールドを動的に追加する場合、追加するフィールドは null 許容である必要があり、既存のエンティティでは、新しいフィールドのすべてのサブフィールドに対して `null` が返されます。
+バージョンとデプロイの可用性については、[StructArray の制限](./struct-array-limits) を参照してください。既存のコレクションに追加する StructArray フィールドは null 許容である必要があり、既存のエンティティでは追加されたフィールド全体が NULL になります。
 
 </Admonition>
 
 ## 挿入されたデータを検証する\{#validate-inserted-data}
 
-コレクションをクエリし、StructArray フィールドまたは選択したサブフィールドを返すことができます。
+コレクションをロードする前に、[StructArray フィールドのインデックス作成](./index-struct-array) の説明に従って、必要なベクトルインデックスを作成してください。以下の例では、ロードが完了するのを待ってから、選択したサブフィールドをクエリします。cURL の場合は、ロード状態のレスポンスを確認するために `jq` をインストールしてください。bounded-staleness 整合性では、挿入直後のクエリに新しい行が含まれない場合があります。書き込みが可視になった後でクエリを繰り返すか、サンプルコレクションの作成時に strong 整合性を構成してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1071,15 +1151,19 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-if _, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles")); err != nil {
-    fmt.Println(err.Error())
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles"))
+if err != nil {
+    panic(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    panic(err)
 }
 
 rs, err := cli.Query(ctx, milvusclient.NewQueryOption("tech_articles").
     WithFilter("doc_id in [1, 2, 3]").
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
-    fmt.Println(err.Error())
+    panic(err)
 }
 fmt.Printf("query returned %d rows\n", rs.ResultCount)
 ```
@@ -1091,7 +1175,10 @@ fmt.Printf("query returned %d rows\n", rs.ResultCount)
 ```rust
 use milvus::v2::prelude::*;
 
-client.load_collection(LoadCollectionRequest::builder().collection_name("tech_articles").build()?).await?;
+client.load_collection(LoadCollectionRequest::builder()
+    .collection_name("tech_articles")
+    .sync(true)
+    .build()?).await?;
 
 let resp = client.query(QueryRequest::builder()
     .collection_name("tech_articles")
@@ -1109,7 +1196,7 @@ println!("query rows: {}", resp.results().get_output_field("doc_id").map(|f| f.l
 milvus::LoadCollectionRequest load_req;
 load_req.WithCollectionName("tech_articles");
 status = client->LoadCollection(load_req);
-if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 
 milvus::QueryRequest query_req;
 query_req.WithCollectionName("tech_articles")
@@ -1117,7 +1204,12 @@ query_req.WithCollectionName("tech_articles")
          .WithOutputFields({"doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
 milvus::QueryResponse query_resp;
 status = client->Query(query_req, query_resp);
-if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+
+milvus::EntityRows output_rows;
+status = query_resp.Results().OutputRows(output_rows);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+for (const auto& row : output_rows) { std::cout << row << std::endl; }
 ```
 
 </TabItem>
@@ -1165,16 +1257,31 @@ Console.WriteLine($"rows: {rows.FieldsData.FirstOrDefault()?.RowCount ?? 0}");
 <TabItem value='bash'>
 
 ```bash
+set -euo pipefail
+
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "tech_articles"
-}'
+curl --fail-with-body --silent --show-error --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data-raw '{"collectionName":"tech_articles"}' | jq -e '.code == 0' >/dev/null
+
+loaded=false
+for attempt in $(seq 1 60); do
+  state=$(curl --fail-with-body --silent --show-error --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data-raw '{"collectionName":"tech_articles"}' | jq -er 'if .code == 0 then .data.loadState else error("load-state request failed") end')
+  if [ "$state" = "LoadStateLoaded" ]; then
+    loaded=true
+    break
+  fi
+  sleep 1
+done
+[ "$loaded" = true ] || { echo "Collection did not finish loading" >&2; exit 1; }
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1184,10 +1291,11 @@ curl --request POST \
     "collectionName": "tech_articles",
     "filter": "doc_id in [1, 2, 3]",
     "outputFields": ["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 `chunks[text]` などの StructArray フィールドパスは、クエリ、検索、フィルター、またはインデックスの作成時にのみ使用します。挿入ペイロードでは、引き続き `chunks` の下にネストされたオブジェクトを使用してください。
@@ -1224,7 +1332,6 @@ curl --request POST \
 
 1. `chunks[emb_list_vector]`、`chunks[emb]`、およびスカラーサブフィールドのインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
-1. StructArray のベクトルサブフィールドを検索するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
+2. StructArray のベクトルサブフィールドを検索するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. null 許容の動作とバージョン固有の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
-
+3. null 許容の動作とバージョン固有の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。

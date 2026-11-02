@@ -1,7 +1,6 @@
 ---
 title: "StructArray を使用したフィルタリング検索 | Cloud"
 slug: /filtered-search-with-struct-arrays
-sidebar_label: "フィルタリング検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、StructArray フィールドのベクトル検索にスカラーフィルタリングを追加する方法について説明します。StructArray のフィルタリングには 2 つのレベルがあります。行レベルのフィルターは親エンティティを選択し、要素レベルのフィルターは、要素レベルのベクトル検索に参加する Struct 要素を制限します。 | Cloud"
 type: origin
-token: WDjyw7hO3i26RckEgqIcf36snMh
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-filtered-search-with-struct-arrays
+sidebar_label: "フィルタリング検索"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/filtered-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ import TabItem from '@theme/TabItem';
 
 このページでは、[StructArray フィールドの作成](./create-struct-array) で作成する `tech_articles` コレクションを使用します。このコレクションには、`section`、`page`、`quality_score`、`has_code` などのスカラーサブフィールドと、検索用のベクトルサブフィールドを持つ `chunks` という名前の StructArray フィールドがあります。
 
+これらの例を実行する前に、コレクションを作成し、サンプルデータを挿入し、必要なベクトルインデックスを作成して、コレクションをロードしてください。ここに示すフィールドには 4 次元のベクトルを使用します。各コードブロックは、同じ言語の先行する例の接続と変数を前提としています（コードブロック内で再定義されている場合を除きます）。
+
 ## フィルタータイプを選択する\{#choose-a-filter-type}
 
 | 目的 | 使用するもの | 結果の動作 |
@@ -32,8 +35,9 @@ import TabItem from '@theme/TabItem';
 | トップレベルのスカラーフィールド（`category` など）でフィルタリングします。 | 通常のフィルター式。 | 検索前または検索中に親エンティティを選択します。 |
 | 要素レベルのベクトル検索を、スカラー条件に一致する Struct 要素に制限します。 | `element_filter`。 | 一致する Struct 要素のみを検索し、一致した要素のオフセットを返すことができます。 |
 | いずれか、すべて、または特定の数の Struct 要素が述語に一致するかどうかでエンティティを選択します。 | `MATCH_ANY`、`MATCH_ALL`、`MATCH_LEAST`、`MATCH_MOST`、または `MATCH_EXACT`。 | 行レベルのフィルタリングです。これらの演算子自体はオフセットを返しません。 |
+| 1 つの要素位置をテストする場合、Struct 要素をカウントする場合、または `$[...]` を使用せずに複数の要素にわたってサブフィールド値を確認する場合に使用します。 | `chunks[0][section]`、`array_length(chunks)`、`array_contains(chunks[section], ...)` などの行レベルの StructArray パス。 | 行レベルのフィルタリングです。構文については、[StructArray 演算子](./struct-array-filtering) を参照してください。 |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 このページでは、検索ワークフローで StructArray フィルターを使用する方法について説明します。構文規則の詳細、サポートされる述語の種類、サポートされない述語のマトリックスについては、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
@@ -145,6 +149,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 3,
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -191,6 +196,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 milvus::EmbeddingList query;
@@ -209,6 +215,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -293,6 +300,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記のフィルターは、トップレベルの `category` フィールドが `"search"` であるエンティティのみを選択します。一致した 1 つの Struct 要素を特定するものではありません。
@@ -418,6 +426,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 5,
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]", "chunks[has_code]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -464,6 +473,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -480,6 +490,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -555,11 +566,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、トップレベルの述語 `category == "search"` が候補エンティティを選択し、`element_filter` によって要素レベルのベクトル検索が、`section`、`quality_score`、`has_code` がすべて同じ Struct 要素内で一致するチャンクに制限されます。
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
+
+警告
 
 トップレベルの述語と `element_filter` を組み合わせる場合は、`element_filter` を式の末尾に配置します。フィルター式に含めることができる `element_filter` は 1 つだけです。また、`element_filter` または `MATCH_*` を別の StructArray 演算子の内部に入れ子にすることはできません。
 
@@ -683,6 +697,7 @@ results, err := cli.Search(ctx, milvusclient.NewSearchOption("tech_articles", 3,
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -731,6 +746,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 milvus::EmbeddingList query;
@@ -749,6 +765,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -826,13 +843,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ここでは EmbeddingList の検索結果がエンティティレベルであるため、`MATCH_ANY` を使用します。フィルターでは、エンティティ内の少なくとも 1 つのチャンクが高品質の `"index"` チャンクである必要がありますが、検索結果自体は引き続き親エンティティを表します。
 
 ## ハイブリッド検索でフィルターを使用する\{#use-filters-in-hybrid-search}
 
-ハイブリッド検索では、条件を適用する位置で StructArray フィルターを適用します。トップレベルのフィルターは、ハイブリッド検索全体で共有できます。`element_filter` は、要素レベルの制約が必要な StructArray の要素レベルリクエストにアタッチする必要があります。
+ハイブリッド検索では、条件を反映させる必要がある場所に StructArray フィルターを適用します。親エンティティの条件は、その条件を満たす必要がある各サブリクエストに適用します。`element_filter` は、要素レベルの制約が必要な StructArray の要素レベルリクエストにのみ、親エンティティの条件の後に付加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -958,6 +976,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Printf("returned %d result sets\n", len(results))
 ```
@@ -1016,6 +1035,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -1042,6 +1062,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -1143,9 +1164,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-`filter` 引数はトップレベルのエンティティ条件を適用し、`chunk_req` の `expr` は StructArray の要素レベルベクトルリクエストのみを制限します。サポートされるハイブリッド検索の組み合わせとバージョン固有の制限については、[StructArray を使用したハイブリッド検索](./hybrid-search-with-struct-array) および [StructArray の制限](./struct-array-limits) を参照してください。
+両方のサブリクエストに `category == "search"` を適用します。`chunk_req` の式は、ベクトル検索に参加する Struct 要素も制限します。サポートされるハイブリッド検索の組み合わせとバージョン固有の制限については、[StructArray を使用したハイブリッド検索](./hybrid-search-with-struct-array) および [StructArray の制限](./struct-array-limits) を参照してください。
 
 ## 述語のサポート状況の概要\{#predicate-support-summary}
 
@@ -1179,9 +1201,8 @@ JSON パス、配列コンテナ関数、テキスト一致関数、`$[...]` に
 
 1. StructArray フィルターの完全な構文を確認するには、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
-1. 最初にフィルターなしのベクトル検索を実行するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
+2. 最初にフィルターなしのベクトル検索を実行するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. 頻繁に使用する StructArray フィルターのスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
+3. 頻繁に使用する StructArray フィルターのスカラーインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
-1. バージョン固有のフィルターと検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
-
+4. バージョン固有のフィルターと検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。

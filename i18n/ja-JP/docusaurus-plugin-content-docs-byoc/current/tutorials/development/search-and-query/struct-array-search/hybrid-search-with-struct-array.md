@@ -1,17 +1,18 @@
 ---
 title: "StructArray を使用したハイブリッド検索 | BYOC"
 slug: /hybrid-search-with-struct-array
-sidebar_label: "ハイブリッド検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray のベクトル検索と他のベクトル検索を 1 つのハイブリッド検索リクエストで組み合わせる方法について説明します。StructArray ハイブリッド検索では、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果またはエレメントレベルの結果を返すことができます。 | BYOC"
+description: "このページでは、StructArray のベクトル検索と他のベクトル検索を 1 つのハイブリッド検索リクエストで組み合わせる方法について説明します。StructArray ハイブリッド検索では、組み合わせる AnnSearchRequest オブジェクトに応じて、エンティティレベルの結果またはエレメントレベルの結果を返すことができます。 | BYOC"
 type: origin
-token: EqSpwh9BaiEISgkG5YVcDbCUnpe
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-hybrid-search-with-struct-array
+sidebar_label: "ハイブリッド検索"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/hybrid-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ import TabItem from '@theme/TabItem';
 
 このページでは、[StructArray フィールドの作成](./create-struct-array) で作成した `tech_articles` コレクションを使用します。このコレクションには、`title_vector` というトップレベルのベクトルフィールドと、`chunks` という StructArray フィールドがあります。`chunks[emb_list_vector]` サブフィールドは EmbeddingList 検索用に、`chunks[emb]` はエレメントレベル検索用にインデックスが作成されています。
 
+これらの例を実行する前に、コレクションを作成し、サンプルデータを挿入し、必要なベクトルインデックスを作成して、コレクションをロードしてください。ここに示すフィールドには、4 次元のベクトルを使用します。各コードブロックは、そのコードブロック内で改めて定義されていない限り、同じ言語の前の例で定義された接続と変数を使用することを前提としています。
+
 ## StructArray におけるハイブリッド検索の適用方法\{#how-hybrid-search-applies-to-structarray}
 
 | `AnnSearchRequest` の組み合わせ | 最終候補スコープ | 結果の動作 | `element_scope` |
@@ -34,7 +37,9 @@ import TabItem from '@theme/TabItem';
 | 同じ StructArray フィールド配下の複数のエレメントレベルサブフィールド | エレメントレベル | 最終候補は、プライマリキーと Struct エレメントのオフセットをキーとして管理されます。 | 使用しません。 |
 | 異なる StructArray フィールド配下のエレメントレベルサブフィールド | エンティティレベル | エレメントオフセットは同一の識別情報を共有しないため、各 StructArray エレメントレベルの `AnnSearchRequest` はリランキングの前に折りたたまれます。 | 各 StructArray エレメントレベル `AnnSearchRequest` に対するオプションの折りたたみ設定。 |
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
+
+警告
 
 `element_scope` は、同一 Struct でないエレメントレベルのハイブリッド検索において、StructArray エレメントレベルの `AnnSearchRequest` オブジェクトの折りたたみを構成する場合にのみ使用してください。EmbeddingList リクエスト、コレクションレベルのベクトルリクエスト、または同一 StructArray のエレメントレベルハイブリッド検索には使用しないでください。
 
@@ -193,6 +198,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
@@ -255,6 +261,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -283,6 +290,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -396,6 +404,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、両方の `AnnSearchRequest` オブジェクトがエンティティレベルの候補を生成します。最終結果は、親エンティティのプライマリキーをキーとして管理されます。EmbeddingList リクエストには `element_scope` を追加しないでください。
@@ -404,7 +413,7 @@ curl --request POST \
 
 すべての `AnnSearchRequest` オブジェクトが同じ StructArray フィールド配下のエレメントレベルベクトルサブフィールドを対象とする場合、ハイブリッド検索はリランキングを通じてエレメントレベルの候補を維持できます。最終結果がエレメントレベルのまま保持されるのは、この StructArray ハイブリッドモードのみです。
 
-次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つのエレメントレベルベクトルサブフィールドがあり、どちらも通常のベクトルメトリクスを使用していることを前提としています。
+次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つのエレメントレベルのベクトルサブフィールドがあり、どちらも `COSINE` を使用することを前提としています。コレクションの作成時に、追加の 4 次元 `code_emb` サブフィールドを定義してデータを格納してください。これは、上記でリンクされている基本スキーマには含まれていません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -546,6 +555,7 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
@@ -606,6 +616,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -633,6 +644,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -731,6 +743,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 両方の `AnnSearchRequest` オブジェクトは、`chunks` 配下のベクトルサブフィールドを検索します。同じ 0 始まりのオフセットは同じ Struct エレメントを指すため、ハイブリッドリランカーはエレメント候補を直接ランク付けできます。このモードではエンティティレベルの折りたたみが行われないため、`element_scope` を設定しないでください。
@@ -741,7 +754,7 @@ curl --request POST \
 
 同じエンティティから一致した複数のエレメントをどのように折りたたむかを制御する必要がある場合は、StructArray エレメントレベル `AnnSearchRequest` の `params` 内で `element_scope` を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -871,91 +884,10 @@ results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_a
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 fmt.Printf("hybrid search returned %d result sets\n", len(results))
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
-let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
-
-let title_req = SubSearchRequest::builder()
-    .vector_field("title_vector")
-    .vectors(SearchVectors::Float(vec![query_vector.clone()]))
-    .limit(10)
-    .build()?;
-
-let chunk_req = SubSearchRequest::builder()
-    .vector_field("chunks[emb]")
-    .vectors(SearchVectors::Float(vec![query_vector]))
-    .limit(30)
-    .filter("element_filter(chunks, $[quality_score] > 0.8)")
-    // Note: element_scope collapse is not yet supported in milvus-sdk-rust as of v3.0.2.
-    .build()?;
-
-let request = HybridSearchRequest::builder()
-    .collection_name("tech_articles")
-    .sub_requests(vec![title_req, chunk_req])
-    .rerank(RRFRerank::new().k(60))
-    .limit(5)
-    .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
-    .build()?;
-
-let results = client.hybrid_search(request).await?;
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include <iostream>
-#include <memory>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-#include "milvus/request/dql/HybridSearchRequest.h"
-#include "milvus/types/SubSearchRequest.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
-
-auto title_req = std::make_shared<milvus::SubSearchRequest>();
-title_req->WithAnnsField("title_vector").WithLimit(10);
-title_req->AddFloatVector(query_vector);
-
-auto chunk_req = std::make_shared<milvus::SubSearchRequest>();
-chunk_req->WithAnnsField("chunks[emb]").WithLimit(30);
-chunk_req->WithFilter("element_filter(chunks, $[quality_score] > 0.8)");
-chunk_req->AddExtraParam("params", "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}");
-chunk_req->AddFloatVector(query_vector);
-
-milvus::HybridSearchRequest request;
-request.WithCollectionName("tech_articles")
-       .WithLimit(5)
-       .AddSubRequest(title_req)
-       .AddSubRequest(chunk_req)
-       .WithRerank(std::make_shared<milvus::RRFRerank>(60));
-request.WithOutputFields({"doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
-
-milvus::HybridSearchResponse response;
-status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -980,45 +912,6 @@ const results = await client.search({
   rerank: { strategy: "rrf", params: { k: 60 } },
   limit: 5,
   output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
-});
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
-var queryVector = new ReadOnlyMemory<float>(new[] { 0.19f, 0.24f, 0.30f, 0.37f });
-
-var titleReq = new AnnSearchReq
-{
-    VectorFieldName = "title_vector",
-    Vectors = new[] { queryVector },
-    Limit = 10
-};
-
-var chunkReq = new AnnSearchReq
-{
-    VectorFieldName = "chunks[emb]",
-    Vectors = new[] { queryVector },
-    Limit = 30,
-    Expression = "element_filter(chunks, $[quality_score] > 0.8)",
-    ExtraParameters = { ["params"] = "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}" }
-};
-
-var results = await client.HybridSearchAsync(new HybridSearchReq
-{
-    CollectionName = "tech_articles",
-    SearchRequests = new[] { titleReq, chunkReq },
-    Reranker = new RrfReranker(60),
-    Limit = 5,
-    Parameters = new SearchParameters
-    {
-        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
-    }
 });
 ```
 
@@ -1061,7 +954,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+C++ および Rust 3.0.2 SDK のビルダーと C# 3.0.0 SDK は、文字列値の追加パラメーターインターフェイスを通じて、この例で使用するネストされた `element_scope` オブジェクトをエンコードしません。この折りたたみ戦略を構成するには、上記のいずれかの SDK または REST API を使用してください。
 
 この例では、`title_req` はエンティティレベルであるため、最終的なハイブリッド検索結果もエンティティレベルになります。`chunk_req` リクエストは最初に `chunks[emb]` からエレメントのヒットを返し、次に同じエンティティから返されたエレメントのうち、上位 3 つのエレメントスコアを合計することで折りたたみます。エンティティレベルの折りたたみが必要なときに `element_scope` を省略すると、折りたたみ戦略はデフォルトで `max` になります。
 
@@ -1079,7 +975,7 @@ curl --request POST \
 
 ## フィルター、範囲検索、グループ化の追加\{#add-filters-range-search-and-grouping}
 
-スカラー条件を、ベクトル検索に参加する同じ Struct エレメントに適用する必要がある場合は、StructArray エレメントレベル `AnnSearchRequest` に `element_filter` を付加できます。また、親エンティティの条件には、`hybrid_search()` のトップレベル `filter` を使用できます。
+スカラー条件を、ベクトル検索に参加する同じ Struct エレメントに適用する必要がある場合は、StructArray のエレメントレベル `AnnSearchRequest` に `element_filter` を付加できます。その条件を満たす必要がある各サブリクエストに親エンティティの条件を適用してください。トップレベルの `filter` 引数によってこの条件がすべてのリクエストに伝播されることを前提にしないでください。
 
 StructArray のエレメントレベルベクトルフィールドは、ハイブリッド検索での範囲検索をサポートしています。エレメントレベル `AnnSearchRequest` に `radius` と、必要に応じて `range_filter` を追加します。EmbeddingList レベルの StructArray リクエストは範囲検索をサポートしていません。
 

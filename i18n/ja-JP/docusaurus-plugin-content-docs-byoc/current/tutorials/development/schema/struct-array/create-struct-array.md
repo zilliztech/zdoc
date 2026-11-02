@@ -1,7 +1,6 @@
 ---
 title: "StructArray フィールドを作成する | BYOC"
 slug: /create-struct-array
-sidebar_label: "StructArray フィールドを作成する"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "1 つのエンティティに構造化要素の順序付きリストを格納する必要がある場合は、StructArray フィールドを作成します。StructArray フィールドは、要素タイプが Struct である Array フィールドです。各 Struct 要素は同じスキーマに従い、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。 | BYOC"
 type: origin
-token: RzSBwW7dUizQeekka9CcZ3Etnyg
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-create-struct-array
+sidebar_label: "StructArray フィールドを作成する"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/create-structarray-field.md"
 
 ---
 
@@ -27,6 +28,10 @@ import TabItem from '@theme/TabItem';
 
 ## 事前準備\{#before-you-begin}
 
+Zilliz Cloud では、NULL 許容の StructArray フィールド、NULL 許容のベクトル配列、および StructArray フィールドの動的追加は、3.0.x 系の Milvus 3.0.0 以降を実行する On-Demand クラスターでサポートされています。Serving クラスターでは、これらの機能はサポートされていません。
+
+作成、NULL 許容での作成、およびフィールド追加の例は、代替のワークフローです。同じコレクションに対してこれらを順番に実行しないでください。後続の例では、選択した言語のクライアント初期化を再利用してください。
+
 このページでは、`tech_articles` という名前のコレクションを使用します。各エンティティは 1 つの技術記事を表し、`chunks` フィールドはチャンクレベルのデータを Struct 要素として格納します。
 
 | フィールド | 型 | 用途 |
@@ -35,7 +40,7 @@ import TabItem from '@theme/TabItem';
 | `title` | `VARCHAR` | 記事のタイトルです。 |
 | `category` | `VARCHAR` | 記事レベルのカテゴリです。 |
 | `title_vector` | `FLOAT_VECTOR` | 記事レベルのベクトルフィールドです。後でハイブリッド検索の例で使用します。 |
-| `chunks` | `ARRAY<STRUCT>` | チャンクレベルのテキスト、メタデータ、埋め込みを格納する StructArray フィールドです。 |
+| `chunks` | `ARRAY` | チャンクレベルのテキスト、メタデータ、埋め込みを格納する StructArray フィールドです。 |
 
 `chunks` StructArray フィールドには、以下のサブフィールドが含まれます。
 
@@ -49,7 +54,7 @@ import TabItem from '@theme/TabItem';
 | `emb_list_vector` | `FLOAT_VECTOR` | `MAX_SIM*` メトリクスを使用した EmbeddingList 検索用のベクトルサブフィールドです。 |
 | `emb` | `FLOAT_VECTOR` | 通常のベクトルメトリクスを使用した要素レベル検索用のベクトルサブフィールドです。 |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 ベクトルフィールドまたはベクトルサブフィールドは、1 つのインデックスのみを受け付けます。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの個別のベクトルサブフィールドを定義します。この例では、`chunks[emb_list_vector]` は EmbeddingList 検索用、`chunks[emb]` は要素レベル検索用です。
 
@@ -76,7 +81,7 @@ StructArray フィールドは、Struct の各サブフィールドに対して 
 | `Array<Geometry>` | 非サポート | Geometry サブフィールドと GIS 関数は StructArray フィールドではサポートされていません。 |
 | `Array<Text>` | 非サポート | Text サブフィールドは StructArray フィールドではサポートされていません。 |
 | `Array<Timestamptz>` | 非サポート | Timestamptz サブフィールドと時間固有の式は StructArray フィールドではサポートされていません。 |
-| ネストされた `Array`、`ArrayOfVector`、`Struct`、または `ArrayOfStruct` | 非サポート | StructArray フィールドには、ネストされた配列、ネストされたベクトル配列、ネストされた Struct フィールド、ネストされた Array-of-Struct フィールドを含めることはできません。 |
+| ネストされた `Array`、`ArrayOfVector`、`Struct`、または `ArrayOfStruct` | 非サポート | StructArray フィールドでは、ネストされた配列、ベクトル配列、Struct、または Array-of-Struct のサブフィールドはサポートされていません。 |
 
 バージョン固有のサポート、null 許容の動作、その他の制限については、[StructArray Limits](./struct-array-limits) を参照してください。
 
@@ -86,17 +91,17 @@ StructArray フィールドを作成するには、まず各要素が使用す�
 
 1. コレクションスキーマを作成します。
 
-1. 主キーや記事レベルのフィールドなど、コレクションレベルのフィールドを追加します。
+2. 主キーや記事レベルのフィールドなど、コレクションレベルのフィールドを追加します。
 
-1. StructArray フィールド内に格納する要素の Struct スキーマを作成します。
+3. StructArray フィールド内に格納する要素の Struct スキーマを作成します。
 
-1. Struct スキーマにスカラーサブフィールドとベクトルサブフィールドを追加します。
+4. Struct スキーマにスカラーサブフィールドとベクトルサブフィールドを追加します。
 
-1. `element_type=DataType.STRUCT` を指定して Array フィールドを追加します。
+5. `element_type=DataType.STRUCT` を指定して Array フィールドを追加します。
 
-1. `struct_schema` を Struct スキーマに設定します。
+6. `struct_schema` を Struct スキーマに設定します。
 
-1. `max_capacity` を設定して、各エンティティがフィールドに格納できる Struct 要素の数を制限します。
+7. `max_capacity` を設定して、各エンティティがフィールドに格納できる Struct 要素の数を制限します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -200,17 +205,12 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-client.dropCollection(DropCollectionReq.builder()
-        .collectionName("tech_articles")
-        .build());
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(false);
@@ -468,13 +468,15 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
+#include <utility>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 milvus::CollectionSchemaPtr collection_schema = std::make_shared<milvus::CollectionSchema>();
@@ -504,7 +506,7 @@ status = client->CreateCollection(milvus::CreateCollectionRequest()
                                      .WithCollectionName("tech_articles")
                                      .WithCollectionSchema(collection_schema));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -522,6 +524,7 @@ const client = new MilvusClient({
 
 await client.createCollection({
   collection_name: "tech_articles",
+  enable_dynamic_field: false,
   fields: [
     // Collection-level fields.
     { name: "doc_id", data_type: DataType.Int64, is_primary_key: true },
@@ -560,8 +563,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 CollectionSchema schema = new()
@@ -580,8 +582,7 @@ CollectionSchema schema = new()
 // StructArray field.
 var chunks = new StructFieldSchema("chunks")
 {
-    MaxCapacity = 1000,
-    Nullable = true
+    MaxCapacity = 1000
 };
 chunks.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
 chunks.Fields.Add(FieldSchema.CreateVarchar("section", 128));
@@ -589,6 +590,7 @@ chunks.Fields.Add(new FieldSchema("page", DataType.Int64));
 chunks.Fields.Add(new FieldSchema("quality_score", DataType.Float));
 chunks.Fields.Add(new FieldSchema("has_code", DataType.Bool));
 chunks.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+chunks.Fields.Add(new FieldSchema("emb", DataType.FloatVector) { Dimension = 4 });
 schema.StructFields.Add(chunks);
 
 await client.CreateCollectionAsync(new CreateCollectionReq
@@ -638,6 +640,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## StructArray フィールドのパスを理解する\{#understand-structarray-field-paths}
@@ -654,19 +657,98 @@ StructArray フィールドを作成した後は、`structArray[subfield]` パ�
 
 ## StructArray フィールドを null 許容にする\{#make-a-structarray-field-nullable}
 
-Milvus v3.0.x と互換性のあるクラスターは、null 許容の StructArray フィールドをサポートします。null 許容の StructArray フィールドでは、エンティティが StructArray フィールド全体に `null` を格納できます。
+NULL 許容の StructArray フィールドでは、上記の可用性の条件に従い、エンティティはフィールド全体に NULL を格納できます。以下は、前述のコレクション作成例を完全に置き換える代替例です。`tech_articles` が存在しない場合にのみ実行してください。コレクションを作成する前に、StructArray の親で `nullable` を設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
+schema = client.create_schema(
+    auto_id=False,
+    enable_dynamic_field=False,
+)
+
+# Collection-level fields.
+schema.add_field(
+    field_name="doc_id",
+    datatype=DataType.INT64,
+    is_primary=True,
+)
+schema.add_field(
+    field_name="title",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+)
+schema.add_field(
+    field_name="category",
+    datatype=DataType.VARCHAR,
+    max_length=128,
+)
+schema.add_field(
+    field_name="title_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# Struct schema used by each element in the StructArray field.
+chunk_schema = client.create_struct_field_schema()
+chunk_schema.add_field(
+    field_name="text",
+    datatype=DataType.VARCHAR,
+    max_length=65535,
+)
+chunk_schema.add_field(
+    field_name="section",
+    datatype=DataType.VARCHAR,
+    max_length=128,
+)
+chunk_schema.add_field(
+    field_name="page",
+    datatype=DataType.INT64,
+)
+chunk_schema.add_field(
+    field_name="quality_score",
+    datatype=DataType.FLOAT,
+)
+chunk_schema.add_field(
+    field_name="has_code",
+    datatype=DataType.BOOL,
+)
+
+# Vector subfield for EmbeddingList search.
+chunk_schema.add_field(
+    field_name="emb_list_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# Vector subfield for element-level search.
+chunk_schema.add_field(
+    field_name="emb",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# Add the StructArray field.
 schema.add_field(
     field_name="chunks",
     datatype=DataType.ARRAY,
     element_type=DataType.STRUCT,
     struct_schema=chunk_schema,
-    max_capacity=1000,
     nullable=True,
+    max_capacity=1000,
+)
+
+client.create_collection(
+    collection_name="tech_articles",
+    schema=schema,
 )
 ```
 
@@ -675,9 +757,44 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
+schema.setEnableDynamicField(false);
+
+// Collection-level fields.
+schema.addField(AddFieldReq.builder()
+        .fieldName("doc_id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(Boolean.TRUE)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("title")
+        .dataType(DataType.VarChar)
+        .maxLength(512)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("category")
+        .dataType(DataType.VarChar)
+        .maxLength(128)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("title_vector")
+        .dataType(DataType.FloatVector)
+        .dimension(4)
+        .build());
+
+// Add the StructArray field.
 schema.addField(AddFieldReq.builder()
         .fieldName("chunks")
         .dataType(DataType.Array)
@@ -689,6 +806,38 @@ schema.addField(AddFieldReq.builder()
                 .dataType(DataType.VarChar)
                 .maxLength(65535)
                 .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("section")
+                .dataType(DataType.VarChar)
+                .maxLength(128)
+                .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("page")
+                .dataType(DataType.Int64)
+                .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("quality_score")
+                .dataType(DataType.Float)
+                .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("has_code")
+                .dataType(DataType.Bool)
+                .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("emb_list_vector")
+                .dataType(DataType.FloatVector)
+                .dimension(4)
+                .build())
+        .addStructField(AddFieldReq.builder()
+                .fieldName("emb")
+                .dataType(DataType.FloatVector)
+                .dimension(4)
+                .build())
+        .build());
+
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("tech_articles")
+        .collectionSchema(schema)
         .build());
 ```
 
@@ -697,8 +846,74 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "context"
+    "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+
+// Collection-level fields.
+schema.WithField(entity.NewField().
+        WithName("doc_id").
+        WithDataType(entity.FieldTypeInt64).
+        WithIsPrimaryKey(true))
+schema.WithField(entity.NewField().
+        WithName("title").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(512))
+schema.WithField(entity.NewField().
+        WithName("category").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(128))
+schema.WithField(entity.NewField().
+        WithName("title_vector").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+
+// Struct schema used by each element in the StructArray field.
+chunkSchema := entity.NewStructSchema()
+chunkSchema.WithField(entity.NewField().
+        WithName("text").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(65535))
+chunkSchema.WithField(entity.NewField().
+        WithName("section").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(128))
+chunkSchema.WithField(entity.NewField().
+        WithName("page").
+        WithDataType(entity.FieldTypeInt64))
+chunkSchema.WithField(entity.NewField().
+        WithName("quality_score").
+        WithDataType(entity.FieldTypeFloat))
+chunkSchema.WithField(entity.NewField().
+        WithName("has_code").
+        WithDataType(entity.FieldTypeBool))
+chunkSchema.WithField(entity.NewField().
+        WithName("emb_list_vector").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+chunkSchema.WithField(entity.NewField().
+        WithName("emb").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+
+// Add the StructArray field.
 schema.WithField(entity.NewField().
         WithName("chunks").
         WithDataType(entity.FieldTypeArray).
@@ -706,6 +921,12 @@ schema.WithField(entity.NewField().
         WithMaxCapacity(1000).
         WithNullable(true).
         WithStructSchema(chunkSchema))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("tech_articles", schema))
+if err != nil {
+    fmt.Println(err)
+    return
+}
 ```
 
 </TabItem>
@@ -715,11 +936,91 @@ schema.WithField(entity.NewField().
 ```rust
 use milvus::v2::prelude::*;
 
-StructFieldSchema::new()
-    .name("chunks")
-    .max_capacity(1000)
-    .nullable(true)
-    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(65535));
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+// Collection-level fields.
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(
+        FieldSchema::new()
+            .name("doc_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("category")
+            .data_type(DataType::VarChar)
+            .max_length(128),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("title_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    )
+    // Struct schema used by each element in the StructArray field.
+    .add_struct_field(
+        StructFieldSchema::new()
+            .name("chunks")
+            .max_capacity(1000)
+            .nullable(true)
+            .add_field(
+                FieldSchema::new()
+                    .name("text")
+                    .data_type(DataType::VarChar)
+                    .max_length(65535),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("section")
+                    .data_type(DataType::VarChar)
+                    .max_length(128),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("page")
+                    .data_type(DataType::Int64),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("quality_score")
+                    .data_type(DataType::Float),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("has_code")
+                    .data_type(DataType::Bool),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb_list_vector")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            )
+            .add_field(
+                FieldSchema::new()
+                    .name("emb")
+                    .data_type(DataType::FloatVector)
+                    .dimension(4),
+            ),
+    );
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("tech_articles")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -727,16 +1028,47 @@ StructFieldSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <utility>
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    throw std::runtime_error(status.Message());
+}
+
+milvus::CollectionSchemaPtr collection_schema = std::make_shared<milvus::CollectionSchema>();
+collection_schema->SetEnableDynamicField(false);
+
+// Collection-level fields.
+collection_schema->AddField(milvus::FieldSchema("doc_id", milvus::DataType::INT64, "", true, false));
+collection_schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(512));
+collection_schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR).WithMaxLength(128));
+collection_schema->AddField(milvus::FieldSchema("title_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+
+// Struct schema used by each element in the StructArray field.
 milvus::StructFieldSchema struct_schema =
     milvus::StructFieldSchema()
         .WithName("chunks")
         .WithMaxCapacity(1000)
         .WithNullable(true)
-        .AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535));
+        .AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535))
+        .AddField(milvus::FieldSchema("section", milvus::DataType::VARCHAR).WithMaxLength(128))
+        .AddField(milvus::FieldSchema("page", milvus::DataType::INT64))
+        .AddField(milvus::FieldSchema("quality_score", milvus::DataType::FLOAT))
+        .AddField(milvus::FieldSchema("has_code", milvus::DataType::BOOL))
+        .AddField(milvus::FieldSchema("emb_list_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4))
+        .AddField(milvus::FieldSchema("emb", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 collection_schema->AddStructField(std::move(struct_schema));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                     .WithCollectionName("tech_articles")
+                                     .WithCollectionSchema(collection_schema));
+if (!status.IsOk()) {
+    throw std::runtime_error(status.Message());
+}
 ```
 
 </TabItem>
@@ -744,18 +1076,41 @@ collection_schema->AddStructField(std::move(struct_schema));
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-const chunksField = {
-  name: "chunks",
-  data_type: DataType.Array,
-  element_type: DataType.Struct,
-  max_capacity: 1000,
-  nullable: true,
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
+});
+
+await client.createCollection({
+  collection_name: "tech_articles",
+  enable_dynamic_field: false,
   fields: [
-    { name: "text", data_type: DataType.VarChar, max_length: 65535 },
+    // Collection-level fields.
+    { name: "doc_id", data_type: DataType.Int64, is_primary_key: true },
+    { name: "title", data_type: DataType.VarChar, max_length: 512 },
+    { name: "category", data_type: DataType.VarChar, max_length: 128 },
+    { name: "title_vector", data_type: DataType.FloatVector, dim: 4 },
+    // StructArray field.
+    {
+      name: "chunks",
+      data_type: DataType.Array,
+      element_type: DataType.Struct,
+      max_capacity: 1000,
+      nullable: true,
+      fields: [
+        { name: "text", data_type: DataType.VarChar, max_length: 65535 },
+        { name: "section", data_type: DataType.VarChar, max_length: 128 },
+        { name: "page", data_type: DataType.Int64 },
+        { name: "quality_score", data_type: DataType.Float },
+        { name: "has_code", data_type: DataType.Bool },
+        { name: "emb_list_vector", data_type: DataType.FloatVector, dim: 4 },
+        { name: "emb", data_type: DataType.FloatVector, dim: 4 },
+      ],
+    },
   ],
-};
+});
 ```
 
 </TabItem>
@@ -763,17 +1118,49 @@ const chunksField = {
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
-// Add a StructArray field to the schema.
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = false,
+    Fields =
+    {
+        // Collection-level fields.
+        new FieldSchema("doc_id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateVarchar("title", 512),
+        FieldSchema.CreateVarchar("category", 128),
+        new FieldSchema("title_vector", DataType.FloatVector) { Dimension = 4 }
+    }
+};
+
+// StructArray field.
 var chunks = new StructFieldSchema("chunks")
 {
     MaxCapacity = 1000,
     Nullable = true
 };
 chunks.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
-
+chunks.Fields.Add(FieldSchema.CreateVarchar("section", 128));
+chunks.Fields.Add(new FieldSchema("page", DataType.Int64));
+chunks.Fields.Add(new FieldSchema("quality_score", DataType.Float));
+chunks.Fields.Add(new FieldSchema("has_code", DataType.Bool));
+chunks.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+chunks.Fields.Add(new FieldSchema("emb", DataType.FloatVector) { Dimension = 4 });
 schema.StructFields.Add(chunks);
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "tech_articles",
+    Schema = schema
+});
 ```
 
 </TabItem>
@@ -817,19 +1204,20 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
 
-null 許容の StructArray フィールドは、Milvus v3.0.x と互換性のあるクラスターでのみ使用できます。null 許容の StructArray フィールドでは、エンティティは有効な StructArray 値を指定するか、フィールド全体を `null` に設定できます。有効な StructArray 値を挿入する場合、すべてのサブフィールドを null にするか、有効な値を持つ必要があります。一部のサブフィールドを null に設定し、それ以外を有効な値に設定したエンティティを挿入すると、エラーが発生します。詳細については、[StructArray Limits](./struct-array-limits) を参照してください。
+NULL は StructArray フィールド全体に適用されます。個々の Struct サブフィールドを独立して NULL 許容に設定しないでください。有効な StructArray 値を指定する場合は、NULL のサブフィールド配列と有効なサブフィールド配列を混在させないでください。詳細は、[StructArray Limits](./struct-array-limits) を参照してください。
 
 </Admonition>
 
 ## 既存のコレクションに StructArray フィールドを追加する\{#add-a-structarray-field-to-an-existing-collection}
 
-Milvus v3.0.x と互換性のあるクラスターは、既存のコレクションへの StructArray フィールドの追加をサポートします。コレクションにすでに存在するエンティティには新しいフィールドの値がないため、追加する StructArray フィールドは null 許容である必要があります。
+上記の可用性の条件に従い、既存のコレクションに StructArray フィールドを追加できます。追加する StructArray フィールドは NULL 許容である必要があります。これは、コレクションに既に存在するエンティティには、新しいフィールドの値がないためです。
 
-既存のコレクションに StructArray フィールドを追加するには、まず Struct スキーマを定義します。次に、`add_collection_struct_field()` を呼び出し、`nullable=True` を設定します。
+この代替ワークフローでは、最初の例に含まれる 4 つのコレクションレベルのフィールドを持ち、`chunks` フィールドを持たない `tech_articles` から始めます。選択した言語で初期化したクライアントを再利用します。完全な Struct スキーマを定義し、親を NULL 許容としてマークしたうえでフィールドを追加します。このスキーマ操作は、コレクションの動的フィールド設定（`enable_dynamic_field`）とは独立しており、Struct 内で任意のサブフィールドを有効にするものではありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -990,6 +1378,8 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
+#include <utility>
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
@@ -1007,11 +1397,11 @@ milvus::StructFieldSchema struct_schema =
         .AddField(milvus::FieldSchema("emb_list_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4))
         .AddField(milvus::FieldSchema("emb", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 
-auto status = client->AddCollectionStructField(milvus::AddCollectionStructFieldRequest()
+status = client->AddCollectionStructField(milvus::AddCollectionStructFieldRequest()
                                                    .WithCollectionName("tech_articles")
                                                    .WithStructField(std::move(struct_schema)));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -1050,29 +1440,24 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
-MilvusClientV2 client = new(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
-var updatedChunkSchema = new StructFieldSchema("chunks")
+var addedChunkSchema = new StructFieldSchema("chunks")
 {
     MaxCapacity = 1000,
     Nullable = true
 };
-updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
-updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("section", 128));
-updatedChunkSchema.Fields.Add(new FieldSchema("page", DataType.Int64));
-updatedChunkSchema.Fields.Add(new FieldSchema("quality_score", DataType.Float));
-updatedChunkSchema.Fields.Add(new FieldSchema("has_code", DataType.Bool));
-updatedChunkSchema.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+addedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("text", 65535));
+addedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("section", 128));
+addedChunkSchema.Fields.Add(new FieldSchema("page", DataType.Int64));
+addedChunkSchema.Fields.Add(new FieldSchema("quality_score", DataType.Float));
+addedChunkSchema.Fields.Add(new FieldSchema("has_code", DataType.Bool));
+addedChunkSchema.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
+
+addedChunkSchema.Fields.Add(new FieldSchema("emb", DataType.FloatVector) { Dimension = 4 });
 
 await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 {
     CollectionName = "tech_articles",
-    StructField = updatedChunkSchema
+    StructField = addedChunkSchema
 });
 ```
 
@@ -1107,11 +1492,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-StructArray フィールドが追加されると、既存のエンティティは、そのすべてのサブフィールドにわたって新しいフィールドに対して `null` を返します。
+StructArray フィールドを追加した後、既存のエンティティは、そのフィールドにデータを入力するまで、新しいフィールドに対して NULL を返します。
 
-StructArray フィールドを作成した後は、その既存の StructArray フィールドに新しいサブフィールドを追加することはできません。後で要素の属性を追加する必要がある場合は、`drop_collection_field()` を呼び出して StructArray フィールドを削除し、更新された Struct スキーマを使用して新しい StructArray フィールドを追加します。
+StructArray フィールドを作成した後は、その既存のフィールドにサブフィールドを追加することはできません。次の別の例では、`chunks` を、元の 7 つのサブフィールドと新しい `source` 文字列サブフィールドを含むスキーマに置き換えます。
+
+フィールドを削除すると、そのデータも削除されます。再度追加しても以前の値は復元されません。必要なデータを保持し、[Alter コレクション スキーマ](./add-fields-to-an-existing-collection) の事前準備に従ってから、置き換えたフィールドにデータを再入力し、インデックスを再作成してください。この例ではコレクションレベルの `title_vector` フィールドを保持するため、`chunks` を削除してもコレクションからすべてのベクトルフィールドが削除されることはありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1151,6 +1539,12 @@ updated_chunk_schema.add_field(
     dim=4,
 )
 
+updated_chunk_schema.add_field(
+    field_name="source",
+    datatype=DataType.VARCHAR,
+    max_length=256,
+)
+
 client.drop_collection_field(
     collection_name="tech_articles",
     field_name="chunks",
@@ -1185,6 +1579,7 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
         .fieldName("chunks")
         .maxCapacity(1000)
         .nullable(Boolean.TRUE)
+        .addStructField(AddFieldReq.builder().fieldName("source").dataType(DataType.VarChar).maxLength(256).build())
         .addStructField(AddFieldReq.builder().fieldName("text").dataType(DataType.VarChar).maxLength(65535).build())
         .addStructField(AddFieldReq.builder().fieldName("section").dataType(DataType.VarChar).maxLength(128).build())
         .addStructField(AddFieldReq.builder().fieldName("page").dataType(DataType.Int64).build())
@@ -1214,6 +1609,7 @@ updatedStructField := entity.NewField().
     WithMaxCapacity(1000).
     WithNullable(true).
     WithStructSchema(entity.NewStructSchema().
+        WithField(entity.NewField().WithName("source").WithDataType(entity.FieldTypeVarChar).WithMaxLength(256)).
         WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
         WithField(entity.NewField().WithName("section").WithDataType(entity.FieldTypeVarChar).WithMaxLength(128)).
         WithField(entity.NewField().WithName("page").WithDataType(entity.FieldTypeInt64)).
@@ -1246,6 +1642,7 @@ let updated_chunk_schema = StructFieldSchema::new()
     .name("chunks")
     .max_capacity(1000)
     .nullable(true)
+    .add_field(FieldSchema::new().name("source").data_type(DataType::VarChar).max_length(256))
     .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(65_535))
     .add_field(FieldSchema::new().name("section").data_type(DataType::VarChar).max_length(128))
     .add_field(FieldSchema::new().name("page").data_type(DataType::Int64))
@@ -1278,6 +1675,8 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
+#include <utility>
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
@@ -1292,18 +1691,20 @@ updated_struct_schema.AddField(milvus::FieldSchema("has_code", milvus::DataType:
 updated_struct_schema.AddField(milvus::FieldSchema("emb_list_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 updated_struct_schema.AddField(milvus::FieldSchema("emb", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 
+updated_struct_schema.AddField(milvus::FieldSchema("source", milvus::DataType::VARCHAR).WithMaxLength(256));
+
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("tech_articles")
                                          .WithFieldName("chunks"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 status = client->AddCollectionStructField(milvus::AddCollectionStructFieldRequest()
                                               .WithCollectionName("tech_articles")
                                               .WithStructField(std::move(updated_struct_schema)));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -1326,6 +1727,7 @@ await client.addCollectionField({
     nullable: true,
     max_capacity: 1000,
     fields: [
+      { name: "source", data_type: DataType.VarChar, max_length: 256 },
       { name: "text", data_type: DataType.VarChar, max_length: 65535 },
       { name: "section", data_type: DataType.VarChar, max_length: 128 },
       { name: "page", data_type: DataType.Int64 },
@@ -1359,6 +1761,8 @@ updatedChunkSchema.Fields.Add(new FieldSchema("quality_score", DataType.Float));
 updatedChunkSchema.Fields.Add(new FieldSchema("has_code", DataType.Bool));
 updatedChunkSchema.Fields.Add(new FieldSchema("emb_list_vector", DataType.FloatVector) { Dimension = 4 });
 updatedChunkSchema.Fields.Add(new FieldSchema("emb", DataType.FloatVector) { Dimension = 4 });
+
+updatedChunkSchema.Fields.Add(FieldSchema.CreateVarchar("source", 256));
 
 await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 {
@@ -1400,6 +1804,7 @@ curl --request POST \
       "nullable": true,
       "typeParams": {"max_capacity": "1000"},
       "fields": [
+        {"fieldName": "source", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "256"}},
         {"fieldName": "text", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "65535"}},
         {"fieldName": "section", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "128"}},
         {"fieldName": "page", "dataType": "Array", "elementDataType": "Int64"},
@@ -1413,6 +1818,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## スキーマのルール\{#schema-rules}
@@ -1455,9 +1861,8 @@ curl --request POST \
 
 1. StructArray フィールドにネストされたデータを挿入するには、[Insert Data into StructArray Fields](./insert-struct-array) を参照してください。
 
-1. ベクトルインデックスとスカラーインデックスを作成するには、[Index StructArray Fields](./index-struct-array) を参照してください。
+2. ベクトルインデックスとスカラーインデックスを作成するには、[Index StructArray Fields](./index-struct-array) を参照してください。
 
-1. StructArray のベクトルサブフィールドを検索するには、[Basic ベクトル Search with StructArray](./search-with-struct-array) を参照してください。
+3. StructArray のベクトルサブフィールドを検索するには、[Basic ベクトル Search with StructArray](./search-with-struct-array) を参照してください。
 
-1. サポートされるデータ型、null 許容の動作、バージョン固有の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
-
+4. サポートされるデータ型、null 許容の動作、バージョン固有の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。

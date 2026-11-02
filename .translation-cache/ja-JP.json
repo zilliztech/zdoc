@@ -236,9 +236,9 @@
       "translatedAt": "2026-10-25T05:33:29.889Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
-      "sourceHash": "18c842b69977cb6a35105faea5a23585d2ca5facccb94fb4639d233235185171",
+      "sourceHash": "4c5879495de8fe3584e76c9b55f8acb41aaceee9a269ceb110b493c5569be796",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-      "translatedAt": "2026-10-25T05:33:29.889Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md": {
       "sourceHash": "0f5499f08bf1ef3935a023e566a6439b2125d84238e73879f6b3b9eb267f3dd5",
@@ -601,19 +601,19 @@
       "translatedAt": "2026-10-25T05:47:48.541Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "0abca01829a1dc8e5fe8291f26b7d2a376951a27d5f2fedf8f489aaea5a8e188",
+      "sourceHash": "aacc43fca4aea2083d84b3d7bad410367f98b98d8d46fb9e01ed434dd23d5ff2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-10-29T05:46:28.612Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/index-struct-array.md": {
-      "sourceHash": "9911bdd074d2847f73f1e30ffaf643c209e33ef11e7acd143a9d7bdc882d1814",
+      "sourceHash": "3e1041c054537ab6adbb9b61e35d8da616d2fe6ef8ee98dac363d0af83c803d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/index-struct-array.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md": {
-      "sourceHash": "5025178623322a18e6d62c895b4ab273d775db663ce3d5bb60d16a6c0572749a",
+      "sourceHash": "7d814025c6a4f210e0d4e407faf3ae36b776dc0f85b286c4e695313bc5a2b1d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/insert-struct-array.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md": {
       "sourceHash": "7441e4bbff40198a1015a5b38c87702832b9d47f6b5bab03f280f34c1486343e",
@@ -791,29 +791,29 @@
       "translatedAt": "2026-10-25T06:05:30.641Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "94bb5fda06660ccb0b07c6441a9cf8154b41324370f70e484ed08701109cc07f",
+      "sourceHash": "967d923d6e754188d5878e8e2c495be0f54daaf47710ab6effb2996c34e9a401",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-25T05:05:32.096Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
-      "sourceHash": "a8c8e40ea23f508c36ea692d1eaa4cb4cb8027d992d69bb6f0e9640671435a9c",
+      "sourceHash": "1b708bcb2037d004a552fd145c315e890fb46c4032f77db9b6cd3f8e71656f28",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
-      "translatedAt": "2026-10-25T06:05:30.641Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md": {
-      "sourceHash": "420817554408fc9537abdec261721dd7b430025892735d09dea017044d03c8f5",
+      "sourceHash": "69c7efe423acf5fff08c70decc3514d2b85508ccb50cff85051a9a6362d1a3e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
-      "translatedAt": "2026-10-25T06:05:30.641Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md": {
-      "sourceHash": "a7b6182dc7492ff09106d7676295f8179162b46d4833e7ed8720058f19ab04a4",
+      "sourceHash": "85a694de892267e146bfc3bfc3038c7ed3e7b6c56f757a1ae30bac850d4059dd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-25T05:05:32.096Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
-      "sourceHash": "abc429689bc25d1e0f60c7dca80c3a2d14d4bd056451dc3e35399e7aaa267609",
+      "sourceHash": "f8e3969946fbf25fe811f8454c1c1ff84d3b5ea7b5774cbfce6d173ecd4b827f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
-      "translatedAt": "2026-10-25T06:05:30.641Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md": {
       "sourceHash": "141f630a5b46952b67cb9a62e4c3d5770a93a71635650e458a3e8bcddfd931e7",
@@ -1546,9 +1546,9 @@
       "translatedAt": "2026-10-25T10:09:11.241Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
-      "sourceHash": "234a692cd5823e544761380d9e51d30d89381c43c33b1769d392f2cc7ec92c5b",
+      "sourceHash": "3838cb79a2c285d7f16faacd8dc03e6bc41326b99d5524950a26703ee96623a0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-      "translatedAt": "2026-10-25T10:09:11.241Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md": {
       "sourceHash": "657f4ffa4ebd8e929fa592b90307e42efb6c17608ed9e4ce83f9eb7ffebeee27",
@@ -1951,19 +1951,19 @@
       "translatedAt": "2026-10-25T10:10:23.617Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "c03fa29872e1bb1894d0780da485a107a28b73cc842e6c680ff6ec5e3ac98676",
+      "sourceHash": "b22ad6b2fc05e2832c4adcabd971224124f02157a2a25a840ed84ce62878ba3b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-10-29T05:48:53.518Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
-      "sourceHash": "2813d8127082cd86b698be4cbaaea538163c56eaf498c852c46743aa6a514e19",
+      "sourceHash": "401abe3b9d9a092171f2f47d6970f225c2b403f213ae5b9856db9b932d5a8035",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/index-struct-array.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md": {
-      "sourceHash": "24a7c2c11f8d26b16c6fa526b19b23120ce6f3e03b20e72294fd2016f639dca0",
+      "sourceHash": "8f932df5eb20d8817bd1286fc3a8d44e1d4fd67e81b8cdc278634e5ca777ee48",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/insert-struct-array.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md": {
       "sourceHash": "35e0fc10c58c8c37c934bf5af289df09fa467c39e29e33afb6c8801a379f05c1",
@@ -2141,14 +2141,14 @@
       "translatedAt": "2026-10-25T10:11:36.432Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "b02ec1ee303040ac239599cb243caa8528a2f4c9a2a7ec9a18004f54122cf466",
+      "sourceHash": "8a4324549360b2f9b6b2ffcc054b4668228f26158c98f4e8fde4fc4e500d991f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-10-25T05:21:41.431Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
-      "sourceHash": "2a73678eb90456516bf58ecfd4628616cf00beffa2a177d29a484e25ea1bdebb",
+      "sourceHash": "b765258333032e1a1628ca499b90bd6c88ed9da61dff9b63bd0290fda1689fce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-11-02T08:51:44.728Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md": {
       "sourceHash": "1115773cf68bcf420af4ec27e93029c8839c9a846225206d18e7d724854556e1",

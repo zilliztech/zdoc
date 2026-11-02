@@ -1,17 +1,18 @@
 ---
 title: "StructArray フィールドのインデックス | BYOC"
 slug: /index-struct-array
-sidebar_label: "StructArray フィールドのインデックス"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル検索を実行する前、またはスカラーフィルタリングを高速化する前に、StructArray サブフィールドにインデックスを作成します。StructArray フィールドの場合、インデックスの対象は `chunks[emblistvector]`、`chunks[emb]`、`chunks[section]` などのサブフィールドパスです。 | BYOC"
+description: "ベクトル検索を実行する前、またはスカラーフィルタリングを高速化する前に、StructArray サブフィールドにインデックスを作成します。StructArray フィールドのインデックス対象は、chunks[emb_list_vector]、chunks[emb]、chunks[section] などのサブフィールドパスです。 | BYOC"
 type: origin
-token: VvkEwug9ciPZYVk6hM1chLydnib
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-index-struct-array
+sidebar_label: "StructArray フィールドのインデックス"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/index-structarray-fields.md"
 
 ---
 
@@ -27,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 ## 事前準備\{#before-you-begin}
 
-コレクションスキーマに `chunks` StructArray フィールドがすでに含まれており、データが挿入済みであることを確認してください。
+コレクションスキーマに `chunks` StructArray フィールドがすでに含まれていることを確認してください。選択した言語（Go の場合は `cli` と `ctx`、その他の SDK の場合は `client`）で、[StructArray フィールドを作成する](./create-struct-array) の初期化済みクライアントを再利用します。データを挿入する前にインデックスを作成できます。
 
 | サブフィールドパス | 型 | インデックスの目的 |
 | --- | --- | --- |
@@ -37,7 +38,7 @@ import TabItem from '@theme/TabItem';
 | `chunks[quality_score]` | `FLOAT` | 数値フィルタリングと範囲述語 |
 | `chunks[has_code]` | `BOOL` | ブールフィルタリング |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 ベクトルフィールドまたはベクトルサブフィールドは、1 つのインデックスのみ受け入れます。EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、2 つの個別のベクトルサブフィールドを作成し、それぞれにインデックスを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用に、`chunks[emb]` は要素レベルの検索用にインデックスが作成されています。
 
@@ -61,24 +62,24 @@ EmbeddingList 検索では、StructArray ベクトルサブフィールド内の
 
 次の例では、2 つのベクトルインデックスを作成します。1 つ目のインデックスは EmbeddingList 検索用に `MAX_SIM*` メトリクスを使用します。2 つ目のインデックスは要素レベルの検索用に通常のベクトルメトリクスを使用します。
 
-StructArray ベクトルサブフィールドには `AUTOINDEX` を使用します。
-
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
 
+# Index for EmbeddingList search.
 index_params.add_index(
     field_name="chunks[emb_list_vector]",
-    index_name="chunks_emb_list_auto",
+    index_name="chunks_emb_list_max_sim",
     index_type="AUTOINDEX",
     metric_type="MAX_SIM_COSINE",
 )
 
+# Index for element-level search.
 index_params.add_index(
     field_name="chunks[emb]",
-    index_name="chunks_emb_auto",
+    index_name="chunks_emb_cosine",
     index_type="AUTOINDEX",
     metric_type="COSINE",
 )
@@ -104,12 +105,12 @@ client.createIndex(CreateIndexReq.builder()
                 IndexParam.builder().fieldName("chunks[emb_list_vector]")
                         .indexType(IndexParam.IndexType.AUTOINDEX)
                         .metricType(IndexParam.MetricType.MAX_SIM_COSINE)
-                        .indexName("chunks_emb_list_auto")
+                        .indexName("chunks_emb_list_max_sim")
                         .build(),
                 IndexParam.builder().fieldName("chunks[emb]")
                         .indexType(IndexParam.IndexType.AUTOINDEX)
                         .metricType(IndexParam.MetricType.COSINE)
-                        .indexName("chunks_emb_auto")
+                        .indexName("chunks_emb_cosine")
                         .build()))
         .build());
 ```
@@ -127,14 +128,16 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb_list_vector]", index.NewAutoIndex(entity.MaxSimCosine)).WithIndexName("chunks_emb_list_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb_list_vector]", index.NewAutoIndex(entity.MaxSimCosine)).WithIndexName("chunks_emb_list_max_sim"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb]", index.NewAutoIndex(entity.COSINE)).WithIndexName("chunks_emb_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb]", index.NewAutoIndex(entity.COSINE)).WithIndexName("chunks_emb_cosine"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 ```
 
@@ -145,20 +148,20 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-    let request = CreateIndexRequest::builder()
+let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
             IndexParam::new().field_name("chunks[emb_list_vector]")
-                .index_name("chunks_emb_list_auto")
+                .index_name("chunks_emb_list_max_sim")
                 .index_type(IndexType::AutoIndex)
                 .metric_type(MetricType::MaxSimCosine),
             IndexParam::new().field_name("chunks[emb]")
-                .index_name("chunks_emb_auto")
+                .index_name("chunks_emb_cosine")
                 .index_type(IndexType::AutoIndex)
                 .metric_type(MetricType::Cosine),
         ])
         .build()?;
-    client.create_index(request).await?;
+client.create_index(request).await?;
 ```
 
 </TabItem>
@@ -166,21 +169,22 @@ use milvus::v2::prelude::*;
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-milvus::IndexDesc emb_list_index("chunks[emb_list_vector]", "chunks_emb_list_auto",
+milvus::IndexDesc emb_list_index("chunks[emb_list_vector]", "chunks_emb_list_max_sim",
     milvus::IndexType::AUTOINDEX, milvus::MetricType::MAX_SIM_COSINE);
-milvus::IndexDesc emb_index("chunks[emb]", "chunks_emb_auto",
+milvus::IndexDesc emb_index("chunks[emb]", "chunks_emb_cosine",
     milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 
-milvus::CreateIndexRequest create_request;
-create_request.WithCollectionName("tech_articles");
-create_request.WithIndexes({emb_list_index, emb_index});
+milvus::CreateIndexRequest vector_request;
+vector_request.WithCollectionName("tech_articles");
+vector_request.WithIndexes({emb_list_index, emb_index});
 
-status = client->CreateIndex(create_request);
+status = client->CreateIndex(vector_request);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -192,7 +196,7 @@ if (!status.IsOk()) {
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[emb_list_vector]",
-  index_name: "chunks_emb_list_auto",
+  index_name: "chunks_emb_list_max_sim",
   index_type: "AUTOINDEX",
   metric_type: "MAX_SIM_COSINE",
 });
@@ -200,7 +204,7 @@ await client.createIndex({
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[emb]",
-  index_name: "chunks_emb_auto",
+  index_name: "chunks_emb_cosine",
   index_type: "AUTOINDEX",
   metric_type: "COSINE",
 });
@@ -219,8 +223,8 @@ await client.CreateIndexAsync(new CreateIndexReq
     CollectionName = "tech_articles",
     Indexes = new[]
     {
-        new IndexParam("chunks[emb_list_vector]", "chunks_emb_list_auto", IndexType.AutoIndex, MetricType.MaxSimCosine),
-        new IndexParam("chunks[emb]", "chunks_emb_auto", IndexType.AutoIndex, MetricType.Cosine)
+        new IndexParam("chunks[emb_list_vector]", "chunks_emb_list_max_sim", IndexType.AutoIndex, MetricType.MaxSimCosine),
+        new IndexParam("chunks[emb]", "chunks_emb_cosine", IndexType.AutoIndex, MetricType.Cosine)
     }
 });
 ```
@@ -231,21 +235,21 @@ await client.CreateIndexAsync(new CreateIndexReq
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
---header "Authorization: Bearer ${TOKEN}" \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "tech_articles",
     "indexParams": [
         {
             "fieldName": "chunks[emb_list_vector]",
-            "indexName": "chunks_emb_list_auto",
+            "indexName": "chunks_emb_list_max_sim",
             "metricType": "MAX_SIM_COSINE",
             "params": { "index_type": "AUTOINDEX" }
         },
         {
             "fieldName": "chunks[emb]",
-            "indexName": "chunks_emb_auto",
+            "indexName": "chunks_emb_cosine",
             "metricType": "COSINE",
             "params": { "index_type": "AUTOINDEX" }
         }
@@ -254,19 +258,19 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="warning" title="Warning">
+<Admonition type="info" icon="📘" title="Notes">
 
-同じベクトルサブフィールドに `MAX_SIM*` インデックスと通常のベクトルメトリクスインデックスを作成しないでください。両方の検索モードが必要な場合は、2 つの個別のベクトルサブフィールドにベクトルを書き込み、各サブフィールドに 1 つずつインデックスを作成してください。
+警告
+同じベクトルサブフィールドに `MAX_SIM*` インデックスと通常のベクトルメトリクスインデックスを作成しないでください。両方の検索モードが必要な場合は、ベクトルを 2 つの個別のベクトルサブフィールドに書き込み、各サブフィールドに 1 つずつインデックスを作成してください。
 
 </Admonition>
 
 ## スカラーインデックスを作成する\{#create-scalar-indexes}
 
-StructArray のスカラーサブフィールドをフィルタで使用する場合は、それらのサブフィールドにスカラーインデックスを作成します。`structArray[subfield]` と同じパス構文を使用します。適用可能なインデックスタイプは `INVERTED`、`BITMAP`、`STL_SORT` です。
-
-StructArray スカラーサブフィールドには `AUTOINDEX` を使用します。
+StructArray のスカラーサブフィールドをフィルタで使用する場合は、これらのサブフィールドにスカラーインデックスを作成します。同じ `structArray[subfield]` パス構文を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -276,25 +280,25 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="chunks[section]",
-    index_name="chunks_section_auto",
+    index_name="chunks_section_inverted",
     index_type="AUTOINDEX",
 )
 
 index_params.add_index(
     field_name="chunks[has_code]",
-    index_name="chunks_has_code_auto",
+    index_name="chunks_has_code_inverted",
     index_type="AUTOINDEX",
 )
 
 index_params.add_index(
     field_name="chunks[quality_score]",
-    index_name="chunks_quality_score_auto",
+    index_name="chunks_quality_score_sort",
     index_type="AUTOINDEX",
 )
 
 index_params.add_index(
     field_name="chunks[page]",
-    index_name="chunks_page_auto",
+    index_name="chunks_page_sort",
     index_type="AUTOINDEX",
 )
 
@@ -317,13 +321,13 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("tech_articles")
         .indexParams(Arrays.asList(
                 IndexParam.builder().fieldName("chunks[section]").indexType(IndexParam.IndexType.AUTOINDEX)
-                        .indexName("chunks_section_auto").build(),
+                        .indexName("chunks_section_inverted").build(),
                 IndexParam.builder().fieldName("chunks[has_code]").indexType(IndexParam.IndexType.AUTOINDEX)
-                        .indexName("chunks_has_code_auto").build(),
+                        .indexName("chunks_has_code_inverted").build(),
                 IndexParam.builder().fieldName("chunks[quality_score]").indexType(IndexParam.IndexType.AUTOINDEX)
-                        .indexName("chunks_quality_score_auto").build(),
+                        .indexName("chunks_quality_score_sort").build(),
                 IndexParam.builder().fieldName("chunks[page]").indexType(IndexParam.IndexType.AUTOINDEX)
-                        .indexName("chunks_page_auto").build()))
+                        .indexName("chunks_page_sort").build()))
         .build());
 ```
 
@@ -340,24 +344,28 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[section]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_section_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[section]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_section_inverted"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[has_code]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_has_code_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[has_code]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_has_code_inverted"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[quality_score]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_quality_score_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[quality_score]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_quality_score_sort"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[page]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_page_auto"))
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[page]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_page_sort"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 ```
 
@@ -368,16 +376,16 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-    let request = CreateIndexRequest::builder()
+let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
-            IndexParam::new().field_name("chunks[section]").index_name("chunks_section_auto").index_type(IndexType::AutoIndex),
-            IndexParam::new().field_name("chunks[has_code]").index_name("chunks_has_code_auto").index_type(IndexType::AutoIndex),
-            IndexParam::new().field_name("chunks[quality_score]").index_name("chunks_quality_score_auto").index_type(IndexType::AutoIndex),
-            IndexParam::new().field_name("chunks[page]").index_name("chunks_page_auto").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[section]").index_name("chunks_section_inverted").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[has_code]").index_name("chunks_has_code_inverted").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[quality_score]").index_name("chunks_quality_score_sort").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[page]").index_name("chunks_page_sort").index_type(IndexType::AutoIndex),
         ])
         .build()?;
-    client.create_index(request).await?;
+client.create_index(request).await?;
 ```
 
 </TabItem>
@@ -385,25 +393,26 @@ use milvus::v2::prelude::*;
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-milvus::IndexDesc section_index("chunks[section]", "chunks_section_auto",
+milvus::IndexDesc section_index("chunks[section]", "chunks_section_inverted",
     milvus::IndexType::AUTOINDEX);
-milvus::IndexDesc has_code_index("chunks[has_code]", "chunks_has_code_auto",
+milvus::IndexDesc has_code_index("chunks[has_code]", "chunks_has_code_inverted",
     milvus::IndexType::AUTOINDEX);
-milvus::IndexDesc quality_index("chunks[quality_score]", "chunks_quality_score_auto",
+milvus::IndexDesc quality_index("chunks[quality_score]", "chunks_quality_score_sort",
     milvus::IndexType::AUTOINDEX);
-milvus::IndexDesc page_index("chunks[page]", "chunks_page_auto",
+milvus::IndexDesc page_index("chunks[page]", "chunks_page_sort",
     milvus::IndexType::AUTOINDEX);
 
-milvus::CreateIndexRequest create_request;
-create_request.WithCollectionName("tech_articles");
-create_request.WithIndexes({section_index, has_code_index, quality_index, page_index});
+milvus::CreateIndexRequest scalar_request;
+scalar_request.WithCollectionName("tech_articles");
+scalar_request.WithIndexes({section_index, has_code_index, quality_index, page_index});
 
-status = client->CreateIndex(create_request);
+status = client->CreateIndex(scalar_request);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 ```
 
@@ -415,28 +424,28 @@ if (!status.IsOk()) {
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[section]",
-  index_name: "chunks_section_auto",
+  index_name: "chunks_section_inverted",
   index_type: "AUTOINDEX",
 });
 
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[has_code]",
-  index_name: "chunks_has_code_auto",
+  index_name: "chunks_has_code_inverted",
   index_type: "AUTOINDEX",
 });
 
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[quality_score]",
-  index_name: "chunks_quality_score_auto",
+  index_name: "chunks_quality_score_sort",
   index_type: "AUTOINDEX",
 });
 
 await client.createIndex({
   collection_name: "tech_articles",
   field_name: "chunks[page]",
-  index_name: "chunks_page_auto",
+  index_name: "chunks_page_sort",
   index_type: "AUTOINDEX",
 });
 ```
@@ -454,10 +463,10 @@ await client.CreateIndexAsync(new CreateIndexReq
     CollectionName = "tech_articles",
     Indexes = new[]
     {
-        new IndexParam("chunks[section]", "chunks_section_auto", IndexType.AutoIndex),
-        new IndexParam("chunks[has_code]", "chunks_has_code_auto", IndexType.AutoIndex),
-        new IndexParam("chunks[quality_score]", "chunks_quality_score_auto", IndexType.AutoIndex),
-        new IndexParam("chunks[page]", "chunks_page_auto", IndexType.AutoIndex)
+        new IndexParam("chunks[section]", "chunks_section_inverted", IndexType.AutoIndex),
+        new IndexParam("chunks[has_code]", "chunks_has_code_inverted", IndexType.AutoIndex),
+        new IndexParam("chunks[quality_score]", "chunks_quality_score_sort", IndexType.AutoIndex),
+        new IndexParam("chunks[page]", "chunks_page_sort", IndexType.AutoIndex)
     }
 });
 ```
@@ -468,57 +477,53 @@ await client.CreateIndexAsync(new CreateIndexReq
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
---header "Authorization: Bearer ${TOKEN}" \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "tech_articles",
     "indexParams": [
-        { "fieldName": "chunks[section]", "indexName": "chunks_section_auto", "params": { "index_type": "AUTOINDEX" } },
-        { "fieldName": "chunks[has_code]", "indexName": "chunks_has_code_auto", "params": { "index_type": "AUTOINDEX" } },
-        { "fieldName": "chunks[quality_score]", "indexName": "chunks_quality_score_auto", "params": { "index_type": "AUTOINDEX" } },
-        { "fieldName": "chunks[page]", "indexName": "chunks_page_auto", "params": { "index_type": "AUTOINDEX" } }
+        { "fieldName": "chunks[section]", "indexName": "chunks_section_inverted", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[has_code]", "indexName": "chunks_has_code_inverted", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[quality_score]", "indexName": "chunks_quality_score_sort", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[page]", "indexName": "chunks_page_sort", "params": { "index_type": "AUTOINDEX" } }
     ]
 }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 スカラーインデックスは省略可能ですが、StructArray のスカラーサブフィールドが `element_filter(chunks, $[quality_score] > 0.9)` や `MATCH_ANY(chunks, $[section] == "index")` のようにフィルタで頻繁に使用される場合に役立ちます。
 
 ## 適用可能なメトリクスタイプ\{#applicable-metric-types}
 
-次の表を使用して、StructArray フィールドに適用可能なメトリクスタイプを確認してください。
-
-| メトリクスタイプ | 説明 |
-| --- | --- |
-| `MAX_SIM_COSINE` (`MAX_SIM`) | コサインに基づいて 2 つのベクトル間の類似度を測定し、MaxSim を使用して 2 つのベクトルリスト間の類似度を計算します。 |
-| `MAX_SIM_L2` | L2 に基づいて 2 つのベクトル間の類似度を測定し、MaxSim を使用して 2 つのベクトルリスト間の類似度を計算します。 |
-| `MAX_SIM_IP` | IP に基づいて 2 つのベクトル間の類似度を測定し、MaxSim を使用して 2 つのベクトルリスト間の類似度を計算します。 |
-| `MAX_SIM_HAMMING` | Hamming に基づいて 2 つのベクトル間の類似度を測定し、MaxSim を使用して 2 つのベクトルリスト間の類似度を計算します。 |
-| `MAX_SIM_JACCARD` | Jaccard に基づいて 2 つのベクトル間の類似度を測定し、MaxSim を使用して 2 つのベクトルリスト間の類似度を計算します。 |
-
-クエリの埋め込みリストと StructArray フィールド内のベクトルサブフィールド間の距離を計算する場合、次の式が適用されます。
-
-$$
-Distance({q}, {v})=\Sigma_{i=1}^{n}(Max_{j=1}^{m}Distance(q_i,v_j))
-$$
-
-上記の式では、$q$ は $n$ 個の要素からなる埋め込みリストを指し、$v$ は $m$ 個の要素を含む StructArray サブフィールドを指します。
+EmbeddingList 検索では、ベクトルごとの比較に対応する `MAX_SIM*` メトリクスを選択します。密ベクトルの場合は `MAX_SIM_COSINE`（`MAX_SIM` とも呼ばれます）、`MAX_SIM_IP`、または `MAX_SIM_L2`、バイナリベクトルの場合は `MAX_SIM_HAMMING` または `MAX_SIM_JACCARD` です。これらのメトリクスは埋め込みリストを比較し、エンティティレベルの結果を返します。要素レベルの検索では、以下に示す対応する通常のメトリクスを使用します。
 
 ## インデックスのメトリクス互換性\{#index-metric-compatibility}
 
 次の表を使用して、StructArray ベクトルサブフィールドのインデックスタイプとメトリクスタイプを選択してください。対象から始め、検索モードに基づいてメトリクスファミリーを選択します。
 
-StructArray ベクトルサブフィールドには `AUTOINDEX` を使用します。検索モードで必要なメトリクスファミリーからメトリクスタイプを選択します。
+以下の互換性テーブルから、Zilliz Cloud のインデックスタイプとメトリクスタイプを選択してください。
 
-| 検索モード | ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
-| --- | --- | --- | --- |
-| EmbeddingList 検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`, `MAX_SIM_COSINE`, `MAX_SIM_IP`, `MAX_SIM_L2` |
-| EmbeddingList 検索 | `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`, `MAX_SIM_JACCARD` |
-| 要素レベルの検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `L2`, `IP`, `COSINE` |
-| 要素レベルの検索 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`, `JACCARD` |
+### EmbeddingList 検索\{#embeddinglist-search}
+
+EmbeddingList 検索では `MAX_SIM*` メトリクスを使用します。StructArray ベクトルサブフィールド内のベクトルを埋め込みリストとして扱い、エンティティレベルの結果を返します。
+
+| ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
+| --- | --- | --- |
+| `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`, `MAX_SIM_COSINE`, `MAX_SIM_IP`, `MAX_SIM_L2` |
+| `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`, `MAX_SIM_JACCARD` |
+
+### 要素レベルの検索\{#element-level-search}
+
+要素レベルの検索では通常のベクトルメトリクスを使用します。各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。
+
+| ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
+| --- | --- | --- |
+| `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `L2`, `IP`, `COSINE` |
+| `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`, `JACCARD` |
 
 バージョン固有のサポート状況とその他の制限については、[StructArray Limits](./struct-array-limits) を参照してください。
 
@@ -565,6 +570,7 @@ import (
 indexes, err := cli.ListIndexes(ctx, milvusclient.NewListIndexOption("tech_articles"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Println(indexes)
 ```
@@ -576,9 +582,9 @@ fmt.Println(indexes)
 ```rust
 use milvus::v2::prelude::*;
 
-    let resp = client.list_indexes(ListIndexesRequest::builder()
+let resp = client.list_indexes(ListIndexesRequest::builder()
         .collection_name("tech_articles").build()?).await?;
-    println!("{:?}", resp.index_names());
+println!("{:?}", resp.index_names());
 ```
 
 </TabItem>
@@ -586,6 +592,8 @@ use milvus::v2::prelude::*;
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
+#include <utility>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -594,7 +602,11 @@ status = client->ListIndexes(milvus::ListIndexesRequest()
                                 .WithCollectionName("tech_articles"),
                             list_resp);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
+}
+
+for (const auto& name : list_resp.IndexNames()) {
+    std::cout << name << std::endl;
 }
 ```
 
@@ -629,8 +641,8 @@ Console.WriteLine(string.Join(", ", indexes.IndexNames));
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/list" \
---header "Authorization: Bearer ${TOKEN}" \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/list" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "tech_articles"
@@ -638,9 +650,21 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-SDK のバージョンでインデックスの詳細を取得する API が提供されている場合は、特定のインデックスの詳細を取得することもできます。
+上記のベクトルインデックスとスカラーインデックスの両方を作成した後、一覧レスポンスには次の名前が任意の順序で含まれている必要があります。形式は SDK によって異なります。
+
+```plaintext
+chunks_emb_list_max_sim
+chunks_emb_cosine
+chunks_section_inverted
+chunks_has_code_inverted
+chunks_quality_score_sort
+chunks_page_sort
+```
+
+上記で作成した `chunks_emb_cosine` インデックスの詳細を取得して、対象フィールドと設定を確認します。レスポンスの構造と出力表現は SDK によって異なります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -683,6 +707,7 @@ import (
 indexDesc, err := cli.DescribeIndex(ctx, milvusclient.NewDescribeIndexOption("tech_articles", "chunks_emb_cosine"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 fmt.Println(indexDesc.IndexType())
 ```
@@ -694,9 +719,11 @@ fmt.Println(indexDesc.IndexType())
 ```rust
 use milvus::v2::prelude::*;
 
-    let resp = client.describe_index(DescribeIndexRequest::builder()
+let resp = client.describe_index(DescribeIndexRequest::builder()
         .collection_name("tech_articles").index_name("chunks_emb_cosine").build()?).await?;
-    println!("{:?}", resp.indexes()[0].get_index_type());
+for description in resp.indexes() {
+    println!("{:?}", description);
+}
 ```
 
 </TabItem>
@@ -704,6 +731,8 @@ use milvus::v2::prelude::*;
 <TabItem value='c++'>
 
 ```c++
+#include <stdexcept>
+#include <utility>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -713,7 +742,11 @@ status = client->DescribeIndex(milvus::DescribeIndexRequest()
                                    .WithIndexName("chunks_emb_cosine"),
                                desc_resp);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
+}
+
+for (const auto& desc : desc_resp.Descs()) {
+    std::cout << desc.FieldName() << ": " << desc.IndexName() << std::endl;
 }
 ```
 
@@ -741,7 +774,10 @@ var index = await client.DescribeIndexAsync(new DescribeIndexReq
     CollectionName = "tech_articles",
     IndexName = "chunks_emb_cosine"
 });
-Console.WriteLine(index.Indexes.Count);
+foreach (var description in index.Indexes)
+{
+    Console.WriteLine($"{description.FieldName}: {description.IndexName}");
+}
 ```
 
 </TabItem>
@@ -750,8 +786,8 @@ Console.WriteLine(index.Indexes.Count);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/describe" \
---header "Authorization: Bearer ${TOKEN}" \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/describe" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "tech_articles",
@@ -760,7 +796,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+一覧レスポンスにはインデックス名が含まれ、詳細レスポンスでは `chunks[emb]` とインデックス設定が示されます。使用する前に、レスポンスまたはステータスでエラーを確認してください。
 
 ## インデックスのルール\{#index-rules}
 
@@ -791,7 +830,6 @@ curl --request POST \
 
 1. エンティティレベルの EmbeddingList 検索または要素レベルのベクトル検索を実行するには、[StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. 検索中に StructArray のスカラーサブフィールドをフィルタリングするには、[StructArray を使用したフィルタ検索](./filtered-search-with-struct-arrays) を参照してください。
+2. 検索中に StructArray のスカラーサブフィールドをフィルタリングするには、[StructArray を使用したフィルタ検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. インデックスとメトリクスの制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
-
+3. インデックスとメトリクスの制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。

@@ -1,7 +1,6 @@
 ---
 title: "StructArray でのグループ化検索 | BYOC"
 slug: /grouping-search-with-struct-array
-sidebar_label: "グループ化検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "StructArray の要素レベルの検索結果を親エンティティでグループ化するには、このページを使用します。複数の Struct 要素がクエリに一致すると、要素レベルの検索で同じエンティティから複数のヒットが返されることがあります。グループ化はそれらの要素のヒットをまとめ、各親エンティティが最大 1 回だけ現れるようにします。 | BYOC"
 type: origin
-token: I60hwuYrSiVSWBkYq9RcqRcpnFh
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-grouping-search-with-struct-array
+sidebar_label: "グループ化検索"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/grouping-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,10 @@ import TabItem from '@theme/TabItem';
 
 このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` コレクションを使用します。コレクションには `chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドは、通常のベクトルメトリクスを使用した要素レベルの検索用にインデックスが作成されています。
 
+例では、デフォルトのグループサイズである 1 を使用します。
+
+これらの例を実行する前に、コレクションを作成し、サンプルデータを挿入し、必要なベクトルインデックスを作成して、コレクションをロードしてください。ここに示すフィールドには、4 次元のベクトルを使用します。各コードブロックは、そのコードブロック内で改めて定義されていない限り、同じ言語の前の例で定義された接続と変数を使用することを前提としています。
+
 ## StructArray でのグループ化の適用方法\{#how-grouping-applies-to-structarray}
 
 | 検索モード | グループ化の動作 | 結果の動作 |
@@ -33,7 +38,7 @@ import TabItem from '@theme/TabItem';
 | 要素レベルの検索 | プライマリキーによるグループ化でサポートされます。 | 親エンティティごとに最大 1 件の結果を返します。要素レベルのメタデータは保持されるため、API または SDK で公開されている場合は、選択された要素のインデックスまたはオフセットを返すことができます。 |
 | ハイブリッド検索 | すべてのサブ検索が同じ StructArray フィールド配下の要素レベルのベクトルフィールドを対象とする場合にのみサポートされます。 | 要素レベルのサブ検索は、最終的な結果処理の前にプライマリキーでグループ化されます。 |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 グループ化されていない要素レベルの検索で重複する親エンティティが多数返される場合は、グループ化を使用してください。一致するすべての Struct 要素を個別のヒットとして取得する場合は、`group_by_field` を指定せずに [StructArray での基本ベクトル検索](./search-with-struct-array) を使用してください。
 
@@ -129,7 +134,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 for (List<SearchResp.SearchResult> results : searchResp.getSearchResults()) {
     for (SearchResp.SearchResult result : results) {
-        System.out.println("doc_id: " + result.getEntity().get("doc_id")
+        System.out.println("doc_id: " + result.getId()
                 + ", distance: " + result.getScore()
                 + ", offset: " + result.getElementOffset()
                 + ", entity: " + result.getEntity());
@@ -158,6 +163,7 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 defer cli.Close(ctx)
 
@@ -172,6 +178,7 @@ resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 for _, resultSet := range resultSets {
@@ -225,6 +232,7 @@ milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -246,6 +254,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 for (const auto& result : response.Results().Results()) {
@@ -298,9 +307,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -348,6 +357,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 グループ化しない場合、複数のチャンクがクエリに一致すると、同じ `doc_id` が複数回現れることがあります。`group_by_field="doc_id"` を指定すると、各親エンティティは最大 1 回だけ現れます。グループ化は要素レベルのメタデータを保持するため、API または SDK で公開されている場合は、グループ化された結果に選択された Struct 要素のインデックスまたはオフセットを含めることができます。
@@ -447,6 +457,7 @@ resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
 if err != nil {
     fmt.Println(err.Error())
+    return
 }
 
 for _, resultSet := range resultSets {
@@ -518,6 +529,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -554,9 +566,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -600,6 +612,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 最上位の述語は候補エンティティを選択します。`element_filter` 述語は、要素レベルのベクトル検索を一致する Struct 要素に制限します。その後、グループ化によって一致する要素のヒットがプライマリキーでまとめられます。
@@ -608,9 +621,9 @@ curl --request POST \
 
 StructArray でのハイブリッドグループ化は要素レベルの機能です。すべてのサブ検索が同じ StructArray フィールド配下の要素レベルのベクトルフィールドを対象とする場合にのみサポートされます。グループ化された StructArray ハイブリッド検索では、EmbeddingList レベルのリクエストを使用しないでください。
 
-次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つの要素レベルのベクトルサブフィールドがあり、両方に通常のベクトルメトリクスでインデックスが作成されていることを前提としています。
+次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つの要素レベルのベクトルサブフィールドがあり、どちらも `COSINE` でインデックスが作成されていることを前提としています。コレクションの作成時に、追加の 4 次元 `code_emb` サブフィールドを定義してデータを格納してください。これは、上記でリンクされている基本スキーマには含まれていません。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -622,7 +635,7 @@ code_query_vector = [0.18, 0.23, 0.29, 0.36]
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
-    param={"metric_type": "COSINE", "params": {"efSearch": 64}},
+    param={"metric_type": "COSINE"},
     limit=10,
     expr='element_filter(chunks, $[section] == "index")',
 )
@@ -630,7 +643,7 @@ index_chunk_req = AnnSearchRequest(
 code_chunk_req = AnnSearchRequest(
     data=[code_query_vector],
     anns_field="chunks[code_emb]",
-    param={"metric_type": "COSINE", "params": {"efSearch": 64}},
+    param={"metric_type": "COSINE"},
     limit=10,
     expr='element_filter(chunks, $[has_code] == true)',
 )
@@ -691,48 +704,6 @@ SearchResp searchResp = client.hybridSearch(HybridSearchReq.builder()
         .groupByFieldName("doc_id")
         .outFields(Arrays.asList("doc_id", "title", "chunks[text]", "chunks[section]"))
         .build());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-queryVector := []float32{0.19, 0.24, 0.30, 0.37}
-codeQueryVector := []float32{0.18, 0.23, 0.29, 0.36}
-
-annReq1 := milvusclient.NewAnnRequest("chunks[emb]", 10, entity.FloatVector(queryVector)).
-    WithFilter("element_filter(chunks, $[section] == \"index\")").
-    WithSearchParam("metric_type", "COSINE").
-    WithGroupByField("doc_id")
-
-annReq2 := milvusclient.NewAnnRequest("chunks[code_emb]", 10, entity.FloatVector(codeQueryVector)).
-    WithFilter("element_filter(chunks, $[has_code] == true)").
-    WithSearchParam("metric_type", "COSINE").
-    WithGroupByField("doc_id")
-
-resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-    "tech_articles",
-    5,
-    annReq1, annReq2,
-).WithReranker(milvusclient.NewRRFReranker()).
-    WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]"))
-if err != nil {
-    fmt.Println(err.Error())
-}
-
-for _, resultSet := range resultSets {
-    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
-    fmt.Println("Scores: ", resultSet.Scores)
-    fmt.Println("doc_id: ", resultSet.GetColumn("doc_id").FieldData().GetScalars())
-}
 ```
 
 </TabItem>
@@ -814,38 +785,8 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const query_vector = [0.19, 0.24, 0.30, 0.37];
-const code_query_vector = [0.18, 0.23, 0.29, 0.36];
-
-const res = await client.hybridSearch({
-  collection_name: "tech_articles",
-  data: [
-    {
-      anns_field: "chunks[emb]",
-      data: query_vector,
-      limit: 10,
-      expr: 'element_filter(chunks, $[section] == "index")',
-    },
-    {
-      anns_field: "chunks[code_emb]",
-      data: code_query_vector,
-      limit: 10,
-      expr: 'element_filter(chunks, $[has_code] == true)',
-    },
-  ],
-  rerank: { strategy: "rrf", params: {} },
-  limit: 5,
-  group_by_field: "doc_id",
-  output_fields: ["doc_id", "title", "chunks[text]", "chunks[section]"],
-});
 ```
 
 </TabItem>
@@ -861,9 +802,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 float[] codeQueryVector = [0.18f, 0.23f, 0.29f, 0.36f];
@@ -933,7 +874,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+Milvus 3.0.2 に付属する Go クライアントのソースでは、`NewHybridSearchOption` を通じて最終的なハイブリッドグループ化を公開していません。各サブリクエストに `WithGroupByField` を設定しても、最終的なハイブリッドグループ化は構成されません。NodeJS 3.0.6 も、ハイブリッドランキングパラメーターからトップレベルの `group_by_field` を省略しています。この例では、上記に示す API のいずれかを使用してください。
 
 この例では、両方のサブリクエストが同じ StructArray フィールド `chunks` 配下の要素レベルのベクトルフィールドを対象としています。ハイブリッド検索で通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストを混在させる場合、要素レベルの group-by はサポートされません。
 
@@ -941,7 +885,7 @@ curl --request POST \
 
 | 結果項目 | 意味 |
 | --- | --- |
-| `id` | グループ化された親エンティティのプライマリキーです。 |
+| プライマリキー（これらの例では `doc_id`） | グループ化された親エンティティのプライマリキーです。 |
 | `distance` またはスコア | その親エンティティに対して選択された Struct 要素のスコアまたは距離です。 |
 | `offset` | 返される場合の、選択された Struct 要素の 0 から始まる位置です。 |
 | プライマリキーの重複 | プライマリキーでグループ化する場合、想定されません。 |
@@ -979,8 +923,8 @@ curl --request POST \
 
 1. グループ化されていない要素レベルの検索を先に学ぶには、[StructArray での基本ベクトル検索](./search-with-struct-array) を参照してください。
 
-1. グループ化検索にスカラーフィルターを追加するには、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
+2. グループ化検索にスカラーフィルターを追加するには、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. グループ化の代わりにスコアまたは距離の境界を使用するには、[StructArray での範囲検索](./range-search-with-struct-arrays) を参照してください。
+3. グループ化の代わりにスコアまたは距離の境界を使用するには、[StructArray での範囲検索](./range-search-with-struct-arrays) を参照してください。
 
-1. StructArray の検索制限を確認するには、[StructArray の制限事項](./struct-array-limits) を参照してください。
+4. StructArray の検索制限を確認するには、[StructArray の制限事項](./struct-array-limits) を参照してください。
