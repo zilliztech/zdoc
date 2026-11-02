@@ -1,0 +1,10 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/schema/insert-data-into-structarray-fields.md
+metadata:
+  beta: PUBLIC
+publish:
+  - manual: guides
+    path: tutorials/development/schema/struct-array/insert-struct-array
+  - manual: guides-byoc
+    path: tutorials/development/schema/struct-array/insert-struct-array
