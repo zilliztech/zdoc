@@ -75,6 +75,11 @@ function projectMilvusLatest(spec, protocolVersion) {
     target: 'milvus',
     publicationPolicy: 'latest',
     protocolVersion,
+    // Keep en-US language-scoped nodes in the scanned surface: milvus.io
+    // publishes en-US, so a node restricted to other languages is genuinely
+    // out of scope, but an en-US-only node under a milvus-published tag must
+    // stay visible to the token scan.
+    language: 'en-US',
   });
   dropOperationsOutsideTagSelection(projected);
   return pruneUnreachableComponents(projected).spec;

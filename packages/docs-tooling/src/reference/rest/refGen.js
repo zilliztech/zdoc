@@ -505,8 +505,8 @@ class refGen {
 
     return resolved.replace(/(\s*\n){3,}/g, '\n\n')
         .replace(/<br>/g, '<br/>')
-        .replace(/(<br\/>){2,}/, "<br/>")
-        .replace("<br\/></p>", "</p>")
+        .replace(/(<br\/>){2,}/g, "<br/>")
+        .replace(/<br\/><\/p>/g, "</p>")
         .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
   }
 

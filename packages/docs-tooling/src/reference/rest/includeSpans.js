@@ -53,6 +53,8 @@ function matchFilterTags(markdown) {
 }
 
 function resolveIncludeSpans(markdown, targets) {
+    // Non-string input passes through unchanged (refGen coerces to '' before
+    // calling); callers that need the old coercion must do it themselves.
     if (typeof markdown !== 'string') {
         return markdown;
     }
