@@ -434,3 +434,117 @@ NextChannel component with a mocked channel hook. Explicit theme substitutes for
 Admonition, Tabs and TabItem exercise content and gate visibility, not Docusaurus
 styling or browser hydration. The local demo does not cover later publication or
 recovery journeys.
+
+## Fixed-input impact analysis (internal)
+
+The `core/updates` interfaces are internal version-1 JSON contracts. They analyze
+fixed observations and render local JSON or Markdown; they do not publish, change
+locks, rewrite links, or read lifecycle snapshots. `old-next-to-target` describes
+source impact independently from `current-to-candidate-next` promotion evidence.
+Every observation retains its source commit/repository/track, exact source and
+local configuration digests, and the observed preprocessing engine. Build evidence
+also records the exact current/next lock pair; no lock file is written.
+
+`adapters/update-inputs.ts` exports `readUpdateConfiguration(directory,
+repositoryRoot)` and `collectUpdateInputs({ versions, pages, reader, md2md,
+build? })`. Read configuration through the existing shared-docs parser. Collection
+copies caller inputs, reads exact source commits, and returns a deeply frozen
+`UpdateInput`. Missing committed source files become located diagnostics; Git,
+snapshot, or other infrastructure failures reject collection. Raw named blocks
+and preprocessing dependencies are retained before transforms. When build evidence
+is supplied, dependencies actually consumed by transforms are included too.
+Unreferenced variables/fragments and irrelevant upstream commits do not create
+source candidates; overwritten raw source changes remain candidates even when
+Cloud output is equal.
+
+Each page request supplies `pageId` and three `{ commit, configuration }` values:
+`oldNext`, `current`, and `candidateNext`. `versions` supplies full `master` and
+`dev` SHAs plus named tool versions. The optional build callback receives
+`{ pageId, sharedDocs, observe }`; it must run the real `buildPage` with that
+configuration and observer. The caller owns its runtime, pinned local dev inputs,
+image policy and reader lifetime. For example, after creating those dependencies:
+
+```ts
+const configuration = await readUpdateConfiguration(groupDirectory, repositoryRoot)
+if ('errors' in configuration) throw new Error(JSON.stringify(configuration.errors))
+const fixed = await collectUpdateInputs({
+  versions: { master: masterSha, dev: devSha, tools: { zdoc: toolSha, md2md: md2mdVersion } },
+  reader, md2md,
+  pages: [{ pageId,
+    oldNext: { commit: oldNextSha, configuration },
+    current: { commit: currentSha, configuration },
+    candidateNext: { commit: targetSha, configuration },
+  }],
+  build: ({ pageId, sharedDocs, observe }) => buildPage({ pageId, sharedDocs, reader, md2md,
+    runtime: createBuildRuntime({ sharedDocs, reader, fetcher, zdoc, guides }), observe }),
+})
+const report = analyzeUpdates(fixed)
+const json = renderImpactJson(report)
+const markdown = renderImpactMarkdown(report)
+```
+
+The report/render functions are exported by `core/updates/impact.ts`. Missing or
+duplicate input identities fail validation. `outputChanged` compares independently
+finalized complete per-channel MDX from the actual builder adapters; it is
+`unknown` without complete successful build evidence. The optional `buildPage`
+observer is detached from generation state and leaves the default result shape,
+merged bytes, errors, image reads and command output transaction unchanged.
+Observation additionally transports exact preprocessing boundaries through the
+existing provenance carrier and finalizes complete channel bodies with `toMdx`.
+An observer exception cannot change generation; unavailable observation evidence
+is reported conservatively. Existing publication bundle fields are unchanged.
+
+`observeManualAnchors` uses the existing heading/reference parsers and Cloud
+slug/suffix rules per manual. It exposes raw file spans only when the original
+source parser verifies the attribution; expanded fragment origins are never
+invented. A rename is confirmed only for a unique stable named block with
+unchanged nonempty context. Repeated, ambiguous, deleted or filtered headings
+remain advisory. `promotionEligibility` permits differing source SHAs or actual
+channel-qualified transform rules. Authored `NextChannel` markup alone does not
+qualify an equal-SHA promotion.
+
+`computeUpdateUnits` closes evidenced anchor-adoption dependencies and optional
+existing unit membership. Reports derive dependencies only from actual candidate
+references to confirmed renamed target anchors on the promotion axis. Explicit
+additional evidence must match those fixed observations. Destination paths and
+full page/manual/path identities are validated. Both publish manuals of one
+shared page stay together because they share a lock; a shared fragment alone
+never couples different pages. There is no PR transaction API in this slice.
+
+The opt-in synthetic update history and its provenance are under
+[`fixtures/updates`](fixtures/updates/SOURCE.md). The default fixture's three
+legacy commit IDs remain unchanged through `10-image-changed`.
+
+Raw preprocessing diagnostics are retained in each observation's `rawErrors` and
+separately in each page report. Dependencies have `state: resolved | unresolved`;
+a missing raw variable is `unresolved` with `sha256: null`, never a fabricated hash
+or an infrastructure exception. Changes include explicit `beforeState`/`afterState`
+(`absent`, `unresolved`, or `resolved`). Raw diagnostics do not invalidate successful
+Cloud generation when a transform removes the offending content. Actual builder
+failures remain in `errors` and keep `outputChanged: unknown`. Infrastructure failures
+still reject collection. Raw source diagnostics map stripped marker lines back to
+the actual source file; fragment attribution retains its existing inclusion-site
+limitations.
+
+Image evidence concerns actual emitted channel uses. `images` retains each original
+reference, preparation `origin`, observed byte digest/length, emitted record digest
+and address, and per-manual/channel uses. Repository origins are the exact commit/path
+from actual preparation `readBytes` calls, correlated with the preparer's ordered
+successful results; paths are not reconstructed from source-relative guesses.
+External origins record the URI and `policy: paired-read`: the existing injected
+image fetcher supplied the stable byte pair, potentially replayed from the runtime
+cache. This does not claim a separate HTTP request for each manual/channel or pin the
+external URI for future runs. No additional fetch, repository image read or upload is
+performed for observation. Observed bytes and the emitted retained record remain
+separate when the existing policy selects an older accepted digest.
+
+Only references that survive adaptation and complete channel finalization count as
+emitted image uses. Raw hidden image bytes are not fetched for impact analysis.
+`imageStatus: observed | unavailable` describes completeness of emitted-use evidence;
+`origin.kind: unavailable` separately marks a missing preparation trace, and
+`observed: null` never claims authenticated raw bytes. Raw source spans on image uses
+are supplied only when the original parser verifies their attribution. Image changes
+include before/after evidence in JSON and readable origin/digest/use details in
+Markdown. Their dependency identity excludes the observation commit, so identical
+image bytes at an unrelated source commit do not create a candidate. Without build
+evidence, images remain unavailable; absence is not treated as a proven image deletion.
