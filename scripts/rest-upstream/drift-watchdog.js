@@ -18,6 +18,7 @@ const {loadRestUpstreamLock} = require(path.join(__dirname, '..', '..', 'package
 const {substantiveDriftEntries} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'upstreamDiff', 'cli'))
 const {diffDigestOf} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'upstreamDiff', 'changeSet'))
 const {serializeDocument} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'upstreamDiff', 'formatter'))
+const {compareReleaseTracks} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'releaseTrack'))
 
 const REST_UPSTREAM_ENTRY = path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'index.js')
 // Vendored single-file extractor (design §6.1); stdlib-only, runs without a module.
@@ -147,7 +148,12 @@ async function runWatchdog({lockPath, outDir, tokens, fetchImpl = globalThis.fet
         }
         sources.push(check)
     }
-    const report = {schemaVersion: '1.0', generatedOn: date, sources}
+    const fragmentsDir = path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'meta', 'openapi')
+    const releaseTrackCoverage = await checkMilvusTrackCoverage(fetchImpl, {
+        token: tokens.public,
+        managedTracks: collectManagedTracks(fragmentsDir),
+    })
+    const report = {schemaVersion: '1.0', generatedOn: date, sources, releaseTrackCoverage}
     fs.mkdirSync(outDir, {recursive: true})
     fs.writeFileSync(path.join(outDir, 'watchdog-report.json'), serializeDocument(report))
     fs.writeFileSync(path.join(outDir, 'watchdog-report.md'), renderWatchdogMarkdown(report))
@@ -165,14 +171,72 @@ function renderWatchdogMarkdown(report) {
         if (source.summary) lines.push(`- diff summary: ${Object.entries(source.summary).map(([category, count]) => `${category} ${count}`).sort().join(', ')}`)
         lines.push('')
     }
+    if (report.releaseTrackCoverage) {
+        const coverage = report.releaseTrackCoverage
+        lines.push(`## release-track coverage — ${coverage.newTracks.length === 0 ? '✅ managed' : `⚠️ ${coverage.newTracks.length} new upstream track(s)`}`, '')
+        lines.push(`- managed: ${coverage.managedTracks.join(', ') || '(none)'}`)
+        lines.push(`- upstream minor lines: ${coverage.upstreamTracks.map(entry => `${entry.track} (${entry.latestTag})`).join(', ')}`)
+        if (coverage.newTracks.length > 0) {
+            lines.push('', `- **action:** ${coverage.newTracks.join(', ')} exist upstream but no fragment carries them — adopt the lifecycle track and add an availability matrix before attributing refresh content to them.`)
+        }
+        lines.push('')
+    }
     return `${lines.join('\n')}\n`
 }
 
 function watchdogCardStatus(report) {
-    return report.sources.every(source => source.status === 'no-drift') ? 'success' : 'fail'
+    const tracksClean = !report.releaseTrackCoverage || report.releaseTrackCoverage.newTracks.length === 0
+    return report.sources.every(source => source.status === 'no-drift') && tracksClean ? 'success' : 'fail'
 }
 
-module.exports = {runWatchdog, renderWatchdogMarkdown, watchdogCardStatus, resolveHeadSha, fetchSpecBytes, fetchSourceTreeFiles, extractSourceTreeSkeleton, PRIVATE_TOKEN_REPOSITORIES}
+// Managed release tracks = the distinct minor-track values the fragments
+// actually carry in their lifecycle triples. An upstream minor line that no
+// fragment mentions is unmanaged: nothing would filter or attribute it.
+function collectManagedTracks(fragmentsDir) {
+    const managed = new Set()
+    for (const file of fs.readdirSync(fragmentsDir).filter(name => name.endsWith('.json'))) {
+        const doc = JSON.parse(fs.readFileSync(path.join(fragmentsDir, file), 'utf8'))
+        const walk = node => {
+            if (!node || typeof node !== 'object' || Array.isArray(node)) return
+            if (typeof node['x-added-at'] === 'string') managed.add(node['x-added-at'])
+            for (const [key, child] of Object.entries(node)) {
+                if (key === 'x-added-at' || key === 'x-last-modified' || key === 'x-deprecated-since') continue
+                walk(child)
+            }
+        }
+        walk(doc)
+    }
+    return [...managed].sort()
+}
+
+// Track coverage: which milvus minor lines exist upstream vs the managed set.
+// New tracks need a lifecycle adoption decision plus an availability matrix
+// before refresh lanes can attribute content to them.
+async function checkMilvusTrackCoverage(fetchImpl, {token, managedTracks}) {
+    const body = await githubJson(fetchImpl, `${GITHUB_API}/repos/milvus-io/milvus/tags?per_page=100`, token)
+    const latestByTrack = new Map()
+    for (const tag of body || []) {
+        const match = /^v?(\d+)\.(\d+)\.\d+/.exec(String(tag.name || ''))
+        if (!match) continue
+        const track = `${match[1]}.${match[2]}.x`
+        if (!latestByTrack.has(track)) latestByTrack.set(track, tag.name) // tags arrive newest-first
+    }
+    const upstreamTracks = [...latestByTrack.entries()].map(([track, latestTag]) => ({track, latestTag})).sort((a, b) => a.track.localeCompare(b.track))
+    const managed = new Set(managedTracks)
+    if (managedTracks.length === 0) {
+        return {managedTracks, upstreamTracks, newTracks: upstreamTracks.map(entry => entry.track)}
+    }
+    // Only minor lines NEWER than the oldest managed track are actionable:
+    // everything below the managed floor is historical (2.4.x, 2.5.x, ...) and
+    // expected to stay unmanaged.
+    const oldestManaged = managedTracks.reduce((min, track) => (compareReleaseTracks(track, min) < 0 ? track : min))
+    const newTracks = upstreamTracks
+        .map(entry => entry.track)
+        .filter(track => !managed.has(track) && compareReleaseTracks(track, oldestManaged) > 0)
+    return {managedTracks, upstreamTracks, newTracks}
+}
+
+module.exports = {runWatchdog, renderWatchdogMarkdown, watchdogCardStatus, resolveHeadSha, fetchSpecBytes, fetchSourceTreeFiles, extractSourceTreeSkeleton, collectManagedTracks, checkMilvusTrackCoverage, PRIVATE_TOKEN_REPOSITORIES}
 
 if (require.main === module) {
     const args = process.argv.slice(2)

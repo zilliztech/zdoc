@@ -1940,6 +1940,7 @@
     "/v2/projects/{projectId}/jobs/backfill": {
       "post": {
         "summary": "Create Spark Backfill Job",
+        "x-beta": "ON REQUEST",
         "description": "Creates a Spark Backfill job. The project is selected by the projectId path parameter.",
         "x-i18n": {
           "zh-CN": {
@@ -2043,6 +2044,7 @@
     "/v2/projects/{projectId}/jobs/backfill/precheck": {
       "post": {
         "summary": "Create Spark Backfill Precheck Job",
+        "x-beta": "ON REQUEST",
         "description": "Creates a Spark Backfill precheck job. It validates target schema, fields, source sample, and column mapping without modifying Collection data. Confirm data.precheckReport.passed before submitting Backfill.",
         "x-i18n": {
           "zh-CN": {

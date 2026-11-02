@@ -199,10 +199,16 @@
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.js",
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js",
         "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.js",
-        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js"
+        "packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js",
+        "packages/docs-tooling/src/reference/rest/dualTargetStructure.contract.test.js",
+        "scripts/verify-rest-lifecycle-evidence.mjs",
+        "packages/docs-tooling/src/reference/rest/customAttributes.contract.test.js",
+        "packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js",
+        "packages/docs-tooling/src/reference/rest/templates/**",
+        "packages/docs-tooling/src/reference/rest/templates/reference.mdx"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js"
       ],
       "harnesses": [
         "pnpm test:rest-publication-contract"
@@ -237,7 +243,8 @@
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-source-tree-skeleton.schema.json",
         ".claude/specs/2026-10-29-rest-upstream-milvus-extractor-p2.md",
         "packages/docs-tooling/src/reference/rest/contracts/rest-fragment-migration.schema.json",
-        ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md"
+        ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md",
+        ".claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md"
       ],
       "focusedTests": [
         "pnpm test:rest-upstream",
@@ -1515,6 +1522,22 @@
         "git diff --check"
       ],
       "reason": "Cloud-data components, snapshots, marker resolution, and the nginx SSI+njs chain share one renderer source; a change to any surface must re-prove fragment parity, the baked stub, and the live nginx fallback behavior."
+    },
+    {
+      "id": "rest-availability",
+      "paths": [
+        "packages/docs-tooling/src/reference/rest/availability/**",
+        ".claude/specs/2026-11-01-rest-availability-harness.md",
+        ".claude/specs/2026-11-01-zilliz-release-notes-survey.md"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/reference/rest/availability/availability.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "git diff --check"
+      ],
+      "reason": "REST data-plane availability program. The hermetic test pins the runner machinery (verdict taxonomy, effect retry, matrix writer); the data-plane suite itself runs against live endpoints (milvus-cell vCluster per release track, zilliz UAT/prod later) through `rest-availability --base --label --out` and is operator-triggered, never CI. Matrices land in tmp/rest-availability and back the x-added-at release-track attribution and the future x-zilliz-cluster-types marks."
     }
   ]
 }
