@@ -1,7 +1,7 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
-import { cloudAnchor, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
+import { cloudAnchor, collectReferences, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
 import { adaptPage } from '../core/site'
 import type { AdaptedPage, TabsRules } from '../core/site'
@@ -23,7 +23,8 @@ import { toMdx } from './mdx'
 import type { FragmentSnapshot, GuidesBase, InspectionReader, Md2md } from './types'
 import type { ZdocContentReader, ZdocPage } from './zdoc-content'
 import type { ContentFile } from '../core/transforms'
-import { remapError } from '../core/transforms/provenance'
+import type { ImageObservation, ImageOrigin } from '../core/updates/types'
+import { provenanceCarrier, remapError } from '../core/transforms/provenance'
 
 export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile> }
 export interface SharedDocsInputs {
@@ -138,8 +139,11 @@ export function createPairedImageFetcher(fetcher: ImageFetcher): () => ImageFetc
   }
 }
 
+interface PreparedImageEvidence { origin: ImageOrigin; observed: ImageObservation['observed'] }
+interface ImagePreparation { prepared: PreparedLinkInputs; reads: { commit: string; path: string; bytes: Uint8Array }[] }
 export interface BuildRuntime {
   prepare(content: string, source: string, commit: string, context: DiagnosticContext): Promise<PreparedLinkInputs>
+  imageEvidence?(content: string, source: string, commit: string): Promise<ReadonlyMap<string, PreparedImageEvidence>>
   sharedPages(commit: string): Promise<ReadonlyMap<string, string>>
   manual(manual: string): Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>
   fetchContext?: FetchBuildContext
@@ -150,7 +154,7 @@ export interface BuildRuntime {
 export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader: BuildReader; fetcher: ImageFetcher;
   zdoc: ReadonlyMap<string, ZdocContentReader>; guides: GuidesBase; fetchContext?: FetchBuildContext;
   readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array> }): BuildRuntime {
-  const preparations = new Map<string, Promise<PreparedLinkInputs>>()
+  const preparations = new Map<string, Promise<ImagePreparation>>()
   const registries = new Map<string, Promise<ReadonlyMap<string, string>>>()
   const manuals = new Map<string, Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>>()
   const accepted = new Map<string, Promise<Uint8Array>>()
@@ -169,10 +173,47 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
     },
     async prepare(content, source, commit, context) {
       const key = JSON.stringify([commit, source, content])
-      if (!preparations.has(key)) preparations.set(key, prepareLinkInputs(content, source, commit, input.reader, replay()))
-      const prepared = await preparations.get(key)!
+      if (!preparations.has(key)) preparations.set(key, (async () => {
+        const reads: ImagePreparation['reads'] = []
+        const reader: LinkInputReader = {
+          readFile: (commit, path) => input.reader.readFile(commit, path),
+          listFiles: (commit, path) => input.reader.listFiles(commit, path),
+          isOnBranch: (commit, branch) => input.reader.isOnBranch(commit, branch),
+          isAncestor: (ancestor, descendant) => input.reader.isAncestor(ancestor, descendant),
+          async readBytes(commit, path) {
+            const bytes = await input.reader.readBytes(commit, path)
+            reads.push({ commit, path, bytes })
+            return bytes
+          },
+        }
+        return { prepared: await prepareLinkInputs(content, source, commit, reader, replay()), reads }
+      })())
+      const { prepared } = await preparations.get(key)!
       return { targets: prepared.targets, images: prepared.images,
         errors: prepared.errors?.map(error => ({ ...error, ...context })) }
+    },
+    async imageEvidence(content, source, commit) {
+      const preparation = await preparations.get(JSON.stringify([commit, source, content]))
+      if (!preparation) throw new Error('Image preparation has not run')
+      const result = new Map<string, PreparedImageEvidence>()
+      const repositoryImages = [...preparation.prepared.images].filter(([original]) => !/^https?:\/\//i.test(original))
+      // The existing preparer reads each distinct repository image in reference order.
+      // Bind only matching successful entries to actual read events, never a reconstructed path.
+      const ordered = !preparation.prepared.errors?.length && repositoryImages.length === preparation.reads.length
+      for (const [original, content] of preparation.prepared.images) {
+        const observed = { sha256: imageDigest(content.bytes), bytes: content.bytes.byteLength }
+        let origin: ImageOrigin
+        if (/^https?:\/\//i.test(original)) origin = { kind: 'external', uri: original, policy: 'paired-read' }
+        else {
+          const index = repositoryImages.findIndex(([name]) => name === original)
+          const read = preparation.reads[index]
+          origin = ordered && read && imageDigest(read.bytes) === observed.sha256
+            ? { kind: 'repository', commit: read.commit, path: read.path }
+            : { kind: 'unavailable', reason: 'Repository preparation events do not uniquely match successful images' }
+        }
+        result.set(original, { origin, observed })
+      }
+      return result
     },
     sharedPages(commit) {
       if (!registries.has(commit)) registries.set(commit, (async () => {
@@ -227,8 +268,32 @@ async function productSources(version: InspectedChannel, source: string, shared:
   return sources
 }
 
-export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md;
-  runtime: BuildRuntime }): Promise<BuildPageResult> {
+export interface BuildChannelObservation {
+  readonly manual: string; readonly path: string; readonly channel: Channel; readonly commit: string
+  readonly markdown: string; readonly mdx?: string; readonly errors: readonly SharedDocsError[]
+  readonly dependencies: InspectedChannel['dependencies']; readonly engine: InspectedChannel['engine']
+  readonly origins: readonly (readonly MergeOrigin[])[]
+  readonly images: readonly ImageObservation[]; readonly imageStatus: 'observed' | 'unavailable'
+}
+export interface BuildPageObservation {
+  readonly pageId: string; readonly channels: readonly BuildChannelObservation[]; readonly errors: readonly SharedDocsError[]
+}
+export interface BuildPageInput {
+  pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md; runtime: BuildRuntime
+  /** Detached actual adaptation evidence. Observer exceptions cannot change generation. */
+  observe?: (observation: BuildPageObservation) => void
+}
+export async function buildPage(input: BuildPageInput): Promise<BuildPageResult> {
+  const channels: BuildChannelObservation[] | undefined = input.observe ? [] : undefined
+  const result = await generatePage(input, channels)
+  if (input.observe) {
+    const observation = structuredClone({ pageId: input.pageId, channels: channels!, errors: 'errors' in result ? result.errors : [] })
+    try { input.observe(observation) } catch { /* Observation is isolated from the generation transaction. */ }
+  }
+  return result
+}
+
+async function generatePage(input: BuildPageInput, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
   const { pageId, sharedDocs: shared, reader, runtime } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
@@ -322,6 +387,73 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
         const origin = version.provenance?.[index]?.origin
         return [{ channel, file: origin?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
       })
+      if (observations) {
+        let observedOrigins = origins
+        const observationErrors: SharedDocsError[] = []
+        if (!version.provenance) {
+          // Default generation retains its historical diagnostics. Observation
+          // requires actual expansion boundaries, rather than a line-count guess.
+          try {
+            const raw = sources.find(source => source.kind === 'source')!.text
+            const stripped = input.md2md.stripBlockMarkers(raw)
+            const mapped = stripped.split('\n').map((text, index) => ({ text,
+              origin: { file: source, line: originalPageLine(index + 1, version.blocks), kind: 'source' as const } }))
+            if (stripped !== version.content) await reader.withFragments(version.commit, async snapshot => {
+              const carrier = provenanceCarrier(mapped, [stripped, JSON.stringify(shared.variables), ...snapshot.files.values()])
+              const tagged = input.md2md.preprocess({ content: carrier.content, fragmentRoot: snapshot.root, variables: shared.variables,
+                sourceName: source, limits: { maxOutputBytes: 2 * 1024 * 1024 + carrier.overhead } })
+              if (!tagged.ok) throw new Error('Could not observe preprocessor origin boundaries')
+              const decoded = carrier.decode(tagged.content)
+              if (decoded.map(line => line.text).join('\n') !== version.content) throw new Error('Observed origin transport changed preprocessed bytes')
+              observedOrigins = decoded.map(line => [{ channel, file: line.origin.file, line: line.origin.line }])
+            })
+          } catch (error) {
+            observedOrigins = []
+            observationErrors.push({ ...location, code: 'UPDATE_OBSERVATION_UNAVAILABLE',
+              message: error instanceof Error ? error.message : String(error) })
+          }
+        }
+        // Finalize the actual complete channel through the same MDX adapter. This
+        // optional detached pass neither rewrites merged output nor reads images.
+        const finalized = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
+        observationErrors.push(...('errors' in finalized ? finalized.errors.flatMap(error => {
+          const attributed = error.line === undefined ? [] : observedOrigins[error.line - 1] ?? []
+          const { line: _line, ...unlocated } = error
+          return attributed.length ? attributed.map(origin => ({ ...unlocated, ...origin })) : [unlocated]
+        }) : []))
+        const imageEvidence = await runtime.imageEvidence?.(version.content, source, version.commit)
+        const inputImages = collectReferences(version.content).images
+        const outputImages = collectReferences(adapted.markdown).images
+        const finalImages = 'mdx' in finalized ? collectReferences(finalized.mdx).images : []
+        const recorded = new Map(rewritten.images.map(image => [image.original, image]))
+        const observedImages: ImageObservation[] = []
+        let imageStatus: 'observed' | 'unavailable' = 'mdx' in finalized ? 'observed' : 'unavailable'
+        for (const record of rewritten.images) {
+          const uses: ImageObservation['uses'][number][] = []
+          for (const output of outputImages.filter(image => image.url === record.address)) {
+            const inputLine = adapted.provenance.outputLines[output.line - 1]
+            const inputs = inputImages.filter(image => image.line === inputLine)
+            const outputs = outputImages.filter(image => image.line === output.line)
+            const index = outputs.indexOf(output), reference = inputs[index]
+            if (inputs.length !== outputs.length || !reference || recorded.get(reference.url)?.address !== output.url) { imageStatus = 'unavailable'; continue }
+            if (reference.url !== record.original) continue
+            if (finalImages.filter(image => image.url === record.address).length !== outputImages.filter(image => image.url === record.address).length) { imageStatus = 'unavailable'; continue }
+            uses.push({ manual: target.manual, path: target.path, channel, commit: version.commit, reference,
+              adaptedLine: output.line, origins: observedOrigins[reference.line - 1] ?? [] })
+          }
+          if (!uses.length) continue
+          const content = prepared.images.get(record.original)
+          const evidence = imageEvidence?.get(record.original)
+          observedImages.push({ original: record.original,
+            origin: evidence?.origin ?? { kind: 'unavailable', reason: 'Runtime did not expose image preparation provenance' },
+            observed: evidence?.observed ?? (content ? { sha256: imageDigest(content.bytes), bytes: content.bytes.byteLength } : null),
+            emitted: { sha256: record.sha256, address: record.address }, uses })
+        }
+        observations.push({ manual: target.manual, path: target.path, channel, commit: version.commit, markdown: adapted.markdown,
+          ...('mdx' in finalized ? { mdx: finalized.mdx } : {}), errors: observationErrors,
+          dependencies: version.dependencies, engine: version.engine, images: observedImages, imageStatus,
+          origins: adapted.provenance.outputLines.map(line => line === null ? [] : observedOrigins[line - 1] ?? []) })
+      }
       output.set(index, { adapted, origins, sources, images: rewritten.images, notices: rewritten.notices,
         ...(dev.fetch ? { imageContents: await Promise.all(rewritten.images.map(image => runtime.acceptedImage(image, prepared.images.get(image.original)))) } : {}) })
     }
