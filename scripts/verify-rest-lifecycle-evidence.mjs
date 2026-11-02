@@ -49,12 +49,14 @@ for (const row of evidence.elements) {
 const observed = new Map();
 const fragmentNames = [...new Set(evidence.elements.map(row => row.fragment))].sort();
 const inventoryHash = crypto.createHash('sha256');
+const fragmentSpecs = new Map();
 for (const fragment of fragmentNames) {
   const fragmentPath = path.join(restMeta, 'openapi', fragment);
   const bytes = fs.readFileSync(fragmentPath);
   const fileHash = crypto.createHash('sha256').update(bytes).digest('hex');
   inventoryHash.update(`${fileHash}  ${fragmentPath.replace(`${root}/`, '')}\n`);
   const spec = JSON.parse(bytes);
+  fragmentSpecs.set(fragment, spec);
   for (const row of collect(spec)) observed.set(`${fragment}:${row.jsonPointer}`, row.lifecycle);
 }
 assert.equal(inventoryHash.digest('hex'), evidence.reproducibility.fragmentInventorySha256);
@@ -63,6 +65,38 @@ assert.equal(observed.size, evidence.summary.elements);
 assert.equal(expected.size, evidence.summary.elements);
 for (const [key, lifecycle] of expected) assert.deepEqual(observed.get(key), lifecycle, `lifecycle evidence mismatch at ${key}`);
 for (const key of observed.keys()) assert(expected.has(key), `missing lifecycle evidence at ${key}`);
+
+// Target-survival gate: lifecycle evidence is a milvus-track attestation, so
+// every evidenced pointer must resolve to a node the milvus publication filter
+// keeps — no ancestor-or-self may pin `x-include-target` without `milvus`.
+// Without this gate a zilliz-only node can carry milvus baseline-floor keys
+// and both maps above still agree (2026-11 import restructuring: the
+// zilliz-owned Volume branches of the import family had been stamped as
+// milvus baseline-floor while publishing zilliz-only).
+function decodePointer(pointer) {
+  if (pointer === '/') return [];
+  return pointer.slice(1).split('/').map(segment => segment.replaceAll('~1', '/').replaceAll('~0', '~'));
+}
+
+function milvusReachable(spec, pointer) {
+  let node = spec;
+  for (const segment of decodePointer(pointer)) {
+    if (node === undefined || node === null) return false;
+    node = node[segment];
+    const targets = node?.['x-include-target'];
+    if (Array.isArray(targets) && !targets.includes('milvus')) return false;
+  }
+  return node !== undefined && node !== null;
+}
+
+for (const row of evidence.elements) {
+  const spec = fragmentSpecs.get(row.fragment);
+  assert.equal(
+    milvusReachable(spec, row.jsonPointer),
+    true,
+    `lifecycle evidence ${row.fragment}:${row.jsonPointer} does not survive the milvus target filter; zilliz-only nodes must not carry milvus lifecycle keys`,
+  );
+}
 
 const digest = crypto.createHash('sha256').update(fs.readFileSync(evidencePath)).digest('hex');
 console.log(`Verified ${observed.size} lifecycle elements against evidence sha256:${digest}.`);

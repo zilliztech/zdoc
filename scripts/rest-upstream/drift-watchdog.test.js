@@ -4,7 +4,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const {execFileSync} = require('node:child_process')
-const {runWatchdog, renderWatchdogMarkdown, watchdogCardStatus, resolveHeadSha} = require('./drift-watchdog')
+const {runWatchdog, renderWatchdogMarkdown, watchdogCardStatus, resolveHeadSha, fetchSpecBytes, fetchSourceTreeFiles, extractSourceTreeSkeleton, collectManagedTracks, checkMilvusTrackCoverage} = require('./drift-watchdog')
 
 const ROOT = path.join(__dirname, '..', '..')
 const INDEX = path.join(ROOT, 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'index.js')
@@ -42,6 +42,11 @@ function jsonResponse(body) {
     return {ok: true, status: 200, json: async () => body, arrayBuffer: async () => Buffer.from('{}')}
 }
 
+
+const TAGS_ROUTE = ['/repos/milvus-io/milvus/tags', jsonResponse([
+    {name: 'v3.0.5'}, {name: 'v3.0.4'}, {name: 'v2.6.26'}, {name: 'v2.5.14'}, {name: 'v2.4.17'},
+])]
+
 test('resolveHeadSha returns the tracked ref head', async () => {
     const sha = await resolveHeadSha(fetchStub([['/repos/o/r/commits', jsonResponse({sha: 'c'.repeat(40)})]]), {repository: 'o/r', ref: 'master'})
     assert.equal(sha, 'c'.repeat(40))
@@ -62,6 +67,7 @@ test('watchdog reports no-drift and classified drift per source, including sourc
             ['zilliztech/zilliz-cloud/commits', jsonResponse({sha: 'e'.repeat(40)})],
             ['milvus-io/milvus/commits', jsonResponse({sha: 'f'.repeat(40)})],
             ['example/at-pin/commits', jsonResponse({sha: 'a'.repeat(40)})],
+            TAGS_ROUTE,
             ['contents/vdc', {ok: true, status: 200, json: async () => ({}), arrayBuffer: async () => Buffer.from('openapi: 3.1.0\ninfo: {title: t, version: v1}\npaths: {}\n')}],
             ['milvus-io/milvus/contents/internal/distributed/proxy/httpserver?', jsonResponse([
                 goFile('handler_v2.go'),
@@ -129,7 +135,7 @@ test('watchdog fails closed when the private-repo token is missing and on diff f
     try {
         const lockPath = writeLock(dir, [lockSource()])
         await assert.rejects(
-            () => runWatchdog({lockPath, outDir: path.join(dir, 'out'), tokens: {private: null, public: 'x'}, fetchImpl: fetchStub([['zilliztech', jsonResponse({sha: 'e'.repeat(40)})]])}),
+            () => runWatchdog({lockPath, outDir: path.join(dir, 'out'), tokens: {private: null, public: 'x'}, fetchImpl: fetchStub([['zilliztech', jsonResponse({sha: 'e'.repeat(40)})], TAGS_ROUTE])}),
             /REST_UPSTREAM_WATCHDOG_TOKEN_MISSING/,
         )
 
@@ -161,4 +167,33 @@ test('the committed CLI renders a markdown report and card status for a no-drift
     } finally {
         fs.rmSync(dir, {recursive: true, force: true})
     }
+})
+
+test('collectManagedTracks derives the managed set from fragment lifecycle values', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-watchdog-tracks-'))
+    fs.writeFileSync(path.join(dir, 'a.json'), JSON.stringify({
+        paths: {
+            '/x': {
+                post: {
+                    'x-added-at': '2.6.x',
+                    'x-last-modified': '3.0.x',
+                    'x-deprecated-since': null,
+                    requestBody: {content: {'application/json': {schema: {properties: {p: {'x-added-at': '3.0.x'}}}}}},
+                },
+            },
+        },
+    }))
+    fs.writeFileSync(path.join(dir, 'b.json'), JSON.stringify({paths: {}}))
+    fs.writeFileSync(path.join(dir, 'ignore.txt'), '')
+    assert.deepEqual(collectManagedTracks(dir), ['2.6.x', '3.0.x'])
+})
+
+test('checkMilvusTrackCoverage flags upstream minor lines no fragment manages', async () => {
+    const tags = jsonResponse([{name: 'v3.1.0'}, {name: 'v3.0.5'}, {name: 'v2.6.26'}, {name: 'v2.5.14'}, {name: 'master-nightly'}])
+    const coverage = await checkMilvusTrackCoverage(fetchStub([['/repos/milvus-io/milvus/tags', tags]]), {managedTracks: ['2.6.x', '3.0.x']})
+    assert.deepEqual(coverage.newTracks, ['3.1.x'])
+    assert.equal(coverage.upstreamTracks.find(entry => entry.track === '3.0.x').latestTag, 'v3.0.5')
+    const report = {sources: [{status: 'no-drift'}], releaseTrackCoverage: coverage}
+    assert.equal(watchdogCardStatus(report), 'fail')
+    assert.equal(watchdogCardStatus({sources: [{status: 'no-drift'}], releaseTrackCoverage: {...coverage, newTracks: []}}), 'success')
 })

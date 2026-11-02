@@ -34,7 +34,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/import-operations-v2/get-import-job-progress-v2",
-                "label": "查看导入任务进度 (V2)",
+                "label": "获取导入任务进度 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/import-operations-v2/get-import-job-progress-v2"
               }
             ]
