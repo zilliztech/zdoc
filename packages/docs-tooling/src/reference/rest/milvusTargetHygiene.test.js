@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
-const {buildIntegratedSpec, filterSelection} = require('./integratedSpecBuilder');
+const {buildIntegratedSpec, filterSelection, dropOperationsOutsideTagSelection} = require('./integratedSpecBuilder');
 const {pruneUnreachableComponents} = require('./componentGraph');
 const {resolveIncludeSpans} = require('./includeSpans');
 const {loadSpecifications} = require('./specLoader');
@@ -46,29 +46,11 @@ function collectStrings(node, pointer, out = []) {
   return out;
 }
 
-const HTTP_METHODS = new Set(['get', 'post', 'put', 'delete', 'patch', 'options', 'head', 'trace']);
-
 // The latest-data-plane builder prunes `spec.tags` by target but (without the
 // track policy's tag selection) leaves operations whose primary tag was
 // pruned. The milvus.io wrapper cascades the primary tag, so the guard mirrors
-// that before scanning.
-function dropOperationsOutsideTagSelection(spec) {
-  const tagNames = new Set((spec.tags || []).map(tag => tag.name));
-  for (const [endpoint, pathItem] of Object.entries(spec.paths || {})) {
-    for (const method of HTTP_METHODS) {
-      const operation = pathItem?.[method];
-      if (!operation) continue;
-      const primaryTag = (operation.tags || [])[0];
-      if (primaryTag && !tagNames.has(primaryTag)) {
-        delete pathItem[method];
-      }
-    }
-    if (pathItem && Object.keys(pathItem).length === 0) {
-      delete spec.paths[endpoint];
-    }
-  }
-}
-
+// that before scanning — through the builder's own exported cascade, not a
+// local reimplementation, so the guard cannot drift from the guarded code.
 function projectMilvusLatest(spec, protocolVersion) {
   const {spec: projected} = buildIntegratedSpec(spec, {
     apiSurface: 'data-plane',
@@ -81,7 +63,7 @@ function projectMilvusLatest(spec, protocolVersion) {
     // stay visible to the token scan.
     language: 'en-US',
   });
-  dropOperationsOutsideTagSelection(projected);
+  dropOperationsOutsideTagSelection(projected, new Set((projected.tags || []).map(tag => tag.name)));
   return pruneUnreachableComponents(projected).spec;
 }
 
@@ -223,4 +205,17 @@ test('includeSpans resolution semantics', () => {
   );
   // Plain text passes through untouched.
   assert.equal(resolveIncludeSpans('no spans here', 'milvus'), 'no spans here');
+});
+
+test('includeSpans fails closed on an unclosed span', () => {
+  // An unclosed span used to recurse on a growing string until the stack
+  // blew; it must fail with a locatable error instead.
+  assert.throws(
+    () => resolveIncludeSpans('prefix <include target="zilliz">Zilliz Cloud rocks', 'milvus'),
+    /REST_INCLUDE_SPAN_UNCLOSED/,
+  );
+  assert.throws(
+    () => resolveIncludeSpans('<exclude target="milvus">text</exclude> tail <exclude target="zilliz">dangling', 'milvus'),
+    /REST_INCLUDE_SPAN_UNCLOSED/,
+  );
 });
