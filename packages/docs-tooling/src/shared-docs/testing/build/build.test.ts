@@ -524,3 +524,102 @@ it('keeps observed source origins exact after multiline fragment expansion', asy
     expect(channel.errors).toEqual([])
   } finally { await build.reader.dispose() }
 })
+
+
+it('observes actual image bytes and preparation locations without extra default reads', async () => {
+  const options = await demo(), build = await inputs(options)
+  try {
+    const plain = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md() })
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const observed = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(observed).toEqual(plain)
+    const channel = observation!.channels.find(channel => channel.manual === 'guides' && channel.channel === 'next')!
+    const repository = channel.images.find(image => image.original === 'assets/diagram.png')!
+    expect(repository.origin).toEqual({ kind: 'repository', commit: options.commit, path: 'site/en/assets/diagram.png' })
+    expect(repository.observed).toEqual({ sha256: imageDigest(imageBytes), bytes: imageBytes.byteLength })
+    expect(channel.images.find(image => image.original === externalImage)!.origin).toEqual({ kind: 'external', uri: externalImage, policy: 'paired-read' })
+    expect(build.images.requests).toEqual([externalImage, externalImage])
+    expect(build.spies.bytes).toHaveBeenCalledTimes(1)
+  } finally { await build.reader.dispose() }
+})
+
+it('separates actual prepared external bytes from a retained emitted image record', async () => {
+  const options = await demo(), build = await inputs(options)
+  const nextBytes = new Uint8Array([137, 80, 78, 71, 4, 5, 6])
+  const images = new FakeImageFetcher(new Map([[externalImage, nextBytes]]))
+  const guides = createGuidesSnapshot(options.dev)
+  const fetchContext: import('../../adapters/build-page').FetchBuildContext = { page: 'build-pipeline',
+    records: await guides.getRecords(), recordedImages: new Map([[externalImage, imageDigest(imageBytes)]]),
+    targets: ['guides', 'guides-byoc'].map(manual => ({ manual: manual as 'guides' | 'guides-byoc', path: 'tutorials/build-pipeline', extension: '.mdx', navigation: {}, channel: 'current' })) }
+  const runtime = createBuildRuntime({ sharedDocs: build.sharedDocs, reader: build.reader, guides, fetcher: images, fetchContext,
+    zdoc: new Map(['guides', 'guides-byoc'].map(manual => [manual, createZdocContentReader({ checkout: options.dev, manualDirectory: `content/en/${manual === 'guides' ? 'guides' : 'byoc'}` })])),
+    readAcceptedImage: async () => imageBytes })
+  try {
+    const plain = await buildPage({ pageId: 'build-pipeline', ...build, runtime, md2md: new RealMd2md() })
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const observed = await buildPage({ pageId: 'build-pipeline', ...build, runtime, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(observed).toEqual(plain)
+    expect(observed).not.toHaveProperty('errors')
+    const external = observation!.channels[0].images.find(image => image.original === externalImage)!
+    expect(external.origin).toEqual({ kind: 'external', uri: externalImage, policy: 'paired-read' })
+    expect(external.observed).toEqual({ sha256: imageDigest(nextBytes), bytes: nextBytes.byteLength })
+    expect(external.emitted).toEqual({ sha256: imageDigest(imageBytes), address: `shared/${imageDigest(imageBytes)}.png` })
+    expect(images.requests).toEqual([externalImage, externalImage])
+    expect(build.spies.bytes).toHaveBeenCalledTimes(1)
+  } finally { await build.reader.dispose() }
+})
+
+it('records emitted image uses per manual after product filtering', async () => {
+  const options = await demo()
+  const page = await readFile(join(options.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')
+  await write(options.sharedDocs, 'pages/build-pipeline/page.yaml', page + '\ntransforms:\n  - operation: add\n    target: {block: connect}\n    position: before\n    content: {file: image.md}\n')
+  await write(options.sharedDocs, 'pages/build-pipeline/image.md', `<include target="saas">\n![Cloud-only](${externalImage})\n</include>\n`)
+  const build = await inputs(options)
+  try {
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const result = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(result).not.toHaveProperty('errors')
+    const views = observation!.channels.filter(channel => channel.channel === 'next')
+    expect(views.find(view => view.manual === 'guides')!.images.find(image => image.original === externalImage)!.uses).toHaveLength(3)
+    expect(views.find(view => view.manual === 'guides-byoc')!.images.find(image => image.original === externalImage)!.uses).toHaveLength(2)
+    expect(views.every(view => view.imageStatus === 'observed')).toBe(true)
+    expect(build.images.requests).toEqual([externalImage, externalImage])
+  } finally { await build.reader.dispose() }
+})
+
+it('uses actual preparation read paths for encoded references with identical image bytes', async () => {
+  const options = await demo()
+  const source = (await readFile(join(options.repo, 'site/en/build-pipeline.md'), 'utf8')).replace('assets/diagram.png', 'assets/%64iagram.png?download=1#view') + '\n![Same bytes, another file](assets/same-bytes.png)\n'
+  await write(options.repo, 'site/en/build-pipeline.md', source)
+  await write(options.repo, 'site/en/assets/same-bytes.png', imageBytes)
+  await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Synthetic encoded image references')
+  const commit = await git(options.repo, 'rev-parse', 'HEAD')
+  await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current: commit, next: commit }))
+  const build = await inputs(options)
+  try {
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const result = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(result).not.toHaveProperty('errors')
+    const channel = observation!.channels[0]
+    expect(channel.imageStatus).toBe('observed')
+    expect(channel.images.filter(image => image.origin.kind === 'repository').map(image => image.origin)).toEqual([
+      { kind: 'repository', commit, path: 'site/en/assets/diagram.png' },
+      { kind: 'repository', commit, path: 'site/en/assets/same-bytes.png' },
+    ])
+    expect(build.spies.bytes.mock.calls.map(([, path]) => path)).toEqual(['site/en/assets/diagram.png', 'site/en/assets/same-bytes.png'])
+    expect(build.images.requests).toEqual([externalImage, externalImage])
+  } finally { await build.reader.dispose() }
+})
+
+it('marks image origin metadata unavailable when a runtime does not expose its preparation trace', async () => {
+  const options = await demo(), build = await inputs(options)
+  build.runtime.imageEvidence = undefined
+  try {
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const result = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(result).not.toHaveProperty('errors')
+    expect(observation!.channels[0].images.every(image => image.origin.kind === 'unavailable')).toBe(true)
+    expect(observation!.channels[0].images.every(image => image.observed?.sha256 === imageDigest(imageBytes))).toBe(true)
+    expect(build.images.requests).toEqual([externalImage, externalImage])
+  } finally { await build.reader.dispose() }
+})

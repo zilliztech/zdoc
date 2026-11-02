@@ -3,6 +3,7 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { expect, it, onTestFinished, vi } from 'vitest'
+import { imageDigest } from '../../core/links'
 import { RealMd2md } from '../../adapters/md2md'
 import { createBuildDemo, git, write, externalImage, imageBytes, pageYaml } from '../build/demo'
 import { buildPage, createBuildReader, createBuildRuntime } from '../../adapters/build-page'
@@ -230,4 +231,102 @@ it('closes actual slug-route adoption across different publication directories',
   const reference = source.candidateNext.manuals.find(manual => manual.manual === 'guides')!.references.find(reference => reference.url === './target#renamed')!
   const explicit = { from: { pageId: 'source', manual: 'guides', path: 'tutorials/source' }, to: { pageId: 'target', manual: 'guides', path: 'concepts/target' }, evidence: { axis: 'current-to-candidate-next' as const, relation, reference } }
   expect(analyzeUpdates({ ...input, adoptionDependencies: [explicit] }).units).toEqual(report.units)
+})
+
+
+it('retains unresolved raw variables hidden by replacement without aborting a page batch', async () => {
+  const f = await fixture()
+  const original = await readFile(join(f.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')
+  await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', original + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/build-pipeline/replacement.md', '```python\nstable()\n```\n')
+  const configuration = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in configuration) throw new Error(JSON.stringify(configuration))
+  const candidate = await f.change('site/en/build-pipeline.md', text => text.replace('connect("{{var.cloud.region}}")', 'connect("{{var.cloud.missing}}")'))
+  const raw = await readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const line = raw.split('\n').findIndex(line => line.includes('cloud.missing')) + 1
+  const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: ['build-pipeline', 'shared-target'].map(pageId => ({ pageId, oldNext: { commit: f.commit, configuration }, current: { commit: f.commit, configuration }, candidateNext: { commit: candidate, configuration } })) })
+  const missing = input.pages.find(page => page.pageId === 'build-pipeline')!.candidateNext
+  expect(missing.outputStatus).toBe('observed')
+  expect(missing.errors).toEqual([])
+  expect(missing.rawErrors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'VAR_MISSING', file: 'site/en/build-pipeline.md', line })]))
+  expect(missing.dependencies).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.missing', state: 'unresolved', sha256: null })]))
+  const report = analyzeUpdates(input)
+  expect(report.pages.find(page => page.pageId === 'build-pipeline')!.sourceImpact).toMatchObject({ candidate: true, outputChanged: false })
+  expect(report.pages.find(page => page.pageId === 'build-pipeline')!.sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.missing', beforeState: 'absent', afterState: 'unresolved', before: null, after: null })]))
+  expect(report.pages.find(page => page.pageId === 'shared-target')!.sourceImpact).toMatchObject({ candidate: false, outputChanged: false })
+  expect(renderImpactMarkdown(report)).toContain('VAR_MISSING')
+  expect(renderImpactJson(analyzeUpdates(await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: ['build-pipeline', 'shared-target'].map(pageId => ({ pageId, oldNext: { commit: f.commit, configuration }, current: { commit: f.commit, configuration }, candidateNext: { commit: candidate, configuration } })) })))).toBe(renderImpactJson(report))
+})
+
+it('compares unresolved variable value and absence transitions while preserving successful hidden output', async () => {
+  const f = await fixture()
+  const page = await readFile(join(f.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')
+  const originalSource = await readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const missingCommit = await f.change('site/en/build-pipeline.md', text => text.replace('connect("{{var.cloud.region}}")', 'connect("{{var.cloud.missing}}")'))
+  const restoredCommit = await f.change('site/en/build-pipeline.md', () => originalSource)
+  await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', page + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/build-pipeline/replacement.md', '```python\nstable()\n```\n')
+  const missing = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in missing) throw new Error(JSON.stringify(missing))
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({ ...missing.sharedDocs.variables, Cloud: { ...(missing.sharedDocs.variables.Cloud as object), Missing: 'A resolved raw value' } }))
+  const resolved = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in resolved) throw new Error(JSON.stringify(resolved))
+  for (const [before, after, beforeState, afterState] of [[missing, resolved, 'unresolved', 'resolved'], [resolved, missing, 'resolved', 'unresolved']] as const) {
+    const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+      pages: [{ pageId: 'build-pipeline', oldNext: { commit: missingCommit, configuration: before }, current: { commit: missingCommit, configuration: before }, candidateNext: { commit: missingCommit, configuration: after } }] })
+    const report = analyzeUpdates(input)
+    expect(report.pages[0].errors).toEqual([])
+    expect(report.pages[0].sourceImpact).toMatchObject({ candidate: true, outputChanged: false })
+    expect(report.pages[0].sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.missing', beforeState, afterState })]))
+  }
+  const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: [{ pageId: 'build-pipeline', oldNext: { commit: missingCommit, configuration: missing }, current: { commit: missingCommit, configuration: missing }, candidateNext: { commit: restoredCommit, configuration: missing } }] })
+  expect(analyzeUpdates(input).pages[0].sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.missing', beforeState: 'unresolved', afterState: 'absent' })]))
+})
+
+it('keeps an unhidden missing variable as an actual failed build with unknown output while another page succeeds', async () => {
+  const f = await fixture()
+  const candidate = await f.change('site/en/build-pipeline.md', text => text.replace('connect("{{var.cloud.region}}")', 'connect("{{var.cloud.missing}}")'))
+  const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: ['build-pipeline', 'shared-target'].map(pageId => ({ pageId, oldNext: { commit: f.commit, configuration: f.config }, current: { commit: f.commit, configuration: f.config }, candidateNext: { commit: candidate, configuration: f.config } })) })
+  const report = analyzeUpdates(input)
+  expect(report.pages.find(page => page.pageId === 'build-pipeline')!.sourceImpact.outputChanged).toBe('unknown')
+  expect(report.pages.find(page => page.pageId === 'build-pipeline')!.errors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'VAR_MISSING' })]))
+  expect(input.pages.find(page => page.pageId === 'shared-target')!.candidateNext.outputStatus).toBe('observed')
+})
+
+it('tracks used image byte changes with actual preparation origins and immutable readable evidence', async () => {
+  const f = await fixture()
+  await write(f.repo, 'site/en/assets/unused.png', new Uint8Array([1, 2, 3]))
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '--quiet', '-m', 'Synthetic unused image change')
+  const unused = await git(f.repo, 'rev-parse', 'HEAD')
+  const changedBytes = new Uint8Array([137, 80, 78, 71, 9, 8, 7])
+  await write(f.repo, 'site/en/assets/diagram.png', changedBytes)
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '--quiet', '-m', 'Synthetic used image bytes only')
+  const candidate = await git(f.repo, 'rev-parse', 'HEAD')
+  expect(analyzeUpdates(await f.collect(unused)).pages[0].sourceImpact).toMatchObject({ candidate: false, outputChanged: false, changes: [] })
+  const input = await f.collect(candidate)
+  const image = input.pages[0].candidateNext.images.find(image => image.original === 'assets/diagram.png')!
+  expect(image.origin).toEqual({ kind: 'repository', commit: candidate, path: 'site/en/assets/diagram.png' })
+  expect(image.observed).toEqual({ sha256: imageDigest(changedBytes), bytes: changedBytes.byteLength })
+  expect(image.emitted).toEqual({ sha256: imageDigest(changedBytes), address: `shared/${imageDigest(changedBytes)}.png` })
+  expect(image.uses.map(use => use.manual).sort()).toEqual(['guides', 'guides-byoc'])
+  expect(image.uses.every(use => use.source?.file === 'site/en/build-pipeline.md')).toBe(true)
+  const external = input.pages[0].candidateNext.images.find(image => image.original === externalImage)!
+  expect(external.origin).toEqual({ kind: 'external', uri: externalImage, policy: 'paired-read' })
+  expect(external.observed).toEqual({ sha256: imageDigest(imageBytes), bytes: imageBytes.byteLength })
+  expect(external.uses).toHaveLength(4)
+  expect(Object.isFrozen(image.observed)).toBe(true)
+  const report = analyzeUpdates(input)
+  expect(report.pages[0].sourceImpact).toMatchObject({ candidate: true, outputChanged: true })
+  expect(report.pages[0].sourceImpact.changes).toEqual([expect.objectContaining({ kind: 'image', identity: 'site/en/assets/diagram.png', before: imageDigest(imageBytes), after: imageDigest(changedBytes), beforeState: 'resolved', afterState: 'resolved', image: expect.objectContaining({ before: expect.any(Object), after: image }) })])
+  expect(renderImpactJson(analyzeUpdates(await f.collect(candidate)))).toBe(renderImpactJson(report))
+  expect(renderImpactMarkdown(report)).toContain('site/en/assets/diagram.png')
+  expect(renderImpactMarkdown(report)).toContain('paired-read')
+  expect(renderImpactMarkdown(report)).toContain(imageDigest(changedBytes))
+  const withoutBuild = await f.collect(candidate, f.config, false)
+  expect(withoutBuild.pages[0].candidateNext.imageStatus).toBe('unavailable')
+  expect(withoutBuild.pages[0].candidateNext.images).toEqual([])
 })

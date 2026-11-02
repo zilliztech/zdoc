@@ -514,3 +514,37 @@ never couples different pages. There is no PR transaction API in this slice.
 The opt-in synthetic update history and its provenance are under
 [`fixtures/updates`](fixtures/updates/SOURCE.md). The default fixture's three
 legacy commit IDs remain unchanged through `10-image-changed`.
+
+Raw preprocessing diagnostics are retained in each observation's `rawErrors` and
+separately in each page report. Dependencies have `state: resolved | unresolved`;
+a missing raw variable is `unresolved` with `sha256: null`, never a fabricated hash
+or an infrastructure exception. Changes include explicit `beforeState`/`afterState`
+(`absent`, `unresolved`, or `resolved`). Raw diagnostics do not invalidate successful
+Cloud generation when a transform removes the offending content. Actual builder
+failures remain in `errors` and keep `outputChanged: unknown`. Infrastructure failures
+still reject collection. Raw source diagnostics map stripped marker lines back to
+the actual source file; fragment attribution retains its existing inclusion-site
+limitations.
+
+Image evidence concerns actual emitted channel uses. `images` retains each original
+reference, preparation `origin`, observed byte digest/length, emitted record digest
+and address, and per-manual/channel uses. Repository origins are the exact commit/path
+from actual preparation `readBytes` calls, correlated with the preparer's ordered
+successful results; paths are not reconstructed from source-relative guesses.
+External origins record the URI and `policy: paired-read`: the existing injected
+image fetcher supplied the stable byte pair, potentially replayed from the runtime
+cache. This does not claim a separate HTTP request for each manual/channel or pin the
+external URI for future runs. No additional fetch, repository image read or upload is
+performed for observation. Observed bytes and the emitted retained record remain
+separate when the existing policy selects an older accepted digest.
+
+Only references that survive adaptation and complete channel finalization count as
+emitted image uses. Raw hidden image bytes are not fetched for impact analysis.
+`imageStatus: observed | unavailable` describes completeness of emitted-use evidence;
+`origin.kind: unavailable` separately marks a missing preparation trace, and
+`observed: null` never claims authenticated raw bytes. Raw source spans on image uses
+are supplied only when the original parser verifies their attribution. Image changes
+include before/after evidence in JSON and readable origin/digest/use details in
+Markdown. Their dependency identity excludes the observation commit, so identical
+image bytes at an unrelated source commit do not create a candidate. Without build
+evidence, images remain unavailable; absence is not treated as a proven image deletion.

@@ -4,17 +4,27 @@ import { join } from 'node:path'
 import { readSharedDocs } from '../commands/build'
 import { groupFile } from './group-context'
 import { parseSourceConfig } from '../core/config'
-import { inventoryBlocks } from '../core/blocks'
-import { immutable } from '../core/updates/types'
-import type { FixedVersions, InputFile, PageObservation, UpdateInput } from '../core/updates/types'
+import { collectReferences } from '../core/links'
+import { inventoryBlocks, originalPageLine } from '../core/blocks'
+import { immutable, imageIdentity } from '../core/updates/types'
+import type { DependencyObservation, FixedVersions, ImageObservation, InputFile, PageObservation, UpdateInput } from '../core/updates/types'
 import { observeManualAnchors } from '../core/updates/anchors'
 import type { InspectionReader, Md2md } from './types'
 import type { BuildPageObservation, BuildPageResult, SharedDocsInputs } from './build-page'
-import type { SharedDocsError } from '../core/types'
+import type { SharedDocsError, Variables } from '../core/types'
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex')
 const comparable = (value: unknown) => JSON.stringify(value, (_, child) => child instanceof Map ? [...child] : child)
 const fileInput = (file: string, text: string): InputFile => ({ file, text, sha256: digest(text) })
+function variableDependency(key: string, variables: Variables): DependencyObservation {
+  let value: unknown = variables
+  for (const part of key.split('.')) {
+    const actual = value && typeof value === 'object' ? Object.keys(value).find(candidate => candidate.toLowerCase() === part.toLowerCase()) : undefined
+    value = actual === undefined ? undefined : (value as Record<string, unknown>)[actual]
+  }
+  return { kind: 'variable', identity: key.toLowerCase(), state: value === undefined ? 'unresolved' : 'resolved',
+    sha256: value === undefined ? null : digest(JSON.stringify(value)) }
+}
 export interface UpdateConfiguration {
   readonly sharedDocs: SharedDocsInputs
   /** Exact local bytes, including all configuration and referenced content files. */
@@ -82,7 +92,7 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
         if (!configuration.files.some(input => input.file === file && input.text === text)) throw new Error(`Missing exact local input: ${file}`)
       }
       const sourceFile = pageInput.config.source.file
-      const errors: SharedDocsError[] = []
+      const errors: SharedDocsError[] = [], rawErrors: SharedDocsError[] = []
       let source: InputFile | null = null
       try { source = fileInput(sourceFile, await input.reader.readFile(commit, sourceFile)) }
       catch (error) {
@@ -97,29 +107,24 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
       const buildLock = input.build ? { current: page.current.commit, next: role === 'current' ? page.candidateNext.commit : commit } : null
       if (source) {
         const parsed = input.md2md.parseBlocks(source.text, { sourceName: sourceFile })
-        errors.push(...parsed.errors.map(error => ({ ...error, page: page.pageId })))
+        rawErrors.push(...parsed.errors.map(error => ({ ...error, page: page.pageId })))
         if (parsed.ok) blocks = inventoryBlocks(source.text, parsed)
         // Raw dependencies survive Cloud replacements. The normal builder still owns generation.
         await input.reader.withFragments(commit, async snapshot => {
           const raw = input.md2md.preprocess({ content: input.md2md.stripBlockMarkers(source!.text), fragmentRoot: snapshot.root,
             variables: shared.variables, sourceName: sourceFile })
           engine = { ...raw.engine }
+          rawErrors.push(...raw.errors.map(error => ({ ...error, page: page.pageId, channel: role === 'current' ? 'current' as const : 'next' as const,
+            ...(error.file && snapshot.files.has(error.file) ? { file: `site/en/${error.file}` } : {}),
+            ...(error.file === sourceFile && error.line ? { line: originalPageLine(error.line, parsed.blocks) } : {}) })))
           for (const dependency of raw.dependencies.fragments) {
             const text = snapshot.files.get(dependency.path)
             if (text === undefined) throw new Error(`Unknown raw fragment dependency: ${dependency.path}`)
             const file = fileInput(`site/en/${dependency.path}`, text)
             files.push(file)
-            dependencies.push({ kind: 'fragment', identity: file.file, sha256: file.sha256 })
+            dependencies.push({ kind: 'fragment', identity: file.file, state: 'resolved', sha256: file.sha256 })
           }
-          for (const variable of raw.dependencies.variables) {
-            let value: unknown = shared.variables
-            for (const key of variable.key.split('.')) {
-              const actual = value && typeof value === 'object' ? Object.keys(value).find(candidate => candidate.toLowerCase() === key.toLowerCase()) : undefined
-              value = actual === undefined ? undefined : (value as Record<string, unknown>)[actual]
-            }
-            if (value === undefined) throw new Error(`Unknown raw variable dependency: ${variable.key}`)
-            dependencies.push({ kind: 'variable', identity: variable.key.toLowerCase(), sha256: digest(JSON.stringify(value)) })
-          }
+          for (const variable of raw.dependencies.variables) dependencies.push(variableDependency(variable.key, shared.variables))
           // Raw preprocessing may intentionally be removed by a transform. Its diagnostics
           // are not generation failures; builder observations below authenticate those.
         })
@@ -127,6 +132,7 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
       for (const content of pageInput.contentFiles?.values() ?? []) files.push(fileInput(content.file, content.text))
       let outputStatus: PageObservation['outputStatus'] = source && !errors.length ? 'unobserved' : 'error'
       let manuals: PageObservation['manuals'] = []
+      let images: ImageObservation[] = [], imageStatus: PageObservation['imageStatus'] = 'unavailable'
       if (input.build) {
         const pages = new Map(shared.pages)
         pages.set(page.pageId, { ...pageInput, lockYaml: JSON.stringify({ schema_version: 1, ...buildLock }) })
@@ -147,19 +153,32 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
                 if (text === undefined) throw new Error(`Unknown generated fragment dependency: ${dependency.path}`)
                 const file = fileInput(`site/en/${dependency.path}`, text)
                 if (!files.some(existing => existing.file === file.file)) files.push(file)
-                dependencies.push({ kind: 'fragment', identity: file.file, sha256: file.sha256 })
+                dependencies.push({ kind: 'fragment', identity: file.file, state: 'resolved', sha256: file.sha256 })
               }
-              for (const variable of view.dependencies.variables) {
-                let value: unknown = shared.variables
-                for (const key of variable.key.split('.')) {
-                  const actual = value && typeof value === 'object' ? Object.keys(value).find(candidate => candidate.toLowerCase() === key.toLowerCase()) : undefined
-                  value = actual === undefined ? undefined : (value as Record<string, unknown>)[actual]
-                }
-                if (value === undefined) throw new Error(`Unknown generated variable dependency: ${variable.key}`)
-                dependencies.push({ kind: 'variable', identity: variable.key.toLowerCase(), sha256: digest(JSON.stringify(value)) })
-              }
+              for (const variable of view.dependencies.variables) dependencies.push(variableDependency(variable.key, shared.variables))
             }
           })
+          const imageMap = new Map<string, ImageObservation>()
+          imageStatus = views.every(view => view.imageStatus === 'observed') ? 'observed' : 'unavailable'
+          for (const view of views) for (const image of view.images) {
+            const uses = image.uses.map(use => {
+              const candidates = use.origins.flatMap(origin => {
+                const file = files.find(file => file.file === origin.file)
+                if (!file || !origin.line) return []
+                const matching = collectReferences(file.text).images.filter(reference => reference.line === origin.line && reference.url === image.original)
+                if (matching.length !== 1) return []
+                const reference = matching[0]
+                return [{ file: file.file, start: reference.start, end: reference.end, line: reference.line,
+                  endLine: file.text.slice(0, Math.max(reference.start, reference.end - 1)).split(/\r\n|\r|\n/).length + 1 }]
+              })
+              const sources = [...new Map(candidates.map(source => [JSON.stringify(source), source])).values()]
+              return { ...use, ...(sources.length === 1 ? { source: sources[0] } : {}) }
+            })
+            const key = imageIdentity(image), previous = imageMap.get(key)
+            if (previous && (JSON.stringify(previous.observed) !== JSON.stringify(image.observed) || JSON.stringify(previous.emitted) !== JSON.stringify(image.emitted))) throw new Error('Conflicting image evidence for one fixed dependency')
+            imageMap.set(key, { ...image, uses: [...(previous?.uses ?? []), ...uses] })
+          }
+          images = [...imageMap.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, image]) => image)
           manuals = views.map(view => observeManualAnchors({ ...view, output: view.mdx, files, blocks, sourceFile }))
           outputStatus = errors.length || views.some(view => view.mdx === undefined) ? 'error' : 'observed'
           if (outputStatus === 'error' && !errors.length) throw new Error('Channel finalization returned no output or diagnostics')
@@ -168,7 +187,7 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
       return { commit, buildLock, engine, repository: sourceConfig.config.repository, track: sourceConfig.config.track, sourceFile, source, files,
         localInputs: configuration.files.map(({ file, sha256 }) => ({ file, sha256 })), blocks,
         dependencies: [...new Map(dependencies.map(dependency => [JSON.stringify([dependency.kind, dependency.identity]), dependency])).values()].sort((a, b) => a.kind.localeCompare(b.kind) || a.identity.localeCompare(b.identity)),
-        targets: pageInput.config.publish.map(target => ({ ...target })), manuals, errors, outputStatus, hasChannelRules: !!pageInput.config.transforms?.some(transform => transform.channel !== undefined) }
+        targets: pageInput.config.publish.map(target => ({ ...target })), manuals, rawErrors, images, imageStatus, errors, outputStatus, hasChannelRules: !!pageInput.config.transforms?.some(transform => transform.channel !== undefined) }
     }
     pages.push({ pageId: page.pageId, oldNext: await observe(page.oldNext, 'oldNext'), current: await observe(page.current, 'current'), candidateNext: await observe(page.candidateNext, 'candidateNext') })
   }

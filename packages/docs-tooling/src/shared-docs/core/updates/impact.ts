@@ -3,7 +3,7 @@ import { alignBlocks, segmentMarkdown } from '../merge'
 import type { MergeBlock } from '../merge'
 import { analyzeAnchorRelations, promotionEligibility } from './anchors'
 import { computeUpdateUnits, referencesPage } from './units'
-import { immutable } from './types'
+import { immutable, imageIdentity } from './types'
 import type { AdoptionDependency, BlockContext, ChangedBlock, ChangedInput, ComparisonAxis, ImpactComparison, ImpactReport, PageObservation, UpdateInput } from './types'
 
 const sha = /^[0-9a-f]{40}$/
@@ -30,7 +30,18 @@ export function validateUpdateInput(input: UpdateInput): void {
     if (observation.source && (observation.source.file !== observation.sourceFile || !digest.test(observation.source.sha256))) throw new Error('Invalid source evidence')
     if (!observation.source && observation.outputStatus !== 'error') throw new Error('Missing source must be an error')
     unique(observation.dependencies.map(dependency => JSON.stringify([dependency.kind, dependency.identity])), `${role} dependency`)
-    if (observation.dependencies.some(dependency => !dependency.identity || !digest.test(dependency.sha256))) throw new Error('Invalid dependency evidence')
+    if (observation.dependencies.some(dependency => !dependency.identity || (dependency.state === 'resolved' ? !digest.test(dependency.sha256 ?? '') : dependency.state !== 'unresolved' || dependency.sha256 !== null))) throw new Error('Invalid dependency evidence')
+    if (!Array.isArray(observation.rawErrors)) throw new Error('Missing raw dependency diagnostics')
+    if (!['observed', 'unavailable'].includes(observation.imageStatus)) throw new Error('Missing image evidence status')
+    unique(observation.images.map(imageIdentity), `${role} image`)
+    for (const image of observation.images) {
+      if (!image.original || !digest.test(image.emitted.sha256) || !image.emitted.address || !image.uses.length) throw new Error('Incomplete used image evidence')
+      if (image.observed && (!digest.test(image.observed.sha256) || !Number.isSafeInteger(image.observed.bytes) || image.observed.bytes < 0)) throw new Error('Invalid observed image bytes')
+      if (image.origin.kind === 'repository' ? !sha.test(image.origin.commit) || image.origin.commit !== observation.commit || !image.origin.path
+        : image.origin.kind === 'external' ? image.origin.uri !== image.original || image.origin.policy !== 'paired-read'
+          : image.origin.kind !== 'unavailable' || !image.origin.reason) throw new Error('Invalid image origin evidence')
+      for (const use of image.uses) if (use.commit !== observation.commit || use.reference.url !== image.original || !observation.targets.some(target => target.manual === use.manual && target.path === use.path)) throw new Error('Image use does not belong to its fixed page observation')
+    }
     unique(observation.targets.map(target => JSON.stringify([target.manual, target.path])), `${role} publish target`)
     if (!observation.targets.length || observation.targets.some(target => !target.manual || !target.path)) throw new Error('Incomplete publish target identities')
     unique(observation.manuals.map(manual => JSON.stringify([manual.manual, manual.path])), `${role} manual`)
@@ -42,13 +53,27 @@ export function validateUpdateInput(input: UpdateInput): void {
 function changedInputs(before: PageObservation, after: PageObservation): ChangedInput[] {
   const result: ChangedInput[] = []
   if (before.source?.sha256 !== after.source?.sha256 || before.sourceFile !== after.sourceFile) result.push({ kind: 'source', identity: after.sourceFile,
-    before: before.source?.sha256 ?? null, after: after.source?.sha256 ?? null })
+    before: before.source?.sha256 ?? null, after: after.source?.sha256 ?? null, beforeState: before.source ? 'resolved' : 'absent', afterState: after.source ? 'resolved' : 'absent' })
   const key = (dependency: PageObservation['dependencies'][number]) => JSON.stringify([dependency.kind, dependency.identity])
   const old = new Map(before.dependencies.map(dependency => [key(dependency), dependency]))
   const next = new Map(after.dependencies.map(dependency => [key(dependency), dependency]))
   for (const id of [...new Set([...old.keys(), ...next.keys()])].sort()) {
     const from = old.get(id), to = next.get(id)
-    if (from?.sha256 !== to?.sha256) result.push({ kind: (to ?? from)!.kind, identity: (to ?? from)!.identity, before: from?.sha256 ?? null, after: to?.sha256 ?? null })
+    if (from?.state !== to?.state || from?.sha256 !== to?.sha256) result.push({ kind: (to ?? from)!.kind, identity: (to ?? from)!.identity, before: from?.sha256 ?? null, after: to?.sha256 ?? null, beforeState: from?.state ?? 'absent', afterState: to?.state ?? 'absent' })
+  }
+  if (before.imageStatus === 'observed' && after.imageStatus === 'observed') {
+    const oldImages = new Map(before.images.map(image => [imageIdentity(image), image]))
+    const newImages = new Map(after.images.map(image => [imageIdentity(image), image]))
+    for (const key of [...new Set([...oldImages.keys(), ...newImages.keys()])].sort()) {
+      const from = oldImages.get(key), to = newImages.get(key)
+      if (!from || !to || from.observed?.sha256 !== to.observed?.sha256 || from.emitted.sha256 !== to.emitted.sha256 || from.emitted.address !== to.emitted.address) {
+        const image = (to ?? from)!
+        result.push({ kind: 'image', identity: image.origin.kind === 'repository' ? image.origin.path : image.original,
+          before: from?.observed?.sha256 ?? null, after: to?.observed?.sha256 ?? null,
+          beforeState: !from ? 'absent' : from.observed ? 'resolved' : 'unresolved', afterState: !to ? 'absent' : to.observed ? 'resolved' : 'unresolved',
+          image: { before: from ?? null, after: to ?? null } })
+      }
+    }
   }
   return result
 }
@@ -124,7 +149,8 @@ export function analyzeUpdates(input: UpdateInput): ImpactReport {
     sourceImpact: compare(page.oldNext, page.candidateNext, 'old-next-to-target'),
     promotion: { ...compare(page.current, page.candidateNext, 'current-to-candidate-next'), ...promotionEligibility({ currentCommit: page.current.commit,
       candidateCommit: page.candidateNext.commit, hasChannelRules: page.current.hasChannelRules || page.candidateNext.hasChannelRules }) },
-    errors: [...new Map([page.oldNext, page.current, page.candidateNext].flatMap(observation => observation.errors).map(error => [JSON.stringify(error), error])).values()] }))
+    errors: [...new Map([page.oldNext, page.current, page.candidateNext].flatMap(observation => observation.errors).map(error => [JSON.stringify(error), error])).values()],
+    rawErrors: [...new Map([page.oldNext, page.current, page.candidateNext].flatMap(observation => observation.rawErrors).map(error => [JSON.stringify(error), error])).values()] }))
   const identities = snapshot.pages.flatMap(page => page.candidateNext.targets.map(target => ({ pageId: page.pageId, ...target })))
   const dependencies: AdoptionDependency[] = []
   for (const target of pages) for (const relation of target.promotion.anchors) {
@@ -156,7 +182,7 @@ export function renderImpactMarkdown(report: ImpactReport): string {
     for (const comparison of [page.sourceImpact, page.promotion]) {
       lines.push(`### ${comparison.axis}`, '', `${code(comparison.from)} → ${code(comparison.to)}`, '',
         `Candidate: ${comparison.candidate}; output changed: ${comparison.outputChanged}.`, '')
-      for (const change of comparison.changes) lines.push(`- ${change.kind}: ${code(change.identity)} (${change.before ?? 'absent'} → ${change.after ?? 'absent'})`)
+      for (const change of comparison.changes) lines.push(`- ${change.kind}: ${code(change.identity)} (${change.before ?? change.beforeState} → ${change.after ?? change.afterState}) [${change.beforeState} → ${change.afterState}]`)
       for (const block of comparison.blocks) for (const side of ['before', 'after'] as const) {
         const context = block[side]
         if (!context) continue
@@ -167,6 +193,17 @@ export function renderImpactMarkdown(report: ImpactReport): string {
       for (const relation of comparison.anchors) lines.push('', `- ${relation.manual}: ${relation.status} ${relation.kind} ${code(relation.before?.anchor ?? '')} → ${code(relation.after?.anchor ?? '')}: ${relation.reason}`)
       lines.push('')
     }
+    const fixedPage = report.input.pages.find(fixed => fixed.pageId === page.pageId)!
+    for (const role of ['oldNext', 'current', 'candidateNext'] as const) {
+      const observation = fixedPage[role]
+      lines.push(`Image evidence (${role}): ${observation.imageStatus}.`, '')
+      for (const image of observation.images) {
+        const origin = image.origin.kind === 'repository' ? `${image.origin.commit}:${image.origin.path}` : image.origin.kind === 'external' ? `${image.origin.uri} (${image.origin.policy})` : `unavailable: ${image.origin.reason}`
+        lines.push(`- image ${code(image.original)}; origin ${code(origin)}; observed ${image.observed ? `${image.observed.sha256} (${image.observed.bytes} bytes)` : 'unavailable'}; emitted ${image.emitted.sha256} at ${code(image.emitted.address)}; uses: ${image.uses.length}`)
+      }
+      lines.push('')
+    }
+    for (const error of page.rawErrors) lines.push(`- Raw diagnostic ${error.code}: ${code(error.file ?? 'unlocated')}${error.line === undefined ? '' : `:${error.line}`} — ${error.message}`)
     lines.push(`Promotion eligible: ${page.promotion.eligible}; reasons: ${page.promotion.reasons.join(', ') || 'none'}.`, '')
     for (const error of page.errors) lines.push(`- ${error.code}: ${code(error.file ?? 'unlocated')}${error.line === undefined ? '' : `:${error.line}`} — ${error.message}`)
     lines.push('')
