@@ -1,0 +1,13 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/range-search-with-structarray.md
+
+metadata:
+  beta: PUBLIC
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays
