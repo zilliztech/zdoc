@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source": { "kind": "synthetic", "description": "Local deterministic impact-analysis mutations; no production source claim." },
+  "baseFixture": "10-image-changed",
+  "legacyCommits": {
+    "01-base": "2f3f52a7b5345e7c1f6dd3e193240d14910e5414",
+    "02-paragraph": "939c31b6fec2819c93b918b4b1c7d9f0f85146f7",
+    "10-image-changed": "23c8129b1e154fa68d3d5d883fc40b47f6d31840"
+  },
+  "history": [{
+    "name": "synthetic-delete-rename",
+    "deletes": ["site/en/fragments/example.md"],
+    "renames": [{ "from": "site/en/wp5-links.md", "to": "site/en/renamed-links.md" }],
+    "writes": { "site/en/new.md": "# Synthetic source\n" }
+  }]
+}

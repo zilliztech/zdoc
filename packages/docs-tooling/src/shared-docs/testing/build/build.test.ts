@@ -462,3 +462,65 @@ it('uses relative page and lock paths when the build group is the repository roo
     expect(new Set(invalidLock.errors.map(error => error.file))).toEqual(new Set(['pages/build-pipeline/lock.yaml']))
   } finally { await build.reader.dispose() }
 })
+
+it('exposes detached actual channel observations without changing default bytes or image reads', async () => {
+  const options = await demo(), build = await inputs(options)
+  try {
+    const plain = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md() })
+    const observations: unknown[] = []
+    const observed = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe(value) {
+      observations.push(structuredClone(value))
+      ;(value.channels as unknown as { markdown: string }[])[0].markdown = 'Consumer mutation'
+      throw new Error('Observer failure is isolated')
+    } })
+    expect(observed).toEqual(plain)
+    expect(observations).toEqual([expect.objectContaining({ channels: expect.arrayContaining([expect.objectContaining({ channel: 'current', manual: 'guides', markdown: expect.stringContaining('Use Zilliz Cloud') }), expect.objectContaining({ channel: 'next', manual: 'guides-byoc' })]), errors: [] })])
+    expect(build.images.requests).toEqual([externalImage, externalImage])
+    expect(Object.keys(observed).sort()).toEqual(['pages', 'planned'])
+  } finally { await build.reader.dispose() }
+})
+
+it('observes same-SHA channel transforms and preserves typed failures atomically', async () => {
+  const options = await demo()
+  await write(options.sharedDocs, 'pages/build-pipeline/page.yaml', pageYaml('site/en/build-pipeline.md', 'tutorials/build-pipeline') + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    channel: next\n    content: {file: next.md}\n')
+  await write(options.sharedDocs, 'pages/build-pipeline/next.md', '```python\nnext_only()\n```\n')
+  const build = await inputs(options)
+  try {
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    const result = await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(result).not.toHaveProperty('errors')
+    const channels = observation!.channels.filter(channel => channel.manual === 'guides')
+    expect(channels.map(channel => channel.commit)).toEqual([options.commit, options.commit])
+    expect(channels[0].markdown).not.toBe(channels[1].markdown)
+    await write(options.sharedDocs, 'pages/build-pipeline/page.yaml', pageYaml('site/en/build-pipeline.md', 'tutorials/build-pipeline') + '\ntransforms:\n  - operation: remove\n    target: {block: absent}\n')
+    const invalid = await readSharedDocs(options.sharedDocs, dirname(dirname(options.sharedDocs)))
+    if ('errors' in invalid) throw new Error('Expected parsed config')
+    const plain = await buildPage({ pageId: 'build-pipeline', ...build, sharedDocs: invalid, md2md: new RealMd2md() })
+    const observed = await buildPage({ pageId: 'build-pipeline', ...build, sharedDocs: invalid, md2md: new RealMd2md(), observe: value => { observation = value } })
+    expect(observed).toEqual(plain)
+    expect(observation!.errors).toEqual('errors' in plain ? plain.errors : [])
+    expect(observation!.channels).toEqual([])
+    expect((await command(options)).code).toBe(1)
+    await expect(readdir(options.out)).rejects.toMatchObject({ code: 'ENOENT' })
+  } finally { await build.reader.dispose() }
+})
+
+it('keeps observed source origins exact after multiline fragment expansion', async () => {
+  const options = await demo()
+  await write(options.repo, 'site/en/fragments/used.md', 'A fragment for {{var.cloud.Product}}.\n\nAn additional expanded paragraph.\n\nOne more expanded line.\n')
+  await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Synthetic multiline fragment')
+  const commit = await git(options.repo, 'rev-parse', 'HEAD')
+  await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current: commit, next: commit }))
+  const source = await readFile(join(options.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const sourceLine = source.split('\n').findIndex(line => line === '## Local & API') + 1
+  const build = await inputs(options)
+  try {
+    let observation: import('../../adapters/build-page').BuildPageObservation | undefined
+    await buildPage({ pageId: 'build-pipeline', ...build, md2md: new RealMd2md(), observe: value => { observation = value } })
+    const channel = observation!.channels.find(channel => channel.manual === 'guides' && channel.channel === 'current')!
+    const line = channel.markdown.split('\n').findIndex(line => line.startsWith('## Local & API'))
+    expect(channel.origins[line]).toEqual([{ channel: 'current', file: 'site/en/build-pipeline.md', line: sourceLine }])
+    expect(channel.mdx).toContain('An additional expanded paragraph.')
+    expect(channel.errors).toEqual([])
+  } finally { await build.reader.dispose() }
+})

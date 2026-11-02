@@ -23,7 +23,7 @@ import { toMdx } from './mdx'
 import type { FragmentSnapshot, GuidesBase, InspectionReader, Md2md } from './types'
 import type { ZdocContentReader, ZdocPage } from './zdoc-content'
 import type { ContentFile } from '../core/transforms'
-import { remapError } from '../core/transforms/provenance'
+import { provenanceCarrier, remapError } from '../core/transforms/provenance'
 
 export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile> }
 export interface SharedDocsInputs {
@@ -227,8 +227,31 @@ async function productSources(version: InspectedChannel, source: string, shared:
   return sources
 }
 
-export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md;
-  runtime: BuildRuntime }): Promise<BuildPageResult> {
+export interface BuildChannelObservation {
+  readonly manual: string; readonly path: string; readonly channel: Channel; readonly commit: string
+  readonly markdown: string; readonly mdx?: string; readonly errors: readonly SharedDocsError[]
+  readonly dependencies: InspectedChannel['dependencies']; readonly engine: InspectedChannel['engine']
+  readonly origins: readonly (readonly MergeOrigin[])[]
+}
+export interface BuildPageObservation {
+  readonly pageId: string; readonly channels: readonly BuildChannelObservation[]; readonly errors: readonly SharedDocsError[]
+}
+export interface BuildPageInput {
+  pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md; runtime: BuildRuntime
+  /** Detached actual adaptation evidence. Observer exceptions cannot change generation. */
+  observe?: (observation: BuildPageObservation) => void
+}
+export async function buildPage(input: BuildPageInput): Promise<BuildPageResult> {
+  const channels: BuildChannelObservation[] | undefined = input.observe ? [] : undefined
+  const result = await generatePage(input, channels)
+  if (input.observe) {
+    const observation = structuredClone({ pageId: input.pageId, channels: channels!, errors: 'errors' in result ? result.errors : [] })
+    try { input.observe(observation) } catch { /* Observation is isolated from the generation transaction. */ }
+  }
+  return result
+}
+
+async function generatePage(input: BuildPageInput, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
   const { pageId, sharedDocs: shared, reader, runtime } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
@@ -322,6 +345,45 @@ export async function buildPage(input: { pageId: string; sharedDocs: SharedDocsI
         const origin = version.provenance?.[index]?.origin
         return [{ channel, file: origin?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
       })
+      if (observations) {
+        let observedOrigins = origins
+        const observationErrors: SharedDocsError[] = []
+        if (!version.provenance) {
+          // Default generation retains its historical diagnostics. Observation
+          // requires actual expansion boundaries, rather than a line-count guess.
+          try {
+            const raw = sources.find(source => source.kind === 'source')!.text
+            const stripped = input.md2md.stripBlockMarkers(raw)
+            const mapped = stripped.split('\n').map((text, index) => ({ text,
+              origin: { file: source, line: originalPageLine(index + 1, version.blocks), kind: 'source' as const } }))
+            if (stripped !== version.content) await reader.withFragments(version.commit, async snapshot => {
+              const carrier = provenanceCarrier(mapped, [stripped, JSON.stringify(shared.variables), ...snapshot.files.values()])
+              const tagged = input.md2md.preprocess({ content: carrier.content, fragmentRoot: snapshot.root, variables: shared.variables,
+                sourceName: source, limits: { maxOutputBytes: 2 * 1024 * 1024 + carrier.overhead } })
+              if (!tagged.ok) throw new Error('Could not observe preprocessor origin boundaries')
+              const decoded = carrier.decode(tagged.content)
+              if (decoded.map(line => line.text).join('\n') !== version.content) throw new Error('Observed origin transport changed preprocessed bytes')
+              observedOrigins = decoded.map(line => [{ channel, file: line.origin.file, line: line.origin.line }])
+            })
+          } catch (error) {
+            observedOrigins = []
+            observationErrors.push({ ...location, code: 'UPDATE_OBSERVATION_UNAVAILABLE',
+              message: error instanceof Error ? error.message : String(error) })
+          }
+        }
+        // Finalize the actual complete channel through the same MDX adapter. This
+        // optional detached pass neither rewrites merged output nor reads images.
+        const finalized = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
+        observationErrors.push(...('errors' in finalized ? finalized.errors.flatMap(error => {
+          const attributed = error.line === undefined ? [] : observedOrigins[error.line - 1] ?? []
+          const { line: _line, ...unlocated } = error
+          return attributed.length ? attributed.map(origin => ({ ...unlocated, ...origin })) : [unlocated]
+        }) : []))
+        observations.push({ manual: target.manual, path: target.path, channel, commit: version.commit, markdown: adapted.markdown,
+          ...('mdx' in finalized ? { mdx: finalized.mdx } : {}), errors: observationErrors,
+          dependencies: version.dependencies, engine: version.engine,
+          origins: adapted.provenance.outputLines.map(line => line === null ? [] : observedOrigins[line - 1] ?? []) })
+      }
       output.set(index, { adapted, origins, sources, images: rewritten.images, notices: rewritten.notices,
         ...(dev.fetch ? { imageContents: await Promise.all(rewritten.images.map(image => runtime.acceptedImage(image, prepared.images.get(image.original)))) } : {}) })
     }

@@ -2,6 +2,7 @@
 import { execFileSync } from 'node:child_process'
 import { rm } from 'node:fs/promises'
 import { expect, it, onTestFinished, vi } from 'vitest'
+import scenarios from '../updates/scenarios.json'
 import { buildMilvusDocs } from './build'
 
 // These tests start Git or CLI subprocesses. A slow shared CI runner can run several
@@ -30,4 +31,23 @@ it('builds identical IDs despite ambient Git config, and truncates history at up
 
 it('rejects unknown upTo instead of silently building all history', async () => {
   await expect(buildMilvusDocs('03-typo')).rejects.toThrow('Unknown fixture commit')
+})
+
+it('preserves the complete legacy fixture history and appends deterministic real deletions and renames', async () => {
+  const legacy = scenarios.legacyCommits
+  expect(scenarios.source.kind).toBe('synthetic')
+  const changes = scenarios.history
+  const first = await buildMilvusDocs('10-image-changed', changes)
+  const second = await buildMilvusDocs('10-image-changed', changes)
+  onTestFinished(async () => { await Promise.all([first, second].map(repo => rm(repo.dir, { recursive: true, force: true }))) })
+  expect(first.commits).toMatchObject(legacy)
+  expect(first.commits).toEqual(second.commits)
+  const git = (...args: string[]) => execFileSync('git', ['-C', first.dir, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
+  const sha = first.commits['synthetic-delete-rename']
+  expect(sha).toMatch(/^[0-9a-f]{40}$/)
+  expect(() => git('show', `${sha}:site/en/fragments/example.md`)).toThrow()
+  expect(() => git('show', `${sha}:site/en/wp5-links.md`)).toThrow()
+  expect(git('show', `${sha}:site/en/renamed-links.md`)).toBe(git('show', `${legacy['10-image-changed']}:site/en/wp5-links.md`))
+  expect(git('show', `${sha}:site/en/new.md`)).toBe('# Synthetic source')
+  await expect(buildMilvusDocs('01-base', [{ name: 'unsafe', writes: { '../escape': 'no' } }])).rejects.toThrow(/path/)
 })

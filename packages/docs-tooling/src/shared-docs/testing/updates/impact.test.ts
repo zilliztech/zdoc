@@ -1,0 +1,192 @@
+// @vitest-environment node
+import { mkdtemp, rm, readFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, dirname } from 'node:path'
+import { expect, it, onTestFinished, vi } from 'vitest'
+import { RealMd2md } from '../../adapters/md2md'
+import { createBuildDemo, git, write, externalImage, imageBytes } from '../build/demo'
+import { buildPage, createBuildReader, createBuildRuntime } from '../../adapters/build-page'
+import { FakeImageFetcher } from '../../adapters/images'
+import { createZdocContentReader } from '../../adapters/zdoc-content'
+import { createGuidesSnapshot } from '../../adapters/guides-snapshot'
+import { collectUpdateInputs, readUpdateConfiguration } from '../../adapters/update-inputs'
+import { analyzeUpdates, renderImpactJson, renderImpactMarkdown } from '../../core/updates/impact'
+
+vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
+
+async function fixture() {
+  const root = await mkdtemp(join(tmpdir(), 'shared-impact-'))
+  onTestFinished(() => rm(root, { recursive: true, force: true }))
+  const demo = await createBuildDemo(root)
+  const reader = createBuildReader(demo.repo)
+  onTestFinished(() => reader.dispose())
+  const canonicalRoot = dirname(dirname(demo.sharedDocs))
+  const config = await readUpdateConfiguration(demo.sharedDocs, canonicalRoot)
+  if ('errors' in config) throw new Error(JSON.stringify(config.errors))
+  const versions = { master: demo.commit, dev: demo.devCommit, tools: { zdoc: demo.commit, md2md: '1.3.0' } }
+  const build = async ({ pageId, sharedDocs, observe }: Parameters<NonNullable<Parameters<typeof collectUpdateInputs>[0]['build']>>[0]) => {
+    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])),
+      guides: createGuidesSnapshot(demo.dev), zdoc: new Map(['guides', 'guides-byoc'].map(manual => [manual,
+        createZdocContentReader({ checkout: demo.dev, manualDirectory: `content/en/${manual === 'guides' ? 'guides' : 'byoc'}` })])) })
+    return buildPage({ pageId, sharedDocs, reader, md2md: new RealMd2md(), runtime, observe })
+  }
+  const collect = (commit = demo.commit, candidateConfig = config, observe = true) => collectUpdateInputs({ versions, reader, md2md: new RealMd2md(),
+    pages: [{ pageId: 'build-pipeline', oldNext: { commit: demo.commit, configuration: config }, current: { commit: demo.commit, configuration: config },
+      candidateNext: { commit, configuration: candidateConfig } }], ...(observe ? { build } : {}) })
+  const change = async (file: string, mutate: (text: string) => string) => {
+    await write(demo.repo, file, mutate(await readFile(join(demo.repo, file), 'utf8')))
+    await git(demo.repo, 'add', '.'); await git(demo.repo, 'commit', '--quiet', '-m', 'Synthetic impact change')
+    return git(demo.repo, 'rev-parse', 'HEAD')
+  }
+  return { ...demo, config, versions, collect, change, root: canonicalRoot, reader, build }
+}
+
+it('reports ordinary raw and actual manual deltas deterministically with separate comparison axes', async () => {
+  const f = await fixture()
+  const commit = await f.change('site/en/build-pipeline.md', text => text.replace('Use {{VAR.Cloud.Product}}', 'Now use {{var.cloud.Product}}'))
+  const input = await f.collect(commit)
+  expect(Object.isFrozen(input.pages[0].candidateNext)).toBe(true)
+  const report = analyzeUpdates(input)
+  expect(report.pages[0].sourceImpact.candidate).toBe(true)
+  expect(report.pages[0].sourceImpact.axis).toBe('old-next-to-target')
+  expect(report.pages[0].promotion.axis).toBe('current-to-candidate-next')
+  expect(report.pages[0].sourceImpact.outputChanged).toBe(true)
+  expect(report.pages[0].sourceImpact.changes.some(change => change.kind === 'source')).toBe(true)
+  expect(renderImpactJson(analyzeUpdates(await f.collect(commit)))).toBe(renderImpactJson(report))
+  expect(renderImpactMarkdown(report)).toContain('old-next-to-target')
+  expect(report.input.versions).toEqual(f.versions)
+})
+
+it('does not create candidates for irrelevant commits or unused fragments and variables', async () => {
+  const f = await fixture()
+  const commit = await f.change('site/en/fragments/unused.md', text => text + 'Unused change.\n')
+  const input = await f.collect(commit)
+  expect(analyzeUpdates(input).pages[0].sourceImpact).toMatchObject({ candidate: false, outputChanged: false, changes: [] })
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({ ...f.config.sharedDocs.variables, unused: 'changed' }))
+  const config = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in config) throw new Error('Bad configuration')
+  expect(analyzeUpdates(await f.collect(commit, config)).pages[0].sourceImpact.candidate).toBe(false)
+})
+
+it('retains overwritten raw blocks and full changed code groups with neighboring Markdown', async () => {
+  const f = await fixture()
+  const pageFile = join(f.sharedDocs, 'pages/build-pipeline/page.yaml')
+  const text = await readFile(pageFile, 'utf8')
+  await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', text + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/build-pipeline/replacement.md', '```python\nstable()\n```\n')
+  const config = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in config) throw new Error(JSON.stringify(config))
+  const collect = (commit: string) => collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build, pages: [{ pageId: 'build-pipeline',
+    oldNext: { commit: f.commit, configuration: config }, current: { commit: f.commit, configuration: config }, candidateNext: { commit, configuration: config } }] })
+  const commit = await f.change('site/en/build-pipeline.md', value => value.replace('connect("{{var.cloud.region}}")', 'changed("{{var.cloud.region}}")'))
+  const report = analyzeUpdates(await collect(commit))
+  expect(report.pages[0].sourceImpact.candidate).toBe(true)
+  expect(report.pages[0].sourceImpact.outputChanged).toBe(false)
+  expect(report.pages[0].sourceImpact.blocks.some(block => block.id === 'connect')).toBe(true)
+  const codeCommit = await f.change('site/en/build-pipeline.md', value => value.replace('changed("{{var.cloud.region}}")', 'changed("new-region")'))
+  const code = analyzeUpdates(await collect(codeCommit)).pages[0].sourceImpact.blocks.find(block => block.type === 'code-group')!
+  expect(code.after!.text).toContain('```python')
+  expect(code.after!.text).toContain('```java')
+  expect(code.after!.contextBefore).toContain('Local & API')
+})
+
+it('compares used dependency values and keeps missing source, block and line diagnostics', async () => {
+  const f = await fixture()
+  const commit = await f.change('site/en/fragments/used.md', text => text.replace('A fragment', 'Changed fragment'))
+  expect(analyzeUpdates(await f.collect(commit)).pages[0].sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'fragment' })]))
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({ Cloud: { Product: 'Zilliz Cloud', Region: 'ap-south' } }))
+  const config = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in config) throw new Error('Bad config')
+  expect(analyzeUpdates(await f.collect(commit, config)).pages[0].sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.region' })]))
+  await git(f.repo, 'rm', 'site/en/build-pipeline.md'); await git(f.repo, 'commit', '--quiet', '-m', 'Delete source')
+  const missing = analyzeUpdates(await f.collect(await git(f.repo, 'rev-parse', 'HEAD')))
+  expect(missing.pages[0].sourceImpact.outputChanged).toBe('unknown')
+  expect(missing.pages[0].errors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'CONFIG_SOURCE_NOT_FOUND', file: 'site/en/build-pipeline.md' })]))
+})
+
+it('rejects duplicate or incomplete identities instead of inventing fixed input evidence', async () => {
+  const f = await fixture()
+  const input = await f.collect()
+  expect(() => analyzeUpdates({ ...input, pages: [...input.pages, ...input.pages] })).toThrow(/duplicate/i)
+  expect(() => analyzeUpdates({ ...input, versions: { ...input.versions, master: '' } })).toThrow(/master/i)
+  expect(() => analyzeUpdates({ ...input, pages: [{ ...input.pages[0], current: undefined } as never] })).toThrow(/current/i)
+  const badReader = { ...f.reader, readFile: async () => { throw new Error('infrastructure unavailable') } }
+  await expect(collectUpdateInputs({ versions: f.versions, reader: badReader, md2md: new RealMd2md(), pages: [{ pageId: 'build-pipeline',
+    oldNext: { commit: f.commit, configuration: f.config }, current: { commit: f.commit, configuration: f.config }, candidateNext: { commit: f.commit, configuration: f.config } }] })).rejects.toThrow('infrastructure unavailable')
+})
+
+
+it('retains actual missing transform block and line origins as unknown output', async () => {
+  const f = await fixture()
+  for (const target of ['{block: absent}', '{block: connect, language: python, lines: "missing_selector()"}']) {
+    await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', (await readFile(join(f.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')).split('\ntransforms:')[0] + `\ntransforms:\n  - operation: remove\n    target: ${target}\n`)
+    const config = await readUpdateConfiguration(f.sharedDocs, f.root)
+    if ('errors' in config) throw new Error(JSON.stringify(config))
+    const report = analyzeUpdates(await f.collect(f.commit, config))
+    expect(report.pages[0].sourceImpact.outputChanged).toBe('unknown')
+    expect(report.pages[0].errors).toEqual(expect.arrayContaining([expect.objectContaining({
+      code: target.includes('absent') ? 'TRANSFORM_TARGET_NOT_FOUND' : 'LINE_NOT_FOUND',
+      file: 'shared-docs/guides/pages/build-pipeline/page.yaml', line: expect.any(Number),
+    })]))
+  }
+})
+
+it('includes dependencies introduced by Cloud transforms as well as hidden raw dependencies', async () => {
+  const f = await fixture()
+  await write(f.repo, 'site/en/fragments/injected.md', 'Injected {{var.cloud.extra}}.\n')
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '--quiet', '-m', 'Synthetic transform dependency baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  const original = await readFile(join(f.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')
+  await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', original + '\ntransforms:\n  - operation: add\n    target: {block: connect}\n    position: before\n    content: {file: dependency.md}\n')
+  await write(f.sharedDocs, 'pages/build-pipeline/dependency.md', '{{fragments/injected.md}}\n')
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({ Cloud: { Product: 'Zilliz Cloud', Region: 'eu-west', Extra: 'first value' } }))
+  const config = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in config) throw new Error(JSON.stringify(config))
+  const collect = (commit: string, nextConfig = config) => collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: [{ pageId: 'build-pipeline', oldNext: { commit: baseline, configuration: config }, current: { commit: baseline, configuration: config }, candidateNext: { commit, configuration: nextConfig } }] })
+  const commit = await f.change('site/en/fragments/injected.md', text => text.replace('Injected', 'Changed injected'))
+  const fragment = analyzeUpdates(await collect(commit)).pages[0]
+  expect(fragment.errors).toEqual([])
+  expect(fragment.sourceImpact).toMatchObject({ candidate: true, outputChanged: true })
+  expect(fragment.sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'fragment', identity: 'site/en/fragments/injected.md' })]))
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({ Cloud: { Product: 'Zilliz Cloud', Region: 'eu-west', Extra: 'second value' } }))
+  const variables = await readUpdateConfiguration(f.sharedDocs, f.root)
+  if ('errors' in variables) throw new Error(JSON.stringify(variables))
+  expect(analyzeUpdates(await collect(baseline, variables)).pages[0].sourceImpact.changes).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'variable', identity: 'cloud.extra' })]))
+})
+
+it('derives multi-page adoption units from actual renamed anchors and references', async () => {
+  const f = await fixture()
+  const targetFile = 'site/en/source-target.md'
+  const before = (await readFile(join(f.repo, targetFile), 'utf8')).replace('## Target & API', '<!-- doc:block:start id="target-section" -->\n## Target & API') + '<!-- doc:block:end id="target-section" -->\n'
+  await write(f.repo, targetFile, before)
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '--quiet', '-m', 'Synthetic stable section baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  await write(f.repo, targetFile, before.replace('## Target & API', '## Target & Client'))
+  await f.change('site/en/build-pipeline.md', text => text.replace('public-target.md#Target--API', 'public-target.md#Target--Client'))
+  const candidate = await git(f.repo, 'rev-parse', 'HEAD')
+  const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), build: f.build,
+    pages: ['build-pipeline', 'shared-target'].map(pageId => ({ pageId, oldNext: { commit: baseline, configuration: f.config },
+      current: { commit: baseline, configuration: f.config }, candidateNext: { commit: candidate, configuration: f.config } })) })
+  const report = analyzeUpdates(input)
+  expect(report.pages.flatMap(page => page.errors)).toEqual([])
+  expect(report.pages.find(page => page.pageId === 'shared-target')!.promotion.anchors).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'renamed', status: 'confirmed', manual: 'guides' })]))
+  expect(report.units).toHaveLength(1)
+  expect(report.units[0].pages).toHaveLength(4)
+  expect(report.units[0].dependencies).toHaveLength(2)
+  const dependency = report.units[0].dependencies[0]
+  expect(() => analyzeUpdates({ ...input, adoptionDependencies: [{ ...dependency, evidence: { ...dependency.evidence,
+    reference: { ...dependency.evidence.reference, url: '/unrelated#target-and-client' } } }] })).toThrow(/not present/)
+})
+
+it('reports complete multilingual code groups even without named markers', async () => {
+  const f = await fixture()
+  const baseline = await f.change('site/en/build-pipeline.md', text => text.replace(/^<!-- doc:block:.*-->\n/gm, ''))
+  const candidate = await f.change('site/en/build-pipeline.md', text => text.replace('connect("{{var.cloud.region}}")\n', 'changed("{{var.cloud.region}}")\n'))
+  const input = await collectUpdateInputs({ versions: f.versions, reader: f.reader, md2md: new RealMd2md(), pages: [{ pageId: 'build-pipeline',
+    oldNext: { commit: baseline, configuration: f.config }, current: { commit: baseline, configuration: f.config }, candidateNext: { commit: candidate, configuration: f.config } }] })
+  const code = analyzeUpdates(input).pages[0].sourceImpact.blocks.find(block => block.type === 'code-group')!
+  expect(code.after!.text).toContain('class="multipleCode"')
+  expect(code.after!.text).toContain('```java')
+  expect(code.after!.text).toContain('```python')
+})
