@@ -1,0 +1,8 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/schema/analyzer/filter/pinyin-filter.md
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-filters/pinyin-filter
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-filters/pinyin-filter
