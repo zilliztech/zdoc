@@ -1,7 +1,6 @@
 ---
 title: "StructArray での範囲検索 | Cloud"
 slug: /range-search-with-struct-arrays
-sidebar_label: "範囲検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、StructArray のベクトルサブフィールドに対して範囲検索を実行する方法について説明します。範囲検索は、スコアまたは距離が指定された境界内にあるベクトルヒットを返します。StructArray フィールドでは、各 Struct 要素を個別に検索する要素レベルのベクトル検索と組み合わせて範囲検索を使用します。 | Cloud"
 type: origin
-token: ZR1bwJFFSio2jkkabd7c1YAYncf
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-range-search-with-struct-arrays
+sidebar_label: "範囲検索"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/range-search-with-structarray.md"
 
 ---
 
@@ -25,6 +26,8 @@ import TabItem from '@theme/TabItem';
 
 このページでは、[StructArray フィールドを作成する](./create-struct-array) で作成した `tech_articles` コレクションを使用します。このコレクションには、`chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドには、`COSINE`、`IP`、`L2` などの通常のベクトルメトリクスを使用した要素レベル検索用のインデックスが作成されています。
 
+これらの例を実行する前に、コレクションを作成し、サンプルデータを挿入し、必要なベクトルインデックスを作成して、コレクションをロードしてください。ここに示すフィールドには 4 次元ベクトルを使用します。各コードブロックでは、同じ言語の先行する例で定義された接続と変数が、コードブロック内で再定義されない限り引き継がれます。
+
 ## StructArray に範囲検索を適用する方法\{#how-range-search-applies-to-structarray}
 
 | 検索モード | 範囲検索の動作 | 結果の粒度 |
@@ -33,7 +36,7 @@ import TabItem from '@theme/TabItem';
 | 要素レベル検索 | `radius` を使用した通常のベクトルクエリと、必要に応じて `range_filter` を使用します。 | Struct 要素レベル。 |
 | ハイブリッド検索 | StructArray リクエストが要素レベルのベクトルフィールドを対象とする場合にサポートされます。EmbeddingList レベルのリクエストでは、範囲検索はサポートされていません。 | 要素レベルのサブ検索の後、ハイブリッド再ランキング。 |
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 最も近い Struct 要素のみが必要な場合は、[StructArray での基本的なベクトル検索](./search-with-struct-array) から始めてください。範囲検索は、top-K ランキングだけでなく、スコアまたは距離の境界を結果が満たす必要がある場合に使用します。
 
@@ -65,7 +68,7 @@ import TabItem from '@theme/TabItem';
 
 ## 要素レベルの範囲検索を実行する\{#run-element-level-range-search}
 
-次の例では、`chunks[emb]` ベクトルがクエリベクトルに十分類似している個々のチャンクを検索します。各結果ヒットは、一致した Struct 要素を表します。
+例では、`chunks[emb]` に `COSINE` インデックスを使用し、4 次元のクエリベクトルを使用します。次の例では、`chunks[emb]` ベクトルがクエリベクトルに十分類似している個々のチャンクを検索します。各結果ヒットは、一致した Struct 要素を表します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -104,7 +107,7 @@ results = client.search(
 for hits in results:
     for hit in hits:
         print(
-            "doc_id:", hit["id"],
+            "doc_id:", hit["doc_id"],
             "distance:", hit["distance"],
             "offset:", hit.get("offset"),
             "entity:", hit["entity"],
@@ -237,6 +240,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 auto request = milvus::SearchRequest()
@@ -257,6 +261,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -307,9 +312,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -323,7 +328,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
     {
         Radius = "0.80",
         RangeFilter = "0.95",
-        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[page]", "chunks[quality_score]" }
     }
 });
 ```
@@ -362,6 +367,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、`COSINE` は類似度スタイルのメトリクスであるため、結果の範囲は `radius` より大きく、`range_filter` 以下になります。返される `offset` 値は、`chunks` 配列内の一致した Struct 要素を識別します。
@@ -540,6 +546,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 auto request = milvus::SearchRequest()
@@ -561,6 +568,7 @@ milvus::SearchResponse response;
 status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -614,9 +622,9 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 float[] queryVector = [0.19f, 0.24f, 0.30f, 0.37f];
 
@@ -633,7 +641,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
         Radius = "0.80",
         RangeFilter = "0.95",
         Expression = filterExpr,
-        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+        OutputFields = { "doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
     }
 });
 ```
@@ -673,6 +681,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 トップレベルの述語は候補エンティティを選択します。`element_filter` 述語は、ベクトル範囲検索を一致する Struct 要素に制限します。フィルタリングのその他の例については、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
@@ -764,7 +773,7 @@ AnnSearchReq chunkReq = AnnSearchReq.builder()
         .vectors(Collections.singletonList(queryVector))
         .params("{\"radius\": 0.80, \"range_filter\": 0.95}")
         .limit(10)
-        .expr("element_filter(chunks, $[section] == \"index\")")
+        .filter("element_filter(chunks, $[section] == \"index\")")
         .build();
 
 SearchResp resp = client.hybridSearch(HybridSearchReq.builder()
@@ -882,6 +891,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
@@ -909,6 +919,7 @@ milvus::HybridSearchResponse response;
 status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
+    return 1;
 }
 ```
 
@@ -978,6 +989,7 @@ AnnSearchReq chunkReq = new()
     Vectors = [queryVector],
     Radius = "0.80",
     RangeFilter = "0.95",
+    Expression = "element_filter(chunks, $[section] == \"index\")",
     Limit = 10
 };
 
@@ -986,7 +998,11 @@ SearchResp results = await client.HybridSearchAsync(new HybridSearchReq
     CollectionName = "tech_articles",
     SearchRequests = [titleReq, chunkReq],
     Reranker = new RrfReranker(),
-    Limit = 10
+    Limit = 5,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]" }
+    }
 });
 ```
 
@@ -1011,11 +1027,9 @@ curl --request POST \
         "data": [[0.19, 0.24, 0.30, 0.37]],
         "annsField": "chunks[emb]",
         "limit": 10,
-        "searchParams": {
-          "params": {
-            "radius": 0.80,
-            "range_filter": 0.95
-          }
+        "params": {
+          "radius": 0.80,
+          "range_filter": 0.95
         },
         "filter": "element_filter(chunks, $[section] == \"index\")"
       }
@@ -1033,15 +1047,18 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、`chunks[emb]` サブリクエストのみが範囲検索パラメーターを使用しています。StructArray リクエストは引き続き要素レベルのセマンティクスに従います。範囲境界は、ハイブリッド検索が結果を結合して再ランキングする前に、Struct 要素のヒットに適用されます。
 
 ## 範囲検索の結果を解釈する\{#interpret-range-results}
 
+次の表は、単独の要素レベルの範囲検索について説明します。上記の混在ハイブリッド検索の例では、要素のヒットは再ランキングの前に親エンティティに集約されるため、最終結果はエンティティレベルとなり、要素のオフセットは保持されません。
+
 | 結果項目 | 意味 |
 | --- | --- |
-| `id` | 一致した Struct 要素を含むエンティティの主キーです。 |
+| 主キー（これらの例では `doc_id`） | 一致した Struct 要素を含むエンティティの主キーです。 |
 | `distance` またはスコア | クエリベクトルと一致した Struct 要素ベクトルの間のスコアまたは距離です。 |
 | `offset` | 返される際の、StructArray フィールド内における一致した Struct 要素の 0 から始まる位置です。 |
 | 重複する主キー | 可能性があります。同じエンティティ内の複数の Struct 要素が指定された範囲内に含まれる場合があります。 |
@@ -1071,9 +1088,8 @@ curl --request POST \
 
 1. StructArray ベクトル検索の 2 つの基本モードについては、[StructArray での基本的なベクトル検索](./search-with-struct-array) をお読みください。
 
-1. 範囲検索にスカラーフィルターを追加するには、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) をお読みください。
+2. 範囲検索にスカラーフィルターを追加するには、[StructArray でのフィルター検索](./filtered-search-with-struct-arrays) をお読みください。
 
-1. サポートされている場合に親エンティティごとに最大 1 つの結果を返すには、[StructArray でのグループ化検索](./grouping-search-with-struct-array) をお読みください。
+3. サポートされている場合に親エンティティごとに最大 1 つの結果を返すには、[StructArray でのグループ化検索](./grouping-search-with-struct-array) をお読みください。
 
-1. バージョン固有の検索制限を確認するには、[StructArray の制限](./struct-array-limits) をお読みください。
-
+4. バージョン固有の検索制限を確認するには、[StructArray の制限](./struct-array-limits) をお読みください。
