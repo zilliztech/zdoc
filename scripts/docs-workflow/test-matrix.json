@@ -196,12 +196,15 @@
         "packages/docs-tooling/src/reference/rest/specLoader.js",
         "packages/docs-tooling/src/reference/rest/specLoader.test.js",
         "packages/docs-tooling/src/reference/rest/integratedSpecBuilder.js",
+        "packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js",
         "packages/docs-tooling/src/reference/rest/includeSpans.js",
         "packages/docs-tooling/src/reference/rest/milvusTargetHygiene.test.js",
         "packages/docs-tooling/src/reference/rest/lifecycle.js",
         "packages/docs-tooling/src/reference/rest/lifecycle.test.js",
         "packages/docs-tooling/src/reference/rest/refGen.js",
         "packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
+        "packages/docs-tooling/src/reference/rest/refGen.plane.test.js",
+        "packages/docs-tooling/src/reference/rest/refGen.lang-filter.test.js",
         "packages/docs-tooling/src/reference/rest/index.js",
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.js",
         "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js",
@@ -215,7 +218,9 @@
         "packages/docs-tooling/src/reference/rest/templates/reference.mdx"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/specLoader.test.js packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js packages/docs-tooling/src/reference/rest/lifecycle.test.js packages/docs-tooling/src/reference/rest/milvusTargetHygiene.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/specLoader.test.js packages/docs-tooling/src/reference/rest/refGen.next-channel.test.js packages/docs-tooling/src/reference/rest/lifecycle.test.js packages/docs-tooling/src/reference/rest/milvusTargetHygiene.test.js",
+        "node packages/docs-tooling/src/reference/rest/refGen.plane.test.js",
+        "node packages/docs-tooling/src/reference/rest/refGen.lang-filter.test.js"
       ],
       "harnesses": [
         "pnpm test:rest-publication-contract"
