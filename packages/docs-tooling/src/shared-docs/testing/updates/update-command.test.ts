@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtemp, rm, readFile, readdir, symlink } from 'node:fs/promises'
+import { mkdtemp, mkdir, realpath, rm, readFile, readdir, symlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
@@ -186,4 +186,46 @@ it('reports global configuration errors separately from Git/API failures and all
   expect(report.infrastructureErrors).toEqual([])
   expect(report.configurationErrors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'CONFIG_SYNTAX_INVALID' })]))
   expect(report.pages.every((p: any) => p.status === 'content-failure' && p.lifecycle.state === 'unknown')).toBe(true)
+}, 120_000)
+
+async function caseAliasFixture() {
+  const temporary = await mkdtemp(join(tmpdir(), 'update-case-alias-'))
+  onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+  const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+  await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'config')
+  await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+  const bare = join(root, 'dev.git'), alias = join(root, 'DEV.GIT')
+  await git(root, 'clone', '--bare', d.dev, bare)
+  let aliasPath: string | undefined
+  try { aliasPath = await realpath(alias) }
+  catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
+  return { root, bare, alias, aliases: aliasPath === await realpath(bare),
+    options: { sharedDocs: d.sharedDocs, repo: d.repo, dev: bare, out: '', pages: 'shared-target' },
+    deps: { fetcher: { async fetch(): Promise<Uint8Array> { throw new Error('Case-alias fixture must not access the network') } } } }
+}
+
+for (const state of ['absent', 'existing-empty']) it(`rejects case-aliased Git metadata with ${state} output on a case-insensitive filesystem`, async context => {
+  const f = await caseAliasFixture()
+  if (!f.aliases) { context.skip('Filesystem is case-sensitive: alias scenario not executed'); return }
+  expect(await realpath(f.alias)).toBe(await realpath(f.bare))
+  const out = join(f.alias, 'objects', 'review-report'), actual = join(f.bare, 'objects', 'review-report')
+  if (state === 'existing-empty') await mkdir(out)
+  const refs = await git(f.bare, 'show-ref'), objects = await readdir(join(f.bare, 'objects'))
+  expect(await runUpdate({ ...f.options, out }, () => {}, f.root, f.deps)).toBe(2)
+  if (state === 'existing-empty') expect(await readdir(actual)).toEqual([])
+  else await expect(readdir(actual)).rejects.toMatchObject({ code: 'ENOENT' })
+  expect(await readdir(join(f.bare, 'objects'))).toEqual(objects)
+  expect(await git(f.bare, 'show-ref')).toBe(refs)
+}, 120_000)
+
+it('allows a genuinely distinct case-variant directory on a case-sensitive filesystem', async context => {
+  const f = await caseAliasFixture()
+  if (f.aliases) { context.skip('Filesystem is case-insensitive: distinct-directory scenario not executed'); return }
+  await mkdir(f.alias)
+  expect(await realpath(f.alias)).not.toBe(await realpath(f.bare))
+  const out = join(f.alias, 'objects', 'review-report'), refs = await git(f.bare, 'show-ref')
+  expect(await runUpdate({ ...f.options, out }, () => {}, f.root, f.deps)).toBe(0)
+  expect((await readdir(out)).sort()).toEqual(['pins.json', 'plan.json', 'report.json', 'report.md'])
+  await expect(readdir(join(f.bare, 'objects', 'review-report'))).rejects.toMatchObject({ code: 'ENOENT' })
+  expect(await git(f.bare, 'show-ref')).toBe(refs)
 }, 120_000)

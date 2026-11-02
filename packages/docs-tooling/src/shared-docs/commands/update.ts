@@ -6,17 +6,24 @@ export type { UpdateOptions } from '../adapters/updates/runner'
 const within = (root: string, path: string) => { const r = relative(root, path); return r === '' || r !== '..' && !r.startsWith(`..${sep}`) && !isAbsolute(r) }
 async function checkOutput(out: string, inputs: string[]) {
   if (out.split(sep).includes('.git')) throw new UpdateArgumentError('Output cannot be Git metadata')
+  let canonicalOut: string | undefined
   for (let current = out; ; current = dirname(current)) {
-    try { const stat = await lstat(current); if (stat.isSymbolicLink() || !stat.isDirectory()) throw new UpdateArgumentError('Output ancestors must be regular directories') }
+    try {
+      const stat = await lstat(current)
+      if (stat.isSymbolicLink() || !stat.isDirectory()) throw new UpdateArgumentError('Output ancestors must be regular directories')
+      // Resolve filesystem aliases at the nearest existing ancestor, retaining absent suffixes.
+      canonicalOut ??= resolve(await realpath(current), relative(current, out))
+    }
     catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
     if (dirname(current) === current) break
   }
   try { if ((await readdir(out)).length) throw new UpdateArgumentError('Output must be absent or empty') }
   catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
+  if (canonicalOut === undefined) throw new Error('Cannot resolve output ancestor')
   for (const path of inputs) {
     let canonical: string
     try { canonical = await realpath(path) } catch { canonical = resolve(path) }
-    if (within(canonical, out) || within(out, canonical)) throw new UpdateArgumentError('Output overlaps input data')
+    if (within(canonical, canonicalOut) || within(canonicalOut, canonical)) throw new UpdateArgumentError('Output overlaps input data')
   }
 }
 export async function runUpdate(options: UpdateOptions, write: (text: string) => void = text => process.stdout.write(text),
