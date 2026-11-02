@@ -16,7 +16,7 @@
     "14-privilege-group-operations-v2.json": "0afdaf35fad31b29ce411a75908ad6124773ed08b77ab5f8a2e0f7fcc20aa532",
     "15-cloud-meta.json": "91bb5a4fdd9f7eac85b68979ac66a6b6061ba14216117879ba30352236618723",
     "16-cluster-operations.json": "83fd53a685f768f81742ad8a639c1c39e60e83955b93d93acd12f33d9ecfab95",
-    "17-pipeline-operations.json": "97101224cbd3803efafdb39ca5c1ea8d78102f673f7a4aad646d19942d055414",
+    "17-pipeline-operations.json": "d673e3d7ee729b2cad6442e0fba7a2a326c274f965e2bee1f70b30c0558ad907",
     "18-cloud-meta-v2.json": "609c133e649e60a88509cee62d01a0721e82171bbd89269dd9f295f71d82171a",
     "19-extract-load-and-transform-v2.json": "c810ea38198b624f30bd3419b750fcbee97e8953d055bbed46baee4e4718a6f6",
     "20-volume-operations-v2.json": "1f75cd29ea11c05608f64a5cda076935d1b7bbe6f35e4a4bf9b3e361a79c4ead",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
     "38-snapshot-operations-v2.json": "5b2da4866372d10f55f97811420b191d10f96b3a24ebb7bf8b68bfd81e2b6db5"
   },
-  "generatedAt": "2026-11-02T11:18:39.205Z",
+  "generatedAt": "2026-11-02T11:34:00.156Z",
   "locale": "en",
   "schemaVersion": 1,
-  "toolingSha": "9380a750548b4c583edc8958871821c5fa8c5b81"
+  "toolingSha": "14378e73e021a50318b58f4e83fcbec71cf278d3"
 }
