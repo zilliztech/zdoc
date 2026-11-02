@@ -5586,13 +5586,13 @@
           },
           "subAggregation": {
             "$ref": "#/components/schemas/SearchAggregationRequest",
-            "description": "A nested aggregation applied within each bucket.",
+            "description": "A nested aggregation applied within each bucket. A search aggregation may nest at most 3 levels of sub-aggregations beneath the top-level aggregation (4 levels in total; deeper requests are rejected).",
             "x-i18n": {
               "zh-CN": {
-                "description": "在每个 Bucket 内执行的嵌套聚合。"
+                "description": "在每个 Bucket 内执行的嵌套聚合。搜索聚合在顶层聚合之下最多嵌套 3 层子聚合（共 4 层），超出将被拒绝。"
               },
               "ja-JP": {
-                "description": "各バケット内で適用されるネストされた集計。"
+                "description": "各バケット内で適用されるネストされた集計。検索集計は、トップレベルの集計の下に最大 3 層のサブ集計をネストできます（合計 4 層）。それを超えるとリクエストは拒否されます。"
               }
             },
             "x-added-at": "3.0.x",
