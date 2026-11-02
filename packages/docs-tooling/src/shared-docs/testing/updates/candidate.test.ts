@@ -40,5 +40,7 @@ it('reports mutable external image bytes at the same source SHA without proposin
   const impact = analyzeUpdates(input)
   expect(calls).toBe(6)
   expect(impact.pages[0].sourceImpact.changes.some(c => c.kind === 'image' && c.image?.after?.origin.kind === 'external')).toBe(true)
-  expect(discoverPage(input.pages[0], impact.pages[0], { state: 'active', reasons: [] }).proposedNext).toBeNull()
+  const decision = discoverPage(input.pages[0], impact.pages[0], { state: 'active', reasons: [] })
+  expect(decision.sourceChanged).toBe(true)
+  expect(decision.proposedNext).toBeNull()
 }, 120_000)

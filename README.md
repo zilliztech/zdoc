@@ -301,7 +301,9 @@ zdoc repository's HEAD (which may not be dev). Use `--master-sha`, `--dev-sha`
 and `--source-sha` to pin exact lowercase 40-character commits. Source defaults
 to the configured local tracking branch head. `--comparison-master-sha`
 optionally supplies earlier committed configuration for a configuration-change
-comparison; otherwise both configurations use master. `--pages` accepts unique
+comparison; otherwise both configurations use master. Upstream source/output
+comparisons always use the current master configuration on both endpoints,
+so a configuration-only edit cannot invent an upstream next delta. `--pages` accepts unique
 comma-separated page IDs. `--mode report` is optional; write mode is rejected.
 Uncommitted input edits are not included in the fixed snapshots.
 

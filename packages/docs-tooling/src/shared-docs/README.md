@@ -578,6 +578,8 @@ are reported separately. Full 7-9 and all requirement pending IDs remain intact.
 `reportUpdates(options, repositoryRoot, dependencies)` and `runUpdate` accept
 internal test dependencies for GET-only API/image readers and an explicitly
 marked `{kind: 'offline-replay', now}` clock. The public CLI has no clock or
-provenance override. Offline replay outputs are labeled. No writer API,
+provenance override. Offline replay outputs are labeled. An optional comparison master affects only the configuration-change envelope;
+source/output endpoint comparisons hold the current master configuration fixed.
+No writer API,
 persistent update manifest, workflow dispatch or PR transaction exists in B1.
 See the repository README for options, output protection and exit semantics.

@@ -350,7 +350,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text), {repositoryRoot});
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build or lock');
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock or update');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);

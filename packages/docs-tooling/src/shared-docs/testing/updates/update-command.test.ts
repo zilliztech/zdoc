@@ -60,3 +60,23 @@ it('distinguishes authenticated source deletion from network failure and retains
   expect(deleted.pages.find((p: any) => p.pageId === 'build-pipeline').status).toBe('content-failure')
   expect(deleted.impact.pages[0].errors.some((e: any) => e.code === 'CONFIG_SOURCE_NOT_FOUND')).toBe(true)
 }, 120_000)
+
+it('does not conflate Cloud source remapping with an unrelated forward source commit', async () => {
+  const temporary = await mkdtemp(join(tmpdir(), 'update-config-axis-')); onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+  const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+  await write(d.repo, 'site/en/alternate.md', (await readFile(join(d.repo, 'site/en/build-pipeline.md'), 'utf8')).replace('Pipeline example', 'Alternate example').replace('pipeline-public.md', 'alternate-public.md'))
+  await git(d.repo, 'add', '.'); await git(d.repo, 'commit', '-qm', 'existing alternate source'); d.commit = await git(d.repo, 'rev-parse', 'HEAD')
+  for (const page of ['build-pipeline', 'shared-target']) await write(d.sharedDocs, `pages/${page}/lock.yaml`, JSON.stringify({ schema_version: 1, current: d.commit, next: d.commit }))
+  await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'old mapping')
+  const before = await git(root, 'rev-parse', 'HEAD')
+  await write(d.sharedDocs, 'pages/build-pipeline/page.yaml', (await readFile(join(d.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')).replace('site/en/build-pipeline.md', 'site/en/alternate.md'))
+  await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'Cloud remapping')
+  await write(d.repo, 'irrelevant.txt', 'unrelated source advance'); await git(d.repo, 'add', '.'); await git(d.repo, 'commit', '-qm', 'unrelated')
+  await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+  const out = join(root, 'report')
+  expect(await runUpdate({ sharedDocs: d.sharedDocs, repo: d.repo, dev: d.dev, out, comparisonMasterSha: before }, () => {}, root,
+    { fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) })).toBe(0)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8')), page = report.pages.find((p: any) => p.pageId === 'build-pipeline')
+  expect(page.sourceChanged).toBe(false); expect(page.proposedNext).toBeNull()
+  expect(page.configurationChanges).toContain('shared-docs/guides/pages/build-pipeline/page.yaml')
+}, 120_000)

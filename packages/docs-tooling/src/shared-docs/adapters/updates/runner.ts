@@ -78,10 +78,21 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
         if ('errors' in lock) { item.status = 'content-failure'; item.errors = lock.errors; continue }
         await requireOrdered(endpoints.reader, lock.lock.current, lock.lock.next, endpoints.target)
         const collected = await collectCandidate({ repo: options.repo, dev: devRoot, pageId: item.pageId, current: lock.lock.current,
-          oldNext: lock.lock.next, target: endpoints.target, configuration, previousConfiguration: oldConfiguration, versions, fetcher: dependencies.fetcher })
+          oldNext: lock.lock.next, target: endpoints.target, configuration, previousConfiguration: configuration, versions, fetcher: dependencies.fetcher })
         observations.push(...collected.pages)
         const impact = analyzeUpdates(collected).pages[0]
-        Object.assign(item, discoverPage(collected.pages[0], impact, item.lifecycle))
+        const variable = (values: unknown, key: string): unknown => {
+          let value = values
+          for (const part of key.split('.')) {
+            if (!value || typeof value !== 'object') return undefined
+            const name = Object.keys(value).find(k => k.toLowerCase() === part.toLowerCase())
+            value = name === undefined ? undefined : (value as Record<string, unknown>)[name]
+          }
+          return value
+        }
+        const usedVariablesChanged = collected.pages.flatMap(p => [p.oldNext, p.current, p.candidateNext]).some(p => p.dependencies.some(d =>
+          d.kind === 'variable' && JSON.stringify(variable(oldConfiguration.sharedDocs.variables, d.identity)) !== JSON.stringify(variable(configuration.sharedDocs.variables, d.identity))))
+        Object.assign(item, discoverPage(collected.pages[0], impact, item.lifecycle, { before: oldConfiguration.files, usedVariablesChanged }))
         if (impact.errors.some(e => ['IMAGE_FETCH_FAILED', 'IMAGE_CHANGED_DURING_READ', 'UPDATE_OBSERVATION_UNAVAILABLE'].includes(e.code))) {
           errors.push({ pageId: item.pageId, message: 'Image acquisition/observation unavailable; see page diagnostics' })
         }
