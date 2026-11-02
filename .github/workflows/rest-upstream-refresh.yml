@@ -416,6 +416,16 @@ jobs:
       - name: Verify canonical fragment bytes
         run: node packages/docs-tooling/src/reference/rest/index.js rest-upstream-format
 
+      # The track projections have no production consumer of their own (their
+      # audience is milvus.io via web-content), which is how the track path
+      # stayed silently broken until zdoc#1032. Project both managed release
+      # tracks from the landed fragments and pin the published path counts so
+      # a cascade/lifecycle/fragment regression fails before the PR opens.
+      # A deliberate surface change updates the pinned counts in the same
+      # change — that pause for review is the point.
+      - name: Assert release-track projections (drift gate)
+        run: node --test scripts/rest-upstream/assert-track-projection.test.js
+
       - name: Run the change-scoped test union
         run: |
           readarray -t changed_paths < <(git diff --name-only 'HEAD~1' 'HEAD')
