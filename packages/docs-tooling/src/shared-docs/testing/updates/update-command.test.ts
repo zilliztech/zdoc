@@ -80,3 +80,110 @@ it('does not conflate Cloud source remapping with an unrelated forward source co
   expect(page.sourceChanged).toBe(false); expect(page.proposedNext).toBeNull()
   expect(page.configurationChanges).toContain('shared-docs/guides/pages/build-pipeline/page.yaml')
 }, 120_000)
+
+it.each(['dev', 'master', 'source'].flatMap(role => ['bare', 'separate', 'linked'].map(layout => ({ role, layout }))))(
+  'protects actual $role Git metadata for $layout repositories before writing', async ({ role, layout }) => {
+    const temporary = await mkdtemp(join(tmpdir(), 'update-metadata-')); onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+    const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+    await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'config')
+    let target = role === 'dev' ? d.dev : role === 'source' ? d.repo : root
+    if (layout === 'bare') {
+      const bare = join(root, `${role}-bare.git`)
+      await git(root, 'clone', '--bare', target, bare); target = bare
+    } else {
+      const metadata = join(root, `${role}-metadata`)
+      await git(target, 'init', '--separate-git-dir', metadata)
+      if (layout === 'linked') {
+        const linked = join(root, `${role}-linked`)
+        await git(target, 'worktree', 'add', '--detach', linked); target = linked
+      }
+    }
+    const master = role === 'master' ? target : root
+    const options = { sharedDocs: join(master, 'shared-docs/guides'), repo: role === 'source' ? target : d.repo,
+      dev: role === 'dev' ? target : d.dev, out: '' }
+    const refs = await git(target, 'show-ref')
+    for (const option of ['--git-dir', '--git-common-dir']) {
+      const metadata = await git(target, 'rev-parse', '--path-format=absolute', option)
+      const out = join(metadata, 'objects/review-report')
+      expect(await runUpdate({ ...options, out }, () => {}, master)).toBe(2)
+      await expect(readFile(join(out, 'report.json'))).rejects.toMatchObject({ code: 'ENOENT' })
+      await expect(readdir(out)).rejects.toMatchObject({ code: 'ENOENT' })
+    }
+    expect(await git(target, 'show-ref')).toBe(refs)
+  }, 120_000)
+
+it.each(['invalid-yaml', 'missing-replacement', 'selected-independent'])(
+  'preserves the full configured inventory and independent output after %s', async failure => {
+    const temporary = await mkdtemp(join(tmpdir(), 'update-isolation-')); onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+    const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+    await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'valid config')
+    await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+    const deps = { fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) }
+    const options = { sharedDocs: d.sharedDocs, repo: d.repo, dev: d.dev, out: join(root, 'baseline') }
+    expect(await runUpdate(options, () => {}, root, deps)).toBe(0)
+    const baseline = JSON.parse(await readFile(join(options.out, 'report.json'), 'utf8'))
+    expect(baseline.counts).toMatchObject({ configured: 2, analyzed: 2, outputs: 4 })
+    expect(baseline.pages.every((p: any) => p.status === 'analyzed')).toBe(true)
+    const yaml = await readFile(join(d.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8')
+    await write(d.sharedDocs, 'pages/build-pipeline/page.yaml', failure === 'missing-replacement'
+      ? yaml + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: missing.md}\n' : 'this: [invalid yaml')
+    await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'one invalid page')
+    const out = join(root, 'isolated')
+    expect(await runUpdate({ ...options, out, ...(failure === 'selected-independent' ? { pages: 'shared-target' } : {}) }, () => {}, root, deps)).toBe(0)
+    const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+    expect(report.counts).toMatchObject({ configured: 2, analyzed: 1, outputs: 2, selected: failure === 'selected-independent' ? 1 : 2 })
+    expect(report.infrastructureErrors).toEqual([])
+    expect(report.pages.find((p: any) => p.pageId === 'shared-target').status).toBe('analyzed')
+    const invalid = report.pages.find((p: any) => p.pageId === 'build-pipeline')
+    expect(invalid.status).toBe(failure === 'selected-independent' ? 'not-selected' : 'content-failure')
+    expect(invalid.configurationErrors.some((e: any) => e.code === (failure === 'missing-replacement' ? 'TRANSFORM_CONTENT_NOT_FOUND' : 'CONFIG_SYNTAX_INVALID'))).toBe(true)
+    expect(invalid.lifecycle.state).toBe('unknown')
+    expect(report.impact.pages[0].pageId).toBe('shared-target')
+    const plan = JSON.parse(await readFile(join(out, 'plan.json'), 'utf8'))
+    expect(plan.operations).toEqual([]); expect(plan.pages).toHaveLength(2)
+    expect(plan.pages.every((p: any) => !p.futureEligible)).toBe(true)
+  }, 120_000)
+
+it('does not let an invalid shared target silently fall through to a same-name Cloud page', async () => {
+  const temporary = await mkdtemp(join(tmpdir(), 'update-dependency-')); onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+  const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+  await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'valid config')
+  await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+  const deps = { fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) }
+  const options = { sharedDocs: d.sharedDocs, repo: d.repo, dev: d.dev, out: join(root, 'baseline') }
+  expect(await runUpdate(options, () => {}, root, deps)).toBe(0)
+  expect(JSON.parse(await readFile(join(options.out, 'report.json'), 'utf8')).counts).toMatchObject({ configured: 2, analyzed: 2, outputs: 4 })
+  await write(d.sharedDocs, 'pages/shared-target/page.yaml', 'broken: [yaml')
+  await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'broken shared dependency')
+  const out = join(root, 'broken-target')
+  expect(await runUpdate({ ...options, out, pages: 'build-pipeline' }, () => {}, root, deps)).toBe(0)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report.counts).toMatchObject({ configured: 2, selected: 1, analyzed: 1, outputs: 0 })
+  expect(report.infrastructureErrors).toEqual([])
+  expect(report.pages.find((p: any) => p.pageId === 'build-pipeline').status).toBe('content-failure')
+  expect(report.impact.pages[0].errors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE',
+    detail: { target: 'public-target.md#Target--API', invalidPages: ['shared-target'] } })]))
+}, 120_000)
+
+it('reports global configuration errors separately from Git/API failures and allows disjoint linked-worktree evidence', async () => {
+  const temporary = await mkdtemp(join(tmpdir(), 'update-global-')); onTestFinished(() => rm(temporary, { recursive: true, force: true }))
+  const d = await createBuildDemo(temporary), root = dirname(dirname(d.sharedDocs))
+  await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'valid config')
+  await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+  await git(root, 'init', '--separate-git-dir', join(root, 'master-metadata'))
+  const linked = join(root, 'linked-master')
+  await git(root, 'worktree', 'add', '--detach', linked)
+  const options = { sharedDocs: join(linked, 'shared-docs/guides'), repo: d.repo, dev: d.dev, out: join(linked, '.claude/report') }
+  const deps = { fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) }
+  expect(await runUpdate(options, () => {}, linked, deps)).toBe(0)
+  expect(JSON.parse(await readFile(join(options.out, 'report.json'), 'utf8')).counts).toMatchObject({ configured: 2, analyzed: 2, outputs: 4 })
+  await write(options.sharedDocs, 'source.yaml', 'source: [broken')
+  await git(linked, 'add', 'shared-docs'); await git(linked, 'commit', '-qm', 'invalid group source')
+  const out = join(linked, '.claude/invalid-group')
+  expect(await runUpdate({ ...options, out }, () => {}, linked, deps)).toBe(0)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report.counts).toMatchObject({ configured: 2, analyzed: 0 })
+  expect(report.infrastructureErrors).toEqual([])
+  expect(report.configurationErrors).toEqual(expect.arrayContaining([expect.objectContaining({ code: 'CONFIG_SYNTAX_INVALID' })]))
+  expect(report.pages.every((p: any) => p.status === 'content-failure' && p.lifecycle.state === 'unknown')).toBe(true)
+}, 120_000)

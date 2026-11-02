@@ -583,3 +583,23 @@ source/output endpoint comparisons hold the current master configuration fixed.
 No writer API,
 persistent update manifest, workflow dispatch or PR transaction exists in B1.
 See the repository README for options, output protection and exit semantics.
+
+The report command inventories committed page directories before parsing page
+configuration. Invalid page YAML or missing replacement content remains visible
+as a page-level content failure; independently buildable pages continue, even
+when selected with `--pages`. Group configuration diagnostics are reported in
+`configurationErrors`, separately from Git/API `infrastructureErrors`. A complete
+content-failure report returns 0; an infrastructure failure returns 1. The
+normal build and publication parsers remain strict and unchanged.
+
+If any page configuration is invalid, its public-ID mapping cannot be trusted.
+The report adapter therefore marks generated page-link observations with
+`UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE`, including the invalid page IDs,
+instead of allowing missing shared mappings to fall through to Cloud/link-map
+resolution. Pages without such cross-page links can still be analyzed. This
+conservative limitation applies only to reports with invalid configuration.
+
+Output protection resolves each participating repository's actual Git directory
+and common directory, covering bare repositories, separate Git directories and
+linked worktrees. Metadata overlap is rejected with exit 2 before writes;
+disjoint `.claude/` report destinations remain supported.

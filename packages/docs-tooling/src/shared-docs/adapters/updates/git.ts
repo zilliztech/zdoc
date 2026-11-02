@@ -1,6 +1,6 @@
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, realpath, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { GitMilvusDocsReader } from '../git-milvus-docs-reader'
 const exec = promisify(execFile)
@@ -11,6 +11,21 @@ export async function gitRead(repository: string, args: string[]): Promise<strin
   const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_')))
   return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], { env: { ...env,
     GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0' }, timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout.trim()
+}
+/** Protect real metadata locations, including bare, separate and linked worktree layouts. */
+export async function gitMetadataDirectories(repository: string): Promise<string[]> {
+  try { await lstat(repository) }
+  catch (error) {
+    // A nonexistent input has no metadata; reportUpdates retains its inventory and reports the Git failure.
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return []
+    throw error
+  }
+  const paths = await Promise.all(['--git-dir', '--git-common-dir'].map(async option => {
+    const path = await gitRead(repository, ['rev-parse', '--path-format=absolute', option])
+    if (!path || /[\0\r\n]/.test(path)) throw new Error('Cannot resolve Git metadata directory')
+    return realpath(path)
+  }))
+  return [...new Set(paths)]
 }
 export async function resolveCommit(repository: string, revision = 'HEAD') {
   if (revision !== 'HEAD' && !sha(revision)) throw new Error('Expected an exact commit SHA')

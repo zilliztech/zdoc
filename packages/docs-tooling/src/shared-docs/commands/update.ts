@@ -1,7 +1,7 @@
 import { lstat, mkdir, readdir, realpath, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { reportUpdates, UpdateArgumentError, type UpdateDependencies, type UpdateOptions } from '../adapters/updates/runner'
-import { sha } from '../adapters/updates/git'
+import { gitMetadataDirectories, sha } from '../adapters/updates/git'
 export type { UpdateOptions } from '../adapters/updates/runner'
 const within = (root: string, path: string) => { const r = relative(root, path); return r === '' || r !== '..' && !r.startsWith(`..${sep}`) && !isAbsolute(r) }
 async function checkOutput(out: string, inputs: string[]) {
@@ -33,6 +33,8 @@ export async function runUpdate(options: UpdateOptions, write: (text: string) =>
     const out = resolve(options.out), repo = resolve(options.repo), dev = resolve(options.dev)
     const inputs = [repo, join(repositoryRoot, 'shared-docs'), join(repositoryRoot, '.git'), join(repositoryRoot, 'packages'),
       join(dev, '.git'), join(dev, 'content'), join(dev, 'packages'), ...(options.evidenceZip ? [resolve(options.evidenceZip)] : [])]
+    await checkOutput(out, inputs)
+    for (const repository of new Set([resolve(repositoryRoot), repo, dev])) inputs.push(...await gitMetadataDirectories(repository))
     await checkOutput(out, inputs)
     const result = await reportUpdates({ ...options, repo, dev }, resolve(repositoryRoot), dependencies)
     await checkOutput(out, inputs)
