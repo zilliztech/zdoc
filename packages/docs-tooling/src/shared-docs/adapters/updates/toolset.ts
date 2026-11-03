@@ -84,7 +84,7 @@ export async function trustedLauncherEnvironment(root: string, cwd: string, envi
   return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
 }
 const exec = promisify(execFile)
-const limit = 128 * 1024 * 1024
+const limit = 512 * 1024 * 1024
 const contains = (root: string, path: string) => { const r = relative(root, path); return r === '' || !isAbsolute(r) && r !== '..' && !r.startsWith(`..${sep}`) }
 const absent = (e: unknown) => (e as NodeJS.ErrnoException).code === 'ENOENT'
 /** Trusted install files may be hardlinked by pnpm; bytes are rehashed, never trusted from SRI alone. */
