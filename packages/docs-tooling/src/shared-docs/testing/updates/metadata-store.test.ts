@@ -14,7 +14,12 @@ import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/cano
 import { type BotRevision, type CandidateSnapshotProof, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { encodeRevisionMessage, METADATA_LIMITS } from '../../core/updates/metadata'
 import { patchNextLock } from '../../core/updates/transaction'
-it('never upgrades remote-looking PR metadata into remote verification', async () => {
+
+// Measured real-Git scenarios used ~5.25–5.46s of total setup and scanning.
+// Local 10s cases give bounded ~2x headroom; setup hooks, 5s fixture Git children
+// and the product's 60s/graph/metadata resource guards remain independently bounded.
+const metadataCaseBudget = { timeout: 10_000 }
+it('never upgrades remote-looking PR metadata into remote verification', metadataCaseBudget, async () => {
   expect(await createMetadataStore().read({ repositoryId: 1, number: 1, actorId: 1, base:'a'.repeat(40),head:'b'.repeat(40),state:'open',draft:false,metadataEvidence:[] })).toEqual({status:'unknown',reasons:['REMOTE_AUTH_REQUIRED']})
 })
 
@@ -185,7 +190,7 @@ describe('long accepted baseline with independently inspected local revisions', 
     // cached scan results. Every inspect invocation constructs its own full graph.
     history=Object.freeze({baseline:f.baseline,k:k.oid,h,donor,merged,k2:k2.oid,nextEditsJson:JSON.stringify(k.local.plan.nextEdits),inspect:f.inspect,refs:()=>f.git(['show-ref'])})
   })
-  it('excludes 320 accepted baseline messages, visits both short merge arms and retains next-only/local-chain proof', async () => {
+  it('excludes 320 accepted baseline messages, visits both short merge arms and retains next-only/local-chain proof', metadataCaseBudget, async () => {
     const {baseline,k,h,donor,merged}=history,before=history.refs()
     const result=await history.inspect({master:baseline,head:merged,donorHeads:[donor],journalCandidates:[k]})
     expect(result.status,result.reasons.join('\n')).toBe('local-consistent')
@@ -196,7 +201,7 @@ describe('long accepted baseline with independently inspected local revisions', 
     expect(result.evidence[0].proof.nextEdits).toEqual(JSON.parse(history.nextEditsJson))
     expect(history.refs()).toBe(before)
   })
-  it('independently resumes K2 over the same complete 320-commit baseline without a cross-call graph cache', async () => {
+  it('independently resumes K2 over the same complete 320-commit baseline without a cross-call graph cache', metadataCaseBudget, async () => {
     const {baseline,k,k2}=history,before=history.refs()
     const resumed=await history.inspect({master:baseline,head:k2,journalCandidates:[k,k2]})
     expect(resumed.status,resumed.reasons.join('\n')).toBe('local-consistent')
@@ -205,7 +210,7 @@ describe('long accepted baseline with independently inspected local revisions', 
     expect(history.refs()).toBe(before)
   })
 })
-it('round trips complete large fixture messages across the pipe boundary with a bounded file transport', async () => {
+it('round trips complete large fixture messages across the pipe boundary with a bounded file transport', metadataCaseBudget, async () => {
   const f=await fixture()
   for(const bytes of [65_535,65_536,67_584,67_585]) {
     const message='x'.repeat(bytes-1)+'\n', oid=f.exactCommit(f.baseTree,[f.baseline],message)
@@ -213,7 +218,7 @@ it('round trips complete large fixture messages across the pipe boundary with a 
     expect(raw.subarray(at+2)).toEqual(Buffer.from(message))
   }
 })
-it('constructs identical raw commits and OIDs through batched Git and ordinary commit-tree', async () => {
+it('constructs identical raw commits and OIDs through batched Git and ordinary commit-tree', metadataCaseBudget, async () => {
   const f=await fixture(),messages=f.batchMessages(['human\n','雪\n','x'.repeat(67_583)+'\n'])
   const batched=f.chain(f.baseTree,f.baseline,messages);let parent=f.baseline
   for(let i=0;i<messages.length;i++) {
@@ -221,7 +226,7 @@ it('constructs identical raw commits and OIDs through batched Git and ordinary c
     expect(batched[i]).toBe(ordinary);parent=ordinary
   }
 })
-it('treats baseline trailers as historical data and requires local journal proof for existing origins', async () => {
+it('treats baseline trailers as historical data and requires local journal proof for existing origins', metadataCaseBudget, async () => {
   const f = await fixture(), k = await f.bot(), before = f.git(['show-ref'])
   expect((await f.inspect({master:f.baseline})).status).toBe('local-consistent')
   const historical = createLocalMetadataInspector({repository:f.repository,evidence:f.evidence,trustedContext:async()=>({...f.context,baseline:k.oid,baselineTree:k.tree,trustedTools:k.oid}),revalidateJournal:f.revalidateJournal})
@@ -238,7 +243,7 @@ it('treats baseline trailers as historical data and requires local journal proof
   const human = f.commit(f.baseTree,[f.baseline])
   expect((await f.inspect({master:f.baseline,head:human})).reasons).toContain('LOCAL_ORIGIN_UNKNOWN')
 })
-it('authenticates baseline membership on an older second-arm boundary and rejects an unrooted second arm', async () => {
+it('authenticates baseline membership on an older second-arm boundary and rejects an unrooted second arm', metadataCaseBudget, async () => {
   const f = await fixture(4), k = await f.bot(), side = f.commit(f.baseTree,[f.accepted[1]])
   const merged = f.commit(k.tree,[k.oid,side])
   const good = await f.inspect({master:f.baseline,head:merged})
@@ -251,7 +256,7 @@ it('authenticates baseline membership on an older second-arm boundary and reject
   const donorResult = await f.inspect({master:f.baseline,head:k.oid,donorHeads:[side]})
   expect(donorResult.reasons).toContain('LOCAL_ORIGIN_UNKNOWN')
 })
-it('rejects forged request/journal frontiers, stored coverage and changed trusted execution context', async () => {
+it('rejects forged request/journal frontiers, stored coverage and changed trusted execution context', metadataCaseBudget, async () => {
   const f = await fixture(), k = await f.bot(), foreign = f.commit(f.baseTree,[])
   expect((await f.inspect({master:foreign,head:k.oid})).reasons).toContain('TRUSTED_BASELINE_MISMATCH')
   const forged = createLocalMetadataInspector({repository:f.repository,evidence:f.evidence,trustedContext:async()=>f.context,revalidateJournal:async()=>({...k.local,anchor:{commit:foreign,tree:f.baseTree}})})
@@ -262,7 +267,7 @@ it('rejects forged request/journal frontiers, stored coverage and changed truste
   const changed = createLocalMetadataInspector({repository:f.repository,evidence:f.evidence,trustedContext:async()=>({...f.context,toolsetSha256:++calls===1?hash:'d'.repeat(64)}),revalidateJournal:f.revalidateJournal})
   expect((await changed({master:f.baseline,head:k.oid})).reasons).toContain('TRUSTED_CONTEXT_CHANGED')
 })
-it('holds tampered parent/tree/plan/authority/next diff and missing previous commits', async () => {
+it('holds tampered parent/tree/plan/authority/next diff and missing previous commits', metadataCaseBudget, async () => {
   const f = await fixture(), k = await f.bot()
   for (const change of [
     (v:LocalRevisionEvidence)=>({...v,proof:{...v.proof,candidateTree:f.baseTree}}),
@@ -288,7 +293,7 @@ it('holds tampered parent/tree/plan/authority/next diff and missing previous com
   await f.evidence.writeJournal(k.local.journal.path,Buffer.from('{"anchor":1,"anchor":2}\n'))
   expect((await f.inspect({master:f.baseline,head:k.oid})).status).toBe('hold')
 })
-it('shares the 256-commit budget across roots and journals without installing or changing any ref', async () => {
+it('shares the 256-commit budget across roots and journals without installing or changing any ref', metadataCaseBudget, async () => {
   const f = await fixture(), k = await f.bot()
   const commits=f.chain(k.tree,k.oid,f.batchMessages(Array.from({length:256},()=> 'human\n'))),head=commits.at(-1)!,roots=[k.oid,commits[127]]
   const before=f.git(['show-ref']), result=await f.inspect({master:f.baseline,head,journalCandidates:roots})
@@ -296,7 +301,7 @@ it('shares the 256-commit budget across roots and journals without installing or
   expect(result.revision).toBeNull(); expect(result.pendingHeads).toContain(head)
   expect(f.git(['show-ref'])).toBe(before); expect(f.revalidateJournal).not.toHaveBeenCalled()
 })
-it('holds at 32 relevant merges and at the shared message-byte budget', async () => {
+it('holds at 32 relevant merges and at the shared message-byte budget', metadataCaseBudget, async () => {
   const f = await fixture(), k = await f.bot(); let head=k.oid
   for(let i=0;i<33;i++) { const side=f.commit(k.tree,[k.oid]); head=f.commit(k.tree,[head,side]) }
   const result=await f.inspect({master:f.baseline,head})
@@ -306,20 +311,20 @@ it('holds at 32 relevant merges and at the shared message-byte budget', async ()
   const large=await f.inspect({master:f.baseline,head})
   expect(large.reasons).toContain('METADATA_SCAN_LIMIT'); expect(large.counts.messageBytes).toBeLessThanOrEqual(METADATA_LIMITS.discoveryTotalMessageBytes)
 })
-it('does not choose between two incomparable locally journaled revisions', async () => {
+it('does not choose between two incomparable locally journaled revisions', metadataCaseBudget, async () => {
   const f=await fixture(), first=await f.bot(), second=await f.bot(f.baseline,null,sourceOld,'d'.repeat(40))
   const head=f.commit(first.tree,[first.oid,second.oid]), before=f.git(['show-ref'])
   const result=await f.inspect({master:f.baseline,head,donorHeads:[second.oid]})
   expect(result.reasons).toContain('INCOMPARABLE_PRIOR_REVISIONS'); expect(result.revision).toBeNull()
   expect(f.git(['show-ref'])).toBe(before)
 })
-it.each(['shallow','info/grafts','replace'])('rejects %s history even with a cached-looking journal', async kind => {
+it.each(['shallow','info/grafts','replace'])('rejects %s history even with a cached-looking journal', metadataCaseBudget, async kind => {
   const f=await fixture(), k=await f.bot()
   if(kind==='replace') f.git(['update-ref',`refs/replace/${k.oid}`,f.baseline])
   else { await mkdir(join(f.repository,'info'),{recursive:true}); await writeFile(join(f.repository,kind),f.baseline+'\n') }
   expect((await f.inspect({master:f.baseline,head:k.oid})).reasons).toContain('INCOMPLETE_OR_REWRITTEN_HISTORY')
 })
-it('holds missing objects, unknown donors, octopus merges and raw message overflow', async () => {
+it('holds missing objects, unknown donors, octopus merges and raw message overflow', metadataCaseBudget, async () => {
   const f=await fixture(), k=await f.bot()
   const missing=f.exactCommit(k.tree,[f.baseline],'human\n')
   // A crafted raw commit makes the missing second-parent object explicit without deleting evidence.
@@ -334,7 +339,7 @@ it('holds missing objects, unknown donors, octopus merges and raw message overfl
   const tooMany=await f.inspect({master:f.baseline,head:k.oid,donorHeads:donors})
   expect(tooMany.reasons).toContain('METADATA_LIMIT_EXCEEDED'); expect(tooMany.preservedHeads).toHaveLength(10)
 })
-it('independently hashes P/K tree objects instead of trusting a plausible raw Git diff', async () => {
+it('independently hashes P/K tree objects instead of trusting a plausible raw Git diff', metadataCaseBudget, async () => {
   const f=await fixture(), k=await f.bot(), counterfeit='e'.repeat(40)
   const tree=f.gitBytes(['cat-file','tree',k.tree])
   await mkdir(join(f.repository,'objects',counterfeit.slice(0,2)),{recursive:true})
@@ -343,7 +348,7 @@ it('independently hashes P/K tree objects instead of trusting a plausible raw Gi
   const forged=f.git(['hash-object','-t','commit','-w','--stdin'],raw)
   expect((await f.inspect({master:f.baseline,head:forged})).reasons).toContain('GIT_OBJECT_HASH_MISMATCH')
 })
-it('bounds expanded leaves globally across cached shared subtrees at exactly 100,000 and one pair over', async () => {
+it('bounds expanded leaves globally across cached shared subtrees at exactly 100,000 and one pair over', metadataCaseBudget, async () => {
   const at=await fixture(1,49_999), k=await at.bot()
   const accepted=await at.inspect({master:at.baseline,head:k.oid})
   expect(accepted.status,accepted.reasons.join('\n')).toBe('local-consistent')
@@ -351,14 +356,14 @@ it('bounds expanded leaves globally across cached shared subtrees at exactly 100
   const held=await over.inspect({master:over.baseline,head:overK.oid})
   expect(held.reasons).toContain('GIT_TREE_SIZE_LIMIT'); expect(over.revalidateJournal).not.toHaveBeenCalled()
 })
-it('rejects duplicate raw tree names with a bounded set-based parser', async () => {
+it('rejects duplicate raw tree names with a bounded set-based parser', metadataCaseBudget, async () => {
   const f=await fixture(), raw=f.gitBytes(['cat-file','tree',f.baseTree])
   const tree=f.git(['hash-object','--literally','-t','tree','-w','--stdin'],Buffer.concat([raw,raw]))
   const baseline=f.exactCommit(tree,[f.baseline],'duplicate names\n')
   const inspect=createLocalMetadataInspector({repository:f.repository,evidence:f.evidence,trustedContext:async()=>({...f.context,baseline,baselineTree:tree,trustedTools:baseline})})
   expect((await inspect({master:baseline})).reasons).toContain('GIT_TREE_INVALID')
 })
-it('stops incomplete verification on the real deadline and header-count guard', async () => {
+it('stops incomplete verification on the real deadline and header-count guard', metadataCaseBudget, async () => {
   const f=await fixture(), k=await f.bot()
   const now=vi.spyOn(performance,'now'); let calls=0
   now.mockImplementation(()=>++calls>2?METADATA_LIMITS.verificationMilliseconds+1:0)
