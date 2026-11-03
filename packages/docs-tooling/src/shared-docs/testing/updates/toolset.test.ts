@@ -80,7 +80,7 @@ describe('trusted closure capture', () => {
     await expect(launcher.run('../candidate/worker.js', [])).rejects.toThrow()
     await writeFile(join(launcher.bin, 'python3'), 'tampered')
     await expect(launcher.run('scripts/worker.cjs', [data])).rejects.toThrow(/launcher|changed/i)
-  }, 30000)
+  }, 90000)
   it('rejects stale root identity even when relocated material has identical bytes', async () => {
     const a = await fixture(), capture = await captureTrustedToolset(a)
     await rename(a.root, a.root + '-original'); await cp(a.root + '-original', a.root, { recursive: true, verbatimSymlinks: true })

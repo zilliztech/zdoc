@@ -316,7 +316,8 @@ async function verifyRuntimeBytes(state: CapturePrivate) {
   const native = await captureTrustedNativeFiles(seeds)
   for (const entry of native.entries) if (entry.state === 'file' && JSON.stringify(entry) !== JSON.stringify(expected.get(entry.path))) throw new Error('Trusted native resolution changed')
   for (const [path, logical] of native.physical) if (state.physical.get(path) !== logical) throw new Error('Trusted native target identity changed')
-  await inspectAccess(new Map([...native.physical, ...[...native.accessPaths].map(path => [path, 'resolution'] as [string, string])]), state.environment)
+  const access = await inspectAccess(new Map([...native.physical, ...[...native.accessPaths].map(path => [path, 'resolution'] as [string, string])]), state.environment)
+  if (state.access.identity) assertStableAccessIdentity(state.access.identity, access.identity ?? await acquireLocalIdentity(state.environment))
 }
 
 /** Trusted install files may be hardlinked by pnpm; bytes are rehashed, never trusted from SRI alone. */

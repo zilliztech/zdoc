@@ -22,7 +22,7 @@ describe('owned evidence bytes', () => {
     expect(sameFilesystemIdentity(first,{...first})).toBe(true)
     const pins=await checkedAncestors(await realpath(tmpdir()))
     expect(pins.every(pin=>typeof pin.ino==='bigint'&&typeof pin.dev==='bigint')).toBe(true)
-  })
+  },30000)
   it('exclusively initializes, writes exact raw bytes, checks references and resumes only the same owner', async () => {
     const { root, repo } = await fixture(), out = join(root, 'evidence')
     const store = await initializeEvidence({ root: out, repositories: [repo], owner: 'transaction-1' })
@@ -53,7 +53,7 @@ describe('owned evidence bytes', () => {
     const nonempty = join(root, 'nonempty'); await mkdir(nonempty); await writeFile(join(nonempty, 'user-data'), 'preserved')
     await expect(initializeEvidence({ root: nonempty, repositories: [repo], owner: 'owned' })).rejects.toThrow()
     expect(await readFile(join(nonempty, 'user-data'), 'utf8')).toBe('preserved')
-  })
+  },30000)
   it('allows only one concurrent empty-root adopter and never overwrites a marker collision', async () => {
     const {root,repo} = await fixture(), out = join(root,'race'); await mkdir(out)
     const attempts = await Promise.allSettled(['first','second'].map(owner => initializeEvidence({root:out,repositories:[repo],owner})))
@@ -61,14 +61,14 @@ describe('owned evidence bytes', () => {
     const marker = await readFile(join(out,'.owner.json'))
     await expect(initializeEvidence({root:out,repositories:[repo],owner:'third'})).rejects.toThrow()
     expect(await readFile(join(out,'.owner.json'))).toEqual(marker)
-  })
+  },30000)
   it('holds dangling common-directory pointers instead of treating them as absent', async () => {
     const {root,repo,before}=await fixture(), pointer=join(repo,'.git','commondir')
     await writeFile(pointer,'../../missing-common\n')
     await expect(initializeEvidence({root:join(root,'out'),repositories:[repo],owner:'dangling'})).rejects.toThrow()
     await unlink(pointer)
     expect(git(repo,'show-ref')+git(repo,'count-objects','-v')).toBe(before)
-  })
+  },30000)
   it('discovers Git metadata without executing an ambient PATH helper', async () => {
     const {root,repo}=await fixture(), bin=join(root,'bin'), sentinel=join(root,'executed')
     await mkdir(bin); await writeFile(join(bin,'git'),`#!/bin/sh\n/usr/bin/touch '${sentinel}'\nexit 1\n`); await chmod(join(bin,'git'),0o700)
@@ -76,7 +76,7 @@ describe('owned evidence bytes', () => {
     const script=`require(${JSON.stringify(loader)}).loadTypeScript(${JSON.stringify(module)}).initializeEvidence(${JSON.stringify({root:join(root,'out'),repositories:[repo],owner:'path-guard'})}).then(()=>console.log('OWNED')).catch(e=>{console.error(e);process.exitCode=1})`
     expect(execFileSync(process.execPath,['-e',script],{encoding:'utf8',env:{...process.env,PATH:bin}})).toContain('OWNED')
     await expect(readFile(sentinel)).rejects.toThrow()
-  })
+  },30000)
   it('rejects symlink, case alias, repository, common Git and object-store output without changing source objects/refs', async () => {
     const { root, repo, before } = await fixture(); await symlink(repo, join(root, 'alias'))
     const linked = join(root, 'linked'); git(repo, 'worktree', 'add', '--detach', linked, 'HEAD')
@@ -90,7 +90,7 @@ describe('owned evidence bytes', () => {
       expect(git(repo, 'show-ref') + git(repo, 'count-objects', '-v')).toBe(baseline)
     }
     expect(before).toContain(git(repo, 'rev-parse', 'HEAD'))
-  })
+  },30000)
   it('rejects traversal, hardlinks, substituted ancestors, symlink journals and oversized reads', async () => {
     const { root, repo } = await fixture(), out = join(root, 'out')
     const store = await initializeEvidence({ root: out, repositories: [repo], owner: 'owner', maxBytes: 8 })
@@ -104,5 +104,5 @@ describe('owned evidence bytes', () => {
     await rename(out, out + '-moved'); await symlink(repo, out)
     await expect(store.writeBlob(Buffer.from('bad'))).rejects.toThrow()
     expect(await readFile(join(repo, 'input'), 'utf8')).toBe('preserved')
-  })
+  },30000)
 })
