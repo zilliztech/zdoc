@@ -157,8 +157,7 @@ export function assertNoExtendedAccess(stdout: string, stderr: string) {
 }
 export function validateAccessMode(stat: { uid: number; mode: number }, kind: 'file' | 'directory' | 'symlink', material: boolean) {
   if (!safeOwner(stat.uid)) throw new Error('Unsafe access owner')
-  const stickyTraversal = kind === 'directory' && !material && stat.uid === 0 && !!(stat.mode & 0o1000)
-  if (kind !== 'symlink' && (stat.mode & 0o6000 || stat.mode & 0o022 && !stickyTraversal)) throw new Error('Unsafe access mode')
+  if (kind !== 'symlink' && stat.mode & 0o6022) throw new Error('Unsafe access mode')
 }
 type LocalIdentity = {
   profile: Record<string, string[]>;
@@ -275,7 +274,7 @@ async function inspectAccess(material: Map<string, string>, environment: NodeJS.
     const st = { dev:String(raw.dev),ino:String(raw.ino),mode:Number(raw.mode),uid:Number(raw.uid),gid:Number(raw.gid),isFile:()=>raw.isFile(),isDirectory:()=>raw.isDirectory(),isSymbolicLink:()=>raw.isSymbolicLink() }
     if (!safeOwner(st.uid) || !(st.isFile() || st.isDirectory() || st.isSymbolicLink())) throw new Error(`Unsafe access owner/type: ${path}`)
     // Symlink mode is not writable target authority; its parent and resolved target are inspected.
-    const groupAncestor = st.isDirectory() && !materialPaths.has(path) && !!(st.mode & 0o020) && !(st.uid === 0 && st.mode & 0o1000)
+    const groupAncestor = st.isDirectory() && !materialPaths.has(path) && !!(st.mode & 0o020)
     if (groupAncestor) writableGroups.add(st.gid)
     try { validateAccessMode({ uid: st.uid, mode: groupAncestor ? st.mode & ~0o020 : st.mode }, st.isSymbolicLink() ? 'symlink' : st.isDirectory() ? 'directory' : 'file', materialPaths.has(path)) } catch (error) { throw new Error(`${(error as Error).message}: ${path}`) }
     // Every traversed symlink and its canonical target ancestry are pinned. Retargeting holds on recheck.

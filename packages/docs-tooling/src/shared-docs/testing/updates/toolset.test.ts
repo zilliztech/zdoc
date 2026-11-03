@@ -232,12 +232,12 @@ describe('trusted closure capture', () => {
     expect(result.stdout).toContain('diagnostic chatter')
     await expect(launcher.runGuidesCollector({ text: 'x'.repeat(32 * 1024 * 1024) })).rejects.toThrow(/bound|large/i)
   }, 30000)
-  it.skipIf(process.platform !== 'darwin')('validates a group-writable task-owned ancestor and rejects changed access before reuse', async () => {
+  it.skipIf(process.platform !== 'darwin').each([0, 0o1000])('validates complete group policy with sticky bit %i and rejects changed access before reuse', async sticky => {
     const a = await fixture(), parent = await realpath(await mkdtemp(join(tmpdir(),'access-ancestor-'))), root = join(parent,'repo')
     await rename(a.root,root); a.root=root; a.cwd=root
-    await chown(parent,process.geteuid!(),80); await chmod(parent,0o775)
+    await chown(parent,process.geteuid!(),80); await chmod(parent,0o775 | sticky)
     const capture = await captureTrustedToolset(a)
-    await chmod(parent,0o777)
+    await chmod(parent,0o777 | sticky)
     await expect(verifyTrustedToolset(capture)).rejects.toThrow(/access identity|Unsafe/)
   },30000)
   it.skipIf(process.platform !== 'darwin')('invalidates a captured handle when task-owned material gains an ACL', async () => {
@@ -363,10 +363,9 @@ describe('strict access inspector evidence', () => {
     expect(() => validateDarwinAccess(restriction, ['/home/user'], '/other/home', new Set())).toThrow(/ACL/)
     expect(() => validateDarwinAccess(restriction, ['/home/user'], '/home/user', new Set(['/home/user']))).toThrow(/ACL/)
   })
-  it('rejects unsafe ownership and writable ancestry, allowing root sticky traversal only', () => {
-    expect(() => validateAccessMode({uid:0,mode:0o1777}, 'directory', false)).not.toThrow()
-    expect(() => validateAccessMode({uid:0,mode:0o1777}, 'directory', true)).toThrow(/mode/)
-    expect(() => validateAccessMode({uid:process.getuid!(),mode:0o775}, 'directory', false)).toThrow(/mode/)
+  it('rejects world-write and unauthenticated group-write irrespective of sticky mode', () => {
+    for (const uid of [0, process.getuid!()]) for (const mode of [0o777, 0o1777, 0o775, 0o1775]) for (const material of [false, true]) expect(() => validateAccessMode({uid,mode}, 'directory', material)).toThrow(/mode/)
+    expect(() => validateAccessMode({uid:0,mode:0o1755}, 'directory', false)).not.toThrow()
     expect(() => validateAccessMode({uid:4294967294,mode:0o755}, 'directory', false)).toThrow(/owner/)
     expect(() => validateAccessMode({uid:0,mode:0o4755}, 'file', true)).toThrow(/mode/)
   })
