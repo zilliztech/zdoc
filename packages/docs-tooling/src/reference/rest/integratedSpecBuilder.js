@@ -1,6 +1,7 @@
 const { normalizeReleaseTrack, compareReleaseTracks } = require('./releaseTrack');
 const { applyLifecycleForTrack, validateLifecycle } = require('./lifecycle');
 const { assertNoDanglingLocalRefs, pruneUnreachableComponents } = require('./componentGraph');
+const { resolveBetaForTarget } = require('./betaTier');
 
 const HTTP_METHODS = new Set(['get', 'post', 'put', 'delete', 'patch', 'options', 'head', 'trace']);
 const LIFECYCLE_KEYS = new Set(['x-added-at', 'x-last-modified', 'x-deprecated-since']);
@@ -91,6 +92,12 @@ function filterSelection(value, options, stats, pointer = '$') {
   const result = {};
   const omittedByFilter = new Set();
   for (const [key, child] of Object.entries(value)) {
+    // Zilliz release-notes tiers on `x-beta` are zdoc-site marks (the milvus
+    // token scan cannot see enum values, so this is their enforcement point);
+    // the milvus projection treats them as unset. FALSE/DEPRECATED stay, and
+    // the zilliz projection passes every value through untouched.
+    if (key === 'x-beta' && options.target === 'milvus' && resolveBetaForTarget(child, options.target) === undefined) continue;
+
     if (key === 'properties' && child && typeof child === 'object' && !Array.isArray(child)) {
       result.properties = {};
       for (const [propertyName, propertySchema] of Object.entries(child)) {
