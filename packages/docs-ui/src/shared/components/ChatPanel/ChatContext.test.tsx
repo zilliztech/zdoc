@@ -187,11 +187,19 @@ describe('ChatProvider request debugging', () => {
   });
 
   it('continues chatting without identity when storage is unavailable', async () => {
-    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {throw new Error('blocked');});
+    const storage = globalThis.localStorage;
+    const blockedRead = vi.fn(() => {throw new Error('blocked');});
+    vi.stubGlobal('localStorage', {
+      getItem: blockedRead,
+      setItem: storage.setItem.bind(storage),
+      removeItem: storage.removeItem.bind(storage),
+      clear: storage.clear.bind(storage),
+    });
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
     await act(async () => result.current.send('anonymous question'));
     const body = JSON.parse(vi.mocked(fetch).mock.calls[1][1]?.body as string);
     expect(body).not.toHaveProperty('user_id');
+    expect(blockedRead).toHaveBeenCalledWith('zd-user-id');
     expect(result.current.messages.at(-1)?.text).toBe('assistant secret answer');
   });
 
