@@ -3481,7 +3481,16 @@
           "resources": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "An instance id of the statement's resource type, or `*` for all instances. Which resource types require this field is defined at the array level.",
+              "x-i18n": {
+                "zh-CN": {
+                  "description": "语句资源类型对应的实例 ID，或 `*` 表示所有实例。哪些资源类型需要此字段以数组级描述为准。"
+                },
+                "ja-JP": {
+                  "description": "ステートメントのリソースタイプにおけるインスタンス ID、またはすべてのインスタンスを表す `*`。このフィールドが必要なリソースタイプは配列レベルの定義を参照してください。"
+                }
+              }
             },
             "minItems": 1,
             "description": "Which instances the statement covers: `*` for all, or explicit ids (validated against the role's project). Required on `serving_cluster`, `on_demand_cluster`, `volume`, `serving_cluster_data`, `volume_data`, `storage_integration`, `model_provider_integration`, `kms_integration` and `datadog_integration`, unless the statement's only privilege is `create`. For `on_demand_compute_data`, predefined roles return `[\"*\"]`; on write this field is rejected and should be omitted. Everywhere else, omit it — it is rejected on write and never returned.",
