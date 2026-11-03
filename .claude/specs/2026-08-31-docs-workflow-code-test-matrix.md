@@ -11,8 +11,11 @@ These gates discover and validate an exhaustive file manifest, run ordinary file
 with normal parallelism. Frontend/all next runs the complete reference
 `translationManifest.integration.test.ts` file in an isolated `reference-integration`
 phase; shared-docs does not include or require that file. Both scopes finish with
-the complete local-update transactions and runner files in separate sequential
-forks with one worker. Thus all has four ordered phases and shared-docs has three.
+the complete local-update transactions, runner and `update-prepare.test.ts` command
+files in separate sequential forks with one worker, in that order. Their unique
+phase names are `transactions`, `local-runner` and `update-prepare`; prepare is
+excluded from light and appears exactly once. Thus all has five ordered phases
+and shared-docs has four.
 Existing testcase deadlines
 and normal runIf skips remain. A private run-correlated reporter and owned-process
 supervisor fail closed on errors, incomplete/mismatched results or surviving
@@ -27,8 +30,10 @@ version-2 run-bound terminal, scope and original discovery binding, complete
 report/phase bindings, isolated worker configuration and zero-exit settled receipts.
 Expected phase names, ordering and full-file membership are derived from trusted
 scope policy and bound discovery, not report-declared phase counts. Historical
-version-1 evidence requires the matching retained reader; it does not qualify the
-new phase policy.
+version-1 evidence and version-2 evidence with the earlier three/four-phase
+policy require their matching retained reader (commit `21d6add193` contains the
+prior version-2 policy). They do not qualify the new four/five-phase policy; do
+not rewrite old evidence to add a phase.
 CLI settlement unknown is nonzero; an offline verified committed verdict does not
 prove CLI delivery/exit. No rollback or file-time deadline inference is used.
 Incomplete raw counts and observed reporter

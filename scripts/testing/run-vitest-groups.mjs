@@ -10,8 +10,12 @@ import {createRequire} from 'node:module'
 const repository=fileURLToPath(new URL('../../',import.meta.url))
 const require=createRequire(import.meta.url)
 const reporter=fileURLToPath(new URL('./vitest-stop-reporter.mjs',import.meta.url))
-export const HEAVY_FILES=['packages/docs-tooling/src/shared-docs/testing/updates/transactions.test.ts',
-  'packages/docs-tooling/src/shared-docs/testing/updates/local-runner.test.ts']
+const ISOLATED_SHARED_PHASES=[
+  {name:'transactions',file:'packages/docs-tooling/src/shared-docs/testing/updates/transactions.test.ts'},
+  {name:'local-runner',file:'packages/docs-tooling/src/shared-docs/testing/updates/local-runner.test.ts'},
+  {name:'update-prepare',file:'packages/docs-tooling/src/shared-docs/testing/updates/update-prepare.test.ts'},
+]
+export const HEAVY_FILES=ISOLATED_SHARED_PHASES.map(phase=>phase.file)
 export const REFERENCE_FILE='packages/docs-tooling/src/reference/translationManifest.integration.test.ts'
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const within=(root,path)=>{const r=relative(root,path);return r===''||r!=='..'&&!r.startsWith(`..${sep}`)&&!isAbsolute(r)}
@@ -100,7 +104,7 @@ export function partitionFiles(discovery,root,scope) {
   const files=normalizedFiles(discovery.map(x=>x.file),root)
   if(scope==='shared-docs'&&files.some(f=>!within(join(root,'packages/docs-tooling/src/shared-docs'),f)))throw new Error('Out-of-scope discovered file')
   const isolated=[...scope==='all'?[{name:'reference-integration',file:REFERENCE_FILE}]:[],
-    ...HEAVY_FILES.map((file,i)=>({name:i?'local-runner':'transactions',file}))]
+    ...ISOLATED_SHARED_PHASES]
   const heavy=isolated.map(p=>join(root,p.file))
   if(heavy.some(f=>!files.includes(f)))throw new Error('Missing heavy test file')
   const phases=[{name:'light',files:files.filter(f=>!heavy.includes(f)),heavy:false},

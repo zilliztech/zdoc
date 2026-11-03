@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import {createHash} from 'node:crypto'
 import {readFileSync} from 'node:fs'
 import {mkdtemp,mkdir,rename,symlink,readFile,writeFile,stat,realpath,link} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
@@ -11,6 +12,9 @@ import {fileURLToPath} from 'node:url'
 import {HEAVY_FILES,REFERENCE_FILE,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport} from './run-vitest-groups.mjs'
 import StopReporter from './vitest-stop-reporter.mjs'
 
+const expectedIsolatedFiles=['packages/docs-tooling/src/shared-docs/testing/updates/transactions.test.ts',
+  'packages/docs-tooling/src/shared-docs/testing/updates/local-runner.test.ts',
+  'packages/docs-tooling/src/shared-docs/testing/updates/update-prepare.test.ts']
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const fixture=async()=>mkdtemp(join(await realpath(tmpdir()),'vitest-supervisor-contract-'))
 function protocol(root,changes={}) {return {runId:'fixture-run',root,expected:[join(root,'a.test.ts')],heavy:true,...changes}}
@@ -88,26 +92,30 @@ test('real external Git metadata, alternate object stores and output ancestors c
   await verifyTemporaryRoot(safe)
 })
 test('file partition is disjoint/exhaustive and automatically includes new light files',()=>{
-  const root='/repo',files=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/new.test.ts'].map(p=>({file:join(root,p)}))
+  const root='/repo',files=[...expectedIsolatedFiles,'packages/docs-tooling/src/shared-docs/new.test.ts'].map(p=>({file:join(root,p)}))
   const result=partitionFiles(files,root,'shared-docs')
-  assert.deepEqual(result.phases.map(p=>p.files.length),[1,1,1])
+  assert.deepEqual(HEAVY_FILES,expectedIsolatedFiles)
+  assert.deepEqual(result.phases.map(p=>[p.name,p.files.length]),[['light',1],['transactions',1],['local-runner',1],['update-prepare',1]])
+  assert.deepEqual(result.phases.at(-1).files,[join(root,expectedIsolatedFiles[2])])
+  assert.equal(result.phases[0].files.includes(join(root,expectedIsolatedFiles[2])),false)
   assert.deepEqual(result.phases.flatMap(p=>p.files).sort(),files.map(x=>x.file).sort())
   assert.throws(()=>partitionFiles([...files,files[0]],root,'shared-docs'),/Duplicate/)
-  assert.throws(()=>partitionFiles(files.slice(1),root,'shared-docs'),/Missing heavy/)
+  for(const required of expectedIsolatedFiles)assert.throws(()=>partitionFiles(files.filter(p=>p.file!==join(root,required)),root,'shared-docs'),/Missing heavy/)
   assert.throws(()=>partitionFiles([...files,{file:'/other/x.test.ts'}],root,'all'),/Invalid/)
   assert.throws(()=>partitionFiles([...files,{file:'/repo/ui.test.ts'}],root,'shared-docs'),/Out-of-scope/)
   assert.throws(()=>partitionFiles(files.map(x=>({...x,projectName:'extra'})),root,'all'),/project/)
 })
 test('all scope isolates the complete reference file; shared-docs never admits or requires it',()=>{
-  const root='/repo',shared=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/new.test.ts'].map(p=>({file:join(root,p)}))
+  const root='/repo',shared=[...expectedIsolatedFiles,'packages/docs-tooling/src/shared-docs/new.test.ts'].map(p=>({file:join(root,p)}))
   const reference={file:join(root,REFERENCE_FILE)},ui={file:join(root,'src/new.test.ts')}
   const all=[...shared,reference,ui],partition=partitionFiles(all,root,'all')
   assert.deepEqual(partition.phases.map(p=>[p.name,p.files.length,p.heavy]),[
-    ['light',2,false],['reference-integration',1,true],['transactions',1,true],['local-runner',1,true]])
+    ['light',2,false],['reference-integration',1,true],['transactions',1,true],['local-runner',1,true],['update-prepare',1,true]])
   assert.deepEqual(partition.phases[1].files,[reference.file])
   assert.deepEqual(partition.phases.flatMap(p=>p.files).sort(),all.map(p=>p.file).sort())
-  assert.deepEqual(partitionFiles(shared,root,'shared-docs').phases.map(p=>p.name),['light','transactions','local-runner'])
+  assert.deepEqual(partitionFiles(shared,root,'shared-docs').phases.map(p=>p.name),['light','transactions','local-runner','update-prepare'])
   assert.throws(()=>partitionFiles(shared,root,'all'),/Missing heavy/)
+  for(const required of expectedIsolatedFiles)assert.throws(()=>partitionFiles(all.filter(p=>p.file!==join(root,required)),root,'all'),/Missing heavy/)
   assert.throws(()=>partitionFiles([...shared,reference],root,'shared-docs'),/Out-of-scope/)
   assert.throws(()=>partitionFiles([...all,reference],root,'all'),/Duplicate/)
   assert.throws(()=>partitionFiles(all,root,'invented'),/Unknown gate scope/)
@@ -115,7 +123,7 @@ test('all scope isolates the complete reference file; shared-docs never admits o
 test('every scope stops at its first failing phase and reports all later complete files unrun',async()=>{
   const root='/repo'
   for(const scope of ['all','shared-docs']) {
-    const files=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/new.test.ts',...scope==='all'?[REFERENCE_FILE]:[]]
+    const files=[...expectedIsolatedFiles,'packages/docs-tooling/src/shared-docs/new.test.ts',...scope==='all'?[REFERENCE_FILE]:[]]
     const {phases}=partitionFiles(files.map(p=>({file:join(root,p)})),root,scope)
     for(let fail=0;fail<phases.length;fail++) {
       const started=[],result=await runPhases(phases,async phase=>{started.push(phase.name);return {...phase,success:started.length!==fail+1}})
@@ -384,7 +392,7 @@ test('global deadline retains its cause and records cleanup denial without erasi
 async function terminalFixture(scope='shared-docs') {
   const root=await fixture(),checkout=join(root,'checkout')
   await mkdir(checkout)
-  const discovery=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/ordinary.test.ts',...scope==='all'?[REFERENCE_FILE]:[]].map(p=>({file:join(checkout,p)}))
+  const discovery=[...expectedIsolatedFiles,'packages/docs-tooling/src/shared-docs/ordinary.test.ts',...scope==='all'?[REFERENCE_FILE]:[]].map(p=>({file:join(checkout,p)}))
   await writeFile(join(root,'discovery.json'),JSON.stringify(discovery))
   const phases=[]
   for(const {name,files} of partitionFiles(discovery,checkout,scope).phases) {
@@ -405,7 +413,7 @@ for(const scope of ['all','shared-docs']) {
     const qualified=await readGateReport(f.paths[0])
     assert.equal(qualified.success,true);assert.equal(qualified.terminal.version,2)
     assert.equal(qualified.terminal.scope,scope)
-    assert.deepEqual(qualified.terminal.phases.map(p=>p.name),scope==='all'?['light','reference-integration','transactions','local-runner']:['light','transactions','local-runner'])
+    assert.deepEqual(qualified.terminal.phases.map(p=>p.name),scope==='all'?['light','reference-integration','transactions','local-runner','update-prepare']:['light','transactions','local-runner','update-prepare'])
     await writeFile(join(f.root,'discovery.json'),'[]')
     assert.equal((await readGateReport(f.paths[0])).success,false,'discovery bytes are bound')
   })
@@ -560,4 +568,44 @@ test('actual Vitest module failure retains its message before stopping',async()=
   const root=await fixture(),result=await realVitest(root,"throw new Error('module import broke');test('unreachable',()=>{})")
   assert.equal(result.success,false);assert.equal(result.settled,true)
   assert.match(await readFile(join(root,'run/events.jsonl'),'utf8'),/module import broke/)
+})
+
+// Rewrite all hashes after each synthetic corruption so the reader must reject
+// the trusted-policy mismatch, not merely an incidental stale file hash.
+async function rebindFixtureFile(path) {
+  const bytes=await readFile(path),info=await stat(path,{bigint:true})
+  return {path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),device:String(info.dev),inode:String(info.ino)}
+}
+for(const scope of ['all','shared-docs'])test(`${scope} reader rejects internally rebound missing or incomplete update-prepare phases`,async()=>{
+  for(const fault of ['missing','duplicate','reordered','failed raw','missing terminal','unrun','historical v2 policy']) {
+    const f=await terminalFixture(scope),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+    const terminal=JSON.parse(prepared.terminalBytes),index=terminal.phases.findIndex(p=>p.name==='update-prepare')
+    assert.equal(index,scope==='all'?4:3)
+    const reports=await Promise.all(f.paths.map(async path=>JSON.parse(await readFile(path,'utf8'))))
+    if(fault==='missing'||fault==='historical v2 policy') {terminal.phases.splice(index,1);for(const report of reports)report.phases.splice(index,1)}
+    if(fault==='duplicate') {terminal.phases.push(terminal.phases[index]);for(const report of reports)report.phases.push(report.phases[index])}
+    if(fault==='reordered') {
+      [terminal.phases[index-1],terminal.phases[index]]=[terminal.phases[index],terminal.phases[index-1]]
+      for(const report of reports)[report.phases[index-1],report.phases[index]]=[report.phases[index],report.phases[index-1]]
+    }
+    if(fault==='historical v2 policy') {
+      const discovery=JSON.parse(await readFile(terminal.discovery.path,'utf8')).filter(p=>!p.file.endsWith('/update-prepare.test.ts'))
+      await writeFile(terminal.discovery.path,JSON.stringify(discovery));terminal.discovery=await rebindFixtureFile(terminal.discovery.path)
+      for(const report of reports)report.discoveredFiles=report.discoveredFiles.filter(p=>!p.endsWith('/update-prepare.test.ts'))
+    }
+    if(fault==='failed raw') {
+      const path=terminal.phases[index].raw.path,raw=JSON.parse(await readFile(path,'utf8'))
+      raw.success=false;raw.numPassedTests=0;raw.numFailedTests=1;raw.testResults[0].status='failed';raw.testResults[0].assertionResults[0].status='failed'
+      await writeFile(path,JSON.stringify(raw));terminal.phases[index].raw=await rebindFixtureFile(path)
+    }
+    if(fault==='missing terminal') {
+      const path=terminal.phases[index].receipt.path,receipt=JSON.parse(await readFile(path,'utf8'))
+      receipt.observed.terminal=null;await writeFile(path,JSON.stringify(receipt));terminal.phases[index].receipt=await rebindFixtureFile(path)
+    }
+    if(fault==='unrun')for(const report of reports)report.unrunFiles.push(join(report.checkout,expectedIsolatedFiles[2]))
+    for(let i=0;i<f.paths.length;i++)await writeFile(f.paths[i],JSON.stringify(reports[i]))
+    terminal.reports=await Promise.all(f.paths.map(rebindFixtureFile))
+    await writeFile(prepared.terminalPath,JSON.stringify(terminal))
+    assert.equal((await readGateReport(f.paths[0])).success,false,`${scope}: ${fault}`)
+  }
 })

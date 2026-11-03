@@ -45,7 +45,9 @@ pnpm build:zh-CN
 file selection and run ordinary files in parallel. Frontend (`all` scope) then runs
 the complete `translationManifest.integration.test.ts` file in a separate
 `reference-integration` phase. Both gates finish with the complete local-update
-transaction and runner test files in that order. Each of these isolated phases
+transaction, runner and `update-prepare.test.ts` command test files in that order
+(`transactions`, `local-runner`, `update-prepare`). This gives frontend five phases
+and shared-docs four, including light. Each of these isolated phases
 uses a separate single-worker process; shared-docs has no reference phase.
 Case deadlines and normal platform-dependent skips are unchanged.
 Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
@@ -95,6 +97,9 @@ execution verdict, all report identities and hashes, and each complete phase's r
 result and settled process receipt. The reader derives the ordered, exhaustive
 phase selection from the scope policy and bound discovery, including isolated
 worker configuration; reports cannot declare their own required phase count.
+Historical version-2 evidence with the earlier three/four-phase policy must use
+its matching retained reader, available at commit `21d6add193`; it cannot qualify
+the new four/five-phase policy. Preserve the original artifacts unchanged.
 Historical version-1 evidence must be read with its matching retained supervisor,
 not treated as qualification under this new phase policy. Commit
 `7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d` retains the version-1 reader. To inspect
