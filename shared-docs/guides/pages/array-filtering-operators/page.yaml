@@ -1,0 +1,22 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/boolean/array-operators.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtering/array-filtering-operators
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtering/array-filtering-operators
+
+transforms:
+  - operation: replace
+    target:
+      block: array-append-heading
+    content:
+      file: cloud-array-append-heading.md
+  - operation: replace
+    target:
+      block: array-remove-heading
+    content:
+      file: cloud-array-remove-heading.md

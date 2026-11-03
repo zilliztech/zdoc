@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/boolean/filtering-templating.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtering/filtering-templating
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtering/filtering-templating
