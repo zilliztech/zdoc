@@ -60,9 +60,9 @@ test('backfill plans exactly the prose-less nodes and fills en+zh+ja in one call
         const {calls, fetchImpl} = stubFetch([
             {descriptions: [
                 {p: 'components/schemas/QuickSetupCollection#(root)', en: 'The quick-setup request body.', zh: '快速配置请求体。', ja: 'クイックセットアップのリクエストボディ。'},
-                {p: 'components/schemas/QuickSetupCollection#consistencyLevel', en: 'The consistency level of the collection.', zh: '集合的一致性级别。', ja: 'コレクションの一貫性レベル。'},
+                {p: 'components/schemas/QuickSetupCollection#consistencyLevel', en: 'The consistency level of the collection.', zh: 'Collection 的一致性级别。', ja: 'Collection の一貫性レベル。'},
                 {p: 'post /v2/vectordb/collections/create response 200#(root)', en: 'The success envelope.', zh: '成功响应结构。', ja: '成功レスポンスの構造。'},
-                {p: 'post /v2/vectordb/collections/create response 200#data', en: 'The collection details returned on success.', zh: '成功时返回的集合详情。', ja: '成功時に返されるコレクションの詳細。'},
+                {p: 'post /v2/vectordb/collections/create response 200#data', en: 'The collection details returned on success.', zh: '成功时返回的 Collection 详情。', ja: '成功時に返される Collection の詳細。'},
             ]},
         ])
         const {plan, described, degraded, changedFiles, documents} = await backfillFragments({
@@ -85,8 +85,8 @@ test('backfill plans exactly the prose-less nodes and fills en+zh+ja in one call
         assert.equal(component.description, 'The quick-setup request body.')
         const level = component.properties.consistencyLevel
         assert.equal(level.description, 'The consistency level of the collection.')
-        assert.equal(level['x-i18n']['zh-CN'].description, '集合的一致性级别。')
-        assert.equal(level['x-i18n']['ja-JP'].description, 'コレクションの一貫性レベル。')
+        assert.equal(level['x-i18n']['zh-CN'].description, 'Collection 的一致性级别。')
+        assert.equal(level['x-i18n']['ja-JP'].description, 'Collection の一貫性レベル。')
         const envelope = document.paths['/v2/vectordb/collections/create'].post.responses['200']
             .content['application/json'].schema
         assert.equal(envelope.description, 'The success envelope.')
@@ -110,7 +110,7 @@ test('degraded nodes stay untouched and are reported per node', async () => {
                 {p: 'components/schemas/QuickSetupCollection#(root)', en: 'The quick-setup request body.', zh: '快速配置请求体。', ja: 'クイックセットアップのリクエストボディ。'},
                 {p: 'components/schemas/QuickSetupCollection#consistencyLevel', en: 'Picks `strong`.', zh: '选 `strong`。', ja: '`strong` を選ぶ。'},  // wrong enum casing
                 {p: 'post /v2/vectordb/collections/create response 200#(root)', en: 'The success envelope.', zh: '成功响应结构。', ja: '成功レスポンスの構造。'},
-                {p: 'post /v2/vectordb/collections/create response 200#data', en: 'The collection details returned on success.', zh: '成功时返回的集合详情。', ja: '成功時に返されるコレクションの詳細。'},
+                {p: 'post /v2/vectordb/collections/create response 200#data', en: 'The collection details returned on success.', zh: '成功时返回的 Collection 详情。', ja: '成功時に返される Collection の詳細。'},
             ]},
         ])
         const {described, degraded, changedFiles} = await backfillFragments({
@@ -126,15 +126,18 @@ test('degraded nodes stay untouched and are reported per node', async () => {
     }
 })
 
-test('all-degraded fails closed instead of a silent no-op', async () => {
+test('all-degraded resolves with its evidence so the report survives the failure', async () => {
     process.env.BACKFILL_TEST_KEY = 'key'
     const fragmentsDir = writeFragmentsDir()
     try {
         const {fetchImpl} = stubFetch([new Error('gateway down'), new Error('gateway down'), new Error('gateway down')])
-        await assert.rejects(
-            backfillFragments({fragmentsDir, baseUrl: 'https://gateway.invalid', apiKeyEnv: 'BACKFILL_TEST_KEY', model: 'm', fetchImpl}),
-            /REST_UPSTREAM_BACKFILL_ALL_DEGRADED/,
-        )
+        const result = await backfillFragments({fragmentsDir, baseUrl: 'https://gateway.invalid', apiKeyEnv: 'BACKFILL_TEST_KEY', model: 'm', fetchImpl})
+        // The stage-level throw moved to the CLI: a probe against a broken
+        // gateway must still produce the per-node reasons for the report.
+        assert.equal(result.allDegraded, true)
+        assert.equal(result.described.length, 0)
+        assert.equal(result.degraded.length, 4)
+        assert.ok(result.degraded.every(item => /gateway down/.test(item.reason)))
     } finally {
         fs.rmSync(fragmentsDir, {recursive: true, force: true})
     }
