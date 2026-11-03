@@ -76,34 +76,6 @@ Zilliz Cloud では、請求書のステータスは支払いプロセスの各�
 
 - **Amount Due/Amount Paid:** 最終的に支払う必要がある金額、または支払い済みの金額です。
 
-## クラスタープラン別の概要\{#summary-by-cluster-plan}
-
-Zilliz Cloud では、Free、Serverless、Dedicated の 3 種類のクラスターを提供しています。課金の対象となるのは Serverless クラスターと Dedicated クラスターのみです。
-
-- **Dedicated クラスター:** 使用量に基づいて課金されます。料金は `Cluster Cost = Cluster CU Size x Runtime x Unit Price` として計算されます。Serverless クラスターとは異なり、Dedicated クラスターでは専用のリソースが割り当てられるため、アクティブな read/write 操作がなくても料金が発生します。
-
-    <Admonition type="info" title="Notes">
-
-    Dedicated クラスターのコストでは、ランタイムはクラスターのステータスが「**Running**」、「**Modifying**」、「**Frozen**」などである期間として定義されます。以下の 4 つのステータスにあるクラスターには課金されません：「**Creating**」、「**Suspending**」、「**Resuming**」、「**Suspended**」。 
-
-    </Admonition>
-
-- **Serverless クラスター:** read/write 操作中の vCU 消費量に対して従量課金制で請求されます。コストは `Read and Write Cost = vCU Usage x vCU Unit Price` として計算されます。操作が発生しない場合は、ストレージ料金のみが請求されます。
-
-その他の料金には以下が含まれます。
-
-- **バックアップコスト:** `Backup File Size x Backup Retention Period` として計算され、「GB-month」で測定されます。これは、1 か月間保持された 1 GB のバックアップファイルの使用量を指します。<strong>バックアップは、保持期間が 1 日未満であっても最低 1 日分として課金されます。</strong> つまり、バックアップファイルを作成しても 1 日未満しか保持しなかった場合は、1 日分の料金が請求されます。
-
-- **ストレージコスト:** `Current Storage Size x Cluster Runtime` として計算され、「GB-Hour」で測定されます。これは、1 時間保存された 1 GB のデータの使用量を指します。**ストレージは、保存期間が 1 時間未満であっても最低 1 時間分として課金されます。** 
-
-    <Admonition type="info" title="Notes">
-
-    ストレージコストでは、ランタイムはクラスターのステータスが「**Running**」、「**Modifying**」、「**Frozen**」などである期間として定義されます。以下のステータスにあるクラスターには課金されません：「**Creating**」。
-
-    </Admonition>
-
-
-
 ## 請求書の明細\{#invoice-details}
 
 このセクションでは、課金対象項目ごとの料金の詳細な内訳を確認できます。 
@@ -136,4 +108,3 @@ Zilliz Cloud では、Free、Serverless、Dedicated の 3 種類のクラスタ�
 
     **対処法:** 必要な権限を持っていることを確認してください。請求書にアクセスできない場合は、Organization Owner または Billing Admin にお問い合わせください。
 
->

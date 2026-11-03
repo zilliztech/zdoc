@@ -1,21 +1,21 @@
 ---
 title: "Cnalphanumonly | BYOC"
 slug: /cnalphanumonly-filter
-sidebar_label: "Cnalphanumonly"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`cnalphanumonly` フィルターは、中国語の文字、英字、数字以外の文字を含むトークンを削除します。 | BYOC"
+description: "cnalphanumonly フィルターは、中国語の文字、英字、数字以外の文字を含むトークンを削除します。 | BYOC"
 type: origin
-token: R3r7wFHUbi8KxUk2t2FcUXoJnic
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-cnalphanumonly-filter
+sidebar_label: "Cnalphanumonly"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/cnalphanumonly-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -94,6 +94,8 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
+
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "jieba",
@@ -116,6 +118,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `cnalphanumonly` フィルターはトークナイザーによって生成されたタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
@@ -157,7 +160,7 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
+analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
 ```
 
 </TabItem>
@@ -195,6 +198,8 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
+
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "jieba",
@@ -213,10 +218,11 @@ analyzerParams='{
   "filter": [
     "cnalphanumonly"
   ]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -247,11 +253,11 @@ print("Analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -301,6 +307,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -308,19 +320,23 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let sample_text = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
-client
+let result = client
     .run_analyzer(
         RunAnalyzerRequest::builder()
-            .texts([sample_text])
-            .analyzer_params(analyzer_params.clone())
+            .texts(vec![sample_text])
+            .analyzer_params(analyzer_params)
             .build()?,
     )
     .await?;
+
+println!("Analyzer output: {:?}", result);
 ```
 
 </TabItem>
@@ -328,8 +344,9 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -360,7 +377,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
+    token: "YOUR_CLUSTER_TOKEN",
 });
 
 // Sample text to analyze
@@ -371,6 +388,7 @@ const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params: analyzer_params
 });
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -381,26 +399,25 @@ const result = await client.runAnalyzer({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
 
-var config = new ConnectConfig
+var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-};
-using var client = new MilvusClientV2(config);
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
 await client.ConnectAsync();
 
 // Sample text to analyze
-string sampleText = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
+var sampleText = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
 
 // Run the jieba tokenizer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
-    Texts = [sampleText],
-    AnalyzerParams = analyzerParams
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
 });
-Console.WriteLine($"Analyzer output: {result}");
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -408,24 +425,26 @@ Console.WriteLine($"Analyzer output: {result}");
 <TabItem value='bash'>
 
 ```bash
-# restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export SAMPLE_TEXT="Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "text": ["'"${SAMPLE_TEXT}"'"],
-    "analyzerParams": "{\"tokenizer\":\"jieba\",\"filter\":[\"cnalphanumonly\"]}"
-  }' 
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"],
+    "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cnalphanumonly\"]}"
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['Milvus', '是', 'LF', 'AI', 'Data', 'Foundation', '下', '的', '一个', '开源', '项目', '以', 'Apache', '2.0', '许可', '发布']
 ```
-

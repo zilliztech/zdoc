@@ -1,21 +1,21 @@
 ---
 title: "Cncharonly | BYOC"
 slug: /cncharonly-filter
-sidebar_label: "Cncharonly"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`cncharonly` フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語のテキストのみに注目し、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。 | BYOC"
+description: "cncharonly フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語のテキストのみに注目し、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。 | BYOC"
 type: origin
-token: X16rw3C4giUT6bkPLXAcsBapnpe
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-cncharonly-filter
+sidebar_label: "Cncharonly"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/cncharonly-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -64,15 +64,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
-let analyzer_params = serde_json::json!({
-    "tokenizer": "jieba",
-    "filter": ["cncharonly"]
-});
+let analyzer_params = serde_json::json!({"tokenizer": "jieba", "filter": ["cncharonly"]});
 ```
 
 </TabItem>
@@ -91,7 +83,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cncharonly"],
 };
@@ -104,10 +96,10 @@ let analyzer_params = {
 ```csharp
 using System.Collections.Generic;
 
-Dictionary<string, object> analyzerParams = new()
+var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "jieba",
-    ["filter"] = new List<object> { "cncharonly" }
+    ["filter"] = new[] { "cncharonly" }
 };
 ```
 
@@ -126,6 +118,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `cncharonly` フィルターはトークナイザーが生成した用語を処理するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
@@ -175,10 +168,7 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 <TabItem value='rust'>
 
 ```rust
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "jieba",
-        "filter": ["cncharonly"]
-    });
+let analyzer_params = serde_json::json!({"tokenizer": "jieba", "filter": ["cncharonly"]});
 ```
 
 </TabItem>
@@ -197,9 +187,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
-  tokenizer: "jieba",
-  filter: ["cncharonly"],
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": ["cncharonly"],
 };
 ```
 
@@ -210,10 +200,10 @@ analyzer_params = {
 ```csharp
 using System.Collections.Generic;
 
-Dictionary<string, object> analyzerParams = new()
+var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "jieba",
-    ["filter"] = new List<object> { "cncharonly" }
+    ["filter"] = new[] { "cncharonly" }
 };
 ```
 
@@ -223,7 +213,7 @@ Dictionary<string, object> analyzerParams = new()
 
 ```bash
 # restful
-export analyzerParams='{
+analyzerParams='{
   "tokenizer": "jieba",
   "filter": [
     "cncharonly"
@@ -232,6 +222,7 @@ export analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -244,7 +235,10 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Sample text to analyze
 sample_text = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"
@@ -259,15 +253,15 @@ print("Analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -288,7 +282,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -305,15 +298,20 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
 option := milvusclient.NewRunAnalyzerOption(texts...).
-    WithAnalyzerParamsStr(string(bs))
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
+}
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Analyzer output:", token.Text)
+    }
 }
 ```
 
@@ -322,11 +320,23 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
-        .texts(vec!["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"])
-        .analyzer_params(analyzer_params)
-        .build()?).await?;
-    println!("{:?}", resp.results());
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let sample_text = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec![sample_text])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
+
+println!("Analyzer output: {:?}", result);
 ```
 
 </TabItem>
@@ -335,10 +345,12 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -364,19 +376,19 @@ if (!status.IsOk()) {
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: "YOUR_CLUSTER_ENDPOINT",
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
 });
 
-analyzer_params = {
-  tokenizer: "jieba",
-  filter: ["cncharonly"],
-};
+// Sample text to analyze
+const sample_text = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
 
+// Run the jieba tokenizer with the defined configuration
 const result = await client.runAnalyzer({
-  text: "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。",
-  analyzer_params,
+    text: sample_text,
+    analyzer_params: analyzer_params
 });
-console.log(result.results);
+console.log("Analyzer output:", result);
 ```
 
 </TabItem>
@@ -389,27 +401,23 @@ using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
 using Milvus.Client.V2.Types;
 
-MilvusClientV2 client = new(new ConnectConfig
+var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 // Sample text to analyze
-string sampleText = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
+var sampleText = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
 
 // Run the jieba tokenizer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
-    Texts = [sampleText]
+    Texts = new[] { sampleText }
 });
-
-foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
-{
-    Console.WriteLine(t.Token);
-}
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -417,22 +425,26 @@ foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data-raw '{
-  "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cncharonly\"]}",
-  "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"]
+--header "Request-Timeout: 10" \
+-d '{
+    "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"],
+    "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cncharonly\"]}"
 }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['是', '下', '的', '一个', '开源', '项目', '以', '许可', '发布']
 ```

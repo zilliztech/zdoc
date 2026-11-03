@@ -1,21 +1,21 @@
 ---
 title: "Pinyin | Cloud"
 slug: /pinyin-filter
-sidebar_label: "pinyin"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "中国語テキストの検索では、多くの場合、ユーザーがインデックス付けされたテキストに表示されるとおりに中国語の文字を入力する必要があります。名前検索、オートコンプリート、入力しながら検索するワークフローでは、ユーザーは中国語の文字ではなく Pinyin を入力することがよくあります。たとえば、ユーザーが `zuqiu` と入力して `足球` を検索する場合があります。`pinyin` フィルターは、アナライザーの出力に Pinyin トークンを追加するため、別途 Pinyin フィールドを維持しなくても、中国語テキストを Pinyin 入力に一致させることができます。 | Cloud"
+description: "pinyin フィルターは、テキスト分析中に中国語文字のトークンを Pinyin トークンに変換し、中国語テキストの Pinyin ベースのマッチングを可能にします。 | Cloud"
 type: origin
-token: EhXXwmJzBi8pg9kJcC4ccm9OnDe
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-pinyin-filter
+sidebar_label: "pinyin"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/pinyin-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -70,10 +70,7 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "jieba",
     "filter": ["pinyin"]
 });
@@ -95,9 +92,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
-    tokenizer: "jieba",
-    filter: ["pinyin"],
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": ["pinyin"],
 };
 ```
 
@@ -128,6 +125,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 この省略構文では、元の中国語トークンが保持され、文字レベルの Pinyin トークンが出力されます。これらのオプションを明示的に有効にしない限り、結合された Pinyin や Pinyin の頭文字は出力されません。
@@ -198,10 +196,7 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "jieba",
     "filter": [
         {
@@ -239,15 +234,15 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
-    tokenizer: "jieba",
-    filter: [
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": [
         {
-            type: "pinyin",
-            keep_original: true,
-            keep_full_pinyin: true,
-            keep_joined_full_pinyin: false,
-            keep_separate_first_letter: false,
+            "type": "pinyin",
+            "keep_original": true,
+            "keep_full_pinyin": true,
+            "keep_joined_full_pinyin": false,
+            "keep_separate_first_letter": false,
         },
     ],
 };
@@ -298,11 +293,12 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 フィルターは以下のパラメーターを受け入れます。
 
-| **パラメーター** | **型** | **デフォルト** | **説明** |
+| パラメーター | 型 | デフォルト | 説明 |
 | --- | --- | --- | --- |
 | `keep_original` | Boolean | `true` | アナライザーの出力に元の中国語トークンを保持します。 |
 | `keep_full_pinyin` | Boolean | `true` | 文字レベルの Pinyin トークンを出力します。たとえば、`中文` から `zhong` と `wen` が生成されます。 |
@@ -321,7 +317,10 @@ analyzerParams='{
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 sample_text = "中文测试"
 ```
@@ -356,6 +355,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -444,6 +445,7 @@ var sampleText = "中文测试";
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 文字レベルの Pinyin で中国語テキストを一致させる\{#match-chinese-text-with-character-level-pinyin}
@@ -557,7 +559,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
@@ -609,6 +611,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 期待される出力：
@@ -766,7 +769,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -836,6 +839,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 期待される出力：
@@ -993,7 +997,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -1063,6 +1067,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 期待される出力：

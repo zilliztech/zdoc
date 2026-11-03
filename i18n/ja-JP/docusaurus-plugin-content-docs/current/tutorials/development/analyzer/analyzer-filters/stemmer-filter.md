@@ -1,21 +1,21 @@
 ---
 title: "Stemmer | Cloud"
 slug: /stemmer-filter
-sidebar_label: "Stemmer"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stemmer` フィルターは、単語を基本形または語根形に還元します（これをステミングと呼びます）。これにより、異なる語形変化を持つ類似した意味の単語を一致させやすくなります。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。 | Cloud"
+description: "stemmer フィルターは、単語を基本形または語根形に還元します（これをステミングと呼びます）。これにより、異なる語形変化を持つ類似した意味の単語を一致させやすくなります。stemmer フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。 | Cloud"
 type: origin
-token: JksSwTwJPidjsnk18Olc2TjWnZe
-sidebar_position: 10
 displayed_sidebar: default
+token: shared-stemmer-filter
+sidebar_label: "Stemmer"
+sidebar_position: 10
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/stemmer-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -78,9 +78,7 @@ analyzerParams := map[string]any{"tokenizer": "standard",
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "standard",
     "filter": [
         { "type": "stemmer", "language": "english" }
@@ -113,7 +111,7 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "stemmer", // Specifies the filter type as stemmer
-        "language": "english",
+        "language": "english", // Sets the language for stemming to English
     }],
 };
 ```
@@ -123,19 +121,14 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
     ["filter"] = new object[]
     {
-        new Dictionary<string, object> { ["type"] = "stemmer", ["language"] = "english" }  // Specifies the filter type as stemmer and the language to English
+        new Dictionary<string, object> { ["type"] = "stemmer", ["language"] = "english" } // Specifies the filter type as stemmer and the language to English
     },
 };
 ```
@@ -158,6 +151,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `stemmer` フィルターでは、以下の構成可能なパラメーターを使用できます。
@@ -167,6 +161,8 @@ analyzerParams='{
 | `language` | ステミング処理の言語を指定します。サポートされる言語は、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` です。 |
 
 `stemmer` フィルターはトークナイザーが生成したタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+
+アラビア語のテキストについては、ほとんどの場合、組み込みの [`arabic`](./arabic-analyzer) アナライザーを使用してください。この組み込みアナライザーには、アラビア語のステミングに加えて、アラビア語の正規化、10 進数字の正規化、アラビア語のストップワード除去が含まれています。カスタムアナライザーパイプラインを構築する必要がある場合にのみ、`stemmer` フィルターを直接使用してください。
 
 `analyzer_params` を定義したら、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
@@ -227,9 +223,7 @@ analyzerParams := map[string]any{"tokenizer": "standard",
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "standard",
     "filter": [
         { "type": "stemmer", "language": "english" }
@@ -262,7 +256,7 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "stemmer", // Specifies the filter type as stemmer
-        "language": "english",
+        "language": "english", // Sets the language for stemming to English
     }],
 };
 ```
@@ -272,19 +266,14 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
     ["filter"] = new object[]
     {
-        new Dictionary<string, object> { ["type"] = "stemmer", ["language"] = "english" }  // Specifies the filter type as stemmer and the language to English
+        new Dictionary<string, object> { ["type"] = "stemmer", ["language"] = "english" } // Specifies the filter type as stemmer and the language to English
     },
 };
 ```
@@ -307,6 +296,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
@@ -319,7 +309,10 @@ from pymilvus import (
     MilvusClient,
 )
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Sample text to analyze
 sample_text = "running runs looked ran runner"
@@ -334,15 +327,15 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -388,6 +381,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -395,22 +394,23 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let response = client
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let sample_text = "running runs looked ran runner";
+let result = client
     .run_analyzer(
         RunAnalyzerRequest::builder()
-            .texts(["running runs looked ran runner"])
+            .texts(vec![sample_text])
             .analyzer_params(analyzer_params)
             .build()?,
     )
     .await?;
 
-for result in response.results() {
-    for token in result.get_tokens() {
-        println!("Standard analyzer output: {}", token.get_text());
-    }
-}
+println!("Standard analyzer output: {:?}", result);
 ```
 
 </TabItem>
@@ -419,10 +419,12 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -445,19 +447,22 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
 });
 
-const sample_text = 'running runs looked ran runner';
+// Sample text to analyze
+const sample_text = "running runs looked ran runner";
+
+// Run the standard analyzer with the defined configuration
 const result = await client.runAnalyzer({
-  text: sample_text,
-  analyzer_params,
+    text: sample_text,
+    analyzer_params: analyzer_params
 });
-const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
-console.log('Standard analyzer output:', tokens);
+console.log("Standard analyzer output:", result);
 ```
 
 </TabItem>
@@ -466,31 +471,27 @@ console.log('Standard analyzer output:', tokens);
 
 ```csharp
 using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
 
 var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 // Sample text to analyze
-string sampleText = "running runs looked ran runner";
+var sampleText = "running runs looked ran runner";
 
 // Run the standard analyzer with the defined configuration
-var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
     Texts = new[] { sampleText }
 });
-Console.WriteLine("Standard analyzer output: " + string.Join(",", result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token)) ?? Array.Empty<string>()));
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -498,21 +499,26 @@ Console.WriteLine("Standard analyzer output: " + string.Join(",", result.Results
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data-raw '{
-    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [{\"type\": \"stemmer\", \"language\": \"english\"}]}",
-    "text": ["running runs looked ran runner"]
-  }' 
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "text": ["running runs looked ran runner"],
+    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [{\"type\": \"stemmer\", \"language\": \"english\"}]}"
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['run', 'run', 'look', 'ran', 'runner']
 ```
