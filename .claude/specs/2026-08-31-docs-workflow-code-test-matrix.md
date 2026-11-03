@@ -53,6 +53,22 @@ legitimate fence-generation transitions within the original acquisition deadline
 Hermetic fixtures do not replace the required authenticated retained-artifact
 publication replay with an isolated bare remote and exact inventories/builds.
 
+The exact `docs-tooling-runtime-contract` entry covers
+`packages/docs-tooling/src/runtime-contract.test.ts` and its owning
+`packages/docs-tooling/package.json`. Both select the complete runtime-contract
+file, TypeScript runtime boundary, workflow matrix and diff checks. The manifest
+also retains the existing `dependency-manifests` replay contract, `test:replay:all`
+and workflow policy union. Keep the precise dependency expectation, imported
+runtime package coverage, Node engine and real generator-loading checks aligned.
+The contract reads real literal module references with the installed TypeScript
+AST, including type imports, rather than matching regex or generated-code text.
+Test support is limited to `shared-docs/testing/**`, the exact
+`shared-docs/adapters/contract/suites.ts`, and existing `*.test.js/ts` suffixes.
+Every included runtime source is also checked for literal local imports into
+those excluded files, using the current relative extension/index conventions;
+`vitest` and other undeclared packages remain forbidden in runtime sources.
+Computed module paths and general package-exports resolution are not inferred.
+
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
 ## How an Agent uses the matrix

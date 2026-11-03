@@ -225,9 +225,22 @@ test('selector maps REST reference rendering to its localized component regressi
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
 })
 
+test('docs-tooling runtime contract and owning manifest select the complete runtime checks', () => {
+  for (const input of ['packages/docs-tooling/src/runtime-contract.test.ts', 'packages/docs-tooling/package.json']) {
+    const selected = selectTests([input])
+    assert.deepEqual(selected.areas.map(area => area.id), input.endsWith('package.json')
+      ? ['docs-tooling-runtime-contract', 'dependency-manifests'] : ['docs-tooling-runtime-contract'])
+    for (const command of ['pnpm exec vitest run packages/docs-tooling/src/runtime-contract.test.ts', 'pnpm test:typescript-runtime-boundary', 'pnpm test:workflow-matrix', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
+})
+
 test('selector maps dependency manifests and the lockfile to the replay toolchain gates', () => {
   const selected = selectTests(['pnpm-lock.yaml', 'packages/docs-tooling/package.json'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['dependency-manifests'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['docs-tooling-runtime-contract', 'dependency-manifests'])
+  assert.equal(selected.commands.includes('pnpm exec vitest run packages/docs-tooling/src/runtime-contract.test.ts'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
