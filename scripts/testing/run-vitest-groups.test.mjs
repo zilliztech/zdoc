@@ -1,13 +1,13 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import {mkdtemp,mkdir,rename,symlink,readFile,writeFile,stat,realpath} from 'node:fs/promises'
+import {mkdtemp,mkdir,rename,symlink,readFile,writeFile,stat,realpath,link} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {spawn,execFileSync} from 'node:child_process'
 import {createRequire} from 'node:module'
 import {dirname} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {HEAVY_FILES,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs} from './run-vitest-groups.mjs'
+import {HEAVY_FILES,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport} from './run-vitest-groups.mjs'
 import StopReporter from './vitest-stop-reporter.mjs'
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))
@@ -251,6 +251,110 @@ test('whole-run watchdog records failure then settles its registered active chil
   const pid=Number(await readFile(pidFile,'utf8'))
   assert.deepEqual(failure.owners.map(o=>o.pid),[pid]);assert.deepEqual(stopped.stopped,[{pid,settled:true}])
   await sleep(850);await assert.rejects(stat(marker),{code:'ENOENT'})
+})
+
+async function terminalFixture() {
+  const root=await fixture(),checkout=join(root,'checkout')
+  await mkdir(checkout)
+  const phases=[]
+  for(const [index,name] of ['light','transactions','local-runner'].entries()) {
+    const files=[join(checkout,`${index}.test.ts`)],directory=join(root,name)
+    await mkdir(directory)
+    const raw={success:true,numTotalTests:1,numPassedTests:1,numFailedTests:0,testResults:[{name:files[0],status:'passed',assertionResults:[{status:'passed'}]}]}
+    const receipt={success:true,exitCode:0,settled:true,observed:{terminal:{reason:'passed',errors:[],files:files.map(file=>({file,state:'passed'}))}}}
+    await writeFile(join(directory,'raw.json'),JSON.stringify(raw));await writeFile(join(directory,'receipt.json'),JSON.stringify(receipt))
+    phases.push({name,files,success:true,exitCode:0,settled:true,error:null,reason:null})
+  }
+  const aggregate={success:true,runId:root,checkout,evidenceRoot:root,phases,discoveredFiles:phases.flatMap(p=>p.files),unrunFiles:[],unaccountedFiles:[],rawCountsComplete:true}
+  return {root,aggregate,paths:[join(root,'aggregate.json'),join(root,'requested.json')]}
+}
+test('actual report reader qualifies only a bound committed terminal; provisional copies never pass',async()=>{
+  const f=await terminalFixture()
+  const prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+  for(const path of f.paths) {
+    assert.equal(JSON.parse(await readFile(path,'utf8')).success,undefined)
+    assert.equal((await readGateReport(path)).success,false)
+  }
+  const result=await settleGateVerdict(prepared)
+  assert.equal(result.success,true);assert.equal(result.settlementStatus,'acknowledged');assert.equal(result.commandStatus,'passed')
+  for(const path of f.paths) {
+    const read=await readGateReport(path);assert.equal(read.success,true);assert.equal(read.committed,true)
+    assert.equal(read.commandStatus,'not-established-by-artifacts')
+  }
+  await writeFile(f.paths[1],(await readFile(f.paths[1],'utf8'))+' ')
+  assert.equal((await readGateReport(f.paths[0])).success,false)
+})
+for(const failure of ['second report I/O','preparation timeout','diagnostic write failure'])test(`${failure} cannot qualify an already written first report`,async()=>{
+  const f=await terminalFixture(),original=f.paths[1]
+  if(failure==='second report I/O') {await writeFile(original,'caller-owned');f.paths[1]=join(original,'nested.json')}
+  if(failure==='diagnostic write failure') {await mkdir(join(f.root,'gate-failure.json'));await mkdir(join(f.root,'gate-stop.json'))}
+  await assert.rejects(withGateDeadline(async budget=>{
+    const step=budget.step.bind(budget);let reports=0
+    budget.step=(name,action)=>step(name,async()=>{
+      if(name==='provisional report'&&++reports===2&&failure!=='second report I/O') {
+        if(failure==='preparation timeout'){await sleep(150);budget.check()}
+        throw new Error('injected second report failure')
+      }
+      return action()
+    })
+    return prepareGateReports(f.aggregate,f.paths,budget)
+  },{milliseconds:failure==='preparation timeout'?60:2000,evidenceRoot:f.root}))
+  assert.equal(JSON.parse(await readFile(f.paths[0],'utf8')).phaseResultsPassed,true)
+  assert.equal((await readGateReport(f.paths[0])).success,false)
+  await assert.rejects(stat(join(f.root,'terminal.json')),{code:'ENOENT'})
+  if(failure==='second report I/O')assert.equal(await readFile(original,'utf8'),'caller-owned')
+})
+test('partial, corrupt, mismatched and non-passing terminal evidence is rejected',async()=>{
+  for(const corrupt of ['partial','foreign','phase failed','raw tampered']) {
+    const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+    const value=JSON.parse(prepared.terminalBytes)
+    if(corrupt==='partial')await writeFile(prepared.terminalPath,'{"version":')
+    else {
+      if(corrupt==='foreign')value.runId='foreign'
+      if(corrupt==='phase failed')value.phases[0].settled=false
+      await writeFile(prepared.terminalPath,JSON.stringify(value))
+      if(corrupt==='raw tampered')await writeFile(join(f.root,'light/raw.json'),'{}')
+    }
+    assert.equal((await readGateReport(f.paths[0])).success,false,corrupt)
+  }
+})
+test('lost publication acknowledgment stays command-unknown while the offline reader distinguishes an actual commit',async()=>{
+  for(const landed of [true,false]) {
+    const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+    const result=await settleGateVerdict(prepared,{publish:async(from,to)=>{if(landed)await link(from,to);throw new Error('lost publication acknowledgment')}})
+    assert.equal(result.success,false);assert.equal(result.commandStatus,'unknown');assert.equal(result.settlementStatus,'unknown')
+    const offline=await readGateReport(f.paths[0]);assert.equal(offline.success,landed);assert.equal(offline.commandStatus,'not-established-by-artifacts')
+  }
+})
+test('slow settlement is bounded, attempts publication once and does not run confirmation after expiry',async()=>{
+  const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+  let publications=0,confirmations=0
+  const started=performance.now()
+  const result=await settleGateVerdict(prepared,{milliseconds:50,publish:async(from,to)=>{publications++;await sleep(150);await link(from,to)},confirm:async path=>{confirmations++;return readGateReport(path)}})
+  assert.equal(result.success,false);assert.equal(result.settlementStatus,'unknown');assert.ok(performance.now()-started<140)
+  await sleep(170);assert.equal(publications,1);assert.equal(confirmations,0)
+  assert.equal((await readGateReport(f.paths[0])).success,true)
+})
+test('exclusive terminal publication preserves a prior terminal and cannot retry into success',async()=>{
+  const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+  await writeFile(prepared.terminalPath,'prior caller-owned terminal')
+  const result=await settleGateVerdict(prepared)
+  assert.equal(result.success,false);assert.equal(result.settlementStatus,'unknown')
+  assert.equal(await readFile(prepared.terminalPath,'utf8'),'prior caller-owned terminal')
+  assert.equal((await readGateReport(f.paths[0])).success,false)
+})
+test('real command exits zero only on acknowledged qualification and nonzero on lost acknowledgment',async()=>{
+  for(const lost of [false,true]) {
+    const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+    const module=fileURLToPath(new URL('./run-vitest-groups.mjs',import.meta.url))
+    const code=`import {settleGateVerdict} from ${JSON.stringify(module)};import {link} from 'node:fs/promises';
+      const result=await settleGateVerdict(${JSON.stringify(prepared)},${lost?"{publish:async(from,to)=>{await link(from,to);throw new Error('lost acknowledgment')}}":"{}"});
+      if(result.settlementStatus==='unknown')process.exit(1);process.exitCode=result.success?0:1;`
+    const child=spawn(process.execPath,['--input-type=module','-e',code],{stdio:'ignore'})
+    assert.equal(await new Promise(resolve=>child.once('exit',resolve)),lost?1:0)
+    const offline=await readGateReport(f.paths[0]);assert.equal(offline.success,true)
+    assert.equal(offline.commandStatus,'not-established-by-artifacts')
+  }
 })
 
 async function realVitest(root,source) {

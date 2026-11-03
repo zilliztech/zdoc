@@ -49,9 +49,13 @@ Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
 retain their usual worker configuration. Use `pnpm test:vitest-groups` for the
 supervisor's selection, reporting and actual child-process failure contracts.
 
-Each complete gate has a 15-minute monotonic outer infrastructure limit covering
-preflight, discovery, phase transitions and finalization. Expired work cannot start
-a child or report success; preflight Git calls are bounded by the remaining budget.
+Each complete gate has a 15-minute monotonic execution limit covering preflight,
+discovery, all phases, validation and actual writes of every requested report.
+Expired work cannot start a child or freeze a passing execution verdict; preflight
+Git calls are bounded by the remaining budget. Only after all that work completes
+within the limit is the measured verdict frozen. One separate terminal confirmation
+attempt has at most 1 second for exclusive staging, persistence, atomic publication
+and reader confirmation. This allowance runs no tests or report copies and adds no retry.
 A failed test/module, invalid or incomplete report, nonzero exit, or surviving
 owned process fails the gate and prevents later phases. Failed heavy work is
 terminated only within that invocation's process group; tests left unrun after
@@ -68,7 +72,7 @@ not overlap or contain the checkout, actual Git/common directories, object store
 never chmodded or cleaned. Each gate gets a fresh owned0700 root and each phase a
 separate temporary directory. Ancestor identities and entry counts are retained;
 directory identities are checked before and after creation and phase execution.
-neither a crowded system temporary directory nor this layout is presumed equivalent
+Neither a crowded system temporary directory nor this layout is presumed equivalent
 in performance to an older fixture. Global environment/permissions and older tool
 proofs remain untouched.
 
@@ -78,9 +82,27 @@ An aborted gate also retains its stage and owned-group stop result. An incomplet
 raw report has unknown full case counts; observed reporter failures are reported
 separately and are not replaced by a misleading zero-failure total.
 `--reporter=default`, `--reporter=json`, and a fresh
-`--outputFile.json=/absolute/path/result.json` are supported. An aggregate passes
-only when all discovered files are accounted for, every terminal report is complete,
-and every owned group has exited. Narrowing options, retries and deadline overrides
+`--outputFile.json=/absolute/path/result.json` are supported. Aggregate and requested
+JSON files are provisional and have no standalone `success` flag. The sole committed
+`terminal.json` binds the run, measured execution verdict, all report identities and
+hashes, and each complete phase's raw result and settled process receipt. Use the
+actual reader to qualify either report path:
+
+```js
+import {readGateReport} from './scripts/testing/run-vitest-groups.mjs';
+const result = await readGateReport('/absolute/path/result.json');
+console.log(result.success, result.executionStatus, result.commandStatus);
+```
+
+The CLI uses the same reader and returns zero only for an acknowledged passing
+commit. Missing, partial or mismatched terminal evidence cannot qualify a report.
+An error or exhausted confirmation allowance returns nonzero with settlement status
+`unknown`, without rollback or retry: the terminal might already have committed.
+An offline reader can verify that committed execution result, but its
+`commandStatus: not-established-by-artifacts` does not prove CLI delivery or exit.
+No filesystem timestamp substitutes for the measured monotonic execution budget.
+All discovered files must be accounted for and every owned group settled.
+Narrowing options, retries and deadline overrides
 are rejected by these complete gates; use direct `pnpm exec vitest run ...` for
 explicit focused diagnostics, which do not qualify the complete selection.
 

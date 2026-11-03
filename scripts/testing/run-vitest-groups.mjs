@@ -1,7 +1,7 @@
 import {spawn,execFileSync} from 'node:child_process'
 import {createHash,randomUUID} from 'node:crypto'
 import {readFileSync} from 'node:fs'
-import {open,mkdir,mkdtemp,readFile,writeFile,realpath,stat,lstat,readdir} from 'node:fs/promises'
+import {open,mkdir,mkdtemp,readFile,writeFile,realpath,stat,lstat,readdir,link} from 'node:fs/promises'
 import {homedir} from 'node:os'
 import {basename,dirname,isAbsolute,join,relative,resolve,sep} from 'node:path'
 import {fileURLToPath} from 'node:url'
@@ -22,7 +22,7 @@ const sha=bytes=>createHash('sha256').update(bytes).digest('hex')
  * Every continuation checks it before starting another operation or side effect.
  */
 export async function withGateDeadline(work,{milliseconds=15*60*1000,evidenceRoot=null}={}) {
-  const expires=performance.now()+milliseconds,owned=new Set()
+  const started=performance.now(),expires=started+milliseconds,owned=new Set()
   let stage='preflight',expired=false,rejectExpiry
   const error=new Error('Grouped gate 15-minute outer deadline exhausted')
   error.code='ZDOC_GATE_DEADLINE'
@@ -31,6 +31,7 @@ export async function withGateDeadline(work,{milliseconds=15*60*1000,evidenceRoo
   const expire=()=>{expired=true;rejectExpiry(error)}
   const timer=setTimeout(expire,milliseconds)
   const budget={evidenceRoot,deadline:Date.now()+milliseconds,
+    elapsed(){return performance.now()-started},limitMs:milliseconds,
     check(){if(expired||performance.now()>=expires){expire();throw error}},
     remaining(){this.check();return Math.max(1,Math.ceil(expires-performance.now()))},
     get expired(){return expired||performance.now()>=expires},
@@ -348,8 +349,126 @@ function sourceIdentity(cwd,budget) {
     harnessSha256:sha(Buffer.concat(files.flatMap(file=>[Buffer.from(file+'\0'),readFileSync(join(cwd,file)),Buffer.from('\0')])))}
 }
 
+async function boundFile(path,expected=null,maxBytes=64*1024*1024) {
+  const info=await lstat(path,{bigint:true})
+  if(!info.isFile()||info.size>BigInt(maxBytes))throw new Error('Invalid report/evidence file')
+  const bytes=await readFile(path),binding={path,bytes:bytes.length,sha256:sha(bytes),device:String(info.dev),inode:String(info.ino)}
+  const after=await lstat(path,{bigint:true})
+  if(after.dev!==info.dev||after.ino!==info.ino||after.size!==info.size||BigInt(bytes.length)!==info.size)throw new Error('Report identity changed while reading')
+  if(expected&&JSON.stringify(binding)!==JSON.stringify(expected))throw new Error('Report/evidence binding mismatch')
+  return {binding,bytes}
+}
+
+/** Provisional reports never grant qualification. All fallible report work is
+ * inside the execution budget; this returns an immutable, measured verdict.
+ */
+export async function prepareGateReports(aggregate,paths,budget) {
+  const terminalPath=join(aggregate.evidenceRoot,'terminal.json'),runId=aggregate.runId
+  const {success:phaseResultsPassed,...details}=aggregate
+  const report={...details,phaseResultsPassed,qualification:'provisional; requires validated committed terminal',terminalPath}
+  const reports=[]
+  for(const path of paths) {
+    await budget.step('report directory',()=>mkdir(dirname(path),{recursive:true}))
+    await budget.step('provisional report',()=>jsonWrite(path,report))
+    reports.push((await budget.step('report binding',()=>boundFile(path))).binding)
+  }
+  const phases=[]
+  for(const phase of aggregate.phases) {
+    const base=join(aggregate.evidenceRoot,phase.name)
+    const capture=async file=>{
+      try{return (await budget.step('phase evidence binding',()=>boundFile(join(base,file)))).binding}
+      catch(error){if(!phaseResultsPassed&&error.code==='ENOENT')return null;throw error}
+    }
+    phases.push({...phase,raw:await capture('raw.json'),receipt:await capture('receipt.json')})
+  }
+  const verdict={version:1,runId,terminalPath,reports,phases,
+    execution:{status:phaseResultsPassed?'passed':'failed',elapsedMs:budget.elapsed(),limitMs:budget.limitMs}}
+  // Validate the exact artifact relationships before freezing; settlement only
+  // persists/confirms these bytes and never runs tests or copies reports.
+  await budget.step('prepared verdict validation',()=>validateGateVerdict(verdict,paths[0]))
+  verdict.execution.elapsedMs=budget.elapsed();budget.check()
+  return {terminalPath,reportPath:paths[0],terminalBytes:JSON.stringify(verdict,null,2)+'\n'}
+}
+
+async function validateGateVerdict(verdict,reportPath) {
+  if(verdict?.version!==1||typeof verdict.runId!=='string'||!verdict.runId||
+    !Array.isArray(verdict.reports)||!verdict.reports.length||verdict.reports.length>2||
+    new Set(verdict.reports.map(r=>r.path)).size!==verdict.reports.length||
+    !verdict.reports.some(r=>r.path===reportPath)||!Array.isArray(verdict.phases))throw new Error('Invalid terminal manifest')
+  const execution=verdict.execution
+  if(!['passed','failed'].includes(execution?.status)||!Number.isFinite(execution.elapsedMs)||execution.elapsedMs<0||
+    !Number.isFinite(execution.limitMs)||execution.limitMs<=0||execution.limitMs>15*60*1000||execution.elapsedMs>=execution.limitMs)throw new Error('Invalid measured execution verdict')
+  let report
+  for(const binding of verdict.reports) {
+    const value=JSON.parse((await boundFile(binding.path,binding)).bytes)
+    if(value.runId!==verdict.runId||value.terminalPath!==verdict.terminalPath||
+      value.terminalPath!==join(value.evidenceRoot,'terminal.json')||value.success!==undefined||
+      value.qualification!=='provisional; requires validated committed terminal'||value.phaseResultsPassed!==(execution.status==='passed'))throw new Error('Invalid provisional report identity')
+    if(binding.path===reportPath)report=value
+  }
+  if(execution.status==='passed') {
+    if(verdict.phases.length!==3||verdict.phases.map(p=>p.name).join(',')!=='light,transactions,local-runner'||
+      report.unrunFiles.length||report.unaccountedFiles.length||!report.rawCountsComplete)throw new Error('Incomplete successful phase manifest')
+    equalFiles(verdict.phases.flatMap(p=>p.files),report.discoveredFiles,report.checkout)
+  }
+  for(const phase of verdict.phases) {
+    const summary=report.phases.find(p=>p.name===phase.name)
+    const {raw,receipt,...terminalSummary}=phase
+    if(!summary||JSON.stringify(summary)!==JSON.stringify(terminalSummary))throw new Error('Phase summary mismatch')
+    const rawData=raw?JSON.parse((await boundFile(raw.path,raw)).bytes):null
+    const receiptData=receipt?JSON.parse((await boundFile(receipt.path,receipt)).bytes):null
+    if(execution.status==='passed') {
+      if(!phase.success||phase.exitCode!==0||!phase.settled||!receiptData?.success||receiptData.exitCode!==0||!receiptData.settled||
+        receiptData.observed?.terminal?.reason!=='passed'||receiptData.observed.terminal.errors.length)throw new Error('Non-passing phase terminal')
+      equalFiles(receiptData.observed.terminal.files.map(f=>f.file),phase.files,report.checkout)
+      validateRawReport(rawData,phase.files,report.checkout)
+    }
+  }
+  return {success:execution.status==='passed',committed:true,executionStatus:execution.status,
+    commandStatus:'not-established-by-artifacts',report,terminal:verdict}
+}
+
+/** The only artifact qualification reader. A committed execution result does
+ * not prove that the CLI received acknowledgment or exited successfully. */
+export async function readGateReport(reportPath) {
+  try {
+    reportPath=resolve(reportPath)
+    const report=JSON.parse((await boundFile(reportPath)).bytes)
+    if(report.terminalPath!==join(report.evidenceRoot,'terminal.json'))throw new Error('Invalid terminal location')
+    const terminal=JSON.parse((await boundFile(report.terminalPath,null,128*1024)).bytes)
+    return await validateGateVerdict(terminal,reportPath)
+  } catch(error){return {success:false,committed:false,executionStatus:'unknown',commandStatus:'not-established-by-artifacts',reason:error.message}}
+}
+
+/** Single attempt after the execution verdict is frozen. A publish call can
+ * commit and lose its acknowledgment; unknown command delivery is not rollback.
+ * Short limits/publish injection are private contract seams, never CLI options.
+ */
+export async function settleGateVerdict(prepared,{milliseconds=1000,publish=link,confirm=readGateReport}={}) {
+  const started=performance.now();let aborted=false,timer
+  const check=()=>{if(aborted||performance.now()-started>=milliseconds)throw new Error('Terminal settlement deadline exhausted')}
+  const attempt=async()=>{
+    const staged=join(dirname(prepared.terminalPath),'terminal-staged.json')
+    check();const handle=await open(staged,'wx',0o600)
+    try {check();await handle.writeFile(prepared.terminalBytes);check();await handle.sync();check()}
+    finally{await handle.close()}
+    check();await publish(staged,prepared.terminalPath);check()
+    const verified=await confirm(prepared.reportPath);check()
+    if(!verified.committed)throw new Error(`Terminal confirmation failed: ${verified.reason}`)
+    return {...verified,settlementStatus:'acknowledged',commandStatus:verified.success?'passed':'failed'}
+  }
+  try {
+    return await Promise.race([attempt(),new Promise((_,reject)=>{timer=setTimeout(()=>{aborted=true;reject(new Error('Terminal settlement deadline exhausted'))},milliseconds)})])
+  } catch(error) {
+    aborted=true
+    const result={success:false,committed:null,executionStatus:'unknown',commandStatus:'unknown',settlementStatus:'unknown',reason:error.message,
+      reportPath:prepared.reportPath,terminalPath:prepared.terminalPath}
+    console.error(JSON.stringify(result));return result
+  } finally{clearTimeout(timer)}
+}
+
 export async function runGate(options) {
-  return withGateDeadline(async budget=>{
+  const prepared=await withGateDeadline(async budget=>{
     const started=Date.now(),deadline=budget.deadline,step=(name,action)=>budget.step(name,action)
     const cwd=await step('checkout preflight',()=>realpath(repository))
     if(!['darwin','linux'].includes(process.platform))throw new Error('Grouped gates support macOS/Linux process ownership only')
@@ -403,23 +522,19 @@ export async function runGate(options) {
     const success=!failure&&result.success&&result.completed.length===3
     const reports=summarizeReports(result.completed)
     reports.rawCountsComplete&&=result.completed.length===3&&!result.unrun.length
-    const {rawCountsComplete,observedFailures}=reports
-    const aggregate={success,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
-      discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason})),
+    const aggregate={success,runId:randomUUID(),checkout:cwd,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
+      discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason})),
       unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
       qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; raw counts cover only available reports, unrun files and cancelled tests are not ordinary platform skips'}
-    await step('final aggregate',()=>jsonWrite(join(root,'aggregate.json'),aggregate))
-    if(options.output) {
-      await step('final output directory',()=>mkdir(dirname(options.output),{recursive:true}))
-      await step('final requested output',()=>jsonWrite(options.output,aggregate))
-    }
-    budget.check()
-    console.log(`${success?'PASS':'FAIL'} grouped ${options.scope}: ${rawCountsComplete?`${aggregate.numPassedTests} passed, ${aggregate.numFailedTests} failed, ${aggregate.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${observedFailures.length} observed failure event(s)`}; ${root}`)
-    return aggregate
+    await step('final root identity',()=>verifyTemporaryRoot(layout))
+    return prepareGateReports(aggregate,[join(root,'aggregate.json'),...options.output?[options.output]:[]],budget)
   })
+  const result=await settleGateVerdict(prepared),report=result.report
+  if(result.settlementStatus==='acknowledged')console.log(`${result.success?'PASS':'FAIL'} grouped ${options.scope}: ${report.rawCountsComplete?`${report.numPassedTests} passed, ${report.numFailedTests} failed, ${report.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${report.observedFailures.length} observed failure event(s)`}; ${report.evidenceRoot}`)
+  return result
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
-  try{const result=await runGate(parseOptions(process.argv.slice(2)));process.exitCode=result.success?0:1}
+  try{const result=await runGate(parseOptions(process.argv.slice(2)));if(result.settlementStatus==='unknown')process.exit(1);process.exitCode=result.success?0:1}
   catch(e){console.error(e.stack??e);if(e.code==='ZDOC_GATE_DEADLINE')process.exit(1);process.exitCode=1}
 }

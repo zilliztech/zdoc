@@ -13,9 +13,16 @@ files in separate sequential forks with one worker. Existing testcase deadlines
 and normal runIf skips remain. A private run-correlated reporter and owned-process
 supervisor fail closed on errors, incomplete/mismatched results or surviving
 children; later groups are not launched and unrun files are not normal skips.
-Both entrypoints have one monotonic 15-minute outer ceiling across preflight,
-discovery, transitions and finalization, with bounded preflight Git calls and
-no post-deadline child start/success. Incomplete raw counts and observed reporter
+Both entrypoints have one monotonic 15-minute execution ceiling across preflight,
+discovery, transitions, validation and all report writes, with bounded preflight Git
+calls and no post-deadline child start/passing verdict. After freezing that measured
+verdict, one at-most-1000ms terminal-settlement attempt exclusively stages, persists,
+atomically publishes and confirms it. No tests/report copying or retry occur there.
+Provisional reports cannot qualify alone: the actual reader verifies the sole
+run-bound terminal, complete report/phase bindings and zero-exit settled receipts.
+CLI settlement unknown is nonzero; an offline verified committed verdict does not
+prove CLI delivery/exit. No rollback or file-time deadline inference is used.
+Incomplete raw counts and observed reporter
 failures are distinct. macOS/Linux temporary roots are new owned0700 children
 of the user's dedicated .cache/zdoc-vitest, or explicit ZDOC_TEST_TMP_PARENT, outside the checkout
 and actual Git/common directories, object stores/alternates and aggregate output.
