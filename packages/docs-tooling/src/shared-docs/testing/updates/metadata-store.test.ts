@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { deflateSync } from 'node:zlib'
-import { expect, it, vi } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { checkMetadataVerificationBudget, createMetadataStore, createLocalMetadataInspector, type LocalJournalFacts, type LocalRevisionEvidence } from '../../adapters/updates/metadata-store'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/canonical'
@@ -166,25 +166,44 @@ async function fixture(baselineCount = 1, bulkLeaves = 0) {
   return {root,repository,git,gitBytes,makeTree,commit,exactCommit,chain,batchMessages,baseTree,baseline,accepted,evidence,context,journals,revalidateJournal,inspect,bot}
 }
 
-it('excludes 320 accepted baseline messages, visits both short merge arms and retains next-only/local-chain proof', async () => {
-  const f = await fixture(320), k = await f.bot()
-  const h = f.commit(f.makeTree(lock(sourceNext), {'human.txt':'human\n'}),[k.oid])
-  const donor = f.commit(f.makeTree(lock(sourceNext), {'donor.txt':'donor\n'}),[k.oid])
-  const tree = f.git(['merge-tree','--write-tree',h,donor])
-  const merged = f.commit(tree,[h,donor]), before = f.git(['show-ref'])
-  const result = await f.inspect({master:f.baseline,head:merged,donorHeads:[donor],journalCandidates:[k.oid]})
-  expect(result.status, result.reasons.join('\n')).toBe('local-consistent')
-  expect(result.counts).toMatchObject({verificationHeaders:324,metadataCommits:4,mergeCommits:1})
-  expect(result.graph.find(item=>item.oid===merged)?.parents).toEqual([h,donor])
-  expect(result.revision?.commit).toBe(k.oid)
-  expect(result.preservedHeads).toEqual([donor,merged].sort())
-  expect(result.evidence[0].proof.nextEdits).toEqual(k.local.plan.nextEdits)
-  expect(f.git(['show-ref'])).toBe(before)
-  const k2 = await f.bot(merged,k.oid,sourceNext,'d'.repeat(40),{'human.txt':'human\n','donor.txt':'donor\n'})
-  const resumed = await f.inspect({master:f.baseline,head:k2.oid,journalCandidates:[k.oid,k2.oid]})
-  expect(resumed.status,resumed.reasons.join('\n')).toBe('local-consistent')
-  expect(resumed.revision?.commit).toBe(k2.oid)
-  expect(resumed.counts.metadataCommits).toBe(5)
+describe('long accepted baseline with independently inspected local revisions', () => {
+  let history: Readonly<{baseline:string;k:string;h:string;donor:string;merged:string;k2:string;nextEditsJson:string;
+    inspect:ReturnType<typeof createLocalMetadataInspector>;refs:()=>string}>
+  beforeAll(async () => {
+    const started=process.hrtime.bigint(),f=await fixture(320),k=await f.bot()
+    const h=f.commit(f.makeTree(lock(sourceNext),{'human.txt':'human\n'}),[k.oid])
+    const donor=f.commit(f.makeTree(lock(sourceNext),{'donor.txt':'donor\n'}),[k.oid])
+    const tree=f.git(['merge-tree','--write-tree',h,donor]),merged=f.commit(tree,[h,donor])
+    const k2=await f.bot(merged,k.oid,sourceNext,'d'.repeat(40),{'human.txt':'human\n','donor.txt':'donor\n'})
+    const ids=f.git(['cat-file','--batch-all-objects','--batch-check=%(objectname) %(objecttype)']).split('\n').filter(line=>line.endsWith(' commit')).map(line=>line.split(' ')[0]).sort()
+    expect(ids).toHaveLength(325)
+    const request=join(f.root,'complete-history.request');writeFileSync(request,ids.join('\n')+'\n',{flag:'wx',mode:0o600})
+    const raw=f.gitBytes(['cat-file','--batch'],undefined,request)
+    writeFileSync(join(f.root,'complete-history.raw'),raw,{flag:'wx',mode:0o600})
+    writeFileSync(join(f.root,'history-setup.json'),JSON.stringify({milliseconds:Number(process.hrtime.bigint()-started)/1e6,commits:ids.length,rawSha256:rawSha256(raw)},null,2)+'\n',{flag:'wx',mode:0o600})
+    // Tests receive immutable object IDs/read facades, never writable journals or
+    // cached scan results. Every inspect invocation constructs its own full graph.
+    history=Object.freeze({baseline:f.baseline,k:k.oid,h,donor,merged,k2:k2.oid,nextEditsJson:JSON.stringify(k.local.plan.nextEdits),inspect:f.inspect,refs:()=>f.git(['show-ref'])})
+  })
+  it('excludes 320 accepted baseline messages, visits both short merge arms and retains next-only/local-chain proof', async () => {
+    const {baseline,k,h,donor,merged}=history,before=history.refs()
+    const result=await history.inspect({master:baseline,head:merged,donorHeads:[donor],journalCandidates:[k]})
+    expect(result.status,result.reasons.join('\n')).toBe('local-consistent')
+    expect(result.counts).toMatchObject({verificationHeaders:324,metadataCommits:4,mergeCommits:1})
+    expect(result.graph.find(item=>item.oid===merged)?.parents).toEqual([h,donor])
+    expect(result.revision?.commit).toBe(k)
+    expect(result.preservedHeads).toEqual([donor,merged].sort())
+    expect(result.evidence[0].proof.nextEdits).toEqual(JSON.parse(history.nextEditsJson))
+    expect(history.refs()).toBe(before)
+  })
+  it('independently resumes K2 over the same complete 320-commit baseline without a cross-call graph cache', async () => {
+    const {baseline,k,k2}=history,before=history.refs()
+    const resumed=await history.inspect({master:baseline,head:k2,journalCandidates:[k,k2]})
+    expect(resumed.status,resumed.reasons.join('\n')).toBe('local-consistent')
+    expect(resumed.revision?.commit).toBe(k2)
+    expect(resumed.counts).toMatchObject({verificationHeaders:325,metadataCommits:5,mergeCommits:1})
+    expect(history.refs()).toBe(before)
+  })
 })
 it('round trips complete large fixture messages across the pipe boundary with a bounded file transport', async () => {
   const f=await fixture()
