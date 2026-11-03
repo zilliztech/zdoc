@@ -56,7 +56,11 @@ export async function withGateDeadline(work,{milliseconds=15*60*1000,evidenceRoo
       finally{clearTimeout(timeout)}
     }
     await record('gate-failure.json',failure)
-    const stopped=await Promise.all([...owned].map(async o=>({pid:o.pid,settled:await o.stop()})))
+    const stopped=await Promise.all([...owned].map(async o=>{
+      let settled=false;const errors=[]
+      try{settled=await o.stop()===true}catch(error){errors.push(cleanupError('stop',null,o.pid,error))}
+      return {pid:o.pid,settled,cleanupErrors:[...o.cleanupErrors??[],...errors],signals:[...o.signals??[]],exit:o.exit??null,observedFailure:o.observedFailure??null}
+    }))
     await record('gate-stop.json',{failure,stopped})
     throw cause
   } finally {clearTimeout(timer)}
@@ -127,16 +131,31 @@ export function inspectEvents(text,{runId,expected,root,heavy,final=false}) {
   return {start,terminal,failure}
 }
 
-function groupAlive(pid) {
-  try{process.kill(-pid,0);return true}catch(e){if(e.code==='ESRCH')return false;throw e}
+function cleanupError(operation,signal,pid,error) {
+  return {operation,signal,processGroup:pid,code:error.code??null,message:error.message,at:Date.now()}
 }
-async function stopGroup(pid,signals,graceMs) {
-  if(!groupAlive(pid))return true
+function groupAlive(pid,errors) {
+  try{process.kill(-pid,0);return true}catch(error){
+    if(error.code==='ESRCH')return false
+    errors.push(cleanupError('probe',0,pid,error));return null
+  }
+}
+async function stopGroup(pid,signals,graceMs,errors,waitForLeaderExit) {
+  const initial=groupAlive(pid,errors)
+  if(initial!==true)return initial===false
   for(const signal of ['SIGTERM','SIGKILL']) {
-    try{process.kill(-pid,signal);signals.push({pid,signal,at:Date.now()})}catch(e){if(e.code!=='ESRCH')throw e}
+    try{process.kill(-pid,signal);signals.push({pid,signal,at:Date.now()})}catch(error){
+      if(error.code==='ESRCH')return true
+      errors.push(cleanupError('signal',signal,pid,error));return false
+    }
     const until=Date.now()+graceMs
-    while(groupAlive(pid)&&Date.now()<until)await pause(25)
-    if(!groupAlive(pid))return true
+    await waitForLeaderExit(until)
+    while(true) {
+      const state=groupAlive(pid,errors)
+      if(state!==true)return state===false
+      if(Date.now()>=until)break
+      await pause(25)
+    }
   }
   return false
 }
@@ -148,18 +167,27 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
   beforeSpawn()
   await mkdir(directory,{mode:0o700})
   const stdout=await open(join(directory,'stdout'),'wx',0o600),stderr=await open(join(directory,'stderr'),'wx',0o600)
-  const started=Date.now(),signals=[]
-  let child,owner,stopping,exit=null,reason=null,spawnError=null,observed=null,settled=false
-  const stopOwned=()=>stopping??=(child?.pid?stopGroup(child.pid,signals,graceMs):Promise.resolve(true))
+  const started=Date.now(),signals=[],cleanupErrors=[],persistenceErrors=[]
+  let child,owner,stopping,exit=null,reason=null,spawnError=null,observed=null,settled=false,supervisorError=null
+  let notifyExit
+  const leaderExited=new Promise(resolve=>{notifyExit=resolve})
+  const waitForLeaderExit=async until=>{
+    if(exit!==null||Date.now()>=until)return
+    let timer
+    try{await Promise.race([leaderExited,new Promise(resolve=>{timer=setTimeout(resolve,Math.max(0,until-Date.now()))})])}
+    finally{clearTimeout(timer)}
+  }
+  const stopOwned=()=>stopping??=(cleanupErrors.length?Promise.resolve(false):child?.pid?stopGroup(child.pid,signals,graceMs,cleanupErrors,waitForLeaderExit):Promise.resolve(true))
+  const persistError=(operation,error)=>{persistenceErrors.push({operation,code:error.code??null,message:error.message,at:Date.now()})}
   const interrupt=signal=>{reason??=`Supervisor interrupted: ${signal}`}
   const onInt=()=>interrupt('SIGINT'),onTerm=()=>interrupt('SIGTERM')
   process.on('SIGINT',onInt);process.on('SIGTERM',onTerm)
   try {
     beforeSpawn()
     child=spawn(argv[0],argv.slice(1),{cwd,env,detached:true,stdio:['ignore',stdout.fd,stderr.fd]})
-    owner={pid:child.pid,directory,stop:stopOwned};budget?.register(owner)
+    owner={pid:child.pid,directory,stop:stopOwned,cleanupErrors,signals,get exit(){return exit},get observedFailure(){return observed?.failure??null}};if(child.pid)budget?.register(owner)
     child.once('error',e=>{spawnError=e;reason??=`Spawn failed: ${e.message}`;exit={code:null,signal:null}})
-    child.once('exit',(code,signal)=>{exit={code,signal}})
+    child.once('exit',(code,signal)=>{exit={code,signal};notifyExit()})
     await jsonWrite(join(directory,'owner.json'),{pid:child.pid??null,processGroup:child.pid??null,started,argv,cwd})
     while(true) {
       if(protocol) {
@@ -184,27 +212,43 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
       const until=Date.now()+graceMs
       while(!exit&&Date.now()<until)await pause(25)
     }
-    if(child.pid&&!settled) {
+    // A denied cleanup is already an unknown result. Do not probe/escalate
+    // again through the natural-exit branch or retry the same rejected action.
+    if(child.pid&&!settled&&!stopping) {
       const until=Date.now()+250
-      while(groupAlive(child.pid)&&Date.now()<until)await pause(25)
-      if(groupAlive(child.pid)) {
-        reason??='Owned child processes survived invocation exit'
-        if(!await stat(join(directory,'failure.json')).catch(()=>null))await jsonWrite(join(directory,'failure.json'),{reason,exit,at:Date.now()})
-        settled=await stopOwned()
-      } else settled=true
+      let state=groupAlive(child.pid,cleanupErrors)
+      while(state===true&&Date.now()<until){await pause(25);state=groupAlive(child.pid,cleanupErrors)}
+      if(state===false)settled=true
+      else {
+        reason??=state===null?'Owned process group state unknown':'Owned child processes survived invocation exit'
+        if(!await stat(join(directory,'failure.json')).catch(()=>null))await jsonWrite(join(directory,'failure.json'),{reason,observed,exit,at:Date.now()})
+        if(state===true)settled=await stopOwned()
+      }
     }
-    const result={argv,cwd,started,ended:Date.now(),exitCode:exit?.code??null,signal:exit?.signal??null,reason,
-      settled:spawnError?true:settled,signals,observed,success:!reason&&exit?.code===0&&settled}
-    await jsonWrite(join(directory,'receipt.json'),result)
-    return result
   } catch(error) {
-    try{await jsonWrite(join(directory,'supervisor-error.json'),{message:error.message,at:Date.now()})}catch{/* Preserve any existing failure record. */}
+    supervisorError={code:error.code??null,message:error.message,stack:error.stack,at:Date.now()}
+    reason??=`Supervisor failed: ${error.message}`
+    try{await jsonWrite(join(directory,'supervisor-error.json'),supervisorError)}catch(e){persistError('supervisor-error',e)}
     if(child?.pid)settled=await stopOwned()
-    throw error
   } finally {
     process.off('SIGINT',onInt);process.off('SIGTERM',onTerm)
     if(settled&&owner)budget?.release(owner)
-    await stdout.close();await stderr.close()
+    for(const [name,handle] of [['stdout',stdout],['stderr',stderr]]) {
+      try{await handle.close()}catch(error){persistError(`close ${name}`,error);reason??=`Could not close ${name}`}
+    }
+  }
+  const result={argv,cwd,started,ended:Date.now(),exitCode:exit?.code??null,signal:exit?.signal??null,reason,
+    settled:spawnError?true:settled,signals,observed,cleanupErrors,supervisorError,persistenceErrors,
+    cleanupStatus:cleanupErrors.length?'unknown':settled?'settled':child?.pid?'unsettled':'not-started',
+    success:!reason&&!cleanupErrors.length&&!persistenceErrors.length&&exit?.code===0&&settled}
+  try {
+    await jsonWrite(join(directory,'receipt.json'),result)
+    return {...result,receiptPersistence:'confirmed'}
+  } catch(error) {
+    persistError('receipt',error)
+    result.success=false;result.reason??='Supervisor receipt persistence unconfirmed'
+    console.error(JSON.stringify({supervisorFailure:{reason:result.reason,observedFailure:observed?.failure??null,cleanupErrors,persistenceErrors,exitCode:result.exitCode,settled:result.settled}}))
+    return {...result,receiptPersistence:'unconfirmed'}
   }
 }
 
@@ -523,7 +567,7 @@ export async function runGate(options) {
     const reports=summarizeReports(result.completed)
     reports.rawCountsComplete&&=result.completed.length===3&&!result.unrun.length
     const aggregate={success,runId:randomUUID(),checkout:cwd,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
-      discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason})),
+      discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason,cleanupStatus:p.receipt.cleanupStatus??'unknown',cleanupErrors:p.receipt.cleanupErrors??[],receiptPersistence:p.receipt.receiptPersistence??'unconfirmed'})),
       unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
       qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; raw counts cover only available reports, unrun files and cancelled tests are not ordinary platform skips'}
     await step('final root identity',()=>verifyTemporaryRoot(layout))
@@ -534,7 +578,12 @@ export async function runGate(options) {
   return result
 }
 
+export function finishGateCommand(result) {
+  if(result.settlementStatus==='unknown'||result.report?.phases.some(p=>p.settled!==true))process.exit(1)
+  process.exitCode=result.success?0:1
+}
+
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
-  try{const result=await runGate(parseOptions(process.argv.slice(2)));if(result.settlementStatus==='unknown')process.exit(1);process.exitCode=result.success?0:1}
+  try{finishGateCommand(await runGate(parseOptions(process.argv.slice(2))))}
   catch(e){console.error(e.stack??e);if(e.code==='ZDOC_GATE_DEADLINE')process.exit(1);process.exitCode=1}
 }

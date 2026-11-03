@@ -61,6 +61,9 @@ owned process fails the gate and prevents later phases. Failed heavy work is
 terminated only within that invocation's process group; tests left unrun after
 failure are not ordinary skips. The CI tooling job's existing 20-minute total
 limit, which also includes installation, Translation and replay tests, is unchanged.
+Denied process probes/signals stop that cleanup attempt: receipts retain the first
+failure and structured cleanup errors, with settlement unknown rather than assumed
+complete; a receipt-write failure is explicitly unconfirmed and remains failed.
 
 The supervisor supports macOS and Linux. Its dedicated default parent is
 `~/.cache/zdoc-vitest` on both platforms (macOS Library ancestors can have ACLs

@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import {readFileSync} from 'node:fs'
 import {mkdtemp,mkdir,rename,symlink,readFile,writeFile,stat,realpath,link} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
@@ -188,7 +189,7 @@ test('outer timeout stops child and grandchild delayed effects while unrelated s
     await sleep(1100);await assert.rejects(stat(marker),{code:'ENOENT'})
   } finally {sentinel.kill();await new Promise(resolve=>sentinel.once('exit',resolve))}
 })
-test('surviving owned descendant after clean parent exit is an infrastructure failure',async()=>{
+test('surviving descendant after already-observed leader exit is an infrastructure failure',async()=>{
   const root=await fixture(),code=`require('node:child_process').spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'ignore'}).unref()`
   const result=await invoke(root,{code,protocol:null})
   assert.equal(result.exitCode,0);assert.equal(result.success,false);assert.match(result.reason,/survived/);assert.equal(result.settled,true)
@@ -200,6 +201,8 @@ test('an owned child that ignores TERM receives bounded KILL escalation',async()
   const result=await invoke(root,{code,graceMs:100})
   assert.equal(result.success,false);assert.equal(result.settled,true)
   assert.deepEqual(result.signals.map(s=>s.signal),['SIGTERM','SIGKILL'])
+  const delay=result.signals[1].at-result.signals[0].at
+  assert.ok(delay>=100&&delay<190,`one fixed100ms grace, observed ${delay}ms`)
 })
 test('controller exception prevents subsequent phases and is not an ordinary skip',async()=>{
   let calls=0
@@ -236,21 +239,119 @@ for(const stage of ['preflight','between phases','finalization'])test(`whole-run
   await assert.rejects(stat(marker),{code:'ENOENT'})
 })
 test('whole-run watchdog records failure then settles its registered active child',async()=>{
-  const root=await fixture(),marker=join(root,'late-child'),pidFile=join(root,'child.pid')
+  const root=await fixture(),marker=join(root,'late-child'),pidFile=join(root,'child.pid'),insurance=join(root,'self-exit-insurance')
   const module=fileURLToPath(new URL('./run-vitest-groups.mjs',import.meta.url))
-  const childCode=`require('node:fs').writeFileSync(${JSON.stringify(pidFile)},String(process.pid));setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(marker)},'bad'),800);setInterval(()=>{},1000)`
-  const code=`import {withGateDeadline,supervise} from ${JSON.stringify(module)};
-    await withGateDeadline(async budget=>budget.step('active child',()=>supervise({
-      argv:[process.execPath,'-e',${JSON.stringify(childCode)}],cwd:${JSON.stringify(root)},env:process.env,
-      directory:${JSON.stringify(join(root,'child'))},deadline:Date.now()+5000,budget,graceMs:100
-    })),{milliseconds:250,evidenceRoot:${JSON.stringify(root)}});`
+  const childCode=`require('node:fs').writeFileSync(${JSON.stringify(pidFile)},String(process.pid));setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(marker)},'bad'),1000);setTimeout(()=>{require('node:fs').writeFileSync(${JSON.stringify(insurance)},'cleanup failed');process.exit(0)},2000)`
+  const code=`import {withGateDeadline,supervise} from ${JSON.stringify(module)};import {readFile,writeFile} from 'node:fs/promises';
+    let pending,error;
+    try{await withGateDeadline(async budget=>{
+      pending=supervise({argv:[process.execPath,'-e',${JSON.stringify(childCode)}],cwd:${JSON.stringify(root)},env:process.env,
+        directory:${JSON.stringify(join(root,'child'))},deadline:Date.now()+5000,budget,graceMs:100});
+      await budget.step('child ready',async()=>{while(true){try{await readFile(${JSON.stringify(pidFile)});break}catch(e){if(e.code!=='ENOENT')throw e}await new Promise(r=>setTimeout(r,10));budget.check()}});
+      await budget.step('active child',()=>pending);
+    },{milliseconds:500,evidenceRoot:${JSON.stringify(root)}})}catch(e){error=e.message}
+    const receipt=await pending;await writeFile(${JSON.stringify(join(root,'driver.json'))},JSON.stringify({error,receipt}));process.exitCode=1;`
   const child=spawn(process.execPath,['--input-type=module','-e',code],{stdio:'ignore'})
   assert.equal(await new Promise(resolve=>child.once('exit',resolve)),1)
   const failure=JSON.parse(await readFile(join(root,'gate-failure.json'),'utf8'))
   const stopped=JSON.parse(await readFile(join(root,'gate-stop.json'),'utf8'))
-  const pid=Number(await readFile(pidFile,'utf8'))
-  assert.deepEqual(failure.owners.map(o=>o.pid),[pid]);assert.deepEqual(stopped.stopped,[{pid,settled:true}])
-  await sleep(850);await assert.rejects(stat(marker),{code:'ENOENT'})
+  const driver=JSON.parse(await readFile(join(root,'driver.json'),'utf8')),pid=Number(await readFile(pidFile,'utf8'))
+  assert.deepEqual(failure.owners.map(o=>o.pid),[pid]);assert.equal(stopped.stopped[0].pid,pid)
+  assert.equal(stopped.stopped[0].settled,true);assert.deepEqual(stopped.stopped[0].cleanupErrors,[])
+  assert.deepEqual(stopped.stopped[0].signals.map(s=>s.signal),['SIGTERM'])
+  assert.equal(driver.receipt.settled,true);assert.equal(driver.receipt.signal,'SIGTERM')
+  await sleep(650);await assert.rejects(stat(marker),{code:'ENOENT'});await assert.rejects(stat(insurance),{code:'ENOENT'})
+  assert.throws(()=>process.kill(-pid,0),{code:'ESRCH'})
+})
+
+function denyOwnedOperation(directory,deniedSignal) {
+  const original=process.kill,operations=[];let injected=false
+  process.kill=function(pid,signal) {
+    let owner
+    try{owner=JSON.parse(readFileSync(join(directory,'owner.json'),'utf8'))}catch{}
+    if(owner&&pid===-owner.processGroup) {
+      operations.push({signal,injected:false})
+      if(!injected&&signal===deniedSignal) {
+        injected=true;operations.at(-1).injected=true
+        const error=new Error('contract kill EPERM');error.code='EPERM';throw error
+      }
+    }
+    return original.call(process,pid,signal)
+  }
+  return {operations,restore:()=>{process.kill=original},wasInjected:()=>injected}
+}
+for(const [name,signal] of [['probe',0],['TERM','SIGTERM'],['KILL','SIGKILL']])test(`cleanup ${name} denial preserves first failure through receipt, phases and aggregate`,async()=>{
+  const root=await fixture(),p=protocol(root),entries=events(p).slice(0,2)
+  entries.push({version:1,runId:p.runId,sequence:2,kind:'failure',name:'original test failure',errors:[{message:'retain me'}]})
+  const module=fileURLToPath(new URL('./run-vitest-groups.mjs',import.meta.url)),resultPath=join(root,'driver.json')
+  const childSource=`process.on('SIGTERM',()=>{});${childCode(join(root,'run'),encode(entries),'setTimeout(()=>process.exit(0),500)')}`
+  const code=`import {supervise,runPhases,summarizeReports,finishGateCommand} from ${JSON.stringify(module)};
+    import {readFileSync} from 'node:fs';import {writeFile} from 'node:fs/promises';import {join} from 'node:path';
+    ${denyOwnedOperation.toString()}
+    const patch=denyOwnedOperation(${JSON.stringify(join(root,'run'))},${JSON.stringify(signal)});let later=false,result;
+    try{result=await runPhases([{name:'first',files:${JSON.stringify(p.expected)}},{name:'later',files:['later']}],async phase=>{
+      if(phase.name==='later'){later=true;return {success:true}}
+      const receipt=await supervise({argv:[process.execPath,'-e',${JSON.stringify(childSource)}],cwd:${JSON.stringify(root)},env:process.env,
+        directory:${JSON.stringify(join(root,'run'))},deadline:Date.now()+3000,protocol:${JSON.stringify(p)},graceMs:30});
+      return {name:phase.name,files:phase.files,success:receipt.success,receipt,raw:null}
+    })}finally{patch.restore()}
+    await writeFile(${JSON.stringify(resultPath)},JSON.stringify({result,later,injected:patch.wasInjected(),operations:patch.operations,aggregate:summarizeReports(result.completed)}));
+    finishGateCommand(result);`
+  const driver=spawn(process.execPath,['--input-type=module','-e',code],{stdio:'ignore'})
+  assert.equal(await new Promise(resolve=>driver.once('exit',resolve)),1)
+  const saved=JSON.parse(await readFile(resultPath,'utf8')),result=saved.result
+  assert.equal(saved.injected,true);assert.equal(result.success,false);assert.equal(saved.later,false)
+  assert.equal(saved.operations.at(-1).injected,true,'no further probing or escalation after denial')
+  const receipt=result.completed[0].receipt
+  assert.equal(receipt.observed.failure.name,'original test failure');assert.equal(receipt.reason,'Reported test/module failure')
+  assert.equal(receipt.settled,false);assert.equal(receipt.cleanupStatus,'unknown');assert.equal(receipt.receiptPersistence,'confirmed')
+  assert.equal(receipt.cleanupErrors.length,1);assert.equal(receipt.cleanupErrors[0].signal,signal)
+  assert.equal(receipt.cleanupErrors[0].operation,signal===0?'probe':'signal');assert.equal(receipt.cleanupErrors[0].code,'EPERM')
+  assert.deepEqual(receipt.signals.map(s=>s.signal),signal==='SIGKILL'?['SIGTERM']:[])
+  const persisted=JSON.parse(await readFile(join(root,'run/receipt.json'),'utf8'))
+  assert.deepEqual(persisted.observed,receipt.observed);assert.deepEqual(persisted.cleanupErrors,receipt.cleanupErrors)
+  const aggregate=summarizeReports(result.completed)
+  assert.equal(aggregate.observedFailures[0].event.name,'original test failure');assert.equal(aggregate.rawCountsComplete,false)
+  assert.deepEqual(saved.aggregate.observedFailures,aggregate.observedFailures)
+  await sleep(550)
+  const owner=JSON.parse(await readFile(join(root,'run/owner.json'),'utf8'))
+  assert.throws(()=>process.kill(-owner.processGroup,0),{code:'ESRCH'})
+})
+test('receipt persistence and supervisory errors cannot erase the original observed failure',async()=>{
+  const root=await fixture(),p=protocol(root),entries=events(p).slice(0,2)
+  entries.push({version:1,runId:p.runId,sequence:2,kind:'failure',name:'first failure remains'})
+  const code=`require('node:fs').mkdirSync(${JSON.stringify(join(root,'run/failure.json'))});require('node:fs').mkdirSync(${JSON.stringify(join(root,'run/receipt.json'))});${childCode(join(root,'run'),encode(entries),'setInterval(()=>{},1000)')}`
+  let later=false
+  const result=await runPhases([{name:'first',files:p.expected},{name:'later',files:['later']}],async phase=>{
+    if(phase.name==='later'){later=true;return {success:true}}
+    const receipt=await invoke(root,{code});return {name:phase.name,success:receipt.success,receipt,raw:null}
+  })
+  const receipt=result.completed[0].receipt
+  assert.equal(result.success,false);assert.equal(later,false);assert.equal(receipt.receiptPersistence,'unconfirmed')
+  assert.equal(receipt.reason,'Reported test/module failure');assert.ok(receipt.supervisorError)
+  assert.equal(receipt.settled,true);assert.equal(receipt.persistenceErrors.at(-1).operation,'receipt')
+  assert.equal(summarizeReports(result.completed).observedFailures[0].event.name,'first failure remains')
+})
+test('global deadline retains its cause and records cleanup denial without erasing another owned group',async()=>{
+  const root=await fixture(),one=join(root,'denied'),two=join(root,'normal'),patch=denyOwnedOperation(one,0)
+  const pending=[]
+  try {
+    await assert.rejects(withGateDeadline(async budget=>{
+      pending.push(supervise({argv:[process.execPath,'-e',"process.on('SIGTERM',()=>{});setTimeout(()=>process.exit(0),600)"],cwd:root,env:process.env,directory:one,deadline:Date.now()+4000,graceMs:30,budget}))
+      pending.push(supervise({argv:[process.execPath,'-e','setInterval(()=>{},1000)'],cwd:root,env:process.env,directory:two,deadline:Date.now()+4000,graceMs:100,budget}))
+      await budget.step('two owned fixtures',()=>Promise.all(pending))
+    },{milliseconds:200,evidenceRoot:root}),/outer deadline exhausted/)
+    await Promise.all(pending)
+  } finally {patch.restore()}
+  const failure=JSON.parse(await readFile(join(root,'gate-failure.json'),'utf8')),stop=JSON.parse(await readFile(join(root,'gate-stop.json'),'utf8'))
+  assert.match(failure.failure,/outer deadline exhausted/);assert.equal(patch.wasInjected(),true)
+  assert.equal(stop.stopped.length,2)
+  assert.equal(stop.stopped[0].settled,false);assert.equal(stop.stopped[0].cleanupErrors[0].code,'EPERM')
+  assert.equal(stop.stopped[1].settled,true);assert.deepEqual(stop.stopped[1].cleanupErrors,[])
+  assert.equal(patch.operations.at(-1).injected,true)
+  await sleep(650)
+  const owner=JSON.parse(await readFile(join(one,'owner.json'),'utf8'))
+  assert.throws(()=>process.kill(-owner.processGroup,0),{code:'ESRCH'})
 })
 
 async function terminalFixture() {
