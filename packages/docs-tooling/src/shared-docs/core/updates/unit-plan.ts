@@ -65,7 +65,7 @@ export function planUpdateUnit(reportValues: readonly UpdateReportEnvelope[], co
   let failed = false, reportOnly = false
   const material = reports.map(report => contextFor(report, contexts))
   for (const [index, report] of reports.entries()) {
-    const context = material[index], source = report.pins.source
+    const context = material[index], source = report.pins.source, localHoldCount = hold.length
     hold.push(...context.holdReasons)
     if (report.semanticProjection === null || context.relevantSource === null) hold.push('MATERIAL_UNAVAILABLE')
     if (report.authority.updateState !== 'eligible-to-propose') hold.push(report.authority.updateState === 'retired' ? 'AUTHORITY_RETIRED' : 'AUTHORITY_UNKNOWN')
@@ -78,7 +78,7 @@ export function planUpdateUnit(reportValues: readonly UpdateReportEnvelope[], co
     if (report.axes.some(axis => axis.contentStatus === 'unavailable')) hold.push('INPUT_UNAVAILABLE')
     reportOnly ||= context.reportingChanges.length > 0 || report.configurationChanges.length > 0
     const forward = context.relevantSource && source.oldNext !== source.target && !same(context.relevantSource.oldNext, context.relevantSource.target)
-    if (!forward) continue
+    if (!forward || hold.length > localHoldCount) continue
     failed ||= report.axes.some(axis => axis.contentStatus === 'content-failure')
     if (!context.lock.preparedNext) { hold.push('PREPARED_NEXT_MATERIAL_REQUIRED'); continue }
     const prepared = context.lock.preparedNext

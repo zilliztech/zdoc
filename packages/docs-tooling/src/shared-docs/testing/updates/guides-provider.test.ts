@@ -40,7 +40,7 @@ it('adapts real B1 observations with dual-manual membership and a separate real 
 }, 120_000)
 
 import { collectGuidesWithDependencies as collect, createGuidesProvider, GuidesCollectionRequestSchema, type GuidesCollectionRequest } from '../../adapters/updates/guides-provider'
-import { captureUnitMaterial, planUpdateUnit } from '../../core/updates/unit-plan'
+import { captureUnitMaterial, planUpdateUnit, planUpdateBatch } from '../../core/updates/unit-plan'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { fixtureBlob } from './fixtures/manual-provider'
 import { validateUpdateReportEnvelope, type AuthorityObservation } from '../../core/updates/envelope'
@@ -48,7 +48,7 @@ async function fixture() {
   const root = await mkdtemp(join(tmpdir(), 'common-guides-matrix-')), d = await createBuildDemo(root)
   await git(d.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
   // This synthetic proof is separately committed and read by the test-only adapter, never by worker input.
-  await write(root, 'fixture-authority.json', JSON.stringify({ kind: 'synthetic-authority', page: 'build-pipeline', source: 'https://github.com/milvus-io/milvus-docs', state: 'eligible-to-propose' }))
+  await write(root, 'fixture-authority.json', JSON.stringify({ kind: 'synthetic-authority', pages: ['build-pipeline', 'shared-target'], source: 'https://github.com/milvus-io/milvus-docs', state: 'eligible-to-propose' }))
   await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs', 'fixture-authority.json'); await git(root, 'commit', '-qm', 'committed synthetic configuration and authority')
   const p = await git(root, 'rev-parse', 'HEAD')
   const request: GuidesCollectionRequest = { kind: 'guides-collection', schemaVersion: 1, repositoryRoot: root, sourceRepository: d.repo, devRepository: d.dev,
@@ -56,7 +56,7 @@ async function fixture() {
     pages: ['build-pipeline'], comparisonConfig: null, target: null, evidenceRun: null, evidenceZip: null }
   const dependencies = { b1: { fetcher: new FakeImageFetcher(new Map([[externalImage, imageBytes]])) }, authority: { async observe(input): Promise<AuthorityObservation> {
     const bytes = Buffer.from(await git(root, 'show', `${p}:fixture-authority.json`)), proof = JSON.parse(bytes.toString())
-    if (proof.kind !== 'synthetic-authority' || input.subject.pageId !== proof.page || input.pins.source.repository !== proof.source) throw new Error('Synthetic retained proof identity mismatch')
+    if (proof.kind !== 'synthetic-authority' || !proof.pages.includes(input.subject.pageId) || input.pins.source.repository !== proof.source) throw new Error('Synthetic retained proof identity mismatch')
     return { provider: 'guides-retained-source', subject: input.subject, evidence: [input.retain(bytes)], updateState: proof.state, reasons: [] }
   } } }
   async function sourceChange(path = 'site/en/build-pipeline.md', bytes?: string | Uint8Array) {
@@ -196,7 +196,7 @@ it.runIf(process.env.ZDOC_GUIDES_WORKER_INTEGRATION === '1')('runs the actual co
   const capture = await captureTrustedToolset({ root: process.cwd(), commit, cwd: process.cwd(), environment: {}, flags: [] })
   const store = await initializeEvidence({ root: join(lane, 'owned'), repositories: [process.cwd(), root, d.repo, d.dev], owner: 'task3-worker' })
   const executableClosure = await store.writeBlob(capture.bytes), toolsetMaterial = await store.writeBlob(canonicalBytes(capture.material))
-  const provider = await createGuidesProvider({ capture, evidence: store, request: { kind: 'guides-collection', schemaVersion: 1, repositoryRoot: root,
+  const provider = await createGuidesProvider({ capture, evidence: store, prepareNext: async () => { throw new Error('Unknown authority must not prepare next material') }, request: { kind: 'guides-collection', schemaVersion: 1, repositoryRoot: root,
     sourceRepository: d.repo, devRepository: d.dev, master: p, configSnapshot: p, dev: d.devCommit, pages: ['build-pipeline'], comparisonConfig: null,
     target: null, evidenceRun: null, evidenceZip: null } })
   const [result, again] = await Promise.all([provider.collectAll(), provider.collectAll()])
@@ -226,3 +226,50 @@ it.runIf(process.env.ZDOC_GUIDES_WORKER_INTEGRATION === '1')('runs the actual co
     inventory: result.collection.inventory.length, commonReports: result.collection.pages.length, generatedMembers: report.members.length,
     authority: report.authority.updateState, disposition: provider.planNext(report).disposition, detailFiles: result.collection.detailFiles, privateAccess: { bytes: result.privateAccess.bytes }, before, after }, null, 2) + '\n')
 }, 600_000)
+
+it('retains actual adoption observations and holds a dependency outside the selected common subjects', async () => {
+  const f = await fixture()
+  try {
+    const targetFile = 'site/en/source-target.md'
+    const before = (await readFile(join(f.d.repo, targetFile), 'utf8')).replace('## Target & API', '<!-- doc:block:start id="target-section" -->\n## Target & API') + '<!-- doc:block:end id="target-section" -->\n'
+    await write(f.d.repo, targetFile, before); await git(f.d.repo, 'add', '.'); await git(f.d.repo, 'commit', '-qm', 'stable adoption baseline')
+    const baseline = await git(f.d.repo, 'rev-parse', 'HEAD')
+    for (const page of ['build-pipeline', 'shared-target']) await write(f.d.sharedDocs, `pages/${page}/lock.yaml`, JSON.stringify({ schema_version: 1, current: baseline, next: baseline }))
+    await git(f.root, 'add', 'shared-docs'); await git(f.root, 'commit', '-qm', 'adoption baseline locks')
+    const p = await git(f.root, 'rev-parse', 'HEAD')
+    await write(f.d.repo, targetFile, before.replace('## Target & API', '## Target & Client'))
+    await write(f.d.repo, 'site/en/build-pipeline.md', (await readFile(join(f.d.repo, 'site/en/build-pipeline.md'), 'utf8')).replace('public-target.md#Target--API', 'public-target.md#Target--Client'))
+    await git(f.d.repo, 'add', '.'); await git(f.d.repo, 'commit', '-qm', 'confirmed target rename and reference adoption')
+    const selected = await collect({ ...f.request, master: p, configSnapshot: p }, f.dependencies)
+    expect(JSON.parse(selected.detail['guides-impact-v1/report.json']).impact.input.pages).toHaveLength(2)
+    expect(selected.pages).toHaveLength(1)
+    expect(planUpdateUnit([selected.pages[0].report], [selected.pages[0].context]).holdReasons).toContain('CROSS_UNIT_DEPENDENCY_UNAVAILABLE')
+    const complete = await collect({ ...f.request, master: p, configSnapshot: p, pages: [] }, f.dependencies)
+    expect(complete.holds).toEqual([]); expect(complete.pages).toHaveLength(2)
+    const contexts = complete.pages.map(page => {
+      const text = page.context.lock.before.text.replace(`"next":"${baseline}"`, `"next":"${page.report.pins.source.target}"`)
+      return captureUnitMaterial({ ...page.context, lock: { ...page.context.lock, preparedNext: { text, blob: fixtureBlob(text) } } })
+    })
+    const plans = planUpdateBatch(contexts, complete.grouping)
+    expect(plans).toHaveLength(1); expect(plans[0].disposition).toBe('candidate'); expect(plans[0].subjects).toHaveLength(2); expect(plans[0].nextEdits).toHaveLength(2)
+  } finally { await f.dispose() }
+}, 120_000)
+it('retains complete known material for deterministic source content failure', async () => {
+  const f = await fixture()
+  try {
+    await f.sourceChange('site/en/build-pipeline.md', (await readFile(join(f.d.repo, 'site/en/build-pipeline.md'), 'utf8')).replace('title: Pipeline example\n', ''))
+    const { page, plan } = await f.planned()
+    expect(page.report.semanticProjection).not.toBeNull()
+    expect(page.report.axes[0].contentStatus).toBe('content-failure')
+    expect(plan).toMatchObject({ disposition: 'draft-failure' }); expect(plan.nextEdits).toHaveLength(1)
+  } finally { await f.dispose() }
+}, 120_000)
+it('holds an unknown requested subject without inventing a frozen empty report', async () => {
+  const f = await fixture()
+  try {
+    const result = await collect({ ...f.request, pages: ['not-configured'] }, { b1: f.dependencies.b1 })
+    expect(result.inventory).toHaveLength(2); expect(result.pages).toEqual([])
+    expect(result.holds).toEqual([expect.objectContaining({ subject: { kind: 'guides-page', group: 'guides', pageId: 'not-configured' }, disposition: 'hold' })])
+    expect(result.holds[0].diagnostics).toHaveLength(1)
+  } finally { await f.dispose() }
+}, 120_000)

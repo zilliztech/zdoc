@@ -15,9 +15,8 @@ import { immutable, type PageObservation } from '../../core/updates/types'
 import { parseSourceConfig } from '../../core/config'
 import { parseLock } from '../../core/lock'
 import { finalizeFetchFrontMatter } from '../../core/site/front-matter'
-import { reportUpdates, type UpdateDependencies } from './runner'
+import type { UpdateDependencies } from './runner'
 import { exportTree, gitRead, resolveCommit, sourceEndpoints } from './git'
-import { readReportConfiguration } from './candidate'
 import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } from './evidence'
 import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture } from './toolset'
 import { HttpImageFetcher } from '../images'
@@ -110,6 +109,9 @@ export async function collectGuidesWorker(data: unknown): Promise<GuidesCollecti
 }
 export async function collectGuidesWithDependencies(data: GuidesCollectionRequest, dependencies: GuidesCollectionDependencies = {}): Promise<GuidesCollectionResult> {
   const request = GuidesCollectionRequestSchema.parse(data)
+  // These import compiler/build modules. Only collection (the fixed child in production) loads them.
+  const { reportUpdates } = await import('./runner')
+  const { readReportConfiguration } = await import('./candidate')
   const blobs = new Map<string, RetainedBytes>()
   const retain = (bytes: Uint8Array): BlobRef => {
     const sha256 = rawSha256(bytes), blob = { path: `blobs/${sha256}`, sha256, bytes: bytes.byteLength }
@@ -123,7 +125,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   const options = { sharedDocs: join(request.repositoryRoot, 'shared-docs/guides'), repo: request.sourceRepository, dev: request.devRepository, out: '',
     masterSha: request.configSnapshot, devSha: request.dev, ...(request.target === null ? {} : { sourceSha: request.target }),
     ...(request.comparisonConfig === null ? {} : { comparisonMasterSha: request.comparisonConfig }),
-    ...(request.pages.length ? { pages: request.pages.join(',') } : {}), ...(request.evidenceRun === null ? {} : { evidenceRun: request.evidenceRun }),
+    // Common subject selection must not hide B1 adoption observations from configured siblings.
+    ...(request.evidenceRun === null ? {} : { evidenceRun: request.evidenceRun }),
     ...(request.evidenceZip === null ? {} : { evidenceZip: request.evidenceZip }) }
   const b1 = await reportUpdates(options, request.repositoryRoot, { ...dependencies.b1, fetcher: capturedFetcher })
   const detail = { 'guides-impact-v1/pins.json': json(b1.pins), 'guides-impact-v1/plan.json': json(b1.plan),
@@ -141,6 +144,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
     await exportTree(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'], temporary)
     const configFiles = await inventory(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'])
     const ids = sorted(configFiles.map(file => /^shared-docs\/guides\/pages\/([^/]+)\//.exec(file.path)?.[1]).filter((id): id is string => !!id))
+    for (const requested of request.pages.filter(page => !ids.includes(page))) operationHold({ kind: 'guides-page', group: 'guides', pageId: requested }, 'Requested page is absent from the committed configured inventory')
     const loaded = await readReportConfiguration(join(temporary, 'shared-docs/guides'), temporary, ids)
     if ('errors' in loaded) throw new Error(`Committed group configuration unavailable: ${JSON.stringify(loaded.errors)}`)
     const source = parseSourceConfig(loaded.configuration.sharedDocs.sourceYaml)
@@ -212,8 +216,11 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           sourceMaterial.push(tree([...materials, { path: 'inventories/guides-source-discovery.json', sha256: discoveryRef.sha256, bytes: discoveryRef.bytes }]))
         }
         const relevantConfig: MaterialFile[] = []
-        for (const file of configFiles.filter(file => !file.path.endsWith('/lock.yaml') && (!file.path.includes('/pages/') || file.path.startsWith(`shared-docs/guides/pages/${id}/`)
-          || observations.some(observation => observation.manuals.some(manual => manual.references.some(reference => !reference.url.startsWith('#'))))))) {
+        const consumedConfig = new Set(['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml'].map(path => `shared-docs/guides/${path}`))
+        // B1's shared-page registry consumes every configured page mapping, but other pages' transforms/content are not this page's material.
+        for (const pageId of ids) consumedConfig.add(`shared-docs/guides/pages/${pageId}/page.yaml`)
+        for (const name of page.contentFiles?.keys() ?? []) consumedConfig.add(`shared-docs/guides/pages/${id}/${name}`)
+        for (const file of configFiles.filter(file => consumedConfig.has(file.path))) {
           const bytes = (await readCommitted(request.repositoryRoot, configFiles, file.path))!, ref = retain(bytes)
           relevantConfig.push({ path: file.path, sha256: ref.sha256, bytes: ref.bytes })
         }
@@ -239,8 +246,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
             const logicalSource = `${['current', 'oldNext', 'target'][index]}:${image.origin.kind === 'repository' ? image.origin.path : image.original}`
             images.set(logicalSource, { logicalSource, sha256: image.emitted.sha256, bytes: bytes.length, address: image.emitted.address })
           }
-          if (observation.errors.some(error => ['IMAGE_FETCH_FAILED', 'IMAGE_CHANGED_DURING_READ', 'UPDATE_OBSERVATION_UNAVAILABLE', 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE'].includes(error.code))
-            || observation.dependencies.some(dependency => dependency.state === 'unresolved')) incomplete = true
+          if (observation.errors.some(error => ['IMAGE_FETCH_FAILED', 'IMAGE_CHANGED_DURING_READ', 'UPDATE_OBSERVATION_UNAVAILABLE', 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE'].includes(error.code))) incomplete = true
         }
         const configurationChanges: UpdateReportEnvelope['configurationChanges'] = []
         if (request.comparisonConfig !== null) {
@@ -249,7 +255,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
             const before = await readCommitted(request.repositoryRoot, oldFiles, file.path), after = await readCommitted(request.repositoryRoot, configFiles, file.path)
             if (before === null || !before.equals(after!)) configurationChanges.push({ path: file.path, before: before === null ? null : retain(before), after: retain(after!) })
           }
-          for (const file of oldFiles.filter(file => file.path.startsWith(`shared-docs/guides/pages/${id}/`) && !file.path.endsWith('/lock.yaml') && !configFiles.some(after => after.path === file.path))) {
+          for (const file of oldFiles.filter(file => file.path.startsWith(`shared-docs/guides/pages/${id}/`) && Array.isArray(leaf.configurationChanges) && leaf.configurationChanges.includes(file.path) && !file.path.endsWith('/lock.yaml') && !configFiles.some(after => after.path === file.path))) {
             configurationChanges.push({ path: file.path, before: retain((await readCommitted(request.repositoryRoot, oldFiles, file.path))!), after: null })
           }
           configurationChanges.sort((a, b) => compareUtf8(a.path, b.path))
@@ -280,14 +286,18 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
         if (!member) throw new Error('Adoption dependency crosses an unavailable subject')
         return { ...page, path: member.outputPath }
       }
-      try {
-        const dependencies = impacts.units.flatMap(unit => unit.dependencies).map(dependency => ({ ...dependency, from: identity(dependency.from), to: identity(dependency.to),
-          evidence: { ...dependency.evidence, relation: { ...dependency.evidence.relation, path: identity(dependency.to).path } } }))
-        result.grouping = { dependencies }
-      } catch (error) {
-        result.pages = result.pages.map(item => ({ ...item, context: captureUnitMaterial({ ...item.context, holdReasons: ['CROSS_UNIT_DEPENDENCY_UNAVAILABLE'] }) }))
-        operationHold(null, String(error))
+      const dependencies: NonNullable<PlanningGroups['dependencies']>[number][] = []
+      for (const unit of impacts.units) {
+        try {
+          dependencies.push(...unit.dependencies.map(dependency => ({ ...dependency, from: identity(dependency.from), to: identity(dependency.to),
+            evidence: { ...dependency.evidence, relation: { ...dependency.evidence.relation, path: identity(dependency.to).path } } })))
+        } catch (error) {
+          result.pages = result.pages.map(item => item.report.subject.kind === 'guides-page' && unit.pages.some(page => page.pageId === (item.report.subject as { pageId: string }).pageId)
+            ? { ...item, context: captureUnitMaterial({ ...item.context, holdReasons: ['CROSS_UNIT_DEPENDENCY_UNAVAILABLE'] }) } : item)
+          operationHold(null, String(error))
+        }
       }
+      result.grouping = { dependencies }
     }
   } catch (error) { operationHold(null, String(error)) }
   finally { await rm(temporary, { recursive: true, force: true }) }
@@ -348,7 +358,9 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
       if (!equal(item.context.collectedReport, item.report)) throw new Error('Collector report/context mismatch')
       const report = validateUpdateReportEnvelope({ ...item.report, detail: { ...item.report.detail, file: detailFiles.find(file => file.path === 'guides-impact-v1/report.json')!.blob } })
       const context = captureUnitMaterial({ ...item.context, collectedReport: report, reportBlob: await writeOwnedBlob(options.evidence, canonicalBytes(report)) })
-      const preparedNext = options.prepareNext ? await options.prepareNext(context) : null
+      const sourceGate = report.authority.updateState === 'eligible-to-propose' && report.semanticProjection !== null && context.holdReasons.length === 0
+        && report.pins.source.target !== report.pins.source.oldNext && context.relevantSource !== null && !equal(context.relevantSource.oldNext, context.relevantSource.target)
+      const preparedNext = options.prepareNext && sourceGate ? await options.prepareNext(context) : null
       if (preparedNext) validateBlobBytes(preparedNext.blob, await options.evidence.readBlob(preparedNext.blob))
       const preparedContext = captureUnitMaterial({ ...context, lock: { ...context.lock, preparedNext } })
       contexts.push(preparedContext); retainedPages.push({ report, context: preparedContext })
