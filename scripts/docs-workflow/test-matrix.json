@@ -23,6 +23,28 @@
       "reason": "Build provenance preserves candidate ownership checks within each independently built site without coupling English and Chinese release inputs."
     },
     {
+      "id": "publication-stage-control",
+      "paths": [
+        "packages/docs-tooling/src/publication/stageControl.ts",
+        "packages/docs-tooling/src/publication/stageControl.test.ts",
+        "packages/docs-tooling/src/publication/stageControl.bootstrap-worker.ts"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/publication/stageControl.test.ts packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/cli-main.integration.test.ts --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "Secure stage removal and recovery fences serve CLI publication, diagnostics and workflow baseline restoration. Concurrent acquisition must tolerate verified directory-generation transitions without weakening stable corruption, ownership, parent bindings or stale-claim cleanup. Hermetic replay does not replace retained-artifact publication replay."
+    },
+    {
       "id": "publication-diagnostics",
       "paths": [
         "packages/docs-tooling/src/publication/diagnostics.ts",

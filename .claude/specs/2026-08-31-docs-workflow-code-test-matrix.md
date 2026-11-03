@@ -41,6 +41,18 @@ identity/cardinality is retained and identities revalidated across phases; no eq
 fixture performance is assumed. The CI tooling job remains at its existing 20-minute total limit and
 requires separate Linux/Node22 whole-job timing evidence.
 
+The exact `publication-stage-control` entry covers `stageControl.ts`,
+`stageControl.test.ts` and `stageControl.bootstrap-worker.ts` under
+`packages/docs-tooling/src/publication/`. It runs the complete stage-control,
+publication diagnostics, workflow run and CLI integration test files in isolated
+forks with one Vitest worker, preserving concurrent actors inside each test.
+Its union includes `test:replay:all`, the workflow matrix, TypeScript runtime
+boundary, typecheck, workflow policy and diff checks. These master-owned paths
+must retain stable corruption/ownership rejection while safely re-observing
+legitimate fence-generation transitions within the original acquisition deadline.
+Hermetic fixtures do not replace the required authenticated retained-artifact
+publication replay with an isolated bare remote and exact inventories/builds.
+
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
 ## How an Agent uses the matrix

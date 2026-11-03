@@ -67,6 +67,17 @@ test('grouped Vitest support maps every new path to its contract and both comple
   assert.equal(scripts['test:frontend'], 'node scripts/testing/run-vitest-groups.mjs --scope all')
 })
 
+test('publication stage control maps product, contracts and concurrent worker to the complete safety union', () => {
+  const paths = ['packages/docs-tooling/src/publication/stageControl.ts', 'packages/docs-tooling/src/publication/stageControl.test.ts', 'packages/docs-tooling/src/publication/stageControl.bootstrap-worker.ts']
+  for (const input of paths) {
+    const selected = selectTests([input])
+    for (const command of ['pnpm exec vitest run packages/docs-tooling/src/publication/stageControl.test.ts packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/cli-main.integration.test.ts --pool=forks --isolate --maxWorkers=1', 'pnpm test:replay:all', 'pnpm test:workflow-matrix', 'pnpm test:typescript-runtime-boundary', 'pnpm typecheck', 'pnpm test:workflow-policy', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
+})
+
 test('diff-mode selector input drops paths deleted on the head side', () => {
   const tree = headTreeFiles('HEAD')
   assert.equal(tree.has('package.json'), true)
