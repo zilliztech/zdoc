@@ -1,4 +1,0 @@
-{
- "code": 1802,
- "message": "missing required parameters, error: Key: 'CollectionAddFunction.Function.InputFieldNames' Error:Field validation for 'InputFieldNames' failed on the 'required' tag\nKey: 'CollectionAddFunction.Function.OutputFieldNames' Error:Field validation for 'OutputFieldNames' failed on the 'required' tag"
-}

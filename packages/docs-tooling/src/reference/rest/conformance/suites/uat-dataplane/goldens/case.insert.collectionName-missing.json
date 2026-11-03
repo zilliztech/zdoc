@@ -1,4 +1,0 @@
-{
- "code": 1802,
- "message": "missing required parameters, error: Key: 'CollectionDataReq.CollectionName' Error:Field validation for 'CollectionName' failed on the 'required' tag"
-}

@@ -1,4 +1,0 @@
-{
- "code": 1802,
- "message": "missing required parameters, error: Key: 'TransferReplicaReq.SourceRgName' Error:Field validation for 'SourceRgName' failed on the 'required' tag\nKey: 'TransferReplicaReq.TargetRgName' Error:Field validation for 'TargetRgName' failed on the 'required' tag\nKey: 'TransferReplicaReq.ReplicaNum' Error:Field validation for 'ReplicaNum' failed on the 'required' tag"
-}

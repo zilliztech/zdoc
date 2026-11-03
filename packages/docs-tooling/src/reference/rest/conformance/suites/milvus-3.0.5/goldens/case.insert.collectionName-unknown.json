@@ -1,4 +1,0 @@
-{
- "code": 100,
- "message": "can't find collection[database=default][collection=no_such_coll_zz]"
-}

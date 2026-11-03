@@ -1,4 +1,0 @@
-{
- "code": 1806,
- "message": "please check the primary key and its' type can only in [int, string], error: id must be an integer for an Int64 primary key, got: {\"id\":[1,2]}: invalid parameter"
-}

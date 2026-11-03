@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "primary keys (ids) and query vectors (data) are mutually exclusive. Please provide either 'ids' or 'data', not both"
-}

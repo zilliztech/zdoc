@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "offset is not supported with searchAggregation: invalid parameter"
-}

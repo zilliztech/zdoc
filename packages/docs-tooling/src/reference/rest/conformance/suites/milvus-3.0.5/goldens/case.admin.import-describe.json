@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "parse job id failed: strconv.ParseInt: parsing \"none\": invalid syntax: invalid parameter"
-}

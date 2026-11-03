@@ -1,4 +1,0 @@
-{
- "code": 40064,
- "message": "instance not support DELETE when instance status is STOPPING"
-}

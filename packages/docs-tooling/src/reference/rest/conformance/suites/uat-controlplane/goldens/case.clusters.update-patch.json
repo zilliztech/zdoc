@@ -1,4 +1,0 @@
-{
- "code": 96060,
- "message": "Invalid modify cluster params: At least one of clusterName, description or publicAddressEnabled must be specified"
-}

@@ -1,9 +1,0 @@
-{
- "resource_group": {
-  "name": "m2626_rg",
-  "config": {
-   "requests": {},
-   "limits": {}
-  }
- }
-}

@@ -31,9 +31,12 @@ source code.
   catalog (v2.6.26 reference behavior, ported from the first round). Suites may
   diverge **only** through `overrides.json` — every override is visible in git
   and echoed in round results.
-- **Goldens**: response *shapes* (recursive key sets + types, volatile fields
-  stripped) — never raw values. Frozen only after a capture round is reviewed;
-  `verify` mode treats any drift as a finding.
+- **Goldens**: response *shapes* of **accepted responses only** (envelope
+  `code === 0`; recursive key sets + types, volatile fields stripped) — never
+  raw values, never rejection envelopes (error text drifts across versions and
+  products; rejections live in the round results). Enforced by
+  `suites/goldens-integrity.test.mjs`. Frozen only after a capture round is
+  reviewed; `verify` mode treats any drift as a finding.
 - **Credentials**: `ZILLIZ_UAT3_API_KEY` etc. are read from the environment and
   never printed, logged, or persisted into results.
 - **UAT safety**: only resources named with the suite prefix (`uatdp_*`,

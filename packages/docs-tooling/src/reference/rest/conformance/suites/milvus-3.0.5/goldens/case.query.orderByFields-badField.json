@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "order_by field 'no_such_field' does not exist in collection schema: invalid parameter: invalid parameter"
-}

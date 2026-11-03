@@ -1,4 +1,0 @@
-{
- "code": 1807,
- "message": "request is rejected by limiter, error: partition not found[partition=no_such_p]"
-}

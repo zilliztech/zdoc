@@ -1,4 +1,0 @@
-{
- "code": 1806,
- "message": "please check the primary key and its' type can only in [int, string], error: unable to cast \"{\\\"id\\\":[1,2]}\" of type string to int64"
-}

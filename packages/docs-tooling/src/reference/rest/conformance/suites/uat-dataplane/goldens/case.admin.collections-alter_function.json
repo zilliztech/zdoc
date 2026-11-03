@@ -1,4 +1,0 @@
-{
- "code": 1802,
- "message": "missing required parameters, error: Key: 'CollectionAlterFunction.FunctionName' Error:Field validation for 'FunctionName' failed on the 'required' tag\nKey: 'CollectionAlterFunction.Function.InputFieldNames' Error:Field validation for 'InputFieldNames' failed on the 'required' tag\nKey: 'CollectionAlterFunction.Function.OutputFieldNames' Error:Field validation for 'OutputFieldNames' failed on the 'required' tag"
-}

@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "failed to check if privilege group alterable: there is no privilege name or privilege group name [CollectionQuery] defined in system to operate: invalid parameter"
-}

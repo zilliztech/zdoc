@@ -1,4 +1,0 @@
-{
- "code": 65535,
- "message": "rpc error: code = PermissionDenied desc = PrivilegeDropResourceGroup: permission deny to zcloud_apikey_admin in the `default` database"
-}

@@ -155,9 +155,15 @@ async function runCase(c, phase) {
 
   let goldenDiff = null
   const goldenFile = path.join(goldenRoot, `${id}.json`)
-  if (MODE === "capture" && phase !== "setup" && res.json !== null) {
+  // Golden policy: only ACCEPTED responses (envelope code===0) are frozen.
+  // Rejection envelopes are just {code, message} — no shape value, and they
+  // would pin error text that drifts across versions/products.
+  const accepted = res.json !== null && typeof res.json === "object" && res.json.code === 0
+  if (MODE === "capture" && phase !== "setup" && accepted) {
     fs.writeFileSync(goldenFile, JSON.stringify(stripVolatile(res.json), null, 1))
-  } else if (MODE === "verify" && phase !== "setup" && res.json !== null && fs.existsSync(goldenFile)) {
+  } else if (MODE === "capture" && phase !== "setup" && !accepted && fs.existsSync(goldenFile)) {
+    fs.unlinkSync(goldenFile) // re-capture: a previously accepted case now rejects — drop its stale golden
+  } else if (MODE === "verify" && phase !== "setup" && accepted && fs.existsSync(goldenFile)) {
     goldenDiff = compareShape(JSON.parse(fs.readFileSync(goldenFile, "utf8")), stripVolatile(res.json))
   }
 

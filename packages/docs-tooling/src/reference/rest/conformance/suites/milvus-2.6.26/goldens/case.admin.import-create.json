@@ -1,4 +1,0 @@
-{
- "code": 1801,
- "message": "can only accept json format request, error: json: cannot unmarshal string into Go struct field ImportReq.files of type []string"
-}

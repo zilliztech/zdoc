@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "DropCollectionFunction RPC is no longer supported; drop a function via drop_function_field: invalid parameter"
-}

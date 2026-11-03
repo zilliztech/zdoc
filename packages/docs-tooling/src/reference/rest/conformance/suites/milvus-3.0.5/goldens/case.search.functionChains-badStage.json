@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "function chain[0] stage FunctionChainStageIngestion is not supported in search request: invalid parameter"
-}

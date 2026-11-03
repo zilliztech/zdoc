@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "partition cannot be dropped, partition is loaded, please release it first: invalid parameter"
-}

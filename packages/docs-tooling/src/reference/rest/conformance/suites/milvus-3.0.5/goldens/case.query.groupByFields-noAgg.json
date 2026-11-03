@@ -1,4 +1,0 @@
-{
- "code": 1100,
- "message": "output field 'price' is not allowed: when using GROUP BY, output_fields can only contain group_by fields ([grp]) or aggregation expressions: invalid parameter: invalid parameter"
-}
