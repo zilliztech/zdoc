@@ -143,6 +143,8 @@ Controls the visibility badge shown on API reference pages. The effective value 
 
 Valid values: `DEPRECATED`, `FALSE`, `PRIVATE`, `PUBLIC`, `ON REQUEST`. `ON REQUEST` marks contact-to-enable features (release-notes tier of the same name); it is valid at operation and tag level — the `Snapshot Operations (V2)` tag in `38-snapshot-operations-v2.json` is the in-tree example.
 
+**Target scoping.** Only `FALSE` and `DEPRECATED` are target-neutral; every other value is a Zilliz Cloud release-notes tier and badges zdoc sites only. The milvus publication target resolves tier values as if they were unset — at operation level, tag level, and in `CONFIG.betaOverrides` alike — so the chain falls back to `CONFIG.betaDefaults` (`v2` → `FALSE`). `DEPRECATED` survives because the kernel deprecation it reports applies to Milvus as well. `betaTier.js` owns this vocabulary (an allowlist, so future zilliz tiers cannot leak to milvus.io by default); `filterSelection` strips the tiers from the milvus projection, and `milvusTargetHygiene.test.js` gates the enum surface that the string token scan cannot see.
+
 ### 1.4 `x-admonition`
 
 Injects callout blocks (admonitions) into the documentation. Can be defined in the OpenAPI spec directly or merged from `meta/admonitions.json`.
