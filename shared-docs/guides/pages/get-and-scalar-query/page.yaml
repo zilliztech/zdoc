@@ -1,0 +1,28 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/get-and-scalar-query.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/get-and-scalar-query
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/get-and-scalar-query
+transforms:
+  # The Cloud page publishes an availability suffix on these headings; the shared
+  # source uses neutral headings wrapped in named blocks.
+  - operation: replace
+    target: {block: query-sort-results-heading}
+    content: {file: cloud-sort-query-results-heading.md}
+  - operation: replace
+    target: {block: query-aggregate-results-heading}
+    content: {file: cloud-aggregate-query-results-heading.md}
+  # The Cloud page states that its REST API does not support the timezone
+  # parameter, so only that language panel is replaced.
+  - operation: replace
+    target:
+      block: query-timezone
+      language: bash
+    content: {file: cloud-timezone-rest.md}
+  # Note: the thirteen Zilliz CLI (shell) blocks on the Cloud page are empty
+  # `# Zilliz CLI` placeholders. This configuration does not generate content for
+  # them; deleting those empty panels on the Cloud side before activation is
+  # recommended, otherwise Cloud only loses empty tabs.

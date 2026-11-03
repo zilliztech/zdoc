@@ -1,0 +1,17 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/with-iterators.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/with-iterators
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/with-iterators
+transforms:
+  # Both Cloud sections carry a real Zilliz CLI call (paging equivalent), so the
+  # CLI panel is added per section instead of being lost.
+  - operation: add
+    target: {block: search-iterator-create, language: shell}
+    content: {file: cloud-cli-create.md}
+  - operation: add
+    target: {block: search-iterator-use, language: shell}
+    content: {file: cloud-cli-use.md}
