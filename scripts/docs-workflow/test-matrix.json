@@ -261,14 +261,14 @@
         "packages/docs-tooling/src/reference/rest/conformance/**"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/conformance/first-round-2026-11-01/archive.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/conformance/reports/2026-11-01/archive.test.js"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The conformance directory archives live REST reference verification rounds and will host the versioned suites and runners for the weekly self-hosted/UAT verification program. first-round-2026-11-01 freezes the 2026-11-01 round (130 param-level cases from the PR #1005 fragments pin 5f7e112 vs Milvus v2.6.26 on milvus-cell): the integrity test pins artifact parseability, the recorded verdict counts, and the two upstream route skeletons (89/113 operations from internal/distributed/proxy/httpserver), so evidence cannot drift silently."
+      "reason": "The conformance directory hosts versioned suites, runners, and per-round evidence under reports/<date>; it backs the weekly self-hosted/UAT verification program for the weekly self-hosted/UAT verification program. reports/2026-11-01 freezes the first round (2026-11-01) (130 param-level cases from the PR #1005 fragments pin 5f7e112 vs Milvus v2.6.26 on milvus-cell): the integrity test pins artifact parseability, the recorded verdict counts, and the two upstream route skeletons (89/113 operations from internal/distributed/proxy/httpserver), so evidence cannot drift silently."
     },
     {
       "id": "reference-navigation-validation",
