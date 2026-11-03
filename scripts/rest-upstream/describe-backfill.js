@@ -53,11 +53,14 @@ function backfillSystemPrompt() {
         'Output strict JSON only: {"descriptions":[{"p":"<the p value copied verbatim>","en":"...","zh":"...","ja":"..."}]} with every input p present exactly once.',
         'Rules:',
         '1. Ground every claim on the provided evidence only (reference descriptions, type, enum). Never invent defaults, value ranges, constraints, or behaviors the evidence does not state.',
-        '2. When evidence includes an enum, you may list its values exactly as written.',
+        '2. When evidence includes an enum, you may list its values exactly as written. When the node carries no enum, do NOT enumerate possible values.',
         '3. One to three sentences of technical reference prose. Use backticks for field names and enum values. No markdown headings, no HTML, no bullet lists.',
-        '4. Reference descriptions are how OTHER schemas document the same property name; prefer their terminology and specificity, but only claims your evidence supports.',
-        '5. zh and ja are faithful translations of en: keep backticks, field names, enum values, and product terms the docs keep in English (Volume, Cluster, Collection, Partition, Pipeline, Stage).',
-        '6. Copy p values verbatim. Never invent, shorten, or reformat a p value. Never output placeholder text (to be added, TBD, TODO).',
+        '4. Reference descriptions are how OTHER schemas document the same property name. Use them silently for terminology and claims — NEVER mention references, schemas, fields named like references, or the evidence itself in the output. The reader sees API documentation, not its sources.',
+        '5. Write what the field MEANS for an API caller. Never describe schema mechanics: no "root schema", no "an item in the oneOf list", no "references X", no restating the JSON shape the type already shows.',
+        '6. Generic envelope fields (code, data, message, status and similar) describe the envelope generically. The `where` context names the enclosing schema/operation — when it signals a generic or shared shape (e.g. EmptyResponse), do not import specifics from unrelated operations\' references.',
+        '7. A field inside an array (p ends with []) describes ONE element; write it in the singular.',
+        '8. zh and ja are faithful translations of en: keep backticks, field names, and enum values exactly. Product terms stay in English exactly as the docs keep them — Collection is NEVER translated (never 集合, never コレクション); Volume, Pipeline, Stage also stay; Partition stays; Cluster may become 集群/クラスター.',
+        '9. Copy p values verbatim. Never invent, shorten, or reformat a p value. Never output placeholder text (to be added, TBD, TODO).',
     ].join('\n')
 }
 
@@ -154,12 +157,18 @@ async function backfillFragments({fragmentsDir = DEFAULT_FRAGMENTS_DIR, fragment
         documents.set(fileName, {raw, document})
         for (const root of addressableRoots(document)) {
             for (const {node, path: nodePath} of undescribedNodes(root.node)) {
+                // A bare {$ref} (plus x-* tags) resolves to its component at
+                // render time — the component's own description renders, so a
+                // prose-less member here is a FALSE gap (oneOf/anyOf tab
+                // members). The components walk owns the real row.
+                const structuralKeys = Object.keys(node).filter(key => !key.startsWith('x-'))
+                if (structuralKeys.length === 1 && structuralKeys[0] === '$ref') continue
                 const fieldName = pathFieldName(nodePath) || nodePath || '(root)'
                 const references = (referenceIndex.get(fieldName) || []).slice(0, REFERENCE_LIMIT)
                 // The model address p must be unique across the WHOLE batch:
                 // relative node paths collide between roots (every schema root
                 // has a ''), so the root label prefixes the path.
-                const evidence = {p: `${root.label}#${nodePath || '(root)'}`, field: fieldName, ...nodeEvidence(node)}
+                const evidence = {p: `${root.label}#${nodePath || '(root)'}`, field: fieldName, where: root.label, ...nodeEvidence(node)}
                 if (references.length > 0) evidence.references = references
                 if (root.label.startsWith('parameter')) evidence.parameter = true
                 plan.push({fileName, label: `${root.label} ${nodePath || '(root)'}`, opKey: root.opKey, summary: root.summary, node, evidence, references})
@@ -189,6 +198,8 @@ async function backfillFragments({fragmentsDir = DEFAULT_FRAGMENTS_DIR, fragment
             const rejection = !line ? (lastError ?? 'no line for this path') : descriptionRejection({node: item.node, en: line.en})
                 ?? (line.zh ? null : 'zh translation is empty')
                 ?? (line.ja ? null : 'ja translation is empty')
+                ?? (/集合/.test(line.zh) ? 'zh translates Collection as 集合; the docs keep Collection in English' : null)
+                ?? (/コレクション/.test(line.ja) ? 'ja translates Collection as コレクション; the docs keep Collection in English' : null)
             if (rejection) {
                 degraded.push({fragment: item.fileName, label: item.label, reason: rejection})
                 continue
@@ -201,26 +212,28 @@ async function backfillFragments({fragmentsDir = DEFAULT_FRAGMENTS_DIR, fragment
             if (!item.node['x-i18n']['ja-JP']?.description) {
                 item.node['x-i18n']['ja-JP'] = {...(item.node['x-i18n']['ja-JP'] ?? {}), description: line.ja}
             }
-            described.push({fragment: item.fileName, label: item.label, en: line.en})
+            described.push({fragment: item.fileName, label: item.label, en: line.en, zh: line.zh, ja: line.ja})
             changedFiles.add(item.fileName)
         }
     }
 
-    if (plan.length > 0 && described.length === 0) {
-        fail('REST_UPSTREAM_BACKFILL_ALL_DEGRADED: every candidate node failed; the report lists the reasons — restore the gateway and re-run')
-    }
-    return {plan, described, degraded, changedFiles: [...changedFiles].sort(), documents}
+    // All-degraded is returned, not thrown: the failure reasons ARE the
+    // evidence the caller needs in the report (a probe run against a broken
+    // gateway is useless without them), and main fails after writing it.
+    const allDegraded = plan.length > 0 && described.length === 0
+    return {plan, described, degraded, changedFiles: [...changedFiles].sort(), documents, allDegraded}
 }
 
 async function main() {
     const args = parseArgs(process.argv.slice(2))
     const write = args.has('write')
-    const {plan, described, degraded, changedFiles, documents} = await backfillFragments({
+    const model = args.get('model')
+    const {plan, described, degraded, changedFiles, documents, allDegraded: allDegradedFlag} = await backfillFragments({
         fragmentsDir: args.get('fragments') ?? DEFAULT_FRAGMENTS_DIR,
         fragmentFilter: args.get('fragment') ?? null,
         baseUrl: args.get('base-url'),
         apiKeyEnv: args.get('api-key-env'),
-        model: args.get('model'),
+        model,
         limit: args.has('limit') ? Number(args.get('limit')) : null,
         batchNodes: args.has('batch-nodes') ? Number(args.get('batch-nodes')) : BATCH_NODES,
         timeoutMs: args.has('timeout-ms') ? Number(args.get('timeout-ms')) : DEFAULT_TIMEOUT_MS,
@@ -232,14 +245,18 @@ async function main() {
             fs.writeFileSync(path.join(args.get('fragments') ?? DEFAULT_FRAGMENTS_DIR, fileName), serializeDocument(document))
         }
     }
+    // The report is the review artifact for a probe batch as much as for a
+    // write run: drafted text is included in dry-run mode too (that is the
+    // point of probing — judge quality before any file moves).
     const report = {model, mode: write ? 'write' : 'dry-run', candidates: plan.length, described: described.length,
         degraded: degraded.length, changedFiles,
-        degradedDetail: degraded.slice(0, 200), describedDetail: write ? described.slice(0, 400) : []}
+        degradedDetail: degraded.slice(0, 200), describedDetail: described.slice(0, 400)}
     if (args.get('report')) {
         fs.mkdirSync(path.dirname(path.resolve(args.get('report'))), {recursive: true})
         fs.writeFileSync(args.get('report'), `${JSON.stringify(report, null, 2)}\n`)
     }
     console.log(`backfill (${report.mode}): ${described.length}/${plan.length} node(s) described, ${degraded.length} degraded; ${changedFiles.length} fragment file(s) ${write ? 'updated' : 'would update'}`)
+    if (allDegradedFlag) fail('REST_UPSTREAM_BACKFILL_ALL_DEGRADED: every candidate node failed; the reasons are in the report — restore the gateway and re-run')
     for (const item of described.slice(0, 10)) console.log(`  + ${item.fragment}: ${item.label}`)
     for (const item of degraded.slice(0, 10)) console.log(`  - ${item.fragment}: ${item.label} — ${item.reason}`)
 }

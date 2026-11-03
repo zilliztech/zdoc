@@ -57,11 +57,13 @@ function descriptionSystemPrompt() {
         'Output strict JSON only: {"descriptions":[{"p":"<the p value copied verbatim>","en":"<description>"}]} with every input p present exactly once.',
         'Rules:',
         '1. Ground every claim on the provided evidence only (upstream comment, reference descriptions, type, enum). Never invent defaults, value ranges, constraints, or behaviors the evidence does not state.',
-        '2. When evidence includes an enum, you may list its values exactly as written.',
+        '2. When evidence includes an enum, you may list its values exactly as written. When the node carries no enum, do NOT enumerate possible values.',
         '3. One to three sentences of technical reference prose. Use backticks for field names and enum values. No markdown headings, no HTML, no bullet lists.',
-        '4. Reference descriptions are how OTHER schemas document the same property name; prefer their terminology and specificity, but only claims your evidence supports.',
-        '5. Copy p values verbatim. Never invent, shorten, or reformat a p value.',
-        '6. Never output placeholder text (to be added, TBD, TODO); when evidence is thin, describe conservatively what the field name and type imply and nothing more.',
+        '4. Reference descriptions are how OTHER schemas document the same property name. Use them silently for terminology and claims — NEVER mention references, schemas, or the evidence itself in the output. The reader sees API documentation, not its sources.',
+        '5. Write what the field MEANS for an API caller. Never describe schema mechanics: no "root schema", no "an item in the oneOf list", no "references X", no restating the JSON shape the type already shows.',
+        '6. A field inside an array (p ends with []) describes ONE element; write it in the singular.',
+        '7. Copy p values verbatim. Never invent, shorten, or reformat a p value.',
+        '8. Never output placeholder text (to be added, TBD, TODO); when evidence is thin, describe conservatively what the field name and type imply and nothing more.',
     ].join('\n')
 }
 
@@ -91,6 +93,12 @@ function descriptionRejection({node, en}) {
     if (text.length > MAX_DESCRIPTION_LENGTH) return `en exceeds ${MAX_DESCRIPTION_LENGTH} characters`
     if (PLACEHOLDER_PATTERNS.test(text)) return 'en contains placeholder-shaped text'
     if (/^#|<\w+[>/]|\n\s*[-*]\s/.test(text)) return 'en uses markup (headings/HTML/bullets) the contract forbids'
+    // Fragments serve BOTH publication targets; prose cannot carry the
+    // include-span gating that protects target-specific wording, so drafted
+    // descriptions must be product-neutral. The reference pool contains
+    // zilliz-flavored text inside include spans — a paraphrase that drops the
+    // span leaks it onto milvus.io.
+    if (/\b(zilliz cloud|zilliz|dedicated clusters?|serverless clusters?)\b/i.test(text)) return 'en uses publication-target vocabulary (Zilliz Cloud / dedicated cluster / serverless cluster); descriptions must be product-neutral'
     if (Array.isArray(node?.enum)) {
         for (const mention of text.matchAll(/`([^`]+)`/g)) {
             const token = mention[1]
@@ -99,6 +107,13 @@ function descriptionRejection({node, en}) {
             const caseExact = node.enum.some(value => String(value) === token)
             if (caseInsensitive && !caseExact) return `en mentions enum value \`${token}\` with wrong casing (schema enum has the exact form)`
         }
+    } else if (/\b(possible values|valid values|allowed values|supported values|values include|values are)\b/i.test(text)) {
+        // A node whose own schema declares no enum must not enumerate values in
+        // prose: the family's reference enums can be target-gated (x-include
+        // markup hides values per publication target), and prose cannot — a
+        // listed value would render on every site. The right fix for such
+        // fields is copying the enum into the schema, by hand.
+        return 'en enumerates possible values the node schema does not declare'
     }
     return null
 }
