@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/sparse_vector.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/use-sparse-vector
+  - manual: guides-byoc
+    path: tutorials/development/schema/use-sparse-vector

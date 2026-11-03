@@ -179,6 +179,18 @@ test('the rest-upstream refresh workflow executes the change-scoped selector uni
   assert.match(script, /pnpm test:workflow-policy/u)
 })
 
+test('the rest-upstream refresh workflow asserts the release-track projections', () => {
+  const yaml = require('js-yaml')
+  const workflow = yaml.load(fs.readFileSync(path.join(repositoryRoot, '.github/workflows/rest-upstream-refresh.yml'), 'utf8'))
+  // The track projections have no production consumer of their own (their
+  // audience is milvus.io via web-content), so this dedicated step is the
+  // watchdog that keeps the track path from breaking silently again
+  // (zdoc#1032). It must not depend on matrix edits, so pin it here.
+  const step = workflow.jobs.refresh.steps.find(candidate => candidate.name === 'Assert release-track projections (drift gate)')
+  assert.notEqual(step, undefined)
+  assert.match(step.run, /node --test scripts\/rest-upstream\/assert-track-projection\.test\.js/u)
+})
+
 test('selector maps REST reference rendering to its localized component regression', () => {
   const selected = selectTests([
     'packages/docs-ui/src/shared/components/RestSpecs/index.js',

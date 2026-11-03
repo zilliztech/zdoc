@@ -1,0 +1,8 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/embeddings-reranking/reranking/linear-decay.md
+publish:
+  - manual: guides
+    path: tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay
+  - manual: guides-byoc
+    path: tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay
