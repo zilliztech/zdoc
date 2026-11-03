@@ -1,0 +1,20 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/boolean/basic-operators.md
+
+metadata:
+  description: "Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types."
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtering/basic-filtering-operators
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtering/basic-filtering-operators
+
+transforms:
+  - operation: replace
+    target:
+      block: basic-bitwise-heading
+    content:
+      file: cloud-bitwise-heading.md

@@ -1,0 +1,59 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/boolean/pattern-matching.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/filtering/pattern-match
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/filtering/pattern-match
+
+transforms:
+  - operation: replace
+    target:
+      block: use-regex-heading
+    content:
+      file: cloud-regex-heading.md
+  - operation: add
+    target:
+      block: pattern-match-query
+      language: shell
+    content:
+      file: cloud-cli-query.md
+  - operation: add
+    target:
+      block: pattern-raw-string
+      language: shell
+    content:
+      file: cloud-cli-raw-string.md
+  - operation: add
+    target:
+      block: pattern-alternation
+      language: shell
+    content:
+      file: cloud-cli-alternation.md
+  - operation: add
+    target:
+      block: pattern-escape
+      language: shell
+    content:
+      file: cloud-cli-escape.md
+  - operation: add
+    target:
+      block: pattern-substring
+      language: shell
+    content:
+      file: cloud-cli-substring.md
+  - operation: add
+    target:
+      block: pattern-anchors
+      language: shell
+    content:
+      file: cloud-cli-anchors.md
+  - operation: add
+    target:
+      block: pattern-null
+      language: shell
+    content:
+      file: cloud-cli-null.md
