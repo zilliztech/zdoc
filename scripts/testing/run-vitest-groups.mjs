@@ -12,6 +12,7 @@ const require=createRequire(import.meta.url)
 const reporter=fileURLToPath(new URL('./vitest-stop-reporter.mjs',import.meta.url))
 export const HEAVY_FILES=['packages/docs-tooling/src/shared-docs/testing/updates/transactions.test.ts',
   'packages/docs-tooling/src/shared-docs/testing/updates/local-runner.test.ts']
+export const REFERENCE_FILE='packages/docs-tooling/src/reference/translationManifest.integration.test.ts'
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const within=(root,path)=>{const r=relative(root,path);return r===''||r!=='..'&&!r.startsWith(`..${sep}`)&&!isAbsolute(r)}
 const jsonWrite=(path,value)=>writeFile(path,JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600})
@@ -94,13 +95,16 @@ function equalFiles(actual,expected,root) {
   if(JSON.stringify(a)!==JSON.stringify(b))throw new Error('File manifest mismatch')
 }
 export function partitionFiles(discovery,root,scope) {
+  if(!['all','shared-docs'].includes(scope))throw new Error('Unknown gate scope')
   if(!Array.isArray(discovery)||discovery.some(x=>!x||typeof x!=='object'||x.projectName))throw new Error('Unsupported discovery manifest/project')
   const files=normalizedFiles(discovery.map(x=>x.file),root)
   if(scope==='shared-docs'&&files.some(f=>!within(join(root,'packages/docs-tooling/src/shared-docs'),f)))throw new Error('Out-of-scope discovered file')
-  const heavy=HEAVY_FILES.map(p=>join(root,p))
+  const isolated=[...scope==='all'?[{name:'reference-integration',file:REFERENCE_FILE}]:[],
+    ...HEAVY_FILES.map((file,i)=>({name:i?'local-runner':'transactions',file}))]
+  const heavy=isolated.map(p=>join(root,p.file))
   if(heavy.some(f=>!files.includes(f)))throw new Error('Missing heavy test file')
   const phases=[{name:'light',files:files.filter(f=>!heavy.includes(f)),heavy:false},
-    ...heavy.map((file,i)=>({name:i?'local-runner':'transactions',files:[file],heavy:true}))]
+    ...isolated.map(p=>({name:p.name,files:[join(root,p.file)],heavy:true}))]
   if(!phases[0].files.length)throw new Error('Empty light selection')
   equalFiles(phases.flatMap(p=>p.files),files,root)
   return {files,phases}
@@ -425,7 +429,10 @@ export async function prepareGateReports(aggregate,paths,budget) {
     }
     phases.push({...phase,raw:await capture('raw.json'),receipt:await capture('receipt.json')})
   }
-  const verdict={version:1,runId,terminalPath,reports,phases,
+  let discovery=null
+  try{discovery=(await budget.step('discovery evidence binding',()=>boundFile(join(aggregate.evidenceRoot,'discovery.json')))).binding}
+  catch(error){if(phaseResultsPassed||error.code!=='ENOENT')throw error}
+  const verdict={version:2,runId,terminalPath,reports,phases,scope:aggregate.scope,discovery,
     execution:{status:phaseResultsPassed?'passed':'failed',elapsedMs:budget.elapsed(),limitMs:budget.limitMs}}
   // Validate the exact artifact relationships before freezing; settlement only
   // persists/confirms these bytes and never runs tests or copies reports.
@@ -435,7 +442,7 @@ export async function prepareGateReports(aggregate,paths,budget) {
 }
 
 async function validateGateVerdict(verdict,reportPath) {
-  if(verdict?.version!==1||typeof verdict.runId!=='string'||!verdict.runId||
+  if(verdict?.version!==2||!['all','shared-docs'].includes(verdict.scope)||typeof verdict.runId!=='string'||!verdict.runId||
     !Array.isArray(verdict.reports)||!verdict.reports.length||verdict.reports.length>2||
     new Set(verdict.reports.map(r=>r.path)).size!==verdict.reports.length||
     !verdict.reports.some(r=>r.path===reportPath)||!Array.isArray(verdict.phases))throw new Error('Invalid terminal manifest')
@@ -445,15 +452,23 @@ async function validateGateVerdict(verdict,reportPath) {
   let report
   for(const binding of verdict.reports) {
     const value=JSON.parse((await boundFile(binding.path,binding)).bytes)
-    if(value.runId!==verdict.runId||value.terminalPath!==verdict.terminalPath||
+    if(value.runId!==verdict.runId||value.scope!==verdict.scope||value.terminalPath!==verdict.terminalPath||
       value.terminalPath!==join(value.evidenceRoot,'terminal.json')||value.success!==undefined||
       value.qualification!=='provisional; requires validated committed terminal'||value.phaseResultsPassed!==(execution.status==='passed'))throw new Error('Invalid provisional report identity')
     if(binding.path===reportPath)report=value
   }
+  let policy
   if(execution.status==='passed') {
-    if(verdict.phases.length!==3||verdict.phases.map(p=>p.name).join(',')!=='light,transactions,local-runner'||
+    if(verdict.discovery?.path!==join(report.evidenceRoot,'discovery.json'))throw new Error('Missing bound discovery')
+    const discovery=JSON.parse((await boundFile(verdict.discovery.path,verdict.discovery)).bytes)
+    policy=partitionFiles(discovery,report.checkout,verdict.scope)
+    if(verdict.phases.length!==policy.phases.length||report.phases.length!==policy.phases.length||
       report.unrunFiles.length||report.unaccountedFiles.length||!report.rawCountsComplete)throw new Error('Incomplete successful phase manifest')
-    equalFiles(verdict.phases.flatMap(p=>p.files),report.discoveredFiles,report.checkout)
+    equalFiles(policy.files,report.discoveredFiles,report.checkout)
+    for(const [i,expected] of policy.phases.entries()) {
+      if(verdict.phases[i].name!==expected.name||report.phases[i].name!==expected.name)throw new Error('Unexpected phase order or name')
+      equalFiles(verdict.phases[i].files,expected.files,report.checkout)
+    }
   }
   for(const phase of verdict.phases) {
     const summary=report.phases.find(p=>p.name===phase.name)
@@ -465,6 +480,11 @@ async function validateGateVerdict(verdict,reportPath) {
       if(!phase.success||phase.exitCode!==0||!phase.settled||!receiptData?.success||receiptData.exitCode!==0||!receiptData.settled||
         receiptData.observed?.terminal?.reason!=='passed'||receiptData.observed.terminal.errors.length)throw new Error('Non-passing phase terminal')
       equalFiles(receiptData.observed.terminal.files.map(f=>f.file),phase.files,report.checkout)
+      const start=receiptData.observed.start
+      if(!start)throw new Error('Missing phase start evidence')
+      equalFiles(start.files,phase.files,report.checkout)
+      if(policy.phases.find(p=>p.name===phase.name).heavy&&(!Array.isArray(start.configuration)||!start.configuration.length||
+        start.configuration.some(c=>c.pool!=='forks'||c.maxWorkers!==1||c.isolate!==true)))throw new Error('Isolated phase worker policy mismatch')
       validateRawReport(rawData,phase.files,report.checkout)
     }
   }
@@ -524,7 +544,7 @@ export async function runGate(options) {
     await step('setup record',()=>jsonWrite(join(root,'setup.json'),{started,deadline,cwd,scope:options.scope,layout,before,
       environment:{node:process.version,platform:process.platform,VITEST_MAX_WORKERS:process.env.VITEST_MAX_WORKERS??null,CI:process.env.CI??null}}))
     console.log(`Grouped Vitest evidence: ${root}`)
-    let manifest=[],result={success:false,completed:[],unrun:[]},failure=null
+    let manifest=[],expectedPhaseCount=0,result={success:false,completed:[],unrun:[]},failure=null
     try {
       const discovery=join(root,'discovery.json')
       await step('discovery identity',()=>verifyTemporaryRoot(layout))
@@ -534,6 +554,7 @@ export async function runGate(options) {
       await step('discovery result identity',()=>verifyTemporaryRoot(layout))
       const partition=partitionFiles(JSON.parse(await step('discovery manifest',()=>readFile(discovery,'utf8'))),cwd,options.scope)
       manifest=partition.files
+      expectedPhaseCount=partition.phases.length
       await step('partition record',()=>jsonWrite(join(root,'manifest.json'),partition))
       result=await runPhases(partition.phases,async phase=>{
         const directory=join(root,phase.name),temp=join(root,`${phase.name}-tmp`),runId=randomUUID()
@@ -563,9 +584,9 @@ export async function runGate(options) {
     } catch(e){failure=e.message}
     const after=await step('final source identity',()=>sourceIdentity(cwd,budget))
     if(JSON.stringify(before)!==JSON.stringify(after))failure??='Source identity changed during grouped gate'
-    const success=!failure&&result.success&&result.completed.length===3
+    const success=!failure&&result.success&&expectedPhaseCount>0&&result.completed.length===expectedPhaseCount
     const reports=summarizeReports(result.completed)
-    reports.rawCountsComplete&&=result.completed.length===3&&!result.unrun.length
+    reports.rawCountsComplete&&=expectedPhaseCount>0&&result.completed.length===expectedPhaseCount&&!result.unrun.length
     const aggregate={success,runId:randomUUID(),checkout:cwd,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
       discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason,cleanupStatus:p.receipt.cleanupStatus??'unknown',cleanupErrors:p.receipt.cleanupErrors??[],receiptPersistence:p.receipt.receiptPersistence??'unconfirmed'})),
       unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,

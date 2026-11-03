@@ -42,9 +42,12 @@ pnpm build:zh-CN
 ```
 
 `pnpm test:shared-docs` and `pnpm test:frontend` discover their complete Vitest
-file selection, run ordinary files in parallel, then run the complete local-update
-transaction and runner test files sequentially in separate, isolated single-worker
-processes. Case deadlines and normal platform-dependent skips are unchanged.
+file selection and run ordinary files in parallel. Frontend (`all` scope) then runs
+the complete `translationManifest.integration.test.ts` file in a separate
+`reference-integration` phase. Both gates finish with the complete local-update
+transaction and runner test files in that order. Each of these isolated phases
+uses a separate single-worker process; shared-docs has no reference phase.
+Case deadlines and normal platform-dependent skips are unchanged.
 Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
 retain their usual worker configuration. Use `pnpm test:vitest-groups` for the
 supervisor's selection, reporting and actual child-process failure contracts.
@@ -87,8 +90,27 @@ separately and are not replaced by a misleading zero-failure total.
 `--reporter=default`, `--reporter=json`, and a fresh
 `--outputFile.json=/absolute/path/result.json` are supported. Aggregate and requested
 JSON files are provisional and have no standalone `success` flag. The sole committed
-`terminal.json` binds the run, measured execution verdict, all report identities and
-hashes, and each complete phase's raw result and settled process receipt. Use the
+version-2 `terminal.json` binds the run, scope, original discovery bytes, measured
+execution verdict, all report identities and hashes, and each complete phase's raw
+result and settled process receipt. The reader derives the ordered, exhaustive
+phase selection from the scope policy and bound discovery, including isolated
+worker configuration; reports cannot declare their own required phase count.
+Historical version-1 evidence must be read with its matching retained supervisor,
+not treated as qualification under this new phase policy. Commit
+`7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d` retains the version-1 reader. To inspect
+an existing version-1 aggregate without changing its artifacts or the checkout:
+
+```bash
+reader_dir=$(mktemp -d "${TMPDIR:-/tmp}/zdoc-v1-reader.XXXXXX")
+git show 7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d:scripts/testing/run-vitest-groups.mjs > "$reader_dir/reader.mjs"
+node --input-type=module - "$reader_dir/reader.mjs" /absolute/path/version-1/aggregate.json <<'JS'
+import {pathToFileURL} from 'node:url';
+const {readGateReport} = await import(pathToFileURL(process.argv[2]).href);
+console.log(await readGateReport(process.argv[3]));
+JS
+```
+
+Use the current reader for version-2 evidence:
 actual reader to qualify either report path:
 
 ```js

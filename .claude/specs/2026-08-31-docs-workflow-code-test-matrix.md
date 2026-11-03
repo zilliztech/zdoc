@@ -8,8 +8,12 @@ checks are required. Existing package/replay-infrastructure requirements still
 apply, including replay:all and workflow policy.
 
 These gates discover and validate an exhaustive file manifest, run ordinary files
-with normal parallelism, then run the complete local-update transactions and runner
-files in separate sequential forks with one worker. Existing testcase deadlines
+with normal parallelism. Frontend/all next runs the complete reference
+`translationManifest.integration.test.ts` file in an isolated `reference-integration`
+phase; shared-docs does not include or require that file. Both scopes finish with
+the complete local-update transactions and runner files in separate sequential
+forks with one worker. Thus all has four ordered phases and shared-docs has three.
+Existing testcase deadlines
 and normal runIf skips remain. A private run-correlated reporter and owned-process
 supervisor fail closed on errors, incomplete/mismatched results or surviving
 children; later groups are not launched and unrun files are not normal skips.
@@ -19,7 +23,12 @@ calls and no post-deadline child start/passing verdict. After freezing that meas
 verdict, one at-most-1000ms terminal-settlement attempt exclusively stages, persists,
 atomically publishes and confirms it. No tests/report copying or retry occur there.
 Provisional reports cannot qualify alone: the actual reader verifies the sole
-run-bound terminal, complete report/phase bindings and zero-exit settled receipts.
+version-2 run-bound terminal, scope and original discovery binding, complete
+report/phase bindings, isolated worker configuration and zero-exit settled receipts.
+Expected phase names, ordering and full-file membership are derived from trusted
+scope policy and bound discovery, not report-declared phase counts. Historical
+version-1 evidence requires the matching retained reader; it does not qualify the
+new phase policy.
 CLI settlement unknown is nonzero; an offline verified committed verdict does not
 prove CLI delivery/exit. No rollback or file-time deadline inference is used.
 Incomplete raw counts and observed reporter

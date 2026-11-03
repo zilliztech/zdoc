@@ -8,7 +8,7 @@ import {spawn,execFileSync} from 'node:child_process'
 import {createRequire} from 'node:module'
 import {dirname} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {HEAVY_FILES,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport} from './run-vitest-groups.mjs'
+import {HEAVY_FILES,REFERENCE_FILE,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport} from './run-vitest-groups.mjs'
 import StopReporter from './vitest-stop-reporter.mjs'
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))
@@ -97,6 +97,33 @@ test('file partition is disjoint/exhaustive and automatically includes new light
   assert.throws(()=>partitionFiles([...files,{file:'/other/x.test.ts'}],root,'all'),/Invalid/)
   assert.throws(()=>partitionFiles([...files,{file:'/repo/ui.test.ts'}],root,'shared-docs'),/Out-of-scope/)
   assert.throws(()=>partitionFiles(files.map(x=>({...x,projectName:'extra'})),root,'all'),/project/)
+})
+test('all scope isolates the complete reference file; shared-docs never admits or requires it',()=>{
+  const root='/repo',shared=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/new.test.ts'].map(p=>({file:join(root,p)}))
+  const reference={file:join(root,REFERENCE_FILE)},ui={file:join(root,'src/new.test.ts')}
+  const all=[...shared,reference,ui],partition=partitionFiles(all,root,'all')
+  assert.deepEqual(partition.phases.map(p=>[p.name,p.files.length,p.heavy]),[
+    ['light',2,false],['reference-integration',1,true],['transactions',1,true],['local-runner',1,true]])
+  assert.deepEqual(partition.phases[1].files,[reference.file])
+  assert.deepEqual(partition.phases.flatMap(p=>p.files).sort(),all.map(p=>p.file).sort())
+  assert.deepEqual(partitionFiles(shared,root,'shared-docs').phases.map(p=>p.name),['light','transactions','local-runner'])
+  assert.throws(()=>partitionFiles(shared,root,'all'),/Missing heavy/)
+  assert.throws(()=>partitionFiles([...shared,reference],root,'shared-docs'),/Out-of-scope/)
+  assert.throws(()=>partitionFiles([...all,reference],root,'all'),/Duplicate/)
+  assert.throws(()=>partitionFiles(all,root,'invented'),/Unknown gate scope/)
+})
+test('every scope stops at its first failing phase and reports all later complete files unrun',async()=>{
+  const root='/repo'
+  for(const scope of ['all','shared-docs']) {
+    const files=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/new.test.ts',...scope==='all'?[REFERENCE_FILE]:[]]
+    const {phases}=partitionFiles(files.map(p=>({file:join(root,p)})),root,scope)
+    for(let fail=0;fail<phases.length;fail++) {
+      const started=[],result=await runPhases(phases,async phase=>{started.push(phase.name);return {...phase,success:started.length!==fail+1}})
+      assert.equal(result.success,false)
+      assert.deepEqual(started,phases.slice(0,fail+1).map(p=>p.name))
+      assert.deepEqual(result.unrun,phases.slice(fail+1).flatMap(p=>p.files))
+    }
+  }
 })
 test('terminal protocol requires correlation, exact files, sequence and bounded worker policy',()=>{
   const p=protocol('/repo'),valid=events(p)
@@ -354,20 +381,61 @@ test('global deadline retains its cause and records cleanup denial without erasi
   assert.throws(()=>process.kill(-owner.processGroup,0),{code:'ESRCH'})
 })
 
-async function terminalFixture() {
+async function terminalFixture(scope='shared-docs') {
   const root=await fixture(),checkout=join(root,'checkout')
   await mkdir(checkout)
+  const discovery=[...HEAVY_FILES,'packages/docs-tooling/src/shared-docs/ordinary.test.ts',...scope==='all'?[REFERENCE_FILE]:[]].map(p=>({file:join(checkout,p)}))
+  await writeFile(join(root,'discovery.json'),JSON.stringify(discovery))
   const phases=[]
-  for(const [index,name] of ['light','transactions','local-runner'].entries()) {
-    const files=[join(checkout,`${index}.test.ts`)],directory=join(root,name)
+  for(const {name,files} of partitionFiles(discovery,checkout,scope).phases) {
+    const directory=join(root,name)
     await mkdir(directory)
     const raw={success:true,numTotalTests:1,numPassedTests:1,numFailedTests:0,testResults:[{name:files[0],status:'passed',assertionResults:[{status:'passed'}]}]}
-    const receipt={success:true,exitCode:0,settled:true,observed:{terminal:{reason:'passed',errors:[],files:files.map(file=>({file,state:'passed'}))}}}
+    const receipt={success:true,exitCode:0,settled:true,observed:{start:{files,configuration:[{pool:'forks',maxWorkers:1,isolate:true}]},terminal:{reason:'passed',errors:[],files:files.map(file=>({file,state:'passed'}))}}}
     await writeFile(join(directory,'raw.json'),JSON.stringify(raw));await writeFile(join(directory,'receipt.json'),JSON.stringify(receipt))
     phases.push({name,files,success:true,exitCode:0,settled:true,error:null,reason:null})
   }
-  const aggregate={success:true,runId:root,checkout,evidenceRoot:root,phases,discoveredFiles:phases.flatMap(p=>p.files),unrunFiles:[],unaccountedFiles:[],rawCountsComplete:true}
+  const aggregate={success:true,scope,runId:root,checkout,evidenceRoot:root,phases,discoveredFiles:phases.flatMap(p=>p.files),unrunFiles:[],unaccountedFiles:[],rawCountsComplete:true}
   return {root,aggregate,paths:[join(root,'aggregate.json'),join(root,'requested.json')]}
+}
+for(const scope of ['all','shared-docs']) {
+  test(`${scope} terminal reader derives complete ordered phases from bound discovery and scope`,async()=>{
+    const f=await terminalFixture(scope),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
+    assert.equal((await settleGateVerdict(prepared)).success,true)
+    const qualified=await readGateReport(f.paths[0])
+    assert.equal(qualified.success,true);assert.equal(qualified.terminal.version,2)
+    assert.equal(qualified.terminal.scope,scope)
+    assert.deepEqual(qualified.terminal.phases.map(p=>p.name),scope==='all'?['light','reference-integration','transactions','local-runner']:['light','transactions','local-runner'])
+    await writeFile(join(f.root,'discovery.json'),'[]')
+    assert.equal((await readGateReport(f.paths[0])).success,false,'discovery bytes are bound')
+  })
+  test(`${scope} rejects internally bound but incomplete, reordered or mis-scoped phase reports`,async()=>{
+    for(const fault of ['missing phase','duplicate phase','reordered phase','unknown phase','wrong phase files','duplicate file','reported discovery omission','actual discovery extra','reference boundary','unknown scope','parallel isolated phase']) {
+      const f=await terminalFixture(scope),a=f.aggregate
+      if(fault==='missing phase')a.phases.splice(1,1)
+      if(fault==='duplicate phase')a.phases.push(a.phases[1])
+      if(fault==='reordered phase')[a.phases[1],a.phases[2]]=[a.phases[2],a.phases[1]]
+      if(fault==='unknown phase')a.phases[1].name='invented'
+      if(fault==='wrong phase files')a.phases[1].files=a.phases[0].files
+      if(fault==='duplicate file')a.phases[0].files.push(a.phases[0].files[0])
+      if(fault==='reported discovery omission')a.discoveredFiles.pop()
+      if(fault==='unknown scope')a.scope='invented'
+      if(['actual discovery extra','reference boundary'].includes(fault)) {
+        let discovery=JSON.parse(await readFile(join(f.root,'discovery.json'),'utf8'))
+        if(fault==='actual discovery extra')discovery.push({file:join(a.checkout,'packages/docs-tooling/src/shared-docs/unreported.test.ts')})
+        else if(scope==='all')discovery=discovery.filter(p=>p.file!==join(a.checkout,REFERENCE_FILE))
+        else discovery.push({file:join(a.checkout,REFERENCE_FILE)})
+        await writeFile(join(f.root,'discovery.json'),JSON.stringify(discovery))
+      }
+      if(fault==='parallel isolated phase') {
+        const path=join(f.root,a.phases[1].name,'receipt.json'),receipt=JSON.parse(await readFile(path,'utf8'))
+        receipt.observed.start.configuration[0].maxWorkers=9
+        await writeFile(path,JSON.stringify(receipt))
+      }
+      await assert.rejects(withGateDeadline(b=>prepareGateReports(a,f.paths,b),{evidenceRoot:f.root}),undefined,fault)
+      assert.equal((await readGateReport(f.paths[0])).success,false,fault)
+    }
+  })
 }
 test('actual report reader qualifies only a bound committed terminal; provisional copies never pass',async()=>{
   const f=await terminalFixture()
@@ -406,13 +474,16 @@ for(const failure of ['second report I/O','preparation timeout','diagnostic writ
   if(failure==='second report I/O')assert.equal(await readFile(original,'utf8'),'caller-owned')
 })
 test('partial, corrupt, mismatched and non-passing terminal evidence is rejected',async()=>{
-  for(const corrupt of ['partial','foreign','phase failed','raw tampered']) {
+  for(const corrupt of ['partial','foreign','phase failed','raw tampered','legacy version','missing discovery','scope mismatch']) {
     const f=await terminalFixture(),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
     const value=JSON.parse(prepared.terminalBytes)
     if(corrupt==='partial')await writeFile(prepared.terminalPath,'{"version":')
     else {
       if(corrupt==='foreign')value.runId='foreign'
       if(corrupt==='phase failed')value.phases[0].settled=false
+      if(corrupt==='legacy version')value.version=1
+      if(corrupt==='missing discovery')delete value.discovery
+      if(corrupt==='scope mismatch')value.scope='all'
       await writeFile(prepared.terminalPath,JSON.stringify(value))
       if(corrupt==='raw tampered')await writeFile(join(f.root,'light/raw.json'),'{}')
     }
