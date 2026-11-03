@@ -5,7 +5,7 @@ import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import { release } from 'node:os'
 import { createRequire } from 'node:module'
-import { z } from 'zod'
+import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
 import { canonicalBytes, compareUtf8, digest, parseStrictJson } from '../../core/updates/canonical'
 import { BlobRef, DigestSchema, GitShaSchema, RepoPathSchema, ToolsetMaterial, ToolsetMaterialSchema, validateBlobBytes } from '../../core/updates/envelope'
@@ -22,7 +22,7 @@ export interface ExecutableClosure {
   resolutions: { from: string; specifier: string; kind: 'import' | 'require' | 'loader' | 'binary'; conditions: string[]; target: string }[]
 }
 const logical = RepoPathSchema.refine(p => p === 'repo' || /^(repo|deps|runtime)\//.test(p), 'Unknown closure namespace')
-const text = z.string().min(1)
+const text = z.string().min(1).refine(value => !/[\x00-\x1f\x7f-\x9f]/.test(value), 'Invalid closure text')
 const entrySchema = z.discriminatedUnion('state', [
   z.strictObject({ path: logical, state: z.literal('absent') }),
   z.strictObject({ path: logical, state: z.literal('file'), mode: z.enum(['100644', '100755']), sha256: DigestSchema, bytes: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER) }),
@@ -132,7 +132,7 @@ async function tree(binary: string, root: string, commit: string, env: NodeJS.Pr
 const protectedRoots = ['packages', 'apps', 'scripts', '.github', 'deploy', 'patches']
 const optional = ['.npmrc', '.env', '.pnpmfile.cjs', '.pnpmfile.js', 'pnpmfile.cjs', '.node-version', '.nvmrc', '.tool-versions', '.pnp.cjs', '.pnp.loader.mjs', 'bunfig.toml', '.yarnrc', '.yarnrc.yml', 'deno.json', 'deno.jsonc']
 export function protectedToolsetPath(path: string) {
-  return protectedRoots.some(r => path === r || path.startsWith(`${r}/`)) || optional.includes(path) || /(^|\/)(package\.json|\.gitattributes|\.gitmodules|tsconfig[^/]*\.json)$/.test(path) || !path.includes('/') && (/\.(?:[cm]?[jt]sx?|ya?ml|json|toml)$/.test(path) || path.includes('lock'))
+  return /(?:^|\/)\.env(?:\.|$)/.test(path) || /\.(?:[cm]?[jt]sx?|node|sh|py|rb|pl)$/.test(path) || protectedRoots.some(r => path === r || path.startsWith(`${r}/`)) || optional.includes(path) || /(^|\/)(package\.json|\.gitattributes|\.gitmodules|tsconfig[^/]*\.json)$/.test(path) || !path.includes('/') && (/\.(?:[cm]?[jt]sx?|ya?ml|json|toml)$/.test(path) || path.includes('lock'))
 }
 async function blobObjects(binary: string, root: string, entries: TreeEntry[], env: NodeJS.ProcessEnv) {
   const values = new Map<string, Uint8Array>(); if (!entries.length) return values
@@ -174,7 +174,7 @@ export interface CaptureOptions {
 export interface TrustedToolsetCapture extends ReturnType<typeof bindClosure> {
   readonly root: string
 }
-type CapturePrivate = { hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
+type CapturePrivate = { sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
 const captures = new WeakMap<TrustedToolsetCapture, CapturePrivate>()
 async function captureRepository(root: string, commit: string, git: string, env: NodeJS.ProcessEnv, entries: Map<string, ClosureEntry>, physical: Map<string, string>) {
   const all = await tree(git, root, commit, env), selected = [...all.values()].filter(e => protectedToolsetPath(e.path)), blobs = await blobObjects(git, root, selected, env)
@@ -324,15 +324,17 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(target)?.state !== 'file') throw new Error('Unmeasured loader target')
     resolutions.push({ ...request, target })
   }
-  const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: resolutions.sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
+  const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
+  for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
+  const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
   const result = { ...bindClosure(closure, { kind: 'shared-update-toolset', schemaVersion: 1, runtime: { name: 'node', version: process.version, platform: process.platform, architecture: process.arch }, flags: [...flags], environment: ['LANG', 'LC_ALL', 'TZ'].map(name => ({ name, value: environment[name]! })), dependencies: locators.map(p => ({ name: p.name, version: p.version, integrity: p.integrity, resolvedPath: p.root })).sort((a, b) => compareUtf8(a.resolvedPath, b.resolvedPath)) }), root }
-  captures.set(result, { hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
+  captures.set(result, { sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
 export async function verifyTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value), fresh = await captureTrustedToolset(state.options)
-  if (fresh.toolsetSha256 !== value.toolsetSha256 || !Buffer.from(fresh.bytes).equals(Buffer.from(value.bytes))) throw new Error('Trusted executable closure changed')
+  if (fresh.toolsetSha256 !== state.sha256) throw new Error('Trusted executable closure changed')
 }
 export async function compareCandidateToolset(value: TrustedToolsetCapture, candidate: { root: string; commit: string; dataPaths: string[] }) {
   const state = captured(value), actual = await tree(state.git, await realpath(candidate.root), candidate.commit, state.environment)
@@ -348,10 +350,10 @@ export async function compareCandidateToolset(value: TrustedToolsetCapture, cand
 /** Authenticate the exact fixed resolver edge and bytes before trusted code loads it. */
 export async function authorizeTrustedResolution(value: TrustedToolsetCapture, request: ExecutableClosure['resolutions'][number], physicalTarget: string) {
   const state = captured(value)
-  const edge = value.closure.resolutions.find(r => tupleCompare(resolutionKey(r), resolutionKey(request)) === 0)
+  const edge = state.closure.resolutions.find(r => tupleCompare(resolutionKey(r), resolutionKey(request)) === 0)
   const target = await realpath(physicalTarget)
   if (!edge || edge.target !== request.target || state.physical.get(target) !== edge.target) throw new Error('Unknown dynamic executable edge')
-  const entry = value.closure.entries.find(e => e.path === edge.target), bytes = await fileBytes(target)
+  const entry = state.closure.entries.find(e => e.path === edge.target), bytes = await fileBytes(target)
   if (entry?.state !== 'file' || entry.mode !== bytes.mode || entry.sha256 !== rawSha256(bytes.bytes) || entry.bytes !== bytes.bytes.length) throw new Error('Loaded executable bytes changed')
 }
 
