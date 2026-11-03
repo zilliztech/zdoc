@@ -1,21 +1,21 @@
 ---
 title: "Pinyin | BYOC"
 slug: /pinyin-filter
-sidebar_label: "pinyin"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Chinese text search often requires users to enter Chinese characters exactly as they appear in the indexed text. In name lookup, autocomplete, and search-as-you-type workflows, users frequently type Pinyin instead of Chinese characters. For example, a user may type `zuqiu` to search for `足球`. The `pinyin` filter adds Pinyin tokens to the analyzer output so Chinese text can match Pinyin input without maintaining a separate Pinyin field. | BYOC"
+description: "The pinyin filter converts Chinese character tokens into Pinyin tokens during text analysis, enabling Pinyin-based matching for Chinese text. | BYOC"
 type: origin
-token: EhXXwmJzBi8pg9kJcC4ccm9OnDe
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-pinyin-filter
+sidebar_label: "pinyin"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/filter/pinyin-filter.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -70,10 +70,7 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "jieba",
     "filter": ["pinyin"]
 });
@@ -95,9 +92,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
-    tokenizer: "jieba",
-    filter: ["pinyin"],
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": ["pinyin"],
 };
 ```
 
@@ -128,6 +125,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 This shorthand keeps the original Chinese tokens and emits character-level Pinyin tokens. It does not emit joined Pinyin or Pinyin initials unless you enable those options explicitly.
@@ -198,10 +196,7 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-let analyzer_params = json!({
+let analyzer_params = serde_json::json!({
     "tokenizer": "jieba",
     "filter": [
         {
@@ -239,15 +234,15 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
-    tokenizer: "jieba",
-    filter: [
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": [
         {
-            type: "pinyin",
-            keep_original: true,
-            keep_full_pinyin: true,
-            keep_joined_full_pinyin: false,
-            keep_separate_first_letter: false,
+            "type": "pinyin",
+            "keep_original": true,
+            "keep_full_pinyin": true,
+            "keep_joined_full_pinyin": false,
+            "keep_separate_first_letter": false,
         },
     ],
 };
@@ -298,11 +293,12 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 The filter accepts the following parameters.
 
-| **Parameter** | **Type** | **Default** | **Description** |
+| Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `keep_original` | Boolean | `true` | Keeps the original Chinese token in the analyzer output. |
 | `keep_full_pinyin` | Boolean | `true` | Emits character-level Pinyin tokens. For example, `中文` produces `zhong` and `wen`. |
@@ -321,7 +317,10 @@ Before applying the analyzer configuration to your collection schema, verify its
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 sample_text = "中文测试"
 ```
@@ -356,6 +355,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -444,6 +445,7 @@ var sampleText = "中文测试";
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Match Chinese text with character-level Pinyin\{#match-chinese-text-with-character-level-pinyin}
@@ -557,7 +559,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
@@ -609,6 +611,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Expected output:
@@ -766,7 +769,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -836,6 +839,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Expected output:
@@ -993,7 +997,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -1063,6 +1067,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Expected output:

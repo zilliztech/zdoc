@@ -76,34 +76,6 @@ The summary section provides a high-level overview of the charges on your invoic
 
 - **Amount Due/Amount Paid:** The final amount you need to pay or have paid.
 
-## Summary by cluster plan\{#summary-by-cluster-plan}
-
-Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charges apply only for Serverless and Dedicated clusters.
-
-- **Dedicated Clusters:** Billed based on usage. Charges are calculated as `Cluster Cost = Cluster CU Size x Runtime x Unit Price`. Unlike Serverless clusters, for dedicated clusters charges apply even without active read/write operations due to dedicated resource allocation.
-
-    <Admonition type="info" title="Notes">
-
-    For Dedicated cluster cost, runtime is defined as the period during which the cluster status is "**Running**", "**Modifying**", "**Frozen**", etc. Cluster under the following four statuses is not charged: "**Creating**", "**Suspending**", "**Resuming**", or "**Suspended**." 
-
-    </Admonition>
-
-- **Serverless Clusters:** Billed on a pay-as-you-go basis for vCU consumption during read/write operations. The cost is calculated as `Read and Write Cost = vCU Usage x vCU Unit Price`. If no operations occur, only storage fees are billed.
-
-Additional charges include:
-
-- **Backup Costs:** Calculated as `Backup File Size x Backup Retention Period` and measured in  "GB-month", which refers to the usage of 1 GB of backup file retained for 1 month. <strong>Backup is billed at a minimum of 1 day, even for shorter retention period.</strong> This means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.
-
-- **Storage Costs:** Calculated as `Current Storage Size x Cluster Runtime` and measured in "GB-Hour", which refers to the usage of 1 GB of data stored for 1 hour. **Storage is billed at a minimum of 1 hour, even for shorter storage durations.** 
-
-    <Admonition type="info" title="Notes">
-
-    For storage cost, runtime is defined as the period during which the cluster status is "**Running**", "**Modifying**", "**Frozen**", etc. Cluster under the following status is not charged: "**Creating**".
-
-    </Admonition>
-
-
-
 ## Invoice details\{#invoice-details}
 
 This section provides a detailed breakdown of charges for each billable item. 
@@ -136,4 +108,3 @@ To edit the billing profile, refer to [Update Billing Profile](./update-billing-
 
     **Solution:** Ensure you have the necessary permissions. Contact your Organization Owner or Billing Admin if you're not able to access invoices.
 
->

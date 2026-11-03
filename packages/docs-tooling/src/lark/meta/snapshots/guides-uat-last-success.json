@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-02T10:31:40.616Z",
+  "generated_at": "2026-11-03T01:06:45.151Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -1398,7 +1398,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search",
-        "inputs_sha256": "64cf29490dbe2af8f89f3c52af83ddd2fb83819da4b32f25c0ad71705f387428",
+        "inputs_sha256": "fe337166786e2d3dfc2bc5291d337b9770dd0c9ed64d5229680cb4e9e6d7c65c",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
       },
       "source_file": null,
@@ -1990,7 +1990,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-filtering",
-        "inputs_sha256": "5c10911bcb89c51b489da3edd79ff40472d2057fa09690876d37ed822927fbf3",
+        "inputs_sha256": "1f84711ff3ac00ae0d4c32693cf76dbabdb78a9bfe29030a5a64896a9d01b292",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
       },
       "source_file": null,
@@ -2885,7 +2885,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "8fa5f9c7be282f4365b90bb585ce1d8cbc57c0c832068018a7e20c65a1a2170c",
+        "inputs_sha256": "6af804296a8b0c0761224a6a137baf42b0a2cc1c9f842fedcb0041b7f999ce4a",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "source_file": null,
@@ -3274,7 +3274,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "5e01c6c6d8d48b34822ad1435cccab4d8fcb2b063941e1c019451d937bd247a4",
+        "inputs_sha256": "324fc3cd578a21ff89c56523ff470e7326c0f23567afdcf4c598213ae2398fdd",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "source_file": null,
@@ -3706,7 +3706,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "0e449f599e130f798f27498b706eeb5adb8858d92b6a3540544ada2eac8f8cb7",
+        "inputs_sha256": "d11b205b52b0db1f01d9508d380d9fffb07c07854f7803dad23d53e124d8a2d2",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "source_file": null,
@@ -4219,7 +4219,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "877c267cf260280a99d9a4cac4eaa02b20ff69d89b181c09418f30401f4430f4",
+        "inputs_sha256": "8436181d28de5bdc4373266a5dd5beb0e4f906cf31cd7e333e56eaa31ec4ccf9",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "source_file": null,
@@ -4394,7 +4394,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "b48e7195009d7c4a82c3f0fe54598272e103b5aec9f386f38373c49cf129a5ec",
+        "inputs_sha256": "00ea160e1a06f6d93c6127b5de2a77011e0bb2266b8479e159b0b2956e385939",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "source_file": null,
@@ -4668,7 +4668,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "ce860a61f235c0bac5b11cf9b43b1d40cf249e6f576e6b1234399d2d2234f707",
+        "inputs_sha256": "be769b8435e0e50701563868fafce934c5309026a36c2618f031d2c59f2e46d5",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "source_file": null,
@@ -5769,44 +5769,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Cncharonly",
+      "labels": "Cncharonly",
       "slug": "cncharonly-filter",
-      "doc_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/X16rw3C4giUT6bkPLXAcsBapnpe",
-      "source_file": "X16rw3C4giUT6bkPLXAcsBapnpe.json",
-      "source_hash": "4c4d74c567f2a6672abb9de016b9eecc2fe3cd95ed9dae73cb1f17faba20b1de",
-      "node_metadata": {
-        "requested_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-        "requested_node_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-        "node_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-        "origin_node_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-        "obj_token": "SrAgdyRwwoh9Eex0PI8cBDINnBd",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Cncharonly",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZIakwn5V8i1msRk7EDscPNqsnUf",
-        "node_create_time": "1731570686",
-        "obj_create_time": "1731570686",
-        "obj_edit_time": "1792984046",
-        "revision_id": "225"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cncharonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cncharonly-filter",
+        "inputs_sha256": "32563d818f801a20d4c409912f7939746f5afd5af0a5aebd631ebcb04937b9d5",
+        "record": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json"
       },
-      "node_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-      "origin_node_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-      "obj_token": "SrAgdyRwwoh9Eex0PI8cBDINnBd",
-      "obj_type": "docx",
-      "obj_edit_time": "1792984046",
-      "revision_id": "225",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv4fk6kId"
+      ],
+      "order": 189,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "H8MVwnjdgihp0hkRHHKcjBe9n5e",
-        "JGURwBQNOijp2DkspFFctbAGnLh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md"
+      ]
     },
     {
       "record_id": "recvlPvbnOXxlM",
@@ -5863,44 +5854,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Length",
+      "labels": "Length",
       "slug": "length-filter",
-      "doc_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-      "source_file": "MKdvwWBDRi5MMAkkn5PcD1x9nfh.json",
-      "source_hash": "cf5b03f935431e0c6382a24e93e8d8e179336df0215710895afb5f4b579accfe",
-      "node_metadata": {
-        "requested_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-        "requested_node_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-        "node_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-        "origin_node_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-        "obj_token": "IG80dHXcwoEOiTxlczFcDqh3nah",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Length",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZIakwn5V8i1msRk7EDscPNqsnUf",
-        "node_create_time": "1730174592",
-        "obj_create_time": "1730174592",
-        "obj_edit_time": "1792850708",
-        "revision_id": "370"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/length-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "length-filter",
+        "inputs_sha256": "f9d7799f52624ec19a4396fd8cbcfd8048c35b1fbc8ca0668b1be059cb8fa3db",
+        "record": "generated/en/manifests/shared-pages/guides/length-filter.json"
       },
-      "node_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-      "origin_node_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-      "obj_token": "IG80dHXcwoEOiTxlczFcDqh3nah",
-      "obj_type": "docx",
-      "obj_edit_time": "1792850708",
-      "revision_id": "370",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv4fk6kId"
+      ],
+      "order": 191,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "GAX8wkC1QiTZhXkLBocc1GoTnke",
-        "H8MVwnjdgihp0hkRHHKcjBe9n5e"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-filters/length-filter.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-filters/length-filter.md"
+      ]
     },
     {
       "record_id": "recvlPvdszHqaO",
@@ -5964,7 +5946,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "29e6799625f1ecfed271f02dfabb56f6c38074509d056e7a2a4de1754ecc95e8",
+        "inputs_sha256": "32535dac1015f990b0167900f813207fa2104dc7dde6e0285392c9d5abc9d46a",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       },
       "source_file": null,
@@ -6046,7 +6028,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "851bd65d105b2a0a2916a5e5d4c2b69ae24a6a191c14f7cd994ff5b2408b21d9",
+        "inputs_sha256": "07bf5110d17eecf33c22e3a8457efa11db3266f73a1cc64de4e9ebb828ed1123",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       },
       "source_file": null,
@@ -6082,7 +6064,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "632e9aa1080f02b200aa21702fd47077c831881e34e73601db854e9965203cd7",
+        "inputs_sha256": "473923d5c7cc4c898f4ac866fc1f47e3dbda85c4ebe806d13923d4b8ac137c81",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "source_file": null,
@@ -6110,43 +6092,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Stemmer",
+      "labels": "Stemmer",
       "slug": "stemmer-filter",
-      "doc_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/JksSwTwJPidjsnk18Olc2TjWnZe",
-      "source_file": "JksSwTwJPidjsnk18Olc2TjWnZe.json",
-      "source_hash": "8b8bf817c8dd4eb8c02f03218e7b3da9b40ca4c8ba8dfff23988d4373d1d7e69",
-      "node_metadata": {
-        "requested_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-        "requested_node_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-        "node_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-        "origin_node_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-        "obj_token": "A2Jodev17oLmoaxQbXOc094Jnbb",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Stemmer",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZIakwn5V8i1msRk7EDscPNqsnUf",
-        "node_create_time": "1730174632",
-        "obj_create_time": "1730174632",
-        "obj_edit_time": "1792833076",
-        "revision_id": "241"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/stemmer-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "stemmer-filter",
+        "inputs_sha256": "c64b39f590ffa42731ff2be73ebc8418f5fb30b192119bd7932851b608fb8ce5",
+        "record": "generated/en/manifests/shared-pages/guides/stemmer-filter.json"
       },
-      "node_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-      "origin_node_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-      "obj_token": "A2Jodev17oLmoaxQbXOc094Jnbb",
-      "obj_type": "docx",
-      "obj_edit_time": "1792833076",
-      "revision_id": "241",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv4fk6kId"
+      ],
+      "order": 194,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "H8MVwnjdgihp0hkRHHKcjBe9n5e"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md"
+      ]
     },
     {
       "record_id": "recvlPvjOudf2Z",
@@ -6162,7 +6136,7 @@
       "shared_page": {
         "group": "guides",
         "page": "whitespace-tokenizer",
-        "inputs_sha256": "3c6751cc6edba149df329c44b0bd516cc04b9d75ffbe347cfda55545fe84a24f",
+        "inputs_sha256": "1a5dcbe75194a9465a4b17e49f831c3c7e0800834ac35bba6d7d2a5d6c602645",
         "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
       },
       "source_file": null,
@@ -6198,7 +6172,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "14145d766cd4cff428a23d97d0cd85efaf557dbdd40e80444975b668268d921f",
+        "inputs_sha256": "183af30d7c5bd1eaf27ba681d0219a85ccada265d2e907ea6ae7194325c1ecbb",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "source_file": null,
@@ -6280,7 +6254,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "5a48970d08ec96a172b3da27f36b07c2a67686cef0864703fadedfe3d992a680",
+        "inputs_sha256": "18785ceeaffde73252ecaf8a0b5cc8edd51ade3666f5afeb368019f53aa117a9",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "source_file": null,
@@ -6316,7 +6290,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "afd52452720986a61ea466a4216d58e9dcf5d688a70d5d078ec84b328cb533d4",
+        "inputs_sha256": "cfc6cb99c64b0d90111eb48da2f64c7dbfb619e39ae3748fee379d505ff805b9",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       },
       "source_file": null,
@@ -6352,7 +6326,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "c49a2b691cd849848cb0d9b306074bc1281cc69e88a2a8d64aa2c16f74f0ddf2",
+        "inputs_sha256": "6b26a646d32d10cc6390b463a72328453e92c50fd78512357cc2ab08dee7c1a4",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "source_file": null,
@@ -6433,7 +6407,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lowercase-filter",
-        "inputs_sha256": "8afac6db64deaa07bd8c9bd3eb83fcdab3291a667ef8d27b1c0009aa1ee66e0a",
+        "inputs_sha256": "859060a49335ce8926ee246409c38d8a0d02e5d503f45b77c6c0ab71f3432016",
         "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
       },
       "source_file": null,
@@ -6469,7 +6443,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ascii-folding-filter",
-        "inputs_sha256": "e206db5aeafaff74af29dd3ce5be6a0bdc872f61a3829366f84188fcfcfdb899",
+        "inputs_sha256": "1a4e46b1d6eb06203033f56abb0fdc8eb08169c8b8e27b40e666d082ec6a1999",
         "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
       },
       "source_file": null,
@@ -6505,7 +6479,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alphanumonly-filter",
-        "inputs_sha256": "850f0c9ee971cb6f27c660c2df1cfd29e6582bd84425c1107083a107989219b8",
+        "inputs_sha256": "7332cb20422c6b7385d3e3d8c175a588594c061183c9f4457d4265836ebd31b5",
         "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
       },
       "source_file": null,
@@ -6533,44 +6507,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Cnalphanumonly",
+      "labels": "Cnalphanumonly",
       "slug": "cnalphanumonly-filter",
-      "doc_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/R3r7wFHUbi8KxUk2t2FcUXoJnic",
-      "source_file": "R3r7wFHUbi8KxUk2t2FcUXoJnic.json",
-      "source_hash": "82db3012f1f64261af780e71cb90b50ab63cf0fe50a74aa87edcb6a23409a098",
-      "node_metadata": {
-        "requested_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-        "requested_node_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-        "node_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-        "origin_node_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-        "obj_token": "RVeddmcawoIV0Sx2eLscYVJLn1d",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Cnalphanumonly",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZIakwn5V8i1msRk7EDscPNqsnUf",
-        "node_create_time": "1731998606",
-        "obj_create_time": "1731998606",
-        "obj_edit_time": "1792984071",
-        "revision_id": "175"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cnalphanumonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cnalphanumonly-filter",
+        "inputs_sha256": "24ab2f0d4889728ed08fea53577227444942342fdab315d239c243d07d84e41b",
+        "record": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json"
       },
-      "node_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-      "origin_node_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-      "obj_token": "RVeddmcawoIV0Sx2eLscYVJLn1d",
-      "obj_type": "docx",
-      "obj_edit_time": "1792984071",
-      "revision_id": "175",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv4fk6kId"
+      ],
+      "order": 188,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "H8MVwnjdgihp0hkRHHKcjBe9n5e",
-        "JGURwBQNOijp2DkspFFctbAGnLh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md"
+      ]
     },
     {
       "record_id": "recvlUId1kLImN",
@@ -6904,7 +6869,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "7cb28b399c083b2337d279d03cabb0d4c50d585c7b608c95eb2feda1f25a8882",
+        "inputs_sha256": "ce52251e19e37361c02fd955639d1bf909a0512ee1d07ffcc0dbe812507286bf",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "source_file": null,
@@ -7162,7 +7127,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "bef09a7eabd037aff39bd16bfef8f15ca20f8ea577d994d1d3aab890e409fc94",
+        "inputs_sha256": "0cb97573065c63becc1267928ee29dc4ec35f29cf7e2d98a8de034f81254e2e0",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       },
       "source_file": null,
@@ -10341,7 +10306,7 @@
       "doc_token": "M6PLwhVqAipx7wkQNFscmuNPnWc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/M6PLwhVqAipx7wkQNFscmuNPnWc",
       "source_file": "M6PLwhVqAipx7wkQNFscmuNPnWc.json",
-      "source_hash": "9a3ab6b6ccd8f02b3940ccef5e753e930f223f0d6e82c70c157a6d7ba7d151d5",
+      "source_hash": "fb1893c9f2764ccff2da0fe1c70dd134c373ef96e986ff3b3ebf32a8d045b439",
       "node_metadata": {
         "requested_token": "M6PLwhVqAipx7wkQNFscmuNPnWc",
         "requested_node_token": "M6PLwhVqAipx7wkQNFscmuNPnWc",
@@ -10383,7 +10348,7 @@
       "doc_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PBEbwjRu9iyyaFkZnuzcINHCnke",
       "source_file": "PBEbwjRu9iyyaFkZnuzcINHCnke.json",
-      "source_hash": "7d3af60f3c5dd6dac6c7ba97b47ed2c63e876e1d1fd33393a38a9177a329d3c4",
+      "source_hash": "0b1482b2c3193474946c9966ff3235bb544e65b2bea8d1f14f965e1148180573",
       "node_metadata": {
         "requested_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
         "requested_node_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
@@ -10397,15 +10362,15 @@
         "parent_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
         "node_create_time": "1689062683",
         "obj_create_time": "1689062683",
-        "obj_edit_time": "1787639387",
-        "revision_id": "1362"
+        "obj_edit_time": "1793662437",
+        "revision_id": "1363"
       },
       "node_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
       "origin_node_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
       "obj_token": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
       "obj_type": "docx",
-      "obj_edit_time": "1787639387",
-      "revision_id": "1362",
+      "obj_edit_time": "1793662437",
+      "revision_id": "1363",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -10662,7 +10627,7 @@
       "doc_token": "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
       "source_file": "Y6Qqw4a3XiWPlCkQYMqcLEORnAU.json",
-      "source_hash": "69f9f12a8c3d86ecfb25ab430e969be354da0003cd6b0ef056d36cd4b43b14ed",
+      "source_hash": "1c5cbf14e5cbec4cc3d71dfee434ad03343ef785afa504961b315a4c322758ad",
       "node_metadata": {
         "requested_token": "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
         "requested_node_token": "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
@@ -13728,7 +13693,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "48055fe4ba1c9408d38ea3ea5b0312517db36807efb3f8610ac4d1bf21ce8ab6",
+        "inputs_sha256": "d6e0a22b8d15efbb780b3fcbcc20b90fe5488b4a27f5f54631416a3894bd9791",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "source_file": null,
@@ -13764,7 +13729,7 @@
       "shared_page": {
         "group": "guides",
         "page": "create-struct-array",
-        "inputs_sha256": "9d364d29865eecc33e52b05658205da2c599af97d90aa66ad1303d1ce1e9ca73",
+        "inputs_sha256": "e06c3956d2f10a23b7852f536fa1c822b4e8da4c238d0d163295eacc63fb8c26",
         "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
       },
       "source_file": null,
@@ -13800,7 +13765,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-struct-array",
-        "inputs_sha256": "a400cd99b055dcef8e947ed676e73ad0b0736bc320786da631d29ca8dfaa845c",
+        "inputs_sha256": "1c9b2bf810f0cfb1cf0468eebb588e24df8f91207984ada83859c6b88a60da4e",
         "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
       },
       "source_file": null,
@@ -13836,7 +13801,7 @@
       "shared_page": {
         "group": "guides",
         "page": "index-struct-array",
-        "inputs_sha256": "3f24c6c603994b9a4cf966277b20ab5cabfd0975a6679540569e796231bbcafd",
+        "inputs_sha256": "cd82ce00ad36e2322af23b367d800f46c0206e9ac923fea471dfa82f6078487a",
         "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
       },
       "source_file": null,
@@ -13872,7 +13837,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-limits",
-        "inputs_sha256": "47daa04a5643daff4fa815f77392271fb13710ad387e30d3ada8e1ae9d0b9e4e",
+        "inputs_sha256": "e7b492ef3c0bbdac3a4cc97ce07b7a1ab283ed5c74e31973c2ff03c0ef61768f",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
       },
       "source_file": null,
@@ -13908,7 +13873,7 @@
       "shared_page": {
         "group": "guides",
         "page": "search-with-struct-array",
-        "inputs_sha256": "cb65015d86b8ac10ca2208c34e5566cc71c94bf801056b6a35e2fda64f3f5245",
+        "inputs_sha256": "ffb3bba7e482a7bcc69b166ae293f22de864049ed0752c85fe3d5e68f9354b95",
         "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
       },
       "source_file": null,
@@ -13944,7 +13909,7 @@
       "shared_page": {
         "group": "guides",
         "page": "range-search-with-struct-arrays",
-        "inputs_sha256": "c6b9c4bcc9ab3599ef706fadf2f8e16406ed2390e6949565bbb26425fb1776b9",
+        "inputs_sha256": "6002177efcb66120b3ee2edefb855659f6cddf6d781b9aeb32d8b610d9fc7db2",
         "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
       },
       "source_file": null,
@@ -13980,7 +13945,7 @@
       "shared_page": {
         "group": "guides",
         "page": "grouping-search-with-struct-array",
-        "inputs_sha256": "bf25f32cb8a851e6541a9ee1bc90b22583ac56ea51d77a919fdf64eb8919e2a0",
+        "inputs_sha256": "6793a98525117216255e7681f9b51b48924699a7c016df42e370466577c8f4e2",
         "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
       },
       "source_file": null,
@@ -14016,7 +13981,7 @@
       "shared_page": {
         "group": "guides",
         "page": "hybrid-search-with-struct-array",
-        "inputs_sha256": "8d2d6369a314520012876b07a3bda10bfd879535e1f69b050b34bd7bb447f491",
+        "inputs_sha256": "1b1d35e3ed39d73c567c2db032e427ef2a457762f2395752b77472e898f4f689",
         "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
       },
       "source_file": null,
@@ -14052,7 +14017,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search-with-struct-arrays",
-        "inputs_sha256": "1e9a8ee64f3ddc3b9a4871a7985b180d6ce5af37baa0b6386f0edf70fe80f30e",
+        "inputs_sha256": "a83f24b885eaf5f47aa81b082826c2369abb0867eb7bb1c6951e785fe9c4e2b5",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
       },
       "source_file": null,
@@ -14088,7 +14053,7 @@
       "shared_page": {
         "group": "guides",
         "page": "tutorial-colbert-colpali",
-        "inputs_sha256": "80851f309744f0090c9b6c8f840a1d96b1de2e0cf3ebdcc7c4155f61c6169bb7",
+        "inputs_sha256": "69929923cf4a3c3378fa97b5a09b49c41db34d8c31acdbf5c8265491bf24bd14",
         "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
       },
       "source_file": null,
@@ -16608,43 +16573,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Pinyin",
+      "labels": "pinyin",
       "slug": "pinyin-filter",
-      "doc_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-      "source_file": "EhXXwmJzBi8pg9kJcC4ccm9OnDe.json",
-      "source_hash": "b44661fdf503b520e358cf1bd2f92dfb74e8178433d8746c4b44b3902278553a",
-      "node_metadata": {
-        "requested_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-        "requested_node_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-        "node_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-        "origin_node_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-        "obj_token": "F2kIdydwZoyk4dx1Mu1cPiaNnRe",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Pinyin",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZIakwn5V8i1msRk7EDscPNqsnUf",
-        "node_create_time": "1783044497",
-        "obj_create_time": "1783044497",
-        "obj_edit_time": "1792984066",
-        "revision_id": "81"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/pinyin-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "pinyin-filter",
+        "inputs_sha256": "c503607f833a4f329c541c1ce55270db5a53786fc7dbec272a12b7753eaa824d",
+        "record": "generated/en/manifests/shared-pages/guides/pinyin-filter.json"
       },
-      "node_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-      "origin_node_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-      "obj_token": "F2kIdydwZoyk4dx1Mu1cPiaNnRe",
-      "obj_type": "docx",
-      "obj_edit_time": "1792984066",
-      "revision_id": "81",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPv4fk6kId"
+      ],
+      "order": 190,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "JGURwBQNOijp2DkspFFctbAGnLh"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
+        "content/en/guides/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md"
+      ]
     },
     {
       "record_id": "recvqUTMkZiY2l",
@@ -21289,7 +21246,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search",
-        "inputs_sha256": "64cf29490dbe2af8f89f3c52af83ddd2fb83819da4b32f25c0ad71705f387428",
+        "inputs_sha256": "fe337166786e2d3dfc2bc5291d337b9770dd0c9ed64d5229680cb4e9e6d7c65c",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
       }
     },
@@ -21615,7 +21572,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-filtering",
-        "inputs_sha256": "5c10911bcb89c51b489da3edd79ff40472d2057fa09690876d37ed822927fbf3",
+        "inputs_sha256": "1f84711ff3ac00ae0d4c32693cf76dbabdb78a9bfe29030a5a64896a9d01b292",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
       }
     },
@@ -21826,7 +21783,7 @@
       "shared_page": {
         "group": "guides",
         "page": "search-with-struct-array",
-        "inputs_sha256": "cb65015d86b8ac10ca2208c34e5566cc71c94bf801056b6a35e2fda64f3f5245",
+        "inputs_sha256": "ffb3bba7e482a7bcc69b166ae293f22de864049ed0752c85fe3d5e68f9354b95",
         "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
       }
     },
@@ -21856,7 +21813,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search-with-struct-arrays",
-        "inputs_sha256": "1e9a8ee64f3ddc3b9a4871a7985b180d6ce5af37baa0b6386f0edf70fe80f30e",
+        "inputs_sha256": "a83f24b885eaf5f47aa81b082826c2369abb0867eb7bb1c6951e785fe9c4e2b5",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
       }
     },
@@ -21886,7 +21843,7 @@
       "shared_page": {
         "group": "guides",
         "page": "range-search-with-struct-arrays",
-        "inputs_sha256": "c6b9c4bcc9ab3599ef706fadf2f8e16406ed2390e6949565bbb26425fb1776b9",
+        "inputs_sha256": "6002177efcb66120b3ee2edefb855659f6cddf6d781b9aeb32d8b610d9fc7db2",
         "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
       }
     },
@@ -21916,7 +21873,7 @@
       "shared_page": {
         "group": "guides",
         "page": "grouping-search-with-struct-array",
-        "inputs_sha256": "bf25f32cb8a851e6541a9ee1bc90b22583ac56ea51d77a919fdf64eb8919e2a0",
+        "inputs_sha256": "6793a98525117216255e7681f9b51b48924699a7c016df42e370466577c8f4e2",
         "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
       }
     },
@@ -21946,7 +21903,7 @@
       "shared_page": {
         "group": "guides",
         "page": "hybrid-search-with-struct-array",
-        "inputs_sha256": "8d2d6369a314520012876b07a3bda10bfd879535e1f69b050b34bd7bb447f491",
+        "inputs_sha256": "1b1d35e3ed39d73c567c2db032e427ef2a457762f2395752b77472e898f4f689",
         "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
       }
     },
@@ -21976,7 +21933,7 @@
       "shared_page": {
         "group": "guides",
         "page": "tutorial-colbert-colpali",
-        "inputs_sha256": "80851f309744f0090c9b6c8f840a1d96b1de2e0cf3ebdcc7c4155f61c6169bb7",
+        "inputs_sha256": "69929923cf4a3c3378fa97b5a09b49c41db34d8c31acdbf5c8265491bf24bd14",
         "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
       }
     },
@@ -22341,7 +22298,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "8fa5f9c7be282f4365b90bb585ce1d8cbc57c0c832068018a7e20c65a1a2170c",
+        "inputs_sha256": "6af804296a8b0c0761224a6a137baf42b0a2cc1c9f842fedcb0041b7f999ce4a",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       }
     },
@@ -22531,7 +22488,7 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "5e01c6c6d8d48b34822ad1435cccab4d8fcb2b063941e1c019451d937bd247a4",
+        "inputs_sha256": "324fc3cd578a21ff89c56523ff470e7326c0f23567afdcf4c598213ae2398fdd",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       }
     },
@@ -22998,7 +22955,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "0e449f599e130f798f27498b706eeb5adb8858d92b6a3540544ada2eac8f8cb7",
+        "inputs_sha256": "d11b205b52b0db1f01d9508d380d9fffb07c07854f7803dad23d53e124d8a2d2",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       }
     },
@@ -23206,7 +23163,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "48055fe4ba1c9408d38ea3ea5b0312517db36807efb3f8610ac4d1bf21ce8ab6",
+        "inputs_sha256": "d6e0a22b8d15efbb780b3fcbcc20b90fe5488b4a27f5f54631416a3894bd9791",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       }
     },
@@ -23236,7 +23193,7 @@
       "shared_page": {
         "group": "guides",
         "page": "create-struct-array",
-        "inputs_sha256": "9d364d29865eecc33e52b05658205da2c599af97d90aa66ad1303d1ce1e9ca73",
+        "inputs_sha256": "e06c3956d2f10a23b7852f536fa1c822b4e8da4c238d0d163295eacc63fb8c26",
         "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
       }
     },
@@ -23266,7 +23223,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-struct-array",
-        "inputs_sha256": "a400cd99b055dcef8e947ed676e73ad0b0736bc320786da631d29ca8dfaa845c",
+        "inputs_sha256": "1c9b2bf810f0cfb1cf0468eebb588e24df8f91207984ada83859c6b88a60da4e",
         "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
       }
     },
@@ -23296,7 +23253,7 @@
       "shared_page": {
         "group": "guides",
         "page": "index-struct-array",
-        "inputs_sha256": "3f24c6c603994b9a4cf966277b20ab5cabfd0975a6679540569e796231bbcafd",
+        "inputs_sha256": "cd82ce00ad36e2322af23b367d800f46c0206e9ac923fea471dfa82f6078487a",
         "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
       }
     },
@@ -23326,7 +23283,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-limits",
-        "inputs_sha256": "47daa04a5643daff4fa815f77392271fb13710ad387e30d3ada8e1ae9d0b9e4e",
+        "inputs_sha256": "e7b492ef3c0bbdac3a4cc97ce07b7a1ab283ed5c74e31973c2ff03c0ef61768f",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
       }
     },
@@ -23471,7 +23428,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "ce860a61f235c0bac5b11cf9b43b1d40cf249e6f576e6b1234399d2d2234f707",
+        "inputs_sha256": "be769b8435e0e50701563868fafce934c5309026a36c2618f031d2c59f2e46d5",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       }
     },
@@ -23854,7 +23811,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "877c267cf260280a99d9a4cac4eaa02b20ff69d89b181c09418f30401f4430f4",
+        "inputs_sha256": "8436181d28de5bdc4373266a5dd5beb0e4f906cf31cd7e333e56eaa31ec4ccf9",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       }
     },
@@ -23930,7 +23887,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "b48e7195009d7c4a82c3f0fe54598272e103b5aec9f386f38373c49cf129a5ec",
+        "inputs_sha256": "00ea160e1a06f6d93c6127b5de2a77011e0bb2266b8479e159b0b2956e385939",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       }
     },
@@ -24749,7 +24706,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "bef09a7eabd037aff39bd16bfef8f15ca20f8ea577d994d1d3aab890e409fc94",
+        "inputs_sha256": "0cb97573065c63becc1267928ee29dc4ec35f29cf7e2d98a8de034f81254e2e0",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       }
     },
@@ -24842,7 +24799,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "7cb28b399c083b2337d279d03cabb0d4c50d585c7b608c95eb2feda1f25a8882",
+        "inputs_sha256": "ce52251e19e37361c02fd955639d1bf909a0512ee1d07ffcc0dbe812507286bf",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       }
     },
@@ -25246,7 +25203,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "632e9aa1080f02b200aa21702fd47077c831881e34e73601db854e9965203cd7",
+        "inputs_sha256": "473923d5c7cc4c898f4ac866fc1f47e3dbda85c4ebe806d13923d4b8ac137c81",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       }
     },
@@ -25276,7 +25233,7 @@
       "shared_page": {
         "group": "guides",
         "page": "whitespace-tokenizer",
-        "inputs_sha256": "3c6751cc6edba149df329c44b0bd516cc04b9d75ffbe347cfda55545fe84a24f",
+        "inputs_sha256": "1a5dcbe75194a9465a4b17e49f831c3c7e0800834ac35bba6d7d2a5d6c602645",
         "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
       }
     },
@@ -25329,7 +25286,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "afd52452720986a61ea466a4216d58e9dcf5d688a70d5d078ec84b328cb533d4",
+        "inputs_sha256": "cfc6cb99c64b0d90111eb48da2f64c7dbfb619e39ae3748fee379d505ff805b9",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       }
     },
@@ -25359,7 +25316,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "c49a2b691cd849848cb0d9b306074bc1281cc69e88a2a8d64aa2c16f74f0ddf2",
+        "inputs_sha256": "6b26a646d32d10cc6390b463a72328453e92c50fd78512357cc2ab08dee7c1a4",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       }
     },
@@ -25455,7 +25412,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lowercase-filter",
-        "inputs_sha256": "8afac6db64deaa07bd8c9bd3eb83fcdab3291a667ef8d27b1c0009aa1ee66e0a",
+        "inputs_sha256": "859060a49335ce8926ee246409c38d8a0d02e5d503f45b77c6c0ab71f3432016",
         "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
       }
     },
@@ -25485,7 +25442,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ascii-folding-filter",
-        "inputs_sha256": "e206db5aeafaff74af29dd3ce5be6a0bdc872f61a3829366f84188fcfcfdb899",
+        "inputs_sha256": "1a4e46b1d6eb06203033f56abb0fdc8eb08169c8b8e27b40e666d082ec6a1999",
         "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
       }
     },
@@ -25515,7 +25472,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alphanumonly-filter",
-        "inputs_sha256": "850f0c9ee971cb6f27c660c2df1cfd29e6582bd84425c1107083a107989219b8",
+        "inputs_sha256": "7332cb20422c6b7385d3e3d8c175a588594c061183c9f4457d4265836ebd31b5",
         "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
       }
     },
@@ -25536,11 +25493,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/R3r7wFHUbi8KxUk2t2FcUXoJnic",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cnalphanumonly-filter",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cnalphanumonly-filter",
+        "inputs_sha256": "24ab2f0d4889728ed08fea53577227444942342fdab315d239c243d07d84e41b",
+        "record": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json"
+      }
     },
     {
       "record_id": "recvlPvBahthMV",
@@ -25559,11 +25523,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "X16rw3C4giUT6bkPLXAcsBapnpe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/X16rw3C4giUT6bkPLXAcsBapnpe",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cncharonly-filter",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cncharonly-filter",
+        "inputs_sha256": "32563d818f801a20d4c409912f7939746f5afd5af0a5aebd631ebcb04937b9d5",
+        "record": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json"
+      }
     },
     {
       "record_id": "recvoRzF7kb5hZ",
@@ -25582,11 +25553,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EhXXwmJzBi8pg9kJcC4ccm9OnDe",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/pinyin-filter",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "pinyin-filter",
+        "inputs_sha256": "c503607f833a4f329c541c1ce55270db5a53786fc7dbec272a12b7753eaa824d",
+        "record": "generated/en/manifests/shared-pages/guides/pinyin-filter.json"
+      }
     },
     {
       "record_id": "recvlPvCRBemua",
@@ -25605,11 +25583,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/MKdvwWBDRi5MMAkkn5PcD1x9nfh",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/length-filter",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "length-filter",
+        "inputs_sha256": "f9d7799f52624ec19a4396fd8cbcfd8048c35b1fbc8ca0668b1be059cb8fa3db",
+        "record": "generated/en/manifests/shared-pages/guides/length-filter.json"
+      }
     },
     {
       "record_id": "recvlPvEwuN1gf",
@@ -25637,7 +25622,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "29e6799625f1ecfed271f02dfabb56f6c38074509d056e7a2a4de1754ecc95e8",
+        "inputs_sha256": "32535dac1015f990b0167900f813207fa2104dc7dde6e0285392c9d5abc9d46a",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       }
     },
@@ -25667,7 +25652,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "851bd65d105b2a0a2916a5e5d4c2b69ae24a6a191c14f7cd994ff5b2408b21d9",
+        "inputs_sha256": "07bf5110d17eecf33c22e3a8457efa11db3266f73a1cc64de4e9ebb828ed1123",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       }
     },
@@ -25688,11 +25673,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "JksSwTwJPidjsnk18Olc2TjWnZe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/JksSwTwJPidjsnk18Olc2TjWnZe",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/stemmer-filter",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "stemmer-filter",
+        "inputs_sha256": "c64b39f590ffa42731ff2be73ebc8418f5fb30b192119bd7932851b608fb8ce5",
+        "record": "generated/en/manifests/shared-pages/guides/stemmer-filter.json"
+      }
     },
     {
       "record_id": "recvlPvJP0pbh9",
@@ -25720,7 +25712,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "14145d766cd4cff428a23d97d0cd85efaf557dbdd40e80444975b668268d921f",
+        "inputs_sha256": "183af30d7c5bd1eaf27ba681d0219a85ccada265d2e907ea6ae7194325c1ecbb",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       }
     },
@@ -25750,7 +25742,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "5a48970d08ec96a172b3da27f36b07c2a67686cef0864703fadedfe3d992a680",
+        "inputs_sha256": "18785ceeaffde73252ecaf8a0b5cc8edd51ade3666f5afeb368019f53aa117a9",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       }
     },
@@ -29571,7 +29563,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "d8e6308f847ff0a0c8c28dcf531c6a85e682f2cf071dfb41db74fcf448acec4f",
+    "tblWv7PjNDsexddH": "8e89fceb65eaa0cd5a7eb7d0a58c819a57687f47dc871f328d9e4f644f116036",
     "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",
