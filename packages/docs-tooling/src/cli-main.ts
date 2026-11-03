@@ -296,6 +296,22 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
   if (argv[0] === 'shared-docs') {
+    if (argv[1] === 'update') {
+      let options: Record<string, string | boolean>;
+      try {
+        options = parseOptions(argv.slice(2));
+        const allowed = ['sharedDocs', 'repo', 'dev', 'out', 'mode', 'masterSha', 'devSha', 'sourceSha', 'comparisonMasterSha', 'pages', 'evidenceRun', 'evidenceZip'];
+        for (const key of Object.keys(options)) {
+          if (!allowed.includes(key)) throw new Error(`Unknown update option: --${key}`);
+          requiredOption(options, key);
+        }
+      } catch (error) { process.stderr.write(`${String(error)}\n`); process.exitCode = 2; return true; }
+      const {runUpdate} = await import('./shared-docs/commands/update.ts');
+      process.exitCode = await runUpdate(options as unknown as import('./shared-docs/commands/update.ts').UpdateOptions,
+        text => process.stdout.write(text), repositoryRoot);
+      return true;
+    }
+
     if (argv[1] === 'lock') {
       const options = parseOptions(argv.slice(2));
       for (const key of Object.keys(options)) {
@@ -334,7 +350,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text), {repositoryRoot});
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build or lock');
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock or update');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
