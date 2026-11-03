@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/json-field-overview.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/json-fields/json-field-overview
+  - manual: guides-byoc
+    path: tutorials/development/schema/json-fields/json-field-overview

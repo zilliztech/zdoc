@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/analyzer/tokenizer/language-identifier.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer

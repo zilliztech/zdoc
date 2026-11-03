@@ -1,0 +1,34 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/grouping-search.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/grouping-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/grouping-search
+transforms:
+  # The Cloud page publishes an availability suffix on this heading; the shared
+  # source uses a neutral heading wrapped in a named block.
+  - operation: replace
+    target: {block: grouping-search-order-heading}
+    content: {file: cloud-order-heading.md}
+  # The Rust and C# panels of the ordering group use the Cloud project-endpoint and
+  # cluster_id session API. That is product-specific, so the shared source keeps the
+  # Milvus-compatible form and Cloud replaces those two panels.
+  - operation: replace
+    target: {block: grouping-search-order, language: rust}
+    content: {file: cloud-order-rust.md}
+  - operation: replace
+    target: {block: grouping-search-order, language: csharp}
+    content: {file: cloud-order-csharp.md}
+  # The three Cloud sections each carry a real Zilliz CLI call, so the CLI panel is
+  # added per section instead of being lost.
+  - operation: add
+    target: {block: grouping-search-perform, language: shell}
+    content: {file: cloud-cli-perform.md}
+  - operation: add
+    target: {block: grouping-search-group-size, language: shell}
+    content: {file: cloud-cli-group-size.md}
+  - operation: add
+    target: {block: grouping-search-order, language: shell}
+    content: {file: cloud-cli-order.md}
