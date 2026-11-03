@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
-import { writeFileSync } from 'node:fs'
+import { chmodSync, closeSync, openSync, readFileSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -21,12 +22,17 @@ const sourceOld = 'a'.repeat(40), sourceNext = 'c'.repeat(40), hash = 'b'.repeat
 const subject = { kind: 'sdk-manual' as const, group: 'rust', manualId: 'rust' }, lockPath = 'shared-docs/rust/lock.yaml'
 const lock = (next = sourceOld) => `# repeated ${sourceOld}\r\nschema_version: 1\r\ncurrent: ${sourceOld}\r\nnext: '${next}' # ${sourceOld}\r\n`
 async function fixture(baselineCount = 1, bulkLeaves = 0) {
+  const started=process.hrtime.bigint(), milliseconds=()=>Number(process.hrtime.bigint()-started)/1e6
   const root = await mkdtemp(join(tmpdir(), 'metadata-store-')), repository = join(root, 'repo.git')
-  let serial = 0
-  const gitBytes = (args: string[], input?: string | Uint8Array) => execFileSync('/usr/bin/git', ['--no-replace-objects', '-C', repository, ...args], {
+  let serial = 0, batchSerial = 0
+  const gitBytes = (args: string[], input?: string | Uint8Array, stdinFile?: string) => {
+    const descriptor=stdinFile ? openSync(stdinFile,'r') : undefined
+    try { return execFileSync('/usr/bin/git', ['--no-replace-objects', '-C', repository, ...args], {
     env: { PATH: '/usr/bin:/bin', GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null', GIT_AUTHOR_NAME: 'Local fixture', GIT_AUTHOR_EMAIL: 'fixture@example.test',
       GIT_COMMITTER_NAME: 'Local fixture', GIT_COMMITTER_EMAIL: 'fixture@example.test', GIT_AUTHOR_DATE: '2001-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2001-01-01T00:00:00Z' }, input,
-    stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'], timeout: 5_000 })
+    stdio: [descriptor ?? (input === undefined ? 'ignore' : 'pipe'), 'pipe', 'pipe'], timeout: 5_000, maxBuffer:8*1024*1024 }) }
+    finally { if(descriptor!==undefined) closeSync(descriptor) }
+  }
   const git = (args: string[], input?: string | Uint8Array) => gitBytes(args, input).toString('utf8').trim()
   await mkdir(repository); git(['init', '--bare', '-q'])
   let bulk: string
@@ -57,9 +63,59 @@ async function fixture(baselineCount = 1, bulkLeaves = 0) {
     writeFileSync(file, message, {flag:'wx',mode:0o600})
     return git(['commit-tree',tree,...parents.flatMap(parent=>['-p',parent]),'-F',file])
   }
-  const commit = (tree: string, parents: string[], message = 'human\n') => exactCommit(tree, parents, `${message.replace(/\n?$/, '\n')}\nfixture-${serial++}\n`)
+  const humanMessage = (message = 'human\n') => `${message.replace(/\n?$/, '\n')}\nfixture-${serial++}\n`
+  const commit = (tree: string, parents: string[], message = 'human\n') => exactCommit(tree, parents, humanMessage(message))
+  const batchMessages = (messages: readonly string[]) => messages.map(message => {
+    const bytes=humanMessage(message)
+    serial++ // Preserve the original exactCommit message-file reservation too.
+    return bytes
+  })
+  /** Real Git object batching, with an independent byte/parent/tree proof for EVERY commit.
+   * Streams are retained and read through a file descriptor, never a large synchronous pipe. */
+  const chain = (tree:string,parent:string|null,messages:readonly string[]):string[] => {
+    const id=batchSerial++, stream=join(root,`chain-${id}.fast-import`), marks=join(root,`chain-${id}.marks`)
+    const entries=git(['ls-tree',tree]).split('\n').filter(Boolean).map(line=>{
+      const match=/^(\d+) (?:tree|blob|commit) ([a-f0-9]{40})\t(.+)$/.exec(line)!
+      return `M ${match[1]} ${match[2]} ${JSON.stringify(match[3])}\n`
+    }).join('')
+    const chunks:Buffer[]=[]
+    messages.forEach((message,i)=>{
+      chunks.push(Buffer.from(`commit refs/fixture/chain-${id}\nmark :${i+1}\nauthor Local fixture <fixture@example.test> 978307200 +0000\ncommitter Local fixture <fixture@example.test> 978307200 +0000\ndata ${Buffer.byteLength(message)}\n`),Buffer.from(message),Buffer.from('\n'))
+      if(i || parent) chunks.push(Buffer.from(`from ${i ? ':'+i : parent}\n`))
+      if(i===0) chunks.push(Buffer.from('deleteall\n'+entries))
+      chunks.push(Buffer.from('\n'))
+    })
+    chunks.push(Buffer.from('done\n')); writeFileSync(stream,Buffer.concat(chunks),{flag:'wx',mode:0o600})
+    gitBytes(['fast-import','--quiet',`--export-marks=${marks}`],undefined,stream); chmodSync(marks,0o600)
+    const mapped=new Map(readFileSync(marks,'utf8').trim().split('\n').map(line=>{const [mark,oid]=line.split(' ');return [Number(mark.slice(1)),oid] as const}))
+    const commits=messages.map((_,i)=>mapped.get(i+1)!)
+    expect(mapped.size).toBe(messages.length); expect(commits.every(oid=>/^[a-f0-9]{40}$/.test(oid))).toBe(true)
+    const request=join(root,`chain-${id}.objects-request`)
+    writeFileSync(request,commits.join('\n')+'\n',{flag:'wx',mode:0o600})
+    const objects=gitBytes(['cat-file','--batch'],undefined,request)
+    writeFileSync(join(root,`chain-${id}.objects`),objects,{flag:'wx',mode:0o600})
+    let at=0
+    const proof=commits.map((oid,i)=>{
+      const end=objects.indexOf(10,at),match=/^([a-f0-9]{40}) commit (\d+)$/.exec(objects.subarray(at,end).toString())!
+      expect(match?.[1]).toBe(oid)
+      const length=Number(match[2]),raw=objects.subarray(end+1,end+1+length);at=end+length+2
+      expect(createHash('sha1').update(`commit ${length}\0`).update(raw).digest('hex')).toBe(oid)
+      const split=raw.indexOf('\n\n'),header=raw.subarray(0,split).toString().split('\n')
+      const parents=header.filter(line=>line.startsWith('parent ')).map(line=>line.slice(7))
+      expect(header[0]).toBe(`tree ${tree}`);expect(parents).toEqual(i?[commits[i-1]]:parent?[parent]:[])
+      expect(raw.subarray(split+2)).toEqual(Buffer.from(messages[i]))
+      const identity='Local fixture <fixture@example.test> 978307200 +0000'
+      const expected=Buffer.from(`tree ${tree}\n${parents.map(oid=>`parent ${oid}\n`).join('')}author ${identity}\ncommitter ${identity}\n\n${messages[i]}`)
+      expect(raw).toEqual(expected) // The exact ordinary commit-tree encoding, not just graph equivalence.
+      return {oid,tree,parents,messageBytes:Buffer.byteLength(messages[i]),messageSha256:rawSha256(Buffer.from(messages[i]))}
+    })
+    expect(at).toBe(objects.length)
+    writeFileSync(join(root,`chain-${id}.proof.json`),JSON.stringify(proof,null,2)+'\n',{flag:'wx',mode:0o600})
+    return commits
+  }
   const baseTree = makeTree(lock()), accepted: string[] = []
-  for (let i=0;i<baselineCount;i++) accepted.push(commit(baseTree, accepted.length ? [accepted.at(-1)!] : [], `baseline-${i}\n`))
+  if(baselineCount>1) accepted.push(...chain(baseTree,null,batchMessages(Array.from({length:baselineCount},(_,i)=>`baseline-${i}\n`))))
+  else accepted.push(commit(baseTree,[], 'baseline-0\n'))
   const baseline = accepted.at(-1)!
   git(['update-ref','refs/heads/baseline',baseline])
   const evidence = await initializeEvidence({root:join(root,'owned'),repositories:[repository],owner:'metadata-test'})
@@ -77,7 +133,15 @@ async function fixture(baselineCount = 1, bulkLeaves = 0) {
     expect(Buffer.from(await evidence.readBlob(retained.authority[0])).toString()).toBe('fixture-source-authority\n')
     return retained
   })
-  const inspect = createLocalMetadataInspector({repository,evidence,trustedContext:async()=>context,revalidateJournal})
+  const inspectLocal = createLocalMetadataInspector({repository,evidence,trustedContext:async()=>context,revalidateJournal})
+  const timing={fixtureSetupMilliseconds:0,firstScanStartMilliseconds:null as number|null,scans:[] as {milliseconds:number;status:string;counts:unknown}[]}
+  const inspect:typeof inspectLocal=async request=>{
+    if(timing.firstScanStartMilliseconds===null) timing.firstScanStartMilliseconds=milliseconds()
+    const at=milliseconds(),result=await inspectLocal(request)
+    timing.scans.push({milliseconds:milliseconds()-at,status:result.status,counts:result.counts})
+    writeFileSync(join(root,'fixture-timings.json'),JSON.stringify(timing,null,2)+'\n',{mode:0o600})
+    return result
+  }
   async function bot(parent = baseline, previous: string | null = null, oldNext = sourceOld, target = sourceNext, files: Record<string,string> = {}) {
     const beforeBytes = Buffer.from(lock(oldNext)), before = {path:lockPath,sha256:rawSha256(beforeBytes),current:sourceOld,next:oldNext}
     const patch = patchNextLock({subject,before,bytes:beforeBytes,target,mode:'100644'})
@@ -98,7 +162,8 @@ async function fixture(baselineCount = 1, bulkLeaves = 0) {
     git(['update-ref',`refs/shared-update/local/${digest('plan',plan)}`,oid]); journals.set(oid,local)
     return {oid,tree,revision,local}
   }
-  return {root,repository,git,gitBytes,makeTree,commit,exactCommit,baseTree,baseline,accepted,evidence,context,journals,revalidateJournal,inspect,bot}
+  timing.fixtureSetupMilliseconds=milliseconds()
+  return {root,repository,git,gitBytes,makeTree,commit,exactCommit,chain,batchMessages,baseTree,baseline,accepted,evidence,context,journals,revalidateJournal,inspect,bot}
 }
 
 it('excludes 320 accepted baseline messages, visits both short merge arms and retains next-only/local-chain proof', async () => {
@@ -127,6 +192,14 @@ it('round trips complete large fixture messages across the pipe boundary with a 
     const message='x'.repeat(bytes-1)+'\n', oid=f.exactCommit(f.baseTree,[f.baseline],message)
     const raw=f.gitBytes(['cat-file','commit',oid]), at=raw.indexOf('\n\n')
     expect(raw.subarray(at+2)).toEqual(Buffer.from(message))
+  }
+})
+it('constructs identical raw commits and OIDs through batched Git and ordinary commit-tree', async () => {
+  const f=await fixture(),messages=f.batchMessages(['human\n','雪\n','x'.repeat(67_583)+'\n'])
+  const batched=f.chain(f.baseTree,f.baseline,messages);let parent=f.baseline
+  for(let i=0;i<messages.length;i++) {
+    const ordinary=f.exactCommit(f.baseTree,[parent],messages[i])
+    expect(batched[i]).toBe(ordinary);parent=ordinary
   }
 })
 it('treats baseline trailers as historical data and requires local journal proof for existing origins', async () => {
@@ -197,9 +270,8 @@ it('holds tampered parent/tree/plan/authority/next diff and missing previous com
   expect((await f.inspect({master:f.baseline,head:k.oid})).status).toBe('hold')
 })
 it('shares the 256-commit budget across roots and journals without installing or changing any ref', async () => {
-  const f = await fixture(), k = await f.bot(); let head=k.oid
-  const roots=[k.oid]
-  for(let i=0;i<256;i++) { head=f.commit(k.tree,[head]); if(i===127) roots.push(head) }
+  const f = await fixture(), k = await f.bot()
+  const commits=f.chain(k.tree,k.oid,f.batchMessages(Array.from({length:256},()=> 'human\n'))),head=commits.at(-1)!,roots=[k.oid,commits[127]]
   const before=f.git(['show-ref']), result=await f.inspect({master:f.baseline,head,journalCandidates:roots})
   expect(result.reasons).toContain('METADATA_SCAN_LIMIT'); expect(result.counts.metadataCommits).toBe(256)
   expect(result.revision).toBeNull(); expect(result.pendingHeads).toContain(head)
