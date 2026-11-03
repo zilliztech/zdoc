@@ -1,0 +1,8 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/embeddings-reranking/reranking/exponential-decay.md
+publish:
+  - manual: guides
+    path: tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay
+  - manual: guides-byoc
+    path: tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay
