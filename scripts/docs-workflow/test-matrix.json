@@ -256,6 +256,21 @@
       "reason": "The rest-upstream pipeline pins upstream REST sources (lock), records adoption decisions (ledger), diffs pinned upstreams against the fragments branch-aware, and applies agent change sets deterministically; its hermetic suite also guards the canonical fragment byte format every fragment must keep. P1 adds the read-only drift watchdog, the staged single-turn refresh agent with a repository-path isolation sweep, the deterministic ledger bootstrap, and the PAT-opened refresh workflow; the 10-21 replay alignment report is its acceptance evidence. P2 adds the vendored Go source-tree extractor (milvus data plane), the skeleton contract and converter, structure-only diffing for source-tree sources, cross-fragment component resolution, and source-tree drift classification in the watchdog; the P2 report is its acceptance evidence. P3 adds the data-plane lifecycle suggestions (x-added-at/x-last-modified/x-deprecated-since bound into change-set entries), the T4 ledger accounting gate with the schemaVersion 2 completeness receipt, and the machine-checked fragment-migration gate behind the rest-upstream-accounting and rest-upstream-migration CLI commands; the refresh workflow gains the milvus source-tree lane (setup-go + vendored extractor) and lands ledger drafts as deferred entries so adoption stays atomic. The decisions-first pipeline (2026-10-29) retires the codex agent turn and the instruction pack: the decision contract, the machine-generated candidate list, and the deterministic assembler behind rest-upstream-candidates/rest-upstream-assemble produce the change set from stances alone (never loci or values), decide-batches.js shards the model calls per fragment behind citation/contract/coverage gates, and the refresh workflow embeds the decision divergences in the PR body; the decisions-pipeline design doc is its acceptance anchor. The entry owns the shared `.github/prompts` root, including the retired codex-rest-refresh-agent pack whose deletion this pipeline supersedes. The 2026-10-30 merge model (.claude/specs/2026-10-30-rest-upstream-mirror-model.md; the PR #964 review) moves structure into deterministic lanes: diff.js collapses any deep API-truth difference into one schema|mirror entry carrying the resolved upstream subtree (structure-only sources strip scalar-constraint keys the extractor cannot speak to), the assembler auto-assembles mirrors and placed additions (mergeMirrorProse keeps local prose/x-* at surviving nodes; placements come from the branch-plan stage whose model only picks existing tab labels), translate-additions fills zh/ja fail-closed before apply, and the applier gains recomputation-bound mirror/addition writes, a translation-completeness gate, and the shape gate against object+items/scalar+properties monsters; prose/retirements/unplaced/pending-confirmation lists ride the PR body."
     },
     {
+      "id": "rest-conformance-live-rounds",
+      "paths": [
+        "packages/docs-tooling/src/reference/rest/conformance/**"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/reference/rest/conformance/first-round-2026-11-01/archive.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The conformance directory archives live REST reference verification rounds and will host the versioned suites and runners for the weekly self-hosted/UAT verification program. first-round-2026-11-01 freezes the 2026-11-01 round (130 param-level cases from the PR #1005 fragments pin 5f7e112 vs Milvus v2.6.26 on milvus-cell): the integrity test pins artifact parseability, the recorded verdict counts, and the two upstream route skeletons (89/113 operations from internal/distributed/proxy/httpserver), so evidence cannot drift silently."
+    },
+    {
       "id": "reference-navigation-validation",
       "paths": [
         "packages/docs-tooling/src/validation/referenceNavigation.ts",
