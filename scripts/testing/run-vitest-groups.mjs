@@ -17,6 +17,50 @@ const within=(root,path)=>{const r=relative(root,path);return r===''||r!=='..'&&
 const jsonWrite=(path,value)=>writeFile(path,JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600})
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex')
 
+/** One monotonic budget for setup, children, transitions and final output.
+ * The short duration is injectable only through this internal contract-test API.
+ * Every continuation checks it before starting another operation or side effect.
+ */
+export async function withGateDeadline(work,{milliseconds=15*60*1000,evidenceRoot=null}={}) {
+  const expires=performance.now()+milliseconds,owned=new Set()
+  let stage='preflight',expired=false,rejectExpiry
+  const error=new Error('Grouped gate 15-minute outer deadline exhausted')
+  error.code='ZDOC_GATE_DEADLINE'
+  const expiry=new Promise((_,reject)=>{rejectExpiry=reject})
+  expiry.catch(()=>{})
+  const expire=()=>{expired=true;rejectExpiry(error)}
+  const timer=setTimeout(expire,milliseconds)
+  const budget={evidenceRoot,deadline:Date.now()+milliseconds,
+    check(){if(expired||performance.now()>=expires){expire();throw error}},
+    remaining(){this.check();return Math.max(1,Math.ceil(expires-performance.now()))},
+    get expired(){return expired||performance.now()>=expires},
+    register(owner){owned.add(owner)},release(owner){owned.delete(owner)},
+    async step(name,action){this.check();stage=name;const result=await Promise.race([action(),expiry]);this.check();return result}}
+  try {
+    const result=await Promise.race([work(budget),expiry])
+    budget.check()
+    return result
+  } catch(cause) {
+    const failure={success:false,failure:cause.message,stage,at:Date.now(),rawCountsComplete:false,
+      owners:[...owned].map(o=>({pid:o.pid,directory:o.directory}))}
+    // Record the abort before stopping this invocation's registered groups. A
+    // preflight without a root still emits a retained stderr failure record.
+    console.error(JSON.stringify(failure))
+    // Diagnostic persistence must not hold the owned-group stop indefinitely.
+    const record=async(name,value)=>{
+      if(!budget.evidenceRoot)return
+      let timeout
+      try{await Promise.race([jsonWrite(join(budget.evidenceRoot,name),value),new Promise(resolve=>{timeout=setTimeout(resolve,250)})])}
+      catch{/* The stderr record remains available if the evidence path fails. */}
+      finally{clearTimeout(timeout)}
+    }
+    await record('gate-failure.json',failure)
+    const stopped=await Promise.all([...owned].map(async o=>({pid:o.pid,settled:await o.stop()})))
+    await record('gate-stop.json',{failure,stopped})
+    throw cause
+  } finally {clearTimeout(timer)}
+}
+
 export function parseOptions(args) {
   const options={scope:null,output:null,reporters:[]}
   for(let i=0;i<args.length;i++) {
@@ -97,17 +141,22 @@ async function stopGroup(pid,signals,graceMs) {
 }
 
 /** Internal process primitive: each call owns only its newly detached POSIX group. */
-export async function supervise({argv,cwd,env,directory,deadline,protocol=null,graceMs=1000}) {
+export async function supervise({argv,cwd,env,directory,deadline,protocol=null,graceMs=1000,budget=null}) {
   if(!['darwin','linux'].includes(process.platform))throw new Error('Grouped test ownership supports macOS/Linux only')
+  const beforeSpawn=()=>{budget?.check();if(Date.now()>=deadline)throw new Error('Grouped gate deadline expired before spawn')}
+  beforeSpawn()
   await mkdir(directory,{mode:0o700})
   const stdout=await open(join(directory,'stdout'),'wx',0o600),stderr=await open(join(directory,'stderr'),'wx',0o600)
   const started=Date.now(),signals=[]
-  let child,exit=null,reason=null,spawnError=null,observed=null,settled=false
+  let child,owner,stopping,exit=null,reason=null,spawnError=null,observed=null,settled=false
+  const stopOwned=()=>stopping??=(child?.pid?stopGroup(child.pid,signals,graceMs):Promise.resolve(true))
   const interrupt=signal=>{reason??=`Supervisor interrupted: ${signal}`}
   const onInt=()=>interrupt('SIGINT'),onTerm=()=>interrupt('SIGTERM')
   process.on('SIGINT',onInt);process.on('SIGTERM',onTerm)
   try {
+    beforeSpawn()
     child=spawn(argv[0],argv.slice(1),{cwd,env,detached:true,stdio:['ignore',stdout.fd,stderr.fd]})
+    owner={pid:child.pid,directory,stop:stopOwned};budget?.register(owner)
     child.once('error',e=>{spawnError=e;reason??=`Spawn failed: ${e.message}`;exit={code:null,signal:null}})
     child.once('exit',(code,signal)=>{exit={code,signal}})
     await jsonWrite(join(directory,'owner.json'),{pid:child.pid??null,processGroup:child.pid??null,started,argv,cwd})
@@ -121,10 +170,10 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
           if(observed.failure)reason??='Reported test/module failure'
         }catch(e){if(e.code!=='ENOENT'||exit!==null)reason??=`Reporter protocol: ${e.message}`}
       }
-      if(Date.now()>=deadline)reason??='Grouped gate 15-minute outer deadline exhausted'
+      if(budget?.expired||Date.now()>=deadline)reason??='Grouped gate 15-minute outer deadline exhausted'
       if(reason) {
         await jsonWrite(join(directory,'failure.json'),{reason,observed,exit,at:Date.now()})
-        if(child.pid)settled=await stopGroup(child.pid,signals,graceMs)
+        if(child.pid)settled=await stopOwned()
         break
       }
       if(exit!==null)break
@@ -140,7 +189,7 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
       if(groupAlive(child.pid)) {
         reason??='Owned child processes survived invocation exit'
         if(!await stat(join(directory,'failure.json')).catch(()=>null))await jsonWrite(join(directory,'failure.json'),{reason,exit,at:Date.now()})
-        settled=await stopGroup(child.pid,signals,graceMs)
+        settled=await stopOwned()
       } else settled=true
     }
     const result={argv,cwd,started,ended:Date.now(),exitCode:exit?.code??null,signal:exit?.signal??null,reason,
@@ -149,10 +198,11 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
     return result
   } catch(error) {
     try{await jsonWrite(join(directory,'supervisor-error.json'),{message:error.message,at:Date.now()})}catch{/* Preserve any existing failure record. */}
-    if(child?.pid)await stopGroup(child.pid,signals,graceMs)
+    if(child?.pid)settled=await stopOwned()
     throw error
   } finally {
     process.off('SIGINT',onInt);process.off('SIGTERM',onTerm)
+    if(settled&&owner)budget?.release(owner)
     await stdout.close();await stderr.close()
   }
 }
@@ -190,7 +240,9 @@ export function summarizeReports(completed) {
     else if(typeof value==='boolean')snapshot[key]=(snapshot[key]??false)||value
     else if(Array.isArray(value))snapshot[key]=[...snapshot[key]??[],...value]
   }
-  return {...suites,snapshot,testResults,numTotalTests:cases.length,numPassedTests:cases.filter(t=>t.status==='passed').length,
+  const observedFailures=completed.flatMap(p=>p.receipt?.observed?.failure?[{phase:p.name,event:p.receipt.observed.failure}]:[])
+  return {...suites,snapshot,testResults,observedFailures,rawCountsComplete:reports.length===completed.length&&completed.every(p=>p.success),
+    numTotalTests:cases.length,numPassedTests:cases.filter(t=>t.status==='passed').length,
     numFailedTests:cases.filter(t=>t.status==='failed').length,
     numPendingTests:reports.filter(p=>p.success).flatMap(p=>p.raw.testResults).flatMap(f=>f.assertionResults).filter(skipped).length,
     unqualifiedSkippedTests:reports.filter(p=>!p.success).flatMap(p=>p.raw.testResults).flatMap(f=>f.assertionResults).filter(skipped).length,
@@ -199,7 +251,7 @@ export function summarizeReports(completed) {
 
 export function tempParentPath(platform,home,override) {
   if(typeof home!=='string'||!home||!isAbsolute(home)||resolve(home)!==home)throw new Error('Missing or unsafe home directory')
-  const parent=override??(platform==='darwin'?join(home,'Library/Caches/zdoc-vitest'):join(home,'.cache/zdoc-vitest'))
+  const parent=override??join(home,'.cache/zdoc-vitest')
   if(!['darwin','linux'].includes(platform)||!isAbsolute(parent)||resolve(parent)!==parent||parent.split(sep).includes('.git'))throw new Error('Invalid grouped test temporary parent')
   return parent
 }
@@ -230,8 +282,8 @@ export async function verifyTemporaryRoot(layout) {
     if(!s.isDirectory()||s.isSymbolicLink()||s.dev.toString()!==pin.device||s.ino.toString()!==pin.inode||Number(s.mode&0o777n)!==pin.mode||s.uid.toString()!==pin.uid)throw new Error('Temporary directory identity changed')
   }
 }
-export async function resolveProtectedInputs(cwd,output=null) {
-  const git=args=>execFileSync('git',['--no-replace-objects','rev-parse','--path-format=absolute',...args],{cwd,encoding:'utf8'}).trim()
+export async function resolveProtectedInputs(cwd,output=null,budget=null) {
+  const git=args=>execFileSync('git',['--no-replace-objects','rev-parse','--path-format=absolute',...args],{cwd,encoding:'utf8',timeout:Math.min(10000,budget?.remaining()??10000),killSignal:'SIGKILL'}).trim()
   const gitdir=await realpath(git(['--git-dir'])),common=await realpath(git(['--git-common-dir']))
   const paths=[await realpath(cwd),gitdir,common],pending=[git(['--git-path','objects'])],seen=new Set()
   if(process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES) {
@@ -240,6 +292,7 @@ export async function resolveProtectedInputs(cwd,output=null) {
     pending.push(...alternates.split(':').filter(Boolean).map(p=>resolve(cwd,p)))
   }
   while(pending.length) {
+    budget?.check()
     const objects=await realpath(pending.pop())
     if(seen.has(objects))continue
     if(seen.size>=256)throw new Error('Too many protected object stores')
@@ -256,7 +309,7 @@ export async function resolveProtectedInputs(cwd,output=null) {
   if(output)paths.push(await canonicalCandidate(output))
   return [...new Set(paths)]
 }
-export async function createTemporaryRoot(cwd,{platform=process.platform,home=homedir(),override=process.env.ZDOC_TEST_TMP_PARENT,protectedPaths=[]}={}) {
+export async function createTemporaryRoot(cwd,{platform=process.platform,home=homedir(),override=process.env.ZDOC_TEST_TMP_PARENT,protectedPaths=[],budget=null}={}) {
   // A dedicated user-owned parent avoids assuming a crowded system temp root is
   // equivalent to a retained-artifact layout. Existing directories are never chmodded.
   const requested=tempParentPath(platform,home,override)
@@ -268,83 +321,105 @@ export async function createTemporaryRoot(cwd,{platform=process.platform,home=ho
   const protectedIdentities=await Promise.all(protectedActual.map(p=>lstat(p,{bigint:true}).catch(e=>{if(e.code==='ENOENT')return null;throw e})))
   if(initialPins.some(pin=>protectedIdentities.some(s=>s&&s.dev.toString()===pin.device&&s.ino.toString()===pin.inode)))throw new Error('Physical alias of protected input/output')
   await verifyTemporaryRoot({ancestors:initialPins})
+  budget?.check()
   await mkdir(canonical,{recursive:true,mode:0o700})
   await verifyTemporaryRoot({ancestors:initialPins})
   const parentInfo=await lstat(canonical)
   if(!parentInfo.isDirectory()||parentInfo.isSymbolicLink()||parentInfo.uid!==process.getuid()||(parentInfo.mode&0o777)!==0o700)throw new Error('Temporary parent must be an owned0700 directory, not a symlink')
   const parent=await realpath(canonical),parentPins=await directoryPins(canonical)
   if(parent!==canonical)throw new Error('Temporary parent changed during creation')
+  budget?.check()
   const root=await mkdtemp(join(parent,'run-'))
+  if(budget)budget.evidenceRoot=root
+  budget?.check()
   await verifyTemporaryRoot({ancestors:parentPins})
   if(within(cwd,root)||root.split(sep).includes('.git'))throw new Error('Test temporary root must be outside the checkout and Git metadata')
   const info=await stat(root)
   if((info.mode&0o777)!==0o700||info.uid!==process.getuid())throw new Error('Temporary root is not privately owned')
   const ancestors=await directoryPins(root),layout={root,parent,ancestors,requested,protectedPaths:protectedActual,override:override??null,
-    policy:'dedicated owned0700 user-cache parent (macOS Library/Caches/zdoc-vitest; Linux .cache/zdoc-vitest), or explicit ZDOC_TEST_TMP_PARENT; new canonical gate/phase roots; no chmod, cleanup or global TMPDIR change'}
+    policy:'dedicated owned0700 ~/.cache/zdoc-vitest parent on macOS/Linux, or explicit ZDOC_TEST_TMP_PARENT; new canonical gate/phase roots; no chmod, cleanup or global TMPDIR change'}
   await verifyTemporaryRoot(layout);return layout
 }
-function sourceIdentity(cwd) {
+function sourceIdentity(cwd,budget) {
   const files=['package.json','vitest.config.ts','scripts/testing/run-vitest-groups.mjs','scripts/testing/vitest-stop-reporter.mjs','scripts/testing/run-vitest-groups.test.mjs']
-  return {head:execFileSync('git',['rev-parse','HEAD'],{cwd,encoding:'utf8'}).trim(),
-    trackedDiffSha256:sha(execFileSync('git',['diff','HEAD','--binary'],{cwd})),
+  const git=args=>execFileSync('git',args,{cwd,timeout:Math.min(10000,budget.remaining()),killSignal:'SIGKILL'})
+  return {head:git(['rev-parse','HEAD']).toString().trim(),
+    trackedDiffSha256:sha(git(['diff','HEAD','--binary','--no-ext-diff','--no-textconv'])),
     harnessSha256:sha(Buffer.concat(files.flatMap(file=>[Buffer.from(file+'\0'),readFileSync(join(cwd,file)),Buffer.from('\0')])))}
 }
 
 export async function runGate(options) {
-  const started=Date.now(),deadline=started+15*60*1000,cwd=await realpath(repository)
-  if(!['darwin','linux'].includes(process.platform))throw new Error('Grouped gates support macOS/Linux process ownership only')
-  if(options.output&&await stat(options.output).catch(()=>null))throw new Error('Requested aggregate output already exists; preserve or choose a fresh path')
-  const protectedPaths=await resolveProtectedInputs(cwd,options.output),layout=await createTemporaryRoot(cwd,{protectedPaths}),root=layout.root,before=sourceIdentity(cwd),vitest=join(dirname(require.resolve('vitest/package.json')),'vitest.mjs')
-  const filters=options.scope==='shared-docs'?['packages/docs-tooling/src/shared-docs']:[]
-  await jsonWrite(join(root,'setup.json'),{started,deadline,cwd,scope:options.scope,layout,before,
-    environment:{node:process.version,platform:process.platform,VITEST_MAX_WORKERS:process.env.VITEST_MAX_WORKERS??null,CI:process.env.CI??null}})
-  console.log(`Grouped Vitest evidence: ${root}`)
-  let manifest=[],phases=[],result={success:false,completed:[],unrun:[]},failure=null
-  try {
-    const discovery=join(root,'discovery.json')
-    await verifyTemporaryRoot(layout)
-    const discovered=await supervise({argv:[process.execPath,vitest,'list',...filters,'--filesOnly',`--json=${discovery}`],cwd,
-      env:{...process.env,TMPDIR:root},directory:join(root,'discovery'),deadline})
-    if(!discovered.success)throw new Error('Test discovery failed; see retained discovery logs/receipt')
-    await verifyTemporaryRoot(layout)
-    const partition=partitionFiles(JSON.parse(await readFile(discovery,'utf8')),cwd,options.scope)
-    manifest=partition.files;phases=partition.phases
-    await jsonWrite(join(root,'manifest.json'),partition)
-    result=await runPhases(phases,async phase=>{
-      const directory=join(root,phase.name),temp=join(root,`${phase.name}-tmp`),runId=randomUUID()
-      await verifyTemporaryRoot(layout)
-      await mkdir(temp,{mode:0o700})
-      const phaseLayout={ancestors:await directoryPins(temp)}
-      await verifyTemporaryRoot(layout);await verifyTemporaryRoot(phaseLayout)
-      const rawPath=join(directory,'raw.json'),argv=[process.execPath,vitest,'run',...phase.files,'--allowOnly=false',
-        '--reporter=default','--reporter=json',`--reporter=${reporter}`,`--outputFile.json=${rawPath}`,
-        ...(phase.heavy?['--pool=forks','--isolate','--maxWorkers=1','--bail=1']:[])]
-      console.log(`Starting ${phase.name}: ${phase.files.length} complete files${phase.heavy?' (one worker)':''}`)
-      const receipt=await supervise({argv,cwd,env:{...process.env,...phase.heavy?{VITEST_MAX_WORKERS:'1'}:{},TMPDIR:temp,ZDOC_TEST_RUN_ID:runId,ZDOC_TEST_EVENTS:join(directory,'events.jsonl')},
-        directory,deadline,protocol:{runId,expected:phase.files,root:cwd,heavy:phase.heavy}})
-      let raw=null,error=null
-      try {await verifyTemporaryRoot(layout);await verifyTemporaryRoot(phaseLayout);raw=JSON.parse(await readFile(rawPath,'utf8'));validateRawReport(raw,phase.files,cwd)}catch(e){error=e.message}
-      const completed={name:phase.name,files:phase.files,success:receipt.success&&!error,receipt,raw,error}
-      await jsonWrite(join(directory,'validated.json'),{success:completed.success,error,rawPath,temporaryIdentity:phaseLayout})
-      console.log(`${phase.name}: ${completed.success?'PASS':'FAIL'}; evidence ${directory}`)
-      return completed
-    })
-  } catch(e){failure=e.message}
-  const after=sourceIdentity(cwd)
-  if(JSON.stringify(before)!==JSON.stringify(after))failure??='Source identity changed during grouped gate'
-  const success=!failure&&result.success&&result.completed.length===3
-  const reports=summarizeReports(result.completed)
-  const aggregate={success,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
-    discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason})),
-    unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
-    qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; unrun files and cancelled tests are not ordinary platform skips'}
-  await jsonWrite(join(root,'aggregate.json'),aggregate)
-  if(options.output){await mkdir(dirname(options.output),{recursive:true});await jsonWrite(options.output,aggregate)}
-  console.log(`${success?'PASS':'FAIL'} grouped ${options.scope}: ${aggregate.numPassedTests} passed, ${aggregate.numFailedTests} failed, ${aggregate.numPendingTests} skipped; ${root}`)
-  return aggregate
+  return withGateDeadline(async budget=>{
+    const started=Date.now(),deadline=budget.deadline,step=(name,action)=>budget.step(name,action)
+    const cwd=await step('checkout preflight',()=>realpath(repository))
+    if(!['darwin','linux'].includes(process.platform))throw new Error('Grouped gates support macOS/Linux process ownership only')
+    if(options.output&&await step('output preflight',()=>stat(options.output).catch(e=>{if(e.code==='ENOENT')return null;throw e})))throw new Error('Requested aggregate output already exists; preserve or choose a fresh path')
+    const protectedPaths=await step('Git preflight',()=>resolveProtectedInputs(cwd,options.output,budget))
+    const layout=await step('temporary directory preflight',()=>createTemporaryRoot(cwd,{protectedPaths,budget})),root=layout.root
+    const before=await step('source preflight',()=>sourceIdentity(cwd,budget)),vitest=join(dirname(require.resolve('vitest/package.json')),'vitest.mjs')
+    const filters=options.scope==='shared-docs'?['packages/docs-tooling/src/shared-docs']:[]
+    await step('setup record',()=>jsonWrite(join(root,'setup.json'),{started,deadline,cwd,scope:options.scope,layout,before,
+      environment:{node:process.version,platform:process.platform,VITEST_MAX_WORKERS:process.env.VITEST_MAX_WORKERS??null,CI:process.env.CI??null}}))
+    console.log(`Grouped Vitest evidence: ${root}`)
+    let manifest=[],result={success:false,completed:[],unrun:[]},failure=null
+    try {
+      const discovery=join(root,'discovery.json')
+      await step('discovery identity',()=>verifyTemporaryRoot(layout))
+      const discovered=await step('discovery',()=>supervise({argv:[process.execPath,vitest,'list',...filters,'--filesOnly',`--json=${discovery}`],cwd,
+        env:{...process.env,TMPDIR:root},directory:join(root,'discovery'),deadline,budget}))
+      if(!discovered.success)throw new Error('Test discovery failed; see retained discovery logs/receipt')
+      await step('discovery result identity',()=>verifyTemporaryRoot(layout))
+      const partition=partitionFiles(JSON.parse(await step('discovery manifest',()=>readFile(discovery,'utf8'))),cwd,options.scope)
+      manifest=partition.files
+      await step('partition record',()=>jsonWrite(join(root,'manifest.json'),partition))
+      result=await runPhases(partition.phases,async phase=>{
+        const directory=join(root,phase.name),temp=join(root,`${phase.name}-tmp`),runId=randomUUID()
+        await step(`${phase.name} identity`,()=>verifyTemporaryRoot(layout))
+        await step(`${phase.name} temporary root`,()=>mkdir(temp,{mode:0o700}))
+        const phaseLayout={ancestors:await step(`${phase.name} pins`,()=>directoryPins(temp))}
+        await step(`${phase.name} root recheck`,()=>verifyTemporaryRoot(layout))
+        await step(`${phase.name} phase recheck`,()=>verifyTemporaryRoot(phaseLayout))
+        const rawPath=join(directory,'raw.json'),argv=[process.execPath,vitest,'run',...phase.files,'--allowOnly=false',
+          '--reporter=default','--reporter=json',`--reporter=${reporter}`,`--outputFile.json=${rawPath}`,
+          ...(phase.heavy?['--pool=forks','--isolate','--maxWorkers=1','--bail=1']:[])]
+        console.log(`Starting ${phase.name}: ${phase.files.length} complete files${phase.heavy?' (one worker)':''}`)
+        const receipt=await step(phase.name,()=>supervise({argv,cwd,env:{...process.env,...phase.heavy?{VITEST_MAX_WORKERS:'1'}:{},TMPDIR:temp,ZDOC_TEST_RUN_ID:runId,ZDOC_TEST_EVENTS:join(directory,'events.jsonl')},
+          directory,deadline,budget,protocol:{runId,expected:phase.files,root:cwd,heavy:phase.heavy}}))
+        let raw=null,error=null
+        try {
+          await step(`${phase.name} completed root`,()=>verifyTemporaryRoot(layout))
+          await step(`${phase.name} completed phase`,()=>verifyTemporaryRoot(phaseLayout))
+          raw=JSON.parse(await step(`${phase.name} raw report`,()=>readFile(rawPath,'utf8')))
+          validateRawReport(raw,phase.files,cwd)
+        }catch(e){error=e.message}
+        const completed={name:phase.name,files:phase.files,success:receipt.success&&!error,receipt,raw,error}
+        await step(`${phase.name} validated record`,()=>jsonWrite(join(directory,'validated.json'),{success:completed.success,error,rawPath,temporaryIdentity:phaseLayout}))
+        console.log(`${phase.name}: ${completed.success?'PASS':'FAIL'}; evidence ${directory}`)
+        return completed
+      })
+    } catch(e){failure=e.message}
+    const after=await step('final source identity',()=>sourceIdentity(cwd,budget))
+    if(JSON.stringify(before)!==JSON.stringify(after))failure??='Source identity changed during grouped gate'
+    const success=!failure&&result.success&&result.completed.length===3
+    const reports=summarizeReports(result.completed)
+    reports.rawCountsComplete&&=result.completed.length===3&&!result.unrun.length
+    const {rawCountsComplete,observedFailures}=reports
+    const aggregate={success,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
+      discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason})),
+      unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
+      qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; raw counts cover only available reports, unrun files and cancelled tests are not ordinary platform skips'}
+    await step('final aggregate',()=>jsonWrite(join(root,'aggregate.json'),aggregate))
+    if(options.output) {
+      await step('final output directory',()=>mkdir(dirname(options.output),{recursive:true}))
+      await step('final requested output',()=>jsonWrite(options.output,aggregate))
+    }
+    budget.check()
+    console.log(`${success?'PASS':'FAIL'} grouped ${options.scope}: ${rawCountsComplete?`${aggregate.numPassedTests} passed, ${aggregate.numFailedTests} failed, ${aggregate.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${observedFailures.length} observed failure event(s)`}; ${root}`)
+    return aggregate
+  })
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
   try{const result=await runGate(parseOptions(process.argv.slice(2)));process.exitCode=result.success?0:1}
-  catch(e){console.error(e.stack??e);process.exitCode=1}
+  catch(e){console.error(e.stack??e);if(e.code==='ZDOC_GATE_DEADLINE')process.exit(1);process.exitCode=1}
 }

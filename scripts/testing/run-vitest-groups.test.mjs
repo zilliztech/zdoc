@@ -36,7 +36,7 @@ test('gate options preserve report requests and reject every narrowing/unsupport
   assert.throws(()=>parseOptions(['--scope=all','--scope=all']))
 })
 test('temporary parent policy is explicit and rejects aliases/metadata/unsupported platforms',()=>{
-  assert.equal(tempParentPath('darwin','/Users/example'),'/Users/example/Library/Caches/zdoc-vitest')
+  assert.equal(tempParentPath('darwin','/Users/example'),'/Users/example/.cache/zdoc-vitest')
   assert.equal(tempParentPath('linux','/home/example'),'/home/example/.cache/zdoc-vitest')
   assert.equal(tempParentPath('linux','/home/example','/owned/fixtures'),'/owned/fixtures')
   for(const value of ['relative','/owned/../alias','/owned/.git/output'])assert.throws(()=>tempParentPath('linux','/home/example',value))
@@ -124,6 +124,9 @@ test('failed-phase pending cases are unqualified, never normal skips, and malfor
   const result=summarizeReports([{success:true,raw},{success:false,raw},{success:false,raw:{testResults:{}}}])
   assert.equal(result.numPendingTests,1);assert.equal(result.unqualifiedSkippedTests,1);assert.equal(result.numPassedTests,2)
   assert.equal(result.numTotalTestSuites,4);assert.equal(result.snapshot.matched,6);assert.equal(result.snapshot.didUpdate,false)
+  const aborted=summarizeReports([{name:'light',success:false,raw:null,receipt:{observed:{failure:{name:'actual failure',errors:[{message:'retained'}]}}}}])
+  assert.equal(aborted.rawCountsComplete,false);assert.equal(aborted.observedFailures[0].event.name,'actual failure')
+  assert.equal(aborted.numPendingTests,0)
 })
 test('real reporter writes its protocol and retains errors before terminal',async()=>{
   const root=await fixture(),path=join(root,'events.jsonl'),p=protocol(root)
@@ -202,6 +205,52 @@ test('controller exception prevents subsequent phases and is not an ordinary ski
   let calls=0
   const r=await runPhases([{name:'a',files:['a']},{name:'b',files:['b']}],async()=>{calls++;throw new Error('controller failed')})
   assert.equal(calls,1);assert.equal(r.success,false);assert.deepEqual(r.unrun,['b']);assert.equal(r.completed[0].receipt.settled,false)
+})
+test('an expired child deadline rejects before spawning or creating its output directory',async()=>{
+  const root=await fixture(),marker=join(root,'unexpected-child')
+  await assert.rejects(invoke(root,{deadline:Date.now()-1,code:`require('node:fs').writeFileSync(${JSON.stringify(marker)},'bad')`}),/before spawn/)
+  await assert.rejects(stat(marker),{code:'ENOENT'});await assert.rejects(stat(join(root,'run')),{code:'ENOENT'})
+})
+for(const stage of ['preflight','between phases','finalization'])test(`whole-run deadline covers stalled ${stage} and forbids a late continuation`,async()=>{
+  const root=await fixture(),marker=join(root,'late-continuation'),started=join(root,'first-phase')
+  const module=fileURLToPath(new URL('./run-vitest-groups.mjs',import.meta.url))
+  const code=`import {withGateDeadline} from ${JSON.stringify(module)};
+    import {writeFile} from 'node:fs/promises';
+    const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    await withGateDeadline(async budget=>{
+      ${stage==='preflight'?'':`await budget.step('first phase',()=>writeFile(${JSON.stringify(started)},'complete'));`}
+      await budget.step(${JSON.stringify(stage)},async()=>{
+        await pause(180);budget.check();await writeFile(${JSON.stringify(marker)},'bad');
+      });
+      await budget.step('next phase or success',()=>writeFile(${JSON.stringify(marker)},'bad'));
+      return {success:true};
+    },{milliseconds:60,evidenceRoot:${JSON.stringify(root)}});`
+  const child=spawn(process.execPath,['--input-type=module','-e',code],{stdio:['ignore','ignore','pipe']})
+  let stderr='';child.stderr.on('data',chunk=>stderr+=chunk)
+  const codeResult=await new Promise(resolve=>child.once('exit',resolve))
+  assert.equal(codeResult,1);assert.match(stderr,/outer deadline exhausted/)
+  const failure=JSON.parse(await readFile(join(root,'gate-failure.json'),'utf8'))
+  assert.equal(failure.success,false);assert.equal(failure.stage,stage);assert.equal(failure.rawCountsComplete,false)
+  const stopped=JSON.parse(await readFile(join(root,'gate-stop.json'),'utf8'));assert.deepEqual(stopped.stopped,[])
+  if(stage!=='preflight')assert.equal(await readFile(started,'utf8'),'complete')
+  await assert.rejects(stat(marker),{code:'ENOENT'})
+})
+test('whole-run watchdog records failure then settles its registered active child',async()=>{
+  const root=await fixture(),marker=join(root,'late-child'),pidFile=join(root,'child.pid')
+  const module=fileURLToPath(new URL('./run-vitest-groups.mjs',import.meta.url))
+  const childCode=`require('node:fs').writeFileSync(${JSON.stringify(pidFile)},String(process.pid));setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(marker)},'bad'),800);setInterval(()=>{},1000)`
+  const code=`import {withGateDeadline,supervise} from ${JSON.stringify(module)};
+    await withGateDeadline(async budget=>budget.step('active child',()=>supervise({
+      argv:[process.execPath,'-e',${JSON.stringify(childCode)}],cwd:${JSON.stringify(root)},env:process.env,
+      directory:${JSON.stringify(join(root,'child'))},deadline:Date.now()+5000,budget,graceMs:100
+    })),{milliseconds:250,evidenceRoot:${JSON.stringify(root)}});`
+  const child=spawn(process.execPath,['--input-type=module','-e',code],{stdio:'ignore'})
+  assert.equal(await new Promise(resolve=>child.once('exit',resolve)),1)
+  const failure=JSON.parse(await readFile(join(root,'gate-failure.json'),'utf8'))
+  const stopped=JSON.parse(await readFile(join(root,'gate-stop.json'),'utf8'))
+  const pid=Number(await readFile(pidFile,'utf8'))
+  assert.deepEqual(failure.owners.map(o=>o.pid),[pid]);assert.deepEqual(stopped.stopped,[{pid,settled:true}])
+  await sleep(850);await assert.rejects(stat(marker),{code:'ENOENT'})
 })
 
 async function realVitest(root,source) {

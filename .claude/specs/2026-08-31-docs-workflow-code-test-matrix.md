@@ -13,9 +13,11 @@ files in separate sequential forks with one worker. Existing testcase deadlines
 and normal runIf skips remain. A private run-correlated reporter and owned-process
 supervisor fail closed on errors, incomplete/mismatched results or surviving
 children; later groups are not launched and unrun files are not normal skips.
-Both entrypoints have a 15-minute outer ceiling. macOS/Linux temporary roots are
-new owned0700 children of the user's dedicated Library/Caches/zdoc-vitest (macOS)
-or .cache/zdoc-vitest (Linux), or explicit ZDOC_TEST_TMP_PARENT, outside the checkout
+Both entrypoints have one monotonic 15-minute outer ceiling across preflight,
+discovery, transitions and finalization, with bounded preflight Git calls and
+no post-deadline child start/success. Incomplete raw counts and observed reporter
+failures are distinct. macOS/Linux temporary roots are new owned0700 children
+of the user's dedicated .cache/zdoc-vitest, or explicit ZDOC_TEST_TMP_PARENT, outside the checkout
 and actual Git/common directories, object stores/alternates and aggregate output.
 Overlapping paths and symlink/case aliases are rejected before creation. Existing
 parents must already be owned0700 and are not chmodded or cleaned. Ancestor
