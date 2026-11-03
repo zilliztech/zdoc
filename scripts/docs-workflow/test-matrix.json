@@ -1310,7 +1310,8 @@
         "packages/site-config/package.json"
       ],
       "focusedTests": [
-        "pnpm test:replay:contract"
+        "pnpm test:replay:contract",
+        "pnpm vitest run packages/docs-tooling/src/runtime-contract.test.ts"
       ],
       "harnesses": [
         "pnpm test:replay:all"
@@ -1319,7 +1320,22 @@
         "pnpm test:workflow-policy",
         "git diff --check"
       ],
-      "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes."
+      "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes. The docs-tooling runtime contract runs here because a manifest edit is exactly the change that can break it (the @zilliz/mdtomd drift)."
+    },
+    {
+      "id": "docs-tooling-runtime-contract",
+      "paths": [
+        "packages/docs-tooling/src/runtime-contract*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/runtime-contract.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The docs-tooling runtime contract pins the package manifest dependency list and proves every statically or dynamically imported runtime package is declared. It previously had no matrix row or CI consumer, so the @zilliz/mdtomd manifest addition and two scanner false positives (regex-literal @theme escapes, vitest imports in test-support modules) stayed red on master."
     },
     {
       "id": "frontend-test-harness",

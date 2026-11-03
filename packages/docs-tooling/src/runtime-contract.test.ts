@@ -17,8 +17,23 @@ function runtimeSourceFiles(root: string): string[] {
   });
 }
 
+// Test-support modules (shared fixtures and helpers under a testing/ directory,
+// plus the shared contract suite definitions consumed by *.test files) run
+// inside vitest and may import it. They are excluded from the runtime scan the
+// same way *.test files are; a genuinely runtime file importing vitest elsewhere
+// still fails the contract.
+function isTestSupportFile(packageRoot: string, file: string): boolean {
+  const relative = path.relative(packageRoot, file);
+  return relative === path.join('src', 'shared-docs', 'adapters', 'contract', 'suites.ts') ||
+      relative.split(path.sep).includes('testing');
+}
+
 function packageName(specifier: string): string | null {
-  if (specifier.includes('${') || specifier.startsWith('@site/') || specifier.startsWith('@theme/')) return null;
+  // Real specifiers never contain a backslash; a `from '...'` match carved out
+  // of a regex literal (e.g. /^import X from '@theme\/\1';$/) does, so treat
+  // escape-bearing captures as scanner artifacts rather than imports.
+  if (specifier.includes('${') || specifier.includes('\\')) return null;
+  if (specifier.startsWith('@site/') || specifier.startsWith('@theme/')) return null;
   if (specifier.startsWith('.') || specifier.startsWith('/') || specifier.startsWith('node:')) return null;
   if (builtinModules.includes(specifier) || builtinModules.includes(specifier.replace(/^node:/, ''))) return null;
   const parts = specifier.split('/');
@@ -91,6 +106,7 @@ describe('docs-tooling runtime contract', () => {
       '@aws-sdk/client-s3',
       '@mdx-js/mdx',
       '@smithy/node-http-handler',
+      '@zilliz/mdtomd',
       '@zilliz/publication-adapters',
       '@zilliz/site-config',
       'ajv',
@@ -127,6 +143,7 @@ describe('docs-tooling runtime contract', () => {
       /^\s*import\s+['"]([^'"]+)['"]/gm,
     ];
     for (const file of runtimeSourceFiles(path.join(packageRoot, 'src'))) {
+      if (isTestSupportFile(packageRoot, file)) continue;
       const source = maskDoubleQuotedStringsAndComments(readFileSync(file, 'utf8'));
       for (const pattern of patterns) {
         for (const match of source.matchAll(pattern)) {
