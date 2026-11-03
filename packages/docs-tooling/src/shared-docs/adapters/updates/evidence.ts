@@ -69,6 +69,7 @@ export interface EvidenceStore {
   readJournal(ref: BlobRef): Promise<Uint8Array>
   readMaterial(material: { path: string; sha256: string; bytes: number }, ref: BlobRef): Promise<Uint8Array>
 }
+const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void> }>()
 async function protect(options: EvidenceOptions) {
   const out = resolve(options.root); await checkedAncestors(out)
   if (out.split(sep).includes('.git')) throw new Error('Output is Git metadata')
@@ -131,7 +132,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
     const bytes = await readRegularBytes(join(root, ref.path), Math.min(limit, ref.bytes))
     validateBlobBytes(ref, bytes); await verify(); return bytes
   }
-  return {
+  const store: EvidenceStore = {
     root, readBlob,
     async readJournal(ref) {
       RepoPathSchema.parse(ref.path)
@@ -169,4 +170,16 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       await rename(temporary, target); ownedJournals.set(path, await lstat(target)); await verify()
     },
   }
+  evidenceStores.set(store, { root, verify }); return store
+}
+
+/** Capability-checked, exclusive directory for task-owned launcher material. */
+export async function createOwnedDirectory(store: EvidenceStore) {
+  const owned = evidenceStores.get(store)
+  if (!owned) throw new Error('Evidence store is not independently owned')
+  await owned.verify()
+  const root = join(owned.root, `launcher-${randomUUID()}`)
+  await mkdir(root, { mode: 0o700 }); const pins = await checkedAncestors(root)
+  const verify = async () => { await owned.verify(); await verifyAncestors(pins) }
+  await verify(); return { root, verify }
 }

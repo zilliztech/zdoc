@@ -1,12 +1,14 @@
+// @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename } from 'node:fs/promises'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { deflateSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
+import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, captureTrustedNativeFiles, nativeDependencies } from '../../adapters/updates/toolset'
-import { rawSha256 } from '../../adapters/updates/evidence'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies } from '../../adapters/updates/toolset'
+import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
 async function put(root: string, path: string, text: string) { await mkdir(dirname(join(root, path)), { recursive: true }); await writeFile(join(root, path), text) }
@@ -60,6 +62,41 @@ describe('trusted closure capture', () => {
     await put(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js', 'altered')
     await expect(authorizeTrustedResolution(value, edge, target)).rejects.toThrow(/changed/)
   })
+  it('runs legacy bare helpers only through an owned PATH with isolated Python', async () => {
+    const a = await fixture(), data = await realpath(await mkdtemp(join(tmpdir(), 'candidate-python-')))
+    await put(data, 'zipfile.py', 'open("SENTINEL", "w").write("executed")')
+    await put(a.root, 'scripts/worker.cjs', `const {execFileSync}=require('node:child_process'); const opts={encoding:'utf8',cwd:process.argv[2]}; console.log(execFileSync('git',['--version'],opts).trim()); console.log(execFileSync('gh',['--version'],opts).split('\\n')[0]); console.log(execFileSync('python3',['-c','import sys,zipfile,tarfile,pathlib,stat,shutil; print(sys.flags.isolated,sys.flags.no_site,sys.dont_write_bytecode)'],opts).trim());`)
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset({ ...a, helpers: ['gh', 'python3'] })
+    const evidence = await initializeEvidence({ root: join(a.root, '.claude', 'evidence'), repositories: [a.root], owner: 'launcher' })
+    const launcher = await prepareTrustedLauncher(capture, evidence)
+    const result = await launcher.run('scripts/worker.cjs', [data])
+    expect(result.stdout).toContain('git version'); expect(result.stdout).toContain('gh version'); expect(result.stdout).toContain('1 1 True')
+    await expect(readFile(join(data, 'SENTINEL'))).rejects.toThrow()
+    expect(launcher.environment.PATH).toBe(launcher.bin)
+    await expect(launcher.run('../candidate/worker.js', [])).rejects.toThrow()
+    await writeFile(join(launcher.bin, 'python3'), 'tampered')
+    await expect(launcher.run('scripts/worker.cjs', [data])).rejects.toThrow(/launcher|changed/i)
+  }, 30000)
+  it('rejects stale root identity even when relocated material has identical bytes', async () => {
+    const a = await fixture(), capture = await captureTrustedToolset(a)
+    await rename(a.root, a.root + '-original'); await cp(a.root + '-original', a.root, { recursive: true, verbatimSymlinks: true })
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow(/identity|root/i)
+  })
+  it('rejects lexically normalized but physically dangling repository symlinks', async () => {
+    const a = await fixture(); await symlink('missing/../docs-tooling.js', join(a.root, 'scripts/dangling.js')); a.commit = commitAll(a.root)
+    await expect(captureTrustedToolset(a)).rejects.toThrow()
+  })
+  it('accepts and discards pinned pnpm invocation metadata through the actual launcher', async () => {
+    const directory = await realpath(await mkdtemp(join(tmpdir(), 'pnpm-guard-'))), probe = join(directory, 'probe.cjs'), root = process.cwd()
+    await writeFile(probe, `const root=${JSON.stringify(root)}; const api=require(root+'/scripts/lib/load-typescript.js').loadTypeScript(root+'/packages/docs-tooling/src/shared-docs/adapters/updates/toolset.ts'); api.trustedLauncherEnvironment(root,process.cwd()).then(env=>{if(Object.keys(env).some(k=>/^(npm_|pnpm_)/i.test(k)))throw Error('metadata leaked'); console.log('PINNED-PNPM-GUARD-OK')}).catch(e=>{console.error(e);process.exitCode=1});`)
+    const launchEnvironment: NodeJS.ProcessEnv = { ...process.env, GIT_PAGER: '' }
+    delete launchEnvironment.NODE_PATH; delete launchEnvironment.NODE_OPTIONS // Vitest injects loader context; production pnpm does not.
+    const output = execFileSync('pnpm', ['exec', 'node', probe], { cwd: root, env: launchEnvironment, encoding: 'utf8' })
+    expect(output).toContain('PINNED-PNPM-GUARD-OK')
+    const a = await fixture()
+    for (const metadata of [{ PNPM_PACKAGE_NAME: '../escape' }, { npm_config_user_agent: 'pnpm/evil' }, { npm_config_verify_deps_before_run: 'true' }]) await expect(trustedLauncherEnvironment(a.root, a.root, metadata, [])).rejects.toThrow()
+  })
   it('binds modes, repository literal links and absent-to-empty config transitions', async () => {
     const a = await fixture(); const baseline = await captureTrustedToolset(a)
     await chmod(join(a.root, 'scripts/docs-tooling.js'), 0o755); a.commit = commitAll(a.root)
@@ -75,14 +112,21 @@ describe('trusted closure capture', () => {
   }, 30000)
   it.each(['scripts/docs-tooling.js', 'scripts/lib/load-typescript.js', 'package.json', '.pnpmfile.cjs', 'pnpm-lock.yaml', 'packages/compiler/plugin.js', '.github/actions/evil.js', '.npmrc', '.env', '.gitattributes', 'unknown-loader.cjs'])('holds candidate %s without executing sentinels or changing refs/objects', async path => {
     const a = await fixture(), trusted = await captureTrustedToolset(a), sentinel = join(a.root, 'SENTINEL')
-    await put(a.root, path, `require('node:fs').writeFileSync(${JSON.stringify(sentinel)}, 'executed')`)
+    const payload = `require('node:fs').writeFileSync(${JSON.stringify(sentinel)}, 'executed')`
+    if (path === '.gitattributes') { git(a.root, 'config', 'merge.sentinel.driver', `node -e ${JSON.stringify(payload)}`); await put(a.root, path, '* merge=sentinel\n') }
+    else if (path === 'package.json') await put(a.root, path, JSON.stringify({ name: 'fixture', version: '1.0.0', scripts: { postinstall: `node -e ${JSON.stringify(payload)}` } }))
+    else await put(a.root, path, payload)
     const sha = commitAll(a.root), before = git(a.root, 'show-ref') + git(a.root, 'count-objects', '-v')
     await expect(compareCandidateToolset(trusted, { root: a.root, commit: sha, dataPaths: ['content/en/page.mdx'] })).rejects.toThrow(/protected|unreviewed/i)
     await expect(readFile(sentinel)).rejects.toThrow(); expect(git(a.root, 'show-ref') + git(a.root, 'count-objects', '-v')).toBe(before)
   }, 30000)
   it('treats MDX as data and rejects submodule/symlink modes before any invocation', async () => {
     const a = await fixture(), trusted = await captureTrustedToolset(a)
-    await put(a.root, 'content/en/page.mdx', 'import fs from "node:fs"\n\n{fs.writeFileSync("SENTINEL", "executed")}')
+    const markdown = `import fs from 'node:fs'\n\nexport const payload = fs.writeFileSync(${JSON.stringify(join(a.root, 'SENTINEL'))}, 'executed')\n\n{fs.writeFileSync(${JSON.stringify(join(a.root, 'SENTINEL'))}, 'executed')}\n`
+    await put(a.root, 'content/en/page.mdx', markdown)
+    const lines = markdown.split('\n')
+    const compiled = await toMdx({ markdown, components: [], provenance: { inputLines: lines, outputLines: lines.map((_, i) => i + 1) } }, {})
+    expect('mdx' in compiled || 'errors' in compiled).toBe(true)
     const candidate = commitAll(a.root)
     await compareCandidateToolset(trusted, { root: a.root, commit: candidate, dataPaths: ['content/en/page.mdx'] })
     await symlink('/tmp', join(a.root, 'packages/escape')); const escaped = commitAll(a.root)
@@ -127,8 +171,7 @@ describe('manifest and launcher contract', () => {
     }
   }, 30000)
 
-  it('binds actual native-library target bytes and holds missing or unknown dependencies', async () => {
-    if (process.platform !== 'darwin') return
+  it.skipIf(process.platform !== 'darwin')('binds actual native-library target bytes and holds missing or unknown dependencies', async () => {
     const a = await fixture()
     const macho = (dependencies: string[]) => {
       const commands = dependencies.map(name => { const text = Buffer.from(name + '\0'); const size = Math.ceil((24 + text.length) / 8) * 8; const b = Buffer.alloc(size); b.writeUInt32LE(12, 0); b.writeUInt32LE(size, 4); b.writeUInt32LE(24, 8); text.copy(b, 24); return b })
@@ -148,7 +191,7 @@ describe('manifest and launcher contract', () => {
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')
     expect((await trustedLauncherEnvironment(a.root, a.root, { SECRET: 'ambient' }, [])).SECRET).toBeUndefined()
-    for (const name of ['NODE_OPTIONS', 'NODE_PATH', 'LD_PRELOAD', 'DYLD_INSERT_LIBRARIES', 'npm_config_userconfig', 'DEVELOPER_DIR', 'SDKROOT', 'GIT_EXEC_PATH']) await expect(trustedLauncherEnvironment(a.root, a.root, { [name]: 'bad' }, [])).rejects.toThrow()
+    for (const name of ['NODE_OPTIONS', 'NODE_PATH', 'LD_PRELOAD', 'DYLD_INSERT_LIBRARIES', 'npm_config_userconfig', 'DEVELOPER_DIR', 'SDKROOT', 'GIT_EXEC_PATH', 'PYTHONPATH', 'PYTHONHOME']) await expect(trustedLauncherEnvironment(a.root, a.root, { [name]: 'bad' }, [])).rejects.toThrow()
     await expect(trustedLauncherEnvironment(a.root, dirname(a.root), {}, [])).rejects.toThrow()
     await expect(trustedLauncherEnvironment(a.root, a.root, {}, ['--import=evil'])).rejects.toThrow()
   })

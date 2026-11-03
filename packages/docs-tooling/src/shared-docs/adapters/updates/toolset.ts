@@ -1,5 +1,5 @@
 import { constants } from 'node:fs'
-import { lstat, open, readdir, readlink, realpath } from 'node:fs/promises'
+import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
@@ -10,7 +10,7 @@ import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
 import { canonicalBytes, compareUtf8, digest, parseStrictJson } from '../../core/updates/canonical'
 import { BlobRef, DigestSchema, GitShaSchema, RepoPathSchema, ToolsetMaterial, ToolsetMaterialSchema, validateBlobBytes } from '../../core/updates/envelope'
-import { rawSha256 } from './evidence'
+import { createOwnedDirectory, rawSha256, type EvidenceStore } from './evidence'
 
 export type ClosureEntry =
   | { path: string; state: 'absent' }
@@ -52,7 +52,7 @@ export function validateClosure(value: unknown): ExecutableClosure {
       if (!entry.path.startsWith('repo/') || entry.linkTextBase64 === null || Buffer.from(entry.linkTextBase64, 'base64').toString('base64') !== entry.linkTextBase64) throw new Error('Invalid literal symlink')
       const literal = new TextDecoder('utf8', { fatal: true }).decode(Buffer.from(entry.linkTextBase64, 'base64'))
       if (isAbsolute(literal) || /[\\\0\r\n]/.test(literal) || posix.normalize(posix.join(posix.dirname(entry.path), literal)) !== entry.target || !entry.target.startsWith('repo/')) throw new Error('Escaped literal symlink')
-    } else if (!entry.path.startsWith('deps/') || entry.linkTextBase64 !== null) throw new Error('Invalid installed symlink')
+    } else if (!(entry.path.startsWith('deps/') || entry.path.startsWith('runtime/python-stdlib/')) || entry.linkTextBase64 !== null) throw new Error('Invalid installed symlink')
     const seen = new Set([entry.path]); let target = entries.get(entry.target)
     while (target?.state === 'symlink') { if (seen.has(target.path)) throw new Error('Symlink cycle'); seen.add(target.path); target = entries.get(target.target) }
     if (!target || target.state === 'absent') throw new Error('Unmeasured symlink target')
@@ -79,7 +79,16 @@ export function verifyClosureBinding(materialValue: unknown, ref: BlobRef, bytes
 const flagSet = new Set(['--enable-source-maps', '--no-warnings', '--disable-warning=ExperimentalWarning'])
 export async function trustedLauncherEnvironment(root: string, cwd: string, environment: NodeJS.ProcessEnv = process.env, flags = process.execArgv): Promise<NodeJS.ProcessEnv> {
   if (await realpath(root) !== await realpath(cwd)) throw new Error('Launcher must run from trusted root')
-  for (const [name, value] of Object.entries(environment)) if (value && (/^(NODE_OPTIONS|NODE_PATH|LD_|DYLD_|DEVELOPER_DIR|SDKROOT|GIT_)/i.test(name) || /^(npm_config_|pnpm_)/i.test(name))) throw new Error(`Forbidden ambient execution setting: ${name}`)
+  for (const [name, value] of Object.entries(environment)) {
+    if (!value) continue
+    // Pinned pnpm's non-executable invocation metadata is validated then discarded.
+    // In particular, dependency verification must already be disabled; no linking/install is authorized here.
+    if ((name === 'npm_config_verify_deps_before_run' || name === 'pnpm_config_verify_deps_before_run') && value === 'false') continue
+    if (name === 'npm_config_user_agent' && value === `pnpm/10.33.0 npm/? node/${process.version} ${process.platform} ${process.arch}`) continue
+    if (name === 'PNPM_PACKAGE_NAME' && /^(?:@[A-Za-z0-9._-]+\/)?[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value)) continue
+    if (name === 'GIT_PAGER' && value === 'cat') continue
+    if (/^(NODE_OPTIONS|NODE_PATH|LD_|DYLD_|PYTHON|DEVELOPER_DIR|SDKROOT|GIT_)/i.test(name) || /^(npm_config_|pnpm_)/i.test(name)) throw new Error(`Forbidden ambient execution setting: ${name}`)
+  }
   if (flags.some(f => !flagSet.has(f))) throw new Error('Forbidden Node execution flag')
   // Deliberately neither read .env nor inherit HOME/PATH/package-manager settings.
   return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
@@ -126,7 +135,7 @@ async function tree(binary: string, root: string, commit: string, env: NodeJS.Pr
   const treeObjects: TreeEntry[] = [{ path: '', mode: '040000', type: 'tree', oid: rootTree }]
   const bytes = await gitBytes(binary, root, ['ls-tree', '-r', '-t', '-z', commit], env)
   const result = new Map<string, TreeEntry>(), aliases = new Set<string>()
-  for (const line of bytes.toString('utf8').split('\0').filter(Boolean)) {
+  for (const line of new TextDecoder('utf8', { fatal: true }).decode(bytes).split('\0').filter(Boolean)) {
     const match = /^(\d+) (\w+) ([a-f0-9]{40})\t(.+)$/.exec(line); if (!match) throw new Error('Invalid tree record')
     const [, mode, type, oid, path] = match; RepoPathSchema.parse(path)
     const folded = path.toLowerCase(); if (aliases.has(folded)) throw new Error('Case alias in Git tree'); aliases.add(folded)
@@ -179,13 +188,13 @@ function pnpmDirectory(key: string) {
 export interface CaptureOptions {
   /** Internal trusted bootstrap values. Never deserialize these from candidate/request/evidence JSON. */
   root: string; commit: string; cwd?: string; environment?: NodeJS.ProcessEnv; flags?: string[]
-  helpers?: ('gh')[]
+  helpers?: ('gh' | 'python3')[]
   resolutions?: { from: string; specifier: string; kind: 'require' | 'loader'; conditions: string[] }[]
 }
 export interface TrustedToolsetCapture extends ReturnType<typeof bindClosure> {
   readonly root: string
 }
-type CapturePrivate = { sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
+type CapturePrivate = { rootIdentity: { dev: number; ino: number }; gitVersion: string; flags: string[]; sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
 const captures = new WeakMap<TrustedToolsetCapture, CapturePrivate>()
 async function captureRepository(root: string, commit: string, git: string, env: NodeJS.ProcessEnv, entries: Map<string, ClosureEntry>, physical: Map<string, string>) {
   const all = await tree(git, root, commit, env), selected = [...all.values()].filter(e => protectedToolsetPath(e.path)), blobs = await blobObjects(git, root, selected, env)
@@ -195,7 +204,7 @@ async function captureRepository(root: string, commit: string, git: string, env:
       const literal = new TextDecoder('utf8', { fatal: true }).decode(bytes)
       if (isAbsolute(literal) || /[\\\0\r\n]/.test(literal)) throw new Error('Escaped repository symlink')
       const target = posix.normalize(posix.join(posix.dirname(path), literal)); logical.parse(target)
-      if (!target.startsWith('repo/') || await readlink(full) !== literal) throw new Error('Repository symlink drift')
+      if (!target.startsWith('repo/') || !contains(root, await realpath(full)) || await readlink(full) !== literal) throw new Error('Repository symlink drift')
       entries.set(path, { path, state: 'symlink', mode: '120000', policy: 'repository-literal', linkTextBase64: Buffer.from(bytes).toString('base64'), target })
     } else {
       if (!contains(root, await realpath(full))) throw new Error('Repository path escape')
@@ -242,7 +251,7 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
     const baseKey = key.split('(')[0], at = baseKey.lastIndexOf('@'), name = baseKey.slice(0, at), version = baseKey.slice(at + 1), record = lock.packages[baseKey]
     if (!name || !version || !record?.resolution?.integrity || record.resolution.tarball?.startsWith('file:')) throw new Error('Unsupported trusted lock locator')
     const packageRoot = join(virtual, directory, 'node_modules', name)
-    if (await realpath(packageRoot) !== packageRoot) throw new Error('Aliased installed package root')
+    if (!contains(virtual, packageRoot) || !/^(?:@[A-Za-z0-9._-]+\/)?[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name) || await realpath(packageRoot) !== packageRoot) throw new Error('Aliased installed package root')
     const manifest = json((await fileBytes(join(packageRoot, 'package.json'))).bytes)
     if (manifest.name !== name || manifest.version !== version) throw new Error('Installed package differs from lock identity')
     const snapshot = lock.snapshots[key], peers: { name: string; locator: string }[] = []
@@ -310,16 +319,21 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
 }
 export async function captureTrustedToolset(options: CaptureOptions): Promise<TrustedToolsetCapture> {
   const root = await realpath(options.root), flags = options.flags ?? process.execArgv, environment = await trustedLauncherEnvironment(root, options.cwd ?? process.cwd(), options.environment ?? process.env, flags)
+  const rootIdentity = await lstat(root)
   const entries = new Map<string, ClosureEntry>(), physical = new Map<string, string>()
   const { git, resolutions: runtimeResolutions, hostExclusions } = await captureRuntime(entries, physical, environment)
   const { all } = await captureRepository(root, options.commit, git, environment, entries, physical)
   const resolutions: ExecutableClosure['resolutions'] = runtimeResolutions
   const { locators, mapPhysical, nativeTargets } = await captureDependencies(root, all, entries, physical, resolutions)
-  const helpers = options.helpers ?? (all.has('packages/docs-tooling/src/shared-docs/adapters/updates/github.ts') ? ['gh'] : [])
+  const helpers = options.helpers ?? [...(all.has('packages/docs-tooling/src/shared-docs/adapters/updates/github.ts') ? ['gh'] : []), ...(all.has('packages/docs-tooling/src/shared-docs/adapters/updates/lifecycle.ts') ? ['python3'] : [])]
   for (const helper of helpers) {
+    if (helper === 'python3') {
+      const python = await capturePython(entries, physical, environment)
+      nativeTargets.push(...python.nativeTargets); resolutions.push(...python.resolutions); continue
+    }
     if (helper !== 'gh') throw new Error('Unknown trusted runtime helper')
     nativeTargets.push({ name: 'runtime/gh', path: process.platform === 'darwin' ? process.arch === 'arm64' ? '/opt/homebrew/bin/gh' : '/usr/local/bin/gh' : '/usr/bin/gh' })
-    resolutions.push({ from: 'repo/packages/docs-tooling/src/shared-docs/adapters/updates/github.ts', specifier: 'gh api --hostname github.com --method GET', kind: 'binary', conditions: [], target: 'runtime/gh' })
+    resolutions.push({ from: all.has('packages/docs-tooling/src/shared-docs/adapters/updates/github.ts') ? 'repo/packages/docs-tooling/src/shared-docs/adapters/updates/github.ts' : 'repo/scripts/docs-tooling.js', specifier: 'gh api --hostname github.com --method GET', kind: 'binary', conditions: [], target: 'runtime/gh' })
   }
   const native = await captureTrustedNativeFiles(nativeTargets)
   for (const entry of native.entries) { const existing = entries.get(entry.path); if (existing && Buffer.from(canonicalBytes(existing)).compare(Buffer.from(canonicalBytes(entry))) !== 0) throw new Error('Native material drift'); entries.set(entry.path, entry) }
@@ -344,13 +358,18 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
   const result = { ...bindClosure(closure, { kind: 'shared-update-toolset', schemaVersion: 1, runtime: { name: 'node', version: process.version, platform: process.platform, architecture: process.arch }, flags: [...flags], environment: ['LANG', 'LC_ALL', 'TZ'].map(name => ({ name, value: environment[name]! })), dependencies: locators.map(p => ({ name: p.name, version: p.version, integrity: p.integrity, resolvedPath: p.root })).sort((a, b) => compareUtf8(a.resolvedPath, b.resolvedPath)) }), root }
-  captures.set(result, { sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
+  const currentRoot = await lstat(root)
+  if (!currentRoot.isDirectory() || currentRoot.ino !== rootIdentity.ino || currentRoot.dev !== rootIdentity.dev) throw new Error('Trusted root identity changed during capture')
+  const gitVersion = (await exec(git, ['--version'], { env: environment, timeout: 10000 })).stdout.trim()
+  captures.set(result, { rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
 export async function verifyTrustedToolset(value: TrustedToolsetCapture) {
-  const state = captured(value), fresh = await captureTrustedToolset(state.options)
-  if (fresh.toolsetSha256 !== state.sha256) throw new Error('Trusted executable closure changed')
+  const state = captured(value), root = await lstat(state.options.root)
+  if (!root.isDirectory() || root.isSymbolicLink() || root.ino !== state.rootIdentity.ino || root.dev !== state.rootIdentity.dev) throw new Error('Trusted root identity changed')
+  const fresh = await captureTrustedToolset(state.options)
+  if (fresh.root !== state.options.root || fresh.toolsetSha256 !== state.sha256) throw new Error('Trusted executable closure changed')
 }
 export async function compareCandidateToolset(value: TrustedToolsetCapture, candidate: { root: string; commit: string; dataPaths: string[] }) {
   const state = captured(value), actual = await tree(state.git, await realpath(candidate.root), candidate.commit, state.environment)
@@ -417,12 +436,13 @@ export function nativeDependencies(input: Uint8Array, platform = process.platfor
   if (!load) throw new Error('Missing ELF string table'); const base = load.offset + table - load.address
   return { needed: neededOffsets.map(o => string(base + o, base + size)), rpaths: pathOffsets.flatMap(o => string(base + o, base + size).split(':')) }
 }
-const darwinSystemLibraries = new Set(['libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib', 'libbz2.1.0.dylib', 'liblzma.5.dylib'])
-const darwinFrameworks = new Set(['CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit', 'CFNetwork', 'CoreGraphics', 'CoreText'])
+const darwinSystemLibraries = new Set(['libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib', 'libbz2.1.0.dylib', 'liblzma.5.dylib', 'libcrypto.44.dylib', 'libssl.46.dylib', 'libedit.3.dylib', 'libffi.dylib', 'libpanel.5.4.dylib'])
+const darwinFrameworks = new Set(['CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit', 'CFNetwork', 'CoreGraphics', 'CoreText', 'Tcl', 'Tk'])
 function systemLibrary(path: string) {
   if (process.platform === 'darwin') {
     if (dirname(path) === '/usr/lib' && darwinSystemLibraries.has(basename(path))) return true
-    const m = /^\/System\/Library\/Frameworks\/([^/]+)\.framework\/Versions\/[A-Z]\/([^/]+)$/.exec(path)
+    if (path === '/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent') return true
+    const m = /^\/System\/Library\/Frameworks\/([^/]+)\.framework\/Versions\/(?:[A-Z]|8\.5)\/([^/]+)$/.exec(path)
     return !!m && m[1] === m[2] && darwinFrameworks.has(m[1])
   }
   return /^\/(usr\/)?lib(?:64|\/x86_64-linux-gnu|\/aarch64-linux-gnu)?\/(?:lib(?:c|m|dl|rt|pthread|resolv|util|z|pcre2-8|gcc_s|stdc\+\+)\.so\.[0-9.]+|ld-linux-(?:x86-64|aarch64)\.so\.[0-9]+)$/.test(path)
@@ -452,14 +472,15 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
   const resolutions: ExecutableClosure['resolutions'] = []
   const binaries = new Map(seeds.map(s => [logical.parse(s.name), s.path]))
   const visited = new Set<string>(), logicalByPhysical = new Map([...binaries].map(([name, path]) => [path, name]))
-  const pending = [...binaries].map(([name, path]) => ({ name, path, inherited: [] as string[] }))
+  const pending = [...binaries].map(([name, path]) => ({ name, path, inherited: [] as string[], executable: '' }))
   while (pending.length) {
     const item = pending.shift()!, full = await realpath(item.path)
     if (visited.has(full)) continue; visited.add(full)
     const content = await fileBytes(full); entries.set(item.name, fileEntry(item.name, content.bytes, content.mode)); physical.set(full, item.name); addDirectories(entries, item.name)
     const native = nativeDependencies(content.bytes)
     if (!native) throw new Error(`Unsupported runtime executable: ${item.name}`)
-    const expand = (path: string) => path.replace(/^@loader_path(?=\/|$)/, dirname(full)).replace(/^@executable_path(?=\/|$)/, dirname(node)).replace(/^\$\{?ORIGIN\}?(?=\/|$)/, dirname(full))
+    const executable = item.executable || (isMachExecutable(content.bytes) ? dirname(full) : dirname(node))
+    const expand = (path: string) => path.replace(/^@loader_path(?=\/|$)/, dirname(full)).replace(/^@executable_path(?=\/|$)/, executable).replace(/^\$\{?ORIGIN\}?(?=\/|$)/, dirname(full))
     const search = [...native.rpaths.map(expand), ...item.inherited]
     for (const dependency of [...new Set(native.needed)]) {
       let choices: string[]
@@ -482,7 +503,7 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       const conflict = [...logicalByPhysical].find(([p, n]) => n === name && p !== resolved); if (conflict) throw new Error('Ambiguous runtime library alias')
       logicalByPhysical.set(resolved, name)
       resolutions.push({ from: item.name, specifier: isAbsolute(dependency) ? `native/${basename(dependency)}` : dependency, kind: 'binary', conditions: [], target: name })
-      pending.push({ name, path: resolved, inherited: search })
+      pending.push({ name, path: resolved, inherited: search, executable })
     }
   }
   return { entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), physical, resolutions, hostExclusions }
@@ -492,5 +513,89 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
 /** Transaction-local provenance; absolute paths never enter semantic closure bytes. */
 export function describeTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value)
-  return { root: value.root, commit: state.options.commit, git: state.git, runtime: [...state.physical].filter(([, path]) => path.startsWith('runtime/')).map(([physical, path]) => ({ path, physical })), hostExclusions: [...state.hostExclusions] }
+  return { root: state.options.root, commit: state.options.commit, git: state.git, gitVersion: state.gitVersion, runtime: [...state.physical].filter(([, path]) => path.startsWith('runtime/')).map(([physical, path]) => ({ path, physical })), hostExclusions: [...state.hostExclusions] }
+}
+
+const pythonWrapper = Buffer.from('#!/bin/sh\nexec "${0%/*}/python-real" -I -S -B "$@"\n')
+function isMachExecutable(input: Uint8Array) {
+  let b = Buffer.from(input)
+  if (b.length < 16) return false
+  if (b.readUInt32BE(0) === 0xcafebabe) {
+    const cpu = process.arch === 'arm64' ? 0x100000c : 0x1000007, count = b.readUInt32BE(4)
+    for (let i = 0; i < count; i++) { const p = 8 + i * 20; if (b.readUInt32BE(p) === cpu) { b = b.subarray(b.readUInt32BE(p + 8)); break } }
+  }
+  return b.length >= 16 && b.readUInt32LE(0) === 0xfeedfacf && b.readUInt32LE(12) === 2
+}
+async function capturePython(entries: Map<string, ClosureEntry>, physical: Map<string, string>, environment: NodeJS.ProcessEnv) {
+  let binary = '/usr/bin/python3'
+  const nativeTargets = [{ name: 'runtime/shell', path: '/bin/sh' }], resolutions: ExecutableClosure['resolutions'] = []
+  if (process.platform === 'darwin') {
+    binary = (await exec('/usr/bin/xcrun', ['--find', 'python3'], { env: environment, timeout: 10000 })).stdout.trim()
+    if (!binary.startsWith('/Library/Developer/') && !binary.startsWith('/Applications/Xcode.app/')) throw new Error('Unknown Python provisioning')
+    nativeTargets.push({ name: 'runtime/python3-shim', path: '/usr/bin/python3' })
+    resolutions.push({ from: 'runtime/git-resolver', specifier: 'python3', kind: 'binary', conditions: [], target: 'runtime/python3' })
+  }
+  binary = await realpath(binary)
+  const version = /^python(3\.\d+)$/.exec(basename(binary))?.[1]
+  if (!version) throw new Error('Unsupported Python installation layout')
+  const prefix = dirname(dirname(binary)), stdlib = join(prefix, 'lib', `python${version}`)
+  if (await realpath(stdlib) !== stdlib) throw new Error('Aliased Python standard library')
+  nativeTargets.push({ name: 'runtime/python3', path: binary }); physical.set(binary, 'runtime/python3')
+  entries.set('runtime/python-stdlib', { path: 'runtime/python-stdlib', state: 'directory', mode: '040000' })
+  const links: { path: string; full: string }[] = []
+  await walk(stdlib, async (suffix, stat) => {
+    if (suffix === 'site-packages' || suffix === 'dist-packages') return false // -S excludes site initialization and .pth execution.
+    const full = join(stdlib, suffix), path = `runtime/python-stdlib/${suffix}`
+    if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); return }
+    if (stat.isSymbolicLink()) { links.push({ path, full }); return false }
+    const content = await fileBytes(full); entries.set(path, fileEntry(path, content.bytes, content.mode)); physical.set(full, path)
+    if (nativeDependencies(content.bytes)) nativeTargets.push({ name: path, path: full })
+  })
+  for (const link of links) {
+    const target = await realpath(link.full)
+    if (!contains(stdlib, target) && !(process.platform === 'darwin' && target === join(prefix, 'Python3'))) throw new Error('Python standard-library link escape')
+    const logicalTarget = contains(stdlib, target) ? `runtime/python-stdlib/${relative(stdlib, target).split(sep).join('/')}` : 'runtime/python-core'
+    if (logicalTarget === 'runtime/python-core' && !nativeTargets.some(t => t.name === logicalTarget)) nativeTargets.push({ name: logicalTarget, path: target })
+    entries.set(link.path, { path: link.path, state: 'symlink', mode: '120000', policy: 'installed-logical', linkTextBase64: null, target: logicalTarget })
+  }
+  const archive = join(prefix, 'lib', `python${version.replace('.', '')}.zip`)
+  try { const content = await fileBytes(archive); entries.set('runtime/python-stdlib.zip', fileEntry('runtime/python-stdlib.zip', content.bytes, content.mode)); physical.set(archive, 'runtime/python-stdlib.zip') }
+  catch (e) { if (!absent(e)) throw e; entries.set('runtime/python-stdlib.zip', { path: 'runtime/python-stdlib.zip', state: 'absent' }) }
+  entries.set('runtime/launch/python3', fileEntry('runtime/launch/python3', pythonWrapper, '100755')); addDirectories(entries, 'runtime/launch/python3')
+  resolutions.push({ from: 'runtime/launch/python3', specifier: 'shell-interpreter', kind: 'binary', conditions: [], target: 'runtime/shell' },
+    { from: 'runtime/launch/python3', specifier: 'python-real', kind: 'binary', conditions: ['-I', '-S', '-B'], target: 'runtime/python3' },
+    { from: 'runtime/python3', specifier: 'isolated-standard-library', kind: 'import', conditions: ['-I', '-S', '-B'], target: 'runtime/python-stdlib' })
+  return { nativeTargets, resolutions }
+}
+
+/** Launch existing consumers in a separate process; never mutate the parent environment. */
+export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evidence: EvidenceStore) {
+  const state = captured(value), owned = await createOwnedDirectory(evidence), targets = new Map<string, string>()
+  for (const [full, path] of state.physical) if (['runtime/node', 'runtime/git', 'runtime/gh', 'runtime/python3'].includes(path)) targets.set(path, full)
+  const links = new Map<string, string>()
+  for (const [name, logical] of [['node', 'runtime/node'], ['git', 'runtime/git'], ['gh', 'runtime/gh'], ['python-real', 'runtime/python3']] as const) {
+    const target = targets.get(logical); if (!target) continue
+    await owned.verify(); await symlink(target, join(owned.root, name)); links.set(name, target); await owned.verify()
+  }
+  if (targets.has('runtime/python3')) { await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
+  const environment = { ...state.environment, PATH: owned.root }
+  async function verifyLauncher() {
+    await owned.verify()
+    const expected = [...links.keys(), ...(targets.has('runtime/python3') ? ['python3'] : [])].sort(compareUtf8)
+    if ((await readdir(owned.root)).sort(compareUtf8).join('\0') !== expected.join('\0')) throw new Error('Launcher inventory changed')
+    for (const [name, target] of links) if (await readlink(join(owned.root, name)) !== target || await realpath(join(owned.root, name)) !== target) throw new Error('Launcher target changed')
+    if (targets.has('runtime/python3')) { const actual = await fileBytes(join(owned.root, 'python3')); if (actual.mode !== '100755' || !Buffer.from(actual.bytes).equals(pythonWrapper)) throw new Error('Launcher wrapper changed') }
+    await owned.verify()
+  }
+  return {
+    bin: owned.root, cwd: state.options.root, environment: { ...environment },
+    async run(script: string, args: string[], secrets: { GH_TOKEN?: string } = {}) {
+      RepoPathSchema.parse(script)
+      if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
+      if (state.closure.entries.find(e => e.path === `repo/${script}`)?.state !== 'file' || !/\.[cm]?js$/.test(script)) throw new Error('Child entry is not captured trusted JavaScript')
+      await verifyLauncher(); await verifyTrustedToolset(value); await verifyLauncher()
+      return exec(targets.get('runtime/node')!, [...state.flags, join(state.options.root, script), ...args], { cwd: state.options.root,
+        env: { ...environment, ...secrets }, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: 120_000 })
+    },
+  }
 }
