@@ -1,0 +1,12 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/embeddings-reranking/reranking/weighted-ranker.md
+publish:
+  - manual: guides
+    path: tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker
+  - manual: guides-byoc
+    path: tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker
+transforms:
+  - operation: remove
+    target:
+      block: weighted-function-api-version-note
