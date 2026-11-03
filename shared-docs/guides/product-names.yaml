@@ -16,3 +16,5 @@ allow:
   - On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
   # Preserve the version-scoped Go SDK limitation for StructArray hybrid grouping.
   - The Go client source shipped with Milvus 3.0.2 does not expose final hybrid grouping through `NewHybridSearchOption`.
+  # Preserve the engine-version-scoped REST availability note in Linear Decay.
+  - The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
