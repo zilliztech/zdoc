@@ -77,9 +77,9 @@ export function planUpdateUnit(reportValues: readonly UpdateReportEnvelope[], co
       || !ancestor(context.history, source.target, source.observedTrackHead)) hold.push('NON_FORWARD_HISTORY')
     if (report.axes.some(axis => axis.contentStatus === 'unavailable')) hold.push('INPUT_UNAVAILABLE')
     reportOnly ||= context.reportingChanges.length > 0 || report.configurationChanges.length > 0
+    failed ||= report.axes.some(axis => axis.contentStatus === 'content-failure')
     const forward = context.relevantSource && source.oldNext !== source.target && !same(context.relevantSource.oldNext, context.relevantSource.target)
     if (!forward || hold.length > localHoldCount) continue
-    failed ||= report.axes.some(axis => axis.contentStatus === 'content-failure')
     if (!context.lock.preparedNext) { hold.push('PREPARED_NEXT_MATERIAL_REQUIRED'); continue }
     const prepared = context.lock.preparedNext
     validateBlobBytes(prepared.blob, Buffer.from(prepared.text))

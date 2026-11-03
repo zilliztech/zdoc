@@ -126,3 +126,22 @@ it('holds unauthenticated existing units and keeps shared fragments from creatin
   expect(held[0].holdReasons).toContain('EXISTING_UNIT_AUTHENTICATION_REQUIRED'); expect(held[1].disposition).toBe('candidate')
   expect(Object.isFrozen(a)).toBe(true); expect(Object.isFrozen(a.lock.before)).toBe(true)
 })
+
+it('keeps a complete non-editing failing peer in the whole unit failure disposition', () => {
+  const guides = (pageId: string, disposition: 'candidate' | 'report-only') => fixtureMaterial({ subject: { kind: 'guides-page', group: 'guides', pageId }, disposition,
+    members: [{ logicalId: pageId, manualId: 'guides', token: `shared-${pageId}`, outputPath: `content/en/guides/${pageId}.mdx`, origin: 'upstream', current: true, next: true }] })
+  const editing = guides('alpha', 'candidate')
+  const peer = changed(guides('beta', 'report-only'), context => {
+    context.collectedReport.axes.forEach(axis => { axis.contentStatus = 'content-failure'; axis.outputChanged = 'unknown' })
+    context.lock.preparedNext = null
+  })
+  const grouping = { localJournalUnits: [[{ pageId: 'alpha', manual: 'guides', path: editing.members[0].outputPath }, { pageId: 'beta', manual: 'guides', path: peer.members[0].outputPath }]] }
+  const plans = planUpdateBatch([editing, peer], grouping)
+  expect(plans).toHaveLength(1)
+  expect(plans[0]).toMatchObject({ disposition: 'draft-failure', holdReasons: [] })
+  expect(plans[0].nextEdits).toHaveLength(1); expect(plans[0].nextEdits[0].subject).toEqual(editing.subject)
+  const unknownPeer = changed(peer, context => {
+    context.collectedReport.authority.updateState = 'unknown'; context.collectedReport.semanticProjection.authority.state = 'unknown'
+  })
+  expect(planUpdateBatch([editing, unknownPeer], grouping)[0]).toMatchObject({ disposition: 'hold', nextEdits: [], holdReasons: ['AUTHORITY_UNKNOWN'] })
+})

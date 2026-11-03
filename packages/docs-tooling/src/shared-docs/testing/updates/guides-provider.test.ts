@@ -273,3 +273,38 @@ it('holds an unknown requested subject without inventing a frozen empty report',
     expect(result.holds[0].diagnostics).toHaveLength(1)
   } finally { await f.dispose() }
 }, 120_000)
+
+it.each(['remove-sibling', 'change-sibling-content'])('compares only consumed configuration paths across snapshots for %s', async scenario => {
+  const f = await fixture()
+  try {
+    const sibling = 'shared-docs/guides/pages/build-pipeline'
+    const mappingPath = `${sibling}/page.yaml`, contentPath = `${sibling}/replacement.md`
+    const mapping = (await readFile(join(f.root, mappingPath), 'utf8')) + '\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: replacement.md}\n'
+    await write(f.root, mappingPath, mapping); await write(f.root, contentPath, 'Synthetic sibling-only replacement.\n')
+    await git(f.root, 'add', 'shared-docs'); await git(f.root, 'commit', '-qm', 'comparison sibling mapping and content')
+    const comparisonConfig = await git(f.root, 'rev-parse', 'HEAD')
+    if (scenario === 'remove-sibling') await git(f.root, 'rm', mappingPath, `${sibling}/lock.yaml`, contentPath)
+    else await write(f.root, contentPath, 'Changed sibling-only replacement.\n')
+    await git(f.root, 'add', 'shared-docs'); await git(f.root, 'commit', '-qm', scenario)
+    const p = await git(f.root, 'rev-parse', 'HEAD')
+    const { result, page, plan } = await f.planned({ master: p, configSnapshot: p, comparisonConfig, pages: ['shared-target'] })
+    expect(result.holds).toEqual([])
+    expect(page.report.subject).toMatchObject({ pageId: 'shared-target' })
+    expect(page.report.axes.every(axis => axis.contentStatus === 'valid')).toBe(true)
+    expect(page.report.configurationChanges.some(change => change.path === contentPath)).toBe(false)
+    expect(page.report.configurationChanges.some(change => change.path === `${sibling}/lock.yaml`)).toBe(false)
+    expect(plan.nextEdits).toEqual([])
+    if (scenario === 'remove-sibling') {
+      expect(result.inventory).toHaveLength(1)
+      expect(page.report.configurationChanges).toEqual([{ path: mappingPath, before: fixtureBlob(mapping), after: null }])
+      expect(page.context.reportingChanges).toContain(mappingPath)
+      expect(plan.disposition).toBe('report-only')
+      const retained = result.blobs.find(item => item.blob.sha256 === fixtureBlob(mapping).sha256)
+      expect(Buffer.from(retained!.base64, 'base64').toString()).toBe(mapping)
+    } else {
+      expect(page.report.configurationChanges).toEqual([])
+      expect(page.context.reportingChanges).toEqual([])
+      expect(plan.disposition).toBe('noop')
+    }
+  } finally { await f.dispose() }
+}, 120_000)

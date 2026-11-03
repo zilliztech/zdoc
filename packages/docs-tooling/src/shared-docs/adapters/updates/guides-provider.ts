@@ -20,6 +20,7 @@ import { exportTree, gitRead, resolveCommit, sourceEndpoints } from './git'
 import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } from './evidence'
 import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture } from './toolset'
 import { HttpImageFetcher } from '../images'
+import type { UpdateConfiguration } from '../update-inputs'
 import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
 
 const exec = promisify(execFile)
@@ -54,6 +55,13 @@ const equal = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 const clean = <T>(value: T): T => JSON.parse(JSON.stringify(value))
 const tree = (entries: MaterialFile[]): MaterialTree => ({ entries: entries.sort((a, b) => compareUtf8(a.path, b.path)) })
+function consumedConfigurationPaths(id: string, pageIds: readonly string[], contentNames: Iterable<string>): Set<string> {
+  const paths = new Set(['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml'].map(path => `shared-docs/guides/${path}`))
+  // All page mappings seed the registry; only this page's referenced content is otherwise consumed.
+  for (const pageId of pageIds) paths.add(`shared-docs/guides/pages/${pageId}/page.yaml`)
+  for (const name of contentNames) paths.add(`shared-docs/guides/pages/${id}/${name}`)
+  return paths
+}
 function diagnostics(values: UpdateReportEnvelope['diagnostics']): UpdateReportEnvelope['diagnostics'] {
   const unique = new Map(values.map(value => [JSON.stringify(value), value]))
   return [...unique.values()].sort((a, b) => compareUtf8(a.code, b.code) || compareUtf8(a.file ?? '', b.file ?? '') || (a.line ?? 0) - (b.line ?? 0) || compareUtf8(a.message, b.message))
@@ -147,6 +155,17 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
     for (const requested of request.pages.filter(page => !ids.includes(page))) operationHold({ kind: 'guides-page', group: 'guides', pageId: requested }, 'Requested page is absent from the committed configured inventory')
     const loaded = await readReportConfiguration(join(temporary, 'shared-docs/guides'), temporary, ids)
     if ('errors' in loaded) throw new Error(`Committed group configuration unavailable: ${JSON.stringify(loaded.errors)}`)
+    let comparisonConfiguration: UpdateConfiguration | null = null
+    let comparisonFiles: GitFile[] = [], comparisonIds: string[] = []
+    if (request.comparisonConfig !== null) {
+      const directory = join(temporary, 'comparison')
+      comparisonFiles = await inventory(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'])
+      comparisonIds = sorted(comparisonFiles.map(file => /^shared-docs\/guides\/pages\/([^/]+)\//.exec(file.path)?.[1]).filter((id): id is string => !!id))
+      await exportTree(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'], directory)
+      const previous = await readReportConfiguration(join(directory, 'shared-docs/guides'), directory, comparisonIds)
+      if ('errors' in previous) throw new Error(`Committed comparison configuration unavailable: ${JSON.stringify(previous.errors)}`)
+      comparisonConfiguration = previous.configuration
+    }
     const source = parseSourceConfig(loaded.configuration.sharedDocs.sourceYaml)
     if ('errors' in source) throw new Error('Committed source identity unavailable')
     const endpoints = await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.target ?? undefined)
@@ -216,10 +235,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           sourceMaterial.push(tree([...materials, { path: 'inventories/guides-source-discovery.json', sha256: discoveryRef.sha256, bytes: discoveryRef.bytes }]))
         }
         const relevantConfig: MaterialFile[] = []
-        const consumedConfig = new Set(['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml'].map(path => `shared-docs/guides/${path}`))
-        // B1's shared-page registry consumes every configured page mapping, but other pages' transforms/content are not this page's material.
-        for (const pageId of ids) consumedConfig.add(`shared-docs/guides/pages/${pageId}/page.yaml`)
-        for (const name of page.contentFiles?.keys() ?? []) consumedConfig.add(`shared-docs/guides/pages/${id}/${name}`)
+        const consumedConfig = consumedConfigurationPaths(id, ids, page.contentFiles?.keys() ?? [])
         for (const file of configFiles.filter(file => consumedConfig.has(file.path))) {
           const bytes = (await readCommitted(request.repositoryRoot, configFiles, file.path))!, ref = retain(bytes)
           relevantConfig.push({ path: file.path, sha256: ref.sha256, bytes: ref.bytes })
@@ -249,16 +265,14 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           if (observation.errors.some(error => ['IMAGE_FETCH_FAILED', 'IMAGE_CHANGED_DURING_READ', 'UPDATE_OBSERVATION_UNAVAILABLE', 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE'].includes(error.code))) incomplete = true
         }
         const configurationChanges: UpdateReportEnvelope['configurationChanges'] = []
-        if (request.comparisonConfig !== null) {
-          const oldFiles = await inventory(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'])
-          for (const file of config.entries) {
-            const before = await readCommitted(request.repositoryRoot, oldFiles, file.path), after = await readCommitted(request.repositoryRoot, configFiles, file.path)
-            if (before === null || !before.equals(after!)) configurationChanges.push({ path: file.path, before: before === null ? null : retain(before), after: retain(after!) })
+        if (comparisonConfiguration !== null) {
+          const previousPage = comparisonConfiguration.sharedDocs.pages.get(id)
+          const previousConsumed = consumedConfigurationPaths(id, comparisonIds, previousPage?.contentFiles?.keys() ?? [])
+          for (const path of sorted([...consumedConfig, ...previousConsumed])) {
+            const before = await readCommitted(request.repositoryRoot, comparisonFiles, path), after = await readCommitted(request.repositoryRoot, configFiles, path)
+            if (before === null && after === null) continue
+            if (before === null || after === null || !before.equals(after)) configurationChanges.push({ path, before: before === null ? null : retain(before), after: after === null ? null : retain(after) })
           }
-          for (const file of oldFiles.filter(file => file.path.startsWith(`shared-docs/guides/pages/${id}/`) && Array.isArray(leaf.configurationChanges) && leaf.configurationChanges.includes(file.path) && !file.path.endsWith('/lock.yaml') && !configFiles.some(after => after.path === file.path))) {
-            configurationChanges.push({ path: file.path, before: retain((await readCommitted(request.repositoryRoot, oldFiles, file.path))!), after: null })
-          }
-          configurationChanges.sort((a, b) => compareUtf8(a.path, b.path))
         }
         const semantic: SemanticInput = { kind: 'shared-update-semantic', schemaVersion: 1, subject, source: { repository: source.config.repository, directory: 'site/en', track: source.config.track }, config,
           lockSchema: { version: 1, path: lockPath }, upstream: { current: sourceMaterial[0], oldNext: sourceMaterial[1], target: sourceMaterial[2] },
