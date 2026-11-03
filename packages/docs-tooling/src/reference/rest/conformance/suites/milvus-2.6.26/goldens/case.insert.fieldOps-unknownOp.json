@@ -1,0 +1,4 @@
+{
+ "code": 1804,
+ "message": "fail to deal the insert data, error: missing vector field: vector: invalid parameter[expected=FloatVector][actual=]"
+}

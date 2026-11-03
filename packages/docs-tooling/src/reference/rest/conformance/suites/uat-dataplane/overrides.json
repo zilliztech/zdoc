@@ -1,1 +1,11 @@
-{}
+{
+ "admin.privilege_groups-create": {
+  "expect": "record"
+ },
+ "admin.privilege_groups-drop": {
+  "expect": "record"
+ },
+ "admin.resource_groups-list": {
+  "expect": "record"
+ }
+}

@@ -1,0 +1,4 @@
+{
+ "code": 65535,
+ "message": "rpc error: code = PermissionDenied desc = PrivilegeAlterDatabase: permission deny to zcloud_apikey_admin in the `uatdp_db2` database"
+}

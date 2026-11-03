@@ -10,7 +10,8 @@
 # Usage: runner/cell_round.sh [--mode capture|verify|plain] \
 #          [--anchors v2.6.26,v3.0.5] [--filter <substring|family=x>] [--date YYYY-MM-DD]
 set -euo pipefail
-cd "$(dirname "$0")/../.."
+REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)" || { echo "not inside a git repo" >&2; exit 2; }
+cd "$REPO_ROOT"
 
 MODE="capture"; ANCHORS="v2.6.26,v3.0.5"; FILTER=""; DATE="$(date +%F)"
 while [ $# -gt 0 ]; do
@@ -88,7 +89,8 @@ for ver in "${ANCHOR_LIST[@]}"; do
 
   pfport=$(( 20000 + RANDOM % 20000 ))
   kubectl port-forward -n "$ns" svc/"$rel"-milvus "$pfport":19530 >/dev/null 2>&1 &
-  PF_PIDS+=($!)
+  pfpid=$!
+  PF_PIDS+=("$pfpid")
   for i in $(seq 1 60); do
     curl -sf -X POST "http://127.0.0.1:$pfport/v2/vectordb/collections/list" -H 'Content-Type: application/json' -d '{}' >/dev/null 2>&1 && break
     sleep 2
@@ -98,14 +100,14 @@ for ver in "${ANCHOR_LIST[@]}"; do
   EXTRA=()
   [ -n "$FILTER" ] && EXTRA=(--filter "$FILTER")
   node packages/docs-tooling/src/reference/rest/conformance/lib/case-runner.mjs \
-    --suite "packages/docs-tooling/src/reference/rest/conformance/suites/milvus-$ver" \
+    --suite "packages/docs-tooling/src/reference/rest/conformance/suites/milvus-${ver#v}" \
     --base-url "http://127.0.0.1:$pfport" \
     --mode "$MODE" \
     --out "$REPORT_DIR/results-milvus-$ver.json" \
     "${EXTRA[@]:-}"
 
-  kill "${PF_PIDS[-1]}" 2>/dev/null || true
-  PF_PIDS=("${PF_PIDS[@]:0:${#PF_PIDS[@]}-1}")
+  kill "$pfpid" 2>/dev/null || true
+  PF_PIDS=("${PF_PIDS[@]/$pfpid/}")
   helm uninstall "$rel" -n "$ns" >/dev/null 2>&1 || true
   kubectl delete ns "$ns" --ignore-not-found >/dev/null 2>&1 || true
   INSTALLED=("${INSTALLED[@]/$rel/}")

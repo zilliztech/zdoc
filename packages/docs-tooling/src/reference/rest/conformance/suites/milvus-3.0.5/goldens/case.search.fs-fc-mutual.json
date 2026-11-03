@@ -1,0 +1,4 @@
+{
+ "code": 1100,
+ "message": "function_score and function_chains cannot be used together: invalid parameter"
+}

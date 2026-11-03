@@ -1,0 +1,4 @@
+{
+ "code": 1802,
+ "message": "missing required parameters, error: Key: 'CollectionAddFunctionField.Function.FunctionName' Error:Field validation for 'FunctionName' failed on the 'required' tag\nKey: 'CollectionAddFunctionField.Function.FunctionType' Error:Field validation for 'FunctionType' failed on the 'required' tag\nKey: 'CollectionAddFunctionField.Function.InputFieldNames' Error:Field validation for 'InputFieldNames' failed on the 'required' tag\nKey: 'CollectionAddFunctionField.Function.OutputFieldNames' Error:Field validation for 'OutputFieldNames' failed on the 'required' tag\nKey: 'CollectionAddFunctionField.OutputField.FieldName' Error:Field validation for 'FieldName' failed on the 'required' tag\nKey: 'CollectionAddFunctionField.OutputField.DataType' Error:Field validation for 'DataType' failed on the 'required' tag"
+}

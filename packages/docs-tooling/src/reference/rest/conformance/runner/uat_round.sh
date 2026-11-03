@@ -6,7 +6,8 @@
 #
 # Usage: runner/uat_round.sh [--mode capture|verify|plain] [--date YYYY-MM-DD] [--suites controlplane,dataplane]
 set -euo pipefail
-cd "$(dirname "$0")/../.."
+REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)" || { echo "not inside a git repo" >&2; exit 2; }
+cd "$REPO_ROOT"
 
 MODE="capture"; DATE="$(date +%F)"; SUITES="uat-controlplane,uat-dataplane"
 while [ $# -gt 0 ]; do
@@ -59,7 +60,14 @@ except Exception as e:
     print(""); raise SystemExit(0)
 data = body.get("data") or {}
 clusters = data.get("clusters") if isinstance(data, dict) else data
-for c in clusters or []:
+# prefer a RUNNING cluster not created by the control-plane suite (cpz_ prefix):
+# a just-created cluster is still provisioning and unreachable.
+candidates = [c for c in (clusters or [])
+              if isinstance(c, dict) and str(c.get("clusterName","")).startswith("uatdp_") is False
+              and "RUNNING" in str(c.get("status",""))]
+for c in candidates or [c for c in (clusters or []) if isinstance(c, dict) and "RUNNING" in str(c.get("status",""))] or []:
+    if str(c.get("clusterName","")).startswith("cpz_"):
+        continue
     for k in ("clusterEndpoint", "endpoint", "host", "clusterHost", "connection", "connectAddress"):
         v = (c.get(k) if isinstance(c, dict) else None)
         if isinstance(v, str) and v:

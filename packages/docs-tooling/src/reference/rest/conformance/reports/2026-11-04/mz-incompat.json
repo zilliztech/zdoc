@@ -1,0 +1,173 @@
+{
+ "schemaVersion": 1,
+ "milvusSuite": "milvus-2.6.26",
+ "uatSuite": "uat-dataplane",
+ "comparedCases": 213,
+ "incompatibilities": 8,
+ "byCategory": {
+  "acceptance-diff": 8
+ },
+ "note": "acceptance-diff = one side accepts (code 0) while the other rejects; effect-diff = accepted on both but observable behavior differs; shape-diff = response shape deviates from the frozen milvus golden.",
+ "rows": [
+  {
+   "id": "case.admin.privilege_groups-create",
+   "family": "privilege_groups",
+   "op": "/privilege_groups/create",
+   "param": "groupName/privileges",
+   "intent": "group lifecycle: create",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "PASS",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeCreatePrivilegeGroup: permission deny to zcloud_apikey_admin in the `default` database"
+   }
+  },
+  {
+   "id": "case.admin.privilege_groups-drop",
+   "family": "privilege_groups",
+   "op": "/privilege_groups/drop",
+   "param": "groupName",
+   "intent": "group lifecycle: drop",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "PASS",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeDropPrivilegeGroup: permission deny to zcloud_apikey_admin in the `default` database"
+   }
+  },
+  {
+   "id": "case.admin.resource_groups-create",
+   "family": "resource_groups",
+   "op": "/resource_groups/create",
+   "param": "name",
+   "intent": "RG lifecycle: create (quota-dependent)",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "RECORDED",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeCreateResourceGroup: permission deny to zcloud_apikey_admin in the `default` database"
+   }
+  },
+  {
+   "id": "case.admin.resource_groups-list",
+   "family": "resource_groups",
+   "op": "/resource_groups/list",
+   "param": "(no body)",
+   "intent": "list resource groups",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "PASS",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeListResourceGroups: permission deny to zcloud_apikey_admin in the `default` database"
+   }
+  },
+  {
+   "id": "case.admin.resource_groups-drop",
+   "family": "resource_groups",
+   "op": "/resource_groups/drop",
+   "param": "name",
+   "intent": "RG lifecycle: drop",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "RECORDED",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeDropResourceGroup: permission deny to zcloud_apikey_admin in the `default` database"
+   }
+  },
+  {
+   "id": "case.admin.databases-alter",
+   "family": "databases",
+   "op": "/databases/alter",
+   "param": "properties",
+   "intent": "database alter",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "RECORDED",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeAlterDatabase: permission deny to zcloud_apikey_admin in the `uatdp_db2` database"
+   }
+  },
+  {
+   "id": "case.admin.databases-alter_properties",
+   "family": "databases",
+   "op": "/databases/alter_properties",
+   "param": "properties",
+   "intent": "database property write",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "RECORDED",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeAlterDatabase: permission deny to zcloud_apikey_admin in the `uatdp_db2` database"
+   }
+  },
+  {
+   "id": "case.admin.databases-drop_properties",
+   "family": "databases",
+   "op": "/databases/drop_properties",
+   "param": "propertyKeys",
+   "intent": "database property delete",
+   "categories": [
+    "acceptance-diff"
+   ],
+   "milvus": {
+    "verdict": "RECORDED",
+    "code": 0,
+    "msg": ""
+   },
+   "uat": {
+    "verdict": "REJECTED(record)",
+    "code": 65535,
+    "msg": "rpc error: code = PermissionDenied desc = PrivilegeAlterDatabase: permission deny to zcloud_apikey_admin in the `uatdp_db2` database"
+   }
+  }
+ ]
+}

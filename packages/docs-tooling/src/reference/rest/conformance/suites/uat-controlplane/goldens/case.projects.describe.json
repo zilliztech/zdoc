@@ -1,0 +1,18 @@
+{
+ "code": 0,
+ "data": {
+  "projectName": "My Project",
+  "projectId": "proj-40c503b4d73e5ff56bbf50",
+  "description": null,
+  "createdBy": "usr-korapiuxeopjimllogyvni",
+  "instanceCount": 1,
+  "servingInstanceCount": 0,
+  "queryClusterCount": 0,
+  "createTime": "2026-05-06T00:24:54Z",
+  "plan": "Enterprise",
+  "regionIds": [
+   "aws-us-west-2"
+  ],
+  "orgType": "SAAS"
+ }
+}

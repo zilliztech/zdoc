@@ -1,0 +1,4 @@
+{
+ "code": 1802,
+ "message": "missing required parameters, error: Key: 'UpdateResourceGroupReq.ResourceGroups' Error:Field validation for 'ResourceGroups' failed on the 'required' tag"
+}

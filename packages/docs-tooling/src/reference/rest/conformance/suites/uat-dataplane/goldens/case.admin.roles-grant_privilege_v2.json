@@ -1,0 +1,4 @@
+{
+ "code": 65535,
+ "message": "rpc error: code = InvalidArgument desc = detail: rpc error: code = InvalidArgument desc = The privilege is invalid. Please reset the privilege according to the specifications."
+}

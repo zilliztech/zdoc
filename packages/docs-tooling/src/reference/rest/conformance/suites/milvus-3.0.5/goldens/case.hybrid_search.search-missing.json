@@ -1,0 +1,4 @@
+{
+ "code": 1100,
+ "message": "nq [0] is invalid, nq (number of search vector per search request) should be in range [1, 16384], but got 0: invalid parameter: invalid parameter"
+}

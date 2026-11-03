@@ -1,0 +1,35 @@
+{
+ "code": 0,
+ "data": {
+  "clusterId": "in01-f93145f52dca837",
+  "clusterName": "p1005-avail-dedicated",
+  "projectId": "proj-40c503b4d73e5ff56bbf50",
+  "description": "",
+  "regionId": "aws-us-west-2",
+  "cuType": "Capacity-optimized",
+  "plan": "Enterprise",
+  "status": "RUNNING",
+  "connectAddress": "https://in01-f93145f52dca837.aws-us-west-2.vectordb-uat3.zillizcloud.com:19539",
+  "privateLinkAddress": "",
+  "publicAddressEnabled": true,
+  "createTime": "2026-11-01T10:59:51Z",
+  "replica": 1,
+  "cuSize": 1,
+  "storageSize": 0,
+  "snapshotNumber": 0,
+  "createProgress": 100,
+  "deploymentOption": "Dedicated",
+  "autoscaling": {
+   "cu": {
+    "min": null,
+    "max": null,
+    "schedules": null
+   },
+   "replica": {
+    "min": null,
+    "max": null,
+    "schedules": null
+   }
+  }
+ }
+}

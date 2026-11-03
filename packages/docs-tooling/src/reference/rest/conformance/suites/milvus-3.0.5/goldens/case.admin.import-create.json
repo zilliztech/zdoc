@@ -1,0 +1,4 @@
+{
+ "code": 1801,
+ "message": "can only accept json format request, error: Mismatch type []string with value string \"at index 62: mismatched type with value\\n\\n\\t2coll\\\",\\\"files\\\":[\\\"conformance-non\\n\\t................^...............\\n\""
+}

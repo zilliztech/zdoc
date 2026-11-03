@@ -1,0 +1,4 @@
+{
+ "code": 1804,
+ "message": "fail to deal the insert data, error: \"Syntax error no sources available, the input json is empty: errors.SyntaxError{Pos:0, Src:\\\"\\\", Code:0x0, Msg:\\\"invalid chars\\\"}\": invalid parameter[expected=Array of VarChar][actual=]"
+}

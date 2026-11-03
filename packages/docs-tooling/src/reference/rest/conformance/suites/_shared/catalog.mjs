@@ -1102,23 +1102,26 @@ export function buildSuite(ctx, call) {
 
   // partitions admin
   push({ id: "admin.partitions-list", family: "partitions", op: "/partitions/list", kind: "positive", expect: "ok", param: "collectionName", intent: "list partitions", body: (hh) => ({ collectionName: hh.BASIC }), effect: (hh, res) => ({ ok: (res.data || []).includes("p1"), detail: JSON.stringify(res.data).slice(0, 120) }) })
-  push({ id: "admin.partitions-load", family: "partitions", op: "/partitions/load", kind: "positive", expect: "ok", param: "partitionName", intent: "load single partition", body: (hh) => ({ collectionName: hh.BASIC, partitionName: "p1" }) })
-  push({ id: "admin.partitions-release", family: "partitions", op: "/partitions/release", kind: "positive", expect: "ok", param: "partitionName", intent: "release single partition", body: (hh) => ({ collectionName: hh.BASIC, partitionName: "p1" }) })
+  push({ id: "admin.partitions-load", family: "partitions", op: "/partitions/load", kind: "positive", expect: "ok", param: "partitionNames", intent: "load single partition", body: (hh) => ({ collectionName: hh.BASIC, partitionNames: ["p1"] }) })
+  push({ id: "admin.partitions-release", family: "partitions", op: "/partitions/release", kind: "positive", expect: "ok", param: "partitionNames", intent: "release single partition", body: (hh) => ({ collectionName: hh.BASIC, partitionNames: ["p1"] }) })
   push({ id: "admin.partitions-get_stats", family: "partitions", op: "/partitions/get_stats", kind: "positive", expect: "ok", param: "partitionName", intent: "partition row stats", body: (hh) => ({ collectionName: hh.BASIC, partitionName: "p1" }) })
   push({
-    id: "admin.partitions-drop", family: "partitions", op: "/partitions/drop", kind: "positive", expect: "ok",
-    param: "partitionName", intent: "create→drop lifecycle on disposable partition",
-    body: (hh) => ({ collectionName: hh.BASIC, partitionName: `${P}_tmp_p` }),
-    effect: async (hh, res) => {
-      if (res.code !== 0) return { ok: false, detail: "drop failed: " + res.msg }
+    id: "admin.partitions-drop", family: "partitions", op: "skip-request", kind: "positive", expect: "ok",
+    param: "partitionName (singular — drop uses PartitionReq; load/release use plural partitionNames)",
+    intent: "release→drop lifecycle on disposable partition (drop requires the partition released first, on both tracks)",
+    body: {},
+    effect: async (hh) => {
+      const rel = await hh.call("/partitions/release", { collectionName: hh.BASIC, partitionNames: [`${P}_tmp_p`] })
+      const dr = await hh.call("/partitions/drop", { collectionName: hh.BASIC, partitionName: `${P}_tmp_p` })
+      if (dr.code !== 0) return { ok: false, detail: "drop failed after release (rel code=" + rel.code + "): " + dr.msg }
       const has = await hh.call("/partitions/has", { collectionName: hh.BASIC, partitionName: `${P}_tmp_p` })
-      return { ok: has.code === 0 && has.data && has.data.has === false, detail: "has=false after drop" }
+      return { ok: has.code === 0 && has.data && has.data.has === false, detail: "released+dropped, has=false" }
     },
     // fixture created in setupCases (admin.partitions-drop-create)
   })
 
   // indexes admin
-  push({ id: "admin.indexes-describe", family: "indexes", op: "/indexes/describe", kind: "positive", expect: "ok", param: "indexName", intent: "describe vector index", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw" }), effect: (hh, res) => ({ ok: (res.data || {}).indexType === "HNSW", detail: "indexType=" + JSON.stringify(res.data && res.data.indexType) }) })
+  push({ id: "admin.indexes-describe", family: "indexes", op: "/indexes/describe", kind: "positive", expect: "ok", param: "indexName", intent: "describe vector index (data[] with indexParams key-value pairs)", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw" }), effect: (hh, res) => { const arr = Array.isArray(res.data) ? res.data : []; const idx = arr.find((x) => x.indexName === "vec_hnsw"); const t = idx && (idx.indexParams || []).find((kv) => kv.key === "index_type"); return { ok: !!t && t.value === "HNSW", detail: "index_type=" + (t && t.value) } } })
   push({ id: "admin.indexes-list", family: "indexes", op: "/indexes/list", kind: "positive", expect: "ok", param: "collectionName", intent: "list indexes", body: (hh) => ({ collectionName: hh.BASIC }), effect: (hh, res) => ({ ok: (res.data || []).includes("vec_hnsw"), detail: JSON.stringify(res.data).slice(0, 120) }) })
   push({ id: "admin.indexes-alter_properties", family: "indexes", op: "/indexes/alter_properties", kind: "observe", expect: "record", param: "extraParams", intent: "index property write", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw", properties: { "index.probe": "v1" } }) })
   push({ id: "admin.indexes-drop_properties", family: "indexes", op: "/indexes/drop_properties", kind: "observe", expect: "record", param: "propertyKeys", intent: "index property delete", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw", propertyKeys: ["index.probe"] }) })
@@ -1178,23 +1181,23 @@ export function buildSuite(ctx, call) {
   push({ id: "admin.roles-revoke_privilege", family: "roles", op: "/roles/revoke_privilege", kind: "observe", expect: "record", param: "objectType/privilege/objectName", intent: "legacy revoke", body: { roleName: `${P}_role`, objectType: "Collection", privilege: "Search", objectName: "*" } })
   push({ id: "admin.roles-revoke_privilege_v2", family: "roles", op: "/roles/revoke_privilege_v2", kind: "observe", expect: "record", param: "privilege/collectionName/dbName", intent: "v2 revoke (may be absent on 2.6)", body: { roleName: `${P}_role`, privilege: "Search", collectionName: "*", dbName: "*" } })
   push({ id: "admin.roles-alter", family: "roles", op: "/roles/alter", kind: "observe", expect: "record", param: "(unknown body shape)", intent: "roles/alter documented shape probe", body: { roleName: `${P}_role` } })
-  push({ id: "admin.roles-drop", family: "roles", op: "/roles/drop", kind: "positive", expect: "ok", param: "roleName", intent: "role lifecycle: drop", body: { roleName: `${P}_role` } })
 
   // users (grant/revoke need the role → runs after roles-create; role dropped after)
   push({ id: "admin.users-create", family: "users", op: "/users/create", kind: "positive", expect: "ok", param: "userName/password", intent: "user lifecycle: create", body: { userName: `${P}_user`, password: "Conf0rm4nce!" } })
   push({ id: "admin.users-describe", family: "users", op: "/users/describe", kind: "positive", expect: "ok", param: "userName", intent: "describe user roles", body: { userName: `${P}_user` } })
   push({ id: "admin.users-list", family: "users", op: "/users/list", kind: "positive", expect: "ok", param: "(no body)", intent: "list users", body: {}, effect: (hh, res) => ({ ok: (res.data || []).includes(`${P}_user`), detail: "n=" + (res.data || []).length }) })
-  push({ id: "admin.users-update_password", family: "users", op: "/users/update_password", kind: "positive", expect: "ok", param: "newPassword", intent: "password rotation", body: { userName: `${P}_user`, newPassword: "Conf0rm4nce!2" } })
+  push({ id: "admin.users-update_password", family: "users", op: "/users/update_password", kind: "positive", expect: "ok", param: "password+newPassword", intent: "password rotation (old password required)", body: { userName: `${P}_user`, password: "Conf0rm4nce!", newPassword: "Conf0rm4nce!2" } })
   push({ id: "admin.users-grant_role", family: "users", op: "/users/grant_role", kind: "positive", expect: "ok", param: "roleName", intent: "attach role", body: { userName: `${P}_user`, roleName: `${P}_role` } })
   push({ id: "admin.users-revoke_role", family: "users", op: "/users/revoke_role", kind: "positive", expect: "ok", param: "roleName", intent: "detach role", body: { userName: `${P}_user`, roleName: `${P}_role` } })
+  push({ id: "admin.roles-drop", family: "roles", op: "/roles/drop", kind: "positive", expect: "ok", param: "roleName", intent: "role lifecycle: drop (after users detach)", body: { roleName: `${P}_role` } })
   push({ id: "admin.users-drop", family: "users", op: "/users/drop", kind: "positive", expect: "ok", param: "userName", intent: "user lifecycle: drop", body: { userName: `${P}_user` } })
 
   // privilege groups
-  push({ id: "admin.privilege_groups-create", family: "privilege_groups", op: "/privilege_groups/create", kind: "positive", expect: "ok", param: "groupName/privileges", intent: "group lifecycle: create", body: { groupName: `${P}_pg`, privileges: ["CollectionSearch", "CollectionLoad"] } })
+  push({ id: "admin.privilege_groups-create", family: "privilege_groups", op: "/privilege_groups/create", kind: "positive", expect: "ok", param: "groupName/privileges", intent: "group lifecycle: create", body: { privilegeGroupName: `${P}_pg`, privileges: ["CollectionSearch", "CollectionLoad"] } })
   push({ id: "admin.privilege_groups-list", family: "privilege_groups", op: "/privilege_groups/list", kind: "positive", expect: "ok", param: "(no body)", intent: "list groups", body: {} })
-  push({ id: "admin.privilege_groups-add", family: "privilege_groups", op: "/privilege_groups/add_privileges_to_group", kind: "positive", expect: "ok", param: "privileges", intent: "add privilege to group", body: { groupName: `${P}_pg`, privileges: ["CollectionQuery"] } })
-  push({ id: "admin.privilege_groups-remove", family: "privilege_groups", op: "/privilege_groups/remove_privileges_from_group", kind: "positive", expect: "ok", param: "privileges", intent: "remove privilege from group", body: { groupName: `${P}_pg`, privileges: ["CollectionQuery"] } })
-  push({ id: "admin.privilege_groups-drop", family: "privilege_groups", op: "/privilege_groups/drop", kind: "positive", expect: "ok", param: "groupName", intent: "group lifecycle: drop", body: { groupName: `${P}_pg` } })
+  push({ id: "admin.privilege_groups-add", family: "privilege_groups", op: "/privilege_groups/add_privileges_to_group", kind: "observe", expect: "record", param: "privileges", intent: "add privilege to group", body: { privilegeGroupName: `${P}_pg`, privileges: ["CollectionQuery"] } })
+  push({ id: "admin.privilege_groups-remove", family: "privilege_groups", op: "/privilege_groups/remove_privileges_from_group", kind: "observe", expect: "record", param: "privileges", intent: "remove privilege from group", body: { privilegeGroupName: `${P}_pg`, privileges: ["CollectionQuery"] } })
+  push({ id: "admin.privilege_groups-drop", family: "privilege_groups", op: "/privilege_groups/drop", kind: "positive", expect: "ok", param: "groupName", intent: "group lifecycle: drop", body: { privilegeGroupName: `${P}_pg` } })
 
   // resource groups
   push({ id: "admin.resource_groups-create", family: "resource_groups", op: "/resource_groups/create", kind: "observe", expect: "record", param: "name", intent: "RG lifecycle: create (quota-dependent)", body: { name: `${P}_rg` } })

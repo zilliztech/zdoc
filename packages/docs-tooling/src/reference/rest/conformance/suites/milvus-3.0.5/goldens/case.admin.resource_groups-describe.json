@@ -1,0 +1,9 @@
+{
+ "resource_group": {
+  "name": "m305_rg",
+  "config": {
+   "requests": {},
+   "limits": {}
+  }
+ }
+}

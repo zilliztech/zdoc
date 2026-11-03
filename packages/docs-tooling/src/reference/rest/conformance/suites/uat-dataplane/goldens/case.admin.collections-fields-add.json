@@ -1,0 +1,4 @@
+{
+ "code": 1802,
+ "message": "missing required parameters, error: Key: 'CollectionFieldReqWithSchema.Schema' Error:Field validation for 'Schema' failed on the 'required' tag"
+}

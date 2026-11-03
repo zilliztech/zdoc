@@ -1,0 +1,4 @@
+{
+ "code": 1802,
+ "message": "missing required parameters, error: Key: 'RefreshExternalCollectionReq.CollectionName' Error:Field validation for 'CollectionName' failed on the 'required' tag"
+}

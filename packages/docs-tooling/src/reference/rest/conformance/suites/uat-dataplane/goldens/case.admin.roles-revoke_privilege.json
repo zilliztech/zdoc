@@ -1,0 +1,4 @@
+{
+ "code": 65535,
+ "message": "rpc error: code = InvalidArgument desc = detail: it's a deny api, fullMethod:/milvus.proto.milvus.MilvusService/OperatePrivilege"
+}

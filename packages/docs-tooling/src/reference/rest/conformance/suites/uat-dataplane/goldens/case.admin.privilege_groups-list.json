@@ -1,0 +1,43 @@
+{
+ "code": 0,
+ "data": {
+  "privilegeGroups": [
+   {
+    "privilegeGroupName": "ClusterReadOnly",
+    "privileges": "ListDatabases,ListPrivilegeGroups"
+   },
+   {
+    "privilegeGroupName": "ClusterReadWrite",
+    "privileges": "ListDatabases,CreateDatabase,DropDatabase,ListPrivilegeGroups,RenameCollection"
+   },
+   {
+    "privilegeGroupName": "ClusterAdmin",
+    "privileges": "UpdateUser,SelectUser,ListDatabases,CreateDatabase,DropDatabase,CreateOwnership,SelectOwnership,ManageOwnership,DropOwnership,ListPrivilegeGroups,RenameCollection"
+   },
+   {
+    "privilegeGroupName": "DatabaseReadOnly",
+    "privileges": "ShowCollections,DescribeDatabase"
+   },
+   {
+    "privilegeGroupName": "DatabaseReadWrite",
+    "privileges": "DescribeDatabase,CreateCollection,ShowCollections,DropCollection"
+   },
+   {
+    "privilegeGroupName": "DatabaseAdmin",
+    "privileges": "DescribeDatabase,ShowCollections,CreateCollection,DropCollection"
+   },
+   {
+    "privilegeGroupName": "CollectionReadOnly",
+    "privileges": "DescribeCollection,ListAliases,DescribeAlias,Query,Search,IndexDetail,Load,GetLoadState,GetLoadingProgress,HasPartition,ShowPartitions,GetStatistics"
+   },
+   {
+    "privilegeGroupName": "CollectionReadWrite",
+    "privileges": "DescribeCollection,ListAliases,DescribeAlias,DropAlias,CreateAlias,Query,Search,Release,Insert,Delete,Upsert,Import,Load,GetLoadState,GetLoadingProgress,CreatePartition,DropPartition,HasPartition,ShowPartitions,CreateIndex,DropIndex,Flush,GetFlushState,IndexDetail,AddCollectionField,GetStatistics"
+   },
+   {
+    "privilegeGroupName": "CollectionAdmin",
+    "privileges": "CreateAlias,DropAlias,ListAliases,DescribeAlias,DescribeCollection,Query,Search,Release,Insert,Delete,Upsert,Import,Flush,Compaction,IndexDetail,GetFlushState,GetStatistics,Load,GetLoadState,GetLoadingProgress,CreatePartition,DropPartition,HasPartition,ShowPartitions,CreateIndex,DropIndex,AddCollectionField"
+   }
+  ]
+ }
+}

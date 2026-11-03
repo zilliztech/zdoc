@@ -1,0 +1,4 @@
+{
+ "code": 1801,
+ "message": "can only accept json format request, error: data must be a JSON array: invalid parameter"
+}

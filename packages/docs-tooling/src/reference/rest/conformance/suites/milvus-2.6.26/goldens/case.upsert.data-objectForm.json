@@ -1,0 +1,4 @@
+{
+ "code": 1801,
+ "message": "can only accept json format request, error: json: cannot unmarshal object into Go struct field CollectionDataReq.data of type []map[string]interface {}"
+}

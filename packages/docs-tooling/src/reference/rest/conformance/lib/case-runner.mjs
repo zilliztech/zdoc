@@ -131,7 +131,7 @@ async function runCase(c, phase) {
   const useCall = c.method && c.method !== "POST"
     ? (p, b) => callMethod(c.method, p, b)
     : call
-  const target = c.method && c.method !== "POST" && typeof c.url === "function" ? c.url(suite.h) : c.op
+  const target = typeof c.url === "function" ? c.url(suite.h) : c.op
   const res = c.op === "skip-request"
     ? { http: 0, code: 0, msg: "", data: null, json: null }
     : await useCall(target, body)

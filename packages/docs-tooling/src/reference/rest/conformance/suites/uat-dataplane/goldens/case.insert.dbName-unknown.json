@@ -1,0 +1,4 @@
+{
+ "code": 800,
+ "message": "database not found[database=no_such_db_zz]"
+}

@@ -1,0 +1,4 @@
+{
+ "code": 96005,
+ "message": "Invalid projectId. The projectId should be like proj-xxxxxxxx. Please use the ListProjects API to obtain your scoped projects."
+}

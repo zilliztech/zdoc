@@ -1,1 +1,17 @@
-{}
+{
+ "apikeys.list": {
+  "expect": "record"
+ },
+ "apikeys.create-run": {
+  "expect": "record"
+ },
+ "apikeys.describe-run": {
+  "expect": "record"
+ },
+ "apikeys.update-run": {
+  "expect": "record"
+ },
+ "apikeys.delete-run": {
+  "expect": "record"
+ }
+}

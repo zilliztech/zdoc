@@ -1,0 +1,7 @@
+{
+ "code": 0,
+ "data": {
+  "clusterId": "in01-dcfb4a9af46088e",
+  "prompt": "Cluster resource change request submitted. The cluster is running under dynamic scaling. You can track the cluster status using the DescribeCluster API."
+ }
+}

@@ -59,7 +59,7 @@ for (const r of rows) for (const c of r.categories) byCat[c] = (byCat[c] || 0) +
 const report = {
   schemaVersion: 1,
   milvusSuite: milvus.suite, uatSuite: uat.suite,
-  comparedCases: rows.length + [...M.keys()].filter((k) => !U.has(k)).length,
+  comparedCases: [...M.keys()].filter((k) => U.has(k)).length,
   incompatibilities: rows.length,
   byCategory: byCat,
   note: "acceptance-diff = one side accepts (code 0) while the other rejects; effect-diff = accepted on both but observable behavior differs; shape-diff = response shape deviates from the frozen milvus golden.",

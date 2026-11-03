@@ -44,25 +44,26 @@ export function buildControlSuite(ctx, call) {
       body: async () => { await sweep(); return {} },
     },
     {
-      id: "setup.region", family: "setup", op: "/v2/regions", method: "GET", kind: "setup", critical: true,
-      expect: "ok", param: "(no body)", intent: "discover regionId for cluster lifecycle",
-      body: {},
-      effect: (hh, res) => {
-        const regions = (res.json && res.json.data) || []
-        const first = Array.isArray(regions) ? regions.find((r) => r.regionId || r.id) : null
-        if (first) state.regionId = first.regionId || first.id
-        return { ok: !!state.regionId, detail: "regionId=" + state.regionId }
-      },
-    },
-    {
       id: "setup.existing-cluster", family: "setup", op: "/v2/clusters?pageSize=100", method: "GET", kind: "setup", critical: false,
       expect: "ok", param: "(no body)", intent: "note an existing cluster for read-only describe probes",
       body: {},
       effect: (hh, res) => {
         const list = (res.json && res.json.data && (res.json.data.clusters || res.json.data)) || []
         const first = Array.isArray(list) ? list.find((c) => c.clusterId || c.id) : null
-        if (first) { state.existingClusterId = first.clusterId || first.id; state.existingRegionId = first.regionId || state.existingRegionId }
+        if (first) { state.existingClusterId = first.clusterId || first.id; state.existingRegionId = first.regionId || state.existingRegionId; state.cuType = first.cuType || state.cuType }
         return { ok: res.code === 0 || res.http === 200, detail: "existing=" + (state.existingClusterId || "none") }
+      },
+    },
+    {
+      id: "setup.region", family: "setup", op: "/v2/regions", method: "GET", kind: "setup", critical: true,
+      expect: "ok", param: "(no body)", intent: "discover regionId for cluster lifecycle (prefer the existing cluster's region)",
+      body: {},
+      effect: (hh, res) => {
+        if (state.existingRegionId) { state.regionId = state.existingRegionId; return { ok: true, detail: "regionId=" + state.regionId + " (from existing cluster)" } }
+        const regions = (res.json && res.json.data) || []
+        const first = Array.isArray(regions) ? regions.find((r) => r.regionId || r.id) : null
+        if (first) state.regionId = first.regionId || first.id
+        return { ok: !!state.regionId, detail: "regionId=" + state.regionId }
       },
     },
   ]
@@ -105,9 +106,9 @@ export function buildControlSuite(ctx, call) {
 
   // ---- cluster lifecycle (serverless: minimal required fields) ----
   push({
-    id: "clusters.create-serverless", family: "clusters", op: "/v2/clusters/createServerless", method: "POST", kind: "positive", expect: "ok",
-    param: "clusterName/projectId/regionId", intent: "serverless cluster lifecycle: create (required fields per fragment)",
-    body: (hh) => ({ clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.regionId }),
+    id: "clusters.create-dedicated", family: "clusters", op: "/v2/clusters/createDedicated", method: "POST", kind: "positive", expect: "ok",
+    param: "clusterName/projectId/regionId/cuSize/cuType", intent: "dedicated cluster lifecycle: create (smallest CU, mirroring the region's existing cuType; UAT3 regions have no serverless plan)",
+    body: (hh) => ({ clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.regionId, cuType: state.cuType, cuSize: 1 }),
     effect: (hh, res) => {
       const d = (res.json && res.json.data) || {}
       state.clusterId = d.clusterId || d.id
@@ -144,9 +145,26 @@ export function buildControlSuite(ctx, call) {
     body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/suspend`,
   })
   push({
-    id: "clusters.resume", family: "clusters", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record",
-    param: "CLUSTER_ID(path)", intent: "resume run- cluster",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/resume`,
+    id: "clusters.resume", family: "clusters", op: "skip-request", kind: "observe", expect: "record",
+    param: "CLUSTER_ID(path)", intent: "resume after suspend: suspend is async (STOPPING transition) — poll to STOPPED, resume, poll back to RUNNING (live-captured state machine)",
+    body: {},
+    effect: async (hh) => {
+      if (!state.clusterId) return { ok: false, detail: "no clusterId" }
+      const st = async () => {
+        const d = await call("GET", `/v2/clusters/${state.clusterId}`)
+        return ((d.json && d.json.data) || {}).status || "?"
+      }
+      for (let i = 0; i < 40 && /STOPPING/i.test(await st()); i++) await new Promise((r) => setTimeout(r, 15000))
+      const before = await st()
+      const rr = await call("POST", `/v2/clusters/${state.clusterId}/resume`, {})
+      if (rr.code !== 0 && rr.http !== 200) return { ok: false, detail: `resume rejected at status=${before}: ${rr.msg || rr.json}` }
+      let running = false
+      for (let i = 0; i < 60; i++) {
+        if (/RUNNING/i.test(await st())) { running = true; break }
+        await new Promise((r) => setTimeout(r, 15000))
+      }
+      return { ok: running, detail: `resume from ${before}: running=${running}` }
+    },
   })
   push({
     id: "clusters.modify", family: "clusters", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record",
@@ -159,10 +177,29 @@ export function buildControlSuite(ctx, call) {
     body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}`,
   })
   push({
-    id: "clusters.drop", family: "clusters", op: "/v2/clusters", method: "DELETE", kind: "positive", expect: "ok",
-    param: "CLUSTER_ID(path)", intent: "cluster lifecycle: drop run- cluster (cleanup guarantee)",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/drop`,
-    effect: (hh, res) => ({ ok: res.http === 200 || res.code === 0, detail: j(res.json) }),
+    id: "clusters.drop", family: "clusters", op: "skip-request", kind: "positive", expect: "ok",
+    param: "CLUSTER_ID(path)", intent: "cluster lifecycle: drop run- cluster (waits out the STOPPING transition; cleanup guarantee)",
+    body: {},
+    effect: async (hh) => {
+      if (!state.clusterId) return { ok: false, detail: "no clusterId" }
+      const st = async () => {
+        const d = await call("GET", `/v2/clusters/${state.clusterId}`)
+        return ((d.json && d.json.data) || {}).status || "GONE"
+      }
+      for (let i = 0; i < 40; i++) {
+        const cur = await st()
+        if (cur === "GONE") return { ok: true, detail: "cluster gone" }
+        if (/STOPPING|RESUMING|PENDING|CREATING|SUSPENDING/i.test(cur)) { await new Promise((r) => setTimeout(r, 15000)); continue }
+        const dr = await call("DELETE", `/v2/clusters/${state.clusterId}/drop`, {})
+        if (dr.code === 0 || dr.http === 200) {
+          for (let k = 0; k < 60; k++) { if ((await st()) === "GONE") return { ok: true, detail: "dropped+gone" }; await new Promise((r) => setTimeout(r, 15000)) }
+          return { ok: false, detail: "drop accepted but cluster still visible" }
+        }
+        if (/40064|STOPPING/i.test(String(dr.msg || ""))) { await new Promise((r) => setTimeout(r, 15000)); continue }
+        return { ok: false, detail: "drop rejected: " + (dr.msg || dr.json) }
+      }
+      return { ok: false, detail: "drop not completed within window" }
+    },
   })
 
   // ---- backups (read-only + create attempt on run- cluster) ----
@@ -188,19 +225,13 @@ export function buildControlSuite(ctx, call) {
   push({ id: "apikeys.delete-run", family: "api_keys", op: "/v2/api-keys", method: "DELETE", kind: "positive", expect: "ok", param: "apiKeyId(path)", intent: "api-key lifecycle: delete run- key", body: {}, url: () => `/v2/api-keys/${state.apiKeyId || "none"}` })
 
   // ---- storage integrations (user's existing integration is READ-ONLY) ----
-  push({ id: "storageint.list", family: "storage_integrations", op: "/v2/storageIntegrations", method: "GET", kind: "positive", expect: "ok", param: "(no body)", intent: "list storage integrations", body: {}, effect: (hh, res) => { const d = (res.json && res.json.data) || []; const first = Array.isArray(d) && d.find((x) => x.integrationId || x.id); if (first) state.integrationId = first.integrationId || first.id; return { ok: true, detail: "n=" + (Array.isArray(d) ? d.length : "?") } } })
+  push({ id: "storageint.list", family: "storage_integrations", op: "/v2/storageIntegrations", method: "GET", kind: "positive", expect: "ok", param: "projectId(query)", intent: "list storage integrations", body: {}, url: (hh) => `/v2/storageIntegrations?projectId=${hh.PROJECT}`, effect: (hh, res) => { const d = (res.json && res.json.data) || []; const first = Array.isArray(d) && d.find((x) => x.integrationId || x.id); if (first) state.integrationId = first.integrationId || first.id; return { ok: true, detail: "n=" + (Array.isArray(d) ? d.length : "?") } } })
   push({ id: "storageint.describe", family: "storage_integrations", op: "/v2/storageIntegrations", method: "GET", kind: "observe", expect: "record", param: "integrationId(path)", intent: "describe first listed integration (read-only)", body: {}, url: () => `/v2/storageIntegrations/${state.integrationId || "none"}` })
-  push({ id: "storageint.validate-bogus", family: "storage_integrations", op: "/v2/storageIntegrations/validate", method: "POST", kind: "observe", expect: "record", param: "(validate schema)", intent: "validate with a non-existent bucket — validation failure shape is the data", body: { provider: "aws", bucketName: "conformance-nonexistent-bucket-zz", region: "us-west-2", accessKey: "AKIAZZZZ", secretKey: "zzzz" } })
+  push({ id: "storageint.validate-bogus", family: "storage_integrations", op: "/v2/storageIntegrations/validate", method: "POST", kind: "observe", expect: "record", param: "(validate schema)", intent: "validate with a non-existent bucket — validation failure shape is the data", url: (hh) => `/v2/storageIntegrations/validate?projectId=${hh.PROJECT}`, body: { provider: "aws", bucketName: "conformance-nonexistent-bucket-zz", region: "us-west-2", accessKey: "AKIAZZZZ", secretKey: "zzzz" } })
   push({ id: "storageint.auth-materials", family: "storage_integrations", op: "/v2/storageIntegrations/authorizationMaterials", method: "POST", kind: "observe", expect: "record", param: "(schema)", intent: "generate authorization materials (empty body → validation shape)", body: {} })
 
   async function cleanup() {
-    for (const [label, doIt] of [
-      ["cluster", () => state.clusterId && call("DELETE", `/v2/clusters/${state.clusterId}/drop`, {})],
-      ["api-key", () => state.apiKeyId && call("DELETE", `/v2/api-keys/${state.apiKeyId}`)],
-      ["project", () => state.projectId && call("DELETE", `/v2/projects/${state.projectId}`)],
-    ]) {
-      try { if (doIt) { const r = await doIt(); console.log(`# cleanup ${label}: ${r && (r.http || r.code)}`) } } catch (e) { console.error(`# cleanup ${label} failed:`, e && e.message) }
-    }
+    try { await sweep() } catch (e) { console.error("# cleanup sweep failed:", e && e.message) }
   }
 
   return { h: { state, PROJECT }, prepare: async () => {}, setupCases, finalize: async () => {}, cases, cleanup }

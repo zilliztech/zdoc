@@ -1,0 +1,4 @@
+{
+ "code": 1802,
+ "message": "either 'ids' (for primary key search) or 'data' (for vector search) must be provided"
+}
