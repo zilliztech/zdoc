@@ -265,10 +265,38 @@ jobs:
             --fragments "$RUNNER_TEMP/$STAGING/fragments" \
             --out "$RUNNER_TEMP/$STAGING/change-set.json"
 
+      # Describe stage (2026-11-03): a mirror/addition may land schema nodes the
+      # upstream could not describe (the Go extractor emits structure only — 109
+      # prose-less nodes rode the 2026-11-01 refresh unnoticed). This stage
+      # drafts the missing English descriptions on the same gateway, grounded on
+      # inlined evidence only (node type/enum, the upstream Go field comment
+      # harvested onto the diff entry, reference descriptions the fragments
+      # already carry for the same property name). One string per node, every
+      # line validated (verbatim path, length, no placeholders, exact-case enum
+      # mentions); a node that cannot be completed degrades to the PR
+      # human-review list and the entry still lands undescribed. zh-CN/ja-JP are
+      # filled by the translation stage that runs next.
+      - name: Describe the added and mirrored fields
+        env:
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
+          REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
+          REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
+        run: |
+          node scripts/rest-upstream/describe-additions.js \
+            --change-set "$RUNNER_TEMP/$STAGING/change-set.json" \
+            --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
+            --fragments "$RUNNER_TEMP/$STAGING/fragments" \
+            --out "$RUNNER_TEMP/$STAGING/change-set-described.json" \
+            --report "$RUNNER_TEMP/$STAGING/describe-report.json" \
+            --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
+            --api-key-env AGENTIC_PROVIDER_API_KEY \
+            --model "$REST_UPSTREAM_AGENT_MODEL"
+
       # Translation gate (2026-10-30): every prose node a mirror/addition
       # introduces must carry zh-CN and ja-JP before anything lands. zh copies
       # the upstream x-i18n when present; the rest (and all Japanese) is
-      # translated here. Entries that cannot be completed degrade to the PR
+      # translated here — including descriptions the describe stage just
+      # drafted. Entries that cannot be completed degrade to the PR
       # human-review list — never half-translated content.
       - name: Translate the added and mirrored prose
         env:
@@ -277,7 +305,7 @@ jobs:
           REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
         run: |
           node scripts/rest-upstream/translate-additions.js \
-            --change-set "$RUNNER_TEMP/$STAGING/change-set.json" \
+            --change-set "$RUNNER_TEMP/$STAGING/change-set-described.json" \
             --out "$RUNNER_TEMP/$STAGING/change-set-translated.json" \
             --report "$RUNNER_TEMP/$STAGING/translate-report.json" \
             --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
@@ -496,7 +524,9 @@ jobs:
           const reportsPath = path.join(staging, process.env.STAGING, 'assemble-reports.json')
           const assembleReports = fs.existsSync(reportsPath)
             ? JSON.parse(fs.readFileSync(reportsPath, 'utf8'))
-            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], unresolvableSubtrees: [], placementsApplied: [], rejectedPlacements: [], reorganizations: []}
+            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], unresolvableSubtrees: [], placementsApplied: [], rejectedPlacements: [], reorganizations: [], missingDescriptions: []}
+          const describePath = path.join(staging, process.env.STAGING, 'describe-report.json')
+          const describeReport = fs.existsSync(describePath) ? JSON.parse(fs.readFileSync(describePath, 'utf8')) : null
           const translatePath = path.join(staging, process.env.STAGING, 'translate-report.json')
           const translateReport = fs.existsSync(translatePath) ? JSON.parse(fs.readFileSync(translatePath, 'utf8')) : null
           const retirePath = path.join(staging, process.env.APPLIED, 'lifecycle-evidence-retirements.json')
@@ -549,6 +579,7 @@ jobs:
             '- [ ] mirrored field subtrees: structure matches the upstream API change; local prose/links survived',
             '- [ ] fields the mirror retires (see deletions list) are genuinely gone upstream',
             '- [ ] machine translations (zh/ja) read correctly; upstream-copied zh is API-truth',
+            '- [ ] model-drafted field descriptions (see Descriptions section) make only evidence-backed claims',
             '- [ ] scenario-tab placements are semantically right (which tab documents the new field)',
             '- [ ] `x-*` attributes: zero unexpected diff outside new/mirrored subtrees',
             '- [ ] retired lifecycle-evidence elements (if any) all sit inside mirrored/added subtrees',
@@ -592,6 +623,15 @@ jobs:
             '',
             '### Branch reorganization proposals (reported, never executed)', '',
             assembleReports.reorganizations.length ? assembleReports.reorganizations.map(entry => `- ${entry.action} \`${entry.opKey}\` ${entry.scope}: ${entry.reason}`).join('\n') : '- none',
+            '',
+            '### Descriptions (model-drafted for prose-less added/mirrored nodes)', '',
+            describeReport
+              ? [
+                  `- ${describeReport.describedNodes} node(s) drafted across ${describeReport.describedEntries} entr(ies), grounded on ${(describeReport.grounding ?? {}).upstreamCommentsUsed ?? 0} upstream Go comment(s) and ${(describeReport.grounding ?? {}).referencesUsed ?? 0} fragment reference(s).`,
+                  `- ${assembleReports.missingDescriptions.length} assembled value(s) had prose-less nodes before this stage; ${describeReport.degraded.length} node(s) degraded to human review and landed undescribed.`,
+                ].join('\n')
+              : '- no describe report (no prose-less nodes or older run)',
+            ...head(describeReport?.degraded ?? [], 20).map(entry => `- degraded: \`${entry.diffEntryId}\` \`${entry.path}\` — ${entry.reason}`),
             '',
             '### Translations', '',
             translateReport
