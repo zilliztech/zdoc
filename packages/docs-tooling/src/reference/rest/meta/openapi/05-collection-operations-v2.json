@@ -7245,9 +7245,6 @@
           },
           "consistencyLevel": {
             "type": "string",
-            "x-added-at": "3.0.x",
-            "x-last-modified": "3.0.x",
-            "x-deprecated-since": null,
             "description": "The consistency level applied to the collection described by this setup. It determines the consistency guarantee used when the collection is queried.",
             "x-i18n": {
               "zh-CN": {
@@ -7256,7 +7253,16 @@
               "ja-JP": {
                 "description": "この設定で記述される Collection に適用される整合性レベル。Collection をクエリする際に使用される整合性保証を決定します。"
               }
-            }
+            },
+            "enum": [
+              "Strong",
+              "Eventually",
+              "<include target=\"milvus\">Session</include>",
+              "Bounded"
+            ],
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
             "type": "object",
@@ -8217,9 +8223,6 @@
           },
           "consistencyLevel": {
             "type": "string",
-            "x-added-at": "3.0.x",
-            "x-last-modified": "3.0.x",
-            "x-deprecated-since": null,
             "description": "The consistency level applied to the collection described by this setup. It determines the consistency guarantee used when the collection is queried.",
             "x-i18n": {
               "zh-CN": {
@@ -8228,7 +8231,16 @@
               "ja-JP": {
                 "description": "この設定で記述される Collection に適用される整合性レベル。Collection をクエリする際に使用される整合性保証を決定します。"
               }
-            }
+            },
+            "enum": [
+              "Strong",
+              "Eventually",
+              "<include target=\"milvus\">Session</include>",
+              "Bounded"
+            ],
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
             "type": "object",
@@ -8365,9 +8377,6 @@
           },
           "consistencyLevel": {
             "type": "string",
-            "x-added-at": "3.0.x",
-            "x-last-modified": "3.0.x",
-            "x-deprecated-since": null,
             "description": "The consistency level applied to the collection described by this setup. It determines the consistency guarantee used when the collection is queried.",
             "x-i18n": {
               "zh-CN": {
@@ -8376,7 +8385,16 @@
               "ja-JP": {
                 "description": "この設定で記述される Collection に適用される整合性レベル。Collection をクエリする際に使用される整合性保証を決定します。"
               }
-            }
+            },
+            "enum": [
+              "Strong",
+              "Eventually",
+              "<include target=\"milvus\">Session</include>",
+              "Bounded"
+            ],
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
           },
           "properties": {
             "type": "object",

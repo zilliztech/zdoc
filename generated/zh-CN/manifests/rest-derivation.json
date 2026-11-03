@@ -4,7 +4,7 @@
     "02-collection-operations.json": "ae8c57b09ca4891a59093be41c7ba417393a47a0b5572a0a68b00445789c6306",
     "03-vector-operations.json": "27bc31e809dd503fdb59fbb0e34e928f1e4345f8e8c866bdb7d5baef03ff21f2",
     "04-vector-operations-v2.json": "c6abbfca9d1d7e325cd3094c47e6ffdf205d54795139a1d7d29f10fd4906dbb0",
-    "05-collection-operations-v2.json": "156837bef91b0b820914c68ee1a65b85dae4650b63b082c9387fb57e81775485",
+    "05-collection-operations-v2.json": "e9ee3f3511a64ec247e2c1048bace5aa2242a7e1a33ab275b0920599a53f116f",
     "06-database-operations-v2.json": "0f026fcf29141ed7654db86e08d1d382cab1e1c23dcb3a542c50739f5548e276",
     "07-index-operations-v2.json": "72f325df99b2f9553b139dbefc0844826ff3bf0399ef494927c561f7da19e7dd",
     "08-partition-operations-v2.json": "1341130aa6ec28591247b063ec5476857a74b1055545787fa2f5818788657cf7",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-03T08:13:25.134Z",
+  "generatedAt": "2026-11-03T09:00:10.930Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "d1bc62cc41c0a9a392a97e74881153b744d2cc82"
+  "toolingSha": "9b7e9fe246282020566c1db92e795188f3917bb8"
 }
