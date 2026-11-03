@@ -3,14 +3,14 @@ import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'no
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { release } from 'node:os'
+import { release, userInfo } from 'node:os'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
 import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
 import { canonicalBytes, compareUtf8, digest, parseStrictJson } from '../../core/updates/canonical'
 import { BlobRef, DigestSchema, GitShaSchema, RepoPathSchema, ToolsetMaterial, ToolsetMaterialSchema, validateBlobBytes } from '../../core/updates/envelope'
-import { createOwnedDirectory, rawSha256, type EvidenceStore } from './evidence'
+import { createOwnedDirectory, writeOwnedBlob, rawSha256, type EvidenceStore } from './evidence'
 
 export type ClosureEntry =
   | { path: string; state: 'absent' }
@@ -78,7 +78,21 @@ export function verifyClosureBinding(materialValue: unknown, ref: BlobRef, bytes
 }
 const flagSet = new Set(['--enable-source-maps', '--no-warnings', '--disable-warning=ExperimentalWarning'])
 export async function trustedLauncherEnvironment(root: string, cwd: string, environment: NodeJS.ProcessEnv = process.env, flags = process.execArgv): Promise<NodeJS.ProcessEnv> {
-  if (await realpath(root) !== await realpath(cwd)) throw new Error('Launcher must run from trusted root')
+  const canonicalRoot = await realpath(root)
+  if (canonicalRoot !== await realpath(cwd)) throw new Error('Launcher must run from trusted root')
+  const nodePrefix = dirname(dirname(await realpath(process.execPath))), home = userInfo().homedir
+  const managerConfig = process.platform === 'darwin' ? join(home, 'Library/Preferences/pnpm/rc') : join(home, '.config/pnpm/rc')
+  // npm_execpath is observational metadata only: never load it, execute it, or use it
+  // as a trust anchor. It may only corroborate the discarded node-gyp sibling path.
+  const managerEntry = environment.npm_execpath
+  const managerRoot = managerEntry && isAbsolute(managerEntry) && basename(managerEntry) === 'pnpm.cjs' && basename(dirname(managerEntry)) === 'bin' ? dirname(dirname(managerEntry)) : null
+  const managerLayout = managerRoot && (basename(managerRoot) === 'pnpm' || managerRoot.endsWith('/pnpm/10.33.0'))
+  const defaults: Record<string, string | null> = {
+    npm_config_npm_globalconfig: join(nodePrefix, 'etc/npmrc'), npm_config_globalconfig: managerConfig,
+    npm_config_registry: 'https://registry.npmjs.org/', npm_config__jsr_registry: 'https://npm.jsr.io/',
+    PNPM_SCRIPT_SRC_DIR: canonicalRoot, npm_config_dir: canonicalRoot, npm_config_prefix: canonicalRoot,
+    npm_config_node_gyp: managerLayout ? join(managerRoot!, 'dist/node_modules/node-gyp/bin/node-gyp.js') : null,
+  }
   for (const [name, value] of Object.entries(environment)) {
     if (!value) continue
     // Pinned pnpm's non-executable invocation metadata is validated then discarded.
@@ -86,6 +100,7 @@ export async function trustedLauncherEnvironment(root: string, cwd: string, envi
     if ((name === 'npm_config_verify_deps_before_run' || name === 'pnpm_config_verify_deps_before_run') && value === 'false') continue
     if (name === 'npm_config_user_agent' && value === `pnpm/10.33.0 npm/? node/${process.version} ${process.platform} ${process.arch}`) continue
     if (name === 'PNPM_PACKAGE_NAME' && /^(?:@[A-Za-z0-9._-]+\/)?[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value)) continue
+    if (Object.hasOwn(defaults, name) && defaults[name] !== null && value === defaults[name]) continue
     if (name === 'GIT_PAGER' && value === 'cat') continue
     if (/^(NODE_OPTIONS|NODE_PATH|LD_|DYLD_|PYTHON|DEVELOPER_DIR|SDKROOT|GIT_)/i.test(name) || /^(npm_config_|pnpm_)/i.test(name)) throw new Error(`Forbidden ambient execution setting: ${name}`)
   }
@@ -97,19 +112,227 @@ const exec = promisify(execFile)
 const limit = 512 * 1024 * 1024
 const contains = (root: string, path: string) => { const r = relative(root, path); return r === '' || !isAbsolute(r) && r !== '..' && !r.startsWith(`..${sep}`) }
 const absent = (e: unknown) => (e as NodeJS.ErrnoException).code === 'ENOENT'
+type AccessPin = { dev: string; ino: string; mode: number; uid: number; gid: number }
+type AccessEvidence = { identity: LocalIdentity | null; pins: Map<string, AccessPin>; homeRestriction: { path: string; ace: 'group:everyone deny delete' } | null }
+const safeOwner = (uid: number) => uid === 0 || uid === process.geteuid?.()
+function accessInspectors(): [string, string][] {
+  if (process.platform === 'darwin') return [['runtime/access-inspector', '/bin/ls'], ['runtime/identity-resolver', '/usr/bin/dscl']]
+  if (process.platform === 'linux') return [['runtime/acl-inspector', '/usr/bin/getfacl'], ['runtime/capability-inspector', '/usr/sbin/getcap']]
+  throw new Error('Unsupported access inspection platform')
+}
+/** Strict parser for fixed ls -lde output. No caller-provided inspection result grants a capability. */
+export function parseDarwinAccess(output: string, paths: string[]): Map<string, string[]> {
+  const required = new Set<string>(), pending = new Set(paths), result = new Map<string, string[]>(); let current: string | undefined
+  for (const line of output.split('\n')) {
+    if (!line) continue
+    if (/^\s+\d+:/.test(line)) {
+      if (!current) throw new Error('Unknown ACL inspector output')
+      const ace = /^ (\d+): (.+)$/.exec(line), list = result.get(current)!
+      if (!ace || Number(ace[1]) !== list.length) throw new Error('Unknown ACL syntax')
+      list.push(ace[2]); continue
+    }
+    const match = /^[-dl][rwxStTs-]{9}([+@ ]).*? (\/.*)$/.exec(line)
+    const printed = match?.[2], path = printed && [...pending].find(path => printed === path || printed.startsWith(`${path} -> `))
+    if (!match || !path || !pending.delete(path)) throw new Error('Unknown or duplicate access inspector output')
+    current = path; result.set(current, [])
+    // A '+' must be accompanied by parsed ACE evidence, checked below.
+    if (match[1] === '+') required.add(current)
+  }
+  if (pending.size || [...required].some(path => !result.get(path)?.length)) throw new Error('Missing access inspector evidence')
+  return result
+}
+/** Pure safety-policy validation; inspection and host identity acquisition remain private. */
+export function validateDarwinAccess(output: string, paths: string[], home: string, materialPaths: Set<string>) {
+  let homeRestriction: AccessEvidence['homeRestriction'] = null
+  for (const [path, aces] of parseDarwinAccess(output, paths)) if (aces.length) {
+    if (path !== home || materialPaths.has(path) || aces.join('\n') !== 'group:everyone deny delete') throw new Error(`Unsupported ACL access: ${path}`)
+    homeRestriction = { path, ace: 'group:everyone deny delete' }
+  }
+  return homeRestriction
+}
+export function assertNoExtendedAccess(stdout: string, stderr: string) {
+  if (stdout.trim() || stderr) throw new Error('Unsupported ACL or filesystem capability access')
+}
+export function validateAccessMode(stat: { uid: number; mode: number }, kind: 'file' | 'directory' | 'symlink', material: boolean) {
+  if (!safeOwner(stat.uid)) throw new Error('Unsafe access owner')
+  const stickyTraversal = kind === 'directory' && !material && stat.uid === 0 && !!(stat.mode & 0o1000)
+  if (kind !== 'symlink' && (stat.mode & 0o6000 || stat.mode & 0o022 && !stickyTraversal)) throw new Error('Unsafe access mode')
+}
+type LocalIdentity = {
+  profile: Record<string, string[]>;
+  users: { names: string[]; uid: number; gid: number; guid: string }[];
+  groups: { names: string[]; gid: number; members: string[]; guids: string[]; nested: string[] }[];
+  userIndex: Record<string, number>; groupIndex: Record<string, number>;
+  credentials: { uid: number; euid: number; gid: number; egid: number; groups: number[] };
+}
+/** Pure diagnostic policy only. Real capabilities acquire every observation internally. */
+export function assertStableAccessIdentity(before: unknown, after: unknown) {
+  if (!Buffer.from(canonicalBytes(before)).equals(Buffer.from(canonicalBytes(after)))) throw new Error('Local identity policy changed')
+}
+export function validateLocalIdentity(value: LocalIdentity, gids: number[]): Map<number, number[]> {
+  const { profile, users, groups, credentials: c } = value
+  if (!c || c.uid !== c.euid || c.gid !== c.egid || !Number.isSafeInteger(c.euid)) throw new Error('Unsupported identity provisioning context')
+  if (Object.keys(profile).sort().join(',') !== 'CSPSearchPath,LSPSearchPath,NSPSearchPath,SearchPolicy' ||
+      profile.SearchPolicy?.join(',') !== 'dsAttrTypeStandard:NSPSearchPath' || ['CSPSearchPath','LSPSearchPath','NSPSearchPath'].some(key => profile[key]?.join(',') !== '/Local/Default')) throw new Error('Unsupported identity source coverage')
+  if (!users.length || !groups.length) throw new Error('Missing identity observations')
+  const names = new Map<string, number>(), guids = new Map<string, number>(), uids = new Set<number>()
+  for (const user of users) {
+    if (!user.names.length || !user.guid || uids.has(user.uid) || guids.has(user.guid)) throw new Error('Ambiguous user identity')
+    uids.add(user.uid); guids.set(user.guid, user.uid)
+    for (const name of user.names) { if (names.has(name)) throw new Error('Ambiguous user name'); names.set(name, user.uid) }
+  }
+  if (!uids.has(0) || !uids.has(c.euid)) throw new Error('Missing trusted principal records')
+  if (users.find(user=>user.uid===c.euid)?.gid !== c.egid) throw new Error('Contradictory primary-group observation')
+  const checkIndex = (index: Record<string, number>, records: { names: string[] }[], mapping: Map<string, number>) => {
+    if (Object.keys(index).length !== records.length || records.some(record => record.names.filter(name => Object.hasOwn(index,name)).length !== 1)) throw new Error('Incomplete identity enumeration')
+    for (const [name,id] of Object.entries(index)) if (mapping.get(name) !== id) throw new Error('Inconsistent identity enumeration')
+  }
+  checkIndex(value.userIndex, users, names)
+  const groupNames = new Map<string, number>()
+  for (const group of groups) for (const name of group.names) { if (groupNames.has(name)) throw new Error('Ambiguous group name'); groupNames.set(name, group.gid) }
+  checkIndex(value.groupIndex, groups, groupNames)
+  const result = new Map<number, number[]>()
+  for (const gid of gids) {
+    const matching = groups.filter(group => group.gid === gid), principals = new Set(users.filter(user => user.gid === gid).map(user => user.uid))
+    if (!matching.length) throw new Error('Missing GID records')
+    for (const group of matching) {
+      if (group.nested.length) throw new Error('Unsupported nested membership')
+      const byName = group.members.map(name => { const uid = names.get(name); if (uid === undefined) throw new Error('Unresolved name membership'); return uid }).sort((a,b)=>a-b)
+      const byGuid = group.guids.map(guid => { const uid = guids.get(guid); if (uid === undefined) throw new Error('Unresolved GUID membership'); return uid }).sort((a,b)=>a-b)
+      if (new Set(byName).size !== byName.length || new Set(byGuid).size !== byGuid.length || byName.join(',') !== byGuid.join(',')) throw new Error('Name/GUID membership mismatch')
+      for (const uid of byName) principals.add(uid)
+    }
+    if ([...principals].some(uid => uid !== 0 && uid !== c.euid) || c.groups.includes(gid) && !principals.has(c.euid)) throw new Error('Untrusted or contradictory group principal')
+    result.set(gid, [...principals].sort((a,b)=>a-b))
+  }
+  return result
+}
+/** Deliberately limited plist grammar: no DTD fetching, entities, executable parsing or coercion. */
+export function parseIdentityPlist(input: string): unknown {
+  const declaration = '<?xml version="1.0" encoding="UTF-8"?>', doctype = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
+  let source = input.trim()
+  if (!source.startsWith(declaration)) throw new Error('Missing identity plist declaration')
+  source = source.slice(declaration.length).trimStart()
+  if (!source.startsWith(doctype)) throw new Error('Unknown identity plist declaration')
+  source = source.slice(doctype.length).trimStart()
+  const tokens = source.match(/<[^>]*>|[^<]+/g) ?? []; let at = 0
+  const skip = () => { while (tokens[at] && /^\s+$/.test(tokens[at])) at++ }
+  const take = (expected: string) => { skip(); if (tokens[at++] !== expected) throw new Error('Malformed identity plist') }
+  const string = (tag: string) => { take(`<${tag}>`); let value = ''; while (tokens[at] && !tokens[at].startsWith('<')) value += tokens[at++]; take(`</${tag}>`); if (/&(?!amp;|lt;|gt;|quot;|apos;)/.test(value)) throw new Error('Unknown identity entity'); return value.replace(/&(amp|lt|gt|quot|apos);/g, (_, key: string) => ({amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"})[key]!) }
+  const parse = (depth: number): unknown => {
+    if (depth > 5) throw new Error('Identity plist nesting bound')
+    skip(); const token = tokens[at]
+    if (token === '<string>') return string('string')
+    if (token === '<array/>') { at++; return [] }
+    if (token === '<array>') { at++; const values = []; while ((skip(), tokens[at]) !== '</array>') { if (at >= tokens.length) throw new Error('Truncated identity plist'); values.push(parse(depth+1)) } at++; return values }
+    if (token === '<dict>') { at++; const value: Record<string, unknown> = Object.create(null); while ((skip(), tokens[at]) !== '</dict>') { const key = string('key'); if (Object.hasOwn(value,key)) throw new Error('Duplicate identity field'); value[key] = parse(depth+1) } at++; return value }
+    throw new Error('Unknown identity plist value')
+  }
+  take('<plist version="1.0">'); const value = parse(0); take('</plist>'); skip(); if (at !== tokens.length) throw new Error('Trailing identity plist data'); return value
+}
+async function acquireLocalIdentity(environment: NodeJS.ProcessEnv): Promise<LocalIdentity> {
+  if (process.platform !== 'darwin' || !process.geteuid || !process.getuid || !process.getgid || !process.getegid || !process.getgroups) throw new Error('Unsupported local identity profile')
+  // Bootstrap this resolver using root/current-owned, non-group-writable paths before any exception.
+  const native = await captureTrustedNativeFiles([{name:'runtime/identity-resolver',path:'/usr/bin/dscl'}])
+  await inspectAccess(native.physical, environment)
+  const args = [
+    ['-plist','/Search','-read','/','SearchPolicy','CSPSearchPath','NSPSearchPath','LSPSearchPath'],
+    ['-plist','/Local/Default','-readall','/Users','UniqueID','GeneratedUID','PrimaryGroupID','RecordName'],
+    ['-plist','/Local/Default','-readall','/Groups','PrimaryGroupID','GroupMembership','GroupMembers','NestedGroups','RecordName'],
+    ['/Local/Default','-list','/Users','UniqueID'], ['/Local/Default','-list','/Groups','PrimaryGroupID'],
+  ]
+  const outputs = await Promise.all(args.map(async argv => { const result = await exec('/usr/bin/dscl',argv,{env:environment,timeout:10000,maxBuffer:4*1024*1024}); if (result.stderr) throw new Error('Identity resolver error'); return result.stdout }))
+  const record = (raw: unknown): Record<string,string[]> => {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('Invalid identity record')
+    const result: Record<string,string[]> = Object.create(null)
+    for (const [key,value] of Object.entries(raw)) { if (!key.startsWith('dsAttrTypeStandard:') || !Array.isArray(value) || value.some(item=>typeof item!=='string')) throw new Error('Invalid identity field'); result[key.slice(19)] = value }
+    return result
+  }
+  const number = (value: string | undefined) => { if (!value || !/^-?\d+$/.test(value) || !Number.isSafeInteger(Number(value))) throw new Error('Invalid numeric identity'); return Number(value) }
+  const one = (value: string[] | undefined) => { if (value?.length !== 1) throw new Error('Ambiguous identity value'); return value[0] }
+  const records = (source: string) => { const raw = parseIdentityPlist(source); if (!Array.isArray(raw) || !raw.length) throw new Error('Missing identity records'); return raw.map(record) }
+  const index = (source: string) => { const result: Record<string,number> = Object.create(null); for (const line of source.trim().split('\n')) { const match = /^(\S+)\s+(-?\d+)$/.exec(line); if (!match || Object.hasOwn(result,match[1])) throw new Error('Invalid identity index'); result[match[1]]=number(match[2]) } return result }
+  return { profile:record(parseIdentityPlist(outputs[0])), users:records(outputs[1]).map(value=>({names:value.RecordName,uid:number(one(value.UniqueID)),gid:number(one(value.PrimaryGroupID)),guid:one(value.GeneratedUID)})),
+    groups:records(outputs[2]).map(value=>({names:value.RecordName,gid:number(one(value.PrimaryGroupID)),members:value.GroupMembership??[],guids:value.GroupMembers??[],nested:value.NestedGroups??[]})),
+    userIndex:index(outputs[3]),groupIndex:index(outputs[4]),credentials:{uid:process.getuid(),euid:process.geteuid(),gid:process.getgid(),egid:process.getegid(),groups:process.getgroups().sort((a,b)=>a-b)} }
+}
+
+async function recheckAccess(evidence: AccessEvidence) {
+  for (const [path, pin] of evidence.pins) {
+    const now = await lstat(path, {bigint:true})
+    if (String(now.dev) !== pin.dev || String(now.ino) !== pin.ino || Number(now.mode) !== pin.mode || Number(now.uid) !== pin.uid || Number(now.gid) !== pin.gid) throw new Error('Trusted access identity changed')
+  }
+}
+async function inspectAccess(material: Map<string, string>, environment: NodeJS.ProcessEnv): Promise<AccessEvidence> {
+  const paths = new Set<string>(), materialPaths = new Set(material.keys())
+  for (const full of material.keys()) for (const start of [full, await realpath(full)]) for (let path = start; ; path = dirname(path)) { if (paths.has(path)) break; paths.add(path); if (dirname(path) === path) break }
+  const pins: AccessEvidence['pins'] = new Map(), files = new Set<string>(), writableGroups = new Set<number>()
+  for (const path of paths) {
+    if (/[\x00-\x1f\x7f]/.test(path)) throw new Error('Unsupported access path')
+    const raw = await lstat(path, {bigint:true})
+    const st = { dev:String(raw.dev),ino:String(raw.ino),mode:Number(raw.mode),uid:Number(raw.uid),gid:Number(raw.gid),isFile:()=>raw.isFile(),isDirectory:()=>raw.isDirectory(),isSymbolicLink:()=>raw.isSymbolicLink() }
+    if (!safeOwner(st.uid) || !(st.isFile() || st.isDirectory() || st.isSymbolicLink())) throw new Error(`Unsafe access owner/type: ${path}`)
+    // Symlink mode is not writable target authority; its parent and resolved target are inspected.
+    const groupAncestor = st.isDirectory() && !materialPaths.has(path) && !!(st.mode & 0o020) && !(st.uid === 0 && st.mode & 0o1000)
+    if (groupAncestor) writableGroups.add(st.gid)
+    try { validateAccessMode({ uid: st.uid, mode: groupAncestor ? st.mode & ~0o020 : st.mode }, st.isSymbolicLink() ? 'symlink' : st.isDirectory() ? 'directory' : 'file', materialPaths.has(path)) } catch (error) { throw new Error(`${(error as Error).message}: ${path}`) }
+    // Every traversed symlink and its canonical target ancestry are pinned. Retargeting holds on recheck.
+    pins.set(path, { dev: st.dev, ino: st.ino, mode: st.mode, uid: st.uid, gid: st.gid }); if (st.isFile()) files.add(path)
+  }
+  const identity = writableGroups.size ? await acquireLocalIdentity(environment) : null
+  if (identity) validateLocalIdentity(identity, [...writableGroups])
+  const home = await realpath(userInfo().homedir), ordered = [...paths].sort(compareUtf8)
+  let homeRestriction: AccessEvidence['homeRestriction'] = null
+  // Both argv bytes and entry counts are bounded; the inspector never reads candidate commands/config.
+  for (let i = 0; i < ordered.length;) {
+    const batch: string[] = []; let bytes = 0
+    while (i < ordered.length && batch.length < 128 && bytes + Buffer.byteLength(ordered[i]) < 48 * 1024) { bytes += Buffer.byteLength(ordered[i]); batch.push(ordered[i++]) }
+    if (!batch.length) throw new Error('Access path exceeds argv bound')
+    if (process.platform === 'darwin') {
+      const { stdout, stderr } = await exec('/bin/ls', ['-lde', ...batch], { env: environment, timeout: 10000, maxBuffer: 8 * 1024 * 1024 })
+      if (stderr) throw new Error('Incomplete ACL inspection')
+      homeRestriction = validateDarwinAccess(stdout, batch, home, materialPaths) ?? homeRestriction
+    } else {
+      const acl = await exec('/usr/bin/getfacl', ['--absolute-names', '--skip-base', '--', ...batch], { env: environment, timeout: 10000, maxBuffer: 8 * 1024 * 1024 })
+      assertNoExtendedAccess(acl.stdout,acl.stderr)
+      const regular = batch.filter(path => files.has(path))
+      if (regular.length) { const caps = await exec('/usr/sbin/getcap', ['-n', ...regular], { env: environment, timeout: 10000, maxBuffer: 8 * 1024 * 1024 }); assertNoExtendedAccess(caps.stdout,caps.stderr) }
+    }
+  }
+  if (identity && !Buffer.from(canonicalBytes(identity)).equals(Buffer.from(canonicalBytes(await acquireLocalIdentity(environment))))) throw new Error('Local identity policy changed during capture')
+  const evidence = { identity, pins, homeRestriction }; await recheckAccess(evidence); return evidence
+}
+async function verifyRuntimeBytes(state: CapturePrivate) {
+  const expected = new Map(state.closure.entries.map(entry => [entry.path, entry]))
+  const seeds: { name: string; path: string }[] = []
+  for (const [full, logical] of state.physical) if (logical.startsWith('runtime/')) {
+    const entry = expected.get(logical)
+    if (entry?.state !== 'file') continue
+    const content = await fileBytes(full)
+    if (content.mode !== entry.mode || rawSha256(content.bytes) !== entry.sha256) throw new Error('Trusted runtime changed before inspection')
+    if (nativeDependencies(content.bytes)) seeds.push({ name: logical, path: full })
+  }
+  // Re-resolve native imports without executing changed binaries or trusting stale loader targets.
+  const native = await captureTrustedNativeFiles(seeds)
+  for (const entry of native.entries) if (entry.state === 'file' && JSON.stringify(entry) !== JSON.stringify(expected.get(entry.path))) throw new Error('Trusted native resolution changed')
+  for (const [path, logical] of native.physical) if (state.physical.get(path) !== logical) throw new Error('Trusted native target identity changed')
+  await inspectAccess(new Map([...native.physical, ...[...native.accessPaths].map(path => [path, 'resolution'] as [string, string])]), state.environment)
+}
+
 /** Trusted install files may be hardlinked by pnpm; bytes are rehashed, never trusted from SRI alone. */
 async function fileBytes(path: string) {
-  const before = await lstat(path)
-  if (!before.isFile() || before.isSymbolicLink() || before.size > limit || before.mode & 0o6000 || before.mode & 0o002) throw new Error(`Unsafe trusted file: ${path}`)
+  const before = await lstat(path,{bigint:true})
+  if (!before.isFile() || before.isSymbolicLink() || before.size > limit || before.mode & 0o6022n || !safeOwner(Number(before.uid))) throw new Error(`Unsafe trusted file: ${path}`)
   const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
   try {
-    const st = await handle.stat(); if (st.ino !== before.ino || st.dev !== before.dev || st.size !== before.size) throw new Error('Trusted file replaced')
-    const buffer = Buffer.alloc(st.size); let offset = 0
+    const st = await handle.stat({bigint:true})
+    if (st.ino !== before.ino || st.dev !== before.dev || st.size !== before.size || st.mode !== before.mode || st.uid !== before.uid || st.gid !== before.gid) throw new Error('Trusted file replaced')
+    const buffer = Buffer.alloc(Number(st.size)); let offset = 0
     while (offset < buffer.length) { const r = await handle.read(buffer, offset, buffer.length - offset, offset); if (!r.bytesRead) throw new Error('Trusted file truncated'); offset += r.bytesRead }
     const tail = Buffer.alloc(1); if ((await handle.read(tail, 0, 1, offset)).bytesRead) throw new Error('Trusted file grew')
-    const after = await handle.stat(), current = await lstat(path)
-    if (after.mtimeMs !== st.mtimeMs || after.ctimeMs !== st.ctimeMs || current.ino !== st.ino || current.dev !== st.dev || current.isSymbolicLink()) throw new Error('Trusted file changed')
-    return { bytes: Uint8Array.from(buffer), mode: (st.mode & 0o111 ? '100755' : '100644') as '100755' | '100644' }
+    const after = await handle.stat({bigint:true}), current = await lstat(path,{bigint:true})
+    if (after.mtimeNs !== st.mtimeNs || after.ctimeNs !== st.ctimeNs || current.ino !== st.ino || current.dev !== st.dev || current.isSymbolicLink()) throw new Error('Trusted file changed')
+    return { bytes: Uint8Array.from(buffer), mode: (st.mode & 0o111n ? '100755' : '100644') as '100755' | '100644' }
   } finally { await handle.close() }
 }
 async function gitBytes(binary: string, root: string, args: string[], env: NodeJS.ProcessEnv, input?: string): Promise<Buffer> {
@@ -194,7 +417,7 @@ export interface CaptureOptions {
 export interface TrustedToolsetCapture extends ReturnType<typeof bindClosure> {
   readonly root: string
 }
-type CapturePrivate = { rootIdentity: { dev: number; ino: number }; gitVersion: string; flags: string[]; sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
+type CapturePrivate = { access: AccessEvidence; rootIdentity: { dev: number; ino: number }; gitVersion: string; flags: string[]; sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
 const captures = new WeakMap<TrustedToolsetCapture, CapturePrivate>()
 async function captureRepository(root: string, commit: string, git: string, env: NodeJS.ProcessEnv, entries: Map<string, ClosureEntry>, physical: Map<string, string>) {
   const all = await tree(git, root, commit, env), selected = [...all.values()].filter(e => protectedToolsetPath(e.path)), blobs = await blobObjects(git, root, selected, env)
@@ -286,7 +509,7 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
   for (const pkg of packageRoots) await walk(pkg.physical, async (suffix, stat) => {
     const full = join(pkg.physical, suffix), path = `${pkg.logical}/${suffix}`
     if (stat.isSymbolicLink()) { links.push({ path, physical: full }); return false }
-    if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); return }
+    if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); physical.set(full, path); return }
     if (!stat.isFile()) throw new Error('Unsupported installed file type')
     const content = await fileBytes(full); entries.set(path, fileEntry(path, content.bytes, content.mode)); physical.set(full, path)
     if (nativeDependencies(content.bytes)) nativeTargets.push({ name: path, path: full })
@@ -321,7 +544,7 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   const root = await realpath(options.root), flags = options.flags ?? process.execArgv, environment = await trustedLauncherEnvironment(root, options.cwd ?? process.cwd(), options.environment ?? process.env, flags)
   const rootIdentity = await lstat(root)
   const entries = new Map<string, ClosureEntry>(), physical = new Map<string, string>()
-  const { git, resolutions: runtimeResolutions, hostExclusions } = await captureRuntime(entries, physical, environment)
+  const { git, resolutions: runtimeResolutions, hostExclusions, accessPaths } = await captureRuntime(entries, physical, environment)
   const { all } = await captureRepository(root, options.commit, git, environment, entries, physical)
   const resolutions: ExecutableClosure['resolutions'] = runtimeResolutions
   const { locators, mapPhysical, nativeTargets } = await captureDependencies(root, all, entries, physical, resolutions)
@@ -354,25 +577,38 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(target)?.state !== 'file') throw new Error('Unmeasured loader target')
     resolutions.push({ ...request, target })
   }
+  entries.set('runtime/launch/guides-worker.cjs', fileEntry('runtime/launch/guides-worker.cjs', guidesWorker, '100644')); addDirectories(entries, 'runtime/launch/guides-worker.cjs')
+  if (!all.has(guidesWorkerModule)) entries.set(`repo/${guidesWorkerModule}`, { path: `repo/${guidesWorkerModule}`, state: 'absent' })
+  else for (const target of ['scripts/lib/load-typescript.js', 'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts', guidesWorkerModule]) {
+    if (entries.get(`repo/${target}`)?.state !== 'file') throw new Error('Fixed Guides worker dependency is unavailable')
+    resolutions.push({ from: 'runtime/launch/guides-worker.cjs', specifier: target === guidesWorkerModule ? `${target}#collectGuidesWorker` : target, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${target}` })
+  }
   const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
   const result = { ...bindClosure(closure, { kind: 'shared-update-toolset', schemaVersion: 1, runtime: { name: 'node', version: process.version, platform: process.platform, architecture: process.arch }, flags: [...flags], environment: ['LANG', 'LC_ALL', 'TZ'].map(name => ({ name, value: environment[name]! })), dependencies: locators.map(p => ({ name: p.name, version: p.version, integrity: p.integrity, resolvedPath: p.root })).sort((a, b) => compareUtf8(a.resolvedPath, b.resolvedPath)) }), root }
   const currentRoot = await lstat(root)
   if (!currentRoot.isDirectory() || currentRoot.ino !== rootIdentity.ino || currentRoot.dev !== rootIdentity.dev) throw new Error('Trusted root identity changed during capture')
+  const access = await inspectAccess(new Map([...physical, ...[...accessPaths, ...native.accessPaths].map(path => [path, 'resolution'] as [string, string])]), environment)
   const gitVersion = (await exec(git, ['--version'], { env: environment, timeout: 10000 })).stdout.trim()
-  captures.set(result, { rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
+  captures.set(result, { access, rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
 export async function verifyTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value), root = await lstat(state.options.root)
   if (!root.isDirectory() || root.isSymbolicLink() || root.ino !== state.rootIdentity.ino || root.dev !== state.rootIdentity.dev) throw new Error('Trusted root identity changed')
+  await recheckAccess(state.access)
+  await verifyRuntimeBytes(state)
   const fresh = await captureTrustedToolset(state.options)
   if (fresh.root !== state.options.root || fresh.toolsetSha256 !== state.sha256) throw new Error('Trusted executable closure changed')
+  assertStableAccessIdentity(state.access.identity, captured(fresh).access.identity)
+  if (JSON.stringify(state.access.homeRestriction) !== JSON.stringify(captured(fresh).access.homeRestriction)) throw new Error('Ancestor ACL changed')
 }
 export async function compareCandidateToolset(value: TrustedToolsetCapture, candidate: { root: string; commit: string; dataPaths: string[] }) {
-  const state = captured(value), actual = await tree(state.git, await realpath(candidate.root), candidate.commit, state.environment)
+  const state = captured(value)
+  await recheckAccess(state.access); await verifyRuntimeBytes(state)
+  const actual = await tree(state.git, await realpath(candidate.root), candidate.commit, state.environment)
   // dataPaths must come from the authenticated provider's exact ownership inventory, never a request.
   const data = new Set(candidate.dataPaths.map(p => RepoPathSchema.parse(p)))
   for (const path of new Set([...state.tree.keys(), ...actual.keys()])) {
@@ -388,6 +624,8 @@ export async function authorizeTrustedResolution(value: TrustedToolsetCapture, r
   const edge = state.closure.resolutions.find(r => tupleCompare(resolutionKey(r), resolutionKey(request)) === 0)
   const target = await realpath(physicalTarget)
   if (!edge || edge.target !== request.target || state.physical.get(target) !== edge.target) throw new Error('Unknown dynamic executable edge')
+  await recheckAccess(state.access); await verifyRuntimeBytes(state)
+  await inspectAccess(new Map([[target, edge.target]]), state.environment)
   const entry = state.closure.entries.find(e => e.path === edge.target), bytes = await fileBytes(target)
   if (entry?.state !== 'file' || entry.mode !== bytes.mode || entry.sha256 !== rawSha256(bytes.bytes) || entry.bytes !== bytes.bytes.length) throw new Error('Loaded executable bytes changed')
 }
@@ -436,8 +674,8 @@ export function nativeDependencies(input: Uint8Array, platform = process.platfor
   if (!load) throw new Error('Missing ELF string table'); const base = load.offset + table - load.address
   return { needed: neededOffsets.map(o => string(base + o, base + size)), rpaths: pathOffsets.flatMap(o => string(base + o, base + size).split(':')) }
 }
-const darwinSystemLibraries = new Set(['libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib', 'libbz2.1.0.dylib', 'liblzma.5.dylib', 'libcrypto.44.dylib', 'libssl.46.dylib', 'libedit.3.dylib', 'libffi.dylib', 'libpanel.5.4.dylib'])
-const darwinFrameworks = new Set(['CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit', 'CFNetwork', 'CoreGraphics', 'CoreText', 'Tcl', 'Tk'])
+const darwinSystemLibraries = new Set(['libutil.dylib', 'libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib', 'libbz2.1.0.dylib', 'liblzma.5.dylib', 'libcrypto.44.dylib', 'libssl.46.dylib', 'libedit.3.dylib', 'libffi.dylib', 'libpanel.5.4.dylib'])
+const darwinFrameworks = new Set(['DirectoryService', 'CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit', 'CFNetwork', 'CoreGraphics', 'CoreText', 'Tcl', 'Tk'])
 function systemLibrary(path: string) {
   if (process.platform === 'darwin') {
     if (dirname(path) === '/usr/lib' && darwinSystemLibraries.has(basename(path))) return true
@@ -450,6 +688,7 @@ function systemLibrary(path: string) {
 async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<string, string>, environment: NodeJS.ProcessEnv) {
   const node = await realpath(process.execPath), binaries = new Map<string, string>([['runtime/node', node]])
   const resolutions: ExecutableClosure['resolutions'] = []
+  for (const [name, path] of accessInspectors()) { binaries.set(name, path); resolutions.push({ from: 'runtime/node', specifier: name, kind: 'binary', conditions: [], target: name }) }
   let git = '/usr/bin/git'
   if (process.platform === 'darwin') {
     binaries.set('runtime/git-resolver', '/usr/bin/xcrun'); binaries.set('runtime/git-shim', '/usr/bin/git')
@@ -459,10 +698,15 @@ async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<
     resolutions.push({ from: 'runtime/git-shim', specifier: 'xcrun', kind: 'binary', conditions: [], target: 'runtime/git-resolver' })
   } else if (process.platform !== 'linux') throw new Error('Unsupported trusted runtime platform')
   git = await realpath(git); binaries.set('runtime/git', git)
+  if (process.platform === 'darwin') {
+    const profile = '/Library/Preferences/OpenDirectory/Configurations/Search.plist', content = await fileBytes(profile), logical = 'runtime/identity-profile/Search.plist'
+    entries.set(logical, fileEntry(logical, content.bytes, content.mode)); physical.set(profile, logical); addDirectories(entries, logical)
+    resolutions.push({ from: 'runtime/identity-resolver', specifier: 'trusted-local-principal-v1/search-configuration', kind: 'loader', conditions: [], target: logical })
+  }
   const native = await captureTrustedNativeFiles([...binaries].map(([name, path]) => ({ name, path })))
   for (const entry of native.entries) entries.set(entry.path, entry)
   for (const [full, path] of native.physical) physical.set(full, path)
-  return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions }
+  return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions, accessPaths: native.accessPaths }
 }
 
 /** Internal bootstrap inventory only; this result is material, never a trusted-capture capability. */
@@ -471,6 +715,7 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
   const entries = new Map<string, ClosureEntry>(), physical = new Map<string, string>(), hostExclusions: string[] = []
   const resolutions: ExecutableClosure['resolutions'] = []
   const binaries = new Map(seeds.map(s => [logical.parse(s.name), s.path]))
+  const accessPaths = new Set<string>(seeds.map(seed => seed.path))
   const visited = new Set<string>(), logicalByPhysical = new Map([...binaries].map(([name, path]) => [path, name]))
   const pending = [...binaries].map(([name, path]) => ({ name, path, inherited: [] as string[], executable: '' }))
   while (pending.length) {
@@ -495,7 +740,7 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
           try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; if (process.platform !== 'darwin') continue }
           trustedSystem = true; break
         }
-        try { resolved = await realpath(choice); break } catch (e) { if (!absent(e)) throw e }
+        try { resolved = await realpath(choice); accessPaths.add(choice); break } catch (e) { if (!absent(e)) throw e }
       }
       if (trustedSystem) { hostExclusions.push(choices.find(systemLibrary)!); continue }
       if (!resolved) throw new Error(`Missing non-system runtime dependency: ${dependency}`)
@@ -506,14 +751,22 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       pending.push({ name, path: resolved, inherited: search, executable })
     }
   }
-  return { entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), physical, resolutions, hostExclusions }
+  return { entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), physical, resolutions, hostExclusions, accessPaths }
 }
 
 
 /** Transaction-local provenance; absolute paths never enter semantic closure bytes. */
 export function describeTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value)
-  return { root: state.options.root, commit: state.options.commit, git: state.git, gitVersion: state.gitVersion, runtime: [...state.physical].filter(([, path]) => path.startsWith('runtime/')).map(([physical, path]) => ({ path, physical })), hostExclusions: [...state.hostExclusions] }
+  return { access: { inspected: state.access.pins.size, identity: state.access.identity ? { policy: 'trusted-local-principal-v1', source: '/Local/Default', users: state.access.identity.users.length, groupRecords: state.access.identity.groups.length } : null, homeRestriction: state.access.homeRestriction, inspectors: accessInspectors().map(([name, path]) => ({ name, path })) }, root: state.options.root, commit: state.options.commit, git: state.git, gitVersion: state.gitVersion, runtime: [...state.physical].filter(([, path]) => path.startsWith('runtime/')).map(([physical, path]) => ({ path, physical })), hostExclusions: [...state.hostExclusions] }
+}
+
+/** Persist private validation observations only through the capability-owned 0600 blob store. */
+export async function retainTrustedAccessEvidence(value: TrustedToolsetCapture, evidence: EvidenceStore): Promise<BlobRef> {
+  await verifyTrustedToolset(value)
+  const state = captured(value)
+  return writeOwnedBlob(evidence, canonicalBytes({ kind: 'shared-update-access-validation', schemaVersion: 1, policy: 'trusted-local-principal-v1', commit: state.options.commit, toolsetSha256: state.sha256,
+    identity: state.access.identity, homeRestriction: state.access.homeRestriction, paths: [...state.access.pins].sort(([a],[b])=>compareUtf8(a,b)).map(([path,pin])=>({path,...pin})) }))
 }
 
 const pythonWrapper = Buffer.from('#!/bin/sh\nexec "${0%/*}/python-real" -I -S -B "$@"\n')
@@ -541,12 +794,13 @@ async function capturePython(entries: Map<string, ClosureEntry>, physical: Map<s
   const prefix = dirname(dirname(binary)), stdlib = join(prefix, 'lib', `python${version}`)
   if (await realpath(stdlib) !== stdlib) throw new Error('Aliased Python standard library')
   nativeTargets.push({ name: 'runtime/python3', path: binary }); physical.set(binary, 'runtime/python3')
+  physical.set(stdlib, 'runtime/python-stdlib')
   entries.set('runtime/python-stdlib', { path: 'runtime/python-stdlib', state: 'directory', mode: '040000' })
   const links: { path: string; full: string }[] = []
   await walk(stdlib, async (suffix, stat) => {
     if (suffix === 'site-packages' || suffix === 'dist-packages') return false // -S excludes site initialization and .pth execution.
     const full = join(stdlib, suffix), path = `runtime/python-stdlib/${suffix}`
-    if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); return }
+    if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); physical.set(full, path); return }
     if (stat.isSymbolicLink()) { links.push({ path, full }); return false }
     const content = await fileBytes(full); entries.set(path, fileEntry(path, content.bytes, content.mode)); physical.set(full, path)
     if (nativeDependencies(content.bytes)) nativeTargets.push({ name: path, path: full })
@@ -578,24 +832,74 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     await owned.verify(); await symlink(target, join(owned.root, name)); links.set(name, target); await owned.verify()
   }
   if (targets.has('runtime/python3')) { await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
+  await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
   const environment = { ...state.environment, PATH: owned.root }
   async function verifyLauncher() {
     await owned.verify()
-    const expected = [...links.keys(), ...(targets.has('runtime/python3') ? ['python3'] : [])].sort(compareUtf8)
+    const expected = ['guides-worker.cjs', ...links.keys(), ...(targets.has('runtime/python3') ? ['python3'] : [])].sort(compareUtf8)
     if ((await readdir(owned.root)).sort(compareUtf8).join('\0') !== expected.join('\0')) throw new Error('Launcher inventory changed')
+    const worker = await fileBytes(join(owned.root, 'guides-worker.cjs')); if (worker.mode !== '100644' || !Buffer.from(worker.bytes).equals(guidesWorker)) throw new Error('Launcher worker changed')
     for (const [name, target] of links) if (await readlink(join(owned.root, name)) !== target || await realpath(join(owned.root, name)) !== target) throw new Error('Launcher target changed')
     if (targets.has('runtime/python3')) { const actual = await fileBytes(join(owned.root, 'python3')); if (actual.mode !== '100755' || !Buffer.from(actual.bytes).equals(pythonWrapper)) throw new Error('Launcher wrapper changed') }
+    await inspectAccess(new Map([[owned.root, 'launcher'], ...expected.map(name => [join(owned.root, name), 'launcher'] as [string, string])]), state.environment)
     await owned.verify()
   }
   return {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
+    async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}) {
+      if (state.closure.entries.find(e => e.path === `repo/${guidesWorkerModule}`)?.state !== 'file') throw new Error('Fixed Guides worker module is missing')
+      if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
+      const input = canonicalBytes(data)
+      if (input.length > workerLimit) throw new Error('Guides worker input exceeds byte bound')
+      await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
+      return invokeGuidesWorker(targets.get('runtime/node')!, [...state.flags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input)
+    },
     async run(script: string, args: string[], secrets: { GH_TOKEN?: string } = {}) {
       RepoPathSchema.parse(script)
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       if (state.closure.entries.find(e => e.path === `repo/${script}`)?.state !== 'file' || !/\.[cm]?js$/.test(script)) throw new Error('Child entry is not captured trusted JavaScript')
-      await verifyLauncher(); await verifyTrustedToolset(value); await verifyLauncher()
+      await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
       return exec(targets.get('runtime/node')!, [...state.flags, join(state.options.root, script), ...args], { cwd: state.options.root,
         env: { ...environment, ...secrets }, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: 120_000 })
     },
   }
+}
+
+
+const workerLimit = 32 * 1024 * 1024
+const guidesWorkerModule = 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'
+// The executable text and every module/export choice are fixed policy, never request data.
+const guidesWorker = Buffer.from(`'use strict';
+const fs=require('node:fs'),path=require('node:path');
+(async()=>{
+  const root=process.argv[2],limit=33554432,chunks=[];let total=0;
+  for(;;){const chunk=Buffer.alloc(65536),count=fs.readSync(0,chunk,0,chunk.length,null);if(!count)break;total+=count;if(total>limit)throw Error('Guides worker input exceeds byte bound');chunks.push(chunk.subarray(0,count));}
+  const load=require(path.join(root,'scripts/lib/load-typescript.js')).loadTypeScript;
+  const common=load(path.join(root,'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts'));
+  const data=common.parseStrictJson(Buffer.concat(chunks));
+  const provider=load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'));
+  if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
+  const result=common.canonicalBytes(await provider.collectGuidesWorker(data));
+  if(result.length>limit)throw Error('Guides worker result exceeds byte bound');
+  fs.writeFileSync(3,result);
+})().catch(error=>{console.error(String(error));process.exitCode=1});
+`)
+function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv, input: Uint8Array): Promise<{ value: unknown; stdout: string; stderr: string }> {
+  return new Promise((yes, no) => {
+    const child = spawn(binary, args, { cwd, env: environment, stdio: ['pipe', 'pipe', 'pipe', 'pipe'], detached: true })
+    const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]; let settled = false
+    const fail = (error: Error) => { if (settled) return; settled = true; clearTimeout(timer); if (child.pid) { try { process.kill(-child.pid, 'SIGKILL') } catch {} } no(error) }
+    const timer = setTimeout(() => fail(new Error('Guides worker timeout')), 600_000)
+    for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('data', (bytes: Buffer) => {
+      sizes[i] += bytes.length; if (sizes[i] > workerLimit) fail(new Error('Guides worker output exceeds byte bound')); else output[i].push(bytes)
+    })
+    child.on('error', fail); child.stdin.on('error', fail)
+    child.on('close', code => {
+      if (settled) return
+      clearTimeout(timer); settled = true
+      if (code !== 0) { no(new Error(`Guides worker failed: ${Buffer.concat(output[1]).toString('utf8').slice(0, 4096)}`)); return }
+      try { yes({ value: parseStrictJson(Uint8Array.from(Buffer.concat(output[2]))), stdout: Buffer.concat(output[0]).toString('utf8'), stderr: Buffer.concat(output[1]).toString('utf8') }) } catch (error) { no(error) }
+    })
+    child.stdin.end(input)
+  })
 }

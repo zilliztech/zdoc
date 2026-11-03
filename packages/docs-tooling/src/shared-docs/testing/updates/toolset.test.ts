@@ -1,13 +1,14 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown } from 'node:fs/promises'
+import { load as loadYaml } from 'js-yaml'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { deflateSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess } from '../../adapters/updates/toolset'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -69,6 +70,8 @@ describe('trusted closure capture', () => {
     a.commit = commitAll(a.root)
     const capture = await captureTrustedToolset({ ...a, helpers: ['gh', 'python3'] })
     const evidence = await initializeEvidence({ root: join(a.root, '.claude', 'evidence'), repositories: [a.root], owner: 'launcher' })
+    const proof = await retainTrustedAccessEvidence(capture, evidence)
+    await expect((await import('node:fs/promises')).lstat(join(evidence.root,proof.path)).then(st=>st.mode&0o777)).resolves.toBe(0o600)
     const launcher = await prepareTrustedLauncher(capture, evidence)
     const result = await launcher.run('scripts/worker.cjs', [data])
     expect(result.stdout).toContain('git version'); expect(result.stdout).toContain('gh version'); expect(result.stdout).toContain('1 1 True')
@@ -87,15 +90,61 @@ describe('trusted closure capture', () => {
     const a = await fixture(); await symlink('missing/../docs-tooling.js', join(a.root, 'scripts/dangling.js')); a.commit = commitAll(a.root)
     await expect(captureTrustedToolset(a)).rejects.toThrow()
   })
-  it('accepts and discards pinned pnpm invocation metadata through the actual launcher', async () => {
-    const directory = await realpath(await mkdtemp(join(tmpdir(), 'pnpm-guard-'))), probe = join(directory, 'probe.cjs'), root = process.cwd()
-    await writeFile(probe, `const root=${JSON.stringify(root)}; const api=require(root+'/scripts/lib/load-typescript.js').loadTypeScript(root+'/packages/docs-tooling/src/shared-docs/adapters/updates/toolset.ts'); api.trustedLauncherEnvironment(root,process.cwd()).then(env=>{if(Object.keys(env).some(k=>/^(npm_|pnpm_)/i.test(k)))throw Error('metadata leaked'); console.log('PINNED-PNPM-GUARD-OK')}).catch(e=>{console.error(e);process.exitCode=1});`)
-    const launchEnvironment: NodeJS.ProcessEnv = { ...process.env, GIT_PAGER: '' }
-    delete launchEnvironment.NODE_PATH; delete launchEnvironment.NODE_OPTIONS // Vitest injects loader context; production pnpm does not.
-    const output = execFileSync('pnpm', ['exec', 'node', probe], { cwd: root, env: launchEnvironment, encoding: 'utf8' })
-    expect(output).toContain('PINNED-PNPM-GUARD-OK')
-    const a = await fixture()
-    for (const metadata of [{ PNPM_PACKAGE_NAME: '../escape' }, { npm_config_user_agent: 'pnpm/evil' }, { npm_config_verify_deps_before_run: 'true' }]) await expect(trustedLauncherEnvironment(a.root, a.root, metadata, [])).rejects.toThrow()
+  it('accepts exact pinned pnpm package-script defaults and discards them', async () => {
+    const directory = await realpath(await mkdtemp(join(tmpdir(), 'pnpm-guard-'))), root = process.cwd()
+    await writeFile(join(directory, 'package.json'), JSON.stringify({ name: 'pnpm-guard-fixture', packageManager: 'pnpm@10.33.0', scripts: { probe: 'node probe.cjs' } }))
+    await writeFile(join(directory, 'probe.cjs'), `const source=${JSON.stringify(root)},root=process.cwd(); const api=require(source+'/scripts/lib/load-typescript.js').loadTypeScript(source+'/packages/docs-tooling/src/shared-docs/adapters/updates/toolset.ts'); (async()=>{const env=await api.trustedLauncherEnvironment(root,root);if(Object.keys(env).some(k=>/^(npm_|pnpm_)/i.test(k)))throw Error('metadata leaked');for(const name of ['npm_config_npm_globalconfig','npm_config_globalconfig','npm_config_registry','npm_config__jsr_registry','PNPM_SCRIPT_SRC_DIR','npm_config_dir','npm_config_prefix','npm_config_node_gyp','npm_config_verify_deps_before_run','pnpm_config_verify_deps_before_run']){let rejected=false;try{await api.trustedLauncherEnvironment(root,root,{...process.env,[name]:'injected-override'})}catch{rejected=true}if(!rejected)throw Error('override accepted: '+name)}console.log('PINNED-PNPM-SCRIPT-GUARD-OK')})().catch(e=>{console.error(e);process.exitCode=1});`)
+    // Remove the test runner's inherited manager/loader context. The fresh pnpm *script*
+    // injects its full real defaults again, which the production guard must validate.
+    const launchEnvironment: NodeJS.ProcessEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^(npm_|pnpm_|NODE_PATH$|NODE_OPTIONS$)/i.test(key)))
+    const output = execFileSync('pnpm', ['-C', directory, 'run', 'probe'], { env: launchEnvironment, encoding: 'utf8' })
+    expect(output).toContain('PINNED-PNPM-SCRIPT-GUARD-OK')
+  })
+  it('runs only the fixed Guides TypeScript export with bounded JSON transport', async () => {
+    const a = await fixture(), original = await captureTrustedToolset(a)
+    const missingStore = await initializeEvidence({ root: join(a.root, '.claude', 'missing-worker'), repositories: [a.root], owner: 'missing' })
+    await expect((await prepareTrustedLauncher(original, missingStore)).runGuidesCollector({})).rejects.toThrow(/missing|unavailable/i)
+    const installed = await realpath(join(process.cwd(), 'apps/docs/node_modules/jiti'))
+    const packageJson = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8')), version = packageJson.version as string
+    const installedLock = loadYaml(await readFile(join(process.cwd(), 'pnpm-lock.yaml'), 'utf8')) as any
+    const integrity = installedLock.packages[`jiti@${version}`].resolution.integrity
+    const destination = join(a.root, `node_modules/.pnpm/jiti@${version}/node_modules/jiti`)
+    await cp(installed, destination, { recursive: true, verbatimSymlinks: true })
+    // Keep the original unused installed locator measured too; point the declared loader at the real provisioned copy.
+    const lock = await readFile(join(a.root, 'pnpm-lock.yaml'), 'utf8')
+    await put(a.root, 'pnpm-lock.yaml', lock.replace('jiti: {specifier: 1.0.0, version: 1.0.0}', `jiti: {specifier: ${version}, version: ${version}}`).replace('snapshots:', `  jiti@${version}:\n    resolution: {integrity: ${integrity}}\nsnapshots:`) + `  jiti@${version}: {}\n`)
+    await unlink(join(a.root, 'apps/docs/node_modules/jiti')); await symlink(`../../../node_modules/.pnpm/jiti@${version}/node_modules/jiti`, join(a.root, 'apps/docs/node_modules/jiti'))
+    for (const path of ['scripts/lib/load-typescript.js', 'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts']) await put(a.root, path, await readFile(join(process.cwd(), path), 'utf8'))
+    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `export async function collectGuidesWorker(data: unknown) { console.log('diagnostic chatter'); return {kind:'fixed-guides-fixture',received:data,preload:process.env.NODE_OPTIONS??null,dependency:'fixed-private-dependency'} }`)
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset(a), store = await initializeEvidence({ root: join(a.root, '.claude', 'worker'), repositories: [a.root], owner: 'worker' }), launcher = await prepareTrustedLauncher(capture, store)
+    const data = { module: '/untrusted/evil.ts', export: 'evil', dependencies: { injected: true }, environment: { NODE_OPTIONS: '--import=evil' } }
+    const result = await launcher.runGuidesCollector(data)
+    expect(result.value).toEqual({kind:'fixed-guides-fixture',received:data,preload:null,dependency:'fixed-private-dependency'})
+    expect(result.stdout).toContain('diagnostic chatter')
+    await expect(launcher.runGuidesCollector({ text: 'x'.repeat(32 * 1024 * 1024) })).rejects.toThrow(/bound|large/i)
+  }, 30000)
+  it.skipIf(process.platform !== 'darwin')('validates a group-writable task-owned ancestor and rejects changed access before reuse', async () => {
+    const a = await fixture(), parent = await realpath(await mkdtemp(join(tmpdir(),'access-ancestor-'))), root = join(parent,'repo')
+    await rename(a.root,root); a.root=root; a.cwd=root
+    await chown(parent,process.geteuid!(),80); await chmod(parent,0o775)
+    const capture = await captureTrustedToolset(a)
+    await chmod(parent,0o777)
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow(/access identity|Unsafe/)
+  },30000)
+  it.skipIf(process.platform !== 'darwin')('invalidates a captured handle when task-owned material gains an ACL', async () => {
+    const a=await fixture(), capture=await captureTrustedToolset(a)
+    execFileSync('/bin/chmod',['+a','everyone allow write',join(a.root,'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js')])
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow(/Unsupported ACL access/)
+  },30000)
+  it('holds group-writable installed executable material', async () => {
+    const a = await fixture(); await chmod(join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js'), 0o664)
+    await expect(captureTrustedToolset(a)).rejects.toThrow(/Unsafe|access|writ/i)
+  })
+  it.skipIf(process.platform !== 'darwin')('holds a write-grant ACL on task-owned installed material', async () => {
+    const a = await fixture(), file = join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js')
+    execFileSync('/bin/chmod', ['+a', 'everyone allow write', file])
+    await expect(captureTrustedToolset(a)).rejects.toThrow(/Unsupported ACL access/)
   })
   it('binds modes, repository literal links and absent-to-empty config transitions', async () => {
     const a = await fixture(); const baseline = await captureTrustedToolset(a)
@@ -194,5 +243,64 @@ describe('manifest and launcher contract', () => {
     for (const name of ['NODE_OPTIONS', 'NODE_PATH', 'LD_PRELOAD', 'DYLD_INSERT_LIBRARIES', 'npm_config_userconfig', 'DEVELOPER_DIR', 'SDKROOT', 'GIT_EXEC_PATH', 'PYTHONPATH', 'PYTHONHOME']) await expect(trustedLauncherEnvironment(a.root, a.root, { [name]: 'bad' }, [])).rejects.toThrow()
     await expect(trustedLauncherEnvironment(a.root, dirname(a.root), {}, [])).rejects.toThrow()
     await expect(trustedLauncherEnvironment(a.root, a.root, {}, ['--import=evil'])).rejects.toThrow()
+  })
+})
+
+describe('strict access inspector evidence', () => {
+  it('permits only the exact home ancestor restriction and rejects application ACLs', () => {
+    const header = 'drwxr-x---+ 1 user staff 1 Nov 3 00:00 /home/user\n'
+    const restriction = header + ' 0: group:everyone deny delete\n'
+    expect(validateDarwinAccess(restriction, ['/home/user'], '/home/user', new Set())).toEqual({path:'/home/user',ace:'group:everyone deny delete'})
+    for (const output of [header + ' 0: group:everyone allow write\n', header + ' 0: unknown syntax\n', restriction + ' 1: group:everyone deny write\n']) expect(() => validateDarwinAccess(output, ['/home/user'], '/home/user', new Set())).toThrow(/ACL/)
+    expect(() => validateDarwinAccess(restriction, ['/home/user'], '/other/home', new Set())).toThrow(/ACL/)
+    expect(() => validateDarwinAccess(restriction, ['/home/user'], '/home/user', new Set(['/home/user']))).toThrow(/ACL/)
+  })
+  it('rejects unsafe ownership and writable ancestry, allowing root sticky traversal only', () => {
+    expect(() => validateAccessMode({uid:0,mode:0o1777}, 'directory', false)).not.toThrow()
+    expect(() => validateAccessMode({uid:0,mode:0o1777}, 'directory', true)).toThrow(/mode/)
+    expect(() => validateAccessMode({uid:process.getuid!(),mode:0o775}, 'directory', false)).toThrow(/mode/)
+    expect(() => validateAccessMode({uid:4294967294,mode:0o755}, 'directory', false)).toThrow(/owner/)
+    expect(() => validateAccessMode({uid:0,mode:0o4755}, 'file', true)).toThrow(/mode/)
+  })
+  it('parses only complete exact headers and ordered ACL evidence', () => {
+    expect(parseDarwinAccess('drwxr-x---+ 1 user staff 1 Nov 3 00:00 /home/user\n 0: group:everyone deny delete\n', ['/home/user']).get('/home/user')).toEqual(['group:everyone deny delete'])
+    expect(parseDarwinAccess('lrwxr-xr-x 1 user staff 1 Nov 3 00:00 /owned/git -> /system/git\n', ['/owned/git']).get('/owned/git')).toEqual([])
+    expect(() => parseDarwinAccess('', ['/expected'])).toThrow(/Missing/)
+    expect(() => parseDarwinAccess('drwxr-x---+ 1 user staff 1 Nov 3 00:00 /home/user\n', ['/home/user'])).toThrow(/Missing/)
+    expect(() => parseDarwinAccess('unknown ACL syntax', ['/expected'])).toThrow(/Unknown/)
+    expect(() => parseDarwinAccess('drwxr-x---+ 1 user staff 1 Nov 3 00:00 /home/user\n 1: group:everyone deny delete\n', ['/home/user'])).toThrow(/syntax/)
+  })
+})
+
+describe('trusted local identity policy', () => {
+  it('rejects truncated, ambiguous or executable identity plist input', () => {
+    const prefix = '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0">'
+    expect(parseIdentityPlist(prefix+'<array><string>root</string></array></plist>')).toEqual(['root'])
+    for (const suffix of ['<array>', '<dict><key>a</key><array/><key>a</key><array/></dict></plist>', '<array><string>&external;</string></array></plist>']) expect(()=>parseIdentityPlist(prefix+suffix)).toThrow()
+  })
+  const snapshot = () => ({ profile: { SearchPolicy:['dsAttrTypeStandard:NSPSearchPath'], CSPSearchPath:['/Local/Default'], NSPSearchPath:['/Local/Default'], LSPSearchPath:['/Local/Default'] }, users:[{names:['root'],uid:0,gid:0,guid:'ROOT'},{names:['current'],uid:501,gid:20,guid:'CURRENT'}], groups:[{names:['writers'],gid:80,members:['root','current'],guids:['ROOT','CURRENT'],nested:[]}], userIndex:{root:0,current:501},groupIndex:{writers:80},credentials:{uid:501,euid:501,gid:20,egid:20,groups:[20,80]} })
+  it('supports only independently complete local records for root/current principals', () => {
+    expect(validateLocalIdentity(snapshot(), [80]).get(80)).toEqual([0,501])
+    expect(()=>assertNoExtendedAccess('/fixture/node cap_dac_override=ep','')).toThrow(/capability/)
+    expect(()=>assertNoExtendedAccess('','inspector failed')).toThrow(/access/)
+    const changed=snapshot(); changed.groups[0].members=['root']; changed.groups[0].guids=['ROOT']; changed.credentials.groups=[20]
+    expect(validateLocalIdentity(changed,[80]).get(80)).toEqual([0]); expect(()=>assertStableAccessIdentity(snapshot(),changed)).toThrow(/changed/)
+    const relocated = snapshot(); relocated.users[1].uid=502; relocated.userIndex.current=502; relocated.credentials.uid=502; relocated.credentials.euid=502
+    expect(validateLocalIdentity(relocated,[80]).get(80)).toEqual([0,502])
+  })
+  it('holds extra explicit/primary/duplicate-GID writers and inconsistent representations', () => {
+    for (const variant of ['explicit','primary','duplicate','mismatch','nested','network','missing','index','credentials']) {
+      const input = snapshot()
+      if (['explicit','primary','duplicate'].includes(variant)) { input.users.push({names:['extra'],uid:900,gid:variant==='primary'?80:20,guid:'EXTRA'}); Object.assign(input.userIndex,{extra:900}) }
+      if (variant==='explicit') { input.groups[0].members.push('extra'); input.groups[0].guids.push('EXTRA') }
+      if (variant==='duplicate') { input.groups.push({names:['alias'],gid:80,members:['extra'],guids:['EXTRA'],nested:[]}); Object.assign(input.groupIndex,{alias:80}) }
+      if (variant==='mismatch') input.groups[0].guids=['ROOT']
+      if (variant==='nested') input.groups[0].nested=['OTHER-GROUP']
+      if (variant==='network') input.profile.NSPSearchPath.push('/LDAPv3/network')
+      if (variant==='missing') input.groups=[]
+      if (variant==='index') input.userIndex.current=999
+      if (variant==='credentials') input.credentials.uid=0
+      expect(() => validateLocalIdentity(input,[80]),variant).toThrow()
+    }
   })
 })

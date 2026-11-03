@@ -1,22 +1,23 @@
-import { constants, type Stats } from 'node:fs'
+import { constants, type BigIntStats } from 'node:fs'
 import { lstat, mkdir, open, readdir, realpath, rename } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { createHash, randomUUID } from 'node:crypto'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { BlobRefSchema, RepoPathSchema, validateBlobBytes, type BlobRef } from '../../core/updates/envelope'
-import { gitMetadataDirectories } from './git'
 
 const within = (root: string, path: string) => { const r = relative(root, path); return r === '' || r !== '..' && !r.startsWith(`..${sep}`) && !isAbsolute(r) }
-const same = (a: { dev: number; ino: number }, b: { dev: number; ino: number }) => a.dev === b.dev && a.ino === b.ino
+export const sameFilesystemIdentity = (a: { dev: bigint; ino: bigint }, b: { dev: bigint; ino: bigint }) => typeof a.dev === 'bigint' && typeof a.ino === 'bigint' && a.dev === b.dev && a.ino === b.ino
+const same = sameFilesystemIdentity
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === 'ENOENT'
+const identityStat = (path: string) => lstat(path, {bigint:true})
 export const rawSha256 = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 
 /** Reject spelling aliases as well as physical aliases, even on case-sensitive hosts. */
-export async function checkedAncestors(path: string): Promise<{ path: string; dev: number; ino: number }[]> {
-  const result: { path: string; dev: number; ino: number }[] = []
+export async function checkedAncestors(path: string): Promise<{ path: string; dev: bigint; ino: bigint }[]> {
+  const result: { path: string; dev: bigint; ino: bigint }[] = []
   for (let current = resolve(path); ; current = dirname(current)) {
     try {
-      const st = await lstat(current)
+      const st = await identityStat(current)
       if (!st.isDirectory() || st.isSymbolicLink()) throw new Error('Non-directory or symlink ancestor')
       const parent = dirname(current)
       if (parent !== current) {
@@ -38,24 +39,24 @@ export async function checkedAncestors(path: string): Promise<{ path: string; de
   return result
 }
 async function verifyAncestors(pins: Awaited<ReturnType<typeof checkedAncestors>>) {
-  for (const pin of pins) { const st = await lstat(pin.path); if (!st.isDirectory() || st.isSymbolicLink() || !same(st, pin)) throw new Error('Ancestor identity changed') }
+  for (const pin of pins) { const st = await identityStat(pin.path); if (!st.isDirectory() || st.isSymbolicLink() || !same(st, pin)) throw new Error('Ancestor identity changed') }
 }
 
 /** Bounded no-follow reads; regular, singly-linked files only. Recheck path and handle. */
 export async function readRegularBytes(path: string, maxBytes = 64 * 1024 * 1024): Promise<Uint8Array> {
   const parents = await checkedAncestors(dirname(path))
-  const before = await lstat(path)
-  if (!before.isFile() || before.isSymbolicLink() || before.nlink !== 1 || before.size > maxBytes) throw new Error('Unsafe or oversized file')
+  const before = await identityStat(path)
+  if (!before.isFile() || before.isSymbolicLink() || before.nlink !== 1n || before.size > maxBytes) throw new Error('Unsafe or oversized file')
   const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
   try {
-    const st = await handle.stat()
-    if (!same(st, before) || st.size !== before.size || st.nlink !== 1) throw new Error('File identity changed')
-    const bytes = Buffer.alloc(st.size)
+    const st = await handle.stat({bigint:true})
+    if (!same(st, before) || st.size !== before.size || st.nlink !== 1n) throw new Error('File identity changed')
+    const bytes = Buffer.alloc(Number(st.size))
     let offset = 0
     while (offset < bytes.length) { const got = await handle.read(bytes, offset, bytes.length - offset, offset); if (!got.bytesRead) throw new Error('Truncated file'); offset += got.bytesRead }
     const extra = Buffer.alloc(1); if ((await handle.read(extra, 0, 1, offset)).bytesRead) throw new Error('File grew during read')
-    const after = await handle.stat(), current = await lstat(path)
-    if (!same(st, current) || current.isSymbolicLink() || after.size !== st.size || after.mtimeMs !== st.mtimeMs || after.ctimeMs !== st.ctimeMs || after.nlink !== 1) throw new Error('File changed during read')
+    const after = await handle.stat({bigint:true}), current = await identityStat(path)
+    if (!same(st, current) || current.isSymbolicLink() || after.size !== st.size || after.mtimeMs !== st.mtimeMs || after.ctimeMs !== st.ctimeMs || after.nlink !== 1n) throw new Error('File changed during read')
     await verifyAncestors(parents)
     return Uint8Array.from(bytes)
   } finally { await handle.close() }
@@ -69,7 +70,32 @@ export interface EvidenceStore {
   readJournal(ref: BlobRef): Promise<Uint8Array>
   readMaterial(material: { path: string; sha256: string; bytes: number }, ref: BlobRef): Promise<Uint8Array>
 }
-const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void> }>()
+const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void>; writeBlob: (bytes: Uint8Array) => Promise<BlobRef> }>()
+/** Filesystem-only discovery avoids an ambient Git executable before launcher ownership exists. */
+async function gitMetadataDirectories(repository: string): Promise<string[]> {
+  const dot = join(repository,'.git'), stat = await identityStat(dot).catch(error=>{if(missing(error))return null;throw error})
+  let gitDirectory: string
+  if (!stat) {
+    await readRegularBytes(join(repository,'HEAD'),4096)
+    for (const name of ['objects','refs']) { const item=await identityStat(join(repository,name)); if (!item.isDirectory() || item.isSymbolicLink()) throw new Error('Unsupported bare Git layout') }
+    gitDirectory = repository
+  } else if (stat.isDirectory() && !stat.isSymbolicLink()) gitDirectory = await realpath(dot)
+  else {
+    const text = new TextDecoder('utf8',{fatal:true}).decode(await readRegularBytes(dot,4096)), match = /^gitdir: ([^\x00-\x1f\x7f]+)\n?$/.exec(text)
+    if (!match) throw new Error('Unsupported Git directory pointer')
+    gitDirectory = await realpath(resolve(repository,match[1]))
+  }
+  await checkedAncestors(gitDirectory)
+  const commonBytes = await readRegularBytes(join(gitDirectory,'commondir'),4096).catch(error=>{if(missing(error))return null;throw error})
+  let common = gitDirectory
+  if (commonBytes !== null) {
+    const text = new TextDecoder('utf8',{fatal:true}).decode(commonBytes), match=/^([^\x00-\x1f\x7f]+)\n?$/.exec(text)
+    if (!match) throw new Error('Unsupported Git common-directory pointer')
+    common = await realpath(resolve(gitDirectory,match[1])); await checkedAncestors(common)
+  }
+  return [...new Set([gitDirectory,common])]
+}
+
 async function protect(options: EvidenceOptions) {
   const out = resolve(options.root); await checkedAncestors(out)
   if (out.split(sep).includes('.git')) throw new Error('Output is Git metadata')
@@ -108,18 +134,29 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
   const marker = join(root, '.owner.json')
   if (!options.resume) {
     await mkdir(dirname(root), { recursive: true }); await protect(options)
-    await mkdir(root, { mode: 0o700 }) // Exclusive even when an existing directory is empty.
+    try { await mkdir(root, { mode: 0o700 }) } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error }
+    const initial = await identityStat(root), initialPins = await checkedAncestors(root)
+    if (!initial.isDirectory() || initial.isSymbolicLink() || Number(initial.uid) !== process.geteuid?.() || initial.mode & 0o022n || (await readdir(root)).length) throw new Error('Output must be an absent or safe empty directory')
+    await protect(options); await verifyAncestors(initialPins)
     const file = await open(marker, constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | constants.O_NOFOLLOW, 0o600)
-    try { await file.writeFile(markerBytes); await file.sync() } finally { await file.close() }
-    await mkdir(join(root, 'blobs'), { mode: 0o700 })
+    try {
+      await verifyAncestors(initialPins)
+      if ((await readdir(root)).join('\0') !== '.owner.json') throw new Error('Output changed during adoption')
+      await file.writeFile(markerBytes); await file.sync()
+      if (!same(await file.stat({bigint:true}), await identityStat(marker))) throw new Error('Owner marker replaced during adoption')
+      await verifyAncestors(initialPins)
+    } finally { await file.close() }
+    if ((await readdir(root)).join('\0') !== '.owner.json') throw new Error('Output changed during adoption')
+    await mkdir(join(root, 'blobs'), { mode: 0o700 }); await verifyAncestors(initialPins)
+    if ((await readdir(root)).sort().join('\0') !== '.owner.json\0blobs') throw new Error('Output changed during adoption')
   }
-  const pins = await checkedAncestors(root), markerPin = await lstat(marker)
+  const pins = await checkedAncestors(root), markerPin = await identityStat(marker)
   async function verify() {
     await verifyAncestors(pins); await protect(options)
-    if (!same(await lstat(marker), markerPin) || !Buffer.from(await readRegularBytes(marker, 4096)).equals(Buffer.from(markerBytes))) throw new Error('Evidence owner changed')
+    if (!same(await identityStat(marker), markerPin) || !Buffer.from(await readRegularBytes(marker, 4096)).equals(Buffer.from(markerBytes))) throw new Error('Evidence owner changed')
   }
   await verify()
-  const ownedJournals = new Map<string, { dev: number; ino: number }>()
+  const ownedJournals = new Map<string, { dev: bigint; ino: bigint }>()
   async function writeExclusive(path: string, bytes: Uint8Array) {
     if (bytes.byteLength > limit) throw new Error('Oversized evidence')
     await verify(); const parents = await checkedAncestors(dirname(path))
@@ -137,8 +174,8 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
     async readJournal(ref) {
       RepoPathSchema.parse(ref.path)
       if (ref.path.includes('/') || ref.path === '.owner.json' || ref.path === 'blobs') throw new Error('Invalid journal path')
-      const full = join(root, ref.path), before = await lstat(full), bytes = await readBlob(ref), after = await lstat(full)
-      if (!same(before, after) || !after.isFile() || after.nlink !== 1) throw new Error('Journal changed during resume')
+      const full = join(root, ref.path), before = await identityStat(full), bytes = await readBlob(ref), after = await identityStat(full)
+      if (!same(before, after) || !after.isFile() || after.nlink !== 1n) throw new Error('Journal changed during resume')
       ownedJournals.set(ref.path, { dev: after.dev, ino: after.ino }); return bytes
     },
     async writeBlob(bytes) {
@@ -157,20 +194,20 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       if (path.includes('/') || path === '.owner.json' || path === 'blobs') throw new Error('Invalid journal path')
       await verify()
       const target = join(root, path)
-      let previous: Stats | null = null
+      let previous: BigIntStats | null = null
       try {
-        previous = await lstat(target)
-        if (!previous.isFile() || previous.nlink !== 1 || !ownedJournals.has(path) || !same(previous, ownedJournals.get(path)!)) throw new Error('Journal is not owned by this handle')
+        previous = await identityStat(target)
+        if (!previous.isFile() || previous.nlink !== 1n || !ownedJournals.has(path) || !same(previous, ownedJournals.get(path)!)) throw new Error('Journal is not owned by this handle')
       } catch (e) { if (!missing(e)) throw e }
       const temporary = join(root, `.journal-${randomUUID()}`)
       await writeExclusive(temporary, bytes)
       await verify()
-      if (previous) { if (!same(previous, await lstat(target))) throw new Error('Journal replaced') }
-      else { try { await lstat(target); throw new Error('Journal appeared') } catch (e) { if (!missing(e)) throw e } }
-      await rename(temporary, target); ownedJournals.set(path, await lstat(target)); await verify()
+      if (previous) { if (!same(previous, await identityStat(target))) throw new Error('Journal replaced') }
+      else { try { await identityStat(target); throw new Error('Journal appeared') } catch (e) { if (!missing(e)) throw e } }
+      await rename(temporary, target); ownedJournals.set(path, await identityStat(target)); await verify()
     },
   }
-  evidenceStores.set(store, { root, verify }); return store
+  evidenceStores.set(store, { root, verify, writeBlob: store.writeBlob }); return store
 }
 
 /** Capability-checked, exclusive directory for task-owned launcher material. */
@@ -182,4 +219,11 @@ export async function createOwnedDirectory(store: EvidenceStore) {
   await mkdir(root, { mode: 0o700 }); const pins = await checkedAncestors(root)
   const verify = async () => { await owned.verify(); await verifyAncestors(pins) }
   await verify(); return { root, verify }
+}
+
+/** Private material must use the original independently owned writer, never a caller's replacement method. */
+export async function writeOwnedBlob(store: EvidenceStore, bytes: Uint8Array): Promise<BlobRef> {
+  const owned = evidenceStores.get(store)
+  if (!owned) throw new Error('Evidence store is not independently owned')
+  await owned.verify(); return owned.writeBlob(bytes)
 }
