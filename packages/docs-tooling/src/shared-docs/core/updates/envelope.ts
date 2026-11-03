@@ -302,6 +302,7 @@ export const UpdateUnitPlanSchema = checked(z.strictObject({ kind: z.literal('sh
   reports: z.array(BlobRefSchema), nextEdits, disposition: z.enum(['noop', 'report-only', 'draft-failure', 'candidate', 'hold']), holdReasons: reasons, semanticInputSha256: DigestSchema.nullable(),
 }), value => {
   bindUnit(value.unitKey, value.subjects)
+  assert(value.semanticInputSha256 !== null || value.disposition === 'hold', 'Missing unit semantic material requires hold')
   assert(value.reports.length === value.subjects.length, 'One report reference is required per subject')
   assert(new Set(value.reports.map(item => item.path)).size === value.reports.length, 'Duplicate report reference')
   for (const edit of value.nextEdits) assert(value.subjects.some(subject => equal(subject, edit.subject)), 'Next edit subject is outside unit')
@@ -384,6 +385,15 @@ export function parseUpdateReportEnvelope(bytes: Uint8Array): UpdateReportEnvelo
 export function validateUnitReports(value: unknown, reportValues: unknown): UpdateUnitPlan {
   const plan = UpdateUnitPlanSchema.parse(value), reports = ordered(UpdateReportEnvelopeSchema, value => subjectKey(value.subject)).parse(reportValues)
   assert(equal(plan.subjects, reports.map(report => report.subject)), 'Unit report subjects differ from plan')
+  // These equalities bind declared transitions; adapters still authenticate objects and lock bytes.
+  for (const edit of plan.nextEdits) {
+    const report = reports.find(report => equal(report.subject, edit.subject))
+    assert(report, 'Next edit has no matching report subject')
+    const source = report.pins.source
+    assert(edit.before.current === source.current, 'Next edit current differs from report source current pin')
+    assert(edit.before.next === source.oldNext, 'Next edit next differs from report source oldNext pin')
+    assert(edit.target === source.target, 'Next edit target differs from report source target pin')
+  }
   validateMemberBatch([{ unitKey: plan.unitKey, reports: reports.map(report => ({ subject: report.subject, members: report.members, lockPath: expectedLockPath(report.subject) })) }])
   assert(plan.membersSha256 === digest('unit-members', reports.map(report => ({ subject: report.subject, memberSetSha256: report.memberSetSha256 }))), 'Unit members digest mismatch')
   const semantic = reports.some(report => report.semanticInputSha256 === null) ? null : digest('unit-semantic', reports.map(report => ({ subject: report.subject, semanticInputSha256: report.semanticInputSha256 })))

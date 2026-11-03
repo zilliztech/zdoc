@@ -225,3 +225,41 @@ it('allows complete semantic material when compiled output is unavailable', () =
   expect(contract.validateUpdateReportEnvelope(value).semanticInputSha256).toBe(report().semanticInputSha256)
   expect(contract.RepoPathSchema.parse('data/a:b.md')).toBe('data/a:b.md')
 })
+it.each(['candidate', 'draft-failure', 'noop', 'report-only'] as const)('rejects a null semantic digest for standalone %s units', disposition => {
+  const value = { ...plan(), disposition, semanticInputSha256: null, nextEdits: disposition === 'candidate' || disposition === 'draft-failure' ? [edit()] : [] }
+  expect(() => contract.UpdateUnitPlanSchema.parse(value)).toThrow(/semantic.*hold/i)
+})
+it.each(['candidate', 'draft-failure', 'noop', 'report-only'] as const)('rejects a null semantic digest for report-bound %s units', disposition => {
+  const value = { ...plan(), disposition, semanticInputSha256: null, nextEdits: disposition === 'candidate' || disposition === 'draft-failure' ? [edit()] : [] }
+  const incomplete = { ...report(), semanticProjection: null, semanticInputSha256: null }
+  expect(() => contract.validateUnitReports(value, [incomplete])).toThrow(/semantic.*hold/i)
+})
+it('retains holds with null or complete material, including unavailable compiled output', () => {
+  const hold = { ...plan(), disposition: 'hold' as const, nextEdits: [], holdReasons: ['INPUT_UNKNOWN'] }
+  const incomplete = { ...report(), semanticProjection: null, semanticInputSha256: null }
+  expect(contract.validateUnitReports({ ...hold, semanticInputSha256: null }, [incomplete]).disposition).toBe('hold')
+  expect(contract.validateUnitReports(hold, [report()]).semanticInputSha256).toBe(hold.semanticInputSha256)
+  const complete: contract.UpdateReportEnvelope = structuredClone(report())
+  complete.axes[0].contentStatus = 'unavailable'; complete.axes[0].outputChanged = 'unknown'
+  expect(contract.validateUnitReports(hold, [complete]).semanticInputSha256).toBe(hold.semanticInputSha256)
+})
+it.each(['current', 'oldNext', 'target'] as const)('rejects an edit that differs from its report source %s pin', field => {
+  const value = structuredClone(plan()), mismatch = 'd'.repeat(40)
+  if (field === 'current') value.nextEdits[0].before.current = mismatch
+  else if (field === 'oldNext') value.nextEdits[0].before.next = mismatch
+  else value.nextEdits[0].target = mismatch
+  expect(() => contract.validateUnitReports(value, [report()])).toThrow(/edit.*source.*pin/i)
+})
+it('matches each edit to its exact report subject in a multi-subject unit', () => {
+  const other = { ...subject, pageId: 'beta' }, otherMembers = [{ ...member, logicalId: 'beta', token: 'shared-beta', outputPath: 'content/en/guides/beta.mdx' }]
+  const otherProjection = { ...semantic(), subject: other, members: otherMembers, lockSchema: { version: 1, path: 'shared-docs/guides/pages/beta/lock.yaml' } }
+  const otherSource = { ...report().pins.source, current: 'c'.repeat(40), oldNext: 'd'.repeat(40), target: 'e'.repeat(40) }
+  const otherReport = { ...report(), subject: other, pins: { ...report().pins, source: otherSource }, authority: { ...report().authority, subject: other }, members: otherMembers,
+    memberSetSha256: digest('members', otherMembers), semanticProjection: otherProjection, semanticInputSha256: digest('semantic', otherProjection) }
+  const reports = [report(), otherReport]
+  const value = { ...plan(), unitKey: contract.guidesUnitKey([subject, other]), subjects: [subject, other], reports: [blob, { ...blob, path: 'evidence/other-report.json' }],
+    membersSha256: digest('unit-members', reports.map(r => ({ subject: r.subject, memberSetSha256: r.memberSetSha256 }))),
+    semanticInputSha256: digest('unit-semantic', reports.map(r => ({ subject: r.subject, semanticInputSha256: r.semanticInputSha256 }))),
+    nextEdits: [edit(), { ...edit(), subject: other, before: { ...edit().before, path: otherProjection.lockSchema.path, current: otherSource.current, next: otherSource.oldNext }, target: otherSource.target }] }
+  expect(contract.validateUnitReports(value, reports)).toEqual(value)
+})
