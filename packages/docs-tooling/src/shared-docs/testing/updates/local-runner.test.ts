@@ -9,6 +9,7 @@ import { collectFixedGuidesUnits, createLocalRunnerWithRuntime, parseLocalUpdate
 import { LocalTransactionHold } from '../../adapters/updates/transactions'
 import { bindClosure } from '../../adapters/updates/toolset'
 import { rawSha256 } from '../../adapters/updates/evidence'
+import * as evidenceModule from '../../adapters/updates/evidence'
 import { canonicalBytes, digest } from '../../core/updates/canonical'
 import { patchNextLock } from '../../core/updates/transaction'
 import { parseLock } from '../../core/lock'
@@ -143,11 +144,76 @@ it('freshly plans and prepares real local material while preserving input reposi
   await f.mark('plan.start')
   expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
   await f.mark('plan.complete');await f.mark('prepare.start')
-  const result=await f.runner.prepare(f.request,plan,'sdk-manual:fixture',output)
+  const snapshot=await readJson(join(plan,'snapshot.json')),reads=new Map<string,number>(),initialize=evidenceModule.initializeEvidence
+  const observer=vi.spyOn(evidenceModule,'initializeEvidence').mockImplementation(async options=>{
+    const store=await initialize(options)
+    if(options.root===plan) {
+      const original=store.readBlob
+      store.readBlob=async ref=>{reads.set(ref.path,(reads.get(ref.path)??0)+1);return original.call(store,ref)}
+    }
+    return store
+  })
+  let result:Awaited<ReturnType<typeof f.runner.prepare>>
+  try {result=await f.runner.prepare(f.request,plan,'sdk-manual:fixture',output)}finally{observer.mockRestore()}
   await f.mark('prepare.complete',result)
   expect(result.status,result.reasons.join('\n')).toBe('prepared');expect(result.operations).toEqual([])
   expect(await git(join(output,'scratch.git'),'rev-parse',`refs/shared-update/local/${result.planSha256}`)).toBe(result.candidate)
   expect(await state()).toEqual(before);expect(f.counts().collections).toBeGreaterThanOrEqual(2)
+  // Four independent snapshot checks plus the separate source-to-destination copy.
+  expect(reads.get(snapshot.closure.path)).toBe(5)
+  expect(f.counts()).toEqual({collections:4,accessReads:8})
+  await f.mark('snapshot-read-observations',{reads:Object.fromEntries(reads),...f.counts()})
+},15_000)
+
+it.each(['sha256','bytes'] as const)('rejects conflicting snapshot ref %s before acquiring prepare output',async field=>{
+  const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'conflicting-ref'),before=await originalState(f)
+  expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
+  const snapshot=await readJson(join(plan,'snapshot.json')),conflict={...snapshot.closure}
+  if(field==='sha256')conflict.sha256='f'.repeat(64)
+  else conflict.bytes++
+  snapshot.collectionEvidence.push(conflict)
+  await writeFile(join(plan,'snapshot.json'),canonicalBytes(snapshot))
+  await expect(f.runner.prepare(f.request,plan,unit,output)).rejects.toThrow('BLOB_REF_CONFLICT')
+  await expect(stat(output)).rejects.toMatchObject({code:'ENOENT'})
+  expect(await originalState(f)).toEqual(before)
+},15_000)
+
+it.each(['missing','tampered'] as const)('rejects %s snapshot bytes on the first verified read',async change=>{
+  const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'bad-snapshot-bytes'),before=await originalState(f)
+  expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
+  const snapshot=await readJson(join(plan,'snapshot.json')),path=join(plan,snapshot.closure.path)
+  if(change==='missing')await unlink(path)
+  else {const bytes=await readFile(path);bytes[0]^=1;await writeFile(path,bytes)}
+  await expect(f.runner.prepare(f.request,plan,unit,output)).rejects.toThrow(change==='missing'?'ENOENT':'BlobRef raw SHA-256 mismatch')
+  await expect(stat(output)).rejects.toMatchObject({code:'ENOENT'})
+  expect(await originalState(f)).toEqual(before)
+},15_000)
+
+it('does not merge different snapshot paths with the same hash',async()=>{
+  const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'missing-distinct-path'),before=await originalState(f)
+  expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
+  const snapshot=await readJson(join(plan,'snapshot.json'))
+  snapshot.collectionEvidence.push({...snapshot.closure,path:'missing-closure-copy.json'})
+  await writeFile(join(plan,'snapshot.json'),canonicalBytes(snapshot))
+  await expect(f.runner.prepare(f.request,plan,unit,output)).rejects.toThrow('ENOENT')
+  await expect(stat(output)).rejects.toMatchObject({code:'ENOENT'})
+  expect(await originalState(f)).toEqual(before)
+},15_000)
+
+it.each([
+  {phase:'prepared',location:'original'},{phase:'validated',location:'original'},
+  {phase:'prepared',location:'destination'},{phase:'validated',location:'destination'},
+] as const)('rereads $location snapshot evidence after $phase before the next write boundary',async({phase,location})=>{
+  const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'changed-snapshot'),before=await originalState(f)
+  expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
+  const snapshot=await readJson(join(plan,'snapshot.json')),path=join(location==='original'?plan:output,snapshot.closure.path)
+  const runner=f.makeRunner({afterPhase:async current=>{
+    if(current===phase){const bytes=await readFile(path);bytes[0]^=1;await writeFile(path,bytes)}
+  }})
+  await expect(runner.prepare(f.request,plan,unit,output)).rejects.toThrow('BlobRef raw SHA-256 mismatch')
+  expect((await readJson(join(output,'journal.json'))).phase).toBe(phase)
+  expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
+  expect(await originalState(f)).toEqual(before)
 },15_000)
 
 // Reviewed case budgets: ordinary plan/prepare 15s, recovery 30s, complete K1/K2 60s.

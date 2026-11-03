@@ -215,12 +215,28 @@ export function createLocalRunnerWithRuntime(runtime:LocalUpdateRuntime,faults:L
   }
   async function checkSnapshot(store:EvidenceStore,snapshot:Snapshot) {
     if(snapshot.trustedTools!==runtime.trustedTools||snapshot.request.master!==runtime.master)held('TRUSTED_CONTEXT_CHANGED')
-    verifyClosureBinding(snapshot.toolset,snapshot.closure,await store.readBlob(snapshot.closure),toolsetSha256)
-    if(!same(snapshot.toolset,runtime.toolset)||!Buffer.from(await store.readBlob(snapshot.closure)).equals(Buffer.from(runtime.closureBytes)))held('TRUSTED_CONTEXT_CHANGED')
-    for(const ref of snapshotReferences(snapshot))await store.readBlob(ref)
+    // One verified observation per exact ref in this call only. Independent calls,
+    // including pre-K/pre-CAS checks and retention transfers, still read afresh.
+    const references=new Map<string,BlobRef>(),reports=new Map<string,Snapshot['contexts']>()
+    for(const value of snapshotReferences(snapshot)) {
+      const ref=BlobRefSchema.parse(value),previous=references.get(ref.path)
+      if(previous&&(previous.sha256!==ref.sha256||previous.bytes!==ref.bytes))held('BLOB_REF_CONFLICT')
+      references.set(ref.path,ref)
+    }
+    for(const context of snapshot.contexts)reports.set(context.reportBlob.path,[...reports.get(context.reportBlob.path)??[],context])
+    for(const ref of references.values()) {
+      const bytes=await store.readBlob(ref)
+      if(ref.path===snapshot.closure.path) {
+        verifyClosureBinding(snapshot.toolset,snapshot.closure,bytes,toolsetSha256)
+        if(!same(snapshot.toolset,runtime.toolset)||!Buffer.from(bytes).equals(Buffer.from(runtime.closureBytes)))held('TRUSTED_CONTEXT_CHANGED')
+      }
+      for(const context of reports.get(ref.path)??[]) {
+        validateBlobBytes(context.reportBlob,canonicalBytes(context.collectedReport))
+        if(!same(UpdateReportEnvelopeSchema.parse(parseStrictJson(bytes)),context.collectedReport))held('ORIGINAL_REPORT_CHANGED')
+      }
+      // Bodies are consumed immediately, never retained in the metadata map.
+    }
     for(const context of snapshot.contexts) {
-      validateBlobBytes(context.reportBlob,canonicalBytes(context.collectedReport))
-      if(!same(await readJson(store,context.reportBlob,UpdateReportEnvelopeSchema),context.collectedReport))held('ORIGINAL_REPORT_CHANGED')
       validateBlobBytes(context.lock.before.blob,Buffer.from(context.lock.before.text))
       if(context.lock.preparedNext)validateBlobBytes(context.lock.preparedNext.blob,Buffer.from(context.lock.preparedNext.text))
     }
