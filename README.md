@@ -279,3 +279,55 @@ pnpm build:zh-CN
 ```
 
 Shared Guides final publication evidence and shared Fetch requirement accounting are documented in [runbook/shared-guides-generation.md](runbook/shared-guides-generation.md#shared-guides-final-publication-evidence). The REST upstream and availability operations cadence (watchdog, refresh, availability matrices, zilliz probes) lives in [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md#rest-upstream-and-availability-operations).
+
+### Inspect shared Guides upstream changes without publishing
+
+The report-only command uses already acquired local Git repositories. Prepare
+a non-shallow Milvus docs repository whose `origin` matches
+`shared-docs/guides/source.yaml`, and a local zdoc repository containing the
+intended dev commit. The command never fetches or changes either repository.
+From the zdoc tooling checkout, run:
+
+```bash
+pnpm docs-tooling shared-docs update \
+  --shared-docs shared-docs/guides \
+  --repo /absolute/path/to/milvus-docs \
+  --dev /absolute/path/to/zdoc \
+  --out /absolute/path/to/new-report
+```
+
+Master defaults to the tooling checkout's HEAD; dev defaults to the supplied
+zdoc repository's HEAD (which may not be dev). Use `--master-sha`, `--dev-sha`
+and `--source-sha` to pin exact lowercase 40-character commits. Source defaults
+to the configured local tracking branch head. `--comparison-master-sha`
+optionally supplies earlier committed configuration for a configuration-change
+comparison; otherwise both configurations use master. Upstream source/output
+comparisons always use the current master configuration on both endpoints,
+so a configuration-only edit cannot invent an upstream next delta. `--pages` accepts unique
+comma-separated page IDs. `--mode report` is optional; write mode is rejected.
+Uncommitted input edits are not included in the fixed snapshots.
+
+Optional `--evidence-run` selects a retained production Fetch run. Read-only
+GitHub authentication through `gh` must be available. The command verifies the
+run, exact attempt, source job/steps and unique source artifact. It downloads
+the source ZIP, or verifies a supplied `--evidence-zip` against the API digest.
+Archive preflight requires Python 3. It does not start Fetch or query Base.
+Without retained evidence it still analyzes pages and reports lifecycle unknown.
+Current incremental snapshots cannot prove complete fresh lifecycle state;
+archive authentication alone does not change that unknown classification.
+
+The absent/empty output directory must not overlap input data or Git metadata
+and must have no symlink components. A separate task directory under `.claude/`
+is suitable. Existing evidence is never overwritten. Outputs are `pins.json`,
+`report.json`, `report.md` and `plan.json`; the plan always has an empty
+operations array. It records proposed next deltas for review, never edits locks,
+PRs, dev or production state, uploads images, or invokes translation. Public
+image reads follow the existing generation policy.
+
+Exit 2 means invalid arguments or unsafe/nonempty output. Exit 1 means failed
+infrastructure, with partial reports retained when output validation succeeded.
+Exit 0 means a complete report, including no-op, unknown lifecycle, retirement
+observations or explicitly failed content generation; it does not mean every
+page built successfully or authorize a mutation. Inspect per-page statuses and
+reasons. Current and old-next/target observations remain distinct, including
+source changes hidden by Cloud replacements and image-byte changes.

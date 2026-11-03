@@ -548,3 +548,58 @@ include before/after evidence in JSON and readable origin/digest/use details in
 Markdown. Their dependency identity excludes the observation commit, so identical
 image bytes at an unrelated source commit do not create a candidate. Without build
 evidence, images remain unavailable; absence is not treated as a proven image deletion.
+
+### Read-only upstream reports (WP12-B1)
+
+`shared-docs update` resolves committed master/dev/source inputs and reuses
+`collectUpdateInputs`, the build observer and `analyzeUpdates`. It writes only
+four new report files. `core/updates/discovery.ts` separates proposed forward
+next deltas from configuration-only changes and lifecycle eligibility;
+`core/updates/lifecycle.ts` classifies positive observations with an explicit
+36-hour age / five-minute future-skew policy. Neither core module performs I/O.
+
+The Git adapter reads local objects and exports regular committed blobs to a
+private temporary directory. It never fetches or changes input refs. The
+GitHub adapter exposes only bounded GET reads and artifact downloads. The
+lifecycle adapter binds repository/run/attempt/job/step/artifact identity,
+verifies ZIP digest and preflights ZIP/tar members, then uses existing stage
+and raw-snapshot validators. Python 3 standard library is required to preflight
+and extract an optional retained source artifact. No extraction follows links.
+
+Current incremental Fetch artifacts do not prove per-record freshness or an
+exhaustive Base census; the adapter reports
+`RECORD_FRESHNESS_COMPLETENESS_UNPROVEN` and `LATEST_OBSERVATION_UNPROVEN`.
+Even a successfully authenticated archive therefore does not authorize a
+future lifecycle mutation. Missing rows are never deletion evidence. All
+configured pages remain in the inventory, including unselected pages and pages
+without retained/dev mapping. Analysis availability and lifecycle eligibility
+are reported separately. Full 7-9 and all requirement pending IDs remain intact.
+
+`reportUpdates(options, repositoryRoot, dependencies)` and `runUpdate` accept
+internal test dependencies for GET-only API/image readers and an explicitly
+marked `{kind: 'offline-replay', now}` clock. The public CLI has no clock or
+provenance override. Offline replay outputs are labeled. An optional comparison master affects only the configuration-change envelope;
+source/output endpoint comparisons hold the current master configuration fixed.
+No writer API,
+persistent update manifest, workflow dispatch or PR transaction exists in B1.
+See the repository README for options, output protection and exit semantics.
+
+The report command inventories committed page directories before parsing page
+configuration. Invalid page YAML or missing replacement content remains visible
+as a page-level content failure; independently buildable pages continue, even
+when selected with `--pages`. Group configuration diagnostics are reported in
+`configurationErrors`, separately from Git/API `infrastructureErrors`. A complete
+content-failure report returns 0; an infrastructure failure returns 1. The
+normal build and publication parsers remain strict and unchanged.
+
+If any page configuration is invalid, its public-ID mapping cannot be trusted.
+The report adapter therefore marks generated page-link observations with
+`UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE`, including the invalid page IDs,
+instead of allowing missing shared mappings to fall through to Cloud/link-map
+resolution. Pages without such cross-page links can still be analyzed. This
+conservative limitation applies only to reports with invalid configuration.
+
+Output protection resolves each participating repository's actual Git directory
+and common directory, covering bare repositories, separate Git directories and
+linked worktrees. Metadata overlap is rejected with exit 2 before writes;
+disjoint `.claude/` report destinations remain supported.

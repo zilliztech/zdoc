@@ -1,3 +1,4 @@
+// @vitest-environment node
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
@@ -572,3 +573,33 @@ describe('docs-tooling executable composition root', () => {
     expect(result.stderr).toMatch(/symlink|regular file/i);
   });
 });
+
+it('runs shared-docs update through the public CLI on committed isolated inputs without writes', async () => {
+  const {createBuildDemo, git, write} = await import('./shared-docs/testing/build/demo');
+  const temporary = temporaryRoot();
+  try {
+    const demo = await createBuildDemo(temporary);
+    const root = path.dirname(path.dirname(demo.sharedDocs));
+    await write(demo.repo, 'site/en/build-pipeline.md', readFileSync(path.join(demo.repo, 'site/en/build-pipeline.md'), 'utf8')
+      .split('\n').filter(line => !line.startsWith('![External')).join('\n'));
+    await git(demo.repo, 'commit', '-qam', 'repository-only images');
+    const source = await git(demo.repo, 'rev-parse', 'HEAD');
+    for (const page of ['build-pipeline', 'shared-target']) await write(demo.sharedDocs, `pages/${page}/lock.yaml`,
+      JSON.stringify({schema_version: 1, current: source, next: source}));
+    await git(demo.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs');
+    await git(root, 'init', '-q', '-b', 'master'); await git(root, 'add', 'shared-docs'); await git(root, 'commit', '-qm', 'configuration');
+    const before = await git(root, 'show-ref');
+    const tool = path.resolve(import.meta.dirname, '../../../scripts/docs-tooling.js');
+    const args = ['shared-docs', 'update', '--shared-docs', demo.sharedDocs, '--repo', demo.repo, '--dev', demo.dev, '--out', path.join(root, 'update-report')];
+    const result = spawnSync(process.execPath, [tool, ...args], {cwd: root, encoding: 'utf8', timeout: 120_000});
+    expect(result.status, result.stderr + result.stdout).toBe(0);
+    for (const file of ['pins.json', 'report.json', 'report.md', 'plan.json']) expect(readFileSync(path.join(root, 'update-report', file), 'utf8').length).toBeGreaterThan(10);
+    const report = JSON.parse(readFileSync(path.join(root, 'update-report/report.json'), 'utf8'));
+    expect(report.counts).toMatchObject({configured: 2, analyzed: 2, outputs: 4});
+    expect(report.pages.every((page: {lifecycle: {state: string}}) => page.lifecycle.state === 'unknown')).toBe(true);
+    expect(JSON.parse(readFileSync(path.join(root, 'update-report/plan.json'), 'utf8')).operations).toEqual([]);
+    expect(await git(root, 'show-ref')).toBe(before);
+    const invalid = spawnSync(process.execPath, [tool, ...args, '--mode', 'write'], {cwd: root, encoding: 'utf8'});
+    expect(invalid.status).toBe(2);
+  } finally { rmSync(temporary, {recursive: true, force: true}); }
+}, 120_000);
