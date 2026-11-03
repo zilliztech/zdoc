@@ -20,3 +20,9 @@ allow:
   - The Go client source shipped with Milvus 3.0.2 does not expose final hybrid grouping through `NewHybridSearchOption`.
   # Preserve the engine-version-scoped REST availability note in Linear Decay.
   - The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
+  # Preserve the IS NULL/IS NOT NULL vector-field availability statement.
+  - Starting in Milvus 3.0.3, the operators also support ordinary vector fields
+  # Preserve the ARRAY_APPEND/ARRAY_REMOVE engine-version availability notes.
+  - Available in Milvus v2.6.17 and later.
+  # Preserve the C# connection credentials used by the Random Sampling examples.
+  - 'Password = "Milvus"'
