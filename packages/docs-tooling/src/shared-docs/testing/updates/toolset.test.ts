@@ -15,7 +15,7 @@ async function fixture() {
   for (const [path, text] of Object.entries({ 'scripts/docs-tooling.js': 'throw new Error("must not execute")', 'scripts/lib/load-typescript.js': 'throw new Error("must not load")', 'packages/compiler/index.js': 'throw new Error("must not compile")', 'apps/docs/package.json': '{"name":"docs","version":"1.0.0","dependencies":{"jiti":"1.0.0"}}', 'package.json': '{"name":"fixture","version":"1.0.0","packageManager":"pnpm@10.33.0"}', 'pnpm-workspace.yaml': 'packages: ["apps/*", "packages/*"]', 'pnpm-lock.yaml': 'lockfileVersion: "9.0"\nimporters:\n  apps/docs:\n    dependencies:\n      jiti: {specifier: 1.0.0, version: 1.0.0}\npackages:\n  jiti@1.0.0:\n    resolution: {integrity: sha512-fixture}\nsnapshots:\n  jiti@1.0.0: {}\n', 'content/en/page.mdx': '# data\n' })) await put(root, path, text)
   await put(root, '.gitignore', 'node_modules/\n'); git(root, 'add', '.'); git(root, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'trusted fixture')
   const commit = git(root, 'rev-parse', 'HEAD')
-  await put(root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/package.json', '{"name":"jiti","version":"1.0.0","main":"index.js"}')
+  await put(root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/package.json', '{"name":"jiti","version":"1.0.0","main":"index.js","config":{"factor":0.5}}')
   await put(root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js', 'throw new Error("dependency must not execute")')
   await mkdir(join(root, 'apps/docs/node_modules')); await symlink('../../../node_modules/.pnpm/jiti@1.0.0/node_modules/jiti', join(root, 'apps/docs/node_modules/jiti'))
   return { root, commit, cwd: root, environment: {}, flags: [] }
@@ -28,6 +28,7 @@ describe('trusted closure capture', () => {
     expect(first.bytes).toEqual(second.bytes); expect(first.toolsetSha256).toBe(second.toolsetSha256)
     expect(first.closure.entries.some(e => e.path.startsWith('deps/') && e.path.endsWith('/index.js'))).toBe(true)
     expect(first.closure.entries.some(e => e.path === 'runtime/node')).toBe(true)
+    expect(Buffer.from(first.bytes).toString('utf8')).not.toMatch(/\/opt\/homebrew|\/Users\/|\/private\/var\//)
     await verifyTrustedToolset(first)
     await put(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js', 'tampered')
     await expect(verifyTrustedToolset(first)).rejects.toThrow(/changed|drift/i)

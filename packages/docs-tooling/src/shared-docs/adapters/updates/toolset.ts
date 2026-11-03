@@ -214,7 +214,9 @@ async function captureRepository(root: string, commit: string, git: string, env:
   return { all, blobs }
 }
 function yaml(bytes: Uint8Array): any { const value = loadYaml(new TextDecoder('utf8', { fatal: true }).decode(bytes)); if (!value || typeof value !== 'object') throw new Error('Invalid trusted lock material'); return value }
-function json(bytes: Uint8Array): any { const value = parseStrictJson(bytes); if (!value || typeof value !== 'object') throw new Error('Invalid package material'); return value }
+// Installed package JSON uses Node's JSON grammar (including decimal config values).
+// Only identity fields are projected; the entire original file is separately byte-bound.
+function json(bytes: Uint8Array): any { const value = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(bytes)); if (!value || typeof value !== 'object') throw new Error('Invalid package material'); return value }
 async function captureDependencies(root: string, all: Map<string, TreeEntry>, entries: Map<string, ClosureEntry>, physical: Map<string, string>, resolutions: ExecutableClosure['resolutions']) {
   const lock = yaml((await fileBytes(join(root, 'pnpm-lock.yaml'))).bytes)
   if (String(lock.lockfileVersion) !== '9.0' || !lock.packages || !lock.snapshots || !lock.importers) throw new Error('Unsupported pnpm lock layout')
@@ -465,7 +467,7 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       const name = logicalByPhysical.get(resolved) ?? `runtime/libraries/${basename(resolved)}`
       const conflict = [...logicalByPhysical].find(([p, n]) => n === name && p !== resolved); if (conflict) throw new Error('Ambiguous runtime library alias')
       logicalByPhysical.set(resolved, name)
-      resolutions.push({ from: item.name, specifier: dependency, kind: 'binary', conditions: [], target: name })
+      resolutions.push({ from: item.name, specifier: isAbsolute(dependency) ? `native/${basename(dependency)}` : dependency, kind: 'binary', conditions: [], target: name })
       pending.push({ name, path: resolved, inherited: search })
     }
   }
