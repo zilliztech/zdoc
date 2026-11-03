@@ -339,6 +339,55 @@ it('holds missing objects, unknown donors, octopus merges and raw message overfl
   const tooMany=await f.inspect({master:f.baseline,head:k.oid,donorHeads:donors})
   expect(tooMany.reasons).toContain('METADATA_LIMIT_EXCEEDED'); expect(tooMany.preservedHeads).toHaveLength(10)
 })
+it.each(['after author', 'after committer', 'after extension'])('rejects a misplaced parent %s that Git does not recognize', metadataCaseBudget, async position => {
+  const f=await fixture(), k=await f.bot(), identity='Local fixture <fixture@example.test> 978307200 +0000'
+  const headers=[`tree ${k.tree}`,`author ${identity}`,`committer ${identity}`]
+  if(position==='after extension') headers.push('encoding UTF-8')
+  headers.splice(position==='after author'?2:headers.length,0,`parent ${k.oid}`)
+  const raw=Buffer.from(headers.join('\n')+'\n\nhuman with misplaced parent\n')
+  const head=f.git(['hash-object','--literally','-t','commit','-w','--stdin'],raw)
+  expect(f.gitBytes(['cat-file','commit',head])).toEqual(raw)
+  // Git consumes only the parent block immediately following tree: this is a root.
+  expect(f.git(['rev-list','--parents','--max-count=1',head])).toBe(head)
+  let ancestryStatus=0
+  try { f.git(['merge-base','--is-ancestor',k.oid,head]) } catch(error) { ancestryStatus=(error as {status:number}).status }
+  expect(ancestryStatus).toBe(1)
+  const result=await f.inspect({master:f.baseline,head})
+  expect(result.reasons).toContain('GIT_COMMIT_HEADER_INVALID')
+  expect(result.revision).toBeNull(); expect(f.revalidateJournal).not.toHaveBeenCalled()
+  writeFileSync(join(f.root,'misplaced-parent-proof.json'),JSON.stringify({position,head,claimedParent:k.oid,gitParents:[],ancestryStatus,result},null,2)+'\n',{mode:0o600})
+})
+it('rejects misplaced or duplicated mandatory headers and orphan continuations', metadataCaseBudget, async () => {
+  const f=await fixture(), k=await f.bot(), identity='Local fixture <fixture@example.test> 978307200 +0000'
+  const tree=`tree ${k.tree}`,parent=`parent ${k.oid}`,author=`author ${identity}`,committer=`committer ${identity}`
+  for(const headers of [
+    [tree,parent,committer,author], [tree,parent,author,'encoding UTF-8',committer],
+    [tree,parent,author,committer,tree], [tree,parent,author,committer,author],
+    [tree,parent,author,committer,committer], [tree,parent,author,committer,' orphan continuation'],
+  ]) {
+    const head=f.git(['hash-object','--literally','-t','commit','-w','--stdin'],headers.join('\n')+'\n\nhuman\n')
+    expect((await f.inspect({master:f.baseline,head})).reasons).toContain('GIT_COMMIT_HEADER_INVALID')
+  }
+  expect(f.revalidateJournal).not.toHaveBeenCalled()
+})
+it('matches real Git root, single-parent and merge edges with legitimate extended headers', metadataCaseBudget, async () => {
+  const f=await fixture(), k=await f.bot(), identity='Local fixture <fixture@example.test> 978307200 +0000'
+  const root=await f.inspect({master:f.baseline})
+  expect(root.status).toBe('local-consistent')
+  expect(root.graph.find(facts=>facts.oid===f.baseline)?.parents).toEqual([])
+  expect(f.git(['rev-list','--parents','--max-count=1',f.baseline])).toBe(f.baseline)
+  const side=f.commit(k.tree,[k.oid])
+  for(const parents of [[k.oid],[side,k.oid]]) {
+    const raw=`tree ${k.tree}\n${parents.map(parent=>`parent ${parent}\n`).join('')}author ${identity}\ncommitter ${identity}\nencoding UTF-8\ngpgsig -----BEGIN SIGNATURE-----\n parent ${'0'.repeat(40)}\n \n -----END SIGNATURE-----\nx-fixture additional header\n continuation\n\nhuman\n`
+    const head=f.git(['hash-object','-t','commit','-w','--stdin'],raw)
+    expect(f.git(['rev-list','--parents','--max-count=1',head])).toBe([head,...parents].join(' '))
+    expect(f.git(['merge-base','--is-ancestor',k.oid,head])).toBe('')
+    const result=await f.inspect({master:f.baseline,head})
+    expect(result.status,result.reasons.join('\n')).toBe('local-consistent')
+    expect(result.graph.find(facts=>facts.oid===head)?.parents).toEqual(parents)
+    expect(result.revision?.commit).toBe(k.oid)
+  }
+})
 it('independently hashes P/K tree objects instead of trusting a plausible raw Git diff', metadataCaseBudget, async () => {
   const f=await fixture(), k=await f.bot(), counterfeit='e'.repeat(40)
   const tree=f.gitBytes(['cat-file','tree',k.tree])

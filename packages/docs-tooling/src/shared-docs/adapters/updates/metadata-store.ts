@@ -121,11 +121,26 @@ function commit(bytes: Buffer, oid: string): { facts: CommitFacts; message: Uint
   if (at < 0 || at > 8192) fail('GIT_COMMIT_HEADER_INVALID')
   const header = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes.subarray(0, at)), lines = header.split('\n')
   if (/[\x00\r]/.test(header)) fail('GIT_COMMIT_HEADER_INVALID')
-  if (!/^tree [a-f0-9]{40}$/.test(lines[0]) || lines.some((line, i) => i > 0 && line.startsWith('tree '))) fail('GIT_COMMIT_HEADER_INVALID')
-  const parents = lines.filter(line => line.startsWith('parent ')).map(line => line.slice(7))
+  if (!/^tree [a-f0-9]{40}$/.test(lines[0])) fail('GIT_COMMIT_HEADER_INVALID')
+  // Git recognizes parents only in the contiguous block immediately after tree.
+  // A parent elsewhere is malformed data, never another ancestry edge.
+  let cursor = 1
+  const parents: string[] = []
+  while (lines[cursor]?.startsWith('parent ')) parents.push(lines[cursor++].slice(7))
   if (parents.some(parent => !GitShaSchema.safeParse(parent).success) || new Set(parents).size !== parents.length) fail('GIT_COMMIT_HEADER_INVALID')
   if (parents.length > 2) fail('UNSUPPORTED_OCTOPUS_MERGE')
-  if (lines.filter(line => line.startsWith('author ')).length !== 1 || lines.filter(line => line.startsWith('committer ')).length !== 1) fail('GIT_COMMIT_HEADER_INVALID')
+  if (!/^author .+$/.test(lines[cursor++] ?? '') || !/^committer .+$/.test(lines[cursor++] ?? '')) fail('GIT_COMMIT_HEADER_INVALID')
+  let extension = false
+  for (; cursor < lines.length; cursor++) {
+    const line = lines[cursor]
+    if (line.startsWith(' ')) {
+      if (!extension) fail('GIT_COMMIT_HEADER_INVALID')
+      continue // Extended-header continuations cannot declare mandatory headers.
+    }
+    const key = line.split(' ', 1)[0]
+    if (!/^[^\x00-\x20\x7f]+$/.test(key) || ['tree', 'parent', 'author', 'committer'].includes(key)) fail('GIT_COMMIT_HEADER_INVALID')
+    extension = true
+  }
   return { facts: immutable({ oid, tree: lines[0].slice(5), parents }), message: Uint8Array.from(bytes.subarray(at + 2)) }
 }
 
